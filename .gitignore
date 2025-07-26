@@ -18,3 +18,7 @@ Thumbs.db
 
 # Note: We intentionally include output/ and output-validated/ directories
 # to bundle generated files with the repository
+
+# Temporary directories
+tmp/
+/tmp/protogen*
