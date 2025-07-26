@@ -93,11 +93,16 @@ rebuild-base: clean-base clean-image build-base export-base ## Force rebuild bas
 	@echo "$(GREEN)Base rebuild complete$(NC)"
 
 .PHONY: clean
-clean: ## Remove all generated files
+clean: ## Remove all generated files (preserves proto directory)
 	@echo "$(YELLOW)Removing generated files...$(NC)"
-	@rm -rf $(OUTPUT_BASE_DIR)/*
-	@rm -rf $(VALIDATE_OUTPUT_DIR)/*
+	@if [ -d "$(OUTPUT_BASE_DIR)" ]; then \
+		rm -rf $(OUTPUT_BASE_DIR); \
+	fi
+	@if [ -d "$(VALIDATE_OUTPUT_DIR)" ]; then \
+		rm -rf $(VALIDATE_OUTPUT_DIR); \
+	fi
 	@echo "$(GREEN)Generated files removed$(NC)"
+	@echo "$(GREEN)Proto files preserved$(NC)"
 
 .PHONY: clean-image
 clean-image: ## Remove the main Docker image

@@ -1,6 +1,9 @@
 # Docker
 .docker/
 
+# Snapshot
+#jettison-proto-generator-base.tar.gz
+
 # Temporary files
 *.tmp
 *.bak

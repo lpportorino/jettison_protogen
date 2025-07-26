@@ -1,0 +1,168 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heat_camera";
+
+package cmd.HeatCamera;
+
+import "jon_shared_data_types.proto";
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    Zoom zoom = 1;
+    SetAGC set_agc = 2;
+    SetFilters set_filter = 3;
+    Start start = 4;
+    Stop stop = 5;
+    Photo photo = 6;
+    ZoomIn zoom_in = 10;
+    ZoomOut zoom_out = 11;
+    ZoomStop zoom_stop = 12;
+    FocusIn focus_in = 13;
+    FocusOut focus_out = 14;
+    FocusStop focus_stop = 15;
+    Calibrate calibrate = 16;
+    SetDDELevel set_dde_level = 17;
+    EnableDDE enable_dde = 18;
+    DisableDDE disable_dde = 19;
+    SetAutoFocus set_auto_focus = 20;
+    FocusStepPlus focus_step_plus = 21;
+    FocusStepMinus focus_step_minus = 22;
+    SetFxMode set_fx_mode = 23;
+    NextFxMode next_fx_mode = 24;
+    PrevFxMode prev_fx_mode = 25;
+    GetMeteo get_meteo = 26;
+    ShiftDDE shift_dde = 27;
+    RefreshFxMode refresh_fx_mode = 28;
+    ResetZoom reset_zoom = 29;
+    SaveToTable save_to_table = 30;
+    SetCalibMode set_calib_mode = 31;
+    SetDigitalZoomLevel set_digital_zoom_level = 32;
+    SetClaheLevel set_clahe_level = 33;
+    ShiftClaheLevel shift_clahe_level = 34;
+  }
+}
+
+message SetFxMode {
+  ser.JonGuiDataFxModeHeat mode = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+}
+
+message SetClaheLevel {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}
+
+message ShiftClaheLevel {
+  float value = 1 [(buf.validate.field).float = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}
+
+message NextFxMode {}
+
+message PrevFxMode {}
+
+message RefreshFxMode {}
+
+message EnableDDE {}
+
+message DisableDDE {}
+
+message SetValue {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}
+
+message SetDDELevel {
+  int32 value = 1 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 100
+  }];
+}
+
+message SetDigitalZoomLevel {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 1.0
+  }];
+}
+
+message ShiftDDE {
+  int32 value = 1 [(buf.validate.field).int32 = {
+    gte: -100,
+    lte: 100
+  }];
+}
+
+message ZoomIn {}
+message ZoomOut {}
+message ZoomStop {}
+
+message FocusIn {}
+message FocusOut {}
+message FocusStop {}
+
+message FocusStepPlus {}
+message FocusStepMinus {}
+
+message Calibrate {}
+
+message Zoom {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    SetZoomTableValue set_zoom_table_value = 1;
+    NextZoomTablePos next_zoom_table_pos = 2;
+    PrevZoomTablePos prev_zoom_table_pos = 3;
+  }
+}
+
+message NextZoomTablePos {}
+
+message PrevZoomTablePos {}
+
+message SetCalibMode {}
+
+message SetZoomTableValue {
+  int32 value = 1 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+}
+
+message SetAGC {
+  ser.JonGuiDataVideoChannelHeatAGCModes value = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+}
+
+message SetFilters {
+  ser.JonGuiDataVideoChannelHeatFilters value = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+}
+
+message Start {}
+
+message Stop {}
+
+message Halt {}
+
+message Photo {}
+
+message GetMeteo {}
+
+message SetAutoFocus {
+  bool value = 1;
+}
+
+message ResetZoom {}
+
+message SaveToTable {}

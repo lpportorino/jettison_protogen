@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat";
+
+package ser;
+
+import "jon_shared_data_types.proto";
+
+message JonGuiDataCameraHeat {
+  float zoom_pos = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+  JonGuiDataVideoChannelHeatAGCModes agc_mode = 2 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  JonGuiDataVideoChannelHeatFilters filter = 3 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  bool auto_focus = 4;
+  int32 zoom_table_pos = 5 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  int32 zoom_table_pos_max = 6 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  int32 dde_level = 7 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 512
+  }];
+  bool dde_enabled = 8;
+  JonGuiDataFxModeHeat fx_mode = 9 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  float digital_zoom_level = 10 [(buf.validate.field).float = {
+    gte: 1.0
+  }];
+  float clahe_level = 11 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}

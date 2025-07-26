@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/compass";
+
+package cmd.Compass;
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    Start start = 1;
+    Stop stop = 2;
+    SetMagneticDeclination set_magnetic_declination = 3;
+    SetOffsetAngleAzimuth set_offset_angle_azimuth = 4;
+    SetOffsetAngleElevation set_offset_angle_elevation = 5;
+    SetUseRotaryPosition set_use_rotary_position = 6;
+    CalibrateStartLong start_calibrate_long = 7;
+    CalibrateStartShort start_calibrate_short = 8;
+    CalibrateNext calibrate_next = 9;
+    CalibrateCencel calibrate_cencel = 10;
+    GetMeteo get_meteo = 11;
+  }
+}
+
+message Start {}
+
+message Stop {}
+
+message Next {}
+
+message CalibrateStartLong {}
+
+message CalibrateStartShort {}
+
+message CalibrateNext {}
+
+message CalibrateCencel {}
+
+message GetMeteo {}
+
+message SetMagneticDeclination {
+  float value = 1 [(buf.validate.field).float = {
+    gte: -180,
+    lt: 180,
+    example: [-15, 0, 15]
+  }];
+}
+
+message SetOffsetAngleAzimuth {
+  float value = 1 [(buf.validate.field).float = {
+    gte: -180,
+    lt: 180,
+    example: [-45, 0, 45]
+  }];
+}
+
+message SetOffsetAngleElevation {
+  float value = 1 [(buf.validate.field).float = {
+    gte: -90,
+    lte: 90,
+    example: [-30, 0, 30]
+  }];
+}
+
+message SetUseRotaryPosition {
+  bool flag = 1;
+}

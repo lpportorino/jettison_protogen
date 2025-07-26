@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/time";
+
+package ser;
+
+message JonGuiDataTime {
+  int64 timestamp = 1 [(buf.validate.field).int64 = {
+    gte: 0
+  }];
+
+  int64 manual_timestamp = 2 [(buf.validate.field).int64 = {
+    gte: 0
+  }];
+
+  int32 zone_id = 3;
+
+  bool use_manual_time = 4;
+}
