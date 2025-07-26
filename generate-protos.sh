@@ -94,6 +94,7 @@ run_generation() {
     print_info "Generating $lang bindings..."
     
     docker run --rm \
+        -u "$(id -u):$(id -g)" \
         -v "$SCRIPT_DIR/proto:/workspace/proto:ro" \
         -v "$SCRIPT_DIR/output/$lang:/workspace/output:rw" \
         -v "$SCRIPT_DIR/scripts:/workspace/scripts:ro" \
@@ -337,6 +338,7 @@ for lang in go java; do
     print_info "Generating validated $lang bindings..."
     
     docker run --rm \
+        -u "$(id -u):$(id -g)" \
         -v "$SCRIPT_DIR/proto:/workspace/proto:ro" \
         -v "$SCRIPT_DIR/$VALIDATE_OUTPUT_DIR/$lang:/workspace/output-validated:rw" \
         -v "$SCRIPT_DIR/scripts:/workspace/scripts:ro" \
