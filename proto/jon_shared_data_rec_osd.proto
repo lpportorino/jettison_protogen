@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/rec_osd";
+
+package ser;
+
+import "jon_shared_data_types.proto";
+
+message JonGuiDataRecOsd {
+  JonGuiDataRecOsdScreen screen = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  bool heat_osd_enabled = 2;
+  bool day_osd_enabled = 3;
+  int32 heat_crosshair_offset_horizontal = 4;
+  int32 heat_crosshair_offset_vertical = 5;
+  int32 day_crosshair_offset_horizontal = 6;
+  int32 day_crosshair_offset_vertical = 7;
+}

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd";
+
+package cmd;
+
+import "jon_shared_cmd_compass.proto";
+import "jon_shared_cmd_gps.proto";
+import "jon_shared_cmd_lrf.proto";
+import "jon_shared_cmd_day_camera.proto";
+import "jon_shared_cmd_heat_camera.proto";
+import "jon_shared_cmd_rotary.proto";
+import "jon_shared_cmd_osd.proto";
+import "jon_shared_cmd_lrf_align.proto";
+import "jon_shared_cmd_system.proto";
+import "jon_shared_cmd_cv.proto";
+import "jon_shared_cmd_day_cam_glass_heater.proto";
+import "jon_shared_cmd_lira.proto";
+
+import "jon_shared_data_types.proto";
+
+message Root {
+  uint32 protocol_version = 1 [(buf.validate.field).uint32 = {
+    gt: 0
+  }];
+  uint32 session_id = 2;
+  bool important = 3;
+  bool from_cv_subsystem = 4;
+  ser.JonGuiDataClientType client_type = 5 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // Currently unused field numbers
+  reserved 6 to 19;
+
+  oneof payload {
+    option (buf.validate.oneof).required = true;
+    DayCamera.Root day_camera = 20;
+    HeatCamera.Root heat_camera = 21;
+    Gps.Root gps = 22;
+    Compass.Root compass = 23;
+    Lrf.Root lrf = 24;
+    Lrf_calib.Root lrf_calib = 25;
+    RotaryPlatform.Root rotary = 26;
+    OSD.Root osd = 27;
+    Ping ping = 28;
+    Noop noop = 29;
+    Frozen frozen = 30;
+    System.Root system = 31;
+    CV.Root cv = 32;
+    DayCamGlassHeater.Root day_cam_glass_heater = 33;
+    Lira.Root lira = 34;
+  }
+}
+
+message Ping {}
+
+message Noop {}
+
+message Frozen {}

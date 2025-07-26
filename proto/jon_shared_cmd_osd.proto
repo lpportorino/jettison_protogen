@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/osd";
+
+package cmd.OSD;
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    ShowDefaultScreen show_default_screen = 1;
+    ShowLRFMeasureScreen show_lrf_measure_screen = 2;
+    ShowLRFResultScreen show_lrf_result_screen = 3;
+    ShowLRFResultSimplifiedScreen show_lrf_result_simplified_screen = 4;
+    EnableHeatOSD enable_heat_osd = 5;
+    DisableHeatOSD disable_heat_osd = 6;
+    EnableDayOSD enable_day_osd = 7;
+    DisableDayOSD disable_day_osd = 8;
+  }
+}
+
+message ShowDefaultScreen {}
+
+message ShowLRFMeasureScreen {}
+
+message ShowLRFResultScreen {}
+
+message ShowLRFResultSimplifiedScreen {}
+
+message EnableHeatOSD {}
+
+message DisableHeatOSD {}
+
+message EnableDayOSD {}
+
+message DisableDayOSD {}

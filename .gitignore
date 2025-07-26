@@ -1,0 +1,20 @@
+# Docker
+.docker/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Note: We intentionally include output/ and output-validated/ directories
+# to bundle generated files with the repository
