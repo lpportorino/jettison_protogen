@@ -14,6 +14,34 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 - Docker installed and running
 - Protocol buffer source files
+- Git LFS (Large File Storage) for cloning the repository
+
+## Installation
+
+### Cloning the Repository
+
+This repository uses Git LFS to store the pre-built Docker base image. To clone with the base image:
+
+```bash
+# Option 1: Clone with LFS files included
+git lfs clone https://github.com/JAremko/protogen.git
+
+# Option 2: Clone first, then pull LFS files
+git clone https://github.com/JAremko/protogen.git
+cd protogen
+git lfs pull
+```
+
+If you don't have Git LFS installed:
+- Ubuntu/Debian: `sudo apt-get install git-lfs`
+- Fedora: `sudo dnf install git-lfs`
+- macOS: `brew install git-lfs`
+- Arch Linux: `sudo pacman -S git-lfs`
+
+After installing, initialize Git LFS:
+```bash
+git lfs install
+```
 
 ## Quick Start
 
@@ -114,6 +142,19 @@ output-validated/
 - `OUTPUT_BASE_DIR`: Standard output directory (default: `./output`)
 - `VALIDATE_OUTPUT_DIR`: Validated output directory (default: `./output-validated`)
 - `REBUILD_IMAGE`: Force Docker image rebuild (default: `false`)
+
+### Pre-built Base Image
+
+The repository includes a pre-built base Docker image (`jettison-proto-generator-base.tar.gz`) stored via Git LFS. This image contains all necessary dependencies and tools, saving significant build time on first use.
+
+To use the pre-built image:
+```bash
+# Import the base image (automatic with Make targets)
+make import-base
+
+# Or manually
+docker load < jettison-proto-generator-base.tar.gz
+```
 
 ### Docker Image Details
 
