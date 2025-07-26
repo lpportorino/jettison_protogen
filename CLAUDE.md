@@ -14,6 +14,8 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 - `Dockerfile` - Main Docker image that uses the base image
 - `Dockerfile.base` - Base image with all necessary tools and dependencies
 - `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
+- `jettison-proto-generator-base.tar.gz` - Pre-built Docker base image (stored via Git LFS)
+- `.gitattributes` - Git LFS configuration tracking large files
 
 ### Directories
 - `proto/` - Input directory containing .proto files to process (created at runtime)
@@ -41,6 +43,7 @@ output-validated/
 
 ### Docker Container Usage
 - Container builds automatically on first run if image doesn't exist
+- Pre-built base image loaded from `jettison-proto-generator-base.tar.gz` via Git LFS
 - All generation runs inside Docker for consistency
 - Uses volume mounts to access input/output directories
 - Runs bash scripts passed via `-c` flag
@@ -62,6 +65,23 @@ output-validated/
 - validate.proto copied from protovalidate repository
 
 ## Common Operations
+
+### Working with Git LFS
+
+The repository uses Git LFS for the pre-built Docker base image:
+```bash
+# Clone with LFS files
+git lfs clone https://github.com/JAremko/protogen.git
+
+# Or pull LFS files after regular clone
+git lfs pull
+
+# Check LFS status
+git lfs status
+
+# Track new large files
+git lfs track "*.tar.gz"
+```
 
 ### Adding a New Language
 1. Add toolchain installation to Dockerfile
@@ -87,6 +107,9 @@ GO_VERSION=1.22.0
 
 # Force rebuild using Make
 make rebuild-base
+
+# Export rebuilt base image
+make export-base
 
 # Or using script directly
 REBUILD_IMAGE=true ./generate-protos.sh
@@ -169,6 +192,7 @@ C++ validation was removed due to compatibility issues with current protoc versi
 2. nanopb requires annotation removal (doesn't support extensions)
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
+5. Git LFS required to clone repository with pre-built base image
 
 ## References
 
