@@ -321,6 +321,10 @@ for lang in c cpp go python typescript rust java; do
     fi
 done
 
+# Set permissions on generated files to 777 so anyone can delete/modify them
+print_info "Setting file permissions on generated files..."
+chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
+
 # Run validated generations for supported languages
 print_info "========== Generating Validated Bindings =========="
 
@@ -347,6 +351,9 @@ for lang in go java; do
         FAILED_LANGS+=("validated-$lang")
     fi
 done
+
+# Set permissions on validated generated files to 777
+chmod -R 777 "$VALIDATE_OUTPUT_DIR" 2>/dev/null || true
 
 # Summary
 echo
