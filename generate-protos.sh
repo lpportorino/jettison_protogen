@@ -80,8 +80,11 @@ mkdir -p "$VALIDATE_OUTPUT_DIR"/{go,java}
 
 # Copy proto files to local directory to avoid permission issues
 print_info "Preparing proto files..."
-rm -rf ./proto
-cp -r "$PROTO_SOURCE_DIR" ./proto
+# Only copy if source is different from ./proto
+if [ "$PROTO_SOURCE_DIR" != "./proto" ]; then
+    rm -rf ./proto
+    cp -r "$PROTO_SOURCE_DIR" ./proto
+fi
 
 # Function to run generation in Docker
 run_generation() {

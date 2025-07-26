@@ -89,7 +89,6 @@ output-validated/
 - Standard bindings without validation code
 - Validated bindings include protoc-gen-validate support
 - Java 21 compatible code
-- See `examples/JavaValidationExample.java` for usage
 
 ### TypeScript
 - Uses ts-proto for idiomatic TypeScript code
@@ -145,8 +144,6 @@ try {
 }
 ```
 
-See `examples/JavaValidationExample.java` for a complete example.
-
 ## Troubleshooting
 
 ### Docker not found
@@ -169,10 +166,16 @@ Check that your proto source directory exists and contains `.proto` files.
 
 - `make help` - Show all available targets
 - `make build` - Build Docker image only
+- `make build-base` - Build the base Docker image with all dependencies
 - `make generate` - Build image and generate bindings
 - `make rebuild` - Force rebuild image and regenerate
+- `make rebuild-base` - Force rebuild base image and export
 - `make clean` - Remove generated files
-- `make clean-all` - Remove generated files and Docker image
+- `make clean-all` - Remove generated files and Docker images
+- `make clean-image` - Remove the main Docker image
+- `make clean-base` - Remove the base Docker image
+- `make export-base` - Export base image to a gzip archive
+- `make import-base` - Import base image from gzip archive
 - `make test` - Run test generation with test proto
 - `make shell` - Open shell in Docker container
 - `make versions` - Show tool versions in Docker image
@@ -183,7 +186,7 @@ Edit the language-specific script sections in `generate-protos.sh`.
 
 ### Updating Tool Versions
 
-Edit version variables in `Dockerfile`:
+Edit version variables in `Dockerfile.base`:
 - `PROTOC_VERSION`
 - `GO_VERSION`
 - `RUST_VERSION`

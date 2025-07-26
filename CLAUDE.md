@@ -11,15 +11,15 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 ### Core Files
 - `Makefile` - Build automation with targets for image building and proto generation
 - `generate-protos.sh` - Main generation script that orchestrates Docker container execution
-- `Dockerfile` - Defines the build environment with all necessary tools and dependencies
+- `Dockerfile` - Main Docker image that uses the base image
+- `Dockerfile.base` - Base image with all necessary tools and dependencies
 - `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
 
 ### Directories
-- `proto/` - Input directory containing .proto files to process
-- `output/` - Standard generated bindings without validation
-- `output-validated/` - Generated bindings with validation support (Go and Java only)
-- `examples/` - Usage examples for validated bindings
-- `test-proto/` - Test proto files for development
+- `proto/` - Input directory containing .proto files to process (created at runtime)
+- `output/` - Standard generated bindings without validation (created at runtime)
+- `output-validated/` - Generated bindings with validation support (Go and Java only, created at runtime)
+- `scripts/` - Contains helper scripts like proto_cleanup.awk
 
 ### Generated Output Structure
 ```
@@ -81,12 +81,12 @@ which protoc-gen-go
 
 ### Updating Dependencies
 ```bash
-# Edit version variables in Dockerfile
+# Edit version variables in Dockerfile.base
 PROTOC_VERSION=26.0
 GO_VERSION=1.22.0
 
 # Force rebuild using Make
-make rebuild
+make rebuild-base
 
 # Or using script directly
 REBUILD_IMAGE=true ./generate-protos.sh
@@ -174,7 +174,6 @@ C++ validation was removed due to compatibility issues with current protoc versi
 
 ### Internal Files
 - See [`README.md`](./README.md) for user documentation
-- See [`examples/JavaValidationExample.java`](./examples/JavaValidationExample.java) for validation usage
 - See [`scripts/proto_cleanup.awk`](./scripts/proto_cleanup.awk) for annotation removal logic
 
 ### External Documentation

@@ -2,7 +2,9 @@
 # Docker-based Protocol Buffer Generator
 
 # Variables
+DOCKER_BASE_IMAGE := jettison-proto-generator-base:latest
 DOCKER_IMAGE := jettison-proto-generator:latest
+BASE_IMAGE_ARCHIVE := jettison-proto-generator-base.tar.gz
 PROTO_SOURCE_DIR ?= ./proto
 OUTPUT_BASE_DIR ?= ./output
 VALIDATE_OUTPUT_DIR ?= ./output-validated
@@ -35,11 +37,44 @@ help: ## Show this help message
 	@echo "  make clean                       # Remove generated files"
 	@echo "  make rebuild                     # Force rebuild image and regenerate"
 
+.PHONY: build-base
+build-base: ## Build the base Docker image with all dependencies
+	@echo "$(GREEN)Building base Docker image: $(DOCKER_BASE_IMAGE)$(NC)"
+	@docker build -f Dockerfile.base -t $(DOCKER_BASE_IMAGE) .
+	@echo "$(GREEN)Base Docker image built successfully$(NC)"
+
 .PHONY: build
-build: ## Build the Docker image
+build: ## Build the main Docker image (requires base image)
+	@echo "$(GREEN)Checking for base image...$(NC)"
+	@if ! docker images | grep -q "jettison-proto-generator-base.*latest"; then \
+		if [ -f "$(BASE_IMAGE_ARCHIVE)" ]; then \
+			echo "$(YELLOW)Base image not found, importing from archive...$(NC)"; \
+			$(MAKE) import-base; \
+		else \
+			echo "$(YELLOW)Base image not found, building...$(NC)"; \
+			$(MAKE) build-base; \
+		fi \
+	fi
 	@echo "$(GREEN)Building Docker image: $(DOCKER_IMAGE)$(NC)"
 	@docker build -t $(DOCKER_IMAGE) .
 	@echo "$(GREEN)Docker image built successfully$(NC)"
+
+.PHONY: export-base
+export-base: build-base ## Export base image to a gzip archive
+	@echo "$(GREEN)Exporting base image to $(BASE_IMAGE_ARCHIVE)...$(NC)"
+	@docker save $(DOCKER_BASE_IMAGE) | gzip > $(BASE_IMAGE_ARCHIVE)
+	@ls -lh $(BASE_IMAGE_ARCHIVE)
+	@echo "$(GREEN)Base image exported successfully$(NC)"
+
+.PHONY: import-base
+import-base: ## Import base image from gzip archive
+	@if [ ! -f "$(BASE_IMAGE_ARCHIVE)" ]; then \
+		echo "$(YELLOW)Error: $(BASE_IMAGE_ARCHIVE) not found$(NC)"; \
+		exit 1; \
+	fi
+	@echo "$(GREEN)Importing base image from $(BASE_IMAGE_ARCHIVE)...$(NC)"
+	@gunzip -c $(BASE_IMAGE_ARCHIVE) | docker load
+	@echo "$(GREEN)Base image imported successfully$(NC)"
 
 .PHONY: generate
 generate: build ## Generate protocol buffer bindings for all languages
@@ -53,6 +88,10 @@ generate: build ## Generate protocol buffer bindings for all languages
 rebuild: clean-image generate ## Force rebuild Docker image and regenerate bindings
 	@echo "$(GREEN)Rebuild complete$(NC)"
 
+.PHONY: rebuild-base
+rebuild-base: clean-base clean-image build-base export-base ## Force rebuild base image and export
+	@echo "$(GREEN)Base rebuild complete$(NC)"
+
 .PHONY: clean
 clean: ## Remove all generated files
 	@echo "$(YELLOW)Removing generated files...$(NC)"
@@ -61,13 +100,19 @@ clean: ## Remove all generated files
 	@echo "$(GREEN)Generated files removed$(NC)"
 
 .PHONY: clean-image
-clean-image: ## Remove the Docker image
+clean-image: ## Remove the main Docker image
 	@echo "$(YELLOW)Removing Docker image...$(NC)"
 	@docker rmi -f $(DOCKER_IMAGE) 2>/dev/null || true
 	@echo "$(GREEN)Docker image removed$(NC)"
 
+.PHONY: clean-base
+clean-base: ## Remove the base Docker image
+	@echo "$(YELLOW)Removing base Docker image...$(NC)"
+	@docker rmi -f $(DOCKER_BASE_IMAGE) 2>/dev/null || true
+	@echo "$(GREEN)Base Docker image removed$(NC)"
+
 .PHONY: clean-all
-clean-all: clean clean-image ## Remove all generated files and Docker image
+clean-all: clean clean-image clean-base ## Remove all generated files and Docker images
 	@echo "$(GREEN)All cleaned$(NC)"
 
 .PHONY: test
