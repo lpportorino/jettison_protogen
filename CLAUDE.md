@@ -70,18 +70,24 @@ output-validated/
 
 The repository uses Git LFS for the pre-built Docker base image:
 ```bash
-# Clone with LFS files
-git lfs clone https://github.com/JAremko/protogen.git
+# Clone the repository
+git clone https://github.com/JAremko/protogen.git
+cd protogen
 
-# Or pull LFS files after regular clone
+# Pull LFS files (downloads the pre-built base image)
 git lfs pull
 
 # Check LFS status
 git lfs status
 
-# Track new large files
-git lfs track "*.tar.gz"
+# Update the base image archive after rebuilding
+make export-base
+git add jettison-proto-generator-base.tar.gz
+git commit -m "Update pre-built base image"
+git push
 ```
+
+**Important**: When updating dependencies, always export and commit the new base image to ensure builds are reproducible.
 
 ### Adding a New Language
 1. Add toolchain installation to Dockerfile

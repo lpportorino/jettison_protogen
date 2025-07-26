@@ -20,19 +20,21 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 ### Cloning the Repository
 
-This repository uses Git LFS to store the pre-built Docker base image. To clone with the base image:
+This repository includes a pre-built Docker base image to speed up builds. The image is stored using Git LFS.
 
 ```bash
-# Option 1: Clone with LFS files included
-git lfs clone https://github.com/JAremko/protogen.git
-
-# Option 2: Clone first, then pull LFS files
+# Clone the repository
 git clone https://github.com/JAremko/protogen.git
 cd protogen
+
+# Pull the pre-built base image (if you have Git LFS)
 git lfs pull
 ```
 
-If you don't have Git LFS installed:
+**Note**: The base image is ~1.2GB. If you don't have Git LFS or prefer to build from scratch, the system will automatically build the base image when needed.
+
+#### Installing Git LFS (Optional)
+If you want to use the pre-built base image:
 - Ubuntu/Debian: `sudo apt-get install git-lfs`
 - Fedora: `sudo dnf install git-lfs`
 - macOS: `brew install git-lfs`
