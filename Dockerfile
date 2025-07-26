@@ -95,9 +95,6 @@ RUN chmod +x /usr/local/bin/proto_cleanup.awk
 COPY generate-protos.sh /usr/local/bin/generate-protos.sh
 RUN chmod +x /usr/local/bin/generate-protos.sh
 
-# Copy proto files
-COPY proto /workspace/proto
-
 # Create a simple test to verify all tools are installed
 RUN protoc --version \
     && go version \
