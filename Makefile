@@ -1,0 +1,101 @@
+# Protogen Makefile
+# Docker-based Protocol Buffer Generator
+
+# Variables
+DOCKER_IMAGE := jettison-proto-generator:latest
+PROTO_SOURCE_DIR ?= ./proto
+OUTPUT_BASE_DIR ?= ./output
+VALIDATE_OUTPUT_DIR ?= ./output-validated
+
+# Colors for output
+GREEN := \033[0;32m
+YELLOW := \033[1;33m
+NC := \033[0m # No Color
+
+# Default target
+.DEFAULT_GOAL := help
+
+.PHONY: help
+help: ## Show this help message
+	@echo "Protogen - Docker-based Protocol Buffer Generator"
+	@echo ""
+	@echo "Usage: make [target]"
+	@echo ""
+	@echo "Targets:"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-15s$(NC) %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Environment Variables:"
+	@echo "  PROTO_SOURCE_DIR      Source proto directory (default: ./proto)"
+	@echo "  OUTPUT_BASE_DIR       Standard output directory (default: ./output)"
+	@echo "  VALIDATE_OUTPUT_DIR   Validated output directory (default: ./output-validated)"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make generate                    # Build image and generate all bindings"
+	@echo "  make generate PROTO_SOURCE_DIR=/path/to/protos"
+	@echo "  make clean                       # Remove generated files"
+	@echo "  make rebuild                     # Force rebuild image and regenerate"
+
+.PHONY: build
+build: ## Build the Docker image
+	@echo "$(GREEN)Building Docker image: $(DOCKER_IMAGE)$(NC)"
+	@docker build -t $(DOCKER_IMAGE) .
+	@echo "$(GREEN)Docker image built successfully$(NC)"
+
+.PHONY: generate
+generate: build ## Generate protocol buffer bindings for all languages
+	@echo "$(GREEN)Generating protocol buffer bindings...$(NC)"
+	@PROTO_SOURCE_DIR=$(PROTO_SOURCE_DIR) \
+	 OUTPUT_BASE_DIR=$(OUTPUT_BASE_DIR) \
+	 VALIDATE_OUTPUT_DIR=$(VALIDATE_OUTPUT_DIR) \
+	 ./generate-protos.sh
+
+.PHONY: rebuild
+rebuild: clean-image generate ## Force rebuild Docker image and regenerate bindings
+	@echo "$(GREEN)Rebuild complete$(NC)"
+
+.PHONY: clean
+clean: ## Remove all generated files
+	@echo "$(YELLOW)Removing generated files...$(NC)"
+	@rm -rf $(OUTPUT_BASE_DIR)/*
+	@rm -rf $(VALIDATE_OUTPUT_DIR)/*
+	@echo "$(GREEN)Generated files removed$(NC)"
+
+.PHONY: clean-image
+clean-image: ## Remove the Docker image
+	@echo "$(YELLOW)Removing Docker image...$(NC)"
+	@docker rmi -f $(DOCKER_IMAGE) 2>/dev/null || true
+	@echo "$(GREEN)Docker image removed$(NC)"
+
+.PHONY: clean-all
+clean-all: clean clean-image ## Remove all generated files and Docker image
+	@echo "$(GREEN)All cleaned$(NC)"
+
+.PHONY: test
+test: ## Run a simple test generation with test proto
+	@echo "$(GREEN)Running test generation...$(NC)"
+	@mkdir -p test-output
+	@PROTO_SOURCE_DIR=./test-proto \
+	 OUTPUT_BASE_DIR=./test-output \
+	 VALIDATE_OUTPUT_DIR=./test-output-validated \
+	 ./generate-protos.sh
+	@echo "$(GREEN)Test complete - check test-output directory$(NC)"
+
+.PHONY: shell
+shell: build ## Open a shell in the Docker container
+	@echo "$(GREEN)Opening shell in Docker container...$(NC)"
+	@docker run --rm -it \
+		-v "$$(pwd)/proto:/workspace/proto:ro" \
+		-v "$$(pwd)/scripts:/workspace/scripts:ro" \
+		-w /workspace \
+		$(DOCKER_IMAGE)
+
+.PHONY: versions
+versions: build ## Show versions of tools in the Docker image
+	@echo "$(GREEN)Tool versions in Docker image:$(NC)"
+	@docker run --rm $(DOCKER_IMAGE) -c "\
+		echo 'protoc version:' && protoc --version && echo && \
+		echo 'go version:' && go version && echo && \
+		echo 'rustc version:' && rustc --version && echo && \
+		echo 'python version:' && python3 --version && echo && \
+		echo 'java version:' && java --version | head -n1 && echo && \
+		echo 'node version:' && node --version"

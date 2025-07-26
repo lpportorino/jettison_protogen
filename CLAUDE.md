@@ -9,6 +9,7 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 ## Module Structure
 
 ### Core Files
+- `Makefile` - Build automation with targets for image building and proto generation
 - `generate-protos.sh` - Main generation script that orchestrates Docker container execution
 - `Dockerfile` - Defines the build environment with all necessary tools and dependencies
 - `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
@@ -84,8 +85,32 @@ which protoc-gen-go
 PROTOC_VERSION=26.0
 GO_VERSION=1.22.0
 
-# Force rebuild
+# Force rebuild using Make
+make rebuild
+
+# Or using script directly
 REBUILD_IMAGE=true ./generate-protos.sh
+```
+
+### Using Make Commands
+```bash
+# Show help
+make help
+
+# Build Docker image only
+make build
+
+# Generate all proto bindings
+make generate
+
+# Clean and rebuild everything
+make rebuild
+
+# Open shell in container for debugging
+make shell
+
+# Show tool versions
+make versions
 ```
 
 ## Technical Details

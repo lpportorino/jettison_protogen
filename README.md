@@ -17,8 +17,29 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 ## Quick Start
 
+### Using Make (Recommended)
+
 ```bash
-# Generate all bindings from proto files in ../proto
+# Show available commands
+make help
+
+# Generate all bindings (builds image if needed)
+make generate
+
+# Generate with custom source directory
+make generate PROTO_SOURCE_DIR=/path/to/protos
+
+# Force rebuild image and regenerate
+make rebuild
+
+# Clean generated files
+make clean
+```
+
+### Using Scripts Directly
+
+```bash
+# Generate all bindings
 ./generate-protos.sh
 
 # Generate with custom source directory
@@ -144,6 +165,18 @@ Check that your proto source directory exists and contains `.proto` files.
 
 ## Advanced Usage
 
+### Makefile Targets
+
+- `make help` - Show all available targets
+- `make build` - Build Docker image only
+- `make generate` - Build image and generate bindings
+- `make rebuild` - Force rebuild image and regenerate
+- `make clean` - Remove generated files
+- `make clean-all` - Remove generated files and Docker image
+- `make test` - Run test generation with test proto
+- `make shell` - Open shell in Docker container
+- `make versions` - Show tool versions in Docker image
+
 ### Adding Custom Protoc Options
 
 Edit the language-specific script sections in `generate-protos.sh`.
@@ -157,6 +190,8 @@ Edit version variables in `Dockerfile`:
 
 Then rebuild:
 ```bash
+make rebuild
+# or
 REBUILD_IMAGE=true ./generate-protos.sh
 ```
 
