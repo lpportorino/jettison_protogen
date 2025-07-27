@@ -242,20 +242,13 @@ EOF
 cargo build
 '
 
-# Java generation script (without validation)
+# Java generation script - now generates with annotations preserved
 JAVA_SCRIPT='
 set -e
-mkdir -p /tmp/java_proto_clean
-
-# Copy proto files and remove validate annotations
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/java_proto_clean/$(basename "$proto")"
-done
-
-# Generate all proto files together
-protoc -I/tmp/java_proto_clean \
+# Generate Java files directly from proto files with buf.validate annotations
+protoc -I/workspace/proto \
     --java_out=/workspace/output \
-    /tmp/java_proto_clean/*.proto
+    /workspace/proto/*.proto
 '
 
 # Go generation script with protovalidate (new approach)
@@ -279,25 +272,7 @@ protoc -I/tmp/go_proto_val \
     /tmp/go_proto_val/*.proto
 '
 
-# Java generation script with protovalidate
-JAVA_VALIDATE_SCRIPT='
-set -e
-mkdir -p /tmp/java_proto_val
-
-# Copy proto files and add validate import
-for proto in proto/*.proto; do
-    cp "$proto" "/tmp/java_proto_val/$(basename "$proto")"
-    /usr/local/bin/add-validate-import.sh "/tmp/java_proto_val/$(basename "$proto")"
-done
-
-# Copy validate.proto from protovalidate
-cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/java_proto_val/
-
-# Generate all proto files together
-protoc -I/tmp/java_proto_val \
-    --java_out=/workspace/output-validated \
-    /tmp/java_proto_val/*.proto
-'
+# Java validation script removed - Java now uses direct generation with annotations
 
 # C++ validation removed - not needed and has compatibility issues
 
@@ -324,13 +299,13 @@ done
 print_info "Setting file permissions on generated files..."
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
 
-# Run validated generations for supported languages
+# Run validated generations for supported languages (excluding Java)
 print_info "========== Generating Validated Bindings =========="
 
-for lang in go java; do
+# Only generate validated bindings for Go (Java now uses annotations directly)
+for lang in go; do
     case $lang in
         go) script="$GO_VALIDATE_SCRIPT" ;;
-        java) script="$JAVA_VALIDATE_SCRIPT" ;;
     esac
     
     print_info "Generating validated $lang bindings..."
@@ -374,7 +349,8 @@ done
 # Check validated outputs
 print_info ""
 print_info "Validated bindings:"
-for lang in go java; do
+# Only Go has separate validated bindings now
+for lang in go; do
     count=$(find "$VALIDATE_OUTPUT_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "validated $lang: $count files generated"
@@ -382,6 +358,7 @@ for lang in go java; do
         print_warning "validated $lang: No files generated"
     fi
 done
+print_info "Note: Java now uses proto files with annotations directly"
 
 if [ ${#FAILED_LANGS[@]} -gt 0 ]; then
     print_error "Failed languages: ${FAILED_LANGS[*]}"
