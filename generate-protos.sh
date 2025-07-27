@@ -242,13 +242,48 @@ EOF
 cargo build
 '
 
-# Java generation script - now generates with annotations preserved
+# Java generation script - generates with buf.validate support
 JAVA_SCRIPT='
 set -e
-# Generate Java files directly from proto files with buf.validate annotations
-protoc -I/workspace/proto \
-    --java_out=/workspace/output \
-    /workspace/proto/*.proto
+# Create a temporary directory for proto files
+mkdir -p /tmp/java_proto_buf
+
+# Copy proto files to temporary directory
+cp -r /workspace/proto/* /tmp/java_proto_buf/
+
+# Copy buf validate proto definitions
+cp -r /opt/protovalidate/proto/protovalidate /tmp/java_proto_buf/
+
+# Create buf.yaml configuration
+cat > /tmp/java_proto_buf/buf.yaml << EOF
+version: v2
+deps:
+  - buf.build/bufbuild/protovalidate
+lint:
+  use:
+    - STANDARD
+breaking:
+  use:
+    - FILE
+EOF
+
+# Create buf.gen.yaml for Java generation
+cat > /tmp/java_proto_buf/buf.gen.yaml << EOF
+version: v2
+plugins:
+  - protoc_builtin: java
+    out: /workspace/output
+EOF
+
+# Use buf to generate Java code with proper validation metadata
+cd /tmp/java_proto_buf
+# First, ensure all proto files have proper imports
+for proto in *.proto; do
+    /usr/local/bin/add-validate-import.sh "$proto"
+done
+
+# Generate using buf - this ensures validation metadata is properly embedded
+buf generate
 '
 
 # Go generation script with protovalidate (new approach)

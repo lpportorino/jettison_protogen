@@ -60,6 +60,18 @@ RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
 # Clone protovalidate for validate.proto definitions
 RUN git clone https://github.com/bufbuild/protovalidate.git /opt/protovalidate
 
+# Install buf CLI
+RUN curl -sSL "https://github.com/bufbuild/buf/releases/latest/download/buf-$(uname -s)-$(uname -m)" \
+    -o /usr/local/bin/buf && \
+    chmod +x /usr/local/bin/buf
+
+# Create buf configuration for Java generation with protovalidate
+RUN mkdir -p /workspace/buf-config && \
+    echo 'version: v2' > /workspace/buf-config/buf.gen.yaml && \
+    echo 'plugins:' >> /workspace/buf-config/buf.gen.yaml && \
+    echo '  - protoc_builtin: java' >> /workspace/buf-config/buf.gen.yaml && \
+    echo '    out: /workspace/output' >> /workspace/buf-config/buf.gen.yaml
+
 # Create a script to add validate import to proto files
 RUN echo '#!/bin/bash\n\
 file="$1"\n\
