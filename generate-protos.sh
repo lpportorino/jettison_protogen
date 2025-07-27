@@ -244,7 +244,7 @@ cargo build
 
 # Java generation script - generates with buf.validate support
 JAVA_SCRIPT='
-set -e
+set -ex  # Add -x for debugging
 # Create a temporary directory for proto files
 mkdir -p /tmp/java_proto_buf
 
@@ -257,14 +257,24 @@ cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/java_
 
 # First, ensure all proto files have proper imports
 cd /tmp/java_proto_buf
+echo "Adding validate imports to proto files..."
 for proto in *.proto; do
     if [ -f "$proto" ]; then
+        echo "Processing: $proto"
         /usr/local/bin/add-validate-import.sh "$proto"
+        # Show first few lines to verify import was added
+        head -5 "$proto"
+        echo "---"
     fi
 done
 
+# List all files to ensure validate.proto is present
+echo "Files in /tmp/java_proto_buf:"
+find /tmp/java_proto_buf -name "*.proto" | sort
+
 # Generate using standard protoc with the validate.proto available
 # This is simpler and more reliable than using buf generate for our use case
+echo "Running protoc..."
 protoc -I/tmp/java_proto_buf \
     --java_out=/workspace/output \
     /tmp/java_proto_buf/*.proto
