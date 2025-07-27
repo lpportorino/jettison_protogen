@@ -5,7 +5,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
-- **Buf Validate support**: Go and Java validated outputs include buf.validate annotations
+- **Buf.validate support**: Java generation now uses buf CLI for proper validation metadata embedding
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Parallel generation**: Optimized for speed with parallel processing where applicable
 - **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them
@@ -98,9 +98,10 @@ output/
 ### Validated Bindings (with buf.validate support)
 ```
 output-validated/
-├── go/         # Go bindings with protoc-gen-validate
-└── java/       # Java bindings with protoc-gen-validate
+└── go/         # Go bindings with buf.validate annotations
 ```
+
+**Note**: Java validation is now handled directly in the standard bindings using buf CLI, which properly embeds validation metadata. Use the protovalidate-java runtime library for validation.
 
 
 ## Language-Specific Features
@@ -116,9 +117,10 @@ output-validated/
 - Both versions generate with gRPC support
 
 ### Java
-- Standard bindings without validation code
-- Validated bindings include protoc-gen-validate support
-- Java 21 compatible code
+- Generated using buf CLI for proper buf.validate metadata embedding
+- Validation annotations are preserved in the generated code
+- Java 17+ compatible code
+- Runtime validation requires protovalidate-java library
 
 ### TypeScript
 - Uses ts-proto for idiomatic TypeScript code
@@ -167,25 +169,38 @@ The Docker image includes:
 - Rust 1.83.0
 - Python 3 with protobuf tools
 - Node.js with TypeScript proto tools
-- Java 21 with Maven
+- Java 17 (OpenJDK)
 - nanopb for C generation
+- buf CLI for proper validation support
 - All necessary protoc plugins
 
 ## Examples
 
 ### Using Java Validation
 
+Java bindings now include buf.validate metadata when generated. To use validation at runtime:
+
 ```java
 import build.buf.protovalidate.Validator;
-import build.buf.protovalidate.results.ValidationException;
+import build.buf.protovalidate.ValidatorFactory;
+import build.buf.protovalidate.ValidationResult;
 
-Validator validator = new Validator();
-try {
-    validator.validate(message);
-} catch (ValidationException e) {
+// Create a validator instance
+Validator validator = ValidatorFactory.newBuilder().build();
+
+// Validate a message
+ValidationResult result = validator.validate(message);
+if (!result.isSuccess()) {
     // Handle validation errors
+    result.getViolations().forEach(violation -> {
+        System.err.println("Field: " + violation.getFieldPath());
+        System.err.println("Constraint: " + violation.getConstraintId());
+        System.err.println("Message: " + violation.getMessage());
+    });
 }
 ```
+
+**Dependencies**: Add `build.buf:protovalidate` to your Java project.
 
 ## Troubleshooting
 
