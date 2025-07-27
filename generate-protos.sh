@@ -251,39 +251,23 @@ mkdir -p /tmp/java_proto_buf
 # Copy proto files to temporary directory
 cp -r /workspace/proto/* /tmp/java_proto_buf/
 
-# Copy buf validate proto definitions
-cp -r /opt/protovalidate/proto/protovalidate /tmp/java_proto_buf/
+# Copy buf validate proto definitions to the expected location
+mkdir -p /tmp/java_proto_buf/buf/validate
+cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/java_proto_buf/buf/validate/
 
-# Create buf.yaml configuration
-cat > /tmp/java_proto_buf/buf.yaml << EOF
-version: v2
-deps:
-  - buf.build/bufbuild/protovalidate
-lint:
-  use:
-    - STANDARD
-breaking:
-  use:
-    - FILE
-EOF
-
-# Create buf.gen.yaml for Java generation
-cat > /tmp/java_proto_buf/buf.gen.yaml << EOF
-version: v2
-plugins:
-  - protoc_builtin: java
-    out: /workspace/output
-EOF
-
-# Use buf to generate Java code with proper validation metadata
-cd /tmp/java_proto_buf
 # First, ensure all proto files have proper imports
+cd /tmp/java_proto_buf
 for proto in *.proto; do
-    /usr/local/bin/add-validate-import.sh "$proto"
+    if [ -f "$proto" ]; then
+        /usr/local/bin/add-validate-import.sh "$proto"
+    fi
 done
 
-# Generate using buf - this ensures validation metadata is properly embedded
-buf generate
+# Generate using standard protoc with the validate.proto available
+# This is simpler and more reliable than using buf generate for our use case
+protoc -I/tmp/java_proto_buf \
+    --java_out=/workspace/output \
+    /tmp/java_proto_buf/*.proto
 '
 
 # Go generation script with protovalidate (new approach)
