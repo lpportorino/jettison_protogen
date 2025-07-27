@@ -5,7 +5,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
-- **Buf Validate support**: Go and Java bindings include validation code generation
+- **Buf Validate support**: Go and Java validated outputs include buf.validate annotations
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Parallel generation**: Optimized for speed with parallel processing where applicable
 - **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them

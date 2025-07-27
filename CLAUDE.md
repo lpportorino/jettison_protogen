@@ -178,12 +178,14 @@ make versions
 
 ### Validation Support
 
-Only Go and Java support validation due to library availability:
-- Go: Uses protoc-gen-validate from Envoy
-- Java: Uses same protoc-gen-validate plugin
-- Runtime libraries required: protovalidate-go, protovalidate-java
+Proto files use buf.validate annotations for validation constraints. The validated outputs include these annotations in the generated code:
+- Go: Standard protobuf generation with buf.validate annotations preserved
+- Java: Standard protobuf generation with buf.validate annotations preserved
+- Runtime validation: Applications should use the protovalidate libraries:
+  - Go: github.com/bufbuild/protovalidate-go
+  - Java: build.buf.protovalidate
 
-C++ validation was removed due to compatibility issues with current protoc versions.
+Note: We migrated from protoc-gen-validate (PGV) to buf protovalidate for better compatibility and modern validation approach.
 
 ## Environment Variables
 

@@ -276,7 +276,6 @@ cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/go_proto_val/
 protoc -I/tmp/go_proto_val \
     --go_out=/workspace/output-validated \
     --go-grpc_out=/workspace/output-validated \
-    --validate_out="lang=go:/workspace/output-validated" \
     /tmp/go_proto_val/*.proto
 '
 
@@ -297,7 +296,6 @@ cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/java_proto_val/
 # Generate all proto files together
 protoc -I/tmp/java_proto_val \
     --java_out=/workspace/output-validated \
-    --validate_out="lang=java:/workspace/output-validated" \
     /tmp/java_proto_val/*.proto
 '
 

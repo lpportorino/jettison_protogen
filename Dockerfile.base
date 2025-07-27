@@ -57,12 +57,8 @@ RUN npm install -g \
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \
     && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
-# Install protoc-gen-validate (supports Go and Java validation)
-RUN go install github.com/envoyproxy/protoc-gen-validate@latest
-
 # Clone protovalidate for validate.proto definitions
-RUN git clone https://github.com/bufbuild/protovalidate.git /opt/protovalidate \
-    && git clone https://github.com/envoyproxy/protoc-gen-validate.git /opt/protoc-gen-validate
+RUN git clone https://github.com/bufbuild/protovalidate.git /opt/protovalidate
 
 # Create a script to add validate import to proto files
 RUN echo '#!/bin/bash\n\
@@ -90,7 +86,6 @@ RUN protoc --version \
     && node --version \
     && java --version \
     && protoc-gen-nanopb --version || echo "nanopb version check" \
-    && which protoc-gen-go \
-    && which protoc-gen-validate
+    && which protoc-gen-go
 
 ENTRYPOINT ["/bin/bash"]
