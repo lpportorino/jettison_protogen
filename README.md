@@ -86,13 +86,14 @@ Generated files are organized by language in two directories:
 ### Standard Bindings (without validation annotations)
 ```
 output/
-├── c/          # C bindings (nanopb)
-├── cpp/        # C++ bindings
-├── go/         # Go bindings
-├── python/     # Python bindings with type stubs
-├── typescript/ # TypeScript bindings (ts-proto)
-├── rust/       # Rust bindings (prost)
-└── java/       # Java bindings
+├── c/               # C bindings (nanopb)
+├── cpp/             # C++ bindings
+├── go/              # Go bindings
+├── python/          # Python bindings with type stubs
+├── typescript/      # TypeScript bindings (ts-proto)
+├── rust/            # Rust bindings (prost)
+├── java/            # Java bindings
+└── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations
 ```
 
 ### Validated Bindings (with buf.validate support)
@@ -137,6 +138,13 @@ output-validated/
 ### C++
 - Standard protocol buffer generation
 - No validation support (use protovalidate-cc if needed)
+
+### JSON Descriptors
+- Complete FileDescriptorSet in JSON format
+- Includes all buf.validate annotations
+- Individual JSON files for each proto file
+- Useful for tooling that needs to analyze proto schemas
+- Can be parsed to extract validation constraints programmatically
 
 ## Configuration
 

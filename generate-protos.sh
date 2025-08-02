@@ -75,7 +75,7 @@ fi
 
 # Create output directories
 print_info "Creating output directories..."
-mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java}
+mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors}
 mkdir -p "$VALIDATE_OUTPUT_DIR"/{go,java}
 
 # Copy proto files to local directory to avoid permission issues
@@ -305,10 +305,93 @@ protoc -I/tmp/go_proto_val \
 
 # C++ validation removed - not needed and has compatibility issues
 
+# JSON descriptor generation script
+JSON_DESCRIPTOR_SCRIPT='
+set -ex
+# Create a temporary directory for proto files with validate imports
+mkdir -p /tmp/json_proto
+
+# Copy proto files to temporary directory
+cp -r /workspace/proto/* /tmp/json_proto/
+
+# Copy buf validate proto definitions
+mkdir -p /tmp/json_proto/buf/validate
+cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/json_proto/buf/validate/
+
+# Add validate imports to proto files
+cd /tmp/json_proto
+for proto in *.proto; do
+    if [ -f "$proto" ]; then
+        /usr/local/bin/add-validate-import.sh "$proto"
+    fi
+done
+
+# Use protoc to generate FileDescriptorSet (binary format)
+echo "Generating FileDescriptorSet with protoc..."
+protoc -I/tmp/json_proto \
+    --descriptor_set_out=/tmp/descriptor-set.pb \
+    --include_imports \
+    --include_source_info \
+    /tmp/json_proto/*.proto
+
+# Convert to JSON using Python
+echo "Converting to JSON format..."
+python3 << "PYTHON_EOF"
+import json
+import base64
+from google.protobuf import descriptor_pb2
+from google.protobuf.json_format import MessageToJson, MessageToDict
+
+# Read the binary descriptor set
+with open("/tmp/descriptor-set.pb", "rb") as f:
+    descriptor_data = f.read()
+
+# Parse it as a FileDescriptorSet
+file_descriptor_set = descriptor_pb2.FileDescriptorSet()
+file_descriptor_set.ParseFromString(descriptor_data)
+
+# Convert to JSON with proper formatting
+json_str = MessageToJson(
+    file_descriptor_set, 
+    indent=2,
+    preserving_proto_field_name=True
+)
+
+# Write JSON output
+with open("/workspace/output/descriptor-set.json", "w") as f:
+    f.write(json_str)
+
+# Also convert to dict for processing individual files
+descriptor_dict = MessageToDict(
+    file_descriptor_set,
+    preserving_proto_field_name=True
+)
+
+# Save individual file descriptors as JSON
+for file_descriptor in descriptor_dict.get("file", []):
+    name = file_descriptor.get("name", "").replace(".proto", "")
+    if name and not name.startswith("google/") and not name.startswith("buf/"):
+        individual_desc = {
+            "file": [file_descriptor]
+        }
+        # Get just the base filename
+        base_name = name.split("/")[-1]
+        output_path = f"/workspace/output/{base_name}.json"
+        with open(output_path, "w") as f:
+            json.dump(individual_desc, f, indent=2)
+
+print("JSON conversion complete!")
+PYTHON_EOF
+
+echo "Descriptors generated successfully!"
+echo "Generated files:"
+ls -la /workspace/output/
+'
+
 # Run all generations
 FAILED_LANGS=()
 
-for lang in c cpp go python typescript rust java; do
+for lang in c cpp go python typescript rust java json-descriptors; do
     case $lang in
         c) script="$C_SCRIPT" ;;
         cpp) script="$CPP_SCRIPT" ;;
@@ -317,6 +400,7 @@ for lang in c cpp go python typescript rust java; do
         typescript) script="$TYPESCRIPT_SCRIPT" ;;
         rust) script="$RUST_SCRIPT" ;;
         java) script="$JAVA_SCRIPT" ;;
+        json-descriptors) script="$JSON_DESCRIPTOR_SCRIPT" ;;
     esac
     
     if ! run_generation "$lang" "$script"; then
@@ -366,7 +450,7 @@ print_info "Output directory: $OUTPUT_BASE_DIR"
 print_info "Validated output directory: $VALIDATE_OUTPUT_DIR"
 
 # Check what was generated
-for lang in c cpp go python typescript rust java; do
+for lang in c cpp go python typescript rust java json-descriptors; do
     count=$(find "$OUTPUT_BASE_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "$lang: $count files generated"
