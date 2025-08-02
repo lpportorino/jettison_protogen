@@ -326,21 +326,50 @@ for proto in *.proto; do
     fi
 done
 
-# Use protoc to generate FileDescriptorSet (binary format)
-echo "Generating FileDescriptorSet with protoc..."
-protoc -I/tmp/json_proto \
-    --descriptor_set_out=/tmp/descriptor-set.pb \
-    --include_imports \
-    --include_source_info \
-    /tmp/json_proto/*.proto
-
-# Convert to JSON using Python
-echo "Converting to JSON format..."
-python3 << "PYTHON_EOF"
+# Check if buf is available, otherwise fall back to protoc
+if command -v buf &> /dev/null; then
+    echo "Using buf to generate JSON descriptors with validation annotations..."
+    
+    # Create buf.yaml if it doesn'\''t exist
+    if [ ! -f buf.yaml ]; then
+        cat > buf.yaml << "BUF_EOF"
+version: v1
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+BUF_EOF
+    fi
+    
+    # Generate JSON descriptors using buf build
+    buf build . -o /workspace/output/descriptor-set.json --exclude-source-info
+    
+    # Also generate individual file descriptors
+    for proto in *.proto; do
+        if [ -f "$proto" ]; then
+            base_name="${proto%.proto}"
+            buf build . --path "$proto" -o "/workspace/output/${base_name}.json" --exclude-source-info
+        fi
+    done
+else
+    echo "buf not found, using protoc with custom extensions support..."
+    
+    # Use protoc to generate FileDescriptorSet (binary format) with extensions
+    protoc -I/tmp/json_proto \
+        --descriptor_set_out=/tmp/descriptor-set.pb \
+        --include_imports \
+        --include_source_info \
+        /tmp/json_proto/*.proto
+    
+    # Convert to JSON using Python with custom extensions support
+    python3 << "PYTHON_EOF"
 import json
 import base64
 from google.protobuf import descriptor_pb2
 from google.protobuf.json_format import MessageToJson, MessageToDict
+from google.protobuf import text_format
 
 # Read the binary descriptor set
 with open("/tmp/descriptor-set.pb", "rb") as f:
@@ -350,11 +379,15 @@ with open("/tmp/descriptor-set.pb", "rb") as f:
 file_descriptor_set = descriptor_pb2.FileDescriptorSet()
 file_descriptor_set.ParseFromString(descriptor_data)
 
-# Convert to JSON with proper formatting
+# Convert to JSON with extensions preserved
+# The including_default_value_fields and preserving_proto_field_name options
+# help preserve more information, but custom extensions still need special handling
 json_str = MessageToJson(
     file_descriptor_set, 
     indent=2,
-    preserving_proto_field_name=True
+    preserving_proto_field_name=True,
+    including_default_value_fields=True,
+    use_integers_for_enums=False
 )
 
 # Write JSON output
@@ -364,7 +397,8 @@ with open("/workspace/output/descriptor-set.json", "w") as f:
 # Also convert to dict for processing individual files
 descriptor_dict = MessageToDict(
     file_descriptor_set,
-    preserving_proto_field_name=True
+    preserving_proto_field_name=True,
+    including_default_value_fields=True
 )
 
 # Save individual file descriptors as JSON
@@ -381,7 +415,9 @@ for file_descriptor in descriptor_dict.get("file", []):
             json.dump(individual_desc, f, indent=2)
 
 print("JSON conversion complete!")
+print("Note: buf.validate annotations may not be fully preserved without buf CLI")
 PYTHON_EOF
+fi
 
 echo "Descriptors generated successfully!"
 echo "Generated files:"

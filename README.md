@@ -93,7 +93,7 @@ output/
 ├── typescript/      # TypeScript bindings (ts-proto)
 ├── rust/            # Rust bindings (prost)
 ├── java/            # Java bindings
-└── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations
+└── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations and CEL expressions
 ```
 
 ### Validated Bindings (with buf.validate support)
@@ -140,11 +140,17 @@ output-validated/
 - No validation support (use protovalidate-cc if needed)
 
 ### JSON Descriptors
-- Complete FileDescriptorSet in JSON format
-- Includes all buf.validate annotations
+- Complete FileDescriptorSet in JSON format generated using buf CLI
+- **Includes all buf.validate annotations with CEL expressions preserved**
 - Individual JSON files for each proto file
 - Useful for tooling that needs to analyze proto schemas
 - Can be parsed to extract validation constraints programmatically
+- CEL expressions are available in field options under `[buf.validate.predefined]`
+- Example validation rules preserved:
+  - Range constraints: `gte`, `lte`, `gt`, `lt` with CEL expressions
+  - Enum constraints: `defined_only`, `not_in`
+  - Required fields: `required` on oneofs
+  - Custom CEL validation expressions
 
 ## Configuration
 

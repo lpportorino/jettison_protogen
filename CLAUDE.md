@@ -187,6 +187,41 @@ Proto files use buf.validate annotations for validation constraints. The validat
 
 Note: We migrated from protoc-gen-validate (PGV) to buf protovalidate for better compatibility and modern validation approach.
 
+### JSON Descriptor Generation
+
+The JSON descriptor generation script has been enhanced to use buf CLI when available, which properly preserves buf.validate annotations and CEL expressions:
+
+1. **Primary method (buf CLI)**:
+   - Detects if buf is installed in the Docker container
+   - Uses `buf build` with `--exclude-source-info` flag for cleaner output
+   - Generates both complete descriptor set and individual file descriptors
+   - **Preserves all buf.validate annotations with CEL expressions**
+
+2. **Fallback method (protoc + Python)**:
+   - Used when buf CLI is not available
+   - Attempts to preserve extensions using enhanced JSON serialization options
+   - May not fully preserve custom extensions like buf.validate
+   - Includes warning about potential limitation
+
+**CEL Expression Preservation**:
+- Validation rules are stored in field options under `[buf.validate.predefined]`
+- Each rule includes:
+  - `id`: Rule identifier (e.g., "float.gte", "int32.lt")
+  - `expression`: Complete CEL expression for validation
+  - Error message templates with formatting
+
+**Example preserved annotation**:
+```json
+"options": {
+  "[buf.validate.predefined]": {
+    "cel": [{
+      "id": "float.gte",
+      "expression": "!has(rules.lt) && !has(rules.lte) && (this.isNan() || this < rules.gte)? 'value must be greater than or equal to %s'.format([rules.gte]) : ''"
+    }]
+  }
+}
+```
+
 ## Environment Variables
 
 - `PROTO_SOURCE_DIR`: Input directory (default: `../proto`)
