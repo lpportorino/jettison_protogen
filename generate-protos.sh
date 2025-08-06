@@ -175,10 +175,8 @@ managed:
 plugins:
   - remote: buf.build/protocolbuffers/go:v1.36.6
     out: /workspace/output
-    opt: paths=source_relative
   - remote: buf.build/grpc/go:v1.3.0
     out: /workspace/output
-    opt: paths=source_relative
 BUF_EOF
 
 # Ensure output directory exists
