@@ -16,7 +16,6 @@ cd "$SCRIPT_DIR"
 DOCKER_IMAGE="jettison-proto-generator:latest"
 PROTO_SOURCE_DIR="${PROTO_SOURCE_DIR:-../proto}"
 OUTPUT_BASE_DIR="${OUTPUT_BASE_DIR:-./output}"
-VALIDATE_OUTPUT_DIR="${VALIDATE_OUTPUT_DIR:-./output-validated}"
 
 # Function to print colored output
 print_info() {
@@ -76,10 +75,8 @@ fi
 # Create output directories with full permissions
 print_info "Creating output directories..."
 mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors}
-mkdir -p "$VALIDATE_OUTPUT_DIR"/{go,java}
 # Set directory permissions to 777
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
-chmod -R 777 "$VALIDATE_OUTPUT_DIR" 2>/dev/null || true
 
 # Copy proto files to local directory to avoid permission issues
 print_info "Preparing proto files..."
@@ -144,20 +141,59 @@ protoc -I/tmp/cleaned_proto \
     /tmp/cleaned_proto/*.proto
 '
 
-# Go generation script (without validation)
+# Go generation script with validation support
 GO_SCRIPT='
 set -e
-mkdir -p /tmp/go_proto_clean
-# Copy proto files and remove validate annotations
+mkdir -p /tmp/go_proto_val
+
+# Copy proto files and add validate import
 for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/go_proto_clean/$(basename "$proto")"
+    cp "$proto" "/tmp/go_proto_val/$(basename "$proto")"
+    /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$(basename "$proto")"
 done
 
-# Generate all proto files together to resolve imports
-protoc -I/tmp/go_proto_clean \
-    --go_out=/workspace/output \
-    --go-grpc_out=/workspace/output \
-    /tmp/go_proto_clean/*.proto
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/go_proto_val/
+
+# Create buf.yaml for the generation
+cd /tmp/go_proto_val
+cat > buf.yaml << "BUF_EOF"
+version: v2
+modules:
+  - path: .
+    name: buf.build/jettison/jonp
+BUF_EOF
+
+# Create buf.gen.yaml for Go generation with validation
+cat > buf.gen.yaml << "BUF_EOF"
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: ""
+plugins:
+  - remote: buf.build/protocolbuffers/go:v1.36.6
+    out: /workspace/output
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go:v1.3.0
+    out: /workspace/output
+    opt: paths=source_relative
+BUF_EOF
+
+# Ensure output directory exists
+mkdir -p /workspace/output
+
+# Generate using buf
+echo "Generating Go bindings with buf.validate support using buf generate..."
+buf generate
+
+# Verify files were generated
+if [ -z "$(find /workspace/output -name "*.pb.go" -type f 2>/dev/null)" ]; then
+    echo "ERROR: No Go files were generated!"
+    exit 1
+fi
+echo "Go generation successful, found $(find /workspace/output -name "*.pb.go" -type f | wc -l) .pb.go files"
 '
 
 # Python generation script
@@ -299,7 +335,7 @@ echo "Building Rust proto generation..."
 cargo build
 '
 
-# Java generation script - generates with buf.validate support
+# Java generation script with buf.validate support
 JAVA_SCRIPT='
 set -ex  # Add -x for debugging
 # Create a temporary directory for proto files
@@ -335,55 +371,16 @@ echo "Running protoc..."
 protoc -I/tmp/java_proto_buf \
     --java_out=/workspace/output \
     /tmp/java_proto_buf/*.proto
+
+# Verify files were generated
+if [ -z "$(find /workspace/output -name "*.java" -type f 2>/dev/null)" ]; then
+    echo "ERROR: No Java files were generated!"
+    exit 1
+fi
+echo "Java generation successful, found $(find /workspace/output -name "*.java" -type f | wc -l) .java files"
 '
 
-# Go generation script with protovalidate using buf generate
-GO_VALIDATE_SCRIPT='
-set -e
-mkdir -p /tmp/go_proto_val
-
-# Copy proto files and add validate import
-for proto in proto/*.proto; do
-    cp "$proto" "/tmp/go_proto_val/$(basename "$proto")"
-    /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$(basename "$proto")"
-done
-
-# Copy validate.proto from protovalidate
-cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/go_proto_val/
-
-# Create buf.yaml for the generation
-cd /tmp/go_proto_val
-cat > buf.yaml << "BUF_EOF"
-version: v2
-modules:
-  - path: .
-    name: buf.build/jettison/jonp
-BUF_EOF
-
-# Create buf.gen.yaml for Go generation with validation
-cat > buf.gen.yaml << "BUF_EOF"
-version: v2
-managed:
-  enabled: true
-  override:
-    - file_option: go_package_prefix
-      value: ""
-plugins:
-  - remote: buf.build/protocolbuffers/go:v1.36.6
-    out: /workspace/output-validated
-    opt: paths=source_relative
-  - remote: buf.build/grpc/go:v1.3.0
-    out: /workspace/output-validated
-    opt: paths=source_relative
-BUF_EOF
-
-# Ensure output directory exists
-mkdir -p /workspace/output-validated
-
-# Generate using buf
-echo "Generating Go bindings with buf.validate support using buf generate..."
-buf generate
-'
+# REMOVED - Go validation is now in main GO_SCRIPT
 
 # Java validation script removed - Java now uses direct generation with annotations
 
@@ -530,46 +527,12 @@ done
 
 # Permissions are now set inside the Docker container after each generation
 
-# Run validated generations for supported languages (excluding Java)
-print_info "========== Generating Validated Bindings =========="
-
-# Only generate validated bindings for Go (Java now uses annotations directly)
-for lang in go; do
-    case $lang in
-        go) script="$GO_VALIDATE_SCRIPT" ;;
-    esac
-    
-    print_info "Generating validated $lang bindings..."
-    
-    # Modified script to set permissions inside container
-    local full_script="$script
-# Set permissions to 777 for all generated files
-find /workspace/output-validated -type f -exec chmod 777 {} + 2>/dev/null || true
-find /workspace/output-validated -type d -exec chmod 777 {} + 2>/dev/null || true"
-    
-    docker run --rm \
-        -v "$SCRIPT_DIR/proto:/workspace/proto:ro" \
-        -v "$SCRIPT_DIR/$VALIDATE_OUTPUT_DIR/$lang:/workspace/output-validated:rw" \
-        -v "$SCRIPT_DIR/scripts:/workspace/scripts:ro" \
-        -w /workspace \
-        "$DOCKER_IMAGE" \
-        -c "$full_script"
-    
-    if [ $? -eq 0 ]; then
-        print_info "Validated $lang generation completed successfully"
-    else
-        print_error "Validated $lang generation failed"
-        FAILED_LANGS+=("validated-$lang")
-    fi
-done
-
-# Permissions are now set inside the Docker container after each generation
+# No separate validated generation needed - Go and Java now use validation by default
 
 # Summary
 echo
 print_info "========== Generation Summary =========="
 print_info "Output directory: $OUTPUT_BASE_DIR"
-print_info "Validated output directory: $VALIDATE_OUTPUT_DIR"
 
 # Check what was generated
 for lang in c cpp go python typescript rust java json-descriptors; do
@@ -581,19 +544,8 @@ for lang in c cpp go python typescript rust java json-descriptors; do
     fi
 done
 
-# Check validated outputs
 print_info ""
-print_info "Validated bindings:"
-# Only Go has separate validated bindings now
-for lang in go; do
-    count=$(find "$VALIDATE_OUTPUT_DIR/$lang" -type f 2>/dev/null | wc -l)
-    if [ $count -gt 0 ]; then
-        print_info "validated $lang: $count files generated"
-    else
-        print_warning "validated $lang: No files generated"
-    fi
-done
-print_info "Note: Java now uses proto files with annotations directly"
+print_info "Note: Go and Java bindings now include buf.validate support by default"
 
 if [ ${#FAILED_LANGS[@]} -gt 0 ]; then
     print_error "Failed languages: ${FAILED_LANGS[*]}"

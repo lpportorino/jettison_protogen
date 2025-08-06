@@ -225,8 +225,7 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 ## Environment Variables
 
 - `PROTO_SOURCE_DIR`: Input directory (default: `../proto`)
-- `OUTPUT_BASE_DIR`: Standard output (default: `./output`)
-- `VALIDATE_OUTPUT_DIR`: Validated output (default: `./output-validated`)
+- `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
 - `REBUILD_IMAGE`: Force Docker rebuild (default: `false`)
 
 ## Known Limitations

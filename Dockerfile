@@ -7,7 +7,8 @@ WORKDIR /workspace
 
 # Copy helper scripts
 COPY scripts/proto_cleanup.awk /usr/local/bin/proto_cleanup.awk
-RUN chmod +x /usr/local/bin/proto_cleanup.awk
+COPY scripts/add-validate-import.sh /usr/local/bin/add-validate-import.sh
+RUN chmod +x /usr/local/bin/proto_cleanup.awk /usr/local/bin/add-validate-import.sh
 
 # Copy generation script and make it executable
 COPY generate-protos.sh /usr/local/bin/generate-protos.sh

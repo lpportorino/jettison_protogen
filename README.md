@@ -5,7 +5,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
-- **Buf.validate support**: Java generation now uses buf CLI for proper validation metadata embedding
+- **Buf.validate support**: Go and Java bindings include validation support by default
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Parallel generation**: Optimized for speed with parallel processing where applicable
 - **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them
@@ -81,28 +81,21 @@ REBUILD_IMAGE=true ./generate-protos.sh
 
 ## Output Structure
 
-Generated files are organized by language in two directories:
+Generated files are organized by language:
 
-### Standard Bindings (without validation annotations)
 ```
 output/
 ├── c/               # C bindings (nanopb)
 ├── cpp/             # C++ bindings
-├── go/              # Go bindings
+├── go/              # Go bindings with buf.validate support
 ├── python/          # Python bindings with type stubs
 ├── typescript/      # TypeScript bindings (ts-proto)
 ├── rust/            # Rust bindings (prost)
-├── java/            # Java bindings
+├── java/            # Java bindings with buf.validate support
 └── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations and CEL expressions
 ```
 
-### Validated Bindings (with buf.validate support)
-```
-output-validated/
-└── go/         # Go bindings with buf.validate annotations
-```
-
-**Note**: Java validation is now handled directly in the standard bindings using buf CLI, which properly embeds validation metadata. Use the protovalidate-java runtime library for validation.
+**Note**: Go and Java bindings now include buf.validate support by default. Use the respective protovalidate runtime libraries for validation.
 
 
 ## Language-Specific Features
@@ -113,13 +106,13 @@ output-validated/
 - Generates `.pb.c` and `.pb.h` files
 
 ### Go
-- Standard bindings without validation code
-- Validated bindings include protoc-gen-validate support
-- Both versions generate with gRPC support
+- Generated using buf with buf.validate annotations preserved
+- Includes gRPC support
+- Runtime validation requires protovalidate-go library
 
 ### Java
-- Generated using buf CLI for proper buf.validate metadata embedding
-- Validation annotations are preserved in the generated code
+- Generated using protoc with buf.validate annotations preserved
+- Validation metadata embedded in the generated code
 - Java 17+ compatible code
 - Runtime validation requires protovalidate-java library
 
@@ -157,8 +150,7 @@ output-validated/
 ### Environment Variables
 
 - `PROTO_SOURCE_DIR`: Source proto directory (default: `../proto`)
-- `OUTPUT_BASE_DIR`: Standard output directory (default: `./output`)
-- `VALIDATE_OUTPUT_DIR`: Validated output directory (default: `./output-validated`)
+- `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
 - `REBUILD_IMAGE`: Force Docker image rebuild (default: `false`)
 
 ### Pre-built Base Image

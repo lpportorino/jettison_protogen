@@ -7,7 +7,6 @@ DOCKER_IMAGE := jettison-proto-generator:latest
 BASE_IMAGE_ARCHIVE := jettison-proto-generator-base.tar.gz
 PROTO_SOURCE_DIR ?= ./proto
 OUTPUT_BASE_DIR ?= ./output
-VALIDATE_OUTPUT_DIR ?= ./output-validated
 
 # Colors for output
 GREEN := \033[0;32m
@@ -28,8 +27,7 @@ help: ## Show this help message
 	@echo ""
 	@echo "Environment Variables:"
 	@echo "  PROTO_SOURCE_DIR      Source proto directory (default: ./proto)"
-	@echo "  OUTPUT_BASE_DIR       Standard output directory (default: ./output)"
-	@echo "  VALIDATE_OUTPUT_DIR   Validated output directory (default: ./output-validated)"
+	@echo "  OUTPUT_BASE_DIR       Output directory (default: ./output)"
 	@echo ""
 	@echo "Examples:"
 	@echo "  make generate                    # Build image and generate all bindings"
@@ -81,7 +79,6 @@ generate: build ## Generate protocol buffer bindings for all languages
 	@echo "$(GREEN)Generating protocol buffer bindings...$(NC)"
 	@PROTO_SOURCE_DIR=$(PROTO_SOURCE_DIR) \
 	 OUTPUT_BASE_DIR=$(OUTPUT_BASE_DIR) \
-	 VALIDATE_OUTPUT_DIR=$(VALIDATE_OUTPUT_DIR) \
 	 ./generate-protos.sh
 
 .PHONY: rebuild
@@ -97,9 +94,6 @@ clean: ## Remove all generated files (preserves proto directory)
 	@echo "$(YELLOW)Removing generated files...$(NC)"
 	@if [ -d "$(OUTPUT_BASE_DIR)" ]; then \
 		rm -rf $(OUTPUT_BASE_DIR); \
-	fi
-	@if [ -d "$(VALIDATE_OUTPUT_DIR)" ]; then \
-		rm -rf $(VALIDATE_OUTPUT_DIR); \
 	fi
 	@echo "$(GREEN)Generated files removed$(NC)"
 	@echo "$(GREEN)Proto files preserved$(NC)"
@@ -126,7 +120,6 @@ test: ## Run a simple test generation with test proto
 	@mkdir -p test-output
 	@PROTO_SOURCE_DIR=./test-proto \
 	 OUTPUT_BASE_DIR=./test-output \
-	 VALIDATE_OUTPUT_DIR=./test-output-validated \
 	 ./generate-protos.sh
 	@echo "$(GREEN)Test complete - check test-output directory$(NC)"
 
