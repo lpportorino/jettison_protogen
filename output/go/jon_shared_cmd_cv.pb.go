@@ -36,6 +36,8 @@ type Root struct {
 	//	*Root_StabilizationModeDisable
 	//	*Root_DumpStart
 	//	*Root_DumpStop
+	//	*Root_RecognitionModeEnable
+	//	*Root_RecognitionModeDisable
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -159,6 +161,24 @@ func (x *Root) GetDumpStop() *DumpStop {
 	return nil
 }
 
+func (x *Root) GetRecognitionModeEnable() *RecognitionModeEnable {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_RecognitionModeEnable); ok {
+			return x.RecognitionModeEnable
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetRecognitionModeDisable() *RecognitionModeDisable {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_RecognitionModeDisable); ok {
+			return x.RecognitionModeDisable
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -199,6 +219,14 @@ type Root_DumpStop struct {
 	DumpStop *DumpStop `protobuf:"bytes,9,opt,name=dump_stop,json=dumpStop,proto3,oneof"`
 }
 
+type Root_RecognitionModeEnable struct {
+	RecognitionModeEnable *RecognitionModeEnable `protobuf:"bytes,10,opt,name=recognition_mode_enable,json=recognitionModeEnable,proto3,oneof"`
+}
+
+type Root_RecognitionModeDisable struct {
+	RecognitionModeDisable *RecognitionModeDisable `protobuf:"bytes,11,opt,name=recognition_mode_disable,json=recognitionModeDisable,proto3,oneof"`
+}
+
 func (*Root_SetAutoFocus) isRoot_Cmd() {}
 
 func (*Root_StartTrackNdc) isRoot_Cmd() {}
@@ -216,6 +244,10 @@ func (*Root_StabilizationModeDisable) isRoot_Cmd() {}
 func (*Root_DumpStart) isRoot_Cmd() {}
 
 func (*Root_DumpStop) isRoot_Cmd() {}
+
+func (*Root_RecognitionModeEnable) isRoot_Cmd() {}
+
+func (*Root_RecognitionModeDisable) isRoot_Cmd() {}
 
 type VampireModeEnable struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -433,6 +465,78 @@ func (*StabilizationModeDisable) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{6}
 }
 
+type RecognitionModeEnable struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RecognitionModeEnable) Reset() {
+	*x = RecognitionModeEnable{}
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RecognitionModeEnable) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecognitionModeEnable) ProtoMessage() {}
+
+func (x *RecognitionModeEnable) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecognitionModeEnable.ProtoReflect.Descriptor instead.
+func (*RecognitionModeEnable) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{7}
+}
+
+type RecognitionModeDisable struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RecognitionModeDisable) Reset() {
+	*x = RecognitionModeDisable{}
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RecognitionModeDisable) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RecognitionModeDisable) ProtoMessage() {}
+
+func (x *RecognitionModeDisable) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RecognitionModeDisable.ProtoReflect.Descriptor instead.
+func (*RecognitionModeDisable) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{8}
+}
+
 type SetAutoFocus struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
 	Channel       types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
@@ -443,7 +547,7 @@ type SetAutoFocus struct {
 
 func (x *SetAutoFocus) Reset() {
 	*x = SetAutoFocus{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -455,7 +559,7 @@ func (x *SetAutoFocus) String() string {
 func (*SetAutoFocus) ProtoMessage() {}
 
 func (x *SetAutoFocus) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[7]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -468,7 +572,7 @@ func (x *SetAutoFocus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetAutoFocus.ProtoReflect.Descriptor instead.
 func (*SetAutoFocus) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{7}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *SetAutoFocus) GetChannel() types.JonGuiDataVideoChannel {
@@ -497,7 +601,7 @@ type StartTrackNDC struct {
 
 func (x *StartTrackNDC) Reset() {
 	*x = StartTrackNDC{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -509,7 +613,7 @@ func (x *StartTrackNDC) String() string {
 func (*StartTrackNDC) ProtoMessage() {}
 
 func (x *StartTrackNDC) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[8]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -522,7 +626,7 @@ func (x *StartTrackNDC) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartTrackNDC.ProtoReflect.Descriptor instead.
 func (*StartTrackNDC) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{8}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *StartTrackNDC) GetChannel() types.JonGuiDataVideoChannel {
@@ -561,7 +665,7 @@ type StopTrack struct {
 
 func (x *StopTrack) Reset() {
 	*x = StopTrack{}
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -573,7 +677,7 @@ func (x *StopTrack) String() string {
 func (*StopTrack) ProtoMessage() {}
 
 func (x *StopTrack) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_cv_proto_msgTypes[9]
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -586,14 +690,14 @@ func (x *StopTrack) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopTrack.ProtoReflect.Descriptor instead.
 func (*StopTrack) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{9}
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{11}
 }
 
 var File_jon_shared_cmd_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x17jon_shared_cmd_cv.proto\x12\x06cmd.CV\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x8a\x05\n" +
+	"\x17jon_shared_cmd_cv.proto\x12\x06cmd.CV\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xbf\x06\n" +
 	"\x04Root\x12<\n" +
 	"\x0eset_auto_focus\x18\x01 \x01(\v2\x14.cmd.CV.SetAutoFocusH\x00R\fsetAutoFocus\x12?\n" +
 	"\x0fstart_track_ndc\x18\x02 \x01(\v2\x15.cmd.CV.StartTrackNDCH\x00R\rstartTrackNdc\x122\n" +
@@ -605,7 +709,10 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\x1astabilization_mode_disable\x18\a \x01(\v2 .cmd.CV.StabilizationModeDisableH\x00R\x18stabilizationModeDisable\x122\n" +
 	"\n" +
 	"dump_start\x18\b \x01(\v2\x11.cmd.CV.DumpStartH\x00R\tdumpStart\x12/\n" +
-	"\tdump_stop\x18\t \x01(\v2\x10.cmd.CV.DumpStopH\x00R\bdumpStopB\f\n" +
+	"\tdump_stop\x18\t \x01(\v2\x10.cmd.CV.DumpStopH\x00R\bdumpStop\x12W\n" +
+	"\x17recognition_mode_enable\x18\n" +
+	" \x01(\v2\x1d.cmd.CV.RecognitionModeEnableH\x00R\x15recognitionModeEnable\x12Z\n" +
+	"\x18recognition_mode_disable\x18\v \x01(\v2\x1e.cmd.CV.RecognitionModeDisableH\x00R\x16recognitionModeDisableB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\x13\n" +
 	"\x11VampireModeEnable\"\v\n" +
 	"\tDumpStart\"\n" +
@@ -613,7 +720,9 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\bDumpStop\"\x14\n" +
 	"\x12VampireModeDisable\"\x19\n" +
 	"\x17StabilizationModeEnable\"\x1a\n" +
-	"\x18StabilizationModeDisable\"g\n" +
+	"\x18StabilizationModeDisable\"\x17\n" +
+	"\x15RecognitionModeEnable\"\x18\n" +
+	"\x16RecognitionModeDisable\"g\n" +
 	"\fSetAutoFocus\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12\x14\n" +
@@ -645,7 +754,7 @@ func file_jon_shared_cmd_cv_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_cv_proto_rawDescData
 }
 
-var file_jon_shared_cmd_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_jon_shared_cmd_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_jon_shared_cmd_cv_proto_goTypes = []any{
 	(*Root)(nil),                      // 0: cmd.CV.Root
 	(*VampireModeEnable)(nil),         // 1: cmd.CV.VampireModeEnable
@@ -654,28 +763,32 @@ var file_jon_shared_cmd_cv_proto_goTypes = []any{
 	(*VampireModeDisable)(nil),        // 4: cmd.CV.VampireModeDisable
 	(*StabilizationModeEnable)(nil),   // 5: cmd.CV.StabilizationModeEnable
 	(*StabilizationModeDisable)(nil),  // 6: cmd.CV.StabilizationModeDisable
-	(*SetAutoFocus)(nil),              // 7: cmd.CV.SetAutoFocus
-	(*StartTrackNDC)(nil),             // 8: cmd.CV.StartTrackNDC
-	(*StopTrack)(nil),                 // 9: cmd.CV.StopTrack
-	(types.JonGuiDataVideoChannel)(0), // 10: ser.JonGuiDataVideoChannel
+	(*RecognitionModeEnable)(nil),     // 7: cmd.CV.RecognitionModeEnable
+	(*RecognitionModeDisable)(nil),    // 8: cmd.CV.RecognitionModeDisable
+	(*SetAutoFocus)(nil),              // 9: cmd.CV.SetAutoFocus
+	(*StartTrackNDC)(nil),             // 10: cmd.CV.StartTrackNDC
+	(*StopTrack)(nil),                 // 11: cmd.CV.StopTrack
+	(types.JonGuiDataVideoChannel)(0), // 12: ser.JonGuiDataVideoChannel
 }
 var file_jon_shared_cmd_cv_proto_depIdxs = []int32{
-	7,  // 0: cmd.CV.Root.set_auto_focus:type_name -> cmd.CV.SetAutoFocus
-	8,  // 1: cmd.CV.Root.start_track_ndc:type_name -> cmd.CV.StartTrackNDC
-	9,  // 2: cmd.CV.Root.stop_track:type_name -> cmd.CV.StopTrack
+	9,  // 0: cmd.CV.Root.set_auto_focus:type_name -> cmd.CV.SetAutoFocus
+	10, // 1: cmd.CV.Root.start_track_ndc:type_name -> cmd.CV.StartTrackNDC
+	11, // 2: cmd.CV.Root.stop_track:type_name -> cmd.CV.StopTrack
 	1,  // 3: cmd.CV.Root.vampire_mode_enable:type_name -> cmd.CV.VampireModeEnable
 	4,  // 4: cmd.CV.Root.vampire_mode_disable:type_name -> cmd.CV.VampireModeDisable
 	5,  // 5: cmd.CV.Root.stabilization_mode_enable:type_name -> cmd.CV.StabilizationModeEnable
 	6,  // 6: cmd.CV.Root.stabilization_mode_disable:type_name -> cmd.CV.StabilizationModeDisable
 	2,  // 7: cmd.CV.Root.dump_start:type_name -> cmd.CV.DumpStart
 	3,  // 8: cmd.CV.Root.dump_stop:type_name -> cmd.CV.DumpStop
-	10, // 9: cmd.CV.SetAutoFocus.channel:type_name -> ser.JonGuiDataVideoChannel
-	10, // 10: cmd.CV.StartTrackNDC.channel:type_name -> ser.JonGuiDataVideoChannel
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	7,  // 9: cmd.CV.Root.recognition_mode_enable:type_name -> cmd.CV.RecognitionModeEnable
+	8,  // 10: cmd.CV.Root.recognition_mode_disable:type_name -> cmd.CV.RecognitionModeDisable
+	12, // 11: cmd.CV.SetAutoFocus.channel:type_name -> ser.JonGuiDataVideoChannel
+	12, // 12: cmd.CV.StartTrackNDC.channel:type_name -> ser.JonGuiDataVideoChannel
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_cv_proto_init() }
@@ -693,6 +806,8 @@ func file_jon_shared_cmd_cv_proto_init() {
 		(*Root_StabilizationModeDisable)(nil),
 		(*Root_DumpStart)(nil),
 		(*Root_DumpStop)(nil),
+		(*Root_RecognitionModeEnable)(nil),
+		(*Root_RecognitionModeDisable)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -700,7 +815,7 @@ func file_jon_shared_cmd_cv_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_cv_proto_rawDesc), len(file_jon_shared_cmd_cv_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

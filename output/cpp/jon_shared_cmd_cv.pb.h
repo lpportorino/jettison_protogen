@@ -61,6 +61,12 @@ extern DumpStartDefaultTypeInternal _DumpStart_default_instance_;
 class DumpStop;
 struct DumpStopDefaultTypeInternal;
 extern DumpStopDefaultTypeInternal _DumpStop_default_instance_;
+class RecognitionModeDisable;
+struct RecognitionModeDisableDefaultTypeInternal;
+extern RecognitionModeDisableDefaultTypeInternal _RecognitionModeDisable_default_instance_;
+class RecognitionModeEnable;
+struct RecognitionModeEnableDefaultTypeInternal;
+extern RecognitionModeEnableDefaultTypeInternal _RecognitionModeEnable_default_instance_;
 class Root;
 struct RootDefaultTypeInternal;
 extern RootDefaultTypeInternal _Root_default_instance_;
@@ -448,7 +454,7 @@ class StopTrack final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const StopTrack*>(
         &_StopTrack_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(StopTrack& a, StopTrack& b) { a.Swap(&b); }
   inline void Swap(StopTrack* other) {
     if (other == this) return;
@@ -594,7 +600,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
     return reinterpret_cast<const StartTrackNDC*>(
         &_StartTrackNDC_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(StartTrackNDC& a, StartTrackNDC& b) { a.Swap(&b); }
   inline void Swap(StartTrackNDC* other) {
     if (other == this) return;
@@ -1110,7 +1116,7 @@ class SetAutoFocus final : public ::google::protobuf::Message
     return reinterpret_cast<const SetAutoFocus*>(
         &_SetAutoFocus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(SetAutoFocus& a, SetAutoFocus& b) { a.Swap(&b); }
   inline void Swap(SetAutoFocus* other) {
     if (other == this) return;
@@ -1249,6 +1255,296 @@ class SetAutoFocus final : public ::google::protobuf::Message
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RecognitionModeEnable final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.CV.RecognitionModeEnable) */ {
+ public:
+  inline RecognitionModeEnable() : RecognitionModeEnable(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(RecognitionModeEnable* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(RecognitionModeEnable));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR RecognitionModeEnable(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline RecognitionModeEnable(const RecognitionModeEnable& from) : RecognitionModeEnable(nullptr, from) {}
+  inline RecognitionModeEnable(RecognitionModeEnable&& from) noexcept
+      : RecognitionModeEnable(nullptr, std::move(from)) {}
+  inline RecognitionModeEnable& operator=(const RecognitionModeEnable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RecognitionModeEnable& operator=(RecognitionModeEnable&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RecognitionModeEnable& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RecognitionModeEnable* internal_default_instance() {
+    return reinterpret_cast<const RecognitionModeEnable*>(
+        &_RecognitionModeEnable_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(RecognitionModeEnable& a, RecognitionModeEnable& b) { a.Swap(&b); }
+  inline void Swap(RecognitionModeEnable* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RecognitionModeEnable* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RecognitionModeEnable* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<RecognitionModeEnable>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const RecognitionModeEnable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const RecognitionModeEnable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.CV.RecognitionModeEnable"; }
+
+ protected:
+  explicit RecognitionModeEnable(::google::protobuf::Arena* arena);
+  RecognitionModeEnable(::google::protobuf::Arena* arena, const RecognitionModeEnable& from);
+  RecognitionModeEnable(::google::protobuf::Arena* arena, RecognitionModeEnable&& from) noexcept
+      : RecognitionModeEnable(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.CV.RecognitionModeEnable)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const RecognitionModeEnable& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RecognitionModeDisable final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.CV.RecognitionModeDisable) */ {
+ public:
+  inline RecognitionModeDisable() : RecognitionModeDisable(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(RecognitionModeDisable* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(RecognitionModeDisable));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR RecognitionModeDisable(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline RecognitionModeDisable(const RecognitionModeDisable& from) : RecognitionModeDisable(nullptr, from) {}
+  inline RecognitionModeDisable(RecognitionModeDisable&& from) noexcept
+      : RecognitionModeDisable(nullptr, std::move(from)) {}
+  inline RecognitionModeDisable& operator=(const RecognitionModeDisable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RecognitionModeDisable& operator=(RecognitionModeDisable&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RecognitionModeDisable& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RecognitionModeDisable* internal_default_instance() {
+    return reinterpret_cast<const RecognitionModeDisable*>(
+        &_RecognitionModeDisable_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 8;
+  friend void swap(RecognitionModeDisable& a, RecognitionModeDisable& b) { a.Swap(&b); }
+  inline void Swap(RecognitionModeDisable* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RecognitionModeDisable* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RecognitionModeDisable* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<RecognitionModeDisable>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const RecognitionModeDisable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const RecognitionModeDisable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.CV.RecognitionModeDisable"; }
+
+ protected:
+  explicit RecognitionModeDisable(::google::protobuf::Arena* arena);
+  RecognitionModeDisable(::google::protobuf::Arena* arena, const RecognitionModeDisable& from);
+  RecognitionModeDisable(::google::protobuf::Arena* arena, RecognitionModeDisable&& from) noexcept
+      : RecognitionModeDisable(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.CV.RecognitionModeDisable)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const RecognitionModeDisable& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1608,6 +1904,8 @@ class Root final : public ::google::protobuf::Message
     kStabilizationModeDisable = 7,
     kDumpStart = 8,
     kDumpStop = 9,
+    kRecognitionModeEnable = 10,
+    kRecognitionModeDisable = 11,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -1710,6 +2008,8 @@ class Root final : public ::google::protobuf::Message
     kStabilizationModeDisableFieldNumber = 7,
     kDumpStartFieldNumber = 8,
     kDumpStopFieldNumber = 9,
+    kRecognitionModeEnableFieldNumber = 10,
+    kRecognitionModeDisableFieldNumber = 11,
   };
   // .cmd.CV.SetAutoFocus set_auto_focus = 1;
   bool has_set_auto_focus() const;
@@ -1882,6 +2182,44 @@ class Root final : public ::google::protobuf::Message
   ::cmd::CV::DumpStop* _internal_mutable_dump_stop();
 
   public:
+  // .cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;
+  bool has_recognition_mode_enable() const;
+  private:
+  bool _internal_has_recognition_mode_enable() const;
+
+  public:
+  void clear_recognition_mode_enable() ;
+  const ::cmd::CV::RecognitionModeEnable& recognition_mode_enable() const;
+  PROTOBUF_NODISCARD ::cmd::CV::RecognitionModeEnable* release_recognition_mode_enable();
+  ::cmd::CV::RecognitionModeEnable* mutable_recognition_mode_enable();
+  void set_allocated_recognition_mode_enable(::cmd::CV::RecognitionModeEnable* value);
+  void unsafe_arena_set_allocated_recognition_mode_enable(::cmd::CV::RecognitionModeEnable* value);
+  ::cmd::CV::RecognitionModeEnable* unsafe_arena_release_recognition_mode_enable();
+
+  private:
+  const ::cmd::CV::RecognitionModeEnable& _internal_recognition_mode_enable() const;
+  ::cmd::CV::RecognitionModeEnable* _internal_mutable_recognition_mode_enable();
+
+  public:
+  // .cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;
+  bool has_recognition_mode_disable() const;
+  private:
+  bool _internal_has_recognition_mode_disable() const;
+
+  public:
+  void clear_recognition_mode_disable() ;
+  const ::cmd::CV::RecognitionModeDisable& recognition_mode_disable() const;
+  PROTOBUF_NODISCARD ::cmd::CV::RecognitionModeDisable* release_recognition_mode_disable();
+  ::cmd::CV::RecognitionModeDisable* mutable_recognition_mode_disable();
+  void set_allocated_recognition_mode_disable(::cmd::CV::RecognitionModeDisable* value);
+  void unsafe_arena_set_allocated_recognition_mode_disable(::cmd::CV::RecognitionModeDisable* value);
+  ::cmd::CV::RecognitionModeDisable* unsafe_arena_release_recognition_mode_disable();
+
+  private:
+  const ::cmd::CV::RecognitionModeDisable& _internal_recognition_mode_disable() const;
+  ::cmd::CV::RecognitionModeDisable* _internal_mutable_recognition_mode_disable();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.CV.Root)
@@ -1896,11 +2234,13 @@ class Root final : public ::google::protobuf::Message
   void set_has_stabilization_mode_disable();
   void set_has_dump_start();
   void set_has_dump_stop();
+  void set_has_recognition_mode_enable();
+  void set_has_recognition_mode_disable();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 9, 9,
+      0, 11, 11,
       0, 2>
       _table_;
 
@@ -1930,6 +2270,8 @@ class Root final : public ::google::protobuf::Message
       ::cmd::CV::StabilizationModeDisable* stabilization_mode_disable_;
       ::cmd::CV::DumpStart* dump_start_;
       ::cmd::CV::DumpStop* dump_stop_;
+      ::cmd::CV::RecognitionModeEnable* recognition_mode_enable_;
+      ::cmd::CV::RecognitionModeDisable* recognition_mode_disable_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2666,6 +3008,164 @@ inline ::cmd::CV::DumpStop* Root::mutable_dump_stop() ABSL_ATTRIBUTE_LIFETIME_BO
   return _msg;
 }
 
+// .cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;
+inline bool Root::has_recognition_mode_enable() const {
+  return cmd_case() == kRecognitionModeEnable;
+}
+inline bool Root::_internal_has_recognition_mode_enable() const {
+  return cmd_case() == kRecognitionModeEnable;
+}
+inline void Root::set_has_recognition_mode_enable() {
+  _impl_._oneof_case_[0] = kRecognitionModeEnable;
+}
+inline void Root::clear_recognition_mode_enable() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kRecognitionModeEnable) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.recognition_mode_enable_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.recognition_mode_enable_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::CV::RecognitionModeEnable* Root::release_recognition_mode_enable() {
+  // @@protoc_insertion_point(field_release:cmd.CV.Root.recognition_mode_enable)
+  if (cmd_case() == kRecognitionModeEnable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.recognition_mode_enable_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.recognition_mode_enable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::CV::RecognitionModeEnable& Root::_internal_recognition_mode_enable() const {
+  return cmd_case() == kRecognitionModeEnable ? *_impl_.cmd_.recognition_mode_enable_ : reinterpret_cast<::cmd::CV::RecognitionModeEnable&>(::cmd::CV::_RecognitionModeEnable_default_instance_);
+}
+inline const ::cmd::CV::RecognitionModeEnable& Root::recognition_mode_enable() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.CV.Root.recognition_mode_enable)
+  return _internal_recognition_mode_enable();
+}
+inline ::cmd::CV::RecognitionModeEnable* Root::unsafe_arena_release_recognition_mode_enable() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.CV.Root.recognition_mode_enable)
+  if (cmd_case() == kRecognitionModeEnable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.recognition_mode_enable_;
+    _impl_.cmd_.recognition_mode_enable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_recognition_mode_enable(::cmd::CV::RecognitionModeEnable* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_recognition_mode_enable();
+    _impl_.cmd_.recognition_mode_enable_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.CV.Root.recognition_mode_enable)
+}
+inline ::cmd::CV::RecognitionModeEnable* Root::_internal_mutable_recognition_mode_enable() {
+  if (cmd_case() != kRecognitionModeEnable) {
+    clear_cmd();
+    set_has_recognition_mode_enable();
+    _impl_.cmd_.recognition_mode_enable_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::CV::RecognitionModeEnable>(GetArena());
+  }
+  return _impl_.cmd_.recognition_mode_enable_;
+}
+inline ::cmd::CV::RecognitionModeEnable* Root::mutable_recognition_mode_enable() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::CV::RecognitionModeEnable* _msg = _internal_mutable_recognition_mode_enable();
+  // @@protoc_insertion_point(field_mutable:cmd.CV.Root.recognition_mode_enable)
+  return _msg;
+}
+
+// .cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;
+inline bool Root::has_recognition_mode_disable() const {
+  return cmd_case() == kRecognitionModeDisable;
+}
+inline bool Root::_internal_has_recognition_mode_disable() const {
+  return cmd_case() == kRecognitionModeDisable;
+}
+inline void Root::set_has_recognition_mode_disable() {
+  _impl_._oneof_case_[0] = kRecognitionModeDisable;
+}
+inline void Root::clear_recognition_mode_disable() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kRecognitionModeDisable) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.recognition_mode_disable_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.recognition_mode_disable_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::CV::RecognitionModeDisable* Root::release_recognition_mode_disable() {
+  // @@protoc_insertion_point(field_release:cmd.CV.Root.recognition_mode_disable)
+  if (cmd_case() == kRecognitionModeDisable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.recognition_mode_disable_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.recognition_mode_disable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::CV::RecognitionModeDisable& Root::_internal_recognition_mode_disable() const {
+  return cmd_case() == kRecognitionModeDisable ? *_impl_.cmd_.recognition_mode_disable_ : reinterpret_cast<::cmd::CV::RecognitionModeDisable&>(::cmd::CV::_RecognitionModeDisable_default_instance_);
+}
+inline const ::cmd::CV::RecognitionModeDisable& Root::recognition_mode_disable() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.CV.Root.recognition_mode_disable)
+  return _internal_recognition_mode_disable();
+}
+inline ::cmd::CV::RecognitionModeDisable* Root::unsafe_arena_release_recognition_mode_disable() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.CV.Root.recognition_mode_disable)
+  if (cmd_case() == kRecognitionModeDisable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.recognition_mode_disable_;
+    _impl_.cmd_.recognition_mode_disable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_recognition_mode_disable(::cmd::CV::RecognitionModeDisable* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_recognition_mode_disable();
+    _impl_.cmd_.recognition_mode_disable_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.CV.Root.recognition_mode_disable)
+}
+inline ::cmd::CV::RecognitionModeDisable* Root::_internal_mutable_recognition_mode_disable() {
+  if (cmd_case() != kRecognitionModeDisable) {
+    clear_cmd();
+    set_has_recognition_mode_disable();
+    _impl_.cmd_.recognition_mode_disable_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::CV::RecognitionModeDisable>(GetArena());
+  }
+  return _impl_.cmd_.recognition_mode_disable_;
+}
+inline ::cmd::CV::RecognitionModeDisable* Root::mutable_recognition_mode_disable() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::CV::RecognitionModeDisable* _msg = _internal_mutable_recognition_mode_disable();
+  // @@protoc_insertion_point(field_mutable:cmd.CV.Root.recognition_mode_disable)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -2698,6 +3198,14 @@ inline Root::CmdCase Root::cmd_case() const {
 // -------------------------------------------------------------------
 
 // StabilizationModeDisable
+
+// -------------------------------------------------------------------
+
+// RecognitionModeEnable
+
+// -------------------------------------------------------------------
+
+// RecognitionModeDisable
 
 // -------------------------------------------------------------------
 

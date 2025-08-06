@@ -27,6 +27,12 @@ PB_BIND(cmd_CV_StabilizationModeEnable, cmd_CV_StabilizationModeEnable, AUTO)
 PB_BIND(cmd_CV_StabilizationModeDisable, cmd_CV_StabilizationModeDisable, AUTO)
 
 
+PB_BIND(cmd_CV_RecognitionModeEnable, cmd_CV_RecognitionModeEnable, AUTO)
+
+
+PB_BIND(cmd_CV_RecognitionModeDisable, cmd_CV_RecognitionModeDisable, AUTO)
+
+
 PB_BIND(cmd_CV_SetAutoFocus, cmd_CV_SetAutoFocus, AUTO)
 
 

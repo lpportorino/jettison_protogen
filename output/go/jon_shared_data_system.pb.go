@@ -47,6 +47,7 @@ type JonGuiDataSystem struct {
 	StabilizationMode    bool                                `protobuf:"varint,20,opt,name=stabilization_mode,json=stabilizationMode,proto3" json:"stabilization_mode,omitempty"`
 	GeodesicMode         bool                                `protobuf:"varint,21,opt,name=geodesic_mode,json=geodesicMode,proto3" json:"geodesic_mode,omitempty"`
 	CvDumping            bool                                `protobuf:"varint,22,opt,name=cv_dumping,json=cvDumping,proto3" json:"cv_dumping,omitempty"`
+	RecognitionMode      bool                                `protobuf:"varint,23,opt,name=recognition_mode,json=recognitionMode,proto3" json:"recognition_mode,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -235,11 +236,18 @@ func (x *JonGuiDataSystem) GetCvDumping() bool {
 	return false
 }
 
+func (x *JonGuiDataSystem) GetRecognitionMode() bool {
+	if x != nil {
+		return x.RecognitionMode
+	}
+	return false
+}
+
 var File_jon_shared_data_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9f\t\n" +
+	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xca\t\n" +
 	"\x10JonGuiDataSystem\x12G\n" +
 	"\x0fcpu_temperature\x18\x01 \x01(\x02B\x1e\xbaH\x1b\n" +
 	"\x19M\x00\x00\xccAM\x00\x00pBM\x00\x00\xa1B\x1d\x00\x00\x16C-3\x93\x88\xc3R\x0ecpuTemperature\x12G\n" +
@@ -272,7 +280,8 @@ const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\x12stabilization_mode\x18\x14 \x01(\bR\x11stabilizationMode\x12#\n" +
 	"\rgeodesic_mode\x18\x15 \x01(\bR\fgeodesicMode\x12\x1d\n" +
 	"\n" +
-	"cv_dumping\x18\x16 \x01(\bR\tcvDumpingB\x9d\x01\n" +
+	"cv_dumping\x18\x16 \x01(\bR\tcvDumping\x12)\n" +
+	"\x10recognition_mode\x18\x17 \x01(\bR\x0frecognitionModeB\x9d\x01\n" +
 	"\acom.serB\x18JonSharedDataSystemProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/system\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

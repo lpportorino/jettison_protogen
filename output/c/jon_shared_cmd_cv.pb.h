@@ -35,6 +35,14 @@ typedef struct _cmd_CV_StabilizationModeDisable {
     char dummy_field;
 } cmd_CV_StabilizationModeDisable;
 
+typedef struct _cmd_CV_RecognitionModeEnable {
+    char dummy_field;
+} cmd_CV_RecognitionModeEnable;
+
+typedef struct _cmd_CV_RecognitionModeDisable {
+    char dummy_field;
+} cmd_CV_RecognitionModeDisable;
+
 typedef struct _cmd_CV_SetAutoFocus {
     ser_JonGuiDataVideoChannel channel;
     bool value;
@@ -63,6 +71,8 @@ typedef struct _cmd_CV_Root {
         cmd_CV_StabilizationModeDisable stabilization_mode_disable;
         cmd_CV_DumpStart dump_start;
         cmd_CV_DumpStop dump_stop;
+        cmd_CV_RecognitionModeEnable recognition_mode_enable;
+        cmd_CV_RecognitionModeDisable recognition_mode_disable;
     } cmd;
 } cmd_CV_Root;
 
@@ -79,6 +89,8 @@ extern "C" {
 #define cmd_CV_VampireModeDisable_init_default   {0}
 #define cmd_CV_StabilizationModeEnable_init_default {0}
 #define cmd_CV_StabilizationModeDisable_init_default {0}
+#define cmd_CV_RecognitionModeEnable_init_default {0}
+#define cmd_CV_RecognitionModeDisable_init_default {0}
 #define cmd_CV_SetAutoFocus_init_default         {_ser_JonGuiDataVideoChannel_MIN, 0}
 #define cmd_CV_StartTrackNDC_init_default        {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0}
 #define cmd_CV_StopTrack_init_default            {0}
@@ -89,6 +101,8 @@ extern "C" {
 #define cmd_CV_VampireModeDisable_init_zero      {0}
 #define cmd_CV_StabilizationModeEnable_init_zero {0}
 #define cmd_CV_StabilizationModeDisable_init_zero {0}
+#define cmd_CV_RecognitionModeEnable_init_zero   {0}
+#define cmd_CV_RecognitionModeDisable_init_zero  {0}
 #define cmd_CV_SetAutoFocus_init_zero            {_ser_JonGuiDataVideoChannel_MIN, 0}
 #define cmd_CV_StartTrackNDC_init_zero           {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0}
 #define cmd_CV_StopTrack_init_zero               {0}
@@ -109,6 +123,8 @@ extern "C" {
 #define cmd_CV_Root_stabilization_mode_disable_tag 7
 #define cmd_CV_Root_dump_start_tag               8
 #define cmd_CV_Root_dump_stop_tag                9
+#define cmd_CV_Root_recognition_mode_enable_tag  10
+#define cmd_CV_Root_recognition_mode_disable_tag 11
 
 /* Struct field encoding specification for nanopb */
 #define cmd_CV_Root_FIELDLIST(X, a) \
@@ -120,7 +136,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,vampire_mode_disable,cmd.vampire_mode_di
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stabilization_mode_enable,cmd.stabilization_mode_enable),   6) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stabilization_mode_disable,cmd.stabilization_mode_disable),   7) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_start,cmd.dump_start),   8) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_stop,cmd.dump_stop),   9)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_stop,cmd.dump_stop),   9) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_enable,cmd.recognition_mode_enable),  10) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_disable,cmd.recognition_mode_disable),  11)
 #define cmd_CV_Root_CALLBACK NULL
 #define cmd_CV_Root_DEFAULT NULL
 #define cmd_CV_Root_cmd_set_auto_focus_MSGTYPE cmd_CV_SetAutoFocus
@@ -132,6 +150,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_stop,cmd.dump_stop),   9)
 #define cmd_CV_Root_cmd_stabilization_mode_disable_MSGTYPE cmd_CV_StabilizationModeDisable
 #define cmd_CV_Root_cmd_dump_start_MSGTYPE cmd_CV_DumpStart
 #define cmd_CV_Root_cmd_dump_stop_MSGTYPE cmd_CV_DumpStop
+#define cmd_CV_Root_cmd_recognition_mode_enable_MSGTYPE cmd_CV_RecognitionModeEnable
+#define cmd_CV_Root_cmd_recognition_mode_disable_MSGTYPE cmd_CV_RecognitionModeDisable
 
 #define cmd_CV_VampireModeEnable_FIELDLIST(X, a) \
 
@@ -163,6 +183,16 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_stop,cmd.dump_stop),   9)
 #define cmd_CV_StabilizationModeDisable_CALLBACK NULL
 #define cmd_CV_StabilizationModeDisable_DEFAULT NULL
 
+#define cmd_CV_RecognitionModeEnable_FIELDLIST(X, a) \
+
+#define cmd_CV_RecognitionModeEnable_CALLBACK NULL
+#define cmd_CV_RecognitionModeEnable_DEFAULT NULL
+
+#define cmd_CV_RecognitionModeDisable_FIELDLIST(X, a) \
+
+#define cmd_CV_RecognitionModeDisable_CALLBACK NULL
+#define cmd_CV_RecognitionModeDisable_DEFAULT NULL
+
 #define cmd_CV_SetAutoFocus_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
 X(a, STATIC,   SINGULAR, BOOL,     value,             2)
@@ -189,6 +219,8 @@ extern const pb_msgdesc_t cmd_CV_DumpStop_msg;
 extern const pb_msgdesc_t cmd_CV_VampireModeDisable_msg;
 extern const pb_msgdesc_t cmd_CV_StabilizationModeEnable_msg;
 extern const pb_msgdesc_t cmd_CV_StabilizationModeDisable_msg;
+extern const pb_msgdesc_t cmd_CV_RecognitionModeEnable_msg;
+extern const pb_msgdesc_t cmd_CV_RecognitionModeDisable_msg;
 extern const pb_msgdesc_t cmd_CV_SetAutoFocus_msg;
 extern const pb_msgdesc_t cmd_CV_StartTrackNDC_msg;
 extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
@@ -201,6 +233,8 @@ extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
 #define cmd_CV_VampireModeDisable_fields &cmd_CV_VampireModeDisable_msg
 #define cmd_CV_StabilizationModeEnable_fields &cmd_CV_StabilizationModeEnable_msg
 #define cmd_CV_StabilizationModeDisable_fields &cmd_CV_StabilizationModeDisable_msg
+#define cmd_CV_RecognitionModeEnable_fields &cmd_CV_RecognitionModeEnable_msg
+#define cmd_CV_RecognitionModeDisable_fields &cmd_CV_RecognitionModeDisable_msg
 #define cmd_CV_SetAutoFocus_fields &cmd_CV_SetAutoFocus_msg
 #define cmd_CV_StartTrackNDC_fields &cmd_CV_StartTrackNDC_msg
 #define cmd_CV_StopTrack_fields &cmd_CV_StopTrack_msg
@@ -209,6 +243,8 @@ extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
 #define CMD_CV_JON_SHARED_CMD_CV_PB_H_MAX_SIZE   cmd_CV_Root_size
 #define cmd_CV_DumpStart_size                    0
 #define cmd_CV_DumpStop_size                     0
+#define cmd_CV_RecognitionModeDisable_size       0
+#define cmd_CV_RecognitionModeEnable_size        0
 #define cmd_CV_Root_size                         25
 #define cmd_CV_SetAutoFocus_size                 4
 #define cmd_CV_StabilizationModeDisable_size     0
