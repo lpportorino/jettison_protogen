@@ -35,10 +35,10 @@ message DumpStop {
 message VampireModeDisable {
 }
 
-mssage RecognitionModeEnable {
+message RecognitionModeEnable {
 }
 
-mssage RecognitionModeDisable {
+message RecognitionModeDisable {
 }
 
 message StabilizationModeEnable {
