@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_day";
+
+package ser;
+
+import "jon_shared_data_types.proto";
+
+message JonGuiDataCameraDay {
+  float focus_pos = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+  float zoom_pos = 2 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+  float iris_pos = 3 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+  bool infrared_filter = 4;
+  int32 zoom_table_pos = 5 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  int32 zoom_table_pos_max = 6 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+  JonGuiDataFxModeDay fx_mode = 7 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  bool auto_focus = 8;
+  bool auto_iris = 9;
+  float digital_zoom_level = 10 [(buf.validate.field).float = {
+    gte: 1.0
+  }];
+  float clahe_level = 11 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}

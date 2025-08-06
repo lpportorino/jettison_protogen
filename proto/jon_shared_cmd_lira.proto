@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/lira";
+
+package cmd.Lira;
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    Refine_target refine_target = 1;
+  }
+}
+
+message Refine_target {
+  JonGuiDataLiraTarget target = 1;
+}
+
+message JonGuiDataLiraTarget {
+  int64 timestamp = 1 [(buf.validate.field).int64.gte = 0];
+  double target_longitude = 2 [(buf.validate.field).double = {
+    gte: -180,
+    lte: 180
+  }];
+  double target_latitude = 3 [(buf.validate.field).double = {
+    gte: -90,
+    lte: 90
+  }];
+  double target_altitude = 4;
+  double target_azimuth = 5 [(buf.validate.field).double = {
+    gte: 0,
+    lt: 360
+  }];
+  double target_elevation = 6 [(buf.validate.field).double = {
+    gte: -90,
+    lte: 90
+  }];
+  double distance = 7 [(buf.validate.field).double = {
+    gte: 0
+  }];
+
+  // UUID as four fixed32 values (128 bits total)
+  int32 uuid_part1 = 8;
+  int32 uuid_part2 = 9;
+  int32 uuid_part3 = 10;
+  int32 uuid_part4 = 11;
+}

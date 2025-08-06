@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/day_camera";
+
+package cmd.DayCamera;
+
+import "jon_shared_data_types.proto";
+
+message SetValue {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}
+
+message Move {
+  float target_value = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+  float speed = 2 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}
+
+message Offset {
+  float offset_value = 1 [(buf.validate.field).float = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}
+
+message SetClaheLevel {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}
+
+message ShiftClaheLevel {
+  float value = 1 [(buf.validate.field).float = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}
+
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    Focus focus = 1;
+    Zoom zoom = 2;
+    SetIris set_iris = 3;
+    SetInfraRedFilter set_infra_red_filter = 4;
+    Start start = 5;
+    Stop stop = 6;
+    Photo photo = 7;
+    SetAutoIris set_auto_iris = 8;
+    HaltAll halt_all = 9;
+    SetFxMode set_fx_mode = 10;
+    NextFxMode next_fx_mode = 11;
+    PrevFxMode prev_fx_mode = 12;
+    GetMeteo get_meteo = 13;
+    RefreshFxMode refresh_fx_mode = 14;
+    SetDigitalZoomLevel set_digital_zoom_level = 15;
+    SetClaheLevel set_clahe_level = 16;
+    ShiftClaheLevel shift_clahe_level = 17;
+  }
+}
+
+message GetPos {}
+
+message NextFxMode {}
+
+message PrevFxMode {}
+
+message RefreshFxMode {}
+
+message HaltAll {}
+
+message SetFxMode {
+  ser.JonGuiDataFxModeDay mode = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+}
+
+message SetDigitalZoomLevel {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 1.0
+  }];
+}
+
+message Focus {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    SetValue set_value = 1;
+    Move move = 2;
+    Halt halt = 3;
+    Offset offset = 4;
+    ResetFocus reset_focus = 5;
+    SaveToTableFocus save_to_table_focus = 6;
+  }
+}
+
+message Zoom {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    SetValue set_value = 1;
+    Move move = 2;
+    Halt halt = 3;
+    SetZoomTableValue set_zoom_table_value = 4;
+    NextZoomTablePos next_zoom_table_pos = 5;
+    PrevZoomTablePos prev_zoom_table_pos = 6;
+    Offset offset = 7;
+    ResetZoom reset_zoom = 8;
+    SaveToTable save_to_table = 9;
+  }
+}
+
+message NextZoomTablePos {}
+
+message PrevZoomTablePos {}
+
+message SetIris {
+  float value = 1 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+}
+
+message SetInfraRedFilter {
+  bool value = 1;
+}
+
+message SetAutoIris {
+  bool value = 1;
+}
+
+message SetZoomTableValue {
+  int32 value = 1 [(buf.validate.field).int32 = {
+    gte: 0
+  }];
+}
+
+message Stop {}
+
+message Start {}
+
+message Photo {}
+
+message Halt {}
+
+message GetMeteo {}
+
+message ResetZoom {}
+
+message ResetFocus {}
+
+message SaveToTable {}
+
+message SaveToTableFocus {}
