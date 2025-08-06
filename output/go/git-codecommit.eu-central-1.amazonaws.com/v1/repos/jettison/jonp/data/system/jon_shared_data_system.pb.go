@@ -46,6 +46,7 @@ type JonGuiDataSystem struct {
 	StabilizationMode    bool                                `protobuf:"varint,20,opt,name=stabilization_mode,json=stabilizationMode,proto3" json:"stabilization_mode,omitempty"`
 	GeodesicMode         bool                                `protobuf:"varint,21,opt,name=geodesic_mode,json=geodesicMode,proto3" json:"geodesic_mode,omitempty"`
 	CvDumping            bool                                `protobuf:"varint,22,opt,name=cv_dumping,json=cvDumping,proto3" json:"cv_dumping,omitempty"`
+	RecognitionMode      bool                                `protobuf:"varint,23,opt,name=recognition_mode,json=recognitionMode,proto3" json:"recognition_mode,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -234,11 +235,18 @@ func (x *JonGuiDataSystem) GetCvDumping() bool {
 	return false
 }
 
+func (x *JonGuiDataSystem) GetRecognitionMode() bool {
+	if x != nil {
+		return x.RecognitionMode
+	}
+	return false
+}
+
 var File_jon_shared_data_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xad\a\n" +
+	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xd8\a\n" +
 	"\x10JonGuiDataSystem\x12'\n" +
 	"\x0fcpu_temperature\x18\x01 \x01(\x02R\x0ecpuTemperature\x12'\n" +
 	"\x0fgpu_temperature\x18\x02 \x01(\x02R\x0egpuTemperature\x12\x19\n" +
@@ -265,7 +273,8 @@ const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\x12stabilization_mode\x18\x14 \x01(\bR\x11stabilizationMode\x12#\n" +
 	"\rgeodesic_mode\x18\x15 \x01(\bR\fgeodesicMode\x12\x1d\n" +
 	"\n" +
-	"cv_dumping\x18\x16 \x01(\bR\tcvDumpingBNZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/systemb\x06proto3"
+	"cv_dumping\x18\x16 \x01(\bR\tcvDumping\x12)\n" +
+	"\x10recognition_mode\x18\x17 \x01(\bR\x0frecognitionModeBNZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/systemb\x06proto3"
 
 var (
 	file_jon_shared_data_system_proto_rawDescOnce sync.Once

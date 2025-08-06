@@ -889,6 +889,8 @@ pub struct JonGuiDataSystem {
     pub geodesic_mode: bool,
     #[prost(bool, tag = "22")]
     pub cv_dumping: bool,
+    #[prost(bool, tag = "23")]
+    pub recognition_mode: bool,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataLrf {

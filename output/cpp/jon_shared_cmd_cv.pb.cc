@@ -171,6 +171,42 @@ struct SetAutoFocusDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetAutoFocusDefaultTypeInternal _SetAutoFocus_default_instance_;
               template <typename>
+PROTOBUF_CONSTEXPR RecognitionModeEnable::RecognitionModeEnable(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct RecognitionModeEnableDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RecognitionModeEnableDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RecognitionModeEnableDefaultTypeInternal() {}
+  union {
+    RecognitionModeEnable _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RecognitionModeEnableDefaultTypeInternal _RecognitionModeEnable_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR RecognitionModeDisable::RecognitionModeDisable(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct RecognitionModeDisableDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RecognitionModeDisableDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RecognitionModeDisableDefaultTypeInternal() {}
+  union {
+    RecognitionModeDisable _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RecognitionModeDisableDefaultTypeInternal _RecognitionModeDisable_default_instance_;
+              template <typename>
 PROTOBUF_CONSTEXPR DumpStop::DumpStop(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
@@ -258,6 +294,8 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::CV::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::CV::VampireModeEnable, _internal_metadata_),
@@ -285,6 +323,22 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::CV::VampireModeDisable, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::CV::RecognitionModeEnable, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::CV::RecognitionModeDisable, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
@@ -342,15 +396,17 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::CV::Root)},
-        {18, -1, -1, sizeof(::cmd::CV::VampireModeEnable)},
-        {26, -1, -1, sizeof(::cmd::CV::DumpStart)},
-        {34, -1, -1, sizeof(::cmd::CV::DumpStop)},
-        {42, -1, -1, sizeof(::cmd::CV::VampireModeDisable)},
-        {50, -1, -1, sizeof(::cmd::CV::StabilizationModeEnable)},
-        {58, -1, -1, sizeof(::cmd::CV::StabilizationModeDisable)},
-        {66, -1, -1, sizeof(::cmd::CV::SetAutoFocus)},
-        {76, -1, -1, sizeof(::cmd::CV::StartTrackNDC)},
-        {88, -1, -1, sizeof(::cmd::CV::StopTrack)},
+        {20, -1, -1, sizeof(::cmd::CV::VampireModeEnable)},
+        {28, -1, -1, sizeof(::cmd::CV::DumpStart)},
+        {36, -1, -1, sizeof(::cmd::CV::DumpStop)},
+        {44, -1, -1, sizeof(::cmd::CV::VampireModeDisable)},
+        {52, -1, -1, sizeof(::cmd::CV::RecognitionModeEnable)},
+        {60, -1, -1, sizeof(::cmd::CV::RecognitionModeDisable)},
+        {68, -1, -1, sizeof(::cmd::CV::StabilizationModeEnable)},
+        {76, -1, -1, sizeof(::cmd::CV::StabilizationModeDisable)},
+        {84, -1, -1, sizeof(::cmd::CV::SetAutoFocus)},
+        {94, -1, -1, sizeof(::cmd::CV::StartTrackNDC)},
+        {106, -1, -1, sizeof(::cmd::CV::StopTrack)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::CV::_Root_default_instance_._instance,
@@ -358,6 +414,8 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::CV::_DumpStart_default_instance_._instance,
     &::cmd::CV::_DumpStop_default_instance_._instance,
     &::cmd::CV::_VampireModeDisable_default_instance_._instance,
+    &::cmd::CV::_RecognitionModeEnable_default_instance_._instance,
+    &::cmd::CV::_RecognitionModeDisable_default_instance_._instance,
     &::cmd::CV::_StabilizationModeEnable_default_instance_._instance,
     &::cmd::CV::_StabilizationModeDisable_default_instance_._instance,
     &::cmd::CV::_SetAutoFocus_default_instance_._instance,
@@ -367,7 +425,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033jon_s"
-    "hared_data_types.proto\"\354\003\n\004Root\022.\n\016set_a"
+    "hared_data_types.proto\"\362\004\n\004Root\022.\n\016set_a"
     "uto_focus\030\001 \001(\0132\024.cmd.CV.SetAutoFocusH\000\022"
     "0\n\017start_track_ndc\030\002 \001(\0132\025.cmd.CV.StartT"
     "rackNDCH\000\022\'\n\nstop_track\030\003 \001(\0132\021.cmd.CV.S"
@@ -379,17 +437,22 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto[] ABSL_ATTR
     "\n\032stabilization_mode_disable\030\007 \001(\0132 .cmd"
     ".CV.StabilizationModeDisableH\000\022\'\n\ndump_s"
     "tart\030\010 \001(\0132\021.cmd.CV.DumpStartH\000\022%\n\tdump_"
-    "stop\030\t \001(\0132\020.cmd.CV.DumpStopH\000B\005\n\003cmd\"\023\n"
-    "\021VampireModeEnable\"\013\n\tDumpStart\"\n\n\010DumpS"
-    "top\"\024\n\022VampireModeDisable\"\031\n\027Stabilizati"
-    "onModeEnable\"\032\n\030StabilizationModeDisable"
-    "\"K\n\014SetAutoFocus\022,\n\007channel\030\001 \001(\0162\033.ser."
-    "JonGuiDataVideoChannel\022\r\n\005value\030\002 \001(\010\"g\n"
-    "\rStartTrackNDC\022,\n\007channel\030\001 \001(\0162\033.ser.Jo"
-    "nGuiDataVideoChannel\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001"
-    "(\002\022\022\n\nframe_time\030\004 \001(\004\"\013\n\tStopTrackBIZGg"
-    "it-codecommit.eu-central-1.amazonaws.com"
-    "/v1/repos/jettison/jonp/cmd/cvb\006proto3"
+    "stop\030\t \001(\0132\020.cmd.CV.DumpStopH\000\022@\n\027recogn"
+    "ition_mode_enable\030\n \001(\0132\035.cmd.CV.Recogni"
+    "tionModeEnableH\000\022B\n\030recognition_mode_dis"
+    "able\030\013 \001(\0132\036.cmd.CV.RecognitionModeDisab"
+    "leH\000B\005\n\003cmd\"\023\n\021VampireModeEnable\"\013\n\tDump"
+    "Start\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\""
+    "\027\n\025RecognitionModeEnable\"\030\n\026RecognitionM"
+    "odeDisable\"\031\n\027StabilizationModeEnable\"\032\n"
+    "\030StabilizationModeDisable\"K\n\014SetAutoFocu"
+    "s\022,\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo"
+    "Channel\022\r\n\005value\030\002 \001(\010\"g\n\rStartTrackNDC\022"
+    ",\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoCh"
+    "annel\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\022\n\nframe_tim"
+    "e\030\004 \001(\004\"\013\n\tStopTrackBIZGgit-codecommit.e"
+    "u-central-1.amazonaws.com/v1/repos/jetti"
+    "son/jonp/cmd/cvb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps[1] =
     {
@@ -399,13 +462,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto = {
     false,
     false,
-    958,
+    1143,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto,
     "jon_shared_cmd_cv.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps,
     1,
-    10,
+    12,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fcv_2eproto::offsets,
@@ -539,6 +602,32 @@ void Root::set_allocated_dump_stop(::cmd::CV::DumpStop* dump_stop) {
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.CV.Root.dump_stop)
 }
+void Root::set_allocated_recognition_mode_enable(::cmd::CV::RecognitionModeEnable* recognition_mode_enable) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (recognition_mode_enable) {
+    ::google::protobuf::Arena* submessage_arena = recognition_mode_enable->GetArena();
+    if (message_arena != submessage_arena) {
+      recognition_mode_enable = ::google::protobuf::internal::GetOwnedMessage(message_arena, recognition_mode_enable, submessage_arena);
+    }
+    set_has_recognition_mode_enable();
+    _impl_.cmd_.recognition_mode_enable_ = recognition_mode_enable;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.CV.Root.recognition_mode_enable)
+}
+void Root::set_allocated_recognition_mode_disable(::cmd::CV::RecognitionModeDisable* recognition_mode_disable) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (recognition_mode_disable) {
+    ::google::protobuf::Arena* submessage_arena = recognition_mode_disable->GetArena();
+    if (message_arena != submessage_arena) {
+      recognition_mode_disable = ::google::protobuf::internal::GetOwnedMessage(message_arena, recognition_mode_disable, submessage_arena);
+    }
+    set_has_recognition_mode_disable();
+    _impl_.cmd_.recognition_mode_disable_ = recognition_mode_disable;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.CV.Root.recognition_mode_disable)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -597,6 +686,12 @@ Root::Root(
         break;
       case kDumpStop:
         _impl_.cmd_.dump_stop_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::DumpStop>(arena, *from._impl_.cmd_.dump_stop_);
+        break;
+      case kRecognitionModeEnable:
+        _impl_.cmd_.recognition_mode_enable_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::RecognitionModeEnable>(arena, *from._impl_.cmd_.recognition_mode_enable_);
+        break;
+      case kRecognitionModeDisable:
+        _impl_.cmd_.recognition_mode_disable_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::RecognitionModeDisable>(arena, *from._impl_.cmd_.recognition_mode_disable_);
         break;
   }
 
@@ -702,6 +797,22 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kRecognitionModeEnable: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.recognition_mode_enable_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.recognition_mode_enable_);
+      }
+      break;
+    }
+    case kRecognitionModeDisable: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.recognition_mode_disable_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.recognition_mode_disable_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -746,16 +857,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 9, 9, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 11, 11, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    9, 0,  // max_field_number, fast_idx_mask
+    11, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966784,  // skipmap
+    4294965248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
-    9,  // num_aux_entries
+    11,  // num_field_entries
+    11,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -795,6 +906,12 @@ const ::_pbi::TcParseTable<0, 9, 9, 0, 2> Root::_table_ = {
     // .cmd.CV.DumpStop dump_stop = 9;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.dump_stop_), _Internal::kOneofCaseOffset + 0, 8,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.recognition_mode_enable_), _Internal::kOneofCaseOffset + 0, 9,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.recognition_mode_disable_), _Internal::kOneofCaseOffset + 0, 10,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::CV::SetAutoFocus>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::StartTrackNDC>()},
@@ -805,6 +922,8 @@ const ::_pbi::TcParseTable<0, 9, 9, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::CV::StabilizationModeDisable>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::DumpStart>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::DumpStop>()},
+    {::_pbi::TcParser::GetTable<::cmd::CV::RecognitionModeEnable>()},
+    {::_pbi::TcParser::GetTable<::cmd::CV::RecognitionModeDisable>()},
   }}, {{
   }},
 };
@@ -890,6 +1009,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kRecognitionModeEnable: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  10, *this_._impl_.cmd_.recognition_mode_enable_, this_._impl_.cmd_.recognition_mode_enable_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kRecognitionModeDisable: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  11, *this_._impl_.cmd_.recognition_mode_disable_, this_._impl_.cmd_.recognition_mode_disable_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -969,6 +1100,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kDumpStop: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.dump_stop_);
+              break;
+            }
+            // .cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;
+            case kRecognitionModeEnable: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.recognition_mode_enable_);
+              break;
+            }
+            // .cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;
+            case kRecognitionModeDisable: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.recognition_mode_disable_);
               break;
             }
             case CMD_NOT_SET: {
@@ -1077,6 +1220,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::CV::DumpStop>(arena, *from._impl_.cmd_.dump_stop_);
         } else {
           _this->_impl_.cmd_.dump_stop_->MergeFrom(from._internal_dump_stop());
+        }
+        break;
+      }
+      case kRecognitionModeEnable: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.recognition_mode_enable_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::CV::RecognitionModeEnable>(arena, *from._impl_.cmd_.recognition_mode_enable_);
+        } else {
+          _this->_impl_.cmd_.recognition_mode_enable_->MergeFrom(from._internal_recognition_mode_enable());
+        }
+        break;
+      }
+      case kRecognitionModeDisable: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.recognition_mode_disable_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::CV::RecognitionModeDisable>(arena, *from._impl_.cmd_.recognition_mode_disable_);
+        } else {
+          _this->_impl_.cmd_.recognition_mode_disable_->MergeFrom(from._internal_recognition_mode_disable());
         }
         break;
       }
@@ -1515,6 +1676,212 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> VampireModeDisable::_table_ = {
 
 
 ::google::protobuf::Metadata VampireModeDisable::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RecognitionModeEnable::_Internal {
+ public:
+};
+
+RecognitionModeEnable::RecognitionModeEnable(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.CV.RecognitionModeEnable)
+}
+RecognitionModeEnable::RecognitionModeEnable(
+    ::google::protobuf::Arena* arena,
+    const RecognitionModeEnable& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RecognitionModeEnable* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.CV.RecognitionModeEnable)
+}
+
+inline void* RecognitionModeEnable::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) RecognitionModeEnable(arena);
+}
+constexpr auto RecognitionModeEnable::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(RecognitionModeEnable),
+                                            alignof(RecognitionModeEnable));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull RecognitionModeEnable::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_RecognitionModeEnable_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &RecognitionModeEnable::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<RecognitionModeEnable>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &RecognitionModeEnable::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<RecognitionModeEnable>(), &RecognitionModeEnable::ByteSizeLong,
+            &RecognitionModeEnable::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(RecognitionModeEnable, _impl_._cached_size_),
+        false,
+    },
+    &RecognitionModeEnable::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* RecognitionModeEnable::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> RecognitionModeEnable::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::CV::RecognitionModeEnable>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata RecognitionModeEnable::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RecognitionModeDisable::_Internal {
+ public:
+};
+
+RecognitionModeDisable::RecognitionModeDisable(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.CV.RecognitionModeDisable)
+}
+RecognitionModeDisable::RecognitionModeDisable(
+    ::google::protobuf::Arena* arena,
+    const RecognitionModeDisable& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RecognitionModeDisable* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.CV.RecognitionModeDisable)
+}
+
+inline void* RecognitionModeDisable::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) RecognitionModeDisable(arena);
+}
+constexpr auto RecognitionModeDisable::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(RecognitionModeDisable),
+                                            alignof(RecognitionModeDisable));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull RecognitionModeDisable::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_RecognitionModeDisable_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &RecognitionModeDisable::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<RecognitionModeDisable>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &RecognitionModeDisable::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<RecognitionModeDisable>(), &RecognitionModeDisable::ByteSizeLong,
+            &RecognitionModeDisable::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(RecognitionModeDisable, _impl_._cached_size_),
+        false,
+    },
+    &RecognitionModeDisable::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* RecognitionModeDisable::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> RecognitionModeDisable::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::CV::RecognitionModeDisable>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata RecognitionModeDisable::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
