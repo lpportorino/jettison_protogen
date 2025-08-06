@@ -3,8 +3,7 @@ FROM jettison-proto-generator-base:latest
 # Create workspace directory
 WORKDIR /workspace
 
-# Copy proto files into the image
-COPY proto/ /workspace/proto/
+# Proto files will be mounted as volumes at runtime
 
 # Copy helper scripts
 COPY scripts/proto_cleanup.awk /usr/local/bin/proto_cleanup.awk
