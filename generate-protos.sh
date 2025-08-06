@@ -73,10 +73,13 @@ else
     fi
 fi
 
-# Create output directories
+# Create output directories with full permissions
 print_info "Creating output directories..."
 mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors}
 mkdir -p "$VALIDATE_OUTPUT_DIR"/{go,java}
+# Set directory permissions to 777
+chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
+chmod -R 777 "$VALIDATE_OUTPUT_DIR" 2>/dev/null || true
 
 # Copy proto files to local directory to avoid permission issues
 print_info "Preparing proto files..."
@@ -93,14 +96,19 @@ run_generation() {
     
     print_info "Generating $lang bindings..."
     
+    # Modified script to set permissions inside container
+    local full_script="$script
+# Set permissions to 777 for all generated files
+find /workspace/output -type f -exec chmod 777 {} + 2>/dev/null || true
+find /workspace/output -type d -exec chmod 777 {} + 2>/dev/null || true"
+    
     docker run --rm \
-        -u "$(id -u):$(id -g)" \
         -v "$SCRIPT_DIR/proto:/workspace/proto:ro" \
         -v "$SCRIPT_DIR/output/$lang:/workspace/output:rw" \
         -v "$SCRIPT_DIR/scripts:/workspace/scripts:ro" \
         -w /workspace \
         "$DOCKER_IMAGE" \
-        -c "$script"
+        -c "$full_script"
     
     if [ $? -eq 0 ]; then
         print_info "$lang generation completed successfully"
@@ -520,9 +528,7 @@ for lang in c cpp go python typescript rust java json-descriptors; do
     fi
 done
 
-# Set permissions on generated files to 777 so anyone can delete/modify them
-print_info "Setting file permissions on generated files..."
-chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
+# Permissions are now set inside the Docker container after each generation
 
 # Run validated generations for supported languages (excluding Java)
 print_info "========== Generating Validated Bindings =========="
@@ -535,14 +541,19 @@ for lang in go; do
     
     print_info "Generating validated $lang bindings..."
     
+    # Modified script to set permissions inside container
+    local full_script="$script
+# Set permissions to 777 for all generated files
+find /workspace/output-validated -type f -exec chmod 777 {} + 2>/dev/null || true
+find /workspace/output-validated -type d -exec chmod 777 {} + 2>/dev/null || true"
+    
     docker run --rm \
-        -u "$(id -u):$(id -g)" \
         -v "$SCRIPT_DIR/proto:/workspace/proto:ro" \
         -v "$SCRIPT_DIR/$VALIDATE_OUTPUT_DIR/$lang:/workspace/output-validated:rw" \
         -v "$SCRIPT_DIR/scripts:/workspace/scripts:ro" \
         -w /workspace \
         "$DOCKER_IMAGE" \
-        -c "$script"
+        -c "$full_script"
     
     if [ $? -eq 0 ]; then
         print_info "Validated $lang generation completed successfully"
@@ -552,8 +563,7 @@ for lang in go; do
     fi
 done
 
-# Set permissions on validated generated files to 777
-chmod -R 777 "$VALIDATE_OUTPUT_DIR" 2>/dev/null || true
+# Permissions are now set inside the Docker container after each generation
 
 # Summary
 echo
@@ -593,4 +603,7 @@ else
 fi
 
 # Optional: Clean up proto copy
-rm -rf ./proto
+# Only remove if we copied from a different location
+if [ "$PROTO_SOURCE_DIR" != "./proto" ]; then
+    rm -rf ./proto
+fi
