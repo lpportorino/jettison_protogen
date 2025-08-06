@@ -21,6 +21,12 @@ PB_BIND(cmd_CV_DumpStop, cmd_CV_DumpStop, AUTO)
 PB_BIND(cmd_CV_VampireModeDisable, cmd_CV_VampireModeDisable, AUTO)
 
 
+PB_BIND(cmd_CV_RecognitionModeEnable, cmd_CV_RecognitionModeEnable, AUTO)
+
+
+PB_BIND(cmd_CV_RecognitionModeDisable, cmd_CV_RecognitionModeDisable, AUTO)
+
+
 PB_BIND(cmd_CV_StabilizationModeEnable, cmd_CV_StabilizationModeEnable, AUTO)
 
 

@@ -165,6 +165,12 @@ public final class JonSharedDataSystem {
      * @return The cvDumping.
      */
     boolean getCvDumping();
+
+    /**
+     * <code>bool recognition_mode = 23;</code>
+     * @return The recognitionMode.
+     */
+    boolean getRecognitionMode();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataSystem}
@@ -453,6 +459,17 @@ public final class JonSharedDataSystem {
       return cvDumping_;
     }
 
+    public static final int RECOGNITION_MODE_FIELD_NUMBER = 23;
+    private boolean recognitionMode_ = false;
+    /**
+     * <code>bool recognition_mode = 23;</code>
+     * @return The recognitionMode.
+     */
+    @java.lang.Override
+    public boolean getRecognitionMode() {
+      return recognitionMode_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -532,6 +549,9 @@ public final class JonSharedDataSystem {
       }
       if (cvDumping_ != false) {
         output.writeBool(22, cvDumping_);
+      }
+      if (recognitionMode_ != false) {
+        output.writeBool(23, recognitionMode_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -630,6 +650,10 @@ public final class JonSharedDataSystem {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(22, cvDumping_);
       }
+      if (recognitionMode_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(23, recognitionMode_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -693,6 +717,8 @@ public final class JonSharedDataSystem {
           != other.getGeodesicMode()) return false;
       if (getCvDumping()
           != other.getCvDumping()) return false;
+      if (getRecognitionMode()
+          != other.getRecognitionMode()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -762,6 +788,9 @@ public final class JonSharedDataSystem {
       hash = (37 * hash) + CV_DUMPING_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getCvDumping());
+      hash = (37 * hash) + RECOGNITION_MODE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getRecognitionMode());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -915,6 +944,7 @@ public final class JonSharedDataSystem {
         stabilizationMode_ = false;
         geodesicMode_ = false;
         cvDumping_ = false;
+        recognitionMode_ = false;
         return this;
       }
 
@@ -1014,6 +1044,9 @@ public final class JonSharedDataSystem {
         if (((from_bitField0_ & 0x00200000) != 0)) {
           result.cvDumping_ = cvDumping_;
         }
+        if (((from_bitField0_ & 0x00400000) != 0)) {
+          result.recognitionMode_ = recognitionMode_;
+        }
       }
 
       @java.lang.Override
@@ -1093,6 +1126,9 @@ public final class JonSharedDataSystem {
         }
         if (other.getCvDumping() != false) {
           setCvDumping(other.getCvDumping());
+        }
+        if (other.getRecognitionMode() != false) {
+          setRecognitionMode(other.getRecognitionMode());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1230,6 +1266,11 @@ public final class JonSharedDataSystem {
                 bitField0_ |= 0x00200000;
                 break;
               } // case 176
+              case 184: {
+                recognitionMode_ = input.readBool();
+                bitField0_ |= 0x00400000;
+                break;
+              } // case 184
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1972,6 +2013,38 @@ public final class JonSharedDataSystem {
         return this;
       }
 
+      private boolean recognitionMode_ ;
+      /**
+       * <code>bool recognition_mode = 23;</code>
+       * @return The recognitionMode.
+       */
+      @java.lang.Override
+      public boolean getRecognitionMode() {
+        return recognitionMode_;
+      }
+      /**
+       * <code>bool recognition_mode = 23;</code>
+       * @param value The recognitionMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecognitionMode(boolean value) {
+
+        recognitionMode_ = value;
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool recognition_mode = 23;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecognitionMode() {
+        bitField0_ = (bitField0_ & ~0x00400000);
+        recognitionMode_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataSystem)
     }
 
@@ -2039,7 +2112,7 @@ public final class JonSharedDataSystem {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_system.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\320\006\n\020JonGuiDataSystem\0227\n\017cp" +
+      "a_types.proto\"\352\006\n\020JonGuiDataSystem\0227\n\017cp" +
       "u_temperature\030\001 \001(\002B\036\272H\033\n\031\035\000\000\026C-3\223\210\303M\000\000\314" +
       "AM\000\000pBM\000\000\241B\0227\n\017gpu_temperature\030\002 \001(\002B\036\272H" +
       "\033\n\031\035\000\000\026C-3\223\210\303M\000\000\360AM\000\000\214BM\000\000\253B\0220\n\010gpu_load" +
@@ -2060,9 +2133,10 @@ public final class JonSharedDataSystem {
       "(\010\022\035\n\ndisk_space\030\021 \001(\005B\t\272H\006\032\004\030d(\000\022\020\n\010tra" +
       "cking\030\022 \001(\010\022\024\n\014vampire_mode\030\023 \001(\010\022\032\n\022sta" +
       "bilization_mode\030\024 \001(\010\022\025\n\rgeodesic_mode\030\025" +
-      " \001(\010\022\022\n\ncv_dumping\030\026 \001(\010BNZLgit-codecomm" +
-      "it.eu-central-1.amazonaws.com/v1/repos/j" +
-      "ettison/jonp/data/systemb\006proto3"
+      " \001(\010\022\022\n\ncv_dumping\030\026 \001(\010\022\030\n\020recognition_" +
+      "mode\030\027 \001(\010BNZLgit-codecommit.eu-central-" +
+      "1.amazonaws.com/v1/repos/jettison/jonp/d" +
+      "ata/systemb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2075,7 +2149,7 @@ public final class JonSharedDataSystem {
     internal_static_ser_JonGuiDataSystem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataSystem_descriptor,
-        new java.lang.String[] { "CpuTemperature", "GpuTemperature", "GpuLoad", "CpuLoad", "PowerConsumption", "Loc", "CurVideoRecDirYear", "CurVideoRecDirMonth", "CurVideoRecDirDay", "CurVideoRecDirHour", "CurVideoRecDirMinute", "CurVideoRecDirSecond", "RecEnabled", "ImportantRecEnabled", "LowDiskSpace", "NoDiskSpace", "DiskSpace", "Tracking", "VampireMode", "StabilizationMode", "GeodesicMode", "CvDumping", });
+        new java.lang.String[] { "CpuTemperature", "GpuTemperature", "GpuLoad", "CpuLoad", "PowerConsumption", "Loc", "CurVideoRecDirYear", "CurVideoRecDirMonth", "CurVideoRecDirDay", "CurVideoRecDirHour", "CurVideoRecDirMinute", "CurVideoRecDirSecond", "RecEnabled", "ImportantRecEnabled", "LowDiskSpace", "NoDiskSpace", "DiskSpace", "Tracking", "VampireMode", "StabilizationMode", "GeodesicMode", "CvDumping", "RecognitionMode", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

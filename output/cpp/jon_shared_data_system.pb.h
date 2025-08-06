@@ -237,6 +237,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     kStabilizationModeFieldNumber = 20,
     kGeodesicModeFieldNumber = 21,
     kCvDumpingFieldNumber = 22,
+    kRecognitionModeFieldNumber = 23,
   };
   // float cpu_temperature = 1;
   void clear_cpu_temperature() ;
@@ -458,12 +459,22 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cv_dumping(bool value);
 
   public:
+  // bool recognition_mode = 23;
+  void clear_recognition_mode() ;
+  bool recognition_mode() const;
+  void set_recognition_mode(bool value);
+
+  private:
+  bool _internal_recognition_mode() const;
+  void _internal_set_recognition_mode(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataSystem)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 22, 0,
+      5, 23, 0,
       0, 2>
       _table_;
 
@@ -503,6 +514,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     bool stabilization_mode_;
     bool geodesic_mode_;
     bool cv_dumping_;
+    bool recognition_mode_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1008,6 +1020,28 @@ inline bool JonGuiDataSystem::_internal_cv_dumping() const {
 inline void JonGuiDataSystem::_internal_set_cv_dumping(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cv_dumping_ = value;
+}
+
+// bool recognition_mode = 23;
+inline void JonGuiDataSystem::clear_recognition_mode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.recognition_mode_ = false;
+}
+inline bool JonGuiDataSystem::recognition_mode() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.recognition_mode)
+  return _internal_recognition_mode();
+}
+inline void JonGuiDataSystem::set_recognition_mode(bool value) {
+  _internal_set_recognition_mode(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.recognition_mode)
+}
+inline bool JonGuiDataSystem::_internal_recognition_mode() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.recognition_mode_;
+}
+inline void JonGuiDataSystem::_internal_set_recognition_mode(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.recognition_mode_ = value;
 }
 
 #ifdef __GNUC__
