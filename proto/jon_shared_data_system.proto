@@ -67,4 +67,5 @@ message JonGuiDataSystem {
   bool stabilization_mode = 20;
   bool geodesic_mode = 21;
   bool cv_dumping = 22;
+  bool recognition_mode = 23;
 }

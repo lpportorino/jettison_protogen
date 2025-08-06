@@ -18,6 +18,8 @@ message Root {
     StabilizationModeDisable stabilization_mode_disable = 7;
     DumpStart dump_start = 8;
     DumpStop dump_stop = 9;
+    RecognitionModeEnable recognition_mode_enable = 10;
+    RecognitionModeDisable recognition_mode_disable = 11;
   }
 }
 
@@ -37,6 +39,12 @@ message StabilizationModeEnable {
 }
 
 message StabilizationModeDisable {
+}
+
+message RecognitionModeEnable {
+}
+
+message RecognitionModeDisable {
 }
 
 message SetAutoFocus {

@@ -1,0 +1,33 @@
+# Docker image archives
+jettison-proto-generator-base.tar.gz
+
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Output directories (if they exist)
+output/
+output-validated/
+
+# Documentation
+README.md
+CLAUDE.md
+
+# Test files
+test-jettison-proto-gen.sh
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.iml
