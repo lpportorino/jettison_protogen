@@ -23,8 +23,6 @@ export interface Root {
   stabilizationModeDisable?: StabilizationModeDisable | undefined;
   dumpStart?: DumpStart | undefined;
   dumpStop?: DumpStop | undefined;
-  recognitionModeEnable?: RecognitionModeEnable | undefined;
-  recognitionModeDisable?: RecognitionModeDisable | undefined;
 }
 
 export interface VampireModeEnable {
@@ -37,12 +35,6 @@ export interface DumpStop {
 }
 
 export interface VampireModeDisable {
-}
-
-export interface RecognitionModeEnable {
-}
-
-export interface RecognitionModeDisable {
 }
 
 export interface StabilizationModeEnable {
@@ -77,8 +69,6 @@ function createBaseRoot(): Root {
     stabilizationModeDisable: undefined,
     dumpStart: undefined,
     dumpStop: undefined,
-    recognitionModeEnable: undefined,
-    recognitionModeDisable: undefined,
   };
 }
 
@@ -110,12 +100,6 @@ export const Root: MessageFns<Root> = {
     }
     if (message.dumpStop !== undefined) {
       DumpStop.encode(message.dumpStop, writer.uint32(74).fork()).join();
-    }
-    if (message.recognitionModeEnable !== undefined) {
-      RecognitionModeEnable.encode(message.recognitionModeEnable, writer.uint32(82).fork()).join();
-    }
-    if (message.recognitionModeDisable !== undefined) {
-      RecognitionModeDisable.encode(message.recognitionModeDisable, writer.uint32(90).fork()).join();
     }
     return writer;
   },
@@ -199,22 +183,6 @@ export const Root: MessageFns<Root> = {
           message.dumpStop = DumpStop.decode(reader, reader.uint32());
           continue;
         }
-        case 10: {
-          if (tag !== 82) {
-            break;
-          }
-
-          message.recognitionModeEnable = RecognitionModeEnable.decode(reader, reader.uint32());
-          continue;
-        }
-        case 11: {
-          if (tag !== 90) {
-            break;
-          }
-
-          message.recognitionModeDisable = RecognitionModeDisable.decode(reader, reader.uint32());
-          continue;
-        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -243,12 +211,6 @@ export const Root: MessageFns<Root> = {
         : undefined,
       dumpStart: isSet(object.dumpStart) ? DumpStart.fromJSON(object.dumpStart) : undefined,
       dumpStop: isSet(object.dumpStop) ? DumpStop.fromJSON(object.dumpStop) : undefined,
-      recognitionModeEnable: isSet(object.recognitionModeEnable)
-        ? RecognitionModeEnable.fromJSON(object.recognitionModeEnable)
-        : undefined,
-      recognitionModeDisable: isSet(object.recognitionModeDisable)
-        ? RecognitionModeDisable.fromJSON(object.recognitionModeDisable)
-        : undefined,
     };
   },
 
@@ -280,12 +242,6 @@ export const Root: MessageFns<Root> = {
     }
     if (message.dumpStop !== undefined) {
       obj.dumpStop = DumpStop.toJSON(message.dumpStop);
-    }
-    if (message.recognitionModeEnable !== undefined) {
-      obj.recognitionModeEnable = RecognitionModeEnable.toJSON(message.recognitionModeEnable);
-    }
-    if (message.recognitionModeDisable !== undefined) {
-      obj.recognitionModeDisable = RecognitionModeDisable.toJSON(message.recognitionModeDisable);
     }
     return obj;
   },
@@ -324,14 +280,6 @@ export const Root: MessageFns<Root> = {
     message.dumpStop = (object.dumpStop !== undefined && object.dumpStop !== null)
       ? DumpStop.fromPartial(object.dumpStop)
       : undefined;
-    message.recognitionModeEnable =
-      (object.recognitionModeEnable !== undefined && object.recognitionModeEnable !== null)
-        ? RecognitionModeEnable.fromPartial(object.recognitionModeEnable)
-        : undefined;
-    message.recognitionModeDisable =
-      (object.recognitionModeDisable !== undefined && object.recognitionModeDisable !== null)
-        ? RecognitionModeDisable.fromPartial(object.recognitionModeDisable)
-        : undefined;
     return message;
   },
 };
@@ -504,92 +452,6 @@ export const VampireModeDisable: MessageFns<VampireModeDisable> = {
   },
   fromPartial<I extends Exact<DeepPartial<VampireModeDisable>, I>>(_: I): VampireModeDisable {
     const message = createBaseVampireModeDisable();
-    return message;
-  },
-};
-
-function createBaseRecognitionModeEnable(): RecognitionModeEnable {
-  return {};
-}
-
-export const RecognitionModeEnable: MessageFns<RecognitionModeEnable> = {
-  encode(_: RecognitionModeEnable, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): RecognitionModeEnable {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRecognitionModeEnable();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(_: any): RecognitionModeEnable {
-    return {};
-  },
-
-  toJSON(_: RecognitionModeEnable): unknown {
-    const obj: any = {};
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<RecognitionModeEnable>, I>>(base?: I): RecognitionModeEnable {
-    return RecognitionModeEnable.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<RecognitionModeEnable>, I>>(_: I): RecognitionModeEnable {
-    const message = createBaseRecognitionModeEnable();
-    return message;
-  },
-};
-
-function createBaseRecognitionModeDisable(): RecognitionModeDisable {
-  return {};
-}
-
-export const RecognitionModeDisable: MessageFns<RecognitionModeDisable> = {
-  encode(_: RecognitionModeDisable, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): RecognitionModeDisable {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRecognitionModeDisable();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(_: any): RecognitionModeDisable {
-    return {};
-  },
-
-  toJSON(_: RecognitionModeDisable): unknown {
-    const obj: any = {};
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<RecognitionModeDisable>, I>>(base?: I): RecognitionModeDisable {
-    return RecognitionModeDisable.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<RecognitionModeDisable>, I>>(_: I): RecognitionModeDisable {
-    const message = createBaseRecognitionModeDisable();
     return message;
   },
 };

@@ -164,36 +164,6 @@ public final class JonSharedCmdCv {
      */
     cmd.CV.JonSharedCmdCv.DumpStopOrBuilder getDumpStopOrBuilder();
 
-    /**
-     * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-     * @return Whether the recognitionModeEnable field is set.
-     */
-    boolean hasRecognitionModeEnable();
-    /**
-     * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-     * @return The recognitionModeEnable.
-     */
-    cmd.CV.JonSharedCmdCv.RecognitionModeEnable getRecognitionModeEnable();
-    /**
-     * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-     */
-    cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder getRecognitionModeEnableOrBuilder();
-
-    /**
-     * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-     * @return Whether the recognitionModeDisable field is set.
-     */
-    boolean hasRecognitionModeDisable();
-    /**
-     * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-     * @return The recognitionModeDisable.
-     */
-    cmd.CV.JonSharedCmdCv.RecognitionModeDisable getRecognitionModeDisable();
-    /**
-     * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-     */
-    cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder getRecognitionModeDisableOrBuilder();
-
     cmd.CV.JonSharedCmdCv.Root.CmdCase getCmdCase();
   }
   /**
@@ -248,8 +218,6 @@ public final class JonSharedCmdCv {
       STABILIZATION_MODE_DISABLE(7),
       DUMP_START(8),
       DUMP_STOP(9),
-      RECOGNITION_MODE_ENABLE(10),
-      RECOGNITION_MODE_DISABLE(11),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -276,8 +244,6 @@ public final class JonSharedCmdCv {
           case 7: return STABILIZATION_MODE_DISABLE;
           case 8: return DUMP_START;
           case 9: return DUMP_STOP;
-          case 10: return RECOGNITION_MODE_ENABLE;
-          case 11: return RECOGNITION_MODE_DISABLE;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -572,68 +538,6 @@ public final class JonSharedCmdCv {
       return cmd.CV.JonSharedCmdCv.DumpStop.getDefaultInstance();
     }
 
-    public static final int RECOGNITION_MODE_ENABLE_FIELD_NUMBER = 10;
-    /**
-     * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-     * @return Whether the recognitionModeEnable field is set.
-     */
-    @java.lang.Override
-    public boolean hasRecognitionModeEnable() {
-      return cmdCase_ == 10;
-    }
-    /**
-     * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-     * @return The recognitionModeEnable.
-     */
-    @java.lang.Override
-    public cmd.CV.JonSharedCmdCv.RecognitionModeEnable getRecognitionModeEnable() {
-      if (cmdCase_ == 10) {
-         return (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_;
-      }
-      return cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-    }
-    /**
-     * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-     */
-    @java.lang.Override
-    public cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder getRecognitionModeEnableOrBuilder() {
-      if (cmdCase_ == 10) {
-         return (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_;
-      }
-      return cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-    }
-
-    public static final int RECOGNITION_MODE_DISABLE_FIELD_NUMBER = 11;
-    /**
-     * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-     * @return Whether the recognitionModeDisable field is set.
-     */
-    @java.lang.Override
-    public boolean hasRecognitionModeDisable() {
-      return cmdCase_ == 11;
-    }
-    /**
-     * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-     * @return The recognitionModeDisable.
-     */
-    @java.lang.Override
-    public cmd.CV.JonSharedCmdCv.RecognitionModeDisable getRecognitionModeDisable() {
-      if (cmdCase_ == 11) {
-         return (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_;
-      }
-      return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-    }
-    /**
-     * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-     */
-    @java.lang.Override
-    public cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder getRecognitionModeDisableOrBuilder() {
-      if (cmdCase_ == 11) {
-         return (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_;
-      }
-      return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -674,12 +578,6 @@ public final class JonSharedCmdCv {
       }
       if (cmdCase_ == 9) {
         output.writeMessage(9, (cmd.CV.JonSharedCmdCv.DumpStop) cmd_);
-      }
-      if (cmdCase_ == 10) {
-        output.writeMessage(10, (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_);
-      }
-      if (cmdCase_ == 11) {
-        output.writeMessage(11, (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -725,14 +623,6 @@ public final class JonSharedCmdCv {
       if (cmdCase_ == 9) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(9, (cmd.CV.JonSharedCmdCv.DumpStop) cmd_);
-      }
-      if (cmdCase_ == 10) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_);
-      }
-      if (cmdCase_ == 11) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -787,14 +677,6 @@ public final class JonSharedCmdCv {
           if (!getDumpStop()
               .equals(other.getDumpStop())) return false;
           break;
-        case 10:
-          if (!getRecognitionModeEnable()
-              .equals(other.getRecognitionModeEnable())) return false;
-          break;
-        case 11:
-          if (!getRecognitionModeDisable()
-              .equals(other.getRecognitionModeDisable())) return false;
-          break;
         case 0:
         default:
       }
@@ -845,14 +727,6 @@ public final class JonSharedCmdCv {
         case 9:
           hash = (37 * hash) + DUMP_STOP_FIELD_NUMBER;
           hash = (53 * hash) + getDumpStop().hashCode();
-          break;
-        case 10:
-          hash = (37 * hash) + RECOGNITION_MODE_ENABLE_FIELD_NUMBER;
-          hash = (53 * hash) + getRecognitionModeEnable().hashCode();
-          break;
-        case 11:
-          hash = (37 * hash) + RECOGNITION_MODE_DISABLE_FIELD_NUMBER;
-          hash = (53 * hash) + getRecognitionModeDisable().hashCode();
           break;
         case 0:
         default:
@@ -1015,12 +889,6 @@ public final class JonSharedCmdCv {
         if (dumpStopBuilder_ != null) {
           dumpStopBuilder_.clear();
         }
-        if (recognitionModeEnableBuilder_ != null) {
-          recognitionModeEnableBuilder_.clear();
-        }
-        if (recognitionModeDisableBuilder_ != null) {
-          recognitionModeDisableBuilder_.clear();
-        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1098,14 +966,6 @@ public final class JonSharedCmdCv {
             dumpStopBuilder_ != null) {
           result.cmd_ = dumpStopBuilder_.build();
         }
-        if (cmdCase_ == 10 &&
-            recognitionModeEnableBuilder_ != null) {
-          result.cmd_ = recognitionModeEnableBuilder_.build();
-        }
-        if (cmdCase_ == 11 &&
-            recognitionModeDisableBuilder_ != null) {
-          result.cmd_ = recognitionModeDisableBuilder_.build();
-        }
       }
 
       @java.lang.Override
@@ -1155,14 +1015,6 @@ public final class JonSharedCmdCv {
           }
           case DUMP_STOP: {
             mergeDumpStop(other.getDumpStop());
-            break;
-          }
-          case RECOGNITION_MODE_ENABLE: {
-            mergeRecognitionModeEnable(other.getRecognitionModeEnable());
-            break;
-          }
-          case RECOGNITION_MODE_DISABLE: {
-            mergeRecognitionModeDisable(other.getRecognitionModeDisable());
             break;
           }
           case CMD_NOT_SET: {
@@ -1258,20 +1110,6 @@ public final class JonSharedCmdCv {
                 cmdCase_ = 9;
                 break;
               } // case 74
-              case 82: {
-                input.readMessage(
-                    getRecognitionModeEnableFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                cmdCase_ = 10;
-                break;
-              } // case 82
-              case 90: {
-                input.readMessage(
-                    getRecognitionModeDisableFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                cmdCase_ = 11;
-                break;
-              } // case 90
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2580,290 +2418,6 @@ public final class JonSharedCmdCv {
         cmdCase_ = 9;
         onChanged();
         return dumpStopBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.CV.JonSharedCmdCv.RecognitionModeEnable, cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder, cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder> recognitionModeEnableBuilder_;
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       * @return Whether the recognitionModeEnable field is set.
-       */
-      @java.lang.Override
-      public boolean hasRecognitionModeEnable() {
-        return cmdCase_ == 10;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       * @return The recognitionModeEnable.
-       */
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeEnable getRecognitionModeEnable() {
-        if (recognitionModeEnableBuilder_ == null) {
-          if (cmdCase_ == 10) {
-            return (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_;
-          }
-          return cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-        } else {
-          if (cmdCase_ == 10) {
-            return recognitionModeEnableBuilder_.getMessage();
-          }
-          return cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      public Builder setRecognitionModeEnable(cmd.CV.JonSharedCmdCv.RecognitionModeEnable value) {
-        if (recognitionModeEnableBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          cmd_ = value;
-          onChanged();
-        } else {
-          recognitionModeEnableBuilder_.setMessage(value);
-        }
-        cmdCase_ = 10;
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      public Builder setRecognitionModeEnable(
-          cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder builderForValue) {
-        if (recognitionModeEnableBuilder_ == null) {
-          cmd_ = builderForValue.build();
-          onChanged();
-        } else {
-          recognitionModeEnableBuilder_.setMessage(builderForValue.build());
-        }
-        cmdCase_ = 10;
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      public Builder mergeRecognitionModeEnable(cmd.CV.JonSharedCmdCv.RecognitionModeEnable value) {
-        if (recognitionModeEnableBuilder_ == null) {
-          if (cmdCase_ == 10 &&
-              cmd_ != cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance()) {
-            cmd_ = cmd.CV.JonSharedCmdCv.RecognitionModeEnable.newBuilder((cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            cmd_ = value;
-          }
-          onChanged();
-        } else {
-          if (cmdCase_ == 10) {
-            recognitionModeEnableBuilder_.mergeFrom(value);
-          } else {
-            recognitionModeEnableBuilder_.setMessage(value);
-          }
-        }
-        cmdCase_ = 10;
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      public Builder clearRecognitionModeEnable() {
-        if (recognitionModeEnableBuilder_ == null) {
-          if (cmdCase_ == 10) {
-            cmdCase_ = 0;
-            cmd_ = null;
-            onChanged();
-          }
-        } else {
-          if (cmdCase_ == 10) {
-            cmdCase_ = 0;
-            cmd_ = null;
-          }
-          recognitionModeEnableBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      public cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder getRecognitionModeEnableBuilder() {
-        return getRecognitionModeEnableFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder getRecognitionModeEnableOrBuilder() {
-        if ((cmdCase_ == 10) && (recognitionModeEnableBuilder_ != null)) {
-          return recognitionModeEnableBuilder_.getMessageOrBuilder();
-        } else {
-          if (cmdCase_ == 10) {
-            return (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_;
-          }
-          return cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeEnable recognition_mode_enable = 10;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.CV.JonSharedCmdCv.RecognitionModeEnable, cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder, cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder> 
-          getRecognitionModeEnableFieldBuilder() {
-        if (recognitionModeEnableBuilder_ == null) {
-          if (!(cmdCase_ == 10)) {
-            cmd_ = cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-          }
-          recognitionModeEnableBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              cmd.CV.JonSharedCmdCv.RecognitionModeEnable, cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder, cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder>(
-                  (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) cmd_,
-                  getParentForChildren(),
-                  isClean());
-          cmd_ = null;
-        }
-        cmdCase_ = 10;
-        onChanged();
-        return recognitionModeEnableBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.CV.JonSharedCmdCv.RecognitionModeDisable, cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder, cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder> recognitionModeDisableBuilder_;
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       * @return Whether the recognitionModeDisable field is set.
-       */
-      @java.lang.Override
-      public boolean hasRecognitionModeDisable() {
-        return cmdCase_ == 11;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       * @return The recognitionModeDisable.
-       */
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeDisable getRecognitionModeDisable() {
-        if (recognitionModeDisableBuilder_ == null) {
-          if (cmdCase_ == 11) {
-            return (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_;
-          }
-          return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-        } else {
-          if (cmdCase_ == 11) {
-            return recognitionModeDisableBuilder_.getMessage();
-          }
-          return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      public Builder setRecognitionModeDisable(cmd.CV.JonSharedCmdCv.RecognitionModeDisable value) {
-        if (recognitionModeDisableBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          cmd_ = value;
-          onChanged();
-        } else {
-          recognitionModeDisableBuilder_.setMessage(value);
-        }
-        cmdCase_ = 11;
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      public Builder setRecognitionModeDisable(
-          cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder builderForValue) {
-        if (recognitionModeDisableBuilder_ == null) {
-          cmd_ = builderForValue.build();
-          onChanged();
-        } else {
-          recognitionModeDisableBuilder_.setMessage(builderForValue.build());
-        }
-        cmdCase_ = 11;
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      public Builder mergeRecognitionModeDisable(cmd.CV.JonSharedCmdCv.RecognitionModeDisable value) {
-        if (recognitionModeDisableBuilder_ == null) {
-          if (cmdCase_ == 11 &&
-              cmd_ != cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance()) {
-            cmd_ = cmd.CV.JonSharedCmdCv.RecognitionModeDisable.newBuilder((cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            cmd_ = value;
-          }
-          onChanged();
-        } else {
-          if (cmdCase_ == 11) {
-            recognitionModeDisableBuilder_.mergeFrom(value);
-          } else {
-            recognitionModeDisableBuilder_.setMessage(value);
-          }
-        }
-        cmdCase_ = 11;
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      public Builder clearRecognitionModeDisable() {
-        if (recognitionModeDisableBuilder_ == null) {
-          if (cmdCase_ == 11) {
-            cmdCase_ = 0;
-            cmd_ = null;
-            onChanged();
-          }
-        } else {
-          if (cmdCase_ == 11) {
-            cmdCase_ = 0;
-            cmd_ = null;
-          }
-          recognitionModeDisableBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      public cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder getRecognitionModeDisableBuilder() {
-        return getRecognitionModeDisableFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder getRecognitionModeDisableOrBuilder() {
-        if ((cmdCase_ == 11) && (recognitionModeDisableBuilder_ != null)) {
-          return recognitionModeDisableBuilder_.getMessageOrBuilder();
-        } else {
-          if (cmdCase_ == 11) {
-            return (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_;
-          }
-          return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.CV.RecognitionModeDisable recognition_mode_disable = 11;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.CV.JonSharedCmdCv.RecognitionModeDisable, cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder, cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder> 
-          getRecognitionModeDisableFieldBuilder() {
-        if (recognitionModeDisableBuilder_ == null) {
-          if (!(cmdCase_ == 11)) {
-            cmd_ = cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-          }
-          recognitionModeDisableBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              cmd.CV.JonSharedCmdCv.RecognitionModeDisable, cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder, cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder>(
-                  (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_,
-                  getParentForChildren(),
-                  isClean());
-          cmd_ = null;
-        }
-        cmdCase_ = 11;
-        onChanged();
-        return recognitionModeDisableBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.CV.Root)
@@ -4332,716 +3886,6 @@ public final class JonSharedCmdCv {
 
     @java.lang.Override
     public cmd.CV.JonSharedCmdCv.VampireModeDisable getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface RecognitionModeEnableOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:cmd.CV.RecognitionModeEnable)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code cmd.CV.RecognitionModeEnable}
-   */
-  public static final class RecognitionModeEnable extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:cmd.CV.RecognitionModeEnable)
-      RecognitionModeEnableOrBuilder {
-  private static final long serialVersionUID = 0L;
-    static {
-      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-        /* major= */ 4,
-        /* minor= */ 29,
-        /* patch= */ 2,
-        /* suffix= */ "",
-        RecognitionModeEnable.class.getName());
-    }
-    // Use RecognitionModeEnable.newBuilder() to construct.
-    private RecognitionModeEnable(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-    }
-    private RecognitionModeEnable() {
-    }
-
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeEnable_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeEnable_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              cmd.CV.JonSharedCmdCv.RecognitionModeEnable.class, cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getUnknownFields().writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += getUnknownFields().getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof cmd.CV.JonSharedCmdCv.RecognitionModeEnable)) {
-        return super.equals(obj);
-      }
-      cmd.CV.JonSharedCmdCv.RecognitionModeEnable other = (cmd.CV.JonSharedCmdCv.RecognitionModeEnable) obj;
-
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + getUnknownFields().hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.RecognitionModeEnable prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code cmd.CV.RecognitionModeEnable}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:cmd.CV.RecognitionModeEnable)
-        cmd.CV.JonSharedCmdCv.RecognitionModeEnableOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeEnable_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeEnable_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cmd.CV.JonSharedCmdCv.RecognitionModeEnable.class, cmd.CV.JonSharedCmdCv.RecognitionModeEnable.Builder.class);
-      }
-
-      // Construct using cmd.CV.JonSharedCmdCv.RecognitionModeEnable.newBuilder()
-      private Builder() {
-
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeEnable_descriptor;
-      }
-
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeEnable getDefaultInstanceForType() {
-        return cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeEnable build() {
-        cmd.CV.JonSharedCmdCv.RecognitionModeEnable result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeEnable buildPartial() {
-        cmd.CV.JonSharedCmdCv.RecognitionModeEnable result = new cmd.CV.JonSharedCmdCv.RecognitionModeEnable(this);
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof cmd.CV.JonSharedCmdCv.RecognitionModeEnable) {
-          return mergeFrom((cmd.CV.JonSharedCmdCv.RecognitionModeEnable)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.RecognitionModeEnable other) {
-        if (other == cmd.CV.JonSharedCmdCv.RecognitionModeEnable.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.getUnknownFields());
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.unwrapIOException();
-        } finally {
-          onChanged();
-        } // finally
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:cmd.CV.RecognitionModeEnable)
-    }
-
-    // @@protoc_insertion_point(class_scope:cmd.CV.RecognitionModeEnable)
-    private static final cmd.CV.JonSharedCmdCv.RecognitionModeEnable DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.RecognitionModeEnable();
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeEnable getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<RecognitionModeEnable>
-        PARSER = new com.google.protobuf.AbstractParser<RecognitionModeEnable>() {
-      @java.lang.Override
-      public RecognitionModeEnable parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
-      }
-    };
-
-    public static com.google.protobuf.Parser<RecognitionModeEnable> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<RecognitionModeEnable> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cmd.CV.JonSharedCmdCv.RecognitionModeEnable getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface RecognitionModeDisableOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:cmd.CV.RecognitionModeDisable)
-      com.google.protobuf.MessageOrBuilder {
-  }
-  /**
-   * Protobuf type {@code cmd.CV.RecognitionModeDisable}
-   */
-  public static final class RecognitionModeDisable extends
-      com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:cmd.CV.RecognitionModeDisable)
-      RecognitionModeDisableOrBuilder {
-  private static final long serialVersionUID = 0L;
-    static {
-      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
-        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
-        /* major= */ 4,
-        /* minor= */ 29,
-        /* patch= */ 2,
-        /* suffix= */ "",
-        RecognitionModeDisable.class.getName());
-    }
-    // Use RecognitionModeDisable.newBuilder() to construct.
-    private RecognitionModeDisable(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-    }
-    private RecognitionModeDisable() {
-    }
-
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeDisable_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeDisable_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              cmd.CV.JonSharedCmdCv.RecognitionModeDisable.class, cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder.class);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getUnknownFields().writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      size += getUnknownFields().getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof cmd.CV.JonSharedCmdCv.RecognitionModeDisable)) {
-        return super.equals(obj);
-      }
-      cmd.CV.JonSharedCmdCv.RecognitionModeDisable other = (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) obj;
-
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-      return true;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (29 * hash) + getUnknownFields().hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input);
-    }
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.RecognitionModeDisable prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code cmd.CV.RecognitionModeDisable}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:cmd.CV.RecognitionModeDisable)
-        cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeDisable_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeDisable_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                cmd.CV.JonSharedCmdCv.RecognitionModeDisable.class, cmd.CV.JonSharedCmdCv.RecognitionModeDisable.Builder.class);
-      }
-
-      // Construct using cmd.CV.JonSharedCmdCv.RecognitionModeDisable.newBuilder()
-      private Builder() {
-
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_RecognitionModeDisable_descriptor;
-      }
-
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeDisable getDefaultInstanceForType() {
-        return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeDisable build() {
-        cmd.CV.JonSharedCmdCv.RecognitionModeDisable result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public cmd.CV.JonSharedCmdCv.RecognitionModeDisable buildPartial() {
-        cmd.CV.JonSharedCmdCv.RecognitionModeDisable result = new cmd.CV.JonSharedCmdCv.RecognitionModeDisable(this);
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof cmd.CV.JonSharedCmdCv.RecognitionModeDisable) {
-          return mergeFrom((cmd.CV.JonSharedCmdCv.RecognitionModeDisable)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.RecognitionModeDisable other) {
-        if (other == cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance()) return this;
-        this.mergeUnknownFields(other.getUnknownFields());
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.unwrapIOException();
-        } finally {
-          onChanged();
-        } // finally
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:cmd.CV.RecognitionModeDisable)
-    }
-
-    // @@protoc_insertion_point(class_scope:cmd.CV.RecognitionModeDisable)
-    private static final cmd.CV.JonSharedCmdCv.RecognitionModeDisable DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.RecognitionModeDisable();
-    }
-
-    public static cmd.CV.JonSharedCmdCv.RecognitionModeDisable getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<RecognitionModeDisable>
-        PARSER = new com.google.protobuf.AbstractParser<RecognitionModeDisable>() {
-      @java.lang.Override
-      public RecognitionModeDisable parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
-      }
-    };
-
-    public static com.google.protobuf.Parser<RecognitionModeDisable> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<RecognitionModeDisable> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public cmd.CV.JonSharedCmdCv.RecognitionModeDisable getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7366,16 +6210,6 @@ public final class JonSharedCmdCv {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_CV_VampireModeDisable_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_cmd_CV_RecognitionModeEnable_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cmd_CV_RecognitionModeEnable_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_cmd_CV_RecognitionModeDisable_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cmd_CV_RecognitionModeDisable_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_CV_StabilizationModeEnable_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -7411,7 +6245,7 @@ public final class JonSharedCmdCv {
     java.lang.String[] descriptorData = {
       "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033buf/v" +
       "alidate/validate.proto\032\033jon_shared_data_" +
-      "types.proto\"\371\004\n\004Root\022.\n\016set_auto_focus\030\001" +
+      "types.proto\"\363\003\n\004Root\022.\n\016set_auto_focus\030\001" +
       " \001(\0132\024.cmd.CV.SetAutoFocusH\000\0220\n\017start_tr" +
       "ack_ndc\030\002 \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'" +
       "\n\nstop_track\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\022" +
@@ -7423,23 +6257,19 @@ public final class JonSharedCmdCv {
       "tion_mode_disable\030\007 \001(\0132 .cmd.CV.Stabili" +
       "zationModeDisableH\000\022\'\n\ndump_start\030\010 \001(\0132" +
       "\021.cmd.CV.DumpStartH\000\022%\n\tdump_stop\030\t \001(\0132" +
-      "\020.cmd.CV.DumpStopH\000\022@\n\027recognition_mode_" +
-      "enable\030\n \001(\0132\035.cmd.CV.RecognitionModeEna" +
-      "bleH\000\022B\n\030recognition_mode_disable\030\013 \001(\0132" +
-      "\036.cmd.CV.RecognitionModeDisableH\000B\014\n\003cmd" +
-      "\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpStar" +
-      "t\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\"\027\n\025R" +
-      "ecognitionModeEnable\"\030\n\026RecognitionModeD" +
-      "isable\"\031\n\027StabilizationModeEnable\"\032\n\030Sta" +
-      "bilizationModeDisable\"W\n\014SetAutoFocus\0228\n" +
-      "\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoChan" +
-      "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\225\001\n\rStart" +
-      "TrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDa" +
-      "taVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\032\n\001x\030\002 \001(\002B\017\272" +
-      "H\014\n\n\035\000\000\200?-\000\000\200\277\022\032\n\001y\030\003 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000" +
-      "\200\277\022\022\n\nframe_time\030\004 \001(\004\"\013\n\tStopTrackBIZGg" +
-      "it-codecommit.eu-central-1.amazonaws.com" +
-      "/v1/repos/jettison/jonp/cmd/cvb\006proto3"
+      "\020.cmd.CV.DumpStopH\000B\014\n\003cmd\022\005\272H\002\010\001\"\023\n\021Vam" +
+      "pireModeEnable\"\013\n\tDumpStart\"\n\n\010DumpStop\"" +
+      "\024\n\022VampireModeDisable\"\031\n\027StabilizationMo" +
+      "deEnable\"\032\n\030StabilizationModeDisable\"W\n\014" +
+      "SetAutoFocus\0228\n\007channel\030\001 \001(\0162\033.ser.JonG" +
+      "uiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030" +
+      "\002 \001(\010\"\225\001\n\rStartTrackNDC\0228\n\007channel\030\001 \001(\016" +
+      "2\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 " +
+      "\000\022\032\n\001x\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\022\032\n\001y\030\003 \001(\002" +
+      "B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\022\022\n\nframe_time\030\004 \001(\004\"\013\n" +
+      "\tStopTrackBIZGgit-codecommit.eu-central-" +
+      "1.amazonaws.com/v1/repos/jettison/jonp/c" +
+      "md/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7452,7 +6282,7 @@ public final class JonSharedCmdCv {
     internal_static_cmd_CV_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_Root_descriptor,
-        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "Cmd", });
+        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "Cmd", });
     internal_static_cmd_CV_VampireModeEnable_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_CV_VampireModeEnable_fieldAccessorTable = new
@@ -7477,44 +6307,32 @@ public final class JonSharedCmdCv {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_VampireModeDisable_descriptor,
         new java.lang.String[] { });
-    internal_static_cmd_CV_RecognitionModeEnable_descriptor =
-      getDescriptor().getMessageTypes().get(5);
-    internal_static_cmd_CV_RecognitionModeEnable_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_cmd_CV_RecognitionModeEnable_descriptor,
-        new java.lang.String[] { });
-    internal_static_cmd_CV_RecognitionModeDisable_descriptor =
-      getDescriptor().getMessageTypes().get(6);
-    internal_static_cmd_CV_RecognitionModeDisable_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_cmd_CV_RecognitionModeDisable_descriptor,
-        new java.lang.String[] { });
     internal_static_cmd_CV_StabilizationModeEnable_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_cmd_CV_StabilizationModeEnable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StabilizationModeEnable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_StabilizationModeDisable_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_cmd_CV_StabilizationModeDisable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StabilizationModeDisable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_CV_SetAutoFocus_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_cmd_CV_SetAutoFocus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_SetAutoFocus_descriptor,
         new java.lang.String[] { "Channel", "Value", });
     internal_static_cmd_CV_StartTrackNDC_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_cmd_CV_StartTrackNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StartTrackNDC_descriptor,
         new java.lang.String[] { "Channel", "X", "Y", "FrameTime", });
     internal_static_cmd_CV_StopTrack_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_cmd_CV_StopTrack_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StopTrack_descriptor,

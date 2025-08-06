@@ -37,9 +37,13 @@ ENV PATH=/usr/local/go/bin:$PATH
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$PATH
 
-# Install Rust
-RUN curl -s --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${RUST_VERSION}
-ENV PATH=/root/.cargo/bin:$PATH
+# Install Rust system-wide in /opt/rust for all users
+ENV RUSTUP_HOME=/opt/rust
+ENV CARGO_HOME=/opt/rust
+RUN curl -s --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${RUST_VERSION} --profile minimal --no-modify-path
+ENV PATH=/opt/rust/bin:$PATH
+# Make rust directory accessible to all users
+RUN chmod -R a+rx /opt/rust
 
 # Install Python protobuf dependencies
 RUN pip3 install --break-system-packages \

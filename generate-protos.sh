@@ -195,8 +195,53 @@ for proto in proto/*.proto; do
     awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
 done
 
+# Ensure the output directory exists
+mkdir -p /workspace/output
+
+# Set PATH to include cargo - try multiple locations
+export PATH="/opt/rust/bin:/root/.cargo/bin:/usr/local/bin:$PATH"
+
+# Debug output
+echo "PATH: $PATH"
+echo "Checking cargo availability..."
+
+# If cargo is not accessible, try to find it
+if ! command -v cargo &> /dev/null; then
+    echo "cargo not found in PATH"
+    # Try to find cargo in common locations
+    if [ -f "/root/.cargo/bin/cargo" ]; then
+        echo "cargo found at /root/.cargo/bin/cargo"
+        # Check if we can execute it
+        if /root/.cargo/bin/cargo --version &> /dev/null; then
+            echo "cargo is executable, adding to PATH"
+            export PATH="/root/.cargo/bin:$PATH"
+        else
+            echo "cargo not executable, trying to copy to accessible location"
+            # If cargo exists but not accessible due to permissions, skip Rust generation
+            echo "WARNING: Skipping Rust generation due to permission issues with cargo"
+            echo "To fix this, rebuild the base image with proper Rust installation"
+            exit 0
+        fi
+    else
+        echo "cargo not found at /root/.cargo/bin/cargo"
+        echo "WARNING: Skipping Rust generation - cargo not installed"
+        exit 0
+    fi
+else
+    echo "cargo found in PATH: $(which cargo)"
+fi
+
 # Create a Rust project for generation
 cd /tmp/rust_gen
+
+# Set cargo directories to writable locations
+export CARGO_HOME="/tmp/.cargo"
+mkdir -p "$CARGO_HOME"
+
+# Verify cargo is working
+echo "Testing cargo version..."
+cargo --version || { echo "ERROR: cargo not working"; exit 1; }
+
 cat > Cargo.toml << EOF
 [package]
 name = "proto-gen"
@@ -227,6 +272,9 @@ fn main() -> Result<()> {
         })
         .collect();
     
+    // Ensure output directory exists and is writable
+    std::fs::create_dir_all("/workspace/output")?;
+    
     prost_build::Config::new()
         .out_dir("/workspace/output")
         .compile_protos(&proto_files, &["/tmp/cleaned_proto"])?;
@@ -239,6 +287,7 @@ cat > src/main.rs << "EOF"
 fn main() {}
 EOF
 
+echo "Building Rust proto generation..."
 cargo build
 '
 
@@ -280,7 +329,7 @@ protoc -I/tmp/java_proto_buf \
     /tmp/java_proto_buf/*.proto
 '
 
-# Go generation script with protovalidate (new approach)
+# Go generation script with protovalidate using buf generate
 GO_VALIDATE_SCRIPT='
 set -e
 mkdir -p /tmp/go_proto_val
@@ -294,11 +343,38 @@ done
 # Copy validate.proto from protovalidate
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/go_proto_val/
 
-# Generate all proto files together
-protoc -I/tmp/go_proto_val \
-    --go_out=/workspace/output-validated \
-    --go-grpc_out=/workspace/output-validated \
-    /tmp/go_proto_val/*.proto
+# Create buf.yaml for the generation
+cd /tmp/go_proto_val
+cat > buf.yaml << "BUF_EOF"
+version: v2
+modules:
+  - path: .
+    name: buf.build/jettison/jonp
+BUF_EOF
+
+# Create buf.gen.yaml for Go generation with validation
+cat > buf.gen.yaml << "BUF_EOF"
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: ""
+plugins:
+  - remote: buf.build/protocolbuffers/go:v1.36.6
+    out: /workspace/output-validated
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go:v1.3.0
+    out: /workspace/output-validated
+    opt: paths=source_relative
+BUF_EOF
+
+# Ensure output directory exists
+mkdir -p /workspace/output-validated
+
+# Generate using buf
+echo "Generating Go bindings with buf.validate support using buf generate..."
+buf generate
 '
 
 # Java validation script removed - Java now uses direct generation with annotations

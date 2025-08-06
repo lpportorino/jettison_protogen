@@ -34,7 +34,6 @@ typedef struct _ser_JonGuiDataSystem {
     bool stabilization_mode;
     bool geodesic_mode;
     bool cv_dumping;
-    bool recognition_mode;
 } ser_JonGuiDataSystem;
 
 
@@ -43,8 +42,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataSystem_init_default        {0, 0, 0, 0, 0, _ser_JonGuiDataSystemLocalizations_MIN, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-#define ser_JonGuiDataSystem_init_zero           {0, 0, 0, 0, 0, _ser_JonGuiDataSystemLocalizations_MIN, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataSystem_init_default        {0, 0, 0, 0, 0, _ser_JonGuiDataSystemLocalizations_MIN, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataSystem_init_zero           {0, 0, 0, 0, 0, _ser_JonGuiDataSystemLocalizations_MIN, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataSystem_cpu_temperature_tag 1
@@ -69,7 +68,6 @@ extern "C" {
 #define ser_JonGuiDataSystem_stabilization_mode_tag 20
 #define ser_JonGuiDataSystem_geodesic_mode_tag   21
 #define ser_JonGuiDataSystem_cv_dumping_tag      22
-#define ser_JonGuiDataSystem_recognition_mode_tag 23
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataSystem_FIELDLIST(X, a) \
@@ -94,8 +92,7 @@ X(a, STATIC,   SINGULAR, BOOL,     tracking,         18) \
 X(a, STATIC,   SINGULAR, BOOL,     vampire_mode,     19) \
 X(a, STATIC,   SINGULAR, BOOL,     stabilization_mode,  20) \
 X(a, STATIC,   SINGULAR, BOOL,     geodesic_mode,    21) \
-X(a, STATIC,   SINGULAR, BOOL,     cv_dumping,       22) \
-X(a, STATIC,   SINGULAR, BOOL,     recognition_mode,  23)
+X(a, STATIC,   SINGULAR, BOOL,     cv_dumping,       22)
 #define ser_JonGuiDataSystem_CALLBACK NULL
 #define ser_JonGuiDataSystem_DEFAULT NULL
 
@@ -106,7 +103,7 @@ extern const pb_msgdesc_t ser_JonGuiDataSystem_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_SYSTEM_PB_H_MAX_SIZE ser_JonGuiDataSystem_size
-#define ser_JonGuiDataSystem_size                132
+#define ser_JonGuiDataSystem_size                129
 
 #ifdef __cplusplus
 } /* extern "C" */

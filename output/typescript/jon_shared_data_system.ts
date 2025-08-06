@@ -36,7 +36,6 @@ export interface JonGuiDataSystem {
   stabilizationMode: boolean;
   geodesicMode: boolean;
   cvDumping: boolean;
-  recognitionMode: boolean;
 }
 
 function createBaseJonGuiDataSystem(): JonGuiDataSystem {
@@ -63,7 +62,6 @@ function createBaseJonGuiDataSystem(): JonGuiDataSystem {
     stabilizationMode: false,
     geodesicMode: false,
     cvDumping: false,
-    recognitionMode: false,
   };
 }
 
@@ -134,9 +132,6 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
     }
     if (message.cvDumping !== false) {
       writer.uint32(176).bool(message.cvDumping);
-    }
-    if (message.recognitionMode !== false) {
-      writer.uint32(184).bool(message.recognitionMode);
     }
     return writer;
   },
@@ -324,14 +319,6 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
           message.cvDumping = reader.bool();
           continue;
         }
-        case 23: {
-          if (tag !== 184) {
-            break;
-          }
-
-          message.recognitionMode = reader.bool();
-          continue;
-        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -365,7 +352,6 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
       stabilizationMode: isSet(object.stabilizationMode) ? globalThis.Boolean(object.stabilizationMode) : false,
       geodesicMode: isSet(object.geodesicMode) ? globalThis.Boolean(object.geodesicMode) : false,
       cvDumping: isSet(object.cvDumping) ? globalThis.Boolean(object.cvDumping) : false,
-      recognitionMode: isSet(object.recognitionMode) ? globalThis.Boolean(object.recognitionMode) : false,
     };
   },
 
@@ -437,9 +423,6 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
     if (message.cvDumping !== false) {
       obj.cvDumping = message.cvDumping;
     }
-    if (message.recognitionMode !== false) {
-      obj.recognitionMode = message.recognitionMode;
-    }
     return obj;
   },
 
@@ -470,7 +453,6 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
     message.stabilizationMode = object.stabilizationMode ?? false;
     message.geodesicMode = object.geodesicMode ?? false;
     message.cvDumping = object.cvDumping ?? false;
-    message.recognitionMode = object.recognitionMode ?? false;
     return message;
   },
 };
