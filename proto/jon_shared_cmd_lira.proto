@@ -25,7 +25,10 @@ message JonGuiDataLiraTarget {
     gte: -90,
     lte: 90
   }];
-  double target_altitude = 4;
+  double target_altitude = 4 [(buf.validate.field).double = {
+    gte: -433.0,  // Dead Sea shore (lowest point on Earth's surface)
+    lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
+  }];
   double target_azimuth = 5 [(buf.validate.field).double = {
     gte: 0,
     lt: 360

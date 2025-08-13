@@ -3714,7 +3714,7 @@ public final class JonSharedCmdGps {
       "lPosition\022\014\n\004flag\030\001 \001(\010\"}\n\021SetManualPosi" +
       "tion\022!\n\010latitude\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\022" +
       "\"\n\tlongitude\030\002 \001(\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022!\n\010a" +
-      "ltitude\030\003 \001(\002B\017\272H\014\n\n\035\000@\nF-\000\000\330\303BJZHgit-co" +
+      "ltitude\030\003 \001(\002B\017\272H\014\n\n\035\000P\303G-\000\000\330\303BJZHgit-co" +
       "decommit.eu-central-1.amazonaws.com/v1/r" +
       "epos/jettison/jonp/cmd/gpsb\006proto3"
     };

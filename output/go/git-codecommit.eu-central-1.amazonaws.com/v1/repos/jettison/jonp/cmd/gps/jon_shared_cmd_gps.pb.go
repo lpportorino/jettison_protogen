@@ -391,8 +391,7 @@ const file_jon_shared_cmd_gps_proto_rawDesc = "" +
 	"\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x12+\n" +
 	"\baltitude\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00@\n" +
-	"F-\x00\x00\xd8\xc3R\baltitudeB\xaa\x01\n" +
+	"\x1d\x00P\xc3G-\x00\x00\xd8\xc3R\baltitudeB\xaa\x01\n" +
 	"\vcom.cmd.GpsB\x14JonSharedCmdGpsProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/gps\xa2\x02\x03CGX\xaa\x02\aCmd.Gps\xca\x02\aCmd\\Gps\xe2\x02\x13Cmd\\Gps\\GPBMetadata\xea\x02\bCmd::Gpsb\x06proto3"
 
 var (

@@ -1280,7 +1280,7 @@ public final class JonSharedCmdLira {
     double getTargetLatitude();
 
     /**
-     * <code>double target_altitude = 4;</code>
+     * <code>double target_altitude = 4 [(.buf.validate.field) = { ... }</code>
      * @return The targetAltitude.
      */
     double getTargetAltitude();
@@ -1404,7 +1404,7 @@ public final class JonSharedCmdLira {
     public static final int TARGET_ALTITUDE_FIELD_NUMBER = 4;
     private double targetAltitude_ = 0D;
     /**
-     * <code>double target_altitude = 4;</code>
+     * <code>double target_altitude = 4 [(.buf.validate.field) = { ... }</code>
      * @return The targetAltitude.
      */
     @java.lang.Override
@@ -2127,7 +2127,7 @@ public final class JonSharedCmdLira {
 
       private double targetAltitude_ ;
       /**
-       * <code>double target_altitude = 4;</code>
+       * <code>double target_altitude = 4 [(.buf.validate.field) = { ... }</code>
        * @return The targetAltitude.
        */
       @java.lang.Override
@@ -2135,7 +2135,7 @@ public final class JonSharedCmdLira {
         return targetAltitude_;
       }
       /**
-       * <code>double target_altitude = 4;</code>
+       * <code>double target_altitude = 4 [(.buf.validate.field) = { ... }</code>
        * @param value The targetAltitude to set.
        * @return This builder for chaining.
        */
@@ -2147,7 +2147,7 @@ public final class JonSharedCmdLira {
         return this;
       }
       /**
-       * <code>double target_altitude = 4;</code>
+       * <code>double target_altitude = 4 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearTargetAltitude() {
@@ -2473,19 +2473,19 @@ public final class JonSharedCmdLira {
       "fine_target\030\001 \001(\0132\027.cmd.Lira.Refine_targ" +
       "etH\000B\014\n\003cmd\022\005\272H\002\010\001\"?\n\rRefine_target\022.\n\006t" +
       "arget\030\001 \001(\0132\036.cmd.Lira.JonGuiDataLiraTar" +
-      "get\"\206\003\n\024JonGuiDataLiraTarget\022\032\n\ttimestam" +
+      "get\"\237\003\n\024JonGuiDataLiraTarget\022\032\n\ttimestam" +
       "p\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001" +
       "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_la" +
-      "titude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n" +
-      "\017target_altitude\030\004 \001(\001\022/\n\016target_azimuth" +
-      "\030\005 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0221\n\020targe" +
-      "t_elevation\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200" +
-      "V\300\022 \n\010distance\030\007 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022\022\n\n" +
-      "uuid_part1\030\010 \001(\005\022\022\n\nuuid_part2\030\t \001(\005\022\022\n\n" +
-      "uuid_part3\030\n \001(\005\022\022\n\nuuid_part4\030\013 \001(\005BKZI" +
-      "git-codecommit.eu-central-1.amazonaws.co" +
-      "m/v1/repos/jettison/jonp/cmd/lirab\006proto" +
-      "3"
+      "titude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\0220\n" +
+      "\017target_altitude\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000" +
+      "\000\000\000\000\020{\300\022/\n\016target_azimuth\030\005 \001(\001B\027\272H\024\022\022\021\000" +
+      "\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0221\n\020target_elevation\030\006 \001" +
+      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022 \n\010distance\030" +
+      "\007 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022\022\n\nuuid_part1\030\010 \001(" +
+      "\005\022\022\n\nuuid_part2\030\t \001(\005\022\022\n\nuuid_part3\030\n \001(" +
+      "\005\022\022\n\nuuid_part4\030\013 \001(\005BKZIgit-codecommit." +
+      "eu-central-1.amazonaws.com/v1/repos/jett" +
+      "ison/jonp/cmd/lirab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

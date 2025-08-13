@@ -36,6 +36,6 @@ message SetManualPosition {
   }];
   float altitude = 3 [(buf.validate.field).float = {
     gte: -432.0,  // Lowest point on Earth's surface (Dead Sea shore)
-    lte: 8848.0   // Highest point on Earth's surface (Mount Everest)
+    lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
   }];
 }

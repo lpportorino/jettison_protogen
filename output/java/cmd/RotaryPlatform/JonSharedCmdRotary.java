@@ -25094,7 +25094,7 @@ public final class JonSharedCmdRotary {
     float getLongitude();
 
     /**
-     * <code>float altitude = 3;</code>
+     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     float getAltitude();
@@ -25161,7 +25161,7 @@ public final class JonSharedCmdRotary {
     public static final int ALTITUDE_FIELD_NUMBER = 3;
     private float altitude_ = 0F;
     /**
-     * <code>float altitude = 3;</code>
+     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     @java.lang.Override
@@ -25580,7 +25580,7 @@ public final class JonSharedCmdRotary {
 
       private float altitude_ ;
       /**
-       * <code>float altitude = 3;</code>
+       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return The altitude.
        */
       @java.lang.Override
@@ -25588,7 +25588,7 @@ public final class JonSharedCmdRotary {
         return altitude_;
       }
       /**
-       * <code>float altitude = 3;</code>
+       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
@@ -25600,7 +25600,7 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float altitude = 3;</code>
+       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
@@ -25678,7 +25678,7 @@ public final class JonSharedCmdRotary {
     float getLongitude();
 
     /**
-     * <code>float altitude = 3;</code>
+     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     float getAltitude();
@@ -25745,7 +25745,7 @@ public final class JonSharedCmdRotary {
     public static final int ALTITUDE_FIELD_NUMBER = 3;
     private float altitude_ = 0F;
     /**
-     * <code>float altitude = 3;</code>
+     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     @java.lang.Override
@@ -26164,7 +26164,7 @@ public final class JonSharedCmdRotary {
 
       private float altitude_ ;
       /**
-       * <code>float altitude = 3;</code>
+       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return The altitude.
        */
       @java.lang.Override
@@ -26172,7 +26172,7 @@ public final class JonSharedCmdRotary {
         return altitude_;
       }
       /**
-       * <code>float altitude = 3;</code>
+       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
@@ -26184,7 +26184,7 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float altitude = 3;</code>
+       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
@@ -27178,17 +27178,18 @@ public final class JonSharedCmdRotary {
       "RotateElevationRelativeSetH\000\0221\n\004halt\030\006 \001" +
       "(\0132!.cmd.RotaryPlatform.HaltElevationH\000B" +
       "\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCompass\022\014" +
-      "\n\004flag\030\001 \001(\010\"f\n\013RotateToGPS\022!\n\010latitude\030" +
+      "\n\004flag\030\001 \001(\010\"w\n\013RotateToGPS\022!\n\010latitude\030" +
       "\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\022\"\n\tlongitude\030\002 \001(" +
-      "\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022\020\n\010altitude\030\003 \001(\002\"g\n\014" +
-      "SetOriginGPS\022!\n\010latitude\030\001 \001(\002B\017\272H\014\n\n\035\000\000" +
-      "\264B-\000\000\264\302\022\"\n\tlongitude\030\002 \001(\002B\017\272H\014\n\n\025\000\0004C-\000" +
-      "\0004\303\022\020\n\010altitude\030\003 \001(\002\"\177\n\013RotateToNDC\0228\n\007" +
-      "channel\030\001 \001(\0162\033.ser.JonGuiDataVideoChann" +
-      "elB\n\272H\007\202\001\004\020\001 \000\022\032\n\001x\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000" +
-      "\200\277\022\032\n\001y\030\003 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277BMZKgit-co" +
-      "decommit.eu-central-1.amazonaws.com/v1/r" +
-      "epos/jettison/jonp/cmd/rotaryb\006proto3"
+      "\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022!\n\010altitude\030\003 \001(\002B\017\272H" +
+      "\014\n\n\035\000P\303G-\000\200\330\303\"x\n\014SetOriginGPS\022!\n\010latitud" +
+      "e\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\022\"\n\tlongitude\030\002 " +
+      "\001(\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022!\n\010altitude\030\003 \001(\002B\017" +
+      "\272H\014\n\n\035\000P\303G-\000\200\330\303\"\177\n\013RotateToNDC\0228\n\007channe" +
+      "l\030\001 \001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H" +
+      "\007\202\001\004\020\001 \000\022\032\n\001x\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\022\032\n\001" +
+      "y\030\003 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277BMZKgit-codecomm" +
+      "it.eu-central-1.amazonaws.com/v1/repos/j" +
+      "ettison/jonp/cmd/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
