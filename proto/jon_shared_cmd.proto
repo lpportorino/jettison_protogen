@@ -21,7 +21,8 @@ import "jon_shared_data_types.proto";
 
 message Root {
   uint32 protocol_version = 1 [(buf.validate.field).uint32 = {
-    gt: 0
+    gt: 0,
+    lte: 2147483647  // Max value for Java int (avoiding overflow)
   }];
   uint32 session_id = 2;
   bool important = 3;

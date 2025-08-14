@@ -3101,27 +3101,27 @@ public final class JonSharedData {
       "_heat.proto\032\035jon_shared_data_rec_osd.pro" +
       "to\032*jon_shared_data_day_cam_glass_heater" +
       ".proto\032\'jon_shared_data_actual_space_tim" +
-      "e.proto\"\343\005\n\013JonGUIState\022!\n\020protocol_vers" +
-      "ion\030\001 \001(\rB\007\272H\004*\002 \000\022-\n\006system\030\002 \001(\0132\025.ser" +
-      ".JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016meteo_inter" +
-      "nal\030\003 \001(\0132\024.ser.JonGuiDataMeteoB\006\272H\003\310\001\001\022" +
-      "\'\n\003lrf\030\004 \001(\0132\022.ser.JonGuiDataLrfB\006\272H\003\310\001\001" +
-      "\022)\n\004time\030\005 \001(\0132\023.ser.JonGuiDataTimeB\006\272H\003" +
-      "\310\001\001\022\'\n\003gps\030\006 \001(\0132\022.ser.JonGuiDataGpsB\006\272H" +
-      "\003\310\001\001\022/\n\007compass\030\007 \001(\0132\026.ser.JonGuiDataCo" +
-      "mpassB\006\272H\003\310\001\001\022-\n\006rotary\030\010 \001(\0132\025.ser.JonG" +
-      "uiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_day\030\t \001(\013" +
-      "2\030.ser.JonGuiDataCameraDayB\006\272H\003\310\001\001\0226\n\013ca" +
-      "mera_heat\030\n \001(\0132\031.ser.JonGuiDataCameraHe" +
-      "atB\006\272H\003\310\001\001\022F\n\023compass_calibration\030\013 \001(\0132" +
-      "!.ser.JonGuiDataCompassCalibrationB\006\272H\003\310" +
-      "\001\001\022.\n\007rec_osd\030\014 \001(\0132\025.ser.JonGuiDataRecO" +
-      "sdB\006\272H\003\310\001\001\022F\n\024day_cam_glass_heater\030\r \001(\013" +
-      "2 .ser.JonGuiDataDayCamGlassHeaterB\006\272H\003\310" +
-      "\001\001\022A\n\021actual_space_time\030\016 \001(\0132\036.ser.JonG" +
-      "uiDataActualSpaceTimeB\006\272H\003\310\001\001BGZEgit-cod" +
-      "ecommit.eu-central-1.amazonaws.com/v1/re" +
-      "pos/jettison/jonp/datab\006proto3"
+      "e.proto\"\351\005\n\013JonGUIState\022\'\n\020protocol_vers" +
+      "ion\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 \000\022-\n\006system\030\002 \001(\013" +
+      "2\025.ser.JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016meteo" +
+      "_internal\030\003 \001(\0132\024.ser.JonGuiDataMeteoB\006\272" +
+      "H\003\310\001\001\022\'\n\003lrf\030\004 \001(\0132\022.ser.JonGuiDataLrfB\006" +
+      "\272H\003\310\001\001\022)\n\004time\030\005 \001(\0132\023.ser.JonGuiDataTim" +
+      "eB\006\272H\003\310\001\001\022\'\n\003gps\030\006 \001(\0132\022.ser.JonGuiDataG" +
+      "psB\006\272H\003\310\001\001\022/\n\007compass\030\007 \001(\0132\026.ser.JonGui" +
+      "DataCompassB\006\272H\003\310\001\001\022-\n\006rotary\030\010 \001(\0132\025.se" +
+      "r.JonGuiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_day" +
+      "\030\t \001(\0132\030.ser.JonGuiDataCameraDayB\006\272H\003\310\001\001" +
+      "\0226\n\013camera_heat\030\n \001(\0132\031.ser.JonGuiDataCa" +
+      "meraHeatB\006\272H\003\310\001\001\022F\n\023compass_calibration\030" +
+      "\013 \001(\0132!.ser.JonGuiDataCompassCalibration" +
+      "B\006\272H\003\310\001\001\022.\n\007rec_osd\030\014 \001(\0132\025.ser.JonGuiDa" +
+      "taRecOsdB\006\272H\003\310\001\001\022F\n\024day_cam_glass_heater" +
+      "\030\r \001(\0132 .ser.JonGuiDataDayCamGlassHeater" +
+      "B\006\272H\003\310\001\001\022A\n\021actual_space_time\030\016 \001(\0132\036.se" +
+      "r.JonGuiDataActualSpaceTimeB\006\272H\003\310\001\001BGZEg" +
+      "it-codecommit.eu-central-1.amazonaws.com" +
+      "/v1/repos/jettison/jonp/datab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

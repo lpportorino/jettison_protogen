@@ -20,7 +20,10 @@ package ser;
 
 // Root message
 message JonGUIState {
-  uint32 protocol_version = 1 [(buf.validate.field).uint32.gt = 0];
+  uint32 protocol_version = 1 [(buf.validate.field).uint32 = {
+    gt: 0,
+    lte: 2147483647  // Max value for Java int (avoiding overflow)
+  }];
   JonGuiDataSystem system = 2 [(buf.validate.field).required = true];
   JonGuiDataMeteo meteo_internal = 3 [(buf.validate.field).required = true];
   JonGuiDataLrf lrf = 4 [(buf.validate.field).required = true];

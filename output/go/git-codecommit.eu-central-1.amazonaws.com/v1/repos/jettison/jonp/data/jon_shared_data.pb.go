@@ -188,9 +188,10 @@ var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\"\x83\a\n" +
-	"\vJonGUIState\x122\n" +
-	"\x10protocol_version\x18\x01 \x01(\rB\a\xbaH\x04*\x02 \x00R\x0fprotocolVersion\x125\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\"\x89\a\n" +
+	"\vJonGUIState\x128\n" +
+	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
+	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x125\n" +
 	"\x06system\x18\x02 \x01(\v2\x15.ser.JonGuiDataSystemB\x06\xbaH\x03\xc8\x01\x01R\x06system\x12C\n" +
 	"\x0emeteo_internal\x18\x03 \x01(\v2\x14.ser.JonGuiDataMeteoB\x06\xbaH\x03\xc8\x01\x01R\rmeteoInternal\x12,\n" +
 	"\x03lrf\x18\x04 \x01(\v2\x12.ser.JonGuiDataLrfB\x06\xbaH\x03\xc8\x01\x01R\x03lrf\x12/\n" +

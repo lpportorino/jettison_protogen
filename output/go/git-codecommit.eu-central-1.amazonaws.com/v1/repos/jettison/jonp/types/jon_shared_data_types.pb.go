@@ -1097,11 +1097,17 @@ var File_jon_shared_data_types_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_types_proto_rawDesc = "" +
 	"\n" +
-	"\x1bjon_shared_data_types.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"k\n" +
-	"\x0fJonGuiDataMeteo\x12 \n" +
-	"\vtemperature\x18\x01 \x01(\x02R\vtemperature\x12\x1a\n" +
-	"\bhumidity\x18\x02 \x01(\x02R\bhumidity\x12\x1a\n" +
-	"\bpressure\x18\x03 \x01(\x02R\bpressure*\xb3\x02\n" +
+	"\x1bjon_shared_data_types.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\x9e\x01\n" +
+	"\x0fJonGuiDataMeteo\x121\n" +
+	"\vtemperature\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x16C-3\x93\x88\xc3R\vtemperature\x12+\n" +
+	"\bhumidity\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\xc8B-\x00\x00\x00\x00R\bhumidity\x12+\n" +
+	"\bpressure\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x96D-\x00\x00\x00\x00R\bpressure*\xb3\x02\n" +
 	"!JonGuiDataVideoChannelHeatFilters\x126\n" +
 	"2JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\x10\x00\x124\n" +
 	"0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE\x10\x01\x124\n" +

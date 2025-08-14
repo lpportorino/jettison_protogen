@@ -2685,19 +2685,19 @@ public final class JonSharedDataTypes {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float temperature = 1;</code>
+     * <code>float temperature = 1 [(.buf.validate.field) = { ... }</code>
      * @return The temperature.
      */
     float getTemperature();
 
     /**
-     * <code>float humidity = 2;</code>
+     * <code>float humidity = 2 [(.buf.validate.field) = { ... }</code>
      * @return The humidity.
      */
     float getHumidity();
 
     /**
-     * <code>float pressure = 3;</code>
+     * <code>float pressure = 3 [(.buf.validate.field) = { ... }</code>
      * @return The pressure.
      */
     float getPressure();
@@ -2742,7 +2742,7 @@ public final class JonSharedDataTypes {
     public static final int TEMPERATURE_FIELD_NUMBER = 1;
     private float temperature_ = 0F;
     /**
-     * <code>float temperature = 1;</code>
+     * <code>float temperature = 1 [(.buf.validate.field) = { ... }</code>
      * @return The temperature.
      */
     @java.lang.Override
@@ -2753,7 +2753,7 @@ public final class JonSharedDataTypes {
     public static final int HUMIDITY_FIELD_NUMBER = 2;
     private float humidity_ = 0F;
     /**
-     * <code>float humidity = 2;</code>
+     * <code>float humidity = 2 [(.buf.validate.field) = { ... }</code>
      * @return The humidity.
      */
     @java.lang.Override
@@ -2764,7 +2764,7 @@ public final class JonSharedDataTypes {
     public static final int PRESSURE_FIELD_NUMBER = 3;
     private float pressure_ = 0F;
     /**
-     * <code>float pressure = 3;</code>
+     * <code>float pressure = 3 [(.buf.validate.field) = { ... }</code>
      * @return The pressure.
      */
     @java.lang.Override
@@ -3119,7 +3119,7 @@ public final class JonSharedDataTypes {
 
       private float temperature_ ;
       /**
-       * <code>float temperature = 1;</code>
+       * <code>float temperature = 1 [(.buf.validate.field) = { ... }</code>
        * @return The temperature.
        */
       @java.lang.Override
@@ -3127,7 +3127,7 @@ public final class JonSharedDataTypes {
         return temperature_;
       }
       /**
-       * <code>float temperature = 1;</code>
+       * <code>float temperature = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The temperature to set.
        * @return This builder for chaining.
        */
@@ -3139,7 +3139,7 @@ public final class JonSharedDataTypes {
         return this;
       }
       /**
-       * <code>float temperature = 1;</code>
+       * <code>float temperature = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearTemperature() {
@@ -3151,7 +3151,7 @@ public final class JonSharedDataTypes {
 
       private float humidity_ ;
       /**
-       * <code>float humidity = 2;</code>
+       * <code>float humidity = 2 [(.buf.validate.field) = { ... }</code>
        * @return The humidity.
        */
       @java.lang.Override
@@ -3159,7 +3159,7 @@ public final class JonSharedDataTypes {
         return humidity_;
       }
       /**
-       * <code>float humidity = 2;</code>
+       * <code>float humidity = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The humidity to set.
        * @return This builder for chaining.
        */
@@ -3171,7 +3171,7 @@ public final class JonSharedDataTypes {
         return this;
       }
       /**
-       * <code>float humidity = 2;</code>
+       * <code>float humidity = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearHumidity() {
@@ -3183,7 +3183,7 @@ public final class JonSharedDataTypes {
 
       private float pressure_ ;
       /**
-       * <code>float pressure = 3;</code>
+       * <code>float pressure = 3 [(.buf.validate.field) = { ... }</code>
        * @return The pressure.
        */
       @java.lang.Override
@@ -3191,7 +3191,7 @@ public final class JonSharedDataTypes {
         return pressure_;
       }
       /**
-       * <code>float pressure = 3;</code>
+       * <code>float pressure = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The pressure to set.
        * @return This builder for chaining.
        */
@@ -3203,7 +3203,7 @@ public final class JonSharedDataTypes {
         return this;
       }
       /**
-       * <code>float pressure = 3;</code>
+       * <code>float pressure = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearPressure() {
@@ -3279,129 +3279,130 @@ public final class JonSharedDataTypes {
   static {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_data_types.proto\022\003ser\032\033buf/" +
-      "validate/validate.proto\"J\n\017JonGuiDataMet" +
-      "eo\022\023\n\013temperature\030\001 \001(\002\022\020\n\010humidity\030\002 \001(" +
-      "\002\022\020\n\010pressure\030\003 \001(\002*\263\002\n!JonGuiDataVideoC" +
-      "hannelHeatFilters\0226\n2JON_GUI_DATA_VIDEO_" +
-      "CHANNEL_HEAT_FILTER_UNSPECIFIED\020\000\0224\n0JON" +
-      "_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_" +
-      "WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HE" +
-      "AT_FILTER_HOT_BLACK\020\002\0220\n,JON_GUI_DATA_VI" +
-      "DEO_CHANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4JON_G" +
-      "UI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_" +
-      "INVERSE\020\004*\356\001\n\"JonGuiDataVideoChannelHeat" +
-      "AGCModes\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_H" +
-      "EAT_AGC_MODE_UNSPECIFIED\020\000\022.\n*JON_GUI_DA" +
-      "TA_VIDEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022.\n*JO" +
-      "N_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2" +
-      "\020\002\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AG" +
-      "C_MODE_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&\n\"JON" +
-      "_GUI_DATA_GPS_UNITS_UNSPECIFIED\020\000\022*\n&JON" +
-      "_GUI_DATA_GPS_UNITS_DECIMAL_DEGREES\020\001\0222\n" +
-      ".JON_GUI_DATA_GPS_UNITS_DEGREES_MINUTES_" +
-      "SECONDS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS_DEGR" +
-      "EES_DECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDataGpsF" +
-      "ixType\022)\n%JON_GUI_DATA_GPS_FIX_TYPE_UNSP" +
-      "ECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_TYPE_N" +
-      "ONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_1D\020\002\022" +
-      " \n\034JON_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 \n\034JON" +
-      "_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_GUI_D" +
-      "ATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGuiData" +
-      "CompassUnits\022*\n&JON_GUI_DATA_COMPASS_UNI" +
-      "TS_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_COMPASS" +
-      "_UNITS_DEGREES\020\001\022#\n\037JON_GUI_DATA_COMPASS" +
-      "_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA_COMPASS_UN" +
-      "ITS_GRAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_UNITS" +
-      "_MRAD\020\004*\337\003\n\035JonGuiDataAccumulatorStateId" +
-      "x\022.\n*JON_GUI_DATA_ACCUMULATOR_STATE_UNSP" +
-      "ECIFIED\020\000\022*\n&JON_GUI_DATA_ACCUMULATOR_ST" +
-      "ATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUMULATO" +
-      "R_STATE_EMPTY\020\002\022$\n JON_GUI_DATA_ACCUMULA" +
-      "TOR_STATE_1\020\003\022$\n JON_GUI_DATA_ACCUMULATO" +
-      "R_STATE_2\020\004\022$\n JON_GUI_DATA_ACCUMULATOR_" +
-      "STATE_3\020\005\022$\n JON_GUI_DATA_ACCUMULATOR_ST" +
-      "ATE_4\020\006\022$\n JON_GUI_DATA_ACCUMULATOR_STAT" +
-      "E_5\020\007\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_" +
-      "6\020\010\022\'\n#JON_GUI_DATA_ACCUMULATOR_STATE_FU" +
-      "LL\020\t\022+\n\'JON_GUI_DATA_ACCUMULATOR_STATE_C" +
-      "HARGING\020\n*\217\001\n\025JonGuiDataTimeFormats\022(\n$J" +
-      "ON_GUI_DATA_TIME_FORMAT_UNSPECIFIED\020\000\022\"\n" +
-      "\036JON_GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(\n$JON" +
-      "_GUI_DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002*\254\001\n\031" +
-      "JonGuiDataRotaryDirection\022-\n)JON_GUI_DAT" +
-      "A_ROTARY_DIRECTION_UNSPECIFIED\020\000\022+\n\'JON_" +
-      "GUI_DATA_ROTARY_DIRECTION_CLOCKWISE\020\001\0223\n" +
-      "/JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_C" +
-      "LOCKWISE\020\002*\352\002\n\026JonGuiDataLrfScanModes\022*\n" +
-      "&JON_GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED\020" +
-      "\000\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CON" +
-      "TINUOUS\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_" +
-      "4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_DATA_LRF_SC" +
-      "AN_MODE_10_HZ_CONTINUOUS\020\003\022/\n+JON_GUI_DA" +
-      "TA_LRF_SCAN_MODE_20_HZ_CONTINUOUS\020\004\0220\n,J" +
-      "ON_GUI_DATA_LRF_SCAN_MODE_100_HZ_CONTINU" +
-      "OUS\020\005\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_200_" +
-      "HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfLaserP" +
-      "ointerModes\0223\n/JON_GUI_DATA_LRF_LASER_PO" +
-      "INTER_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DATA" +
-      "_LRF_LASER_POINTER_MODE_OFF\020\001\022,\n(JON_GUI" +
-      "_DATA_LRF_LASER_POINTER_MODE_ON_1\020\002\022,\n(J" +
-      "ON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2\020" +
-      "\003*\362\002\n JonGuiDataCompassCalibrateStatus\0225" +
-      "\n1JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_" +
-      "UNSPECIFIED\020\000\0229\n5JON_GUI_DATA_COMPASS_CA" +
-      "LIBRATE_STATUS_NOT_CALIBRATING\020\001\022;\n7JON_" +
-      "GUI_DATA_COMPASS_CALIBRATE_STATUS_CALIBR" +
-      "ATING_SHORT\020\002\022:\n6JON_GUI_DATA_COMPASS_CA" +
-      "LIBRATE_STATUS_CALIBRATING_LONG\020\003\0222\n.JON" +
-      "_GUI_DATA_COMPASS_CALIBRATE_STATUS_FINIS" +
-      "HED\020\004\022/\n+JON_GUI_DATA_COMPASS_CALIBRATE_" +
-      "STATUS_ERROR\020\005*\270\002\n\024JonGuiDataRotaryMode\022" +
-      "(\n$JON_GUI_DATA_ROTARY_MODE_UNSPECIFIED\020" +
-      "\000\022+\n\'JON_GUI_DATA_ROTARY_MODE_INITIALIZA" +
-      "TION\020\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_SPEED" +
-      "\020\002\022%\n!JON_GUI_DATA_ROTARY_MODE_POSITION\020" +
-      "\003\022*\n&JON_GUI_DATA_ROTARY_MODE_STABILIZAT" +
-      "ION\020\004\022&\n\"JON_GUI_DATA_ROTARY_MODE_TARGET" +
-      "ING\020\005\022*\n&JON_GUI_DATA_ROTARY_MODE_VIDEO_" +
-      "TRACKER\020\006*\215\001\n\026JonGuiDataVideoChannel\022*\n&" +
-      "JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED\020\000" +
-      "\022#\n\037JON_GUI_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n" +
-      "\036JON_GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026Jo" +
-      "nGuiDataRecOsdScreen\022+\n\'JON_GUI_DATA_REC" +
-      "_OSD_SCREEN_UNSPECIFIED\020\000\022$\n JON_GUI_DAT" +
-      "A_REC_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_" +
-      "REC_OSD_SCREEN_LRF_MEASURE\020\002\022*\n&JON_GUI_" +
-      "DATA_REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n1JON_" +
-      "GUI_DATA_REC_OSD_SCREEN_LRF_RESULT_SIMPL" +
-      "IFIED\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n JON_G" +
-      "UI_DATA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI" +
-      "_DATA_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX" +
-      "_MODE_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DA" +
-      "Y_C\020\003\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n" +
-      "\032JON_GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI" +
-      "_DATA_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxMo" +
-      "deHeat\022%\n!JON_GUI_DATA_FX_MODE_HEAT_DEFA" +
-      "ULT\020\000\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037" +
-      "\n\033JON_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_G" +
-      "UI_DATA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA" +
-      "_FX_MODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MOD" +
-      "E_HEAT_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_" +
-      "F\020\006*\365\001\n\035JonGuiDataSystemLocalizations\0220\n" +
-      ",JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPEC" +
-      "IFIED\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZAT" +
-      "ION_EN\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZA" +
-      "TION_UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZ" +
-      "ATION_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_LOCALI" +
-      "ZATION_CS\020\004*\355\001\n\024JonGuiDataClientType\022(\n$" +
-      "JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIED\020\000\022(" +
-      "\n$JON_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\020\001" +
-      "\022*\n&JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWO" +
-      "RK\020\002\0222\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFI" +
-      "CATE_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_" +
-      "TYPE_LIRA\020\004BHZFgit-codecommit.eu-central" +
-      "-1.amazonaws.com/v1/repos/jettison/jonp/" +
-      "typesb\006proto3"
+      "validate/validate.proto\"}\n\017JonGuiDataMet" +
+      "eo\022$\n\013temperature\030\001 \001(\002B\017\272H\014\n\n\035\000\000\026C-3\223\210\303" +
+      "\022!\n\010humidity\030\002 \001(\002B\017\272H\014\n\n\035\000\000\310B-\000\000\000\000\022!\n\010p" +
+      "ressure\030\003 \001(\002B\017\272H\014\n\n\035\000\000\226D-\000\000\000\000*\263\002\n!JonGu" +
+      "iDataVideoChannelHeatFilters\0226\n2JON_GUI_" +
+      "DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFI" +
+      "ED\020\000\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_" +
+      "FILTER_HOT_WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO" +
+      "_CHANNEL_HEAT_FILTER_HOT_BLACK\020\002\0220\n,JON_" +
+      "GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA" +
+      "\020\003\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FI" +
+      "LTER_SEPIA_INVERSE\020\004*\356\001\n\"JonGuiDataVideo" +
+      "ChannelHeatAGCModes\0228\n4JON_GUI_DATA_VIDE" +
+      "O_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED\020\000\022.\n" +
+      "*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MOD" +
+      "E_1\020\001\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT" +
+      "_AGC_MODE_2\020\002\022.\n*JON_GUI_DATA_VIDEO_CHAN" +
+      "NEL_HEAT_AGC_MODE_3\020\003*\320\001\n\022JonGuiDataGpsU" +
+      "nits\022&\n\"JON_GUI_DATA_GPS_UNITS_UNSPECIFI" +
+      "ED\020\000\022*\n&JON_GUI_DATA_GPS_UNITS_DECIMAL_D" +
+      "EGREES\020\001\0222\n.JON_GUI_DATA_GPS_UNITS_DEGRE" +
+      "ES_MINUTES_SECONDS\020\002\0222\n.JON_GUI_DATA_GPS" +
+      "_UNITS_DEGREES_DECIMAL_MINUTES\020\003*\361\001\n\024Jon" +
+      "GuiDataGpsFixType\022)\n%JON_GUI_DATA_GPS_FI" +
+      "X_TYPE_UNSPECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS" +
+      "_FIX_TYPE_NONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX" +
+      "_TYPE_1D\020\002\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_" +
+      "2D\020\003\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$" +
+      "\n JON_GUI_DATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n" +
+      "\026JonGuiDataCompassUnits\022*\n&JON_GUI_DATA_" +
+      "COMPASS_UNITS_UNSPECIFIED\020\000\022&\n\"JON_GUI_D" +
+      "ATA_COMPASS_UNITS_DEGREES\020\001\022#\n\037JON_GUI_D" +
+      "ATA_COMPASS_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA" +
+      "_COMPASS_UNITS_GRAD\020\003\022#\n\037JON_GUI_DATA_CO" +
+      "MPASS_UNITS_MRAD\020\004*\337\003\n\035JonGuiDataAccumul" +
+      "atorStateIdx\022.\n*JON_GUI_DATA_ACCUMULATOR" +
+      "_STATE_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_ACC" +
+      "UMULATOR_STATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA" +
+      "_ACCUMULATOR_STATE_EMPTY\020\002\022$\n JON_GUI_DA" +
+      "TA_ACCUMULATOR_STATE_1\020\003\022$\n JON_GUI_DATA" +
+      "_ACCUMULATOR_STATE_2\020\004\022$\n JON_GUI_DATA_A" +
+      "CCUMULATOR_STATE_3\020\005\022$\n JON_GUI_DATA_ACC" +
+      "UMULATOR_STATE_4\020\006\022$\n JON_GUI_DATA_ACCUM" +
+      "ULATOR_STATE_5\020\007\022$\n JON_GUI_DATA_ACCUMUL" +
+      "ATOR_STATE_6\020\010\022\'\n#JON_GUI_DATA_ACCUMULAT" +
+      "OR_STATE_FULL\020\t\022+\n\'JON_GUI_DATA_ACCUMULA" +
+      "TOR_STATE_CHARGING\020\n*\217\001\n\025JonGuiDataTimeF" +
+      "ormats\022(\n$JON_GUI_DATA_TIME_FORMAT_UNSPE" +
+      "CIFIED\020\000\022\"\n\036JON_GUI_DATA_TIME_FORMAT_H_M" +
+      "_S\020\001\022(\n$JON_GUI_DATA_TIME_FORMAT_Y_m_D_H" +
+      "_M_S\020\002*\254\001\n\031JonGuiDataRotaryDirection\022-\n)" +
+      "JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIE" +
+      "D\020\000\022+\n\'JON_GUI_DATA_ROTARY_DIRECTION_CLO" +
+      "CKWISE\020\001\0223\n/JON_GUI_DATA_ROTARY_DIRECTIO" +
+      "N_COUNTER_CLOCKWISE\020\002*\352\002\n\026JonGuiDataLrfS" +
+      "canModes\022*\n&JON_GUI_DATA_LRF_SCAN_MODE_U" +
+      "NSPECIFIED\020\000\022.\n*JON_GUI_DATA_LRF_SCAN_MO" +
+      "DE_1_HZ_CONTINUOUS\020\001\022.\n*JON_GUI_DATA_LRF" +
+      "_SCAN_MODE_4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_" +
+      "DATA_LRF_SCAN_MODE_10_HZ_CONTINUOUS\020\003\022/\n" +
+      "+JON_GUI_DATA_LRF_SCAN_MODE_20_HZ_CONTIN" +
+      "UOUS\020\004\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_100" +
+      "_HZ_CONTINUOUS\020\005\0220\n,JON_GUI_DATA_LRF_SCA" +
+      "N_MODE_200_HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiDat" +
+      "atLrfLaserPointerModes\0223\n/JON_GUI_DATA_L" +
+      "RF_LASER_POINTER_MODE_UNSPECIFIED\020\000\022+\n\'J" +
+      "ON_GUI_DATA_LRF_LASER_POINTER_MODE_OFF\020\001" +
+      "\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_" +
+      "ON_1\020\002\022,\n(JON_GUI_DATA_LRF_LASER_POINTER" +
+      "_MODE_ON_2\020\003*\362\002\n JonGuiDataCompassCalibr" +
+      "ateStatus\0225\n1JON_GUI_DATA_COMPASS_CALIBR" +
+      "ATE_STATUS_UNSPECIFIED\020\000\0229\n5JON_GUI_DATA" +
+      "_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATIN" +
+      "G\020\001\022;\n7JON_GUI_DATA_COMPASS_CALIBRATE_ST" +
+      "ATUS_CALIBRATING_SHORT\020\002\022:\n6JON_GUI_DATA" +
+      "_COMPASS_CALIBRATE_STATUS_CALIBRATING_LO" +
+      "NG\020\003\0222\n.JON_GUI_DATA_COMPASS_CALIBRATE_S" +
+      "TATUS_FINISHED\020\004\022/\n+JON_GUI_DATA_COMPASS" +
+      "_CALIBRATE_STATUS_ERROR\020\005*\270\002\n\024JonGuiData" +
+      "RotaryMode\022(\n$JON_GUI_DATA_ROTARY_MODE_U" +
+      "NSPECIFIED\020\000\022+\n\'JON_GUI_DATA_ROTARY_MODE" +
+      "_INITIALIZATION\020\001\022\"\n\036JON_GUI_DATA_ROTARY" +
+      "_MODE_SPEED\020\002\022%\n!JON_GUI_DATA_ROTARY_MOD" +
+      "E_POSITION\020\003\022*\n&JON_GUI_DATA_ROTARY_MODE" +
+      "_STABILIZATION\020\004\022&\n\"JON_GUI_DATA_ROTARY_" +
+      "MODE_TARGETING\020\005\022*\n&JON_GUI_DATA_ROTARY_" +
+      "MODE_VIDEO_TRACKER\020\006*\215\001\n\026JonGuiDataVideo" +
+      "Channel\022*\n&JON_GUI_DATA_VIDEO_CHANNEL_UN" +
+      "SPECIFIED\020\000\022#\n\037JON_GUI_DATA_VIDEO_CHANNE" +
+      "L_HEAT\020\001\022\"\n\036JON_GUI_DATA_VIDEO_CHANNEL_D" +
+      "AY\020\002*\373\001\n\026JonGuiDataRecOsdScreen\022+\n\'JON_G" +
+      "UI_DATA_REC_OSD_SCREEN_UNSPECIFIED\020\000\022$\n " +
+      "JON_GUI_DATA_REC_OSD_SCREEN_MAIN\020\001\022+\n\'JO" +
+      "N_GUI_DATA_REC_OSD_SCREEN_LRF_MEASURE\020\002\022" +
+      "*\n&JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESUL" +
+      "T\020\003\0225\n1JON_GUI_DATA_REC_OSD_SCREEN_LRF_R" +
+      "ESULT_SIMPLIFIED\020\004*\373\001\n\023JonGuiDataFxModeD" +
+      "ay\022$\n JON_GUI_DATA_FX_MODE_DAY_DEFAULT\020\000" +
+      "\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_A\020\001\022\036\n\032JON_" +
+      "GUI_DATA_FX_MODE_DAY_B\020\002\022\036\n\032JON_GUI_DATA" +
+      "_FX_MODE_DAY_C\020\003\022\036\n\032JON_GUI_DATA_FX_MODE" +
+      "_DAY_D\020\004\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_E\020\005" +
+      "\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_F\020\006*\203\002\n\024Jon" +
+      "GuiDataFxModeHeat\022%\n!JON_GUI_DATA_FX_MOD" +
+      "E_HEAT_DEFAULT\020\000\022\037\n\033JON_GUI_DATA_FX_MODE" +
+      "_HEAT_A\020\001\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_B" +
+      "\020\002\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_C\020\003\022\037\n\033J" +
+      "ON_GUI_DATA_FX_MODE_HEAT_D\020\004\022\037\n\033JON_GUI_" +
+      "DATA_FX_MODE_HEAT_E\020\005\022\037\n\033JON_GUI_DATA_FX" +
+      "_MODE_HEAT_F\020\006*\365\001\n\035JonGuiDataSystemLocal" +
+      "izations\0220\n,JON_GUI_DATA_SYSTEM_LOCALIZA" +
+      "TION_UNSPECIFIED\020\000\022\'\n#JON_GUI_DATA_SYSTE" +
+      "M_LOCALIZATION_EN\020\001\022\'\n#JON_GUI_DATA_SYST" +
+      "EM_LOCALIZATION_UA\020\002\022\'\n#JON_GUI_DATA_SYS" +
+      "TEM_LOCALIZATION_AR\020\003\022\'\n#JON_GUI_DATA_SY" +
+      "STEM_LOCALIZATION_CS\020\004*\355\001\n\024JonGuiDataCli" +
+      "entType\022(\n$JON_GUI_DATA_CLIENT_TYPE_UNSP" +
+      "ECIFIED\020\000\022(\n$JON_GUI_DATA_CLIENT_TYPE_IN" +
+      "TERNAL_CV\020\001\022*\n&JON_GUI_DATA_CLIENT_TYPE_" +
+      "LOCAL_NETWORK\020\002\0222\n.JON_GUI_DATA_CLIENT_T" +
+      "YPE_CERTIFICATE_PROTECTED\020\003\022!\n\035JON_GUI_D" +
+      "ATA_CLIENT_TYPE_LIRA\020\004BHZFgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/typesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3416,6 +3417,11 @@ public final class JonSharedDataTypes {
         new java.lang.String[] { "Temperature", "Humidity", "Pressure", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
+    com.google.protobuf.ExtensionRegistry registry =
+        com.google.protobuf.ExtensionRegistry.newInstance();
+    registry.add(build.buf.validate.ValidateProto.field);
+    com.google.protobuf.Descriptors.FileDescriptor
+        .internalUpdateFileDescriptor(descriptor, registry);
   }
 
   // @@protoc_insertion_point(outer_class_scope)
