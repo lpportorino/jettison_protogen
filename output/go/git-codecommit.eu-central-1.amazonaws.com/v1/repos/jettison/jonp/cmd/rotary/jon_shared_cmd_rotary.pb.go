@@ -2653,7 +2653,7 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x12+\n" +
 	"\baltitude\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00P\xc3G-\x00\x80\xd8\xc3R\baltitude\"\x97\x01\n" +
+	"\x1d\x00P\xc3G-\x00\x00\xd7\xc3R\baltitude\"\x97\x01\n" +
 	"\fSetOriginGPS\x12+\n" +
 	"\blatitude\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
@@ -2663,7 +2663,7 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x12+\n" +
 	"\baltitude\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00P\xc3G-\x00\x80\xd8\xc3R\baltitude\"\x8e\x01\n" +
+	"\x1d\x00P\xc3G-\x00\x00\xd7\xc3R\baltitude\"\x8e\x01\n" +
 	"\vRotateToNDC\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12\x1d\n" +

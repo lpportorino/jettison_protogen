@@ -294,7 +294,7 @@ message RotateToGPS {
     lt: 180.0
   }];
   float altitude = 3 [(buf.validate.field).float = {
-    gte: -433.0,  // Dead Sea shore (lowest point on Earth's surface)
+    gte: -430.0,  // Dead Sea shore (lowest point on Earth's surface)
     lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
   }];
 }
@@ -309,7 +309,7 @@ message SetOriginGPS {
     lt: 180.0
   }];
   float altitude = 3 [(buf.validate.field).float = {
-    gte: -433.0,  // Dead Sea shore (lowest point on Earth's surface)
+    gte: -430.0,  // Dead Sea shore (lowest point on Earth's surface)
     lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
   }];
 }
