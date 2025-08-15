@@ -115,7 +115,10 @@ message RotateElevationTo {
 }
 
 message RotateElevationRelative {
-  float value = 1;
+  float value = 1 [(buf.validate.field).float = {
+    gte: -90.0,
+    lte: 90.0
+  }];
   float speed = 2 [(buf.validate.field).float = {
     gte: 0.0,
     lte: 1.0
@@ -127,7 +130,10 @@ message RotateElevationRelative {
 }
 
 message RotateElevationRelativeSet {
-  float value = 1;
+  float value = 1 [(buf.validate.field).float = {
+    gte: -90.0,
+    lte: 90.0
+  }];
   ser.JonGuiDataRotaryDirection direction = 2 [(buf.validate.field).enum = {
     defined_only: true,
     not_in: [0]
@@ -135,7 +141,10 @@ message RotateElevationRelativeSet {
 }
 
 message RotateAzimuthRelative {
-  float value = 1;
+  float value = 1 [(buf.validate.field).float = {
+    gte: -180.0,
+    lt: 180.0
+  }];
   float speed = 2 [(buf.validate.field).float = {
     gte: 0.0,
     lte: 1.0
@@ -147,7 +156,10 @@ message RotateAzimuthRelative {
 }
 
 message RotateAzimuthRelativeSet {
-  float value = 1;
+  float value = 1 [(buf.validate.field).float = {
+    gte: -180.0,
+    lt: 180.0
+  }];
   ser.JonGuiDataRotaryDirection direction = 2 [(buf.validate.field).enum = {
     defined_only: true,
     not_in: [0]
