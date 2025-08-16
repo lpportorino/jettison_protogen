@@ -60,11 +60,11 @@ message StartTrackNDC {
     defined_only: true,
     not_in: [0]
   }];
-  float x = 2 [(buf.validate.field).float = {
+  double x = 2 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];
-  float y = 3 [(buf.validate.field).float = {
+  double y = 3 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];

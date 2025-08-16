@@ -30,34 +30,34 @@ public final class JonSharedDataActualSpaceTime {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
      * @return The azimuth.
      */
-    float getAzimuth();
+    double getAzimuth();
 
     /**
-     * <code>float elevation = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double elevation = 2 [(.buf.validate.field) = { ... }</code>
      * @return The elevation.
      */
-    float getElevation();
+    double getElevation();
 
     /**
-     * <code>float bank = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double bank = 3 [(.buf.validate.field) = { ... }</code>
      * @return The bank.
      */
-    float getBank();
+    double getBank();
 
     /**
-     * <code>float latitude = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 4 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
-    float getLatitude();
+    double getLatitude();
 
     /**
-     * <code>float longitude = 5 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 5 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
-    float getLongitude();
+    double getLongitude();
 
     /**
      * <code>double altitude = 6 [(.buf.validate.field) = { ... }</code>
@@ -109,57 +109,57 @@ public final class JonSharedDataActualSpaceTime {
     }
 
     public static final int AZIMUTH_FIELD_NUMBER = 1;
-    private float azimuth_ = 0F;
+    private double azimuth_ = 0D;
     /**
-     * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
      * @return The azimuth.
      */
     @java.lang.Override
-    public float getAzimuth() {
+    public double getAzimuth() {
       return azimuth_;
     }
 
     public static final int ELEVATION_FIELD_NUMBER = 2;
-    private float elevation_ = 0F;
+    private double elevation_ = 0D;
     /**
-     * <code>float elevation = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double elevation = 2 [(.buf.validate.field) = { ... }</code>
      * @return The elevation.
      */
     @java.lang.Override
-    public float getElevation() {
+    public double getElevation() {
       return elevation_;
     }
 
     public static final int BANK_FIELD_NUMBER = 3;
-    private float bank_ = 0F;
+    private double bank_ = 0D;
     /**
-     * <code>float bank = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double bank = 3 [(.buf.validate.field) = { ... }</code>
      * @return The bank.
      */
     @java.lang.Override
-    public float getBank() {
+    public double getBank() {
       return bank_;
     }
 
     public static final int LATITUDE_FIELD_NUMBER = 4;
-    private float latitude_ = 0F;
+    private double latitude_ = 0D;
     /**
-     * <code>float latitude = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 4 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
     @java.lang.Override
-    public float getLatitude() {
+    public double getLatitude() {
       return latitude_;
     }
 
     public static final int LONGITUDE_FIELD_NUMBER = 5;
-    private float longitude_ = 0F;
+    private double longitude_ = 0D;
     /**
-     * <code>float longitude = 5 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 5 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
     @java.lang.Override
-    public float getLongitude() {
+    public double getLongitude() {
       return longitude_;
     }
 
@@ -199,20 +199,20 @@ public final class JonSharedDataActualSpaceTime {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(azimuth_) != 0) {
-        output.writeFloat(1, azimuth_);
+      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
+        output.writeDouble(1, azimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(elevation_) != 0) {
-        output.writeFloat(2, elevation_);
+      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
+        output.writeDouble(2, elevation_);
       }
-      if (java.lang.Float.floatToRawIntBits(bank_) != 0) {
-        output.writeFloat(3, bank_);
+      if (java.lang.Double.doubleToRawLongBits(bank_) != 0) {
+        output.writeDouble(3, bank_);
       }
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
-        output.writeFloat(4, latitude_);
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
+        output.writeDouble(4, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
-        output.writeFloat(5, longitude_);
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
+        output.writeDouble(5, longitude_);
       }
       if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
         output.writeDouble(6, altitude_);
@@ -229,25 +229,25 @@ public final class JonSharedDataActualSpaceTime {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(azimuth_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, azimuth_);
+          .computeDoubleSize(1, azimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(elevation_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, elevation_);
+          .computeDoubleSize(2, elevation_);
       }
-      if (java.lang.Float.floatToRawIntBits(bank_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(bank_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, bank_);
+          .computeDoubleSize(3, bank_);
       }
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, latitude_);
+          .computeDoubleSize(4, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, longitude_);
+          .computeDoubleSize(5, longitude_);
       }
       if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -272,20 +272,20 @@ public final class JonSharedDataActualSpaceTime {
       }
       ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime other = (ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime) obj;
 
-      if (java.lang.Float.floatToIntBits(getAzimuth())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getAzimuth())
+          != java.lang.Double.doubleToLongBits(
               other.getAzimuth())) return false;
-      if (java.lang.Float.floatToIntBits(getElevation())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getElevation())
+          != java.lang.Double.doubleToLongBits(
               other.getElevation())) return false;
-      if (java.lang.Float.floatToIntBits(getBank())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getBank())
+          != java.lang.Double.doubleToLongBits(
               other.getBank())) return false;
-      if (java.lang.Float.floatToIntBits(getLatitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLatitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLatitude())) return false;
-      if (java.lang.Float.floatToIntBits(getLongitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLongitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLongitude())) return false;
       if (java.lang.Double.doubleToLongBits(getAltitude())
           != java.lang.Double.doubleToLongBits(
@@ -304,20 +304,20 @@ public final class JonSharedDataActualSpaceTime {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + AZIMUTH_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getAzimuth());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAzimuth()));
       hash = (37 * hash) + ELEVATION_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getElevation());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getElevation()));
       hash = (37 * hash) + BANK_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getBank());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getBank()));
       hash = (37 * hash) + LATITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLatitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLatitude()));
       hash = (37 * hash) + LONGITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLongitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLongitude()));
       hash = (37 * hash) + ALTITUDE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getAltitude()));
@@ -455,11 +455,11 @@ public final class JonSharedDataActualSpaceTime {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        azimuth_ = 0F;
-        elevation_ = 0F;
-        bank_ = 0F;
-        latitude_ = 0F;
-        longitude_ = 0F;
+        azimuth_ = 0D;
+        elevation_ = 0D;
+        bank_ = 0D;
+        latitude_ = 0D;
+        longitude_ = 0D;
         altitude_ = 0D;
         timestamp_ = 0L;
         return this;
@@ -530,19 +530,19 @@ public final class JonSharedDataActualSpaceTime {
 
       public Builder mergeFrom(ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime other) {
         if (other == ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime.getDefaultInstance()) return this;
-        if (other.getAzimuth() != 0F) {
+        if (other.getAzimuth() != 0D) {
           setAzimuth(other.getAzimuth());
         }
-        if (other.getElevation() != 0F) {
+        if (other.getElevation() != 0D) {
           setElevation(other.getElevation());
         }
-        if (other.getBank() != 0F) {
+        if (other.getBank() != 0D) {
           setBank(other.getBank());
         }
-        if (other.getLatitude() != 0F) {
+        if (other.getLatitude() != 0D) {
           setLatitude(other.getLatitude());
         }
-        if (other.getLongitude() != 0F) {
+        if (other.getLongitude() != 0D) {
           setLongitude(other.getLongitude());
         }
         if (other.getAltitude() != 0D) {
@@ -577,31 +577,31 @@ public final class JonSharedDataActualSpaceTime {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                azimuth_ = input.readFloat();
+              case 9: {
+                azimuth_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                elevation_ = input.readFloat();
+              } // case 9
+              case 17: {
+                elevation_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                bank_ = input.readFloat();
+              } // case 17
+              case 25: {
+                bank_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
-              case 37: {
-                latitude_ = input.readFloat();
+              } // case 25
+              case 33: {
+                latitude_ = input.readDouble();
                 bitField0_ |= 0x00000008;
                 break;
-              } // case 37
-              case 45: {
-                longitude_ = input.readFloat();
+              } // case 33
+              case 41: {
+                longitude_ = input.readDouble();
                 bitField0_ |= 0x00000010;
                 break;
-              } // case 45
+              } // case 41
               case 49: {
                 altitude_ = input.readDouble();
                 bitField0_ |= 0x00000020;
@@ -629,21 +629,21 @@ public final class JonSharedDataActualSpaceTime {
       }
       private int bitField0_;
 
-      private float azimuth_ ;
+      private double azimuth_ ;
       /**
-       * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
        * @return The azimuth.
        */
       @java.lang.Override
-      public float getAzimuth() {
+      public double getAzimuth() {
         return azimuth_;
       }
       /**
-       * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The azimuth to set.
        * @return This builder for chaining.
        */
-      public Builder setAzimuth(float value) {
+      public Builder setAzimuth(double value) {
 
         azimuth_ = value;
         bitField0_ |= 0x00000001;
@@ -651,31 +651,31 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
-       * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAzimuth() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        azimuth_ = 0F;
+        azimuth_ = 0D;
         onChanged();
         return this;
       }
 
-      private float elevation_ ;
+      private double elevation_ ;
       /**
-       * <code>float elevation = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation = 2 [(.buf.validate.field) = { ... }</code>
        * @return The elevation.
        */
       @java.lang.Override
-      public float getElevation() {
+      public double getElevation() {
         return elevation_;
       }
       /**
-       * <code>float elevation = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The elevation to set.
        * @return This builder for chaining.
        */
-      public Builder setElevation(float value) {
+      public Builder setElevation(double value) {
 
         elevation_ = value;
         bitField0_ |= 0x00000002;
@@ -683,31 +683,31 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
-       * <code>float elevation = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearElevation() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        elevation_ = 0F;
+        elevation_ = 0D;
         onChanged();
         return this;
       }
 
-      private float bank_ ;
+      private double bank_ ;
       /**
-       * <code>float bank = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double bank = 3 [(.buf.validate.field) = { ... }</code>
        * @return The bank.
        */
       @java.lang.Override
-      public float getBank() {
+      public double getBank() {
         return bank_;
       }
       /**
-       * <code>float bank = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double bank = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The bank to set.
        * @return This builder for chaining.
        */
-      public Builder setBank(float value) {
+      public Builder setBank(double value) {
 
         bank_ = value;
         bitField0_ |= 0x00000004;
@@ -715,31 +715,31 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
-       * <code>float bank = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double bank = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearBank() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        bank_ = 0F;
+        bank_ = 0D;
         onChanged();
         return this;
       }
 
-      private float latitude_ ;
+      private double latitude_ ;
       /**
-       * <code>float latitude = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 4 [(.buf.validate.field) = { ... }</code>
        * @return The latitude.
        */
       @java.lang.Override
-      public float getLatitude() {
+      public double getLatitude() {
         return latitude_;
       }
       /**
-       * <code>float latitude = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 4 [(.buf.validate.field) = { ... }</code>
        * @param value The latitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLatitude(float value) {
+      public Builder setLatitude(double value) {
 
         latitude_ = value;
         bitField0_ |= 0x00000008;
@@ -747,31 +747,31 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
-       * <code>float latitude = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 4 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLatitude() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        latitude_ = 0F;
+        latitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float longitude_ ;
+      private double longitude_ ;
       /**
-       * <code>float longitude = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 5 [(.buf.validate.field) = { ... }</code>
        * @return The longitude.
        */
       @java.lang.Override
-      public float getLongitude() {
+      public double getLongitude() {
         return longitude_;
       }
       /**
-       * <code>float longitude = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 5 [(.buf.validate.field) = { ... }</code>
        * @param value The longitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLongitude(float value) {
+      public Builder setLongitude(double value) {
 
         longitude_ = value;
         bitField0_ |= 0x00000010;
@@ -779,12 +779,12 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
-       * <code>float longitude = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 5 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLongitude() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        longitude_ = 0F;
+        longitude_ = 0D;
         onChanged();
         return this;
       }
@@ -919,19 +919,21 @@ public final class JonSharedDataActualSpaceTime {
   static {
     java.lang.String[] descriptorData = {
       "\n\'jon_shared_data_actual_space_time.prot" +
-      "o\022\003ser\032\033buf/validate/validate.proto\"\336\002\n\031" +
-      "JonGuiDataActualSpaceTime\0224\n\007azimuth\030\001 \001" +
-      "(\002B#\272H \n\036\025\000\000\264C-\000\000\000\000M\000\000\000\000M\000\000\264BM\000\0004CM\000\000\207C\022" +
-      "1\n\televation\030\002 \001(\002B\036\272H\033\n\031\035\000\000\264B-\000\000\264\302M\000\0004\302" +
-      "M\000\000\000\000M\000\0004B\022,\n\004bank\030\003 \001(\002B\036\272H\033\n\031\025\000\0004C-\000\0004" +
-      "\303M\000\000\264\302M\000\000\000\000M\000\000\264B\0220\n\010latitude\030\004 \001(\002B\036\272H\033\n" +
-      "\031\035\000\000\264B-\000\000\264\302M\000\0004\302M\000\000\000\000M\000\0004B\0221\n\tlongitude\030" +
-      "\005 \001(\002B\036\272H\033\n\031\025\000\0004C-\000\0004\303M\000\000\264\302M\000\000\000\000M\000\000\264B\022)\n" +
-      "\010altitude\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300" +
-      "\022\032\n\ttimestamp\030\007 \001(\003B\007\272H\004\"\002(\000BYZWgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/data/actual_space_timeb" +
-      "\006proto3"
+      "o\022\003ser\032\033buf/validate/validate.proto\"\306\003\n\031" +
+      "JonGuiDataActualSpaceTime\022L\n\007azimuth\030\001 \001" +
+      "(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000" +
+      "\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022E\n\televation\030\002 \001" +
+      "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000" +
+      "\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004bank\030\003 \001(\001B2\272H/\022-\021\000\000\000\000" +
+      "\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@" +
+      "\022D\n\010latitude\030\004 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000" +
+      "\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022E\n\tlongit" +
+      "ude\030\005 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000" +
+      "\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022)\n\010altitude\030\006 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\022\032\n\ttimestamp\030\007 " +
+      "\001(\003B\007\272H\004\"\002(\000BYZWgit-codecommit.eu-centra" +
+      "l-1.amazonaws.com/v1/repos/jettison/jonp" +
+      "/data/actual_space_timeb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

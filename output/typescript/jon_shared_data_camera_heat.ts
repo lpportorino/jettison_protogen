@@ -52,7 +52,7 @@ function createBaseJonGuiDataCameraHeat(): JonGuiDataCameraHeat {
 export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
   encode(message: JonGuiDataCameraHeat, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.zoomPos !== 0) {
-      writer.uint32(13).float(message.zoomPos);
+      writer.uint32(9).double(message.zoomPos);
     }
     if (message.agcMode !== 0) {
       writer.uint32(16).int32(message.agcMode);
@@ -79,10 +79,10 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
       writer.uint32(72).int32(message.fxMode);
     }
     if (message.digitalZoomLevel !== 0) {
-      writer.uint32(85).float(message.digitalZoomLevel);
+      writer.uint32(81).double(message.digitalZoomLevel);
     }
     if (message.claheLevel !== 0) {
-      writer.uint32(93).float(message.claheLevel);
+      writer.uint32(89).double(message.claheLevel);
     }
     return writer;
   },
@@ -95,11 +95,11 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.zoomPos = reader.float();
+          message.zoomPos = reader.double();
           continue;
         }
         case 2: {
@@ -167,19 +167,19 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
           continue;
         }
         case 10: {
-          if (tag !== 85) {
+          if (tag !== 81) {
             break;
           }
 
-          message.digitalZoomLevel = reader.float();
+          message.digitalZoomLevel = reader.double();
           continue;
         }
         case 11: {
-          if (tag !== 93) {
+          if (tag !== 89) {
             break;
           }
 
-          message.claheLevel = reader.float();
+          message.claheLevel = reader.double();
           continue;
         }
       }

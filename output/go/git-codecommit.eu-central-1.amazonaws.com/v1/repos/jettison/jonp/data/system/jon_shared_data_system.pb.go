@@ -25,11 +25,11 @@ const (
 
 type JonGuiDataSystem struct {
 	state                protoimpl.MessageState              `protogen:"open.v1"`
-	CpuTemperature       float32                             `protobuf:"fixed32,1,opt,name=cpu_temperature,json=cpuTemperature,proto3" json:"cpu_temperature,omitempty"`
-	GpuTemperature       float32                             `protobuf:"fixed32,2,opt,name=gpu_temperature,json=gpuTemperature,proto3" json:"gpu_temperature,omitempty"`
-	GpuLoad              float32                             `protobuf:"fixed32,3,opt,name=gpu_load,json=gpuLoad,proto3" json:"gpu_load,omitempty"`
-	CpuLoad              float32                             `protobuf:"fixed32,4,opt,name=cpu_load,json=cpuLoad,proto3" json:"cpu_load,omitempty"`
-	PowerConsumption     float32                             `protobuf:"fixed32,5,opt,name=power_consumption,json=powerConsumption,proto3" json:"power_consumption,omitempty"`
+	CpuTemperature       float64                             `protobuf:"fixed64,1,opt,name=cpu_temperature,json=cpuTemperature,proto3" json:"cpu_temperature,omitempty"`
+	GpuTemperature       float64                             `protobuf:"fixed64,2,opt,name=gpu_temperature,json=gpuTemperature,proto3" json:"gpu_temperature,omitempty"`
+	GpuLoad              float64                             `protobuf:"fixed64,3,opt,name=gpu_load,json=gpuLoad,proto3" json:"gpu_load,omitempty"`
+	CpuLoad              float64                             `protobuf:"fixed64,4,opt,name=cpu_load,json=cpuLoad,proto3" json:"cpu_load,omitempty"`
+	PowerConsumption     float64                             `protobuf:"fixed64,5,opt,name=power_consumption,json=powerConsumption,proto3" json:"power_consumption,omitempty"`
 	Loc                  types.JonGuiDataSystemLocalizations `protobuf:"varint,6,opt,name=loc,proto3,enum=ser.JonGuiDataSystemLocalizations" json:"loc,omitempty"`
 	CurVideoRecDirYear   int32                               `protobuf:"varint,7,opt,name=cur_video_rec_dir_year,json=curVideoRecDirYear,proto3" json:"cur_video_rec_dir_year,omitempty"`
 	CurVideoRecDirMonth  int32                               `protobuf:"varint,8,opt,name=cur_video_rec_dir_month,json=curVideoRecDirMonth,proto3" json:"cur_video_rec_dir_month,omitempty"`
@@ -82,35 +82,35 @@ func (*JonGuiDataSystem) Descriptor() ([]byte, []int) {
 	return file_jon_shared_data_system_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *JonGuiDataSystem) GetCpuTemperature() float32 {
+func (x *JonGuiDataSystem) GetCpuTemperature() float64 {
 	if x != nil {
 		return x.CpuTemperature
 	}
 	return 0
 }
 
-func (x *JonGuiDataSystem) GetGpuTemperature() float32 {
+func (x *JonGuiDataSystem) GetGpuTemperature() float64 {
 	if x != nil {
 		return x.GpuTemperature
 	}
 	return 0
 }
 
-func (x *JonGuiDataSystem) GetGpuLoad() float32 {
+func (x *JonGuiDataSystem) GetGpuLoad() float64 {
 	if x != nil {
 		return x.GpuLoad
 	}
 	return 0
 }
 
-func (x *JonGuiDataSystem) GetCpuLoad() float32 {
+func (x *JonGuiDataSystem) GetCpuLoad() float64 {
 	if x != nil {
 		return x.CpuLoad
 	}
 	return 0
 }
 
-func (x *JonGuiDataSystem) GetPowerConsumption() float32 {
+func (x *JonGuiDataSystem) GetPowerConsumption() float64 {
 	if x != nil {
 		return x.PowerConsumption
 	}
@@ -247,18 +247,14 @@ var File_jon_shared_data_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xca\t\n" +
-	"\x10JonGuiDataSystem\x12G\n" +
-	"\x0fcpu_temperature\x18\x01 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xccAM\x00\x00pBM\x00\x00\xa1B\x1d\x00\x00\x16C-3\x93\x88\xc3R\x0ecpuTemperature\x12G\n" +
-	"\x0fgpu_temperature\x18\x02 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xf0AM\x00\x00\x8cBM\x00\x00\xabB\x1d\x00\x00\x16C-3\x93\x88\xc3R\x0egpuTemperature\x129\n" +
-	"\bgpu_load\x18\x03 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\x00\x00M\x00\x00HBM\x00\x00\xc8B\x1d\x00\x00\xc8B-\x00\x00\x00\x00R\agpuLoad\x12>\n" +
-	"\bcpu_load\x18\x04 \x01(\x02B#\xbaH \n" +
-	"\x1eM\x00\x00\x00\x00M\x00\x00\xc8AM\x00\x00\x96BM\x00\x00\xc8B\x1d\x00\x00\xc8B-\x00\x00\x00\x00R\acpuLoad\x12K\n" +
-	"\x11power_consumption\x18\x05 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xa0@M\x00\x00HBM\x00\x00HC\x1d\x00\x00zD-\x00\x00\x00\x00R\x10powerConsumption\x12@\n" +
+	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb2\n" +
+	"\n" +
+	"\x10JonGuiDataSystem\x12[\n" +
+	"\x0fcpu_temperature\x18\x01 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x809@I\x00\x00\x00\x00\x00\x00N@I\x00\x00\x00\x00\x00 T@\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\x0ecpuTemperature\x12[\n" +
+	"\x0fgpu_temperature\x18\x02 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00>@I\x00\x00\x00\x00\x00\x80Q@I\x00\x00\x00\x00\x00`U@\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\x0egpuTemperature\x12M\n" +
+	"\bgpu_load\x18\x03 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00I@I\x00\x00\x00\x00\x00\x00Y@\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\agpuLoad\x12V\n" +
+	"\bcpu_load\x18\x04 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x009@I\x00\x00\x00\x00\x00\xc0R@I\x00\x00\x00\x00\x00\x00Y@\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\acpuLoad\x12_\n" +
+	"\x11power_consumption\x18\x05 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x14@I\x00\x00\x00\x00\x00\x00I@I\x00\x00\x00\x00\x00\x00i@\x19\x00\x00\x00\x00\x00@\x8f@)\x00\x00\x00\x00\x00\x00\x00\x00R\x10powerConsumption\x12@\n" +
 	"\x03loc\x18\x06 \x01(\x0e2\".ser.JonGuiDataSystemLocalizationsB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x03loc\x12;\n" +
 	"\x16cur_video_rec_dir_year\x18\a \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12curVideoRecDirYear\x12=\n" +

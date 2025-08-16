@@ -12,17 +12,17 @@
 
 /* Struct definitions */
 typedef struct _ser_JonGuiDataCameraDay {
-    float focus_pos;
-    float zoom_pos;
-    float iris_pos;
+    double focus_pos;
+    double zoom_pos;
+    double iris_pos;
     bool infrared_filter;
     int32_t zoom_table_pos;
     int32_t zoom_table_pos_max;
     ser_JonGuiDataFxModeDay fx_mode;
     bool auto_focus;
     bool auto_iris;
-    float digital_zoom_level;
-    float clahe_level;
+    double digital_zoom_level;
+    double clahe_level;
 } ser_JonGuiDataCameraDay;
 
 
@@ -49,17 +49,17 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraDay_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    focus_pos,         1) \
-X(a, STATIC,   SINGULAR, FLOAT,    zoom_pos,          2) \
-X(a, STATIC,   SINGULAR, FLOAT,    iris_pos,          3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   focus_pos,         1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   zoom_pos,          2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   iris_pos,          3) \
 X(a, STATIC,   SINGULAR, BOOL,     infrared_filter,   4) \
 X(a, STATIC,   SINGULAR, INT32,    zoom_table_pos,    5) \
 X(a, STATIC,   SINGULAR, INT32,    zoom_table_pos_max,   6) \
 X(a, STATIC,   SINGULAR, UENUM,    fx_mode,           7) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_focus,        8) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_iris,         9) \
-X(a, STATIC,   SINGULAR, FLOAT,    digital_zoom_level,  10) \
-X(a, STATIC,   SINGULAR, FLOAT,    clahe_level,      11)
+X(a, STATIC,   SINGULAR, DOUBLE,   digital_zoom_level,  10) \
+X(a, STATIC,   SINGULAR, DOUBLE,   clahe_level,      11)
 #define ser_JonGuiDataCameraDay_CALLBACK NULL
 #define ser_JonGuiDataCameraDay_DEFAULT NULL
 
@@ -70,7 +70,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraDay_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_DAY_PB_H_MAX_SIZE ser_JonGuiDataCameraDay_size
-#define ser_JonGuiDataCameraDay_size             55
+#define ser_JonGuiDataCameraDay_size             75
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -30,10 +30,10 @@ public final class JonSharedDataCameraHeat {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
      * @return The zoomPos.
      */
-    float getZoomPos();
+    double getZoomPos();
 
     /**
      * <code>.ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2 [(.buf.validate.field) = { ... }</code>
@@ -99,16 +99,16 @@ public final class JonSharedDataCameraHeat {
     ser.JonSharedDataTypes.JonGuiDataFxModeHeat getFxMode();
 
     /**
-     * <code>float digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
+     * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
      * @return The digitalZoomLevel.
      */
-    float getDigitalZoomLevel();
+    double getDigitalZoomLevel();
 
     /**
-     * <code>float clahe_level = 11 [(.buf.validate.field) = { ... }</code>
+     * <code>double clahe_level = 11 [(.buf.validate.field) = { ... }</code>
      * @return The claheLevel.
      */
-    float getClaheLevel();
+    double getClaheLevel();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraHeat}
@@ -151,13 +151,13 @@ public final class JonSharedDataCameraHeat {
     }
 
     public static final int ZOOM_POS_FIELD_NUMBER = 1;
-    private float zoomPos_ = 0F;
+    private double zoomPos_ = 0D;
     /**
-     * <code>float zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
      * @return The zoomPos.
      */
     @java.lang.Override
-    public float getZoomPos() {
+    public double getZoomPos() {
       return zoomPos_;
     }
 
@@ -271,24 +271,24 @@ public final class JonSharedDataCameraHeat {
     }
 
     public static final int DIGITAL_ZOOM_LEVEL_FIELD_NUMBER = 10;
-    private float digitalZoomLevel_ = 0F;
+    private double digitalZoomLevel_ = 0D;
     /**
-     * <code>float digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
+     * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
      * @return The digitalZoomLevel.
      */
     @java.lang.Override
-    public float getDigitalZoomLevel() {
+    public double getDigitalZoomLevel() {
       return digitalZoomLevel_;
     }
 
     public static final int CLAHE_LEVEL_FIELD_NUMBER = 11;
-    private float claheLevel_ = 0F;
+    private double claheLevel_ = 0D;
     /**
-     * <code>float clahe_level = 11 [(.buf.validate.field) = { ... }</code>
+     * <code>double clahe_level = 11 [(.buf.validate.field) = { ... }</code>
      * @return The claheLevel.
      */
     @java.lang.Override
-    public float getClaheLevel() {
+    public double getClaheLevel() {
       return claheLevel_;
     }
 
@@ -306,8 +306,8 @@ public final class JonSharedDataCameraHeat {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(zoomPos_) != 0) {
-        output.writeFloat(1, zoomPos_);
+      if (java.lang.Double.doubleToRawLongBits(zoomPos_) != 0) {
+        output.writeDouble(1, zoomPos_);
       }
       if (agcMode_ != ser.JonSharedDataTypes.JonGuiDataVideoChannelHeatAGCModes.JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, agcMode_);
@@ -333,11 +333,11 @@ public final class JonSharedDataCameraHeat {
       if (fxMode_ != ser.JonSharedDataTypes.JonGuiDataFxModeHeat.JON_GUI_DATA_FX_MODE_HEAT_DEFAULT.getNumber()) {
         output.writeEnum(9, fxMode_);
       }
-      if (java.lang.Float.floatToRawIntBits(digitalZoomLevel_) != 0) {
-        output.writeFloat(10, digitalZoomLevel_);
+      if (java.lang.Double.doubleToRawLongBits(digitalZoomLevel_) != 0) {
+        output.writeDouble(10, digitalZoomLevel_);
       }
-      if (java.lang.Float.floatToRawIntBits(claheLevel_) != 0) {
-        output.writeFloat(11, claheLevel_);
+      if (java.lang.Double.doubleToRawLongBits(claheLevel_) != 0) {
+        output.writeDouble(11, claheLevel_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -348,9 +348,9 @@ public final class JonSharedDataCameraHeat {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(zoomPos_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(zoomPos_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, zoomPos_);
+          .computeDoubleSize(1, zoomPos_);
       }
       if (agcMode_ != ser.JonSharedDataTypes.JonGuiDataVideoChannelHeatAGCModes.JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -384,13 +384,13 @@ public final class JonSharedDataCameraHeat {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(9, fxMode_);
       }
-      if (java.lang.Float.floatToRawIntBits(digitalZoomLevel_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(digitalZoomLevel_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(10, digitalZoomLevel_);
+          .computeDoubleSize(10, digitalZoomLevel_);
       }
-      if (java.lang.Float.floatToRawIntBits(claheLevel_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(claheLevel_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(11, claheLevel_);
+          .computeDoubleSize(11, claheLevel_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -407,8 +407,8 @@ public final class JonSharedDataCameraHeat {
       }
       ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat other = (ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat) obj;
 
-      if (java.lang.Float.floatToIntBits(getZoomPos())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getZoomPos())
+          != java.lang.Double.doubleToLongBits(
               other.getZoomPos())) return false;
       if (agcMode_ != other.agcMode_) return false;
       if (filter_ != other.filter_) return false;
@@ -423,11 +423,11 @@ public final class JonSharedDataCameraHeat {
       if (getDdeEnabled()
           != other.getDdeEnabled()) return false;
       if (fxMode_ != other.fxMode_) return false;
-      if (java.lang.Float.floatToIntBits(getDigitalZoomLevel())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getDigitalZoomLevel())
+          != java.lang.Double.doubleToLongBits(
               other.getDigitalZoomLevel())) return false;
-      if (java.lang.Float.floatToIntBits(getClaheLevel())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getClaheLevel())
+          != java.lang.Double.doubleToLongBits(
               other.getClaheLevel())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -441,8 +441,8 @@ public final class JonSharedDataCameraHeat {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ZOOM_POS_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getZoomPos());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getZoomPos()));
       hash = (37 * hash) + AGC_MODE_FIELD_NUMBER;
       hash = (53 * hash) + agcMode_;
       hash = (37 * hash) + FILTER_FIELD_NUMBER;
@@ -462,11 +462,11 @@ public final class JonSharedDataCameraHeat {
       hash = (37 * hash) + FX_MODE_FIELD_NUMBER;
       hash = (53 * hash) + fxMode_;
       hash = (37 * hash) + DIGITAL_ZOOM_LEVEL_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getDigitalZoomLevel());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getDigitalZoomLevel()));
       hash = (37 * hash) + CLAHE_LEVEL_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getClaheLevel());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getClaheLevel()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -598,7 +598,7 @@ public final class JonSharedDataCameraHeat {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        zoomPos_ = 0F;
+        zoomPos_ = 0D;
         agcMode_ = 0;
         filter_ = 0;
         autoFocus_ = false;
@@ -607,8 +607,8 @@ public final class JonSharedDataCameraHeat {
         ddeLevel_ = 0;
         ddeEnabled_ = false;
         fxMode_ = 0;
-        digitalZoomLevel_ = 0F;
-        claheLevel_ = 0F;
+        digitalZoomLevel_ = 0D;
+        claheLevel_ = 0D;
         return this;
       }
 
@@ -689,7 +689,7 @@ public final class JonSharedDataCameraHeat {
 
       public Builder mergeFrom(ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat other) {
         if (other == ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat.getDefaultInstance()) return this;
-        if (other.getZoomPos() != 0F) {
+        if (other.getZoomPos() != 0D) {
           setZoomPos(other.getZoomPos());
         }
         if (other.agcMode_ != 0) {
@@ -716,10 +716,10 @@ public final class JonSharedDataCameraHeat {
         if (other.fxMode_ != 0) {
           setFxModeValue(other.getFxModeValue());
         }
-        if (other.getDigitalZoomLevel() != 0F) {
+        if (other.getDigitalZoomLevel() != 0D) {
           setDigitalZoomLevel(other.getDigitalZoomLevel());
         }
-        if (other.getClaheLevel() != 0F) {
+        if (other.getClaheLevel() != 0D) {
           setClaheLevel(other.getClaheLevel());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -748,11 +748,11 @@ public final class JonSharedDataCameraHeat {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                zoomPos_ = input.readFloat();
+              case 9: {
+                zoomPos_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               case 16: {
                 agcMode_ = input.readEnum();
                 bitField0_ |= 0x00000002;
@@ -793,16 +793,16 @@ public final class JonSharedDataCameraHeat {
                 bitField0_ |= 0x00000100;
                 break;
               } // case 72
-              case 85: {
-                digitalZoomLevel_ = input.readFloat();
+              case 81: {
+                digitalZoomLevel_ = input.readDouble();
                 bitField0_ |= 0x00000200;
                 break;
-              } // case 85
-              case 93: {
-                claheLevel_ = input.readFloat();
+              } // case 81
+              case 89: {
+                claheLevel_ = input.readDouble();
                 bitField0_ |= 0x00000400;
                 break;
-              } // case 93
+              } // case 89
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -820,21 +820,21 @@ public final class JonSharedDataCameraHeat {
       }
       private int bitField0_;
 
-      private float zoomPos_ ;
+      private double zoomPos_ ;
       /**
-       * <code>float zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
        * @return The zoomPos.
        */
       @java.lang.Override
-      public float getZoomPos() {
+      public double getZoomPos() {
         return zoomPos_;
       }
       /**
-       * <code>float zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The zoomPos to set.
        * @return This builder for chaining.
        */
-      public Builder setZoomPos(float value) {
+      public Builder setZoomPos(double value) {
 
         zoomPos_ = value;
         bitField0_ |= 0x00000001;
@@ -842,12 +842,12 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
       /**
-       * <code>float zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double zoom_pos = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearZoomPos() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        zoomPos_ = 0F;
+        zoomPos_ = 0D;
         onChanged();
         return this;
       }
@@ -1171,21 +1171,21 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
 
-      private float digitalZoomLevel_ ;
+      private double digitalZoomLevel_ ;
       /**
-       * <code>float digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
+       * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
        * @return The digitalZoomLevel.
        */
       @java.lang.Override
-      public float getDigitalZoomLevel() {
+      public double getDigitalZoomLevel() {
         return digitalZoomLevel_;
       }
       /**
-       * <code>float digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
+       * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
        * @param value The digitalZoomLevel to set.
        * @return This builder for chaining.
        */
-      public Builder setDigitalZoomLevel(float value) {
+      public Builder setDigitalZoomLevel(double value) {
 
         digitalZoomLevel_ = value;
         bitField0_ |= 0x00000200;
@@ -1193,31 +1193,31 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
       /**
-       * <code>float digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
+       * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearDigitalZoomLevel() {
         bitField0_ = (bitField0_ & ~0x00000200);
-        digitalZoomLevel_ = 0F;
+        digitalZoomLevel_ = 0D;
         onChanged();
         return this;
       }
 
-      private float claheLevel_ ;
+      private double claheLevel_ ;
       /**
-       * <code>float clahe_level = 11 [(.buf.validate.field) = { ... }</code>
+       * <code>double clahe_level = 11 [(.buf.validate.field) = { ... }</code>
        * @return The claheLevel.
        */
       @java.lang.Override
-      public float getClaheLevel() {
+      public double getClaheLevel() {
         return claheLevel_;
       }
       /**
-       * <code>float clahe_level = 11 [(.buf.validate.field) = { ... }</code>
+       * <code>double clahe_level = 11 [(.buf.validate.field) = { ... }</code>
        * @param value The claheLevel to set.
        * @return This builder for chaining.
        */
-      public Builder setClaheLevel(float value) {
+      public Builder setClaheLevel(double value) {
 
         claheLevel_ = value;
         bitField0_ |= 0x00000400;
@@ -1225,12 +1225,12 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
       /**
-       * <code>float clahe_level = 11 [(.buf.validate.field) = { ... }</code>
+       * <code>double clahe_level = 11 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearClaheLevel() {
         bitField0_ = (bitField0_ & ~0x00000400);
-        claheLevel_ = 0F;
+        claheLevel_ = 0D;
         onChanged();
         return this;
       }
@@ -1302,21 +1302,22 @@ public final class JonSharedDataCameraHeat {
     java.lang.String[] descriptorData = {
       "\n!jon_shared_data_camera_heat.proto\022\003ser" +
       "\032\033buf/validate/validate.proto\032\033jon_share" +
-      "d_data_types.proto\"\326\003\n\024JonGuiDataCameraH" +
-      "eat\022!\n\010zoom_pos\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\022E" +
-      "\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDataVideoCh" +
-      "annelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n\006filter\030" +
-      "\003 \001(\0162&.ser.JonGuiDataVideoChannelHeatFi" +
-      "ltersB\n\272H\007\202\001\004\020\001 \000\022\022\n\nauto_focus\030\004 \001(\010\022\037\n" +
-      "\016zoom_table_pos\030\005 \001(\005B\007\272H\004\032\002(\000\022#\n\022zoom_t" +
-      "able_pos_max\030\006 \001(\005B\007\272H\004\032\002(\000\022\035\n\tdde_level" +
-      "\030\007 \001(\005B\n\272H\007\032\005\030\200\004(\000\022\023\n\013dde_enabled\030\010 \001(\010\022" +
-      "4\n\007fx_mode\030\t \001(\0162\031.ser.JonGuiDataFxModeH" +
-      "eatB\010\272H\005\202\001\002\020\001\022&\n\022digital_zoom_level\030\n \001(" +
-      "\002B\n\272H\007\n\005-\000\000\200?\022$\n\013clahe_level\030\013 \001(\002B\017\272H\014\n" +
-      "\n\035\000\000\200?-\000\000\000\000BSZQgit-codecommit.eu-central" +
-      "-1.amazonaws.com/v1/repos/jettison/jonp/" +
-      "data/camera_heatb\006proto3"
+      "d_data_types.proto\"\352\003\n\024JonGuiDataCameraH" +
+      "eat\022)\n\010zoom_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
+      "\000\000\000\000\000\000\022E\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDat" +
+      "aVideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n" +
+      "\006filter\030\003 \001(\0162&.ser.JonGuiDataVideoChann" +
+      "elHeatFiltersB\n\272H\007\202\001\004\020\001 \000\022\022\n\nauto_focus\030" +
+      "\004 \001(\010\022\037\n\016zoom_table_pos\030\005 \001(\005B\007\272H\004\032\002(\000\022#" +
+      "\n\022zoom_table_pos_max\030\006 \001(\005B\007\272H\004\032\002(\000\022\035\n\td" +
+      "de_level\030\007 \001(\005B\n\272H\007\032\005\030\200\004(\000\022\023\n\013dde_enable" +
+      "d\030\010 \001(\010\0224\n\007fx_mode\030\t \001(\0162\031.ser.JonGuiDat" +
+      "aFxModeHeatB\010\272H\005\202\001\002\020\001\022*\n\022digital_zoom_le" +
+      "vel\030\n \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\022,\n\013clahe_level" +
+      "\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000BSZQgit-c" +
+      "odecommit.eu-central-1.amazonaws.com/v1/" +
+      "repos/jettison/jonp/data/camera_heatb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

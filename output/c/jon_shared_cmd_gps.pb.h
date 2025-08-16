@@ -27,9 +27,9 @@ typedef struct _cmd_Gps_SetUseManualPosition {
 } cmd_Gps_SetUseManualPosition;
 
 typedef struct _cmd_Gps_SetManualPosition {
-    float latitude;
-    float longitude;
-    float altitude;
+    double latitude;
+    double longitude;
+    double altitude;
 } cmd_Gps_SetManualPosition;
 
 typedef struct _cmd_Gps_Root {
@@ -109,9 +109,9 @@ X(a, STATIC,   SINGULAR, BOOL,     flag,              1)
 #define cmd_Gps_SetUseManualPosition_DEFAULT NULL
 
 #define cmd_Gps_SetManualPosition_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    latitude,          1) \
-X(a, STATIC,   SINGULAR, FLOAT,    longitude,         2) \
-X(a, STATIC,   SINGULAR, FLOAT,    altitude,          3)
+X(a, STATIC,   SINGULAR, DOUBLE,   latitude,          1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   longitude,         2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   altitude,          3)
 #define cmd_Gps_SetManualPosition_CALLBACK NULL
 #define cmd_Gps_SetManualPosition_DEFAULT NULL
 
@@ -133,8 +133,8 @@ extern const pb_msgdesc_t cmd_Gps_SetManualPosition_msg;
 /* Maximum encoded size of messages (where known) */
 #define CMD_GPS_JON_SHARED_CMD_GPS_PB_H_MAX_SIZE cmd_Gps_Root_size
 #define cmd_Gps_GetMeteo_size                    0
-#define cmd_Gps_Root_size                        17
-#define cmd_Gps_SetManualPosition_size           15
+#define cmd_Gps_Root_size                        29
+#define cmd_Gps_SetManualPosition_size           27
 #define cmd_Gps_SetUseManualPosition_size        2
 #define cmd_Gps_Start_size                       0
 #define cmd_Gps_Stop_size                        0

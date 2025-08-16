@@ -218,48 +218,58 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
     kElevationFieldNumber = 2,
     kBankFieldNumber = 3,
     kLatitudeFieldNumber = 4,
+    kLongitudeFieldNumber = 5,
     kAltitudeFieldNumber = 6,
     kTimestampFieldNumber = 7,
-    kLongitudeFieldNumber = 5,
   };
-  // float azimuth = 1;
+  // double azimuth = 1;
   void clear_azimuth() ;
-  float azimuth() const;
-  void set_azimuth(float value);
+  double azimuth() const;
+  void set_azimuth(double value);
 
   private:
-  float _internal_azimuth() const;
-  void _internal_set_azimuth(float value);
+  double _internal_azimuth() const;
+  void _internal_set_azimuth(double value);
 
   public:
-  // float elevation = 2;
+  // double elevation = 2;
   void clear_elevation() ;
-  float elevation() const;
-  void set_elevation(float value);
+  double elevation() const;
+  void set_elevation(double value);
 
   private:
-  float _internal_elevation() const;
-  void _internal_set_elevation(float value);
+  double _internal_elevation() const;
+  void _internal_set_elevation(double value);
 
   public:
-  // float bank = 3;
+  // double bank = 3;
   void clear_bank() ;
-  float bank() const;
-  void set_bank(float value);
+  double bank() const;
+  void set_bank(double value);
 
   private:
-  float _internal_bank() const;
-  void _internal_set_bank(float value);
+  double _internal_bank() const;
+  void _internal_set_bank(double value);
 
   public:
-  // float latitude = 4;
+  // double latitude = 4;
   void clear_latitude() ;
-  float latitude() const;
-  void set_latitude(float value);
+  double latitude() const;
+  void set_latitude(double value);
 
   private:
-  float _internal_latitude() const;
-  void _internal_set_latitude(float value);
+  double _internal_latitude() const;
+  void _internal_set_latitude(double value);
+
+  public:
+  // double longitude = 5;
+  void clear_longitude() ;
+  double longitude() const;
+  void set_longitude(double value);
+
+  private:
+  double _internal_longitude() const;
+  void _internal_set_longitude(double value);
 
   public:
   // double altitude = 6;
@@ -280,16 +290,6 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   private:
   ::int64_t _internal_timestamp() const;
   void _internal_set_timestamp(::int64_t value);
-
-  public:
-  // float longitude = 5;
-  void clear_longitude() ;
-  float longitude() const;
-  void set_longitude(float value);
-
-  private:
-  float _internal_longitude() const;
-  void _internal_set_longitude(float value);
 
   public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataActualSpaceTime)
@@ -315,13 +315,13 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataActualSpaceTime& from_msg);
-    float azimuth_;
-    float elevation_;
-    float bank_;
-    float latitude_;
+    double azimuth_;
+    double elevation_;
+    double bank_;
+    double latitude_;
+    double longitude_;
     double altitude_;
     ::int64_t timestamp_;
-    float longitude_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -345,112 +345,112 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
 
 // JonGuiDataActualSpaceTime
 
-// float azimuth = 1;
+// double azimuth = 1;
 inline void JonGuiDataActualSpaceTime::clear_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = 0;
 }
-inline float JonGuiDataActualSpaceTime::azimuth() const {
+inline double JonGuiDataActualSpaceTime::azimuth() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataActualSpaceTime.azimuth)
   return _internal_azimuth();
 }
-inline void JonGuiDataActualSpaceTime::set_azimuth(float value) {
+inline void JonGuiDataActualSpaceTime::set_azimuth(double value) {
   _internal_set_azimuth(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataActualSpaceTime.azimuth)
 }
-inline float JonGuiDataActualSpaceTime::_internal_azimuth() const {
+inline double JonGuiDataActualSpaceTime::_internal_azimuth() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.azimuth_;
 }
-inline void JonGuiDataActualSpaceTime::_internal_set_azimuth(float value) {
+inline void JonGuiDataActualSpaceTime::_internal_set_azimuth(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = value;
 }
 
-// float elevation = 2;
+// double elevation = 2;
 inline void JonGuiDataActualSpaceTime::clear_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = 0;
 }
-inline float JonGuiDataActualSpaceTime::elevation() const {
+inline double JonGuiDataActualSpaceTime::elevation() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataActualSpaceTime.elevation)
   return _internal_elevation();
 }
-inline void JonGuiDataActualSpaceTime::set_elevation(float value) {
+inline void JonGuiDataActualSpaceTime::set_elevation(double value) {
   _internal_set_elevation(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataActualSpaceTime.elevation)
 }
-inline float JonGuiDataActualSpaceTime::_internal_elevation() const {
+inline double JonGuiDataActualSpaceTime::_internal_elevation() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.elevation_;
 }
-inline void JonGuiDataActualSpaceTime::_internal_set_elevation(float value) {
+inline void JonGuiDataActualSpaceTime::_internal_set_elevation(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = value;
 }
 
-// float bank = 3;
+// double bank = 3;
 inline void JonGuiDataActualSpaceTime::clear_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.bank_ = 0;
 }
-inline float JonGuiDataActualSpaceTime::bank() const {
+inline double JonGuiDataActualSpaceTime::bank() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataActualSpaceTime.bank)
   return _internal_bank();
 }
-inline void JonGuiDataActualSpaceTime::set_bank(float value) {
+inline void JonGuiDataActualSpaceTime::set_bank(double value) {
   _internal_set_bank(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataActualSpaceTime.bank)
 }
-inline float JonGuiDataActualSpaceTime::_internal_bank() const {
+inline double JonGuiDataActualSpaceTime::_internal_bank() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.bank_;
 }
-inline void JonGuiDataActualSpaceTime::_internal_set_bank(float value) {
+inline void JonGuiDataActualSpaceTime::_internal_set_bank(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.bank_ = value;
 }
 
-// float latitude = 4;
+// double latitude = 4;
 inline void JonGuiDataActualSpaceTime::clear_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = 0;
 }
-inline float JonGuiDataActualSpaceTime::latitude() const {
+inline double JonGuiDataActualSpaceTime::latitude() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataActualSpaceTime.latitude)
   return _internal_latitude();
 }
-inline void JonGuiDataActualSpaceTime::set_latitude(float value) {
+inline void JonGuiDataActualSpaceTime::set_latitude(double value) {
   _internal_set_latitude(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataActualSpaceTime.latitude)
 }
-inline float JonGuiDataActualSpaceTime::_internal_latitude() const {
+inline double JonGuiDataActualSpaceTime::_internal_latitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.latitude_;
 }
-inline void JonGuiDataActualSpaceTime::_internal_set_latitude(float value) {
+inline void JonGuiDataActualSpaceTime::_internal_set_latitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = value;
 }
 
-// float longitude = 5;
+// double longitude = 5;
 inline void JonGuiDataActualSpaceTime::clear_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = 0;
 }
-inline float JonGuiDataActualSpaceTime::longitude() const {
+inline double JonGuiDataActualSpaceTime::longitude() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataActualSpaceTime.longitude)
   return _internal_longitude();
 }
-inline void JonGuiDataActualSpaceTime::set_longitude(float value) {
+inline void JonGuiDataActualSpaceTime::set_longitude(double value) {
   _internal_set_longitude(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataActualSpaceTime.longitude)
 }
-inline float JonGuiDataActualSpaceTime::_internal_longitude() const {
+inline double JonGuiDataActualSpaceTime::_internal_longitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.longitude_;
 }
-inline void JonGuiDataActualSpaceTime::_internal_set_longitude(float value) {
+inline void JonGuiDataActualSpaceTime::_internal_set_longitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = value;
 }

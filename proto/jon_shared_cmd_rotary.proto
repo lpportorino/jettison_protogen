@@ -49,7 +49,7 @@ message SetMode {
 }
 
 message SetAzimuthValue {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lt: 360.0
   }];
@@ -60,11 +60,11 @@ message SetAzimuthValue {
 }
 
 message RotateAzimuthTo {
-  float target_value = 1 [(buf.validate.field).float = {
+  double target_value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lt: 360.0
   }];
-  float speed = 2 [(buf.validate.field).float = {
+  double speed = 2 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -75,7 +75,7 @@ message RotateAzimuthTo {
 }
 
 message RotateAzimuth {
-  float speed = 1 [(buf.validate.field).float = {
+  double speed = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -86,7 +86,7 @@ message RotateAzimuth {
 }
 
 message RotateElevation {
-  float speed = 1 [(buf.validate.field).float = {
+  double speed = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -97,29 +97,29 @@ message RotateElevation {
 }
 
 message SetElevationValue {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
 }
 
 message RotateElevationTo {
-  float target_value = 1 [(buf.validate.field).float = {
+  double target_value = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
-  float speed = 2 [(buf.validate.field).float = {
+  double speed = 2 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
 }
 
 message RotateElevationRelative {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
-  float speed = 2 [(buf.validate.field).float = {
+  double speed = 2 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -130,7 +130,7 @@ message RotateElevationRelative {
 }
 
 message RotateElevationRelativeSet {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
@@ -141,11 +141,11 @@ message RotateElevationRelativeSet {
 }
 
 message RotateAzimuthRelative {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0
   }];
-  float speed = 2 [(buf.validate.field).float = {
+  double speed = 2 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -156,7 +156,7 @@ message RotateAzimuthRelative {
 }
 
 message RotateAzimuthRelativeSet {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0
   }];
@@ -167,21 +167,21 @@ message RotateAzimuthRelativeSet {
 }
 
 message SetPlatformAzimuth {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gt: -360.0,
     lt: 360.0
   }];
 }
 
 message SetPlatformElevation {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
 }
 
 message SetPlatformBank {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0
   }];
@@ -297,30 +297,30 @@ message setUseRotaryAsCompass {
 }
 
 message RotateToGPS {
-  float latitude = 1 [(buf.validate.field).float = {
+  double latitude = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
-  float longitude = 2 [(buf.validate.field).float = {
+  double longitude = 2 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0
   }];
-  float altitude = 3 [(buf.validate.field).float = {
+  double altitude = 3 [(buf.validate.field).double = {
     gte: -430.0,  // Dead Sea shore (lowest point on Earth's surface)
     lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
   }];
 }
 
 message SetOriginGPS {
-  float latitude = 1 [(buf.validate.field).float = {
+  double latitude = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
-  float longitude = 2 [(buf.validate.field).float = {
+  double longitude = 2 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0
   }];
-  float altitude = 3 [(buf.validate.field).float = {
+  double altitude = 3 [(buf.validate.field).double = {
     gte: -430.0,  // Dead Sea shore (lowest point on Earth's surface)
     lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
   }];
@@ -331,11 +331,11 @@ message RotateToNDC {
     defined_only: true,
     not_in: [0]
   }];
-  float x = 2 [(buf.validate.field).float = {
+  double x = 2 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];
-  float y = 3 [(buf.validate.field).float = {
+  double y = 3 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];

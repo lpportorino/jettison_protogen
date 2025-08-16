@@ -7,39 +7,39 @@ package cmd.DayCamera;
 import "jon_shared_data_types.proto";
 
 message SetValue {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
 }
 
 message Move {
-  float target_value = 1 [(buf.validate.field).float = {
+  double target_value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
-  float speed = 2 [(buf.validate.field).float = {
+  double speed = 2 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
 }
 
 message Offset {
-  float offset_value = 1 [(buf.validate.field).float = {
+  double offset_value = 1 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];
 }
 
 message SetClaheLevel {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
 }
 
 message ShiftClaheLevel {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];
@@ -87,7 +87,7 @@ message SetFxMode {
 }
 
 message SetDigitalZoomLevel {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 1.0
   }];
 }
@@ -124,7 +124,7 @@ message NextZoomTablePos {}
 message PrevZoomTablePos {}
 
 message SetIris {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];

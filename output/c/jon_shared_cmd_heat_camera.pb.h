@@ -16,11 +16,11 @@ typedef struct _cmd_HeatCamera_SetFxMode {
 } cmd_HeatCamera_SetFxMode;
 
 typedef struct _cmd_HeatCamera_SetClaheLevel {
-    float value;
+    double value;
 } cmd_HeatCamera_SetClaheLevel;
 
 typedef struct _cmd_HeatCamera_ShiftClaheLevel {
-    float value;
+    double value;
 } cmd_HeatCamera_ShiftClaheLevel;
 
 typedef struct _cmd_HeatCamera_NextFxMode {
@@ -44,7 +44,7 @@ typedef struct _cmd_HeatCamera_DisableDDE {
 } cmd_HeatCamera_DisableDDE;
 
 typedef struct _cmd_HeatCamera_SetValue {
-    float value;
+    double value;
 } cmd_HeatCamera_SetValue;
 
 typedef struct _cmd_HeatCamera_SetDDELevel {
@@ -52,7 +52,7 @@ typedef struct _cmd_HeatCamera_SetDDELevel {
 } cmd_HeatCamera_SetDDELevel;
 
 typedef struct _cmd_HeatCamera_SetDigitalZoomLevel {
-    float value;
+    double value;
 } cmd_HeatCamera_SetDigitalZoomLevel;
 
 typedef struct _cmd_HeatCamera_ShiftDDE {
@@ -398,12 +398,12 @@ X(a, STATIC,   SINGULAR, UENUM,    mode,              1)
 #define cmd_HeatCamera_SetFxMode_DEFAULT NULL
 
 #define cmd_HeatCamera_SetClaheLevel_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_HeatCamera_SetClaheLevel_CALLBACK NULL
 #define cmd_HeatCamera_SetClaheLevel_DEFAULT NULL
 
 #define cmd_HeatCamera_ShiftClaheLevel_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_HeatCamera_ShiftClaheLevel_CALLBACK NULL
 #define cmd_HeatCamera_ShiftClaheLevel_DEFAULT NULL
 
@@ -433,7 +433,7 @@ X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
 #define cmd_HeatCamera_DisableDDE_DEFAULT NULL
 
 #define cmd_HeatCamera_SetValue_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_HeatCamera_SetValue_CALLBACK NULL
 #define cmd_HeatCamera_SetValue_DEFAULT NULL
 
@@ -443,7 +443,7 @@ X(a, STATIC,   SINGULAR, INT32,    value,             1)
 #define cmd_HeatCamera_SetDDELevel_DEFAULT NULL
 
 #define cmd_HeatCamera_SetDigitalZoomLevel_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_HeatCamera_SetDigitalZoomLevel_CALLBACK NULL
 #define cmd_HeatCamera_SetDigitalZoomLevel_DEFAULT NULL
 
@@ -678,14 +678,14 @@ extern const pb_msgdesc_t cmd_HeatCamera_SaveToTable_msg;
 #define cmd_HeatCamera_SetAGC_size               2
 #define cmd_HeatCamera_SetAutoFocus_size         2
 #define cmd_HeatCamera_SetCalibMode_size         0
-#define cmd_HeatCamera_SetClaheLevel_size        5
+#define cmd_HeatCamera_SetClaheLevel_size        9
 #define cmd_HeatCamera_SetDDELevel_size          11
-#define cmd_HeatCamera_SetDigitalZoomLevel_size  5
+#define cmd_HeatCamera_SetDigitalZoomLevel_size  9
 #define cmd_HeatCamera_SetFilters_size           2
 #define cmd_HeatCamera_SetFxMode_size            2
-#define cmd_HeatCamera_SetValue_size             5
+#define cmd_HeatCamera_SetValue_size             9
 #define cmd_HeatCamera_SetZoomTableValue_size    11
-#define cmd_HeatCamera_ShiftClaheLevel_size      5
+#define cmd_HeatCamera_ShiftClaheLevel_size      9
 #define cmd_HeatCamera_ShiftDDE_size             11
 #define cmd_HeatCamera_Start_size                0
 #define cmd_HeatCamera_Stop_size                 0

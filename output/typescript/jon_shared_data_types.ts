@@ -981,13 +981,13 @@ function createBaseJonGuiDataMeteo(): JonGuiDataMeteo {
 export const JonGuiDataMeteo: MessageFns<JonGuiDataMeteo> = {
   encode(message: JonGuiDataMeteo, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.temperature !== 0) {
-      writer.uint32(13).float(message.temperature);
+      writer.uint32(9).double(message.temperature);
     }
     if (message.humidity !== 0) {
-      writer.uint32(21).float(message.humidity);
+      writer.uint32(17).double(message.humidity);
     }
     if (message.pressure !== 0) {
-      writer.uint32(29).float(message.pressure);
+      writer.uint32(25).double(message.pressure);
     }
     return writer;
   },
@@ -1000,27 +1000,27 @@ export const JonGuiDataMeteo: MessageFns<JonGuiDataMeteo> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.temperature = reader.float();
+          message.temperature = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.humidity = reader.float();
+          message.humidity = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.pressure = reader.float();
+          message.pressure = reader.double();
           continue;
         }
       }

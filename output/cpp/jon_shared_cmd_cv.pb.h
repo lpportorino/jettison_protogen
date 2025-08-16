@@ -687,29 +687,29 @@ class StartTrackNDC final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kChannelFieldNumber = 1,
     kXFieldNumber = 2,
-    kFrameTimeFieldNumber = 4,
     kYFieldNumber = 3,
+    kFrameTimeFieldNumber = 4,
+    kChannelFieldNumber = 1,
   };
-  // .ser.JonGuiDataVideoChannel channel = 1;
-  void clear_channel() ;
-  ::ser::JonGuiDataVideoChannel channel() const;
-  void set_channel(::ser::JonGuiDataVideoChannel value);
+  // double x = 2;
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
 
   private:
-  ::ser::JonGuiDataVideoChannel _internal_channel() const;
-  void _internal_set_channel(::ser::JonGuiDataVideoChannel value);
+  double _internal_x() const;
+  void _internal_set_x(double value);
 
   public:
-  // float x = 2;
-  void clear_x() ;
-  float x() const;
-  void set_x(float value);
+  // double y = 3;
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
 
   private:
-  float _internal_x() const;
-  void _internal_set_x(float value);
+  double _internal_y() const;
+  void _internal_set_y(double value);
 
   public:
   // uint64 frame_time = 4;
@@ -722,14 +722,14 @@ class StartTrackNDC final : public ::google::protobuf::Message
   void _internal_set_frame_time(::uint64_t value);
 
   public:
-  // float y = 3;
-  void clear_y() ;
-  float y() const;
-  void set_y(float value);
+  // .ser.JonGuiDataVideoChannel channel = 1;
+  void clear_channel() ;
+  ::ser::JonGuiDataVideoChannel channel() const;
+  void set_channel(::ser::JonGuiDataVideoChannel value);
 
   private:
-  float _internal_y() const;
-  void _internal_set_y(float value);
+  ::ser::JonGuiDataVideoChannel _internal_channel() const;
+  void _internal_set_channel(::ser::JonGuiDataVideoChannel value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.CV.StartTrackNDC)
@@ -755,10 +755,10 @@ class StartTrackNDC final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const StartTrackNDC& from_msg);
-    int channel_;
-    float x_;
+    double x_;
+    double y_;
     ::uint64_t frame_time_;
-    float y_;
+    int channel_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3281,46 +3281,46 @@ inline void StartTrackNDC::_internal_set_channel(::ser::JonGuiDataVideoChannel v
   _impl_.channel_ = value;
 }
 
-// float x = 2;
+// double x = 2;
 inline void StartTrackNDC::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
 }
-inline float StartTrackNDC::x() const {
+inline double StartTrackNDC::x() const {
   // @@protoc_insertion_point(field_get:cmd.CV.StartTrackNDC.x)
   return _internal_x();
 }
-inline void StartTrackNDC::set_x(float value) {
+inline void StartTrackNDC::set_x(double value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:cmd.CV.StartTrackNDC.x)
 }
-inline float StartTrackNDC::_internal_x() const {
+inline double StartTrackNDC::_internal_x() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.x_;
 }
-inline void StartTrackNDC::_internal_set_x(float value) {
+inline void StartTrackNDC::_internal_set_x(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = value;
 }
 
-// float y = 3;
+// double y = 3;
 inline void StartTrackNDC::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
 }
-inline float StartTrackNDC::y() const {
+inline double StartTrackNDC::y() const {
   // @@protoc_insertion_point(field_get:cmd.CV.StartTrackNDC.y)
   return _internal_y();
 }
-inline void StartTrackNDC::set_y(float value) {
+inline void StartTrackNDC::set_y(double value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:cmd.CV.StartTrackNDC.y)
 }
-inline float StartTrackNDC::_internal_y() const {
+inline double StartTrackNDC::_internal_y() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.y_;
 }
-inline void StartTrackNDC::_internal_set_y(float value) {
+inline void StartTrackNDC::_internal_set_y(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = value;
 }

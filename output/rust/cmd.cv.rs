@@ -59,10 +59,10 @@ pub struct SetAutoFocus {
 pub struct StartTrackNdc {
     #[prost(enumeration = "super::super::ser::JonGuiDataVideoChannel", tag = "1")]
     pub channel: i32,
-    #[prost(float, tag = "2")]
-    pub x: f32,
-    #[prost(float, tag = "3")]
-    pub y: f32,
+    #[prost(double, tag = "2")]
+    pub x: f64,
+    #[prost(double, tag = "3")]
+    pub y: f64,
     #[prost(uint64, tag = "4")]
     pub frame_time: u64,
 }

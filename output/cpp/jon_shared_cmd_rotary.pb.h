@@ -815,14 +815,14 @@ class SetPlatformElevation final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.SetPlatformElevation)
@@ -848,7 +848,7 @@ class SetPlatformElevation final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetPlatformElevation& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1005,14 +1005,14 @@ class SetPlatformBank final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.SetPlatformBank)
@@ -1038,7 +1038,7 @@ class SetPlatformBank final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetPlatformBank& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1195,14 +1195,14 @@ class SetPlatformAzimuth final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.SetPlatformAzimuth)
@@ -1228,7 +1228,7 @@ class SetPlatformAzimuth final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetPlatformAzimuth& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1387,34 +1387,34 @@ class SetOriginGPS final : public ::google::protobuf::Message
     kLongitudeFieldNumber = 2,
     kAltitudeFieldNumber = 3,
   };
-  // float latitude = 1;
+  // double latitude = 1;
   void clear_latitude() ;
-  float latitude() const;
-  void set_latitude(float value);
+  double latitude() const;
+  void set_latitude(double value);
 
   private:
-  float _internal_latitude() const;
-  void _internal_set_latitude(float value);
+  double _internal_latitude() const;
+  void _internal_set_latitude(double value);
 
   public:
-  // float longitude = 2;
+  // double longitude = 2;
   void clear_longitude() ;
-  float longitude() const;
-  void set_longitude(float value);
+  double longitude() const;
+  void set_longitude(double value);
 
   private:
-  float _internal_longitude() const;
-  void _internal_set_longitude(float value);
+  double _internal_longitude() const;
+  void _internal_set_longitude(double value);
 
   public:
-  // float altitude = 3;
+  // double altitude = 3;
   void clear_altitude() ;
-  float altitude() const;
-  void set_altitude(float value);
+  double altitude() const;
+  void set_altitude(double value);
 
   private:
-  float _internal_altitude() const;
-  void _internal_set_altitude(float value);
+  double _internal_altitude() const;
+  void _internal_set_altitude(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.SetOriginGPS)
@@ -1440,9 +1440,9 @@ class SetOriginGPS final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetOriginGPS& from_msg);
-    float latitude_;
-    float longitude_;
-    float altitude_;
+    double latitude_;
+    double longitude_;
+    double altitude_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1789,14 +1789,14 @@ class SetElevationValue final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.SetElevationValue)
@@ -1822,7 +1822,7 @@ class SetElevationValue final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetElevationValue& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1980,14 +1980,14 @@ class SetAzimuthValue final : public ::google::protobuf::Message
     kValueFieldNumber = 1,
     kDirectionFieldNumber = 2,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 2;
@@ -2023,7 +2023,7 @@ class SetAzimuthValue final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetAzimuthValue& from_msg);
-    float value_;
+    double value_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -4098,10 +4098,30 @@ class RotateToNDC final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kChannelFieldNumber = 1,
     kXFieldNumber = 2,
     kYFieldNumber = 3,
+    kChannelFieldNumber = 1,
   };
+  // double x = 2;
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 3;
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
   // .ser.JonGuiDataVideoChannel channel = 1;
   void clear_channel() ;
   ::ser::JonGuiDataVideoChannel channel() const;
@@ -4110,26 +4130,6 @@ class RotateToNDC final : public ::google::protobuf::Message
   private:
   ::ser::JonGuiDataVideoChannel _internal_channel() const;
   void _internal_set_channel(::ser::JonGuiDataVideoChannel value);
-
-  public:
-  // float x = 2;
-  void clear_x() ;
-  float x() const;
-  void set_x(float value);
-
-  private:
-  float _internal_x() const;
-  void _internal_set_x(float value);
-
-  public:
-  // float y = 3;
-  void clear_y() ;
-  float y() const;
-  void set_y(float value);
-
-  private:
-  float _internal_y() const;
-  void _internal_set_y(float value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.RotateToNDC)
@@ -4155,9 +4155,9 @@ class RotateToNDC final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateToNDC& from_msg);
+    double x_;
+    double y_;
     int channel_;
-    float x_;
-    float y_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4316,34 +4316,34 @@ class RotateToGPS final : public ::google::protobuf::Message
     kLongitudeFieldNumber = 2,
     kAltitudeFieldNumber = 3,
   };
-  // float latitude = 1;
+  // double latitude = 1;
   void clear_latitude() ;
-  float latitude() const;
-  void set_latitude(float value);
+  double latitude() const;
+  void set_latitude(double value);
 
   private:
-  float _internal_latitude() const;
-  void _internal_set_latitude(float value);
+  double _internal_latitude() const;
+  void _internal_set_latitude(double value);
 
   public:
-  // float longitude = 2;
+  // double longitude = 2;
   void clear_longitude() ;
-  float longitude() const;
-  void set_longitude(float value);
+  double longitude() const;
+  void set_longitude(double value);
 
   private:
-  float _internal_longitude() const;
-  void _internal_set_longitude(float value);
+  double _internal_longitude() const;
+  void _internal_set_longitude(double value);
 
   public:
-  // float altitude = 3;
+  // double altitude = 3;
   void clear_altitude() ;
-  float altitude() const;
-  void set_altitude(float value);
+  double altitude() const;
+  void set_altitude(double value);
 
   private:
-  float _internal_altitude() const;
-  void _internal_set_altitude(float value);
+  double _internal_altitude() const;
+  void _internal_set_altitude(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.RotateToGPS)
@@ -4369,9 +4369,9 @@ class RotateToGPS final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateToGPS& from_msg);
-    float latitude_;
-    float longitude_;
-    float altitude_;
+    double latitude_;
+    double longitude_;
+    double altitude_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4529,24 +4529,24 @@ class RotateElevationTo final : public ::google::protobuf::Message
     kTargetValueFieldNumber = 1,
     kSpeedFieldNumber = 2,
   };
-  // float target_value = 1;
+  // double target_value = 1;
   void clear_target_value() ;
-  float target_value() const;
-  void set_target_value(float value);
+  double target_value() const;
+  void set_target_value(double value);
 
   private:
-  float _internal_target_value() const;
-  void _internal_set_target_value(float value);
+  double _internal_target_value() const;
+  void _internal_set_target_value(double value);
 
   public:
-  // float speed = 2;
+  // double speed = 2;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.RotateElevationTo)
@@ -4572,8 +4572,8 @@ class RotateElevationTo final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateElevationTo& from_msg);
-    float target_value_;
-    float speed_;
+    double target_value_;
+    double speed_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -4731,14 +4731,14 @@ class RotateElevationRelativeSet final : public ::google::protobuf::Message
     kValueFieldNumber = 1,
     kDirectionFieldNumber = 2,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 2;
@@ -4774,7 +4774,7 @@ class RotateElevationRelativeSet final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateElevationRelativeSet& from_msg);
-    float value_;
+    double value_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -4934,24 +4934,24 @@ class RotateElevationRelative final : public ::google::protobuf::Message
     kSpeedFieldNumber = 2,
     kDirectionFieldNumber = 3,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
-  // float speed = 2;
+  // double speed = 2;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 3;
@@ -4987,8 +4987,8 @@ class RotateElevationRelative final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateElevationRelative& from_msg);
-    float value_;
-    float speed_;
+    double value_;
+    double speed_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5147,14 +5147,14 @@ class RotateElevation final : public ::google::protobuf::Message
     kSpeedFieldNumber = 1,
     kDirectionFieldNumber = 2,
   };
-  // float speed = 1;
+  // double speed = 1;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 2;
@@ -5190,7 +5190,7 @@ class RotateElevation final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateElevation& from_msg);
-    float speed_;
+    double speed_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5350,24 +5350,24 @@ class RotateAzimuthTo final : public ::google::protobuf::Message
     kSpeedFieldNumber = 2,
     kDirectionFieldNumber = 3,
   };
-  // float target_value = 1;
+  // double target_value = 1;
   void clear_target_value() ;
-  float target_value() const;
-  void set_target_value(float value);
+  double target_value() const;
+  void set_target_value(double value);
 
   private:
-  float _internal_target_value() const;
-  void _internal_set_target_value(float value);
+  double _internal_target_value() const;
+  void _internal_set_target_value(double value);
 
   public:
-  // float speed = 2;
+  // double speed = 2;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 3;
@@ -5403,8 +5403,8 @@ class RotateAzimuthTo final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateAzimuthTo& from_msg);
-    float target_value_;
-    float speed_;
+    double target_value_;
+    double speed_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5563,14 +5563,14 @@ class RotateAzimuthRelativeSet final : public ::google::protobuf::Message
     kValueFieldNumber = 1,
     kDirectionFieldNumber = 2,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 2;
@@ -5606,7 +5606,7 @@ class RotateAzimuthRelativeSet final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateAzimuthRelativeSet& from_msg);
-    float value_;
+    double value_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5766,24 +5766,24 @@ class RotateAzimuthRelative final : public ::google::protobuf::Message
     kSpeedFieldNumber = 2,
     kDirectionFieldNumber = 3,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
-  // float speed = 2;
+  // double speed = 2;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 3;
@@ -5819,8 +5819,8 @@ class RotateAzimuthRelative final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateAzimuthRelative& from_msg);
-    float value_;
-    float speed_;
+    double value_;
+    double speed_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -5979,14 +5979,14 @@ class RotateAzimuth final : public ::google::protobuf::Message
     kSpeedFieldNumber = 1,
     kDirectionFieldNumber = 2,
   };
-  // float speed = 1;
+  // double speed = 1;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // .ser.JonGuiDataRotaryDirection direction = 2;
@@ -6022,7 +6022,7 @@ class RotateAzimuth final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const RotateAzimuth& from_msg);
-    float speed_;
+    double speed_;
     int direction_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -10369,24 +10369,24 @@ inline void SetMode::_internal_set_mode(::ser::JonGuiDataRotaryMode value) {
 
 // SetAzimuthValue
 
-// float value = 1;
+// double value = 1;
 inline void SetAzimuthValue::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetAzimuthValue::value() const {
+inline double SetAzimuthValue::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetAzimuthValue.value)
   return _internal_value();
 }
-inline void SetAzimuthValue::set_value(float value) {
+inline void SetAzimuthValue::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetAzimuthValue.value)
 }
-inline float SetAzimuthValue::_internal_value() const {
+inline double SetAzimuthValue::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetAzimuthValue::_internal_set_value(float value) {
+inline void SetAzimuthValue::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -10417,46 +10417,46 @@ inline void SetAzimuthValue::_internal_set_direction(::ser::JonGuiDataRotaryDire
 
 // RotateAzimuthTo
 
-// float target_value = 1;
+// double target_value = 1;
 inline void RotateAzimuthTo::clear_target_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = 0;
 }
-inline float RotateAzimuthTo::target_value() const {
+inline double RotateAzimuthTo::target_value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateAzimuthTo.target_value)
   return _internal_target_value();
 }
-inline void RotateAzimuthTo::set_target_value(float value) {
+inline void RotateAzimuthTo::set_target_value(double value) {
   _internal_set_target_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateAzimuthTo.target_value)
 }
-inline float RotateAzimuthTo::_internal_target_value() const {
+inline double RotateAzimuthTo::_internal_target_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.target_value_;
 }
-inline void RotateAzimuthTo::_internal_set_target_value(float value) {
+inline void RotateAzimuthTo::_internal_set_target_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = value;
 }
 
-// float speed = 2;
+// double speed = 2;
 inline void RotateAzimuthTo::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float RotateAzimuthTo::speed() const {
+inline double RotateAzimuthTo::speed() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateAzimuthTo.speed)
   return _internal_speed();
 }
-inline void RotateAzimuthTo::set_speed(float value) {
+inline void RotateAzimuthTo::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateAzimuthTo.speed)
 }
-inline float RotateAzimuthTo::_internal_speed() const {
+inline double RotateAzimuthTo::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void RotateAzimuthTo::_internal_set_speed(float value) {
+inline void RotateAzimuthTo::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -10487,24 +10487,24 @@ inline void RotateAzimuthTo::_internal_set_direction(::ser::JonGuiDataRotaryDire
 
 // RotateAzimuth
 
-// float speed = 1;
+// double speed = 1;
 inline void RotateAzimuth::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float RotateAzimuth::speed() const {
+inline double RotateAzimuth::speed() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateAzimuth.speed)
   return _internal_speed();
 }
-inline void RotateAzimuth::set_speed(float value) {
+inline void RotateAzimuth::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateAzimuth.speed)
 }
-inline float RotateAzimuth::_internal_speed() const {
+inline double RotateAzimuth::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void RotateAzimuth::_internal_set_speed(float value) {
+inline void RotateAzimuth::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -10535,24 +10535,24 @@ inline void RotateAzimuth::_internal_set_direction(::ser::JonGuiDataRotaryDirect
 
 // RotateElevation
 
-// float speed = 1;
+// double speed = 1;
 inline void RotateElevation::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float RotateElevation::speed() const {
+inline double RotateElevation::speed() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateElevation.speed)
   return _internal_speed();
 }
-inline void RotateElevation::set_speed(float value) {
+inline void RotateElevation::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateElevation.speed)
 }
-inline float RotateElevation::_internal_speed() const {
+inline double RotateElevation::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void RotateElevation::_internal_set_speed(float value) {
+inline void RotateElevation::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -10583,24 +10583,24 @@ inline void RotateElevation::_internal_set_direction(::ser::JonGuiDataRotaryDire
 
 // SetElevationValue
 
-// float value = 1;
+// double value = 1;
 inline void SetElevationValue::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetElevationValue::value() const {
+inline double SetElevationValue::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetElevationValue.value)
   return _internal_value();
 }
-inline void SetElevationValue::set_value(float value) {
+inline void SetElevationValue::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetElevationValue.value)
 }
-inline float SetElevationValue::_internal_value() const {
+inline double SetElevationValue::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetElevationValue::_internal_set_value(float value) {
+inline void SetElevationValue::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -10609,46 +10609,46 @@ inline void SetElevationValue::_internal_set_value(float value) {
 
 // RotateElevationTo
 
-// float target_value = 1;
+// double target_value = 1;
 inline void RotateElevationTo::clear_target_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = 0;
 }
-inline float RotateElevationTo::target_value() const {
+inline double RotateElevationTo::target_value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateElevationTo.target_value)
   return _internal_target_value();
 }
-inline void RotateElevationTo::set_target_value(float value) {
+inline void RotateElevationTo::set_target_value(double value) {
   _internal_set_target_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateElevationTo.target_value)
 }
-inline float RotateElevationTo::_internal_target_value() const {
+inline double RotateElevationTo::_internal_target_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.target_value_;
 }
-inline void RotateElevationTo::_internal_set_target_value(float value) {
+inline void RotateElevationTo::_internal_set_target_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = value;
 }
 
-// float speed = 2;
+// double speed = 2;
 inline void RotateElevationTo::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float RotateElevationTo::speed() const {
+inline double RotateElevationTo::speed() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateElevationTo.speed)
   return _internal_speed();
 }
-inline void RotateElevationTo::set_speed(float value) {
+inline void RotateElevationTo::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateElevationTo.speed)
 }
-inline float RotateElevationTo::_internal_speed() const {
+inline double RotateElevationTo::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void RotateElevationTo::_internal_set_speed(float value) {
+inline void RotateElevationTo::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -10657,46 +10657,46 @@ inline void RotateElevationTo::_internal_set_speed(float value) {
 
 // RotateElevationRelative
 
-// float value = 1;
+// double value = 1;
 inline void RotateElevationRelative::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float RotateElevationRelative::value() const {
+inline double RotateElevationRelative::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateElevationRelative.value)
   return _internal_value();
 }
-inline void RotateElevationRelative::set_value(float value) {
+inline void RotateElevationRelative::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateElevationRelative.value)
 }
-inline float RotateElevationRelative::_internal_value() const {
+inline double RotateElevationRelative::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void RotateElevationRelative::_internal_set_value(float value) {
+inline void RotateElevationRelative::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
 
-// float speed = 2;
+// double speed = 2;
 inline void RotateElevationRelative::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float RotateElevationRelative::speed() const {
+inline double RotateElevationRelative::speed() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateElevationRelative.speed)
   return _internal_speed();
 }
-inline void RotateElevationRelative::set_speed(float value) {
+inline void RotateElevationRelative::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateElevationRelative.speed)
 }
-inline float RotateElevationRelative::_internal_speed() const {
+inline double RotateElevationRelative::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void RotateElevationRelative::_internal_set_speed(float value) {
+inline void RotateElevationRelative::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -10727,24 +10727,24 @@ inline void RotateElevationRelative::_internal_set_direction(::ser::JonGuiDataRo
 
 // RotateElevationRelativeSet
 
-// float value = 1;
+// double value = 1;
 inline void RotateElevationRelativeSet::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float RotateElevationRelativeSet::value() const {
+inline double RotateElevationRelativeSet::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateElevationRelativeSet.value)
   return _internal_value();
 }
-inline void RotateElevationRelativeSet::set_value(float value) {
+inline void RotateElevationRelativeSet::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateElevationRelativeSet.value)
 }
-inline float RotateElevationRelativeSet::_internal_value() const {
+inline double RotateElevationRelativeSet::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void RotateElevationRelativeSet::_internal_set_value(float value) {
+inline void RotateElevationRelativeSet::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -10775,46 +10775,46 @@ inline void RotateElevationRelativeSet::_internal_set_direction(::ser::JonGuiDat
 
 // RotateAzimuthRelative
 
-// float value = 1;
+// double value = 1;
 inline void RotateAzimuthRelative::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float RotateAzimuthRelative::value() const {
+inline double RotateAzimuthRelative::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateAzimuthRelative.value)
   return _internal_value();
 }
-inline void RotateAzimuthRelative::set_value(float value) {
+inline void RotateAzimuthRelative::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateAzimuthRelative.value)
 }
-inline float RotateAzimuthRelative::_internal_value() const {
+inline double RotateAzimuthRelative::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void RotateAzimuthRelative::_internal_set_value(float value) {
+inline void RotateAzimuthRelative::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
 
-// float speed = 2;
+// double speed = 2;
 inline void RotateAzimuthRelative::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float RotateAzimuthRelative::speed() const {
+inline double RotateAzimuthRelative::speed() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateAzimuthRelative.speed)
   return _internal_speed();
 }
-inline void RotateAzimuthRelative::set_speed(float value) {
+inline void RotateAzimuthRelative::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateAzimuthRelative.speed)
 }
-inline float RotateAzimuthRelative::_internal_speed() const {
+inline double RotateAzimuthRelative::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void RotateAzimuthRelative::_internal_set_speed(float value) {
+inline void RotateAzimuthRelative::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -10845,24 +10845,24 @@ inline void RotateAzimuthRelative::_internal_set_direction(::ser::JonGuiDataRota
 
 // RotateAzimuthRelativeSet
 
-// float value = 1;
+// double value = 1;
 inline void RotateAzimuthRelativeSet::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float RotateAzimuthRelativeSet::value() const {
+inline double RotateAzimuthRelativeSet::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateAzimuthRelativeSet.value)
   return _internal_value();
 }
-inline void RotateAzimuthRelativeSet::set_value(float value) {
+inline void RotateAzimuthRelativeSet::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateAzimuthRelativeSet.value)
 }
-inline float RotateAzimuthRelativeSet::_internal_value() const {
+inline double RotateAzimuthRelativeSet::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void RotateAzimuthRelativeSet::_internal_set_value(float value) {
+inline void RotateAzimuthRelativeSet::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -10893,24 +10893,24 @@ inline void RotateAzimuthRelativeSet::_internal_set_direction(::ser::JonGuiDataR
 
 // SetPlatformAzimuth
 
-// float value = 1;
+// double value = 1;
 inline void SetPlatformAzimuth::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetPlatformAzimuth::value() const {
+inline double SetPlatformAzimuth::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetPlatformAzimuth.value)
   return _internal_value();
 }
-inline void SetPlatformAzimuth::set_value(float value) {
+inline void SetPlatformAzimuth::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetPlatformAzimuth.value)
 }
-inline float SetPlatformAzimuth::_internal_value() const {
+inline double SetPlatformAzimuth::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetPlatformAzimuth::_internal_set_value(float value) {
+inline void SetPlatformAzimuth::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -10919,24 +10919,24 @@ inline void SetPlatformAzimuth::_internal_set_value(float value) {
 
 // SetPlatformElevation
 
-// float value = 1;
+// double value = 1;
 inline void SetPlatformElevation::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetPlatformElevation::value() const {
+inline double SetPlatformElevation::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetPlatformElevation.value)
   return _internal_value();
 }
-inline void SetPlatformElevation::set_value(float value) {
+inline void SetPlatformElevation::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetPlatformElevation.value)
 }
-inline float SetPlatformElevation::_internal_value() const {
+inline double SetPlatformElevation::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetPlatformElevation::_internal_set_value(float value) {
+inline void SetPlatformElevation::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -10945,24 +10945,24 @@ inline void SetPlatformElevation::_internal_set_value(float value) {
 
 // SetPlatformBank
 
-// float value = 1;
+// double value = 1;
 inline void SetPlatformBank::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetPlatformBank::value() const {
+inline double SetPlatformBank::value() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetPlatformBank.value)
   return _internal_value();
 }
-inline void SetPlatformBank::set_value(float value) {
+inline void SetPlatformBank::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetPlatformBank.value)
 }
-inline float SetPlatformBank::_internal_value() const {
+inline double SetPlatformBank::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetPlatformBank::_internal_set_value(float value) {
+inline void SetPlatformBank::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -12391,68 +12391,68 @@ inline void setUseRotaryAsCompass::_internal_set_flag(bool value) {
 
 // RotateToGPS
 
-// float latitude = 1;
+// double latitude = 1;
 inline void RotateToGPS::clear_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = 0;
 }
-inline float RotateToGPS::latitude() const {
+inline double RotateToGPS::latitude() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToGPS.latitude)
   return _internal_latitude();
 }
-inline void RotateToGPS::set_latitude(float value) {
+inline void RotateToGPS::set_latitude(double value) {
   _internal_set_latitude(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToGPS.latitude)
 }
-inline float RotateToGPS::_internal_latitude() const {
+inline double RotateToGPS::_internal_latitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.latitude_;
 }
-inline void RotateToGPS::_internal_set_latitude(float value) {
+inline void RotateToGPS::_internal_set_latitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = value;
 }
 
-// float longitude = 2;
+// double longitude = 2;
 inline void RotateToGPS::clear_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = 0;
 }
-inline float RotateToGPS::longitude() const {
+inline double RotateToGPS::longitude() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToGPS.longitude)
   return _internal_longitude();
 }
-inline void RotateToGPS::set_longitude(float value) {
+inline void RotateToGPS::set_longitude(double value) {
   _internal_set_longitude(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToGPS.longitude)
 }
-inline float RotateToGPS::_internal_longitude() const {
+inline double RotateToGPS::_internal_longitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.longitude_;
 }
-inline void RotateToGPS::_internal_set_longitude(float value) {
+inline void RotateToGPS::_internal_set_longitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = value;
 }
 
-// float altitude = 3;
+// double altitude = 3;
 inline void RotateToGPS::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;
 }
-inline float RotateToGPS::altitude() const {
+inline double RotateToGPS::altitude() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToGPS.altitude)
   return _internal_altitude();
 }
-inline void RotateToGPS::set_altitude(float value) {
+inline void RotateToGPS::set_altitude(double value) {
   _internal_set_altitude(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToGPS.altitude)
 }
-inline float RotateToGPS::_internal_altitude() const {
+inline double RotateToGPS::_internal_altitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.altitude_;
 }
-inline void RotateToGPS::_internal_set_altitude(float value) {
+inline void RotateToGPS::_internal_set_altitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = value;
 }
@@ -12461,68 +12461,68 @@ inline void RotateToGPS::_internal_set_altitude(float value) {
 
 // SetOriginGPS
 
-// float latitude = 1;
+// double latitude = 1;
 inline void SetOriginGPS::clear_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = 0;
 }
-inline float SetOriginGPS::latitude() const {
+inline double SetOriginGPS::latitude() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetOriginGPS.latitude)
   return _internal_latitude();
 }
-inline void SetOriginGPS::set_latitude(float value) {
+inline void SetOriginGPS::set_latitude(double value) {
   _internal_set_latitude(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetOriginGPS.latitude)
 }
-inline float SetOriginGPS::_internal_latitude() const {
+inline double SetOriginGPS::_internal_latitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.latitude_;
 }
-inline void SetOriginGPS::_internal_set_latitude(float value) {
+inline void SetOriginGPS::_internal_set_latitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = value;
 }
 
-// float longitude = 2;
+// double longitude = 2;
 inline void SetOriginGPS::clear_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = 0;
 }
-inline float SetOriginGPS::longitude() const {
+inline double SetOriginGPS::longitude() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetOriginGPS.longitude)
   return _internal_longitude();
 }
-inline void SetOriginGPS::set_longitude(float value) {
+inline void SetOriginGPS::set_longitude(double value) {
   _internal_set_longitude(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetOriginGPS.longitude)
 }
-inline float SetOriginGPS::_internal_longitude() const {
+inline double SetOriginGPS::_internal_longitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.longitude_;
 }
-inline void SetOriginGPS::_internal_set_longitude(float value) {
+inline void SetOriginGPS::_internal_set_longitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = value;
 }
 
-// float altitude = 3;
+// double altitude = 3;
 inline void SetOriginGPS::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;
 }
-inline float SetOriginGPS::altitude() const {
+inline double SetOriginGPS::altitude() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.SetOriginGPS.altitude)
   return _internal_altitude();
 }
-inline void SetOriginGPS::set_altitude(float value) {
+inline void SetOriginGPS::set_altitude(double value) {
   _internal_set_altitude(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.SetOriginGPS.altitude)
 }
-inline float SetOriginGPS::_internal_altitude() const {
+inline double SetOriginGPS::_internal_altitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.altitude_;
 }
-inline void SetOriginGPS::_internal_set_altitude(float value) {
+inline void SetOriginGPS::_internal_set_altitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = value;
 }
@@ -12553,46 +12553,46 @@ inline void RotateToNDC::_internal_set_channel(::ser::JonGuiDataVideoChannel val
   _impl_.channel_ = value;
 }
 
-// float x = 2;
+// double x = 2;
 inline void RotateToNDC::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
 }
-inline float RotateToNDC::x() const {
+inline double RotateToNDC::x() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToNDC.x)
   return _internal_x();
 }
-inline void RotateToNDC::set_x(float value) {
+inline void RotateToNDC::set_x(double value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToNDC.x)
 }
-inline float RotateToNDC::_internal_x() const {
+inline double RotateToNDC::_internal_x() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.x_;
 }
-inline void RotateToNDC::_internal_set_x(float value) {
+inline void RotateToNDC::_internal_set_x(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = value;
 }
 
-// float y = 3;
+// double y = 3;
 inline void RotateToNDC::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
 }
-inline float RotateToNDC::y() const {
+inline double RotateToNDC::y() const {
   // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToNDC.y)
   return _internal_y();
 }
-inline void RotateToNDC::set_y(float value) {
+inline void RotateToNDC::set_y(double value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToNDC.y)
 }
-inline float RotateToNDC::_internal_y() const {
+inline double RotateToNDC::_internal_y() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.y_;
 }
-inline void RotateToNDC::_internal_set_y(float value) {
+inline void RotateToNDC::_internal_set_y(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = value;
 }

@@ -124,9 +124,9 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_system.proto\022\003ser\032\033jon"
     "_shared_data_types.proto\"\370\004\n\020JonGuiDataS"
-    "ystem\022\027\n\017cpu_temperature\030\001 \001(\002\022\027\n\017gpu_te"
-    "mperature\030\002 \001(\002\022\020\n\010gpu_load\030\003 \001(\002\022\020\n\010cpu"
-    "_load\030\004 \001(\002\022\031\n\021power_consumption\030\005 \001(\002\022/"
+    "ystem\022\027\n\017cpu_temperature\030\001 \001(\001\022\027\n\017gpu_te"
+    "mperature\030\002 \001(\001\022\020\n\010gpu_load\030\003 \001(\001\022\020\n\010cpu"
+    "_load\030\004 \001(\001\022\031\n\021power_consumption\030\005 \001(\001\022/"
     "\n\003loc\030\006 \001(\0162\".ser.JonGuiDataSystemLocali"
     "zations\022\036\n\026cur_video_rec_dir_year\030\007 \001(\005\022"
     "\037\n\027cur_video_rec_dir_month\030\010 \001(\005\022\035\n\025cur_"
@@ -265,21 +265,21 @@ const ::_pbi::TcParseTable<5, 23, 0, 0, 2> JonGuiDataSystem::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float cpu_temperature = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_)}},
-    // float gpu_temperature = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_temperature_)}},
-    // float gpu_load = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_load_)}},
-    // float cpu_load = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_load_)}},
-    // float power_consumption = 5;
-    {::_pbi::TcParser::FastF32S1,
-     {45, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.power_consumption_)}},
+    // double cpu_temperature = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_)}},
+    // double gpu_temperature = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_temperature_)}},
+    // double gpu_load = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_load_)}},
+    // double cpu_load = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_load_)}},
+    // double power_consumption = 5;
+    {::_pbi::TcParser::FastF64S1,
+     {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.power_consumption_)}},
     // .ser.JonGuiDataSystemLocalizations loc = 6;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.loc_), 63>(),
      {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.loc_)}},
@@ -345,21 +345,21 @@ const ::_pbi::TcParseTable<5, 23, 0, 0, 2> JonGuiDataSystem::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // float cpu_temperature = 1;
+    // double cpu_temperature = 1;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float gpu_temperature = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double gpu_temperature = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_temperature_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float gpu_load = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double gpu_load = 3;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_load_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float cpu_load = 4;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double cpu_load = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_load_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float power_consumption = 5;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double power_consumption = 5;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.power_consumption_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataSystemLocalizations loc = 6;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.loc_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -448,38 +448,38 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float cpu_temperature = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_cpu_temperature()) != 0) {
+          // double cpu_temperature = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_temperature()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_cpu_temperature(), target);
           }
 
-          // float gpu_temperature = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_gpu_temperature()) != 0) {
+          // double gpu_temperature = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_temperature()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_gpu_temperature(), target);
           }
 
-          // float gpu_load = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_gpu_load()) != 0) {
+          // double gpu_load = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_load()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_gpu_load(), target);
           }
 
-          // float cpu_load = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_cpu_load()) != 0) {
+          // double cpu_load = 4;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_load()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_cpu_load(), target);
           }
 
-          // float power_consumption = 5;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_power_consumption()) != 0) {
+          // double power_consumption = 5;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_power_consumption()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_power_consumption(), target);
           }
 
@@ -634,25 +634,25 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float cpu_temperature = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_cpu_temperature()) != 0) {
-              total_size += 5;
+            // double cpu_temperature = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_temperature()) != 0) {
+              total_size += 9;
             }
-            // float gpu_temperature = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_gpu_temperature()) != 0) {
-              total_size += 5;
+            // double gpu_temperature = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_temperature()) != 0) {
+              total_size += 9;
             }
-            // float gpu_load = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_gpu_load()) != 0) {
-              total_size += 5;
+            // double gpu_load = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_load()) != 0) {
+              total_size += 9;
             }
-            // float cpu_load = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_cpu_load()) != 0) {
-              total_size += 5;
+            // double cpu_load = 4;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_load()) != 0) {
+              total_size += 9;
             }
-            // float power_consumption = 5;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_power_consumption()) != 0) {
-              total_size += 5;
+            // double power_consumption = 5;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_power_consumption()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataSystemLocalizations loc = 6;
             if (this_._internal_loc() != 0) {
@@ -747,19 +747,19 @@ void JonGuiDataSystem::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_cpu_temperature()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_cpu_temperature()) != 0) {
     _this->_impl_.cpu_temperature_ = from._impl_.cpu_temperature_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_gpu_temperature()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_gpu_temperature()) != 0) {
     _this->_impl_.gpu_temperature_ = from._impl_.gpu_temperature_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_gpu_load()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_gpu_load()) != 0) {
     _this->_impl_.gpu_load_ = from._impl_.gpu_load_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_cpu_load()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_cpu_load()) != 0) {
     _this->_impl_.cpu_load_ = from._impl_.cpu_load_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_power_consumption()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_power_consumption()) != 0) {
     _this->_impl_.power_consumption_ = from._impl_.power_consumption_;
   }
   if (from._internal_loc() != 0) {

@@ -30,34 +30,34 @@ public final class JonSharedDataSystem {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
      * @return The cpuTemperature.
      */
-    float getCpuTemperature();
+    double getCpuTemperature();
 
     /**
-     * <code>float gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
      * @return The gpuTemperature.
      */
-    float getGpuTemperature();
+    double getGpuTemperature();
 
     /**
-     * <code>float gpu_load = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double gpu_load = 3 [(.buf.validate.field) = { ... }</code>
      * @return The gpuLoad.
      */
-    float getGpuLoad();
+    double getGpuLoad();
 
     /**
-     * <code>float cpu_load = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double cpu_load = 4 [(.buf.validate.field) = { ... }</code>
      * @return The cpuLoad.
      */
-    float getCpuLoad();
+    double getCpuLoad();
 
     /**
-     * <code>float power_consumption = 5 [(.buf.validate.field) = { ... }</code>
+     * <code>double power_consumption = 5 [(.buf.validate.field) = { ... }</code>
      * @return The powerConsumption.
      */
-    float getPowerConsumption();
+    double getPowerConsumption();
 
     /**
      * <code>.ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = { ... }</code>
@@ -211,57 +211,57 @@ public final class JonSharedDataSystem {
     }
 
     public static final int CPU_TEMPERATURE_FIELD_NUMBER = 1;
-    private float cpuTemperature_ = 0F;
+    private double cpuTemperature_ = 0D;
     /**
-     * <code>float cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
      * @return The cpuTemperature.
      */
     @java.lang.Override
-    public float getCpuTemperature() {
+    public double getCpuTemperature() {
       return cpuTemperature_;
     }
 
     public static final int GPU_TEMPERATURE_FIELD_NUMBER = 2;
-    private float gpuTemperature_ = 0F;
+    private double gpuTemperature_ = 0D;
     /**
-     * <code>float gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
      * @return The gpuTemperature.
      */
     @java.lang.Override
-    public float getGpuTemperature() {
+    public double getGpuTemperature() {
       return gpuTemperature_;
     }
 
     public static final int GPU_LOAD_FIELD_NUMBER = 3;
-    private float gpuLoad_ = 0F;
+    private double gpuLoad_ = 0D;
     /**
-     * <code>float gpu_load = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double gpu_load = 3 [(.buf.validate.field) = { ... }</code>
      * @return The gpuLoad.
      */
     @java.lang.Override
-    public float getGpuLoad() {
+    public double getGpuLoad() {
       return gpuLoad_;
     }
 
     public static final int CPU_LOAD_FIELD_NUMBER = 4;
-    private float cpuLoad_ = 0F;
+    private double cpuLoad_ = 0D;
     /**
-     * <code>float cpu_load = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double cpu_load = 4 [(.buf.validate.field) = { ... }</code>
      * @return The cpuLoad.
      */
     @java.lang.Override
-    public float getCpuLoad() {
+    public double getCpuLoad() {
       return cpuLoad_;
     }
 
     public static final int POWER_CONSUMPTION_FIELD_NUMBER = 5;
-    private float powerConsumption_ = 0F;
+    private double powerConsumption_ = 0D;
     /**
-     * <code>float power_consumption = 5 [(.buf.validate.field) = { ... }</code>
+     * <code>double power_consumption = 5 [(.buf.validate.field) = { ... }</code>
      * @return The powerConsumption.
      */
     @java.lang.Override
-    public float getPowerConsumption() {
+    public double getPowerConsumption() {
       return powerConsumption_;
     }
 
@@ -484,20 +484,20 @@ public final class JonSharedDataSystem {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(cpuTemperature_) != 0) {
-        output.writeFloat(1, cpuTemperature_);
+      if (java.lang.Double.doubleToRawLongBits(cpuTemperature_) != 0) {
+        output.writeDouble(1, cpuTemperature_);
       }
-      if (java.lang.Float.floatToRawIntBits(gpuTemperature_) != 0) {
-        output.writeFloat(2, gpuTemperature_);
+      if (java.lang.Double.doubleToRawLongBits(gpuTemperature_) != 0) {
+        output.writeDouble(2, gpuTemperature_);
       }
-      if (java.lang.Float.floatToRawIntBits(gpuLoad_) != 0) {
-        output.writeFloat(3, gpuLoad_);
+      if (java.lang.Double.doubleToRawLongBits(gpuLoad_) != 0) {
+        output.writeDouble(3, gpuLoad_);
       }
-      if (java.lang.Float.floatToRawIntBits(cpuLoad_) != 0) {
-        output.writeFloat(4, cpuLoad_);
+      if (java.lang.Double.doubleToRawLongBits(cpuLoad_) != 0) {
+        output.writeDouble(4, cpuLoad_);
       }
-      if (java.lang.Float.floatToRawIntBits(powerConsumption_) != 0) {
-        output.writeFloat(5, powerConsumption_);
+      if (java.lang.Double.doubleToRawLongBits(powerConsumption_) != 0) {
+        output.writeDouble(5, powerConsumption_);
       }
       if (loc_ != ser.JonSharedDataTypes.JonGuiDataSystemLocalizations.JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED.getNumber()) {
         output.writeEnum(6, loc_);
@@ -562,25 +562,25 @@ public final class JonSharedDataSystem {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(cpuTemperature_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(cpuTemperature_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, cpuTemperature_);
+          .computeDoubleSize(1, cpuTemperature_);
       }
-      if (java.lang.Float.floatToRawIntBits(gpuTemperature_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(gpuTemperature_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, gpuTemperature_);
+          .computeDoubleSize(2, gpuTemperature_);
       }
-      if (java.lang.Float.floatToRawIntBits(gpuLoad_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(gpuLoad_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, gpuLoad_);
+          .computeDoubleSize(3, gpuLoad_);
       }
-      if (java.lang.Float.floatToRawIntBits(cpuLoad_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(cpuLoad_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, cpuLoad_);
+          .computeDoubleSize(4, cpuLoad_);
       }
-      if (java.lang.Float.floatToRawIntBits(powerConsumption_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(powerConsumption_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, powerConsumption_);
+          .computeDoubleSize(5, powerConsumption_);
       }
       if (loc_ != ser.JonSharedDataTypes.JonGuiDataSystemLocalizations.JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -669,20 +669,20 @@ public final class JonSharedDataSystem {
       }
       ser.JonSharedDataSystem.JonGuiDataSystem other = (ser.JonSharedDataSystem.JonGuiDataSystem) obj;
 
-      if (java.lang.Float.floatToIntBits(getCpuTemperature())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getCpuTemperature())
+          != java.lang.Double.doubleToLongBits(
               other.getCpuTemperature())) return false;
-      if (java.lang.Float.floatToIntBits(getGpuTemperature())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getGpuTemperature())
+          != java.lang.Double.doubleToLongBits(
               other.getGpuTemperature())) return false;
-      if (java.lang.Float.floatToIntBits(getGpuLoad())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getGpuLoad())
+          != java.lang.Double.doubleToLongBits(
               other.getGpuLoad())) return false;
-      if (java.lang.Float.floatToIntBits(getCpuLoad())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getCpuLoad())
+          != java.lang.Double.doubleToLongBits(
               other.getCpuLoad())) return false;
-      if (java.lang.Float.floatToIntBits(getPowerConsumption())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getPowerConsumption())
+          != java.lang.Double.doubleToLongBits(
               other.getPowerConsumption())) return false;
       if (loc_ != other.loc_) return false;
       if (getCurVideoRecDirYear()
@@ -731,20 +731,20 @@ public final class JonSharedDataSystem {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + CPU_TEMPERATURE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getCpuTemperature());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getCpuTemperature()));
       hash = (37 * hash) + GPU_TEMPERATURE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getGpuTemperature());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getGpuTemperature()));
       hash = (37 * hash) + GPU_LOAD_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getGpuLoad());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getGpuLoad()));
       hash = (37 * hash) + CPU_LOAD_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getCpuLoad());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getCpuLoad()));
       hash = (37 * hash) + POWER_CONSUMPTION_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getPowerConsumption());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getPowerConsumption()));
       hash = (37 * hash) + LOC_FIELD_NUMBER;
       hash = (53 * hash) + loc_;
       hash = (37 * hash) + CUR_VIDEO_REC_DIR_YEAR_FIELD_NUMBER;
@@ -922,11 +922,11 @@ public final class JonSharedDataSystem {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        cpuTemperature_ = 0F;
-        gpuTemperature_ = 0F;
-        gpuLoad_ = 0F;
-        cpuLoad_ = 0F;
-        powerConsumption_ = 0F;
+        cpuTemperature_ = 0D;
+        gpuTemperature_ = 0D;
+        gpuLoad_ = 0D;
+        cpuLoad_ = 0D;
+        powerConsumption_ = 0D;
         loc_ = 0;
         curVideoRecDirYear_ = 0;
         curVideoRecDirMonth_ = 0;
@@ -1061,19 +1061,19 @@ public final class JonSharedDataSystem {
 
       public Builder mergeFrom(ser.JonSharedDataSystem.JonGuiDataSystem other) {
         if (other == ser.JonSharedDataSystem.JonGuiDataSystem.getDefaultInstance()) return this;
-        if (other.getCpuTemperature() != 0F) {
+        if (other.getCpuTemperature() != 0D) {
           setCpuTemperature(other.getCpuTemperature());
         }
-        if (other.getGpuTemperature() != 0F) {
+        if (other.getGpuTemperature() != 0D) {
           setGpuTemperature(other.getGpuTemperature());
         }
-        if (other.getGpuLoad() != 0F) {
+        if (other.getGpuLoad() != 0D) {
           setGpuLoad(other.getGpuLoad());
         }
-        if (other.getCpuLoad() != 0F) {
+        if (other.getCpuLoad() != 0D) {
           setCpuLoad(other.getCpuLoad());
         }
-        if (other.getPowerConsumption() != 0F) {
+        if (other.getPowerConsumption() != 0D) {
           setPowerConsumption(other.getPowerConsumption());
         }
         if (other.loc_ != 0) {
@@ -1156,31 +1156,31 @@ public final class JonSharedDataSystem {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                cpuTemperature_ = input.readFloat();
+              case 9: {
+                cpuTemperature_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                gpuTemperature_ = input.readFloat();
+              } // case 9
+              case 17: {
+                gpuTemperature_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                gpuLoad_ = input.readFloat();
+              } // case 17
+              case 25: {
+                gpuLoad_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
-              case 37: {
-                cpuLoad_ = input.readFloat();
+              } // case 25
+              case 33: {
+                cpuLoad_ = input.readDouble();
                 bitField0_ |= 0x00000008;
                 break;
-              } // case 37
-              case 45: {
-                powerConsumption_ = input.readFloat();
+              } // case 33
+              case 41: {
+                powerConsumption_ = input.readDouble();
                 bitField0_ |= 0x00000010;
                 break;
-              } // case 45
+              } // case 41
               case 48: {
                 loc_ = input.readEnum();
                 bitField0_ |= 0x00000020;
@@ -1288,21 +1288,21 @@ public final class JonSharedDataSystem {
       }
       private int bitField0_;
 
-      private float cpuTemperature_ ;
+      private double cpuTemperature_ ;
       /**
-       * <code>float cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
        * @return The cpuTemperature.
        */
       @java.lang.Override
-      public float getCpuTemperature() {
+      public double getCpuTemperature() {
         return cpuTemperature_;
       }
       /**
-       * <code>float cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The cpuTemperature to set.
        * @return This builder for chaining.
        */
-      public Builder setCpuTemperature(float value) {
+      public Builder setCpuTemperature(double value) {
 
         cpuTemperature_ = value;
         bitField0_ |= 0x00000001;
@@ -1310,31 +1310,31 @@ public final class JonSharedDataSystem {
         return this;
       }
       /**
-       * <code>float cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double cpu_temperature = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearCpuTemperature() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        cpuTemperature_ = 0F;
+        cpuTemperature_ = 0D;
         onChanged();
         return this;
       }
 
-      private float gpuTemperature_ ;
+      private double gpuTemperature_ ;
       /**
-       * <code>float gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
        * @return The gpuTemperature.
        */
       @java.lang.Override
-      public float getGpuTemperature() {
+      public double getGpuTemperature() {
         return gpuTemperature_;
       }
       /**
-       * <code>float gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The gpuTemperature to set.
        * @return This builder for chaining.
        */
-      public Builder setGpuTemperature(float value) {
+      public Builder setGpuTemperature(double value) {
 
         gpuTemperature_ = value;
         bitField0_ |= 0x00000002;
@@ -1342,31 +1342,31 @@ public final class JonSharedDataSystem {
         return this;
       }
       /**
-       * <code>float gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double gpu_temperature = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearGpuTemperature() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        gpuTemperature_ = 0F;
+        gpuTemperature_ = 0D;
         onChanged();
         return this;
       }
 
-      private float gpuLoad_ ;
+      private double gpuLoad_ ;
       /**
-       * <code>float gpu_load = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double gpu_load = 3 [(.buf.validate.field) = { ... }</code>
        * @return The gpuLoad.
        */
       @java.lang.Override
-      public float getGpuLoad() {
+      public double getGpuLoad() {
         return gpuLoad_;
       }
       /**
-       * <code>float gpu_load = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double gpu_load = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The gpuLoad to set.
        * @return This builder for chaining.
        */
-      public Builder setGpuLoad(float value) {
+      public Builder setGpuLoad(double value) {
 
         gpuLoad_ = value;
         bitField0_ |= 0x00000004;
@@ -1374,31 +1374,31 @@ public final class JonSharedDataSystem {
         return this;
       }
       /**
-       * <code>float gpu_load = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double gpu_load = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearGpuLoad() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        gpuLoad_ = 0F;
+        gpuLoad_ = 0D;
         onChanged();
         return this;
       }
 
-      private float cpuLoad_ ;
+      private double cpuLoad_ ;
       /**
-       * <code>float cpu_load = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double cpu_load = 4 [(.buf.validate.field) = { ... }</code>
        * @return The cpuLoad.
        */
       @java.lang.Override
-      public float getCpuLoad() {
+      public double getCpuLoad() {
         return cpuLoad_;
       }
       /**
-       * <code>float cpu_load = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double cpu_load = 4 [(.buf.validate.field) = { ... }</code>
        * @param value The cpuLoad to set.
        * @return This builder for chaining.
        */
-      public Builder setCpuLoad(float value) {
+      public Builder setCpuLoad(double value) {
 
         cpuLoad_ = value;
         bitField0_ |= 0x00000008;
@@ -1406,31 +1406,31 @@ public final class JonSharedDataSystem {
         return this;
       }
       /**
-       * <code>float cpu_load = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double cpu_load = 4 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearCpuLoad() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        cpuLoad_ = 0F;
+        cpuLoad_ = 0D;
         onChanged();
         return this;
       }
 
-      private float powerConsumption_ ;
+      private double powerConsumption_ ;
       /**
-       * <code>float power_consumption = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double power_consumption = 5 [(.buf.validate.field) = { ... }</code>
        * @return The powerConsumption.
        */
       @java.lang.Override
-      public float getPowerConsumption() {
+      public double getPowerConsumption() {
         return powerConsumption_;
       }
       /**
-       * <code>float power_consumption = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double power_consumption = 5 [(.buf.validate.field) = { ... }</code>
        * @param value The powerConsumption to set.
        * @return This builder for chaining.
        */
-      public Builder setPowerConsumption(float value) {
+      public Builder setPowerConsumption(double value) {
 
         powerConsumption_ = value;
         bitField0_ |= 0x00000010;
@@ -1438,12 +1438,12 @@ public final class JonSharedDataSystem {
         return this;
       }
       /**
-       * <code>float power_consumption = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double power_consumption = 5 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearPowerConsumption() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        powerConsumption_ = 0F;
+        powerConsumption_ = 0D;
         onChanged();
         return this;
       }
@@ -2112,31 +2112,34 @@ public final class JonSharedDataSystem {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_system.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\352\006\n\020JonGuiDataSystem\0227\n\017cp" +
-      "u_temperature\030\001 \001(\002B\036\272H\033\n\031\035\000\000\026C-3\223\210\303M\000\000\314" +
-      "AM\000\000pBM\000\000\241B\0227\n\017gpu_temperature\030\002 \001(\002B\036\272H" +
-      "\033\n\031\035\000\000\026C-3\223\210\303M\000\000\360AM\000\000\214BM\000\000\253B\0220\n\010gpu_load" +
-      "\030\003 \001(\002B\036\272H\033\n\031\035\000\000\310B-\000\000\000\000M\000\000\000\000M\000\000HBM\000\000\310B\0225" +
-      "\n\010cpu_load\030\004 \001(\002B#\272H \n\036\035\000\000\310B-\000\000\000\000M\000\000\000\000M\000" +
-      "\000\310AM\000\000\226BM\000\000\310B\0229\n\021power_consumption\030\005 \001(\002" +
-      "B\036\272H\033\n\031\035\000\000zD-\000\000\000\000M\000\000\240@M\000\000HBM\000\000HC\022;\n\003loc\030" +
-      "\006 \001(\0162\".ser.JonGuiDataSystemLocalization" +
-      "sB\n\272H\007\202\001\004\020\001 \000\022\'\n\026cur_video_rec_dir_year\030" +
-      "\007 \001(\005B\007\272H\004\032\002(\000\022(\n\027cur_video_rec_dir_mont" +
-      "h\030\010 \001(\005B\007\272H\004\032\002(\000\022&\n\025cur_video_rec_dir_da" +
-      "y\030\t \001(\005B\007\272H\004\032\002(\000\022\'\n\026cur_video_rec_dir_ho" +
-      "ur\030\n \001(\005B\007\272H\004\032\002(\000\022)\n\030cur_video_rec_dir_m" +
-      "inute\030\013 \001(\005B\007\272H\004\032\002(\000\022)\n\030cur_video_rec_di" +
-      "r_second\030\014 \001(\005B\007\272H\004\032\002(\000\022\023\n\013rec_enabled\030\r" +
-      " \001(\010\022\035\n\025important_rec_enabled\030\016 \001(\010\022\026\n\016l" +
-      "ow_disk_space\030\017 \001(\010\022\025\n\rno_disk_space\030\020 \001" +
-      "(\010\022\035\n\ndisk_space\030\021 \001(\005B\t\272H\006\032\004\030d(\000\022\020\n\010tra" +
-      "cking\030\022 \001(\010\022\024\n\014vampire_mode\030\023 \001(\010\022\032\n\022sta" +
-      "bilization_mode\030\024 \001(\010\022\025\n\rgeodesic_mode\030\025" +
-      " \001(\010\022\022\n\ncv_dumping\030\026 \001(\010\022\030\n\020recognition_" +
-      "mode\030\027 \001(\010BNZLgit-codecommit.eu-central-" +
-      "1.amazonaws.com/v1/repos/jettison/jonp/d" +
-      "ata/systemb\006proto3"
+      "a_types.proto\"\322\007\n\020JonGuiDataSystem\022K\n\017cp" +
+      "u_temperature\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)ffff" +
+      "f\022q\300I\000\000\000\000\000\2009@I\000\000\000\000\000\000N@I\000\000\000\000\000 T@\022K\n\017gpu_t" +
+      "emperature\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)fffff\022q" +
+      "\300I\000\000\000\000\000\000>@I\000\000\000\000\000\200Q@I\000\000\000\000\000`U@\022D\n\010gpu_load" +
+      "\030\003 \001(\001B2\272H/\022-\031\000\000\000\000\000\000Y@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000" +
+      "I\000\000\000\000\000\000I@I\000\000\000\000\000\000Y@\022M\n\010cpu_load\030\004 \001(\001B;\272H" +
+      "8\0226\031\000\000\000\000\000\000Y@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I" +
+      "\000\000\000\000\000\300R@I\000\000\000\000\000\000Y@\022M\n\021power_consumption\030\005" +
+      " \001(\001B2\272H/\022-\031\000\000\000\000\000@\217@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\024@I\000" +
+      "\000\000\000\000\000I@I\000\000\000\000\000\000i@\022;\n\003loc\030\006 \001(\0162\".ser.JonG" +
+      "uiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\022\'\n" +
+      "\026cur_video_rec_dir_year\030\007 \001(\005B\007\272H\004\032\002(\000\022(" +
+      "\n\027cur_video_rec_dir_month\030\010 \001(\005B\007\272H\004\032\002(\000" +
+      "\022&\n\025cur_video_rec_dir_day\030\t \001(\005B\007\272H\004\032\002(\000" +
+      "\022\'\n\026cur_video_rec_dir_hour\030\n \001(\005B\007\272H\004\032\002(" +
+      "\000\022)\n\030cur_video_rec_dir_minute\030\013 \001(\005B\007\272H\004" +
+      "\032\002(\000\022)\n\030cur_video_rec_dir_second\030\014 \001(\005B\007" +
+      "\272H\004\032\002(\000\022\023\n\013rec_enabled\030\r \001(\010\022\035\n\025importan" +
+      "t_rec_enabled\030\016 \001(\010\022\026\n\016low_disk_space\030\017 " +
+      "\001(\010\022\025\n\rno_disk_space\030\020 \001(\010\022\035\n\ndisk_space" +
+      "\030\021 \001(\005B\t\272H\006\032\004\030d(\000\022\020\n\010tracking\030\022 \001(\010\022\024\n\014v" +
+      "ampire_mode\030\023 \001(\010\022\032\n\022stabilization_mode\030" +
+      "\024 \001(\010\022\025\n\rgeodesic_mode\030\025 \001(\010\022\022\n\ncv_dumpi" +
+      "ng\030\026 \001(\010\022\030\n\020recognition_mode\030\027 \001(\010BNZLgi" +
+      "t-codecommit.eu-central-1.amazonaws.com/" +
+      "v1/repos/jettison/jonp/data/systemb\006prot" +
+      "o3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

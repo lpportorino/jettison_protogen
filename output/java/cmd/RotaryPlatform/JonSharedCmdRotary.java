@@ -7058,10 +7058,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 2 [(.buf.validate.field) = { ... }</code>
@@ -7113,13 +7113,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -7155,8 +7155,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, direction_);
@@ -7170,9 +7170,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -7193,8 +7193,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.SetAzimuthValue other = (cmd.RotaryPlatform.JonSharedCmdRotary.SetAzimuthValue) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -7209,8 +7209,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -7344,7 +7344,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -7399,7 +7399,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.SetAzimuthValue other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.SetAzimuthValue.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         if (other.direction_ != 0) {
@@ -7431,11 +7431,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               case 16: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000002;
@@ -7458,21 +7458,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -7480,12 +7480,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -7599,16 +7599,16 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The targetValue.
      */
-    float getTargetValue();
+    double getTargetValue();
 
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 3 [(.buf.validate.field) = { ... }</code>
@@ -7660,24 +7660,24 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int TARGET_VALUE_FIELD_NUMBER = 1;
-    private float targetValue_ = 0F;
+    private double targetValue_ = 0D;
     /**
-     * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The targetValue.
      */
     @java.lang.Override
-    public float getTargetValue() {
+    public double getTargetValue() {
       return targetValue_;
     }
 
     public static final int SPEED_FIELD_NUMBER = 2;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -7713,11 +7713,11 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(targetValue_) != 0) {
-        output.writeFloat(1, targetValue_);
+      if (java.lang.Double.doubleToRawLongBits(targetValue_) != 0) {
+        output.writeDouble(1, targetValue_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(2, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(2, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(3, direction_);
@@ -7731,13 +7731,13 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(targetValue_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(targetValue_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, targetValue_);
+          .computeDoubleSize(1, targetValue_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, speed_);
+          .computeDoubleSize(2, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -7758,11 +7758,11 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthTo other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthTo) obj;
 
-      if (java.lang.Float.floatToIntBits(getTargetValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getTargetValue())
+          != java.lang.Double.doubleToLongBits(
               other.getTargetValue())) return false;
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -7777,11 +7777,11 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TARGET_VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getTargetValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getTargetValue()));
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -7915,8 +7915,8 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        targetValue_ = 0F;
-        speed_ = 0F;
+        targetValue_ = 0D;
+        speed_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -7974,10 +7974,10 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthTo other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthTo.getDefaultInstance()) return this;
-        if (other.getTargetValue() != 0F) {
+        if (other.getTargetValue() != 0D) {
           setTargetValue(other.getTargetValue());
         }
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         if (other.direction_ != 0) {
@@ -8009,16 +8009,16 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                targetValue_ = input.readFloat();
+              case 9: {
+                targetValue_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                speed_ = input.readFloat();
+              } // case 9
+              case 17: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
+              } // case 17
               case 24: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000004;
@@ -8041,21 +8041,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float targetValue_ ;
+      private double targetValue_ ;
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The targetValue.
        */
       @java.lang.Override
-      public float getTargetValue() {
+      public double getTargetValue() {
         return targetValue_;
       }
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The targetValue to set.
        * @return This builder for chaining.
        */
-      public Builder setTargetValue(float value) {
+      public Builder setTargetValue(double value) {
 
         targetValue_ = value;
         bitField0_ |= 0x00000001;
@@ -8063,31 +8063,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearTargetValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        targetValue_ = 0F;
+        targetValue_ = 0D;
         onChanged();
         return this;
       }
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000002;
@@ -8095,12 +8095,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -8214,10 +8214,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 2 [(.buf.validate.field) = { ... }</code>
@@ -8269,13 +8269,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int SPEED_FIELD_NUMBER = 1;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -8311,8 +8311,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(1, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(1, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, direction_);
@@ -8326,9 +8326,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, speed_);
+          .computeDoubleSize(1, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -8349,8 +8349,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuth other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuth) obj;
 
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -8365,8 +8365,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -8500,7 +8500,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        speed_ = 0F;
+        speed_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -8555,7 +8555,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuth other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuth.getDefaultInstance()) return this;
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         if (other.direction_ != 0) {
@@ -8587,11 +8587,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                speed_ = input.readFloat();
+              case 9: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               case 16: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000002;
@@ -8614,21 +8614,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000001;
@@ -8636,12 +8636,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -8755,10 +8755,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 2 [(.buf.validate.field) = { ... }</code>
@@ -8810,13 +8810,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int SPEED_FIELD_NUMBER = 1;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -8852,8 +8852,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(1, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(1, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, direction_);
@@ -8867,9 +8867,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, speed_);
+          .computeDoubleSize(1, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -8890,8 +8890,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevation other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevation) obj;
 
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -8906,8 +8906,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -9041,7 +9041,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        speed_ = 0F;
+        speed_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -9096,7 +9096,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevation other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevation.getDefaultInstance()) return this;
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         if (other.direction_ != 0) {
@@ -9128,11 +9128,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                speed_ = input.readFloat();
+              case 9: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               case 16: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000002;
@@ -9155,21 +9155,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000001;
@@ -9177,12 +9177,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float speed = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -9296,10 +9296,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.SetElevationValue}
@@ -9339,13 +9339,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -9363,8 +9363,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -9375,9 +9375,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -9394,8 +9394,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.SetElevationValue other = (cmd.RotaryPlatform.JonSharedCmdRotary.SetElevationValue) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -9409,8 +9409,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9542,7 +9542,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -9593,7 +9593,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.SetElevationValue other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.SetElevationValue.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -9622,11 +9622,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -9644,21 +9644,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -9666,12 +9666,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -9732,16 +9732,16 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The targetValue.
      */
-    float getTargetValue();
+    double getTargetValue();
 
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.RotateElevationTo}
@@ -9781,24 +9781,24 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int TARGET_VALUE_FIELD_NUMBER = 1;
-    private float targetValue_ = 0F;
+    private double targetValue_ = 0D;
     /**
-     * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The targetValue.
      */
     @java.lang.Override
-    public float getTargetValue() {
+    public double getTargetValue() {
       return targetValue_;
     }
 
     public static final int SPEED_FIELD_NUMBER = 2;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -9816,11 +9816,11 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(targetValue_) != 0) {
-        output.writeFloat(1, targetValue_);
+      if (java.lang.Double.doubleToRawLongBits(targetValue_) != 0) {
+        output.writeDouble(1, targetValue_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(2, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(2, speed_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -9831,13 +9831,13 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(targetValue_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(targetValue_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, targetValue_);
+          .computeDoubleSize(1, targetValue_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, speed_);
+          .computeDoubleSize(2, speed_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -9854,11 +9854,11 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationTo other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationTo) obj;
 
-      if (java.lang.Float.floatToIntBits(getTargetValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getTargetValue())
+          != java.lang.Double.doubleToLongBits(
               other.getTargetValue())) return false;
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -9872,11 +9872,11 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TARGET_VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getTargetValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getTargetValue()));
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10008,8 +10008,8 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        targetValue_ = 0F;
-        speed_ = 0F;
+        targetValue_ = 0D;
+        speed_ = 0D;
         return this;
       }
 
@@ -10063,10 +10063,10 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationTo other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationTo.getDefaultInstance()) return this;
-        if (other.getTargetValue() != 0F) {
+        if (other.getTargetValue() != 0D) {
           setTargetValue(other.getTargetValue());
         }
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -10095,16 +10095,16 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                targetValue_ = input.readFloat();
+              case 9: {
+                targetValue_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                speed_ = input.readFloat();
+              } // case 9
+              case 17: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
+              } // case 17
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -10122,21 +10122,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float targetValue_ ;
+      private double targetValue_ ;
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The targetValue.
        */
       @java.lang.Override
-      public float getTargetValue() {
+      public double getTargetValue() {
         return targetValue_;
       }
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The targetValue to set.
        * @return This builder for chaining.
        */
-      public Builder setTargetValue(float value) {
+      public Builder setTargetValue(double value) {
 
         targetValue_ = value;
         bitField0_ |= 0x00000001;
@@ -10144,31 +10144,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearTargetValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        targetValue_ = 0F;
+        targetValue_ = 0D;
         onChanged();
         return this;
       }
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000002;
@@ -10176,12 +10176,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -10242,16 +10242,16 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
 
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 3 [(.buf.validate.field) = { ... }</code>
@@ -10303,24 +10303,24 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
     public static final int SPEED_FIELD_NUMBER = 2;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -10356,11 +10356,11 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(2, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(2, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(3, direction_);
@@ -10374,13 +10374,13 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, speed_);
+          .computeDoubleSize(2, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -10401,11 +10401,11 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelative other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelative) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -10420,11 +10420,11 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -10558,8 +10558,8 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
-        speed_ = 0F;
+        value_ = 0D;
+        speed_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -10617,10 +10617,10 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelative other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelative.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         if (other.direction_ != 0) {
@@ -10652,16 +10652,16 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                speed_ = input.readFloat();
+              } // case 9
+              case 17: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
+              } // case 17
               case 24: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000004;
@@ -10684,21 +10684,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -10706,31 +10706,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000002;
@@ -10738,12 +10738,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -10857,10 +10857,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 2 [(.buf.validate.field) = { ... }</code>
@@ -10912,13 +10912,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -10954,8 +10954,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, direction_);
@@ -10969,9 +10969,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -10992,8 +10992,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelativeSet other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelativeSet) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -11008,8 +11008,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -11143,7 +11143,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -11198,7 +11198,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelativeSet other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateElevationRelativeSet.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         if (other.direction_ != 0) {
@@ -11230,11 +11230,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               case 16: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000002;
@@ -11257,21 +11257,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -11279,12 +11279,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -11398,16 +11398,16 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
 
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 3 [(.buf.validate.field) = { ... }</code>
@@ -11459,24 +11459,24 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
     public static final int SPEED_FIELD_NUMBER = 2;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -11512,11 +11512,11 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(2, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(2, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(3, direction_);
@@ -11530,13 +11530,13 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, speed_);
+          .computeDoubleSize(2, speed_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -11557,11 +11557,11 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelative other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelative) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -11576,11 +11576,11 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -11714,8 +11714,8 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
-        speed_ = 0F;
+        value_ = 0D;
+        speed_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -11773,10 +11773,10 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelative other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelative.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         if (other.direction_ != 0) {
@@ -11808,16 +11808,16 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                speed_ = input.readFloat();
+              } // case 9
+              case 17: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
+              } // case 17
               case 24: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000004;
@@ -11840,21 +11840,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -11862,31 +11862,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000002;
@@ -11894,12 +11894,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -12013,10 +12013,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
 
     /**
      * <code>.ser.JonGuiDataRotaryDirection direction = 2 [(.buf.validate.field) = { ... }</code>
@@ -12068,13 +12068,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1;</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -12110,8 +12110,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         output.writeEnum(2, direction_);
@@ -12125,9 +12125,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       if (direction_ != ser.JonSharedDataTypes.JonGuiDataRotaryDirection.JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
@@ -12148,8 +12148,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelativeSet other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelativeSet) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (direction_ != other.direction_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -12164,8 +12164,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
       hash = (53 * hash) + direction_;
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -12299,7 +12299,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         direction_ = 0;
         return this;
       }
@@ -12354,7 +12354,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelativeSet other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateAzimuthRelativeSet.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         if (other.direction_ != 0) {
@@ -12386,11 +12386,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               case 16: {
                 direction_ = input.readEnum();
                 bitField0_ |= 0x00000002;
@@ -12413,21 +12413,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -12435,12 +12435,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1;</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -12554,10 +12554,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.SetPlatformAzimuth}
@@ -12597,13 +12597,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -12621,8 +12621,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -12633,9 +12633,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -12652,8 +12652,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformAzimuth other = (cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformAzimuth) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -12667,8 +12667,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -12800,7 +12800,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -12851,7 +12851,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformAzimuth other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformAzimuth.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -12880,11 +12880,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -12902,21 +12902,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -12924,12 +12924,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -12990,10 +12990,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.SetPlatformElevation}
@@ -13033,13 +13033,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -13057,8 +13057,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13069,9 +13069,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -13088,8 +13088,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformElevation other = (cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformElevation) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -13103,8 +13103,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13236,7 +13236,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -13287,7 +13287,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformElevation other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformElevation.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -13316,11 +13316,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -13338,21 +13338,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -13360,12 +13360,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -13426,10 +13426,10 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.SetPlatformBank}
@@ -13469,13 +13469,13 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -13493,8 +13493,8 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13505,9 +13505,9 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -13524,8 +13524,8 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformBank other = (cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformBank) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -13539,8 +13539,8 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13672,7 +13672,7 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -13723,7 +13723,7 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformBank other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.SetPlatformBank.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -13752,11 +13752,11 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -13774,21 +13774,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -13796,12 +13796,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -25082,22 +25082,22 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
-    float getLatitude();
+    double getLatitude();
 
     /**
-     * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
-    float getLongitude();
+    double getLongitude();
 
     /**
-     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
-    float getAltitude();
+    double getAltitude();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.RotateToGPS}
@@ -25137,35 +25137,35 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int LATITUDE_FIELD_NUMBER = 1;
-    private float latitude_ = 0F;
+    private double latitude_ = 0D;
     /**
-     * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
     @java.lang.Override
-    public float getLatitude() {
+    public double getLatitude() {
       return latitude_;
     }
 
     public static final int LONGITUDE_FIELD_NUMBER = 2;
-    private float longitude_ = 0F;
+    private double longitude_ = 0D;
     /**
-     * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
     @java.lang.Override
-    public float getLongitude() {
+    public double getLongitude() {
       return longitude_;
     }
 
     public static final int ALTITUDE_FIELD_NUMBER = 3;
-    private float altitude_ = 0F;
+    private double altitude_ = 0D;
     /**
-     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     @java.lang.Override
-    public float getAltitude() {
+    public double getAltitude() {
       return altitude_;
     }
 
@@ -25183,14 +25183,14 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
-        output.writeFloat(1, latitude_);
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
+        output.writeDouble(1, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
-        output.writeFloat(2, longitude_);
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
+        output.writeDouble(2, longitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(altitude_) != 0) {
-        output.writeFloat(3, altitude_);
+      if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
+        output.writeDouble(3, altitude_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -25201,17 +25201,17 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, latitude_);
+          .computeDoubleSize(1, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, longitude_);
+          .computeDoubleSize(2, longitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(altitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, altitude_);
+          .computeDoubleSize(3, altitude_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -25228,14 +25228,14 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateToGPS other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateToGPS) obj;
 
-      if (java.lang.Float.floatToIntBits(getLatitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLatitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLatitude())) return false;
-      if (java.lang.Float.floatToIntBits(getLongitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLongitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLongitude())) return false;
-      if (java.lang.Float.floatToIntBits(getAltitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getAltitude())
+          != java.lang.Double.doubleToLongBits(
               other.getAltitude())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -25249,14 +25249,14 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + LATITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLatitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLatitude()));
       hash = (37 * hash) + LONGITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLongitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLongitude()));
       hash = (37 * hash) + ALTITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getAltitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAltitude()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -25388,9 +25388,9 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        latitude_ = 0F;
-        longitude_ = 0F;
-        altitude_ = 0F;
+        latitude_ = 0D;
+        longitude_ = 0D;
+        altitude_ = 0D;
         return this;
       }
 
@@ -25447,13 +25447,13 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.RotateToGPS other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.RotateToGPS.getDefaultInstance()) return this;
-        if (other.getLatitude() != 0F) {
+        if (other.getLatitude() != 0D) {
           setLatitude(other.getLatitude());
         }
-        if (other.getLongitude() != 0F) {
+        if (other.getLongitude() != 0D) {
           setLongitude(other.getLongitude());
         }
-        if (other.getAltitude() != 0F) {
+        if (other.getAltitude() != 0D) {
           setAltitude(other.getAltitude());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -25482,21 +25482,21 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                latitude_ = input.readFloat();
+              case 9: {
+                latitude_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                longitude_ = input.readFloat();
+              } // case 9
+              case 17: {
+                longitude_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                altitude_ = input.readFloat();
+              } // case 17
+              case 25: {
+                altitude_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
+              } // case 25
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -25514,21 +25514,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float latitude_ ;
+      private double latitude_ ;
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @return The latitude.
        */
       @java.lang.Override
-      public float getLatitude() {
+      public double getLatitude() {
         return latitude_;
       }
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The latitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLatitude(float value) {
+      public Builder setLatitude(double value) {
 
         latitude_ = value;
         bitField0_ |= 0x00000001;
@@ -25536,31 +25536,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLatitude() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        latitude_ = 0F;
+        latitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float longitude_ ;
+      private double longitude_ ;
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @return The longitude.
        */
       @java.lang.Override
-      public float getLongitude() {
+      public double getLongitude() {
         return longitude_;
       }
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The longitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLongitude(float value) {
+      public Builder setLongitude(double value) {
 
         longitude_ = value;
         bitField0_ |= 0x00000002;
@@ -25568,31 +25568,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLongitude() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        longitude_ = 0F;
+        longitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float altitude_ ;
+      private double altitude_ ;
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return The altitude.
        */
       @java.lang.Override
-      public float getAltitude() {
+      public double getAltitude() {
         return altitude_;
       }
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
-      public Builder setAltitude(float value) {
+      public Builder setAltitude(double value) {
 
         altitude_ = value;
         bitField0_ |= 0x00000004;
@@ -25600,12 +25600,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        altitude_ = 0F;
+        altitude_ = 0D;
         onChanged();
         return this;
       }
@@ -25666,22 +25666,22 @@ public final class JonSharedCmdRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
-    float getLatitude();
+    double getLatitude();
 
     /**
-     * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
-    float getLongitude();
+    double getLongitude();
 
     /**
-     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
-    float getAltitude();
+    double getAltitude();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.SetOriginGPS}
@@ -25721,35 +25721,35 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int LATITUDE_FIELD_NUMBER = 1;
-    private float latitude_ = 0F;
+    private double latitude_ = 0D;
     /**
-     * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
     @java.lang.Override
-    public float getLatitude() {
+    public double getLatitude() {
       return latitude_;
     }
 
     public static final int LONGITUDE_FIELD_NUMBER = 2;
-    private float longitude_ = 0F;
+    private double longitude_ = 0D;
     /**
-     * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
     @java.lang.Override
-    public float getLongitude() {
+    public double getLongitude() {
       return longitude_;
     }
 
     public static final int ALTITUDE_FIELD_NUMBER = 3;
-    private float altitude_ = 0F;
+    private double altitude_ = 0D;
     /**
-     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     @java.lang.Override
-    public float getAltitude() {
+    public double getAltitude() {
       return altitude_;
     }
 
@@ -25767,14 +25767,14 @@ public final class JonSharedCmdRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
-        output.writeFloat(1, latitude_);
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
+        output.writeDouble(1, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
-        output.writeFloat(2, longitude_);
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
+        output.writeDouble(2, longitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(altitude_) != 0) {
-        output.writeFloat(3, altitude_);
+      if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
+        output.writeDouble(3, altitude_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -25785,17 +25785,17 @@ public final class JonSharedCmdRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, latitude_);
+          .computeDoubleSize(1, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, longitude_);
+          .computeDoubleSize(2, longitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(altitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, altitude_);
+          .computeDoubleSize(3, altitude_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -25812,14 +25812,14 @@ public final class JonSharedCmdRotary {
       }
       cmd.RotaryPlatform.JonSharedCmdRotary.SetOriginGPS other = (cmd.RotaryPlatform.JonSharedCmdRotary.SetOriginGPS) obj;
 
-      if (java.lang.Float.floatToIntBits(getLatitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLatitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLatitude())) return false;
-      if (java.lang.Float.floatToIntBits(getLongitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLongitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLongitude())) return false;
-      if (java.lang.Float.floatToIntBits(getAltitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getAltitude())
+          != java.lang.Double.doubleToLongBits(
               other.getAltitude())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -25833,14 +25833,14 @@ public final class JonSharedCmdRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + LATITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLatitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLatitude()));
       hash = (37 * hash) + LONGITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLongitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLongitude()));
       hash = (37 * hash) + ALTITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getAltitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAltitude()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -25972,9 +25972,9 @@ public final class JonSharedCmdRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        latitude_ = 0F;
-        longitude_ = 0F;
-        altitude_ = 0F;
+        latitude_ = 0D;
+        longitude_ = 0D;
+        altitude_ = 0D;
         return this;
       }
 
@@ -26031,13 +26031,13 @@ public final class JonSharedCmdRotary {
 
       public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.SetOriginGPS other) {
         if (other == cmd.RotaryPlatform.JonSharedCmdRotary.SetOriginGPS.getDefaultInstance()) return this;
-        if (other.getLatitude() != 0F) {
+        if (other.getLatitude() != 0D) {
           setLatitude(other.getLatitude());
         }
-        if (other.getLongitude() != 0F) {
+        if (other.getLongitude() != 0D) {
           setLongitude(other.getLongitude());
         }
-        if (other.getAltitude() != 0F) {
+        if (other.getAltitude() != 0D) {
           setAltitude(other.getAltitude());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -26066,21 +26066,21 @@ public final class JonSharedCmdRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                latitude_ = input.readFloat();
+              case 9: {
+                latitude_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                longitude_ = input.readFloat();
+              } // case 9
+              case 17: {
+                longitude_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                altitude_ = input.readFloat();
+              } // case 17
+              case 25: {
+                altitude_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
+              } // case 25
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -26098,21 +26098,21 @@ public final class JonSharedCmdRotary {
       }
       private int bitField0_;
 
-      private float latitude_ ;
+      private double latitude_ ;
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @return The latitude.
        */
       @java.lang.Override
-      public float getLatitude() {
+      public double getLatitude() {
         return latitude_;
       }
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The latitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLatitude(float value) {
+      public Builder setLatitude(double value) {
 
         latitude_ = value;
         bitField0_ |= 0x00000001;
@@ -26120,31 +26120,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLatitude() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        latitude_ = 0F;
+        latitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float longitude_ ;
+      private double longitude_ ;
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @return The longitude.
        */
       @java.lang.Override
-      public float getLongitude() {
+      public double getLongitude() {
         return longitude_;
       }
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The longitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLongitude(float value) {
+      public Builder setLongitude(double value) {
 
         longitude_ = value;
         bitField0_ |= 0x00000002;
@@ -26152,31 +26152,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLongitude() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        longitude_ = 0F;
+        longitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float altitude_ ;
+      private double altitude_ ;
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return The altitude.
        */
       @java.lang.Override
-      public float getAltitude() {
+      public double getAltitude() {
         return altitude_;
       }
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
-      public Builder setAltitude(float value) {
+      public Builder setAltitude(double value) {
 
         altitude_ = value;
         bitField0_ |= 0x00000004;
@@ -26184,12 +26184,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        altitude_ = 0F;
+        altitude_ = 0D;
         onChanged();
         return this;
       }
@@ -26261,16 +26261,16 @@ public final class JonSharedCmdRotary {
     ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel();
 
     /**
-     * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
      * @return The x.
      */
-    float getX();
+    double getX();
 
     /**
-     * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
      * @return The y.
      */
-    float getY();
+    double getY();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.RotateToNDC}
@@ -26329,24 +26329,24 @@ public final class JonSharedCmdRotary {
     }
 
     public static final int X_FIELD_NUMBER = 2;
-    private float x_ = 0F;
+    private double x_ = 0D;
     /**
-     * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
      * @return The x.
      */
     @java.lang.Override
-    public float getX() {
+    public double getX() {
       return x_;
     }
 
     public static final int Y_FIELD_NUMBER = 3;
-    private float y_ = 0F;
+    private double y_ = 0D;
     /**
-     * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
      * @return The y.
      */
     @java.lang.Override
-    public float getY() {
+    public double getY() {
       return y_;
     }
 
@@ -26367,11 +26367,11 @@ public final class JonSharedCmdRotary {
       if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
         output.writeEnum(1, channel_);
       }
-      if (java.lang.Float.floatToRawIntBits(x_) != 0) {
-        output.writeFloat(2, x_);
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        output.writeDouble(2, x_);
       }
-      if (java.lang.Float.floatToRawIntBits(y_) != 0) {
-        output.writeFloat(3, y_);
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        output.writeDouble(3, y_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -26386,13 +26386,13 @@ public final class JonSharedCmdRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, channel_);
       }
-      if (java.lang.Float.floatToRawIntBits(x_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, x_);
+          .computeDoubleSize(2, x_);
       }
-      if (java.lang.Float.floatToRawIntBits(y_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, y_);
+          .computeDoubleSize(3, y_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -26410,11 +26410,11 @@ public final class JonSharedCmdRotary {
       cmd.RotaryPlatform.JonSharedCmdRotary.RotateToNDC other = (cmd.RotaryPlatform.JonSharedCmdRotary.RotateToNDC) obj;
 
       if (channel_ != other.channel_) return false;
-      if (java.lang.Float.floatToIntBits(getX())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getX())
+          != java.lang.Double.doubleToLongBits(
               other.getX())) return false;
-      if (java.lang.Float.floatToIntBits(getY())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getY())
+          != java.lang.Double.doubleToLongBits(
               other.getY())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -26430,11 +26430,11 @@ public final class JonSharedCmdRotary {
       hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
       hash = (53 * hash) + channel_;
       hash = (37 * hash) + X_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getX());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX()));
       hash = (37 * hash) + Y_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getY());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -26567,8 +26567,8 @@ public final class JonSharedCmdRotary {
         super.clear();
         bitField0_ = 0;
         channel_ = 0;
-        x_ = 0F;
-        y_ = 0F;
+        x_ = 0D;
+        y_ = 0D;
         return this;
       }
 
@@ -26628,10 +26628,10 @@ public final class JonSharedCmdRotary {
         if (other.channel_ != 0) {
           setChannelValue(other.getChannelValue());
         }
-        if (other.getX() != 0F) {
+        if (other.getX() != 0D) {
           setX(other.getX());
         }
-        if (other.getY() != 0F) {
+        if (other.getY() != 0D) {
           setY(other.getY());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -26665,16 +26665,16 @@ public final class JonSharedCmdRotary {
                 bitField0_ |= 0x00000001;
                 break;
               } // case 8
-              case 21: {
-                x_ = input.readFloat();
+              case 17: {
+                x_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                y_ = input.readFloat();
+              } // case 17
+              case 25: {
+                y_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
+              } // case 25
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -26745,21 +26745,21 @@ public final class JonSharedCmdRotary {
         return this;
       }
 
-      private float x_ ;
+      private double x_ ;
       /**
-       * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
        * @return The x.
        */
       @java.lang.Override
-      public float getX() {
+      public double getX() {
         return x_;
       }
       /**
-       * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The x to set.
        * @return This builder for chaining.
        */
-      public Builder setX(float value) {
+      public Builder setX(double value) {
 
         x_ = value;
         bitField0_ |= 0x00000002;
@@ -26767,31 +26767,31 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearX() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        x_ = 0F;
+        x_ = 0D;
         onChanged();
         return this;
       }
 
-      private float y_ ;
+      private double y_ ;
       /**
-       * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
        * @return The y.
        */
       @java.lang.Override
-      public float getY() {
+      public double getY() {
         return y_;
       }
       /**
-       * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The y to set.
        * @return This builder for chaining.
        */
-      public Builder setY(float value) {
+      public Builder setY(double value) {
 
         y_ = value;
         bitField0_ |= 0x00000004;
@@ -26799,12 +26799,12 @@ public final class JonSharedCmdRotary {
         return this;
       }
       /**
-       * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearY() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        y_ = 0F;
+        y_ = 0D;
         onChanged();
         return this;
       }
@@ -27106,90 +27106,97 @@ public final class JonSharedCmdRotary {
       "imuth\0220\n\televation\030\002 \001(\0132\035.cmd.RotaryPla" +
       "tform.Elevation\">\n\007SetMode\0223\n\004mode\030\001 \001(\016" +
       "2\031.ser.JonGuiDataRotaryModeB\n\272H\007\202\001\004\020\001 \000\"" +
-      "p\n\017SetAzimuthValue\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n" +
-      "\025\000\000\264C-\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonG" +
-      "uiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\227\001\n\017Ro" +
-      "tateAzimuthTo\022%\n\014target_value\030\001 \001(\002B\017\272H\014" +
-      "\n\n\025\000\000\264C-\000\000\000\000\022\036\n\005speed\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-" +
-      "\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.JonGuiData" +
-      "RotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"n\n\rRotateAzi" +
-      "muth\022\036\n\005speed\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\022=\n\t" +
-      "direction\030\002 \001(\0162\036.ser.JonGuiDataRotaryDi" +
-      "rectionB\n\272H\007\202\001\004\020\001 \000\"p\n\017RotateElevation\022\036" +
-      "\n\005speed\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\022=\n\tdirect" +
+      "x\n\017SetAzimuthValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
+      "\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036." +
+      "ser.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 " +
+      "\000\"\247\001\n\017RotateAzimuthTo\022-\n\014target_value\030\001 " +
+      "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirectio" +
+      "n\030\003 \001(\0162\036.ser.JonGuiDataRotaryDirectionB" +
+      "\n\272H\007\202\001\004\020\001 \000\"v\n\rRotateAzimuth\022&\n\005speed\030\001 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirectio" +
+      "n\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirectionB" +
+      "\n\272H\007\202\001\004\020\001 \000\"x\n\017RotateElevation\022&\n\005speed\030" +
+      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirect" +
       "ion\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirectio" +
-      "nB\n\272H\007\202\001\004\020\001 \000\"3\n\021SetElevationValue\022\036\n\005va" +
-      "lue\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\"Z\n\021RotateElev" +
-      "ationTo\022%\n\014target_value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264" +
-      "B-\000\000\264\302\022\036\n\005speed\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\"\207" +
-      "\001\n\027RotateElevationRelative\022\r\n\005value\030\001 \001(" +
-      "\002\022\036\n\005speed\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\022=\n\tdir" +
+      "nB\n\272H\007\202\001\004\020\001 \000\";\n\021SetElevationValue\022&\n\005va" +
+      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021Ro" +
+      "tateElevationTo\022-\n\014target_value\030\001 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"\250\001\n\027RotateElevati" +
+      "onRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V" +
+      "@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360" +
+      "?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.JonG" +
+      "uiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032Ro" +
+      "tateElevationRelativeSet\022&\n\005value\030\001 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 " +
+      "\001(\0162\036.ser.JonGuiDataRotaryDirectionB\n\272H\007" +
+      "\202\001\004\020\001 \000\"\246\001\n\025RotateAzimuthRelative\022&\n\005val" +
+      "ue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005spe" +
+      "ed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdir" +
       "ection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDirec" +
-      "tionB\n\272H\007\202\001\004\020\001 \000\"j\n\032RotateElevationRelat" +
-      "iveSet\022\r\n\005value\030\001 \001(\002\022=\n\tdirection\030\002 \001(\016" +
-      "2\036.ser.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004" +
-      "\020\001 \000\"\205\001\n\025RotateAzimuthRelative\022\r\n\005value\030" +
-      "\001 \001(\002\022\036\n\005speed\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\022=\n" +
-      "\tdirection\030\003 \001(\0162\036.ser.JonGuiDataRotaryD" +
-      "irectionB\n\272H\007\202\001\004\020\001 \000\"h\n\030RotateAzimuthRel" +
-      "ativeSet\022\r\n\005value\030\001 \001(\002\022=\n\tdirection\030\002 \001" +
-      "(\0162\036.ser.JonGuiDataRotaryDirectionB\n\272H\007\202" +
-      "\001\004\020\001 \000\"4\n\022SetPlatformAzimuth\022\036\n\005value\030\001 " +
-      "\001(\002B\017\272H\014\n\n\025\000\000\264C%\000\000\264\303\"6\n\024SetPlatformEleva" +
-      "tion\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\"1\n\017" +
-      "SetPlatformBank\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n\025\000\000" +
-      "4C-\000\0004\303\"\n\n\010GetMeteo\"\366\002\n\007Azimuth\0228\n\tset_v" +
-      "alue\030\001 \001(\0132#.cmd.RotaryPlatform.SetAzimu" +
-      "thValueH\000\0228\n\trotate_to\030\002 \001(\0132#.cmd.Rotar" +
-      "yPlatform.RotateAzimuthToH\000\0223\n\006rotate\030\003 " +
-      "\001(\0132!.cmd.RotaryPlatform.RotateAzimuthH\000" +
-      "\022=\n\010relative\030\004 \001(\0132).cmd.RotaryPlatform." +
-      "RotateAzimuthRelativeH\000\022D\n\014relative_set\030" +
-      "\005 \001(\0132,.cmd.RotaryPlatform.RotateAzimuth" +
-      "RelativeSetH\000\022/\n\004halt\030\006 \001(\0132\037.cmd.Rotary" +
-      "Platform.HaltAzimuthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005" +
-      "Start\"\006\n\004Stop\"\006\n\004Halt\"\013\n\tScanStart\"\n\n\010Sc" +
-      "anStop\"\013\n\tScanPause\"\r\n\013ScanUnpause\"\r\n\013Ha" +
-      "ltAzimuth\"\017\n\rHaltElevation\"\n\n\010ScanPrev\"\n" +
-      "\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"(\n\016Sca" +
-      "nSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016S" +
-      "canDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002" +
-      "\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000" +
-      "\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022" +
-      "HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azi" +
-      "muth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\te" +
-      "levation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022" +
-      "\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed" +
-      "\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002\n\013Scan" +
-      "AddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo" +
-      "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT" +
-      "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(" +
-      "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030" +
-      "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger" +
-      "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\t" +
-      "set_value\030\001 \001(\0132%.cmd.RotaryPlatform.Set" +
-      "ElevationValueH\000\022:\n\trotate_to\030\002 \001(\0132%.cm" +
-      "d.RotaryPlatform.RotateElevationToH\000\0225\n\006" +
-      "rotate\030\003 \001(\0132#.cmd.RotaryPlatform.Rotate" +
-      "ElevationH\000\022?\n\010relative\030\004 \001(\0132+.cmd.Rota" +
-      "ryPlatform.RotateElevationRelativeH\000\022F\n\014" +
-      "relative_set\030\005 \001(\0132..cmd.RotaryPlatform." +
-      "RotateElevationRelativeSetH\000\0221\n\004halt\030\006 \001" +
-      "(\0132!.cmd.RotaryPlatform.HaltElevationH\000B" +
-      "\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCompass\022\014" +
-      "\n\004flag\030\001 \001(\010\"w\n\013RotateToGPS\022!\n\010latitude\030" +
-      "\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\022\"\n\tlongitude\030\002 \001(" +
-      "\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022!\n\010altitude\030\003 \001(\002B\017\272H" +
-      "\014\n\n\035\000P\303G-\000\000\327\303\"x\n\014SetOriginGPS\022!\n\010latitud" +
-      "e\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\022\"\n\tlongitude\030\002 " +
-      "\001(\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022!\n\010altitude\030\003 \001(\002B\017" +
-      "\272H\014\n\n\035\000P\303G-\000\000\327\303\"\177\n\013RotateToNDC\0228\n\007channe" +
-      "l\030\001 \001(\0162\033.ser.JonGuiDataVideoChannelB\n\272H" +
-      "\007\202\001\004\020\001 \000\022\032\n\001x\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\022\032\n\001" +
-      "y\030\003 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277BMZKgit-codecomm" +
-      "it.eu-central-1.amazonaws.com/v1/repos/j" +
-      "ettison/jonp/cmd/rotaryb\006proto3"
+      "tionB\n\272H\007\202\001\004\020\001 \000\"\201\001\n\030RotateAzimuthRelati" +
+      "veSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000" +
+      "\000\000\200f\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDat" +
+      "aRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatf" +
+      "ormAzimuth\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v" +
+      "@!\000\000\000\000\000\200v\300\">\n\024SetPlatformElevation\022&\n\005va" +
+      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017Se" +
+      "tPlatformBank\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000" +
+      "\000\200f@)\000\000\000\000\000\200f\300\"\n\n\010GetMeteo\"\366\002\n\007Azimuth\0228\n" +
+      "\tset_value\030\001 \001(\0132#.cmd.RotaryPlatform.Se" +
+      "tAzimuthValueH\000\0228\n\trotate_to\030\002 \001(\0132#.cmd" +
+      ".RotaryPlatform.RotateAzimuthToH\000\0223\n\006rot" +
+      "ate\030\003 \001(\0132!.cmd.RotaryPlatform.RotateAzi" +
+      "muthH\000\022=\n\010relative\030\004 \001(\0132).cmd.RotaryPla" +
+      "tform.RotateAzimuthRelativeH\000\022D\n\014relativ" +
+      "e_set\030\005 \001(\0132,.cmd.RotaryPlatform.RotateA" +
+      "zimuthRelativeSetH\000\022/\n\004halt\030\006 \001(\0132\037.cmd." +
+      "RotaryPlatform.HaltAzimuthH\000B\014\n\003cmd\022\005\272H\002" +
+      "\010\001\"\007\n\005Start\"\006\n\004Stop\"\006\n\004Halt\"\013\n\tScanStart" +
+      "\"\n\n\010ScanStop\"\013\n\tScanPause\"\r\n\013ScanUnpause" +
+      "\"\r\n\013HaltAzimuth\"\017\n\rHaltElevation\"\n\n\010Scan" +
+      "Prev\"\n\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"" +
+      "(\n\016ScanSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(" +
+      "\000\"(\n\016ScanDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032" +
+      "\002(\000\"\217\002\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272" +
+      "H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002" +
+      "(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022" +
+      "(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000" +
+      "\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000" +
+      "\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n" +
+      "\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002" +
+      "\n\013ScanAddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n" +
+      "\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022Hea" +
+      "tZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimut" +
+      "h\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\telev" +
+      "ation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006" +
+      "linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevati" +
+      "on\022:\n\tset_value\030\001 \001(\0132%.cmd.RotaryPlatfo" +
+      "rm.SetElevationValueH\000\022:\n\trotate_to\030\002 \001(" +
+      "\0132%.cmd.RotaryPlatform.RotateElevationTo" +
+      "H\000\0225\n\006rotate\030\003 \001(\0132#.cmd.RotaryPlatform." +
+      "RotateElevationH\000\022?\n\010relative\030\004 \001(\0132+.cm" +
+      "d.RotaryPlatform.RotateElevationRelative" +
+      "H\000\022F\n\014relative_set\030\005 \001(\0132..cmd.RotaryPla" +
+      "tform.RotateElevationRelativeSetH\000\0221\n\004ha" +
+      "lt\030\006 \001(\0132!.cmd.RotaryPlatform.HaltElevat" +
+      "ionH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCom" +
+      "pass\022\014\n\004flag\030\001 \001(\010\"\217\001\n\013RotateToGPS\022)\n\010la" +
+      "titude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n" +
+      "\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f" +
+      "\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000" +
+      "\000\340z\300\"\220\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 " +
+      "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude" +
+      "\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\217\001\n\013Rota" +
+      "teToNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDat" +
+      "aVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H" +
+      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031" +
+      "\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277BMZKgit-codecommit.eu-c" +
+      "entral-1.amazonaws.com/v1/repos/jettison" +
+      "/jonp/cmd/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -50,8 +50,8 @@ typedef struct _cmd_CV_SetAutoFocus {
 
 typedef struct _cmd_CV_StartTrackNDC {
     ser_JonGuiDataVideoChannel channel;
-    float x;
-    float y;
+    double x;
+    double y;
     uint64_t frame_time;
 } cmd_CV_StartTrackNDC;
 
@@ -201,8 +201,8 @@ X(a, STATIC,   SINGULAR, BOOL,     value,             2)
 
 #define cmd_CV_StartTrackNDC_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
-X(a, STATIC,   SINGULAR, FLOAT,    x,                 2) \
-X(a, STATIC,   SINGULAR, FLOAT,    y,                 3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x,                 2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y,                 3) \
 X(a, STATIC,   SINGULAR, UINT64,   frame_time,        4)
 #define cmd_CV_StartTrackNDC_CALLBACK NULL
 #define cmd_CV_StartTrackNDC_DEFAULT NULL
@@ -245,11 +245,11 @@ extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
 #define cmd_CV_DumpStop_size                     0
 #define cmd_CV_RecognitionModeDisable_size       0
 #define cmd_CV_RecognitionModeEnable_size        0
-#define cmd_CV_Root_size                         25
+#define cmd_CV_Root_size                         33
 #define cmd_CV_SetAutoFocus_size                 4
 #define cmd_CV_StabilizationModeDisable_size     0
 #define cmd_CV_StabilizationModeEnable_size      0
-#define cmd_CV_StartTrackNDC_size                23
+#define cmd_CV_StartTrackNDC_size                31
 #define cmd_CV_StopTrack_size                    0
 #define cmd_CV_VampireModeDisable_size           0
 #define cmd_CV_VampireModeEnable_size            0

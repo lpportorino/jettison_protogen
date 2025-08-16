@@ -75,92 +75,92 @@ pub struct SetMode {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetAzimuthValue {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "2")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateAzimuthTo {
-    #[prost(float, tag = "1")]
-    pub target_value: f32,
-    #[prost(float, tag = "2")]
-    pub speed: f32,
+    #[prost(double, tag = "1")]
+    pub target_value: f64,
+    #[prost(double, tag = "2")]
+    pub speed: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "3")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateAzimuth {
-    #[prost(float, tag = "1")]
-    pub speed: f32,
+    #[prost(double, tag = "1")]
+    pub speed: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "2")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateElevation {
-    #[prost(float, tag = "1")]
-    pub speed: f32,
+    #[prost(double, tag = "1")]
+    pub speed: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "2")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetElevationValue {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateElevationTo {
-    #[prost(float, tag = "1")]
-    pub target_value: f32,
-    #[prost(float, tag = "2")]
-    pub speed: f32,
+    #[prost(double, tag = "1")]
+    pub target_value: f64,
+    #[prost(double, tag = "2")]
+    pub speed: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateElevationRelative {
-    #[prost(float, tag = "1")]
-    pub value: f32,
-    #[prost(float, tag = "2")]
-    pub speed: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
+    #[prost(double, tag = "2")]
+    pub speed: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "3")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateElevationRelativeSet {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "2")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateAzimuthRelative {
-    #[prost(float, tag = "1")]
-    pub value: f32,
-    #[prost(float, tag = "2")]
-    pub speed: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
+    #[prost(double, tag = "2")]
+    pub speed: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "3")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateAzimuthRelativeSet {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
     #[prost(enumeration = "super::super::ser::JonGuiDataRotaryDirection", tag = "2")]
     pub direction: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetPlatformAzimuth {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetPlatformElevation {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetPlatformBank {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct GetMeteo {}
@@ -285,28 +285,28 @@ pub struct SetUseRotaryAsCompass {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateToGps {
-    #[prost(float, tag = "1")]
-    pub latitude: f32,
-    #[prost(float, tag = "2")]
-    pub longitude: f32,
-    #[prost(float, tag = "3")]
-    pub altitude: f32,
+    #[prost(double, tag = "1")]
+    pub latitude: f64,
+    #[prost(double, tag = "2")]
+    pub longitude: f64,
+    #[prost(double, tag = "3")]
+    pub altitude: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetOriginGps {
-    #[prost(float, tag = "1")]
-    pub latitude: f32,
-    #[prost(float, tag = "2")]
-    pub longitude: f32,
-    #[prost(float, tag = "3")]
-    pub altitude: f32,
+    #[prost(double, tag = "1")]
+    pub latitude: f64,
+    #[prost(double, tag = "2")]
+    pub longitude: f64,
+    #[prost(double, tag = "3")]
+    pub altitude: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct RotateToNdc {
     #[prost(enumeration = "super::super::ser::JonGuiDataVideoChannel", tag = "1")]
     pub channel: i32,
-    #[prost(float, tag = "2")]
-    pub x: f32,
-    #[prost(float, tag = "3")]
-    pub y: f32,
+    #[prost(double, tag = "2")]
+    pub x: f64,
+    #[prost(double, tag = "3")]
+    pub y: f64,
 }

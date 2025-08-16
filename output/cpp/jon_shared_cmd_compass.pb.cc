@@ -481,9 +481,9 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcompass_2eproto[] ABSL
     "\006\n\004Stop\"\006\n\004Next\"\024\n\022CalibrateStartLong\"\025\n"
     "\023CalibrateStartShort\"\017\n\rCalibrateNext\"\021\n"
     "\017CalibrateCencel\"\n\n\010GetMeteo\"\'\n\026SetMagne"
-    "ticDeclination\022\r\n\005value\030\001 \001(\002\"&\n\025SetOffs"
-    "etAngleAzimuth\022\r\n\005value\030\001 \001(\002\"(\n\027SetOffs"
-    "etAngleElevation\022\r\n\005value\030\001 \001(\002\"$\n\024SetUs"
+    "ticDeclination\022\r\n\005value\030\001 \001(\001\"&\n\025SetOffs"
+    "etAngleAzimuth\022\r\n\005value\030\001 \001(\001\"(\n\027SetOffs"
+    "etAngleElevation\022\r\n\005value\030\001 \001(\001\"$\n\024SetUs"
     "eRotaryPosition\022\014\n\004flag\030\001 \001(\010BNZLgit-cod"
     "ecommit.eu-central-1.amazonaws.com/v1/re"
     "pos/jettison/jonp/cmd/compassb\006proto3"
@@ -2214,15 +2214,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetMagneticDeclination::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Compass::SetMagneticDeclination>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetMagneticDeclination, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetMagneticDeclination, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetMagneticDeclination, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -2255,10 +2255,10 @@ PROTOBUF_NOINLINE void SetMagneticDeclination::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -2286,9 +2286,9 @@ PROTOBUF_NOINLINE void SetMagneticDeclination::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -2303,7 +2303,7 @@ void SetMagneticDeclination::MergeImpl(::google::protobuf::MessageLite& to_msg, 
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -2420,15 +2420,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetOffsetAngleAzimuth::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Compass::SetOffsetAngleAzimuth>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsetAngleAzimuth, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsetAngleAzimuth, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetOffsetAngleAzimuth, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -2461,10 +2461,10 @@ PROTOBUF_NOINLINE void SetOffsetAngleAzimuth::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -2492,9 +2492,9 @@ PROTOBUF_NOINLINE void SetOffsetAngleAzimuth::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -2509,7 +2509,7 @@ void SetOffsetAngleAzimuth::MergeImpl(::google::protobuf::MessageLite& to_msg, c
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -2626,15 +2626,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetOffsetAngleElevation::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Compass::SetOffsetAngleElevation>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsetAngleElevation, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsetAngleElevation, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetOffsetAngleElevation, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -2667,10 +2667,10 @@ PROTOBUF_NOINLINE void SetOffsetAngleElevation::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -2698,9 +2698,9 @@ PROTOBUF_NOINLINE void SetOffsetAngleElevation::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -2715,7 +2715,7 @@ void SetOffsetAngleElevation::MergeImpl(::google::protobuf::MessageLite& to_msg,
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);

@@ -16,67 +16,67 @@ typedef struct _cmd_RotaryPlatform_SetMode {
 } cmd_RotaryPlatform_SetMode;
 
 typedef struct _cmd_RotaryPlatform_SetAzimuthValue {
-    float value;
+    double value;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_SetAzimuthValue;
 
 typedef struct _cmd_RotaryPlatform_RotateAzimuthTo {
-    float target_value;
-    float speed;
+    double target_value;
+    double speed;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateAzimuthTo;
 
 typedef struct _cmd_RotaryPlatform_RotateAzimuth {
-    float speed;
+    double speed;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateAzimuth;
 
 typedef struct _cmd_RotaryPlatform_RotateElevation {
-    float speed;
+    double speed;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateElevation;
 
 typedef struct _cmd_RotaryPlatform_SetElevationValue {
-    float value;
+    double value;
 } cmd_RotaryPlatform_SetElevationValue;
 
 typedef struct _cmd_RotaryPlatform_RotateElevationTo {
-    float target_value;
-    float speed;
+    double target_value;
+    double speed;
 } cmd_RotaryPlatform_RotateElevationTo;
 
 typedef struct _cmd_RotaryPlatform_RotateElevationRelative {
-    float value;
-    float speed;
+    double value;
+    double speed;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateElevationRelative;
 
 typedef struct _cmd_RotaryPlatform_RotateElevationRelativeSet {
-    float value;
+    double value;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateElevationRelativeSet;
 
 typedef struct _cmd_RotaryPlatform_RotateAzimuthRelative {
-    float value;
-    float speed;
+    double value;
+    double speed;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateAzimuthRelative;
 
 typedef struct _cmd_RotaryPlatform_RotateAzimuthRelativeSet {
-    float value;
+    double value;
     ser_JonGuiDataRotaryDirection direction;
 } cmd_RotaryPlatform_RotateAzimuthRelativeSet;
 
 typedef struct _cmd_RotaryPlatform_SetPlatformAzimuth {
-    float value;
+    double value;
 } cmd_RotaryPlatform_SetPlatformAzimuth;
 
 typedef struct _cmd_RotaryPlatform_SetPlatformElevation {
-    float value;
+    double value;
 } cmd_RotaryPlatform_SetPlatformElevation;
 
 typedef struct _cmd_RotaryPlatform_SetPlatformBank {
-    float value;
+    double value;
 } cmd_RotaryPlatform_SetPlatformBank;
 
 typedef struct _cmd_RotaryPlatform_GetMeteo {
@@ -195,21 +195,21 @@ typedef struct _cmd_RotaryPlatform_setUseRotaryAsCompass {
 } cmd_RotaryPlatform_setUseRotaryAsCompass;
 
 typedef struct _cmd_RotaryPlatform_RotateToGPS {
-    float latitude;
-    float longitude;
-    float altitude;
+    double latitude;
+    double longitude;
+    double altitude;
 } cmd_RotaryPlatform_RotateToGPS;
 
 typedef struct _cmd_RotaryPlatform_SetOriginGPS {
-    float latitude;
-    float longitude;
-    float altitude;
+    double latitude;
+    double longitude;
+    double altitude;
 } cmd_RotaryPlatform_SetOriginGPS;
 
 typedef struct _cmd_RotaryPlatform_RotateToNDC {
     ser_JonGuiDataVideoChannel channel;
-    float x;
-    float y;
+    double x;
+    double y;
 } cmd_RotaryPlatform_RotateToNDC;
 
 typedef struct _cmd_RotaryPlatform_Root {
@@ -486,79 +486,79 @@ X(a, STATIC,   SINGULAR, UENUM,    mode,              1)
 #define cmd_RotaryPlatform_SetMode_DEFAULT NULL
 
 #define cmd_RotaryPlatform_SetAzimuthValue_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         2)
 #define cmd_RotaryPlatform_SetAzimuthValue_CALLBACK NULL
 #define cmd_RotaryPlatform_SetAzimuthValue_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateAzimuthTo_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    target_value,      1) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   target_value,      1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             2) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         3)
 #define cmd_RotaryPlatform_RotateAzimuthTo_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateAzimuthTo_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateAzimuth_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         2)
 #define cmd_RotaryPlatform_RotateAzimuth_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateAzimuth_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateElevation_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         2)
 #define cmd_RotaryPlatform_RotateElevation_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateElevation_DEFAULT NULL
 
 #define cmd_RotaryPlatform_SetElevationValue_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_RotaryPlatform_SetElevationValue_CALLBACK NULL
 #define cmd_RotaryPlatform_SetElevationValue_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateElevationTo_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    target_value,      1) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             2)
+X(a, STATIC,   SINGULAR, DOUBLE,   target_value,      1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             2)
 #define cmd_RotaryPlatform_RotateElevationTo_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateElevationTo_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateElevationRelative_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             2) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         3)
 #define cmd_RotaryPlatform_RotateElevationRelative_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateElevationRelative_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateElevationRelativeSet_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         2)
 #define cmd_RotaryPlatform_RotateElevationRelativeSet_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateElevationRelativeSet_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateAzimuthRelative_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             2) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         3)
 #define cmd_RotaryPlatform_RotateAzimuthRelative_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateAzimuthRelative_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateAzimuthRelativeSet_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         2)
 #define cmd_RotaryPlatform_RotateAzimuthRelativeSet_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateAzimuthRelativeSet_DEFAULT NULL
 
 #define cmd_RotaryPlatform_SetPlatformAzimuth_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_RotaryPlatform_SetPlatformAzimuth_CALLBACK NULL
 #define cmd_RotaryPlatform_SetPlatformAzimuth_DEFAULT NULL
 
 #define cmd_RotaryPlatform_SetPlatformElevation_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_RotaryPlatform_SetPlatformElevation_CALLBACK NULL
 #define cmd_RotaryPlatform_SetPlatformElevation_DEFAULT NULL
 
 #define cmd_RotaryPlatform_SetPlatformBank_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_RotaryPlatform_SetPlatformBank_CALLBACK NULL
 #define cmd_RotaryPlatform_SetPlatformBank_DEFAULT NULL
 
@@ -697,23 +697,23 @@ X(a, STATIC,   SINGULAR, BOOL,     flag,              1)
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateToGPS_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    latitude,          1) \
-X(a, STATIC,   SINGULAR, FLOAT,    longitude,         2) \
-X(a, STATIC,   SINGULAR, FLOAT,    altitude,          3)
+X(a, STATIC,   SINGULAR, DOUBLE,   latitude,          1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   longitude,         2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   altitude,          3)
 #define cmd_RotaryPlatform_RotateToGPS_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateToGPS_DEFAULT NULL
 
 #define cmd_RotaryPlatform_SetOriginGPS_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    latitude,          1) \
-X(a, STATIC,   SINGULAR, FLOAT,    longitude,         2) \
-X(a, STATIC,   SINGULAR, FLOAT,    altitude,          3)
+X(a, STATIC,   SINGULAR, DOUBLE,   latitude,          1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   longitude,         2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   altitude,          3)
 #define cmd_RotaryPlatform_SetOriginGPS_CALLBACK NULL
 #define cmd_RotaryPlatform_SetOriginGPS_DEFAULT NULL
 
 #define cmd_RotaryPlatform_RotateToNDC_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
-X(a, STATIC,   SINGULAR, FLOAT,    x,                 2) \
-X(a, STATIC,   SINGULAR, FLOAT,    y,                 3)
+X(a, STATIC,   SINGULAR, DOUBLE,   x,                 2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y,                 3)
 #define cmd_RotaryPlatform_RotateToNDC_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateToNDC_DEFAULT NULL
 
@@ -800,24 +800,24 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToNDC_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_ROTARYPLATFORM_JON_SHARED_CMD_ROTARY_PB_H_MAX_SIZE cmd_RotaryPlatform_Root_size
-#define cmd_RotaryPlatform_Axis_size             32
-#define cmd_RotaryPlatform_Azimuth_size          14
-#define cmd_RotaryPlatform_Elevation_size        14
+#define cmd_RotaryPlatform_Axis_size             48
+#define cmd_RotaryPlatform_Azimuth_size          22
+#define cmd_RotaryPlatform_Elevation_size        22
 #define cmd_RotaryPlatform_GetMeteo_size         0
 #define cmd_RotaryPlatform_HaltAzimuth_size      0
 #define cmd_RotaryPlatform_HaltElevation_size    0
 #define cmd_RotaryPlatform_Halt_size             0
 #define cmd_RotaryPlatform_Root_size             72
-#define cmd_RotaryPlatform_RotateAzimuthRelativeSet_size 7
-#define cmd_RotaryPlatform_RotateAzimuthRelative_size 12
-#define cmd_RotaryPlatform_RotateAzimuthTo_size  12
-#define cmd_RotaryPlatform_RotateAzimuth_size    7
-#define cmd_RotaryPlatform_RotateElevationRelativeSet_size 7
-#define cmd_RotaryPlatform_RotateElevationRelative_size 12
-#define cmd_RotaryPlatform_RotateElevationTo_size 10
-#define cmd_RotaryPlatform_RotateElevation_size  7
-#define cmd_RotaryPlatform_RotateToGPS_size      15
-#define cmd_RotaryPlatform_RotateToNDC_size      12
+#define cmd_RotaryPlatform_RotateAzimuthRelativeSet_size 11
+#define cmd_RotaryPlatform_RotateAzimuthRelative_size 20
+#define cmd_RotaryPlatform_RotateAzimuthTo_size  20
+#define cmd_RotaryPlatform_RotateAzimuth_size    11
+#define cmd_RotaryPlatform_RotateElevationRelativeSet_size 11
+#define cmd_RotaryPlatform_RotateElevationRelative_size 20
+#define cmd_RotaryPlatform_RotateElevationTo_size 18
+#define cmd_RotaryPlatform_RotateElevation_size  11
+#define cmd_RotaryPlatform_RotateToGPS_size      27
+#define cmd_RotaryPlatform_RotateToNDC_size      20
 #define cmd_RotaryPlatform_ScanAddNode_size      69
 #define cmd_RotaryPlatform_ScanDeleteNode_size   11
 #define cmd_RotaryPlatform_ScanNext_size         0
@@ -829,13 +829,13 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToNDC_msg;
 #define cmd_RotaryPlatform_ScanStop_size         0
 #define cmd_RotaryPlatform_ScanUnpause_size      0
 #define cmd_RotaryPlatform_ScanUpdateNode_size   69
-#define cmd_RotaryPlatform_SetAzimuthValue_size  7
-#define cmd_RotaryPlatform_SetElevationValue_size 5
+#define cmd_RotaryPlatform_SetAzimuthValue_size  11
+#define cmd_RotaryPlatform_SetElevationValue_size 9
 #define cmd_RotaryPlatform_SetMode_size          2
-#define cmd_RotaryPlatform_SetOriginGPS_size     15
-#define cmd_RotaryPlatform_SetPlatformAzimuth_size 5
-#define cmd_RotaryPlatform_SetPlatformBank_size  5
-#define cmd_RotaryPlatform_SetPlatformElevation_size 5
+#define cmd_RotaryPlatform_SetOriginGPS_size     27
+#define cmd_RotaryPlatform_SetPlatformAzimuth_size 9
+#define cmd_RotaryPlatform_SetPlatformBank_size  9
+#define cmd_RotaryPlatform_SetPlatformElevation_size 9
 #define cmd_RotaryPlatform_Start_size            0
 #define cmd_RotaryPlatform_Stop_size             0
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_size 2

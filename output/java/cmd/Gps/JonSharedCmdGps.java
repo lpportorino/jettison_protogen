@@ -3084,22 +3084,22 @@ public final class JonSharedCmdGps {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
-    float getLatitude();
+    double getLatitude();
 
     /**
-     * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
-    float getLongitude();
+    double getLongitude();
 
     /**
-     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
-    float getAltitude();
+    double getAltitude();
   }
   /**
    * Protobuf type {@code cmd.Gps.SetManualPosition}
@@ -3139,35 +3139,35 @@ public final class JonSharedCmdGps {
     }
 
     public static final int LATITUDE_FIELD_NUMBER = 1;
-    private float latitude_ = 0F;
+    private double latitude_ = 0D;
     /**
-     * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
      * @return The latitude.
      */
     @java.lang.Override
-    public float getLatitude() {
+    public double getLatitude() {
       return latitude_;
     }
 
     public static final int LONGITUDE_FIELD_NUMBER = 2;
-    private float longitude_ = 0F;
+    private double longitude_ = 0D;
     /**
-     * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
      * @return The longitude.
      */
     @java.lang.Override
-    public float getLongitude() {
+    public double getLongitude() {
       return longitude_;
     }
 
     public static final int ALTITUDE_FIELD_NUMBER = 3;
-    private float altitude_ = 0F;
+    private double altitude_ = 0D;
     /**
-     * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
      * @return The altitude.
      */
     @java.lang.Override
-    public float getAltitude() {
+    public double getAltitude() {
       return altitude_;
     }
 
@@ -3185,14 +3185,14 @@ public final class JonSharedCmdGps {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
-        output.writeFloat(1, latitude_);
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
+        output.writeDouble(1, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
-        output.writeFloat(2, longitude_);
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
+        output.writeDouble(2, longitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(altitude_) != 0) {
-        output.writeFloat(3, altitude_);
+      if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
+        output.writeDouble(3, altitude_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3203,17 +3203,17 @@ public final class JonSharedCmdGps {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(latitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(latitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, latitude_);
+          .computeDoubleSize(1, latitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(longitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(longitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, longitude_);
+          .computeDoubleSize(2, longitude_);
       }
-      if (java.lang.Float.floatToRawIntBits(altitude_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(altitude_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, altitude_);
+          .computeDoubleSize(3, altitude_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3230,14 +3230,14 @@ public final class JonSharedCmdGps {
       }
       cmd.Gps.JonSharedCmdGps.SetManualPosition other = (cmd.Gps.JonSharedCmdGps.SetManualPosition) obj;
 
-      if (java.lang.Float.floatToIntBits(getLatitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLatitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLatitude())) return false;
-      if (java.lang.Float.floatToIntBits(getLongitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getLongitude())
+          != java.lang.Double.doubleToLongBits(
               other.getLongitude())) return false;
-      if (java.lang.Float.floatToIntBits(getAltitude())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getAltitude())
+          != java.lang.Double.doubleToLongBits(
               other.getAltitude())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -3251,14 +3251,14 @@ public final class JonSharedCmdGps {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + LATITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLatitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLatitude()));
       hash = (37 * hash) + LONGITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getLongitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getLongitude()));
       hash = (37 * hash) + ALTITUDE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getAltitude());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAltitude()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3390,9 +3390,9 @@ public final class JonSharedCmdGps {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        latitude_ = 0F;
-        longitude_ = 0F;
-        altitude_ = 0F;
+        latitude_ = 0D;
+        longitude_ = 0D;
+        altitude_ = 0D;
         return this;
       }
 
@@ -3449,13 +3449,13 @@ public final class JonSharedCmdGps {
 
       public Builder mergeFrom(cmd.Gps.JonSharedCmdGps.SetManualPosition other) {
         if (other == cmd.Gps.JonSharedCmdGps.SetManualPosition.getDefaultInstance()) return this;
-        if (other.getLatitude() != 0F) {
+        if (other.getLatitude() != 0D) {
           setLatitude(other.getLatitude());
         }
-        if (other.getLongitude() != 0F) {
+        if (other.getLongitude() != 0D) {
           setLongitude(other.getLongitude());
         }
-        if (other.getAltitude() != 0F) {
+        if (other.getAltitude() != 0D) {
           setAltitude(other.getAltitude());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -3484,21 +3484,21 @@ public final class JonSharedCmdGps {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                latitude_ = input.readFloat();
+              case 9: {
+                latitude_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                longitude_ = input.readFloat();
+              } // case 9
+              case 17: {
+                longitude_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                altitude_ = input.readFloat();
+              } // case 17
+              case 25: {
+                altitude_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
+              } // case 25
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3516,21 +3516,21 @@ public final class JonSharedCmdGps {
       }
       private int bitField0_;
 
-      private float latitude_ ;
+      private double latitude_ ;
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @return The latitude.
        */
       @java.lang.Override
-      public float getLatitude() {
+      public double getLatitude() {
         return latitude_;
       }
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The latitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLatitude(float value) {
+      public Builder setLatitude(double value) {
 
         latitude_ = value;
         bitField0_ |= 0x00000001;
@@ -3538,31 +3538,31 @@ public final class JonSharedCmdGps {
         return this;
       }
       /**
-       * <code>float latitude = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double latitude = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLatitude() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        latitude_ = 0F;
+        latitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float longitude_ ;
+      private double longitude_ ;
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @return The longitude.
        */
       @java.lang.Override
-      public float getLongitude() {
+      public double getLongitude() {
         return longitude_;
       }
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The longitude to set.
        * @return This builder for chaining.
        */
-      public Builder setLongitude(float value) {
+      public Builder setLongitude(double value) {
 
         longitude_ = value;
         bitField0_ |= 0x00000002;
@@ -3570,31 +3570,31 @@ public final class JonSharedCmdGps {
         return this;
       }
       /**
-       * <code>float longitude = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double longitude = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearLongitude() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        longitude_ = 0F;
+        longitude_ = 0D;
         onChanged();
         return this;
       }
 
-      private float altitude_ ;
+      private double altitude_ ;
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return The altitude.
        */
       @java.lang.Override
-      public float getAltitude() {
+      public double getAltitude() {
         return altitude_;
       }
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
-      public Builder setAltitude(float value) {
+      public Builder setAltitude(double value) {
 
         altitude_ = value;
         bitField0_ |= 0x00000004;
@@ -3602,12 +3602,12 @@ public final class JonSharedCmdGps {
         return this;
       }
       /**
-       * <code>float altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        altitude_ = 0F;
+        altitude_ = 0D;
         onChanged();
         return this;
       }
@@ -3711,12 +3711,13 @@ public final class JonSharedCmdGps {
       "SetUseManualPositionH\000\022&\n\tget_meteo\030\005 \001(" +
       "\0132\021.cmd.Gps.GetMeteoH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005" +
       "Start\"\006\n\004Stop\"\n\n\010GetMeteo\"$\n\024SetUseManua" +
-      "lPosition\022\014\n\004flag\030\001 \001(\010\"}\n\021SetManualPosi" +
-      "tion\022!\n\010latitude\030\001 \001(\002B\017\272H\014\n\n\035\000\000\264B-\000\000\264\302\022" +
-      "\"\n\tlongitude\030\002 \001(\002B\017\272H\014\n\n\025\000\0004C-\000\0004\303\022!\n\010a" +
-      "ltitude\030\003 \001(\002B\017\272H\014\n\n\035\000P\303G-\000\000\327\303BJZHgit-co" +
-      "decommit.eu-central-1.amazonaws.com/v1/r" +
-      "epos/jettison/jonp/cmd/gpsb\006proto3"
+      "lPosition\022\014\n\004flag\030\001 \001(\010\"\225\001\n\021SetManualPos" +
+      "ition\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)" +
+      "\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000" +
+      "\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000j\370@)\000\000\000\000\000\340z\300BJZHgit-codecommit.eu-cen" +
+      "tral-1.amazonaws.com/v1/repos/jettison/j" +
+      "onp/cmd/gpsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

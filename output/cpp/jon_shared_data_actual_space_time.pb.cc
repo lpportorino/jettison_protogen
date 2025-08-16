@@ -32,9 +32,9 @@ inline constexpr JonGuiDataActualSpaceTime::Impl_::Impl_(
         elevation_{0},
         bank_{0},
         latitude_{0},
+        longitude_{0},
         altitude_{0},
         timestamp_{::int64_t{0}},
-        longitude_{0},
         _cached_size_{0} {}
 
 template <typename>
@@ -92,9 +92,9 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5factual_5fspace_5ftime
     protodesc_cold) = {
     "\n\'jon_shared_data_actual_space_time.prot"
     "o\022\003ser\"\227\001\n\031JonGuiDataActualSpaceTime\022\017\n\007"
-    "azimuth\030\001 \001(\002\022\021\n\televation\030\002 \001(\002\022\014\n\004bank"
-    "\030\003 \001(\002\022\020\n\010latitude\030\004 \001(\002\022\021\n\tlongitude\030\005 "
-    "\001(\002\022\020\n\010altitude\030\006 \001(\001\022\021\n\ttimestamp\030\007 \001(\003"
+    "azimuth\030\001 \001(\001\022\021\n\televation\030\002 \001(\001\022\014\n\004bank"
+    "\030\003 \001(\001\022\020\n\010latitude\030\004 \001(\001\022\021\n\tlongitude\030\005 "
+    "\001(\001\022\020\n\010altitude\030\006 \001(\001\022\021\n\ttimestamp\030\007 \001(\003"
     "BYZWgit-codecommit.eu-central-1.amazonaw"
     "s.com/v1/repos/jettison/jonp/data/actual"
     "_space_timeb\006proto3"
@@ -147,9 +147,9 @@ inline void JonGuiDataActualSpaceTime::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, azimuth_),
            0,
-           offsetof(Impl_, longitude_) -
+           offsetof(Impl_, timestamp_) -
                offsetof(Impl_, azimuth_) +
-               sizeof(Impl_::longitude_));
+               sizeof(Impl_::timestamp_));
 }
 JonGuiDataActualSpaceTime::~JonGuiDataActualSpaceTime() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataActualSpaceTime)
@@ -217,21 +217,21 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataActualSpaceTime::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float azimuth = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.azimuth_)}},
-    // float elevation = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.elevation_)}},
-    // float bank = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.bank_)}},
-    // float latitude = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.latitude_)}},
-    // float longitude = 5;
-    {::_pbi::TcParser::FastF32S1,
-     {45, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.longitude_)}},
+    // double azimuth = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.azimuth_)}},
+    // double elevation = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.elevation_)}},
+    // double bank = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.bank_)}},
+    // double latitude = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.latitude_)}},
+    // double longitude = 5;
+    {::_pbi::TcParser::FastF64S1,
+     {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.longitude_)}},
     // double altitude = 6;
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.altitude_)}},
@@ -241,21 +241,21 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataActualSpaceTime::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // float azimuth = 1;
+    // double azimuth = 1;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.azimuth_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float elevation = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double elevation = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.elevation_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float bank = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double bank = 3;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.bank_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float latitude = 4;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double latitude = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.latitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float longitude = 5;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double longitude = 5;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.longitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double altitude = 6;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.altitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
@@ -276,8 +276,8 @@ PROTOBUF_NOINLINE void JonGuiDataActualSpaceTime::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.azimuth_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.longitude_) -
-      reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.longitude_));
+      reinterpret_cast<char*>(&_impl_.timestamp_) -
+      reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.timestamp_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -296,38 +296,38 @@ PROTOBUF_NOINLINE void JonGuiDataActualSpaceTime::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float azimuth = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_azimuth()) != 0) {
+          // double azimuth = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_azimuth(), target);
           }
 
-          // float elevation = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_elevation()) != 0) {
+          // double elevation = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_elevation(), target);
           }
 
-          // float bank = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_bank()) != 0) {
+          // double bank = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_bank()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_bank(), target);
           }
 
-          // float latitude = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
+          // double latitude = 4;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_latitude(), target);
           }
 
-          // float longitude = 5;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
+          // double longitude = 5;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_longitude(), target);
           }
 
@@ -370,21 +370,25 @@ PROTOBUF_NOINLINE void JonGuiDataActualSpaceTime::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float azimuth = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_azimuth()) != 0) {
-              total_size += 5;
+            // double azimuth = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
+              total_size += 9;
             }
-            // float elevation = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_elevation()) != 0) {
-              total_size += 5;
+            // double elevation = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
+              total_size += 9;
             }
-            // float bank = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_bank()) != 0) {
-              total_size += 5;
+            // double bank = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_bank()) != 0) {
+              total_size += 9;
             }
-            // float latitude = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
-              total_size += 5;
+            // double latitude = 4;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
+              total_size += 9;
+            }
+            // double longitude = 5;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
+              total_size += 9;
             }
             // double altitude = 6;
             if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
@@ -394,10 +398,6 @@ PROTOBUF_NOINLINE void JonGuiDataActualSpaceTime::Clear() {
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
-            }
-            // float longitude = 5;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
-              total_size += 5;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -412,26 +412,26 @@ void JonGuiDataActualSpaceTime::MergeImpl(::google::protobuf::MessageLite& to_ms
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_azimuth()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_azimuth()) != 0) {
     _this->_impl_.azimuth_ = from._impl_.azimuth_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_elevation()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_elevation()) != 0) {
     _this->_impl_.elevation_ = from._impl_.elevation_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_bank()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_bank()) != 0) {
     _this->_impl_.bank_ = from._impl_.bank_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_latitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_latitude()) != 0) {
     _this->_impl_.latitude_ = from._impl_.latitude_;
+  }
+  if (::absl::bit_cast<::uint64_t>(from._internal_longitude()) != 0) {
+    _this->_impl_.longitude_ = from._impl_.longitude_;
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_altitude()) != 0) {
     _this->_impl_.altitude_ = from._impl_.altitude_;
   }
   if (from._internal_timestamp() != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_longitude()) != 0) {
-    _this->_impl_.longitude_ = from._impl_.longitude_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -448,8 +448,8 @@ void JonGuiDataActualSpaceTime::InternalSwap(JonGuiDataActualSpaceTime* PROTOBUF
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.longitude_)
-      + sizeof(JonGuiDataActualSpaceTime::_impl_.longitude_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.timestamp_)
+      + sizeof(JonGuiDataActualSpaceTime::_impl_.timestamp_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.azimuth_)>(
           reinterpret_cast<char*>(&_impl_.azimuth_),
           reinterpret_cast<char*>(&other->_impl_.azimuth_));

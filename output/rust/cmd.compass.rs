@@ -50,18 +50,18 @@ pub struct CalibrateCencel {}
 pub struct GetMeteo {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetMagneticDeclination {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetOffsetAngleAzimuth {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetOffsetAngleElevation {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetUseRotaryPosition {

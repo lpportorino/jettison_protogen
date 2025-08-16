@@ -25,19 +25,19 @@ function createBaseJonGuiDataActualSpaceTime(): JonGuiDataActualSpaceTime {
 export const JonGuiDataActualSpaceTime: MessageFns<JonGuiDataActualSpaceTime> = {
   encode(message: JonGuiDataActualSpaceTime, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.azimuth !== 0) {
-      writer.uint32(13).float(message.azimuth);
+      writer.uint32(9).double(message.azimuth);
     }
     if (message.elevation !== 0) {
-      writer.uint32(21).float(message.elevation);
+      writer.uint32(17).double(message.elevation);
     }
     if (message.bank !== 0) {
-      writer.uint32(29).float(message.bank);
+      writer.uint32(25).double(message.bank);
     }
     if (message.latitude !== 0) {
-      writer.uint32(37).float(message.latitude);
+      writer.uint32(33).double(message.latitude);
     }
     if (message.longitude !== 0) {
-      writer.uint32(45).float(message.longitude);
+      writer.uint32(41).double(message.longitude);
     }
     if (message.altitude !== 0) {
       writer.uint32(49).double(message.altitude);
@@ -56,43 +56,43 @@ export const JonGuiDataActualSpaceTime: MessageFns<JonGuiDataActualSpaceTime> = 
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.azimuth = reader.float();
+          message.azimuth = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.elevation = reader.float();
+          message.elevation = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.bank = reader.float();
+          message.bank = reader.double();
           continue;
         }
         case 4: {
-          if (tag !== 37) {
+          if (tag !== 33) {
             break;
           }
 
-          message.latitude = reader.float();
+          message.latitude = reader.double();
           continue;
         }
         case 5: {
-          if (tag !== 45) {
+          if (tag !== 41) {
             break;
           }
 
-          message.longitude = reader.float();
+          message.longitude = reader.double();
           continue;
         }
         case 6: {

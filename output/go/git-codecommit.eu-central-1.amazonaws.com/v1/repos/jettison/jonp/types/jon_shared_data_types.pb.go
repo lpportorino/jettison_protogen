@@ -1035,9 +1035,9 @@ func (JonGuiDataClientType) EnumDescriptor() ([]byte, []int) {
 
 type JonGuiDataMeteo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Temperature   float32                `protobuf:"fixed32,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
-	Humidity      float32                `protobuf:"fixed32,2,opt,name=humidity,proto3" json:"humidity,omitempty"`
-	Pressure      float32                `protobuf:"fixed32,3,opt,name=pressure,proto3" json:"pressure,omitempty"`
+	Temperature   float64                `protobuf:"fixed64,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	Humidity      float64                `protobuf:"fixed64,2,opt,name=humidity,proto3" json:"humidity,omitempty"`
+	Pressure      float64                `protobuf:"fixed64,3,opt,name=pressure,proto3" json:"pressure,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1072,21 +1072,21 @@ func (*JonGuiDataMeteo) Descriptor() ([]byte, []int) {
 	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *JonGuiDataMeteo) GetTemperature() float32 {
+func (x *JonGuiDataMeteo) GetTemperature() float64 {
 	if x != nil {
 		return x.Temperature
 	}
 	return 0
 }
 
-func (x *JonGuiDataMeteo) GetHumidity() float32 {
+func (x *JonGuiDataMeteo) GetHumidity() float64 {
 	if x != nil {
 		return x.Humidity
 	}
 	return 0
 }
 
-func (x *JonGuiDataMeteo) GetPressure() float32 {
+func (x *JonGuiDataMeteo) GetPressure() float64 {
 	if x != nil {
 		return x.Pressure
 	}
@@ -1097,17 +1097,11 @@ var File_jon_shared_data_types_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_types_proto_rawDesc = "" +
 	"\n" +
-	"\x1bjon_shared_data_types.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\x9e\x01\n" +
-	"\x0fJonGuiDataMeteo\x121\n" +
-	"\vtemperature\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x16C-3\x93\x88\xc3R\vtemperature\x12+\n" +
-	"\bhumidity\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xc8B-\x00\x00\x00\x00R\bhumidity\x12+\n" +
-	"\bpressure\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x96D-\x00\x00\x00\x00R\bpressure*\xb3\x02\n" +
+	"\x1bjon_shared_data_types.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xb6\x01\n" +
+	"\x0fJonGuiDataMeteo\x129\n" +
+	"\vtemperature\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\vtemperature\x123\n" +
+	"\bhumidity\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\bhumidity\x123\n" +
+	"\bpressure\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\xc0\x92@)\x00\x00\x00\x00\x00\x00\x00\x00R\bpressure*\xb3\x02\n" +
 	"!JonGuiDataVideoChannelHeatFilters\x126\n" +
 	"2JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\x10\x00\x124\n" +
 	"0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE\x10\x01\x124\n" +

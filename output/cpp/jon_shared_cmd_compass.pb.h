@@ -736,14 +736,14 @@ class SetOffsetAngleElevation final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.Compass.SetOffsetAngleElevation)
@@ -769,7 +769,7 @@ class SetOffsetAngleElevation final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetOffsetAngleElevation& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -926,14 +926,14 @@ class SetOffsetAngleAzimuth final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.Compass.SetOffsetAngleAzimuth)
@@ -959,7 +959,7 @@ class SetOffsetAngleAzimuth final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetOffsetAngleAzimuth& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1116,14 +1116,14 @@ class SetMagneticDeclination final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.Compass.SetMagneticDeclination)
@@ -1149,7 +1149,7 @@ class SetMagneticDeclination final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetMagneticDeclination& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3400,24 +3400,24 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetMagneticDeclination
 
-// float value = 1;
+// double value = 1;
 inline void SetMagneticDeclination::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetMagneticDeclination::value() const {
+inline double SetMagneticDeclination::value() const {
   // @@protoc_insertion_point(field_get:cmd.Compass.SetMagneticDeclination.value)
   return _internal_value();
 }
-inline void SetMagneticDeclination::set_value(float value) {
+inline void SetMagneticDeclination::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.Compass.SetMagneticDeclination.value)
 }
-inline float SetMagneticDeclination::_internal_value() const {
+inline double SetMagneticDeclination::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetMagneticDeclination::_internal_set_value(float value) {
+inline void SetMagneticDeclination::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -3426,24 +3426,24 @@ inline void SetMagneticDeclination::_internal_set_value(float value) {
 
 // SetOffsetAngleAzimuth
 
-// float value = 1;
+// double value = 1;
 inline void SetOffsetAngleAzimuth::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetOffsetAngleAzimuth::value() const {
+inline double SetOffsetAngleAzimuth::value() const {
   // @@protoc_insertion_point(field_get:cmd.Compass.SetOffsetAngleAzimuth.value)
   return _internal_value();
 }
-inline void SetOffsetAngleAzimuth::set_value(float value) {
+inline void SetOffsetAngleAzimuth::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.Compass.SetOffsetAngleAzimuth.value)
 }
-inline float SetOffsetAngleAzimuth::_internal_value() const {
+inline double SetOffsetAngleAzimuth::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetOffsetAngleAzimuth::_internal_set_value(float value) {
+inline void SetOffsetAngleAzimuth::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -3452,24 +3452,24 @@ inline void SetOffsetAngleAzimuth::_internal_set_value(float value) {
 
 // SetOffsetAngleElevation
 
-// float value = 1;
+// double value = 1;
 inline void SetOffsetAngleElevation::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetOffsetAngleElevation::value() const {
+inline double SetOffsetAngleElevation::value() const {
   // @@protoc_insertion_point(field_get:cmd.Compass.SetOffsetAngleElevation.value)
   return _internal_value();
 }
-inline void SetOffsetAngleElevation::set_value(float value) {
+inline void SetOffsetAngleElevation::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.Compass.SetOffsetAngleElevation.value)
 }
-inline float SetOffsetAngleElevation::_internal_value() const {
+inline double SetOffsetAngleElevation::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetOffsetAngleElevation::_internal_set_value(float value) {
+inline void SetOffsetAngleElevation::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }

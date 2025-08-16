@@ -51,14 +51,14 @@ message SetFxMode {
 }
 
 message SetClaheLevel {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
 }
 
 message ShiftClaheLevel {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];
@@ -75,7 +75,7 @@ message EnableDDE {}
 message DisableDDE {}
 
 message SetValue {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -89,7 +89,7 @@ message SetDDELevel {
 }
 
 message SetDigitalZoomLevel {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: 1.0
   }];
 }

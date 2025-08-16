@@ -25,7 +25,7 @@ const (
 
 type JonGuiDataCameraHeat struct {
 	state            protoimpl.MessageState                   `protogen:"open.v1"`
-	ZoomPos          float32                                  `protobuf:"fixed32,1,opt,name=zoom_pos,json=zoomPos,proto3" json:"zoom_pos,omitempty"`
+	ZoomPos          float64                                  `protobuf:"fixed64,1,opt,name=zoom_pos,json=zoomPos,proto3" json:"zoom_pos,omitempty"`
 	AgcMode          types.JonGuiDataVideoChannelHeatAGCModes `protobuf:"varint,2,opt,name=agc_mode,json=agcMode,proto3,enum=ser.JonGuiDataVideoChannelHeatAGCModes" json:"agc_mode,omitempty"`
 	Filter           types.JonGuiDataVideoChannelHeatFilters  `protobuf:"varint,3,opt,name=filter,proto3,enum=ser.JonGuiDataVideoChannelHeatFilters" json:"filter,omitempty"`
 	AutoFocus        bool                                     `protobuf:"varint,4,opt,name=auto_focus,json=autoFocus,proto3" json:"auto_focus,omitempty"`
@@ -34,8 +34,8 @@ type JonGuiDataCameraHeat struct {
 	DdeLevel         int32                                    `protobuf:"varint,7,opt,name=dde_level,json=ddeLevel,proto3" json:"dde_level,omitempty"`
 	DdeEnabled       bool                                     `protobuf:"varint,8,opt,name=dde_enabled,json=ddeEnabled,proto3" json:"dde_enabled,omitempty"`
 	FxMode           types.JonGuiDataFxModeHeat               `protobuf:"varint,9,opt,name=fx_mode,json=fxMode,proto3,enum=ser.JonGuiDataFxModeHeat" json:"fx_mode,omitempty"`
-	DigitalZoomLevel float32                                  `protobuf:"fixed32,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
-	ClaheLevel       float32                                  `protobuf:"fixed32,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
+	DigitalZoomLevel float64                                  `protobuf:"fixed64,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
+	ClaheLevel       float64                                  `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -70,7 +70,7 @@ func (*JonGuiDataCameraHeat) Descriptor() ([]byte, []int) {
 	return file_jon_shared_data_camera_heat_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *JonGuiDataCameraHeat) GetZoomPos() float32 {
+func (x *JonGuiDataCameraHeat) GetZoomPos() float64 {
 	if x != nil {
 		return x.ZoomPos
 	}
@@ -133,14 +133,14 @@ func (x *JonGuiDataCameraHeat) GetFxMode() types.JonGuiDataFxModeHeat {
 	return types.JonGuiDataFxModeHeat(0)
 }
 
-func (x *JonGuiDataCameraHeat) GetDigitalZoomLevel() float32 {
+func (x *JonGuiDataCameraHeat) GetDigitalZoomLevel() float64 {
 	if x != nil {
 		return x.DigitalZoomLevel
 	}
 	return 0
 }
 
-func (x *JonGuiDataCameraHeat) GetClaheLevel() float32 {
+func (x *JonGuiDataCameraHeat) GetClaheLevel() float64 {
 	if x != nil {
 		return x.ClaheLevel
 	}
@@ -151,11 +151,9 @@ var File_jon_shared_data_camera_heat_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
-	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xd6\x04\n" +
-	"\x14JonGuiDataCameraHeat\x12*\n" +
-	"\bzoom_pos\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\azoomPos\x12N\n" +
+	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xea\x04\n" +
+	"\x14JonGuiDataCameraHeat\x122\n" +
+	"\bzoom_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x12N\n" +
 	"\bagc_mode\x18\x02 \x01(\x0e2'.ser.JonGuiDataVideoChannelHeatAGCModesB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\aagcMode\x12J\n" +
 	"\x06filter\x18\x03 \x01(\x0e2&.ser.JonGuiDataVideoChannelHeatFiltersB\n" +
@@ -168,14 +166,10 @@ const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\xbaH\a\x1a\x05\x18\x80\x04(\x00R\bddeLevel\x12\x1f\n" +
 	"\vdde_enabled\x18\b \x01(\bR\n" +
 	"ddeEnabled\x12<\n" +
-	"\afx_mode\x18\t \x01(\x0e2\x19.ser.JonGuiDataFxModeHeatB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06fxMode\x128\n" +
+	"\afx_mode\x18\t \x01(\x0e2\x19.ser.JonGuiDataFxModeHeatB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06fxMode\x12<\n" +
 	"\x12digital_zoom_level\x18\n" +
-	" \x01(\x02B\n" +
-	"\xbaH\a\n" +
-	"\x05-\x00\x00\x80?R\x10digitalZoomLevel\x120\n" +
-	"\vclahe_level\x18\v \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\n" +
+	" \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x10digitalZoomLevel\x128\n" +
+	"\vclahe_level\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
 	"claheLevelB\xa6\x01\n" +
 	"\acom.serB\x1cJonSharedDataCameraHeatProtoP\x01ZQgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 

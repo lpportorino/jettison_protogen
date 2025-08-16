@@ -369,13 +369,13 @@ function createBaseSetManualPosition(): SetManualPosition {
 export const SetManualPosition: MessageFns<SetManualPosition> = {
   encode(message: SetManualPosition, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.latitude !== 0) {
-      writer.uint32(13).float(message.latitude);
+      writer.uint32(9).double(message.latitude);
     }
     if (message.longitude !== 0) {
-      writer.uint32(21).float(message.longitude);
+      writer.uint32(17).double(message.longitude);
     }
     if (message.altitude !== 0) {
-      writer.uint32(29).float(message.altitude);
+      writer.uint32(25).double(message.altitude);
     }
     return writer;
   },
@@ -388,27 +388,27 @@ export const SetManualPosition: MessageFns<SetManualPosition> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.latitude = reader.float();
+          message.latitude = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.longitude = reader.float();
+          message.longitude = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.altitude = reader.float();
+          message.altitude = reader.double();
           continue;
         }
       }

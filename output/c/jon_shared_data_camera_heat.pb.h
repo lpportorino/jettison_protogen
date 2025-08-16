@@ -12,7 +12,7 @@
 
 /* Struct definitions */
 typedef struct _ser_JonGuiDataCameraHeat {
-    float zoom_pos;
+    double zoom_pos;
     ser_JonGuiDataVideoChannelHeatAGCModes agc_mode;
     ser_JonGuiDataVideoChannelHeatFilters filter;
     bool auto_focus;
@@ -21,8 +21,8 @@ typedef struct _ser_JonGuiDataCameraHeat {
     int32_t dde_level;
     bool dde_enabled;
     ser_JonGuiDataFxModeHeat fx_mode;
-    float digital_zoom_level;
-    float clahe_level;
+    double digital_zoom_level;
+    double clahe_level;
 } ser_JonGuiDataCameraHeat;
 
 
@@ -49,7 +49,7 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraHeat_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    zoom_pos,          1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   zoom_pos,          1) \
 X(a, STATIC,   SINGULAR, UENUM,    agc_mode,          2) \
 X(a, STATIC,   SINGULAR, UENUM,    filter,            3) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_focus,        4) \
@@ -58,8 +58,8 @@ X(a, STATIC,   SINGULAR, INT32,    zoom_table_pos_max,   6) \
 X(a, STATIC,   SINGULAR, INT32,    dde_level,         7) \
 X(a, STATIC,   SINGULAR, BOOL,     dde_enabled,       8) \
 X(a, STATIC,   SINGULAR, UENUM,    fx_mode,           9) \
-X(a, STATIC,   SINGULAR, FLOAT,    digital_zoom_level,  10) \
-X(a, STATIC,   SINGULAR, FLOAT,    clahe_level,      11)
+X(a, STATIC,   SINGULAR, DOUBLE,   digital_zoom_level,  10) \
+X(a, STATIC,   SINGULAR, DOUBLE,   clahe_level,      11)
 #define ser_JonGuiDataCameraHeat_CALLBACK NULL
 #define ser_JonGuiDataCameraHeat_DEFAULT NULL
 
@@ -70,7 +70,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraHeat_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_HEAT_PB_H_MAX_SIZE ser_JonGuiDataCameraHeat_size
-#define ser_JonGuiDataCameraHeat_size            58
+#define ser_JonGuiDataCameraHeat_size            70
 
 #ifdef __cplusplus
 } /* extern "C" */

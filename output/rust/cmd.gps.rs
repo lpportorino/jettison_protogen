@@ -33,10 +33,10 @@ pub struct SetUseManualPosition {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetManualPosition {
-    #[prost(float, tag = "1")]
-    pub latitude: f32,
-    #[prost(float, tag = "2")]
-    pub longitude: f32,
-    #[prost(float, tag = "3")]
-    pub altitude: f32,
+    #[prost(double, tag = "1")]
+    pub latitude: f64,
+    #[prost(double, tag = "2")]
+    pub longitude: f64,
+    #[prost(double, tag = "3")]
+    pub altitude: f64,
 }

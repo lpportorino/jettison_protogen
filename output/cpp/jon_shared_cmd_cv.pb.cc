@@ -83,10 +83,10 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr StartTrackNDC::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : channel_{static_cast< ::ser::JonGuiDataVideoChannel >(0)},
-        x_{0},
-        frame_time_{::uint64_t{0u}},
+      : x_{0},
         y_{0},
+        frame_time_{::uint64_t{0u}},
+        channel_{static_cast< ::ser::JonGuiDataVideoChannel >(0)},
         _cached_size_{0} {}
 
 template <typename>
@@ -449,7 +449,7 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto[] ABSL_ATTR
     "s\022,\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo"
     "Channel\022\r\n\005value\030\002 \001(\010\"g\n\rStartTrackNDC\022"
     ",\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoCh"
-    "annel\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\022\n\nframe_tim"
+    "annel\022\t\n\001x\030\002 \001(\001\022\t\n\001y\030\003 \001(\001\022\022\n\nframe_tim"
     "e\030\004 \001(\004\"\013\n\tStopTrackBIZGgit-codecommit.e"
     "u-central-1.amazonaws.com/v1/repos/jetti"
     "son/jonp/cmd/cvb\006proto3"
@@ -2358,11 +2358,11 @@ inline PROTOBUF_NDEBUG_INLINE StartTrackNDC::Impl_::Impl_(
 inline void StartTrackNDC::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, channel_),
+               offsetof(Impl_, x_),
            0,
-           offsetof(Impl_, y_) -
-               offsetof(Impl_, channel_) +
-               sizeof(Impl_::y_));
+           offsetof(Impl_, channel_) -
+               offsetof(Impl_, x_) +
+               sizeof(Impl_::channel_));
 }
 StartTrackNDC::~StartTrackNDC() {
   // @@protoc_insertion_point(destructor:cmd.CV.StartTrackNDC)
@@ -2435,24 +2435,24 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> StartTrackNDC::_table_ = {
     // .ser.JonGuiDataVideoChannel channel = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StartTrackNDC, _impl_.channel_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.channel_)}},
-    // float x = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.x_)}},
-    // float y = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.y_)}},
+    // double x = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.x_)}},
+    // double y = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.y_)}},
   }}, {{
     65535, 65535
   }}, {{
     // .ser.JonGuiDataVideoChannel channel = 1;
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.channel_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // float x = 2;
+    // double x = 2;
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.x_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float y = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double y = 3;
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.y_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint64 frame_time = 4;
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.frame_time_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
@@ -2469,9 +2469,9 @@ PROTOBUF_NOINLINE void StartTrackNDC::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.channel_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.y_) -
-      reinterpret_cast<char*>(&_impl_.channel_)) + sizeof(_impl_.y_));
+  ::memset(&_impl_.x_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.channel_) -
+      reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.channel_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -2497,17 +2497,17 @@ PROTOBUF_NOINLINE void StartTrackNDC::Clear() {
                 1, this_._internal_channel(), target);
           }
 
-          // float x = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_x()) != 0) {
+          // double x = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_x(), target);
           }
 
-          // float y = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_y()) != 0) {
+          // double y = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_y(), target);
           }
 
@@ -2543,23 +2543,23 @@ PROTOBUF_NOINLINE void StartTrackNDC::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // .ser.JonGuiDataVideoChannel channel = 1;
-            if (this_._internal_channel() != 0) {
-              total_size += 1 +
-                            ::_pbi::WireFormatLite::EnumSize(this_._internal_channel());
+            // double x = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
+              total_size += 9;
             }
-            // float x = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_x()) != 0) {
-              total_size += 5;
+            // double y = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
+              total_size += 9;
             }
             // uint64 frame_time = 4;
             if (this_._internal_frame_time() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
                   this_._internal_frame_time());
             }
-            // float y = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_y()) != 0) {
-              total_size += 5;
+            // .ser.JonGuiDataVideoChannel channel = 1;
+            if (this_._internal_channel() != 0) {
+              total_size += 1 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_channel());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -2574,17 +2574,17 @@ void StartTrackNDC::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_channel() != 0) {
-    _this->_impl_.channel_ = from._impl_.channel_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_x()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_x()) != 0) {
     _this->_impl_.x_ = from._impl_.x_;
+  }
+  if (::absl::bit_cast<::uint64_t>(from._internal_y()) != 0) {
+    _this->_impl_.y_ = from._impl_.y_;
   }
   if (from._internal_frame_time() != 0) {
     _this->_impl_.frame_time_ = from._impl_.frame_time_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_y()) != 0) {
-    _this->_impl_.y_ = from._impl_.y_;
+  if (from._internal_channel() != 0) {
+    _this->_impl_.channel_ = from._impl_.channel_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -2601,11 +2601,11 @@ void StartTrackNDC::InternalSwap(StartTrackNDC* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.y_)
-      + sizeof(StartTrackNDC::_impl_.y_)
-      - PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.channel_)>(
-          reinterpret_cast<char*>(&_impl_.channel_),
-          reinterpret_cast<char*>(&other->_impl_.channel_));
+      PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.channel_)
+      + sizeof(StartTrackNDC::_impl_.channel_)
+      - PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.x_)>(
+          reinterpret_cast<char*>(&_impl_.x_),
+          reinterpret_cast<char*>(&other->_impl_.x_));
 }
 
 ::google::protobuf::Metadata StartTrackNDC::GetMetadata() const {

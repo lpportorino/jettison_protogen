@@ -25,13 +25,13 @@ const (
 
 type JonGuiDataRotary struct {
 	state              protoimpl.MessageState     `protogen:"open.v1"`
-	Azimuth            float32                    `protobuf:"fixed32,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
-	AzimuthSpeed       float32                    `protobuf:"fixed32,2,opt,name=azimuth_speed,json=azimuthSpeed,proto3" json:"azimuth_speed,omitempty"`
-	Elevation          float32                    `protobuf:"fixed32,3,opt,name=elevation,proto3" json:"elevation,omitempty"`
-	ElevationSpeed     float32                    `protobuf:"fixed32,4,opt,name=elevation_speed,json=elevationSpeed,proto3" json:"elevation_speed,omitempty"`
-	PlatformAzimuth    float32                    `protobuf:"fixed32,5,opt,name=platform_azimuth,json=platformAzimuth,proto3" json:"platform_azimuth,omitempty"`
-	PlatformElevation  float32                    `protobuf:"fixed32,6,opt,name=platform_elevation,json=platformElevation,proto3" json:"platform_elevation,omitempty"`
-	PlatformBank       float32                    `protobuf:"fixed32,7,opt,name=platform_bank,json=platformBank,proto3" json:"platform_bank,omitempty"`
+	Azimuth            float64                    `protobuf:"fixed64,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
+	AzimuthSpeed       float64                    `protobuf:"fixed64,2,opt,name=azimuth_speed,json=azimuthSpeed,proto3" json:"azimuth_speed,omitempty"`
+	Elevation          float64                    `protobuf:"fixed64,3,opt,name=elevation,proto3" json:"elevation,omitempty"`
+	ElevationSpeed     float64                    `protobuf:"fixed64,4,opt,name=elevation_speed,json=elevationSpeed,proto3" json:"elevation_speed,omitempty"`
+	PlatformAzimuth    float64                    `protobuf:"fixed64,5,opt,name=platform_azimuth,json=platformAzimuth,proto3" json:"platform_azimuth,omitempty"`
+	PlatformElevation  float64                    `protobuf:"fixed64,6,opt,name=platform_elevation,json=platformElevation,proto3" json:"platform_elevation,omitempty"`
+	PlatformBank       float64                    `protobuf:"fixed64,7,opt,name=platform_bank,json=platformBank,proto3" json:"platform_bank,omitempty"`
 	IsMoving           bool                       `protobuf:"varint,8,opt,name=is_moving,json=isMoving,proto3" json:"is_moving,omitempty"`
 	Mode               types.JonGuiDataRotaryMode `protobuf:"varint,9,opt,name=mode,proto3,enum=ser.JonGuiDataRotaryMode" json:"mode,omitempty"`
 	IsScanning         bool                       `protobuf:"varint,10,opt,name=is_scanning,json=isScanning,proto3" json:"is_scanning,omitempty"`
@@ -39,8 +39,8 @@ type JonGuiDataRotary struct {
 	UseRotaryAsCompass bool                       `protobuf:"varint,12,opt,name=use_rotary_as_compass,json=useRotaryAsCompass,proto3" json:"use_rotary_as_compass,omitempty"`
 	ScanTarget         int32                      `protobuf:"varint,13,opt,name=scan_target,json=scanTarget,proto3" json:"scan_target,omitempty"`
 	ScanTargetMax      int32                      `protobuf:"varint,14,opt,name=scan_target_max,json=scanTargetMax,proto3" json:"scan_target_max,omitempty"`
-	SunAzimuth         float32                    `protobuf:"fixed32,15,opt,name=sun_azimuth,json=sunAzimuth,proto3" json:"sun_azimuth,omitempty"`
-	SunElevation       float32                    `protobuf:"fixed32,16,opt,name=sun_elevation,json=sunElevation,proto3" json:"sun_elevation,omitempty"`
+	SunAzimuth         float64                    `protobuf:"fixed64,15,opt,name=sun_azimuth,json=sunAzimuth,proto3" json:"sun_azimuth,omitempty"`
+	SunElevation       float64                    `protobuf:"fixed64,16,opt,name=sun_elevation,json=sunElevation,proto3" json:"sun_elevation,omitempty"`
 	CurrentScanNode    *ScanNode                  `protobuf:"bytes,17,opt,name=current_scan_node,json=currentScanNode,proto3" json:"current_scan_node,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
@@ -76,49 +76,49 @@ func (*JonGuiDataRotary) Descriptor() ([]byte, []int) {
 	return file_jon_shared_data_rotary_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *JonGuiDataRotary) GetAzimuth() float32 {
+func (x *JonGuiDataRotary) GetAzimuth() float64 {
 	if x != nil {
 		return x.Azimuth
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetAzimuthSpeed() float32 {
+func (x *JonGuiDataRotary) GetAzimuthSpeed() float64 {
 	if x != nil {
 		return x.AzimuthSpeed
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetElevation() float32 {
+func (x *JonGuiDataRotary) GetElevation() float64 {
 	if x != nil {
 		return x.Elevation
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetElevationSpeed() float32 {
+func (x *JonGuiDataRotary) GetElevationSpeed() float64 {
 	if x != nil {
 		return x.ElevationSpeed
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetPlatformAzimuth() float32 {
+func (x *JonGuiDataRotary) GetPlatformAzimuth() float64 {
 	if x != nil {
 		return x.PlatformAzimuth
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetPlatformElevation() float32 {
+func (x *JonGuiDataRotary) GetPlatformElevation() float64 {
 	if x != nil {
 		return x.PlatformElevation
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetPlatformBank() float32 {
+func (x *JonGuiDataRotary) GetPlatformBank() float64 {
 	if x != nil {
 		return x.PlatformBank
 	}
@@ -174,14 +174,14 @@ func (x *JonGuiDataRotary) GetScanTargetMax() int32 {
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetSunAzimuth() float32 {
+func (x *JonGuiDataRotary) GetSunAzimuth() float64 {
 	if x != nil {
 		return x.SunAzimuth
 	}
 	return 0
 }
 
-func (x *JonGuiDataRotary) GetSunElevation() float32 {
+func (x *JonGuiDataRotary) GetSunElevation() float64 {
 	if x != nil {
 		return x.SunElevation
 	}
@@ -291,22 +291,15 @@ var File_jon_shared_data_rotary_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xa9\b\n" +
-	"\x10JonGuiDataRotary\x12=\n" +
-	"\aazimuth\x18\x01 \x01(\x02B#\xbaH \n" +
-	"\x1eM\x00\x00\x00\x00M\x00\x00\xb4BM\x00\x004CM\x00\x00\x87C\x15\x00\x00\xb4C-\x00\x00\x00\x00R\aazimuth\x12M\n" +
-	"\razimuth_speed\x18\x02 \x01(\x02B(\xbaH%\n" +
-	"#M\x00\x00\x80\xbfM\x00\x00\x00\xbfM\x00\x00\x00\x00M\x00\x00\x00?M\x00\x00\x80?\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\fazimuthSpeed\x12<\n" +
-	"\televation\x18\x03 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x004\xc2M\x00\x00\x00\x00M\x00\x004B\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\televation\x12Q\n" +
-	"\x0felevation_speed\x18\x04 \x01(\x02B(\xbaH%\n" +
-	"#M\x00\x00\x80\xbfM\x00\x00\x00\xbfM\x00\x00\x00\x00M\x00\x00\x00?M\x00\x00\x80?\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x0eelevationSpeed\x12N\n" +
-	"\x10platform_azimuth\x18\x05 \x01(\x02B#\xbaH \n" +
-	"\x1eM\x00\x00\x00\x00M\x00\x00\xb4BM\x00\x004CM\x00\x00\x87C\x15\x00\x00\xb4C-\x00\x00\x00\x00R\x0fplatformAzimuth\x12M\n" +
-	"\x12platform_elevation\x18\x06 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x004\xc2M\x00\x00\x00\x00M\x00\x004B\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\x11platformElevation\x12C\n" +
-	"\rplatform_bank\x18\a \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xb4\xc2M\x00\x00\x00\x00M\x00\x00\xb4B\x15\x00\x004C-\x00\x004\xc3R\fplatformBank\x12\x1b\n" +
+	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfd\t\n" +
+	"\x10JonGuiDataRotary\x12U\n" +
+	"\aazimuth\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\aazimuth\x12i\n" +
+	"\razimuth_speed\x18\x02 \x01(\x01BD\xbaHA\x12?I\x00\x00\x00\x00\x00\x00\xf0\xbfI\x00\x00\x00\x00\x00\x00\xe0\xbfI\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\xe0?I\x00\x00\x00\x00\x00\x00\xf0?\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\fazimuthSpeed\x12P\n" +
+	"\televation\x18\x03 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80F\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80F@\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\televation\x12m\n" +
+	"\x0felevation_speed\x18\x04 \x01(\x01BD\xbaHA\x12?I\x00\x00\x00\x00\x00\x00\xf0\xbfI\x00\x00\x00\x00\x00\x00\xe0\xbfI\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\xe0?I\x00\x00\x00\x00\x00\x00\xf0?\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x0eelevationSpeed\x12f\n" +
+	"\x10platform_azimuth\x18\x05 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\x0fplatformAzimuth\x12a\n" +
+	"\x12platform_elevation\x18\x06 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80F\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80F@\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\x11platformElevation\x12W\n" +
+	"\rplatform_bank\x18\a \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80V\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\fplatformBank\x12\x1b\n" +
 	"\tis_moving\x18\b \x01(\bR\bisMoving\x129\n" +
 	"\x04mode\x18\t \x01(\x0e2\x19.ser.JonGuiDataRotaryModeB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\x12\x1f\n" +
@@ -319,12 +312,10 @@ const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\x1a\b@\x01@\x02@\x03(\x00R\n" +
 	"scanTarget\x125\n" +
 	"\x0fscan_target_max\x18\x0e \x01(\x05B\r\xbaH\n" +
-	"\x1a\b@\x01@\x02@\x03(\x00R\rscanTargetMax\x12D\n" +
-	"\vsun_azimuth\x18\x0f \x01(\x02B#\xbaH \n" +
-	"\x1eM\x00\x00\x00\x00M\x00\x00\xb4BM\x00\x004CM\x00\x00\x87C\x15\x00\x00\xb4C-\x00\x00\x00\x00R\n" +
-	"sunAzimuth\x12H\n" +
-	"\rsun_elevation\x18\x10 \x01(\x02B#\xbaH \n" +
-	"\x1eM\x00\x00\x00\x00M\x00\x00\xb4BM\x00\x004CM\x00\x00\x87C\x15\x00\x00\xb4C-\x00\x00\x00\x00R\fsunElevation\x12A\n" +
+	"\x1a\b@\x01@\x02@\x03(\x00R\rscanTargetMax\x12\\\n" +
+	"\vsun_azimuth\x18\x0f \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
+	"sunAzimuth\x12`\n" +
+	"\rsun_elevation\x18\x10 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\fsunElevation\x12A\n" +
 	"\x11current_scan_node\x18\x11 \x01(\v2\r.ser.ScanNodeB\x06\xbaH\x03\xc8\x01\x01R\x0fcurrentScanNode\"\xda\x02\n" +
 	"\bScanNode\x12\x1d\n" +
 	"\x05index\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x05index\x125\n" +

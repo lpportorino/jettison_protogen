@@ -30,10 +30,10 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.SetValue}
@@ -73,13 +73,13 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -97,8 +97,8 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -109,9 +109,9 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -128,8 +128,8 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.SetValue other = (cmd.DayCamera.JonSharedCmdDayCamera.SetValue) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -143,8 +143,8 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -276,7 +276,7 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -327,7 +327,7 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.SetValue other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.SetValue.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -356,11 +356,11 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -378,21 +378,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -400,12 +400,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -466,16 +466,16 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The targetValue.
      */
-    float getTargetValue();
+    double getTargetValue();
 
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
-    float getSpeed();
+    double getSpeed();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.Move}
@@ -515,24 +515,24 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int TARGET_VALUE_FIELD_NUMBER = 1;
-    private float targetValue_ = 0F;
+    private double targetValue_ = 0D;
     /**
-     * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The targetValue.
      */
     @java.lang.Override
-    public float getTargetValue() {
+    public double getTargetValue() {
       return targetValue_;
     }
 
     public static final int SPEED_FIELD_NUMBER = 2;
-    private float speed_ = 0F;
+    private double speed_ = 0D;
     /**
-     * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The speed.
      */
     @java.lang.Override
-    public float getSpeed() {
+    public double getSpeed() {
       return speed_;
     }
 
@@ -550,11 +550,11 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(targetValue_) != 0) {
-        output.writeFloat(1, targetValue_);
+      if (java.lang.Double.doubleToRawLongBits(targetValue_) != 0) {
+        output.writeDouble(1, targetValue_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
-        output.writeFloat(2, speed_);
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
+        output.writeDouble(2, speed_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -565,13 +565,13 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(targetValue_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(targetValue_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, targetValue_);
+          .computeDoubleSize(1, targetValue_);
       }
-      if (java.lang.Float.floatToRawIntBits(speed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(speed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, speed_);
+          .computeDoubleSize(2, speed_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -588,11 +588,11 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.Move other = (cmd.DayCamera.JonSharedCmdDayCamera.Move) obj;
 
-      if (java.lang.Float.floatToIntBits(getTargetValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getTargetValue())
+          != java.lang.Double.doubleToLongBits(
               other.getTargetValue())) return false;
-      if (java.lang.Float.floatToIntBits(getSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getSpeed())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -606,11 +606,11 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TARGET_VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getTargetValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getTargetValue()));
       hash = (37 * hash) + SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSpeed()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -742,8 +742,8 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        targetValue_ = 0F;
-        speed_ = 0F;
+        targetValue_ = 0D;
+        speed_ = 0D;
         return this;
       }
 
@@ -797,10 +797,10 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.Move other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.Move.getDefaultInstance()) return this;
-        if (other.getTargetValue() != 0F) {
+        if (other.getTargetValue() != 0D) {
           setTargetValue(other.getTargetValue());
         }
-        if (other.getSpeed() != 0F) {
+        if (other.getSpeed() != 0D) {
           setSpeed(other.getSpeed());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -829,16 +829,16 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                targetValue_ = input.readFloat();
+              case 9: {
+                targetValue_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                speed_ = input.readFloat();
+              } // case 9
+              case 17: {
+                speed_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
+              } // case 17
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -856,21 +856,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float targetValue_ ;
+      private double targetValue_ ;
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The targetValue.
        */
       @java.lang.Override
-      public float getTargetValue() {
+      public double getTargetValue() {
         return targetValue_;
       }
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The targetValue to set.
        * @return This builder for chaining.
        */
-      public Builder setTargetValue(float value) {
+      public Builder setTargetValue(double value) {
 
         targetValue_ = value;
         bitField0_ |= 0x00000001;
@@ -878,31 +878,31 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float target_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double target_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearTargetValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        targetValue_ = 0F;
+        targetValue_ = 0D;
         onChanged();
         return this;
       }
 
-      private float speed_ ;
+      private double speed_ ;
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return The speed.
        */
       @java.lang.Override
-      public float getSpeed() {
+      public double getSpeed() {
         return speed_;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The speed to set.
        * @return This builder for chaining.
        */
-      public Builder setSpeed(float value) {
+      public Builder setSpeed(double value) {
 
         speed_ = value;
         bitField0_ |= 0x00000002;
@@ -910,12 +910,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSpeed() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        speed_ = 0F;
+        speed_ = 0D;
         onChanged();
         return this;
       }
@@ -976,10 +976,10 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float offset_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double offset_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The offsetValue.
      */
-    float getOffsetValue();
+    double getOffsetValue();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.Offset}
@@ -1019,13 +1019,13 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int OFFSET_VALUE_FIELD_NUMBER = 1;
-    private float offsetValue_ = 0F;
+    private double offsetValue_ = 0D;
     /**
-     * <code>float offset_value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double offset_value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The offsetValue.
      */
     @java.lang.Override
-    public float getOffsetValue() {
+    public double getOffsetValue() {
       return offsetValue_;
     }
 
@@ -1043,8 +1043,8 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(offsetValue_) != 0) {
-        output.writeFloat(1, offsetValue_);
+      if (java.lang.Double.doubleToRawLongBits(offsetValue_) != 0) {
+        output.writeDouble(1, offsetValue_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1055,9 +1055,9 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(offsetValue_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(offsetValue_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, offsetValue_);
+          .computeDoubleSize(1, offsetValue_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1074,8 +1074,8 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.Offset other = (cmd.DayCamera.JonSharedCmdDayCamera.Offset) obj;
 
-      if (java.lang.Float.floatToIntBits(getOffsetValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getOffsetValue())
+          != java.lang.Double.doubleToLongBits(
               other.getOffsetValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -1089,8 +1089,8 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + OFFSET_VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getOffsetValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getOffsetValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1222,7 +1222,7 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        offsetValue_ = 0F;
+        offsetValue_ = 0D;
         return this;
       }
 
@@ -1273,7 +1273,7 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.Offset other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.Offset.getDefaultInstance()) return this;
-        if (other.getOffsetValue() != 0F) {
+        if (other.getOffsetValue() != 0D) {
           setOffsetValue(other.getOffsetValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1302,11 +1302,11 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                offsetValue_ = input.readFloat();
+              case 9: {
+                offsetValue_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1324,21 +1324,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float offsetValue_ ;
+      private double offsetValue_ ;
       /**
-       * <code>float offset_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double offset_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The offsetValue.
        */
       @java.lang.Override
-      public float getOffsetValue() {
+      public double getOffsetValue() {
         return offsetValue_;
       }
       /**
-       * <code>float offset_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double offset_value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The offsetValue to set.
        * @return This builder for chaining.
        */
-      public Builder setOffsetValue(float value) {
+      public Builder setOffsetValue(double value) {
 
         offsetValue_ = value;
         bitField0_ |= 0x00000001;
@@ -1346,12 +1346,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float offset_value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double offset_value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearOffsetValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        offsetValue_ = 0F;
+        offsetValue_ = 0D;
         onChanged();
         return this;
       }
@@ -1412,10 +1412,10 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.SetClaheLevel}
@@ -1455,13 +1455,13 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -1479,8 +1479,8 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1491,9 +1491,9 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1510,8 +1510,8 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.SetClaheLevel other = (cmd.DayCamera.JonSharedCmdDayCamera.SetClaheLevel) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -1525,8 +1525,8 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1658,7 +1658,7 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -1709,7 +1709,7 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.SetClaheLevel other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.SetClaheLevel.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1738,11 +1738,11 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1760,21 +1760,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -1782,12 +1782,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -1848,10 +1848,10 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.ShiftClaheLevel}
@@ -1891,13 +1891,13 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -1915,8 +1915,8 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1927,9 +1927,9 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1946,8 +1946,8 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.ShiftClaheLevel other = (cmd.DayCamera.JonSharedCmdDayCamera.ShiftClaheLevel) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -1961,8 +1961,8 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2094,7 +2094,7 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -2145,7 +2145,7 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.ShiftClaheLevel other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.ShiftClaheLevel.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -2174,11 +2174,11 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2196,21 +2196,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -2218,12 +2218,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -8756,10 +8756,10 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.SetDigitalZoomLevel}
@@ -8799,13 +8799,13 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -8823,8 +8823,8 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -8835,9 +8835,9 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -8854,8 +8854,8 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.SetDigitalZoomLevel other = (cmd.DayCamera.JonSharedCmdDayCamera.SetDigitalZoomLevel) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -8869,8 +8869,8 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -9002,7 +9002,7 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -9053,7 +9053,7 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.SetDigitalZoomLevel other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.SetDigitalZoomLevel.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -9082,11 +9082,11 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -9104,21 +9104,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -9126,12 +9126,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -14125,10 +14125,10 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.SetIris}
@@ -14168,13 +14168,13 @@ public final class JonSharedCmdDayCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -14192,8 +14192,8 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -14204,9 +14204,9 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -14223,8 +14223,8 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.SetIris other = (cmd.DayCamera.JonSharedCmdDayCamera.SetIris) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -14238,8 +14238,8 @@ public final class JonSharedCmdDayCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -14371,7 +14371,7 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -14422,7 +14422,7 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.SetIris other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.SetIris.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -14451,11 +14451,11 @@ public final class JonSharedCmdDayCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -14473,21 +14473,21 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -14495,12 +14495,12 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -19216,69 +19216,71 @@ public final class JonSharedCmdDayCamera {
     java.lang.String[] descriptorData = {
       "\n\037jon_shared_cmd_day_camera.proto\022\rcmd.D" +
       "ayCamera\032\033buf/validate/validate.proto\032\033j" +
-      "on_shared_data_types.proto\"*\n\010SetValue\022\036" +
-      "\n\005value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\"M\n\004Move\022%" +
-      "\n\014target_value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\022\036\n" +
-      "\005speed\030\002 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\000\000\"/\n\006Offset\022" +
-      "%\n\014offset_value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\"/" +
-      "\n\rSetClaheLevel\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n\035\000\000" +
-      "\200?-\000\000\000\000\"1\n\017ShiftClaheLevel\022\036\n\005value\030\001 \001(" +
-      "\002B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\"\334\006\n\004Root\022%\n\005focus\030\001 \001" +
-      "(\0132\024.cmd.DayCamera.FocusH\000\022#\n\004zoom\030\002 \001(\013" +
-      "2\023.cmd.DayCamera.ZoomH\000\022*\n\010set_iris\030\003 \001(" +
-      "\0132\026.cmd.DayCamera.SetIrisH\000\022@\n\024set_infra" +
-      "_red_filter\030\004 \001(\0132 .cmd.DayCamera.SetInf" +
-      "raRedFilterH\000\022%\n\005start\030\005 \001(\0132\024.cmd.DayCa" +
-      "mera.StartH\000\022#\n\004stop\030\006 \001(\0132\023.cmd.DayCame" +
-      "ra.StopH\000\022%\n\005photo\030\007 \001(\0132\024.cmd.DayCamera" +
-      ".PhotoH\000\0223\n\rset_auto_iris\030\010 \001(\0132\032.cmd.Da" +
-      "yCamera.SetAutoIrisH\000\022*\n\010halt_all\030\t \001(\0132" +
-      "\026.cmd.DayCamera.HaltAllH\000\022/\n\013set_fx_mode" +
-      "\030\n \001(\0132\030.cmd.DayCamera.SetFxModeH\000\0221\n\014ne" +
-      "xt_fx_mode\030\013 \001(\0132\031.cmd.DayCamera.NextFxM" +
-      "odeH\000\0221\n\014prev_fx_mode\030\014 \001(\0132\031.cmd.DayCam" +
-      "era.PrevFxModeH\000\022,\n\tget_meteo\030\r \001(\0132\027.cm" +
-      "d.DayCamera.GetMeteoH\000\0227\n\017refresh_fx_mod" +
-      "e\030\016 \001(\0132\034.cmd.DayCamera.RefreshFxModeH\000\022" +
-      "D\n\026set_digital_zoom_level\030\017 \001(\0132\".cmd.Da" +
-      "yCamera.SetDigitalZoomLevelH\000\0227\n\017set_cla" +
-      "he_level\030\020 \001(\0132\034.cmd.DayCamera.SetClaheL" +
-      "evelH\000\022;\n\021shift_clahe_level\030\021 \001(\0132\036.cmd." +
-      "DayCamera.ShiftClaheLevelH\000B\014\n\003cmd\022\005\272H\002\010" +
-      "\001\"\010\n\006GetPos\"\014\n\nNextFxMode\"\014\n\nPrevFxMode\"" +
-      "\017\n\rRefreshFxMode\"\t\n\007HaltAll\"?\n\tSetFxMode" +
-      "\0222\n\004mode\030\001 \001(\0162\030.ser.JonGuiDataFxModeDay" +
-      "B\n\272H\007\202\001\004\020\001 \000\"0\n\023SetDigitalZoomLevel\022\031\n\005v" +
-      "alue\030\001 \001(\002B\n\272H\007\n\005-\000\000\200?\"\250\002\n\005Focus\022,\n\tset_" +
-      "value\030\001 \001(\0132\027.cmd.DayCamera.SetValueH\000\022#" +
-      "\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH\000\022#\n\004h" +
-      "alt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022\'\n\006offs" +
-      "et\030\004 \001(\0132\025.cmd.DayCamera.OffsetH\000\0220\n\013res" +
-      "et_focus\030\005 \001(\0132\031.cmd.DayCamera.ResetFocu" +
-      "sH\000\022>\n\023save_to_table_focus\030\006 \001(\0132\037.cmd.D" +
-      "ayCamera.SaveToTableFocusH\000B\014\n\003cmd\022\005\272H\002\010" +
-      "\001\"\334\003\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.DayC" +
-      "amera.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.Day" +
-      "Camera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCam" +
-      "era.HaltH\000\022@\n\024set_zoom_table_value\030\004 \001(\013" +
-      "2 .cmd.DayCamera.SetZoomTableValueH\000\022>\n\023" +
-      "next_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCamer" +
-      "a.NextZoomTablePosH\000\022>\n\023prev_zoom_table_" +
-      "pos\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTableP" +
-      "osH\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Off" +
-      "setH\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCamer" +
-      "a.ResetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032.c" +
-      "md.DayCamera.SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010\001" +
-      "\"\022\n\020NextZoomTablePos\"\022\n\020PrevZoomTablePos" +
-      "\")\n\007SetIris\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000" +
-      "\000\000\000\"\"\n\021SetInfraRedFilter\022\r\n\005value\030\001 \001(\010\"" +
-      "\034\n\013SetAutoIris\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoom" +
-      "TableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004St" +
-      "op\"\007\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo" +
-      "\"\013\n\tResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTab" +
-      "le\"\022\n\020SaveToTableFocusBQZOgit-codecommit" +
-      ".eu-central-1.amazonaws.com/v1/repos/jet" +
-      "tison/jonp/cmd/day_camerab\006proto3"
+      "on_shared_data_types.proto\"2\n\010SetValue\022&" +
+      "\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"]" +
+      "\n\004Move\022-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\000\360?)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\000\360?)\000\000\000\000\000\000\000\000\"7\n\006Offset\022-\n\014offset_value\030" +
+      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"7\n\rSetCla" +
+      "heLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000" +
+      "\000\000\000\000\000\000\000\"9\n\017ShiftClaheLevel\022&\n\005value\030\001 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\334\006\n\004Root\022%\n\005f" +
+      "ocus\030\001 \001(\0132\024.cmd.DayCamera.FocusH\000\022#\n\004zo" +
+      "om\030\002 \001(\0132\023.cmd.DayCamera.ZoomH\000\022*\n\010set_i" +
+      "ris\030\003 \001(\0132\026.cmd.DayCamera.SetIrisH\000\022@\n\024s" +
+      "et_infra_red_filter\030\004 \001(\0132 .cmd.DayCamer" +
+      "a.SetInfraRedFilterH\000\022%\n\005start\030\005 \001(\0132\024.c" +
+      "md.DayCamera.StartH\000\022#\n\004stop\030\006 \001(\0132\023.cmd" +
+      ".DayCamera.StopH\000\022%\n\005photo\030\007 \001(\0132\024.cmd.D" +
+      "ayCamera.PhotoH\000\0223\n\rset_auto_iris\030\010 \001(\0132" +
+      "\032.cmd.DayCamera.SetAutoIrisH\000\022*\n\010halt_al" +
+      "l\030\t \001(\0132\026.cmd.DayCamera.HaltAllH\000\022/\n\013set" +
+      "_fx_mode\030\n \001(\0132\030.cmd.DayCamera.SetFxMode" +
+      "H\000\0221\n\014next_fx_mode\030\013 \001(\0132\031.cmd.DayCamera" +
+      ".NextFxModeH\000\0221\n\014prev_fx_mode\030\014 \001(\0132\031.cm" +
+      "d.DayCamera.PrevFxModeH\000\022,\n\tget_meteo\030\r " +
+      "\001(\0132\027.cmd.DayCamera.GetMeteoH\000\0227\n\017refres" +
+      "h_fx_mode\030\016 \001(\0132\034.cmd.DayCamera.RefreshF" +
+      "xModeH\000\022D\n\026set_digital_zoom_level\030\017 \001(\0132" +
+      "\".cmd.DayCamera.SetDigitalZoomLevelH\000\0227\n" +
+      "\017set_clahe_level\030\020 \001(\0132\034.cmd.DayCamera.S" +
+      "etClaheLevelH\000\022;\n\021shift_clahe_level\030\021 \001(" +
+      "\0132\036.cmd.DayCamera.ShiftClaheLevelH\000B\014\n\003c" +
+      "md\022\005\272H\002\010\001\"\010\n\006GetPos\"\014\n\nNextFxMode\"\014\n\nPre" +
+      "vFxMode\"\017\n\rRefreshFxMode\"\t\n\007HaltAll\"?\n\tS" +
+      "etFxMode\0222\n\004mode\030\001 \001(\0162\030.ser.JonGuiDataF" +
+      "xModeDayB\n\272H\007\202\001\004\020\001 \000\"4\n\023SetDigitalZoomLe" +
+      "vel\022\035\n\005value\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\"\250\002\n\005F" +
+      "ocus\022,\n\tset_value\030\001 \001(\0132\027.cmd.DayCamera." +
+      "SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.DayCamera" +
+      ".MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCamera.Ha" +
+      "ltH\000\022\'\n\006offset\030\004 \001(\0132\025.cmd.DayCamera.Off" +
+      "setH\000\0220\n\013reset_focus\030\005 \001(\0132\031.cmd.DayCame" +
+      "ra.ResetFocusH\000\022>\n\023save_to_table_focus\030\006" +
+      " \001(\0132\037.cmd.DayCamera.SaveToTableFocusH\000B" +
+      "\014\n\003cmd\022\005\272H\002\010\001\"\334\003\n\004Zoom\022,\n\tset_value\030\001 \001(" +
+      "\0132\027.cmd.DayCamera.SetValueH\000\022#\n\004move\030\002 \001" +
+      "(\0132\023.cmd.DayCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132" +
+      "\023.cmd.DayCamera.HaltH\000\022@\n\024set_zoom_table" +
+      "_value\030\004 \001(\0132 .cmd.DayCamera.SetZoomTabl" +
+      "eValueH\000\022>\n\023next_zoom_table_pos\030\005 \001(\0132\037." +
+      "cmd.DayCamera.NextZoomTablePosH\000\022>\n\023prev" +
+      "_zoom_table_pos\030\006 \001(\0132\037.cmd.DayCamera.Pr" +
+      "evZoomTablePosH\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.D" +
+      "ayCamera.OffsetH\000\022.\n\nreset_zoom\030\010 \001(\0132\030." +
+      "cmd.DayCamera.ResetZoomH\000\0223\n\rsave_to_tab" +
+      "le\030\t \001(\0132\032.cmd.DayCamera.SaveToTableH\000B\014" +
+      "\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoomTablePos\"\022\n\020Prev" +
+      "ZoomTablePos\"1\n\007SetIris\022&\n\005value\030\001 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"\"\n\021SetInfraRedFi" +
+      "lter\022\r\n\005value\030\001 \001(\010\"\034\n\013SetAutoIris\022\r\n\005va" +
+      "lue\030\001 \001(\010\"+\n\021SetZoomTableValue\022\026\n\005value\030" +
+      "\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007\n\005Start\"\007\n\005Photo" +
+      "\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\tResetZoom\"\014\n\nRes" +
+      "etFocus\"\r\n\013SaveToTable\"\022\n\020SaveToTableFoc" +
+      "usBQZOgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/cmd/day_c" +
+      "amerab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

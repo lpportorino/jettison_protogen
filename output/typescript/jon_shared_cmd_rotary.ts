@@ -873,7 +873,7 @@ function createBaseSetAzimuthValue(): SetAzimuthValue {
 export const SetAzimuthValue: MessageFns<SetAzimuthValue> = {
   encode(message: SetAzimuthValue, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     if (message.direction !== 0) {
       writer.uint32(16).int32(message.direction);
@@ -889,11 +889,11 @@ export const SetAzimuthValue: MessageFns<SetAzimuthValue> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
         case 2: {
@@ -949,10 +949,10 @@ function createBaseRotateAzimuthTo(): RotateAzimuthTo {
 export const RotateAzimuthTo: MessageFns<RotateAzimuthTo> = {
   encode(message: RotateAzimuthTo, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.targetValue !== 0) {
-      writer.uint32(13).float(message.targetValue);
+      writer.uint32(9).double(message.targetValue);
     }
     if (message.speed !== 0) {
-      writer.uint32(21).float(message.speed);
+      writer.uint32(17).double(message.speed);
     }
     if (message.direction !== 0) {
       writer.uint32(24).int32(message.direction);
@@ -968,19 +968,19 @@ export const RotateAzimuthTo: MessageFns<RotateAzimuthTo> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.targetValue = reader.float();
+          message.targetValue = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.speed = reader.float();
+          message.speed = reader.double();
           continue;
         }
         case 3: {
@@ -1041,7 +1041,7 @@ function createBaseRotateAzimuth(): RotateAzimuth {
 export const RotateAzimuth: MessageFns<RotateAzimuth> = {
   encode(message: RotateAzimuth, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.speed !== 0) {
-      writer.uint32(13).float(message.speed);
+      writer.uint32(9).double(message.speed);
     }
     if (message.direction !== 0) {
       writer.uint32(16).int32(message.direction);
@@ -1057,11 +1057,11 @@ export const RotateAzimuth: MessageFns<RotateAzimuth> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.speed = reader.float();
+          message.speed = reader.double();
           continue;
         }
         case 2: {
@@ -1117,7 +1117,7 @@ function createBaseRotateElevation(): RotateElevation {
 export const RotateElevation: MessageFns<RotateElevation> = {
   encode(message: RotateElevation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.speed !== 0) {
-      writer.uint32(13).float(message.speed);
+      writer.uint32(9).double(message.speed);
     }
     if (message.direction !== 0) {
       writer.uint32(16).int32(message.direction);
@@ -1133,11 +1133,11 @@ export const RotateElevation: MessageFns<RotateElevation> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.speed = reader.float();
+          message.speed = reader.double();
           continue;
         }
         case 2: {
@@ -1193,7 +1193,7 @@ function createBaseSetElevationValue(): SetElevationValue {
 export const SetElevationValue: MessageFns<SetElevationValue> = {
   encode(message: SetElevationValue, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -1206,11 +1206,11 @@ export const SetElevationValue: MessageFns<SetElevationValue> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -1251,10 +1251,10 @@ function createBaseRotateElevationTo(): RotateElevationTo {
 export const RotateElevationTo: MessageFns<RotateElevationTo> = {
   encode(message: RotateElevationTo, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.targetValue !== 0) {
-      writer.uint32(13).float(message.targetValue);
+      writer.uint32(9).double(message.targetValue);
     }
     if (message.speed !== 0) {
-      writer.uint32(21).float(message.speed);
+      writer.uint32(17).double(message.speed);
     }
     return writer;
   },
@@ -1267,19 +1267,19 @@ export const RotateElevationTo: MessageFns<RotateElevationTo> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.targetValue = reader.float();
+          message.targetValue = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.speed = reader.float();
+          message.speed = reader.double();
           continue;
         }
       }
@@ -1327,10 +1327,10 @@ function createBaseRotateElevationRelative(): RotateElevationRelative {
 export const RotateElevationRelative: MessageFns<RotateElevationRelative> = {
   encode(message: RotateElevationRelative, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     if (message.speed !== 0) {
-      writer.uint32(21).float(message.speed);
+      writer.uint32(17).double(message.speed);
     }
     if (message.direction !== 0) {
       writer.uint32(24).int32(message.direction);
@@ -1346,19 +1346,19 @@ export const RotateElevationRelative: MessageFns<RotateElevationRelative> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.speed = reader.float();
+          message.speed = reader.double();
           continue;
         }
         case 3: {
@@ -1419,7 +1419,7 @@ function createBaseRotateElevationRelativeSet(): RotateElevationRelativeSet {
 export const RotateElevationRelativeSet: MessageFns<RotateElevationRelativeSet> = {
   encode(message: RotateElevationRelativeSet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     if (message.direction !== 0) {
       writer.uint32(16).int32(message.direction);
@@ -1435,11 +1435,11 @@ export const RotateElevationRelativeSet: MessageFns<RotateElevationRelativeSet> 
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
         case 2: {
@@ -1495,10 +1495,10 @@ function createBaseRotateAzimuthRelative(): RotateAzimuthRelative {
 export const RotateAzimuthRelative: MessageFns<RotateAzimuthRelative> = {
   encode(message: RotateAzimuthRelative, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     if (message.speed !== 0) {
-      writer.uint32(21).float(message.speed);
+      writer.uint32(17).double(message.speed);
     }
     if (message.direction !== 0) {
       writer.uint32(24).int32(message.direction);
@@ -1514,19 +1514,19 @@ export const RotateAzimuthRelative: MessageFns<RotateAzimuthRelative> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.speed = reader.float();
+          message.speed = reader.double();
           continue;
         }
         case 3: {
@@ -1587,7 +1587,7 @@ function createBaseRotateAzimuthRelativeSet(): RotateAzimuthRelativeSet {
 export const RotateAzimuthRelativeSet: MessageFns<RotateAzimuthRelativeSet> = {
   encode(message: RotateAzimuthRelativeSet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     if (message.direction !== 0) {
       writer.uint32(16).int32(message.direction);
@@ -1603,11 +1603,11 @@ export const RotateAzimuthRelativeSet: MessageFns<RotateAzimuthRelativeSet> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
         case 2: {
@@ -1663,7 +1663,7 @@ function createBaseSetPlatformAzimuth(): SetPlatformAzimuth {
 export const SetPlatformAzimuth: MessageFns<SetPlatformAzimuth> = {
   encode(message: SetPlatformAzimuth, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -1676,11 +1676,11 @@ export const SetPlatformAzimuth: MessageFns<SetPlatformAzimuth> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -1721,7 +1721,7 @@ function createBaseSetPlatformElevation(): SetPlatformElevation {
 export const SetPlatformElevation: MessageFns<SetPlatformElevation> = {
   encode(message: SetPlatformElevation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -1734,11 +1734,11 @@ export const SetPlatformElevation: MessageFns<SetPlatformElevation> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -1779,7 +1779,7 @@ function createBaseSetPlatformBank(): SetPlatformBank {
 export const SetPlatformBank: MessageFns<SetPlatformBank> = {
   encode(message: SetPlatformBank, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -1792,11 +1792,11 @@ export const SetPlatformBank: MessageFns<SetPlatformBank> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -3200,13 +3200,13 @@ function createBaseRotateToGPS(): RotateToGPS {
 export const RotateToGPS: MessageFns<RotateToGPS> = {
   encode(message: RotateToGPS, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.latitude !== 0) {
-      writer.uint32(13).float(message.latitude);
+      writer.uint32(9).double(message.latitude);
     }
     if (message.longitude !== 0) {
-      writer.uint32(21).float(message.longitude);
+      writer.uint32(17).double(message.longitude);
     }
     if (message.altitude !== 0) {
-      writer.uint32(29).float(message.altitude);
+      writer.uint32(25).double(message.altitude);
     }
     return writer;
   },
@@ -3219,27 +3219,27 @@ export const RotateToGPS: MessageFns<RotateToGPS> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.latitude = reader.float();
+          message.latitude = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.longitude = reader.float();
+          message.longitude = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.altitude = reader.float();
+          message.altitude = reader.double();
           continue;
         }
       }
@@ -3292,13 +3292,13 @@ function createBaseSetOriginGPS(): SetOriginGPS {
 export const SetOriginGPS: MessageFns<SetOriginGPS> = {
   encode(message: SetOriginGPS, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.latitude !== 0) {
-      writer.uint32(13).float(message.latitude);
+      writer.uint32(9).double(message.latitude);
     }
     if (message.longitude !== 0) {
-      writer.uint32(21).float(message.longitude);
+      writer.uint32(17).double(message.longitude);
     }
     if (message.altitude !== 0) {
-      writer.uint32(29).float(message.altitude);
+      writer.uint32(25).double(message.altitude);
     }
     return writer;
   },
@@ -3311,27 +3311,27 @@ export const SetOriginGPS: MessageFns<SetOriginGPS> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.latitude = reader.float();
+          message.latitude = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.longitude = reader.float();
+          message.longitude = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.altitude = reader.float();
+          message.altitude = reader.double();
           continue;
         }
       }
@@ -3387,10 +3387,10 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
       writer.uint32(8).int32(message.channel);
     }
     if (message.x !== 0) {
-      writer.uint32(21).float(message.x);
+      writer.uint32(17).double(message.x);
     }
     if (message.y !== 0) {
-      writer.uint32(29).float(message.y);
+      writer.uint32(25).double(message.y);
     }
     return writer;
   },
@@ -3411,19 +3411,19 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.x = reader.float();
+          message.x = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.y = reader.float();
+          message.y = reader.double();
           continue;
         }
       }

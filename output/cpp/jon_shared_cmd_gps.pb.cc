@@ -255,8 +255,8 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fgps_2eproto[] ABSL_ATT
     "_meteo\030\005 \001(\0132\021.cmd.Gps.GetMeteoH\000B\005\n\003cmd"
     "\"\007\n\005Start\"\006\n\004Stop\"\n\n\010GetMeteo\"$\n\024SetUseM"
     "anualPosition\022\014\n\004flag\030\001 \001(\010\"J\n\021SetManual"
-    "Position\022\020\n\010latitude\030\001 \001(\002\022\021\n\tlongitude\030"
-    "\002 \001(\002\022\020\n\010altitude\030\003 \001(\002BJZHgit-codecommi"
+    "Position\022\020\n\010latitude\030\001 \001(\001\022\021\n\tlongitude\030"
+    "\002 \001(\001\022\020\n\010altitude\030\003 \001(\001BJZHgit-codecommi"
     "t.eu-central-1.amazonaws.com/v1/repos/je"
     "ttison/jonp/cmd/gpsb\006proto3"
 };
@@ -1389,27 +1389,27 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> SetManualPosition::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float latitude = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.latitude_)}},
-    // float longitude = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.longitude_)}},
-    // float altitude = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.altitude_)}},
+    // double latitude = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.latitude_)}},
+    // double longitude = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.longitude_)}},
+    // double altitude = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.altitude_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float latitude = 1;
+    // double latitude = 1;
     {PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.latitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float longitude = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double longitude = 2;
     {PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.longitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float altitude = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double altitude = 3;
     {PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.altitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -1444,24 +1444,24 @@ PROTOBUF_NOINLINE void SetManualPosition::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float latitude = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
+          // double latitude = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_latitude(), target);
           }
 
-          // float longitude = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
+          // double longitude = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_longitude(), target);
           }
 
-          // float altitude = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_altitude()) != 0) {
+          // double altitude = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_altitude(), target);
           }
 
@@ -1490,17 +1490,17 @@ PROTOBUF_NOINLINE void SetManualPosition::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float latitude = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
-              total_size += 5;
+            // double latitude = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
+              total_size += 9;
             }
-            // float longitude = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
-              total_size += 5;
+            // double longitude = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
+              total_size += 9;
             }
-            // float altitude = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_altitude()) != 0) {
-              total_size += 5;
+            // double altitude = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1515,13 +1515,13 @@ void SetManualPosition::MergeImpl(::google::protobuf::MessageLite& to_msg, const
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_latitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_latitude()) != 0) {
     _this->_impl_.latitude_ = from._impl_.latitude_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_longitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_longitude()) != 0) {
     _this->_impl_.longitude_ = from._impl_.longitude_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_altitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_altitude()) != 0) {
     _this->_impl_.altitude_ = from._impl_.altitude_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);

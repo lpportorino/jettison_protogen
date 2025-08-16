@@ -22,13 +22,13 @@ typedef struct _ser_ScanNode {
 } ser_ScanNode;
 
 typedef struct _ser_JonGuiDataRotary {
-    float azimuth;
-    float azimuth_speed;
-    float elevation;
-    float elevation_speed;
-    float platform_azimuth;
-    float platform_elevation;
-    float platform_bank;
+    double azimuth;
+    double azimuth_speed;
+    double elevation;
+    double elevation_speed;
+    double platform_azimuth;
+    double platform_elevation;
+    double platform_bank;
     bool is_moving;
     ser_JonGuiDataRotaryMode mode;
     bool is_scanning;
@@ -36,8 +36,8 @@ typedef struct _ser_JonGuiDataRotary {
     bool use_rotary_as_compass;
     int32_t scan_target;
     int32_t scan_target_max;
-    float sun_azimuth;
-    float sun_elevation;
+    double sun_azimuth;
+    double sun_elevation;
     bool has_current_scan_node;
     ser_ScanNode current_scan_node;
 } ser_JonGuiDataRotary;
@@ -81,13 +81,13 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataRotary_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    azimuth,           1) \
-X(a, STATIC,   SINGULAR, FLOAT,    azimuth_speed,     2) \
-X(a, STATIC,   SINGULAR, FLOAT,    elevation,         3) \
-X(a, STATIC,   SINGULAR, FLOAT,    elevation_speed,   4) \
-X(a, STATIC,   SINGULAR, FLOAT,    platform_azimuth,   5) \
-X(a, STATIC,   SINGULAR, FLOAT,    platform_elevation,   6) \
-X(a, STATIC,   SINGULAR, FLOAT,    platform_bank,     7) \
+X(a, STATIC,   SINGULAR, DOUBLE,   azimuth,           1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   azimuth_speed,     2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   elevation,         3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   elevation_speed,   4) \
+X(a, STATIC,   SINGULAR, DOUBLE,   platform_azimuth,   5) \
+X(a, STATIC,   SINGULAR, DOUBLE,   platform_elevation,   6) \
+X(a, STATIC,   SINGULAR, DOUBLE,   platform_bank,     7) \
 X(a, STATIC,   SINGULAR, BOOL,     is_moving,         8) \
 X(a, STATIC,   SINGULAR, UENUM,    mode,              9) \
 X(a, STATIC,   SINGULAR, BOOL,     is_scanning,      10) \
@@ -95,8 +95,8 @@ X(a, STATIC,   SINGULAR, BOOL,     is_scanning_paused,  11) \
 X(a, STATIC,   SINGULAR, BOOL,     use_rotary_as_compass,  12) \
 X(a, STATIC,   SINGULAR, INT32,    scan_target,      13) \
 X(a, STATIC,   SINGULAR, INT32,    scan_target_max,  14) \
-X(a, STATIC,   SINGULAR, FLOAT,    sun_azimuth,      15) \
-X(a, STATIC,   SINGULAR, FLOAT,    sun_elevation,    16) \
+X(a, STATIC,   SINGULAR, DOUBLE,   sun_azimuth,      15) \
+X(a, STATIC,   SINGULAR, DOUBLE,   sun_elevation,    16) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  current_scan_node,  17)
 #define ser_JonGuiDataRotary_CALLBACK NULL
 #define ser_JonGuiDataRotary_DEFAULT NULL
@@ -122,7 +122,7 @@ extern const pb_msgdesc_t ser_ScanNode_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_ROTARY_PB_H_MAX_SIZE ser_JonGuiDataRotary_size
-#define ser_JonGuiDataRotary_size                150
+#define ser_JonGuiDataRotary_size                186
 #define ser_ScanNode_size                        69
 
 #ifdef __cplusplus

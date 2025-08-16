@@ -70,19 +70,19 @@ function createBaseJonGuiDataSystem(): JonGuiDataSystem {
 export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
   encode(message: JonGuiDataSystem, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.cpuTemperature !== 0) {
-      writer.uint32(13).float(message.cpuTemperature);
+      writer.uint32(9).double(message.cpuTemperature);
     }
     if (message.gpuTemperature !== 0) {
-      writer.uint32(21).float(message.gpuTemperature);
+      writer.uint32(17).double(message.gpuTemperature);
     }
     if (message.gpuLoad !== 0) {
-      writer.uint32(29).float(message.gpuLoad);
+      writer.uint32(25).double(message.gpuLoad);
     }
     if (message.cpuLoad !== 0) {
-      writer.uint32(37).float(message.cpuLoad);
+      writer.uint32(33).double(message.cpuLoad);
     }
     if (message.powerConsumption !== 0) {
-      writer.uint32(45).float(message.powerConsumption);
+      writer.uint32(41).double(message.powerConsumption);
     }
     if (message.loc !== 0) {
       writer.uint32(48).int32(message.loc);
@@ -149,43 +149,43 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.cpuTemperature = reader.float();
+          message.cpuTemperature = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.gpuTemperature = reader.float();
+          message.gpuTemperature = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.gpuLoad = reader.float();
+          message.gpuLoad = reader.double();
           continue;
         }
         case 4: {
-          if (tag !== 37) {
+          if (tag !== 33) {
             break;
           }
 
-          message.cpuLoad = reader.float();
+          message.cpuLoad = reader.double();
           continue;
         }
         case 5: {
-          if (tag !== 45) {
+          if (tag !== 41) {
             break;
           }
 
-          message.powerConsumption = reader.float();
+          message.powerConsumption = reader.double();
           continue;
         }
         case 6: {

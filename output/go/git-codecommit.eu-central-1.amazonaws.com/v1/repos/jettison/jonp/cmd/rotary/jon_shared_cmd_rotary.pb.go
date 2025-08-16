@@ -555,7 +555,7 @@ func (x *SetMode) GetMode() types.JonGuiDataRotaryMode {
 
 type SetAzimuthValue struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Value         float32                         `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                         `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,2,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -591,7 +591,7 @@ func (*SetAzimuthValue) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *SetAzimuthValue) GetValue() float32 {
+func (x *SetAzimuthValue) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -607,8 +607,8 @@ func (x *SetAzimuthValue) GetDirection() types.JonGuiDataRotaryDirection {
 
 type RotateAzimuthTo struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	TargetValue   float32                         `protobuf:"fixed32,1,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
-	Speed         float32                         `protobuf:"fixed32,2,opt,name=speed,proto3" json:"speed,omitempty"`
+	TargetValue   float64                         `protobuf:"fixed64,1,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
+	Speed         float64                         `protobuf:"fixed64,2,opt,name=speed,proto3" json:"speed,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,3,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -644,14 +644,14 @@ func (*RotateAzimuthTo) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *RotateAzimuthTo) GetTargetValue() float32 {
+func (x *RotateAzimuthTo) GetTargetValue() float64 {
 	if x != nil {
 		return x.TargetValue
 	}
 	return 0
 }
 
-func (x *RotateAzimuthTo) GetSpeed() float32 {
+func (x *RotateAzimuthTo) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -667,7 +667,7 @@ func (x *RotateAzimuthTo) GetDirection() types.JonGuiDataRotaryDirection {
 
 type RotateAzimuth struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Speed         float32                         `protobuf:"fixed32,1,opt,name=speed,proto3" json:"speed,omitempty"`
+	Speed         float64                         `protobuf:"fixed64,1,opt,name=speed,proto3" json:"speed,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,2,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -703,7 +703,7 @@ func (*RotateAzimuth) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *RotateAzimuth) GetSpeed() float32 {
+func (x *RotateAzimuth) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -719,7 +719,7 @@ func (x *RotateAzimuth) GetDirection() types.JonGuiDataRotaryDirection {
 
 type RotateElevation struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Speed         float32                         `protobuf:"fixed32,1,opt,name=speed,proto3" json:"speed,omitempty"`
+	Speed         float64                         `protobuf:"fixed64,1,opt,name=speed,proto3" json:"speed,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,2,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -755,7 +755,7 @@ func (*RotateElevation) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *RotateElevation) GetSpeed() float32 {
+func (x *RotateElevation) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -771,7 +771,7 @@ func (x *RotateElevation) GetDirection() types.JonGuiDataRotaryDirection {
 
 type SetElevationValue struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -806,7 +806,7 @@ func (*SetElevationValue) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *SetElevationValue) GetValue() float32 {
+func (x *SetElevationValue) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -815,8 +815,8 @@ func (x *SetElevationValue) GetValue() float32 {
 
 type RotateElevationTo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TargetValue   float32                `protobuf:"fixed32,1,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
-	Speed         float32                `protobuf:"fixed32,2,opt,name=speed,proto3" json:"speed,omitempty"`
+	TargetValue   float64                `protobuf:"fixed64,1,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
+	Speed         float64                `protobuf:"fixed64,2,opt,name=speed,proto3" json:"speed,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -851,14 +851,14 @@ func (*RotateElevationTo) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *RotateElevationTo) GetTargetValue() float32 {
+func (x *RotateElevationTo) GetTargetValue() float64 {
 	if x != nil {
 		return x.TargetValue
 	}
 	return 0
 }
 
-func (x *RotateElevationTo) GetSpeed() float32 {
+func (x *RotateElevationTo) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -867,8 +867,8 @@ func (x *RotateElevationTo) GetSpeed() float32 {
 
 type RotateElevationRelative struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Value         float32                         `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
-	Speed         float32                         `protobuf:"fixed32,2,opt,name=speed,proto3" json:"speed,omitempty"`
+	Value         float64                         `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
+	Speed         float64                         `protobuf:"fixed64,2,opt,name=speed,proto3" json:"speed,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,3,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -904,14 +904,14 @@ func (*RotateElevationRelative) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *RotateElevationRelative) GetValue() float32 {
+func (x *RotateElevationRelative) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
 	return 0
 }
 
-func (x *RotateElevationRelative) GetSpeed() float32 {
+func (x *RotateElevationRelative) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -927,7 +927,7 @@ func (x *RotateElevationRelative) GetDirection() types.JonGuiDataRotaryDirection
 
 type RotateElevationRelativeSet struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Value         float32                         `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                         `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,2,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -963,7 +963,7 @@ func (*RotateElevationRelativeSet) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *RotateElevationRelativeSet) GetValue() float32 {
+func (x *RotateElevationRelativeSet) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -979,8 +979,8 @@ func (x *RotateElevationRelativeSet) GetDirection() types.JonGuiDataRotaryDirect
 
 type RotateAzimuthRelative struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Value         float32                         `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
-	Speed         float32                         `protobuf:"fixed32,2,opt,name=speed,proto3" json:"speed,omitempty"`
+	Value         float64                         `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
+	Speed         float64                         `protobuf:"fixed64,2,opt,name=speed,proto3" json:"speed,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,3,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1016,14 +1016,14 @@ func (*RotateAzimuthRelative) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *RotateAzimuthRelative) GetValue() float32 {
+func (x *RotateAzimuthRelative) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
 	return 0
 }
 
-func (x *RotateAzimuthRelative) GetSpeed() float32 {
+func (x *RotateAzimuthRelative) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -1039,7 +1039,7 @@ func (x *RotateAzimuthRelative) GetDirection() types.JonGuiDataRotaryDirection {
 
 type RotateAzimuthRelativeSet struct {
 	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Value         float32                         `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                         `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	Direction     types.JonGuiDataRotaryDirection `protobuf:"varint,2,opt,name=direction,proto3,enum=ser.JonGuiDataRotaryDirection" json:"direction,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1075,7 +1075,7 @@ func (*RotateAzimuthRelativeSet) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *RotateAzimuthRelativeSet) GetValue() float32 {
+func (x *RotateAzimuthRelativeSet) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -1091,7 +1091,7 @@ func (x *RotateAzimuthRelativeSet) GetDirection() types.JonGuiDataRotaryDirectio
 
 type SetPlatformAzimuth struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1126,7 +1126,7 @@ func (*SetPlatformAzimuth) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *SetPlatformAzimuth) GetValue() float32 {
+func (x *SetPlatformAzimuth) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -1135,7 +1135,7 @@ func (x *SetPlatformAzimuth) GetValue() float32 {
 
 type SetPlatformElevation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1170,7 +1170,7 @@ func (*SetPlatformElevation) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *SetPlatformElevation) GetValue() float32 {
+func (x *SetPlatformElevation) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -1179,7 +1179,7 @@ func (x *SetPlatformElevation) GetValue() float32 {
 
 type SetPlatformBank struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1214,7 +1214,7 @@ func (*SetPlatformBank) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *SetPlatformBank) GetValue() float32 {
+func (x *SetPlatformBank) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -2299,9 +2299,9 @@ func (x *SetUseRotaryAsCompass) GetFlag() bool {
 
 type RotateToGPS struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Latitude      float32                `protobuf:"fixed32,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude     float32                `protobuf:"fixed32,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Altitude      float32                `protobuf:"fixed32,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
+	Latitude      float64                `protobuf:"fixed64,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude     float64                `protobuf:"fixed64,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Altitude      float64                `protobuf:"fixed64,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2336,21 +2336,21 @@ func (*RotateToGPS) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{36}
 }
 
-func (x *RotateToGPS) GetLatitude() float32 {
+func (x *RotateToGPS) GetLatitude() float64 {
 	if x != nil {
 		return x.Latitude
 	}
 	return 0
 }
 
-func (x *RotateToGPS) GetLongitude() float32 {
+func (x *RotateToGPS) GetLongitude() float64 {
 	if x != nil {
 		return x.Longitude
 	}
 	return 0
 }
 
-func (x *RotateToGPS) GetAltitude() float32 {
+func (x *RotateToGPS) GetAltitude() float64 {
 	if x != nil {
 		return x.Altitude
 	}
@@ -2359,9 +2359,9 @@ func (x *RotateToGPS) GetAltitude() float32 {
 
 type SetOriginGPS struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Latitude      float32                `protobuf:"fixed32,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude     float32                `protobuf:"fixed32,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Altitude      float32                `protobuf:"fixed32,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
+	Latitude      float64                `protobuf:"fixed64,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude     float64                `protobuf:"fixed64,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Altitude      float64                `protobuf:"fixed64,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2396,21 +2396,21 @@ func (*SetOriginGPS) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_rotary_proto_rawDescGZIP(), []int{37}
 }
 
-func (x *SetOriginGPS) GetLatitude() float32 {
+func (x *SetOriginGPS) GetLatitude() float64 {
 	if x != nil {
 		return x.Latitude
 	}
 	return 0
 }
 
-func (x *SetOriginGPS) GetLongitude() float32 {
+func (x *SetOriginGPS) GetLongitude() float64 {
 	if x != nil {
 		return x.Longitude
 	}
 	return 0
 }
 
-func (x *SetOriginGPS) GetAltitude() float32 {
+func (x *SetOriginGPS) GetAltitude() float64 {
 	if x != nil {
 		return x.Altitude
 	}
@@ -2420,8 +2420,8 @@ func (x *SetOriginGPS) GetAltitude() float32 {
 type RotateToNDC struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
 	Channel       types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
-	X             float32                      `protobuf:"fixed32,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y             float32                      `protobuf:"fixed32,3,opt,name=y,proto3" json:"y,omitempty"`
+	X             float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
+	Y             float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2463,14 +2463,14 @@ func (x *RotateToNDC) GetChannel() types.JonGuiDataVideoChannel {
 	return types.JonGuiDataVideoChannel(0)
 }
 
-func (x *RotateToNDC) GetX() float32 {
+func (x *RotateToNDC) GetX() float64 {
 	if x != nil {
 		return x.X
 	}
 	return 0
 }
 
-func (x *RotateToNDC) GetY() float32 {
+func (x *RotateToNDC) GetY() float64 {
 	if x != nil {
 		return x.Y
 	}
@@ -2516,79 +2516,53 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\televation\x18\x02 \x01(\v2\x1d.cmd.RotaryPlatform.ElevationR\televation\"D\n" +
 	"\aSetMode\x129\n" +
 	"\x04mode\x18\x01 \x01(\x0e2\x19.ser.JonGuiDataRotaryModeB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\"\x82\x01\n" +
-	"\x0fSetAzimuthValue\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x00\xb4C-\x00\x00\x00\x00R\x05value\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\"\x8a\x01\n" +
+	"\x0fSetAzimuthValue\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\x12H\n" +
 	"\tdirection\x18\x02 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\xb6\x01\n" +
-	"\x0fRotateAzimuthTo\x122\n" +
-	"\ftarget_value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x00\xb4C-\x00\x00\x00\x00R\vtargetValue\x12%\n" +
-	"\x05speed\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\xc6\x01\n" +
+	"\x0fRotateAzimuthTo\x12:\n" +
+	"\ftarget_value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\vtargetValue\x12-\n" +
+	"\x05speed\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\x12H\n" +
 	"\tdirection\x18\x03 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x80\x01\n" +
-	"\rRotateAzimuth\x12%\n" +
-	"\x05speed\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x88\x01\n" +
+	"\rRotateAzimuth\x12-\n" +
+	"\x05speed\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\x12H\n" +
 	"\tdirection\x18\x02 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x82\x01\n" +
-	"\x0fRotateElevation\x12%\n" +
-	"\x05speed\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x8a\x01\n" +
+	"\x0fRotateElevation\x12-\n" +
+	"\x05speed\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\x12H\n" +
 	"\tdirection\x18\x02 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\":\n" +
-	"\x11SetElevationValue\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\x05value\"n\n" +
-	"\x11RotateElevationTo\x122\n" +
-	"\ftarget_value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\vtargetValue\x12%\n" +
-	"\x05speed\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\"\xa0\x01\n" +
-	"\x17RotateElevationRelative\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x02R\x05value\x12%\n" +
-	"\x05speed\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"B\n" +
+	"\x11SetElevationValue\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\x05value\"~\n" +
+	"\x11RotateElevationTo\x12:\n" +
+	"\ftarget_value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\vtargetValue\x12-\n" +
+	"\x05speed\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\"\xc1\x01\n" +
+	"\x17RotateElevationRelative\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\x05value\x12-\n" +
+	"\x05speed\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\x12H\n" +
 	"\tdirection\x18\x03 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"|\n" +
-	"\x1aRotateElevationRelativeSet\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x02R\x05value\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x95\x01\n" +
+	"\x1aRotateElevationRelativeSet\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\x05value\x12H\n" +
 	"\tdirection\x18\x02 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x9e\x01\n" +
-	"\x15RotateAzimuthRelative\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x02R\x05value\x12%\n" +
-	"\x05speed\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\xbf\x01\n" +
+	"\x15RotateAzimuthRelative\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x05value\x12-\n" +
+	"\x05speed\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\x12H\n" +
 	"\tdirection\x18\x03 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"z\n" +
-	"\x18RotateAzimuthRelativeSet\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x02R\x05value\x12H\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"\x93\x01\n" +
+	"\x18RotateAzimuthRelativeSet\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x05value\x12H\n" +
 	"\tdirection\x18\x02 \x01(\x0e2\x1e.ser.JonGuiDataRotaryDirectionB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\";\n" +
-	"\x12SetPlatformAzimuth\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x00\xb4C%\x00\x00\xb4\xc3R\x05value\"=\n" +
-	"\x14SetPlatformElevation\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\x05value\"8\n" +
-	"\x0fSetPlatformBank\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x004C-\x00\x004\xc3R\x05value\"\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\tdirection\"C\n" +
+	"\x12SetPlatformAzimuth\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x80v\xc0R\x05value\"E\n" +
+	"\x14SetPlatformElevation\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\x05value\"@\n" +
+	"\x0fSetPlatformBank\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x05value\"\n" +
 	"\n" +
 	"\bGetMeteo\"\xaf\x03\n" +
 	"\aAzimuth\x12B\n" +
@@ -2643,36 +2617,20 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\x04halt\x18\x06 \x01(\v2!.cmd.RotaryPlatform.HaltElevationH\x00R\x04haltB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"+\n" +
 	"\x15setUseRotaryAsCompass\x12\x12\n" +
-	"\x04flag\x18\x01 \x01(\bR\x04flag\"\x96\x01\n" +
-	"\vRotateToGPS\x12+\n" +
-	"\blatitude\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\blatitude\x12-\n" +
-	"\tlongitude\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x12+\n" +
-	"\baltitude\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00P\xc3G-\x00\x00\xd7\xc3R\baltitude\"\x97\x01\n" +
-	"\fSetOriginGPS\x12+\n" +
-	"\blatitude\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\blatitude\x12-\n" +
-	"\tlongitude\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x12+\n" +
-	"\baltitude\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00P\xc3G-\x00\x00\xd7\xc3R\baltitude\"\x8e\x01\n" +
+	"\x04flag\x18\x01 \x01(\bR\x04flag\"\xae\x01\n" +
+	"\vRotateToGPS\x123\n" +
+	"\blatitude\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x125\n" +
+	"\tlongitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
+	"\baltitude\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\xf8@)\x00\x00\x00\x00\x00\xe0z\xc0R\baltitude\"\xaf\x01\n" +
+	"\fSetOriginGPS\x123\n" +
+	"\blatitude\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x125\n" +
+	"\tlongitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
+	"\baltitude\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\xf8@)\x00\x00\x00\x00\x00\xe0z\xc0R\baltitude\"\x9e\x01\n" +
 	"\vRotateToNDC\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12\x1d\n" +
-	"\x01x\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x01x\x12\x1d\n" +
-	"\x01y\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x01yB\xe7\x01\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12%\n" +
+	"\x01x\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
+	"\x01y\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01yB\xe7\x01\n" +
 	"\x16com.cmd.RotaryPlatformB\x17JonSharedCmdRotaryProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/rotary\xa2\x02\x03CRX\xaa\x02\x12Cmd.RotaryPlatform\xca\x02\x12Cmd\\RotaryPlatform\xe2\x02\x1eCmd\\RotaryPlatform\\GPBMetadata\xea\x02\x13Cmd::RotaryPlatformb\x06proto3"
 
 var (

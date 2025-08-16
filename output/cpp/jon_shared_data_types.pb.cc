@@ -82,8 +82,8 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_data_types.proto\022\003ser\"J\n\017Jo"
-    "nGuiDataMeteo\022\023\n\013temperature\030\001 \001(\002\022\020\n\010hu"
-    "midity\030\002 \001(\002\022\020\n\010pressure\030\003 \001(\002*\263\002\n!JonGu"
+    "nGuiDataMeteo\022\023\n\013temperature\030\001 \001(\001\022\020\n\010hu"
+    "midity\030\002 \001(\001\022\020\n\010pressure\030\003 \001(\001*\263\002\n!JonGu"
     "iDataVideoChannelHeatFilters\0226\n2JON_GUI_"
     "DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFI"
     "ED\020\000\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_"
@@ -485,27 +485,27 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> JonGuiDataMeteo::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float temperature = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.temperature_)}},
-    // float humidity = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.humidity_)}},
-    // float pressure = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.pressure_)}},
+    // double temperature = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.temperature_)}},
+    // double humidity = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.humidity_)}},
+    // double pressure = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.pressure_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float temperature = 1;
+    // double temperature = 1;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.temperature_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float humidity = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double humidity = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.humidity_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float pressure = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double pressure = 3;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataMeteo, _impl_.pressure_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -540,24 +540,24 @@ PROTOBUF_NOINLINE void JonGuiDataMeteo::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float temperature = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_temperature()) != 0) {
+          // double temperature = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_temperature()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_temperature(), target);
           }
 
-          // float humidity = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_humidity()) != 0) {
+          // double humidity = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_humidity()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_humidity(), target);
           }
 
-          // float pressure = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_pressure()) != 0) {
+          // double pressure = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_pressure()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_pressure(), target);
           }
 
@@ -586,17 +586,17 @@ PROTOBUF_NOINLINE void JonGuiDataMeteo::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float temperature = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_temperature()) != 0) {
-              total_size += 5;
+            // double temperature = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_temperature()) != 0) {
+              total_size += 9;
             }
-            // float humidity = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_humidity()) != 0) {
-              total_size += 5;
+            // double humidity = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_humidity()) != 0) {
+              total_size += 9;
             }
-            // float pressure = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_pressure()) != 0) {
-              total_size += 5;
+            // double pressure = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_pressure()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -611,13 +611,13 @@ void JonGuiDataMeteo::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_temperature()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_temperature()) != 0) {
     _this->_impl_.temperature_ = from._impl_.temperature_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_humidity()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_humidity()) != 0) {
     _this->_impl_.humidity_ = from._impl_.humidity_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_pressure()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_pressure()) != 0) {
     _this->_impl_.pressure_ = from._impl_.pressure_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);

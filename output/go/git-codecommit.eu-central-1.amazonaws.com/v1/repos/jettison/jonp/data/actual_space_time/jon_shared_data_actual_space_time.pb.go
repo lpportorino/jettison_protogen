@@ -24,11 +24,11 @@ const (
 
 type JonGuiDataActualSpaceTime struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Azimuth       float32                `protobuf:"fixed32,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
-	Elevation     float32                `protobuf:"fixed32,2,opt,name=elevation,proto3" json:"elevation,omitempty"`
-	Bank          float32                `protobuf:"fixed32,3,opt,name=bank,proto3" json:"bank,omitempty"`
-	Latitude      float32                `protobuf:"fixed32,4,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude     float32                `protobuf:"fixed32,5,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Azimuth       float64                `protobuf:"fixed64,1,opt,name=azimuth,proto3" json:"azimuth,omitempty"`
+	Elevation     float64                `protobuf:"fixed64,2,opt,name=elevation,proto3" json:"elevation,omitempty"`
+	Bank          float64                `protobuf:"fixed64,3,opt,name=bank,proto3" json:"bank,omitempty"`
+	Latitude      float64                `protobuf:"fixed64,4,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude     float64                `protobuf:"fixed64,5,opt,name=longitude,proto3" json:"longitude,omitempty"`
 	Altitude      float64                `protobuf:"fixed64,6,opt,name=altitude,proto3" json:"altitude,omitempty"`
 	Timestamp     int64                  `protobuf:"varint,7,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -65,35 +65,35 @@ func (*JonGuiDataActualSpaceTime) Descriptor() ([]byte, []int) {
 	return file_jon_shared_data_actual_space_time_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *JonGuiDataActualSpaceTime) GetAzimuth() float32 {
+func (x *JonGuiDataActualSpaceTime) GetAzimuth() float64 {
 	if x != nil {
 		return x.Azimuth
 	}
 	return 0
 }
 
-func (x *JonGuiDataActualSpaceTime) GetElevation() float32 {
+func (x *JonGuiDataActualSpaceTime) GetElevation() float64 {
 	if x != nil {
 		return x.Elevation
 	}
 	return 0
 }
 
-func (x *JonGuiDataActualSpaceTime) GetBank() float32 {
+func (x *JonGuiDataActualSpaceTime) GetBank() float64 {
 	if x != nil {
 		return x.Bank
 	}
 	return 0
 }
 
-func (x *JonGuiDataActualSpaceTime) GetLatitude() float32 {
+func (x *JonGuiDataActualSpaceTime) GetLatitude() float64 {
 	if x != nil {
 		return x.Latitude
 	}
 	return 0
 }
 
-func (x *JonGuiDataActualSpaceTime) GetLongitude() float32 {
+func (x *JonGuiDataActualSpaceTime) GetLongitude() float64 {
 	if x != nil {
 		return x.Longitude
 	}
@@ -118,18 +118,13 @@ var File_jon_shared_data_actual_space_time_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_actual_space_time_proto_rawDesc = "" +
 	"\n" +
-	"'jon_shared_data_actual_space_time.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xa2\x03\n" +
-	"\x19JonGuiDataActualSpaceTime\x12=\n" +
-	"\aazimuth\x18\x01 \x01(\x02B#\xbaH \n" +
-	"\x1eM\x00\x00\x00\x00M\x00\x00\xb4BM\x00\x004CM\x00\x00\x87C\x15\x00\x00\xb4C-\x00\x00\x00\x00R\aazimuth\x12<\n" +
-	"\televation\x18\x02 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x004\xc2M\x00\x00\x00\x00M\x00\x004B\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\televation\x122\n" +
-	"\x04bank\x18\x03 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xb4\xc2M\x00\x00\x00\x00M\x00\x00\xb4B\x15\x00\x004C-\x00\x004\xc3R\x04bank\x12:\n" +
-	"\blatitude\x18\x04 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x004\xc2M\x00\x00\x00\x00M\x00\x004B\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\blatitude\x12<\n" +
-	"\tlongitude\x18\x05 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xb4\xc2M\x00\x00\x00\x00M\x00\x00\xb4B\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x123\n" +
+	"'jon_shared_data_actual_space_time.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\x8a\x04\n" +
+	"\x19JonGuiDataActualSpaceTime\x12U\n" +
+	"\aazimuth\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\aazimuth\x12P\n" +
+	"\televation\x18\x02 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80F\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80F@\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\televation\x12F\n" +
+	"\x04bank\x18\x03 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80V\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x04bank\x12N\n" +
+	"\blatitude\x18\x04 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80F\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80F@\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x12P\n" +
+	"\tlongitude\x18\x05 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80V\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
 	"\baltitude\x18\x06 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\xf8@)\x00\x00\x00\x00\x00\xe0z\xc0R\baltitude\x12%\n" +
 	"\ttimestamp\x18\a \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestampB\xb1\x01\n" +
 	"\acom.serB!JonSharedDataActualSpaceTimeProtoP\x01ZWgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/actual_space_time\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"

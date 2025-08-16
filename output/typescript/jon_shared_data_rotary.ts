@@ -68,25 +68,25 @@ function createBaseJonGuiDataRotary(): JonGuiDataRotary {
 export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
   encode(message: JonGuiDataRotary, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.azimuth !== 0) {
-      writer.uint32(13).float(message.azimuth);
+      writer.uint32(9).double(message.azimuth);
     }
     if (message.azimuthSpeed !== 0) {
-      writer.uint32(21).float(message.azimuthSpeed);
+      writer.uint32(17).double(message.azimuthSpeed);
     }
     if (message.elevation !== 0) {
-      writer.uint32(29).float(message.elevation);
+      writer.uint32(25).double(message.elevation);
     }
     if (message.elevationSpeed !== 0) {
-      writer.uint32(37).float(message.elevationSpeed);
+      writer.uint32(33).double(message.elevationSpeed);
     }
     if (message.platformAzimuth !== 0) {
-      writer.uint32(45).float(message.platformAzimuth);
+      writer.uint32(41).double(message.platformAzimuth);
     }
     if (message.platformElevation !== 0) {
-      writer.uint32(53).float(message.platformElevation);
+      writer.uint32(49).double(message.platformElevation);
     }
     if (message.platformBank !== 0) {
-      writer.uint32(61).float(message.platformBank);
+      writer.uint32(57).double(message.platformBank);
     }
     if (message.isMoving !== false) {
       writer.uint32(64).bool(message.isMoving);
@@ -110,10 +110,10 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
       writer.uint32(112).int32(message.scanTargetMax);
     }
     if (message.sunAzimuth !== 0) {
-      writer.uint32(125).float(message.sunAzimuth);
+      writer.uint32(121).double(message.sunAzimuth);
     }
     if (message.sunElevation !== 0) {
-      writer.uint32(133).float(message.sunElevation);
+      writer.uint32(129).double(message.sunElevation);
     }
     if (message.currentScanNode !== undefined) {
       ScanNode.encode(message.currentScanNode, writer.uint32(138).fork()).join();
@@ -129,59 +129,59 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.azimuth = reader.float();
+          message.azimuth = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.azimuthSpeed = reader.float();
+          message.azimuthSpeed = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.elevation = reader.float();
+          message.elevation = reader.double();
           continue;
         }
         case 4: {
-          if (tag !== 37) {
+          if (tag !== 33) {
             break;
           }
 
-          message.elevationSpeed = reader.float();
+          message.elevationSpeed = reader.double();
           continue;
         }
         case 5: {
-          if (tag !== 45) {
+          if (tag !== 41) {
             break;
           }
 
-          message.platformAzimuth = reader.float();
+          message.platformAzimuth = reader.double();
           continue;
         }
         case 6: {
-          if (tag !== 53) {
+          if (tag !== 49) {
             break;
           }
 
-          message.platformElevation = reader.float();
+          message.platformElevation = reader.double();
           continue;
         }
         case 7: {
-          if (tag !== 61) {
+          if (tag !== 57) {
             break;
           }
 
-          message.platformBank = reader.float();
+          message.platformBank = reader.double();
           continue;
         }
         case 8: {
@@ -241,19 +241,19 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
           continue;
         }
         case 15: {
-          if (tag !== 125) {
+          if (tag !== 121) {
             break;
           }
 
-          message.sunAzimuth = reader.float();
+          message.sunAzimuth = reader.double();
           continue;
         }
         case 16: {
-          if (tag !== 133) {
+          if (tag !== 129) {
             break;
           }
 
-          message.sunElevation = reader.float();
+          message.sunElevation = reader.double();
           continue;
         }
         case 17: {

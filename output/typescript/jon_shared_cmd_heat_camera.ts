@@ -868,7 +868,7 @@ function createBaseSetClaheLevel(): SetClaheLevel {
 export const SetClaheLevel: MessageFns<SetClaheLevel> = {
   encode(message: SetClaheLevel, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -881,11 +881,11 @@ export const SetClaheLevel: MessageFns<SetClaheLevel> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -926,7 +926,7 @@ function createBaseShiftClaheLevel(): ShiftClaheLevel {
 export const ShiftClaheLevel: MessageFns<ShiftClaheLevel> = {
   encode(message: ShiftClaheLevel, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -939,11 +939,11 @@ export const ShiftClaheLevel: MessageFns<ShiftClaheLevel> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -1199,7 +1199,7 @@ function createBaseSetValue(): SetValue {
 export const SetValue: MessageFns<SetValue> = {
   encode(message: SetValue, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -1212,11 +1212,11 @@ export const SetValue: MessageFns<SetValue> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -1315,7 +1315,7 @@ function createBaseSetDigitalZoomLevel(): SetDigitalZoomLevel {
 export const SetDigitalZoomLevel: MessageFns<SetDigitalZoomLevel> = {
   encode(message: SetDigitalZoomLevel, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -1328,11 +1328,11 @@ export const SetDigitalZoomLevel: MessageFns<SetDigitalZoomLevel> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }

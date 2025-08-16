@@ -1244,14 +1244,14 @@ class ShiftClaheLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.HeatCamera.ShiftClaheLevel)
@@ -1277,7 +1277,7 @@ class ShiftClaheLevel final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const ShiftClaheLevel& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1624,14 +1624,14 @@ class SetValue final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.HeatCamera.SetValue)
@@ -1657,7 +1657,7 @@ class SetValue final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetValue& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -2194,14 +2194,14 @@ class SetDigitalZoomLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.HeatCamera.SetDigitalZoomLevel)
@@ -2227,7 +2227,7 @@ class SetDigitalZoomLevel final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetDigitalZoomLevel& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -2574,14 +2574,14 @@ class SetClaheLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.HeatCamera.SetClaheLevel)
@@ -2607,7 +2607,7 @@ class SetClaheLevel final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetClaheLevel& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -9416,24 +9416,24 @@ inline void SetFxMode::_internal_set_mode(::ser::JonGuiDataFxModeHeat value) {
 
 // SetClaheLevel
 
-// float value = 1;
+// double value = 1;
 inline void SetClaheLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetClaheLevel::value() const {
+inline double SetClaheLevel::value() const {
   // @@protoc_insertion_point(field_get:cmd.HeatCamera.SetClaheLevel.value)
   return _internal_value();
 }
-inline void SetClaheLevel::set_value(float value) {
+inline void SetClaheLevel::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.HeatCamera.SetClaheLevel.value)
 }
-inline float SetClaheLevel::_internal_value() const {
+inline double SetClaheLevel::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetClaheLevel::_internal_set_value(float value) {
+inline void SetClaheLevel::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -9442,24 +9442,24 @@ inline void SetClaheLevel::_internal_set_value(float value) {
 
 // ShiftClaheLevel
 
-// float value = 1;
+// double value = 1;
 inline void ShiftClaheLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float ShiftClaheLevel::value() const {
+inline double ShiftClaheLevel::value() const {
   // @@protoc_insertion_point(field_get:cmd.HeatCamera.ShiftClaheLevel.value)
   return _internal_value();
 }
-inline void ShiftClaheLevel::set_value(float value) {
+inline void ShiftClaheLevel::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.HeatCamera.ShiftClaheLevel.value)
 }
-inline float ShiftClaheLevel::_internal_value() const {
+inline double ShiftClaheLevel::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void ShiftClaheLevel::_internal_set_value(float value) {
+inline void ShiftClaheLevel::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -9488,24 +9488,24 @@ inline void ShiftClaheLevel::_internal_set_value(float value) {
 
 // SetValue
 
-// float value = 1;
+// double value = 1;
 inline void SetValue::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetValue::value() const {
+inline double SetValue::value() const {
   // @@protoc_insertion_point(field_get:cmd.HeatCamera.SetValue.value)
   return _internal_value();
 }
-inline void SetValue::set_value(float value) {
+inline void SetValue::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.HeatCamera.SetValue.value)
 }
-inline float SetValue::_internal_value() const {
+inline double SetValue::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetValue::_internal_set_value(float value) {
+inline void SetValue::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -9540,24 +9540,24 @@ inline void SetDDELevel::_internal_set_value(::int32_t value) {
 
 // SetDigitalZoomLevel
 
-// float value = 1;
+// double value = 1;
 inline void SetDigitalZoomLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetDigitalZoomLevel::value() const {
+inline double SetDigitalZoomLevel::value() const {
   // @@protoc_insertion_point(field_get:cmd.HeatCamera.SetDigitalZoomLevel.value)
   return _internal_value();
 }
-inline void SetDigitalZoomLevel::set_value(float value) {
+inline void SetDigitalZoomLevel::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.HeatCamera.SetDigitalZoomLevel.value)
 }
-inline float SetDigitalZoomLevel::_internal_value() const {
+inline double SetDigitalZoomLevel::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetDigitalZoomLevel::_internal_set_value(float value) {
+inline void SetDigitalZoomLevel::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }

@@ -506,9 +506,9 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr RotateToNDC::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : channel_{static_cast< ::ser::JonGuiDataVideoChannel >(0)},
-        x_{0},
+      : x_{0},
         y_{0},
+        channel_{static_cast< ::ser::JonGuiDataVideoChannel >(0)},
         _cached_size_{0} {}
 
 template <typename>
@@ -1488,30 +1488,30 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     "m.Azimuth\0220\n\televation\030\002 \001(\0132\035.cmd.Rotar"
     "yPlatform.Elevation\"2\n\007SetMode\022\'\n\004mode\030\001"
     " \001(\0162\031.ser.JonGuiDataRotaryMode\"S\n\017SetAz"
-    "imuthValue\022\r\n\005value\030\001 \001(\002\0221\n\tdirection\030\002"
+    "imuthValue\022\r\n\005value\030\001 \001(\001\0221\n\tdirection\030\002"
     " \001(\0162\036.ser.JonGuiDataRotaryDirection\"i\n\017"
-    "RotateAzimuthTo\022\024\n\014target_value\030\001 \001(\002\022\r\n"
-    "\005speed\030\002 \001(\002\0221\n\tdirection\030\003 \001(\0162\036.ser.Jo"
+    "RotateAzimuthTo\022\024\n\014target_value\030\001 \001(\001\022\r\n"
+    "\005speed\030\002 \001(\001\0221\n\tdirection\030\003 \001(\0162\036.ser.Jo"
     "nGuiDataRotaryDirection\"Q\n\rRotateAzimuth"
-    "\022\r\n\005speed\030\001 \001(\002\0221\n\tdirection\030\002 \001(\0162\036.ser"
+    "\022\r\n\005speed\030\001 \001(\001\0221\n\tdirection\030\002 \001(\0162\036.ser"
     ".JonGuiDataRotaryDirection\"S\n\017RotateElev"
-    "ation\022\r\n\005speed\030\001 \001(\002\0221\n\tdirection\030\002 \001(\0162"
+    "ation\022\r\n\005speed\030\001 \001(\001\0221\n\tdirection\030\002 \001(\0162"
     "\036.ser.JonGuiDataRotaryDirection\"\"\n\021SetEl"
-    "evationValue\022\r\n\005value\030\001 \001(\002\"8\n\021RotateEle"
-    "vationTo\022\024\n\014target_value\030\001 \001(\002\022\r\n\005speed\030"
-    "\002 \001(\002\"j\n\027RotateElevationRelative\022\r\n\005valu"
-    "e\030\001 \001(\002\022\r\n\005speed\030\002 \001(\002\0221\n\tdirection\030\003 \001("
+    "evationValue\022\r\n\005value\030\001 \001(\001\"8\n\021RotateEle"
+    "vationTo\022\024\n\014target_value\030\001 \001(\001\022\r\n\005speed\030"
+    "\002 \001(\001\"j\n\027RotateElevationRelative\022\r\n\005valu"
+    "e\030\001 \001(\001\022\r\n\005speed\030\002 \001(\001\0221\n\tdirection\030\003 \001("
     "\0162\036.ser.JonGuiDataRotaryDirection\"^\n\032Rot"
-    "ateElevationRelativeSet\022\r\n\005value\030\001 \001(\002\0221"
+    "ateElevationRelativeSet\022\r\n\005value\030\001 \001(\001\0221"
     "\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRotary"
     "Direction\"h\n\025RotateAzimuthRelative\022\r\n\005va"
-    "lue\030\001 \001(\002\022\r\n\005speed\030\002 \001(\002\0221\n\tdirection\030\003 "
+    "lue\030\001 \001(\001\022\r\n\005speed\030\002 \001(\001\0221\n\tdirection\030\003 "
     "\001(\0162\036.ser.JonGuiDataRotaryDirection\"\\\n\030R"
-    "otateAzimuthRelativeSet\022\r\n\005value\030\001 \001(\002\0221"
+    "otateAzimuthRelativeSet\022\r\n\005value\030\001 \001(\001\0221"
     "\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRotary"
     "Direction\"#\n\022SetPlatformAzimuth\022\r\n\005value"
-    "\030\001 \001(\002\"%\n\024SetPlatformElevation\022\r\n\005value\030"
-    "\001 \001(\002\" \n\017SetPlatformBank\022\r\n\005value\030\001 \001(\002\""
+    "\030\001 \001(\001\"%\n\024SetPlatformElevation\022\r\n\005value\030"
+    "\001 \001(\001\" \n\017SetPlatformBank\022\r\n\005value\030\001 \001(\001\""
     "\n\n\010GetMeteo\"\357\002\n\007Azimuth\0228\n\tset_value\030\001 \001"
     "(\0132#.cmd.RotaryPlatform.SetAzimuthValueH"
     "\000\0228\n\trotate_to\030\002 \001(\0132#.cmd.RotaryPlatfor"
@@ -1546,11 +1546,11 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     "1\n\004halt\030\006 \001(\0132!.cmd.RotaryPlatform.HaltE"
     "levationH\000B\005\n\003cmd\"%\n\025setUseRotaryAsCompa"
     "ss\022\014\n\004flag\030\001 \001(\010\"D\n\013RotateToGPS\022\020\n\010latit"
-    "ude\030\001 \001(\002\022\021\n\tlongitude\030\002 \001(\002\022\020\n\010altitude"
-    "\030\003 \001(\002\"E\n\014SetOriginGPS\022\020\n\010latitude\030\001 \001(\002"
-    "\022\021\n\tlongitude\030\002 \001(\002\022\020\n\010altitude\030\003 \001(\002\"Q\n"
+    "ude\030\001 \001(\001\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010altitude"
+    "\030\003 \001(\001\"E\n\014SetOriginGPS\022\020\n\010latitude\030\001 \001(\001"
+    "\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010altitude\030\003 \001(\001\"Q\n"
     "\013RotateToNDC\022,\n\007channel\030\001 \001(\0162\033.ser.JonG"
-    "uiDataVideoChannel\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002"
+    "uiDataVideoChannel\022\t\n\001x\030\002 \001(\001\022\t\n\001y\030\003 \001(\001"
     "BMZKgit-codecommit.eu-central-1.amazonaw"
     "s.com/v1/repos/jettison/jonp/cmd/rotaryb"
     "\006proto3"
@@ -3614,15 +3614,15 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SetAzimuthValue::_table_ = {
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetAzimuthValue, _impl_.direction_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(SetAzimuthValue, _impl_.direction_)}},
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetAzimuthValue, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetAzimuthValue, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetAzimuthValue, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {PROTOBUF_FIELD_OFFSET(SetAzimuthValue, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -3660,10 +3660,10 @@ PROTOBUF_NOINLINE void SetAzimuthValue::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -3699,9 +3699,9 @@ PROTOBUF_NOINLINE void SetAzimuthValue::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 2;
             if (this_._internal_direction() != 0) {
@@ -3721,7 +3721,7 @@ void SetAzimuthValue::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   if (from._internal_direction() != 0) {
@@ -3852,24 +3852,24 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateAzimuthTo::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float target_value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.target_value_)}},
-    // float speed = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.speed_)}},
+    // double target_value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.target_value_)}},
+    // double speed = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.speed_)}},
     // .ser.JonGuiDataRotaryDirection direction = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateAzimuthTo, _impl_.direction_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.direction_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float target_value = 1;
+    // double target_value = 1;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.target_value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float speed = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double speed = 2;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 3;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthTo, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -3907,17 +3907,17 @@ PROTOBUF_NOINLINE void RotateAzimuthTo::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float target_value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_target_value()) != 0) {
+          // double target_value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_target_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_target_value(), target);
           }
 
-          // float speed = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
+          // double speed = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_speed(), target);
           }
 
@@ -3953,13 +3953,13 @@ PROTOBUF_NOINLINE void RotateAzimuthTo::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float target_value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_target_value()) != 0) {
-              total_size += 5;
+            // double target_value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_target_value()) != 0) {
+              total_size += 9;
             }
-            // float speed = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // double speed = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 3;
             if (this_._internal_direction() != 0) {
@@ -3979,10 +3979,10 @@ void RotateAzimuthTo::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_target_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_target_value()) != 0) {
     _this->_impl_.target_value_ = from._impl_.target_value_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
     _this->_impl_.speed_ = from._impl_.speed_;
   }
   if (from._internal_direction() != 0) {
@@ -4115,15 +4115,15 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> RotateAzimuth::_table_ = {
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateAzimuth, _impl_.direction_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuth, _impl_.direction_)}},
-    // float speed = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuth, _impl_.speed_)}},
+    // double speed = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuth, _impl_.speed_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float speed = 1;
+    // double speed = 1;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuth, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuth, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -4161,10 +4161,10 @@ PROTOBUF_NOINLINE void RotateAzimuth::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float speed = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
+          // double speed = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_speed(), target);
           }
 
@@ -4200,9 +4200,9 @@ PROTOBUF_NOINLINE void RotateAzimuth::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float speed = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // double speed = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 2;
             if (this_._internal_direction() != 0) {
@@ -4222,7 +4222,7 @@ void RotateAzimuth::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
     _this->_impl_.speed_ = from._impl_.speed_;
   }
   if (from._internal_direction() != 0) {
@@ -4355,15 +4355,15 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> RotateElevation::_table_ = {
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateElevation, _impl_.direction_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevation, _impl_.direction_)}},
-    // float speed = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevation, _impl_.speed_)}},
+    // double speed = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevation, _impl_.speed_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float speed = 1;
+    // double speed = 1;
     {PROTOBUF_FIELD_OFFSET(RotateElevation, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {PROTOBUF_FIELD_OFFSET(RotateElevation, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -4401,10 +4401,10 @@ PROTOBUF_NOINLINE void RotateElevation::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float speed = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
+          // double speed = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_speed(), target);
           }
 
@@ -4440,9 +4440,9 @@ PROTOBUF_NOINLINE void RotateElevation::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float speed = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // double speed = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 2;
             if (this_._internal_direction() != 0) {
@@ -4462,7 +4462,7 @@ void RotateElevation::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
     _this->_impl_.speed_ = from._impl_.speed_;
   }
   if (from._internal_direction() != 0) {
@@ -4587,15 +4587,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetElevationValue::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::SetElevationValue>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetElevationValue, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetElevationValue, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetElevationValue, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -4628,10 +4628,10 @@ PROTOBUF_NOINLINE void SetElevationValue::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -4659,9 +4659,9 @@ PROTOBUF_NOINLINE void SetElevationValue::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -4676,7 +4676,7 @@ void SetElevationValue::MergeImpl(::google::protobuf::MessageLite& to_msg, const
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -4798,21 +4798,21 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> RotateElevationTo::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::RotateElevationTo>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float speed = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationTo, _impl_.speed_)}},
-    // float target_value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationTo, _impl_.target_value_)}},
+    // double speed = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationTo, _impl_.speed_)}},
+    // double target_value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationTo, _impl_.target_value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float target_value = 1;
+    // double target_value = 1;
     {PROTOBUF_FIELD_OFFSET(RotateElevationTo, _impl_.target_value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float speed = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double speed = 2;
     {PROTOBUF_FIELD_OFFSET(RotateElevationTo, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -4847,17 +4847,17 @@ PROTOBUF_NOINLINE void RotateElevationTo::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float target_value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_target_value()) != 0) {
+          // double target_value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_target_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_target_value(), target);
           }
 
-          // float speed = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
+          // double speed = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_speed(), target);
           }
 
@@ -4886,13 +4886,13 @@ PROTOBUF_NOINLINE void RotateElevationTo::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float target_value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_target_value()) != 0) {
-              total_size += 5;
+            // double target_value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_target_value()) != 0) {
+              total_size += 9;
             }
-            // float speed = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // double speed = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -4907,10 +4907,10 @@ void RotateElevationTo::MergeImpl(::google::protobuf::MessageLite& to_msg, const
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_target_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_target_value()) != 0) {
     _this->_impl_.target_value_ = from._impl_.target_value_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
     _this->_impl_.speed_ = from._impl_.speed_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -5038,24 +5038,24 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateElevationRelative::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.value_)}},
-    // float speed = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.speed_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.value_)}},
+    // double speed = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.speed_)}},
     // .ser.JonGuiDataRotaryDirection direction = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateElevationRelative, _impl_.direction_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.direction_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float speed = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double speed = 2;
     {PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 3;
     {PROTOBUF_FIELD_OFFSET(RotateElevationRelative, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -5093,17 +5093,17 @@ PROTOBUF_NOINLINE void RotateElevationRelative::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
-          // float speed = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
+          // double speed = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_speed(), target);
           }
 
@@ -5139,13 +5139,13 @@ PROTOBUF_NOINLINE void RotateElevationRelative::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
-            // float speed = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // double speed = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 3;
             if (this_._internal_direction() != 0) {
@@ -5165,10 +5165,10 @@ void RotateElevationRelative::MergeImpl(::google::protobuf::MessageLite& to_msg,
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
     _this->_impl_.speed_ = from._impl_.speed_;
   }
   if (from._internal_direction() != 0) {
@@ -5301,15 +5301,15 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> RotateElevationRelativeSet::_table_ = 
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateElevationRelativeSet, _impl_.direction_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelativeSet, _impl_.direction_)}},
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelativeSet, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateElevationRelativeSet, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(RotateElevationRelativeSet, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {PROTOBUF_FIELD_OFFSET(RotateElevationRelativeSet, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -5347,10 +5347,10 @@ PROTOBUF_NOINLINE void RotateElevationRelativeSet::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -5386,9 +5386,9 @@ PROTOBUF_NOINLINE void RotateElevationRelativeSet::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 2;
             if (this_._internal_direction() != 0) {
@@ -5408,7 +5408,7 @@ void RotateElevationRelativeSet::MergeImpl(::google::protobuf::MessageLite& to_m
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   if (from._internal_direction() != 0) {
@@ -5539,24 +5539,24 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateAzimuthRelative::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.value_)}},
-    // float speed = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.speed_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.value_)}},
+    // double speed = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.speed_)}},
     // .ser.JonGuiDataRotaryDirection direction = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateAzimuthRelative, _impl_.direction_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.direction_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float speed = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double speed = 2;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.speed_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 3;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthRelative, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -5594,17 +5594,17 @@ PROTOBUF_NOINLINE void RotateAzimuthRelative::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
-          // float speed = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
+          // double speed = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_speed(), target);
           }
 
@@ -5640,13 +5640,13 @@ PROTOBUF_NOINLINE void RotateAzimuthRelative::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
-            // float speed = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_speed()) != 0) {
-              total_size += 5;
+            // double speed = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 3;
             if (this_._internal_direction() != 0) {
@@ -5666,10 +5666,10 @@ void RotateAzimuthRelative::MergeImpl(::google::protobuf::MessageLite& to_msg, c
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_speed()) != 0) {
     _this->_impl_.speed_ = from._impl_.speed_;
   }
   if (from._internal_direction() != 0) {
@@ -5802,15 +5802,15 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> RotateAzimuthRelativeSet::_table_ = {
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateAzimuthRelativeSet, _impl_.direction_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelativeSet, _impl_.direction_)}},
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelativeSet, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateAzimuthRelativeSet, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthRelativeSet, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataRotaryDirection direction = 2;
     {PROTOBUF_FIELD_OFFSET(RotateAzimuthRelativeSet, _impl_.direction_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -5848,10 +5848,10 @@ PROTOBUF_NOINLINE void RotateAzimuthRelativeSet::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -5887,9 +5887,9 @@ PROTOBUF_NOINLINE void RotateAzimuthRelativeSet::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryDirection direction = 2;
             if (this_._internal_direction() != 0) {
@@ -5909,7 +5909,7 @@ void RotateAzimuthRelativeSet::MergeImpl(::google::protobuf::MessageLite& to_msg
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   if (from._internal_direction() != 0) {
@@ -6034,15 +6034,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetPlatformAzimuth::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::SetPlatformAzimuth>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetPlatformAzimuth, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetPlatformAzimuth, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetPlatformAzimuth, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -6075,10 +6075,10 @@ PROTOBUF_NOINLINE void SetPlatformAzimuth::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -6106,9 +6106,9 @@ PROTOBUF_NOINLINE void SetPlatformAzimuth::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -6123,7 +6123,7 @@ void SetPlatformAzimuth::MergeImpl(::google::protobuf::MessageLite& to_msg, cons
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -6240,15 +6240,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetPlatformElevation::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::SetPlatformElevation>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetPlatformElevation, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetPlatformElevation, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetPlatformElevation, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -6281,10 +6281,10 @@ PROTOBUF_NOINLINE void SetPlatformElevation::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -6312,9 +6312,9 @@ PROTOBUF_NOINLINE void SetPlatformElevation::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -6329,7 +6329,7 @@ void SetPlatformElevation::MergeImpl(::google::protobuf::MessageLite& to_msg, co
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -6446,15 +6446,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetPlatformBank::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::RotaryPlatform::SetPlatformBank>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetPlatformBank, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetPlatformBank, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetPlatformBank, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -6487,10 +6487,10 @@ PROTOBUF_NOINLINE void SetPlatformBank::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -6518,9 +6518,9 @@ PROTOBUF_NOINLINE void SetPlatformBank::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -6535,7 +6535,7 @@ void SetPlatformBank::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -10391,27 +10391,27 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateToGPS::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float latitude = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.latitude_)}},
-    // float longitude = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.longitude_)}},
-    // float altitude = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.altitude_)}},
+    // double latitude = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.latitude_)}},
+    // double longitude = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.longitude_)}},
+    // double altitude = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.altitude_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float latitude = 1;
+    // double latitude = 1;
     {PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.latitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float longitude = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double longitude = 2;
     {PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.longitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float altitude = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double altitude = 3;
     {PROTOBUF_FIELD_OFFSET(RotateToGPS, _impl_.altitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -10446,24 +10446,24 @@ PROTOBUF_NOINLINE void RotateToGPS::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float latitude = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
+          // double latitude = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_latitude(), target);
           }
 
-          // float longitude = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
+          // double longitude = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_longitude(), target);
           }
 
-          // float altitude = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_altitude()) != 0) {
+          // double altitude = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_altitude(), target);
           }
 
@@ -10492,17 +10492,17 @@ PROTOBUF_NOINLINE void RotateToGPS::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float latitude = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
-              total_size += 5;
+            // double latitude = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
+              total_size += 9;
             }
-            // float longitude = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
-              total_size += 5;
+            // double longitude = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
+              total_size += 9;
             }
-            // float altitude = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_altitude()) != 0) {
-              total_size += 5;
+            // double altitude = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -10517,13 +10517,13 @@ void RotateToGPS::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_latitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_latitude()) != 0) {
     _this->_impl_.latitude_ = from._impl_.latitude_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_longitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_longitude()) != 0) {
     _this->_impl_.longitude_ = from._impl_.longitude_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_altitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_altitude()) != 0) {
     _this->_impl_.altitude_ = from._impl_.altitude_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -10651,27 +10651,27 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> SetOriginGPS::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float latitude = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.latitude_)}},
-    // float longitude = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.longitude_)}},
-    // float altitude = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.altitude_)}},
+    // double latitude = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.latitude_)}},
+    // double longitude = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.longitude_)}},
+    // double altitude = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.altitude_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float latitude = 1;
+    // double latitude = 1;
     {PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.latitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float longitude = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double longitude = 2;
     {PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.longitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float altitude = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double altitude = 3;
     {PROTOBUF_FIELD_OFFSET(SetOriginGPS, _impl_.altitude_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -10706,24 +10706,24 @@ PROTOBUF_NOINLINE void SetOriginGPS::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float latitude = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
+          // double latitude = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_latitude(), target);
           }
 
-          // float longitude = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
+          // double longitude = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_longitude(), target);
           }
 
-          // float altitude = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_altitude()) != 0) {
+          // double altitude = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_altitude(), target);
           }
 
@@ -10752,17 +10752,17 @@ PROTOBUF_NOINLINE void SetOriginGPS::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float latitude = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_latitude()) != 0) {
-              total_size += 5;
+            // double latitude = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
+              total_size += 9;
             }
-            // float longitude = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_longitude()) != 0) {
-              total_size += 5;
+            // double longitude = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
+              total_size += 9;
             }
-            // float altitude = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_altitude()) != 0) {
-              total_size += 5;
+            // double altitude = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -10777,13 +10777,13 @@ void SetOriginGPS::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_latitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_latitude()) != 0) {
     _this->_impl_.latitude_ = from._impl_.latitude_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_longitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_longitude()) != 0) {
     _this->_impl_.longitude_ = from._impl_.longitude_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_altitude()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_altitude()) != 0) {
     _this->_impl_.altitude_ = from._impl_.altitude_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -10839,11 +10839,11 @@ inline PROTOBUF_NDEBUG_INLINE RotateToNDC::Impl_::Impl_(
 inline void RotateToNDC::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, channel_),
+               offsetof(Impl_, x_),
            0,
-           offsetof(Impl_, y_) -
-               offsetof(Impl_, channel_) +
-               sizeof(Impl_::y_));
+           offsetof(Impl_, channel_) -
+               offsetof(Impl_, x_) +
+               sizeof(Impl_::channel_));
 }
 RotateToNDC::~RotateToNDC() {
   // @@protoc_insertion_point(destructor:cmd.RotaryPlatform.RotateToNDC)
@@ -10914,24 +10914,24 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateToNDC::_table_ = {
     // .ser.JonGuiDataVideoChannel channel = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RotateToNDC, _impl_.channel_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.channel_)}},
-    // float x = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.x_)}},
-    // float y = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.y_)}},
+    // double x = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.x_)}},
+    // double y = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.y_)}},
   }}, {{
     65535, 65535
   }}, {{
     // .ser.JonGuiDataVideoChannel channel = 1;
     {PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.channel_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // float x = 2;
+    // double x = 2;
     {PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.x_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float y = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double y = 3;
     {PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.y_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -10945,9 +10945,9 @@ PROTOBUF_NOINLINE void RotateToNDC::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.channel_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.y_) -
-      reinterpret_cast<char*>(&_impl_.channel_)) + sizeof(_impl_.y_));
+  ::memset(&_impl_.x_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.channel_) -
+      reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.channel_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -10973,17 +10973,17 @@ PROTOBUF_NOINLINE void RotateToNDC::Clear() {
                 1, this_._internal_channel(), target);
           }
 
-          // float x = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_x()) != 0) {
+          // double x = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_x(), target);
           }
 
-          // float y = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_y()) != 0) {
+          // double y = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_y(), target);
           }
 
@@ -11012,18 +11012,18 @@ PROTOBUF_NOINLINE void RotateToNDC::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
+            // double x = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
+              total_size += 9;
+            }
+            // double y = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
+              total_size += 9;
+            }
             // .ser.JonGuiDataVideoChannel channel = 1;
             if (this_._internal_channel() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_channel());
-            }
-            // float x = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_x()) != 0) {
-              total_size += 5;
-            }
-            // float y = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_y()) != 0) {
-              total_size += 5;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -11038,14 +11038,14 @@ void RotateToNDC::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_channel() != 0) {
-    _this->_impl_.channel_ = from._impl_.channel_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_x()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_x()) != 0) {
     _this->_impl_.x_ = from._impl_.x_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_y()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_y()) != 0) {
     _this->_impl_.y_ = from._impl_.y_;
+  }
+  if (from._internal_channel() != 0) {
+    _this->_impl_.channel_ = from._impl_.channel_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -11062,11 +11062,11 @@ void RotateToNDC::InternalSwap(RotateToNDC* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.y_)
-      + sizeof(RotateToNDC::_impl_.y_)
-      - PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.channel_)>(
-          reinterpret_cast<char*>(&_impl_.channel_),
-          reinterpret_cast<char*>(&other->_impl_.channel_));
+      PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.channel_)
+      + sizeof(RotateToNDC::_impl_.channel_)
+      - PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.x_)>(
+          reinterpret_cast<char*>(&_impl_.x_),
+          reinterpret_cast<char*>(&other->_impl_.x_));
 }
 
 ::google::protobuf::Metadata RotateToNDC::GetMetadata() const {

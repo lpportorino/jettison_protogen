@@ -766,10 +766,10 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
       writer.uint32(8).int32(message.channel);
     }
     if (message.x !== 0) {
-      writer.uint32(21).float(message.x);
+      writer.uint32(17).double(message.x);
     }
     if (message.y !== 0) {
-      writer.uint32(29).float(message.y);
+      writer.uint32(25).double(message.y);
     }
     if (!message.frameTime.equals(Long.UZERO)) {
       writer.uint32(32).uint64(message.frameTime.toString());
@@ -793,19 +793,19 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.x = reader.float();
+          message.x = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.y = reader.float();
+          message.y = reader.double();
           continue;
         }
         case 4: {

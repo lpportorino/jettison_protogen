@@ -678,7 +678,7 @@ function createBaseSetMagneticDeclination(): SetMagneticDeclination {
 export const SetMagneticDeclination: MessageFns<SetMagneticDeclination> = {
   encode(message: SetMagneticDeclination, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -691,11 +691,11 @@ export const SetMagneticDeclination: MessageFns<SetMagneticDeclination> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -736,7 +736,7 @@ function createBaseSetOffsetAngleAzimuth(): SetOffsetAngleAzimuth {
 export const SetOffsetAngleAzimuth: MessageFns<SetOffsetAngleAzimuth> = {
   encode(message: SetOffsetAngleAzimuth, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -749,11 +749,11 @@ export const SetOffsetAngleAzimuth: MessageFns<SetOffsetAngleAzimuth> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }
@@ -794,7 +794,7 @@ function createBaseSetOffsetAngleElevation(): SetOffsetAngleElevation {
 export const SetOffsetAngleElevation: MessageFns<SetOffsetAngleElevation> = {
   encode(message: SetOffsetAngleElevation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.value !== 0) {
-      writer.uint32(13).float(message.value);
+      writer.uint32(9).double(message.value);
     }
     return writer;
   },
@@ -807,11 +807,11 @@ export const SetOffsetAngleElevation: MessageFns<SetOffsetAngleElevation> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.value = reader.float();
+          message.value = reader.double();
           continue;
         }
       }

@@ -6313,16 +6313,16 @@ public final class JonSharedCmdCv {
     ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel();
 
     /**
-     * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
      * @return The x.
      */
-    float getX();
+    double getX();
 
     /**
-     * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
      * @return The y.
      */
-    float getY();
+    double getY();
 
     /**
      * <code>uint64 frame_time = 4;</code>
@@ -6387,24 +6387,24 @@ public final class JonSharedCmdCv {
     }
 
     public static final int X_FIELD_NUMBER = 2;
-    private float x_ = 0F;
+    private double x_ = 0D;
     /**
-     * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
      * @return The x.
      */
     @java.lang.Override
-    public float getX() {
+    public double getX() {
       return x_;
     }
 
     public static final int Y_FIELD_NUMBER = 3;
-    private float y_ = 0F;
+    private double y_ = 0D;
     /**
-     * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
      * @return The y.
      */
     @java.lang.Override
-    public float getY() {
+    public double getY() {
       return y_;
     }
 
@@ -6436,11 +6436,11 @@ public final class JonSharedCmdCv {
       if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
         output.writeEnum(1, channel_);
       }
-      if (java.lang.Float.floatToRawIntBits(x_) != 0) {
-        output.writeFloat(2, x_);
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        output.writeDouble(2, x_);
       }
-      if (java.lang.Float.floatToRawIntBits(y_) != 0) {
-        output.writeFloat(3, y_);
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        output.writeDouble(3, y_);
       }
       if (frameTime_ != 0L) {
         output.writeUInt64(4, frameTime_);
@@ -6458,13 +6458,13 @@ public final class JonSharedCmdCv {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, channel_);
       }
-      if (java.lang.Float.floatToRawIntBits(x_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, x_);
+          .computeDoubleSize(2, x_);
       }
-      if (java.lang.Float.floatToRawIntBits(y_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, y_);
+          .computeDoubleSize(3, y_);
       }
       if (frameTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -6486,11 +6486,11 @@ public final class JonSharedCmdCv {
       cmd.CV.JonSharedCmdCv.StartTrackNDC other = (cmd.CV.JonSharedCmdCv.StartTrackNDC) obj;
 
       if (channel_ != other.channel_) return false;
-      if (java.lang.Float.floatToIntBits(getX())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getX())
+          != java.lang.Double.doubleToLongBits(
               other.getX())) return false;
-      if (java.lang.Float.floatToIntBits(getY())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getY())
+          != java.lang.Double.doubleToLongBits(
               other.getY())) return false;
       if (getFrameTime()
           != other.getFrameTime()) return false;
@@ -6508,11 +6508,11 @@ public final class JonSharedCmdCv {
       hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
       hash = (53 * hash) + channel_;
       hash = (37 * hash) + X_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getX());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX()));
       hash = (37 * hash) + Y_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getY());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY()));
       hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFrameTime());
@@ -6648,8 +6648,8 @@ public final class JonSharedCmdCv {
         super.clear();
         bitField0_ = 0;
         channel_ = 0;
-        x_ = 0F;
-        y_ = 0F;
+        x_ = 0D;
+        y_ = 0D;
         frameTime_ = 0L;
         return this;
       }
@@ -6713,10 +6713,10 @@ public final class JonSharedCmdCv {
         if (other.channel_ != 0) {
           setChannelValue(other.getChannelValue());
         }
-        if (other.getX() != 0F) {
+        if (other.getX() != 0D) {
           setX(other.getX());
         }
-        if (other.getY() != 0F) {
+        if (other.getY() != 0D) {
           setY(other.getY());
         }
         if (other.getFrameTime() != 0L) {
@@ -6753,16 +6753,16 @@ public final class JonSharedCmdCv {
                 bitField0_ |= 0x00000001;
                 break;
               } // case 8
-              case 21: {
-                x_ = input.readFloat();
+              case 17: {
+                x_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                y_ = input.readFloat();
+              } // case 17
+              case 25: {
+                y_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
+              } // case 25
               case 32: {
                 frameTime_ = input.readUInt64();
                 bitField0_ |= 0x00000008;
@@ -6838,21 +6838,21 @@ public final class JonSharedCmdCv {
         return this;
       }
 
-      private float x_ ;
+      private double x_ ;
       /**
-       * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
        * @return The x.
        */
       @java.lang.Override
-      public float getX() {
+      public double getX() {
         return x_;
       }
       /**
-       * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The x to set.
        * @return This builder for chaining.
        */
-      public Builder setX(float value) {
+      public Builder setX(double value) {
 
         x_ = value;
         bitField0_ |= 0x00000002;
@@ -6860,31 +6860,31 @@ public final class JonSharedCmdCv {
         return this;
       }
       /**
-       * <code>float x = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearX() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        x_ = 0F;
+        x_ = 0D;
         onChanged();
         return this;
       }
 
-      private float y_ ;
+      private double y_ ;
       /**
-       * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
        * @return The y.
        */
       @java.lang.Override
-      public float getY() {
+      public double getY() {
         return y_;
       }
       /**
-       * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The y to set.
        * @return This builder for chaining.
        */
-      public Builder setY(float value) {
+      public Builder setY(double value) {
 
         y_ = value;
         bitField0_ |= 0x00000004;
@@ -6892,12 +6892,12 @@ public final class JonSharedCmdCv {
         return this;
       }
       /**
-       * <code>float y = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearY() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        y_ = 0F;
+        y_ = 0D;
         onChanged();
         return this;
       }
@@ -7433,13 +7433,14 @@ public final class JonSharedCmdCv {
       "odeDisable\"\027\n\025RecognitionModeEnable\"\030\n\026R" +
       "ecognitionModeDisable\"W\n\014SetAutoFocus\0228\n" +
       "\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoChan" +
-      "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\225\001\n\rStart" +
+      "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\245\001\n\rStart" +
       "TrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDa" +
-      "taVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\032\n\001x\030\002 \001(\002B\017\272" +
-      "H\014\n\n\035\000\000\200?-\000\000\200\277\022\032\n\001y\030\003 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000\000" +
-      "\200\277\022\022\n\nframe_time\030\004 \001(\004\"\013\n\tStopTrackBIZGg" +
-      "it-codecommit.eu-central-1.amazonaws.com" +
-      "/v1/repos/jettison/jonp/cmd/cvb\006proto3"
+      "taVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\"\013" +
+      "\n\tStopTrackBIZGgit-codecommit.eu-central" +
+      "-1.amazonaws.com/v1/repos/jettison/jonp/" +
+      "cmd/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

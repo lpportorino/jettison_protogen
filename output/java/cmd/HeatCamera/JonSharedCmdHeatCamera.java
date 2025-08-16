@@ -7849,10 +7849,10 @@ public final class JonSharedCmdHeatCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.HeatCamera.SetClaheLevel}
@@ -7892,13 +7892,13 @@ public final class JonSharedCmdHeatCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -7916,8 +7916,8 @@ public final class JonSharedCmdHeatCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7928,9 +7928,9 @@ public final class JonSharedCmdHeatCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -7947,8 +7947,8 @@ public final class JonSharedCmdHeatCamera {
       }
       cmd.HeatCamera.JonSharedCmdHeatCamera.SetClaheLevel other = (cmd.HeatCamera.JonSharedCmdHeatCamera.SetClaheLevel) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -7962,8 +7962,8 @@ public final class JonSharedCmdHeatCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -8095,7 +8095,7 @@ public final class JonSharedCmdHeatCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -8146,7 +8146,7 @@ public final class JonSharedCmdHeatCamera {
 
       public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.SetClaheLevel other) {
         if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.SetClaheLevel.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -8175,11 +8175,11 @@ public final class JonSharedCmdHeatCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -8197,21 +8197,21 @@ public final class JonSharedCmdHeatCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -8219,12 +8219,12 @@ public final class JonSharedCmdHeatCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -8285,10 +8285,10 @@ public final class JonSharedCmdHeatCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.HeatCamera.ShiftClaheLevel}
@@ -8328,13 +8328,13 @@ public final class JonSharedCmdHeatCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -8352,8 +8352,8 @@ public final class JonSharedCmdHeatCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -8364,9 +8364,9 @@ public final class JonSharedCmdHeatCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -8383,8 +8383,8 @@ public final class JonSharedCmdHeatCamera {
       }
       cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel other = (cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -8398,8 +8398,8 @@ public final class JonSharedCmdHeatCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -8531,7 +8531,7 @@ public final class JonSharedCmdHeatCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -8582,7 +8582,7 @@ public final class JonSharedCmdHeatCamera {
 
       public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel other) {
         if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -8611,11 +8611,11 @@ public final class JonSharedCmdHeatCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -8633,21 +8633,21 @@ public final class JonSharedCmdHeatCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -8655,12 +8655,12 @@ public final class JonSharedCmdHeatCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -10496,10 +10496,10 @@ public final class JonSharedCmdHeatCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.HeatCamera.SetValue}
@@ -10539,13 +10539,13 @@ public final class JonSharedCmdHeatCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -10563,8 +10563,8 @@ public final class JonSharedCmdHeatCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10575,9 +10575,9 @@ public final class JonSharedCmdHeatCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -10594,8 +10594,8 @@ public final class JonSharedCmdHeatCamera {
       }
       cmd.HeatCamera.JonSharedCmdHeatCamera.SetValue other = (cmd.HeatCamera.JonSharedCmdHeatCamera.SetValue) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -10609,8 +10609,8 @@ public final class JonSharedCmdHeatCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10742,7 +10742,7 @@ public final class JonSharedCmdHeatCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -10793,7 +10793,7 @@ public final class JonSharedCmdHeatCamera {
 
       public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.SetValue other) {
         if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.SetValue.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -10822,11 +10822,11 @@ public final class JonSharedCmdHeatCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -10844,21 +10844,21 @@ public final class JonSharedCmdHeatCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -10866,12 +10866,12 @@ public final class JonSharedCmdHeatCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -11366,10 +11366,10 @@ public final class JonSharedCmdHeatCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.HeatCamera.SetDigitalZoomLevel}
@@ -11409,13 +11409,13 @@ public final class JonSharedCmdHeatCamera {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -11433,8 +11433,8 @@ public final class JonSharedCmdHeatCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -11445,9 +11445,9 @@ public final class JonSharedCmdHeatCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -11464,8 +11464,8 @@ public final class JonSharedCmdHeatCamera {
       }
       cmd.HeatCamera.JonSharedCmdHeatCamera.SetDigitalZoomLevel other = (cmd.HeatCamera.JonSharedCmdHeatCamera.SetDigitalZoomLevel) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -11479,8 +11479,8 @@ public final class JonSharedCmdHeatCamera {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -11612,7 +11612,7 @@ public final class JonSharedCmdHeatCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -11663,7 +11663,7 @@ public final class JonSharedCmdHeatCamera {
 
       public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.SetDigitalZoomLevel other) {
         if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.SetDigitalZoomLevel.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -11692,11 +11692,11 @@ public final class JonSharedCmdHeatCamera {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -11714,21 +11714,21 @@ public final class JonSharedCmdHeatCamera {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -11736,12 +11736,12 @@ public final class JonSharedCmdHeatCamera {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -22124,36 +22124,37 @@ public final class JonSharedCmdHeatCamera {
       "ClaheLevelH\000\022<\n\021shift_clahe_level\030\" \001(\0132" +
       "\037.cmd.HeatCamera.ShiftClaheLevelH\000B\014\n\003cm" +
       "d\022\005\272H\002\010\001\"@\n\tSetFxMode\0223\n\004mode\030\001 \001(\0162\031.se" +
-      "r.JonGuiDataFxModeHeatB\n\272H\007\202\001\004\020\001 \000\"/\n\rSe" +
-      "tClaheLevel\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n\035\000\000\200?-\000" +
-      "\000\000\000\"1\n\017ShiftClaheLevel\022\036\n\005value\030\001 \001(\002B\017\272" +
-      "H\014\n\n\035\000\000\200?-\000\000\200\277\"\014\n\nNextFxMode\"\014\n\nPrevFxMo" +
-      "de\"\017\n\rRefreshFxMode\"\013\n\tEnableDDE\"\014\n\nDisa" +
-      "bleDDE\"*\n\010SetValue\022\036\n\005value\030\001 \001(\002B\017\272H\014\n\n" +
-      "\035\000\000\200?-\000\000\000\000\"\'\n\013SetDDELevel\022\030\n\005value\030\001 \001(\005" +
-      "B\t\272H\006\032\004\030d(\000\"0\n\023SetDigitalZoomLevel\022\031\n\005va" +
-      "lue\030\001 \001(\002B\n\272H\007\n\005-\000\000\200?\"-\n\010ShiftDDE\022!\n\005val" +
-      "ue\030\001 \001(\005B\022\272H\017\032\r\030d(\234\377\377\377\377\377\377\377\377\001\"\010\n\006ZoomIn\"\t" +
-      "\n\007ZoomOut\"\n\n\010ZoomStop\"\t\n\007FocusIn\"\n\n\010Focu" +
-      "sOut\"\013\n\tFocusStop\"\017\n\rFocusStepPlus\"\020\n\016Fo" +
-      "cusStepMinus\"\013\n\tCalibrate\"\331\001\n\004Zoom\022A\n\024se" +
-      "t_zoom_table_value\030\001 \001(\0132!.cmd.HeatCamer" +
-      "a.SetZoomTableValueH\000\022?\n\023next_zoom_table" +
-      "_pos\030\002 \001(\0132 .cmd.HeatCamera.NextZoomTabl" +
-      "ePosH\000\022?\n\023prev_zoom_table_pos\030\003 \001(\0132 .cm" +
-      "d.HeatCamera.PrevZoomTablePosH\000B\014\n\003cmd\022\005" +
-      "\272H\002\010\001\"\022\n\020NextZoomTablePos\"\022\n\020PrevZoomTab" +
-      "lePos\"\016\n\014SetCalibMode\"+\n\021SetZoomTableVal" +
-      "ue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"L\n\006SetAGC\022B\n\005" +
-      "value\030\001 \001(\0162\'.ser.JonGuiDataVideoChannel" +
-      "HeatAGCModesB\n\272H\007\202\001\004\020\001 \000\"O\n\nSetFilters\022A" +
-      "\n\005value\030\001 \001(\0162&.ser.JonGuiDataVideoChann" +
-      "elHeatFiltersB\n\272H\007\202\001\004\020\001 \000\"\007\n\005Start\"\006\n\004St" +
-      "op\"\006\n\004Halt\"\007\n\005Photo\"\n\n\010GetMeteo\"\035\n\014SetAu" +
-      "toFocus\022\r\n\005value\030\001 \001(\010\"\013\n\tResetZoom\"\r\n\013S" +
-      "aveToTableBRZPgit-codecommit.eu-central-" +
-      "1.amazonaws.com/v1/repos/jettison/jonp/c" +
-      "md/heat_camerab\006proto3"
+      "r.JonGuiDataFxModeHeatB\n\272H\007\202\001\004\020\001 \000\"7\n\rSe" +
+      "tClaheLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
+      "\360?)\000\000\000\000\000\000\000\000\"9\n\017ShiftClaheLevel\022&\n\005value\030" +
+      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\014\n\nNextFx" +
+      "Mode\"\014\n\nPrevFxMode\"\017\n\rRefreshFxMode\"\013\n\tE" +
+      "nableDDE\"\014\n\nDisableDDE\"2\n\010SetValue\022&\n\005va" +
+      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"\'\n\013Se" +
+      "tDDELevel\022\030\n\005value\030\001 \001(\005B\t\272H\006\032\004\030d(\000\"4\n\023S" +
+      "etDigitalZoomLevel\022\035\n\005value\030\001 \001(\001B\016\272H\013\022\t" +
+      ")\000\000\000\000\000\000\360?\"-\n\010ShiftDDE\022!\n\005value\030\001 \001(\005B\022\272H" +
+      "\017\032\r\030d(\234\377\377\377\377\377\377\377\377\001\"\010\n\006ZoomIn\"\t\n\007ZoomOut\"\n\n" +
+      "\010ZoomStop\"\t\n\007FocusIn\"\n\n\010FocusOut\"\013\n\tFocu" +
+      "sStop\"\017\n\rFocusStepPlus\"\020\n\016FocusStepMinus" +
+      "\"\013\n\tCalibrate\"\331\001\n\004Zoom\022A\n\024set_zoom_table" +
+      "_value\030\001 \001(\0132!.cmd.HeatCamera.SetZoomTab" +
+      "leValueH\000\022?\n\023next_zoom_table_pos\030\002 \001(\0132 " +
+      ".cmd.HeatCamera.NextZoomTablePosH\000\022?\n\023pr" +
+      "ev_zoom_table_pos\030\003 \001(\0132 .cmd.HeatCamera" +
+      ".PrevZoomTablePosH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020Nex" +
+      "tZoomTablePos\"\022\n\020PrevZoomTablePos\"\016\n\014Set" +
+      "CalibMode\"+\n\021SetZoomTableValue\022\026\n\005value\030" +
+      "\001 \001(\005B\007\272H\004\032\002(\000\"L\n\006SetAGC\022B\n\005value\030\001 \001(\0162" +
+      "\'.ser.JonGuiDataVideoChannelHeatAGCModes" +
+      "B\n\272H\007\202\001\004\020\001 \000\"O\n\nSetFilters\022A\n\005value\030\001 \001(" +
+      "\0162&.ser.JonGuiDataVideoChannelHeatFilter" +
+      "sB\n\272H\007\202\001\004\020\001 \000\"\007\n\005Start\"\006\n\004Stop\"\006\n\004Halt\"\007" +
+      "\n\005Photo\"\n\n\010GetMeteo\"\035\n\014SetAutoFocus\022\r\n\005v" +
+      "alue\030\001 \001(\010\"\013\n\tResetZoom\"\r\n\013SaveToTableBR" +
+      "ZPgit-codecommit.eu-central-1.amazonaws." +
+      "com/v1/repos/jettison/jonp/cmd/heat_came" +
+      "rab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

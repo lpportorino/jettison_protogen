@@ -177,16 +177,16 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_rotary.proto\022\003ser\032\033jon"
     "_shared_data_types.proto\"\303\003\n\020JonGuiDataR"
-    "otary\022\017\n\007azimuth\030\001 \001(\002\022\025\n\razimuth_speed\030"
-    "\002 \001(\002\022\021\n\televation\030\003 \001(\002\022\027\n\017elevation_sp"
-    "eed\030\004 \001(\002\022\030\n\020platform_azimuth\030\005 \001(\002\022\032\n\022p"
-    "latform_elevation\030\006 \001(\002\022\025\n\rplatform_bank"
-    "\030\007 \001(\002\022\021\n\tis_moving\030\010 \001(\010\022\'\n\004mode\030\t \001(\0162"
+    "otary\022\017\n\007azimuth\030\001 \001(\001\022\025\n\razimuth_speed\030"
+    "\002 \001(\001\022\021\n\televation\030\003 \001(\001\022\027\n\017elevation_sp"
+    "eed\030\004 \001(\001\022\030\n\020platform_azimuth\030\005 \001(\001\022\032\n\022p"
+    "latform_elevation\030\006 \001(\001\022\025\n\rplatform_bank"
+    "\030\007 \001(\001\022\021\n\tis_moving\030\010 \001(\010\022\'\n\004mode\030\t \001(\0162"
     "\031.ser.JonGuiDataRotaryMode\022\023\n\013is_scannin"
     "g\030\n \001(\010\022\032\n\022is_scanning_paused\030\013 \001(\010\022\035\n\025u"
     "se_rotary_as_compass\030\014 \001(\010\022\023\n\013scan_targe"
     "t\030\r \001(\005\022\027\n\017scan_target_max\030\016 \001(\005\022\023\n\013sun_"
-    "azimuth\030\017 \001(\002\022\025\n\rsun_elevation\030\020 \001(\002\022(\n\021"
+    "azimuth\030\017 \001(\001\022\025\n\rsun_elevation\030\020 \001(\001\022(\n\021"
     "current_scan_node\030\021 \001(\0132\r.ser.ScanNode\"\223"
     "\001\n\010ScanNode\022\r\n\005index\030\001 \001(\005\022\031\n\021DayZoomTab"
     "leValue\030\002 \001(\005\022\032\n\022HeatZoomTableValue\030\003 \001("
@@ -350,27 +350,27 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float azimuth = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_)}},
-    // float azimuth_speed = 2;
-    {::_pbi::TcParser::FastF32S1,
-     {21, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_speed_)}},
-    // float elevation = 3;
-    {::_pbi::TcParser::FastF32S1,
-     {29, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_)}},
-    // float elevation_speed = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_speed_)}},
-    // float platform_azimuth = 5;
-    {::_pbi::TcParser::FastF32S1,
-     {45, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_azimuth_)}},
-    // float platform_elevation = 6;
-    {::_pbi::TcParser::FastF32S1,
-     {53, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_elevation_)}},
-    // float platform_bank = 7;
-    {::_pbi::TcParser::FastF32S1,
-     {61, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_bank_)}},
+    // double azimuth = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_)}},
+    // double azimuth_speed = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_speed_)}},
+    // double elevation = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_)}},
+    // double elevation_speed = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_speed_)}},
+    // double platform_azimuth = 5;
+    {::_pbi::TcParser::FastF64S1,
+     {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_azimuth_)}},
+    // double platform_elevation = 6;
+    {::_pbi::TcParser::FastF64S1,
+     {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_elevation_)}},
+    // double platform_bank = 7;
+    {::_pbi::TcParser::FastF64S1,
+     {57, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_bank_)}},
     // bool is_moving = 8;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataRotary, _impl_.is_moving_), 63>(),
      {64, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_moving_)}},
@@ -392,12 +392,12 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // int32 scan_target_max = 14;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataRotary, _impl_.scan_target_max_), 63>(),
      {112, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.scan_target_max_)}},
-    // float sun_azimuth = 15;
-    {::_pbi::TcParser::FastF32S1,
-     {125, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_azimuth_)}},
-    // float sun_elevation = 16;
-    {::_pbi::TcParser::FastF32S2,
-     {389, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_)}},
+    // double sun_azimuth = 15;
+    {::_pbi::TcParser::FastF64S1,
+     {121, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_azimuth_)}},
+    // double sun_elevation = 16;
+    {::_pbi::TcParser::FastF64S2,
+     {385, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_)}},
     // .ser.ScanNode current_scan_node = 17;
     {::_pbi::TcParser::FastMtS2,
      {394, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_)}},
@@ -418,27 +418,27 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // float azimuth = 1;
+    // double azimuth = 1;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float azimuth_speed = 2;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double azimuth_speed = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_speed_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float elevation = 3;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double elevation = 3;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float elevation_speed = 4;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double elevation_speed = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_speed_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float platform_azimuth = 5;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double platform_azimuth = 5;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_azimuth_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float platform_elevation = 6;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double platform_elevation = 6;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_elevation_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float platform_bank = 7;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double platform_bank = 7;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_bank_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool is_moving = 8;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_moving_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
@@ -460,12 +460,12 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // int32 scan_target_max = 14;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.scan_target_max_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // float sun_azimuth = 15;
+    // double sun_azimuth = 15;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_azimuth_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float sun_elevation = 16;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double sun_elevation = 16;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.ScanNode current_scan_node = 17;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -509,52 +509,52 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float azimuth = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_azimuth()) != 0) {
+          // double azimuth = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_azimuth(), target);
           }
 
-          // float azimuth_speed = 2;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_azimuth_speed()) != 0) {
+          // double azimuth_speed = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_azimuth_speed(), target);
           }
 
-          // float elevation = 3;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_elevation()) != 0) {
+          // double elevation = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_elevation(), target);
           }
 
-          // float elevation_speed = 4;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_elevation_speed()) != 0) {
+          // double elevation_speed = 4;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_elevation_speed()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_elevation_speed(), target);
           }
 
-          // float platform_azimuth = 5;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_platform_azimuth()) != 0) {
+          // double platform_azimuth = 5;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_platform_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_platform_azimuth(), target);
           }
 
-          // float platform_elevation = 6;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_platform_elevation()) != 0) {
+          // double platform_elevation = 6;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_platform_elevation()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 6, this_._internal_platform_elevation(), target);
           }
 
-          // float platform_bank = 7;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_platform_bank()) != 0) {
+          // double platform_bank = 7;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_platform_bank()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 7, this_._internal_platform_bank(), target);
           }
 
@@ -607,17 +607,17 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
                     stream, this_._internal_scan_target_max(), target);
           }
 
-          // float sun_azimuth = 15;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_sun_azimuth()) != 0) {
+          // double sun_azimuth = 15;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_sun_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 15, this_._internal_sun_azimuth(), target);
           }
 
-          // float sun_elevation = 16;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_sun_elevation()) != 0) {
+          // double sun_elevation = 16;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_sun_elevation()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 16, this_._internal_sun_elevation(), target);
           }
 
@@ -662,33 +662,33 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
             }
           }
            {
-            // float azimuth = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_azimuth()) != 0) {
-              total_size += 5;
+            // double azimuth = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
+              total_size += 9;
             }
-            // float azimuth_speed = 2;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_azimuth_speed()) != 0) {
-              total_size += 5;
+            // double azimuth_speed = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth_speed()) != 0) {
+              total_size += 9;
             }
-            // float elevation = 3;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_elevation()) != 0) {
-              total_size += 5;
+            // double elevation = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
+              total_size += 9;
             }
-            // float elevation_speed = 4;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_elevation_speed()) != 0) {
-              total_size += 5;
+            // double elevation_speed = 4;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_elevation_speed()) != 0) {
+              total_size += 9;
             }
-            // float platform_azimuth = 5;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_platform_azimuth()) != 0) {
-              total_size += 5;
+            // double platform_azimuth = 5;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_platform_azimuth()) != 0) {
+              total_size += 9;
             }
-            // float platform_elevation = 6;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_platform_elevation()) != 0) {
-              total_size += 5;
+            // double platform_elevation = 6;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_platform_elevation()) != 0) {
+              total_size += 9;
             }
-            // float platform_bank = 7;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_platform_bank()) != 0) {
-              total_size += 5;
+            // double platform_bank = 7;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_platform_bank()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataRotaryMode mode = 9;
             if (this_._internal_mode() != 0) {
@@ -721,13 +721,13 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_scan_target_max());
             }
-            // float sun_azimuth = 15;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_sun_azimuth()) != 0) {
-              total_size += 5;
+            // double sun_azimuth = 15;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_sun_azimuth()) != 0) {
+              total_size += 9;
             }
-            // float sun_elevation = 16;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_sun_elevation()) != 0) {
-              total_size += 6;
+            // double sun_elevation = 16;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_sun_elevation()) != 0) {
+              total_size += 10;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -753,25 +753,25 @@ void JonGuiDataRotary::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
       _this->_impl_.current_scan_node_->MergeFrom(*from._impl_.current_scan_node_);
     }
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_azimuth()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_azimuth()) != 0) {
     _this->_impl_.azimuth_ = from._impl_.azimuth_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_azimuth_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_azimuth_speed()) != 0) {
     _this->_impl_.azimuth_speed_ = from._impl_.azimuth_speed_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_elevation()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_elevation()) != 0) {
     _this->_impl_.elevation_ = from._impl_.elevation_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_elevation_speed()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_elevation_speed()) != 0) {
     _this->_impl_.elevation_speed_ = from._impl_.elevation_speed_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_platform_azimuth()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_platform_azimuth()) != 0) {
     _this->_impl_.platform_azimuth_ = from._impl_.platform_azimuth_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_platform_elevation()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_platform_elevation()) != 0) {
     _this->_impl_.platform_elevation_ = from._impl_.platform_elevation_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_platform_bank()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_platform_bank()) != 0) {
     _this->_impl_.platform_bank_ = from._impl_.platform_bank_;
   }
   if (from._internal_mode() != 0) {
@@ -795,10 +795,10 @@ void JonGuiDataRotary::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   if (from._internal_scan_target_max() != 0) {
     _this->_impl_.scan_target_max_ = from._impl_.scan_target_max_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_sun_azimuth()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_sun_azimuth()) != 0) {
     _this->_impl_.sun_azimuth_ = from._impl_.sun_azimuth_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_sun_elevation()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_sun_elevation()) != 0) {
     _this->_impl_.sun_elevation_ = from._impl_.sun_elevation_;
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;

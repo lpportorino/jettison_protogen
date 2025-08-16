@@ -12,24 +12,24 @@
 
 /* Struct definitions */
 typedef struct _cmd_DayCamera_SetValue {
-    float value;
+    double value;
 } cmd_DayCamera_SetValue;
 
 typedef struct _cmd_DayCamera_Move {
-    float target_value;
-    float speed;
+    double target_value;
+    double speed;
 } cmd_DayCamera_Move;
 
 typedef struct _cmd_DayCamera_Offset {
-    float offset_value;
+    double offset_value;
 } cmd_DayCamera_Offset;
 
 typedef struct _cmd_DayCamera_SetClaheLevel {
-    float value;
+    double value;
 } cmd_DayCamera_SetClaheLevel;
 
 typedef struct _cmd_DayCamera_ShiftClaheLevel {
-    float value;
+    double value;
 } cmd_DayCamera_ShiftClaheLevel;
 
 typedef struct _cmd_DayCamera_GetPos {
@@ -57,7 +57,7 @@ typedef struct _cmd_DayCamera_SetFxMode {
 } cmd_DayCamera_SetFxMode;
 
 typedef struct _cmd_DayCamera_SetDigitalZoomLevel {
-    float value;
+    double value;
 } cmd_DayCamera_SetDigitalZoomLevel;
 
 typedef struct _cmd_DayCamera_NextZoomTablePos {
@@ -69,7 +69,7 @@ typedef struct _cmd_DayCamera_PrevZoomTablePos {
 } cmd_DayCamera_PrevZoomTablePos;
 
 typedef struct _cmd_DayCamera_SetIris {
-    float value;
+    double value;
 } cmd_DayCamera_SetIris;
 
 typedef struct _cmd_DayCamera_SetInfraRedFilter {
@@ -285,28 +285,28 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define cmd_DayCamera_SetValue_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_DayCamera_SetValue_CALLBACK NULL
 #define cmd_DayCamera_SetValue_DEFAULT NULL
 
 #define cmd_DayCamera_Move_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    target_value,      1) \
-X(a, STATIC,   SINGULAR, FLOAT,    speed,             2)
+X(a, STATIC,   SINGULAR, DOUBLE,   target_value,      1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   speed,             2)
 #define cmd_DayCamera_Move_CALLBACK NULL
 #define cmd_DayCamera_Move_DEFAULT NULL
 
 #define cmd_DayCamera_Offset_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    offset_value,      1)
+X(a, STATIC,   SINGULAR, DOUBLE,   offset_value,      1)
 #define cmd_DayCamera_Offset_CALLBACK NULL
 #define cmd_DayCamera_Offset_DEFAULT NULL
 
 #define cmd_DayCamera_SetClaheLevel_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_DayCamera_SetClaheLevel_CALLBACK NULL
 #define cmd_DayCamera_SetClaheLevel_DEFAULT NULL
 
 #define cmd_DayCamera_ShiftClaheLevel_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_DayCamera_ShiftClaheLevel_CALLBACK NULL
 #define cmd_DayCamera_ShiftClaheLevel_DEFAULT NULL
 
@@ -379,7 +379,7 @@ X(a, STATIC,   SINGULAR, UENUM,    mode,              1)
 #define cmd_DayCamera_SetFxMode_DEFAULT NULL
 
 #define cmd_DayCamera_SetDigitalZoomLevel_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_DayCamera_SetDigitalZoomLevel_CALLBACK NULL
 #define cmd_DayCamera_SetDigitalZoomLevel_DEFAULT NULL
 
@@ -432,7 +432,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_to_table,cmd.save_to_table),   9)
 #define cmd_DayCamera_PrevZoomTablePos_DEFAULT NULL
 
 #define cmd_DayCamera_SetIris_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_DayCamera_SetIris_CALLBACK NULL
 #define cmd_DayCamera_SetIris_DEFAULT NULL
 
@@ -561,36 +561,36 @@ extern const pb_msgdesc_t cmd_DayCamera_SaveToTableFocus_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_DAYCAMERA_JON_SHARED_CMD_DAY_CAMERA_PB_H_MAX_SIZE cmd_DayCamera_Root_size
-#define cmd_DayCamera_Focus_size                 12
+#define cmd_DayCamera_Focus_size                 20
 #define cmd_DayCamera_GetMeteo_size              0
 #define cmd_DayCamera_GetPos_size                0
 #define cmd_DayCamera_HaltAll_size               0
 #define cmd_DayCamera_Halt_size                  0
-#define cmd_DayCamera_Move_size                  10
+#define cmd_DayCamera_Move_size                  18
 #define cmd_DayCamera_NextFxMode_size            0
 #define cmd_DayCamera_NextZoomTablePos_size      0
-#define cmd_DayCamera_Offset_size                5
+#define cmd_DayCamera_Offset_size                9
 #define cmd_DayCamera_Photo_size                 0
 #define cmd_DayCamera_PrevFxMode_size            0
 #define cmd_DayCamera_PrevZoomTablePos_size      0
 #define cmd_DayCamera_RefreshFxMode_size         0
 #define cmd_DayCamera_ResetFocus_size            0
 #define cmd_DayCamera_ResetZoom_size             0
-#define cmd_DayCamera_Root_size                  15
+#define cmd_DayCamera_Root_size                  22
 #define cmd_DayCamera_SaveToTableFocus_size      0
 #define cmd_DayCamera_SaveToTable_size           0
 #define cmd_DayCamera_SetAutoIris_size           2
-#define cmd_DayCamera_SetClaheLevel_size         5
-#define cmd_DayCamera_SetDigitalZoomLevel_size   5
+#define cmd_DayCamera_SetClaheLevel_size         9
+#define cmd_DayCamera_SetDigitalZoomLevel_size   9
 #define cmd_DayCamera_SetFxMode_size             2
 #define cmd_DayCamera_SetInfraRedFilter_size     2
-#define cmd_DayCamera_SetIris_size               5
-#define cmd_DayCamera_SetValue_size              5
+#define cmd_DayCamera_SetIris_size               9
+#define cmd_DayCamera_SetValue_size              9
 #define cmd_DayCamera_SetZoomTableValue_size     11
-#define cmd_DayCamera_ShiftClaheLevel_size       5
+#define cmd_DayCamera_ShiftClaheLevel_size       9
 #define cmd_DayCamera_Start_size                 0
 #define cmd_DayCamera_Stop_size                  0
-#define cmd_DayCamera_Zoom_size                  13
+#define cmd_DayCamera_Zoom_size                  20
 
 #ifdef __cplusplus
 } /* extern "C" */

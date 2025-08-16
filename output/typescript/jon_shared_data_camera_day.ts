@@ -42,13 +42,13 @@ function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
 export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
   encode(message: JonGuiDataCameraDay, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.focusPos !== 0) {
-      writer.uint32(13).float(message.focusPos);
+      writer.uint32(9).double(message.focusPos);
     }
     if (message.zoomPos !== 0) {
-      writer.uint32(21).float(message.zoomPos);
+      writer.uint32(17).double(message.zoomPos);
     }
     if (message.irisPos !== 0) {
-      writer.uint32(29).float(message.irisPos);
+      writer.uint32(25).double(message.irisPos);
     }
     if (message.infraredFilter !== false) {
       writer.uint32(32).bool(message.infraredFilter);
@@ -69,10 +69,10 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
       writer.uint32(72).bool(message.autoIris);
     }
     if (message.digitalZoomLevel !== 0) {
-      writer.uint32(85).float(message.digitalZoomLevel);
+      writer.uint32(81).double(message.digitalZoomLevel);
     }
     if (message.claheLevel !== 0) {
-      writer.uint32(93).float(message.claheLevel);
+      writer.uint32(89).double(message.claheLevel);
     }
     return writer;
   },
@@ -85,27 +85,27 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 13) {
+          if (tag !== 9) {
             break;
           }
 
-          message.focusPos = reader.float();
+          message.focusPos = reader.double();
           continue;
         }
         case 2: {
-          if (tag !== 21) {
+          if (tag !== 17) {
             break;
           }
 
-          message.zoomPos = reader.float();
+          message.zoomPos = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 29) {
+          if (tag !== 25) {
             break;
           }
 
-          message.irisPos = reader.float();
+          message.irisPos = reader.double();
           continue;
         }
         case 4: {
@@ -157,19 +157,19 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
           continue;
         }
         case 10: {
-          if (tag !== 85) {
+          if (tag !== 81) {
             break;
           }
 
-          message.digitalZoomLevel = reader.float();
+          message.digitalZoomLevel = reader.double();
           continue;
         }
         case 11: {
-          if (tag !== 93) {
+          if (tag !== 89) {
             break;
           }
 
-          message.claheLevel = reader.float();
+          message.claheLevel = reader.double();
           continue;
         }
       }

@@ -306,9 +306,9 @@ func (x *SetUseManualPosition) GetFlag() bool {
 
 type SetManualPosition struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Latitude      float32                `protobuf:"fixed32,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude     float32                `protobuf:"fixed32,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Altitude      float32                `protobuf:"fixed32,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
+	Latitude      float64                `protobuf:"fixed64,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude     float64                `protobuf:"fixed64,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Altitude      float64                `protobuf:"fixed64,3,opt,name=altitude,proto3" json:"altitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -343,21 +343,21 @@ func (*SetManualPosition) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_gps_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *SetManualPosition) GetLatitude() float32 {
+func (x *SetManualPosition) GetLatitude() float64 {
 	if x != nil {
 		return x.Latitude
 	}
 	return 0
 }
 
-func (x *SetManualPosition) GetLongitude() float32 {
+func (x *SetManualPosition) GetLongitude() float64 {
 	if x != nil {
 		return x.Longitude
 	}
 	return 0
 }
 
-func (x *SetManualPosition) GetAltitude() float32 {
+func (x *SetManualPosition) GetAltitude() float64 {
 	if x != nil {
 		return x.Altitude
 	}
@@ -381,17 +381,11 @@ const file_jon_shared_cmd_gps_proto_rawDesc = "" +
 	"\n" +
 	"\bGetMeteo\"*\n" +
 	"\x14SetUseManualPosition\x12\x12\n" +
-	"\x04flag\x18\x01 \x01(\bR\x04flag\"\x9c\x01\n" +
-	"\x11SetManualPosition\x12+\n" +
-	"\blatitude\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\blatitude\x12-\n" +
-	"\tlongitude\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x15\x00\x004C-\x00\x004\xc3R\tlongitude\x12+\n" +
-	"\baltitude\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00P\xc3G-\x00\x00\xd7\xc3R\baltitudeB\xaa\x01\n" +
+	"\x04flag\x18\x01 \x01(\bR\x04flag\"\xb4\x01\n" +
+	"\x11SetManualPosition\x123\n" +
+	"\blatitude\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x125\n" +
+	"\tlongitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
+	"\baltitude\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\xf8@)\x00\x00\x00\x00\x00\xe0z\xc0R\baltitudeB\xaa\x01\n" +
 	"\vcom.cmd.GpsB\x14JonSharedCmdGpsProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/gps\xa2\x02\x03CGX\xaa\x02\aCmd.Gps\xca\x02\aCmd\\Gps\xe2\x02\x13Cmd\\Gps\\GPBMetadata\xea\x02\bCmd::Gpsb\x06proto3"
 
 var (

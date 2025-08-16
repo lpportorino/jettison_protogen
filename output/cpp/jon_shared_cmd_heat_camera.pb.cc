@@ -1263,12 +1263,12 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto[
     "evel\030\" \001(\0132\037.cmd.HeatCamera.ShiftClaheLe"
     "velH\000B\005\n\003cmd\"4\n\tSetFxMode\022\'\n\004mode\030\001 \001(\0162"
     "\031.ser.JonGuiDataFxModeHeat\"\036\n\rSetClaheLe"
-    "vel\022\r\n\005value\030\001 \001(\002\" \n\017ShiftClaheLevel\022\r\n"
-    "\005value\030\001 \001(\002\"\014\n\nNextFxMode\"\014\n\nPrevFxMode"
+    "vel\022\r\n\005value\030\001 \001(\001\" \n\017ShiftClaheLevel\022\r\n"
+    "\005value\030\001 \001(\001\"\014\n\nNextFxMode\"\014\n\nPrevFxMode"
     "\"\017\n\rRefreshFxMode\"\013\n\tEnableDDE\"\014\n\nDisabl"
-    "eDDE\"\031\n\010SetValue\022\r\n\005value\030\001 \001(\002\"\034\n\013SetDD"
+    "eDDE\"\031\n\010SetValue\022\r\n\005value\030\001 \001(\001\"\034\n\013SetDD"
     "ELevel\022\r\n\005value\030\001 \001(\005\"$\n\023SetDigitalZoomL"
-    "evel\022\r\n\005value\030\001 \001(\002\"\031\n\010ShiftDDE\022\r\n\005value"
+    "evel\022\r\n\005value\030\001 \001(\001\"\031\n\010ShiftDDE\022\r\n\005value"
     "\030\001 \001(\005\"\010\n\006ZoomIn\"\t\n\007ZoomOut\"\n\n\010ZoomStop\""
     "\t\n\007FocusIn\"\n\n\010FocusOut\"\013\n\tFocusStop\"\017\n\rF"
     "ocusStepPlus\"\020\n\016FocusStepMinus\"\013\n\tCalibr"
@@ -3384,15 +3384,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetClaheLevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetClaheLevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetClaheLevel, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetClaheLevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetClaheLevel, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -3425,10 +3425,10 @@ PROTOBUF_NOINLINE void SetClaheLevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -3456,9 +3456,9 @@ PROTOBUF_NOINLINE void SetClaheLevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3473,7 +3473,7 @@ void SetClaheLevel::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -3590,15 +3590,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> ShiftClaheLevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::ShiftClaheLevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftClaheLevel, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftClaheLevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(ShiftClaheLevel, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -3631,10 +3631,10 @@ PROTOBUF_NOINLINE void ShiftClaheLevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -3662,9 +3662,9 @@ PROTOBUF_NOINLINE void ShiftClaheLevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -3679,7 +3679,7 @@ void ShiftClaheLevel::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -4311,15 +4311,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetValue::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetValue>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetValue, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetValue, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetValue, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -4352,10 +4352,10 @@ PROTOBUF_NOINLINE void SetValue::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -4383,9 +4383,9 @@ PROTOBUF_NOINLINE void SetValue::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -4400,7 +4400,7 @@ void SetValue::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -4724,15 +4724,15 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetDigitalZoomLevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetDigitalZoomLevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float value = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetDigitalZoomLevel, _impl_.value_)}},
+    // double value = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetDigitalZoomLevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // float value = 1;
+    // double value = 1;
     {PROTOBUF_FIELD_OFFSET(SetDigitalZoomLevel, _impl_.value_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -4765,10 +4765,10 @@ PROTOBUF_NOINLINE void SetDigitalZoomLevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float value = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
+          // double value = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_value(), target);
           }
 
@@ -4796,9 +4796,9 @@ PROTOBUF_NOINLINE void SetDigitalZoomLevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // float value = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_value()) != 0) {
-              total_size += 5;
+            // double value = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
+              total_size += 9;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -4813,7 +4813,7 @@ void SetDigitalZoomLevel::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_value()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_value()) != 0) {
     _this->_impl_.value_ = from._impl_.value_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);

@@ -43,15 +43,15 @@ typedef struct _cmd_Compass_GetMeteo {
 } cmd_Compass_GetMeteo;
 
 typedef struct _cmd_Compass_SetMagneticDeclination {
-    float value;
+    double value;
 } cmd_Compass_SetMagneticDeclination;
 
 typedef struct _cmd_Compass_SetOffsetAngleAzimuth {
-    float value;
+    double value;
 } cmd_Compass_SetOffsetAngleAzimuth;
 
 typedef struct _cmd_Compass_SetOffsetAngleElevation {
-    float value;
+    double value;
 } cmd_Compass_SetOffsetAngleElevation;
 
 typedef struct _cmd_Compass_SetUseRotaryPosition {
@@ -193,17 +193,17 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_meteo,cmd.get_meteo),  11)
 #define cmd_Compass_GetMeteo_DEFAULT NULL
 
 #define cmd_Compass_SetMagneticDeclination_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_Compass_SetMagneticDeclination_CALLBACK NULL
 #define cmd_Compass_SetMagneticDeclination_DEFAULT NULL
 
 #define cmd_Compass_SetOffsetAngleAzimuth_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_Compass_SetOffsetAngleAzimuth_CALLBACK NULL
 #define cmd_Compass_SetOffsetAngleAzimuth_DEFAULT NULL
 
 #define cmd_Compass_SetOffsetAngleElevation_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    value,             1)
+X(a, STATIC,   SINGULAR, DOUBLE,   value,             1)
 #define cmd_Compass_SetOffsetAngleElevation_CALLBACK NULL
 #define cmd_Compass_SetOffsetAngleElevation_DEFAULT NULL
 
@@ -249,10 +249,10 @@ extern const pb_msgdesc_t cmd_Compass_SetUseRotaryPosition_msg;
 #define cmd_Compass_CalibrateStartShort_size     0
 #define cmd_Compass_GetMeteo_size                0
 #define cmd_Compass_Next_size                    0
-#define cmd_Compass_Root_size                    7
-#define cmd_Compass_SetMagneticDeclination_size  5
-#define cmd_Compass_SetOffsetAngleAzimuth_size   5
-#define cmd_Compass_SetOffsetAngleElevation_size 5
+#define cmd_Compass_Root_size                    11
+#define cmd_Compass_SetMagneticDeclination_size  9
+#define cmd_Compass_SetOffsetAngleAzimuth_size   9
+#define cmd_Compass_SetOffsetAngleElevation_size 9
 #define cmd_Compass_SetUseRotaryPosition_size    2
 #define cmd_Compass_Start_size                   0
 #define cmd_Compass_Stop_size                    0

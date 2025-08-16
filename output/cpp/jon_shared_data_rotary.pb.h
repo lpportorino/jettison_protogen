@@ -513,74 +513,74 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   ::ser::ScanNode* _internal_mutable_current_scan_node();
 
   public:
-  // float azimuth = 1;
+  // double azimuth = 1;
   void clear_azimuth() ;
-  float azimuth() const;
-  void set_azimuth(float value);
+  double azimuth() const;
+  void set_azimuth(double value);
 
   private:
-  float _internal_azimuth() const;
-  void _internal_set_azimuth(float value);
+  double _internal_azimuth() const;
+  void _internal_set_azimuth(double value);
 
   public:
-  // float azimuth_speed = 2;
+  // double azimuth_speed = 2;
   void clear_azimuth_speed() ;
-  float azimuth_speed() const;
-  void set_azimuth_speed(float value);
+  double azimuth_speed() const;
+  void set_azimuth_speed(double value);
 
   private:
-  float _internal_azimuth_speed() const;
-  void _internal_set_azimuth_speed(float value);
+  double _internal_azimuth_speed() const;
+  void _internal_set_azimuth_speed(double value);
 
   public:
-  // float elevation = 3;
+  // double elevation = 3;
   void clear_elevation() ;
-  float elevation() const;
-  void set_elevation(float value);
+  double elevation() const;
+  void set_elevation(double value);
 
   private:
-  float _internal_elevation() const;
-  void _internal_set_elevation(float value);
+  double _internal_elevation() const;
+  void _internal_set_elevation(double value);
 
   public:
-  // float elevation_speed = 4;
+  // double elevation_speed = 4;
   void clear_elevation_speed() ;
-  float elevation_speed() const;
-  void set_elevation_speed(float value);
+  double elevation_speed() const;
+  void set_elevation_speed(double value);
 
   private:
-  float _internal_elevation_speed() const;
-  void _internal_set_elevation_speed(float value);
+  double _internal_elevation_speed() const;
+  void _internal_set_elevation_speed(double value);
 
   public:
-  // float platform_azimuth = 5;
+  // double platform_azimuth = 5;
   void clear_platform_azimuth() ;
-  float platform_azimuth() const;
-  void set_platform_azimuth(float value);
+  double platform_azimuth() const;
+  void set_platform_azimuth(double value);
 
   private:
-  float _internal_platform_azimuth() const;
-  void _internal_set_platform_azimuth(float value);
+  double _internal_platform_azimuth() const;
+  void _internal_set_platform_azimuth(double value);
 
   public:
-  // float platform_elevation = 6;
+  // double platform_elevation = 6;
   void clear_platform_elevation() ;
-  float platform_elevation() const;
-  void set_platform_elevation(float value);
+  double platform_elevation() const;
+  void set_platform_elevation(double value);
 
   private:
-  float _internal_platform_elevation() const;
-  void _internal_set_platform_elevation(float value);
+  double _internal_platform_elevation() const;
+  void _internal_set_platform_elevation(double value);
 
   public:
-  // float platform_bank = 7;
+  // double platform_bank = 7;
   void clear_platform_bank() ;
-  float platform_bank() const;
-  void set_platform_bank(float value);
+  double platform_bank() const;
+  void set_platform_bank(double value);
 
   private:
-  float _internal_platform_bank() const;
-  void _internal_set_platform_bank(float value);
+  double _internal_platform_bank() const;
+  void _internal_set_platform_bank(double value);
 
   public:
   // .ser.JonGuiDataRotaryMode mode = 9;
@@ -653,24 +653,24 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_scan_target_max(::int32_t value);
 
   public:
-  // float sun_azimuth = 15;
+  // double sun_azimuth = 15;
   void clear_sun_azimuth() ;
-  float sun_azimuth() const;
-  void set_sun_azimuth(float value);
+  double sun_azimuth() const;
+  void set_sun_azimuth(double value);
 
   private:
-  float _internal_sun_azimuth() const;
-  void _internal_set_sun_azimuth(float value);
+  double _internal_sun_azimuth() const;
+  void _internal_set_sun_azimuth(double value);
 
   public:
-  // float sun_elevation = 16;
+  // double sun_elevation = 16;
   void clear_sun_elevation() ;
-  float sun_elevation() const;
-  void set_sun_elevation(float value);
+  double sun_elevation() const;
+  void set_sun_elevation(double value);
 
   private:
-  float _internal_sun_elevation() const;
-  void _internal_set_sun_elevation(float value);
+  double _internal_sun_elevation() const;
+  void _internal_set_sun_elevation(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataRotary)
@@ -699,13 +699,13 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::ser::ScanNode* current_scan_node_;
-    float azimuth_;
-    float azimuth_speed_;
-    float elevation_;
-    float elevation_speed_;
-    float platform_azimuth_;
-    float platform_elevation_;
-    float platform_bank_;
+    double azimuth_;
+    double azimuth_speed_;
+    double elevation_;
+    double elevation_speed_;
+    double platform_azimuth_;
+    double platform_elevation_;
+    double platform_bank_;
     int mode_;
     bool is_moving_;
     bool is_scanning_;
@@ -713,8 +713,8 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     bool use_rotary_as_compass_;
     ::int32_t scan_target_;
     ::int32_t scan_target_max_;
-    float sun_azimuth_;
-    float sun_elevation_;
+    double sun_azimuth_;
+    double sun_elevation_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -737,156 +737,156 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
 
 // JonGuiDataRotary
 
-// float azimuth = 1;
+// double azimuth = 1;
 inline void JonGuiDataRotary::clear_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = 0;
 }
-inline float JonGuiDataRotary::azimuth() const {
+inline double JonGuiDataRotary::azimuth() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.azimuth)
   return _internal_azimuth();
 }
-inline void JonGuiDataRotary::set_azimuth(float value) {
+inline void JonGuiDataRotary::set_azimuth(double value) {
   _internal_set_azimuth(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.azimuth)
 }
-inline float JonGuiDataRotary::_internal_azimuth() const {
+inline double JonGuiDataRotary::_internal_azimuth() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.azimuth_;
 }
-inline void JonGuiDataRotary::_internal_set_azimuth(float value) {
+inline void JonGuiDataRotary::_internal_set_azimuth(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = value;
 }
 
-// float azimuth_speed = 2;
+// double azimuth_speed = 2;
 inline void JonGuiDataRotary::clear_azimuth_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_speed_ = 0;
 }
-inline float JonGuiDataRotary::azimuth_speed() const {
+inline double JonGuiDataRotary::azimuth_speed() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.azimuth_speed)
   return _internal_azimuth_speed();
 }
-inline void JonGuiDataRotary::set_azimuth_speed(float value) {
+inline void JonGuiDataRotary::set_azimuth_speed(double value) {
   _internal_set_azimuth_speed(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.azimuth_speed)
 }
-inline float JonGuiDataRotary::_internal_azimuth_speed() const {
+inline double JonGuiDataRotary::_internal_azimuth_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.azimuth_speed_;
 }
-inline void JonGuiDataRotary::_internal_set_azimuth_speed(float value) {
+inline void JonGuiDataRotary::_internal_set_azimuth_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_speed_ = value;
 }
 
-// float elevation = 3;
+// double elevation = 3;
 inline void JonGuiDataRotary::clear_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = 0;
 }
-inline float JonGuiDataRotary::elevation() const {
+inline double JonGuiDataRotary::elevation() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.elevation)
   return _internal_elevation();
 }
-inline void JonGuiDataRotary::set_elevation(float value) {
+inline void JonGuiDataRotary::set_elevation(double value) {
   _internal_set_elevation(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.elevation)
 }
-inline float JonGuiDataRotary::_internal_elevation() const {
+inline double JonGuiDataRotary::_internal_elevation() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.elevation_;
 }
-inline void JonGuiDataRotary::_internal_set_elevation(float value) {
+inline void JonGuiDataRotary::_internal_set_elevation(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = value;
 }
 
-// float elevation_speed = 4;
+// double elevation_speed = 4;
 inline void JonGuiDataRotary::clear_elevation_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_speed_ = 0;
 }
-inline float JonGuiDataRotary::elevation_speed() const {
+inline double JonGuiDataRotary::elevation_speed() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.elevation_speed)
   return _internal_elevation_speed();
 }
-inline void JonGuiDataRotary::set_elevation_speed(float value) {
+inline void JonGuiDataRotary::set_elevation_speed(double value) {
   _internal_set_elevation_speed(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.elevation_speed)
 }
-inline float JonGuiDataRotary::_internal_elevation_speed() const {
+inline double JonGuiDataRotary::_internal_elevation_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.elevation_speed_;
 }
-inline void JonGuiDataRotary::_internal_set_elevation_speed(float value) {
+inline void JonGuiDataRotary::_internal_set_elevation_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_speed_ = value;
 }
 
-// float platform_azimuth = 5;
+// double platform_azimuth = 5;
 inline void JonGuiDataRotary::clear_platform_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_azimuth_ = 0;
 }
-inline float JonGuiDataRotary::platform_azimuth() const {
+inline double JonGuiDataRotary::platform_azimuth() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.platform_azimuth)
   return _internal_platform_azimuth();
 }
-inline void JonGuiDataRotary::set_platform_azimuth(float value) {
+inline void JonGuiDataRotary::set_platform_azimuth(double value) {
   _internal_set_platform_azimuth(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.platform_azimuth)
 }
-inline float JonGuiDataRotary::_internal_platform_azimuth() const {
+inline double JonGuiDataRotary::_internal_platform_azimuth() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.platform_azimuth_;
 }
-inline void JonGuiDataRotary::_internal_set_platform_azimuth(float value) {
+inline void JonGuiDataRotary::_internal_set_platform_azimuth(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_azimuth_ = value;
 }
 
-// float platform_elevation = 6;
+// double platform_elevation = 6;
 inline void JonGuiDataRotary::clear_platform_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_elevation_ = 0;
 }
-inline float JonGuiDataRotary::platform_elevation() const {
+inline double JonGuiDataRotary::platform_elevation() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.platform_elevation)
   return _internal_platform_elevation();
 }
-inline void JonGuiDataRotary::set_platform_elevation(float value) {
+inline void JonGuiDataRotary::set_platform_elevation(double value) {
   _internal_set_platform_elevation(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.platform_elevation)
 }
-inline float JonGuiDataRotary::_internal_platform_elevation() const {
+inline double JonGuiDataRotary::_internal_platform_elevation() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.platform_elevation_;
 }
-inline void JonGuiDataRotary::_internal_set_platform_elevation(float value) {
+inline void JonGuiDataRotary::_internal_set_platform_elevation(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_elevation_ = value;
 }
 
-// float platform_bank = 7;
+// double platform_bank = 7;
 inline void JonGuiDataRotary::clear_platform_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_bank_ = 0;
 }
-inline float JonGuiDataRotary::platform_bank() const {
+inline double JonGuiDataRotary::platform_bank() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.platform_bank)
   return _internal_platform_bank();
 }
-inline void JonGuiDataRotary::set_platform_bank(float value) {
+inline void JonGuiDataRotary::set_platform_bank(double value) {
   _internal_set_platform_bank(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.platform_bank)
 }
-inline float JonGuiDataRotary::_internal_platform_bank() const {
+inline double JonGuiDataRotary::_internal_platform_bank() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.platform_bank_;
 }
-inline void JonGuiDataRotary::_internal_set_platform_bank(float value) {
+inline void JonGuiDataRotary::_internal_set_platform_bank(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_bank_ = value;
 }
@@ -1045,46 +1045,46 @@ inline void JonGuiDataRotary::_internal_set_scan_target_max(::int32_t value) {
   _impl_.scan_target_max_ = value;
 }
 
-// float sun_azimuth = 15;
+// double sun_azimuth = 15;
 inline void JonGuiDataRotary::clear_sun_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sun_azimuth_ = 0;
 }
-inline float JonGuiDataRotary::sun_azimuth() const {
+inline double JonGuiDataRotary::sun_azimuth() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.sun_azimuth)
   return _internal_sun_azimuth();
 }
-inline void JonGuiDataRotary::set_sun_azimuth(float value) {
+inline void JonGuiDataRotary::set_sun_azimuth(double value) {
   _internal_set_sun_azimuth(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.sun_azimuth)
 }
-inline float JonGuiDataRotary::_internal_sun_azimuth() const {
+inline double JonGuiDataRotary::_internal_sun_azimuth() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.sun_azimuth_;
 }
-inline void JonGuiDataRotary::_internal_set_sun_azimuth(float value) {
+inline void JonGuiDataRotary::_internal_set_sun_azimuth(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sun_azimuth_ = value;
 }
 
-// float sun_elevation = 16;
+// double sun_elevation = 16;
 inline void JonGuiDataRotary::clear_sun_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sun_elevation_ = 0;
 }
-inline float JonGuiDataRotary::sun_elevation() const {
+inline double JonGuiDataRotary::sun_elevation() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.sun_elevation)
   return _internal_sun_elevation();
 }
-inline void JonGuiDataRotary::set_sun_elevation(float value) {
+inline void JonGuiDataRotary::set_sun_elevation(double value) {
   _internal_set_sun_elevation(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.sun_elevation)
 }
-inline float JonGuiDataRotary::_internal_sun_elevation() const {
+inline double JonGuiDataRotary::_internal_sun_elevation() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.sun_elevation_;
 }
-inline void JonGuiDataRotary::_internal_set_sun_elevation(float value) {
+inline void JonGuiDataRotary::_internal_set_sun_elevation(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sun_elevation_ = value;
 }

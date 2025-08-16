@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'jon_shared_data_actual_space_time.proto\x12\x03ser\"\x97\x01\n\x19JonGuiDataActualSpaceTime\x12\x0f\n\x07\x61zimuth\x18\x01 \x01(\x02\x12\x11\n\televation\x18\x02 \x01(\x02\x12\x0c\n\x04\x62\x61nk\x18\x03 \x01(\x02\x12\x10\n\x08latitude\x18\x04 \x01(\x02\x12\x11\n\tlongitude\x18\x05 \x01(\x02\x12\x10\n\x08\x61ltitude\x18\x06 \x01(\x01\x12\x11\n\ttimestamp\x18\x07 \x01(\x03\x42YZWgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/actual_space_timeb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\'jon_shared_data_actual_space_time.proto\x12\x03ser\"\x97\x01\n\x19JonGuiDataActualSpaceTime\x12\x0f\n\x07\x61zimuth\x18\x01 \x01(\x01\x12\x11\n\televation\x18\x02 \x01(\x01\x12\x0c\n\x04\x62\x61nk\x18\x03 \x01(\x01\x12\x10\n\x08latitude\x18\x04 \x01(\x01\x12\x11\n\tlongitude\x18\x05 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x06 \x01(\x01\x12\x11\n\ttimestamp\x18\x07 \x01(\x03\x42YZWgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/actual_space_timeb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)

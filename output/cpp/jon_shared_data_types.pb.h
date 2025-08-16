@@ -874,34 +874,34 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
     kHumidityFieldNumber = 2,
     kPressureFieldNumber = 3,
   };
-  // float temperature = 1;
+  // double temperature = 1;
   void clear_temperature() ;
-  float temperature() const;
-  void set_temperature(float value);
+  double temperature() const;
+  void set_temperature(double value);
 
   private:
-  float _internal_temperature() const;
-  void _internal_set_temperature(float value);
+  double _internal_temperature() const;
+  void _internal_set_temperature(double value);
 
   public:
-  // float humidity = 2;
+  // double humidity = 2;
   void clear_humidity() ;
-  float humidity() const;
-  void set_humidity(float value);
+  double humidity() const;
+  void set_humidity(double value);
 
   private:
-  float _internal_humidity() const;
-  void _internal_set_humidity(float value);
+  double _internal_humidity() const;
+  void _internal_set_humidity(double value);
 
   public:
-  // float pressure = 3;
+  // double pressure = 3;
   void clear_pressure() ;
-  float pressure() const;
-  void set_pressure(float value);
+  double pressure() const;
+  void set_pressure(double value);
 
   private:
-  float _internal_pressure() const;
-  void _internal_set_pressure(float value);
+  double _internal_pressure() const;
+  void _internal_set_pressure(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataMeteo)
@@ -927,9 +927,9 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataMeteo& from_msg);
-    float temperature_;
-    float humidity_;
-    float pressure_;
+    double temperature_;
+    double humidity_;
+    double pressure_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -953,68 +953,68 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
 
 // JonGuiDataMeteo
 
-// float temperature = 1;
+// double temperature = 1;
 inline void JonGuiDataMeteo::clear_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.temperature_ = 0;
 }
-inline float JonGuiDataMeteo::temperature() const {
+inline double JonGuiDataMeteo::temperature() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataMeteo.temperature)
   return _internal_temperature();
 }
-inline void JonGuiDataMeteo::set_temperature(float value) {
+inline void JonGuiDataMeteo::set_temperature(double value) {
   _internal_set_temperature(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataMeteo.temperature)
 }
-inline float JonGuiDataMeteo::_internal_temperature() const {
+inline double JonGuiDataMeteo::_internal_temperature() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.temperature_;
 }
-inline void JonGuiDataMeteo::_internal_set_temperature(float value) {
+inline void JonGuiDataMeteo::_internal_set_temperature(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.temperature_ = value;
 }
 
-// float humidity = 2;
+// double humidity = 2;
 inline void JonGuiDataMeteo::clear_humidity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.humidity_ = 0;
 }
-inline float JonGuiDataMeteo::humidity() const {
+inline double JonGuiDataMeteo::humidity() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataMeteo.humidity)
   return _internal_humidity();
 }
-inline void JonGuiDataMeteo::set_humidity(float value) {
+inline void JonGuiDataMeteo::set_humidity(double value) {
   _internal_set_humidity(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataMeteo.humidity)
 }
-inline float JonGuiDataMeteo::_internal_humidity() const {
+inline double JonGuiDataMeteo::_internal_humidity() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.humidity_;
 }
-inline void JonGuiDataMeteo::_internal_set_humidity(float value) {
+inline void JonGuiDataMeteo::_internal_set_humidity(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.humidity_ = value;
 }
 
-// float pressure = 3;
+// double pressure = 3;
 inline void JonGuiDataMeteo::clear_pressure() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.pressure_ = 0;
 }
-inline float JonGuiDataMeteo::pressure() const {
+inline double JonGuiDataMeteo::pressure() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataMeteo.pressure)
   return _internal_pressure();
 }
-inline void JonGuiDataMeteo::set_pressure(float value) {
+inline void JonGuiDataMeteo::set_pressure(double value) {
   _internal_set_pressure(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataMeteo.pressure)
 }
-inline float JonGuiDataMeteo::_internal_pressure() const {
+inline double JonGuiDataMeteo::_internal_pressure() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.pressure_;
 }
-inline void JonGuiDataMeteo::_internal_set_pressure(float value) {
+inline void JonGuiDataMeteo::_internal_set_pressure(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.pressure_ = value;
 }

@@ -7,37 +7,37 @@ package ser;
 import "jon_shared_data_types.proto";
 
 message JonGuiDataRotary {
-  float azimuth = 1 [(buf.validate.field).float = {
+  double azimuth = 1 [(buf.validate.field).double = {
     gte: 0,
     lt: 360,
     example: [0, 90, 180, 270]
   }];
-  float azimuth_speed = 2 [(buf.validate.field).float = {
+  double azimuth_speed = 2 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0,
     example: [-1.0, -0.5, 0, 0.5, 1.0]
   }];
-  float elevation = 3 [(buf.validate.field).float = {
+  double elevation = 3 [(buf.validate.field).double = {
     gte: -90,
     lte: 90,
     example: [-45, 0, 45]
   }];
-  float elevation_speed = 4 [(buf.validate.field).float = {
+  double elevation_speed = 4 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0,
     example: [-1.0, -0.5, 0, 0.5, 1.0]
   }];
-  float platform_azimuth = 5 [(buf.validate.field).float = {
+  double platform_azimuth = 5 [(buf.validate.field).double = {
     gte: 0,
     lt: 360,
     example: [0, 90, 180, 270]
   }];
-  float platform_elevation = 6 [(buf.validate.field).float = {
+  double platform_elevation = 6 [(buf.validate.field).double = {
     gte: -90,
     lte: 90,
     example: [-45, 0, 45]
   }];
-  float platform_bank = 7 [(buf.validate.field).float = {
+  double platform_bank = 7 [(buf.validate.field).double = {
     gte: -180,
     lt: 180,
     example: [-90, 0, 90]
@@ -58,12 +58,12 @@ message JonGuiDataRotary {
     gte: 0,
     example: [1, 2, 3]
   }];
-  float sun_azimuth = 15 [(buf.validate.field).float = {
+  double sun_azimuth = 15 [(buf.validate.field).double = {
     gte: 0,
     lt: 360,
     example: [0, 90, 180, 270]
   }];
-  float sun_elevation = 16 [(buf.validate.field).float = {
+  double sun_elevation = 16 [(buf.validate.field).double = {
     gte: 0,
     lt: 360,
     example: [0, 90, 180, 270]

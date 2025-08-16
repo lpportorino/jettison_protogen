@@ -30,46 +30,46 @@ public final class JonSharedDataRotary {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
      * @return The azimuth.
      */
-    float getAzimuth();
+    double getAzimuth();
 
     /**
-     * <code>float azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The azimuthSpeed.
      */
-    float getAzimuthSpeed();
+    double getAzimuthSpeed();
 
     /**
-     * <code>float elevation = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double elevation = 3 [(.buf.validate.field) = { ... }</code>
      * @return The elevation.
      */
-    float getElevation();
+    double getElevation();
 
     /**
-     * <code>float elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
      * @return The elevationSpeed.
      */
-    float getElevationSpeed();
+    double getElevationSpeed();
 
     /**
-     * <code>float platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
+     * <code>double platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
      * @return The platformAzimuth.
      */
-    float getPlatformAzimuth();
+    double getPlatformAzimuth();
 
     /**
-     * <code>float platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
+     * <code>double platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
      * @return The platformElevation.
      */
-    float getPlatformElevation();
+    double getPlatformElevation();
 
     /**
-     * <code>float platform_bank = 7 [(.buf.validate.field) = { ... }</code>
+     * <code>double platform_bank = 7 [(.buf.validate.field) = { ... }</code>
      * @return The platformBank.
      */
-    float getPlatformBank();
+    double getPlatformBank();
 
     /**
      * <code>bool is_moving = 8;</code>
@@ -119,16 +119,16 @@ public final class JonSharedDataRotary {
     int getScanTargetMax();
 
     /**
-     * <code>float sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
+     * <code>double sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
      * @return The sunAzimuth.
      */
-    float getSunAzimuth();
+    double getSunAzimuth();
 
     /**
-     * <code>float sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
+     * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
      * @return The sunElevation.
      */
-    float getSunElevation();
+    double getSunElevation();
 
     /**
      * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
@@ -185,79 +185,79 @@ public final class JonSharedDataRotary {
 
     private int bitField0_;
     public static final int AZIMUTH_FIELD_NUMBER = 1;
-    private float azimuth_ = 0F;
+    private double azimuth_ = 0D;
     /**
-     * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
      * @return The azimuth.
      */
     @java.lang.Override
-    public float getAzimuth() {
+    public double getAzimuth() {
       return azimuth_;
     }
 
     public static final int AZIMUTH_SPEED_FIELD_NUMBER = 2;
-    private float azimuthSpeed_ = 0F;
+    private double azimuthSpeed_ = 0D;
     /**
-     * <code>float azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
+     * <code>double azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
      * @return The azimuthSpeed.
      */
     @java.lang.Override
-    public float getAzimuthSpeed() {
+    public double getAzimuthSpeed() {
       return azimuthSpeed_;
     }
 
     public static final int ELEVATION_FIELD_NUMBER = 3;
-    private float elevation_ = 0F;
+    private double elevation_ = 0D;
     /**
-     * <code>float elevation = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double elevation = 3 [(.buf.validate.field) = { ... }</code>
      * @return The elevation.
      */
     @java.lang.Override
-    public float getElevation() {
+    public double getElevation() {
       return elevation_;
     }
 
     public static final int ELEVATION_SPEED_FIELD_NUMBER = 4;
-    private float elevationSpeed_ = 0F;
+    private double elevationSpeed_ = 0D;
     /**
-     * <code>float elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>double elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
      * @return The elevationSpeed.
      */
     @java.lang.Override
-    public float getElevationSpeed() {
+    public double getElevationSpeed() {
       return elevationSpeed_;
     }
 
     public static final int PLATFORM_AZIMUTH_FIELD_NUMBER = 5;
-    private float platformAzimuth_ = 0F;
+    private double platformAzimuth_ = 0D;
     /**
-     * <code>float platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
+     * <code>double platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
      * @return The platformAzimuth.
      */
     @java.lang.Override
-    public float getPlatformAzimuth() {
+    public double getPlatformAzimuth() {
       return platformAzimuth_;
     }
 
     public static final int PLATFORM_ELEVATION_FIELD_NUMBER = 6;
-    private float platformElevation_ = 0F;
+    private double platformElevation_ = 0D;
     /**
-     * <code>float platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
+     * <code>double platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
      * @return The platformElevation.
      */
     @java.lang.Override
-    public float getPlatformElevation() {
+    public double getPlatformElevation() {
       return platformElevation_;
     }
 
     public static final int PLATFORM_BANK_FIELD_NUMBER = 7;
-    private float platformBank_ = 0F;
+    private double platformBank_ = 0D;
     /**
-     * <code>float platform_bank = 7 [(.buf.validate.field) = { ... }</code>
+     * <code>double platform_bank = 7 [(.buf.validate.field) = { ... }</code>
      * @return The platformBank.
      */
     @java.lang.Override
-    public float getPlatformBank() {
+    public double getPlatformBank() {
       return platformBank_;
     }
 
@@ -346,24 +346,24 @@ public final class JonSharedDataRotary {
     }
 
     public static final int SUN_AZIMUTH_FIELD_NUMBER = 15;
-    private float sunAzimuth_ = 0F;
+    private double sunAzimuth_ = 0D;
     /**
-     * <code>float sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
+     * <code>double sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
      * @return The sunAzimuth.
      */
     @java.lang.Override
-    public float getSunAzimuth() {
+    public double getSunAzimuth() {
       return sunAzimuth_;
     }
 
     public static final int SUN_ELEVATION_FIELD_NUMBER = 16;
-    private float sunElevation_ = 0F;
+    private double sunElevation_ = 0D;
     /**
-     * <code>float sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
+     * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
      * @return The sunElevation.
      */
     @java.lang.Override
-    public float getSunElevation() {
+    public double getSunElevation() {
       return sunElevation_;
     }
 
@@ -407,26 +407,26 @@ public final class JonSharedDataRotary {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(azimuth_) != 0) {
-        output.writeFloat(1, azimuth_);
+      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
+        output.writeDouble(1, azimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(azimuthSpeed_) != 0) {
-        output.writeFloat(2, azimuthSpeed_);
+      if (java.lang.Double.doubleToRawLongBits(azimuthSpeed_) != 0) {
+        output.writeDouble(2, azimuthSpeed_);
       }
-      if (java.lang.Float.floatToRawIntBits(elevation_) != 0) {
-        output.writeFloat(3, elevation_);
+      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
+        output.writeDouble(3, elevation_);
       }
-      if (java.lang.Float.floatToRawIntBits(elevationSpeed_) != 0) {
-        output.writeFloat(4, elevationSpeed_);
+      if (java.lang.Double.doubleToRawLongBits(elevationSpeed_) != 0) {
+        output.writeDouble(4, elevationSpeed_);
       }
-      if (java.lang.Float.floatToRawIntBits(platformAzimuth_) != 0) {
-        output.writeFloat(5, platformAzimuth_);
+      if (java.lang.Double.doubleToRawLongBits(platformAzimuth_) != 0) {
+        output.writeDouble(5, platformAzimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(platformElevation_) != 0) {
-        output.writeFloat(6, platformElevation_);
+      if (java.lang.Double.doubleToRawLongBits(platformElevation_) != 0) {
+        output.writeDouble(6, platformElevation_);
       }
-      if (java.lang.Float.floatToRawIntBits(platformBank_) != 0) {
-        output.writeFloat(7, platformBank_);
+      if (java.lang.Double.doubleToRawLongBits(platformBank_) != 0) {
+        output.writeDouble(7, platformBank_);
       }
       if (isMoving_ != false) {
         output.writeBool(8, isMoving_);
@@ -449,11 +449,11 @@ public final class JonSharedDataRotary {
       if (scanTargetMax_ != 0) {
         output.writeInt32(14, scanTargetMax_);
       }
-      if (java.lang.Float.floatToRawIntBits(sunAzimuth_) != 0) {
-        output.writeFloat(15, sunAzimuth_);
+      if (java.lang.Double.doubleToRawLongBits(sunAzimuth_) != 0) {
+        output.writeDouble(15, sunAzimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(sunElevation_) != 0) {
-        output.writeFloat(16, sunElevation_);
+      if (java.lang.Double.doubleToRawLongBits(sunElevation_) != 0) {
+        output.writeDouble(16, sunElevation_);
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(17, getCurrentScanNode());
@@ -467,33 +467,33 @@ public final class JonSharedDataRotary {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(azimuth_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(azimuth_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, azimuth_);
+          .computeDoubleSize(1, azimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(azimuthSpeed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(azimuthSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, azimuthSpeed_);
+          .computeDoubleSize(2, azimuthSpeed_);
       }
-      if (java.lang.Float.floatToRawIntBits(elevation_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(elevation_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(3, elevation_);
+          .computeDoubleSize(3, elevation_);
       }
-      if (java.lang.Float.floatToRawIntBits(elevationSpeed_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(elevationSpeed_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(4, elevationSpeed_);
+          .computeDoubleSize(4, elevationSpeed_);
       }
-      if (java.lang.Float.floatToRawIntBits(platformAzimuth_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(platformAzimuth_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(5, platformAzimuth_);
+          .computeDoubleSize(5, platformAzimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(platformElevation_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(platformElevation_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(6, platformElevation_);
+          .computeDoubleSize(6, platformElevation_);
       }
-      if (java.lang.Float.floatToRawIntBits(platformBank_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(platformBank_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(7, platformBank_);
+          .computeDoubleSize(7, platformBank_);
       }
       if (isMoving_ != false) {
         size += com.google.protobuf.CodedOutputStream
@@ -523,13 +523,13 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(14, scanTargetMax_);
       }
-      if (java.lang.Float.floatToRawIntBits(sunAzimuth_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(sunAzimuth_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(15, sunAzimuth_);
+          .computeDoubleSize(15, sunAzimuth_);
       }
-      if (java.lang.Float.floatToRawIntBits(sunElevation_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(sunElevation_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(16, sunElevation_);
+          .computeDoubleSize(16, sunElevation_);
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -550,26 +550,26 @@ public final class JonSharedDataRotary {
       }
       ser.JonSharedDataRotary.JonGuiDataRotary other = (ser.JonSharedDataRotary.JonGuiDataRotary) obj;
 
-      if (java.lang.Float.floatToIntBits(getAzimuth())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getAzimuth())
+          != java.lang.Double.doubleToLongBits(
               other.getAzimuth())) return false;
-      if (java.lang.Float.floatToIntBits(getAzimuthSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getAzimuthSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getAzimuthSpeed())) return false;
-      if (java.lang.Float.floatToIntBits(getElevation())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getElevation())
+          != java.lang.Double.doubleToLongBits(
               other.getElevation())) return false;
-      if (java.lang.Float.floatToIntBits(getElevationSpeed())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getElevationSpeed())
+          != java.lang.Double.doubleToLongBits(
               other.getElevationSpeed())) return false;
-      if (java.lang.Float.floatToIntBits(getPlatformAzimuth())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getPlatformAzimuth())
+          != java.lang.Double.doubleToLongBits(
               other.getPlatformAzimuth())) return false;
-      if (java.lang.Float.floatToIntBits(getPlatformElevation())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getPlatformElevation())
+          != java.lang.Double.doubleToLongBits(
               other.getPlatformElevation())) return false;
-      if (java.lang.Float.floatToIntBits(getPlatformBank())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getPlatformBank())
+          != java.lang.Double.doubleToLongBits(
               other.getPlatformBank())) return false;
       if (getIsMoving()
           != other.getIsMoving()) return false;
@@ -584,11 +584,11 @@ public final class JonSharedDataRotary {
           != other.getScanTarget()) return false;
       if (getScanTargetMax()
           != other.getScanTargetMax()) return false;
-      if (java.lang.Float.floatToIntBits(getSunAzimuth())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSunAzimuth())
+          != java.lang.Double.doubleToLongBits(
               other.getSunAzimuth())) return false;
-      if (java.lang.Float.floatToIntBits(getSunElevation())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getSunElevation())
+          != java.lang.Double.doubleToLongBits(
               other.getSunElevation())) return false;
       if (hasCurrentScanNode() != other.hasCurrentScanNode()) return false;
       if (hasCurrentScanNode()) {
@@ -607,26 +607,26 @@ public final class JonSharedDataRotary {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + AZIMUTH_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getAzimuth());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAzimuth()));
       hash = (37 * hash) + AZIMUTH_SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getAzimuthSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getAzimuthSpeed()));
       hash = (37 * hash) + ELEVATION_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getElevation());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getElevation()));
       hash = (37 * hash) + ELEVATION_SPEED_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getElevationSpeed());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getElevationSpeed()));
       hash = (37 * hash) + PLATFORM_AZIMUTH_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getPlatformAzimuth());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getPlatformAzimuth()));
       hash = (37 * hash) + PLATFORM_ELEVATION_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getPlatformElevation());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getPlatformElevation()));
       hash = (37 * hash) + PLATFORM_BANK_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getPlatformBank());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getPlatformBank()));
       hash = (37 * hash) + IS_MOVING_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsMoving());
@@ -646,11 +646,11 @@ public final class JonSharedDataRotary {
       hash = (37 * hash) + SCAN_TARGET_MAX_FIELD_NUMBER;
       hash = (53 * hash) + getScanTargetMax();
       hash = (37 * hash) + SUN_AZIMUTH_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSunAzimuth());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSunAzimuth()));
       hash = (37 * hash) + SUN_ELEVATION_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getSunElevation());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getSunElevation()));
       if (hasCurrentScanNode()) {
         hash = (37 * hash) + CURRENT_SCAN_NODE_FIELD_NUMBER;
         hash = (53 * hash) + getCurrentScanNode().hashCode();
@@ -792,13 +792,13 @@ public final class JonSharedDataRotary {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        azimuth_ = 0F;
-        azimuthSpeed_ = 0F;
-        elevation_ = 0F;
-        elevationSpeed_ = 0F;
-        platformAzimuth_ = 0F;
-        platformElevation_ = 0F;
-        platformBank_ = 0F;
+        azimuth_ = 0D;
+        azimuthSpeed_ = 0D;
+        elevation_ = 0D;
+        elevationSpeed_ = 0D;
+        platformAzimuth_ = 0D;
+        platformElevation_ = 0D;
+        platformBank_ = 0D;
         isMoving_ = false;
         mode_ = 0;
         isScanning_ = false;
@@ -806,8 +806,8 @@ public final class JonSharedDataRotary {
         useRotaryAsCompass_ = false;
         scanTarget_ = 0;
         scanTargetMax_ = 0;
-        sunAzimuth_ = 0F;
-        sunElevation_ = 0F;
+        sunAzimuth_ = 0D;
+        sunElevation_ = 0D;
         currentScanNode_ = null;
         if (currentScanNodeBuilder_ != null) {
           currentScanNodeBuilder_.dispose();
@@ -916,25 +916,25 @@ public final class JonSharedDataRotary {
 
       public Builder mergeFrom(ser.JonSharedDataRotary.JonGuiDataRotary other) {
         if (other == ser.JonSharedDataRotary.JonGuiDataRotary.getDefaultInstance()) return this;
-        if (other.getAzimuth() != 0F) {
+        if (other.getAzimuth() != 0D) {
           setAzimuth(other.getAzimuth());
         }
-        if (other.getAzimuthSpeed() != 0F) {
+        if (other.getAzimuthSpeed() != 0D) {
           setAzimuthSpeed(other.getAzimuthSpeed());
         }
-        if (other.getElevation() != 0F) {
+        if (other.getElevation() != 0D) {
           setElevation(other.getElevation());
         }
-        if (other.getElevationSpeed() != 0F) {
+        if (other.getElevationSpeed() != 0D) {
           setElevationSpeed(other.getElevationSpeed());
         }
-        if (other.getPlatformAzimuth() != 0F) {
+        if (other.getPlatformAzimuth() != 0D) {
           setPlatformAzimuth(other.getPlatformAzimuth());
         }
-        if (other.getPlatformElevation() != 0F) {
+        if (other.getPlatformElevation() != 0D) {
           setPlatformElevation(other.getPlatformElevation());
         }
-        if (other.getPlatformBank() != 0F) {
+        if (other.getPlatformBank() != 0D) {
           setPlatformBank(other.getPlatformBank());
         }
         if (other.getIsMoving() != false) {
@@ -958,10 +958,10 @@ public final class JonSharedDataRotary {
         if (other.getScanTargetMax() != 0) {
           setScanTargetMax(other.getScanTargetMax());
         }
-        if (other.getSunAzimuth() != 0F) {
+        if (other.getSunAzimuth() != 0D) {
           setSunAzimuth(other.getSunAzimuth());
         }
-        if (other.getSunElevation() != 0F) {
+        if (other.getSunElevation() != 0D) {
           setSunElevation(other.getSunElevation());
         }
         if (other.hasCurrentScanNode()) {
@@ -993,41 +993,41 @@ public final class JonSharedDataRotary {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                azimuth_ = input.readFloat();
+              case 9: {
+                azimuth_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
-              case 21: {
-                azimuthSpeed_ = input.readFloat();
+              } // case 9
+              case 17: {
+                azimuthSpeed_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
-              } // case 21
-              case 29: {
-                elevation_ = input.readFloat();
+              } // case 17
+              case 25: {
+                elevation_ = input.readDouble();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 29
-              case 37: {
-                elevationSpeed_ = input.readFloat();
+              } // case 25
+              case 33: {
+                elevationSpeed_ = input.readDouble();
                 bitField0_ |= 0x00000008;
                 break;
-              } // case 37
-              case 45: {
-                platformAzimuth_ = input.readFloat();
+              } // case 33
+              case 41: {
+                platformAzimuth_ = input.readDouble();
                 bitField0_ |= 0x00000010;
                 break;
-              } // case 45
-              case 53: {
-                platformElevation_ = input.readFloat();
+              } // case 41
+              case 49: {
+                platformElevation_ = input.readDouble();
                 bitField0_ |= 0x00000020;
                 break;
-              } // case 53
-              case 61: {
-                platformBank_ = input.readFloat();
+              } // case 49
+              case 57: {
+                platformBank_ = input.readDouble();
                 bitField0_ |= 0x00000040;
                 break;
-              } // case 61
+              } // case 57
               case 64: {
                 isMoving_ = input.readBool();
                 bitField0_ |= 0x00000080;
@@ -1063,16 +1063,16 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00002000;
                 break;
               } // case 112
-              case 125: {
-                sunAzimuth_ = input.readFloat();
+              case 121: {
+                sunAzimuth_ = input.readDouble();
                 bitField0_ |= 0x00004000;
                 break;
-              } // case 125
-              case 133: {
-                sunElevation_ = input.readFloat();
+              } // case 121
+              case 129: {
+                sunElevation_ = input.readDouble();
                 bitField0_ |= 0x00008000;
                 break;
-              } // case 133
+              } // case 129
               case 138: {
                 input.readMessage(
                     getCurrentScanNodeFieldBuilder().getBuilder(),
@@ -1097,21 +1097,21 @@ public final class JonSharedDataRotary {
       }
       private int bitField0_;
 
-      private float azimuth_ ;
+      private double azimuth_ ;
       /**
-       * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
        * @return The azimuth.
        */
       @java.lang.Override
-      public float getAzimuth() {
+      public double getAzimuth() {
         return azimuth_;
       }
       /**
-       * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The azimuth to set.
        * @return This builder for chaining.
        */
-      public Builder setAzimuth(float value) {
+      public Builder setAzimuth(double value) {
 
         azimuth_ = value;
         bitField0_ |= 0x00000001;
@@ -1119,31 +1119,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float azimuth = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAzimuth() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        azimuth_ = 0F;
+        azimuth_ = 0D;
         onChanged();
         return this;
       }
 
-      private float azimuthSpeed_ ;
+      private double azimuthSpeed_ ;
       /**
-       * <code>float azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return The azimuthSpeed.
        */
       @java.lang.Override
-      public float getAzimuthSpeed() {
+      public double getAzimuthSpeed() {
         return azimuthSpeed_;
       }
       /**
-       * <code>float azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The azimuthSpeed to set.
        * @return This builder for chaining.
        */
-      public Builder setAzimuthSpeed(float value) {
+      public Builder setAzimuthSpeed(double value) {
 
         azimuthSpeed_ = value;
         bitField0_ |= 0x00000002;
@@ -1151,31 +1151,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double azimuth_speed = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearAzimuthSpeed() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        azimuthSpeed_ = 0F;
+        azimuthSpeed_ = 0D;
         onChanged();
         return this;
       }
 
-      private float elevation_ ;
+      private double elevation_ ;
       /**
-       * <code>float elevation = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation = 3 [(.buf.validate.field) = { ... }</code>
        * @return The elevation.
        */
       @java.lang.Override
-      public float getElevation() {
+      public double getElevation() {
         return elevation_;
       }
       /**
-       * <code>float elevation = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation = 3 [(.buf.validate.field) = { ... }</code>
        * @param value The elevation to set.
        * @return This builder for chaining.
        */
-      public Builder setElevation(float value) {
+      public Builder setElevation(double value) {
 
         elevation_ = value;
         bitField0_ |= 0x00000004;
@@ -1183,31 +1183,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float elevation = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation = 3 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearElevation() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        elevation_ = 0F;
+        elevation_ = 0D;
         onChanged();
         return this;
       }
 
-      private float elevationSpeed_ ;
+      private double elevationSpeed_ ;
       /**
-       * <code>float elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
        * @return The elevationSpeed.
        */
       @java.lang.Override
-      public float getElevationSpeed() {
+      public double getElevationSpeed() {
         return elevationSpeed_;
       }
       /**
-       * <code>float elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
        * @param value The elevationSpeed to set.
        * @return This builder for chaining.
        */
-      public Builder setElevationSpeed(float value) {
+      public Builder setElevationSpeed(double value) {
 
         elevationSpeed_ = value;
         bitField0_ |= 0x00000008;
@@ -1215,31 +1215,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>double elevation_speed = 4 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearElevationSpeed() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        elevationSpeed_ = 0F;
+        elevationSpeed_ = 0D;
         onChanged();
         return this;
       }
 
-      private float platformAzimuth_ ;
+      private double platformAzimuth_ ;
       /**
-       * <code>float platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
        * @return The platformAzimuth.
        */
       @java.lang.Override
-      public float getPlatformAzimuth() {
+      public double getPlatformAzimuth() {
         return platformAzimuth_;
       }
       /**
-       * <code>float platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
        * @param value The platformAzimuth to set.
        * @return This builder for chaining.
        */
-      public Builder setPlatformAzimuth(float value) {
+      public Builder setPlatformAzimuth(double value) {
 
         platformAzimuth_ = value;
         bitField0_ |= 0x00000010;
@@ -1247,31 +1247,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_azimuth = 5 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearPlatformAzimuth() {
         bitField0_ = (bitField0_ & ~0x00000010);
-        platformAzimuth_ = 0F;
+        platformAzimuth_ = 0D;
         onChanged();
         return this;
       }
 
-      private float platformElevation_ ;
+      private double platformElevation_ ;
       /**
-       * <code>float platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
        * @return The platformElevation.
        */
       @java.lang.Override
-      public float getPlatformElevation() {
+      public double getPlatformElevation() {
         return platformElevation_;
       }
       /**
-       * <code>float platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
        * @param value The platformElevation to set.
        * @return This builder for chaining.
        */
-      public Builder setPlatformElevation(float value) {
+      public Builder setPlatformElevation(double value) {
 
         platformElevation_ = value;
         bitField0_ |= 0x00000020;
@@ -1279,31 +1279,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_elevation = 6 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearPlatformElevation() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        platformElevation_ = 0F;
+        platformElevation_ = 0D;
         onChanged();
         return this;
       }
 
-      private float platformBank_ ;
+      private double platformBank_ ;
       /**
-       * <code>float platform_bank = 7 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_bank = 7 [(.buf.validate.field) = { ... }</code>
        * @return The platformBank.
        */
       @java.lang.Override
-      public float getPlatformBank() {
+      public double getPlatformBank() {
         return platformBank_;
       }
       /**
-       * <code>float platform_bank = 7 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_bank = 7 [(.buf.validate.field) = { ... }</code>
        * @param value The platformBank to set.
        * @return This builder for chaining.
        */
-      public Builder setPlatformBank(float value) {
+      public Builder setPlatformBank(double value) {
 
         platformBank_ = value;
         bitField0_ |= 0x00000040;
@@ -1311,12 +1311,12 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float platform_bank = 7 [(.buf.validate.field) = { ... }</code>
+       * <code>double platform_bank = 7 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearPlatformBank() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        platformBank_ = 0F;
+        platformBank_ = 0D;
         onChanged();
         return this;
       }
@@ -1566,21 +1566,21 @@ public final class JonSharedDataRotary {
         return this;
       }
 
-      private float sunAzimuth_ ;
+      private double sunAzimuth_ ;
       /**
-       * <code>float sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
+       * <code>double sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
        * @return The sunAzimuth.
        */
       @java.lang.Override
-      public float getSunAzimuth() {
+      public double getSunAzimuth() {
         return sunAzimuth_;
       }
       /**
-       * <code>float sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
+       * <code>double sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
        * @param value The sunAzimuth to set.
        * @return This builder for chaining.
        */
-      public Builder setSunAzimuth(float value) {
+      public Builder setSunAzimuth(double value) {
 
         sunAzimuth_ = value;
         bitField0_ |= 0x00004000;
@@ -1588,31 +1588,31 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
+       * <code>double sun_azimuth = 15 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSunAzimuth() {
         bitField0_ = (bitField0_ & ~0x00004000);
-        sunAzimuth_ = 0F;
+        sunAzimuth_ = 0D;
         onChanged();
         return this;
       }
 
-      private float sunElevation_ ;
+      private double sunElevation_ ;
       /**
-       * <code>float sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
+       * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
        * @return The sunElevation.
        */
       @java.lang.Override
-      public float getSunElevation() {
+      public double getSunElevation() {
         return sunElevation_;
       }
       /**
-       * <code>float sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
+       * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
        * @param value The sunElevation to set.
        * @return This builder for chaining.
        */
-      public Builder setSunElevation(float value) {
+      public Builder setSunElevation(double value) {
 
         sunElevation_ = value;
         bitField0_ |= 0x00008000;
@@ -1620,12 +1620,12 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>float sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
+       * <code>double sun_elevation = 16 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearSunElevation() {
         bitField0_ = (bitField0_ & ~0x00008000);
-        sunElevation_ = 0F;
+        sunElevation_ = 0D;
         onChanged();
         return this;
       }
@@ -2697,37 +2697,42 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\275\006\n\020JonGuiDataRotary\0224\n\007az" +
-      "imuth\030\001 \001(\002B#\272H \n\036\025\000\000\264C-\000\000\000\000M\000\000\000\000M\000\000\264BM\000" +
-      "\0004CM\000\000\207C\022?\n\razimuth_speed\030\002 \001(\002B(\272H%\n#\035\000" +
-      "\000\200?-\000\000\200\277M\000\000\200\277M\000\000\000\277M\000\000\000\000M\000\000\000?M\000\000\200?\0221\n\tele" +
-      "vation\030\003 \001(\002B\036\272H\033\n\031\035\000\000\264B-\000\000\264\302M\000\0004\302M\000\000\000\000M" +
-      "\000\0004B\022A\n\017elevation_speed\030\004 \001(\002B(\272H%\n#\035\000\000\200" +
-      "?-\000\000\200\277M\000\000\200\277M\000\000\000\277M\000\000\000\000M\000\000\000?M\000\000\200?\022=\n\020platf" +
-      "orm_azimuth\030\005 \001(\002B#\272H \n\036\025\000\000\264C-\000\000\000\000M\000\000\000\000M" +
-      "\000\000\264BM\000\0004CM\000\000\207C\022:\n\022platform_elevation\030\006 \001" +
-      "(\002B\036\272H\033\n\031\035\000\000\264B-\000\000\264\302M\000\0004\302M\000\000\000\000M\000\0004B\0225\n\rpl" +
-      "atform_bank\030\007 \001(\002B\036\272H\033\n\031\025\000\0004C-\000\0004\303M\000\000\264\302M" +
-      "\000\000\000\000M\000\000\264B\022\021\n\tis_moving\030\010 \001(\010\0223\n\004mode\030\t \001" +
-      "(\0162\031.ser.JonGuiDataRotaryModeB\n\272H\007\202\001\004\020\001 " +
-      "\000\022\023\n\013is_scanning\030\n \001(\010\022\032\n\022is_scanning_pa" +
-      "used\030\013 \001(\010\022\035\n\025use_rotary_as_compass\030\014 \001(" +
-      "\010\022\"\n\013scan_target\030\r \001(\005B\r\272H\n\032\010(\000@\001@\002@\003\022&\n" +
-      "\017scan_target_max\030\016 \001(\005B\r\272H\n\032\010(\000@\001@\002@\003\0228\n" +
-      "\013sun_azimuth\030\017 \001(\002B#\272H \n\036\025\000\000\264C-\000\000\000\000M\000\000\000\000" +
-      "M\000\000\264BM\000\0004CM\000\000\207C\022:\n\rsun_elevation\030\020 \001(\002B#" +
-      "\272H \n\036\025\000\000\264C-\000\000\000\000M\000\000\000\000M\000\000\264BM\000\0004CM\000\000\207C\0220\n\021c" +
-      "urrent_scan_node\030\021 \001(\0132\r.ser.ScanNodeB\006\272" +
-      "H\003\310\001\001\"\211\002\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002" +
-      "(\000\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#" +
-      "\n\022HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007a" +
-      "zimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n" +
-      "\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V" +
-      "\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005spe" +
-      "ed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit" +
-      "-codecommit.eu-central-1.amazonaws.com/v" +
-      "1/repos/jettison/jonp/data/rotaryb\006proto" +
-      "3"
+      "a_types.proto\"\221\010\n\020JonGuiDataRotary\022L\n\007az" +
+      "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
+      "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
+      "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
+      "I\000\000\000\000\000\000\360\277I\000\000\000\000\000\000\340\277I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\340?I\000\000\000" +
+      "\000\000\000\360?\022E\n\televation\030\003 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@" +
+      ")\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022]\n\017" +
+      "elevation_speed\030\004 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000" +
+      "\000\000\000\000\360\277I\000\000\000\000\000\000\360\277I\000\000\000\000\000\000\340\277I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000" +
+      "\340?I\000\000\000\000\000\000\360?\022U\n\020platform_azimuth\030\005 \001(\001B;\272" +
+      "H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@" +
+      "I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022N\n\022platform_elevation" +
+      "\030\006 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300" +
+      "I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022I\n\rplatform_bank\030\007 \001(" +
+      "\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200V\300I\000\000\000\000" +
+      "\000\000\000\000I\000\000\000\000\000\200V@\022\021\n\tis_moving\030\010 \001(\010\0223\n\004mode" +
+      "\030\t \001(\0162\031.ser.JonGuiDataRotaryModeB\n\272H\007\202\001" +
+      "\004\020\001 \000\022\023\n\013is_scanning\030\n \001(\010\022\032\n\022is_scannin" +
+      "g_paused\030\013 \001(\010\022\035\n\025use_rotary_as_compass\030" +
+      "\014 \001(\010\022\"\n\013scan_target\030\r \001(\005B\r\272H\n\032\010(\000@\001@\002@" +
+      "\003\022&\n\017scan_target_max\030\016 \001(\005B\r\272H\n\032\010(\000@\001@\002@" +
+      "\003\022P\n\013sun_azimuth\030\017 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000" +
+      "\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000" +
+      "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200" +
+      "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000" +
+      "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser" +
+      ".ScanNodeB\006\272H\003\310\001\001\"\211\002\n\010ScanNode\022\026\n\005index\030" +
+      "\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001(" +
+      "\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007" +
+      "\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@" +
+      ")\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000" +
+      "\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000" +
+      "\000\000\000\000\000BNZLgit-codecommit.eu-central-1.ama" +
+      "zonaws.com/v1/repos/jettison/jonp/data/r" +
+      "otaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

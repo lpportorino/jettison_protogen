@@ -615,7 +615,7 @@ func (x *SetFxMode) GetMode() types.JonGuiDataFxModeHeat {
 
 type SetClaheLevel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -650,7 +650,7 @@ func (*SetClaheLevel) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *SetClaheLevel) GetValue() float32 {
+func (x *SetClaheLevel) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -659,7 +659,7 @@ func (x *SetClaheLevel) GetValue() float32 {
 
 type ShiftClaheLevel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -694,7 +694,7 @@ func (*ShiftClaheLevel) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ShiftClaheLevel) GetValue() float32 {
+func (x *ShiftClaheLevel) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -883,7 +883,7 @@ func (*DisableDDE) Descriptor() ([]byte, []int) {
 
 type SetValue struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -918,7 +918,7 @@ func (*SetValue) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *SetValue) GetValue() float32 {
+func (x *SetValue) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -971,7 +971,7 @@ func (x *SetDDELevel) GetValue() int32 {
 
 type SetDigitalZoomLevel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1006,7 +1006,7 @@ func (*SetDigitalZoomLevel) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *SetDigitalZoomLevel) GetValue() float32 {
+func (x *SetDigitalZoomLevel) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -2063,15 +2063,11 @@ const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"F\n" +
 	"\tSetFxMode\x129\n" +
 	"\x04mode\x18\x01 \x01(\x0e2\x19.ser.JonGuiDataFxModeHeatB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\"6\n" +
-	"\rSetClaheLevel\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05value\"8\n" +
-	"\x0fShiftClaheLevel\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x05value\"\f\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\">\n" +
+	"\rSetClaheLevel\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\"@\n" +
+	"\x0fShiftClaheLevel\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05value\"\f\n" +
 	"\n" +
 	"NextFxMode\"\f\n" +
 	"\n" +
@@ -2079,17 +2075,13 @@ const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\rRefreshFxMode\"\v\n" +
 	"\tEnableDDE\"\f\n" +
 	"\n" +
-	"DisableDDE\"1\n" +
-	"\bSetValue\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05value\".\n" +
+	"DisableDDE\"9\n" +
+	"\bSetValue\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\".\n" +
 	"\vSetDDELevel\x12\x1f\n" +
-	"\x05value\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x00R\x05value\"7\n" +
-	"\x13SetDigitalZoomLevel\x12 \n" +
-	"\x05value\x18\x01 \x01(\x02B\n" +
-	"\xbaH\a\n" +
-	"\x05-\x00\x00\x80?R\x05value\"4\n" +
+	"\x05value\x18\x01 \x01(\x05B\t\xbaH\x06\x1a\x04\x18d(\x00R\x05value\";\n" +
+	"\x13SetDigitalZoomLevel\x12$\n" +
+	"\x05value\x18\x01 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x05value\"4\n" +
 	"\bShiftDDE\x12(\n" +
 	"\x05value\x18\x01 \x01(\x05B\x12\xbaH\x0f\x1a\r\x18d(\x9c\xff\xff\xff\xff\xff\xff\xff\xff\x01R\x05value\"\b\n" +
 	"\x06ZoomIn\"\t\n" +

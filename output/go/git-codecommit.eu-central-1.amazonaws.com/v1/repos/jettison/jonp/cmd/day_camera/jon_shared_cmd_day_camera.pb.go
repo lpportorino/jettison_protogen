@@ -25,7 +25,7 @@ const (
 
 type SetValue struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -60,7 +60,7 @@ func (*SetValue) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *SetValue) GetValue() float32 {
+func (x *SetValue) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -69,8 +69,8 @@ func (x *SetValue) GetValue() float32 {
 
 type Move struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TargetValue   float32                `protobuf:"fixed32,1,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
-	Speed         float32                `protobuf:"fixed32,2,opt,name=speed,proto3" json:"speed,omitempty"`
+	TargetValue   float64                `protobuf:"fixed64,1,opt,name=target_value,json=targetValue,proto3" json:"target_value,omitempty"`
+	Speed         float64                `protobuf:"fixed64,2,opt,name=speed,proto3" json:"speed,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -105,14 +105,14 @@ func (*Move) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Move) GetTargetValue() float32 {
+func (x *Move) GetTargetValue() float64 {
 	if x != nil {
 		return x.TargetValue
 	}
 	return 0
 }
 
-func (x *Move) GetSpeed() float32 {
+func (x *Move) GetSpeed() float64 {
 	if x != nil {
 		return x.Speed
 	}
@@ -121,7 +121,7 @@ func (x *Move) GetSpeed() float32 {
 
 type Offset struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	OffsetValue   float32                `protobuf:"fixed32,1,opt,name=offset_value,json=offsetValue,proto3" json:"offset_value,omitempty"`
+	OffsetValue   float64                `protobuf:"fixed64,1,opt,name=offset_value,json=offsetValue,proto3" json:"offset_value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -156,7 +156,7 @@ func (*Offset) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Offset) GetOffsetValue() float32 {
+func (x *Offset) GetOffsetValue() float64 {
 	if x != nil {
 		return x.OffsetValue
 	}
@@ -165,7 +165,7 @@ func (x *Offset) GetOffsetValue() float32 {
 
 type SetClaheLevel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -200,7 +200,7 @@ func (*SetClaheLevel) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *SetClaheLevel) GetValue() float32 {
+func (x *SetClaheLevel) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -209,7 +209,7 @@ func (x *SetClaheLevel) GetValue() float32 {
 
 type ShiftClaheLevel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -244,7 +244,7 @@ func (*ShiftClaheLevel) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *ShiftClaheLevel) GetValue() float32 {
+func (x *ShiftClaheLevel) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -799,7 +799,7 @@ func (x *SetFxMode) GetMode() types.JonGuiDataFxModeDay {
 
 type SetDigitalZoomLevel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -834,7 +834,7 @@ func (*SetDigitalZoomLevel) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *SetDigitalZoomLevel) GetValue() float32 {
+func (x *SetDigitalZoomLevel) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -1255,7 +1255,7 @@ func (*PrevZoomTablePos) Descriptor() ([]byte, []int) {
 
 type SetIris struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1290,7 +1290,7 @@ func (*SetIris) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *SetIris) GetValue() float32 {
+func (x *SetIris) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -1757,30 +1757,18 @@ var File_jon_shared_cmd_day_camera_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\n" +
-	"\x1fjon_shared_cmd_day_camera.proto\x12\rcmd.DayCamera\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"1\n" +
-	"\bSetValue\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05value\"a\n" +
-	"\x04Move\x122\n" +
-	"\ftarget_value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\vtargetValue\x12%\n" +
-	"\x05speed\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05speed\"<\n" +
-	"\x06Offset\x122\n" +
-	"\foffset_value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\voffsetValue\"6\n" +
-	"\rSetClaheLevel\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05value\"8\n" +
-	"\x0fShiftClaheLevel\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x05value\"\xa0\b\n" +
+	"\x1fjon_shared_cmd_day_camera.proto\x12\rcmd.DayCamera\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"9\n" +
+	"\bSetValue\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\"q\n" +
+	"\x04Move\x12:\n" +
+	"\ftarget_value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\vtargetValue\x12-\n" +
+	"\x05speed\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05speed\"D\n" +
+	"\x06Offset\x12:\n" +
+	"\foffset_value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\voffsetValue\">\n" +
+	"\rSetClaheLevel\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\"@\n" +
+	"\x0fShiftClaheLevel\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05value\"\xa0\b\n" +
 	"\x04Root\x12,\n" +
 	"\x05focus\x18\x01 \x01(\v2\x14.cmd.DayCamera.FocusH\x00R\x05focus\x12)\n" +
 	"\x04zoom\x18\x02 \x01(\v2\x13.cmd.DayCamera.ZoomH\x00R\x04zoom\x123\n" +
@@ -1812,11 +1800,9 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\aHaltAll\"E\n" +
 	"\tSetFxMode\x128\n" +
 	"\x04mode\x18\x01 \x01(\x0e2\x18.ser.JonGuiDataFxModeDayB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\"7\n" +
-	"\x13SetDigitalZoomLevel\x12 \n" +
-	"\x05value\x18\x01 \x01(\x02B\n" +
-	"\xbaH\a\n" +
-	"\x05-\x00\x00\x80?R\x05value\"\xe4\x02\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\";\n" +
+	"\x13SetDigitalZoomLevel\x12$\n" +
+	"\x05value\x18\x01 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x05value\"\xe4\x02\n" +
 	"\x05Focus\x126\n" +
 	"\tset_value\x18\x01 \x01(\v2\x17.cmd.DayCamera.SetValueH\x00R\bsetValue\x12)\n" +
 	"\x04move\x18\x02 \x01(\v2\x13.cmd.DayCamera.MoveH\x00R\x04move\x12)\n" +
@@ -1839,11 +1825,9 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\rsave_to_table\x18\t \x01(\v2\x1a.cmd.DayCamera.SaveToTableH\x00R\vsaveToTableB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\x12\n" +
 	"\x10NextZoomTablePos\"\x12\n" +
-	"\x10PrevZoomTablePos\"0\n" +
-	"\aSetIris\x12%\n" +
-	"\x05value\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\x05value\")\n" +
+	"\x10PrevZoomTablePos\"8\n" +
+	"\aSetIris\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\")\n" +
 	"\x11SetInfraRedFilter\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\bR\x05value\"#\n" +
 	"\vSetAutoIris\x12\x14\n" +

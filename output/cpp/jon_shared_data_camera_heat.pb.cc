@@ -36,9 +36,9 @@ inline constexpr JonGuiDataCameraHeat::Impl_::Impl_(
         auto_focus_{false},
         dde_enabled_{false},
         dde_level_{0},
-        fx_mode_{static_cast< ::ser::JonGuiDataFxModeHeat >(0)},
         digital_zoom_level_{0},
         clahe_level_{0},
+        fx_mode_{static_cast< ::ser::JonGuiDataFxModeHeat >(0)},
         _cached_size_{0} {}
 
 template <typename>
@@ -100,7 +100,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fheat_2eproto
     protodesc_cold) = {
     "\n!jon_shared_data_camera_heat.proto\022\003ser"
     "\032\033jon_shared_data_types.proto\"\350\002\n\024JonGui"
-    "DataCameraHeat\022\020\n\010zoom_pos\030\001 \001(\002\0229\n\010agc_"
+    "DataCameraHeat\022\020\n\010zoom_pos\030\001 \001(\001\0229\n\010agc_"
     "mode\030\002 \001(\0162\'.ser.JonGuiDataVideoChannelH"
     "eatAGCModes\0226\n\006filter\030\003 \001(\0162&.ser.JonGui"
     "DataVideoChannelHeatFilters\022\022\n\nauto_focu"
@@ -108,7 +108,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fheat_2eproto
     "table_pos_max\030\006 \001(\005\022\021\n\tdde_level\030\007 \001(\005\022\023"
     "\n\013dde_enabled\030\010 \001(\010\022*\n\007fx_mode\030\t \001(\0162\031.s"
     "er.JonGuiDataFxModeHeat\022\032\n\022digital_zoom_"
-    "level\030\n \001(\002\022\023\n\013clahe_level\030\013 \001(\002BSZQgit-"
+    "level\030\n \001(\001\022\023\n\013clahe_level\030\013 \001(\001BSZQgit-"
     "codecommit.eu-central-1.amazonaws.com/v1"
     "/repos/jettison/jonp/data/camera_heatb\006p"
     "roto3"
@@ -165,9 +165,9 @@ inline void JonGuiDataCameraHeat::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, zoom_pos_),
            0,
-           offsetof(Impl_, clahe_level_) -
+           offsetof(Impl_, fx_mode_) -
                offsetof(Impl_, zoom_pos_) +
-               sizeof(Impl_::clahe_level_));
+               sizeof(Impl_::fx_mode_));
 }
 JonGuiDataCameraHeat::~JonGuiDataCameraHeat() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataCameraHeat)
@@ -235,9 +235,9 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraHeat::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // float zoom_pos = 1;
-    {::_pbi::TcParser::FastF32S1,
-     {13, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.zoom_pos_)}},
+    // double zoom_pos = 1;
+    {::_pbi::TcParser::FastF64S1,
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.zoom_pos_)}},
     // .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCameraHeat, _impl_.agc_mode_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.agc_mode_)}},
@@ -262,12 +262,12 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraHeat::_table_ = {
     // .ser.JonGuiDataFxModeHeat fx_mode = 9;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCameraHeat, _impl_.fx_mode_), 63>(),
      {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.fx_mode_)}},
-    // float digital_zoom_level = 10;
-    {::_pbi::TcParser::FastF32S1,
-     {85, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.digital_zoom_level_)}},
-    // float clahe_level = 11;
-    {::_pbi::TcParser::FastF32S1,
-     {93, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.clahe_level_)}},
+    // double digital_zoom_level = 10;
+    {::_pbi::TcParser::FastF64S1,
+     {81, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.digital_zoom_level_)}},
+    // double clahe_level = 11;
+    {::_pbi::TcParser::FastF64S1,
+     {89, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.clahe_level_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -275,9 +275,9 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraHeat::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // float zoom_pos = 1;
+    // double zoom_pos = 1;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.zoom_pos_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.agc_mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
@@ -302,12 +302,12 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraHeat::_table_ = {
     // .ser.JonGuiDataFxModeHeat fx_mode = 9;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.fx_mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // float digital_zoom_level = 10;
+    // double digital_zoom_level = 10;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.digital_zoom_level_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
-    // float clahe_level = 11;
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double clahe_level = 11;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.clahe_level_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -322,8 +322,8 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.zoom_pos_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.clahe_level_) -
-      reinterpret_cast<char*>(&_impl_.zoom_pos_)) + sizeof(_impl_.clahe_level_));
+      reinterpret_cast<char*>(&_impl_.fx_mode_) -
+      reinterpret_cast<char*>(&_impl_.zoom_pos_)) + sizeof(_impl_.fx_mode_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -342,10 +342,10 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // float zoom_pos = 1;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_zoom_pos()) != 0) {
+          // double zoom_pos = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_zoom_pos()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_zoom_pos(), target);
           }
 
@@ -405,17 +405,17 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
                 9, this_._internal_fx_mode(), target);
           }
 
-          // float digital_zoom_level = 10;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_digital_zoom_level()) != 0) {
+          // double digital_zoom_level = 10;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_digital_zoom_level()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 10, this_._internal_digital_zoom_level(), target);
           }
 
-          // float clahe_level = 11;
-          if (::absl::bit_cast<::uint32_t>(this_._internal_clahe_level()) != 0) {
+          // double clahe_level = 11;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_clahe_level()) != 0) {
             target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 11, this_._internal_clahe_level(), target);
           }
 
@@ -444,9 +444,9 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // float zoom_pos = 1;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_zoom_pos()) != 0) {
-              total_size += 5;
+            // double zoom_pos = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_zoom_pos()) != 0) {
+              total_size += 9;
             }
             // .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2;
             if (this_._internal_agc_mode() != 0) {
@@ -481,18 +481,18 @@ PROTOBUF_NOINLINE void JonGuiDataCameraHeat::Clear() {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_dde_level());
             }
+            // double digital_zoom_level = 10;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_digital_zoom_level()) != 0) {
+              total_size += 9;
+            }
+            // double clahe_level = 11;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_clahe_level()) != 0) {
+              total_size += 9;
+            }
             // .ser.JonGuiDataFxModeHeat fx_mode = 9;
             if (this_._internal_fx_mode() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_fx_mode());
-            }
-            // float digital_zoom_level = 10;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_digital_zoom_level()) != 0) {
-              total_size += 5;
-            }
-            // float clahe_level = 11;
-            if (::absl::bit_cast<::uint32_t>(this_._internal_clahe_level()) != 0) {
-              total_size += 5;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -507,7 +507,7 @@ void JonGuiDataCameraHeat::MergeImpl(::google::protobuf::MessageLite& to_msg, co
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint32_t>(from._internal_zoom_pos()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_zoom_pos()) != 0) {
     _this->_impl_.zoom_pos_ = from._impl_.zoom_pos_;
   }
   if (from._internal_agc_mode() != 0) {
@@ -531,14 +531,14 @@ void JonGuiDataCameraHeat::MergeImpl(::google::protobuf::MessageLite& to_msg, co
   if (from._internal_dde_level() != 0) {
     _this->_impl_.dde_level_ = from._impl_.dde_level_;
   }
-  if (from._internal_fx_mode() != 0) {
-    _this->_impl_.fx_mode_ = from._impl_.fx_mode_;
-  }
-  if (::absl::bit_cast<::uint32_t>(from._internal_digital_zoom_level()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_digital_zoom_level()) != 0) {
     _this->_impl_.digital_zoom_level_ = from._impl_.digital_zoom_level_;
   }
-  if (::absl::bit_cast<::uint32_t>(from._internal_clahe_level()) != 0) {
+  if (::absl::bit_cast<::uint64_t>(from._internal_clahe_level()) != 0) {
     _this->_impl_.clahe_level_ = from._impl_.clahe_level_;
+  }
+  if (from._internal_fx_mode() != 0) {
+    _this->_impl_.fx_mode_ = from._impl_.fx_mode_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -555,8 +555,8 @@ void JonGuiDataCameraHeat::InternalSwap(JonGuiDataCameraHeat* PROTOBUF_RESTRICT 
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.clahe_level_)
-      + sizeof(JonGuiDataCameraHeat::_impl_.clahe_level_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.fx_mode_)
+      + sizeof(JonGuiDataCameraHeat::_impl_.fx_mode_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataCameraHeat, _impl_.zoom_pos_)>(
           reinterpret_cast<char*>(&_impl_.zoom_pos_),
           reinterpret_cast<char*>(&other->_impl_.zoom_pos_));

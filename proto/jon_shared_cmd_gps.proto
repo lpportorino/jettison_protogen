@@ -26,15 +26,15 @@ message SetUseManualPosition {
 }
 
 message SetManualPosition {
-  float latitude = 1 [(buf.validate.field).float = {
+  double latitude = 1 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0
   }];
-  float longitude = 2 [(buf.validate.field).float = {
+  double longitude = 2 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0
   }];
-  float altitude = 3 [(buf.validate.field).float = {
+  double altitude = 3 [(buf.validate.field).double = {
     gte: -430.0,  // Lowest point on Earth's surface (Dead Sea shore)
     lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
   }];

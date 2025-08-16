@@ -106,15 +106,15 @@ enum JonGuiDataRotaryMode {
 }
 
 message JonGuiDataMeteo {
-  float temperature = 1 [(buf.validate.field).float = {
+  double temperature = 1 [(buf.validate.field).double = {
     gte: -273.15,  // Absolute zero
     lte: 150.0      // Max reasonable sensor reading
   }];
-  float humidity = 2 [(buf.validate.field).float = {
+  double humidity = 2 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 100.0      // Percentage
   }];
-  float pressure = 3 [(buf.validate.field).float = {
+  double pressure = 3 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1200.0     // Max atmospheric pressure (highest recorded ~1084 hPa, allowing margin)
   }];

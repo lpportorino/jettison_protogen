@@ -38,7 +38,7 @@ message CalibrateCencel {}
 message GetMeteo {}
 
 message SetMagneticDeclination {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -180,
     lt: 180,
     example: [-15, 0, 15]
@@ -46,7 +46,7 @@ message SetMagneticDeclination {
 }
 
 message SetOffsetAngleAzimuth {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -180,
     lt: 180,
     example: [-45, 0, 45]
@@ -54,7 +54,7 @@ message SetOffsetAngleAzimuth {
 }
 
 message SetOffsetAngleElevation {
-  float value = 1 [(buf.validate.field).float = {
+  double value = 1 [(buf.validate.field).double = {
     gte: -90,
     lte: 90,
     example: [-30, 0, 30]

@@ -82,13 +82,13 @@ pub struct SetFxMode {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetClaheLevel {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ShiftClaheLevel {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct NextFxMode {}
@@ -102,8 +102,8 @@ pub struct EnableDde {}
 pub struct DisableDde {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetValue {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetDdeLevel {
@@ -112,8 +112,8 @@ pub struct SetDdeLevel {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetDigitalZoomLevel {
-    #[prost(float, tag = "1")]
-    pub value: f32,
+    #[prost(double, tag = "1")]
+    pub value: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ShiftDde {

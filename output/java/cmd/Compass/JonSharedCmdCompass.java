@@ -5762,10 +5762,10 @@ public final class JonSharedCmdCompass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.Compass.SetMagneticDeclination}
@@ -5805,13 +5805,13 @@ public final class JonSharedCmdCompass {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -5829,8 +5829,8 @@ public final class JonSharedCmdCompass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -5841,9 +5841,9 @@ public final class JonSharedCmdCompass {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -5860,8 +5860,8 @@ public final class JonSharedCmdCompass {
       }
       cmd.Compass.JonSharedCmdCompass.SetMagneticDeclination other = (cmd.Compass.JonSharedCmdCompass.SetMagneticDeclination) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -5875,8 +5875,8 @@ public final class JonSharedCmdCompass {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6008,7 +6008,7 @@ public final class JonSharedCmdCompass {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -6059,7 +6059,7 @@ public final class JonSharedCmdCompass {
 
       public Builder mergeFrom(cmd.Compass.JonSharedCmdCompass.SetMagneticDeclination other) {
         if (other == cmd.Compass.JonSharedCmdCompass.SetMagneticDeclination.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -6088,11 +6088,11 @@ public final class JonSharedCmdCompass {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -6110,21 +6110,21 @@ public final class JonSharedCmdCompass {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -6132,12 +6132,12 @@ public final class JonSharedCmdCompass {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -6198,10 +6198,10 @@ public final class JonSharedCmdCompass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.Compass.SetOffsetAngleAzimuth}
@@ -6241,13 +6241,13 @@ public final class JonSharedCmdCompass {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -6265,8 +6265,8 @@ public final class JonSharedCmdCompass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6277,9 +6277,9 @@ public final class JonSharedCmdCompass {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -6296,8 +6296,8 @@ public final class JonSharedCmdCompass {
       }
       cmd.Compass.JonSharedCmdCompass.SetOffsetAngleAzimuth other = (cmd.Compass.JonSharedCmdCompass.SetOffsetAngleAzimuth) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -6311,8 +6311,8 @@ public final class JonSharedCmdCompass {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6444,7 +6444,7 @@ public final class JonSharedCmdCompass {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -6495,7 +6495,7 @@ public final class JonSharedCmdCompass {
 
       public Builder mergeFrom(cmd.Compass.JonSharedCmdCompass.SetOffsetAngleAzimuth other) {
         if (other == cmd.Compass.JonSharedCmdCompass.SetOffsetAngleAzimuth.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -6524,11 +6524,11 @@ public final class JonSharedCmdCompass {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -6546,21 +6546,21 @@ public final class JonSharedCmdCompass {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -6568,12 +6568,12 @@ public final class JonSharedCmdCompass {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -6634,10 +6634,10 @@ public final class JonSharedCmdCompass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
-    float getValue();
+    double getValue();
   }
   /**
    * Protobuf type {@code cmd.Compass.SetOffsetAngleElevation}
@@ -6677,13 +6677,13 @@ public final class JonSharedCmdCompass {
     }
 
     public static final int VALUE_FIELD_NUMBER = 1;
-    private float value_ = 0F;
+    private double value_ = 0D;
     /**
-     * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
      * @return The value.
      */
     @java.lang.Override
-    public float getValue() {
+    public double getValue() {
       return value_;
     }
 
@@ -6701,8 +6701,8 @@ public final class JonSharedCmdCompass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
-        output.writeFloat(1, value_);
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6713,9 +6713,9 @@ public final class JonSharedCmdCompass {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Float.floatToRawIntBits(value_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(1, value_);
+          .computeDoubleSize(1, value_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -6732,8 +6732,8 @@ public final class JonSharedCmdCompass {
       }
       cmd.Compass.JonSharedCmdCompass.SetOffsetAngleElevation other = (cmd.Compass.JonSharedCmdCompass.SetOffsetAngleElevation) obj;
 
-      if (java.lang.Float.floatToIntBits(getValue())
-          != java.lang.Float.floatToIntBits(
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
               other.getValue())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -6747,8 +6747,8 @@ public final class JonSharedCmdCompass {
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + java.lang.Float.floatToIntBits(
-          getValue());
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6880,7 +6880,7 @@ public final class JonSharedCmdCompass {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        value_ = 0F;
+        value_ = 0D;
         return this;
       }
 
@@ -6931,7 +6931,7 @@ public final class JonSharedCmdCompass {
 
       public Builder mergeFrom(cmd.Compass.JonSharedCmdCompass.SetOffsetAngleElevation other) {
         if (other == cmd.Compass.JonSharedCmdCompass.SetOffsetAngleElevation.getDefaultInstance()) return this;
-        if (other.getValue() != 0F) {
+        if (other.getValue() != 0D) {
           setValue(other.getValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -6960,11 +6960,11 @@ public final class JonSharedCmdCompass {
               case 0:
                 done = true;
                 break;
-              case 13: {
-                value_ = input.readFloat();
+              case 9: {
+                value_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
-              } // case 13
+              } // case 9
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -6982,21 +6982,21 @@ public final class JonSharedCmdCompass {
       }
       private int bitField0_;
 
-      private float value_ ;
+      private double value_ ;
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return The value.
        */
       @java.lang.Override
-      public float getValue() {
+      public double getValue() {
         return value_;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @param value The value to set.
        * @return This builder for chaining.
        */
-      public Builder setValue(float value) {
+      public Builder setValue(double value) {
 
         value_ = value;
         bitField0_ |= 0x00000001;
@@ -7004,12 +7004,12 @@ public final class JonSharedCmdCompass {
         return this;
       }
       /**
-       * <code>float value = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = 0F;
+        value_ = 0D;
         onChanged();
         return this;
       }
@@ -7595,16 +7595,17 @@ public final class JonSharedCmdCompass {
       "s.GetMeteoH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004S" +
       "top\"\006\n\004Next\"\024\n\022CalibrateStartLong\"\025\n\023Cal" +
       "ibrateStartShort\"\017\n\rCalibrateNext\"\021\n\017Cal" +
-      "ibrateCencel\"\n\n\010GetMeteo\"G\n\026SetMagneticD" +
-      "eclination\022-\n\005value\030\001 \001(\002B\036\272H\033\n\031\025\000\0004C-\000\000" +
-      "4\303M\000\000p\301M\000\000\000\000M\000\000pA\"F\n\025SetOffsetAngleAzimu" +
-      "th\022-\n\005value\030\001 \001(\002B\036\272H\033\n\031\025\000\0004C-\000\0004\303M\000\0004\302M" +
-      "\000\000\000\000M\000\0004B\"H\n\027SetOffsetAngleElevation\022-\n\005" +
-      "value\030\001 \001(\002B\036\272H\033\n\031\035\000\000\264B-\000\000\264\302M\000\000\360\301M\000\000\000\000M\000" +
-      "\000\360A\"$\n\024SetUseRotaryPosition\022\014\n\004flag\030\001 \001(" +
-      "\010BNZLgit-codecommit.eu-central-1.amazona" +
-      "ws.com/v1/repos/jettison/jonp/cmd/compas" +
-      "sb\006proto3"
+      "ibrateCencel\"\n\n\010GetMeteo\"[\n\026SetMagneticD" +
+      "eclination\022A\n\005value\030\001 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f" +
+      "@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000.@\"Z\n" +
+      "\025SetOffsetAngleAzimuth\022A\n\005value\030\001 \001(\001B2\272" +
+      "H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000" +
+      "I\000\000\000\000\000\200F@\"\\\n\027SetOffsetAngleElevation\022A\n\005" +
+      "value\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000" +
+      "\000\000\000>\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000>@\"$\n\024SetUseRotaryP" +
+      "osition\022\014\n\004flag\030\001 \001(\010BNZLgit-codecommit." +
+      "eu-central-1.amazonaws.com/v1/repos/jett" +
+      "ison/jonp/cmd/compassb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

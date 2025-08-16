@@ -227,34 +227,34 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     kDigitalZoomLevelFieldNumber = 10,
     kClaheLevelFieldNumber = 11,
   };
-  // float focus_pos = 1;
+  // double focus_pos = 1;
   void clear_focus_pos() ;
-  float focus_pos() const;
-  void set_focus_pos(float value);
+  double focus_pos() const;
+  void set_focus_pos(double value);
 
   private:
-  float _internal_focus_pos() const;
-  void _internal_set_focus_pos(float value);
+  double _internal_focus_pos() const;
+  void _internal_set_focus_pos(double value);
 
   public:
-  // float zoom_pos = 2;
+  // double zoom_pos = 2;
   void clear_zoom_pos() ;
-  float zoom_pos() const;
-  void set_zoom_pos(float value);
+  double zoom_pos() const;
+  void set_zoom_pos(double value);
 
   private:
-  float _internal_zoom_pos() const;
-  void _internal_set_zoom_pos(float value);
+  double _internal_zoom_pos() const;
+  void _internal_set_zoom_pos(double value);
 
   public:
-  // float iris_pos = 3;
+  // double iris_pos = 3;
   void clear_iris_pos() ;
-  float iris_pos() const;
-  void set_iris_pos(float value);
+  double iris_pos() const;
+  void set_iris_pos(double value);
 
   private:
-  float _internal_iris_pos() const;
-  void _internal_set_iris_pos(float value);
+  double _internal_iris_pos() const;
+  void _internal_set_iris_pos(double value);
 
   public:
   // int32 zoom_table_pos = 5;
@@ -317,24 +317,24 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   void _internal_set_auto_iris(bool value);
 
   public:
-  // float digital_zoom_level = 10;
+  // double digital_zoom_level = 10;
   void clear_digital_zoom_level() ;
-  float digital_zoom_level() const;
-  void set_digital_zoom_level(float value);
+  double digital_zoom_level() const;
+  void set_digital_zoom_level(double value);
 
   private:
-  float _internal_digital_zoom_level() const;
-  void _internal_set_digital_zoom_level(float value);
+  double _internal_digital_zoom_level() const;
+  void _internal_set_digital_zoom_level(double value);
 
   public:
-  // float clahe_level = 11;
+  // double clahe_level = 11;
   void clear_clahe_level() ;
-  float clahe_level() const;
-  void set_clahe_level(float value);
+  double clahe_level() const;
+  void set_clahe_level(double value);
 
   private:
-  float _internal_clahe_level() const;
-  void _internal_set_clahe_level(float value);
+  double _internal_clahe_level() const;
+  void _internal_set_clahe_level(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCameraDay)
@@ -360,17 +360,17 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataCameraDay& from_msg);
-    float focus_pos_;
-    float zoom_pos_;
-    float iris_pos_;
+    double focus_pos_;
+    double zoom_pos_;
+    double iris_pos_;
     ::int32_t zoom_table_pos_;
     ::int32_t zoom_table_pos_max_;
     int fx_mode_;
     bool infrared_filter_;
     bool auto_focus_;
     bool auto_iris_;
-    float digital_zoom_level_;
-    float clahe_level_;
+    double digital_zoom_level_;
+    double clahe_level_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -394,68 +394,68 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
 
 // JonGuiDataCameraDay
 
-// float focus_pos = 1;
+// double focus_pos = 1;
 inline void JonGuiDataCameraDay::clear_focus_pos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.focus_pos_ = 0;
 }
-inline float JonGuiDataCameraDay::focus_pos() const {
+inline double JonGuiDataCameraDay::focus_pos() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.focus_pos)
   return _internal_focus_pos();
 }
-inline void JonGuiDataCameraDay::set_focus_pos(float value) {
+inline void JonGuiDataCameraDay::set_focus_pos(double value) {
   _internal_set_focus_pos(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.focus_pos)
 }
-inline float JonGuiDataCameraDay::_internal_focus_pos() const {
+inline double JonGuiDataCameraDay::_internal_focus_pos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.focus_pos_;
 }
-inline void JonGuiDataCameraDay::_internal_set_focus_pos(float value) {
+inline void JonGuiDataCameraDay::_internal_set_focus_pos(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.focus_pos_ = value;
 }
 
-// float zoom_pos = 2;
+// double zoom_pos = 2;
 inline void JonGuiDataCameraDay::clear_zoom_pos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.zoom_pos_ = 0;
 }
-inline float JonGuiDataCameraDay::zoom_pos() const {
+inline double JonGuiDataCameraDay::zoom_pos() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.zoom_pos)
   return _internal_zoom_pos();
 }
-inline void JonGuiDataCameraDay::set_zoom_pos(float value) {
+inline void JonGuiDataCameraDay::set_zoom_pos(double value) {
   _internal_set_zoom_pos(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.zoom_pos)
 }
-inline float JonGuiDataCameraDay::_internal_zoom_pos() const {
+inline double JonGuiDataCameraDay::_internal_zoom_pos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.zoom_pos_;
 }
-inline void JonGuiDataCameraDay::_internal_set_zoom_pos(float value) {
+inline void JonGuiDataCameraDay::_internal_set_zoom_pos(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.zoom_pos_ = value;
 }
 
-// float iris_pos = 3;
+// double iris_pos = 3;
 inline void JonGuiDataCameraDay::clear_iris_pos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.iris_pos_ = 0;
 }
-inline float JonGuiDataCameraDay::iris_pos() const {
+inline double JonGuiDataCameraDay::iris_pos() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.iris_pos)
   return _internal_iris_pos();
 }
-inline void JonGuiDataCameraDay::set_iris_pos(float value) {
+inline void JonGuiDataCameraDay::set_iris_pos(double value) {
   _internal_set_iris_pos(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.iris_pos)
 }
-inline float JonGuiDataCameraDay::_internal_iris_pos() const {
+inline double JonGuiDataCameraDay::_internal_iris_pos() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.iris_pos_;
 }
-inline void JonGuiDataCameraDay::_internal_set_iris_pos(float value) {
+inline void JonGuiDataCameraDay::_internal_set_iris_pos(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.iris_pos_ = value;
 }
@@ -592,46 +592,46 @@ inline void JonGuiDataCameraDay::_internal_set_auto_iris(bool value) {
   _impl_.auto_iris_ = value;
 }
 
-// float digital_zoom_level = 10;
+// double digital_zoom_level = 10;
 inline void JonGuiDataCameraDay::clear_digital_zoom_level() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.digital_zoom_level_ = 0;
 }
-inline float JonGuiDataCameraDay::digital_zoom_level() const {
+inline double JonGuiDataCameraDay::digital_zoom_level() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.digital_zoom_level)
   return _internal_digital_zoom_level();
 }
-inline void JonGuiDataCameraDay::set_digital_zoom_level(float value) {
+inline void JonGuiDataCameraDay::set_digital_zoom_level(double value) {
   _internal_set_digital_zoom_level(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.digital_zoom_level)
 }
-inline float JonGuiDataCameraDay::_internal_digital_zoom_level() const {
+inline double JonGuiDataCameraDay::_internal_digital_zoom_level() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.digital_zoom_level_;
 }
-inline void JonGuiDataCameraDay::_internal_set_digital_zoom_level(float value) {
+inline void JonGuiDataCameraDay::_internal_set_digital_zoom_level(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.digital_zoom_level_ = value;
 }
 
-// float clahe_level = 11;
+// double clahe_level = 11;
 inline void JonGuiDataCameraDay::clear_clahe_level() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.clahe_level_ = 0;
 }
-inline float JonGuiDataCameraDay::clahe_level() const {
+inline double JonGuiDataCameraDay::clahe_level() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.clahe_level)
   return _internal_clahe_level();
 }
-inline void JonGuiDataCameraDay::set_clahe_level(float value) {
+inline void JonGuiDataCameraDay::set_clahe_level(double value) {
   _internal_set_clahe_level(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.clahe_level)
 }
-inline float JonGuiDataCameraDay::_internal_clahe_level() const {
+inline double JonGuiDataCameraDay::_internal_clahe_level() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.clahe_level_;
 }
-inline void JonGuiDataCameraDay::_internal_set_clahe_level(float value) {
+inline void JonGuiDataCameraDay::_internal_set_clahe_level(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.clahe_level_ = value;
 }

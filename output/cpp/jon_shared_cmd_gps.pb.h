@@ -717,34 +717,34 @@ class SetManualPosition final : public ::google::protobuf::Message
     kLongitudeFieldNumber = 2,
     kAltitudeFieldNumber = 3,
   };
-  // float latitude = 1;
+  // double latitude = 1;
   void clear_latitude() ;
-  float latitude() const;
-  void set_latitude(float value);
+  double latitude() const;
+  void set_latitude(double value);
 
   private:
-  float _internal_latitude() const;
-  void _internal_set_latitude(float value);
+  double _internal_latitude() const;
+  void _internal_set_latitude(double value);
 
   public:
-  // float longitude = 2;
+  // double longitude = 2;
   void clear_longitude() ;
-  float longitude() const;
-  void set_longitude(float value);
+  double longitude() const;
+  void set_longitude(double value);
 
   private:
-  float _internal_longitude() const;
-  void _internal_set_longitude(float value);
+  double _internal_longitude() const;
+  void _internal_set_longitude(double value);
 
   public:
-  // float altitude = 3;
+  // double altitude = 3;
   void clear_altitude() ;
-  float altitude() const;
-  void set_altitude(float value);
+  double altitude() const;
+  void set_altitude(double value);
 
   private:
-  float _internal_altitude() const;
-  void _internal_set_altitude(float value);
+  double _internal_altitude() const;
+  void _internal_set_altitude(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.Gps.SetManualPosition)
@@ -770,9 +770,9 @@ class SetManualPosition final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetManualPosition& from_msg);
-    float latitude_;
-    float longitude_;
-    float altitude_;
+    double latitude_;
+    double longitude_;
+    double altitude_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1692,68 +1692,68 @@ inline void SetUseManualPosition::_internal_set_flag(bool value) {
 
 // SetManualPosition
 
-// float latitude = 1;
+// double latitude = 1;
 inline void SetManualPosition::clear_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = 0;
 }
-inline float SetManualPosition::latitude() const {
+inline double SetManualPosition::latitude() const {
   // @@protoc_insertion_point(field_get:cmd.Gps.SetManualPosition.latitude)
   return _internal_latitude();
 }
-inline void SetManualPosition::set_latitude(float value) {
+inline void SetManualPosition::set_latitude(double value) {
   _internal_set_latitude(value);
   // @@protoc_insertion_point(field_set:cmd.Gps.SetManualPosition.latitude)
 }
-inline float SetManualPosition::_internal_latitude() const {
+inline double SetManualPosition::_internal_latitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.latitude_;
 }
-inline void SetManualPosition::_internal_set_latitude(float value) {
+inline void SetManualPosition::_internal_set_latitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = value;
 }
 
-// float longitude = 2;
+// double longitude = 2;
 inline void SetManualPosition::clear_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = 0;
 }
-inline float SetManualPosition::longitude() const {
+inline double SetManualPosition::longitude() const {
   // @@protoc_insertion_point(field_get:cmd.Gps.SetManualPosition.longitude)
   return _internal_longitude();
 }
-inline void SetManualPosition::set_longitude(float value) {
+inline void SetManualPosition::set_longitude(double value) {
   _internal_set_longitude(value);
   // @@protoc_insertion_point(field_set:cmd.Gps.SetManualPosition.longitude)
 }
-inline float SetManualPosition::_internal_longitude() const {
+inline double SetManualPosition::_internal_longitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.longitude_;
 }
-inline void SetManualPosition::_internal_set_longitude(float value) {
+inline void SetManualPosition::_internal_set_longitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = value;
 }
 
-// float altitude = 3;
+// double altitude = 3;
 inline void SetManualPosition::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;
 }
-inline float SetManualPosition::altitude() const {
+inline double SetManualPosition::altitude() const {
   // @@protoc_insertion_point(field_get:cmd.Gps.SetManualPosition.altitude)
   return _internal_altitude();
 }
-inline void SetManualPosition::set_altitude(float value) {
+inline void SetManualPosition::set_altitude(double value) {
   _internal_set_altitude(value);
   // @@protoc_insertion_point(field_set:cmd.Gps.SetManualPosition.altitude)
 }
-inline float SetManualPosition::_internal_altitude() const {
+inline double SetManualPosition::_internal_altitude() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.altitude_;
 }
-inline void SetManualPosition::_internal_set_altitude(float value) {
+inline void SetManualPosition::_internal_set_altitude(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = value;
 }

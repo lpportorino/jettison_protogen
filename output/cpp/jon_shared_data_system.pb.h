@@ -239,54 +239,54 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     kCvDumpingFieldNumber = 22,
     kRecognitionModeFieldNumber = 23,
   };
-  // float cpu_temperature = 1;
+  // double cpu_temperature = 1;
   void clear_cpu_temperature() ;
-  float cpu_temperature() const;
-  void set_cpu_temperature(float value);
+  double cpu_temperature() const;
+  void set_cpu_temperature(double value);
 
   private:
-  float _internal_cpu_temperature() const;
-  void _internal_set_cpu_temperature(float value);
+  double _internal_cpu_temperature() const;
+  void _internal_set_cpu_temperature(double value);
 
   public:
-  // float gpu_temperature = 2;
+  // double gpu_temperature = 2;
   void clear_gpu_temperature() ;
-  float gpu_temperature() const;
-  void set_gpu_temperature(float value);
+  double gpu_temperature() const;
+  void set_gpu_temperature(double value);
 
   private:
-  float _internal_gpu_temperature() const;
-  void _internal_set_gpu_temperature(float value);
+  double _internal_gpu_temperature() const;
+  void _internal_set_gpu_temperature(double value);
 
   public:
-  // float gpu_load = 3;
+  // double gpu_load = 3;
   void clear_gpu_load() ;
-  float gpu_load() const;
-  void set_gpu_load(float value);
+  double gpu_load() const;
+  void set_gpu_load(double value);
 
   private:
-  float _internal_gpu_load() const;
-  void _internal_set_gpu_load(float value);
+  double _internal_gpu_load() const;
+  void _internal_set_gpu_load(double value);
 
   public:
-  // float cpu_load = 4;
+  // double cpu_load = 4;
   void clear_cpu_load() ;
-  float cpu_load() const;
-  void set_cpu_load(float value);
+  double cpu_load() const;
+  void set_cpu_load(double value);
 
   private:
-  float _internal_cpu_load() const;
-  void _internal_set_cpu_load(float value);
+  double _internal_cpu_load() const;
+  void _internal_set_cpu_load(double value);
 
   public:
-  // float power_consumption = 5;
+  // double power_consumption = 5;
   void clear_power_consumption() ;
-  float power_consumption() const;
-  void set_power_consumption(float value);
+  double power_consumption() const;
+  void set_power_consumption(double value);
 
   private:
-  float _internal_power_consumption() const;
-  void _internal_set_power_consumption(float value);
+  double _internal_power_consumption() const;
+  void _internal_set_power_consumption(double value);
 
   public:
   // .ser.JonGuiDataSystemLocalizations loc = 6;
@@ -492,11 +492,11 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataSystem& from_msg);
-    float cpu_temperature_;
-    float gpu_temperature_;
-    float gpu_load_;
-    float cpu_load_;
-    float power_consumption_;
+    double cpu_temperature_;
+    double gpu_temperature_;
+    double gpu_load_;
+    double cpu_load_;
+    double power_consumption_;
     int loc_;
     ::int32_t cur_video_rec_dir_year_;
     ::int32_t cur_video_rec_dir_month_;
@@ -538,112 +538,112 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
 
 // JonGuiDataSystem
 
-// float cpu_temperature = 1;
+// double cpu_temperature = 1;
 inline void JonGuiDataSystem::clear_cpu_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cpu_temperature_ = 0;
 }
-inline float JonGuiDataSystem::cpu_temperature() const {
+inline double JonGuiDataSystem::cpu_temperature() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.cpu_temperature)
   return _internal_cpu_temperature();
 }
-inline void JonGuiDataSystem::set_cpu_temperature(float value) {
+inline void JonGuiDataSystem::set_cpu_temperature(double value) {
   _internal_set_cpu_temperature(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.cpu_temperature)
 }
-inline float JonGuiDataSystem::_internal_cpu_temperature() const {
+inline double JonGuiDataSystem::_internal_cpu_temperature() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.cpu_temperature_;
 }
-inline void JonGuiDataSystem::_internal_set_cpu_temperature(float value) {
+inline void JonGuiDataSystem::_internal_set_cpu_temperature(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cpu_temperature_ = value;
 }
 
-// float gpu_temperature = 2;
+// double gpu_temperature = 2;
 inline void JonGuiDataSystem::clear_gpu_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.gpu_temperature_ = 0;
 }
-inline float JonGuiDataSystem::gpu_temperature() const {
+inline double JonGuiDataSystem::gpu_temperature() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.gpu_temperature)
   return _internal_gpu_temperature();
 }
-inline void JonGuiDataSystem::set_gpu_temperature(float value) {
+inline void JonGuiDataSystem::set_gpu_temperature(double value) {
   _internal_set_gpu_temperature(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.gpu_temperature)
 }
-inline float JonGuiDataSystem::_internal_gpu_temperature() const {
+inline double JonGuiDataSystem::_internal_gpu_temperature() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.gpu_temperature_;
 }
-inline void JonGuiDataSystem::_internal_set_gpu_temperature(float value) {
+inline void JonGuiDataSystem::_internal_set_gpu_temperature(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.gpu_temperature_ = value;
 }
 
-// float gpu_load = 3;
+// double gpu_load = 3;
 inline void JonGuiDataSystem::clear_gpu_load() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.gpu_load_ = 0;
 }
-inline float JonGuiDataSystem::gpu_load() const {
+inline double JonGuiDataSystem::gpu_load() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.gpu_load)
   return _internal_gpu_load();
 }
-inline void JonGuiDataSystem::set_gpu_load(float value) {
+inline void JonGuiDataSystem::set_gpu_load(double value) {
   _internal_set_gpu_load(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.gpu_load)
 }
-inline float JonGuiDataSystem::_internal_gpu_load() const {
+inline double JonGuiDataSystem::_internal_gpu_load() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.gpu_load_;
 }
-inline void JonGuiDataSystem::_internal_set_gpu_load(float value) {
+inline void JonGuiDataSystem::_internal_set_gpu_load(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.gpu_load_ = value;
 }
 
-// float cpu_load = 4;
+// double cpu_load = 4;
 inline void JonGuiDataSystem::clear_cpu_load() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cpu_load_ = 0;
 }
-inline float JonGuiDataSystem::cpu_load() const {
+inline double JonGuiDataSystem::cpu_load() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.cpu_load)
   return _internal_cpu_load();
 }
-inline void JonGuiDataSystem::set_cpu_load(float value) {
+inline void JonGuiDataSystem::set_cpu_load(double value) {
   _internal_set_cpu_load(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.cpu_load)
 }
-inline float JonGuiDataSystem::_internal_cpu_load() const {
+inline double JonGuiDataSystem::_internal_cpu_load() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.cpu_load_;
 }
-inline void JonGuiDataSystem::_internal_set_cpu_load(float value) {
+inline void JonGuiDataSystem::_internal_set_cpu_load(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cpu_load_ = value;
 }
 
-// float power_consumption = 5;
+// double power_consumption = 5;
 inline void JonGuiDataSystem::clear_power_consumption() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.power_consumption_ = 0;
 }
-inline float JonGuiDataSystem::power_consumption() const {
+inline double JonGuiDataSystem::power_consumption() const {
   // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.power_consumption)
   return _internal_power_consumption();
 }
-inline void JonGuiDataSystem::set_power_consumption(float value) {
+inline void JonGuiDataSystem::set_power_consumption(double value) {
   _internal_set_power_consumption(value);
   // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.power_consumption)
 }
-inline float JonGuiDataSystem::_internal_power_consumption() const {
+inline double JonGuiDataSystem::_internal_power_consumption() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.power_consumption_;
 }
-inline void JonGuiDataSystem::_internal_set_power_consumption(float value) {
+inline void JonGuiDataSystem::_internal_set_power_consumption(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.power_consumption_ = value;
 }

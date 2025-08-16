@@ -598,14 +598,14 @@ class ShiftClaheLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.ShiftClaheLevel)
@@ -631,7 +631,7 @@ class ShiftClaheLevel final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const ShiftClaheLevel& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -978,14 +978,14 @@ class SetValue final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.SetValue)
@@ -1011,7 +1011,7 @@ class SetValue final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetValue& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1168,14 +1168,14 @@ class SetIris final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.SetIris)
@@ -1201,7 +1201,7 @@ class SetIris final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetIris& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1738,14 +1738,14 @@ class SetDigitalZoomLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.SetDigitalZoomLevel)
@@ -1771,7 +1771,7 @@ class SetDigitalZoomLevel final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetDigitalZoomLevel& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1928,14 +1928,14 @@ class SetClaheLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // float value = 1;
+  // double value = 1;
   void clear_value() ;
-  float value() const;
-  void set_value(float value);
+  double value() const;
+  void set_value(double value);
 
   private:
-  float _internal_value() const;
-  void _internal_set_value(float value);
+  double _internal_value() const;
+  void _internal_set_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.SetClaheLevel)
@@ -1961,7 +1961,7 @@ class SetClaheLevel final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetClaheLevel& from_msg);
-    float value_;
+    double value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3468,14 +3468,14 @@ class Offset final : public ::google::protobuf::Message
   enum : int {
     kOffsetValueFieldNumber = 1,
   };
-  // float offset_value = 1;
+  // double offset_value = 1;
   void clear_offset_value() ;
-  float offset_value() const;
-  void set_offset_value(float value);
+  double offset_value() const;
+  void set_offset_value(double value);
 
   private:
-  float _internal_offset_value() const;
-  void _internal_set_offset_value(float value);
+  double _internal_offset_value() const;
+  void _internal_set_offset_value(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Offset)
@@ -3501,7 +3501,7 @@ class Offset final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const Offset& from_msg);
-    float offset_value_;
+    double offset_value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3949,24 +3949,24 @@ class Move final : public ::google::protobuf::Message
     kTargetValueFieldNumber = 1,
     kSpeedFieldNumber = 2,
   };
-  // float target_value = 1;
+  // double target_value = 1;
   void clear_target_value() ;
-  float target_value() const;
-  void set_target_value(float value);
+  double target_value() const;
+  void set_target_value(double value);
 
   private:
-  float _internal_target_value() const;
-  void _internal_set_target_value(float value);
+  double _internal_target_value() const;
+  void _internal_set_target_value(double value);
 
   public:
-  // float speed = 2;
+  // double speed = 2;
   void clear_speed() ;
-  float speed() const;
-  void set_speed(float value);
+  double speed() const;
+  void set_speed(double value);
 
   private:
-  float _internal_speed() const;
-  void _internal_set_speed(float value);
+  double _internal_speed() const;
+  void _internal_set_speed(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Move)
@@ -3992,8 +3992,8 @@ class Move final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const Move& from_msg);
-    float target_value_;
-    float speed_;
+    double target_value_;
+    double speed_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -5903,24 +5903,24 @@ class Root final : public ::google::protobuf::Message
 
 // SetValue
 
-// float value = 1;
+// double value = 1;
 inline void SetValue::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetValue::value() const {
+inline double SetValue::value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.SetValue.value)
   return _internal_value();
 }
-inline void SetValue::set_value(float value) {
+inline void SetValue::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.SetValue.value)
 }
-inline float SetValue::_internal_value() const {
+inline double SetValue::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetValue::_internal_set_value(float value) {
+inline void SetValue::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -5929,46 +5929,46 @@ inline void SetValue::_internal_set_value(float value) {
 
 // Move
 
-// float target_value = 1;
+// double target_value = 1;
 inline void Move::clear_target_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = 0;
 }
-inline float Move::target_value() const {
+inline double Move::target_value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.Move.target_value)
   return _internal_target_value();
 }
-inline void Move::set_target_value(float value) {
+inline void Move::set_target_value(double value) {
   _internal_set_target_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.Move.target_value)
 }
-inline float Move::_internal_target_value() const {
+inline double Move::_internal_target_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.target_value_;
 }
-inline void Move::_internal_set_target_value(float value) {
+inline void Move::_internal_set_target_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = value;
 }
 
-// float speed = 2;
+// double speed = 2;
 inline void Move::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
 }
-inline float Move::speed() const {
+inline double Move::speed() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.Move.speed)
   return _internal_speed();
 }
-inline void Move::set_speed(float value) {
+inline void Move::set_speed(double value) {
   _internal_set_speed(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.Move.speed)
 }
-inline float Move::_internal_speed() const {
+inline double Move::_internal_speed() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.speed_;
 }
-inline void Move::_internal_set_speed(float value) {
+inline void Move::_internal_set_speed(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = value;
 }
@@ -5977,24 +5977,24 @@ inline void Move::_internal_set_speed(float value) {
 
 // Offset
 
-// float offset_value = 1;
+// double offset_value = 1;
 inline void Offset::clear_offset_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.offset_value_ = 0;
 }
-inline float Offset::offset_value() const {
+inline double Offset::offset_value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.Offset.offset_value)
   return _internal_offset_value();
 }
-inline void Offset::set_offset_value(float value) {
+inline void Offset::set_offset_value(double value) {
   _internal_set_offset_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.Offset.offset_value)
 }
-inline float Offset::_internal_offset_value() const {
+inline double Offset::_internal_offset_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.offset_value_;
 }
-inline void Offset::_internal_set_offset_value(float value) {
+inline void Offset::_internal_set_offset_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.offset_value_ = value;
 }
@@ -6003,24 +6003,24 @@ inline void Offset::_internal_set_offset_value(float value) {
 
 // SetClaheLevel
 
-// float value = 1;
+// double value = 1;
 inline void SetClaheLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetClaheLevel::value() const {
+inline double SetClaheLevel::value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.SetClaheLevel.value)
   return _internal_value();
 }
-inline void SetClaheLevel::set_value(float value) {
+inline void SetClaheLevel::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.SetClaheLevel.value)
 }
-inline float SetClaheLevel::_internal_value() const {
+inline double SetClaheLevel::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetClaheLevel::_internal_set_value(float value) {
+inline void SetClaheLevel::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -6029,24 +6029,24 @@ inline void SetClaheLevel::_internal_set_value(float value) {
 
 // ShiftClaheLevel
 
-// float value = 1;
+// double value = 1;
 inline void ShiftClaheLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float ShiftClaheLevel::value() const {
+inline double ShiftClaheLevel::value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.ShiftClaheLevel.value)
   return _internal_value();
 }
-inline void ShiftClaheLevel::set_value(float value) {
+inline void ShiftClaheLevel::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.ShiftClaheLevel.value)
 }
-inline float ShiftClaheLevel::_internal_value() const {
+inline double ShiftClaheLevel::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void ShiftClaheLevel::_internal_set_value(float value) {
+inline void ShiftClaheLevel::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -7457,24 +7457,24 @@ inline void SetFxMode::_internal_set_mode(::ser::JonGuiDataFxModeDay value) {
 
 // SetDigitalZoomLevel
 
-// float value = 1;
+// double value = 1;
 inline void SetDigitalZoomLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetDigitalZoomLevel::value() const {
+inline double SetDigitalZoomLevel::value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.SetDigitalZoomLevel.value)
   return _internal_value();
 }
-inline void SetDigitalZoomLevel::set_value(float value) {
+inline void SetDigitalZoomLevel::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.SetDigitalZoomLevel.value)
 }
-inline float SetDigitalZoomLevel::_internal_value() const {
+inline double SetDigitalZoomLevel::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetDigitalZoomLevel::_internal_set_value(float value) {
+inline void SetDigitalZoomLevel::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }
@@ -8702,24 +8702,24 @@ inline Zoom::CmdCase Zoom::cmd_case() const {
 
 // SetIris
 
-// float value = 1;
+// double value = 1;
 inline void SetIris::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
 }
-inline float SetIris::value() const {
+inline double SetIris::value() const {
   // @@protoc_insertion_point(field_get:cmd.DayCamera.SetIris.value)
   return _internal_value();
 }
-inline void SetIris::set_value(float value) {
+inline void SetIris::set_value(double value) {
   _internal_set_value(value);
   // @@protoc_insertion_point(field_set:cmd.DayCamera.SetIris.value)
 }
-inline float SetIris::_internal_value() const {
+inline double SetIris::_internal_value() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.value_;
 }
-inline void SetIris::_internal_set_value(float value) {
+inline void SetIris::_internal_set_value(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }

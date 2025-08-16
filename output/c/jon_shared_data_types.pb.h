@@ -163,9 +163,9 @@ typedef enum _ser_JonGuiDataClientType {
 
 /* Struct definitions */
 typedef struct _ser_JonGuiDataMeteo {
-    float temperature;
-    float humidity;
-    float pressure;
+    double temperature;
+    double humidity;
+    double pressure;
 } ser_JonGuiDataMeteo;
 
 
@@ -259,9 +259,9 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataMeteo_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    temperature,       1) \
-X(a, STATIC,   SINGULAR, FLOAT,    humidity,          2) \
-X(a, STATIC,   SINGULAR, FLOAT,    pressure,          3)
+X(a, STATIC,   SINGULAR, DOUBLE,   temperature,       1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   humidity,          2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   pressure,          3)
 #define ser_JonGuiDataMeteo_CALLBACK NULL
 #define ser_JonGuiDataMeteo_DEFAULT NULL
 
@@ -272,7 +272,7 @@ extern const pb_msgdesc_t ser_JonGuiDataMeteo_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_TYPES_PB_H_MAX_SIZE  ser_JonGuiDataMeteo_size
-#define ser_JonGuiDataMeteo_size                 15
+#define ser_JonGuiDataMeteo_size                 27
 
 #ifdef __cplusplus
 } /* extern "C" */

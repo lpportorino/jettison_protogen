@@ -538,7 +538,7 @@ func (*GetMeteo) Descriptor() ([]byte, []int) {
 
 type SetMagneticDeclination struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -573,7 +573,7 @@ func (*SetMagneticDeclination) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_compass_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *SetMagneticDeclination) GetValue() float32 {
+func (x *SetMagneticDeclination) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -582,7 +582,7 @@ func (x *SetMagneticDeclination) GetValue() float32 {
 
 type SetOffsetAngleAzimuth struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -617,7 +617,7 @@ func (*SetOffsetAngleAzimuth) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_compass_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *SetOffsetAngleAzimuth) GetValue() float32 {
+func (x *SetOffsetAngleAzimuth) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -626,7 +626,7 @@ func (x *SetOffsetAngleAzimuth) GetValue() float32 {
 
 type SetOffsetAngleElevation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Value         float32                `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -661,7 +661,7 @@ func (*SetOffsetAngleElevation) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_compass_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *SetOffsetAngleElevation) GetValue() float32 {
+func (x *SetOffsetAngleElevation) GetValue() float64 {
 	if x != nil {
 		return x.Value
 	}
@@ -739,16 +739,13 @@ const file_jon_shared_cmd_compass_proto_rawDesc = "" +
 	"\rCalibrateNext\"\x11\n" +
 	"\x0fCalibrateCencel\"\n" +
 	"\n" +
-	"\bGetMeteo\"N\n" +
-	"\x16SetMagneticDeclination\x124\n" +
-	"\x05value\x18\x01 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00p\xc1M\x00\x00\x00\x00M\x00\x00pA\x15\x00\x004C-\x00\x004\xc3R\x05value\"M\n" +
-	"\x15SetOffsetAngleAzimuth\x124\n" +
-	"\x05value\x18\x01 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x004\xc2M\x00\x00\x00\x00M\x00\x004B\x15\x00\x004C-\x00\x004\xc3R\x05value\"O\n" +
-	"\x17SetOffsetAngleElevation\x124\n" +
-	"\x05value\x18\x01 \x01(\x02B\x1e\xbaH\x1b\n" +
-	"\x19M\x00\x00\xf0\xc1M\x00\x00\x00\x00M\x00\x00\xf0A\x1d\x00\x00\xb4B-\x00\x00\xb4\xc2R\x05value\"*\n" +
+	"\bGetMeteo\"b\n" +
+	"\x16SetMagneticDeclination\x12H\n" +
+	"\x05value\x18\x01 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00.\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00.@\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x05value\"a\n" +
+	"\x15SetOffsetAngleAzimuth\x12H\n" +
+	"\x05value\x18\x01 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x80F\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80F@\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x05value\"c\n" +
+	"\x17SetOffsetAngleElevation\x12H\n" +
+	"\x05value\x18\x01 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00>\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00>@\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\x05value\"*\n" +
 	"\x14SetUseRotaryPosition\x12\x12\n" +
 	"\x04flag\x18\x01 \x01(\bR\x04flagB\xc6\x01\n" +
 	"\x0fcom.cmd.CompassB\x18JonSharedCmdCompassProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/compass\xa2\x02\x03CCX\xaa\x02\vCmd.Compass\xca\x02\vCmd\\Compass\xe2\x02\x17Cmd\\Compass\\GPBMetadata\xea\x02\fCmd::Compassb\x06proto3"

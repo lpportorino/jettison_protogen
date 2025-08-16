@@ -12,11 +12,11 @@
 
 /* Struct definitions */
 typedef struct _ser_JonGuiDataSystem {
-    float cpu_temperature;
-    float gpu_temperature;
-    float gpu_load;
-    float cpu_load;
-    float power_consumption;
+    double cpu_temperature;
+    double gpu_temperature;
+    double gpu_load;
+    double cpu_load;
+    double power_consumption;
     ser_JonGuiDataSystemLocalizations loc;
     int32_t cur_video_rec_dir_year;
     int32_t cur_video_rec_dir_month;
@@ -73,11 +73,11 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataSystem_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    cpu_temperature,   1) \
-X(a, STATIC,   SINGULAR, FLOAT,    gpu_temperature,   2) \
-X(a, STATIC,   SINGULAR, FLOAT,    gpu_load,          3) \
-X(a, STATIC,   SINGULAR, FLOAT,    cpu_load,          4) \
-X(a, STATIC,   SINGULAR, FLOAT,    power_consumption,   5) \
+X(a, STATIC,   SINGULAR, DOUBLE,   cpu_temperature,   1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   gpu_temperature,   2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   gpu_load,          3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   cpu_load,          4) \
+X(a, STATIC,   SINGULAR, DOUBLE,   power_consumption,   5) \
 X(a, STATIC,   SINGULAR, UENUM,    loc,               6) \
 X(a, STATIC,   SINGULAR, INT32,    cur_video_rec_dir_year,   7) \
 X(a, STATIC,   SINGULAR, INT32,    cur_video_rec_dir_month,   8) \
@@ -106,7 +106,7 @@ extern const pb_msgdesc_t ser_JonGuiDataSystem_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_SYSTEM_PB_H_MAX_SIZE ser_JonGuiDataSystem_size
-#define ser_JonGuiDataSystem_size                132
+#define ser_JonGuiDataSystem_size                152
 
 #ifdef __cplusplus
 } /* extern "C" */

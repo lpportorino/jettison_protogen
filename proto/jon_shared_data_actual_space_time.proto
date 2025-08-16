@@ -5,31 +5,31 @@ option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison
 package ser;
 
 message JonGuiDataActualSpaceTime {
-  float azimuth = 1 [(buf.validate.field).float = {
+  double azimuth = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lt: 360.0,
     example: [0, 90, 180, 270]
   }];
 
-  float elevation = 2 [(buf.validate.field).float = {
+  double elevation = 2 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0,
     example: [-45, 0, 45]
   }];
 
-  float bank = 3 [(buf.validate.field).float = {
+  double bank = 3 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0,
     example: [-90, 0, 90]
   }];
 
-  float latitude = 4 [(buf.validate.field).float = {
+  double latitude = 4 [(buf.validate.field).double = {
     gte: -90.0,
     lte: 90.0,
     example: [-45, 0, 45]
   }];
 
-  float longitude = 5 [(buf.validate.field).float = {
+  double longitude = 5 [(buf.validate.field).double = {
     gte: -180.0,
     lt: 180.0,
     example: [-90, 0, 90]

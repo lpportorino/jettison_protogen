@@ -592,8 +592,8 @@ func (x *SetAutoFocus) GetValue() bool {
 type StartTrackNDC struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
 	Channel       types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
-	X             float32                      `protobuf:"fixed32,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y             float32                      `protobuf:"fixed32,3,opt,name=y,proto3" json:"y,omitempty"`
+	X             float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
+	Y             float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
 	FrameTime     uint64                       `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -636,14 +636,14 @@ func (x *StartTrackNDC) GetChannel() types.JonGuiDataVideoChannel {
 	return types.JonGuiDataVideoChannel(0)
 }
 
-func (x *StartTrackNDC) GetX() float32 {
+func (x *StartTrackNDC) GetX() float64 {
 	if x != nil {
 		return x.X
 	}
 	return 0
 }
 
-func (x *StartTrackNDC) GetY() float32 {
+func (x *StartTrackNDC) GetY() float64 {
 	if x != nil {
 		return x.Y
 	}
@@ -726,16 +726,12 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\fSetAutoFocus\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\bR\x05value\"\xaf\x01\n" +
+	"\x05value\x18\x02 \x01(\bR\x05value\"\xbf\x01\n" +
 	"\rStartTrackNDC\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12\x1d\n" +
-	"\x01x\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x01x\x12\x1d\n" +
-	"\x01y\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
-	"\n" +
-	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x01y\x12\x1d\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12%\n" +
+	"\x01x\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
+	"\x01y\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\x12\x1d\n" +
 	"\n" +
 	"frame_time\x18\x04 \x01(\x04R\tframeTime\"\v\n" +
 	"\tStopTrackB\xa3\x01\n" +

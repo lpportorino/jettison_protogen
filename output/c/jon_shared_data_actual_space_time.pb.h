@@ -11,11 +11,11 @@
 
 /* Struct definitions */
 typedef struct _ser_JonGuiDataActualSpaceTime {
-    float azimuth;
-    float elevation;
-    float bank;
-    float latitude;
-    float longitude;
+    double azimuth;
+    double elevation;
+    double bank;
+    double latitude;
+    double longitude;
     double altitude;
     int64_t timestamp;
 } ser_JonGuiDataActualSpaceTime;
@@ -40,11 +40,11 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataActualSpaceTime_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, FLOAT,    azimuth,           1) \
-X(a, STATIC,   SINGULAR, FLOAT,    elevation,         2) \
-X(a, STATIC,   SINGULAR, FLOAT,    bank,              3) \
-X(a, STATIC,   SINGULAR, FLOAT,    latitude,          4) \
-X(a, STATIC,   SINGULAR, FLOAT,    longitude,         5) \
+X(a, STATIC,   SINGULAR, DOUBLE,   azimuth,           1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   elevation,         2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   bank,              3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   latitude,          4) \
+X(a, STATIC,   SINGULAR, DOUBLE,   longitude,         5) \
 X(a, STATIC,   SINGULAR, DOUBLE,   altitude,          6) \
 X(a, STATIC,   SINGULAR, INT64,    timestamp,         7)
 #define ser_JonGuiDataActualSpaceTime_CALLBACK NULL
@@ -57,7 +57,7 @@ extern const pb_msgdesc_t ser_JonGuiDataActualSpaceTime_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_ACTUAL_SPACE_TIME_PB_H_MAX_SIZE ser_JonGuiDataActualSpaceTime_size
-#define ser_JonGuiDataActualSpaceTime_size       45
+#define ser_JonGuiDataActualSpaceTime_size       65
 
 #ifdef __cplusplus
 } /* extern "C" */

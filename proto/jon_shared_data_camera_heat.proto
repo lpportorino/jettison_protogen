@@ -7,7 +7,7 @@ package ser;
 import "jon_shared_data_types.proto";
 
 message JonGuiDataCameraHeat {
-  float zoom_pos = 1 [(buf.validate.field).float = {
+  double zoom_pos = 1 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
@@ -34,10 +34,10 @@ message JonGuiDataCameraHeat {
   JonGuiDataFxModeHeat fx_mode = 9 [(buf.validate.field).enum = {
     defined_only: true
   }];
-  float digital_zoom_level = 10 [(buf.validate.field).float = {
+  double digital_zoom_level = 10 [(buf.validate.field).double = {
     gte: 1.0
   }];
-  float clahe_level = 11 [(buf.validate.field).float = {
+  double clahe_level = 11 [(buf.validate.field).double = {
     gte: 0.0,
     lte: 1.0
   }];
