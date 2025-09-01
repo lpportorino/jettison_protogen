@@ -116,7 +116,7 @@ message JonGuiDataMeteo {
   }];
   double pressure = 3 [(buf.validate.field).double = {
     gte: 0.0,
-    lte: 1200.0     // Max atmospheric pressure (highest recorded ~1084 hPa, allowing margin)
+    lte: 120000.0     // Max atmospheric pressure (highest recorded ~108400 Pa, allowing margin)
   }];
 }
 
