@@ -51,7 +51,7 @@ export interface Root {
   setDigitalZoomLevel?: SetDigitalZoomLevel | undefined;
   setClaheLevel?: SetClaheLevel | undefined;
   shiftClaheLevel?: ShiftClaheLevel | undefined;
-  focusAtRoi?: FocusAtROI | undefined;
+  focusRoi?: FocusROI | undefined;
   trackRoi?: TrackROI | undefined;
   zoomRoi?: ZoomROI | undefined;
 }
@@ -178,7 +178,7 @@ export interface ResetZoom {
 export interface SaveToTable {
 }
 
-export interface FocusAtROI {
+export interface FocusROI {
   x: number;
   y: number;
 }
@@ -230,7 +230,7 @@ function createBaseRoot(): Root {
     setDigitalZoomLevel: undefined,
     setClaheLevel: undefined,
     shiftClaheLevel: undefined,
-    focusAtRoi: undefined,
+    focusRoi: undefined,
     trackRoi: undefined,
     zoomRoi: undefined,
   };
@@ -331,8 +331,8 @@ export const Root: MessageFns<Root> = {
     if (message.shiftClaheLevel !== undefined) {
       ShiftClaheLevel.encode(message.shiftClaheLevel, writer.uint32(274).fork()).join();
     }
-    if (message.focusAtRoi !== undefined) {
-      FocusAtROI.encode(message.focusAtRoi, writer.uint32(282).fork()).join();
+    if (message.focusRoi !== undefined) {
+      FocusROI.encode(message.focusRoi, writer.uint32(282).fork()).join();
     }
     if (message.trackRoi !== undefined) {
       TrackROI.encode(message.trackRoi, writer.uint32(290).fork()).join();
@@ -603,7 +603,7 @@ export const Root: MessageFns<Root> = {
             break;
           }
 
-          message.focusAtRoi = FocusAtROI.decode(reader, reader.uint32());
+          message.focusRoi = FocusROI.decode(reader, reader.uint32());
           continue;
         }
         case 36: {
@@ -666,7 +666,7 @@ export const Root: MessageFns<Root> = {
         : undefined,
       setClaheLevel: isSet(object.setClaheLevel) ? SetClaheLevel.fromJSON(object.setClaheLevel) : undefined,
       shiftClaheLevel: isSet(object.shiftClaheLevel) ? ShiftClaheLevel.fromJSON(object.shiftClaheLevel) : undefined,
-      focusAtRoi: isSet(object.focusAtRoi) ? FocusAtROI.fromJSON(object.focusAtRoi) : undefined,
+      focusRoi: isSet(object.focusRoi) ? FocusROI.fromJSON(object.focusRoi) : undefined,
       trackRoi: isSet(object.trackRoi) ? TrackROI.fromJSON(object.trackRoi) : undefined,
       zoomRoi: isSet(object.zoomRoi) ? ZoomROI.fromJSON(object.zoomRoi) : undefined,
     };
@@ -767,8 +767,8 @@ export const Root: MessageFns<Root> = {
     if (message.shiftClaheLevel !== undefined) {
       obj.shiftClaheLevel = ShiftClaheLevel.toJSON(message.shiftClaheLevel);
     }
-    if (message.focusAtRoi !== undefined) {
-      obj.focusAtRoi = FocusAtROI.toJSON(message.focusAtRoi);
+    if (message.focusRoi !== undefined) {
+      obj.focusRoi = FocusROI.toJSON(message.focusRoi);
     }
     if (message.trackRoi !== undefined) {
       obj.trackRoi = TrackROI.toJSON(message.trackRoi);
@@ -869,8 +869,8 @@ export const Root: MessageFns<Root> = {
     message.shiftClaheLevel = (object.shiftClaheLevel !== undefined && object.shiftClaheLevel !== null)
       ? ShiftClaheLevel.fromPartial(object.shiftClaheLevel)
       : undefined;
-    message.focusAtRoi = (object.focusAtRoi !== undefined && object.focusAtRoi !== null)
-      ? FocusAtROI.fromPartial(object.focusAtRoi)
+    message.focusRoi = (object.focusRoi !== undefined && object.focusRoi !== null)
+      ? FocusROI.fromPartial(object.focusRoi)
       : undefined;
     message.trackRoi = (object.trackRoi !== undefined && object.trackRoi !== null)
       ? TrackROI.fromPartial(object.trackRoi)
@@ -2652,12 +2652,12 @@ export const SaveToTable: MessageFns<SaveToTable> = {
   },
 };
 
-function createBaseFocusAtROI(): FocusAtROI {
+function createBaseFocusROI(): FocusROI {
   return { x: 0, y: 0 };
 }
 
-export const FocusAtROI: MessageFns<FocusAtROI> = {
-  encode(message: FocusAtROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const FocusROI: MessageFns<FocusROI> = {
+  encode(message: FocusROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.x !== 0) {
       writer.uint32(9).double(message.x);
     }
@@ -2667,10 +2667,10 @@ export const FocusAtROI: MessageFns<FocusAtROI> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): FocusAtROI {
+  decode(input: BinaryReader | Uint8Array, length?: number): FocusROI {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseFocusAtROI();
+    const message = createBaseFocusROI();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -2699,14 +2699,14 @@ export const FocusAtROI: MessageFns<FocusAtROI> = {
     return message;
   },
 
-  fromJSON(object: any): FocusAtROI {
+  fromJSON(object: any): FocusROI {
     return {
       x: isSet(object.x) ? globalThis.Number(object.x) : 0,
       y: isSet(object.y) ? globalThis.Number(object.y) : 0,
     };
   },
 
-  toJSON(message: FocusAtROI): unknown {
+  toJSON(message: FocusROI): unknown {
     const obj: any = {};
     if (message.x !== 0) {
       obj.x = message.x;
@@ -2717,11 +2717,11 @@ export const FocusAtROI: MessageFns<FocusAtROI> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<FocusAtROI>, I>>(base?: I): FocusAtROI {
-    return FocusAtROI.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<FocusROI>, I>>(base?: I): FocusROI {
+    return FocusROI.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<FocusAtROI>, I>>(object: I): FocusAtROI {
-    const message = createBaseFocusAtROI();
+  fromPartial<I extends Exact<DeepPartial<FocusROI>, I>>(object: I): FocusROI {
+    const message = createBaseFocusROI();
     message.x = object.x ?? 0;
     message.y = object.y ?? 0;
     return message;

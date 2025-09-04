@@ -58,7 +58,7 @@ type Root struct {
 	//	*Root_SetDigitalZoomLevel
 	//	*Root_SetClaheLevel
 	//	*Root_ShiftClaheLevel
-	//	*Root_FocusAtRoi
+	//	*Root_FocusRoi
 	//	*Root_TrackRoi
 	//	*Root_ZoomRoi
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
@@ -382,10 +382,10 @@ func (x *Root) GetShiftClaheLevel() *ShiftClaheLevel {
 	return nil
 }
 
-func (x *Root) GetFocusAtRoi() *FocusAtROI {
+func (x *Root) GetFocusRoi() *FocusROI {
 	if x != nil {
-		if x, ok := x.Cmd.(*Root_FocusAtRoi); ok {
-			return x.FocusAtRoi
+		if x, ok := x.Cmd.(*Root_FocusRoi); ok {
+			return x.FocusRoi
 		}
 	}
 	return nil
@@ -537,8 +537,8 @@ type Root_ShiftClaheLevel struct {
 	ShiftClaheLevel *ShiftClaheLevel `protobuf:"bytes,34,opt,name=shift_clahe_level,json=shiftClaheLevel,proto3,oneof"`
 }
 
-type Root_FocusAtRoi struct {
-	FocusAtRoi *FocusAtROI `protobuf:"bytes,35,opt,name=focus_at_roi,json=focusAtRoi,proto3,oneof"`
+type Root_FocusRoi struct {
+	FocusRoi *FocusROI `protobuf:"bytes,35,opt,name=focus_roi,json=focusRoi,proto3,oneof"`
 }
 
 type Root_TrackRoi struct {
@@ -611,7 +611,7 @@ func (*Root_SetClaheLevel) isRoot_Cmd() {}
 
 func (*Root_ShiftClaheLevel) isRoot_Cmd() {}
 
-func (*Root_FocusAtRoi) isRoot_Cmd() {}
+func (*Root_FocusRoi) isRoot_Cmd() {}
 
 func (*Root_TrackRoi) isRoot_Cmd() {}
 
@@ -2063,7 +2063,7 @@ func (*SaveToTable) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{36}
 }
 
-type FocusAtROI struct {
+type FocusROI struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	X             float64                `protobuf:"fixed64,1,opt,name=x,proto3" json:"x,omitempty"`
 	Y             float64                `protobuf:"fixed64,2,opt,name=y,proto3" json:"y,omitempty"`
@@ -2071,20 +2071,20 @@ type FocusAtROI struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FocusAtROI) Reset() {
-	*x = FocusAtROI{}
+func (x *FocusROI) Reset() {
+	*x = FocusROI{}
 	mi := &file_jon_shared_cmd_heat_camera_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FocusAtROI) String() string {
+func (x *FocusROI) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FocusAtROI) ProtoMessage() {}
+func (*FocusROI) ProtoMessage() {}
 
-func (x *FocusAtROI) ProtoReflect() protoreflect.Message {
+func (x *FocusROI) ProtoReflect() protoreflect.Message {
 	mi := &file_jon_shared_cmd_heat_camera_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2096,19 +2096,19 @@ func (x *FocusAtROI) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FocusAtROI.ProtoReflect.Descriptor instead.
-func (*FocusAtROI) Descriptor() ([]byte, []int) {
+// Deprecated: Use FocusROI.ProtoReflect.Descriptor instead.
+func (*FocusROI) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{37}
 }
 
-func (x *FocusAtROI) GetX() float64 {
+func (x *FocusROI) GetX() float64 {
 	if x != nil {
 		return x.X
 	}
 	return 0
 }
 
-func (x *FocusAtROI) GetY() float64 {
+func (x *FocusROI) GetY() float64 {
 	if x != nil {
 		return x.Y
 	}
@@ -2255,7 +2255,7 @@ var File_jon_shared_cmd_heat_camera_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_cmd_heat_camera.proto\x12\x0ecmd.HeatCamera\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xbb\x10\n" +
+	" jon_shared_cmd_heat_camera.proto\x12\x0ecmd.HeatCamera\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb4\x10\n" +
 	"\x04Root\x12*\n" +
 	"\x04zoom\x18\x01 \x01(\v2\x14.cmd.HeatCamera.ZoomH\x00R\x04zoom\x121\n" +
 	"\aset_agc\x18\x02 \x01(\v2\x16.cmd.HeatCamera.SetAGCH\x00R\x06setAgc\x12;\n" +
@@ -2295,9 +2295,8 @@ const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\x0eset_calib_mode\x18\x1f \x01(\v2\x1c.cmd.HeatCamera.SetCalibModeH\x00R\fsetCalibMode\x12Z\n" +
 	"\x16set_digital_zoom_level\x18  \x01(\v2#.cmd.HeatCamera.SetDigitalZoomLevelH\x00R\x13setDigitalZoomLevel\x12G\n" +
 	"\x0fset_clahe_level\x18! \x01(\v2\x1d.cmd.HeatCamera.SetClaheLevelH\x00R\rsetClaheLevel\x12M\n" +
-	"\x11shift_clahe_level\x18\" \x01(\v2\x1f.cmd.HeatCamera.ShiftClaheLevelH\x00R\x0fshiftClaheLevel\x12>\n" +
-	"\ffocus_at_roi\x18# \x01(\v2\x1a.cmd.HeatCamera.FocusAtROIH\x00R\n" +
-	"focusAtRoi\x127\n" +
+	"\x11shift_clahe_level\x18\" \x01(\v2\x1f.cmd.HeatCamera.ShiftClaheLevelH\x00R\x0fshiftClaheLevel\x127\n" +
+	"\tfocus_roi\x18# \x01(\v2\x18.cmd.HeatCamera.FocusROIH\x00R\bfocusRoi\x127\n" +
 	"\ttrack_roi\x18$ \x01(\v2\x18.cmd.HeatCamera.TrackROIH\x00R\btrackRoi\x124\n" +
 	"\bzoom_roi\x18% \x01(\v2\x17.cmd.HeatCamera.ZoomROIH\x00R\azoomRoiB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"F\n" +
@@ -2361,9 +2360,8 @@ const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\fSetAutoFocus\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\bR\x05value\"\v\n" +
 	"\tResetZoom\"\r\n" +
-	"\vSaveToTable\"Z\n" +
-	"\n" +
-	"FocusAtROI\x12%\n" +
+	"\vSaveToTable\"X\n" +
+	"\bFocusROI\x12%\n" +
 	"\x01x\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
 	"\x01y\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\"\xae\x01\n" +
 	"\bTrackROI\x12'\n" +
@@ -2429,7 +2427,7 @@ var file_jon_shared_cmd_heat_camera_proto_goTypes = []any{
 	(*SetAutoFocus)(nil),            // 34: cmd.HeatCamera.SetAutoFocus
 	(*ResetZoom)(nil),               // 35: cmd.HeatCamera.ResetZoom
 	(*SaveToTable)(nil),             // 36: cmd.HeatCamera.SaveToTable
-	(*FocusAtROI)(nil),              // 37: cmd.HeatCamera.FocusAtROI
+	(*FocusROI)(nil),                // 37: cmd.HeatCamera.FocusROI
 	(*TrackROI)(nil),                // 38: cmd.HeatCamera.TrackROI
 	(*ZoomROI)(nil),                 // 39: cmd.HeatCamera.ZoomROI
 	(types.JonGuiDataFxModeHeat)(0), // 40: ser.JonGuiDataFxModeHeat
@@ -2468,7 +2466,7 @@ var file_jon_shared_cmd_heat_camera_proto_depIdxs = []int32{
 	11, // 28: cmd.HeatCamera.Root.set_digital_zoom_level:type_name -> cmd.HeatCamera.SetDigitalZoomLevel
 	2,  // 29: cmd.HeatCamera.Root.set_clahe_level:type_name -> cmd.HeatCamera.SetClaheLevel
 	3,  // 30: cmd.HeatCamera.Root.shift_clahe_level:type_name -> cmd.HeatCamera.ShiftClaheLevel
-	37, // 31: cmd.HeatCamera.Root.focus_at_roi:type_name -> cmd.HeatCamera.FocusAtROI
+	37, // 31: cmd.HeatCamera.Root.focus_roi:type_name -> cmd.HeatCamera.FocusROI
 	38, // 32: cmd.HeatCamera.Root.track_roi:type_name -> cmd.HeatCamera.TrackROI
 	39, // 33: cmd.HeatCamera.Root.zoom_roi:type_name -> cmd.HeatCamera.ZoomROI
 	40, // 34: cmd.HeatCamera.SetFxMode.mode:type_name -> ser.JonGuiDataFxModeHeat
@@ -2521,7 +2519,7 @@ func file_jon_shared_cmd_heat_camera_proto_init() {
 		(*Root_SetDigitalZoomLevel)(nil),
 		(*Root_SetClaheLevel)(nil),
 		(*Root_ShiftClaheLevel)(nil),
-		(*Root_FocusAtRoi)(nil),
+		(*Root_FocusRoi)(nil),
 		(*Root_TrackRoi)(nil),
 		(*Root_ZoomRoi)(nil),
 	}

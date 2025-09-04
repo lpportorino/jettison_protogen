@@ -40,7 +40,7 @@ message Root {
     SetDigitalZoomLevel set_digital_zoom_level = 32;
     SetClaheLevel set_clahe_level = 33;
     ShiftClaheLevel shift_clahe_level = 34;
-    FocusAtROI focus_at_roi = 35;
+    FocusROI focus_roi = 35;
     TrackROI track_roi = 36;
     ZoomROI zoom_roi = 37;
   }
@@ -170,7 +170,7 @@ message ResetZoom {}
 
 message SaveToTable {}
 
-message FocusAtROI {
+message FocusROI {
   double x = 1 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0

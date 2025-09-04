@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("zoom", "set_agc", "set_filter", "start", "stop", "photo", "zoom_in", "zoom_out", "zoom_stop", "focus_in", "focus_out", "focus_stop", "calibrate", "set_dde_level", "enable_dde", "disable_dde", "set_auto_focus", "focus_step_plus", "focus_step_minus", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "shift_dde", "refresh_fx_mode", "reset_zoom", "save_to_table", "set_calib_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_at_roi", "track_roi", "zoom_roi")
+    __slots__ = ("zoom", "set_agc", "set_filter", "start", "stop", "photo", "zoom_in", "zoom_out", "zoom_stop", "focus_in", "focus_out", "focus_stop", "calibrate", "set_dde_level", "enable_dde", "disable_dde", "set_auto_focus", "focus_step_plus", "focus_step_minus", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "shift_dde", "refresh_fx_mode", "reset_zoom", "save_to_table", "set_calib_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_roi", "track_roi", "zoom_roi")
     ZOOM_FIELD_NUMBER: _ClassVar[int]
     SET_AGC_FIELD_NUMBER: _ClassVar[int]
     SET_FILTER_FIELD_NUMBER: _ClassVar[int]
@@ -38,7 +38,7 @@ class Root(_message.Message):
     SET_DIGITAL_ZOOM_LEVEL_FIELD_NUMBER: _ClassVar[int]
     SET_CLAHE_LEVEL_FIELD_NUMBER: _ClassVar[int]
     SHIFT_CLAHE_LEVEL_FIELD_NUMBER: _ClassVar[int]
-    FOCUS_AT_ROI_FIELD_NUMBER: _ClassVar[int]
+    FOCUS_ROI_FIELD_NUMBER: _ClassVar[int]
     TRACK_ROI_FIELD_NUMBER: _ClassVar[int]
     ZOOM_ROI_FIELD_NUMBER: _ClassVar[int]
     zoom: Zoom
@@ -72,10 +72,10 @@ class Root(_message.Message):
     set_digital_zoom_level: SetDigitalZoomLevel
     set_clahe_level: SetClaheLevel
     shift_clahe_level: ShiftClaheLevel
-    focus_at_roi: FocusAtROI
+    focus_roi: FocusROI
     track_roi: TrackROI
     zoom_roi: ZoomROI
-    def __init__(self, zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_agc: _Optional[_Union[SetAGC, _Mapping]] = ..., set_filter: _Optional[_Union[SetFilters, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., zoom_in: _Optional[_Union[ZoomIn, _Mapping]] = ..., zoom_out: _Optional[_Union[ZoomOut, _Mapping]] = ..., zoom_stop: _Optional[_Union[ZoomStop, _Mapping]] = ..., focus_in: _Optional[_Union[FocusIn, _Mapping]] = ..., focus_out: _Optional[_Union[FocusOut, _Mapping]] = ..., focus_stop: _Optional[_Union[FocusStop, _Mapping]] = ..., calibrate: _Optional[_Union[Calibrate, _Mapping]] = ..., set_dde_level: _Optional[_Union[SetDDELevel, _Mapping]] = ..., enable_dde: _Optional[_Union[EnableDDE, _Mapping]] = ..., disable_dde: _Optional[_Union[DisableDDE, _Mapping]] = ..., set_auto_focus: _Optional[_Union[SetAutoFocus, _Mapping]] = ..., focus_step_plus: _Optional[_Union[FocusStepPlus, _Mapping]] = ..., focus_step_minus: _Optional[_Union[FocusStepMinus, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., shift_dde: _Optional[_Union[ShiftDDE, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., reset_zoom: _Optional[_Union[ResetZoom, _Mapping]] = ..., save_to_table: _Optional[_Union[SaveToTable, _Mapping]] = ..., set_calib_mode: _Optional[_Union[SetCalibMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_at_roi: _Optional[_Union[FocusAtROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ...) -> None: ...
+    def __init__(self, zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_agc: _Optional[_Union[SetAGC, _Mapping]] = ..., set_filter: _Optional[_Union[SetFilters, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., zoom_in: _Optional[_Union[ZoomIn, _Mapping]] = ..., zoom_out: _Optional[_Union[ZoomOut, _Mapping]] = ..., zoom_stop: _Optional[_Union[ZoomStop, _Mapping]] = ..., focus_in: _Optional[_Union[FocusIn, _Mapping]] = ..., focus_out: _Optional[_Union[FocusOut, _Mapping]] = ..., focus_stop: _Optional[_Union[FocusStop, _Mapping]] = ..., calibrate: _Optional[_Union[Calibrate, _Mapping]] = ..., set_dde_level: _Optional[_Union[SetDDELevel, _Mapping]] = ..., enable_dde: _Optional[_Union[EnableDDE, _Mapping]] = ..., disable_dde: _Optional[_Union[DisableDDE, _Mapping]] = ..., set_auto_focus: _Optional[_Union[SetAutoFocus, _Mapping]] = ..., focus_step_plus: _Optional[_Union[FocusStepPlus, _Mapping]] = ..., focus_step_minus: _Optional[_Union[FocusStepMinus, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., shift_dde: _Optional[_Union[ShiftDDE, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., reset_zoom: _Optional[_Union[ResetZoom, _Mapping]] = ..., save_to_table: _Optional[_Union[SaveToTable, _Mapping]] = ..., set_calib_mode: _Optional[_Union[SetCalibMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_roi: _Optional[_Union[FocusROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ...) -> None: ...
 
 class SetFxMode(_message.Message):
     __slots__ = ("mode",)
@@ -249,7 +249,7 @@ class SaveToTable(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class FocusAtROI(_message.Message):
+class FocusROI(_message.Message):
     __slots__ = ("x", "y")
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]

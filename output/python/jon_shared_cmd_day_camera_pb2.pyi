@@ -38,7 +38,7 @@ class ShiftClaheLevel(_message.Message):
     def __init__(self, value: _Optional[float] = ...) -> None: ...
 
 class Root(_message.Message):
-    __slots__ = ("focus", "zoom", "set_iris", "set_infra_red_filter", "start", "stop", "photo", "set_auto_iris", "halt_all", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "refresh_fx_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_at_roi", "track_roi", "zoom_roi")
+    __slots__ = ("focus", "zoom", "set_iris", "set_infra_red_filter", "start", "stop", "photo", "set_auto_iris", "halt_all", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "refresh_fx_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_roi", "track_roi", "zoom_roi")
     FOCUS_FIELD_NUMBER: _ClassVar[int]
     ZOOM_FIELD_NUMBER: _ClassVar[int]
     SET_IRIS_FIELD_NUMBER: _ClassVar[int]
@@ -56,7 +56,7 @@ class Root(_message.Message):
     SET_DIGITAL_ZOOM_LEVEL_FIELD_NUMBER: _ClassVar[int]
     SET_CLAHE_LEVEL_FIELD_NUMBER: _ClassVar[int]
     SHIFT_CLAHE_LEVEL_FIELD_NUMBER: _ClassVar[int]
-    FOCUS_AT_ROI_FIELD_NUMBER: _ClassVar[int]
+    FOCUS_ROI_FIELD_NUMBER: _ClassVar[int]
     TRACK_ROI_FIELD_NUMBER: _ClassVar[int]
     ZOOM_ROI_FIELD_NUMBER: _ClassVar[int]
     focus: Focus
@@ -76,10 +76,10 @@ class Root(_message.Message):
     set_digital_zoom_level: SetDigitalZoomLevel
     set_clahe_level: SetClaheLevel
     shift_clahe_level: ShiftClaheLevel
-    focus_at_roi: FocusAtROI
+    focus_roi: FocusROI
     track_roi: TrackROI
     zoom_roi: ZoomROI
-    def __init__(self, focus: _Optional[_Union[Focus, _Mapping]] = ..., zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_iris: _Optional[_Union[SetIris, _Mapping]] = ..., set_infra_red_filter: _Optional[_Union[SetInfraRedFilter, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., set_auto_iris: _Optional[_Union[SetAutoIris, _Mapping]] = ..., halt_all: _Optional[_Union[HaltAll, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_at_roi: _Optional[_Union[FocusAtROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ...) -> None: ...
+    def __init__(self, focus: _Optional[_Union[Focus, _Mapping]] = ..., zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_iris: _Optional[_Union[SetIris, _Mapping]] = ..., set_infra_red_filter: _Optional[_Union[SetInfraRedFilter, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., set_auto_iris: _Optional[_Union[SetAutoIris, _Mapping]] = ..., halt_all: _Optional[_Union[HaltAll, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_roi: _Optional[_Union[FocusROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ...) -> None: ...
 
 class GetPos(_message.Message):
     __slots__ = ()
@@ -219,7 +219,7 @@ class SaveToTableFocus(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
 
-class FocusAtROI(_message.Message):
+class FocusROI(_message.Message):
     __slots__ = ("x", "y")
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]

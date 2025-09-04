@@ -272,7 +272,7 @@ type Root struct {
 	//	*Root_SetDigitalZoomLevel
 	//	*Root_SetClaheLevel
 	//	*Root_ShiftClaheLevel
-	//	*Root_FocusAtRoi
+	//	*Root_FocusRoi
 	//	*Root_TrackRoi
 	//	*Root_ZoomRoi
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
@@ -470,10 +470,10 @@ func (x *Root) GetShiftClaheLevel() *ShiftClaheLevel {
 	return nil
 }
 
-func (x *Root) GetFocusAtRoi() *FocusAtROI {
+func (x *Root) GetFocusRoi() *FocusROI {
 	if x != nil {
-		if x, ok := x.Cmd.(*Root_FocusAtRoi); ok {
-			return x.FocusAtRoi
+		if x, ok := x.Cmd.(*Root_FocusRoi); ok {
+			return x.FocusRoi
 		}
 	}
 	return nil
@@ -569,8 +569,8 @@ type Root_ShiftClaheLevel struct {
 	ShiftClaheLevel *ShiftClaheLevel `protobuf:"bytes,17,opt,name=shift_clahe_level,json=shiftClaheLevel,proto3,oneof"`
 }
 
-type Root_FocusAtRoi struct {
-	FocusAtRoi *FocusAtROI `protobuf:"bytes,18,opt,name=focus_at_roi,json=focusAtRoi,proto3,oneof"`
+type Root_FocusRoi struct {
+	FocusRoi *FocusROI `protobuf:"bytes,18,opt,name=focus_roi,json=focusRoi,proto3,oneof"`
 }
 
 type Root_TrackRoi struct {
@@ -615,7 +615,7 @@ func (*Root_SetClaheLevel) isRoot_Cmd() {}
 
 func (*Root_ShiftClaheLevel) isRoot_Cmd() {}
 
-func (*Root_FocusAtRoi) isRoot_Cmd() {}
+func (*Root_FocusRoi) isRoot_Cmd() {}
 
 func (*Root_TrackRoi) isRoot_Cmd() {}
 
@@ -1801,7 +1801,7 @@ func (*SaveToTableFocus) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{29}
 }
 
-type FocusAtROI struct {
+type FocusROI struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	X             float64                `protobuf:"fixed64,1,opt,name=x,proto3" json:"x,omitempty"`
 	Y             float64                `protobuf:"fixed64,2,opt,name=y,proto3" json:"y,omitempty"`
@@ -1809,20 +1809,20 @@ type FocusAtROI struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FocusAtROI) Reset() {
-	*x = FocusAtROI{}
+func (x *FocusROI) Reset() {
+	*x = FocusROI{}
 	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FocusAtROI) String() string {
+func (x *FocusROI) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FocusAtROI) ProtoMessage() {}
+func (*FocusROI) ProtoMessage() {}
 
-func (x *FocusAtROI) ProtoReflect() protoreflect.Message {
+func (x *FocusROI) ProtoReflect() protoreflect.Message {
 	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1834,19 +1834,19 @@ func (x *FocusAtROI) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FocusAtROI.ProtoReflect.Descriptor instead.
-func (*FocusAtROI) Descriptor() ([]byte, []int) {
+// Deprecated: Use FocusROI.ProtoReflect.Descriptor instead.
+func (*FocusROI) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{30}
 }
 
-func (x *FocusAtROI) GetX() float64 {
+func (x *FocusROI) GetX() float64 {
 	if x != nil {
 		return x.X
 	}
 	return 0
 }
 
-func (x *FocusAtROI) GetY() float64 {
+func (x *FocusROI) GetY() float64 {
 	if x != nil {
 		return x.Y
 	}
@@ -2004,7 +2004,7 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\rSetClaheLevel\x12-\n" +
 	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\"@\n" +
 	"\x0fShiftClaheLevel\x12-\n" +
-	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05value\"\xcc\t\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05value\"\xc5\t\n" +
 	"\x04Root\x12,\n" +
 	"\x05focus\x18\x01 \x01(\v2\x14.cmd.DayCamera.FocusH\x00R\x05focus\x12)\n" +
 	"\x04zoom\x18\x02 \x01(\v2\x13.cmd.DayCamera.ZoomH\x00R\x04zoom\x123\n" +
@@ -2025,9 +2025,8 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\x0frefresh_fx_mode\x18\x0e \x01(\v2\x1c.cmd.DayCamera.RefreshFxModeH\x00R\rrefreshFxMode\x12Y\n" +
 	"\x16set_digital_zoom_level\x18\x0f \x01(\v2\".cmd.DayCamera.SetDigitalZoomLevelH\x00R\x13setDigitalZoomLevel\x12F\n" +
 	"\x0fset_clahe_level\x18\x10 \x01(\v2\x1c.cmd.DayCamera.SetClaheLevelH\x00R\rsetClaheLevel\x12L\n" +
-	"\x11shift_clahe_level\x18\x11 \x01(\v2\x1e.cmd.DayCamera.ShiftClaheLevelH\x00R\x0fshiftClaheLevel\x12=\n" +
-	"\ffocus_at_roi\x18\x12 \x01(\v2\x19.cmd.DayCamera.FocusAtROIH\x00R\n" +
-	"focusAtRoi\x126\n" +
+	"\x11shift_clahe_level\x18\x11 \x01(\v2\x1e.cmd.DayCamera.ShiftClaheLevelH\x00R\x0fshiftClaheLevel\x126\n" +
+	"\tfocus_roi\x18\x12 \x01(\v2\x17.cmd.DayCamera.FocusROIH\x00R\bfocusRoi\x126\n" +
 	"\ttrack_roi\x18\x13 \x01(\v2\x17.cmd.DayCamera.TrackROIH\x00R\btrackRoi\x123\n" +
 	"\bzoom_roi\x18\x14 \x01(\v2\x16.cmd.DayCamera.ZoomROIH\x00R\azoomRoiB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\b\n" +
@@ -2084,9 +2083,8 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\n" +
 	"ResetFocus\"\r\n" +
 	"\vSaveToTable\"\x12\n" +
-	"\x10SaveToTableFocus\"Z\n" +
-	"\n" +
-	"FocusAtROI\x12%\n" +
+	"\x10SaveToTableFocus\"X\n" +
+	"\bFocusROI\x12%\n" +
 	"\x01x\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
 	"\x01y\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\"\xae\x01\n" +
 	"\bTrackROI\x12'\n" +
@@ -2145,7 +2143,7 @@ var file_jon_shared_cmd_day_camera_proto_goTypes = []any{
 	(*ResetFocus)(nil),             // 27: cmd.DayCamera.ResetFocus
 	(*SaveToTable)(nil),            // 28: cmd.DayCamera.SaveToTable
 	(*SaveToTableFocus)(nil),       // 29: cmd.DayCamera.SaveToTableFocus
-	(*FocusAtROI)(nil),             // 30: cmd.DayCamera.FocusAtROI
+	(*FocusROI)(nil),               // 30: cmd.DayCamera.FocusROI
 	(*TrackROI)(nil),               // 31: cmd.DayCamera.TrackROI
 	(*ZoomROI)(nil),                // 32: cmd.DayCamera.ZoomROI
 	(types.JonGuiDataFxModeDay)(0), // 33: ser.JonGuiDataFxModeDay
@@ -2168,7 +2166,7 @@ var file_jon_shared_cmd_day_camera_proto_depIdxs = []int32{
 	12, // 14: cmd.DayCamera.Root.set_digital_zoom_level:type_name -> cmd.DayCamera.SetDigitalZoomLevel
 	3,  // 15: cmd.DayCamera.Root.set_clahe_level:type_name -> cmd.DayCamera.SetClaheLevel
 	4,  // 16: cmd.DayCamera.Root.shift_clahe_level:type_name -> cmd.DayCamera.ShiftClaheLevel
-	30, // 17: cmd.DayCamera.Root.focus_at_roi:type_name -> cmd.DayCamera.FocusAtROI
+	30, // 17: cmd.DayCamera.Root.focus_roi:type_name -> cmd.DayCamera.FocusROI
 	31, // 18: cmd.DayCamera.Root.track_roi:type_name -> cmd.DayCamera.TrackROI
 	32, // 19: cmd.DayCamera.Root.zoom_roi:type_name -> cmd.DayCamera.ZoomROI
 	33, // 20: cmd.DayCamera.SetFxMode.mode:type_name -> ser.JonGuiDataFxModeDay
@@ -2217,7 +2215,7 @@ func file_jon_shared_cmd_day_camera_proto_init() {
 		(*Root_SetDigitalZoomLevel)(nil),
 		(*Root_SetClaheLevel)(nil),
 		(*Root_ShiftClaheLevel)(nil),
-		(*Root_FocusAtRoi)(nil),
+		(*Root_FocusRoi)(nil),
 		(*Root_TrackRoi)(nil),
 		(*Root_ZoomRoi)(nil),
 	}

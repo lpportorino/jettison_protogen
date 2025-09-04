@@ -73,7 +73,7 @@ pub mod root {
         #[prost(message, tag = "17")]
         ShiftClaheLevel(super::ShiftClaheLevel),
         #[prost(message, tag = "18")]
-        FocusAtRoi(super::FocusAtRoi),
+        FocusRoi(super::FocusRoi),
         #[prost(message, tag = "19")]
         TrackRoi(super::TrackRoi),
         #[prost(message, tag = "20")]
@@ -195,7 +195,7 @@ pub struct SaveToTable {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SaveToTableFocus {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct FocusAtRoi {
+pub struct FocusRoi {
     #[prost(double, tag = "1")]
     pub x: f64,
     #[prost(double, tag = "2")]

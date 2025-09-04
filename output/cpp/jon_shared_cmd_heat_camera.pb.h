@@ -64,15 +64,15 @@ extern DisableDDEDefaultTypeInternal _DisableDDE_default_instance_;
 class EnableDDE;
 struct EnableDDEDefaultTypeInternal;
 extern EnableDDEDefaultTypeInternal _EnableDDE_default_instance_;
-class FocusAtROI;
-struct FocusAtROIDefaultTypeInternal;
-extern FocusAtROIDefaultTypeInternal _FocusAtROI_default_instance_;
 class FocusIn;
 struct FocusInDefaultTypeInternal;
 extern FocusInDefaultTypeInternal _FocusIn_default_instance_;
 class FocusOut;
 struct FocusOutDefaultTypeInternal;
 extern FocusOutDefaultTypeInternal _FocusOut_default_instance_;
+class FocusROI;
+struct FocusROIDefaultTypeInternal;
+extern FocusROIDefaultTypeInternal _FocusROI_default_instance_;
 class FocusStepMinus;
 struct FocusStepMinusDefaultTypeInternal;
 extern FocusStepMinusDefaultTypeInternal _FocusStepMinus_default_instance_;
@@ -5487,6 +5487,208 @@ class FocusStepMinus final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class FocusROI final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.HeatCamera.FocusROI) */ {
+ public:
+  inline FocusROI() : FocusROI(nullptr) {}
+  ~FocusROI() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FocusROI* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FocusROI));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FocusROI(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline FocusROI(const FocusROI& from) : FocusROI(nullptr, from) {}
+  inline FocusROI(FocusROI&& from) noexcept
+      : FocusROI(nullptr, std::move(from)) {}
+  inline FocusROI& operator=(const FocusROI& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FocusROI& operator=(FocusROI&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FocusROI& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FocusROI* internal_default_instance() {
+    return reinterpret_cast<const FocusROI*>(
+        &_FocusROI_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 37;
+  friend void swap(FocusROI& a, FocusROI& b) { a.Swap(&b); }
+  inline void Swap(FocusROI* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FocusROI* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FocusROI* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<FocusROI>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const FocusROI& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const FocusROI& from) { FocusROI::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(FocusROI* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.HeatCamera.FocusROI"; }
+
+ protected:
+  explicit FocusROI(::google::protobuf::Arena* arena);
+  FocusROI(::google::protobuf::Arena* arena, const FocusROI& from);
+  FocusROI(::google::protobuf::Arena* arena, FocusROI&& from) noexcept
+      : FocusROI(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kXFieldNumber = 1,
+    kYFieldNumber = 2,
+  };
+  // double x = 1;
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 2;
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.HeatCamera.FocusROI)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const FocusROI& from_msg);
+    double x_;
+    double y_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
 class FocusOut final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:cmd.HeatCamera.FocusOut) */ {
  public:
@@ -5773,208 +5975,6 @@ class FocusIn final : public ::google::protobuf::internal::ZeroFieldsBase
                           const FocusIn& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
-  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
-};
-// -------------------------------------------------------------------
-
-class FocusAtROI final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:cmd.HeatCamera.FocusAtROI) */ {
- public:
-  inline FocusAtROI() : FocusAtROI(nullptr) {}
-  ~FocusAtROI() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(FocusAtROI* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(FocusAtROI));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR FocusAtROI(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline FocusAtROI(const FocusAtROI& from) : FocusAtROI(nullptr, from) {}
-  inline FocusAtROI(FocusAtROI&& from) noexcept
-      : FocusAtROI(nullptr, std::move(from)) {}
-  inline FocusAtROI& operator=(const FocusAtROI& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline FocusAtROI& operator=(FocusAtROI&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const FocusAtROI& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const FocusAtROI* internal_default_instance() {
-    return reinterpret_cast<const FocusAtROI*>(
-        &_FocusAtROI_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 37;
-  friend void swap(FocusAtROI& a, FocusAtROI& b) { a.Swap(&b); }
-  inline void Swap(FocusAtROI* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(FocusAtROI* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  FocusAtROI* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<FocusAtROI>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const FocusAtROI& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const FocusAtROI& from) { FocusAtROI::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(FocusAtROI* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "cmd.HeatCamera.FocusAtROI"; }
-
- protected:
-  explicit FocusAtROI(::google::protobuf::Arena* arena);
-  FocusAtROI(::google::protobuf::Arena* arena, const FocusAtROI& from);
-  FocusAtROI(::google::protobuf::Arena* arena, FocusAtROI&& from) noexcept
-      : FocusAtROI(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kXFieldNumber = 1,
-    kYFieldNumber = 2,
-  };
-  // double x = 1;
-  void clear_x() ;
-  double x() const;
-  void set_x(double value);
-
-  private:
-  double _internal_x() const;
-  void _internal_set_x(double value);
-
-  public:
-  // double y = 2;
-  void clear_y() ;
-  double y() const;
-  void set_y(double value);
-
-  private:
-  double _internal_y() const;
-  void _internal_set_y(double value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:cmd.HeatCamera.FocusAtROI)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const FocusAtROI& from_msg);
-    double x_;
-    double y_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
 };
 // -------------------------------------------------------------------
@@ -6760,7 +6760,7 @@ class Root final : public ::google::protobuf::Message
     kSetDigitalZoomLevel = 32,
     kSetClaheLevel = 33,
     kShiftClaheLevel = 34,
-    kFocusAtRoi = 35,
+    kFocusRoi = 35,
     kTrackRoi = 36,
     kZoomRoi = 37,
     CMD_NOT_SET = 0,
@@ -6887,7 +6887,7 @@ class Root final : public ::google::protobuf::Message
     kSetDigitalZoomLevelFieldNumber = 32,
     kSetClaheLevelFieldNumber = 33,
     kShiftClaheLevelFieldNumber = 34,
-    kFocusAtRoiFieldNumber = 35,
+    kFocusRoiFieldNumber = 35,
     kTrackRoiFieldNumber = 36,
     kZoomRoiFieldNumber = 37,
   };
@@ -7480,23 +7480,23 @@ class Root final : public ::google::protobuf::Message
   ::cmd::HeatCamera::ShiftClaheLevel* _internal_mutable_shift_clahe_level();
 
   public:
-  // .cmd.HeatCamera.FocusAtROI focus_at_roi = 35;
-  bool has_focus_at_roi() const;
+  // .cmd.HeatCamera.FocusROI focus_roi = 35;
+  bool has_focus_roi() const;
   private:
-  bool _internal_has_focus_at_roi() const;
+  bool _internal_has_focus_roi() const;
 
   public:
-  void clear_focus_at_roi() ;
-  const ::cmd::HeatCamera::FocusAtROI& focus_at_roi() const;
-  PROTOBUF_NODISCARD ::cmd::HeatCamera::FocusAtROI* release_focus_at_roi();
-  ::cmd::HeatCamera::FocusAtROI* mutable_focus_at_roi();
-  void set_allocated_focus_at_roi(::cmd::HeatCamera::FocusAtROI* value);
-  void unsafe_arena_set_allocated_focus_at_roi(::cmd::HeatCamera::FocusAtROI* value);
-  ::cmd::HeatCamera::FocusAtROI* unsafe_arena_release_focus_at_roi();
+  void clear_focus_roi() ;
+  const ::cmd::HeatCamera::FocusROI& focus_roi() const;
+  PROTOBUF_NODISCARD ::cmd::HeatCamera::FocusROI* release_focus_roi();
+  ::cmd::HeatCamera::FocusROI* mutable_focus_roi();
+  void set_allocated_focus_roi(::cmd::HeatCamera::FocusROI* value);
+  void unsafe_arena_set_allocated_focus_roi(::cmd::HeatCamera::FocusROI* value);
+  ::cmd::HeatCamera::FocusROI* unsafe_arena_release_focus_roi();
 
   private:
-  const ::cmd::HeatCamera::FocusAtROI& _internal_focus_at_roi() const;
-  ::cmd::HeatCamera::FocusAtROI* _internal_mutable_focus_at_roi();
+  const ::cmd::HeatCamera::FocusROI& _internal_focus_roi() const;
+  ::cmd::HeatCamera::FocusROI* _internal_mutable_focus_roi();
 
   public:
   // .cmd.HeatCamera.TrackROI track_roi = 36;
@@ -7573,7 +7573,7 @@ class Root final : public ::google::protobuf::Message
   void set_has_set_digital_zoom_level();
   void set_has_set_clahe_level();
   void set_has_shift_clahe_level();
-  void set_has_focus_at_roi();
+  void set_has_focus_roi();
   void set_has_track_roi();
   void set_has_zoom_roi();
   inline bool has_cmd() const;
@@ -7632,7 +7632,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::HeatCamera::SetDigitalZoomLevel* set_digital_zoom_level_;
       ::cmd::HeatCamera::SetClaheLevel* set_clahe_level_;
       ::cmd::HeatCamera::ShiftClaheLevel* shift_clahe_level_;
-      ::cmd::HeatCamera::FocusAtROI* focus_at_roi_;
+      ::cmd::HeatCamera::FocusROI* focus_roi_;
       ::cmd::HeatCamera::TrackROI* track_roi_;
       ::cmd::HeatCamera::ZoomROI* zoom_roi_;
     } cmd_;
@@ -10109,82 +10109,82 @@ inline ::cmd::HeatCamera::ShiftClaheLevel* Root::mutable_shift_clahe_level() ABS
   return _msg;
 }
 
-// .cmd.HeatCamera.FocusAtROI focus_at_roi = 35;
-inline bool Root::has_focus_at_roi() const {
-  return cmd_case() == kFocusAtRoi;
+// .cmd.HeatCamera.FocusROI focus_roi = 35;
+inline bool Root::has_focus_roi() const {
+  return cmd_case() == kFocusRoi;
 }
-inline bool Root::_internal_has_focus_at_roi() const {
-  return cmd_case() == kFocusAtRoi;
+inline bool Root::_internal_has_focus_roi() const {
+  return cmd_case() == kFocusRoi;
 }
-inline void Root::set_has_focus_at_roi() {
-  _impl_._oneof_case_[0] = kFocusAtRoi;
+inline void Root::set_has_focus_roi() {
+  _impl_._oneof_case_[0] = kFocusRoi;
 }
-inline void Root::clear_focus_at_roi() {
+inline void Root::clear_focus_roi() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cmd_case() == kFocusAtRoi) {
+  if (cmd_case() == kFocusRoi) {
     if (GetArena() == nullptr) {
-      delete _impl_.cmd_.focus_at_roi_;
+      delete _impl_.cmd_.focus_roi_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_at_roi_);
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_roi_);
     }
     clear_has_cmd();
   }
 }
-inline ::cmd::HeatCamera::FocusAtROI* Root::release_focus_at_roi() {
-  // @@protoc_insertion_point(field_release:cmd.HeatCamera.Root.focus_at_roi)
-  if (cmd_case() == kFocusAtRoi) {
+inline ::cmd::HeatCamera::FocusROI* Root::release_focus_roi() {
+  // @@protoc_insertion_point(field_release:cmd.HeatCamera.Root.focus_roi)
+  if (cmd_case() == kFocusRoi) {
     clear_has_cmd();
-    auto* temp = _impl_.cmd_.focus_at_roi_;
+    auto* temp = _impl_.cmd_.focus_roi_;
     if (GetArena() != nullptr) {
       temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
     }
-    _impl_.cmd_.focus_at_roi_ = nullptr;
+    _impl_.cmd_.focus_roi_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline const ::cmd::HeatCamera::FocusAtROI& Root::_internal_focus_at_roi() const {
-  return cmd_case() == kFocusAtRoi ? *_impl_.cmd_.focus_at_roi_ : reinterpret_cast<::cmd::HeatCamera::FocusAtROI&>(::cmd::HeatCamera::_FocusAtROI_default_instance_);
+inline const ::cmd::HeatCamera::FocusROI& Root::_internal_focus_roi() const {
+  return cmd_case() == kFocusRoi ? *_impl_.cmd_.focus_roi_ : reinterpret_cast<::cmd::HeatCamera::FocusROI&>(::cmd::HeatCamera::_FocusROI_default_instance_);
 }
-inline const ::cmd::HeatCamera::FocusAtROI& Root::focus_at_roi() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.HeatCamera.Root.focus_at_roi)
-  return _internal_focus_at_roi();
+inline const ::cmd::HeatCamera::FocusROI& Root::focus_roi() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.Root.focus_roi)
+  return _internal_focus_roi();
 }
-inline ::cmd::HeatCamera::FocusAtROI* Root::unsafe_arena_release_focus_at_roi() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.HeatCamera.Root.focus_at_roi)
-  if (cmd_case() == kFocusAtRoi) {
+inline ::cmd::HeatCamera::FocusROI* Root::unsafe_arena_release_focus_roi() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.HeatCamera.Root.focus_roi)
+  if (cmd_case() == kFocusRoi) {
     clear_has_cmd();
-    auto* temp = _impl_.cmd_.focus_at_roi_;
-    _impl_.cmd_.focus_at_roi_ = nullptr;
+    auto* temp = _impl_.cmd_.focus_roi_;
+    _impl_.cmd_.focus_roi_ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Root::unsafe_arena_set_allocated_focus_at_roi(::cmd::HeatCamera::FocusAtROI* value) {
+inline void Root::unsafe_arena_set_allocated_focus_roi(::cmd::HeatCamera::FocusROI* value) {
   // We rely on the oneof clear method to free the earlier contents
   // of this oneof. We can directly use the pointer we're given to
   // set the new value.
   clear_cmd();
   if (value) {
-    set_has_focus_at_roi();
-    _impl_.cmd_.focus_at_roi_ = value;
+    set_has_focus_roi();
+    _impl_.cmd_.focus_roi_ = value;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.HeatCamera.Root.focus_at_roi)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.HeatCamera.Root.focus_roi)
 }
-inline ::cmd::HeatCamera::FocusAtROI* Root::_internal_mutable_focus_at_roi() {
-  if (cmd_case() != kFocusAtRoi) {
+inline ::cmd::HeatCamera::FocusROI* Root::_internal_mutable_focus_roi() {
+  if (cmd_case() != kFocusRoi) {
     clear_cmd();
-    set_has_focus_at_roi();
-    _impl_.cmd_.focus_at_roi_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::HeatCamera::FocusAtROI>(GetArena());
+    set_has_focus_roi();
+    _impl_.cmd_.focus_roi_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::HeatCamera::FocusROI>(GetArena());
   }
-  return _impl_.cmd_.focus_at_roi_;
+  return _impl_.cmd_.focus_roi_;
 }
-inline ::cmd::HeatCamera::FocusAtROI* Root::mutable_focus_at_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::HeatCamera::FocusAtROI* _msg = _internal_mutable_focus_at_roi();
-  // @@protoc_insertion_point(field_mutable:cmd.HeatCamera.Root.focus_at_roi)
+inline ::cmd::HeatCamera::FocusROI* Root::mutable_focus_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::HeatCamera::FocusROI* _msg = _internal_mutable_focus_roi();
+  // @@protoc_insertion_point(field_mutable:cmd.HeatCamera.Root.focus_roi)
   return _msg;
 }
 
@@ -10989,48 +10989,48 @@ inline void SetAutoFocus::_internal_set_value(bool value) {
 
 // -------------------------------------------------------------------
 
-// FocusAtROI
+// FocusROI
 
 // double x = 1;
-inline void FocusAtROI::clear_x() {
+inline void FocusROI::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
 }
-inline double FocusAtROI::x() const {
-  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusAtROI.x)
+inline double FocusROI::x() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.x)
   return _internal_x();
 }
-inline void FocusAtROI::set_x(double value) {
+inline void FocusROI::set_x(double value) {
   _internal_set_x(value);
-  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusAtROI.x)
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.x)
 }
-inline double FocusAtROI::_internal_x() const {
+inline double FocusROI::_internal_x() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.x_;
 }
-inline void FocusAtROI::_internal_set_x(double value) {
+inline void FocusROI::_internal_set_x(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = value;
 }
 
 // double y = 2;
-inline void FocusAtROI::clear_y() {
+inline void FocusROI::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
 }
-inline double FocusAtROI::y() const {
-  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusAtROI.y)
+inline double FocusROI::y() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.y)
   return _internal_y();
 }
-inline void FocusAtROI::set_y(double value) {
+inline void FocusROI::set_y(double value) {
   _internal_set_y(value);
-  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusAtROI.y)
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.y)
 }
-inline double FocusAtROI::_internal_y() const {
+inline double FocusROI::_internal_y() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.y_;
 }
-inline void FocusAtROI::_internal_set_y(double value) {
+inline void FocusROI::_internal_set_y(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = value;
 }

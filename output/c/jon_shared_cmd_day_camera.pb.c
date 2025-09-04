@@ -96,7 +96,7 @@ PB_BIND(cmd_DayCamera_SaveToTable, cmd_DayCamera_SaveToTable, AUTO)
 PB_BIND(cmd_DayCamera_SaveToTableFocus, cmd_DayCamera_SaveToTableFocus, AUTO)
 
 
-PB_BIND(cmd_DayCamera_FocusAtROI, cmd_DayCamera_FocusAtROI, AUTO)
+PB_BIND(cmd_DayCamera_FocusROI, cmd_DayCamera_FocusROI, AUTO)
 
 
 PB_BIND(cmd_DayCamera_TrackROI, cmd_DayCamera_TrackROI, AUTO)
