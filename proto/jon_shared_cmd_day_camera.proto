@@ -66,6 +66,9 @@ message Root {
     SetDigitalZoomLevel set_digital_zoom_level = 15;
     SetClaheLevel set_clahe_level = 16;
     ShiftClaheLevel shift_clahe_level = 17;
+    FocusAtROI focus_at_roi = 18;
+    TrackROI track_roi = 19;
+    ZoomROI zoom_roi = 20;
   }
 }
 
@@ -161,3 +164,52 @@ message ResetFocus {}
 message SaveToTable {}
 
 message SaveToTableFocus {}
+
+message FocusAtROI {
+  double x = 1 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y = 2 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}
+
+message TrackROI {
+  double x1 = 1 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y1 = 2 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double x2 = 3 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y2 = 4 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}
+
+message ZoomROI {
+  double x1 = 1 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y1 = 2 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double x2 = 3 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y2 = 4 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}

@@ -48,6 +48,9 @@ export interface Root {
   setDigitalZoomLevel?: SetDigitalZoomLevel | undefined;
   setClaheLevel?: SetClaheLevel | undefined;
   shiftClaheLevel?: ShiftClaheLevel | undefined;
+  focusAtRoi?: FocusAtROI | undefined;
+  trackRoi?: TrackROI | undefined;
+  zoomRoi?: ZoomROI | undefined;
 }
 
 export interface GetPos {
@@ -141,6 +144,25 @@ export interface SaveToTable {
 }
 
 export interface SaveToTableFocus {
+}
+
+export interface FocusAtROI {
+  x: number;
+  y: number;
+}
+
+export interface TrackROI {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+export interface ZoomROI {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
 }
 
 function createBaseSetValue(): SetValue {
@@ -470,6 +492,9 @@ function createBaseRoot(): Root {
     setDigitalZoomLevel: undefined,
     setClaheLevel: undefined,
     shiftClaheLevel: undefined,
+    focusAtRoi: undefined,
+    trackRoi: undefined,
+    zoomRoi: undefined,
   };
 }
 
@@ -525,6 +550,15 @@ export const Root: MessageFns<Root> = {
     }
     if (message.shiftClaheLevel !== undefined) {
       ShiftClaheLevel.encode(message.shiftClaheLevel, writer.uint32(138).fork()).join();
+    }
+    if (message.focusAtRoi !== undefined) {
+      FocusAtROI.encode(message.focusAtRoi, writer.uint32(146).fork()).join();
+    }
+    if (message.trackRoi !== undefined) {
+      TrackROI.encode(message.trackRoi, writer.uint32(154).fork()).join();
+    }
+    if (message.zoomRoi !== undefined) {
+      ZoomROI.encode(message.zoomRoi, writer.uint32(162).fork()).join();
     }
     return writer;
   },
@@ -672,6 +706,30 @@ export const Root: MessageFns<Root> = {
           message.shiftClaheLevel = ShiftClaheLevel.decode(reader, reader.uint32());
           continue;
         }
+        case 18: {
+          if (tag !== 146) {
+            break;
+          }
+
+          message.focusAtRoi = FocusAtROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 19: {
+          if (tag !== 154) {
+            break;
+          }
+
+          message.trackRoi = TrackROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 20: {
+          if (tag !== 162) {
+            break;
+          }
+
+          message.zoomRoi = ZoomROI.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -704,6 +762,9 @@ export const Root: MessageFns<Root> = {
         : undefined,
       setClaheLevel: isSet(object.setClaheLevel) ? SetClaheLevel.fromJSON(object.setClaheLevel) : undefined,
       shiftClaheLevel: isSet(object.shiftClaheLevel) ? ShiftClaheLevel.fromJSON(object.shiftClaheLevel) : undefined,
+      focusAtRoi: isSet(object.focusAtRoi) ? FocusAtROI.fromJSON(object.focusAtRoi) : undefined,
+      trackRoi: isSet(object.trackRoi) ? TrackROI.fromJSON(object.trackRoi) : undefined,
+      zoomRoi: isSet(object.zoomRoi) ? ZoomROI.fromJSON(object.zoomRoi) : undefined,
     };
   },
 
@@ -760,6 +821,15 @@ export const Root: MessageFns<Root> = {
     if (message.shiftClaheLevel !== undefined) {
       obj.shiftClaheLevel = ShiftClaheLevel.toJSON(message.shiftClaheLevel);
     }
+    if (message.focusAtRoi !== undefined) {
+      obj.focusAtRoi = FocusAtROI.toJSON(message.focusAtRoi);
+    }
+    if (message.trackRoi !== undefined) {
+      obj.trackRoi = TrackROI.toJSON(message.trackRoi);
+    }
+    if (message.zoomRoi !== undefined) {
+      obj.zoomRoi = ZoomROI.toJSON(message.zoomRoi);
+    }
     return obj;
   },
 
@@ -808,6 +878,15 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.shiftClaheLevel = (object.shiftClaheLevel !== undefined && object.shiftClaheLevel !== null)
       ? ShiftClaheLevel.fromPartial(object.shiftClaheLevel)
+      : undefined;
+    message.focusAtRoi = (object.focusAtRoi !== undefined && object.focusAtRoi !== null)
+      ? FocusAtROI.fromPartial(object.focusAtRoi)
+      : undefined;
+    message.trackRoi = (object.trackRoi !== undefined && object.trackRoi !== null)
+      ? TrackROI.fromPartial(object.trackRoi)
+      : undefined;
+    message.zoomRoi = (object.zoomRoi !== undefined && object.zoomRoi !== null)
+      ? ZoomROI.fromPartial(object.zoomRoi)
       : undefined;
     return message;
   },
@@ -2214,6 +2293,298 @@ export const SaveToTableFocus: MessageFns<SaveToTableFocus> = {
   },
   fromPartial<I extends Exact<DeepPartial<SaveToTableFocus>, I>>(_: I): SaveToTableFocus {
     const message = createBaseSaveToTableFocus();
+    return message;
+  },
+};
+
+function createBaseFocusAtROI(): FocusAtROI {
+  return { x: 0, y: 0 };
+}
+
+export const FocusAtROI: MessageFns<FocusAtROI> = {
+  encode(message: FocusAtROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.x !== 0) {
+      writer.uint32(9).double(message.x);
+    }
+    if (message.y !== 0) {
+      writer.uint32(17).double(message.y);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): FocusAtROI {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseFocusAtROI();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.x = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.y = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): FocusAtROI {
+    return {
+      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
+      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+    };
+  },
+
+  toJSON(message: FocusAtROI): unknown {
+    const obj: any = {};
+    if (message.x !== 0) {
+      obj.x = message.x;
+    }
+    if (message.y !== 0) {
+      obj.y = message.y;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<FocusAtROI>, I>>(base?: I): FocusAtROI {
+    return FocusAtROI.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<FocusAtROI>, I>>(object: I): FocusAtROI {
+    const message = createBaseFocusAtROI();
+    message.x = object.x ?? 0;
+    message.y = object.y ?? 0;
+    return message;
+  },
+};
+
+function createBaseTrackROI(): TrackROI {
+  return { x1: 0, y1: 0, x2: 0, y2: 0 };
+}
+
+export const TrackROI: MessageFns<TrackROI> = {
+  encode(message: TrackROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.x1 !== 0) {
+      writer.uint32(9).double(message.x1);
+    }
+    if (message.y1 !== 0) {
+      writer.uint32(17).double(message.y1);
+    }
+    if (message.x2 !== 0) {
+      writer.uint32(25).double(message.x2);
+    }
+    if (message.y2 !== 0) {
+      writer.uint32(33).double(message.y2);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TrackROI {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTrackROI();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.x1 = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.y1 = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.x2 = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.y2 = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TrackROI {
+    return {
+      x1: isSet(object.x1) ? globalThis.Number(object.x1) : 0,
+      y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
+      x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
+      y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
+    };
+  },
+
+  toJSON(message: TrackROI): unknown {
+    const obj: any = {};
+    if (message.x1 !== 0) {
+      obj.x1 = message.x1;
+    }
+    if (message.y1 !== 0) {
+      obj.y1 = message.y1;
+    }
+    if (message.x2 !== 0) {
+      obj.x2 = message.x2;
+    }
+    if (message.y2 !== 0) {
+      obj.y2 = message.y2;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<TrackROI>, I>>(base?: I): TrackROI {
+    return TrackROI.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TrackROI>, I>>(object: I): TrackROI {
+    const message = createBaseTrackROI();
+    message.x1 = object.x1 ?? 0;
+    message.y1 = object.y1 ?? 0;
+    message.x2 = object.x2 ?? 0;
+    message.y2 = object.y2 ?? 0;
+    return message;
+  },
+};
+
+function createBaseZoomROI(): ZoomROI {
+  return { x1: 0, y1: 0, x2: 0, y2: 0 };
+}
+
+export const ZoomROI: MessageFns<ZoomROI> = {
+  encode(message: ZoomROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.x1 !== 0) {
+      writer.uint32(9).double(message.x1);
+    }
+    if (message.y1 !== 0) {
+      writer.uint32(17).double(message.y1);
+    }
+    if (message.x2 !== 0) {
+      writer.uint32(25).double(message.x2);
+    }
+    if (message.y2 !== 0) {
+      writer.uint32(33).double(message.y2);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ZoomROI {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseZoomROI();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.x1 = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.y1 = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.x2 = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.y2 = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ZoomROI {
+    return {
+      x1: isSet(object.x1) ? globalThis.Number(object.x1) : 0,
+      y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
+      x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
+      y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
+    };
+  },
+
+  toJSON(message: ZoomROI): unknown {
+    const obj: any = {};
+    if (message.x1 !== 0) {
+      obj.x1 = message.x1;
+    }
+    if (message.y1 !== 0) {
+      obj.y1 = message.y1;
+    }
+    if (message.x2 !== 0) {
+      obj.x2 = message.x2;
+    }
+    if (message.y2 !== 0) {
+      obj.y2 = message.y2;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ZoomROI>, I>>(base?: I): ZoomROI {
+    return ZoomROI.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ZoomROI>, I>>(object: I): ZoomROI {
+    const message = createBaseZoomROI();
+    message.x1 = object.x1 ?? 0;
+    message.y1 = object.y1 ?? 0;
+    message.x2 = object.x2 ?? 0;
+    message.y2 = object.y2 ?? 0;
     return message;
   },
 };

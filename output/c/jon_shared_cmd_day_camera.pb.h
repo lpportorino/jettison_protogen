@@ -147,6 +147,25 @@ typedef struct _cmd_DayCamera_Focus {
     } cmd;
 } cmd_DayCamera_Focus;
 
+typedef struct _cmd_DayCamera_FocusAtROI {
+    double x;
+    double y;
+} cmd_DayCamera_FocusAtROI;
+
+typedef struct _cmd_DayCamera_TrackROI {
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+} cmd_DayCamera_TrackROI;
+
+typedef struct _cmd_DayCamera_ZoomROI {
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+} cmd_DayCamera_ZoomROI;
+
 typedef struct _cmd_DayCamera_Root {
     pb_size_t which_cmd;
     union {
@@ -167,6 +186,9 @@ typedef struct _cmd_DayCamera_Root {
         cmd_DayCamera_SetDigitalZoomLevel set_digital_zoom_level;
         cmd_DayCamera_SetClaheLevel set_clahe_level;
         cmd_DayCamera_ShiftClaheLevel shift_clahe_level;
+        cmd_DayCamera_FocusAtROI focus_at_roi;
+        cmd_DayCamera_TrackROI track_roi;
+        cmd_DayCamera_ZoomROI zoom_roi;
     } cmd;
 } cmd_DayCamera_Root;
 
@@ -206,6 +228,9 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_default    {0}
 #define cmd_DayCamera_SaveToTable_init_default   {0}
 #define cmd_DayCamera_SaveToTableFocus_init_default {0}
+#define cmd_DayCamera_FocusAtROI_init_default    {0, 0}
+#define cmd_DayCamera_TrackROI_init_default      {0, 0, 0, 0}
+#define cmd_DayCamera_ZoomROI_init_default       {0, 0, 0, 0}
 #define cmd_DayCamera_SetValue_init_zero         {0}
 #define cmd_DayCamera_Move_init_zero             {0, 0}
 #define cmd_DayCamera_Offset_init_zero           {0}
@@ -236,6 +261,9 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_zero       {0}
 #define cmd_DayCamera_SaveToTable_init_zero      {0}
 #define cmd_DayCamera_SaveToTableFocus_init_zero {0}
+#define cmd_DayCamera_FocusAtROI_init_zero       {0, 0}
+#define cmd_DayCamera_TrackROI_init_zero         {0, 0, 0, 0}
+#define cmd_DayCamera_ZoomROI_init_zero          {0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_DayCamera_SetValue_value_tag         1
@@ -265,6 +293,16 @@ extern "C" {
 #define cmd_DayCamera_Focus_offset_tag           4
 #define cmd_DayCamera_Focus_reset_focus_tag      5
 #define cmd_DayCamera_Focus_save_to_table_focus_tag 6
+#define cmd_DayCamera_FocusAtROI_x_tag           1
+#define cmd_DayCamera_FocusAtROI_y_tag           2
+#define cmd_DayCamera_TrackROI_x1_tag            1
+#define cmd_DayCamera_TrackROI_y1_tag            2
+#define cmd_DayCamera_TrackROI_x2_tag            3
+#define cmd_DayCamera_TrackROI_y2_tag            4
+#define cmd_DayCamera_ZoomROI_x1_tag             1
+#define cmd_DayCamera_ZoomROI_y1_tag             2
+#define cmd_DayCamera_ZoomROI_x2_tag             3
+#define cmd_DayCamera_ZoomROI_y2_tag             4
 #define cmd_DayCamera_Root_focus_tag             1
 #define cmd_DayCamera_Root_zoom_tag              2
 #define cmd_DayCamera_Root_set_iris_tag          3
@@ -282,6 +320,9 @@ extern "C" {
 #define cmd_DayCamera_Root_set_digital_zoom_level_tag 15
 #define cmd_DayCamera_Root_set_clahe_level_tag   16
 #define cmd_DayCamera_Root_shift_clahe_level_tag 17
+#define cmd_DayCamera_Root_focus_at_roi_tag      18
+#define cmd_DayCamera_Root_track_roi_tag         19
+#define cmd_DayCamera_Root_zoom_roi_tag          20
 
 /* Struct field encoding specification for nanopb */
 #define cmd_DayCamera_SetValue_FIELDLIST(X, a) \
@@ -327,7 +368,10 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_meteo,cmd.get_meteo),  13) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,refresh_fx_mode,cmd.refresh_fx_mode),  14) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_digital_zoom_level,cmd.set_digital_zoom_level),  15) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_clahe_level,cmd.set_clahe_level),  16) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,shift_clahe_level,cmd.shift_clahe_level),  17)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,shift_clahe_level,cmd.shift_clahe_level),  17) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_at_roi,cmd.focus_at_roi),  18) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,track_roi,cmd.track_roi),  19) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  20)
 #define cmd_DayCamera_Root_CALLBACK NULL
 #define cmd_DayCamera_Root_DEFAULT NULL
 #define cmd_DayCamera_Root_cmd_focus_MSGTYPE cmd_DayCamera_Focus
@@ -347,6 +391,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,shift_clahe_level,cmd.shift_clahe_level)
 #define cmd_DayCamera_Root_cmd_set_digital_zoom_level_MSGTYPE cmd_DayCamera_SetDigitalZoomLevel
 #define cmd_DayCamera_Root_cmd_set_clahe_level_MSGTYPE cmd_DayCamera_SetClaheLevel
 #define cmd_DayCamera_Root_cmd_shift_clahe_level_MSGTYPE cmd_DayCamera_ShiftClaheLevel
+#define cmd_DayCamera_Root_cmd_focus_at_roi_MSGTYPE cmd_DayCamera_FocusAtROI
+#define cmd_DayCamera_Root_cmd_track_roi_MSGTYPE cmd_DayCamera_TrackROI
+#define cmd_DayCamera_Root_cmd_zoom_roi_MSGTYPE cmd_DayCamera_ZoomROI
 
 #define cmd_DayCamera_GetPos_FIELDLIST(X, a) \
 
@@ -496,6 +543,28 @@ X(a, STATIC,   SINGULAR, INT32,    value,             1)
 #define cmd_DayCamera_SaveToTableFocus_CALLBACK NULL
 #define cmd_DayCamera_SaveToTableFocus_DEFAULT NULL
 
+#define cmd_DayCamera_FocusAtROI_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x,                 1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y,                 2)
+#define cmd_DayCamera_FocusAtROI_CALLBACK NULL
+#define cmd_DayCamera_FocusAtROI_DEFAULT NULL
+
+#define cmd_DayCamera_TrackROI_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4)
+#define cmd_DayCamera_TrackROI_CALLBACK NULL
+#define cmd_DayCamera_TrackROI_DEFAULT NULL
+
+#define cmd_DayCamera_ZoomROI_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4)
+#define cmd_DayCamera_ZoomROI_CALLBACK NULL
+#define cmd_DayCamera_ZoomROI_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_DayCamera_SetValue_msg;
 extern const pb_msgdesc_t cmd_DayCamera_Move_msg;
 extern const pb_msgdesc_t cmd_DayCamera_Offset_msg;
@@ -526,6 +595,9 @@ extern const pb_msgdesc_t cmd_DayCamera_ResetZoom_msg;
 extern const pb_msgdesc_t cmd_DayCamera_ResetFocus_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SaveToTable_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SaveToTableFocus_msg;
+extern const pb_msgdesc_t cmd_DayCamera_FocusAtROI_msg;
+extern const pb_msgdesc_t cmd_DayCamera_TrackROI_msg;
+extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_DayCamera_SetValue_fields &cmd_DayCamera_SetValue_msg
@@ -558,9 +630,13 @@ extern const pb_msgdesc_t cmd_DayCamera_SaveToTableFocus_msg;
 #define cmd_DayCamera_ResetFocus_fields &cmd_DayCamera_ResetFocus_msg
 #define cmd_DayCamera_SaveToTable_fields &cmd_DayCamera_SaveToTable_msg
 #define cmd_DayCamera_SaveToTableFocus_fields &cmd_DayCamera_SaveToTableFocus_msg
+#define cmd_DayCamera_FocusAtROI_fields &cmd_DayCamera_FocusAtROI_msg
+#define cmd_DayCamera_TrackROI_fields &cmd_DayCamera_TrackROI_msg
+#define cmd_DayCamera_ZoomROI_fields &cmd_DayCamera_ZoomROI_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_DAYCAMERA_JON_SHARED_CMD_DAY_CAMERA_PB_H_MAX_SIZE cmd_DayCamera_Root_size
+#define cmd_DayCamera_FocusAtROI_size            18
 #define cmd_DayCamera_Focus_size                 20
 #define cmd_DayCamera_GetMeteo_size              0
 #define cmd_DayCamera_GetPos_size                0
@@ -576,7 +652,7 @@ extern const pb_msgdesc_t cmd_DayCamera_SaveToTableFocus_msg;
 #define cmd_DayCamera_RefreshFxMode_size         0
 #define cmd_DayCamera_ResetFocus_size            0
 #define cmd_DayCamera_ResetZoom_size             0
-#define cmd_DayCamera_Root_size                  22
+#define cmd_DayCamera_Root_size                  39
 #define cmd_DayCamera_SaveToTableFocus_size      0
 #define cmd_DayCamera_SaveToTable_size           0
 #define cmd_DayCamera_SetAutoIris_size           2
@@ -590,6 +666,8 @@ extern const pb_msgdesc_t cmd_DayCamera_SaveToTableFocus_msg;
 #define cmd_DayCamera_ShiftClaheLevel_size       9
 #define cmd_DayCamera_Start_size                 0
 #define cmd_DayCamera_Stop_size                  0
+#define cmd_DayCamera_TrackROI_size              36
+#define cmd_DayCamera_ZoomROI_size               36
 #define cmd_DayCamera_Zoom_size                  20
 
 #ifdef __cplusplus

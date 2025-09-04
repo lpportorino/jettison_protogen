@@ -494,6 +494,51 @@ public final class JonSharedCmdHeatCamera {
      */
     cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevelOrBuilder getShiftClaheLevelOrBuilder();
 
+    /**
+     * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+     * @return Whether the focusAtRoi field is set.
+     */
+    boolean hasFocusAtRoi();
+    /**
+     * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+     * @return The focusAtRoi.
+     */
+    cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI getFocusAtRoi();
+    /**
+     * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+     */
+    cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder getFocusAtRoiOrBuilder();
+
+    /**
+     * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+     * @return Whether the trackRoi field is set.
+     */
+    boolean hasTrackRoi();
+    /**
+     * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+     * @return The trackRoi.
+     */
+    cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI getTrackRoi();
+    /**
+     * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+     */
+    cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder getTrackRoiOrBuilder();
+
+    /**
+     * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+     * @return Whether the zoomRoi field is set.
+     */
+    boolean hasZoomRoi();
+    /**
+     * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+     * @return The zoomRoi.
+     */
+    cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI getZoomRoi();
+    /**
+     * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+     */
+    cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder getZoomRoiOrBuilder();
+
     cmd.HeatCamera.JonSharedCmdHeatCamera.Root.CmdCase getCmdCase();
   }
   /**
@@ -570,6 +615,9 @@ public final class JonSharedCmdHeatCamera {
       SET_DIGITAL_ZOOM_LEVEL(32),
       SET_CLAHE_LEVEL(33),
       SHIFT_CLAHE_LEVEL(34),
+      FOCUS_AT_ROI(35),
+      TRACK_ROI(36),
+      ZOOM_ROI(37),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -618,6 +666,9 @@ public final class JonSharedCmdHeatCamera {
           case 32: return SET_DIGITAL_ZOOM_LEVEL;
           case 33: return SET_CLAHE_LEVEL;
           case 34: return SHIFT_CLAHE_LEVEL;
+          case 35: return FOCUS_AT_ROI;
+          case 36: return TRACK_ROI;
+          case 37: return ZOOM_ROI;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -1594,6 +1645,99 @@ public final class JonSharedCmdHeatCamera {
       return cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel.getDefaultInstance();
     }
 
+    public static final int FOCUS_AT_ROI_FIELD_NUMBER = 35;
+    /**
+     * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+     * @return Whether the focusAtRoi field is set.
+     */
+    @java.lang.Override
+    public boolean hasFocusAtRoi() {
+      return cmdCase_ == 35;
+    }
+    /**
+     * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+     * @return The focusAtRoi.
+     */
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI getFocusAtRoi() {
+      if (cmdCase_ == 35) {
+         return (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_;
+      }
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+     */
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder getFocusAtRoiOrBuilder() {
+      if (cmdCase_ == 35) {
+         return (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_;
+      }
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+    }
+
+    public static final int TRACK_ROI_FIELD_NUMBER = 36;
+    /**
+     * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+     * @return Whether the trackRoi field is set.
+     */
+    @java.lang.Override
+    public boolean hasTrackRoi() {
+      return cmdCase_ == 36;
+    }
+    /**
+     * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+     * @return The trackRoi.
+     */
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI getTrackRoi() {
+      if (cmdCase_ == 36) {
+         return (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_;
+      }
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+     */
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder getTrackRoiOrBuilder() {
+      if (cmdCase_ == 36) {
+         return (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_;
+      }
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+    }
+
+    public static final int ZOOM_ROI_FIELD_NUMBER = 37;
+    /**
+     * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+     * @return Whether the zoomRoi field is set.
+     */
+    @java.lang.Override
+    public boolean hasZoomRoi() {
+      return cmdCase_ == 37;
+    }
+    /**
+     * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+     * @return The zoomRoi.
+     */
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI getZoomRoi() {
+      if (cmdCase_ == 37) {
+         return (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_;
+      }
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+     */
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder getZoomRoiOrBuilder() {
+      if (cmdCase_ == 37) {
+         return (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_;
+      }
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1700,6 +1844,15 @@ public final class JonSharedCmdHeatCamera {
       }
       if (cmdCase_ == 34) {
         output.writeMessage(34, (cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel) cmd_);
+      }
+      if (cmdCase_ == 35) {
+        output.writeMessage(35, (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_);
+      }
+      if (cmdCase_ == 36) {
+        output.writeMessage(36, (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_);
+      }
+      if (cmdCase_ == 37) {
+        output.writeMessage(37, (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1833,6 +1986,18 @@ public final class JonSharedCmdHeatCamera {
       if (cmdCase_ == 34) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(34, (cmd.HeatCamera.JonSharedCmdHeatCamera.ShiftClaheLevel) cmd_);
+      }
+      if (cmdCase_ == 35) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(35, (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_);
+      }
+      if (cmdCase_ == 36) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(36, (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_);
+      }
+      if (cmdCase_ == 37) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(37, (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1975,6 +2140,18 @@ public final class JonSharedCmdHeatCamera {
           if (!getShiftClaheLevel()
               .equals(other.getShiftClaheLevel())) return false;
           break;
+        case 35:
+          if (!getFocusAtRoi()
+              .equals(other.getFocusAtRoi())) return false;
+          break;
+        case 36:
+          if (!getTrackRoi()
+              .equals(other.getTrackRoi())) return false;
+          break;
+        case 37:
+          if (!getZoomRoi()
+              .equals(other.getZoomRoi())) return false;
+          break;
         case 0:
         default:
       }
@@ -2114,6 +2291,18 @@ public final class JonSharedCmdHeatCamera {
           hash = (37 * hash) + SHIFT_CLAHE_LEVEL_FIELD_NUMBER;
           hash = (53 * hash) + getShiftClaheLevel().hashCode();
           break;
+        case 35:
+          hash = (37 * hash) + FOCUS_AT_ROI_FIELD_NUMBER;
+          hash = (53 * hash) + getFocusAtRoi().hashCode();
+          break;
+        case 36:
+          hash = (37 * hash) + TRACK_ROI_FIELD_NUMBER;
+          hash = (53 * hash) + getTrackRoi().hashCode();
+          break;
+        case 37:
+          hash = (37 * hash) + ZOOM_ROI_FIELD_NUMBER;
+          hash = (53 * hash) + getZoomRoi().hashCode();
+          break;
         case 0:
         default:
       }
@@ -2248,6 +2437,7 @@ public final class JonSharedCmdHeatCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
+        bitField1_ = 0;
         if (zoomBuilder_ != null) {
           zoomBuilder_.clear();
         }
@@ -2341,6 +2531,15 @@ public final class JonSharedCmdHeatCamera {
         if (shiftClaheLevelBuilder_ != null) {
           shiftClaheLevelBuilder_.clear();
         }
+        if (focusAtRoiBuilder_ != null) {
+          focusAtRoiBuilder_.clear();
+        }
+        if (trackRoiBuilder_ != null) {
+          trackRoiBuilder_.clear();
+        }
+        if (zoomRoiBuilder_ != null) {
+          zoomRoiBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -2370,6 +2569,7 @@ public final class JonSharedCmdHeatCamera {
       public cmd.HeatCamera.JonSharedCmdHeatCamera.Root buildPartial() {
         cmd.HeatCamera.JonSharedCmdHeatCamera.Root result = new cmd.HeatCamera.JonSharedCmdHeatCamera.Root(this);
         if (bitField0_ != 0) { buildPartial0(result); }
+        if (bitField1_ != 0) { buildPartial1(result); }
         buildPartialOneofs(result);
         onBuilt();
         return result;
@@ -2377,6 +2577,10 @@ public final class JonSharedCmdHeatCamera {
 
       private void buildPartial0(cmd.HeatCamera.JonSharedCmdHeatCamera.Root result) {
         int from_bitField0_ = bitField0_;
+      }
+
+      private void buildPartial1(cmd.HeatCamera.JonSharedCmdHeatCamera.Root result) {
+        int from_bitField1_ = bitField1_;
       }
 
       private void buildPartialOneofs(cmd.HeatCamera.JonSharedCmdHeatCamera.Root result) {
@@ -2505,6 +2709,18 @@ public final class JonSharedCmdHeatCamera {
         if (cmdCase_ == 34 &&
             shiftClaheLevelBuilder_ != null) {
           result.cmd_ = shiftClaheLevelBuilder_.build();
+        }
+        if (cmdCase_ == 35 &&
+            focusAtRoiBuilder_ != null) {
+          result.cmd_ = focusAtRoiBuilder_.build();
+        }
+        if (cmdCase_ == 36 &&
+            trackRoiBuilder_ != null) {
+          result.cmd_ = trackRoiBuilder_.build();
+        }
+        if (cmdCase_ == 37 &&
+            zoomRoiBuilder_ != null) {
+          result.cmd_ = zoomRoiBuilder_.build();
         }
       }
 
@@ -2643,6 +2859,18 @@ public final class JonSharedCmdHeatCamera {
           }
           case SHIFT_CLAHE_LEVEL: {
             mergeShiftClaheLevel(other.getShiftClaheLevel());
+            break;
+          }
+          case FOCUS_AT_ROI: {
+            mergeFocusAtRoi(other.getFocusAtRoi());
+            break;
+          }
+          case TRACK_ROI: {
+            mergeTrackRoi(other.getTrackRoi());
+            break;
+          }
+          case ZOOM_ROI: {
+            mergeZoomRoi(other.getZoomRoi());
             break;
           }
           case CMD_NOT_SET: {
@@ -2892,6 +3120,27 @@ public final class JonSharedCmdHeatCamera {
                 cmdCase_ = 34;
                 break;
               } // case 274
+              case 282: {
+                input.readMessage(
+                    getFocusAtRoiFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 35;
+                break;
+              } // case 282
+              case 290: {
+                input.readMessage(
+                    getTrackRoiFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 36;
+                break;
+              } // case 290
+              case 298: {
+                input.readMessage(
+                    getZoomRoiFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 37;
+                break;
+              } // case 298
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2923,6 +3172,7 @@ public final class JonSharedCmdHeatCamera {
       }
 
       private int bitField0_;
+      private int bitField1_;
 
       private com.google.protobuf.SingleFieldBuilder<
           cmd.HeatCamera.JonSharedCmdHeatCamera.Zoom, cmd.HeatCamera.JonSharedCmdHeatCamera.Zoom.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomOrBuilder> zoomBuilder_;
@@ -7324,6 +7574,432 @@ public final class JonSharedCmdHeatCamera {
         cmdCase_ = 34;
         onChanged();
         return shiftClaheLevelBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder> focusAtRoiBuilder_;
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       * @return Whether the focusAtRoi field is set.
+       */
+      @java.lang.Override
+      public boolean hasFocusAtRoi() {
+        return cmdCase_ == 35;
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       * @return The focusAtRoi.
+       */
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI getFocusAtRoi() {
+        if (focusAtRoiBuilder_ == null) {
+          if (cmdCase_ == 35) {
+            return (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_;
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 35) {
+            return focusAtRoiBuilder_.getMessage();
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      public Builder setFocusAtRoi(cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI value) {
+        if (focusAtRoiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          focusAtRoiBuilder_.setMessage(value);
+        }
+        cmdCase_ = 35;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      public Builder setFocusAtRoi(
+          cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder builderForValue) {
+        if (focusAtRoiBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          focusAtRoiBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 35;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      public Builder mergeFocusAtRoi(cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI value) {
+        if (focusAtRoiBuilder_ == null) {
+          if (cmdCase_ == 35 &&
+              cmd_ != cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance()) {
+            cmd_ = cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.newBuilder((cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 35) {
+            focusAtRoiBuilder_.mergeFrom(value);
+          } else {
+            focusAtRoiBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 35;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      public Builder clearFocusAtRoi() {
+        if (focusAtRoiBuilder_ == null) {
+          if (cmdCase_ == 35) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 35) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          focusAtRoiBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder getFocusAtRoiBuilder() {
+        return getFocusAtRoiFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder getFocusAtRoiOrBuilder() {
+        if ((cmdCase_ == 35) && (focusAtRoiBuilder_ != null)) {
+          return focusAtRoiBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 35) {
+            return (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_;
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.HeatCamera.FocusAtROI focus_at_roi = 35;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder> 
+          getFocusAtRoiFieldBuilder() {
+        if (focusAtRoiBuilder_ == null) {
+          if (!(cmdCase_ == 35)) {
+            cmd_ = cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+          }
+          focusAtRoiBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder>(
+                  (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 35;
+        onChanged();
+        return focusAtRoiBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder> trackRoiBuilder_;
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       * @return Whether the trackRoi field is set.
+       */
+      @java.lang.Override
+      public boolean hasTrackRoi() {
+        return cmdCase_ == 36;
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       * @return The trackRoi.
+       */
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI getTrackRoi() {
+        if (trackRoiBuilder_ == null) {
+          if (cmdCase_ == 36) {
+            return (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_;
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 36) {
+            return trackRoiBuilder_.getMessage();
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      public Builder setTrackRoi(cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI value) {
+        if (trackRoiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          trackRoiBuilder_.setMessage(value);
+        }
+        cmdCase_ = 36;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      public Builder setTrackRoi(
+          cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder builderForValue) {
+        if (trackRoiBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          trackRoiBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 36;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      public Builder mergeTrackRoi(cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI value) {
+        if (trackRoiBuilder_ == null) {
+          if (cmdCase_ == 36 &&
+              cmd_ != cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance()) {
+            cmd_ = cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.newBuilder((cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 36) {
+            trackRoiBuilder_.mergeFrom(value);
+          } else {
+            trackRoiBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 36;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      public Builder clearTrackRoi() {
+        if (trackRoiBuilder_ == null) {
+          if (cmdCase_ == 36) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 36) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          trackRoiBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder getTrackRoiBuilder() {
+        return getTrackRoiFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder getTrackRoiOrBuilder() {
+        if ((cmdCase_ == 36) && (trackRoiBuilder_ != null)) {
+          return trackRoiBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 36) {
+            return (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_;
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.HeatCamera.TrackROI track_roi = 36;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder> 
+          getTrackRoiFieldBuilder() {
+        if (trackRoiBuilder_ == null) {
+          if (!(cmdCase_ == 36)) {
+            cmd_ = cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+          }
+          trackRoiBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder>(
+                  (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 36;
+        onChanged();
+        return trackRoiBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder> zoomRoiBuilder_;
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       * @return Whether the zoomRoi field is set.
+       */
+      @java.lang.Override
+      public boolean hasZoomRoi() {
+        return cmdCase_ == 37;
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       * @return The zoomRoi.
+       */
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI getZoomRoi() {
+        if (zoomRoiBuilder_ == null) {
+          if (cmdCase_ == 37) {
+            return (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_;
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 37) {
+            return zoomRoiBuilder_.getMessage();
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      public Builder setZoomRoi(cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI value) {
+        if (zoomRoiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          zoomRoiBuilder_.setMessage(value);
+        }
+        cmdCase_ = 37;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      public Builder setZoomRoi(
+          cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder builderForValue) {
+        if (zoomRoiBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          zoomRoiBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 37;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      public Builder mergeZoomRoi(cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI value) {
+        if (zoomRoiBuilder_ == null) {
+          if (cmdCase_ == 37 &&
+              cmd_ != cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance()) {
+            cmd_ = cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.newBuilder((cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 37) {
+            zoomRoiBuilder_.mergeFrom(value);
+          } else {
+            zoomRoiBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 37;
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      public Builder clearZoomRoi() {
+        if (zoomRoiBuilder_ == null) {
+          if (cmdCase_ == 37) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 37) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          zoomRoiBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder getZoomRoiBuilder() {
+        return getZoomRoiFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder getZoomRoiOrBuilder() {
+        if ((cmdCase_ == 37) && (zoomRoiBuilder_ != null)) {
+          return zoomRoiBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 37) {
+            return (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_;
+          }
+          return cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.HeatCamera.ZoomROI zoom_roi = 37;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder> 
+          getZoomRoiFieldBuilder() {
+        if (zoomRoiBuilder_ == null) {
+          if (!(cmdCase_ == 37)) {
+            cmd_ = cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+          }
+          zoomRoiBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder>(
+                  (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 37;
+        onChanged();
+        return zoomRoiBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.HeatCamera.Root)
@@ -21887,6 +22563,1832 @@ public final class JonSharedCmdHeatCamera {
 
   }
 
+  public interface FocusAtROIOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.HeatCamera.FocusAtROI)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    double getX();
+
+    /**
+     * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    double getY();
+  }
+  /**
+   * Protobuf type {@code cmd.HeatCamera.FocusAtROI}
+   */
+  public static final class FocusAtROI extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.HeatCamera.FocusAtROI)
+      FocusAtROIOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        FocusAtROI.class.getName());
+    }
+    // Use FocusAtROI.newBuilder() to construct.
+    private FocusAtROI(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private FocusAtROI() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_FocusAtROI_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_FocusAtROI_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.class, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder.class);
+    }
+
+    public static final int X_FIELD_NUMBER = 1;
+    private double x_ = 0D;
+    /**
+     * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    @java.lang.Override
+    public double getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 2;
+    private double y_ = 0D;
+    /**
+     * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    @java.lang.Override
+    public double getY() {
+      return y_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        output.writeDouble(1, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        output.writeDouble(2, y_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, y_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI)) {
+        return super.equals(obj);
+      }
+      cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI other = (cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) obj;
+
+      if (java.lang.Double.doubleToLongBits(getX())
+          != java.lang.Double.doubleToLongBits(
+              other.getX())) return false;
+      if (java.lang.Double.doubleToLongBits(getY())
+          != java.lang.Double.doubleToLongBits(
+              other.getY())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX()));
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.HeatCamera.FocusAtROI}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.HeatCamera.FocusAtROI)
+        cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROIOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_FocusAtROI_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_FocusAtROI_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.class, cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.Builder.class);
+      }
+
+      // Construct using cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x_ = 0D;
+        y_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_FocusAtROI_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI getDefaultInstanceForType() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI build() {
+        cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI buildPartial() {
+        cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI result = new cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x_ = x_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y_ = y_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI) {
+          return mergeFrom((cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI other) {
+        if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI.getDefaultInstance()) return this;
+        if (other.getX() != 0D) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0D) {
+          setY(other.getY());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                x_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                y_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double x_ ;
+      /**
+       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x.
+       */
+      @java.lang.Override
+      public double getX() {
+        return x_;
+      }
+      /**
+       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX(double value) {
+
+        x_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y_ ;
+      /**
+       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y.
+       */
+      @java.lang.Override
+      public double getY() {
+        return y_;
+      }
+      /**
+       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY(double value) {
+
+        y_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.HeatCamera.FocusAtROI)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.HeatCamera.FocusAtROI)
+    private static final cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI();
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FocusAtROI>
+        PARSER = new com.google.protobuf.AbstractParser<FocusAtROI>() {
+      @java.lang.Override
+      public FocusAtROI parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<FocusAtROI> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FocusAtROI> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.FocusAtROI getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface TrackROIOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.HeatCamera.TrackROI)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    double getX1();
+
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    double getY1();
+
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    double getX2();
+
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    double getY2();
+  }
+  /**
+   * Protobuf type {@code cmd.HeatCamera.TrackROI}
+   */
+  public static final class TrackROI extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.HeatCamera.TrackROI)
+      TrackROIOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        TrackROI.class.getName());
+    }
+    // Use TrackROI.newBuilder() to construct.
+    private TrackROI(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private TrackROI() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_TrackROI_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_TrackROI_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.class, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder.class);
+    }
+
+    public static final int X1_FIELD_NUMBER = 1;
+    private double x1_ = 0D;
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    @java.lang.Override
+    public double getX1() {
+      return x1_;
+    }
+
+    public static final int Y1_FIELD_NUMBER = 2;
+    private double y1_ = 0D;
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    @java.lang.Override
+    public double getY1() {
+      return y1_;
+    }
+
+    public static final int X2_FIELD_NUMBER = 3;
+    private double x2_ = 0D;
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    @java.lang.Override
+    public double getX2() {
+      return x2_;
+    }
+
+    public static final int Y2_FIELD_NUMBER = 4;
+    private double y2_ = 0D;
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    @java.lang.Override
+    public double getY2() {
+      return y2_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        output.writeDouble(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        output.writeDouble(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        output.writeDouble(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        output.writeDouble(4, y2_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, y2_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI)) {
+        return super.equals(obj);
+      }
+      cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI other = (cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) obj;
+
+      if (java.lang.Double.doubleToLongBits(getX1())
+          != java.lang.Double.doubleToLongBits(
+              other.getX1())) return false;
+      if (java.lang.Double.doubleToLongBits(getY1())
+          != java.lang.Double.doubleToLongBits(
+              other.getY1())) return false;
+      if (java.lang.Double.doubleToLongBits(getX2())
+          != java.lang.Double.doubleToLongBits(
+              other.getX2())) return false;
+      if (java.lang.Double.doubleToLongBits(getY2())
+          != java.lang.Double.doubleToLongBits(
+              other.getY2())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX1()));
+      hash = (37 * hash) + Y1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY1()));
+      hash = (37 * hash) + X2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX2()));
+      hash = (37 * hash) + Y2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY2()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.HeatCamera.TrackROI}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.HeatCamera.TrackROI)
+        cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROIOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_TrackROI_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_TrackROI_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.class, cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.Builder.class);
+      }
+
+      // Construct using cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x1_ = 0D;
+        y1_ = 0D;
+        x2_ = 0D;
+        y2_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_TrackROI_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI getDefaultInstanceForType() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI build() {
+        cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI buildPartial() {
+        cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI result = new cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x1_ = x1_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y1_ = y1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.x2_ = x2_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.y2_ = y2_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI) {
+          return mergeFrom((cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI other) {
+        if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI.getDefaultInstance()) return this;
+        if (other.getX1() != 0D) {
+          setX1(other.getX1());
+        }
+        if (other.getY1() != 0D) {
+          setY1(other.getY1());
+        }
+        if (other.getX2() != 0D) {
+          setX2(other.getX2());
+        }
+        if (other.getY2() != 0D) {
+          setY2(other.getY2());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                x1_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                y1_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                x2_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 33: {
+                y2_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 33
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double x1_ ;
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x1.
+       */
+      @java.lang.Override
+      public double getX1() {
+        return x1_;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX1(double value) {
+
+        x1_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX1() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y1_ ;
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y1.
+       */
+      @java.lang.Override
+      public double getY1() {
+        return y1_;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY1(double value) {
+
+        y1_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY1() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double x2_ ;
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The x2.
+       */
+      @java.lang.Override
+      public double getX2() {
+        return x2_;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The x2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX2(double value) {
+
+        x2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        x2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y2_ ;
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The y2.
+       */
+      @java.lang.Override
+      public double getY2() {
+        return y2_;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The y2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY2(double value) {
+
+        y2_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY2() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        y2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.HeatCamera.TrackROI)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.HeatCamera.TrackROI)
+    private static final cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI();
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<TrackROI>
+        PARSER = new com.google.protobuf.AbstractParser<TrackROI>() {
+      @java.lang.Override
+      public TrackROI parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<TrackROI> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TrackROI> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.TrackROI getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ZoomROIOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.HeatCamera.ZoomROI)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    double getX1();
+
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    double getY1();
+
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    double getX2();
+
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    double getY2();
+  }
+  /**
+   * Protobuf type {@code cmd.HeatCamera.ZoomROI}
+   */
+  public static final class ZoomROI extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.HeatCamera.ZoomROI)
+      ZoomROIOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ZoomROI.class.getName());
+    }
+    // Use ZoomROI.newBuilder() to construct.
+    private ZoomROI(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ZoomROI() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_ZoomROI_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_ZoomROI_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.class, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder.class);
+    }
+
+    public static final int X1_FIELD_NUMBER = 1;
+    private double x1_ = 0D;
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    @java.lang.Override
+    public double getX1() {
+      return x1_;
+    }
+
+    public static final int Y1_FIELD_NUMBER = 2;
+    private double y1_ = 0D;
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    @java.lang.Override
+    public double getY1() {
+      return y1_;
+    }
+
+    public static final int X2_FIELD_NUMBER = 3;
+    private double x2_ = 0D;
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    @java.lang.Override
+    public double getX2() {
+      return x2_;
+    }
+
+    public static final int Y2_FIELD_NUMBER = 4;
+    private double y2_ = 0D;
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    @java.lang.Override
+    public double getY2() {
+      return y2_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        output.writeDouble(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        output.writeDouble(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        output.writeDouble(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        output.writeDouble(4, y2_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, y2_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI)) {
+        return super.equals(obj);
+      }
+      cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI other = (cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) obj;
+
+      if (java.lang.Double.doubleToLongBits(getX1())
+          != java.lang.Double.doubleToLongBits(
+              other.getX1())) return false;
+      if (java.lang.Double.doubleToLongBits(getY1())
+          != java.lang.Double.doubleToLongBits(
+              other.getY1())) return false;
+      if (java.lang.Double.doubleToLongBits(getX2())
+          != java.lang.Double.doubleToLongBits(
+              other.getX2())) return false;
+      if (java.lang.Double.doubleToLongBits(getY2())
+          != java.lang.Double.doubleToLongBits(
+              other.getY2())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX1()));
+      hash = (37 * hash) + Y1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY1()));
+      hash = (37 * hash) + X2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX2()));
+      hash = (37 * hash) + Y2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY2()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.HeatCamera.ZoomROI}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.HeatCamera.ZoomROI)
+        cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROIOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_ZoomROI_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_ZoomROI_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.class, cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.Builder.class);
+      }
+
+      // Construct using cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x1_ = 0D;
+        y1_ = 0D;
+        x2_ = 0D;
+        y2_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.internal_static_cmd_HeatCamera_ZoomROI_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI getDefaultInstanceForType() {
+        return cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI build() {
+        cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI buildPartial() {
+        cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI result = new cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x1_ = x1_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y1_ = y1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.x2_ = x2_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.y2_ = y2_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI) {
+          return mergeFrom((cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI other) {
+        if (other == cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI.getDefaultInstance()) return this;
+        if (other.getX1() != 0D) {
+          setX1(other.getX1());
+        }
+        if (other.getY1() != 0D) {
+          setY1(other.getY1());
+        }
+        if (other.getX2() != 0D) {
+          setX2(other.getX2());
+        }
+        if (other.getY2() != 0D) {
+          setY2(other.getY2());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                x1_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                y1_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                x2_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 33: {
+                y2_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 33
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double x1_ ;
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x1.
+       */
+      @java.lang.Override
+      public double getX1() {
+        return x1_;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX1(double value) {
+
+        x1_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX1() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y1_ ;
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y1.
+       */
+      @java.lang.Override
+      public double getY1() {
+        return y1_;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY1(double value) {
+
+        y1_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY1() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double x2_ ;
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The x2.
+       */
+      @java.lang.Override
+      public double getX2() {
+        return x2_;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The x2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX2(double value) {
+
+        x2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        x2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y2_ ;
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The y2.
+       */
+      @java.lang.Override
+      public double getY2() {
+        return y2_;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The y2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY2(double value) {
+
+        y2_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY2() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        y2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.HeatCamera.ZoomROI)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.HeatCamera.ZoomROI)
+    private static final cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI();
+    }
+
+    public static cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ZoomROI>
+        PARSER = new com.google.protobuf.AbstractParser<ZoomROI>() {
+      @java.lang.Override
+      public ZoomROI parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ZoomROI> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ZoomROI> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.HeatCamera.JonSharedCmdHeatCamera.ZoomROI getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_HeatCamera_Root_descriptor;
   private static final 
@@ -22072,6 +24574,21 @@ public final class JonSharedCmdHeatCamera {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_HeatCamera_SaveToTable_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_HeatCamera_FocusAtROI_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_HeatCamera_FocusAtROI_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_HeatCamera_TrackROI_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_HeatCamera_TrackROI_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_HeatCamera_ZoomROI_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_HeatCamera_ZoomROI_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -22083,7 +24600,7 @@ public final class JonSharedCmdHeatCamera {
     java.lang.String[] descriptorData = {
       "\n jon_shared_cmd_heat_camera.proto\022\016cmd." +
       "HeatCamera\032\033buf/validate/validate.proto\032" +
-      "\033jon_shared_data_types.proto\"\251\014\n\004Root\022$\n" +
+      "\033jon_shared_data_types.proto\"\271\r\n\004Root\022$\n" +
       "\004zoom\030\001 \001(\0132\024.cmd.HeatCamera.ZoomH\000\022)\n\007s" +
       "et_agc\030\002 \001(\0132\026.cmd.HeatCamera.SetAGCH\000\0220" +
       "\n\nset_filter\030\003 \001(\0132\032.cmd.HeatCamera.SetF" +
@@ -22122,39 +24639,53 @@ public final class JonSharedCmdHeatCamera {
       "d.HeatCamera.SetDigitalZoomLevelH\000\0228\n\017se" +
       "t_clahe_level\030! \001(\0132\035.cmd.HeatCamera.Set" +
       "ClaheLevelH\000\022<\n\021shift_clahe_level\030\" \001(\0132" +
-      "\037.cmd.HeatCamera.ShiftClaheLevelH\000B\014\n\003cm" +
-      "d\022\005\272H\002\010\001\"@\n\tSetFxMode\0223\n\004mode\030\001 \001(\0162\031.se" +
-      "r.JonGuiDataFxModeHeatB\n\272H\007\202\001\004\020\001 \000\"7\n\rSe" +
-      "tClaheLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
-      "\360?)\000\000\000\000\000\000\000\000\"9\n\017ShiftClaheLevel\022&\n\005value\030" +
-      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\014\n\nNextFx" +
-      "Mode\"\014\n\nPrevFxMode\"\017\n\rRefreshFxMode\"\013\n\tE" +
-      "nableDDE\"\014\n\nDisableDDE\"2\n\010SetValue\022&\n\005va" +
-      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"\'\n\013Se" +
-      "tDDELevel\022\030\n\005value\030\001 \001(\005B\t\272H\006\032\004\030d(\000\"4\n\023S" +
-      "etDigitalZoomLevel\022\035\n\005value\030\001 \001(\001B\016\272H\013\022\t" +
-      ")\000\000\000\000\000\000\360?\"-\n\010ShiftDDE\022!\n\005value\030\001 \001(\005B\022\272H" +
-      "\017\032\r\030d(\234\377\377\377\377\377\377\377\377\001\"\010\n\006ZoomIn\"\t\n\007ZoomOut\"\n\n" +
-      "\010ZoomStop\"\t\n\007FocusIn\"\n\n\010FocusOut\"\013\n\tFocu" +
-      "sStop\"\017\n\rFocusStepPlus\"\020\n\016FocusStepMinus" +
-      "\"\013\n\tCalibrate\"\331\001\n\004Zoom\022A\n\024set_zoom_table" +
-      "_value\030\001 \001(\0132!.cmd.HeatCamera.SetZoomTab" +
-      "leValueH\000\022?\n\023next_zoom_table_pos\030\002 \001(\0132 " +
-      ".cmd.HeatCamera.NextZoomTablePosH\000\022?\n\023pr" +
-      "ev_zoom_table_pos\030\003 \001(\0132 .cmd.HeatCamera" +
-      ".PrevZoomTablePosH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020Nex" +
-      "tZoomTablePos\"\022\n\020PrevZoomTablePos\"\016\n\014Set" +
-      "CalibMode\"+\n\021SetZoomTableValue\022\026\n\005value\030" +
-      "\001 \001(\005B\007\272H\004\032\002(\000\"L\n\006SetAGC\022B\n\005value\030\001 \001(\0162" +
-      "\'.ser.JonGuiDataVideoChannelHeatAGCModes" +
-      "B\n\272H\007\202\001\004\020\001 \000\"O\n\nSetFilters\022A\n\005value\030\001 \001(" +
-      "\0162&.ser.JonGuiDataVideoChannelHeatFilter" +
-      "sB\n\272H\007\202\001\004\020\001 \000\"\007\n\005Start\"\006\n\004Stop\"\006\n\004Halt\"\007" +
-      "\n\005Photo\"\n\n\010GetMeteo\"\035\n\014SetAutoFocus\022\r\n\005v" +
-      "alue\030\001 \001(\010\"\013\n\tResetZoom\"\r\n\013SaveToTableBR" +
-      "ZPgit-codecommit.eu-central-1.amazonaws." +
-      "com/v1/repos/jettison/jonp/cmd/heat_came" +
-      "rab\006proto3"
+      "\037.cmd.HeatCamera.ShiftClaheLevelH\000\0222\n\014fo" +
+      "cus_at_roi\030# \001(\0132\032.cmd.HeatCamera.FocusA" +
+      "tROIH\000\022-\n\ttrack_roi\030$ \001(\0132\030.cmd.HeatCame" +
+      "ra.TrackROIH\000\022+\n\010zoom_roi\030% \001(\0132\027.cmd.He" +
+      "atCamera.ZoomROIH\000B\014\n\003cmd\022\005\272H\002\010\001\"@\n\tSetF" +
+      "xMode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDataFxMo" +
+      "deHeatB\n\272H\007\202\001\004\020\001 \000\"7\n\rSetClaheLevel\022&\n\005v" +
+      "alue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"9\n\017S" +
+      "hiftClaheLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000" +
+      "\000\000\000\360?)\000\000\000\000\000\000\360\277\"\014\n\nNextFxMode\"\014\n\nPrevFxMo" +
+      "de\"\017\n\rRefreshFxMode\"\013\n\tEnableDDE\"\014\n\nDisa" +
+      "bleDDE\"2\n\010SetValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"\'\n\013SetDDELevel\022\030\n\005val" +
+      "ue\030\001 \001(\005B\t\272H\006\032\004\030d(\000\"4\n\023SetDigitalZoomLev" +
+      "el\022\035\n\005value\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\"-\n\010Shi" +
+      "ftDDE\022!\n\005value\030\001 \001(\005B\022\272H\017\032\r\030d(\234\377\377\377\377\377\377\377\377\001" +
+      "\"\010\n\006ZoomIn\"\t\n\007ZoomOut\"\n\n\010ZoomStop\"\t\n\007Foc" +
+      "usIn\"\n\n\010FocusOut\"\013\n\tFocusStop\"\017\n\rFocusSt" +
+      "epPlus\"\020\n\016FocusStepMinus\"\013\n\tCalibrate\"\331\001" +
+      "\n\004Zoom\022A\n\024set_zoom_table_value\030\001 \001(\0132!.c" +
+      "md.HeatCamera.SetZoomTableValueH\000\022?\n\023nex" +
+      "t_zoom_table_pos\030\002 \001(\0132 .cmd.HeatCamera." +
+      "NextZoomTablePosH\000\022?\n\023prev_zoom_table_po" +
+      "s\030\003 \001(\0132 .cmd.HeatCamera.PrevZoomTablePo" +
+      "sH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoomTablePos\"\022\n" +
+      "\020PrevZoomTablePos\"\016\n\014SetCalibMode\"+\n\021Set" +
+      "ZoomTableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"L" +
+      "\n\006SetAGC\022B\n\005value\030\001 \001(\0162\'.ser.JonGuiData" +
+      "VideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\"O\n\n" +
+      "SetFilters\022A\n\005value\030\001 \001(\0162&.ser.JonGuiDa" +
+      "taVideoChannelHeatFiltersB\n\272H\007\202\001\004\020\001 \000\"\007\n" +
+      "\005Start\"\006\n\004Stop\"\006\n\004Halt\"\007\n\005Photo\"\n\n\010GetMe" +
+      "teo\"\035\n\014SetAutoFocus\022\r\n\005value\030\001 \001(\010\"\013\n\tRe" +
+      "setZoom\"\r\n\013SaveToTable\"T\n\nFocusAtROI\022\"\n\001" +
+      "x\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\002 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\236\001\n\010TrackRO" +
+      "I\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#" +
+      "\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x" +
+      "2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\235\001\n\007ZoomRO" +
+      "I\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#" +
+      "\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x" +
+      "2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277BRZPgit-cod" +
+      "ecommit.eu-central-1.amazonaws.com/v1/re" +
+      "pos/jettison/jonp/cmd/heat_camerab\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22167,7 +24698,7 @@ public final class JonSharedCmdHeatCamera {
     internal_static_cmd_HeatCamera_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_HeatCamera_Root_descriptor,
-        new java.lang.String[] { "Zoom", "SetAgc", "SetFilter", "Start", "Stop", "Photo", "ZoomIn", "ZoomOut", "ZoomStop", "FocusIn", "FocusOut", "FocusStop", "Calibrate", "SetDdeLevel", "EnableDde", "DisableDde", "SetAutoFocus", "FocusStepPlus", "FocusStepMinus", "SetFxMode", "NextFxMode", "PrevFxMode", "GetMeteo", "ShiftDde", "RefreshFxMode", "ResetZoom", "SaveToTable", "SetCalibMode", "SetDigitalZoomLevel", "SetClaheLevel", "ShiftClaheLevel", "Cmd", });
+        new java.lang.String[] { "Zoom", "SetAgc", "SetFilter", "Start", "Stop", "Photo", "ZoomIn", "ZoomOut", "ZoomStop", "FocusIn", "FocusOut", "FocusStop", "Calibrate", "SetDdeLevel", "EnableDde", "DisableDde", "SetAutoFocus", "FocusStepPlus", "FocusStepMinus", "SetFxMode", "NextFxMode", "PrevFxMode", "GetMeteo", "ShiftDde", "RefreshFxMode", "ResetZoom", "SaveToTable", "SetCalibMode", "SetDigitalZoomLevel", "SetClaheLevel", "ShiftClaheLevel", "FocusAtRoi", "TrackRoi", "ZoomRoi", "Cmd", });
     internal_static_cmd_HeatCamera_SetFxMode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_HeatCamera_SetFxMode_fieldAccessorTable = new
@@ -22384,6 +24915,24 @@ public final class JonSharedCmdHeatCamera {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_HeatCamera_SaveToTable_descriptor,
         new java.lang.String[] { });
+    internal_static_cmd_HeatCamera_FocusAtROI_descriptor =
+      getDescriptor().getMessageTypes().get(37);
+    internal_static_cmd_HeatCamera_FocusAtROI_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_HeatCamera_FocusAtROI_descriptor,
+        new java.lang.String[] { "X", "Y", });
+    internal_static_cmd_HeatCamera_TrackROI_descriptor =
+      getDescriptor().getMessageTypes().get(38);
+    internal_static_cmd_HeatCamera_TrackROI_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_HeatCamera_TrackROI_descriptor,
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", });
+    internal_static_cmd_HeatCamera_ZoomROI_descriptor =
+      getDescriptor().getMessageTypes().get(39);
+    internal_static_cmd_HeatCamera_ZoomROI_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_HeatCamera_ZoomROI_descriptor,
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

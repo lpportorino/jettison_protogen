@@ -117,6 +117,15 @@ PB_BIND(cmd_HeatCamera_ResetZoom, cmd_HeatCamera_ResetZoom, AUTO)
 PB_BIND(cmd_HeatCamera_SaveToTable, cmd_HeatCamera_SaveToTable, AUTO)
 
 
+PB_BIND(cmd_HeatCamera_FocusAtROI, cmd_HeatCamera_FocusAtROI, AUTO)
+
+
+PB_BIND(cmd_HeatCamera_TrackROI, cmd_HeatCamera_TrackROI, AUTO)
+
+
+PB_BIND(cmd_HeatCamera_ZoomROI, cmd_HeatCamera_ZoomROI, AUTO)
+
+
 
 #ifndef PB_CONVERT_DOUBLE_FLOAT
 /* On some platforms (such as AVR), double is really float.

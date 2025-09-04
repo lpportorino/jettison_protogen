@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34"
+        tags = "1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -73,6 +73,12 @@ pub mod root {
         SetClaheLevel(super::SetClaheLevel),
         #[prost(message, tag = "34")]
         ShiftClaheLevel(super::ShiftClaheLevel),
+        #[prost(message, tag = "35")]
+        FocusAtRoi(super::FocusAtRoi),
+        #[prost(message, tag = "36")]
+        TrackRoi(super::TrackRoi),
+        #[prost(message, tag = "37")]
+        ZoomRoi(super::ZoomRoi),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -201,3 +207,32 @@ pub struct SetAutoFocus {
 pub struct ResetZoom {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SaveToTable {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct FocusAtRoi {
+    #[prost(double, tag = "1")]
+    pub x: f64,
+    #[prost(double, tag = "2")]
+    pub y: f64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct TrackRoi {
+    #[prost(double, tag = "1")]
+    pub x1: f64,
+    #[prost(double, tag = "2")]
+    pub y1: f64,
+    #[prost(double, tag = "3")]
+    pub x2: f64,
+    #[prost(double, tag = "4")]
+    pub y2: f64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct ZoomRoi {
+    #[prost(double, tag = "1")]
+    pub x1: f64,
+    #[prost(double, tag = "2")]
+    pub y1: f64,
+    #[prost(double, tag = "3")]
+    pub x2: f64,
+    #[prost(double, tag = "4")]
+    pub y2: f64,
+}

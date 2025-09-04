@@ -64,6 +64,9 @@ extern DisableDDEDefaultTypeInternal _DisableDDE_default_instance_;
 class EnableDDE;
 struct EnableDDEDefaultTypeInternal;
 extern EnableDDEDefaultTypeInternal _EnableDDE_default_instance_;
+class FocusAtROI;
+struct FocusAtROIDefaultTypeInternal;
+extern FocusAtROIDefaultTypeInternal _FocusAtROI_default_instance_;
 class FocusIn;
 struct FocusInDefaultTypeInternal;
 extern FocusInDefaultTypeInternal _FocusIn_default_instance_;
@@ -154,6 +157,9 @@ extern StartDefaultTypeInternal _Start_default_instance_;
 class Stop;
 struct StopDefaultTypeInternal;
 extern StopDefaultTypeInternal _Stop_default_instance_;
+class TrackROI;
+struct TrackROIDefaultTypeInternal;
+extern TrackROIDefaultTypeInternal _TrackROI_default_instance_;
 class Zoom;
 struct ZoomDefaultTypeInternal;
 extern ZoomDefaultTypeInternal _Zoom_default_instance_;
@@ -163,6 +169,9 @@ extern ZoomInDefaultTypeInternal _ZoomIn_default_instance_;
 class ZoomOut;
 struct ZoomOutDefaultTypeInternal;
 extern ZoomOutDefaultTypeInternal _ZoomOut_default_instance_;
+class ZoomROI;
+struct ZoomROIDefaultTypeInternal;
+extern ZoomROIDefaultTypeInternal _ZoomROI_default_instance_;
 class ZoomStop;
 struct ZoomStopDefaultTypeInternal;
 extern ZoomStopDefaultTypeInternal _ZoomStop_default_instance_;
@@ -322,6 +331,232 @@ class ZoomStop final : public ::google::protobuf::internal::ZeroFieldsBase
                           const ZoomStop& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ZoomROI final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.HeatCamera.ZoomROI) */ {
+ public:
+  inline ZoomROI() : ZoomROI(nullptr) {}
+  ~ZoomROI() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ZoomROI* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ZoomROI));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ZoomROI(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ZoomROI(const ZoomROI& from) : ZoomROI(nullptr, from) {}
+  inline ZoomROI(ZoomROI&& from) noexcept
+      : ZoomROI(nullptr, std::move(from)) {}
+  inline ZoomROI& operator=(const ZoomROI& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ZoomROI& operator=(ZoomROI&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ZoomROI& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ZoomROI* internal_default_instance() {
+    return reinterpret_cast<const ZoomROI*>(
+        &_ZoomROI_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 39;
+  friend void swap(ZoomROI& a, ZoomROI& b) { a.Swap(&b); }
+  inline void Swap(ZoomROI* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ZoomROI* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ZoomROI* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ZoomROI>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ZoomROI& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ZoomROI& from) { ZoomROI::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ZoomROI* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.HeatCamera.ZoomROI"; }
+
+ protected:
+  explicit ZoomROI(::google::protobuf::Arena* arena);
+  ZoomROI(::google::protobuf::Arena* arena, const ZoomROI& from);
+  ZoomROI(::google::protobuf::Arena* arena, ZoomROI&& from) noexcept
+      : ZoomROI(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kX1FieldNumber = 1,
+    kY1FieldNumber = 2,
+    kX2FieldNumber = 3,
+    kY2FieldNumber = 4,
+  };
+  // double x1 = 1;
+  void clear_x1() ;
+  double x1() const;
+  void set_x1(double value);
+
+  private:
+  double _internal_x1() const;
+  void _internal_set_x1(double value);
+
+  public:
+  // double y1 = 2;
+  void clear_y1() ;
+  double y1() const;
+  void set_y1(double value);
+
+  private:
+  double _internal_y1() const;
+  void _internal_set_y1(double value);
+
+  public:
+  // double x2 = 3;
+  void clear_x2() ;
+  double x2() const;
+  void set_x2(double value);
+
+  private:
+  double _internal_x2() const;
+  void _internal_set_x2(double value);
+
+  public:
+  // double y2 = 4;
+  void clear_y2() ;
+  double y2() const;
+  void set_y2(double value);
+
+  private:
+  double _internal_y2() const;
+  void _internal_set_y2(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.HeatCamera.ZoomROI)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ZoomROI& from_msg);
+    double x1_;
+    double y1_;
+    double x2_;
+    double y2_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
 };
 // -------------------------------------------------------------------
@@ -612,6 +847,232 @@ class ZoomIn final : public ::google::protobuf::internal::ZeroFieldsBase
                           const ZoomIn& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TrackROI final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.HeatCamera.TrackROI) */ {
+ public:
+  inline TrackROI() : TrackROI(nullptr) {}
+  ~TrackROI() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(TrackROI* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(TrackROI));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR TrackROI(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline TrackROI(const TrackROI& from) : TrackROI(nullptr, from) {}
+  inline TrackROI(TrackROI&& from) noexcept
+      : TrackROI(nullptr, std::move(from)) {}
+  inline TrackROI& operator=(const TrackROI& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TrackROI& operator=(TrackROI&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TrackROI& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const TrackROI* internal_default_instance() {
+    return reinterpret_cast<const TrackROI*>(
+        &_TrackROI_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 38;
+  friend void swap(TrackROI& a, TrackROI& b) { a.Swap(&b); }
+  inline void Swap(TrackROI* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TrackROI* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TrackROI* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<TrackROI>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const TrackROI& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const TrackROI& from) { TrackROI::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(TrackROI* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.HeatCamera.TrackROI"; }
+
+ protected:
+  explicit TrackROI(::google::protobuf::Arena* arena);
+  TrackROI(::google::protobuf::Arena* arena, const TrackROI& from);
+  TrackROI(::google::protobuf::Arena* arena, TrackROI&& from) noexcept
+      : TrackROI(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kX1FieldNumber = 1,
+    kY1FieldNumber = 2,
+    kX2FieldNumber = 3,
+    kY2FieldNumber = 4,
+  };
+  // double x1 = 1;
+  void clear_x1() ;
+  double x1() const;
+  void set_x1(double value);
+
+  private:
+  double _internal_x1() const;
+  void _internal_set_x1(double value);
+
+  public:
+  // double y1 = 2;
+  void clear_y1() ;
+  double y1() const;
+  void set_y1(double value);
+
+  private:
+  double _internal_y1() const;
+  void _internal_set_y1(double value);
+
+  public:
+  // double x2 = 3;
+  void clear_x2() ;
+  double x2() const;
+  void set_x2(double value);
+
+  private:
+  double _internal_x2() const;
+  void _internal_set_x2(double value);
+
+  public:
+  // double y2 = 4;
+  void clear_y2() ;
+  double y2() const;
+  void set_y2(double value);
+
+  private:
+  double _internal_y2() const;
+  void _internal_set_y2(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.HeatCamera.TrackROI)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const TrackROI& from_msg);
+    double x1_;
+    double y1_;
+    double x2_;
+    double y2_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
 };
 // -------------------------------------------------------------------
@@ -5316,6 +5777,208 @@ class FocusIn final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class FocusAtROI final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.HeatCamera.FocusAtROI) */ {
+ public:
+  inline FocusAtROI() : FocusAtROI(nullptr) {}
+  ~FocusAtROI() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FocusAtROI* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FocusAtROI));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FocusAtROI(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline FocusAtROI(const FocusAtROI& from) : FocusAtROI(nullptr, from) {}
+  inline FocusAtROI(FocusAtROI&& from) noexcept
+      : FocusAtROI(nullptr, std::move(from)) {}
+  inline FocusAtROI& operator=(const FocusAtROI& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FocusAtROI& operator=(FocusAtROI&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FocusAtROI& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FocusAtROI* internal_default_instance() {
+    return reinterpret_cast<const FocusAtROI*>(
+        &_FocusAtROI_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 37;
+  friend void swap(FocusAtROI& a, FocusAtROI& b) { a.Swap(&b); }
+  inline void Swap(FocusAtROI* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FocusAtROI* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FocusAtROI* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<FocusAtROI>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const FocusAtROI& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const FocusAtROI& from) { FocusAtROI::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(FocusAtROI* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.HeatCamera.FocusAtROI"; }
+
+ protected:
+  explicit FocusAtROI(::google::protobuf::Arena* arena);
+  FocusAtROI(::google::protobuf::Arena* arena, const FocusAtROI& from);
+  FocusAtROI(::google::protobuf::Arena* arena, FocusAtROI&& from) noexcept
+      : FocusAtROI(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kXFieldNumber = 1,
+    kYFieldNumber = 2,
+  };
+  // double x = 1;
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 2;
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.HeatCamera.FocusAtROI)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const FocusAtROI& from_msg);
+    double x_;
+    double y_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
 class EnableDDE final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:cmd.HeatCamera.EnableDDE) */ {
  public:
@@ -6097,6 +6760,9 @@ class Root final : public ::google::protobuf::Message
     kSetDigitalZoomLevel = 32,
     kSetClaheLevel = 33,
     kShiftClaheLevel = 34,
+    kFocusAtRoi = 35,
+    kTrackRoi = 36,
+    kZoomRoi = 37,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -6221,6 +6887,9 @@ class Root final : public ::google::protobuf::Message
     kSetDigitalZoomLevelFieldNumber = 32,
     kSetClaheLevelFieldNumber = 33,
     kShiftClaheLevelFieldNumber = 34,
+    kFocusAtRoiFieldNumber = 35,
+    kTrackRoiFieldNumber = 36,
+    kZoomRoiFieldNumber = 37,
   };
   // .cmd.HeatCamera.Zoom zoom = 1;
   bool has_zoom() const;
@@ -6811,6 +7480,63 @@ class Root final : public ::google::protobuf::Message
   ::cmd::HeatCamera::ShiftClaheLevel* _internal_mutable_shift_clahe_level();
 
   public:
+  // .cmd.HeatCamera.FocusAtROI focus_at_roi = 35;
+  bool has_focus_at_roi() const;
+  private:
+  bool _internal_has_focus_at_roi() const;
+
+  public:
+  void clear_focus_at_roi() ;
+  const ::cmd::HeatCamera::FocusAtROI& focus_at_roi() const;
+  PROTOBUF_NODISCARD ::cmd::HeatCamera::FocusAtROI* release_focus_at_roi();
+  ::cmd::HeatCamera::FocusAtROI* mutable_focus_at_roi();
+  void set_allocated_focus_at_roi(::cmd::HeatCamera::FocusAtROI* value);
+  void unsafe_arena_set_allocated_focus_at_roi(::cmd::HeatCamera::FocusAtROI* value);
+  ::cmd::HeatCamera::FocusAtROI* unsafe_arena_release_focus_at_roi();
+
+  private:
+  const ::cmd::HeatCamera::FocusAtROI& _internal_focus_at_roi() const;
+  ::cmd::HeatCamera::FocusAtROI* _internal_mutable_focus_at_roi();
+
+  public:
+  // .cmd.HeatCamera.TrackROI track_roi = 36;
+  bool has_track_roi() const;
+  private:
+  bool _internal_has_track_roi() const;
+
+  public:
+  void clear_track_roi() ;
+  const ::cmd::HeatCamera::TrackROI& track_roi() const;
+  PROTOBUF_NODISCARD ::cmd::HeatCamera::TrackROI* release_track_roi();
+  ::cmd::HeatCamera::TrackROI* mutable_track_roi();
+  void set_allocated_track_roi(::cmd::HeatCamera::TrackROI* value);
+  void unsafe_arena_set_allocated_track_roi(::cmd::HeatCamera::TrackROI* value);
+  ::cmd::HeatCamera::TrackROI* unsafe_arena_release_track_roi();
+
+  private:
+  const ::cmd::HeatCamera::TrackROI& _internal_track_roi() const;
+  ::cmd::HeatCamera::TrackROI* _internal_mutable_track_roi();
+
+  public:
+  // .cmd.HeatCamera.ZoomROI zoom_roi = 37;
+  bool has_zoom_roi() const;
+  private:
+  bool _internal_has_zoom_roi() const;
+
+  public:
+  void clear_zoom_roi() ;
+  const ::cmd::HeatCamera::ZoomROI& zoom_roi() const;
+  PROTOBUF_NODISCARD ::cmd::HeatCamera::ZoomROI* release_zoom_roi();
+  ::cmd::HeatCamera::ZoomROI* mutable_zoom_roi();
+  void set_allocated_zoom_roi(::cmd::HeatCamera::ZoomROI* value);
+  void unsafe_arena_set_allocated_zoom_roi(::cmd::HeatCamera::ZoomROI* value);
+  ::cmd::HeatCamera::ZoomROI* unsafe_arena_release_zoom_roi();
+
+  private:
+  const ::cmd::HeatCamera::ZoomROI& _internal_zoom_roi() const;
+  ::cmd::HeatCamera::ZoomROI* _internal_mutable_zoom_roi();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.HeatCamera.Root)
@@ -6847,11 +7573,14 @@ class Root final : public ::google::protobuf::Message
   void set_has_set_digital_zoom_level();
   void set_has_set_clahe_level();
   void set_has_shift_clahe_level();
+  void set_has_focus_at_roi();
+  void set_has_track_roi();
+  void set_has_zoom_roi();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 31, 31,
+      0, 34, 34,
       0, 7>
       _table_;
 
@@ -6903,6 +7632,9 @@ class Root final : public ::google::protobuf::Message
       ::cmd::HeatCamera::SetDigitalZoomLevel* set_digital_zoom_level_;
       ::cmd::HeatCamera::SetClaheLevel* set_clahe_level_;
       ::cmd::HeatCamera::ShiftClaheLevel* shift_clahe_level_;
+      ::cmd::HeatCamera::FocusAtROI* focus_at_roi_;
+      ::cmd::HeatCamera::TrackROI* track_roi_;
+      ::cmd::HeatCamera::ZoomROI* zoom_roi_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -9377,6 +10109,243 @@ inline ::cmd::HeatCamera::ShiftClaheLevel* Root::mutable_shift_clahe_level() ABS
   return _msg;
 }
 
+// .cmd.HeatCamera.FocusAtROI focus_at_roi = 35;
+inline bool Root::has_focus_at_roi() const {
+  return cmd_case() == kFocusAtRoi;
+}
+inline bool Root::_internal_has_focus_at_roi() const {
+  return cmd_case() == kFocusAtRoi;
+}
+inline void Root::set_has_focus_at_roi() {
+  _impl_._oneof_case_[0] = kFocusAtRoi;
+}
+inline void Root::clear_focus_at_roi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kFocusAtRoi) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.focus_at_roi_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.focus_at_roi_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::HeatCamera::FocusAtROI* Root::release_focus_at_roi() {
+  // @@protoc_insertion_point(field_release:cmd.HeatCamera.Root.focus_at_roi)
+  if (cmd_case() == kFocusAtRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.focus_at_roi_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.focus_at_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::HeatCamera::FocusAtROI& Root::_internal_focus_at_roi() const {
+  return cmd_case() == kFocusAtRoi ? *_impl_.cmd_.focus_at_roi_ : reinterpret_cast<::cmd::HeatCamera::FocusAtROI&>(::cmd::HeatCamera::_FocusAtROI_default_instance_);
+}
+inline const ::cmd::HeatCamera::FocusAtROI& Root::focus_at_roi() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.Root.focus_at_roi)
+  return _internal_focus_at_roi();
+}
+inline ::cmd::HeatCamera::FocusAtROI* Root::unsafe_arena_release_focus_at_roi() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.HeatCamera.Root.focus_at_roi)
+  if (cmd_case() == kFocusAtRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.focus_at_roi_;
+    _impl_.cmd_.focus_at_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_focus_at_roi(::cmd::HeatCamera::FocusAtROI* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_focus_at_roi();
+    _impl_.cmd_.focus_at_roi_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.HeatCamera.Root.focus_at_roi)
+}
+inline ::cmd::HeatCamera::FocusAtROI* Root::_internal_mutable_focus_at_roi() {
+  if (cmd_case() != kFocusAtRoi) {
+    clear_cmd();
+    set_has_focus_at_roi();
+    _impl_.cmd_.focus_at_roi_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::HeatCamera::FocusAtROI>(GetArena());
+  }
+  return _impl_.cmd_.focus_at_roi_;
+}
+inline ::cmd::HeatCamera::FocusAtROI* Root::mutable_focus_at_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::HeatCamera::FocusAtROI* _msg = _internal_mutable_focus_at_roi();
+  // @@protoc_insertion_point(field_mutable:cmd.HeatCamera.Root.focus_at_roi)
+  return _msg;
+}
+
+// .cmd.HeatCamera.TrackROI track_roi = 36;
+inline bool Root::has_track_roi() const {
+  return cmd_case() == kTrackRoi;
+}
+inline bool Root::_internal_has_track_roi() const {
+  return cmd_case() == kTrackRoi;
+}
+inline void Root::set_has_track_roi() {
+  _impl_._oneof_case_[0] = kTrackRoi;
+}
+inline void Root::clear_track_roi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kTrackRoi) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.track_roi_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.track_roi_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::HeatCamera::TrackROI* Root::release_track_roi() {
+  // @@protoc_insertion_point(field_release:cmd.HeatCamera.Root.track_roi)
+  if (cmd_case() == kTrackRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.track_roi_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.track_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::HeatCamera::TrackROI& Root::_internal_track_roi() const {
+  return cmd_case() == kTrackRoi ? *_impl_.cmd_.track_roi_ : reinterpret_cast<::cmd::HeatCamera::TrackROI&>(::cmd::HeatCamera::_TrackROI_default_instance_);
+}
+inline const ::cmd::HeatCamera::TrackROI& Root::track_roi() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.Root.track_roi)
+  return _internal_track_roi();
+}
+inline ::cmd::HeatCamera::TrackROI* Root::unsafe_arena_release_track_roi() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.HeatCamera.Root.track_roi)
+  if (cmd_case() == kTrackRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.track_roi_;
+    _impl_.cmd_.track_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_track_roi(::cmd::HeatCamera::TrackROI* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_track_roi();
+    _impl_.cmd_.track_roi_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.HeatCamera.Root.track_roi)
+}
+inline ::cmd::HeatCamera::TrackROI* Root::_internal_mutable_track_roi() {
+  if (cmd_case() != kTrackRoi) {
+    clear_cmd();
+    set_has_track_roi();
+    _impl_.cmd_.track_roi_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::HeatCamera::TrackROI>(GetArena());
+  }
+  return _impl_.cmd_.track_roi_;
+}
+inline ::cmd::HeatCamera::TrackROI* Root::mutable_track_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::HeatCamera::TrackROI* _msg = _internal_mutable_track_roi();
+  // @@protoc_insertion_point(field_mutable:cmd.HeatCamera.Root.track_roi)
+  return _msg;
+}
+
+// .cmd.HeatCamera.ZoomROI zoom_roi = 37;
+inline bool Root::has_zoom_roi() const {
+  return cmd_case() == kZoomRoi;
+}
+inline bool Root::_internal_has_zoom_roi() const {
+  return cmd_case() == kZoomRoi;
+}
+inline void Root::set_has_zoom_roi() {
+  _impl_._oneof_case_[0] = kZoomRoi;
+}
+inline void Root::clear_zoom_roi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kZoomRoi) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.zoom_roi_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.zoom_roi_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::HeatCamera::ZoomROI* Root::release_zoom_roi() {
+  // @@protoc_insertion_point(field_release:cmd.HeatCamera.Root.zoom_roi)
+  if (cmd_case() == kZoomRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.zoom_roi_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.zoom_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::HeatCamera::ZoomROI& Root::_internal_zoom_roi() const {
+  return cmd_case() == kZoomRoi ? *_impl_.cmd_.zoom_roi_ : reinterpret_cast<::cmd::HeatCamera::ZoomROI&>(::cmd::HeatCamera::_ZoomROI_default_instance_);
+}
+inline const ::cmd::HeatCamera::ZoomROI& Root::zoom_roi() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.Root.zoom_roi)
+  return _internal_zoom_roi();
+}
+inline ::cmd::HeatCamera::ZoomROI* Root::unsafe_arena_release_zoom_roi() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.HeatCamera.Root.zoom_roi)
+  if (cmd_case() == kZoomRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.zoom_roi_;
+    _impl_.cmd_.zoom_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_zoom_roi(::cmd::HeatCamera::ZoomROI* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_zoom_roi();
+    _impl_.cmd_.zoom_roi_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.HeatCamera.Root.zoom_roi)
+}
+inline ::cmd::HeatCamera::ZoomROI* Root::_internal_mutable_zoom_roi() {
+  if (cmd_case() != kZoomRoi) {
+    clear_cmd();
+    set_has_zoom_roi();
+    _impl_.cmd_.zoom_roi_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::HeatCamera::ZoomROI>(GetArena());
+  }
+  return _impl_.cmd_.zoom_roi_;
+}
+inline ::cmd::HeatCamera::ZoomROI* Root::mutable_zoom_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::HeatCamera::ZoomROI* _msg = _internal_mutable_zoom_roi();
+  // @@protoc_insertion_point(field_mutable:cmd.HeatCamera.Root.zoom_roi)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -10017,6 +10986,238 @@ inline void SetAutoFocus::_internal_set_value(bool value) {
 // -------------------------------------------------------------------
 
 // SaveToTable
+
+// -------------------------------------------------------------------
+
+// FocusAtROI
+
+// double x = 1;
+inline void FocusAtROI::clear_x() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = 0;
+}
+inline double FocusAtROI::x() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusAtROI.x)
+  return _internal_x();
+}
+inline void FocusAtROI::set_x(double value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusAtROI.x)
+}
+inline double FocusAtROI::_internal_x() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_;
+}
+inline void FocusAtROI::_internal_set_x(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = value;
+}
+
+// double y = 2;
+inline void FocusAtROI::clear_y() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = 0;
+}
+inline double FocusAtROI::y() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusAtROI.y)
+  return _internal_y();
+}
+inline void FocusAtROI::set_y(double value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusAtROI.y)
+}
+inline double FocusAtROI::_internal_y() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_;
+}
+inline void FocusAtROI::_internal_set_y(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// TrackROI
+
+// double x1 = 1;
+inline void TrackROI::clear_x1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = 0;
+}
+inline double TrackROI::x1() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.TrackROI.x1)
+  return _internal_x1();
+}
+inline void TrackROI::set_x1(double value) {
+  _internal_set_x1(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.TrackROI.x1)
+}
+inline double TrackROI::_internal_x1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x1_;
+}
+inline void TrackROI::_internal_set_x1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = value;
+}
+
+// double y1 = 2;
+inline void TrackROI::clear_y1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = 0;
+}
+inline double TrackROI::y1() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.TrackROI.y1)
+  return _internal_y1();
+}
+inline void TrackROI::set_y1(double value) {
+  _internal_set_y1(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.TrackROI.y1)
+}
+inline double TrackROI::_internal_y1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y1_;
+}
+inline void TrackROI::_internal_set_y1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = value;
+}
+
+// double x2 = 3;
+inline void TrackROI::clear_x2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = 0;
+}
+inline double TrackROI::x2() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.TrackROI.x2)
+  return _internal_x2();
+}
+inline void TrackROI::set_x2(double value) {
+  _internal_set_x2(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.TrackROI.x2)
+}
+inline double TrackROI::_internal_x2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x2_;
+}
+inline void TrackROI::_internal_set_x2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = value;
+}
+
+// double y2 = 4;
+inline void TrackROI::clear_y2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = 0;
+}
+inline double TrackROI::y2() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.TrackROI.y2)
+  return _internal_y2();
+}
+inline void TrackROI::set_y2(double value) {
+  _internal_set_y2(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.TrackROI.y2)
+}
+inline double TrackROI::_internal_y2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y2_;
+}
+inline void TrackROI::_internal_set_y2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// ZoomROI
+
+// double x1 = 1;
+inline void ZoomROI::clear_x1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = 0;
+}
+inline double ZoomROI::x1() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.ZoomROI.x1)
+  return _internal_x1();
+}
+inline void ZoomROI::set_x1(double value) {
+  _internal_set_x1(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.ZoomROI.x1)
+}
+inline double ZoomROI::_internal_x1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x1_;
+}
+inline void ZoomROI::_internal_set_x1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = value;
+}
+
+// double y1 = 2;
+inline void ZoomROI::clear_y1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = 0;
+}
+inline double ZoomROI::y1() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.ZoomROI.y1)
+  return _internal_y1();
+}
+inline void ZoomROI::set_y1(double value) {
+  _internal_set_y1(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.ZoomROI.y1)
+}
+inline double ZoomROI::_internal_y1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y1_;
+}
+inline void ZoomROI::_internal_set_y1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = value;
+}
+
+// double x2 = 3;
+inline void ZoomROI::clear_x2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = 0;
+}
+inline double ZoomROI::x2() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.ZoomROI.x2)
+  return _internal_x2();
+}
+inline void ZoomROI::set_x2(double value) {
+  _internal_set_x2(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.ZoomROI.x2)
+}
+inline double ZoomROI::_internal_x2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x2_;
+}
+inline void ZoomROI::_internal_set_x2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = value;
+}
+
+// double y2 = 4;
+inline void ZoomROI::clear_y2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = 0;
+}
+inline double ZoomROI::y2() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.ZoomROI.y2)
+  return _internal_y2();
+}
+inline void ZoomROI::set_y2(double value) {
+  _internal_set_y2(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.ZoomROI.y2)
+}
+inline double ZoomROI::_internal_y2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y2_;
+}
+inline void ZoomROI::_internal_set_y2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = value;
+}
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

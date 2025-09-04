@@ -96,6 +96,15 @@ PB_BIND(cmd_DayCamera_SaveToTable, cmd_DayCamera_SaveToTable, AUTO)
 PB_BIND(cmd_DayCamera_SaveToTableFocus, cmd_DayCamera_SaveToTableFocus, AUTO)
 
 
+PB_BIND(cmd_DayCamera_FocusAtROI, cmd_DayCamera_FocusAtROI, AUTO)
+
+
+PB_BIND(cmd_DayCamera_TrackROI, cmd_DayCamera_TrackROI, AUTO)
+
+
+PB_BIND(cmd_DayCamera_ZoomROI, cmd_DayCamera_ZoomROI, AUTO)
+
+
 
 #ifndef PB_CONVERT_DOUBLE_FLOAT
 /* On some platforms (such as AVR), double is really float.
