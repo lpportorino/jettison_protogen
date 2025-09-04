@@ -702,8 +702,10 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr FocusROI::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : x_{0},
-        y_{0},
+      : x1_{0},
+        y1_{0},
+        x2_{0},
+        y2_{0},
         _cached_size_{0} {}
 
 template <typename>
@@ -1230,8 +1232,10 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.x_),
-        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.y_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.x1_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.y1_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.x2_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.y2_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::TrackROI, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1298,8 +1302,8 @@ static const ::_pbi::MigrationSchema
         {330, -1, -1, sizeof(::cmd::HeatCamera::ResetZoom)},
         {338, -1, -1, sizeof(::cmd::HeatCamera::SaveToTable)},
         {346, -1, -1, sizeof(::cmd::HeatCamera::FocusROI)},
-        {356, -1, -1, sizeof(::cmd::HeatCamera::TrackROI)},
-        {368, -1, -1, sizeof(::cmd::HeatCamera::ZoomROI)},
+        {358, -1, -1, sizeof(::cmd::HeatCamera::TrackROI)},
+        {370, -1, -1, sizeof(::cmd::HeatCamera::ZoomROI)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::HeatCamera::_Root_default_instance_._instance,
@@ -1414,13 +1418,13 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto[
     "ideoChannelHeatFilters\"\007\n\005Start\"\006\n\004Stop\""
     "\006\n\004Halt\"\007\n\005Photo\"\n\n\010GetMeteo\"\035\n\014SetAutoF"
     "ocus\022\r\n\005value\030\001 \001(\010\"\013\n\tResetZoom\"\r\n\013Save"
-    "ToTable\" \n\010FocusROI\022\t\n\001x\030\001 \001(\001\022\t\n\001y\030\002 \001("
-    "\001\":\n\010TrackROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001(\001\022\n\n"
-    "\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\"9\n\007ZoomROI\022\n\n\002x1\030\001"
-    " \001(\001\022\n\n\002y1\030\002 \001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001"
-    "BRZPgit-codecommit.eu-central-1.amazonaw"
-    "s.com/v1/repos/jettison/jonp/cmd/heat_ca"
-    "merab\006proto3"
+    "ToTable\":\n\010FocusROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 "
+    "\001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\":\n\010TrackROI\022"
+    "\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y"
+    "2\030\004 \001(\001\"9\n\007ZoomROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001"
+    "(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001BRZPgit-codeco"
+    "mmit.eu-central-1.amazonaws.com/v1/repos"
+    "/jettison/jonp/cmd/heat_camerab\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_deps[1] =
     {
@@ -1430,7 +1434,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2ep
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto = {
     false,
     false,
-    3012,
+    3038,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto,
     "jon_shared_cmd_heat_camera.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_once,
@@ -8532,11 +8536,11 @@ inline PROTOBUF_NDEBUG_INLINE FocusROI::Impl_::Impl_(
 inline void FocusROI::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, x_),
+               offsetof(Impl_, x1_),
            0,
-           offsetof(Impl_, y_) -
-               offsetof(Impl_, x_) +
-               sizeof(Impl_::y_));
+           offsetof(Impl_, y2_) -
+               offsetof(Impl_, x1_) +
+               sizeof(Impl_::y2_));
 }
 FocusROI::~FocusROI() {
   // @@protoc_insertion_point(destructor:cmd.HeatCamera.FocusROI)
@@ -8585,15 +8589,15 @@ const ::google::protobuf::internal::ClassData* FocusROI::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 0, 2> FocusROI::_table_ = {
+const ::_pbi::TcParseTable<2, 4, 0, 0, 2> FocusROI::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    4, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967280,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    4,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -8603,20 +8607,32 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> FocusROI::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::FocusROI>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double y = 2;
+    // double y2 = 4;
     {::_pbi::TcParser::FastF64S1,
-     {17, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y_)}},
-    // double x = 1;
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_)}},
+    // double x1 = 1;
     {::_pbi::TcParser::FastF64S1,
-     {9, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x_)}},
+     {9, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_)}},
+    // double y1 = 2;
+    {::_pbi::TcParser::FastF64S1,
+     {17, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y1_)}},
+    // double x2 = 3;
+    {::_pbi::TcParser::FastF64S1,
+     {25, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x2_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double x = 1;
-    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x_), 0, 0,
+    // double x1 = 1;
+    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y = 2;
-    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y_), 0, 0,
+    // double y1 = 2;
+    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y1_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double x2 = 3;
+    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x2_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double y2 = 4;
+    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
@@ -8631,9 +8647,9 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.x_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.y_) -
-      reinterpret_cast<char*>(&_impl_.x_)) + sizeof(_impl_.y_));
+  ::memset(&_impl_.x1_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.y2_) -
+      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.y2_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -8652,18 +8668,32 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double x = 1;
-          if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
+          // double x1 = 1;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                1, this_._internal_x(), target);
+                1, this_._internal_x1(), target);
           }
 
-          // double y = 2;
-          if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
+          // double y1 = 2;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
-                2, this_._internal_y(), target);
+                2, this_._internal_y1(), target);
+          }
+
+          // double x2 = 3;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                3, this_._internal_x2(), target);
+          }
+
+          // double y2 = 4;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                4, this_._internal_y2(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -8691,12 +8721,20 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double x = 1;
-            if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
+            // double x1 = 1;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
               total_size += 9;
             }
-            // double y = 2;
-            if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
+            // double y1 = 2;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
+              total_size += 9;
+            }
+            // double x2 = 3;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
+              total_size += 9;
+            }
+            // double y2 = 4;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
           }
@@ -8712,11 +8750,17 @@ void FocusROI::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (::absl::bit_cast<::uint64_t>(from._internal_x()) != 0) {
-    _this->_impl_.x_ = from._impl_.x_;
+  if (::absl::bit_cast<::uint64_t>(from._internal_x1()) != 0) {
+    _this->_impl_.x1_ = from._impl_.x1_;
   }
-  if (::absl::bit_cast<::uint64_t>(from._internal_y()) != 0) {
-    _this->_impl_.y_ = from._impl_.y_;
+  if (::absl::bit_cast<::uint64_t>(from._internal_y1()) != 0) {
+    _this->_impl_.y1_ = from._impl_.y1_;
+  }
+  if (::absl::bit_cast<::uint64_t>(from._internal_x2()) != 0) {
+    _this->_impl_.x2_ = from._impl_.x2_;
+  }
+  if (::absl::bit_cast<::uint64_t>(from._internal_y2()) != 0) {
+    _this->_impl_.y2_ = from._impl_.y2_;
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -8733,11 +8777,11 @@ void FocusROI::InternalSwap(FocusROI* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y_)
-      + sizeof(FocusROI::_impl_.y_)
-      - PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x_)>(
-          reinterpret_cast<char*>(&_impl_.x_),
-          reinterpret_cast<char*>(&other->_impl_.x_));
+      PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_)
+      + sizeof(FocusROI::_impl_.y2_)
+      - PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_)>(
+          reinterpret_cast<char*>(&_impl_.x1_),
+          reinterpret_cast<char*>(&other->_impl_.x1_));
 }
 
 ::google::protobuf::Metadata FocusROI::GetMetadata() const {

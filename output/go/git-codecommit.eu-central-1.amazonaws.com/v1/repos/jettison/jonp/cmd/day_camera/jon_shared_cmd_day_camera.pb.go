@@ -1803,8 +1803,10 @@ func (*SaveToTableFocus) Descriptor() ([]byte, []int) {
 
 type FocusROI struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	X             float64                `protobuf:"fixed64,1,opt,name=x,proto3" json:"x,omitempty"`
-	Y             float64                `protobuf:"fixed64,2,opt,name=y,proto3" json:"y,omitempty"`
+	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
+	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
+	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1839,16 +1841,30 @@ func (*FocusROI) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{30}
 }
 
-func (x *FocusROI) GetX() float64 {
+func (x *FocusROI) GetX1() float64 {
 	if x != nil {
-		return x.X
+		return x.X1
 	}
 	return 0
 }
 
-func (x *FocusROI) GetY() float64 {
+func (x *FocusROI) GetY1() float64 {
 	if x != nil {
-		return x.Y
+		return x.Y1
+	}
+	return 0
+}
+
+func (x *FocusROI) GetX2() float64 {
+	if x != nil {
+		return x.X2
+	}
+	return 0
+}
+
+func (x *FocusROI) GetY2() float64 {
+	if x != nil {
+		return x.Y2
 	}
 	return 0
 }
@@ -2083,10 +2099,12 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\n" +
 	"ResetFocus\"\r\n" +
 	"\vSaveToTable\"\x12\n" +
-	"\x10SaveToTableFocus\"X\n" +
-	"\bFocusROI\x12%\n" +
-	"\x01x\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
-	"\x01y\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\"\xae\x01\n" +
+	"\x10SaveToTableFocus\"\xae\x01\n" +
+	"\bFocusROI\x12'\n" +
+	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
+	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +
+	"\x02x2\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x2\x12'\n" +
+	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\"\xae\x01\n" +
 	"\bTrackROI\x12'\n" +
 	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
 	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +

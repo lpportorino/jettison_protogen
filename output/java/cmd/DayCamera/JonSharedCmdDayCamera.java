@@ -19729,16 +19729,28 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The x.
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
      */
-    double getX();
+    double getX1();
 
     /**
-     * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The y.
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
      */
-    double getY();
+    double getY1();
+
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    double getX2();
+
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    double getY2();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.FocusROI}
@@ -19777,26 +19789,48 @@ public final class JonSharedCmdDayCamera {
               cmd.DayCamera.JonSharedCmdDayCamera.FocusROI.class, cmd.DayCamera.JonSharedCmdDayCamera.FocusROI.Builder.class);
     }
 
-    public static final int X_FIELD_NUMBER = 1;
-    private double x_ = 0D;
+    public static final int X1_FIELD_NUMBER = 1;
+    private double x1_ = 0D;
     /**
-     * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The x.
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
      */
     @java.lang.Override
-    public double getX() {
-      return x_;
+    public double getX1() {
+      return x1_;
     }
 
-    public static final int Y_FIELD_NUMBER = 2;
-    private double y_ = 0D;
+    public static final int Y1_FIELD_NUMBER = 2;
+    private double y1_ = 0D;
     /**
-     * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The y.
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
      */
     @java.lang.Override
-    public double getY() {
-      return y_;
+    public double getY1() {
+      return y1_;
+    }
+
+    public static final int X2_FIELD_NUMBER = 3;
+    private double x2_ = 0D;
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    @java.lang.Override
+    public double getX2() {
+      return x2_;
+    }
+
+    public static final int Y2_FIELD_NUMBER = 4;
+    private double y2_ = 0D;
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    @java.lang.Override
+    public double getY2() {
+      return y2_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -19813,11 +19847,17 @@ public final class JonSharedCmdDayCamera {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
-        output.writeDouble(1, x_);
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        output.writeDouble(1, x1_);
       }
-      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
-        output.writeDouble(2, y_);
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        output.writeDouble(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        output.writeDouble(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        output.writeDouble(4, y2_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -19828,13 +19868,21 @@ public final class JonSharedCmdDayCamera {
       if (size != -1) return size;
 
       size = 0;
-      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(1, x_);
+          .computeDoubleSize(1, x1_);
       }
-      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(2, y_);
+          .computeDoubleSize(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, y2_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -19851,12 +19899,18 @@ public final class JonSharedCmdDayCamera {
       }
       cmd.DayCamera.JonSharedCmdDayCamera.FocusROI other = (cmd.DayCamera.JonSharedCmdDayCamera.FocusROI) obj;
 
-      if (java.lang.Double.doubleToLongBits(getX())
+      if (java.lang.Double.doubleToLongBits(getX1())
           != java.lang.Double.doubleToLongBits(
-              other.getX())) return false;
-      if (java.lang.Double.doubleToLongBits(getY())
+              other.getX1())) return false;
+      if (java.lang.Double.doubleToLongBits(getY1())
           != java.lang.Double.doubleToLongBits(
-              other.getY())) return false;
+              other.getY1())) return false;
+      if (java.lang.Double.doubleToLongBits(getX2())
+          != java.lang.Double.doubleToLongBits(
+              other.getX2())) return false;
+      if (java.lang.Double.doubleToLongBits(getY2())
+          != java.lang.Double.doubleToLongBits(
+              other.getY2())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -19868,12 +19922,18 @@ public final class JonSharedCmdDayCamera {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (37 * hash) + X1_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getX()));
-      hash = (37 * hash) + Y_FIELD_NUMBER;
+          java.lang.Double.doubleToLongBits(getX1()));
+      hash = (37 * hash) + Y1_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getY()));
+          java.lang.Double.doubleToLongBits(getY1()));
+      hash = (37 * hash) + X2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX2()));
+      hash = (37 * hash) + Y2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY2()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -20005,8 +20065,10 @@ public final class JonSharedCmdDayCamera {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        x_ = 0D;
-        y_ = 0D;
+        x1_ = 0D;
+        y1_ = 0D;
+        x2_ = 0D;
+        y2_ = 0D;
         return this;
       }
 
@@ -20041,10 +20103,16 @@ public final class JonSharedCmdDayCamera {
       private void buildPartial0(cmd.DayCamera.JonSharedCmdDayCamera.FocusROI result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.x_ = x_;
+          result.x1_ = x1_;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.y_ = y_;
+          result.y1_ = y1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.x2_ = x2_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.y2_ = y2_;
         }
       }
 
@@ -20060,11 +20128,17 @@ public final class JonSharedCmdDayCamera {
 
       public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.FocusROI other) {
         if (other == cmd.DayCamera.JonSharedCmdDayCamera.FocusROI.getDefaultInstance()) return this;
-        if (other.getX() != 0D) {
-          setX(other.getX());
+        if (other.getX1() != 0D) {
+          setX1(other.getX1());
         }
-        if (other.getY() != 0D) {
-          setY(other.getY());
+        if (other.getY1() != 0D) {
+          setY1(other.getY1());
+        }
+        if (other.getX2() != 0D) {
+          setX2(other.getX2());
+        }
+        if (other.getY2() != 0D) {
+          setY2(other.getY2());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -20093,15 +20167,25 @@ public final class JonSharedCmdDayCamera {
                 done = true;
                 break;
               case 9: {
-                x_ = input.readDouble();
+                x1_ = input.readDouble();
                 bitField0_ |= 0x00000001;
                 break;
               } // case 9
               case 17: {
-                y_ = input.readDouble();
+                y1_ = input.readDouble();
                 bitField0_ |= 0x00000002;
                 break;
               } // case 17
+              case 25: {
+                x2_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 33: {
+                y2_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 33
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -20119,66 +20203,130 @@ public final class JonSharedCmdDayCamera {
       }
       private int bitField0_;
 
-      private double x_ ;
+      private double x1_ ;
       /**
-       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
-       * @return The x.
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x1.
        */
       @java.lang.Override
-      public double getX() {
-        return x_;
+      public double getX1() {
+        return x1_;
       }
       /**
-       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
-       * @param value The x to set.
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x1 to set.
        * @return This builder for chaining.
        */
-      public Builder setX(double value) {
+      public Builder setX1(double value) {
 
-        x_ = value;
+        x1_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
-       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
-      public Builder clearX() {
+      public Builder clearX1() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        x_ = 0D;
+        x1_ = 0D;
         onChanged();
         return this;
       }
 
-      private double y_ ;
+      private double y1_ ;
       /**
-       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
-       * @return The y.
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y1.
        */
       @java.lang.Override
-      public double getY() {
-        return y_;
+      public double getY1() {
+        return y1_;
       }
       /**
-       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
-       * @param value The y to set.
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y1 to set.
        * @return This builder for chaining.
        */
-      public Builder setY(double value) {
+      public Builder setY1(double value) {
 
-        y_ = value;
+        y1_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
-       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
-      public Builder clearY() {
+      public Builder clearY1() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        y_ = 0D;
+        y1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double x2_ ;
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The x2.
+       */
+      @java.lang.Override
+      public double getX2() {
+        return x2_;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The x2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX2(double value) {
+
+        x2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        x2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y2_ ;
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The y2.
+       */
+      @java.lang.Override
+      public double getY2() {
+        return y2_;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The y2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY2(double value) {
+
+        y2_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY2() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        y2_ = 0D;
         onChanged();
         return this;
       }
@@ -21791,19 +21939,21 @@ public final class JonSharedCmdDayCamera {
       "eValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007" +
       "\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\t" +
       "ResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTable\"\022" +
-      "\n\020SaveToTableFocus\"R\n\010FocusROI\022\"\n\001x\030\001 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\002 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\236\001\n\010TrackROI\022#\n\002x" +
-      "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\235\001\n\007ZoomROI\022#\n\002x" +
-      "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277BQZOgit-codecommi" +
-      "t.eu-central-1.amazonaws.com/v1/repos/je" +
-      "ttison/jonp/cmd/day_camerab\006proto3"
+      "\n\020SaveToTableFocus\"\236\001\n\010FocusROI\022#\n\002x1\030\001 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001" +
+      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022" +
+      "\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\236\001\n\010TrackROI\022#\n\002x1\030\001" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
+      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\235\001\n\007ZoomROI\022#\n\002x1\030\001" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
+      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277BQZOgit-codecommit.e" +
+      "u-central-1.amazonaws.com/v1/repos/jetti" +
+      "son/jonp/cmd/day_camerab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -21996,7 +22146,7 @@ public final class JonSharedCmdDayCamera {
     internal_static_cmd_DayCamera_FocusROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_FocusROI_descriptor,
-        new java.lang.String[] { "X", "Y", });
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", });
     internal_static_cmd_DayCamera_TrackROI_descriptor =
       getDescriptor().getMessageTypes().get(31);
     internal_static_cmd_DayCamera_TrackROI_fieldAccessorTable = new

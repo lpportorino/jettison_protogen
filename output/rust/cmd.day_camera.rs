@@ -197,9 +197,13 @@ pub struct SaveToTableFocus {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct FocusRoi {
     #[prost(double, tag = "1")]
-    pub x: f64,
+    pub x1: f64,
     #[prost(double, tag = "2")]
-    pub y: f64,
+    pub y1: f64,
+    #[prost(double, tag = "3")]
+    pub x2: f64,
+    #[prost(double, tag = "4")]
+    pub y2: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct TrackRoi {

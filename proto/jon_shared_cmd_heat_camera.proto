@@ -171,11 +171,19 @@ message ResetZoom {}
 message SaveToTable {}
 
 message FocusROI {
-  double x = 1 [(buf.validate.field).double = {
+  double x1 = 1 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];
-  double y = 2 [(buf.validate.field).double = {
+  double y1 = 2 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double x2 = 3 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y2 = 4 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
   }];

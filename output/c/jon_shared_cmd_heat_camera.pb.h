@@ -161,8 +161,10 @@ typedef struct _cmd_HeatCamera_SaveToTable {
 } cmd_HeatCamera_SaveToTable;
 
 typedef struct _cmd_HeatCamera_FocusROI {
-    double x;
-    double y;
+    double x1;
+    double y1;
+    double x2;
+    double y2;
 } cmd_HeatCamera_FocusROI;
 
 typedef struct _cmd_HeatCamera_TrackROI {
@@ -262,7 +264,7 @@ extern "C" {
 #define cmd_HeatCamera_SetAutoFocus_init_default {0}
 #define cmd_HeatCamera_ResetZoom_init_default    {0}
 #define cmd_HeatCamera_SaveToTable_init_default  {0}
-#define cmd_HeatCamera_FocusROI_init_default     {0, 0}
+#define cmd_HeatCamera_FocusROI_init_default     {0, 0, 0, 0}
 #define cmd_HeatCamera_TrackROI_init_default     {0, 0, 0, 0}
 #define cmd_HeatCamera_ZoomROI_init_default      {0, 0, 0, 0}
 #define cmd_HeatCamera_Root_init_zero            {0, {cmd_HeatCamera_Zoom_init_zero}}
@@ -302,7 +304,7 @@ extern "C" {
 #define cmd_HeatCamera_SetAutoFocus_init_zero    {0}
 #define cmd_HeatCamera_ResetZoom_init_zero       {0}
 #define cmd_HeatCamera_SaveToTable_init_zero     {0}
-#define cmd_HeatCamera_FocusROI_init_zero        {0, 0}
+#define cmd_HeatCamera_FocusROI_init_zero        {0, 0, 0, 0}
 #define cmd_HeatCamera_TrackROI_init_zero        {0, 0, 0, 0}
 #define cmd_HeatCamera_ZoomROI_init_zero         {0, 0, 0, 0}
 
@@ -321,8 +323,10 @@ extern "C" {
 #define cmd_HeatCamera_SetAGC_value_tag          1
 #define cmd_HeatCamera_SetFilters_value_tag      1
 #define cmd_HeatCamera_SetAutoFocus_value_tag    1
-#define cmd_HeatCamera_FocusROI_x_tag            1
-#define cmd_HeatCamera_FocusROI_y_tag            2
+#define cmd_HeatCamera_FocusROI_x1_tag           1
+#define cmd_HeatCamera_FocusROI_y1_tag           2
+#define cmd_HeatCamera_FocusROI_x2_tag           3
+#define cmd_HeatCamera_FocusROI_y2_tag           4
 #define cmd_HeatCamera_TrackROI_x1_tag           1
 #define cmd_HeatCamera_TrackROI_y1_tag           2
 #define cmd_HeatCamera_TrackROI_x2_tag           3
@@ -625,8 +629,10 @@ X(a, STATIC,   SINGULAR, BOOL,     value,             1)
 #define cmd_HeatCamera_SaveToTable_DEFAULT NULL
 
 #define cmd_HeatCamera_FocusROI_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, DOUBLE,   x,                 1) \
-X(a, STATIC,   SINGULAR, DOUBLE,   y,                 2)
+X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4)
 #define cmd_HeatCamera_FocusROI_CALLBACK NULL
 #define cmd_HeatCamera_FocusROI_DEFAULT NULL
 
@@ -736,7 +742,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_ZoomROI_msg;
 #define cmd_HeatCamera_EnableDDE_size            0
 #define cmd_HeatCamera_FocusIn_size              0
 #define cmd_HeatCamera_FocusOut_size             0
-#define cmd_HeatCamera_FocusROI_size             18
+#define cmd_HeatCamera_FocusROI_size             36
 #define cmd_HeatCamera_FocusStepMinus_size       0
 #define cmd_HeatCamera_FocusStepPlus_size        0
 #define cmd_HeatCamera_FocusStop_size            0

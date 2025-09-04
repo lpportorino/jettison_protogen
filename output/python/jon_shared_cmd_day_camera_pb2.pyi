@@ -220,12 +220,16 @@ class SaveToTableFocus(_message.Message):
     def __init__(self) -> None: ...
 
 class FocusROI(_message.Message):
-    __slots__ = ("x", "y")
-    X_FIELD_NUMBER: _ClassVar[int]
-    Y_FIELD_NUMBER: _ClassVar[int]
-    x: float
-    y: float
-    def __init__(self, x: _Optional[float] = ..., y: _Optional[float] = ...) -> None: ...
+    __slots__ = ("x1", "y1", "x2", "y2")
+    X1_FIELD_NUMBER: _ClassVar[int]
+    Y1_FIELD_NUMBER: _ClassVar[int]
+    X2_FIELD_NUMBER: _ClassVar[int]
+    Y2_FIELD_NUMBER: _ClassVar[int]
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ...) -> None: ...
 
 class TrackROI(_message.Message):
     __slots__ = ("x1", "y1", "x2", "y2")

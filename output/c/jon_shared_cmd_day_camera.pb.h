@@ -148,8 +148,10 @@ typedef struct _cmd_DayCamera_Focus {
 } cmd_DayCamera_Focus;
 
 typedef struct _cmd_DayCamera_FocusROI {
-    double x;
-    double y;
+    double x1;
+    double y1;
+    double x2;
+    double y2;
 } cmd_DayCamera_FocusROI;
 
 typedef struct _cmd_DayCamera_TrackROI {
@@ -228,7 +230,7 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_default    {0}
 #define cmd_DayCamera_SaveToTable_init_default   {0}
 #define cmd_DayCamera_SaveToTableFocus_init_default {0}
-#define cmd_DayCamera_FocusROI_init_default      {0, 0}
+#define cmd_DayCamera_FocusROI_init_default      {0, 0, 0, 0}
 #define cmd_DayCamera_TrackROI_init_default      {0, 0, 0, 0}
 #define cmd_DayCamera_ZoomROI_init_default       {0, 0, 0, 0}
 #define cmd_DayCamera_SetValue_init_zero         {0}
@@ -261,7 +263,7 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_zero       {0}
 #define cmd_DayCamera_SaveToTable_init_zero      {0}
 #define cmd_DayCamera_SaveToTableFocus_init_zero {0}
-#define cmd_DayCamera_FocusROI_init_zero         {0, 0}
+#define cmd_DayCamera_FocusROI_init_zero         {0, 0, 0, 0}
 #define cmd_DayCamera_TrackROI_init_zero         {0, 0, 0, 0}
 #define cmd_DayCamera_ZoomROI_init_zero          {0, 0, 0, 0}
 
@@ -293,8 +295,10 @@ extern "C" {
 #define cmd_DayCamera_Focus_offset_tag           4
 #define cmd_DayCamera_Focus_reset_focus_tag      5
 #define cmd_DayCamera_Focus_save_to_table_focus_tag 6
-#define cmd_DayCamera_FocusROI_x_tag             1
-#define cmd_DayCamera_FocusROI_y_tag             2
+#define cmd_DayCamera_FocusROI_x1_tag            1
+#define cmd_DayCamera_FocusROI_y1_tag            2
+#define cmd_DayCamera_FocusROI_x2_tag            3
+#define cmd_DayCamera_FocusROI_y2_tag            4
 #define cmd_DayCamera_TrackROI_x1_tag            1
 #define cmd_DayCamera_TrackROI_y1_tag            2
 #define cmd_DayCamera_TrackROI_x2_tag            3
@@ -544,8 +548,10 @@ X(a, STATIC,   SINGULAR, INT32,    value,             1)
 #define cmd_DayCamera_SaveToTableFocus_DEFAULT NULL
 
 #define cmd_DayCamera_FocusROI_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, DOUBLE,   x,                 1) \
-X(a, STATIC,   SINGULAR, DOUBLE,   y,                 2)
+X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4)
 #define cmd_DayCamera_FocusROI_CALLBACK NULL
 #define cmd_DayCamera_FocusROI_DEFAULT NULL
 
@@ -636,7 +642,7 @@ extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_DAYCAMERA_JON_SHARED_CMD_DAY_CAMERA_PB_H_MAX_SIZE cmd_DayCamera_Root_size
-#define cmd_DayCamera_FocusROI_size              18
+#define cmd_DayCamera_FocusROI_size              36
 #define cmd_DayCamera_Focus_size                 20
 #define cmd_DayCamera_GetMeteo_size              0
 #define cmd_DayCamera_GetPos_size                0

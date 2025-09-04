@@ -5633,27 +5633,49 @@ class FocusROI final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kXFieldNumber = 1,
-    kYFieldNumber = 2,
+    kX1FieldNumber = 1,
+    kY1FieldNumber = 2,
+    kX2FieldNumber = 3,
+    kY2FieldNumber = 4,
   };
-  // double x = 1;
-  void clear_x() ;
-  double x() const;
-  void set_x(double value);
+  // double x1 = 1;
+  void clear_x1() ;
+  double x1() const;
+  void set_x1(double value);
 
   private:
-  double _internal_x() const;
-  void _internal_set_x(double value);
+  double _internal_x1() const;
+  void _internal_set_x1(double value);
 
   public:
-  // double y = 2;
-  void clear_y() ;
-  double y() const;
-  void set_y(double value);
+  // double y1 = 2;
+  void clear_y1() ;
+  double y1() const;
+  void set_y1(double value);
 
   private:
-  double _internal_y() const;
-  void _internal_set_y(double value);
+  double _internal_y1() const;
+  void _internal_set_y1(double value);
+
+  public:
+  // double x2 = 3;
+  void clear_x2() ;
+  double x2() const;
+  void set_x2(double value);
+
+  private:
+  double _internal_x2() const;
+  void _internal_set_x2(double value);
+
+  public:
+  // double y2 = 4;
+  void clear_y2() ;
+  double y2() const;
+  void set_y2(double value);
+
+  private:
+  double _internal_y2() const;
+  void _internal_set_y2(double value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.HeatCamera.FocusROI)
@@ -5661,7 +5683,7 @@ class FocusROI final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
+      2, 4, 0,
       0, 2>
       _table_;
 
@@ -5679,8 +5701,10 @@ class FocusROI final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const FocusROI& from_msg);
-    double x_;
-    double y_;
+    double x1_;
+    double y1_;
+    double x2_;
+    double y2_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -10991,48 +11015,92 @@ inline void SetAutoFocus::_internal_set_value(bool value) {
 
 // FocusROI
 
-// double x = 1;
-inline void FocusROI::clear_x() {
+// double x1 = 1;
+inline void FocusROI::clear_x1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.x_ = 0;
+  _impl_.x1_ = 0;
 }
-inline double FocusROI::x() const {
-  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.x)
-  return _internal_x();
+inline double FocusROI::x1() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.x1)
+  return _internal_x1();
 }
-inline void FocusROI::set_x(double value) {
-  _internal_set_x(value);
-  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.x)
+inline void FocusROI::set_x1(double value) {
+  _internal_set_x1(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.x1)
 }
-inline double FocusROI::_internal_x() const {
+inline double FocusROI::_internal_x1() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.x_;
+  return _impl_.x1_;
 }
-inline void FocusROI::_internal_set_x(double value) {
+inline void FocusROI::_internal_set_x1(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.x_ = value;
+  _impl_.x1_ = value;
 }
 
-// double y = 2;
-inline void FocusROI::clear_y() {
+// double y1 = 2;
+inline void FocusROI::clear_y1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.y_ = 0;
+  _impl_.y1_ = 0;
 }
-inline double FocusROI::y() const {
-  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.y)
-  return _internal_y();
+inline double FocusROI::y1() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.y1)
+  return _internal_y1();
 }
-inline void FocusROI::set_y(double value) {
-  _internal_set_y(value);
-  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.y)
+inline void FocusROI::set_y1(double value) {
+  _internal_set_y1(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.y1)
 }
-inline double FocusROI::_internal_y() const {
+inline double FocusROI::_internal_y1() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.y_;
+  return _impl_.y1_;
 }
-inline void FocusROI::_internal_set_y(double value) {
+inline void FocusROI::_internal_set_y1(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.y_ = value;
+  _impl_.y1_ = value;
+}
+
+// double x2 = 3;
+inline void FocusROI::clear_x2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = 0;
+}
+inline double FocusROI::x2() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.x2)
+  return _internal_x2();
+}
+inline void FocusROI::set_x2(double value) {
+  _internal_set_x2(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.x2)
+}
+inline double FocusROI::_internal_x2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x2_;
+}
+inline void FocusROI::_internal_set_x2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = value;
+}
+
+// double y2 = 4;
+inline void FocusROI::clear_y2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = 0;
+}
+inline double FocusROI::y2() const {
+  // @@protoc_insertion_point(field_get:cmd.HeatCamera.FocusROI.y2)
+  return _internal_y2();
+}
+inline void FocusROI::set_y2(double value) {
+  _internal_set_y2(value);
+  // @@protoc_insertion_point(field_set:cmd.HeatCamera.FocusROI.y2)
+}
+inline double FocusROI::_internal_y2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y2_;
+}
+inline void FocusROI::_internal_set_y2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = value;
 }
 
 // -------------------------------------------------------------------

@@ -179,8 +179,10 @@ export interface SaveToTable {
 }
 
 export interface FocusROI {
-  x: number;
-  y: number;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
 }
 
 export interface TrackROI {
@@ -2653,16 +2655,22 @@ export const SaveToTable: MessageFns<SaveToTable> = {
 };
 
 function createBaseFocusROI(): FocusROI {
-  return { x: 0, y: 0 };
+  return { x1: 0, y1: 0, x2: 0, y2: 0 };
 }
 
 export const FocusROI: MessageFns<FocusROI> = {
   encode(message: FocusROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.x !== 0) {
-      writer.uint32(9).double(message.x);
+    if (message.x1 !== 0) {
+      writer.uint32(9).double(message.x1);
     }
-    if (message.y !== 0) {
-      writer.uint32(17).double(message.y);
+    if (message.y1 !== 0) {
+      writer.uint32(17).double(message.y1);
+    }
+    if (message.x2 !== 0) {
+      writer.uint32(25).double(message.x2);
+    }
+    if (message.y2 !== 0) {
+      writer.uint32(33).double(message.y2);
     }
     return writer;
   },
@@ -2679,7 +2687,7 @@ export const FocusROI: MessageFns<FocusROI> = {
             break;
           }
 
-          message.x = reader.double();
+          message.x1 = reader.double();
           continue;
         }
         case 2: {
@@ -2687,7 +2695,23 @@ export const FocusROI: MessageFns<FocusROI> = {
             break;
           }
 
-          message.y = reader.double();
+          message.y1 = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.x2 = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.y2 = reader.double();
           continue;
         }
       }
@@ -2701,18 +2725,26 @@ export const FocusROI: MessageFns<FocusROI> = {
 
   fromJSON(object: any): FocusROI {
     return {
-      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
-      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      x1: isSet(object.x1) ? globalThis.Number(object.x1) : 0,
+      y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
+      x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
+      y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
     };
   },
 
   toJSON(message: FocusROI): unknown {
     const obj: any = {};
-    if (message.x !== 0) {
-      obj.x = message.x;
+    if (message.x1 !== 0) {
+      obj.x1 = message.x1;
     }
-    if (message.y !== 0) {
-      obj.y = message.y;
+    if (message.y1 !== 0) {
+      obj.y1 = message.y1;
+    }
+    if (message.x2 !== 0) {
+      obj.x2 = message.x2;
+    }
+    if (message.y2 !== 0) {
+      obj.y2 = message.y2;
     }
     return obj;
   },
@@ -2722,8 +2754,10 @@ export const FocusROI: MessageFns<FocusROI> = {
   },
   fromPartial<I extends Exact<DeepPartial<FocusROI>, I>>(object: I): FocusROI {
     const message = createBaseFocusROI();
-    message.x = object.x ?? 0;
-    message.y = object.y ?? 0;
+    message.x1 = object.x1 ?? 0;
+    message.y1 = object.y1 ?? 0;
+    message.x2 = object.x2 ?? 0;
+    message.y2 = object.y2 ?? 0;
     return message;
   },
 };
