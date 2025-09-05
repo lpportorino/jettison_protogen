@@ -182,6 +182,7 @@ message FocusROI {
     gte: -1.0,
     lte: 1.0
   }];
+  uint64 frame_time = 5;
 }
 
 message TrackROI {
@@ -201,6 +202,7 @@ message TrackROI {
     gte: -1.0,
     lte: 1.0
   }];
+  uint64 frame_time = 5;
 }
 
 message ZoomROI {
@@ -220,4 +222,5 @@ message ZoomROI {
     gte: -1.0,
     lte: 1.0
   }];
+  uint64 frame_time = 5;
 }

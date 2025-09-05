@@ -1807,6 +1807,7 @@ type FocusROI struct {
 	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
 	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
 	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	FrameTime     uint64                 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1869,12 +1870,20 @@ func (x *FocusROI) GetY2() float64 {
 	return 0
 }
 
+func (x *FocusROI) GetFrameTime() uint64 {
+	if x != nil {
+		return x.FrameTime
+	}
+	return 0
+}
+
 type TrackROI struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
 	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
 	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
 	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	FrameTime     uint64                 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1937,12 +1946,20 @@ func (x *TrackROI) GetY2() float64 {
 	return 0
 }
 
+func (x *TrackROI) GetFrameTime() uint64 {
+	if x != nil {
+		return x.FrameTime
+	}
+	return 0
+}
+
 type ZoomROI struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
 	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
 	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
 	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	FrameTime     uint64                 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2001,6 +2018,13 @@ func (x *ZoomROI) GetX2() float64 {
 func (x *ZoomROI) GetY2() float64 {
 	if x != nil {
 		return x.Y2
+	}
+	return 0
+}
+
+func (x *ZoomROI) GetFrameTime() uint64 {
+	if x != nil {
+		return x.FrameTime
 	}
 	return 0
 }
@@ -2099,22 +2123,28 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\n" +
 	"ResetFocus\"\r\n" +
 	"\vSaveToTable\"\x12\n" +
-	"\x10SaveToTableFocus\"\xae\x01\n" +
+	"\x10SaveToTableFocus\"\xcd\x01\n" +
 	"\bFocusROI\x12'\n" +
 	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
 	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +
 	"\x02x2\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x2\x12'\n" +
-	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\"\xae\x01\n" +
+	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\x12\x1d\n" +
+	"\n" +
+	"frame_time\x18\x05 \x01(\x04R\tframeTime\"\xcd\x01\n" +
 	"\bTrackROI\x12'\n" +
 	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
 	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +
 	"\x02x2\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x2\x12'\n" +
-	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\"\xad\x01\n" +
+	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\x12\x1d\n" +
+	"\n" +
+	"frame_time\x18\x05 \x01(\x04R\tframeTime\"\xcc\x01\n" +
 	"\aZoomROI\x12'\n" +
 	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
 	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +
 	"\x02x2\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x2\x12'\n" +
-	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2B\xd5\x01\n" +
+	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\x12\x1d\n" +
+	"\n" +
+	"frame_time\x18\x05 \x01(\x04R\tframeTimeB\xd5\x01\n" +
 	"\x11com.cmd.DayCameraB\x1aJonSharedCmdDayCameraProtoP\x01ZOgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/day_camera\xa2\x02\x03CDX\xaa\x02\rCmd.DayCamera\xca\x02\rCmd\\DayCamera\xe2\x02\x19Cmd\\DayCamera\\GPBMetadata\xea\x02\x0eCmd::DayCamerab\x06proto3"
 
 var (

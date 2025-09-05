@@ -217,6 +217,8 @@ pub struct FocusRoi {
     pub x2: f64,
     #[prost(double, tag = "4")]
     pub y2: f64,
+    #[prost(uint64, tag = "5")]
+    pub frame_time: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct TrackRoi {
@@ -228,6 +230,8 @@ pub struct TrackRoi {
     pub x2: f64,
     #[prost(double, tag = "4")]
     pub y2: f64,
+    #[prost(uint64, tag = "5")]
+    pub frame_time: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ZoomRoi {
@@ -239,4 +243,6 @@ pub struct ZoomRoi {
     pub x2: f64,
     #[prost(double, tag = "4")]
     pub y2: f64,
+    #[prost(uint64, tag = "5")]
+    pub frame_time: u64,
 }

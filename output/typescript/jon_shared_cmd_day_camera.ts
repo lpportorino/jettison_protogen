@@ -151,6 +151,7 @@ export interface FocusROI {
   y1: number;
   x2: number;
   y2: number;
+  frameTime: Long;
 }
 
 export interface TrackROI {
@@ -158,6 +159,7 @@ export interface TrackROI {
   y1: number;
   x2: number;
   y2: number;
+  frameTime: Long;
 }
 
 export interface ZoomROI {
@@ -165,6 +167,7 @@ export interface ZoomROI {
   y1: number;
   x2: number;
   y2: number;
+  frameTime: Long;
 }
 
 function createBaseSetValue(): SetValue {
@@ -2300,7 +2303,7 @@ export const SaveToTableFocus: MessageFns<SaveToTableFocus> = {
 };
 
 function createBaseFocusROI(): FocusROI {
-  return { x1: 0, y1: 0, x2: 0, y2: 0 };
+  return { x1: 0, y1: 0, x2: 0, y2: 0, frameTime: Long.UZERO };
 }
 
 export const FocusROI: MessageFns<FocusROI> = {
@@ -2316,6 +2319,9 @@ export const FocusROI: MessageFns<FocusROI> = {
     }
     if (message.y2 !== 0) {
       writer.uint32(33).double(message.y2);
+    }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.frameTime.toString());
     }
     return writer;
   },
@@ -2359,6 +2365,14 @@ export const FocusROI: MessageFns<FocusROI> = {
           message.y2 = reader.double();
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.frameTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -2374,6 +2388,7 @@ export const FocusROI: MessageFns<FocusROI> = {
       y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
       x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
       y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
+      frameTime: isSet(object.frameTime) ? Long.fromValue(object.frameTime) : Long.UZERO,
     };
   },
 
@@ -2391,6 +2406,9 @@ export const FocusROI: MessageFns<FocusROI> = {
     if (message.y2 !== 0) {
       obj.y2 = message.y2;
     }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      obj.frameTime = (message.frameTime || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -2403,12 +2421,15 @@ export const FocusROI: MessageFns<FocusROI> = {
     message.y1 = object.y1 ?? 0;
     message.x2 = object.x2 ?? 0;
     message.y2 = object.y2 ?? 0;
+    message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
+      ? Long.fromValue(object.frameTime)
+      : Long.UZERO;
     return message;
   },
 };
 
 function createBaseTrackROI(): TrackROI {
-  return { x1: 0, y1: 0, x2: 0, y2: 0 };
+  return { x1: 0, y1: 0, x2: 0, y2: 0, frameTime: Long.UZERO };
 }
 
 export const TrackROI: MessageFns<TrackROI> = {
@@ -2424,6 +2445,9 @@ export const TrackROI: MessageFns<TrackROI> = {
     }
     if (message.y2 !== 0) {
       writer.uint32(33).double(message.y2);
+    }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.frameTime.toString());
     }
     return writer;
   },
@@ -2467,6 +2491,14 @@ export const TrackROI: MessageFns<TrackROI> = {
           message.y2 = reader.double();
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.frameTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -2482,6 +2514,7 @@ export const TrackROI: MessageFns<TrackROI> = {
       y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
       x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
       y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
+      frameTime: isSet(object.frameTime) ? Long.fromValue(object.frameTime) : Long.UZERO,
     };
   },
 
@@ -2499,6 +2532,9 @@ export const TrackROI: MessageFns<TrackROI> = {
     if (message.y2 !== 0) {
       obj.y2 = message.y2;
     }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      obj.frameTime = (message.frameTime || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -2511,12 +2547,15 @@ export const TrackROI: MessageFns<TrackROI> = {
     message.y1 = object.y1 ?? 0;
     message.x2 = object.x2 ?? 0;
     message.y2 = object.y2 ?? 0;
+    message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
+      ? Long.fromValue(object.frameTime)
+      : Long.UZERO;
     return message;
   },
 };
 
 function createBaseZoomROI(): ZoomROI {
-  return { x1: 0, y1: 0, x2: 0, y2: 0 };
+  return { x1: 0, y1: 0, x2: 0, y2: 0, frameTime: Long.UZERO };
 }
 
 export const ZoomROI: MessageFns<ZoomROI> = {
@@ -2532,6 +2571,9 @@ export const ZoomROI: MessageFns<ZoomROI> = {
     }
     if (message.y2 !== 0) {
       writer.uint32(33).double(message.y2);
+    }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.frameTime.toString());
     }
     return writer;
   },
@@ -2575,6 +2617,14 @@ export const ZoomROI: MessageFns<ZoomROI> = {
           message.y2 = reader.double();
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.frameTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -2590,6 +2640,7 @@ export const ZoomROI: MessageFns<ZoomROI> = {
       y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
       x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
       y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
+      frameTime: isSet(object.frameTime) ? Long.fromValue(object.frameTime) : Long.UZERO,
     };
   },
 
@@ -2607,6 +2658,9 @@ export const ZoomROI: MessageFns<ZoomROI> = {
     if (message.y2 !== 0) {
       obj.y2 = message.y2;
     }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      obj.frameTime = (message.frameTime || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -2619,6 +2673,9 @@ export const ZoomROI: MessageFns<ZoomROI> = {
     message.y1 = object.y1 ?? 0;
     message.x2 = object.x2 ?? 0;
     message.y2 = object.y2 ?? 0;
+    message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
+      ? Long.fromValue(object.frameTime)
+      : Long.UZERO;
     return message;
   },
 };

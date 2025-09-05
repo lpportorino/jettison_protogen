@@ -51,6 +51,7 @@ inline constexpr ZoomROI::Impl_::Impl_(
         y1_{0},
         x2_{0},
         y2_{0},
+        frame_time_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
@@ -115,6 +116,7 @@ inline constexpr TrackROI::Impl_::Impl_(
         y1_{0},
         x2_{0},
         y2_{0},
+        frame_time_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
@@ -706,6 +708,7 @@ inline constexpr FocusROI::Impl_::Impl_(
         y1_{0},
         x2_{0},
         y2_{0},
+        frame_time_{::uint64_t{0u}},
         _cached_size_{0} {}
 
 template <typename>
@@ -1236,6 +1239,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.y1_),
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.x2_),
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.y2_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::FocusROI, _impl_.frame_time_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::TrackROI, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1248,6 +1252,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::TrackROI, _impl_.y1_),
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::TrackROI, _impl_.x2_),
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::TrackROI, _impl_.y2_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::TrackROI, _impl_.frame_time_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::ZoomROI, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1260,6 +1265,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::ZoomROI, _impl_.y1_),
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::ZoomROI, _impl_.x2_),
         PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::ZoomROI, _impl_.y2_),
+        PROTOBUF_FIELD_OFFSET(::cmd::HeatCamera::ZoomROI, _impl_.frame_time_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -1302,8 +1308,8 @@ static const ::_pbi::MigrationSchema
         {330, -1, -1, sizeof(::cmd::HeatCamera::ResetZoom)},
         {338, -1, -1, sizeof(::cmd::HeatCamera::SaveToTable)},
         {346, -1, -1, sizeof(::cmd::HeatCamera::FocusROI)},
-        {358, -1, -1, sizeof(::cmd::HeatCamera::TrackROI)},
-        {370, -1, -1, sizeof(::cmd::HeatCamera::ZoomROI)},
+        {359, -1, -1, sizeof(::cmd::HeatCamera::TrackROI)},
+        {372, -1, -1, sizeof(::cmd::HeatCamera::ZoomROI)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::HeatCamera::_Root_default_instance_._instance,
@@ -1418,13 +1424,15 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto[
     "ideoChannelHeatFilters\"\007\n\005Start\"\006\n\004Stop\""
     "\006\n\004Halt\"\007\n\005Photo\"\n\n\010GetMeteo\"\035\n\014SetAutoF"
     "ocus\022\r\n\005value\030\001 \001(\010\"\013\n\tResetZoom\"\r\n\013Save"
-    "ToTable\":\n\010FocusROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 "
-    "\001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\":\n\010TrackROI\022"
-    "\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y"
-    "2\030\004 \001(\001\"9\n\007ZoomROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001"
-    "(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001BRZPgit-codeco"
-    "mmit.eu-central-1.amazonaws.com/v1/repos"
-    "/jettison/jonp/cmd/heat_camerab\006proto3"
+    "ToTable\"N\n\010FocusROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 "
+    "\001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\022\022\n\nframe_tim"
+    "e\030\005 \001(\004\"N\n\010TrackROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 "
+    "\001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\022\022\n\nframe_tim"
+    "e\030\005 \001(\004\"M\n\007ZoomROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001"
+    "(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\022\022\n\nframe_time"
+    "\030\005 \001(\004BRZPgit-codecommit.eu-central-1.am"
+    "azonaws.com/v1/repos/jettison/jonp/cmd/h"
+    "eat_camerab\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_deps[1] =
     {
@@ -1434,7 +1442,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2ep
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto = {
     false,
     false,
-    3038,
+    3098,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto,
     "jon_shared_cmd_heat_camera.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_once,
@@ -8538,9 +8546,9 @@ inline void FocusROI::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, x1_),
            0,
-           offsetof(Impl_, y2_) -
+           offsetof(Impl_, frame_time_) -
                offsetof(Impl_, x1_) +
-               sizeof(Impl_::y2_));
+               sizeof(Impl_::frame_time_));
 }
 FocusROI::~FocusROI() {
   // @@protoc_insertion_point(destructor:cmd.HeatCamera.FocusROI)
@@ -8589,15 +8597,15 @@ const ::google::protobuf::internal::ClassData* FocusROI::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 0, 0, 2> FocusROI::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 0, 2> FocusROI::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    5,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -8607,9 +8615,7 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> FocusROI::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::FocusROI>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double y2 = 4;
-    {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double x1 = 1;
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_)}},
@@ -8619,6 +8625,14 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> FocusROI::_table_ = {
     // double x2 = 3;
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x2_)}},
+    // double y2 = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_)}},
+    // uint64 frame_time = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(FocusROI, _impl_.frame_time_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.frame_time_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -8634,6 +8648,9 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> FocusROI::_table_ = {
     // double y2 = 4;
     {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // uint64 frame_time = 5;
+    {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.frame_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -8648,8 +8665,8 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.x1_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.y2_) -
-      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.y2_));
+      reinterpret_cast<char*>(&_impl_.frame_time_) -
+      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.frame_time_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -8696,6 +8713,13 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
                 4, this_._internal_y2(), target);
           }
 
+          // uint64 frame_time = 5;
+          if (this_._internal_frame_time() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                5, this_._internal_frame_time(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -8737,6 +8761,11 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
+            // uint64 frame_time = 5;
+            if (this_._internal_frame_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_frame_time());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -8762,6 +8791,9 @@ void FocusROI::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google
   if (::absl::bit_cast<::uint64_t>(from._internal_y2()) != 0) {
     _this->_impl_.y2_ = from._impl_.y2_;
   }
+  if (from._internal_frame_time() != 0) {
+    _this->_impl_.frame_time_ = from._impl_.frame_time_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -8777,8 +8809,8 @@ void FocusROI::InternalSwap(FocusROI* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_)
-      + sizeof(FocusROI::_impl_.y2_)
+      PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.frame_time_)
+      + sizeof(FocusROI::_impl_.frame_time_)
       - PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_)>(
           reinterpret_cast<char*>(&_impl_.x1_),
           reinterpret_cast<char*>(&other->_impl_.x1_));
@@ -8817,9 +8849,9 @@ inline void TrackROI::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, x1_),
            0,
-           offsetof(Impl_, y2_) -
+           offsetof(Impl_, frame_time_) -
                offsetof(Impl_, x1_) +
-               sizeof(Impl_::y2_));
+               sizeof(Impl_::frame_time_));
 }
 TrackROI::~TrackROI() {
   // @@protoc_insertion_point(destructor:cmd.HeatCamera.TrackROI)
@@ -8868,15 +8900,15 @@ const ::google::protobuf::internal::ClassData* TrackROI::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 0, 0, 2> TrackROI::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 0, 2> TrackROI::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    5,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -8886,9 +8918,7 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> TrackROI::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::TrackROI>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double y2 = 4;
-    {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y2_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double x1 = 1;
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x1_)}},
@@ -8898,6 +8928,14 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> TrackROI::_table_ = {
     // double x2 = 3;
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x2_)}},
+    // double y2 = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y2_)}},
+    // uint64 frame_time = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(TrackROI, _impl_.frame_time_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.frame_time_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -8913,6 +8951,9 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> TrackROI::_table_ = {
     // double y2 = 4;
     {PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // uint64 frame_time = 5;
+    {PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.frame_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -8927,8 +8968,8 @@ PROTOBUF_NOINLINE void TrackROI::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.x1_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.y2_) -
-      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.y2_));
+      reinterpret_cast<char*>(&_impl_.frame_time_) -
+      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.frame_time_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -8975,6 +9016,13 @@ PROTOBUF_NOINLINE void TrackROI::Clear() {
                 4, this_._internal_y2(), target);
           }
 
+          // uint64 frame_time = 5;
+          if (this_._internal_frame_time() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                5, this_._internal_frame_time(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -9016,6 +9064,11 @@ PROTOBUF_NOINLINE void TrackROI::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
+            // uint64 frame_time = 5;
+            if (this_._internal_frame_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_frame_time());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -9041,6 +9094,9 @@ void TrackROI::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google
   if (::absl::bit_cast<::uint64_t>(from._internal_y2()) != 0) {
     _this->_impl_.y2_ = from._impl_.y2_;
   }
+  if (from._internal_frame_time() != 0) {
+    _this->_impl_.frame_time_ = from._impl_.frame_time_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -9056,8 +9112,8 @@ void TrackROI::InternalSwap(TrackROI* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y2_)
-      + sizeof(TrackROI::_impl_.y2_)
+      PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.frame_time_)
+      + sizeof(TrackROI::_impl_.frame_time_)
       - PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x1_)>(
           reinterpret_cast<char*>(&_impl_.x1_),
           reinterpret_cast<char*>(&other->_impl_.x1_));
@@ -9096,9 +9152,9 @@ inline void ZoomROI::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, x1_),
            0,
-           offsetof(Impl_, y2_) -
+           offsetof(Impl_, frame_time_) -
                offsetof(Impl_, x1_) +
-               sizeof(Impl_::y2_));
+               sizeof(Impl_::frame_time_));
 }
 ZoomROI::~ZoomROI() {
   // @@protoc_insertion_point(destructor:cmd.HeatCamera.ZoomROI)
@@ -9147,15 +9203,15 @@ const ::google::protobuf::internal::ClassData* ZoomROI::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 0, 0, 2> ZoomROI::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 0, 2> ZoomROI::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    5,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -9165,9 +9221,7 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> ZoomROI::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::ZoomROI>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double y2 = 4;
-    {::_pbi::TcParser::FastF64S1,
-     {33, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y2_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double x1 = 1;
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x1_)}},
@@ -9177,6 +9231,14 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> ZoomROI::_table_ = {
     // double x2 = 3;
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x2_)}},
+    // double y2 = 4;
+    {::_pbi::TcParser::FastF64S1,
+     {33, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y2_)}},
+    // uint64 frame_time = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(ZoomROI, _impl_.frame_time_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.frame_time_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -9192,6 +9254,9 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> ZoomROI::_table_ = {
     // double y2 = 4;
     {PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // uint64 frame_time = 5;
+    {PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.frame_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -9206,8 +9271,8 @@ PROTOBUF_NOINLINE void ZoomROI::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.x1_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.y2_) -
-      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.y2_));
+      reinterpret_cast<char*>(&_impl_.frame_time_) -
+      reinterpret_cast<char*>(&_impl_.x1_)) + sizeof(_impl_.frame_time_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -9254,6 +9319,13 @@ PROTOBUF_NOINLINE void ZoomROI::Clear() {
                 4, this_._internal_y2(), target);
           }
 
+          // uint64 frame_time = 5;
+          if (this_._internal_frame_time() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                5, this_._internal_frame_time(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -9295,6 +9367,11 @@ PROTOBUF_NOINLINE void ZoomROI::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
+            // uint64 frame_time = 5;
+            if (this_._internal_frame_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_frame_time());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -9320,6 +9397,9 @@ void ZoomROI::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google:
   if (::absl::bit_cast<::uint64_t>(from._internal_y2()) != 0) {
     _this->_impl_.y2_ = from._impl_.y2_;
   }
+  if (from._internal_frame_time() != 0) {
+    _this->_impl_.frame_time_ = from._impl_.frame_time_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -9335,8 +9415,8 @@ void ZoomROI::InternalSwap(ZoomROI* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y2_)
-      + sizeof(ZoomROI::_impl_.y2_)
+      PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.frame_time_)
+      + sizeof(ZoomROI::_impl_.frame_time_)
       - PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x1_)>(
           reinterpret_cast<char*>(&_impl_.x1_),
           reinterpret_cast<char*>(&other->_impl_.x1_));
