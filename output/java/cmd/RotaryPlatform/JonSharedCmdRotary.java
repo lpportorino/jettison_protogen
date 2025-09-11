@@ -26271,6 +26271,26 @@ public final class JonSharedCmdRotary {
      * @return The y.
      */
     double getY();
+
+    /**
+     * <pre>
+     * Video frame timestamp
+     * </pre>
+     *
+     * <code>uint64 frame_time = 4;</code>
+     * @return The frameTime.
+     */
+    long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 5;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
   }
   /**
    * Protobuf type {@code cmd.RotaryPlatform.RotateToNDC}
@@ -26350,6 +26370,36 @@ public final class JonSharedCmdRotary {
       return y_;
     }
 
+    public static final int FRAME_TIME_FIELD_NUMBER = 4;
+    private long frameTime_ = 0L;
+    /**
+     * <pre>
+     * Video frame timestamp
+     * </pre>
+     *
+     * <code>uint64 frame_time = 4;</code>
+     * @return The frameTime.
+     */
+    @java.lang.Override
+    public long getFrameTime() {
+      return frameTime_;
+    }
+
+    public static final int STATE_TIME_FIELD_NUMBER = 5;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 5;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -26373,6 +26423,12 @@ public final class JonSharedCmdRotary {
       if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
         output.writeDouble(3, y_);
       }
+      if (frameTime_ != 0L) {
+        output.writeUInt64(4, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(5, stateTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -26393,6 +26449,14 @@ public final class JonSharedCmdRotary {
       if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(3, y_);
+      }
+      if (frameTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(4, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, stateTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -26416,6 +26480,10 @@ public final class JonSharedCmdRotary {
       if (java.lang.Double.doubleToLongBits(getY())
           != java.lang.Double.doubleToLongBits(
               other.getY())) return false;
+      if (getFrameTime()
+          != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -26435,6 +26503,12 @@ public final class JonSharedCmdRotary {
       hash = (37 * hash) + Y_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getY()));
+      hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -26569,6 +26643,8 @@ public final class JonSharedCmdRotary {
         channel_ = 0;
         x_ = 0D;
         y_ = 0D;
+        frameTime_ = 0L;
+        stateTime_ = 0L;
         return this;
       }
 
@@ -26611,6 +26687,12 @@ public final class JonSharedCmdRotary {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.y_ = y_;
         }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.frameTime_ = frameTime_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
       }
 
       @java.lang.Override
@@ -26633,6 +26715,12 @@ public final class JonSharedCmdRotary {
         }
         if (other.getY() != 0D) {
           setY(other.getY());
+        }
+        if (other.getFrameTime() != 0L) {
+          setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -26675,6 +26763,16 @@ public final class JonSharedCmdRotary {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 25
+              case 32: {
+                frameTime_ = input.readUInt64();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 40: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -26805,6 +26903,94 @@ public final class JonSharedCmdRotary {
       public Builder clearY() {
         bitField0_ = (bitField0_ & ~0x00000004);
         y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private long frameTime_ ;
+      /**
+       * <pre>
+       * Video frame timestamp
+       * </pre>
+       *
+       * <code>uint64 frame_time = 4;</code>
+       * @return The frameTime.
+       */
+      @java.lang.Override
+      public long getFrameTime() {
+        return frameTime_;
+      }
+      /**
+       * <pre>
+       * Video frame timestamp
+       * </pre>
+       *
+       * <code>uint64 frame_time = 4;</code>
+       * @param value The frameTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameTime(long value) {
+
+        frameTime_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Video frame timestamp
+       * </pre>
+       *
+       * <code>uint64 frame_time = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFrameTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        frameTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        stateTime_ = 0L;
         onChanged();
         return this;
       }
@@ -27190,11 +27376,12 @@ public final class JonSharedCmdRotary {
       "\000\340z\300\"\220\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B" +
       "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 " +
       "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude" +
-      "\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\217\001\n\013Rota" +
+      "\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\267\001\n\013Rota" +
       "teToNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDat" +
       "aVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H" +
       "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031" +
-      "\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277BMZKgit-codecommit.eu-c" +
+      "\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n" +
+      "\nstate_time\030\005 \001(\004BMZKgit-codecommit.eu-c" +
       "entral-1.amazonaws.com/v1/repos/jettison" +
       "/jonp/cmd/rotaryb\006proto3"
     };
@@ -27437,7 +27624,7 @@ public final class JonSharedCmdRotary {
     internal_static_cmd_RotaryPlatform_RotateToNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_RotateToNDC_descriptor,
-        new java.lang.String[] { "Channel", "X", "Y", });
+        new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

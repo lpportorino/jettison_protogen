@@ -37,23 +37,24 @@ const (
 
 // Root message
 type JonGUIState struct {
-	state              protoimpl.MessageState                            `protogen:"open.v1"`
-	ProtocolVersion    uint32                                            `protobuf:"varint,1,opt,name=protocol_version,json=protocolVersion,proto3" json:"protocol_version,omitempty"`
-	System             *system.JonGuiDataSystem                          `protobuf:"bytes,2,opt,name=system,proto3" json:"system,omitempty"`
-	MeteoInternal      *types.JonGuiDataMeteo                            `protobuf:"bytes,3,opt,name=meteo_internal,json=meteoInternal,proto3" json:"meteo_internal,omitempty"`
-	Lrf                *lrf.JonGuiDataLrf                                `protobuf:"bytes,4,opt,name=lrf,proto3" json:"lrf,omitempty"`
-	Time               *time.JonGuiDataTime                              `protobuf:"bytes,5,opt,name=time,proto3" json:"time,omitempty"`
-	Gps                *gps.JonGuiDataGps                                `protobuf:"bytes,6,opt,name=gps,proto3" json:"gps,omitempty"`
-	Compass            *compass.JonGuiDataCompass                        `protobuf:"bytes,7,opt,name=compass,proto3" json:"compass,omitempty"`
-	Rotary             *rotary.JonGuiDataRotary                          `protobuf:"bytes,8,opt,name=rotary,proto3" json:"rotary,omitempty"`
-	CameraDay          *camera_day.JonGuiDataCameraDay                   `protobuf:"bytes,9,opt,name=camera_day,json=cameraDay,proto3" json:"camera_day,omitempty"`
-	CameraHeat         *camera_heat.JonGuiDataCameraHeat                 `protobuf:"bytes,10,opt,name=camera_heat,json=cameraHeat,proto3" json:"camera_heat,omitempty"`
-	CompassCalibration *compass_calibration.JonGuiDataCompassCalibration `protobuf:"bytes,11,opt,name=compass_calibration,json=compassCalibration,proto3" json:"compass_calibration,omitempty"`
-	RecOsd             *rec_osd.JonGuiDataRecOsd                         `protobuf:"bytes,12,opt,name=rec_osd,json=recOsd,proto3" json:"rec_osd,omitempty"`
-	DayCamGlassHeater  *day_cam_glass_heater.JonGuiDataDayCamGlassHeater `protobuf:"bytes,13,opt,name=day_cam_glass_heater,json=dayCamGlassHeater,proto3" json:"day_cam_glass_heater,omitempty"`
-	ActualSpaceTime    *actual_space_time.JonGuiDataActualSpaceTime      `protobuf:"bytes,14,opt,name=actual_space_time,json=actualSpaceTime,proto3" json:"actual_space_time,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state                 protoimpl.MessageState                            `protogen:"open.v1"`
+	ProtocolVersion       uint32                                            `protobuf:"varint,1,opt,name=protocol_version,json=protocolVersion,proto3" json:"protocol_version,omitempty"`
+	SystemMonotonicTimeUs uint64                                            `protobuf:"varint,2,opt,name=system_monotonic_time_us,json=systemMonotonicTimeUs,proto3" json:"system_monotonic_time_us,omitempty"` // System monotonic time in microseconds
+	System                *system.JonGuiDataSystem                          `protobuf:"bytes,13,opt,name=system,proto3" json:"system,omitempty"`
+	MeteoInternal         *types.JonGuiDataMeteo                            `protobuf:"bytes,14,opt,name=meteo_internal,json=meteoInternal,proto3" json:"meteo_internal,omitempty"`
+	Lrf                   *lrf.JonGuiDataLrf                                `protobuf:"bytes,15,opt,name=lrf,proto3" json:"lrf,omitempty"`
+	Time                  *time.JonGuiDataTime                              `protobuf:"bytes,16,opt,name=time,proto3" json:"time,omitempty"`
+	Gps                   *gps.JonGuiDataGps                                `protobuf:"bytes,17,opt,name=gps,proto3" json:"gps,omitempty"`
+	Compass               *compass.JonGuiDataCompass                        `protobuf:"bytes,18,opt,name=compass,proto3" json:"compass,omitempty"`
+	Rotary                *rotary.JonGuiDataRotary                          `protobuf:"bytes,19,opt,name=rotary,proto3" json:"rotary,omitempty"`
+	CameraDay             *camera_day.JonGuiDataCameraDay                   `protobuf:"bytes,20,opt,name=camera_day,json=cameraDay,proto3" json:"camera_day,omitempty"`
+	CameraHeat            *camera_heat.JonGuiDataCameraHeat                 `protobuf:"bytes,21,opt,name=camera_heat,json=cameraHeat,proto3" json:"camera_heat,omitempty"`
+	CompassCalibration    *compass_calibration.JonGuiDataCompassCalibration `protobuf:"bytes,22,opt,name=compass_calibration,json=compassCalibration,proto3" json:"compass_calibration,omitempty"`
+	RecOsd                *rec_osd.JonGuiDataRecOsd                         `protobuf:"bytes,23,opt,name=rec_osd,json=recOsd,proto3" json:"rec_osd,omitempty"`
+	DayCamGlassHeater     *day_cam_glass_heater.JonGuiDataDayCamGlassHeater `protobuf:"bytes,24,opt,name=day_cam_glass_heater,json=dayCamGlassHeater,proto3" json:"day_cam_glass_heater,omitempty"`
+	ActualSpaceTime       *actual_space_time.JonGuiDataActualSpaceTime      `protobuf:"bytes,25,opt,name=actual_space_time,json=actualSpaceTime,proto3" json:"actual_space_time,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *JonGUIState) Reset() {
@@ -89,6 +90,13 @@ func (*JonGUIState) Descriptor() ([]byte, []int) {
 func (x *JonGUIState) GetProtocolVersion() uint32 {
 	if x != nil {
 		return x.ProtocolVersion
+	}
+	return 0
+}
+
+func (x *JonGUIState) GetSystemMonotonicTimeUs() uint64 {
+	if x != nil {
+		return x.SystemMonotonicTimeUs
 	}
 	return 0
 }
@@ -188,26 +196,28 @@ var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\"\x89\a\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\"\x87\b\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
-	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x125\n" +
-	"\x06system\x18\x02 \x01(\v2\x15.ser.JonGuiDataSystemB\x06\xbaH\x03\xc8\x01\x01R\x06system\x12C\n" +
-	"\x0emeteo_internal\x18\x03 \x01(\v2\x14.ser.JonGuiDataMeteoB\x06\xbaH\x03\xc8\x01\x01R\rmeteoInternal\x12,\n" +
-	"\x03lrf\x18\x04 \x01(\v2\x12.ser.JonGuiDataLrfB\x06\xbaH\x03\xc8\x01\x01R\x03lrf\x12/\n" +
-	"\x04time\x18\x05 \x01(\v2\x13.ser.JonGuiDataTimeB\x06\xbaH\x03\xc8\x01\x01R\x04time\x12,\n" +
-	"\x03gps\x18\x06 \x01(\v2\x12.ser.JonGuiDataGpsB\x06\xbaH\x03\xc8\x01\x01R\x03gps\x128\n" +
-	"\acompass\x18\a \x01(\v2\x16.ser.JonGuiDataCompassB\x06\xbaH\x03\xc8\x01\x01R\acompass\x125\n" +
-	"\x06rotary\x18\b \x01(\v2\x15.ser.JonGuiDataRotaryB\x06\xbaH\x03\xc8\x01\x01R\x06rotary\x12?\n" +
+	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
+	"\x18system_monotonic_time_us\x18\x02 \x01(\x04B\a\xbaH\x042\x02(\x00R\x15systemMonotonicTimeUs\x125\n" +
+	"\x06system\x18\r \x01(\v2\x15.ser.JonGuiDataSystemB\x06\xbaH\x03\xc8\x01\x01R\x06system\x12C\n" +
+	"\x0emeteo_internal\x18\x0e \x01(\v2\x14.ser.JonGuiDataMeteoB\x06\xbaH\x03\xc8\x01\x01R\rmeteoInternal\x12,\n" +
+	"\x03lrf\x18\x0f \x01(\v2\x12.ser.JonGuiDataLrfB\x06\xbaH\x03\xc8\x01\x01R\x03lrf\x12/\n" +
+	"\x04time\x18\x10 \x01(\v2\x13.ser.JonGuiDataTimeB\x06\xbaH\x03\xc8\x01\x01R\x04time\x12,\n" +
+	"\x03gps\x18\x11 \x01(\v2\x12.ser.JonGuiDataGpsB\x06\xbaH\x03\xc8\x01\x01R\x03gps\x128\n" +
+	"\acompass\x18\x12 \x01(\v2\x16.ser.JonGuiDataCompassB\x06\xbaH\x03\xc8\x01\x01R\acompass\x125\n" +
+	"\x06rotary\x18\x13 \x01(\v2\x15.ser.JonGuiDataRotaryB\x06\xbaH\x03\xc8\x01\x01R\x06rotary\x12?\n" +
 	"\n" +
-	"camera_day\x18\t \x01(\v2\x18.ser.JonGuiDataCameraDayB\x06\xbaH\x03\xc8\x01\x01R\tcameraDay\x12B\n" +
-	"\vcamera_heat\x18\n" +
-	" \x01(\v2\x19.ser.JonGuiDataCameraHeatB\x06\xbaH\x03\xc8\x01\x01R\n" +
+	"camera_day\x18\x14 \x01(\v2\x18.ser.JonGuiDataCameraDayB\x06\xbaH\x03\xc8\x01\x01R\tcameraDay\x12B\n" +
+	"\vcamera_heat\x18\x15 \x01(\v2\x19.ser.JonGuiDataCameraHeatB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"cameraHeat\x12Z\n" +
-	"\x13compass_calibration\x18\v \x01(\v2!.ser.JonGuiDataCompassCalibrationB\x06\xbaH\x03\xc8\x01\x01R\x12compassCalibration\x126\n" +
-	"\arec_osd\x18\f \x01(\v2\x15.ser.JonGuiDataRecOsdB\x06\xbaH\x03\xc8\x01\x01R\x06recOsd\x12Y\n" +
-	"\x14day_cam_glass_heater\x18\r \x01(\v2 .ser.JonGuiDataDayCamGlassHeaterB\x06\xbaH\x03\xc8\x01\x01R\x11dayCamGlassHeater\x12R\n" +
-	"\x11actual_space_time\x18\x0e \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTimeB\x90\x01\n" +
+	"\x13compass_calibration\x18\x16 \x01(\v2!.ser.JonGuiDataCompassCalibrationB\x06\xbaH\x03\xc8\x01\x01R\x12compassCalibration\x126\n" +
+	"\arec_osd\x18\x17 \x01(\v2\x15.ser.JonGuiDataRecOsdB\x06\xbaH\x03\xc8\x01\x01R\x06recOsd\x12Y\n" +
+	"\x14day_cam_glass_heater\x18\x18 \x01(\v2 .ser.JonGuiDataDayCamGlassHeaterB\x06\xbaH\x03\xc8\x01\x01R\x11dayCamGlassHeater\x12R\n" +
+	"\x11actual_space_time\x18\x19 \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTimeJ\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06J\x04\b\x06\x10\aJ\x04\b\a\x10\bJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"J\x04\b\n" +
+	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rB\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

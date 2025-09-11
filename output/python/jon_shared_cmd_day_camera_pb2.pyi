@@ -220,43 +220,49 @@ class SaveToTableFocus(_message.Message):
     def __init__(self) -> None: ...
 
 class FocusROI(_message.Message):
-    __slots__ = ("x1", "y1", "x2", "y2", "frame_time")
+    __slots__ = ("x1", "y1", "x2", "y2", "frame_time", "state_time")
     X1_FIELD_NUMBER: _ClassVar[int]
     Y1_FIELD_NUMBER: _ClassVar[int]
     X2_FIELD_NUMBER: _ClassVar[int]
     Y2_FIELD_NUMBER: _ClassVar[int]
     FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
+    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
     x1: float
     y1: float
     x2: float
     y2: float
     frame_time: int
-    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ...) -> None: ...
+    state_time: int
+    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
 
 class TrackROI(_message.Message):
-    __slots__ = ("x1", "y1", "x2", "y2", "frame_time")
+    __slots__ = ("x1", "y1", "x2", "y2", "frame_time", "state_time")
     X1_FIELD_NUMBER: _ClassVar[int]
     Y1_FIELD_NUMBER: _ClassVar[int]
     X2_FIELD_NUMBER: _ClassVar[int]
     Y2_FIELD_NUMBER: _ClassVar[int]
     FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
+    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
     x1: float
     y1: float
     x2: float
     y2: float
     frame_time: int
-    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ...) -> None: ...
+    state_time: int
+    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
 
 class ZoomROI(_message.Message):
-    __slots__ = ("x1", "y1", "x2", "y2", "frame_time")
+    __slots__ = ("x1", "y1", "x2", "y2", "frame_time", "state_time")
     X1_FIELD_NUMBER: _ClassVar[int]
     Y1_FIELD_NUMBER: _ClassVar[int]
     X2_FIELD_NUMBER: _ClassVar[int]
     Y2_FIELD_NUMBER: _ClassVar[int]
     FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
+    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
     x1: float
     y1: float
     x2: float
     y2: float
     frame_time: int
-    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ...) -> None: ...
+    state_time: int
+    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...

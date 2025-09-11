@@ -69,6 +69,7 @@ message StartTrackNDC {
     lte: 1.0
   }];
   uint64 frame_time = 4;
+  uint64 state_time = 5;  // System monotonic time from state when user performed action
 }
 
 message StopTrack {}

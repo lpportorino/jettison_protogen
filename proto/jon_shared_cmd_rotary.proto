@@ -339,4 +339,6 @@ message RotateToNDC {
     gte: -1.0,
     lte: 1.0
   }];
+  uint64 frame_time = 4;  // Video frame timestamp
+  uint64 state_time = 5;  // System monotonic time from state when user performed action
 }

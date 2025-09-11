@@ -24,17 +24,22 @@ message JonGUIState {
     gt: 0,
     lte: 2147483647  // Max value for Java int (avoiding overflow)
   }];
-  JonGuiDataSystem system = 2 [(buf.validate.field).required = true];
-  JonGuiDataMeteo meteo_internal = 3 [(buf.validate.field).required = true];
-  JonGuiDataLrf lrf = 4 [(buf.validate.field).required = true];
-  JonGuiDataTime time = 5 [(buf.validate.field).required = true];
-  JonGuiDataGps gps = 6 [(buf.validate.field).required = true];
-  JonGuiDataCompass compass = 7 [(buf.validate.field).required = true];
-  JonGuiDataRotary rotary = 8 [(buf.validate.field).required = true];
-  JonGuiDataCameraDay camera_day = 9 [(buf.validate.field).required = true];
-  JonGuiDataCameraHeat camera_heat = 10 [(buf.validate.field).required = true];
-  JonGuiDataCompassCalibration compass_calibration = 11 [(buf.validate.field).required = true];
-  JonGuiDataRecOsd rec_osd = 12 [(buf.validate.field).required = true];
-  JonGuiDataDayCamGlassHeater day_cam_glass_heater = 13 [(buf.validate.field).required = true];
-  JonGuiDataActualSpaceTime actual_space_time = 14 [(buf.validate.field).required = true];
+  uint64 system_monotonic_time_us = 2 [(buf.validate.field).uint64.gte = 0];  // System monotonic time in microseconds
+  
+  // Reserved fields for future use
+  reserved 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+  
+  JonGuiDataSystem system = 13 [(buf.validate.field).required = true];
+  JonGuiDataMeteo meteo_internal = 14 [(buf.validate.field).required = true];
+  JonGuiDataLrf lrf = 15 [(buf.validate.field).required = true];
+  JonGuiDataTime time = 16 [(buf.validate.field).required = true];
+  JonGuiDataGps gps = 17 [(buf.validate.field).required = true];
+  JonGuiDataCompass compass = 18 [(buf.validate.field).required = true];
+  JonGuiDataRotary rotary = 19 [(buf.validate.field).required = true];
+  JonGuiDataCameraDay camera_day = 20 [(buf.validate.field).required = true];
+  JonGuiDataCameraHeat camera_heat = 21 [(buf.validate.field).required = true];
+  JonGuiDataCompassCalibration compass_calibration = 22 [(buf.validate.field).required = true];
+  JonGuiDataRecOsd rec_osd = 23 [(buf.validate.field).required = true];
+  JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(buf.validate.field).required = true];
+  JonGuiDataActualSpaceTime actual_space_time = 25 [(buf.validate.field).required = true];
 }

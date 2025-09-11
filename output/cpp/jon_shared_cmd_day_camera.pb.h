@@ -320,6 +320,7 @@ class ZoomROI final : public ::google::protobuf::Message
     kX2FieldNumber = 3,
     kY2FieldNumber = 4,
     kFrameTimeFieldNumber = 5,
+    kStateTimeFieldNumber = 6,
   };
   // double x1 = 1;
   void clear_x1() ;
@@ -371,12 +372,22 @@ class ZoomROI final : public ::google::protobuf::Message
   void _internal_set_frame_time(::uint64_t value);
 
   public:
+  // uint64 state_time = 6;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.ZoomROI)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 0,
+      3, 6, 0,
       0, 2>
       _table_;
 
@@ -399,6 +410,7 @@ class ZoomROI final : public ::google::protobuf::Message
     double x2_;
     double y2_;
     ::uint64_t frame_time_;
+    ::uint64_t state_time_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -558,6 +570,7 @@ class TrackROI final : public ::google::protobuf::Message
     kX2FieldNumber = 3,
     kY2FieldNumber = 4,
     kFrameTimeFieldNumber = 5,
+    kStateTimeFieldNumber = 6,
   };
   // double x1 = 1;
   void clear_x1() ;
@@ -609,12 +622,22 @@ class TrackROI final : public ::google::protobuf::Message
   void _internal_set_frame_time(::uint64_t value);
 
   public:
+  // uint64 state_time = 6;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.TrackROI)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 0,
+      3, 6, 0,
       0, 2>
       _table_;
 
@@ -637,6 +660,7 @@ class TrackROI final : public ::google::protobuf::Message
     double x2_;
     double y2_;
     ::uint64_t frame_time_;
+    ::uint64_t state_time_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -5218,6 +5242,7 @@ class FocusROI final : public ::google::protobuf::Message
     kX2FieldNumber = 3,
     kY2FieldNumber = 4,
     kFrameTimeFieldNumber = 5,
+    kStateTimeFieldNumber = 6,
   };
   // double x1 = 1;
   void clear_x1() ;
@@ -5269,12 +5294,22 @@ class FocusROI final : public ::google::protobuf::Message
   void _internal_set_frame_time(::uint64_t value);
 
   public:
+  // uint64 state_time = 6;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.FocusROI)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 0,
+      3, 6, 0,
       0, 2>
       _table_;
 
@@ -5297,6 +5332,7 @@ class FocusROI final : public ::google::protobuf::Message
     double x2_;
     double y2_;
     ::uint64_t frame_time_;
+    ::uint64_t state_time_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -9981,6 +10017,28 @@ inline void FocusROI::_internal_set_frame_time(::uint64_t value) {
   _impl_.frame_time_ = value;
 }
 
+// uint64 state_time = 6;
+inline void FocusROI::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t FocusROI::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FocusROI.state_time)
+  return _internal_state_time();
+}
+inline void FocusROI::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FocusROI.state_time)
+}
+inline ::uint64_t FocusROI::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void FocusROI::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // TrackROI
@@ -10095,6 +10153,28 @@ inline void TrackROI::_internal_set_frame_time(::uint64_t value) {
   _impl_.frame_time_ = value;
 }
 
+// uint64 state_time = 6;
+inline void TrackROI::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t TrackROI::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.TrackROI.state_time)
+  return _internal_state_time();
+}
+inline void TrackROI::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.TrackROI.state_time)
+}
+inline ::uint64_t TrackROI::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void TrackROI::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
+}
+
 // -------------------------------------------------------------------
 
 // ZoomROI
@@ -10207,6 +10287,28 @@ inline ::uint64_t ZoomROI::_internal_frame_time() const {
 inline void ZoomROI::_internal_set_frame_time(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.frame_time_ = value;
+}
+
+// uint64 state_time = 6;
+inline void ZoomROI::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t ZoomROI::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.ZoomROI.state_time)
+  return _internal_state_time();
+}
+inline void ZoomROI::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.ZoomROI.state_time)
+}
+inline ::uint64_t ZoomROI::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void ZoomROI::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
 }
 
 #ifdef __GNUC__

@@ -206,6 +206,9 @@ pub struct FocusRoi {
     pub y2: f64,
     #[prost(uint64, tag = "5")]
     pub frame_time: u64,
+    /// System monotonic time from state when user performed action
+    #[prost(uint64, tag = "6")]
+    pub state_time: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct TrackRoi {
@@ -219,6 +222,9 @@ pub struct TrackRoi {
     pub y2: f64,
     #[prost(uint64, tag = "5")]
     pub frame_time: u64,
+    /// System monotonic time from state when user performed action
+    #[prost(uint64, tag = "6")]
+    pub state_time: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ZoomRoi {
@@ -232,4 +238,7 @@ pub struct ZoomRoi {
     pub y2: f64,
     #[prost(uint64, tag = "5")]
     pub frame_time: u64,
+    /// System monotonic time from state when user performed action
+    #[prost(uint64, tag = "6")]
+    pub state_time: u64,
 }

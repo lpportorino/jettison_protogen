@@ -1140,30 +1140,33 @@ pub struct JonGuiDataActualSpaceTime {
 pub struct JonGuiState {
     #[prost(uint32, tag = "1")]
     pub protocol_version: u32,
-    #[prost(message, optional, tag = "2")]
-    pub system: ::core::option::Option<JonGuiDataSystem>,
-    #[prost(message, optional, tag = "3")]
-    pub meteo_internal: ::core::option::Option<JonGuiDataMeteo>,
-    #[prost(message, optional, tag = "4")]
-    pub lrf: ::core::option::Option<JonGuiDataLrf>,
-    #[prost(message, optional, tag = "5")]
-    pub time: ::core::option::Option<JonGuiDataTime>,
-    #[prost(message, optional, tag = "6")]
-    pub gps: ::core::option::Option<JonGuiDataGps>,
-    #[prost(message, optional, tag = "7")]
-    pub compass: ::core::option::Option<JonGuiDataCompass>,
-    #[prost(message, optional, tag = "8")]
-    pub rotary: ::core::option::Option<JonGuiDataRotary>,
-    #[prost(message, optional, tag = "9")]
-    pub camera_day: ::core::option::Option<JonGuiDataCameraDay>,
-    #[prost(message, optional, tag = "10")]
-    pub camera_heat: ::core::option::Option<JonGuiDataCameraHeat>,
-    #[prost(message, optional, tag = "11")]
-    pub compass_calibration: ::core::option::Option<JonGuiDataCompassCalibration>,
-    #[prost(message, optional, tag = "12")]
-    pub rec_osd: ::core::option::Option<JonGuiDataRecOsd>,
+    /// System monotonic time in microseconds
+    #[prost(uint64, tag = "2")]
+    pub system_monotonic_time_us: u64,
     #[prost(message, optional, tag = "13")]
-    pub day_cam_glass_heater: ::core::option::Option<JonGuiDataDayCamGlassHeater>,
+    pub system: ::core::option::Option<JonGuiDataSystem>,
     #[prost(message, optional, tag = "14")]
+    pub meteo_internal: ::core::option::Option<JonGuiDataMeteo>,
+    #[prost(message, optional, tag = "15")]
+    pub lrf: ::core::option::Option<JonGuiDataLrf>,
+    #[prost(message, optional, tag = "16")]
+    pub time: ::core::option::Option<JonGuiDataTime>,
+    #[prost(message, optional, tag = "17")]
+    pub gps: ::core::option::Option<JonGuiDataGps>,
+    #[prost(message, optional, tag = "18")]
+    pub compass: ::core::option::Option<JonGuiDataCompass>,
+    #[prost(message, optional, tag = "19")]
+    pub rotary: ::core::option::Option<JonGuiDataRotary>,
+    #[prost(message, optional, tag = "20")]
+    pub camera_day: ::core::option::Option<JonGuiDataCameraDay>,
+    #[prost(message, optional, tag = "21")]
+    pub camera_heat: ::core::option::Option<JonGuiDataCameraHeat>,
+    #[prost(message, optional, tag = "22")]
+    pub compass_calibration: ::core::option::Option<JonGuiDataCompassCalibration>,
+    #[prost(message, optional, tag = "23")]
+    pub rec_osd: ::core::option::Option<JonGuiDataRecOsd>,
+    #[prost(message, optional, tag = "24")]
+    pub day_cam_glass_heater: ::core::option::Option<JonGuiDataDayCamGlassHeater>,
+    #[prost(message, optional, tag = "25")]
     pub actual_space_time: ::core::option::Option<JonGuiDataActualSpaceTime>,
 }

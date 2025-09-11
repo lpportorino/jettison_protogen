@@ -508,6 +508,8 @@ inline constexpr RotateToNDC::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : x_{0},
         y_{0},
+        frame_time_{::uint64_t{0u}},
+        state_time_{::uint64_t{0u}},
         channel_{static_cast< ::ser::JonGuiDataVideoChannel >(0)},
         _cached_size_{0} {}
 
@@ -1360,6 +1362,8 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::RotateToNDC, _impl_.channel_),
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::RotateToNDC, _impl_.x_),
         PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::RotateToNDC, _impl_.y_),
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::RotateToNDC, _impl_.frame_time_),
+        PROTOBUF_FIELD_OFFSET(::cmd::RotaryPlatform::RotateToNDC, _impl_.state_time_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -1548,9 +1552,10 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto[] ABSL_
     "ss\022\014\n\004flag\030\001 \001(\010\"D\n\013RotateToGPS\022\020\n\010latit"
     "ude\030\001 \001(\001\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010altitude"
     "\030\003 \001(\001\"E\n\014SetOriginGPS\022\020\n\010latitude\030\001 \001(\001"
-    "\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010altitude\030\003 \001(\001\"Q\n"
+    "\022\021\n\tlongitude\030\002 \001(\001\022\020\n\010altitude\030\003 \001(\001\"y\n"
     "\013RotateToNDC\022,\n\007channel\030\001 \001(\0162\033.ser.JonG"
     "uiDataVideoChannel\022\t\n\001x\030\002 \001(\001\022\t\n\001y\030\003 \001(\001"
+    "\022\022\n\nframe_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004"
     "BMZKgit-codecommit.eu-central-1.amazonaw"
     "s.com/v1/repos/jettison/jonp/cmd/rotaryb"
     "\006proto3"
@@ -1563,7 +1568,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto = {
     false,
     false,
-    4247,
+    4287,
     descriptor_table_protodef_jon_5fshared_5fcmd_5frotary_2eproto,
     "jon_shared_cmd_rotary.proto",
     &descriptor_table_jon_5fshared_5fcmd_5frotary_2eproto_once,
@@ -10892,15 +10897,15 @@ const ::google::protobuf::internal::ClassData* RotateToNDC::GetClassData() const
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateToNDC::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 0, 2> RotateToNDC::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    3, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967288,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    3,  // num_field_entries
+    5,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -10920,6 +10925,14 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateToNDC::_table_ = {
     // double y = 3;
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.y_)}},
+    // uint64 frame_time = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RotateToNDC, _impl_.frame_time_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.frame_time_)}},
+    // uint64 state_time = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RotateToNDC, _impl_.state_time_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.state_time_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -10932,6 +10945,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RotateToNDC::_table_ = {
     // double y = 3;
     {PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.y_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // uint64 frame_time = 4;
+    {PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.frame_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 state_time = 5;
+    {PROTOBUF_FIELD_OFFSET(RotateToNDC, _impl_.state_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }},
   // no aux_entries
   {{
@@ -10987,6 +11006,20 @@ PROTOBUF_NOINLINE void RotateToNDC::Clear() {
                 3, this_._internal_y(), target);
           }
 
+          // uint64 frame_time = 4;
+          if (this_._internal_frame_time() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                4, this_._internal_frame_time(), target);
+          }
+
+          // uint64 state_time = 5;
+          if (this_._internal_state_time() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                5, this_._internal_state_time(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -11020,6 +11053,16 @@ PROTOBUF_NOINLINE void RotateToNDC::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
               total_size += 9;
             }
+            // uint64 frame_time = 4;
+            if (this_._internal_frame_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_frame_time());
+            }
+            // uint64 state_time = 5;
+            if (this_._internal_state_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_state_time());
+            }
             // .ser.JonGuiDataVideoChannel channel = 1;
             if (this_._internal_channel() != 0) {
               total_size += 1 +
@@ -11043,6 +11086,12 @@ void RotateToNDC::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goo
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_y()) != 0) {
     _this->_impl_.y_ = from._impl_.y_;
+  }
+  if (from._internal_frame_time() != 0) {
+    _this->_impl_.frame_time_ = from._impl_.frame_time_;
+  }
+  if (from._internal_state_time() != 0) {
+    _this->_impl_.state_time_ = from._impl_.state_time_;
   }
   if (from._internal_channel() != 0) {
     _this->_impl_.channel_ = from._impl_.channel_;

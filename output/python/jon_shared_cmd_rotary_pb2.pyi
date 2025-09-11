@@ -332,11 +332,15 @@ class SetOriginGPS(_message.Message):
     def __init__(self, latitude: _Optional[float] = ..., longitude: _Optional[float] = ..., altitude: _Optional[float] = ...) -> None: ...
 
 class RotateToNDC(_message.Message):
-    __slots__ = ("channel", "x", "y")
+    __slots__ = ("channel", "x", "y", "frame_time", "state_time")
     CHANNEL_FIELD_NUMBER: _ClassVar[int]
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]
+    FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
+    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
     channel: _jon_shared_data_types_pb2.JonGuiDataVideoChannel
     x: float
     y: float
-    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ...) -> None: ...
+    frame_time: int
+    state_time: int
+    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...

@@ -309,4 +309,10 @@ pub struct RotateToNdc {
     pub x: f64,
     #[prost(double, tag = "3")]
     pub y: f64,
+    /// Video frame timestamp
+    #[prost(uint64, tag = "4")]
+    pub frame_time: u64,
+    /// System monotonic time from state when user performed action
+    #[prost(uint64, tag = "5")]
+    pub state_time: u64,
 }

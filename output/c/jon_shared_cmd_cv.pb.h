@@ -53,6 +53,7 @@ typedef struct _cmd_CV_StartTrackNDC {
     double x;
     double y;
     uint64_t frame_time;
+    uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_CV_StartTrackNDC;
 
 typedef struct _cmd_CV_StopTrack {
@@ -92,7 +93,7 @@ extern "C" {
 #define cmd_CV_RecognitionModeEnable_init_default {0}
 #define cmd_CV_RecognitionModeDisable_init_default {0}
 #define cmd_CV_SetAutoFocus_init_default         {_ser_JonGuiDataVideoChannel_MIN, 0}
-#define cmd_CV_StartTrackNDC_init_default        {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0}
+#define cmd_CV_StartTrackNDC_init_default        {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_CV_StopTrack_init_default            {0}
 #define cmd_CV_Root_init_zero                    {0, {cmd_CV_SetAutoFocus_init_zero}}
 #define cmd_CV_VampireModeEnable_init_zero       {0}
@@ -104,7 +105,7 @@ extern "C" {
 #define cmd_CV_RecognitionModeEnable_init_zero   {0}
 #define cmd_CV_RecognitionModeDisable_init_zero  {0}
 #define cmd_CV_SetAutoFocus_init_zero            {_ser_JonGuiDataVideoChannel_MIN, 0}
-#define cmd_CV_StartTrackNDC_init_zero           {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0}
+#define cmd_CV_StartTrackNDC_init_zero           {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_CV_StopTrack_init_zero               {0}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -114,6 +115,7 @@ extern "C" {
 #define cmd_CV_StartTrackNDC_x_tag               2
 #define cmd_CV_StartTrackNDC_y_tag               3
 #define cmd_CV_StartTrackNDC_frame_time_tag      4
+#define cmd_CV_StartTrackNDC_state_time_tag      5
 #define cmd_CV_Root_set_auto_focus_tag           1
 #define cmd_CV_Root_start_track_ndc_tag          2
 #define cmd_CV_Root_stop_track_tag               3
@@ -203,7 +205,8 @@ X(a, STATIC,   SINGULAR, BOOL,     value,             2)
 X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
 X(a, STATIC,   SINGULAR, DOUBLE,   x,                 2) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y,                 3) \
-X(a, STATIC,   SINGULAR, UINT64,   frame_time,        4)
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        4) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        5)
 #define cmd_CV_StartTrackNDC_CALLBACK NULL
 #define cmd_CV_StartTrackNDC_DEFAULT NULL
 
@@ -245,11 +248,11 @@ extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
 #define cmd_CV_DumpStop_size                     0
 #define cmd_CV_RecognitionModeDisable_size       0
 #define cmd_CV_RecognitionModeEnable_size        0
-#define cmd_CV_Root_size                         33
+#define cmd_CV_Root_size                         44
 #define cmd_CV_SetAutoFocus_size                 4
 #define cmd_CV_StabilizationModeDisable_size     0
 #define cmd_CV_StabilizationModeEnable_size      0
-#define cmd_CV_StartTrackNDC_size                31
+#define cmd_CV_StartTrackNDC_size                42
 #define cmd_CV_StopTrack_size                    0
 #define cmd_CV_VampireModeDisable_size           0
 #define cmd_CV_VampireModeEnable_size            0

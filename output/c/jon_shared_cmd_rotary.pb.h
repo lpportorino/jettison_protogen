@@ -210,6 +210,8 @@ typedef struct _cmd_RotaryPlatform_RotateToNDC {
     ser_JonGuiDataVideoChannel channel;
     double x;
     double y;
+    uint64_t frame_time; /* Video frame timestamp */
+    uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_RotaryPlatform_RotateToNDC;
 
 typedef struct _cmd_RotaryPlatform_Root {
@@ -286,7 +288,7 @@ extern "C" {
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_init_default {0}
 #define cmd_RotaryPlatform_RotateToGPS_init_default {0, 0, 0}
 #define cmd_RotaryPlatform_SetOriginGPS_init_default {0, 0, 0}
-#define cmd_RotaryPlatform_RotateToNDC_init_default {_ser_JonGuiDataVideoChannel_MIN, 0, 0}
+#define cmd_RotaryPlatform_RotateToNDC_init_default {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_RotaryPlatform_Root_init_zero        {0, {cmd_RotaryPlatform_Start_init_zero}}
 #define cmd_RotaryPlatform_Axis_init_zero        {false, cmd_RotaryPlatform_Azimuth_init_zero, false, cmd_RotaryPlatform_Elevation_init_zero}
 #define cmd_RotaryPlatform_SetMode_init_zero     {_ser_JonGuiDataRotaryMode_MIN}
@@ -325,7 +327,7 @@ extern "C" {
 #define cmd_RotaryPlatform_setUseRotaryAsCompass_init_zero {0}
 #define cmd_RotaryPlatform_RotateToGPS_init_zero {0, 0, 0}
 #define cmd_RotaryPlatform_SetOriginGPS_init_zero {0, 0, 0}
-#define cmd_RotaryPlatform_RotateToNDC_init_zero {_ser_JonGuiDataVideoChannel_MIN, 0, 0}
+#define cmd_RotaryPlatform_RotateToNDC_init_zero {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_RotaryPlatform_SetMode_mode_tag      1
@@ -394,6 +396,8 @@ extern "C" {
 #define cmd_RotaryPlatform_RotateToNDC_channel_tag 1
 #define cmd_RotaryPlatform_RotateToNDC_x_tag     2
 #define cmd_RotaryPlatform_RotateToNDC_y_tag     3
+#define cmd_RotaryPlatform_RotateToNDC_frame_time_tag 4
+#define cmd_RotaryPlatform_RotateToNDC_state_time_tag 5
 #define cmd_RotaryPlatform_Root_start_tag        1
 #define cmd_RotaryPlatform_Root_stop_tag         2
 #define cmd_RotaryPlatform_Root_axis_tag         3
@@ -713,7 +717,9 @@ X(a, STATIC,   SINGULAR, DOUBLE,   altitude,          3)
 #define cmd_RotaryPlatform_RotateToNDC_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
 X(a, STATIC,   SINGULAR, DOUBLE,   x,                 2) \
-X(a, STATIC,   SINGULAR, DOUBLE,   y,                 3)
+X(a, STATIC,   SINGULAR, DOUBLE,   y,                 3) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        4) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        5)
 #define cmd_RotaryPlatform_RotateToNDC_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateToNDC_DEFAULT NULL
 
@@ -817,7 +823,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToNDC_msg;
 #define cmd_RotaryPlatform_RotateElevationTo_size 18
 #define cmd_RotaryPlatform_RotateElevation_size  11
 #define cmd_RotaryPlatform_RotateToGPS_size      27
-#define cmd_RotaryPlatform_RotateToNDC_size      20
+#define cmd_RotaryPlatform_RotateToNDC_size      42
 #define cmd_RotaryPlatform_ScanAddNode_size      69
 #define cmd_RotaryPlatform_ScanDeleteNode_size   11
 #define cmd_RotaryPlatform_ScanNext_size         0

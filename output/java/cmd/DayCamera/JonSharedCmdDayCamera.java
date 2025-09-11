@@ -19757,6 +19757,16 @@ public final class JonSharedCmdDayCamera {
      * @return The frameTime.
      */
     long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.FocusROI}
@@ -19850,6 +19860,21 @@ public final class JonSharedCmdDayCamera {
       return frameTime_;
     }
 
+    public static final int STATE_TIME_FIELD_NUMBER = 6;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -19878,6 +19903,9 @@ public final class JonSharedCmdDayCamera {
       }
       if (frameTime_ != 0L) {
         output.writeUInt64(5, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(6, stateTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -19908,6 +19936,10 @@ public final class JonSharedCmdDayCamera {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(5, frameTime_);
       }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, stateTime_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -19937,6 +19969,8 @@ public final class JonSharedCmdDayCamera {
               other.getY2())) return false;
       if (getFrameTime()
           != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -19963,6 +19997,9 @@ public final class JonSharedCmdDayCamera {
       hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -20099,6 +20136,7 @@ public final class JonSharedCmdDayCamera {
         x2_ = 0D;
         y2_ = 0D;
         frameTime_ = 0L;
+        stateTime_ = 0L;
         return this;
       }
 
@@ -20147,6 +20185,9 @@ public final class JonSharedCmdDayCamera {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.frameTime_ = frameTime_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
       }
 
       @java.lang.Override
@@ -20175,6 +20216,9 @@ public final class JonSharedCmdDayCamera {
         }
         if (other.getFrameTime() != 0L) {
           setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -20227,6 +20271,11 @@ public final class JonSharedCmdDayCamera {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 40
+              case 48: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -20404,6 +20453,50 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
 
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        stateTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:cmd.DayCamera.FocusROI)
     }
 
@@ -20488,6 +20581,16 @@ public final class JonSharedCmdDayCamera {
      * @return The frameTime.
      */
     long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.TrackROI}
@@ -20581,6 +20684,21 @@ public final class JonSharedCmdDayCamera {
       return frameTime_;
     }
 
+    public static final int STATE_TIME_FIELD_NUMBER = 6;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -20609,6 +20727,9 @@ public final class JonSharedCmdDayCamera {
       }
       if (frameTime_ != 0L) {
         output.writeUInt64(5, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(6, stateTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -20639,6 +20760,10 @@ public final class JonSharedCmdDayCamera {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(5, frameTime_);
       }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, stateTime_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -20668,6 +20793,8 @@ public final class JonSharedCmdDayCamera {
               other.getY2())) return false;
       if (getFrameTime()
           != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -20694,6 +20821,9 @@ public final class JonSharedCmdDayCamera {
       hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -20830,6 +20960,7 @@ public final class JonSharedCmdDayCamera {
         x2_ = 0D;
         y2_ = 0D;
         frameTime_ = 0L;
+        stateTime_ = 0L;
         return this;
       }
 
@@ -20878,6 +21009,9 @@ public final class JonSharedCmdDayCamera {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.frameTime_ = frameTime_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
       }
 
       @java.lang.Override
@@ -20906,6 +21040,9 @@ public final class JonSharedCmdDayCamera {
         }
         if (other.getFrameTime() != 0L) {
           setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -20958,6 +21095,11 @@ public final class JonSharedCmdDayCamera {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 40
+              case 48: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -21135,6 +21277,50 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
 
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        stateTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:cmd.DayCamera.TrackROI)
     }
 
@@ -21219,6 +21405,16 @@ public final class JonSharedCmdDayCamera {
      * @return The frameTime.
      */
     long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
   }
   /**
    * Protobuf type {@code cmd.DayCamera.ZoomROI}
@@ -21312,6 +21508,21 @@ public final class JonSharedCmdDayCamera {
       return frameTime_;
     }
 
+    public static final int STATE_TIME_FIELD_NUMBER = 6;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -21340,6 +21551,9 @@ public final class JonSharedCmdDayCamera {
       }
       if (frameTime_ != 0L) {
         output.writeUInt64(5, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(6, stateTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -21370,6 +21584,10 @@ public final class JonSharedCmdDayCamera {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(5, frameTime_);
       }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, stateTime_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -21399,6 +21617,8 @@ public final class JonSharedCmdDayCamera {
               other.getY2())) return false;
       if (getFrameTime()
           != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -21425,6 +21645,9 @@ public final class JonSharedCmdDayCamera {
       hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -21561,6 +21784,7 @@ public final class JonSharedCmdDayCamera {
         x2_ = 0D;
         y2_ = 0D;
         frameTime_ = 0L;
+        stateTime_ = 0L;
         return this;
       }
 
@@ -21609,6 +21833,9 @@ public final class JonSharedCmdDayCamera {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.frameTime_ = frameTime_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
       }
 
       @java.lang.Override
@@ -21637,6 +21864,9 @@ public final class JonSharedCmdDayCamera {
         }
         if (other.getFrameTime() != 0L) {
           setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -21689,6 +21919,11 @@ public final class JonSharedCmdDayCamera {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 40
+              case 48: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -21862,6 +22097,50 @@ public final class JonSharedCmdDayCamera {
       public Builder clearFrameTime() {
         bitField0_ = (bitField0_ & ~0x00000010);
         frameTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        stateTime_ = 0L;
         onChanged();
         return this;
       }
@@ -22158,23 +22437,24 @@ public final class JonSharedCmdDayCamera {
       "eValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007" +
       "\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\t" +
       "ResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTable\"\022" +
-      "\n\020SaveToTableFocus\"\262\001\n\010FocusROI\022#\n\002x1\030\001 " +
+      "\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1\030\001 " +
       "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001" +
       "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272" +
       "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022" +
-      "\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\"" +
-      "\262\001\n\010TrackROI\022#\n\002x1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?" +
-      ")\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
-      "\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000" +
-      "\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
-      "\022\022\n\nframe_time\030\005 \001(\004\"\261\001\n\007ZoomROI\022#\n\002x1\030\001" +
+      "\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022" +
+      "\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x1\030\001" +
       " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
       "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
       "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
       "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004" +
-      "BQZOgit-codecommit.eu-central-1.amazonaw" +
-      "s.com/v1/repos/jettison/jonp/cmd/day_cam" +
-      "erab\006proto3"
+      "\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x1\030\001" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
+      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004" +
+      "\022\022\n\nstate_time\030\006 \001(\004BQZOgit-codecommit.e" +
+      "u-central-1.amazonaws.com/v1/repos/jetti" +
+      "son/jonp/cmd/day_camerab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22367,19 +22647,19 @@ public final class JonSharedCmdDayCamera {
     internal_static_cmd_DayCamera_FocusROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_FocusROI_descriptor,
-        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", });
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_TrackROI_descriptor =
       getDescriptor().getMessageTypes().get(31);
     internal_static_cmd_DayCamera_TrackROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_TrackROI_descriptor,
-        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", });
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_ZoomROI_descriptor =
       getDescriptor().getMessageTypes().get(32);
     internal_static_cmd_DayCamera_ZoomROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_ZoomROI_descriptor,
-        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", });
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

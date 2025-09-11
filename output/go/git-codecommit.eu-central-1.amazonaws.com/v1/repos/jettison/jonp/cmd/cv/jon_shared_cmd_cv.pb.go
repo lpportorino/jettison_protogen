@@ -595,6 +595,7 @@ type StartTrackNDC struct {
 	X             float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
 	Y             float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
 	FrameTime     uint64                       `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
+	StateTime     uint64                       `protobuf:"varint,5,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -653,6 +654,13 @@ func (x *StartTrackNDC) GetY() float64 {
 func (x *StartTrackNDC) GetFrameTime() uint64 {
 	if x != nil {
 		return x.FrameTime
+	}
+	return 0
+}
+
+func (x *StartTrackNDC) GetStateTime() uint64 {
+	if x != nil {
+		return x.StateTime
 	}
 	return 0
 }
@@ -726,14 +734,16 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\fSetAutoFocus\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\bR\x05value\"\xbf\x01\n" +
+	"\x05value\x18\x02 \x01(\bR\x05value\"\xde\x01\n" +
 	"\rStartTrackNDC\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12%\n" +
 	"\x01x\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
 	"\x01y\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\x12\x1d\n" +
 	"\n" +
-	"frame_time\x18\x04 \x01(\x04R\tframeTime\"\v\n" +
+	"frame_time\x18\x04 \x01(\x04R\tframeTime\x12\x1d\n" +
+	"\n" +
+	"state_time\x18\x05 \x01(\x04R\tstateTime\"\v\n" +
 	"\tStopTrackB\xa3\x01\n" +
 	"\n" +
 	"com.cmd.CVB\x13JonSharedCmdCvProtoP\x01ZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/cv\xa2\x02\x03CCX\xaa\x02\x06Cmd.CV\xca\x02\x06Cmd\\CV\xe2\x02\x12Cmd\\CV\\GPBMetadata\xea\x02\aCmd::CVb\x06proto3"

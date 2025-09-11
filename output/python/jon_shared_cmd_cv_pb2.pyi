@@ -72,16 +72,18 @@ class SetAutoFocus(_message.Message):
     def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., value: bool = ...) -> None: ...
 
 class StartTrackNDC(_message.Message):
-    __slots__ = ("channel", "x", "y", "frame_time")
+    __slots__ = ("channel", "x", "y", "frame_time", "state_time")
     CHANNEL_FIELD_NUMBER: _ClassVar[int]
     X_FIELD_NUMBER: _ClassVar[int]
     Y_FIELD_NUMBER: _ClassVar[int]
     FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
+    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
     channel: _jon_shared_data_types_pb2.JonGuiDataVideoChannel
     x: float
     y: float
     frame_time: int
-    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., frame_time: _Optional[int] = ...) -> None: ...
+    state_time: int
+    def __init__(self, channel: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataVideoChannel, str]] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
 
 class StopTrack(_message.Message):
     __slots__ = ()

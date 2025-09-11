@@ -24,6 +24,8 @@ import { JonGuiDataMeteo } from "./jon_shared_data_types";
 /** Root message */
 export interface JonGUIState {
   protocolVersion: number;
+  /** System monotonic time in microseconds */
+  systemMonotonicTimeUs: Long;
   system: JonGuiDataSystem | undefined;
   meteoInternal: JonGuiDataMeteo | undefined;
   lrf: JonGuiDataLrf | undefined;
@@ -42,6 +44,7 @@ export interface JonGUIState {
 function createBaseJonGUIState(): JonGUIState {
   return {
     protocolVersion: 0,
+    systemMonotonicTimeUs: Long.UZERO,
     system: undefined,
     meteoInternal: undefined,
     lrf: undefined,
@@ -63,44 +66,47 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     if (message.protocolVersion !== 0) {
       writer.uint32(8).uint32(message.protocolVersion);
     }
+    if (!message.systemMonotonicTimeUs.equals(Long.UZERO)) {
+      writer.uint32(16).uint64(message.systemMonotonicTimeUs.toString());
+    }
     if (message.system !== undefined) {
-      JonGuiDataSystem.encode(message.system, writer.uint32(18).fork()).join();
+      JonGuiDataSystem.encode(message.system, writer.uint32(106).fork()).join();
     }
     if (message.meteoInternal !== undefined) {
-      JonGuiDataMeteo.encode(message.meteoInternal, writer.uint32(26).fork()).join();
+      JonGuiDataMeteo.encode(message.meteoInternal, writer.uint32(114).fork()).join();
     }
     if (message.lrf !== undefined) {
-      JonGuiDataLrf.encode(message.lrf, writer.uint32(34).fork()).join();
+      JonGuiDataLrf.encode(message.lrf, writer.uint32(122).fork()).join();
     }
     if (message.time !== undefined) {
-      JonGuiDataTime.encode(message.time, writer.uint32(42).fork()).join();
+      JonGuiDataTime.encode(message.time, writer.uint32(130).fork()).join();
     }
     if (message.gps !== undefined) {
-      JonGuiDataGps.encode(message.gps, writer.uint32(50).fork()).join();
+      JonGuiDataGps.encode(message.gps, writer.uint32(138).fork()).join();
     }
     if (message.compass !== undefined) {
-      JonGuiDataCompass.encode(message.compass, writer.uint32(58).fork()).join();
+      JonGuiDataCompass.encode(message.compass, writer.uint32(146).fork()).join();
     }
     if (message.rotary !== undefined) {
-      JonGuiDataRotary.encode(message.rotary, writer.uint32(66).fork()).join();
+      JonGuiDataRotary.encode(message.rotary, writer.uint32(154).fork()).join();
     }
     if (message.cameraDay !== undefined) {
-      JonGuiDataCameraDay.encode(message.cameraDay, writer.uint32(74).fork()).join();
+      JonGuiDataCameraDay.encode(message.cameraDay, writer.uint32(162).fork()).join();
     }
     if (message.cameraHeat !== undefined) {
-      JonGuiDataCameraHeat.encode(message.cameraHeat, writer.uint32(82).fork()).join();
+      JonGuiDataCameraHeat.encode(message.cameraHeat, writer.uint32(170).fork()).join();
     }
     if (message.compassCalibration !== undefined) {
-      JonGuiDataCompassCalibration.encode(message.compassCalibration, writer.uint32(90).fork()).join();
+      JonGuiDataCompassCalibration.encode(message.compassCalibration, writer.uint32(178).fork()).join();
     }
     if (message.recOsd !== undefined) {
-      JonGuiDataRecOsd.encode(message.recOsd, writer.uint32(98).fork()).join();
+      JonGuiDataRecOsd.encode(message.recOsd, writer.uint32(186).fork()).join();
     }
     if (message.dayCamGlassHeater !== undefined) {
-      JonGuiDataDayCamGlassHeater.encode(message.dayCamGlassHeater, writer.uint32(106).fork()).join();
+      JonGuiDataDayCamGlassHeater.encode(message.dayCamGlassHeater, writer.uint32(194).fork()).join();
     }
     if (message.actualSpaceTime !== undefined) {
-      JonGuiDataActualSpaceTime.encode(message.actualSpaceTime, writer.uint32(114).fork()).join();
+      JonGuiDataActualSpaceTime.encode(message.actualSpaceTime, writer.uint32(202).fork()).join();
     }
     return writer;
   },
@@ -121,91 +127,11 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           continue;
         }
         case 2: {
-          if (tag !== 18) {
+          if (tag !== 16) {
             break;
           }
 
-          message.system = JonGuiDataSystem.decode(reader, reader.uint32());
-          continue;
-        }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.meteoInternal = JonGuiDataMeteo.decode(reader, reader.uint32());
-          continue;
-        }
-        case 4: {
-          if (tag !== 34) {
-            break;
-          }
-
-          message.lrf = JonGuiDataLrf.decode(reader, reader.uint32());
-          continue;
-        }
-        case 5: {
-          if (tag !== 42) {
-            break;
-          }
-
-          message.time = JonGuiDataTime.decode(reader, reader.uint32());
-          continue;
-        }
-        case 6: {
-          if (tag !== 50) {
-            break;
-          }
-
-          message.gps = JonGuiDataGps.decode(reader, reader.uint32());
-          continue;
-        }
-        case 7: {
-          if (tag !== 58) {
-            break;
-          }
-
-          message.compass = JonGuiDataCompass.decode(reader, reader.uint32());
-          continue;
-        }
-        case 8: {
-          if (tag !== 66) {
-            break;
-          }
-
-          message.rotary = JonGuiDataRotary.decode(reader, reader.uint32());
-          continue;
-        }
-        case 9: {
-          if (tag !== 74) {
-            break;
-          }
-
-          message.cameraDay = JonGuiDataCameraDay.decode(reader, reader.uint32());
-          continue;
-        }
-        case 10: {
-          if (tag !== 82) {
-            break;
-          }
-
-          message.cameraHeat = JonGuiDataCameraHeat.decode(reader, reader.uint32());
-          continue;
-        }
-        case 11: {
-          if (tag !== 90) {
-            break;
-          }
-
-          message.compassCalibration = JonGuiDataCompassCalibration.decode(reader, reader.uint32());
-          continue;
-        }
-        case 12: {
-          if (tag !== 98) {
-            break;
-          }
-
-          message.recOsd = JonGuiDataRecOsd.decode(reader, reader.uint32());
+          message.systemMonotonicTimeUs = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
         case 13: {
@@ -213,11 +139,99 @@ export const JonGUIState: MessageFns<JonGUIState> = {
             break;
           }
 
-          message.dayCamGlassHeater = JonGuiDataDayCamGlassHeater.decode(reader, reader.uint32());
+          message.system = JonGuiDataSystem.decode(reader, reader.uint32());
           continue;
         }
         case 14: {
           if (tag !== 114) {
+            break;
+          }
+
+          message.meteoInternal = JonGuiDataMeteo.decode(reader, reader.uint32());
+          continue;
+        }
+        case 15: {
+          if (tag !== 122) {
+            break;
+          }
+
+          message.lrf = JonGuiDataLrf.decode(reader, reader.uint32());
+          continue;
+        }
+        case 16: {
+          if (tag !== 130) {
+            break;
+          }
+
+          message.time = JonGuiDataTime.decode(reader, reader.uint32());
+          continue;
+        }
+        case 17: {
+          if (tag !== 138) {
+            break;
+          }
+
+          message.gps = JonGuiDataGps.decode(reader, reader.uint32());
+          continue;
+        }
+        case 18: {
+          if (tag !== 146) {
+            break;
+          }
+
+          message.compass = JonGuiDataCompass.decode(reader, reader.uint32());
+          continue;
+        }
+        case 19: {
+          if (tag !== 154) {
+            break;
+          }
+
+          message.rotary = JonGuiDataRotary.decode(reader, reader.uint32());
+          continue;
+        }
+        case 20: {
+          if (tag !== 162) {
+            break;
+          }
+
+          message.cameraDay = JonGuiDataCameraDay.decode(reader, reader.uint32());
+          continue;
+        }
+        case 21: {
+          if (tag !== 170) {
+            break;
+          }
+
+          message.cameraHeat = JonGuiDataCameraHeat.decode(reader, reader.uint32());
+          continue;
+        }
+        case 22: {
+          if (tag !== 178) {
+            break;
+          }
+
+          message.compassCalibration = JonGuiDataCompassCalibration.decode(reader, reader.uint32());
+          continue;
+        }
+        case 23: {
+          if (tag !== 186) {
+            break;
+          }
+
+          message.recOsd = JonGuiDataRecOsd.decode(reader, reader.uint32());
+          continue;
+        }
+        case 24: {
+          if (tag !== 194) {
+            break;
+          }
+
+          message.dayCamGlassHeater = JonGuiDataDayCamGlassHeater.decode(reader, reader.uint32());
+          continue;
+        }
+        case 25: {
+          if (tag !== 202) {
             break;
           }
 
@@ -236,6 +250,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
   fromJSON(object: any): JonGUIState {
     return {
       protocolVersion: isSet(object.protocolVersion) ? globalThis.Number(object.protocolVersion) : 0,
+      systemMonotonicTimeUs: isSet(object.systemMonotonicTimeUs)
+        ? Long.fromValue(object.systemMonotonicTimeUs)
+        : Long.UZERO,
       system: isSet(object.system) ? JonGuiDataSystem.fromJSON(object.system) : undefined,
       meteoInternal: isSet(object.meteoInternal) ? JonGuiDataMeteo.fromJSON(object.meteoInternal) : undefined,
       lrf: isSet(object.lrf) ? JonGuiDataLrf.fromJSON(object.lrf) : undefined,
@@ -262,6 +279,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     const obj: any = {};
     if (message.protocolVersion !== 0) {
       obj.protocolVersion = Math.round(message.protocolVersion);
+    }
+    if (!message.systemMonotonicTimeUs.equals(Long.UZERO)) {
+      obj.systemMonotonicTimeUs = (message.systemMonotonicTimeUs || Long.UZERO).toString();
     }
     if (message.system !== undefined) {
       obj.system = JonGuiDataSystem.toJSON(message.system);
@@ -311,6 +331,10 @@ export const JonGUIState: MessageFns<JonGUIState> = {
   fromPartial<I extends Exact<DeepPartial<JonGUIState>, I>>(object: I): JonGUIState {
     const message = createBaseJonGUIState();
     message.protocolVersion = object.protocolVersion ?? 0;
+    message.systemMonotonicTimeUs =
+      (object.systemMonotonicTimeUs !== undefined && object.systemMonotonicTimeUs !== null)
+        ? Long.fromValue(object.systemMonotonicTimeUs)
+        : Long.UZERO;
     message.system = (object.system !== undefined && object.system !== null)
       ? JonGuiDataSystem.fromPartial(object.system)
       : undefined;

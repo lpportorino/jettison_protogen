@@ -4100,6 +4100,8 @@ class RotateToNDC final : public ::google::protobuf::Message
   enum : int {
     kXFieldNumber = 2,
     kYFieldNumber = 3,
+    kFrameTimeFieldNumber = 4,
+    kStateTimeFieldNumber = 5,
     kChannelFieldNumber = 1,
   };
   // double x = 2;
@@ -4122,6 +4124,26 @@ class RotateToNDC final : public ::google::protobuf::Message
   void _internal_set_y(double value);
 
   public:
+  // uint64 frame_time = 4;
+  void clear_frame_time() ;
+  ::uint64_t frame_time() const;
+  void set_frame_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_time() const;
+  void _internal_set_frame_time(::uint64_t value);
+
+  public:
+  // uint64 state_time = 5;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
   // .ser.JonGuiDataVideoChannel channel = 1;
   void clear_channel() ;
   ::ser::JonGuiDataVideoChannel channel() const;
@@ -4137,7 +4159,7 @@ class RotateToNDC final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 0,
+      3, 5, 0,
       0, 2>
       _table_;
 
@@ -4157,6 +4179,8 @@ class RotateToNDC final : public ::google::protobuf::Message
                           const RotateToNDC& from_msg);
     double x_;
     double y_;
+    ::uint64_t frame_time_;
+    ::uint64_t state_time_;
     int channel_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -12595,6 +12619,50 @@ inline double RotateToNDC::_internal_y() const {
 inline void RotateToNDC::_internal_set_y(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = value;
+}
+
+// uint64 frame_time = 4;
+inline void RotateToNDC::clear_frame_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t RotateToNDC::frame_time() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToNDC.frame_time)
+  return _internal_frame_time();
+}
+inline void RotateToNDC::set_frame_time(::uint64_t value) {
+  _internal_set_frame_time(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToNDC.frame_time)
+}
+inline ::uint64_t RotateToNDC::_internal_frame_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_time_;
+}
+inline void RotateToNDC::_internal_set_frame_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_ = value;
+}
+
+// uint64 state_time = 5;
+inline void RotateToNDC::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t RotateToNDC::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.RotateToNDC.state_time)
+  return _internal_state_time();
+}
+inline void RotateToNDC::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.RotateToNDC.state_time)
+}
+inline ::uint64_t RotateToNDC::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void RotateToNDC::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
 }
 
 #ifdef __GNUC__

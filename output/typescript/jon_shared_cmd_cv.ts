@@ -61,6 +61,8 @@ export interface StartTrackNDC {
   x: number;
   y: number;
   frameTime: Long;
+  /** System monotonic time from state when user performed action */
+  stateTime: Long;
 }
 
 export interface StopTrack {
@@ -757,7 +759,7 @@ export const SetAutoFocus: MessageFns<SetAutoFocus> = {
 };
 
 function createBaseStartTrackNDC(): StartTrackNDC {
-  return { channel: 0, x: 0, y: 0, frameTime: Long.UZERO };
+  return { channel: 0, x: 0, y: 0, frameTime: Long.UZERO, stateTime: Long.UZERO };
 }
 
 export const StartTrackNDC: MessageFns<StartTrackNDC> = {
@@ -773,6 +775,9 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
     }
     if (!message.frameTime.equals(Long.UZERO)) {
       writer.uint32(32).uint64(message.frameTime.toString());
+    }
+    if (!message.stateTime.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.stateTime.toString());
     }
     return writer;
   },
@@ -816,6 +821,14 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
           message.frameTime = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.stateTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -831,6 +844,7 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
       x: isSet(object.x) ? globalThis.Number(object.x) : 0,
       y: isSet(object.y) ? globalThis.Number(object.y) : 0,
       frameTime: isSet(object.frameTime) ? Long.fromValue(object.frameTime) : Long.UZERO,
+      stateTime: isSet(object.stateTime) ? Long.fromValue(object.stateTime) : Long.UZERO,
     };
   },
 
@@ -848,6 +862,9 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
     if (!message.frameTime.equals(Long.UZERO)) {
       obj.frameTime = (message.frameTime || Long.UZERO).toString();
     }
+    if (!message.stateTime.equals(Long.UZERO)) {
+      obj.stateTime = (message.stateTime || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -861,6 +878,9 @@ export const StartTrackNDC: MessageFns<StartTrackNDC> = {
     message.y = object.y ?? 0;
     message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
       ? Long.fromValue(object.frameTime)
+      : Long.UZERO;
+    message.stateTime = (object.stateTime !== undefined && object.stateTime !== null)
+      ? Long.fromValue(object.stateTime)
       : Long.UZERO;
     return message;
   },

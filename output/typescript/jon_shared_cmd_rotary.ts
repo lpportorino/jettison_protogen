@@ -224,6 +224,10 @@ export interface RotateToNDC {
   channel: JonGuiDataVideoChannel;
   x: number;
   y: number;
+  /** Video frame timestamp */
+  frameTime: Long;
+  /** System monotonic time from state when user performed action */
+  stateTime: Long;
 }
 
 function createBaseRoot(): Root {
@@ -3378,7 +3382,7 @@ export const SetOriginGPS: MessageFns<SetOriginGPS> = {
 };
 
 function createBaseRotateToNDC(): RotateToNDC {
-  return { channel: 0, x: 0, y: 0 };
+  return { channel: 0, x: 0, y: 0, frameTime: Long.UZERO, stateTime: Long.UZERO };
 }
 
 export const RotateToNDC: MessageFns<RotateToNDC> = {
@@ -3391,6 +3395,12 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
     }
     if (message.y !== 0) {
       writer.uint32(25).double(message.y);
+    }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      writer.uint32(32).uint64(message.frameTime.toString());
+    }
+    if (!message.stateTime.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.stateTime.toString());
     }
     return writer;
   },
@@ -3426,6 +3436,22 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
           message.y = reader.double();
           continue;
         }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.frameTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.stateTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3440,6 +3466,8 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
       channel: isSet(object.channel) ? jonGuiDataVideoChannelFromJSON(object.channel) : 0,
       x: isSet(object.x) ? globalThis.Number(object.x) : 0,
       y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      frameTime: isSet(object.frameTime) ? Long.fromValue(object.frameTime) : Long.UZERO,
+      stateTime: isSet(object.stateTime) ? Long.fromValue(object.stateTime) : Long.UZERO,
     };
   },
 
@@ -3454,6 +3482,12 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
     if (message.y !== 0) {
       obj.y = message.y;
     }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      obj.frameTime = (message.frameTime || Long.UZERO).toString();
+    }
+    if (!message.stateTime.equals(Long.UZERO)) {
+      obj.stateTime = (message.stateTime || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -3465,6 +3499,12 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
     message.channel = object.channel ?? 0;
     message.x = object.x ?? 0;
     message.y = object.y ?? 0;
+    message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
+      ? Long.fromValue(object.frameTime)
+      : Long.UZERO;
+    message.stateTime = (object.stateTime !== undefined && object.stateTime !== null)
+      ? Long.fromValue(object.stateTime)
+      : Long.UZERO;
     return message;
   },
 };

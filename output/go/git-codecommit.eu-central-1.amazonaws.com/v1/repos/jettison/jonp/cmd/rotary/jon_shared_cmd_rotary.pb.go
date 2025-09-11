@@ -2422,6 +2422,8 @@ type RotateToNDC struct {
 	Channel       types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
 	X             float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
 	Y             float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
+	FrameTime     uint64                       `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"` // Video frame timestamp
+	StateTime     uint64                       `protobuf:"varint,5,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2473,6 +2475,20 @@ func (x *RotateToNDC) GetX() float64 {
 func (x *RotateToNDC) GetY() float64 {
 	if x != nil {
 		return x.Y
+	}
+	return 0
+}
+
+func (x *RotateToNDC) GetFrameTime() uint64 {
+	if x != nil {
+		return x.FrameTime
+	}
+	return 0
+}
+
+func (x *RotateToNDC) GetStateTime() uint64 {
+	if x != nil {
+		return x.StateTime
 	}
 	return 0
 }
@@ -2625,12 +2641,16 @@ const file_jon_shared_cmd_rotary_proto_rawDesc = "" +
 	"\fSetOriginGPS\x123\n" +
 	"\blatitude\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x125\n" +
 	"\tlongitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
-	"\baltitude\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\xf8@)\x00\x00\x00\x00\x00\xe0z\xc0R\baltitude\"\x9e\x01\n" +
+	"\baltitude\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00j\xf8@)\x00\x00\x00\x00\x00\xe0z\xc0R\baltitude\"\xdc\x01\n" +
 	"\vRotateToNDC\x12A\n" +
 	"\achannel\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataVideoChannelB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\achannel\x12%\n" +
 	"\x01x\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01x\x12%\n" +
-	"\x01y\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01yB\xe7\x01\n" +
+	"\x01y\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x01y\x12\x1d\n" +
+	"\n" +
+	"frame_time\x18\x04 \x01(\x04R\tframeTime\x12\x1d\n" +
+	"\n" +
+	"state_time\x18\x05 \x01(\x04R\tstateTimeB\xe7\x01\n" +
 	"\x16com.cmd.RotaryPlatformB\x17JonSharedCmdRotaryProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/rotary\xa2\x02\x03CRX\xaa\x02\x12Cmd.RotaryPlatform\xca\x02\x12Cmd\\RotaryPlatform\xe2\x02\x1eCmd\\RotaryPlatform\\GPBMetadata\xea\x02\x13Cmd::RotaryPlatformb\x06proto3"
 
 var (

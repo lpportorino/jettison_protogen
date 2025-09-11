@@ -6329,6 +6329,16 @@ public final class JonSharedCmdCv {
      * @return The frameTime.
      */
     long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 5;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
   }
   /**
    * Protobuf type {@code cmd.CV.StartTrackNDC}
@@ -6419,6 +6429,21 @@ public final class JonSharedCmdCv {
       return frameTime_;
     }
 
+    public static final int STATE_TIME_FIELD_NUMBER = 5;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 5;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6445,6 +6470,9 @@ public final class JonSharedCmdCv {
       if (frameTime_ != 0L) {
         output.writeUInt64(4, frameTime_);
       }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(5, stateTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6470,6 +6498,10 @@ public final class JonSharedCmdCv {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(4, frameTime_);
       }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, stateTime_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6494,6 +6526,8 @@ public final class JonSharedCmdCv {
               other.getY())) return false;
       if (getFrameTime()
           != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -6516,6 +6550,9 @@ public final class JonSharedCmdCv {
       hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6651,6 +6688,7 @@ public final class JonSharedCmdCv {
         x_ = 0D;
         y_ = 0D;
         frameTime_ = 0L;
+        stateTime_ = 0L;
         return this;
       }
 
@@ -6696,6 +6734,9 @@ public final class JonSharedCmdCv {
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.frameTime_ = frameTime_;
         }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
       }
 
       @java.lang.Override
@@ -6721,6 +6762,9 @@ public final class JonSharedCmdCv {
         }
         if (other.getFrameTime() != 0L) {
           setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -6768,6 +6812,11 @@ public final class JonSharedCmdCv {
                 bitField0_ |= 0x00000008;
                 break;
               } // case 32
+              case 40: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -6930,6 +6979,50 @@ public final class JonSharedCmdCv {
       public Builder clearFrameTime() {
         bitField0_ = (bitField0_ & ~0x00000008);
         frameTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        stateTime_ = 0L;
         onChanged();
         return this;
       }
@@ -7433,14 +7526,14 @@ public final class JonSharedCmdCv {
       "odeDisable\"\027\n\025RecognitionModeEnable\"\030\n\026R" +
       "ecognitionModeDisable\"W\n\014SetAutoFocus\0228\n" +
       "\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoChan" +
-      "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\245\001\n\rStart" +
+      "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\271\001\n\rStart" +
       "TrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDa" +
       "taVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272" +
       "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\"\013" +
-      "\n\tStopTrackBIZGgit-codecommit.eu-central" +
-      "-1.amazonaws.com/v1/repos/jettison/jonp/" +
-      "cmd/cvb\006proto3"
+      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022" +
+      "\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrackBIZGgit-c" +
+      "odecommit.eu-central-1.amazonaws.com/v1/" +
+      "repos/jettison/jonp/cmd/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7513,7 +7606,7 @@ public final class JonSharedCmdCv {
     internal_static_cmd_CV_StartTrackNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StartTrackNDC_descriptor,
-        new java.lang.String[] { "Channel", "X", "Y", "FrameTime", });
+        new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
     internal_static_cmd_CV_StopTrack_descriptor =
       getDescriptor().getMessageTypes().get(11);
     internal_static_cmd_CV_StopTrack_fieldAccessorTable = new

@@ -690,6 +690,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
     kXFieldNumber = 2,
     kYFieldNumber = 3,
     kFrameTimeFieldNumber = 4,
+    kStateTimeFieldNumber = 5,
     kChannelFieldNumber = 1,
   };
   // double x = 2;
@@ -722,6 +723,16 @@ class StartTrackNDC final : public ::google::protobuf::Message
   void _internal_set_frame_time(::uint64_t value);
 
   public:
+  // uint64 state_time = 5;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
   // .ser.JonGuiDataVideoChannel channel = 1;
   void clear_channel() ;
   ::ser::JonGuiDataVideoChannel channel() const;
@@ -737,7 +748,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
+      3, 5, 0,
       0, 2>
       _table_;
 
@@ -758,6 +769,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
     double x_;
     double y_;
     ::uint64_t frame_time_;
+    ::uint64_t state_time_;
     int channel_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -3345,6 +3357,28 @@ inline ::uint64_t StartTrackNDC::_internal_frame_time() const {
 inline void StartTrackNDC::_internal_set_frame_time(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.frame_time_ = value;
+}
+
+// uint64 state_time = 5;
+inline void StartTrackNDC::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t StartTrackNDC::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.CV.StartTrackNDC.state_time)
+  return _internal_state_time();
+}
+inline void StartTrackNDC::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.CV.StartTrackNDC.state_time)
+}
+inline ::uint64_t StartTrackNDC::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void StartTrackNDC::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
 }
 
 // -------------------------------------------------------------------

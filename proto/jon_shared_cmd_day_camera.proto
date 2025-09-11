@@ -183,6 +183,7 @@ message FocusROI {
     lte: 1.0
   }];
   uint64 frame_time = 5;
+  uint64 state_time = 6;  // System monotonic time from state when user performed action
 }
 
 message TrackROI {
@@ -203,6 +204,7 @@ message TrackROI {
     lte: 1.0
   }];
   uint64 frame_time = 5;
+  uint64 state_time = 6;  // System monotonic time from state when user performed action
 }
 
 message ZoomROI {
@@ -223,4 +225,5 @@ message ZoomROI {
     lte: 1.0
   }];
   uint64 frame_time = 5;
+  uint64 state_time = 6;  // System monotonic time from state when user performed action
 }

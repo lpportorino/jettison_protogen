@@ -227,22 +227,23 @@ class JonGUIState final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kSystemFieldNumber = 2,
-    kMeteoInternalFieldNumber = 3,
-    kLrfFieldNumber = 4,
-    kTimeFieldNumber = 5,
-    kGpsFieldNumber = 6,
-    kCompassFieldNumber = 7,
-    kRotaryFieldNumber = 8,
-    kCameraDayFieldNumber = 9,
-    kCameraHeatFieldNumber = 10,
-    kCompassCalibrationFieldNumber = 11,
-    kRecOsdFieldNumber = 12,
-    kDayCamGlassHeaterFieldNumber = 13,
-    kActualSpaceTimeFieldNumber = 14,
+    kSystemFieldNumber = 13,
+    kMeteoInternalFieldNumber = 14,
+    kLrfFieldNumber = 15,
+    kTimeFieldNumber = 16,
+    kGpsFieldNumber = 17,
+    kCompassFieldNumber = 18,
+    kRotaryFieldNumber = 19,
+    kCameraDayFieldNumber = 20,
+    kCameraHeatFieldNumber = 21,
+    kCompassCalibrationFieldNumber = 22,
+    kRecOsdFieldNumber = 23,
+    kDayCamGlassHeaterFieldNumber = 24,
+    kActualSpaceTimeFieldNumber = 25,
+    kSystemMonotonicTimeUsFieldNumber = 2,
     kProtocolVersionFieldNumber = 1,
   };
-  // .ser.JonGuiDataSystem system = 2;
+  // .ser.JonGuiDataSystem system = 13;
   bool has_system() const;
   void clear_system() ;
   const ::ser::JonGuiDataSystem& system() const;
@@ -257,7 +258,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataSystem* _internal_mutable_system();
 
   public:
-  // .ser.JonGuiDataMeteo meteo_internal = 3;
+  // .ser.JonGuiDataMeteo meteo_internal = 14;
   bool has_meteo_internal() const;
   void clear_meteo_internal() ;
   const ::ser::JonGuiDataMeteo& meteo_internal() const;
@@ -272,7 +273,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataMeteo* _internal_mutable_meteo_internal();
 
   public:
-  // .ser.JonGuiDataLrf lrf = 4;
+  // .ser.JonGuiDataLrf lrf = 15;
   bool has_lrf() const;
   void clear_lrf() ;
   const ::ser::JonGuiDataLrf& lrf() const;
@@ -287,7 +288,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataLrf* _internal_mutable_lrf();
 
   public:
-  // .ser.JonGuiDataTime time = 5;
+  // .ser.JonGuiDataTime time = 16;
   bool has_time() const;
   void clear_time() ;
   const ::ser::JonGuiDataTime& time() const;
@@ -302,7 +303,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataTime* _internal_mutable_time();
 
   public:
-  // .ser.JonGuiDataGps gps = 6;
+  // .ser.JonGuiDataGps gps = 17;
   bool has_gps() const;
   void clear_gps() ;
   const ::ser::JonGuiDataGps& gps() const;
@@ -317,7 +318,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataGps* _internal_mutable_gps();
 
   public:
-  // .ser.JonGuiDataCompass compass = 7;
+  // .ser.JonGuiDataCompass compass = 18;
   bool has_compass() const;
   void clear_compass() ;
   const ::ser::JonGuiDataCompass& compass() const;
@@ -332,7 +333,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataCompass* _internal_mutable_compass();
 
   public:
-  // .ser.JonGuiDataRotary rotary = 8;
+  // .ser.JonGuiDataRotary rotary = 19;
   bool has_rotary() const;
   void clear_rotary() ;
   const ::ser::JonGuiDataRotary& rotary() const;
@@ -347,7 +348,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataRotary* _internal_mutable_rotary();
 
   public:
-  // .ser.JonGuiDataCameraDay camera_day = 9;
+  // .ser.JonGuiDataCameraDay camera_day = 20;
   bool has_camera_day() const;
   void clear_camera_day() ;
   const ::ser::JonGuiDataCameraDay& camera_day() const;
@@ -362,7 +363,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataCameraDay* _internal_mutable_camera_day();
 
   public:
-  // .ser.JonGuiDataCameraHeat camera_heat = 10;
+  // .ser.JonGuiDataCameraHeat camera_heat = 21;
   bool has_camera_heat() const;
   void clear_camera_heat() ;
   const ::ser::JonGuiDataCameraHeat& camera_heat() const;
@@ -377,7 +378,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataCameraHeat* _internal_mutable_camera_heat();
 
   public:
-  // .ser.JonGuiDataCompassCalibration compass_calibration = 11;
+  // .ser.JonGuiDataCompassCalibration compass_calibration = 22;
   bool has_compass_calibration() const;
   void clear_compass_calibration() ;
   const ::ser::JonGuiDataCompassCalibration& compass_calibration() const;
@@ -392,7 +393,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataCompassCalibration* _internal_mutable_compass_calibration();
 
   public:
-  // .ser.JonGuiDataRecOsd rec_osd = 12;
+  // .ser.JonGuiDataRecOsd rec_osd = 23;
   bool has_rec_osd() const;
   void clear_rec_osd() ;
   const ::ser::JonGuiDataRecOsd& rec_osd() const;
@@ -407,7 +408,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataRecOsd* _internal_mutable_rec_osd();
 
   public:
-  // .ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 13;
+  // .ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24;
   bool has_day_cam_glass_heater() const;
   void clear_day_cam_glass_heater() ;
   const ::ser::JonGuiDataDayCamGlassHeater& day_cam_glass_heater() const;
@@ -422,7 +423,7 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataDayCamGlassHeater* _internal_mutable_day_cam_glass_heater();
 
   public:
-  // .ser.JonGuiDataActualSpaceTime actual_space_time = 14;
+  // .ser.JonGuiDataActualSpaceTime actual_space_time = 25;
   bool has_actual_space_time() const;
   void clear_actual_space_time() ;
   const ::ser::JonGuiDataActualSpaceTime& actual_space_time() const;
@@ -435,6 +436,16 @@ class JonGUIState final : public ::google::protobuf::Message
   private:
   const ::ser::JonGuiDataActualSpaceTime& _internal_actual_space_time() const;
   ::ser::JonGuiDataActualSpaceTime* _internal_mutable_actual_space_time();
+
+  public:
+  // uint64 system_monotonic_time_us = 2;
+  void clear_system_monotonic_time_us() ;
+  ::uint64_t system_monotonic_time_us() const;
+  void set_system_monotonic_time_us(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_system_monotonic_time_us() const;
+  void _internal_set_system_monotonic_time_us(::uint64_t value);
 
   public:
   // uint32 protocol_version = 1;
@@ -452,7 +463,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 14, 13,
+      4, 15, 13,
       0, 2>
       _table_;
 
@@ -485,6 +496,7 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataRecOsd* rec_osd_;
     ::ser::JonGuiDataDayCamGlassHeater* day_cam_glass_heater_;
     ::ser::JonGuiDataActualSpaceTime* actual_space_time_;
+    ::uint64_t system_monotonic_time_us_;
     ::uint32_t protocol_version_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -530,7 +542,29 @@ inline void JonGUIState::_internal_set_protocol_version(::uint32_t value) {
   _impl_.protocol_version_ = value;
 }
 
-// .ser.JonGuiDataSystem system = 2;
+// uint64 system_monotonic_time_us = 2;
+inline void JonGUIState::clear_system_monotonic_time_us() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.system_monotonic_time_us_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGUIState::system_monotonic_time_us() const {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.system_monotonic_time_us)
+  return _internal_system_monotonic_time_us();
+}
+inline void JonGUIState::set_system_monotonic_time_us(::uint64_t value) {
+  _internal_set_system_monotonic_time_us(value);
+  // @@protoc_insertion_point(field_set:ser.JonGUIState.system_monotonic_time_us)
+}
+inline ::uint64_t JonGUIState::_internal_system_monotonic_time_us() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.system_monotonic_time_us_;
+}
+inline void JonGUIState::_internal_set_system_monotonic_time_us(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.system_monotonic_time_us_ = value;
+}
+
+// .ser.JonGuiDataSystem system = 13;
 inline bool JonGUIState::has_system() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.system_ != nullptr);
@@ -621,7 +655,7 @@ inline void JonGUIState::set_allocated_system(::ser::JonGuiDataSystem* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.system)
 }
 
-// .ser.JonGuiDataMeteo meteo_internal = 3;
+// .ser.JonGuiDataMeteo meteo_internal = 14;
 inline bool JonGUIState::has_meteo_internal() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.meteo_internal_ != nullptr);
@@ -712,7 +746,7 @@ inline void JonGUIState::set_allocated_meteo_internal(::ser::JonGuiDataMeteo* va
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.meteo_internal)
 }
 
-// .ser.JonGuiDataLrf lrf = 4;
+// .ser.JonGuiDataLrf lrf = 15;
 inline bool JonGUIState::has_lrf() const {
   bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.lrf_ != nullptr);
@@ -803,7 +837,7 @@ inline void JonGUIState::set_allocated_lrf(::ser::JonGuiDataLrf* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.lrf)
 }
 
-// .ser.JonGuiDataTime time = 5;
+// .ser.JonGuiDataTime time = 16;
 inline bool JonGUIState::has_time() const {
   bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.time_ != nullptr);
@@ -894,7 +928,7 @@ inline void JonGUIState::set_allocated_time(::ser::JonGuiDataTime* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.time)
 }
 
-// .ser.JonGuiDataGps gps = 6;
+// .ser.JonGuiDataGps gps = 17;
 inline bool JonGUIState::has_gps() const {
   bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.gps_ != nullptr);
@@ -985,7 +1019,7 @@ inline void JonGUIState::set_allocated_gps(::ser::JonGuiDataGps* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.gps)
 }
 
-// .ser.JonGuiDataCompass compass = 7;
+// .ser.JonGuiDataCompass compass = 18;
 inline bool JonGUIState::has_compass() const {
   bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.compass_ != nullptr);
@@ -1076,7 +1110,7 @@ inline void JonGUIState::set_allocated_compass(::ser::JonGuiDataCompass* value) 
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.compass)
 }
 
-// .ser.JonGuiDataRotary rotary = 8;
+// .ser.JonGuiDataRotary rotary = 19;
 inline bool JonGUIState::has_rotary() const {
   bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.rotary_ != nullptr);
@@ -1167,7 +1201,7 @@ inline void JonGUIState::set_allocated_rotary(::ser::JonGuiDataRotary* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.rotary)
 }
 
-// .ser.JonGuiDataCameraDay camera_day = 9;
+// .ser.JonGuiDataCameraDay camera_day = 20;
 inline bool JonGUIState::has_camera_day() const {
   bool value = (_impl_._has_bits_[0] & 0x00000080u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.camera_day_ != nullptr);
@@ -1258,7 +1292,7 @@ inline void JonGUIState::set_allocated_camera_day(::ser::JonGuiDataCameraDay* va
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.camera_day)
 }
 
-// .ser.JonGuiDataCameraHeat camera_heat = 10;
+// .ser.JonGuiDataCameraHeat camera_heat = 21;
 inline bool JonGUIState::has_camera_heat() const {
   bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.camera_heat_ != nullptr);
@@ -1349,7 +1383,7 @@ inline void JonGUIState::set_allocated_camera_heat(::ser::JonGuiDataCameraHeat* 
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.camera_heat)
 }
 
-// .ser.JonGuiDataCompassCalibration compass_calibration = 11;
+// .ser.JonGuiDataCompassCalibration compass_calibration = 22;
 inline bool JonGUIState::has_compass_calibration() const {
   bool value = (_impl_._has_bits_[0] & 0x00000200u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.compass_calibration_ != nullptr);
@@ -1440,7 +1474,7 @@ inline void JonGUIState::set_allocated_compass_calibration(::ser::JonGuiDataComp
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.compass_calibration)
 }
 
-// .ser.JonGuiDataRecOsd rec_osd = 12;
+// .ser.JonGuiDataRecOsd rec_osd = 23;
 inline bool JonGUIState::has_rec_osd() const {
   bool value = (_impl_._has_bits_[0] & 0x00000400u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.rec_osd_ != nullptr);
@@ -1531,7 +1565,7 @@ inline void JonGUIState::set_allocated_rec_osd(::ser::JonGuiDataRecOsd* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.rec_osd)
 }
 
-// .ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 13;
+// .ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24;
 inline bool JonGUIState::has_day_cam_glass_heater() const {
   bool value = (_impl_._has_bits_[0] & 0x00000800u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.day_cam_glass_heater_ != nullptr);
@@ -1622,7 +1656,7 @@ inline void JonGUIState::set_allocated_day_cam_glass_heater(::ser::JonGuiDataDay
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.day_cam_glass_heater)
 }
 
-// .ser.JonGuiDataActualSpaceTime actual_space_time = 14;
+// .ser.JonGuiDataActualSpaceTime actual_space_time = 25;
 inline bool JonGUIState::has_actual_space_time() const {
   bool value = (_impl_._has_bits_[0] & 0x00001000u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.actual_space_time_ != nullptr);

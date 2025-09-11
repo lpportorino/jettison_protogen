@@ -153,6 +153,7 @@ typedef struct _cmd_DayCamera_FocusROI {
     double x2;
     double y2;
     uint64_t frame_time;
+    uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_DayCamera_FocusROI;
 
 typedef struct _cmd_DayCamera_TrackROI {
@@ -161,6 +162,7 @@ typedef struct _cmd_DayCamera_TrackROI {
     double x2;
     double y2;
     uint64_t frame_time;
+    uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_DayCamera_TrackROI;
 
 typedef struct _cmd_DayCamera_ZoomROI {
@@ -169,6 +171,7 @@ typedef struct _cmd_DayCamera_ZoomROI {
     double x2;
     double y2;
     uint64_t frame_time;
+    uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_DayCamera_ZoomROI;
 
 typedef struct _cmd_DayCamera_Root {
@@ -233,9 +236,9 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_default    {0}
 #define cmd_DayCamera_SaveToTable_init_default   {0}
 #define cmd_DayCamera_SaveToTableFocus_init_default {0}
-#define cmd_DayCamera_FocusROI_init_default      {0, 0, 0, 0, 0}
-#define cmd_DayCamera_TrackROI_init_default      {0, 0, 0, 0, 0}
-#define cmd_DayCamera_ZoomROI_init_default       {0, 0, 0, 0, 0}
+#define cmd_DayCamera_FocusROI_init_default      {0, 0, 0, 0, 0, 0}
+#define cmd_DayCamera_TrackROI_init_default      {0, 0, 0, 0, 0, 0}
+#define cmd_DayCamera_ZoomROI_init_default       {0, 0, 0, 0, 0, 0}
 #define cmd_DayCamera_SetValue_init_zero         {0}
 #define cmd_DayCamera_Move_init_zero             {0, 0}
 #define cmd_DayCamera_Offset_init_zero           {0}
@@ -266,9 +269,9 @@ extern "C" {
 #define cmd_DayCamera_ResetFocus_init_zero       {0}
 #define cmd_DayCamera_SaveToTable_init_zero      {0}
 #define cmd_DayCamera_SaveToTableFocus_init_zero {0}
-#define cmd_DayCamera_FocusROI_init_zero         {0, 0, 0, 0, 0}
-#define cmd_DayCamera_TrackROI_init_zero         {0, 0, 0, 0, 0}
-#define cmd_DayCamera_ZoomROI_init_zero          {0, 0, 0, 0, 0}
+#define cmd_DayCamera_FocusROI_init_zero         {0, 0, 0, 0, 0, 0}
+#define cmd_DayCamera_TrackROI_init_zero         {0, 0, 0, 0, 0, 0}
+#define cmd_DayCamera_ZoomROI_init_zero          {0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_DayCamera_SetValue_value_tag         1
@@ -303,16 +306,19 @@ extern "C" {
 #define cmd_DayCamera_FocusROI_x2_tag            3
 #define cmd_DayCamera_FocusROI_y2_tag            4
 #define cmd_DayCamera_FocusROI_frame_time_tag    5
+#define cmd_DayCamera_FocusROI_state_time_tag    6
 #define cmd_DayCamera_TrackROI_x1_tag            1
 #define cmd_DayCamera_TrackROI_y1_tag            2
 #define cmd_DayCamera_TrackROI_x2_tag            3
 #define cmd_DayCamera_TrackROI_y2_tag            4
 #define cmd_DayCamera_TrackROI_frame_time_tag    5
+#define cmd_DayCamera_TrackROI_state_time_tag    6
 #define cmd_DayCamera_ZoomROI_x1_tag             1
 #define cmd_DayCamera_ZoomROI_y1_tag             2
 #define cmd_DayCamera_ZoomROI_x2_tag             3
 #define cmd_DayCamera_ZoomROI_y2_tag             4
 #define cmd_DayCamera_ZoomROI_frame_time_tag     5
+#define cmd_DayCamera_ZoomROI_state_time_tag     6
 #define cmd_DayCamera_Root_focus_tag             1
 #define cmd_DayCamera_Root_zoom_tag              2
 #define cmd_DayCamera_Root_set_iris_tag          3
@@ -558,7 +564,8 @@ X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
 X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4) \
-X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5)
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
 #define cmd_DayCamera_FocusROI_CALLBACK NULL
 #define cmd_DayCamera_FocusROI_DEFAULT NULL
 
@@ -567,7 +574,8 @@ X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
 X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4) \
-X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5)
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
 #define cmd_DayCamera_TrackROI_CALLBACK NULL
 #define cmd_DayCamera_TrackROI_DEFAULT NULL
 
@@ -576,7 +584,8 @@ X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
 X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
 X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4) \
-X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5)
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
 #define cmd_DayCamera_ZoomROI_CALLBACK NULL
 #define cmd_DayCamera_ZoomROI_DEFAULT NULL
 
@@ -651,7 +660,7 @@ extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_DAYCAMERA_JON_SHARED_CMD_DAY_CAMERA_PB_H_MAX_SIZE cmd_DayCamera_Root_size
-#define cmd_DayCamera_FocusROI_size              47
+#define cmd_DayCamera_FocusROI_size              58
 #define cmd_DayCamera_Focus_size                 20
 #define cmd_DayCamera_GetMeteo_size              0
 #define cmd_DayCamera_GetPos_size                0
@@ -667,7 +676,7 @@ extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
 #define cmd_DayCamera_RefreshFxMode_size         0
 #define cmd_DayCamera_ResetFocus_size            0
 #define cmd_DayCamera_ResetZoom_size             0
-#define cmd_DayCamera_Root_size                  50
+#define cmd_DayCamera_Root_size                  61
 #define cmd_DayCamera_SaveToTableFocus_size      0
 #define cmd_DayCamera_SaveToTable_size           0
 #define cmd_DayCamera_SetAutoIris_size           2
@@ -681,8 +690,8 @@ extern const pb_msgdesc_t cmd_DayCamera_ZoomROI_msg;
 #define cmd_DayCamera_ShiftClaheLevel_size       9
 #define cmd_DayCamera_Start_size                 0
 #define cmd_DayCamera_Stop_size                  0
-#define cmd_DayCamera_TrackROI_size              47
-#define cmd_DayCamera_ZoomROI_size               47
+#define cmd_DayCamera_TrackROI_size              58
+#define cmd_DayCamera_ZoomROI_size               58
 #define cmd_DayCamera_Zoom_size                  20
 
 #ifdef __cplusplus
