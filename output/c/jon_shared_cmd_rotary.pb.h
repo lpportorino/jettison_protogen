@@ -214,6 +214,14 @@ typedef struct _cmd_RotaryPlatform_RotateToNDC {
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_RotaryPlatform_RotateToNDC;
 
+typedef struct _cmd_RotaryPlatform_HaltWithNDC {
+    ser_JonGuiDataVideoChannel channel;
+    double x;
+    double y;
+    uint64_t frame_time; /* Video frame timestamp at gesture end */
+    uint64_t state_time; /* System monotonic time from state when gesture ended */
+} cmd_RotaryPlatform_HaltWithNDC;
+
 typedef struct _cmd_RotaryPlatform_Root {
     pb_size_t which_cmd;
     union {
@@ -241,6 +249,7 @@ typedef struct _cmd_RotaryPlatform_Root {
         cmd_RotaryPlatform_ScanDeleteNode scan_delete_node;
         cmd_RotaryPlatform_ScanUpdateNode scan_update_node;
         cmd_RotaryPlatform_ScanAddNode scan_add_node;
+        cmd_RotaryPlatform_HaltWithNDC halt_with_ndc;
     } cmd;
 } cmd_RotaryPlatform_Root;
 
@@ -289,6 +298,7 @@ extern "C" {
 #define cmd_RotaryPlatform_RotateToGPS_init_default {0, 0, 0}
 #define cmd_RotaryPlatform_SetOriginGPS_init_default {0, 0, 0}
 #define cmd_RotaryPlatform_RotateToNDC_init_default {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
+#define cmd_RotaryPlatform_HaltWithNDC_init_default {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_RotaryPlatform_Root_init_zero        {0, {cmd_RotaryPlatform_Start_init_zero}}
 #define cmd_RotaryPlatform_Axis_init_zero        {false, cmd_RotaryPlatform_Azimuth_init_zero, false, cmd_RotaryPlatform_Elevation_init_zero}
 #define cmd_RotaryPlatform_SetMode_init_zero     {_ser_JonGuiDataRotaryMode_MIN}
@@ -328,6 +338,7 @@ extern "C" {
 #define cmd_RotaryPlatform_RotateToGPS_init_zero {0, 0, 0}
 #define cmd_RotaryPlatform_SetOriginGPS_init_zero {0, 0, 0}
 #define cmd_RotaryPlatform_RotateToNDC_init_zero {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
+#define cmd_RotaryPlatform_HaltWithNDC_init_zero {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_RotaryPlatform_SetMode_mode_tag      1
@@ -398,6 +409,11 @@ extern "C" {
 #define cmd_RotaryPlatform_RotateToNDC_y_tag     3
 #define cmd_RotaryPlatform_RotateToNDC_frame_time_tag 4
 #define cmd_RotaryPlatform_RotateToNDC_state_time_tag 5
+#define cmd_RotaryPlatform_HaltWithNDC_channel_tag 1
+#define cmd_RotaryPlatform_HaltWithNDC_x_tag     2
+#define cmd_RotaryPlatform_HaltWithNDC_y_tag     3
+#define cmd_RotaryPlatform_HaltWithNDC_frame_time_tag 4
+#define cmd_RotaryPlatform_HaltWithNDC_state_time_tag 5
 #define cmd_RotaryPlatform_Root_start_tag        1
 #define cmd_RotaryPlatform_Root_stop_tag         2
 #define cmd_RotaryPlatform_Root_axis_tag         3
@@ -422,6 +438,7 @@ extern "C" {
 #define cmd_RotaryPlatform_Root_scan_delete_node_tag 22
 #define cmd_RotaryPlatform_Root_scan_update_node_tag 23
 #define cmd_RotaryPlatform_Root_scan_add_node_tag 24
+#define cmd_RotaryPlatform_Root_halt_with_ndc_tag 25
 
 /* Struct field encoding specification for nanopb */
 #define cmd_RotaryPlatform_Root_FIELDLIST(X, a) \
@@ -448,7 +465,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_refresh_node_list,cmd.scan_refresh_
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_select_node,cmd.scan_select_node),  21) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_delete_node,cmd.scan_delete_node),  22) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_update_node,cmd.scan_update_node),  23) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_add_node,cmd.scan_add_node),  24)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_add_node,cmd.scan_add_node),  24) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,halt_with_ndc,cmd.halt_with_ndc),  25)
 #define cmd_RotaryPlatform_Root_CALLBACK NULL
 #define cmd_RotaryPlatform_Root_DEFAULT NULL
 #define cmd_RotaryPlatform_Root_cmd_start_MSGTYPE cmd_RotaryPlatform_Start
@@ -475,6 +493,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,scan_add_node,cmd.scan_add_node),  24)
 #define cmd_RotaryPlatform_Root_cmd_scan_delete_node_MSGTYPE cmd_RotaryPlatform_ScanDeleteNode
 #define cmd_RotaryPlatform_Root_cmd_scan_update_node_MSGTYPE cmd_RotaryPlatform_ScanUpdateNode
 #define cmd_RotaryPlatform_Root_cmd_scan_add_node_MSGTYPE cmd_RotaryPlatform_ScanAddNode
+#define cmd_RotaryPlatform_Root_cmd_halt_with_ndc_MSGTYPE cmd_RotaryPlatform_HaltWithNDC
 
 #define cmd_RotaryPlatform_Axis_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  azimuth,           1) \
@@ -723,6 +742,15 @@ X(a, STATIC,   SINGULAR, UINT64,   state_time,        5)
 #define cmd_RotaryPlatform_RotateToNDC_CALLBACK NULL
 #define cmd_RotaryPlatform_RotateToNDC_DEFAULT NULL
 
+#define cmd_RotaryPlatform_HaltWithNDC_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    channel,           1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x,                 2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y,                 3) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        4) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        5)
+#define cmd_RotaryPlatform_HaltWithNDC_CALLBACK NULL
+#define cmd_RotaryPlatform_HaltWithNDC_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_RotaryPlatform_Root_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_Axis_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_SetMode_msg;
@@ -762,6 +790,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_setUseRotaryAsCompass_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToGPS_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_SetOriginGPS_msg;
 extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToNDC_msg;
+extern const pb_msgdesc_t cmd_RotaryPlatform_HaltWithNDC_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_RotaryPlatform_Root_fields &cmd_RotaryPlatform_Root_msg
@@ -803,6 +832,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToNDC_msg;
 #define cmd_RotaryPlatform_RotateToGPS_fields &cmd_RotaryPlatform_RotateToGPS_msg
 #define cmd_RotaryPlatform_SetOriginGPS_fields &cmd_RotaryPlatform_SetOriginGPS_msg
 #define cmd_RotaryPlatform_RotateToNDC_fields &cmd_RotaryPlatform_RotateToNDC_msg
+#define cmd_RotaryPlatform_HaltWithNDC_fields &cmd_RotaryPlatform_HaltWithNDC_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_ROTARYPLATFORM_JON_SHARED_CMD_ROTARY_PB_H_MAX_SIZE cmd_RotaryPlatform_Root_size
@@ -812,6 +842,7 @@ extern const pb_msgdesc_t cmd_RotaryPlatform_RotateToNDC_msg;
 #define cmd_RotaryPlatform_GetMeteo_size         0
 #define cmd_RotaryPlatform_HaltAzimuth_size      0
 #define cmd_RotaryPlatform_HaltElevation_size    0
+#define cmd_RotaryPlatform_HaltWithNDC_size      42
 #define cmd_RotaryPlatform_Halt_size             0
 #define cmd_RotaryPlatform_Root_size             72
 #define cmd_RotaryPlatform_RotateAzimuthRelativeSet_size 11

@@ -44,6 +44,7 @@ export interface Root {
   scanDeleteNode?: ScanDeleteNode | undefined;
   scanUpdateNode?: ScanUpdateNode | undefined;
   scanAddNode?: ScanAddNode | undefined;
+  haltWithNdc?: HaltWithNDC | undefined;
 }
 
 export interface Axis {
@@ -230,6 +231,16 @@ export interface RotateToNDC {
   stateTime: Long;
 }
 
+export interface HaltWithNDC {
+  channel: JonGuiDataVideoChannel;
+  x: number;
+  y: number;
+  /** Video frame timestamp at gesture end */
+  frameTime: Long;
+  /** System monotonic time from state when gesture ended */
+  stateTime: Long;
+}
+
 function createBaseRoot(): Root {
   return {
     start: undefined,
@@ -256,6 +267,7 @@ function createBaseRoot(): Root {
     scanDeleteNode: undefined,
     scanUpdateNode: undefined,
     scanAddNode: undefined,
+    haltWithNdc: undefined,
   };
 }
 
@@ -332,6 +344,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.scanAddNode !== undefined) {
       ScanAddNode.encode(message.scanAddNode, writer.uint32(194).fork()).join();
+    }
+    if (message.haltWithNdc !== undefined) {
+      HaltWithNDC.encode(message.haltWithNdc, writer.uint32(202).fork()).join();
     }
     return writer;
   },
@@ -535,6 +550,14 @@ export const Root: MessageFns<Root> = {
           message.scanAddNode = ScanAddNode.decode(reader, reader.uint32());
           continue;
         }
+        case 25: {
+          if (tag !== 202) {
+            break;
+          }
+
+          message.haltWithNdc = HaltWithNDC.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -578,6 +601,7 @@ export const Root: MessageFns<Root> = {
       scanDeleteNode: isSet(object.scanDeleteNode) ? ScanDeleteNode.fromJSON(object.scanDeleteNode) : undefined,
       scanUpdateNode: isSet(object.scanUpdateNode) ? ScanUpdateNode.fromJSON(object.scanUpdateNode) : undefined,
       scanAddNode: isSet(object.scanAddNode) ? ScanAddNode.fromJSON(object.scanAddNode) : undefined,
+      haltWithNdc: isSet(object.haltWithNdc) ? HaltWithNDC.fromJSON(object.haltWithNdc) : undefined,
     };
   },
 
@@ -655,6 +679,9 @@ export const Root: MessageFns<Root> = {
     if (message.scanAddNode !== undefined) {
       obj.scanAddNode = ScanAddNode.toJSON(message.scanAddNode);
     }
+    if (message.haltWithNdc !== undefined) {
+      obj.haltWithNdc = HaltWithNDC.toJSON(message.haltWithNdc);
+    }
     return obj;
   },
 
@@ -727,6 +754,9 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.scanAddNode = (object.scanAddNode !== undefined && object.scanAddNode !== null)
       ? ScanAddNode.fromPartial(object.scanAddNode)
+      : undefined;
+    message.haltWithNdc = (object.haltWithNdc !== undefined && object.haltWithNdc !== null)
+      ? HaltWithNDC.fromPartial(object.haltWithNdc)
       : undefined;
     return message;
   },
@@ -3496,6 +3526,134 @@ export const RotateToNDC: MessageFns<RotateToNDC> = {
   },
   fromPartial<I extends Exact<DeepPartial<RotateToNDC>, I>>(object: I): RotateToNDC {
     const message = createBaseRotateToNDC();
+    message.channel = object.channel ?? 0;
+    message.x = object.x ?? 0;
+    message.y = object.y ?? 0;
+    message.frameTime = (object.frameTime !== undefined && object.frameTime !== null)
+      ? Long.fromValue(object.frameTime)
+      : Long.UZERO;
+    message.stateTime = (object.stateTime !== undefined && object.stateTime !== null)
+      ? Long.fromValue(object.stateTime)
+      : Long.UZERO;
+    return message;
+  },
+};
+
+function createBaseHaltWithNDC(): HaltWithNDC {
+  return { channel: 0, x: 0, y: 0, frameTime: Long.UZERO, stateTime: Long.UZERO };
+}
+
+export const HaltWithNDC: MessageFns<HaltWithNDC> = {
+  encode(message: HaltWithNDC, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.channel !== 0) {
+      writer.uint32(8).int32(message.channel);
+    }
+    if (message.x !== 0) {
+      writer.uint32(17).double(message.x);
+    }
+    if (message.y !== 0) {
+      writer.uint32(25).double(message.y);
+    }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      writer.uint32(32).uint64(message.frameTime.toString());
+    }
+    if (!message.stateTime.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.stateTime.toString());
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): HaltWithNDC {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseHaltWithNDC();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.channel = reader.int32() as any;
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.x = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.y = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.frameTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.stateTime = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): HaltWithNDC {
+    return {
+      channel: isSet(object.channel) ? jonGuiDataVideoChannelFromJSON(object.channel) : 0,
+      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
+      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      frameTime: isSet(object.frameTime) ? Long.fromValue(object.frameTime) : Long.UZERO,
+      stateTime: isSet(object.stateTime) ? Long.fromValue(object.stateTime) : Long.UZERO,
+    };
+  },
+
+  toJSON(message: HaltWithNDC): unknown {
+    const obj: any = {};
+    if (message.channel !== 0) {
+      obj.channel = jonGuiDataVideoChannelToJSON(message.channel);
+    }
+    if (message.x !== 0) {
+      obj.x = message.x;
+    }
+    if (message.y !== 0) {
+      obj.y = message.y;
+    }
+    if (!message.frameTime.equals(Long.UZERO)) {
+      obj.frameTime = (message.frameTime || Long.UZERO).toString();
+    }
+    if (!message.stateTime.equals(Long.UZERO)) {
+      obj.stateTime = (message.stateTime || Long.UZERO).toString();
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<HaltWithNDC>, I>>(base?: I): HaltWithNDC {
+    return HaltWithNDC.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<HaltWithNDC>, I>>(object: I): HaltWithNDC {
+    const message = createBaseHaltWithNDC();
     message.channel = object.channel ?? 0;
     message.x = object.x ?? 0;
     message.y = object.y ?? 0;

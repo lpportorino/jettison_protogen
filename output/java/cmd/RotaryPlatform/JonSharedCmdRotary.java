@@ -389,6 +389,21 @@ public final class JonSharedCmdRotary {
      */
     cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNodeOrBuilder getScanAddNodeOrBuilder();
 
+    /**
+     * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+     * @return Whether the haltWithNdc field is set.
+     */
+    boolean hasHaltWithNdc();
+    /**
+     * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+     * @return The haltWithNdc.
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC getHaltWithNdc();
+    /**
+     * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+     */
+    cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder getHaltWithNdcOrBuilder();
+
     cmd.RotaryPlatform.JonSharedCmdRotary.Root.CmdCase getCmdCase();
   }
   /**
@@ -458,6 +473,7 @@ public final class JonSharedCmdRotary {
       SCAN_DELETE_NODE(22),
       SCAN_UPDATE_NODE(23),
       SCAN_ADD_NODE(24),
+      HALT_WITH_NDC(25),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -499,6 +515,7 @@ public final class JonSharedCmdRotary {
           case 22: return SCAN_DELETE_NODE;
           case 23: return SCAN_UPDATE_NODE;
           case 24: return SCAN_ADD_NODE;
+          case 25: return HALT_WITH_NDC;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -1258,6 +1275,37 @@ public final class JonSharedCmdRotary {
       return cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode.getDefaultInstance();
     }
 
+    public static final int HALT_WITH_NDC_FIELD_NUMBER = 25;
+    /**
+     * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+     * @return Whether the haltWithNdc field is set.
+     */
+    @java.lang.Override
+    public boolean hasHaltWithNdc() {
+      return cmdCase_ == 25;
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+     * @return The haltWithNdc.
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC getHaltWithNdc() {
+      if (cmdCase_ == 25) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+     */
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder getHaltWithNdcOrBuilder() {
+      if (cmdCase_ == 25) {
+         return (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_;
+      }
+      return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1343,6 +1391,9 @@ public final class JonSharedCmdRotary {
       }
       if (cmdCase_ == 24) {
         output.writeMessage(24, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_);
+      }
+      if (cmdCase_ == 25) {
+        output.writeMessage(25, (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1448,6 +1499,10 @@ public final class JonSharedCmdRotary {
       if (cmdCase_ == 24) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(24, (cmd.RotaryPlatform.JonSharedCmdRotary.ScanAddNode) cmd_);
+      }
+      if (cmdCase_ == 25) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(25, (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1562,6 +1617,10 @@ public final class JonSharedCmdRotary {
           if (!getScanAddNode()
               .equals(other.getScanAddNode())) return false;
           break;
+        case 25:
+          if (!getHaltWithNdc()
+              .equals(other.getHaltWithNdc())) return false;
+          break;
         case 0:
         default:
       }
@@ -1672,6 +1731,10 @@ public final class JonSharedCmdRotary {
         case 24:
           hash = (37 * hash) + SCAN_ADD_NODE_FIELD_NUMBER;
           hash = (53 * hash) + getScanAddNode().hashCode();
+          break;
+        case 25:
+          hash = (37 * hash) + HALT_WITH_NDC_FIELD_NUMBER;
+          hash = (53 * hash) + getHaltWithNdc().hashCode();
           break;
         case 0:
         default:
@@ -1879,6 +1942,9 @@ public final class JonSharedCmdRotary {
         if (scanAddNodeBuilder_ != null) {
           scanAddNodeBuilder_.clear();
         }
+        if (haltWithNdcBuilder_ != null) {
+          haltWithNdcBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -2016,6 +2082,10 @@ public final class JonSharedCmdRotary {
             scanAddNodeBuilder_ != null) {
           result.cmd_ = scanAddNodeBuilder_.build();
         }
+        if (cmdCase_ == 25 &&
+            haltWithNdcBuilder_ != null) {
+          result.cmd_ = haltWithNdcBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -2125,6 +2195,10 @@ public final class JonSharedCmdRotary {
           }
           case SCAN_ADD_NODE: {
             mergeScanAddNode(other.getScanAddNode());
+            break;
+          }
+          case HALT_WITH_NDC: {
+            mergeHaltWithNdc(other.getHaltWithNdc());
             break;
           }
           case CMD_NOT_SET: {
@@ -2325,6 +2399,13 @@ public final class JonSharedCmdRotary {
                 cmdCase_ = 24;
                 break;
               } // case 194
+              case 202: {
+                input.readMessage(
+                    getHaltWithNdcFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 25;
+                break;
+              } // case 202
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5763,6 +5844,148 @@ public final class JonSharedCmdRotary {
         cmdCase_ = 24;
         onChanged();
         return scanAddNodeBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder> haltWithNdcBuilder_;
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       * @return Whether the haltWithNdc field is set.
+       */
+      @java.lang.Override
+      public boolean hasHaltWithNdc() {
+        return cmdCase_ == 25;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       * @return The haltWithNdc.
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC getHaltWithNdc() {
+        if (haltWithNdcBuilder_ == null) {
+          if (cmdCase_ == 25) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 25) {
+            return haltWithNdcBuilder_.getMessage();
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      public Builder setHaltWithNdc(cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC value) {
+        if (haltWithNdcBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          haltWithNdcBuilder_.setMessage(value);
+        }
+        cmdCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      public Builder setHaltWithNdc(
+          cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder builderForValue) {
+        if (haltWithNdcBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          haltWithNdcBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      public Builder mergeHaltWithNdc(cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC value) {
+        if (haltWithNdcBuilder_ == null) {
+          if (cmdCase_ == 25 &&
+              cmd_ != cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance()) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.newBuilder((cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 25) {
+            haltWithNdcBuilder_.mergeFrom(value);
+          } else {
+            haltWithNdcBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      public Builder clearHaltWithNdc() {
+        if (haltWithNdcBuilder_ == null) {
+          if (cmdCase_ == 25) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 25) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          haltWithNdcBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder getHaltWithNdcBuilder() {
+        return getHaltWithNdcFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder getHaltWithNdcOrBuilder() {
+        if ((cmdCase_ == 25) && (haltWithNdcBuilder_ != null)) {
+          return haltWithNdcBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 25) {
+            return (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_;
+          }
+          return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder> 
+          getHaltWithNdcFieldBuilder() {
+        if (haltWithNdcBuilder_ == null) {
+          if (!(cmdCase_ == 25)) {
+            cmd_ = cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+          }
+          haltWithNdcBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder>(
+                  (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 25;
+        onChanged();
+        return haltWithNdcBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.Root)
@@ -27046,6 +27269,807 @@ public final class JonSharedCmdRotary {
 
   }
 
+  public interface HaltWithNDCOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.RotaryPlatform.HaltWithNDC)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for channel.
+     */
+    int getChannelValue();
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The channel.
+     */
+    ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel();
+
+    /**
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    double getX();
+
+    /**
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    double getY();
+
+    /**
+     * <pre>
+     * Video frame timestamp at gesture end
+     * </pre>
+     *
+     * <code>uint64 frame_time = 4;</code>
+     * @return The frameTime.
+     */
+    long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when gesture ended
+     * </pre>
+     *
+     * <code>uint64 state_time = 5;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
+  }
+  /**
+   * Protobuf type {@code cmd.RotaryPlatform.HaltWithNDC}
+   */
+  public static final class HaltWithNDC extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.RotaryPlatform.HaltWithNDC)
+      HaltWithNDCOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        HaltWithNDC.class.getName());
+    }
+    // Use HaltWithNDC.newBuilder() to construct.
+    private HaltWithNDC(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private HaltWithNDC() {
+      channel_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_HaltWithNDC_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.class, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder.class);
+    }
+
+    public static final int CHANNEL_FIELD_NUMBER = 1;
+    private int channel_ = 0;
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for channel.
+     */
+    @java.lang.Override public int getChannelValue() {
+      return channel_;
+    }
+    /**
+     * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The channel.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel() {
+      ser.JonSharedDataTypes.JonGuiDataVideoChannel result = ser.JonSharedDataTypes.JonGuiDataVideoChannel.forNumber(channel_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataVideoChannel.UNRECOGNIZED : result;
+    }
+
+    public static final int X_FIELD_NUMBER = 2;
+    private double x_ = 0D;
+    /**
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    @java.lang.Override
+    public double getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 3;
+    private double y_ = 0D;
+    /**
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    @java.lang.Override
+    public double getY() {
+      return y_;
+    }
+
+    public static final int FRAME_TIME_FIELD_NUMBER = 4;
+    private long frameTime_ = 0L;
+    /**
+     * <pre>
+     * Video frame timestamp at gesture end
+     * </pre>
+     *
+     * <code>uint64 frame_time = 4;</code>
+     * @return The frameTime.
+     */
+    @java.lang.Override
+    public long getFrameTime() {
+      return frameTime_;
+    }
+
+    public static final int STATE_TIME_FIELD_NUMBER = 5;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when gesture ended
+     * </pre>
+     *
+     * <code>uint64 state_time = 5;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
+        output.writeEnum(1, channel_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        output.writeDouble(2, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        output.writeDouble(3, y_);
+      }
+      if (frameTime_ != 0L) {
+        output.writeUInt64(4, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(5, stateTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (channel_ != ser.JonSharedDataTypes.JonGuiDataVideoChannel.JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, channel_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, y_);
+      }
+      if (frameTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(4, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, stateTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC)) {
+        return super.equals(obj);
+      }
+      cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC other = (cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) obj;
+
+      if (channel_ != other.channel_) return false;
+      if (java.lang.Double.doubleToLongBits(getX())
+          != java.lang.Double.doubleToLongBits(
+              other.getX())) return false;
+      if (java.lang.Double.doubleToLongBits(getY())
+          != java.lang.Double.doubleToLongBits(
+              other.getY())) return false;
+      if (getFrameTime()
+          != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + CHANNEL_FIELD_NUMBER;
+      hash = (53 * hash) + channel_;
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX()));
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY()));
+      hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.RotaryPlatform.HaltWithNDC}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.RotaryPlatform.HaltWithNDC)
+        cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDCOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_HaltWithNDC_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.class, cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.Builder.class);
+      }
+
+      // Construct using cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        channel_ = 0;
+        x_ = 0D;
+        y_ = 0D;
+        frameTime_ = 0L;
+        stateTime_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC getDefaultInstanceForType() {
+        return cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC build() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC buildPartial() {
+        cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC result = new cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.channel_ = channel_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.x_ = x_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.y_ = y_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.frameTime_ = frameTime_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC) {
+          return mergeFrom((cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC other) {
+        if (other == cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC.getDefaultInstance()) return this;
+        if (other.channel_ != 0) {
+          setChannelValue(other.getChannelValue());
+        }
+        if (other.getX() != 0D) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0D) {
+          setY(other.getY());
+        }
+        if (other.getFrameTime() != 0L) {
+          setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                channel_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 17: {
+                x_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                y_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 32: {
+                frameTime_ = input.readUInt64();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 40: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int channel_ = 0;
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for channel.
+       */
+      @java.lang.Override public int getChannelValue() {
+        return channel_;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for channel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannelValue(int value) {
+        channel_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The channel.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataVideoChannel getChannel() {
+        ser.JonSharedDataTypes.JonGuiDataVideoChannel result = ser.JonSharedDataTypes.JonGuiDataVideoChannel.forNumber(channel_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataVideoChannel.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The channel to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChannel(ser.JonSharedDataTypes.JonGuiDataVideoChannel value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        channel_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChannel() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        channel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private double x_ ;
+      /**
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The x.
+       */
+      @java.lang.Override
+      public double getX() {
+        return x_;
+      }
+      /**
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The x to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX(double value) {
+
+        x_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        x_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y_ ;
+      /**
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The y.
+       */
+      @java.lang.Override
+      public double getY() {
+        return y_;
+      }
+      /**
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The y to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY(double value) {
+
+        y_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private long frameTime_ ;
+      /**
+       * <pre>
+       * Video frame timestamp at gesture end
+       * </pre>
+       *
+       * <code>uint64 frame_time = 4;</code>
+       * @return The frameTime.
+       */
+      @java.lang.Override
+      public long getFrameTime() {
+        return frameTime_;
+      }
+      /**
+       * <pre>
+       * Video frame timestamp at gesture end
+       * </pre>
+       *
+       * <code>uint64 frame_time = 4;</code>
+       * @param value The frameTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameTime(long value) {
+
+        frameTime_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Video frame timestamp at gesture end
+       * </pre>
+       *
+       * <code>uint64 frame_time = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFrameTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        frameTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when gesture ended
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when gesture ended
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when gesture ended
+       * </pre>
+       *
+       * <code>uint64 state_time = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        stateTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.RotaryPlatform.HaltWithNDC)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.HaltWithNDC)
+    private static final cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC();
+    }
+
+    public static cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<HaltWithNDC>
+        PARSER = new com.google.protobuf.AbstractParser<HaltWithNDC>() {
+      @java.lang.Override
+      public HaltWithNDC parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<HaltWithNDC> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HaltWithNDC> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.RotaryPlatform.JonSharedCmdRotary.HaltWithNDC getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_RotaryPlatform_Root_descriptor;
   private static final 
@@ -27241,6 +28265,11 @@ public final class JonSharedCmdRotary {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_RotaryPlatform_RotateToNDC_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_RotaryPlatform_HaltWithNDC_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -27252,7 +28281,7 @@ public final class JonSharedCmdRotary {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_rotary.proto\022\022cmd.Rotar" +
       "yPlatform\032\033buf/validate/validate.proto\032\033" +
-      "jon_shared_data_types.proto\"\371\n\n\004Root\022*\n\005" +
+      "jon_shared_data_types.proto\"\263\013\n\004Root\022*\n\005" +
       "start\030\001 \001(\0132\031.cmd.RotaryPlatform.StartH\000" +
       "\022(\n\004stop\030\002 \001(\0132\030.cmd.RotaryPlatform.Stop" +
       "H\000\022(\n\004axis\030\003 \001(\0132\030.cmd.RotaryPlatform.Ax" +
@@ -27287,103 +28316,109 @@ public final class JonSharedCmdRotary {
       "canDeleteNodeH\000\022>\n\020scan_update_node\030\027 \001(" +
       "\0132\".cmd.RotaryPlatform.ScanUpdateNodeH\000\022" +
       "8\n\rscan_add_node\030\030 \001(\0132\037.cmd.RotaryPlatf" +
-      "orm.ScanAddNodeH\000B\014\n\003cmd\022\005\272H\002\010\001\"f\n\004Axis\022" +
-      ",\n\007azimuth\030\001 \001(\0132\033.cmd.RotaryPlatform.Az" +
-      "imuth\0220\n\televation\030\002 \001(\0132\035.cmd.RotaryPla" +
-      "tform.Elevation\">\n\007SetMode\0223\n\004mode\030\001 \001(\016" +
-      "2\031.ser.JonGuiDataRotaryModeB\n\272H\007\202\001\004\020\001 \000\"" +
-      "x\n\017SetAzimuthValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022" +
-      "\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036." +
-      "ser.JonGuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 " +
-      "\000\"\247\001\n\017RotateAzimuthTo\022-\n\014target_value\030\001 " +
-      "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022&\n\005speed\030\002 " +
+      "orm.ScanAddNodeH\000\0228\n\rhalt_with_ndc\030\031 \001(\013" +
+      "2\037.cmd.RotaryPlatform.HaltWithNDCH\000B\014\n\003c" +
+      "md\022\005\272H\002\010\001\"f\n\004Axis\022,\n\007azimuth\030\001 \001(\0132\033.cmd" +
+      ".RotaryPlatform.Azimuth\0220\n\televation\030\002 \001" +
+      "(\0132\035.cmd.RotaryPlatform.Elevation\">\n\007Set" +
+      "Mode\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDataRotar" +
+      "yModeB\n\272H\007\202\001\004\020\001 \000\"x\n\017SetAzimuthValue\022&\n\005" +
+      "value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022=\n\t" +
+      "direction\030\002 \001(\0162\036.ser.JonGuiDataRotaryDi" +
+      "rectionB\n\272H\007\202\001\004\020\001 \000\"\247\001\n\017RotateAzimuthTo\022" +
+      "-\n\014target_value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000" +
+      "\000\000\000\000\000\000\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
+      "\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.JonGuiDa" +
+      "taRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"v\n\rRotateA" +
+      "zimuth\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
+      "\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDa" +
+      "taRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"x\n\017RotateE" +
+      "levation\022&\n\005speed\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
+      "\000\000\000\000\000\000\000\000\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGui" +
+      "DataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\";\n\021SetEl" +
+      "evationValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
+      "\200V@)\000\000\000\000\000\200V\300\"j\n\021RotateElevationTo\022-\n\014tar" +
+      "get_value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300" +
+      "\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000" +
+      "\"\250\001\n\027RotateElevationRelative\022&\n\005value\030\001 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 " +
       "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirectio" +
       "n\030\003 \001(\0162\036.ser.JonGuiDataRotaryDirectionB" +
-      "\n\272H\007\202\001\004\020\001 \000\"v\n\rRotateAzimuth\022&\n\005speed\030\001 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirectio" +
-      "n\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirectionB" +
-      "\n\272H\007\202\001\004\020\001 \000\"x\n\017RotateElevation\022&\n\005speed\030" +
-      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdirect" +
-      "ion\030\002 \001(\0162\036.ser.JonGuiDataRotaryDirectio" +
-      "nB\n\272H\007\202\001\004\020\001 \000\";\n\021SetElevationValue\022&\n\005va" +
-      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"j\n\021Ro" +
-      "tateElevationTo\022-\n\014target_value\030\001 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"\250\001\n\027RotateElevati" +
-      "onRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V" +
-      "@)\000\000\000\000\000\200V\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360" +
-      "?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.JonG" +
-      "uiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032Ro" +
-      "tateElevationRelativeSet\022&\n\005value\030\001 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022=\n\tdirection\030\002 " +
-      "\001(\0162\036.ser.JonGuiDataRotaryDirectionB\n\272H\007" +
-      "\202\001\004\020\001 \000\"\246\001\n\025RotateAzimuthRelative\022&\n\005val" +
-      "ue\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022&\n\005spe" +
-      "ed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\022=\n\tdir" +
-      "ection\030\003 \001(\0162\036.ser.JonGuiDataRotaryDirec" +
-      "tionB\n\272H\007\202\001\004\020\001 \000\"\201\001\n\030RotateAzimuthRelati" +
-      "veSet\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000" +
-      "\000\000\200f\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDat" +
-      "aRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"<\n\022SetPlatf" +
-      "ormAzimuth\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v" +
-      "@!\000\000\000\000\000\200v\300\">\n\024SetPlatformElevation\022&\n\005va" +
-      "lue\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\"9\n\017Se" +
-      "tPlatformBank\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000" +
-      "\000\200f@)\000\000\000\000\000\200f\300\"\n\n\010GetMeteo\"\366\002\n\007Azimuth\0228\n" +
-      "\tset_value\030\001 \001(\0132#.cmd.RotaryPlatform.Se" +
-      "tAzimuthValueH\000\0228\n\trotate_to\030\002 \001(\0132#.cmd" +
-      ".RotaryPlatform.RotateAzimuthToH\000\0223\n\006rot" +
-      "ate\030\003 \001(\0132!.cmd.RotaryPlatform.RotateAzi" +
-      "muthH\000\022=\n\010relative\030\004 \001(\0132).cmd.RotaryPla" +
-      "tform.RotateAzimuthRelativeH\000\022D\n\014relativ" +
-      "e_set\030\005 \001(\0132,.cmd.RotaryPlatform.RotateA" +
-      "zimuthRelativeSetH\000\022/\n\004halt\030\006 \001(\0132\037.cmd." +
-      "RotaryPlatform.HaltAzimuthH\000B\014\n\003cmd\022\005\272H\002" +
-      "\010\001\"\007\n\005Start\"\006\n\004Stop\"\006\n\004Halt\"\013\n\tScanStart" +
-      "\"\n\n\010ScanStop\"\013\n\tScanPause\"\r\n\013ScanUnpause" +
-      "\"\r\n\013HaltAzimuth\"\017\n\rHaltElevation\"\n\n\010Scan" +
-      "Prev\"\n\n\010ScanNext\"\025\n\023ScanRefreshNodeList\"" +
-      "(\n\016ScanSelectNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(" +
-      "\000\"(\n\016ScanDeleteNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032" +
-      "\002(\000\"\217\002\n\016ScanUpdateNode\022\026\n\005index\030\001 \001(\005B\007\272" +
-      "H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002" +
-      "(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022" +
-      "(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000" +
-      "\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000" +
-      "\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n" +
-      "\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002" +
-      "\n\013ScanAddNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n" +
-      "\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022Hea" +
-      "tZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimut" +
-      "h\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\telev" +
-      "ation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006" +
-      "linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\204\003\n\tElevati" +
-      "on\022:\n\tset_value\030\001 \001(\0132%.cmd.RotaryPlatfo" +
-      "rm.SetElevationValueH\000\022:\n\trotate_to\030\002 \001(" +
-      "\0132%.cmd.RotaryPlatform.RotateElevationTo" +
-      "H\000\0225\n\006rotate\030\003 \001(\0132#.cmd.RotaryPlatform." +
-      "RotateElevationH\000\022?\n\010relative\030\004 \001(\0132+.cm" +
-      "d.RotaryPlatform.RotateElevationRelative" +
-      "H\000\022F\n\014relative_set\030\005 \001(\0132..cmd.RotaryPla" +
-      "tform.RotateElevationRelativeSetH\000\0221\n\004ha" +
-      "lt\030\006 \001(\0132!.cmd.RotaryPlatform.HaltElevat" +
-      "ionH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n\025setUseRotaryAsCom" +
-      "pass\022\014\n\004flag\030\001 \001(\010\"\217\001\n\013RotateToGPS\022)\n\010la" +
-      "titude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n" +
-      "\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f" +
-      "\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000" +
-      "\000\340z\300\"\220\001\n\014SetOriginGPS\022)\n\010latitude\030\001 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 " +
-      "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude" +
-      "\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\267\001\n\013Rota" +
-      "teToNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDat" +
-      "aVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H" +
-      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031" +
-      "\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022\n" +
-      "\nstate_time\030\005 \001(\004BMZKgit-codecommit.eu-c" +
-      "entral-1.amazonaws.com/v1/repos/jettison" +
-      "/jonp/cmd/rotaryb\006proto3"
+      "\n\272H\007\202\001\004\020\001 \000\"\203\001\n\032RotateElevationRelativeS" +
+      "et\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200" +
+      "V\300\022=\n\tdirection\030\002 \001(\0162\036.ser.JonGuiDataRo" +
+      "taryDirectionB\n\272H\007\202\001\004\020\001 \000\"\246\001\n\025RotateAzim" +
+      "uthRelative\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200" +
+      "f@)\000\000\000\000\000\200f\300\022&\n\005speed\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
+      "\360?)\000\000\000\000\000\000\000\000\022=\n\tdirection\030\003 \001(\0162\036.ser.Jon" +
+      "GuiDataRotaryDirectionB\n\272H\007\202\001\004\020\001 \000\"\201\001\n\030R" +
+      "otateAzimuthRelativeSet\022&\n\005value\030\001 \001(\001B\027" +
+      "\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022=\n\tdirection\030\002 \001" +
+      "(\0162\036.ser.JonGuiDataRotaryDirectionB\n\272H\007\202" +
+      "\001\004\020\001 \000\"<\n\022SetPlatformAzimuth\022&\n\005value\030\001 " +
+      "\001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\200v\300\">\n\024SetPlatf" +
+      "ormElevation\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
+      "\200V@)\000\000\000\000\000\200V\300\"9\n\017SetPlatformBank\022&\n\005value" +
+      "\030\001 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\"\n\n\010GetMe" +
+      "teo\"\366\002\n\007Azimuth\0228\n\tset_value\030\001 \001(\0132#.cmd" +
+      ".RotaryPlatform.SetAzimuthValueH\000\0228\n\trot" +
+      "ate_to\030\002 \001(\0132#.cmd.RotaryPlatform.Rotate" +
+      "AzimuthToH\000\0223\n\006rotate\030\003 \001(\0132!.cmd.Rotary" +
+      "Platform.RotateAzimuthH\000\022=\n\010relative\030\004 \001" +
+      "(\0132).cmd.RotaryPlatform.RotateAzimuthRel" +
+      "ativeH\000\022D\n\014relative_set\030\005 \001(\0132,.cmd.Rota" +
+      "ryPlatform.RotateAzimuthRelativeSetH\000\022/\n" +
+      "\004halt\030\006 \001(\0132\037.cmd.RotaryPlatform.HaltAzi" +
+      "muthH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\006\n" +
+      "\004Halt\"\013\n\tScanStart\"\n\n\010ScanStop\"\013\n\tScanPa" +
+      "use\"\r\n\013ScanUnpause\"\r\n\013HaltAzimuth\"\017\n\rHal" +
+      "tElevation\"\n\n\010ScanPrev\"\n\n\010ScanNext\"\025\n\023Sc" +
+      "anRefreshNodeList\"(\n\016ScanSelectNode\022\026\n\005i" +
+      "ndex\030\001 \001(\005B\007\272H\004\032\002(\000\"(\n\016ScanDeleteNode\022\026\n" +
+      "\005index\030\001 \001(\005B\007\272H\004\032\002(\000\"\217\002\n\016ScanUpdateNode" +
+      "\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTable" +
+      "Value\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVal" +
+      "ue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022" +
+      "\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B" +
+      "\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\000\360?!\000\000\000\000\000\000\000\000\"\214\002\n\013ScanAddNode\022\026\n\005index" +
+      "\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001" +
+      "(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B" +
+      "\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v" +
+      "@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000" +
+      "\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000" +
+      "\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000" +
+      "\000\000\000\000\000\000\"\204\003\n\tElevation\022:\n\tset_value\030\001 \001(\0132" +
+      "%.cmd.RotaryPlatform.SetElevationValueH\000" +
+      "\022:\n\trotate_to\030\002 \001(\0132%.cmd.RotaryPlatform" +
+      ".RotateElevationToH\000\0225\n\006rotate\030\003 \001(\0132#.c" +
+      "md.RotaryPlatform.RotateElevationH\000\022?\n\010r" +
+      "elative\030\004 \001(\0132+.cmd.RotaryPlatform.Rotat" +
+      "eElevationRelativeH\000\022F\n\014relative_set\030\005 \001" +
+      "(\0132..cmd.RotaryPlatform.RotateElevationR" +
+      "elativeSetH\000\0221\n\004halt\030\006 \001(\0132!.cmd.RotaryP" +
+      "latform.HaltElevationH\000B\014\n\003cmd\022\005\272H\002\010\001\"%\n" +
+      "\025setUseRotaryAsCompass\022\014\n\004flag\030\001 \001(\010\"\217\001\n" +
+      "\013RotateToGPS\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\200V@)\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022" +
+      "\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\"\220\001\n\014SetOriginGPS\022" +
+      ")\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200" +
+      "V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000" +
+      "\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@" +
+      ")\000\000\000\000\000\340z\300\"\267\001\n\013RotateToNDC\0228\n\007channel\030\001 \001" +
+      "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020" +
+      "\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022" +
+      "\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nf" +
+      "rame_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\267\001\n\013" +
+      "HaltWithNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGu" +
+      "iDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001" +
+      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H" +
+      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(" +
+      "\004\022\022\n\nstate_time\030\005 \001(\004BMZKgit-codecommit." +
+      "eu-central-1.amazonaws.com/v1/repos/jett" +
+      "ison/jonp/cmd/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -27396,7 +28431,7 @@ public final class JonSharedCmdRotary {
     internal_static_cmd_RotaryPlatform_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_Root_descriptor,
-        new java.lang.String[] { "Start", "Stop", "Axis", "SetPlatformAzimuth", "SetPlatformElevation", "SetPlatformBank", "Halt", "SetUseRotaryAsCompass", "RotateToGps", "SetOriginGps", "SetMode", "RotateToNdc", "ScanStart", "ScanStop", "ScanPause", "ScanUnpause", "GetMeteo", "ScanPrev", "ScanNext", "ScanRefreshNodeList", "ScanSelectNode", "ScanDeleteNode", "ScanUpdateNode", "ScanAddNode", "Cmd", });
+        new java.lang.String[] { "Start", "Stop", "Axis", "SetPlatformAzimuth", "SetPlatformElevation", "SetPlatformBank", "Halt", "SetUseRotaryAsCompass", "RotateToGps", "SetOriginGps", "SetMode", "RotateToNdc", "ScanStart", "ScanStop", "ScanPause", "ScanUnpause", "GetMeteo", "ScanPrev", "ScanNext", "ScanRefreshNodeList", "ScanSelectNode", "ScanDeleteNode", "ScanUpdateNode", "ScanAddNode", "HaltWithNdc", "Cmd", });
     internal_static_cmd_RotaryPlatform_Axis_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_RotaryPlatform_Axis_fieldAccessorTable = new
@@ -27624,6 +28659,12 @@ public final class JonSharedCmdRotary {
     internal_static_cmd_RotaryPlatform_RotateToNDC_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_RotaryPlatform_RotateToNDC_descriptor,
+        new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
+    internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor =
+      getDescriptor().getMessageTypes().get(39);
+    internal_static_cmd_RotaryPlatform_HaltWithNDC_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_RotaryPlatform_HaltWithNDC_descriptor,
         new java.lang.String[] { "Channel", "X", "Y", "FrameTime", "StateTime", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();

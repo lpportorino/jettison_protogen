@@ -123,6 +123,9 @@ PB_BIND(cmd_RotaryPlatform_SetOriginGPS, cmd_RotaryPlatform_SetOriginGPS, AUTO)
 PB_BIND(cmd_RotaryPlatform_RotateToNDC, cmd_RotaryPlatform_RotateToNDC, AUTO)
 
 
+PB_BIND(cmd_RotaryPlatform_HaltWithNDC, cmd_RotaryPlatform_HaltWithNDC, AUTO)
+
+
 
 #ifndef PB_CONVERT_DOUBLE_FLOAT
 /* On some platforms (such as AVR), double is really float.

@@ -33,6 +33,7 @@ message Root {
     ScanDeleteNode scan_delete_node = 22;
     ScanUpdateNode scan_update_node = 23;
     ScanAddNode scan_add_node = 24;
+    HaltWithNDC halt_with_ndc = 25;
   }
 }
 
@@ -341,4 +342,21 @@ message RotateToNDC {
   }];
   uint64 frame_time = 4;  // Video frame timestamp
   uint64 state_time = 5;  // System monotonic time from state when user performed action
+}
+
+message HaltWithNDC {
+  ser.JonGuiDataVideoChannel channel = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  double x = 2 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y = 3 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  uint64 frame_time = 4;  // Video frame timestamp at gesture end
+  uint64 state_time = 5;  // System monotonic time from state when gesture ended
 }

@@ -76,6 +76,9 @@ extern HaltAzimuthDefaultTypeInternal _HaltAzimuth_default_instance_;
 class HaltElevation;
 struct HaltElevationDefaultTypeInternal;
 extern HaltElevationDefaultTypeInternal _HaltElevation_default_instance_;
+class HaltWithNDC;
+struct HaltWithNDCDefaultTypeInternal;
+extern HaltWithNDCDefaultTypeInternal _HaltWithNDC_default_instance_;
 class Root;
 struct RootDefaultTypeInternal;
 extern RootDefaultTypeInternal _Root_default_instance_;
@@ -6056,6 +6059,244 @@ class RotateAzimuth final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class HaltWithNDC final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.HaltWithNDC) */ {
+ public:
+  inline HaltWithNDC() : HaltWithNDC(nullptr) {}
+  ~HaltWithNDC() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(HaltWithNDC* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(HaltWithNDC));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR HaltWithNDC(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline HaltWithNDC(const HaltWithNDC& from) : HaltWithNDC(nullptr, from) {}
+  inline HaltWithNDC(HaltWithNDC&& from) noexcept
+      : HaltWithNDC(nullptr, std::move(from)) {}
+  inline HaltWithNDC& operator=(const HaltWithNDC& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline HaltWithNDC& operator=(HaltWithNDC&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const HaltWithNDC& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const HaltWithNDC* internal_default_instance() {
+    return reinterpret_cast<const HaltWithNDC*>(
+        &_HaltWithNDC_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 39;
+  friend void swap(HaltWithNDC& a, HaltWithNDC& b) { a.Swap(&b); }
+  inline void Swap(HaltWithNDC* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(HaltWithNDC* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  HaltWithNDC* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<HaltWithNDC>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const HaltWithNDC& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const HaltWithNDC& from) { HaltWithNDC::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(HaltWithNDC* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.RotaryPlatform.HaltWithNDC"; }
+
+ protected:
+  explicit HaltWithNDC(::google::protobuf::Arena* arena);
+  HaltWithNDC(::google::protobuf::Arena* arena, const HaltWithNDC& from);
+  HaltWithNDC(::google::protobuf::Arena* arena, HaltWithNDC&& from) noexcept
+      : HaltWithNDC(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+    kFrameTimeFieldNumber = 4,
+    kStateTimeFieldNumber = 5,
+    kChannelFieldNumber = 1,
+  };
+  // double x = 2;
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 3;
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
+  // uint64 frame_time = 4;
+  void clear_frame_time() ;
+  ::uint64_t frame_time() const;
+  void set_frame_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_time() const;
+  void _internal_set_frame_time(::uint64_t value);
+
+  public:
+  // uint64 state_time = 5;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
+  // .ser.JonGuiDataVideoChannel channel = 1;
+  void clear_channel() ;
+  ::ser::JonGuiDataVideoChannel channel() const;
+  void set_channel(::ser::JonGuiDataVideoChannel value);
+
+  private:
+  ::ser::JonGuiDataVideoChannel _internal_channel() const;
+  void _internal_set_channel(::ser::JonGuiDataVideoChannel value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.HaltWithNDC)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 5, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const HaltWithNDC& from_msg);
+    double x_;
+    double y_;
+    ::uint64_t frame_time_;
+    ::uint64_t state_time_;
+    int channel_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5frotary_2eproto;
+};
+// -------------------------------------------------------------------
+
 class HaltElevation final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:cmd.RotaryPlatform.HaltElevation) */ {
  public:
@@ -7585,6 +7826,7 @@ class Root final : public ::google::protobuf::Message
     kScanDeleteNode = 22,
     kScanUpdateNode = 23,
     kScanAddNode = 24,
+    kHaltWithNdc = 25,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -7702,6 +7944,7 @@ class Root final : public ::google::protobuf::Message
     kScanDeleteNodeFieldNumber = 22,
     kScanUpdateNodeFieldNumber = 23,
     kScanAddNodeFieldNumber = 24,
+    kHaltWithNdcFieldNumber = 25,
   };
   // .cmd.RotaryPlatform.Start start = 1;
   bool has_start() const;
@@ -8159,6 +8402,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::RotaryPlatform::ScanAddNode* _internal_mutable_scan_add_node();
 
   public:
+  // .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
+  bool has_halt_with_ndc() const;
+  private:
+  bool _internal_has_halt_with_ndc() const;
+
+  public:
+  void clear_halt_with_ndc() ;
+  const ::cmd::RotaryPlatform::HaltWithNDC& halt_with_ndc() const;
+  PROTOBUF_NODISCARD ::cmd::RotaryPlatform::HaltWithNDC* release_halt_with_ndc();
+  ::cmd::RotaryPlatform::HaltWithNDC* mutable_halt_with_ndc();
+  void set_allocated_halt_with_ndc(::cmd::RotaryPlatform::HaltWithNDC* value);
+  void unsafe_arena_set_allocated_halt_with_ndc(::cmd::RotaryPlatform::HaltWithNDC* value);
+  ::cmd::RotaryPlatform::HaltWithNDC* unsafe_arena_release_halt_with_ndc();
+
+  private:
+  const ::cmd::RotaryPlatform::HaltWithNDC& _internal_halt_with_ndc() const;
+  ::cmd::RotaryPlatform::HaltWithNDC* _internal_mutable_halt_with_ndc();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.RotaryPlatform.Root)
@@ -8188,11 +8450,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_scan_delete_node();
   void set_has_scan_update_node();
   void set_has_scan_add_node();
+  void set_has_halt_with_ndc();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 24, 24,
+      0, 25, 25,
       0, 2>
       _table_;
 
@@ -8237,6 +8500,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::RotaryPlatform::ScanDeleteNode* scan_delete_node_;
       ::cmd::RotaryPlatform::ScanUpdateNode* scan_update_node_;
       ::cmd::RotaryPlatform::ScanAddNode* scan_add_node_;
+      ::cmd::RotaryPlatform::HaltWithNDC* halt_with_ndc_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -10155,6 +10419,85 @@ inline ::cmd::RotaryPlatform::ScanAddNode* Root::_internal_mutable_scan_add_node
 inline ::cmd::RotaryPlatform::ScanAddNode* Root::mutable_scan_add_node() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::RotaryPlatform::ScanAddNode* _msg = _internal_mutable_scan_add_node();
   // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.scan_add_node)
+  return _msg;
+}
+
+// .cmd.RotaryPlatform.HaltWithNDC halt_with_ndc = 25;
+inline bool Root::has_halt_with_ndc() const {
+  return cmd_case() == kHaltWithNdc;
+}
+inline bool Root::_internal_has_halt_with_ndc() const {
+  return cmd_case() == kHaltWithNdc;
+}
+inline void Root::set_has_halt_with_ndc() {
+  _impl_._oneof_case_[0] = kHaltWithNdc;
+}
+inline void Root::clear_halt_with_ndc() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kHaltWithNdc) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.halt_with_ndc_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.halt_with_ndc_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::RotaryPlatform::HaltWithNDC* Root::release_halt_with_ndc() {
+  // @@protoc_insertion_point(field_release:cmd.RotaryPlatform.Root.halt_with_ndc)
+  if (cmd_case() == kHaltWithNdc) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.halt_with_ndc_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.halt_with_ndc_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::RotaryPlatform::HaltWithNDC& Root::_internal_halt_with_ndc() const {
+  return cmd_case() == kHaltWithNdc ? *_impl_.cmd_.halt_with_ndc_ : reinterpret_cast<::cmd::RotaryPlatform::HaltWithNDC&>(::cmd::RotaryPlatform::_HaltWithNDC_default_instance_);
+}
+inline const ::cmd::RotaryPlatform::HaltWithNDC& Root::halt_with_ndc() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.Root.halt_with_ndc)
+  return _internal_halt_with_ndc();
+}
+inline ::cmd::RotaryPlatform::HaltWithNDC* Root::unsafe_arena_release_halt_with_ndc() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.RotaryPlatform.Root.halt_with_ndc)
+  if (cmd_case() == kHaltWithNdc) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.halt_with_ndc_;
+    _impl_.cmd_.halt_with_ndc_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_halt_with_ndc(::cmd::RotaryPlatform::HaltWithNDC* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_halt_with_ndc();
+    _impl_.cmd_.halt_with_ndc_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.RotaryPlatform.Root.halt_with_ndc)
+}
+inline ::cmd::RotaryPlatform::HaltWithNDC* Root::_internal_mutable_halt_with_ndc() {
+  if (cmd_case() != kHaltWithNdc) {
+    clear_cmd();
+    set_has_halt_with_ndc();
+    _impl_.cmd_.halt_with_ndc_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::RotaryPlatform::HaltWithNDC>(GetArena());
+  }
+  return _impl_.cmd_.halt_with_ndc_;
+}
+inline ::cmd::RotaryPlatform::HaltWithNDC* Root::mutable_halt_with_ndc() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::RotaryPlatform::HaltWithNDC* _msg = _internal_mutable_halt_with_ndc();
+  // @@protoc_insertion_point(field_mutable:cmd.RotaryPlatform.Root.halt_with_ndc)
   return _msg;
 }
 
@@ -12661,6 +13004,120 @@ inline ::uint64_t RotateToNDC::_internal_state_time() const {
   return _impl_.state_time_;
 }
 inline void RotateToNDC::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// HaltWithNDC
+
+// .ser.JonGuiDataVideoChannel channel = 1;
+inline void HaltWithNDC::clear_channel() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.channel_ = 0;
+}
+inline ::ser::JonGuiDataVideoChannel HaltWithNDC::channel() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.HaltWithNDC.channel)
+  return _internal_channel();
+}
+inline void HaltWithNDC::set_channel(::ser::JonGuiDataVideoChannel value) {
+  _internal_set_channel(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.HaltWithNDC.channel)
+}
+inline ::ser::JonGuiDataVideoChannel HaltWithNDC::_internal_channel() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataVideoChannel>(_impl_.channel_);
+}
+inline void HaltWithNDC::_internal_set_channel(::ser::JonGuiDataVideoChannel value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.channel_ = value;
+}
+
+// double x = 2;
+inline void HaltWithNDC::clear_x() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = 0;
+}
+inline double HaltWithNDC::x() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.HaltWithNDC.x)
+  return _internal_x();
+}
+inline void HaltWithNDC::set_x(double value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.HaltWithNDC.x)
+}
+inline double HaltWithNDC::_internal_x() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_;
+}
+inline void HaltWithNDC::_internal_set_x(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = value;
+}
+
+// double y = 3;
+inline void HaltWithNDC::clear_y() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = 0;
+}
+inline double HaltWithNDC::y() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.HaltWithNDC.y)
+  return _internal_y();
+}
+inline void HaltWithNDC::set_y(double value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.HaltWithNDC.y)
+}
+inline double HaltWithNDC::_internal_y() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_;
+}
+inline void HaltWithNDC::_internal_set_y(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = value;
+}
+
+// uint64 frame_time = 4;
+inline void HaltWithNDC::clear_frame_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t HaltWithNDC::frame_time() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.HaltWithNDC.frame_time)
+  return _internal_frame_time();
+}
+inline void HaltWithNDC::set_frame_time(::uint64_t value) {
+  _internal_set_frame_time(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.HaltWithNDC.frame_time)
+}
+inline ::uint64_t HaltWithNDC::_internal_frame_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_time_;
+}
+inline void HaltWithNDC::_internal_set_frame_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_ = value;
+}
+
+// uint64 state_time = 5;
+inline void HaltWithNDC::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t HaltWithNDC::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.RotaryPlatform.HaltWithNDC.state_time)
+  return _internal_state_time();
+}
+inline void HaltWithNDC::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.RotaryPlatform.HaltWithNDC.state_time)
+}
+inline ::uint64_t HaltWithNDC::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void HaltWithNDC::_internal_set_state_time(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.state_time_ = value;
 }

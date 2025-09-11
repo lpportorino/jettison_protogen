@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -59,6 +59,8 @@ pub mod root {
         ScanUpdateNode(super::ScanUpdateNode),
         #[prost(message, tag = "24")]
         ScanAddNode(super::ScanAddNode),
+        #[prost(message, tag = "25")]
+        HaltWithNdc(super::HaltWithNdc),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -313,6 +315,21 @@ pub struct RotateToNdc {
     #[prost(uint64, tag = "4")]
     pub frame_time: u64,
     /// System monotonic time from state when user performed action
+    #[prost(uint64, tag = "5")]
+    pub state_time: u64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct HaltWithNdc {
+    #[prost(enumeration = "super::super::ser::JonGuiDataVideoChannel", tag = "1")]
+    pub channel: i32,
+    #[prost(double, tag = "2")]
+    pub x: f64,
+    #[prost(double, tag = "3")]
+    pub y: f64,
+    /// Video frame timestamp at gesture end
+    #[prost(uint64, tag = "4")]
+    pub frame_time: u64,
+    /// System monotonic time from state when gesture ended
     #[prost(uint64, tag = "5")]
     pub state_time: u64,
 }
