@@ -57,6 +57,7 @@ jobs:
 
     # Push to C repository
     - name: Push to jettison_proto_c
+      if: ${{ secrets.C_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -64,8 +65,15 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_c.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_c.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_c.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_c"
+          exit 0
+        fi
+
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -86,6 +94,7 @@ jobs:
 
     # Push to C++ repository
     - name: Push to jettison_proto_cpp
+      if: ${{ secrets.CPP_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -93,8 +102,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_cpp.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_cpp.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_cpp.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_cpp"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -115,6 +130,7 @@ jobs:
 
     # Push to Go repository
     - name: Push to jettison_proto_go
+      if: ${{ secrets.GO_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -122,8 +138,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_go.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_go.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_go.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_go"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -150,6 +172,7 @@ jobs:
 
     # Push to Python repository
     - name: Push to jettison_proto_python
+      if: ${{ secrets.PYTHON_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -157,8 +180,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_python.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_python.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_python.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_python"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -179,6 +208,7 @@ jobs:
 
     # Push to TypeScript repository
     - name: Push to jettison_proto_typescript
+      if: ${{ secrets.TYPESCRIPT_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -186,8 +216,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_typescript.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_typescript.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_typescript.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_typescript"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -214,6 +250,7 @@ jobs:
 
     # Push to Rust repository
     - name: Push to jettison_proto_rust
+      if: ${{ secrets.RUST_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -221,8 +258,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_rust.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_rust.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_rust.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_rust"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -256,6 +299,7 @@ jobs:
 
     # Push to Java repository
     - name: Push to jettison_proto_java
+      if: ${{ secrets.JAVA_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -263,8 +307,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_java.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_java.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_java.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_java"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -285,6 +335,7 @@ jobs:
 
     # Push to JSON descriptors repository
     - name: Push to jettison_proto_json-descriptors
+      if: ${{ secrets.JSON_DESCRIPTORS_PUSH != '' }}
       run: |
         # Setup SSH key first
         mkdir -p ~/.ssh
@@ -292,8 +343,14 @@ jobs:
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Clone using SSH
-        git clone git@github.com:lpportorico/jettison_proto_json-descriptors.git target-repo
+        # Check if repo exists and clone or initialize
+        if git ls-remote git@github.com:lpportorico/jettison_proto_json-descriptors.git HEAD 2>/dev/null; then
+          echo "Repository exists, cloning..."
+          git clone git@github.com:lpportorico/jettison_proto_json-descriptors.git target-repo
+        else
+          echo "Repository does not exist, skipping push to jettison_proto_json-descriptors"
+          exit 0
+        fi
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
