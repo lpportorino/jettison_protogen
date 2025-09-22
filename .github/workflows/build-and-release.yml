@@ -57,317 +57,348 @@ jobs:
 
     # Push to C repository
     - name: Push to jettison_proto_c
-      if: ${{ secrets.C_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.C_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.C_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.C_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_c.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_c.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_c.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_c.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *.pb.* *.h *.c
+            cp -r ../output/c/* .
+
+            echo "# Jettison Proto C Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated C bindings using nanopb." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update C bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_c"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_c"
-          exit 0
+          echo "C_PUSH secret not configured, skipping"
         fi
-
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *.pb.* *.h *.c
-        cp -r ../output/c/* .
-
-        echo "# Jettison Proto C Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated C bindings using nanopb." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update C bindings from ${{ github.sha }}"
-        git push
 
     # Push to C++ repository
     - name: Push to jettison_proto_cpp
-      if: ${{ secrets.CPP_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.CPP_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.CPP_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CPP_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_cpp.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_cpp.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_cpp.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_cpp.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *.pb.* *.h *.cc
+            cp -r ../output/cpp/* .
+
+            echo "# Jettison Proto C++ Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated C++ bindings." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update C++ bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_cpp"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_cpp"
-          exit 0
+          echo "CPP_PUSH secret not configured, skipping"
         fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *.pb.* *.h *.cc
-        cp -r ../output/cpp/* .
-
-        echo "# Jettison Proto C++ Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated C++ bindings." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update C++ bindings from ${{ github.sha }}"
-        git push
 
     # Push to Go repository
     - name: Push to jettison_proto_go
-      if: ${{ secrets.GO_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GO_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.GO_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.GO_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_go.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_go.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_go.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_go.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *.pb.go *.pb.gw.go buf
+            cp -r ../output/go/* .
+
+            echo "# Jettison Proto Go Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Go bindings with buf.validate support." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            # Initialize go module if needed
+            if [ ! -f go.mod ]; then
+              go mod init github.com/lpportorico/jettison_proto_go
+            fi
+            go mod tidy || true
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update Go bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_go"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_go"
-          exit 0
+          echo "GO_PUSH secret not configured, skipping"
         fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *.pb.go *.pb.gw.go buf
-        cp -r ../output/go/* .
-
-        echo "# Jettison Proto Go Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated Go bindings with buf.validate support." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        # Initialize go module if needed
-        if [ ! -f go.mod ]; then
-          go mod init github.com/lpportorico/jettison_proto_go
-        fi
-        go mod tidy || true
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update Go bindings from ${{ github.sha }}"
-        git push
 
     # Push to Python repository
     - name: Push to jettison_proto_python
-      if: ${{ secrets.PYTHON_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.PYTHON_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.PYTHON_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PYTHON_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_python.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_python.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_python.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_python.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *_pb2.py *_pb2.pyi
+            cp -r ../output/python/* .
+
+            echo "# Jettison Proto Python Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Python bindings with type stubs." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update Python bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_python"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_python"
-          exit 0
+          echo "PYTHON_PUSH secret not configured, skipping"
         fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *_pb2.py *_pb2.pyi
-        cp -r ../output/python/* .
-
-        echo "# Jettison Proto Python Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated Python bindings with type stubs." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update Python bindings from ${{ github.sha }}"
-        git push
 
     # Push to TypeScript repository
     - name: Push to jettison_proto_typescript
-      if: ${{ secrets.TYPESCRIPT_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.TYPESCRIPT_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.TYPESCRIPT_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.TYPESCRIPT_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_typescript.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_typescript.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_typescript.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_typescript.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *.ts index.ts
+            cp -r ../output/typescript/* .
+
+            echo "# Jettison Proto TypeScript Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated TypeScript bindings using ts-proto." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            # Create package.json if needed
+            if [ ! -f package.json ]; then
+              npm init -y
+              npm pkg set name="@lpportorico/jettison-proto-typescript"
+            fi
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update TypeScript bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_typescript"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_typescript"
-          exit 0
+          echo "TYPESCRIPT_PUSH secret not configured, skipping"
         fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *.ts index.ts
-        cp -r ../output/typescript/* .
-
-        echo "# Jettison Proto TypeScript Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated TypeScript bindings using ts-proto." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        # Create package.json if needed
-        if [ ! -f package.json ]; then
-          npm init -y
-          npm pkg set name="@lpportorico/jettison-proto-typescript"
-        fi
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update TypeScript bindings from ${{ github.sha }}"
-        git push
 
     # Push to Rust repository
     - name: Push to jettison_proto_rust
-      if: ${{ secrets.RUST_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.RUST_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.RUST_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.RUST_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_rust.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_rust.git target-repo
-        else
-          echo "Repository does not exist, skipping push to jettison_proto_rust"
-          exit 0
-        fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_rust.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_rust.git target-repo
 
-        rm -rf *.rs
-        cp -r ../output/rust/* .
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
 
-        echo "# Jettison Proto Rust Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated Rust bindings using prost." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
+            rm -rf *.rs
+            cp -r ../output/rust/* .
 
-        # Create Cargo.toml if needed
-        if [ ! -f Cargo.toml ]; then
-          cat > Cargo.toml << EOF
-        [package]
-        name = "jettison-proto-rust"
-        version = "0.1.0"
-        edition = "2021"
+            echo "# Jettison Proto Rust Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Rust bindings using prost." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
 
-        [dependencies]
-        prost = "0.13"
+            # Create Cargo.toml if needed
+            if [ ! -f Cargo.toml ]; then
+              cat > Cargo.toml << EOF
+            [package]
+            name = "jettison-proto-rust"
+            version = "0.1.0"
+            edition = "2021"
+
+            [dependencies]
+            prost = "0.13"
         EOF
-        fi
+            fi
 
-        git add -A
-        git diff --staged --quiet || git commit -m "Update Rust bindings from ${{ github.sha }}"
-        git push
+            git add -A
+            git diff --staged --quiet || git commit -m "Update Rust bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_rust"
+          fi
+        else
+          echo "RUST_PUSH secret not configured, skipping"
+        fi
 
     # Push to Java repository
     - name: Push to jettison_proto_java
-      if: ${{ secrets.JAVA_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.JAVA_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.JAVA_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.JAVA_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_java.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_java.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_java.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_java.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *.java com/ org/
+            cp -r ../output/java/* .
+
+            echo "# Jettison Proto Java Bindings" > README.md
+            echo "" >> README.md
+            echo "Auto-generated Java bindings with buf.validate support." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update Java bindings from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_java"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_java"
-          exit 0
+          echo "JAVA_PUSH secret not configured, skipping"
         fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *.java com/ org/
-        cp -r ../output/java/* .
-
-        echo "# Jettison Proto Java Bindings" > README.md
-        echo "" >> README.md
-        echo "Auto-generated Java bindings with buf.validate support." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update Java bindings from ${{ github.sha }}"
-        git push
 
     # Push to JSON descriptors repository
     - name: Push to jettison_proto_json-descriptors
-      if: ${{ secrets.JSON_DESCRIPTORS_PUSH != '' }}
+      continue-on-error: true
       run: |
         # Setup SSH key first
-        mkdir -p ~/.ssh
-        echo "${{ secrets.JSON_DESCRIPTORS_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        if [ -n "${{ secrets.JSON_DESCRIPTORS_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.JSON_DESCRIPTORS_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-        # Check if repo exists and clone or initialize
-        if git ls-remote git@github.com:lpportorico/jettison_proto_json-descriptors.git HEAD 2>/dev/null; then
-          echo "Repository exists, cloning..."
-          git clone git@github.com:lpportorico/jettison_proto_json-descriptors.git target-repo
+          # Check if repo exists and clone or initialize
+          if git ls-remote git@github.com:lpportorico/jettison_proto_json-descriptors.git HEAD 2>/dev/null; then
+            echo "Repository exists, cloning..."
+            git clone git@github.com:lpportorico/jettison_proto_json-descriptors.git target-repo
+
+            cd target-repo
+            git config user.name "GitHub Actions"
+            git config user.email "actions@github.com"
+
+            rm -rf *.json
+            cp -r ../output/json-descriptors/* .
+
+            echo "# Jettison Proto JSON Descriptors" > README.md
+            echo "" >> README.md
+            echo "Auto-generated JSON descriptors with buf.validate annotations." >> README.md
+            echo "" >> README.md
+            echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+            echo "Commit: ${{ github.sha }}" >> README.md
+
+            git add -A
+            git diff --staged --quiet || git commit -m "Update JSON descriptors from ${{ github.sha }}"
+            git push
+          else
+            echo "Repository does not exist, skipping push to jettison_proto_json-descriptors"
+          fi
         else
-          echo "Repository does not exist, skipping push to jettison_proto_json-descriptors"
-          exit 0
+          echo "JSON_DESCRIPTORS_PUSH secret not configured, skipping"
         fi
-        cd target-repo
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-
-        rm -rf *.json
-        cp -r ../output/json-descriptors/* .
-
-        echo "# Jettison Proto JSON Descriptors" > README.md
-        echo "" >> README.md
-        echo "Auto-generated JSON descriptors with buf.validate annotations." >> README.md
-        echo "" >> README.md
-        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
-        echo "Commit: ${{ github.sha }}" >> README.md
-
-        git add -A
-        git diff --staged --quiet || git commit -m "Update JSON descriptors from ${{ github.sha }}"
-        git push
 
     # Commit updated outputs to main repository
     - name: Commit consolidated outputs
@@ -392,7 +423,6 @@ jobs:
         Commit: ${{ github.sha }}"
           git push
         }
-
 
     # Create release
     - name: Create release
