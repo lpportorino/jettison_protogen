@@ -14,10 +14,11 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 - `Dockerfile` - Main Docker image that uses the base image
 - `Dockerfile.base` - Base image with all necessary tools and dependencies
 - `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
-- `.github/workflows/build-and-distribute.yml` - GitHub Actions workflow for automated distribution
+- `.github/workflows/build-and-release.yml` - GitHub Actions workflow for automated distribution
+- `.gitattributes` - Empty file (previously used for Git LFS, now removed)
 
 ### Directories
-- `proto/` - Input directory containing .proto files to process (created at runtime)
+- `proto/` - Input directory containing .proto files to process (contains jon_shared_*.proto files)
 - `output/` - Standard generated bindings without validation (created at runtime)
 - `output-validated/` - Generated bindings with validation support (Go and Java only, created at runtime)
 - `scripts/` - Contains helper scripts like proto_cleanup.awk
@@ -42,7 +43,7 @@ output-validated/
 
 ### Docker Container Usage
 - Container builds automatically on first run if image doesn't exist
-- Base image built locally or restored from GitHub Actions cache
+- Base image built locally on first use or restored from GitHub Actions cache
 - All generation runs inside Docker for consistency
 - Uses volume mounts to access input/output directories
 - Runs bash scripts passed via `-c` flag
@@ -63,22 +64,51 @@ output-validated/
 - All proto files compiled together to resolve cross-file dependencies
 - validate.proto copied from protovalidate repository
 
+## Output Distribution
+
+Generated bindings are automatically distributed to dedicated repositories:
+
+| Language | Repository |
+|----------|------------|
+| C (nanopb) | [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c) |
+| C++ | [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp) |
+| Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) |
+| Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) |
+| TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) |
+| Rust | [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust) |
+| Java | [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java) |
+| JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors) |
+
+### GitHub Secrets Required
+
+For automated distribution, these deploy keys must be configured as repository secrets:
+
+- `C_PUSH` - Deploy key for jettison_proto_c
+- `CPP_PUSH` - Deploy key for jettison_proto_cpp
+- `GO_PUSH` - Deploy key for jettison_proto_go
+- `PYTHON_PUSH` - Deploy key for jettison_proto_python
+- `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
+- `RUST_PUSH` - Deploy key for jettison_proto_rust
+- `JAVA_PUSH` - Deploy key for jettison_proto_java
+- `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors
+- `SELF_PUSH` - Deploy key for pushing back to jettison_protogen repository
+
 ## Common Operations
 
 ### CI/CD Architecture
 
-The repository uses a fan-out/fan-in pattern in GitHub Actions:
+The repository uses a sequential workflow in GitHub Actions:
 
 1. **Build Base Stage**: Builds and caches the Docker base image
-2. **Parallel Generation**: Each language runs in its own job
-3. **Push to Language Repos**: Each job pushes to dedicated repository
-4. **Gather Outputs**: Final stage consolidates all outputs
+2. **Sequential Generation**: All languages generated in a single job
+3. **Push to Language Repos**: Sequentially push to each dedicated repository
+4. **Update Main Repo**: Commit generated outputs back to jettison_protogen
 
 This architecture provides:
-- Parallel execution for faster builds
+- Simple execution flow for easier debugging
 - Independent language repositories for consumers
 - Automatic distribution without manual intervention
-- Efficient Docker layer caching
+- Efficient Docker layer caching via GitHub Actions cache
 
 ### Adding a New Language
 1. Add toolchain installation to Dockerfile
@@ -212,7 +242,7 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 
 ## Environment Variables
 
-- `PROTO_SOURCE_DIR`: Input directory (default: `../proto`)
+- `PROTO_SOURCE_DIR`: Input directory (default: `./proto`)
 - `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
 - `REBUILD_IMAGE`: Force Docker rebuild (default: `false`)
 

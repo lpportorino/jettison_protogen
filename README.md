@@ -7,7 +7,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 - **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
 - **Buf.validate support**: Go and Java bindings include validation support by default
 - **Consistent environment**: All tools run in a controlled Docker container
-- **Parallel generation**: Each language generated in parallel GitHub Actions jobs
+- **Sequential generation**: All languages generated in a single GitHub Actions job
 - **Automatic distribution**: Generated code pushed to language-specific repositories
 - **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them
 - **CI/CD Integration**: Fully automated via GitHub Actions
@@ -21,8 +21,8 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 ```bash
 # Clone the repository
-git clone https://github.com/JAremko/protogen.git
-cd protogen
+git clone https://github.com/lpportorino/jettison_protogen.git
+cd jettison_protogen
 ```
 
 The Docker base image will be automatically built on first use. This initial build may take 10-15 minutes but is only required once.
@@ -147,9 +147,9 @@ output/
 The repository uses GitHub Actions to automatically:
 
 1. **Build Stage**: Build Docker base image with all language toolchains
-2. **Generate Stage**: Run parallel jobs for each language
-3. **Push Stage**: Each job pushes to its respective language repository
-4. **Gather Stage**: Consolidate outputs back to main repository
+2. **Generate Stage**: Generate bindings for all languages sequentially
+3. **Push Stage**: Push generated code to each language-specific repository
+4. **Update Stage**: Commit generated outputs back to main repository
 5. **Release Stage**: Create GitHub release with all artifacts
 
 ### Workflow Triggers
@@ -172,10 +172,11 @@ For automated distribution, configure these deploy keys as repository secrets:
 - `RUST_PUSH` - Deploy key for jettison_proto_rust
 - `JAVA_PUSH` - Deploy key for jettison_proto_java
 - `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors
+- `SELF_PUSH` - Deploy key for pushing back to jettison_protogen repository
 
 ### Environment Variables
 
-- `PROTO_SOURCE_DIR`: Source proto directory (default: `../proto`)
+- `PROTO_SOURCE_DIR`: Source proto directory (default: `./proto`)
 - `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
 - `REBUILD_IMAGE`: Force Docker image rebuild (default: `false`)
 
