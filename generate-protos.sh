@@ -127,6 +127,14 @@ find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
     -I/tmp/cleaned_proto \
     --nanopb_out=/workspace/output \
     {}
+# Copy nanopb runtime files that are needed for compilation
+cp /opt/nanopb/pb.h /workspace/output/
+cp /opt/nanopb/pb_common.h /workspace/output/
+cp /opt/nanopb/pb_common.c /workspace/output/
+cp /opt/nanopb/pb_encode.h /workspace/output/
+cp /opt/nanopb/pb_encode.c /workspace/output/
+cp /opt/nanopb/pb_decode.h /workspace/output/
+cp /opt/nanopb/pb_decode.c /workspace/output/
 '
 
 # C++ generation script
