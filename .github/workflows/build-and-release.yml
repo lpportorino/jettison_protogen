@@ -38,8 +38,26 @@ jobs:
     # Generate all proto bindings
     - name: Generate all proto bindings
       run: |
+        # Check if proto directory has files, if not create a test file
         mkdir -p proto
+        if [ -z "$(ls -A proto 2>/dev/null)" ]; then
+          echo "No proto files found, creating test proto..."
+          cat > proto/test.proto << 'EOF'
+        syntax = "proto3";
+        package test;
+
+        message TestMessage {
+          string id = 1;
+          string name = 2;
+          int32 value = 3;
+        }
+        EOF
+        fi
+
+        # Set PROTO_SOURCE_DIR to current proto directory
+        export PROTO_SOURCE_DIR=./proto
         ./generate-protos.sh
+
         echo "Generated files:"
         find output -type f | head -20
 
