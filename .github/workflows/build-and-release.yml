@@ -16,6 +16,10 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: write  # Allow pushing to the repository
+  packages: write  # Allow pushing packages
+
 jobs:
   build-and-distribute:
     runs-on: ubuntu-latest
@@ -403,6 +407,20 @@ jobs:
     # Commit updated outputs to main repository
     - name: Commit consolidated outputs
       run: |
+        # Setup SSH key for pushing to main repo
+        if [ -n "${{ secrets.SELF_PUSH }}" ]; then
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SELF_PUSH }}" > ~/.ssh/id_ed25519_self
+          chmod 600 ~/.ssh/id_ed25519_self
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          # Configure git to use the SSH key
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self"
+
+          # Set remote to use SSH
+          git remote set-url origin git@github.com:lpportorino/jettison_protogen.git
+        fi
+
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
 
@@ -421,7 +439,12 @@ jobs:
         - JSON Descriptors
 
         Commit: ${{ github.sha }}"
-          git push
+
+          if [ -n "${{ secrets.SELF_PUSH }}" ]; then
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git push
+          else
+            echo "Warning: SELF_PUSH not configured, cannot push to main repo"
+          fi
         }
 
     # Create release
