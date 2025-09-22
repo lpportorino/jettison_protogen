@@ -38,29 +38,9 @@ jobs:
     # Generate all proto bindings
     - name: Generate all proto bindings
       run: |
-        # Ensure proto directory exists
-        mkdir -p proto
-
-        # Check if proto directory has files, if not create a test file
-        if [ -z "$(ls -A proto 2>/dev/null)" ]; then
-          echo "No proto files found, creating test proto..."
-          cat > proto/test.proto << 'EOF'
-        syntax = "proto3";
-        package test;
-        option go_package = "github.com/lpportorico/test";
-        option java_package = "com.lpportorico.test";
-
-        message TestMessage {
-          string id = 1;
-          string name = 2;
-          int32 value = 3;
-        }
-
-        service TestService {
-          rpc GetTest(TestMessage) returns (TestMessage);
-        }
-        EOF
-        fi
+        # List proto files we're going to process
+        echo "Proto files to process:"
+        ls -la proto/*.proto | head -10
 
         # Use Make command which properly sets PROTO_SOURCE_DIR=./proto by default
         make generate
