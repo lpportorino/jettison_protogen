@@ -26,14 +26,48 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    # Build Docker images
-    - name: Build Docker images
-      run: |
-        echo "Building base image..."
-        docker build -t jettison-proto-generator-base:latest -f Dockerfile.base .
+    # Set up Docker Buildx for better caching
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      with:
+        install: true
 
-        echo "Building main image..."
-        docker build -t jettison-proto-generator:latest -f Dockerfile .
+    # Cache Docker layers
+    - name: Cache Docker layers
+      uses: actions/cache@v4
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ hashFiles('Dockerfile.base') }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    # Build base image with cache
+    - name: Build base Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile.base
+        tags: jettison-proto-generator-base:latest
+        load: true
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+    # Build main Docker image
+    - name: Build main Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        tags: jettison-proto-generator:latest
+        load: true
+        build-args: |
+          BASE_IMAGE=jettison-proto-generator-base:latest
+
+    # Move cache (GitHub Actions requirement)
+    - name: Move cache
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
     # Generate all proto bindings
     - name: Generate all proto bindings
