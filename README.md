@@ -1,49 +1,31 @@
 # Protogen - Docker-based Protocol Buffer Generator
 
-A containerized environment for generating protocol buffer bindings for multiple languages with consistent tooling and versions.
+A containerized environment for generating protocol buffer bindings for multiple languages with consistent tooling and versions. This repository automatically builds and distributes generated bindings to language-specific repositories.
 
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
 - **Buf.validate support**: Go and Java bindings include validation support by default
 - **Consistent environment**: All tools run in a controlled Docker container
-- **Parallel generation**: Optimized for speed with parallel processing where applicable
+- **Parallel generation**: Each language generated in parallel GitHub Actions jobs
+- **Automatic distribution**: Generated code pushed to language-specific repositories
 - **Automatic cleanup**: Removes buf.validate annotations for languages that don't support them
+- **CI/CD Integration**: Fully automated via GitHub Actions
 
 ## Prerequisites
 
 - Docker installed and running
 - Protocol buffer source files
-- Git LFS (Large File Storage) for cloning the repository
 
 ## Installation
-
-### Cloning the Repository
-
-This repository includes a pre-built Docker base image to speed up builds. The image is stored using Git LFS.
 
 ```bash
 # Clone the repository
 git clone https://github.com/JAremko/protogen.git
 cd protogen
-
-# Pull the pre-built base image (if you have Git LFS)
-git lfs pull
 ```
 
-**Note**: The base image is ~1.2GB. If you don't have Git LFS or prefer to build from scratch, the system will automatically build the base image when needed.
-
-#### Installing Git LFS (Optional)
-If you want to use the pre-built base image:
-- Ubuntu/Debian: `sudo apt-get install git-lfs`
-- Fedora: `sudo dnf install git-lfs`
-- macOS: `brew install git-lfs`
-- Arch Linux: `sudo pacman -S git-lfs`
-
-After installing, initialize Git LFS:
-```bash
-git lfs install
-```
+The Docker base image will be automatically built on first use. This initial build may take 10-15 minutes but is only required once.
 
 ## Quick Start
 
@@ -79,9 +61,24 @@ PROTO_SOURCE_DIR=/path/to/protos ./generate-protos.sh
 REBUILD_IMAGE=true ./generate-protos.sh
 ```
 
-## Output Structure
+## Output Distribution
 
-Generated files are organized by language:
+Generated bindings are automatically distributed to dedicated repositories:
+
+| Language | Repository | Package Support |
+|----------|------------|----------------|
+| C (nanopb) | [jettison_proto_c](https://github.com/lpportorico/jettison_proto_c) | Header files |
+| C++ | [jettison_proto_cpp](https://github.com/lpportorico/jettison_proto_cpp) | Header files |
+| Go | [jettison_proto_go](https://github.com/lpportorico/jettison_proto_go) | Go module |
+| Python | [jettison_proto_python](https://github.com/lpportorico/jettison_proto_python) | Python package |
+| TypeScript | [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript) | npm package |
+| Rust | [jettison_proto_rust](https://github.com/lpportorico/jettison_proto_rust) | Cargo crate |
+| Java | [jettison_proto_java](https://github.com/lpportorico/jettison_proto_java) | Maven/Gradle |
+| JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorico/jettison_proto_json-descriptors) | JSON files |
+
+### Local Output
+
+The `output/` directory in this repository contains the latest generated files:
 
 ```
 output/
@@ -92,10 +89,10 @@ output/
 ├── typescript/      # TypeScript bindings (ts-proto)
 ├── rust/            # Rust bindings (prost)
 ├── java/            # Java bindings with buf.validate support
-└── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations and CEL expressions
+└── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations
 ```
 
-**Note**: Go and Java bindings now include buf.validate support by default. Use the respective protovalidate runtime libraries for validation.
+**Note**: Go and Java bindings include buf.validate support by default.
 
 
 ## Language-Specific Features
@@ -145,7 +142,36 @@ output/
   - Required fields: `required` on oneofs
   - Custom CEL validation expressions
 
+## CI/CD Workflow
+
+The repository uses GitHub Actions to automatically:
+
+1. **Build Stage**: Build Docker base image with all language toolchains
+2. **Generate Stage**: Run parallel jobs for each language
+3. **Push Stage**: Each job pushes to its respective language repository
+4. **Gather Stage**: Consolidate outputs back to main repository
+5. **Release Stage**: Create GitHub release with all artifacts
+
+### Workflow Triggers
+
+- Push to `main` or `master` branch
+- Changes to proto files, Dockerfiles, or scripts
+- Manual workflow dispatch
+
 ## Configuration
+
+### GitHub Secrets Required
+
+For automated distribution, configure these deploy keys as repository secrets:
+
+- `C_PUSH` - Deploy key for jettison_proto_c
+- `CPP_PUSH` - Deploy key for jettison_proto_cpp
+- `GO_PUSH` - Deploy key for jettison_proto_go
+- `PYTHON_PUSH` - Deploy key for jettison_proto_python
+- `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
+- `RUST_PUSH` - Deploy key for jettison_proto_rust
+- `JAVA_PUSH` - Deploy key for jettison_proto_java
+- `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors
 
 ### Environment Variables
 
@@ -153,18 +179,9 @@ output/
 - `OUTPUT_BASE_DIR`: Output directory (default: `./output`)
 - `REBUILD_IMAGE`: Force Docker image rebuild (default: `false`)
 
-### Pre-built Base Image
+### Docker Base Image
 
-The repository includes a pre-built base Docker image (`jettison-proto-generator-base.tar.gz`) stored via Git LFS. This image contains all necessary dependencies and tools, saving significant build time on first use.
-
-To use the pre-built image:
-```bash
-# Import the base image (automatic with Make targets)
-make import-base
-
-# Or manually
-docker load < jettison-proto-generator-base.tar.gz
-```
+The base Docker image contains all necessary dependencies and tools. It will be automatically built on first use if not present. The image is cached locally after the initial build.
 
 ### Docker Image Details
 
@@ -233,13 +250,11 @@ Check that your proto source directory exists and contains `.proto` files.
 - `make build-base` - Build the base Docker image with all dependencies
 - `make generate` - Build image and generate bindings
 - `make rebuild` - Force rebuild image and regenerate
-- `make rebuild-base` - Force rebuild base image and export
+- `make rebuild-base` - Force rebuild base image
 - `make clean` - Remove generated files
 - `make clean-all` - Remove generated files and Docker images
 - `make clean-image` - Remove the main Docker image
 - `make clean-base` - Remove the base Docker image
-- `make export-base` - Export base image to a gzip archive
-- `make import-base` - Import base image from gzip archive
 - `make test` - Run test generation with test proto
 - `make shell` - Open shell in Docker container
 - `make versions` - Show tool versions in Docker image

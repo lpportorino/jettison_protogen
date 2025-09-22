@@ -1,0 +1,922 @@
+name: Build and Distribute Proto Bindings
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'proto/**'
+      - 'Dockerfile*'
+      - 'generate-*.sh'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: false
+        type: string
+
+jobs:
+  # Stage 1: Build base image and generate all bindings
+  build-base:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.key }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Generate cache key
+      id: cache-key
+      run: echo "key=${{ runner.os }}-buildx-base-${{ hashFiles('Dockerfile.base') }}" >> $GITHUB_OUTPUT
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    # Cache Docker layers for base image
+    - name: Cache Docker layers
+      uses: actions/cache@v4
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ steps.cache-key.outputs.key }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-base-
+
+    # Build base image with cache
+    - name: Build base Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile.base
+        tags: jettison-proto-generator-base:latest
+        outputs: type=docker,dest=/tmp/base-image.tar
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+    # Save base image as artifact for parallel jobs
+    - name: Upload base image
+      uses: actions/upload-artifact@v4
+      with:
+        name: base-image
+        path: /tmp/base-image.tar
+        retention-days: 1
+
+    # Move build cache
+    - name: Move cache
+      run: |
+        rm -rf /tmp/.buildx-cache
+        mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+  # Stage 2: Fan out - Generate and push each language in parallel
+  generate-c:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate C bindings
+      run: |
+        mkdir -p proto output/c
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/c:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -e
+        mkdir -p /tmp/cleaned_proto
+        for proto in proto/*.proto; do
+            awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+        done
+        find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
+            protoc --plugin=protoc-gen-nanopb=/opt/nanopb/generator/protoc-gen-nanopb \
+            -I/tmp/cleaned_proto \
+            --nanopb_out=/workspace/output \
+            {}
+        cp /opt/nanopb/pb*.h /opt/nanopb/pb*.c /workspace/output/
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_c
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_c.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.pb.* *.h *.c
+        cp -r ../output/c/* .
+
+        echo "# Jettison Proto C Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated C bindings using nanopb." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update C bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.C_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_c.git
+        git push
+
+    - name: Upload C artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-c
+        path: output/c
+        retention-days: 1
+
+  generate-cpp:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate C++ bindings
+      run: |
+        mkdir -p proto output/cpp
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/cpp:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -e
+        mkdir -p /tmp/cleaned_proto
+        for proto in proto/*.proto; do
+            awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+        done
+        protoc -I/tmp/cleaned_proto --cpp_out=/workspace/output /tmp/cleaned_proto/*.proto
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_cpp
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_cpp.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.pb.* *.h *.cc
+        cp -r ../output/cpp/* .
+
+        echo "# Jettison Proto C++ Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated C++ bindings." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update C++ bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.CPP_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_cpp.git
+        git push
+
+    - name: Upload C++ artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-cpp
+        path: output/cpp
+        retention-days: 1
+
+  generate-go:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate Go bindings
+      run: |
+        mkdir -p proto output/go
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/go:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -e
+        mkdir -p /tmp/go_proto_val
+        for proto in proto/*.proto; do
+            cp "$proto" "/tmp/go_proto_val/$(basename "$proto")"
+            /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$(basename "$proto")"
+        done
+        cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/go_proto_val/
+        cd /tmp/go_proto_val
+        cat > buf.yaml << "BUF_EOF"
+        version: v2
+        modules:
+          - path: .
+            name: buf.build/jettison/jonp
+        BUF_EOF
+        cat > buf.gen.yaml << "BUF_EOF"
+        version: v2
+        managed:
+          enabled: true
+          override:
+            - file_option: go_package_prefix
+              value: ""
+        plugins:
+          - remote: buf.build/protocolbuffers/go:v1.36.6
+            out: /workspace/output
+          - remote: buf.build/grpc/go:v1.3.0
+            out: /workspace/output
+        BUF_EOF
+        buf generate
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_go
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_go.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.pb.go *.pb.gw.go buf
+        cp -r ../output/go/* .
+
+        echo "# Jettison Proto Go Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated Go bindings with buf.validate support." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        # Initialize go module if needed
+        if [ ! -f go.mod ]; then
+          go mod init github.com/lpportorico/jettison_proto_go
+        fi
+        go mod tidy || true
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update Go bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.GO_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_go.git
+        git push
+
+    - name: Upload Go artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-go
+        path: output/go
+        retention-days: 1
+
+  generate-python:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate Python bindings
+      run: |
+        mkdir -p proto output/python
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/python:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -e
+        mkdir -p /tmp/cleaned_proto
+        for proto in proto/*.proto; do
+            awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+        done
+        protoc -I/tmp/cleaned_proto \
+            --python_out=/workspace/output \
+            --pyi_out=/workspace/output \
+            /tmp/cleaned_proto/*.proto
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_python
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_python.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *_pb2.py *_pb2.pyi
+        cp -r ../output/python/* .
+
+        echo "# Jettison Proto Python Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated Python bindings with type stubs." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update Python bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.PYTHON_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_python.git
+        git push
+
+    - name: Upload Python artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-python
+        path: output/python
+        retention-days: 1
+
+  generate-typescript:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate TypeScript bindings
+      run: |
+        mkdir -p proto output/typescript
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/typescript:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -e
+        mkdir -p /tmp/cleaned_proto
+        for proto in proto/*.proto; do
+            awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+        done
+        cd /tmp
+        npm init -y
+        npm install ts-proto
+        protoc -I/tmp/cleaned_proto \
+            --plugin=protoc-gen-ts_proto=/tmp/node_modules/.bin/protoc-gen-ts_proto \
+            --ts_proto_opt=outputIndex=true \
+            --ts_proto_opt=esModuleInterop=true \
+            --ts_proto_opt=forceLong=long \
+            --ts_proto_out=/workspace/output \
+            /tmp/cleaned_proto/*.proto
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_typescript
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_typescript.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.ts index.ts
+        cp -r ../output/typescript/* .
+
+        echo "# Jettison Proto TypeScript Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated TypeScript bindings using ts-proto." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        # Create package.json if needed
+        if [ ! -f package.json ]; then
+          npm init -y
+          npm pkg set name="@lpportorico/jettison-proto-typescript"
+        fi
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update TypeScript bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.TYPESCRIPT_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_typescript.git
+        git push
+
+    - name: Upload TypeScript artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-typescript
+        path: output/typescript
+        retention-days: 1
+
+  generate-rust:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate Rust bindings
+      run: |
+        mkdir -p proto output/rust
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/rust:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -e
+        mkdir -p /tmp/cleaned_proto /tmp/rust_gen
+        for proto in proto/*.proto; do
+            awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+        done
+        export PATH="/opt/rust/bin:/root/.cargo/bin:/usr/local/bin:$PATH"
+        export CARGO_HOME="/tmp/.cargo"
+        mkdir -p "$CARGO_HOME"
+        cd /tmp/rust_gen
+        cat > Cargo.toml << EOF
+        [package]
+        name = "proto-gen"
+        version = "0.1.0"
+        edition = "2021"
+
+        [dependencies]
+        prost = "0.13"
+
+        [build-dependencies]
+        prost-build = "0.13"
+        EOF
+        mkdir -p src
+        cat > build.rs << "RUST_EOF"
+        use std::io::Result;
+        fn main() -> Result<()> {
+            let proto_files: Vec<_> = std::fs::read_dir("/tmp/cleaned_proto")?
+                .filter_map(|entry| {
+                    let entry = entry.ok()?;
+                    let path = entry.path();
+                    if path.extension()? == "proto" {
+                        Some(path)
+                    } else {
+                        None
+                    }
+                })
+                .collect();
+            std::fs::create_dir_all("/workspace/output")?;
+            prost_build::Config::new()
+                .out_dir("/workspace/output")
+                .compile_protos(&proto_files, &["/tmp/cleaned_proto"])?;
+            Ok(())
+        }
+        RUST_EOF
+        echo "fn main() {}" > src/main.rs
+        cargo build
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_rust
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_rust.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.rs
+        cp -r ../output/rust/* .
+
+        echo "# Jettison Proto Rust Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated Rust bindings using prost." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        # Create Cargo.toml if needed
+        if [ ! -f Cargo.toml ]; then
+          cat > Cargo.toml << EOF
+        [package]
+        name = "jettison-proto-rust"
+        version = "0.1.0"
+        edition = "2021"
+
+        [dependencies]
+        prost = "0.13"
+        EOF
+        fi
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update Rust bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.RUST_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_rust.git
+        git push
+
+    - name: Upload Rust artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-rust
+        path: output/rust
+        retention-days: 1
+
+  generate-java:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate Java bindings
+      run: |
+        mkdir -p proto output/java
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/java:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -ex
+        mkdir -p /tmp/java_proto_buf
+        cp -r /workspace/proto/* /tmp/java_proto_buf/
+        mkdir -p /tmp/java_proto_buf/buf/validate
+        cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/java_proto_buf/buf/validate/
+        cd /tmp/java_proto_buf
+        for proto in *.proto; do
+            if [ -f "$proto" ]; then
+                /usr/local/bin/add-validate-import.sh "$proto"
+            fi
+        done
+        protoc -I/tmp/java_proto_buf \
+            --java_out=/workspace/output \
+            /tmp/java_proto_buf/*.proto
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_java
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_java.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.java com/ org/
+        cp -r ../output/java/* .
+
+        echo "# Jettison Proto Java Bindings" > README.md
+        echo "" >> README.md
+        echo "Auto-generated Java bindings with buf.validate support." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update Java bindings from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.JAVA_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_java.git
+        git push
+
+    - name: Upload Java artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-java
+        path: output/java
+        retention-days: 1
+
+  generate-json-descriptors:
+    needs: build-base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download base image
+      uses: actions/download-artifact@v4
+      with:
+        name: base-image
+        path: /tmp
+
+    - name: Load Docker image
+      run: docker load -i /tmp/base-image.tar
+
+    - name: Build main Docker image
+      run: docker build -t jettison-proto-generator:latest .
+
+    - name: Generate JSON descriptors
+      run: |
+        mkdir -p proto output/json-descriptors
+        docker run --rm \
+          -v "$PWD/proto:/workspace/proto:ro" \
+          -v "$PWD/output/json-descriptors:/workspace/output:rw" \
+          -v "$PWD/scripts:/workspace/scripts:ro" \
+          -w /workspace \
+          jettison-proto-generator:latest \
+          -c '
+        set -ex
+        mkdir -p /tmp/json_proto
+        cp -r /workspace/proto/* /tmp/json_proto/
+        mkdir -p /tmp/json_proto/buf/validate
+        cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/json_proto/buf/validate/
+        cd /tmp/json_proto
+        for proto in *.proto; do
+            if [ -f "$proto" ]; then
+                /usr/local/bin/add-validate-import.sh "$proto"
+            fi
+        done
+        if command -v buf &> /dev/null; then
+            if [ ! -f buf.yaml ]; then
+                cat > buf.yaml << "BUF_EOF"
+        version: v1
+        breaking:
+          use:
+            - FILE
+        lint:
+          use:
+            - DEFAULT
+        BUF_EOF
+            fi
+            buf build . -o /workspace/output/descriptor-set.json --exclude-source-info
+            for proto in *.proto; do
+                if [ -f "$proto" ]; then
+                    base_name="${proto%.proto}"
+                    buf build . --path "$proto" -o "/workspace/output/${base_name}.json" --exclude-source-info
+                fi
+            done
+        else
+            protoc -I/tmp/json_proto \
+                --descriptor_set_out=/tmp/descriptor-set.pb \
+                --include_imports \
+                --include_source_info \
+                /tmp/json_proto/*.proto
+            python3 << "PYTHON_EOF"
+        import json
+        from google.protobuf import descriptor_pb2
+        from google.protobuf.json_format import MessageToJson, MessageToDict
+        with open("/tmp/descriptor-set.pb", "rb") as f:
+            descriptor_data = f.read()
+        file_descriptor_set = descriptor_pb2.FileDescriptorSet()
+        file_descriptor_set.ParseFromString(descriptor_data)
+        json_str = MessageToJson(
+            file_descriptor_set,
+            indent=2,
+            preserving_proto_field_name=True,
+            including_default_value_fields=True,
+            use_integers_for_enums=False
+        )
+        with open("/workspace/output/descriptor-set.json", "w") as f:
+            f.write(json_str)
+        descriptor_dict = MessageToDict(
+            file_descriptor_set,
+            preserving_proto_field_name=True,
+            including_default_value_fields=True
+        )
+        for file_descriptor in descriptor_dict.get("file", []):
+            name = file_descriptor.get("name", "").replace(".proto", "")
+            if name and not name.startswith("google/") and not name.startswith("buf/"):
+                individual_desc = {"file": [file_descriptor]}
+                base_name = name.split("/")[-1]
+                output_path = f"/workspace/output/{base_name}.json"
+                with open(output_path, "w") as f:
+                    json.dump(individual_desc, f, indent=2)
+        PYTHON_EOF
+        fi
+        chmod -R 777 /workspace/output'
+
+    - name: Push to jettison_proto_json-descriptors
+      run: |
+        git clone https://github.com/lpportorico/jettison_proto_json-descriptors.git target-repo
+        cd target-repo
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        rm -rf *.json
+        cp -r ../output/json-descriptors/* .
+
+        echo "# Jettison Proto JSON Descriptors" > README.md
+        echo "" >> README.md
+        echo "Auto-generated JSON descriptors with buf.validate annotations." >> README.md
+        echo "" >> README.md
+        echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "Commit: ${{ github.sha }}" >> README.md
+
+        git add -A
+        git diff --staged --quiet || git commit -m "Update JSON descriptors from ${{ github.sha }}"
+
+        # Setup SSH key for push
+        mkdir -p ~/.ssh
+        echo "${{ secrets.JSON_DESCRIPTORS_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        git remote set-url origin git@github.com:lpportorico/jettison_proto_json-descriptors.git
+        git push
+
+    - name: Upload JSON descriptors artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: output-json-descriptors
+        path: output/json-descriptors
+        retention-days: 1
+
+  # Stage 3: Fan in - Gather all outputs and update main repo
+  gather-outputs:
+    needs: [generate-c, generate-cpp, generate-go, generate-python, generate-typescript, generate-rust, generate-java, generate-json-descriptors]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Consolidate outputs
+      run: |
+        rm -rf output
+        mkdir -p output
+
+        # Copy each language output if it exists
+        for lang in c cpp go python typescript rust java json-descriptors; do
+          if [ -d "artifacts/output-${lang}" ]; then
+            echo "Copying $lang outputs..."
+            cp -r "artifacts/output-${lang}" "output/${lang}"
+          else
+            echo "No $lang outputs found"
+            mkdir -p "output/${lang}"
+          fi
+        done
+
+        # List what we have
+        echo "Final output structure:"
+        find output -type f | head -50
+
+    - name: Commit consolidated outputs
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+
+        git add output/
+        git diff --staged --quiet || {
+          git commit -m "Update generated proto bindings
+
+        Languages updated:
+        - C (nanopb)
+        - C++
+        - Go (with buf.validate)
+        - Python
+        - TypeScript
+        - Rust
+        - Java (with buf.validate)
+        - JSON Descriptors
+
+        Commit: ${{ github.sha }}"
+          git push
+        }
+
+    - name: Create release
+      if: github.event_name == 'push' || github.event.inputs.release_tag != ''
+      run: |
+        # Create tarballs for release
+        mkdir -p release-artifacts
+        for lang in c cpp go python typescript rust java json-descriptors; do
+          if [ -d "output/$lang" ] && [ "$(ls -A output/$lang)" ]; then
+            tar czf "release-artifacts/proto-${lang}.tar.gz" -C output "$lang"
+          fi
+        done
+
+        # Create release
+        gh release create \
+          "${{ github.event.inputs.release_tag || format('build-{0}', github.sha) }}" \
+          --title "${{ github.event.inputs.release_tag || format('Auto Build {0}', github.sha) }}" \
+          --notes "Automated build of protocol buffer bindings.
+
+        **Commit:** ${{ github.sha }}
+        **Branch:** ${{ github.ref_name }}
+        **Timestamp:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+
+        ## Available Languages
+        - C (nanopb) - [jettison_proto_c](https://github.com/lpportorico/jettison_proto_c)
+        - C++ - [jettison_proto_cpp](https://github.com/lpportorico/jettison_proto_cpp)
+        - Go (with buf.validate) - [jettison_proto_go](https://github.com/lpportorico/jettison_proto_go)
+        - Python - [jettison_proto_python](https://github.com/lpportorico/jettison_proto_python)
+        - TypeScript - [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript)
+        - Rust - [jettison_proto_rust](https://github.com/lpportorico/jettison_proto_rust)
+        - Java (with buf.validate) - [jettison_proto_java](https://github.com/lpportorico/jettison_proto_java)
+        - JSON Descriptors - [jettison_proto_json-descriptors](https://github.com/lpportorico/jettison_proto_json-descriptors)" \
+          ${{ github.event.inputs.release_tag == '' && '--prerelease' || '' }} \
+          release-artifacts/*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -42,37 +42,17 @@ build-base: ## Build the base Docker image with all dependencies
 	@echo "$(GREEN)Base Docker image built successfully$(NC)"
 
 .PHONY: build
-build: ## Build the main Docker image (requires base image)
+build: ## Build the main Docker image (builds base if needed)
 	@echo "$(GREEN)Checking for base image...$(NC)"
 	@if ! docker images | grep -q "jettison-proto-generator-base.*latest"; then \
-		if [ -f "$(BASE_IMAGE_ARCHIVE)" ]; then \
-			echo "$(YELLOW)Base image not found, importing from archive...$(NC)"; \
-			$(MAKE) import-base; \
-		else \
-			echo "$(YELLOW)Base image not found, building...$(NC)"; \
-			$(MAKE) build-base; \
-		fi \
+		echo "$(YELLOW)Base image not found, building...$(NC)"; \
+		$(MAKE) build-base; \
 	fi
 	@echo "$(GREEN)Building Docker image: $(DOCKER_IMAGE)$(NC)"
 	@docker build -t $(DOCKER_IMAGE) .
 	@echo "$(GREEN)Docker image built successfully$(NC)"
 
-.PHONY: export-base
-export-base: build-base ## Export base image to a gzip archive
-	@echo "$(GREEN)Exporting base image to $(BASE_IMAGE_ARCHIVE)...$(NC)"
-	@docker save $(DOCKER_BASE_IMAGE) | gzip > $(BASE_IMAGE_ARCHIVE)
-	@ls -lh $(BASE_IMAGE_ARCHIVE)
-	@echo "$(GREEN)Base image exported successfully$(NC)"
-
-.PHONY: import-base
-import-base: ## Import base image from gzip archive
-	@if [ ! -f "$(BASE_IMAGE_ARCHIVE)" ]; then \
-		echo "$(YELLOW)Error: $(BASE_IMAGE_ARCHIVE) not found$(NC)"; \
-		exit 1; \
-	fi
-	@echo "$(GREEN)Importing base image from $(BASE_IMAGE_ARCHIVE)...$(NC)"
-	@gunzip -c $(BASE_IMAGE_ARCHIVE) | docker load
-	@echo "$(GREEN)Base image imported successfully$(NC)"
+# Removed export-base and import-base targets - no longer using archived images
 
 .PHONY: generate
 generate: build ## Generate protocol buffer bindings for all languages
@@ -86,7 +66,7 @@ rebuild: clean-image generate ## Force rebuild Docker image and regenerate bindi
 	@echo "$(GREEN)Rebuild complete$(NC)"
 
 .PHONY: rebuild-base
-rebuild-base: clean-base clean-image build-base export-base ## Force rebuild base image and export
+rebuild-base: clean-base clean-image build-base ## Force rebuild base image
 	@echo "$(GREEN)Base rebuild complete$(NC)"
 
 .PHONY: clean

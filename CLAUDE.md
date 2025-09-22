@@ -14,8 +14,7 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 - `Dockerfile` - Main Docker image that uses the base image
 - `Dockerfile.base` - Base image with all necessary tools and dependencies
 - `scripts/proto_cleanup.awk` - AWK script to remove buf.validate annotations for incompatible languages
-- `jettison-proto-generator-base.tar.gz` - Pre-built Docker base image (stored via Git LFS)
-- `.gitattributes` - Git LFS configuration tracking large files
+- `.github/workflows/build-and-distribute.yml` - GitHub Actions workflow for automated distribution
 
 ### Directories
 - `proto/` - Input directory containing .proto files to process (created at runtime)
@@ -43,7 +42,7 @@ output-validated/
 
 ### Docker Container Usage
 - Container builds automatically on first run if image doesn't exist
-- Pre-built base image loaded from `jettison-proto-generator-base.tar.gz` via Git LFS
+- Base image built locally or restored from GitHub Actions cache
 - All generation runs inside Docker for consistency
 - Uses volume mounts to access input/output directories
 - Runs bash scripts passed via `-c` flag
@@ -66,28 +65,20 @@ output-validated/
 
 ## Common Operations
 
-### Working with Git LFS
+### CI/CD Architecture
 
-The repository uses Git LFS for the pre-built Docker base image:
-```bash
-# Clone the repository
-git clone https://github.com/JAremko/protogen.git
-cd protogen
+The repository uses a fan-out/fan-in pattern in GitHub Actions:
 
-# Pull LFS files (downloads the pre-built base image)
-git lfs pull
+1. **Build Base Stage**: Builds and caches the Docker base image
+2. **Parallel Generation**: Each language runs in its own job
+3. **Push to Language Repos**: Each job pushes to dedicated repository
+4. **Gather Outputs**: Final stage consolidates all outputs
 
-# Check LFS status
-git lfs status
-
-# Update the base image archive after rebuilding
-make export-base
-git add jettison-proto-generator-base.tar.gz
-git commit -m "Update pre-built base image"
-git push
-```
-
-**Important**: When updating dependencies, always export and commit the new base image to ensure builds are reproducible.
+This architecture provides:
+- Parallel execution for faster builds
+- Independent language repositories for consumers
+- Automatic distribution without manual intervention
+- Efficient Docker layer caching
 
 ### Adding a New Language
 1. Add toolchain installation to Dockerfile
@@ -113,9 +104,6 @@ GO_VERSION=1.22.0
 
 # Force rebuild using Make
 make rebuild-base
-
-# Export rebuilt base image
-make export-base
 
 # Or using script directly
 REBUILD_IMAGE=true ./generate-protos.sh
@@ -234,7 +222,7 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 2. nanopb requires annotation removal (doesn't support extensions)
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
-5. Git LFS required to clone repository with pre-built base image
+5. GitHub Actions required for automated distribution
 
 ## References
 
