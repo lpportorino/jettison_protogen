@@ -113,7 +113,14 @@ jobs:
 
     - name: Push to jettison_proto_c
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_c.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.C_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_c.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -130,14 +137,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update C bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.C_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_c.git
         git push
 
     - name: Upload C artifact
@@ -186,7 +185,14 @@ jobs:
 
     - name: Push to jettison_proto_cpp
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_cpp.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.CPP_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_cpp.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -203,14 +209,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update C++ bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.CPP_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_cpp.git
         git push
 
     - name: Upload C++ artifact
@@ -281,7 +279,14 @@ jobs:
 
     - name: Push to jettison_proto_go
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_go.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.GO_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_go.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -304,14 +309,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update Go bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GO_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_go.git
         git push
 
     - name: Upload Go artifact
@@ -363,7 +360,14 @@ jobs:
 
     - name: Push to jettison_proto_python
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_python.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.PYTHON_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_python.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -380,14 +384,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update Python bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.PYTHON_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_python.git
         git push
 
     - name: Upload Python artifact
@@ -445,7 +441,14 @@ jobs:
 
     - name: Push to jettison_proto_typescript
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_typescript.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.TYPESCRIPT_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_typescript.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -468,14 +471,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update TypeScript bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.TYPESCRIPT_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_typescript.git
         git push
 
     - name: Upload TypeScript artifact
@@ -563,7 +558,14 @@ jobs:
 
     - name: Push to jettison_proto_rust
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_rust.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.RUST_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_rust.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -593,14 +595,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update Rust bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.RUST_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_rust.git
         git push
 
     - name: Upload Rust artifact
@@ -657,7 +651,14 @@ jobs:
 
     - name: Push to jettison_proto_java
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_java.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.JAVA_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_java.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -674,14 +675,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update Java bindings from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.JAVA_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_java.git
         git push
 
     - name: Upload Java artifact
@@ -792,7 +785,14 @@ jobs:
 
     - name: Push to jettison_proto_json-descriptors
       run: |
-        git clone https://github.com/lpportorico/jettison_proto_json-descriptors.git target-repo
+        # Setup SSH key first
+        mkdir -p ~/.ssh
+        echo "${{ secrets.JSON_DESCRIPTORS_PUSH }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+        # Clone using SSH
+        git clone git@github.com:lpportorico/jettison_proto_json-descriptors.git target-repo
         cd target-repo
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
@@ -809,14 +809,6 @@ jobs:
 
         git add -A
         git diff --staged --quiet || git commit -m "Update JSON descriptors from ${{ github.sha }}"
-
-        # Setup SSH key for push
-        mkdir -p ~/.ssh
-        echo "${{ secrets.JSON_DESCRIPTORS_PUSH }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-        git remote set-url origin git@github.com:lpportorico/jettison_proto_json-descriptors.git
         git push
 
     - name: Upload JSON descriptors artifact
