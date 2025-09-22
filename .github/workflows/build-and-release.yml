@@ -64,9 +64,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.C_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_c.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_c.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -109,9 +109,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.CPP_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_cpp.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_cpp.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -154,9 +154,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.GO_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_go.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_go.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -205,9 +205,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.PYTHON_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_python.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_python.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -250,9 +250,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.TYPESCRIPT_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_typescript.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_typescript.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -301,9 +301,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.RUST_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_rust.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_rust.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -359,9 +359,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.JAVA_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_java.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_java.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -404,9 +404,9 @@ jobs:
       continue-on-error: true
       run: |
         if [ -n "${{ secrets.JSON_DESCRIPTORS_PUSH }}" ]; then
-          # Clone via HTTPS (no auth needed for public repos)
-          echo "Cloning repository via HTTPS..."
-          git clone https://github.com/lpportorico/jettison_proto_json-descriptors.git target-repo || {
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_json-descriptors.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
