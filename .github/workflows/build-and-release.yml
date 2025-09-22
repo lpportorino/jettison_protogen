@@ -66,7 +66,7 @@ jobs:
         if [ -n "${{ secrets.C_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_c.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_c.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -80,7 +80,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_c.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_c.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -111,7 +111,7 @@ jobs:
         if [ -n "${{ secrets.CPP_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_cpp.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_cpp.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -125,7 +125,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_cpp.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_cpp.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -156,7 +156,7 @@ jobs:
         if [ -n "${{ secrets.GO_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_go.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_go.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -170,7 +170,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_go.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_go.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -207,7 +207,7 @@ jobs:
         if [ -n "${{ secrets.PYTHON_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_python.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_python.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -221,7 +221,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_python.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_python.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -252,7 +252,7 @@ jobs:
         if [ -n "${{ secrets.TYPESCRIPT_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_typescript.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_typescript.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -266,7 +266,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_typescript.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_typescript.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -303,7 +303,7 @@ jobs:
         if [ -n "${{ secrets.RUST_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_rust.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_rust.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -317,7 +317,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_rust.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_rust.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -361,7 +361,7 @@ jobs:
         if [ -n "${{ secrets.JAVA_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_java.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_java.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -375,7 +375,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_java.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_java.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
@@ -406,7 +406,7 @@ jobs:
         if [ -n "${{ secrets.JSON_DESCRIPTORS_PUSH }}" ]; then
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
-          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorico/jettison_proto_json-descriptors.git target-repo || {
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_json-descriptors.git target-repo || {
             echo "Failed to clone repository"
             exit 1
           }
@@ -420,7 +420,7 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
           # Configure git to use SSH for push
-          git remote set-url origin git@github.com:lpportorico/jettison_proto_json-descriptors.git
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_json-descriptors.git
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 

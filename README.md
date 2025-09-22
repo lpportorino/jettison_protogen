@@ -67,14 +67,14 @@ Generated bindings are automatically distributed to dedicated repositories:
 
 | Language | Repository | Package Support |
 |----------|------------|----------------|
-| C (nanopb) | [jettison_proto_c](https://github.com/lpportorico/jettison_proto_c) | Header files |
-| C++ | [jettison_proto_cpp](https://github.com/lpportorico/jettison_proto_cpp) | Header files |
-| Go | [jettison_proto_go](https://github.com/lpportorico/jettison_proto_go) | Go module |
-| Python | [jettison_proto_python](https://github.com/lpportorico/jettison_proto_python) | Python package |
-| TypeScript | [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript) | npm package |
-| Rust | [jettison_proto_rust](https://github.com/lpportorico/jettison_proto_rust) | Cargo crate |
-| Java | [jettison_proto_java](https://github.com/lpportorico/jettison_proto_java) | Maven/Gradle |
-| JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorico/jettison_proto_json-descriptors) | JSON files |
+| C (nanopb) | [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c) | Header files |
+| C++ | [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp) | Header files |
+| Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) | Go module |
+| Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) | Python package |
+| TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) | npm package |
+| Rust | [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust) | Cargo crate |
+| Java | [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java) | Maven/Gradle |
+| JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors) | JSON files |
 
 ### Local Output
 
