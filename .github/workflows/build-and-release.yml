@@ -61,9 +61,12 @@ jobs:
 
     # Push to C repository
     - name: Push to jettison_proto_c
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.C_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_c.git target-repo || {
@@ -106,9 +109,12 @@ jobs:
 
     # Push to C++ repository
     - name: Push to jettison_proto_cpp
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.CPP_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_cpp.git target-repo || {
@@ -151,9 +157,12 @@ jobs:
 
     # Push to Go repository
     - name: Push to jettison_proto_go
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.GO_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_go.git target-repo || {
@@ -189,7 +198,7 @@ jobs:
           if [ ! -f go.mod ]; then
             go mod init github.com/lpportorico/jettison_proto_go
           fi
-          go mod tidy || true
+          go mod tidy || echo "Warning: go mod tidy failed, continuing..."
 
           git add -A
           git diff --staged --quiet || {
@@ -202,9 +211,12 @@ jobs:
 
     # Push to Python repository
     - name: Push to jettison_proto_python
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.PYTHON_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_python.git target-repo || {
@@ -247,9 +259,12 @@ jobs:
 
     # Push to TypeScript repository
     - name: Push to jettison_proto_typescript
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.TYPESCRIPT_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_typescript.git target-repo || {
@@ -298,9 +313,12 @@ jobs:
 
     # Push to Rust repository
     - name: Push to jettison_proto_rust
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.RUST_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_rust.git target-repo || {
@@ -356,9 +374,12 @@ jobs:
 
     # Push to Java repository
     - name: Push to jettison_proto_java
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.JAVA_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_java.git target-repo || {
@@ -401,9 +422,12 @@ jobs:
 
     # Push to JSON descriptors repository
     - name: Push to jettison_proto_json-descriptors
-      continue-on-error: true
       run: |
+        set -e  # Exit on any error
         if [ -n "${{ secrets.JSON_DESCRIPTORS_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
           # Clone via HTTPS using GitHub token for authentication
           echo "Cloning repository..."
           git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_json-descriptors.git target-repo || {
