@@ -24,15 +24,27 @@ RUN apt-get update && apt-get install -y \
     gawk \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Protocol Buffers compiler
-RUN wget -q https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip \
-    && unzip protoc-${PROTOC_VERSION}-linux-x86_64.zip -d /usr/local \
-    && rm protoc-${PROTOC_VERSION}-linux-x86_64.zip
+# Detect architecture and install Protocol Buffers compiler
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then \
+        PROTOC_ARCH="aarch_64"; \
+    else \
+        PROTOC_ARCH="x86_64"; \
+    fi && \
+    wget -q https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-${PROTOC_ARCH}.zip \
+    && unzip protoc-${PROTOC_VERSION}-linux-${PROTOC_ARCH}.zip -d /usr/local \
+    && rm protoc-${PROTOC_VERSION}-linux-${PROTOC_ARCH}.zip
 
-# Install Go
-RUN wget -q https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
-    && rm go${GO_VERSION}.linux-amd64.tar.gz
+# Install Go for the correct architecture
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then \
+        GO_ARCH="arm64"; \
+    else \
+        GO_ARCH="amd64"; \
+    fi && \
+    wget -q https://go.dev/dl/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz \
+    && tar -C /usr/local -xzf go${GO_VERSION}.linux-${GO_ARCH}.tar.gz \
+    && rm go${GO_VERSION}.linux-${GO_ARCH}.tar.gz
 ENV PATH=/usr/local/go/bin:$PATH
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$PATH
