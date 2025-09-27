@@ -22,19 +22,24 @@ permissions:
 
 jobs:
   build-and-distribute:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04-arm  # Native ARM64 runner matching Jetson BSP 6.2 (Ubuntu 22.04)
 
     steps:
+    - name: Verify ARM64 architecture
+      run: |
+        echo "Running on architecture: $(uname -m)"
+        if [ "$(uname -m)" != "aarch64" ]; then
+          echo "Error: Expected aarch64 architecture but got $(uname -m)"
+          exit 1
+        fi
+        echo "✓ Confirmed running on ARM64"
+
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 
-    # Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    # Build base image without cache export (docker driver limitation)
+    # Build base Docker image (native ARM64 build)
     - name: Build base Docker image
       run: |
         echo "Building base image..."
@@ -94,6 +99,9 @@ jobs:
           echo "# Jettison Proto C Bindings" > README.md
           echo "" >> README.md
           echo "Auto-generated C bindings using nanopb." >> README.md
+          echo "" >> README.md
+          echo "**Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)" >> README.md
+          echo "**Build Architecture**: $(uname -m)" >> README.md
           echo "" >> README.md
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
@@ -244,6 +252,9 @@ jobs:
           echo "# Jettison Proto Python Bindings" > README.md
           echo "" >> README.md
           echo "Auto-generated Python bindings with type stubs." >> README.md
+          echo "" >> README.md
+          echo "**Target Platform**: ARM64 (NVIDIA Jetson AGX Orin BSP 6.2)" >> README.md
+          echo "**Build Architecture**: $(uname -m)" >> README.md
           echo "" >> README.md
           echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
           echo "Commit: ${{ github.sha }}" >> README.md
@@ -532,6 +543,8 @@ jobs:
         **Commit:** ${{ github.sha }}
         **Branch:** ${{ github.ref_name }}
         **Timestamp:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+        **Build Architecture:** ARM64 ($(uname -m))
+        **Target Platform:** NVIDIA Jetson AGX Orin (BSP 6.2)
 
         ## Available Languages
         - C (nanopb) - [jettison_proto_c](https://github.com/lpportorico/jettison_proto_c)
