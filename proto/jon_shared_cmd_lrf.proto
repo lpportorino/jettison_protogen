@@ -24,6 +24,8 @@ message Root {
     GetMeteo get_meteo = 13;
     RefineOn refine_on = 14;
     RefineOff refine_off = 15;
+    ContinuousMeasureStart continuous_measure_start = 16;
+    ContinuousMeasureStop continuous_measure_stop = 17;
   }
 }
 
@@ -61,3 +63,7 @@ message SetScanMode {
 }
 
 message NewSession {}
+
+message ContinuousMeasureStart {}
+
+message ContinuousMeasureStop {}

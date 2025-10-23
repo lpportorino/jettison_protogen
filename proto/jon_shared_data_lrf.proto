@@ -16,6 +16,7 @@ message JonGuiDataLrf {
     }];
   bool fogModeEnabled = 6;
   bool is_refining = 7;
+  bool is_continuous_measuring = 8;
 }
 
 message JonGuiDataTarget {
