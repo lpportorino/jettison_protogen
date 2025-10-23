@@ -32,8 +32,18 @@ message Root {
     not_in: [0]
   }];
 
+  // Frame timestamps (PTS) from video streams when command was issued
+  uint64 frame_time_day = 6;   // Day camera frame timestamp (nanoseconds)
+  uint64 frame_time_heat = 7;  // Thermal camera frame timestamp (nanoseconds)
+
+  // System monotonic time when user performed action
+  uint64 state_time = 8;       // System monotonic time (nanoseconds)
+
+  // Client wall-clock time when command was issued
+  uint64 client_time_ms = 9;   // Client epoch time in milliseconds (from performance.timeOrigin + performance.now())
+
   // Currently unused field numbers
-  reserved 6 to 19;
+  reserved 10 to 19;
 
   oneof payload {
     option (buf.validate.oneof).required = true;

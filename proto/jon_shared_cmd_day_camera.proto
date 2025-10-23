@@ -182,6 +182,7 @@ message FocusROI {
     gte: -1.0,
     lte: 1.0
   }];
+  // TODO: Remove these fields after migration - now in Root message (fields 6-8)
   uint64 frame_time = 5;
   uint64 state_time = 6;  // System monotonic time from state when user performed action
 }
@@ -203,6 +204,7 @@ message TrackROI {
     gte: -1.0,
     lte: 1.0
   }];
+  // TODO: Remove these fields after migration - now in Root message (fields 6-8)
   uint64 frame_time = 5;
   uint64 state_time = 6;  // System monotonic time from state when user performed action
 }
@@ -224,6 +226,7 @@ message ZoomROI {
     gte: -1.0,
     lte: 1.0
   }];
+  // TODO: Remove these fields after migration - now in Root message (fields 6-8)
   uint64 frame_time = 5;
   uint64 state_time = 6;  // System monotonic time from state when user performed action
 }
