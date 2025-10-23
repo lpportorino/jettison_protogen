@@ -63,6 +63,7 @@ pub struct StartTrackNdc {
     pub x: f64,
     #[prost(double, tag = "3")]
     pub y: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
     #[prost(uint64, tag = "4")]
     pub frame_time: u64,
     /// System monotonic time from state when user performed action

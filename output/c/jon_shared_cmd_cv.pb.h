@@ -52,6 +52,7 @@ typedef struct _cmd_CV_StartTrackNDC {
     ser_JonGuiDataVideoChannel channel;
     double x;
     double y;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
     uint64_t frame_time;
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_CV_StartTrackNDC;

@@ -31,6 +31,14 @@ typedef struct _cmd_System_ResetConfigs {
     char dummy_field;
 } cmd_System_ResetConfigs;
 
+typedef struct _cmd_System_SaveFactoryDefaults {
+    char dummy_field;
+} cmd_System_SaveFactoryDefaults;
+
+typedef struct _cmd_System_WipeUserData {
+    char dummy_field;
+} cmd_System_WipeUserData;
+
 typedef struct _cmd_System_StartRec {
     char dummy_field;
 } cmd_System_StartRec;
@@ -79,6 +87,8 @@ typedef struct _cmd_System_Root {
         cmd_System_EnterTransport enter_transport;
         cmd_System_EnableGeodesicMode geodesic_mode_enable;
         cmd_System_DisableGeodesicMode geodesic_mode_disable;
+        cmd_System_SaveFactoryDefaults save_factory_defaults;
+        cmd_System_WipeUserData wipe_user_data;
     } cmd;
 } cmd_System_Root;
 
@@ -94,6 +104,8 @@ extern "C" {
 #define cmd_System_Reboot_init_default           {0}
 #define cmd_System_PowerOff_init_default         {0}
 #define cmd_System_ResetConfigs_init_default     {0}
+#define cmd_System_SaveFactoryDefaults_init_default {0}
+#define cmd_System_WipeUserData_init_default     {0}
 #define cmd_System_StartRec_init_default         {0}
 #define cmd_System_StopRec_init_default          {0}
 #define cmd_System_MarkRecImportant_init_default {0}
@@ -108,6 +120,8 @@ extern "C" {
 #define cmd_System_Reboot_init_zero              {0}
 #define cmd_System_PowerOff_init_zero            {0}
 #define cmd_System_ResetConfigs_init_zero        {0}
+#define cmd_System_SaveFactoryDefaults_init_zero {0}
+#define cmd_System_WipeUserData_init_zero        {0}
 #define cmd_System_StartRec_init_zero            {0}
 #define cmd_System_StopRec_init_zero             {0}
 #define cmd_System_MarkRecImportant_init_zero    {0}
@@ -132,6 +146,8 @@ extern "C" {
 #define cmd_System_Root_enter_transport_tag      11
 #define cmd_System_Root_geodesic_mode_enable_tag 12
 #define cmd_System_Root_geodesic_mode_disable_tag 13
+#define cmd_System_Root_save_factory_defaults_tag 14
+#define cmd_System_Root_wipe_user_data_tag       15
 
 /* Struct field encoding specification for nanopb */
 #define cmd_System_Root_FIELDLIST(X, a) \
@@ -147,7 +163,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,mark_rec_important,cmd.mark_rec_importan
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,unmark_rec_important,cmd.unmark_rec_important),  10) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,enter_transport,cmd.enter_transport),  11) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_enable,cmd.geodesic_mode_enable),  12) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_disable,cmd.geodesic_mode_disable),  13)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_disable,cmd.geodesic_mode_disable),  13) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_factory_defaults,cmd.save_factory_defaults),  14) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,wipe_user_data,cmd.wipe_user_data),  15)
 #define cmd_System_Root_CALLBACK NULL
 #define cmd_System_Root_DEFAULT NULL
 #define cmd_System_Root_cmd_start_all_MSGTYPE cmd_System_StartALl
@@ -163,6 +181,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_disable,cmd.geodesic_mode_
 #define cmd_System_Root_cmd_enter_transport_MSGTYPE cmd_System_EnterTransport
 #define cmd_System_Root_cmd_geodesic_mode_enable_MSGTYPE cmd_System_EnableGeodesicMode
 #define cmd_System_Root_cmd_geodesic_mode_disable_MSGTYPE cmd_System_DisableGeodesicMode
+#define cmd_System_Root_cmd_save_factory_defaults_MSGTYPE cmd_System_SaveFactoryDefaults
+#define cmd_System_Root_cmd_wipe_user_data_MSGTYPE cmd_System_WipeUserData
 
 #define cmd_System_StartALl_FIELDLIST(X, a) \
 
@@ -188,6 +208,16 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_disable,cmd.geodesic_mode_
 
 #define cmd_System_ResetConfigs_CALLBACK NULL
 #define cmd_System_ResetConfigs_DEFAULT NULL
+
+#define cmd_System_SaveFactoryDefaults_FIELDLIST(X, a) \
+
+#define cmd_System_SaveFactoryDefaults_CALLBACK NULL
+#define cmd_System_SaveFactoryDefaults_DEFAULT NULL
+
+#define cmd_System_WipeUserData_FIELDLIST(X, a) \
+
+#define cmd_System_WipeUserData_CALLBACK NULL
+#define cmd_System_WipeUserData_DEFAULT NULL
 
 #define cmd_System_StartRec_FIELDLIST(X, a) \
 
@@ -235,6 +265,8 @@ extern const pb_msgdesc_t cmd_System_StopALl_msg;
 extern const pb_msgdesc_t cmd_System_Reboot_msg;
 extern const pb_msgdesc_t cmd_System_PowerOff_msg;
 extern const pb_msgdesc_t cmd_System_ResetConfigs_msg;
+extern const pb_msgdesc_t cmd_System_SaveFactoryDefaults_msg;
+extern const pb_msgdesc_t cmd_System_WipeUserData_msg;
 extern const pb_msgdesc_t cmd_System_StartRec_msg;
 extern const pb_msgdesc_t cmd_System_StopRec_msg;
 extern const pb_msgdesc_t cmd_System_MarkRecImportant_msg;
@@ -251,6 +283,8 @@ extern const pb_msgdesc_t cmd_System_SetLocalization_msg;
 #define cmd_System_Reboot_fields &cmd_System_Reboot_msg
 #define cmd_System_PowerOff_fields &cmd_System_PowerOff_msg
 #define cmd_System_ResetConfigs_fields &cmd_System_ResetConfigs_msg
+#define cmd_System_SaveFactoryDefaults_fields &cmd_System_SaveFactoryDefaults_msg
+#define cmd_System_WipeUserData_fields &cmd_System_WipeUserData_msg
 #define cmd_System_StartRec_fields &cmd_System_StartRec_msg
 #define cmd_System_StopRec_fields &cmd_System_StopRec_msg
 #define cmd_System_MarkRecImportant_fields &cmd_System_MarkRecImportant_msg
@@ -270,12 +304,14 @@ extern const pb_msgdesc_t cmd_System_SetLocalization_msg;
 #define cmd_System_Reboot_size                   0
 #define cmd_System_ResetConfigs_size             0
 #define cmd_System_Root_size                     4
+#define cmd_System_SaveFactoryDefaults_size      0
 #define cmd_System_SetLocalization_size          2
 #define cmd_System_StartALl_size                 0
 #define cmd_System_StartRec_size                 0
 #define cmd_System_StopALl_size                  0
 #define cmd_System_StopRec_size                  0
 #define cmd_System_UnmarkRecImportant_size       0
+#define cmd_System_WipeUserData_size             0
 
 #ifdef __cplusplus
 } /* extern "C" */

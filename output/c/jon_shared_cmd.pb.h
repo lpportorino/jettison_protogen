@@ -41,6 +41,13 @@ typedef struct _cmd_Root {
     bool important;
     bool from_cv_subsystem;
     ser_JonGuiDataClientType client_type;
+    /* Frame timestamps (PTS) from video streams when command was issued */
+    uint64_t frame_time_day; /* Day camera frame timestamp (nanoseconds) */
+    uint64_t frame_time_heat; /* Thermal camera frame timestamp (nanoseconds) */
+    /* System monotonic time when user performed action */
+    uint64_t state_time; /* System monotonic time (nanoseconds) */
+    /* Client wall-clock time when command was issued */
+    uint64_t client_time_ms; /* Client epoch time in milliseconds (from performance.timeOrigin + performance.now()) */
     pb_size_t which_payload;
     union {
         cmd_DayCamera_Root day_camera;
@@ -67,11 +74,11 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define cmd_Root_init_default                    {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, {cmd_DayCamera_Root_init_default}}
+#define cmd_Root_init_default                    {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, 0, 0, 0, 0, {cmd_DayCamera_Root_init_default}}
 #define cmd_Ping_init_default                    {0}
 #define cmd_Noop_init_default                    {0}
 #define cmd_Frozen_init_default                  {0}
-#define cmd_Root_init_zero                       {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, {cmd_DayCamera_Root_init_zero}}
+#define cmd_Root_init_zero                       {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, 0, 0, 0, 0, {cmd_DayCamera_Root_init_zero}}
 #define cmd_Ping_init_zero                       {0}
 #define cmd_Noop_init_zero                       {0}
 #define cmd_Frozen_init_zero                     {0}
@@ -82,6 +89,10 @@ extern "C" {
 #define cmd_Root_important_tag                   3
 #define cmd_Root_from_cv_subsystem_tag           4
 #define cmd_Root_client_type_tag                 5
+#define cmd_Root_frame_time_day_tag              6
+#define cmd_Root_frame_time_heat_tag             7
+#define cmd_Root_state_time_tag                  8
+#define cmd_Root_client_time_ms_tag              9
 #define cmd_Root_day_camera_tag                  20
 #define cmd_Root_heat_camera_tag                 21
 #define cmd_Root_gps_tag                         22
@@ -105,6 +116,10 @@ X(a, STATIC,   SINGULAR, UINT32,   session_id,        2) \
 X(a, STATIC,   SINGULAR, BOOL,     important,         3) \
 X(a, STATIC,   SINGULAR, BOOL,     from_cv_subsystem,   4) \
 X(a, STATIC,   SINGULAR, UENUM,    client_type,       5) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_time_day,    6) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_time_heat,   7) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        8) \
+X(a, STATIC,   SINGULAR, UINT64,   client_time_ms,    9) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,day_camera,payload.day_camera),  20) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,heat_camera,payload.heat_camera),  21) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,gps,payload.gps),  22) \
@@ -169,7 +184,7 @@ extern const pb_msgdesc_t cmd_Frozen_msg;
 #define cmd_Frozen_size                          0
 #define cmd_Noop_size                            0
 #define cmd_Ping_size                            0
-#define cmd_Root_size                            134
+#define cmd_Root_size                            178
 
 #ifdef __cplusplus
 } /* extern "C" */

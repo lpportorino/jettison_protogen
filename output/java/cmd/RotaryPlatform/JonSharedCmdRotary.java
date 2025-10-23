@@ -26497,7 +26497,7 @@ public final class JonSharedCmdRotary {
 
     /**
      * <pre>
-     * Video frame timestamp
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
      * </pre>
      *
      * <code>uint64 frame_time = 4;</code>
@@ -26597,7 +26597,7 @@ public final class JonSharedCmdRotary {
     private long frameTime_ = 0L;
     /**
      * <pre>
-     * Video frame timestamp
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
      * </pre>
      *
      * <code>uint64 frame_time = 4;</code>
@@ -27133,7 +27133,7 @@ public final class JonSharedCmdRotary {
       private long frameTime_ ;
       /**
        * <pre>
-       * Video frame timestamp
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
        * </pre>
        *
        * <code>uint64 frame_time = 4;</code>
@@ -27145,7 +27145,7 @@ public final class JonSharedCmdRotary {
       }
       /**
        * <pre>
-       * Video frame timestamp
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
        * </pre>
        *
        * <code>uint64 frame_time = 4;</code>
@@ -27161,7 +27161,7 @@ public final class JonSharedCmdRotary {
       }
       /**
        * <pre>
-       * Video frame timestamp
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
        * </pre>
        *
        * <code>uint64 frame_time = 4;</code>
@@ -27298,7 +27298,7 @@ public final class JonSharedCmdRotary {
 
     /**
      * <pre>
-     * Video frame timestamp at gesture end
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
      * </pre>
      *
      * <code>uint64 frame_time = 4;</code>
@@ -27398,7 +27398,7 @@ public final class JonSharedCmdRotary {
     private long frameTime_ = 0L;
     /**
      * <pre>
-     * Video frame timestamp at gesture end
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
      * </pre>
      *
      * <code>uint64 frame_time = 4;</code>
@@ -27934,7 +27934,7 @@ public final class JonSharedCmdRotary {
       private long frameTime_ ;
       /**
        * <pre>
-       * Video frame timestamp at gesture end
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
        * </pre>
        *
        * <code>uint64 frame_time = 4;</code>
@@ -27946,7 +27946,7 @@ public final class JonSharedCmdRotary {
       }
       /**
        * <pre>
-       * Video frame timestamp at gesture end
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
        * </pre>
        *
        * <code>uint64 frame_time = 4;</code>
@@ -27962,7 +27962,7 @@ public final class JonSharedCmdRotary {
       }
       /**
        * <pre>
-       * Video frame timestamp at gesture end
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
        * </pre>
        *
        * <code>uint64 frame_time = 4;</code>

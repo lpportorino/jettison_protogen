@@ -38,7 +38,7 @@ class ShiftClaheLevel(_message.Message):
     def __init__(self, value: _Optional[float] = ...) -> None: ...
 
 class Root(_message.Message):
-    __slots__ = ("focus", "zoom", "set_iris", "set_infra_red_filter", "start", "stop", "photo", "set_auto_iris", "halt_all", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "refresh_fx_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_roi", "track_roi", "zoom_roi")
+    __slots__ = ("focus", "zoom", "set_iris", "set_infra_red_filter", "start", "stop", "photo", "set_auto_iris", "halt_all", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "refresh_fx_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_roi", "track_roi", "zoom_roi", "fx_roi")
     FOCUS_FIELD_NUMBER: _ClassVar[int]
     ZOOM_FIELD_NUMBER: _ClassVar[int]
     SET_IRIS_FIELD_NUMBER: _ClassVar[int]
@@ -59,6 +59,7 @@ class Root(_message.Message):
     FOCUS_ROI_FIELD_NUMBER: _ClassVar[int]
     TRACK_ROI_FIELD_NUMBER: _ClassVar[int]
     ZOOM_ROI_FIELD_NUMBER: _ClassVar[int]
+    FX_ROI_FIELD_NUMBER: _ClassVar[int]
     focus: Focus
     zoom: Zoom
     set_iris: SetIris
@@ -79,7 +80,8 @@ class Root(_message.Message):
     focus_roi: FocusROI
     track_roi: TrackROI
     zoom_roi: ZoomROI
-    def __init__(self, focus: _Optional[_Union[Focus, _Mapping]] = ..., zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_iris: _Optional[_Union[SetIris, _Mapping]] = ..., set_infra_red_filter: _Optional[_Union[SetInfraRedFilter, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., set_auto_iris: _Optional[_Union[SetAutoIris, _Mapping]] = ..., halt_all: _Optional[_Union[HaltAll, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_roi: _Optional[_Union[FocusROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ...) -> None: ...
+    fx_roi: FxROI
+    def __init__(self, focus: _Optional[_Union[Focus, _Mapping]] = ..., zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_iris: _Optional[_Union[SetIris, _Mapping]] = ..., set_infra_red_filter: _Optional[_Union[SetInfraRedFilter, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., set_auto_iris: _Optional[_Union[SetAutoIris, _Mapping]] = ..., halt_all: _Optional[_Union[HaltAll, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_roi: _Optional[_Union[FocusROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ..., fx_roi: _Optional[_Union[FxROI, _Mapping]] = ...) -> None: ...
 
 class GetPos(_message.Message):
     __slots__ = ()
@@ -252,6 +254,22 @@ class TrackROI(_message.Message):
     def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
 
 class ZoomROI(_message.Message):
+    __slots__ = ("x1", "y1", "x2", "y2", "frame_time", "state_time")
+    X1_FIELD_NUMBER: _ClassVar[int]
+    Y1_FIELD_NUMBER: _ClassVar[int]
+    X2_FIELD_NUMBER: _ClassVar[int]
+    Y2_FIELD_NUMBER: _ClassVar[int]
+    FRAME_TIME_FIELD_NUMBER: _ClassVar[int]
+    STATE_TIME_FIELD_NUMBER: _ClassVar[int]
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+    frame_time: int
+    state_time: int
+    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ..., frame_time: _Optional[int] = ..., state_time: _Optional[int] = ...) -> None: ...
+
+class FxROI(_message.Message):
     __slots__ = ("x1", "y1", "x2", "y2", "frame_time", "state_time")
     X1_FIELD_NUMBER: _ClassVar[int]
     Y1_FIELD_NUMBER: _ClassVar[int]

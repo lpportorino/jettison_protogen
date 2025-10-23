@@ -165,6 +165,7 @@ typedef struct _cmd_HeatCamera_FocusROI {
     double y1;
     double x2;
     double y2;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
     uint64_t frame_time;
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_HeatCamera_FocusROI;
@@ -174,6 +175,7 @@ typedef struct _cmd_HeatCamera_TrackROI {
     double y1;
     double x2;
     double y2;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
     uint64_t frame_time;
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_HeatCamera_TrackROI;
@@ -183,9 +185,20 @@ typedef struct _cmd_HeatCamera_ZoomROI {
     double y1;
     double x2;
     double y2;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
     uint64_t frame_time;
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_HeatCamera_ZoomROI;
+
+typedef struct _cmd_HeatCamera_FxROI {
+    double x1;
+    double y1;
+    double x2;
+    double y2;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
+    uint64_t frame_time;
+    uint64_t state_time; /* System monotonic time from state when user performed action */
+} cmd_HeatCamera_FxROI;
 
 typedef struct _cmd_HeatCamera_Root {
     pb_size_t which_cmd;
@@ -224,6 +237,7 @@ typedef struct _cmd_HeatCamera_Root {
         cmd_HeatCamera_FocusROI focus_roi;
         cmd_HeatCamera_TrackROI track_roi;
         cmd_HeatCamera_ZoomROI zoom_roi;
+        cmd_HeatCamera_FxROI fx_roi;
     } cmd;
 } cmd_HeatCamera_Root;
 
@@ -273,6 +287,7 @@ extern "C" {
 #define cmd_HeatCamera_FocusROI_init_default     {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_TrackROI_init_default     {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_ZoomROI_init_default      {0, 0, 0, 0, 0, 0}
+#define cmd_HeatCamera_FxROI_init_default        {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_Root_init_zero            {0, {cmd_HeatCamera_Zoom_init_zero}}
 #define cmd_HeatCamera_SetFxMode_init_zero       {_ser_JonGuiDataFxModeHeat_MIN}
 #define cmd_HeatCamera_SetClaheLevel_init_zero   {0}
@@ -313,6 +328,7 @@ extern "C" {
 #define cmd_HeatCamera_FocusROI_init_zero        {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_TrackROI_init_zero        {0, 0, 0, 0, 0, 0}
 #define cmd_HeatCamera_ZoomROI_init_zero         {0, 0, 0, 0, 0, 0}
+#define cmd_HeatCamera_FxROI_init_zero           {0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_HeatCamera_SetFxMode_mode_tag        1
@@ -347,6 +363,12 @@ extern "C" {
 #define cmd_HeatCamera_ZoomROI_y2_tag            4
 #define cmd_HeatCamera_ZoomROI_frame_time_tag    5
 #define cmd_HeatCamera_ZoomROI_state_time_tag    6
+#define cmd_HeatCamera_FxROI_x1_tag              1
+#define cmd_HeatCamera_FxROI_y1_tag              2
+#define cmd_HeatCamera_FxROI_x2_tag              3
+#define cmd_HeatCamera_FxROI_y2_tag              4
+#define cmd_HeatCamera_FxROI_frame_time_tag      5
+#define cmd_HeatCamera_FxROI_state_time_tag      6
 #define cmd_HeatCamera_Root_zoom_tag             1
 #define cmd_HeatCamera_Root_set_agc_tag          2
 #define cmd_HeatCamera_Root_set_filter_tag       3
@@ -381,6 +403,7 @@ extern "C" {
 #define cmd_HeatCamera_Root_focus_roi_tag        35
 #define cmd_HeatCamera_Root_track_roi_tag        36
 #define cmd_HeatCamera_Root_zoom_roi_tag         37
+#define cmd_HeatCamera_Root_fx_roi_tag           38
 
 /* Struct field encoding specification for nanopb */
 #define cmd_HeatCamera_Root_FIELDLIST(X, a) \
@@ -417,7 +440,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_clahe_level,cmd.set_clahe_level),  3
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,shift_clahe_level,cmd.shift_clahe_level),  34) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_roi,cmd.focus_roi),  35) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,track_roi,cmd.track_roi),  36) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  37)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  37) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  38)
 #define cmd_HeatCamera_Root_CALLBACK NULL
 #define cmd_HeatCamera_Root_DEFAULT NULL
 #define cmd_HeatCamera_Root_cmd_zoom_MSGTYPE cmd_HeatCamera_Zoom
@@ -454,6 +478,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  37)
 #define cmd_HeatCamera_Root_cmd_focus_roi_MSGTYPE cmd_HeatCamera_FocusROI
 #define cmd_HeatCamera_Root_cmd_track_roi_MSGTYPE cmd_HeatCamera_TrackROI
 #define cmd_HeatCamera_Root_cmd_zoom_roi_MSGTYPE cmd_HeatCamera_ZoomROI
+#define cmd_HeatCamera_Root_cmd_fx_roi_MSGTYPE cmd_HeatCamera_FxROI
 
 #define cmd_HeatCamera_SetFxMode_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    mode,              1)
@@ -670,6 +695,16 @@ X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
 #define cmd_HeatCamera_ZoomROI_CALLBACK NULL
 #define cmd_HeatCamera_ZoomROI_DEFAULT NULL
 
+#define cmd_HeatCamera_FxROI_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x1,                1) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y1,                2) \
+X(a, STATIC,   SINGULAR, DOUBLE,   x2,                3) \
+X(a, STATIC,   SINGULAR, DOUBLE,   y2,                4) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_time,        5) \
+X(a, STATIC,   SINGULAR, UINT64,   state_time,        6)
+#define cmd_HeatCamera_FxROI_CALLBACK NULL
+#define cmd_HeatCamera_FxROI_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_HeatCamera_Root_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_SetFxMode_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_SetClaheLevel_msg;
@@ -710,6 +745,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_SaveToTable_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_FocusROI_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_TrackROI_msg;
 extern const pb_msgdesc_t cmd_HeatCamera_ZoomROI_msg;
+extern const pb_msgdesc_t cmd_HeatCamera_FxROI_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_HeatCamera_Root_fields &cmd_HeatCamera_Root_msg
@@ -752,6 +788,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_ZoomROI_msg;
 #define cmd_HeatCamera_FocusROI_fields &cmd_HeatCamera_FocusROI_msg
 #define cmd_HeatCamera_TrackROI_fields &cmd_HeatCamera_TrackROI_msg
 #define cmd_HeatCamera_ZoomROI_fields &cmd_HeatCamera_ZoomROI_msg
+#define cmd_HeatCamera_FxROI_fields &cmd_HeatCamera_FxROI_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_HEATCAMERA_JON_SHARED_CMD_HEAT_CAMERA_PB_H_MAX_SIZE cmd_HeatCamera_Root_size
@@ -764,6 +801,7 @@ extern const pb_msgdesc_t cmd_HeatCamera_ZoomROI_msg;
 #define cmd_HeatCamera_FocusStepMinus_size       0
 #define cmd_HeatCamera_FocusStepPlus_size        0
 #define cmd_HeatCamera_FocusStop_size            0
+#define cmd_HeatCamera_FxROI_size                58
 #define cmd_HeatCamera_GetMeteo_size             0
 #define cmd_HeatCamera_Halt_size                 0
 #define cmd_HeatCamera_NextFxMode_size           0

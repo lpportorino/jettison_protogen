@@ -87,6 +87,10 @@ inline constexpr Root::Impl_::Impl_(
         important_{false},
         from_cv_subsystem_{false},
         client_type_{static_cast< ::ser::JonGuiDataClientType >(0)},
+        frame_time_day_{::uint64_t{0u}},
+        frame_time_heat_{::uint64_t{0u}},
+        state_time_{::uint64_t{0u}},
+        client_time_ms_{::uint64_t{0u}},
         payload_{},
         _cached_size_{0},
         _oneof_case_{} {}
@@ -131,6 +135,10 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.important_),
         PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.from_cv_subsystem_),
         PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.client_type_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.frame_time_day_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.frame_time_heat_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.state_time_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Root, _impl_.client_time_ms_),
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -176,9 +184,9 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::Root)},
-        {29, -1, -1, sizeof(::cmd::Ping)},
-        {37, -1, -1, sizeof(::cmd::Noop)},
-        {45, -1, -1, sizeof(::cmd::Frozen)},
+        {33, -1, -1, sizeof(::cmd::Ping)},
+        {41, -1, -1, sizeof(::cmd::Noop)},
+        {49, -1, -1, sizeof(::cmd::Frozen)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::_Root_default_instance_._instance,
@@ -198,27 +206,30 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_2eproto[] ABSL_ATTRIBUTE
     "system.proto\032\027jon_shared_cmd_cv.proto\032)j"
     "on_shared_cmd_day_cam_glass_heater.proto"
     "\032\031jon_shared_cmd_lira.proto\032\033jon_shared_"
-    "data_types.proto\"\303\005\n\004Root\022\030\n\020protocol_ve"
+    "data_types.proto\"\240\006\n\004Root\022\030\n\020protocol_ve"
     "rsion\030\001 \001(\r\022\022\n\nsession_id\030\002 \001(\r\022\021\n\timpor"
     "tant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001(\010\022.\n"
     "\013client_type\030\005 \001(\0162\031.ser.JonGuiDataClien"
-    "tType\022)\n\nday_camera\030\024 \001(\0132\023.cmd.DayCamer"
-    "a.RootH\000\022+\n\013heat_camera\030\025 \001(\0132\024.cmd.Heat"
-    "Camera.RootH\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.Roo"
-    "tH\000\022$\n\007compass\030\027 \001(\0132\021.cmd.Compass.RootH"
-    "\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_c"
-    "alib\030\031 \001(\0132\023.cmd.Lrf_calib.RootH\000\022*\n\006rot"
-    "ary\030\032 \001(\0132\030.cmd.RotaryPlatform.RootH\000\022\034\n"
-    "\003osd\030\033 \001(\0132\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001("
-    "\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH"
-    "\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006syst"
-    "em\030\037 \001(\0132\020.cmd.System.RootH\000\022\032\n\002cv\030  \001(\013"
-    "2\014.cmd.CV.RootH\000\022;\n\024day_cam_glass_heater"
-    "\030! \001(\0132\033.cmd.DayCamGlassHeater.RootH\000\022\036\n"
-    "\004lira\030\" \001(\0132\016.cmd.Lira.RootH\000B\t\n\007payload"
-    "J\004\010\006\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006FrozenBFZDgit-"
-    "codecommit.eu-central-1.amazonaws.com/v1"
-    "/repos/jettison/jonp/cmdb\006proto3"
+    "tType\022\026\n\016frame_time_day\030\006 \001(\004\022\027\n\017frame_t"
+    "ime_heat\030\007 \001(\004\022\022\n\nstate_time\030\010 \001(\004\022\026\n\016cl"
+    "ient_time_ms\030\t \001(\004\022)\n\nday_camera\030\024 \001(\0132\023"
+    ".cmd.DayCamera.RootH\000\022+\n\013heat_camera\030\025 \001"
+    "(\0132\024.cmd.HeatCamera.RootH\000\022\034\n\003gps\030\026 \001(\0132"
+    "\r.cmd.Gps.RootH\000\022$\n\007compass\030\027 \001(\0132\021.cmd."
+    "Compass.RootH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf.Ro"
+    "otH\000\022(\n\tlrf_calib\030\031 \001(\0132\023.cmd.Lrf_calib."
+    "RootH\000\022*\n\006rotary\030\032 \001(\0132\030.cmd.RotaryPlatf"
+    "orm.RootH\000\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.RootH\000"
+    "\022\031\n\004ping\030\034 \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 \001("
+    "\0132\t.cmd.NoopH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.Fro"
+    "zenH\000\022\"\n\006system\030\037 \001(\0132\020.cmd.System.RootH"
+    "\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.RootH\000\022;\n\024day_cam"
+    "_glass_heater\030! \001(\0132\033.cmd.DayCamGlassHea"
+    "ter.RootH\000\022\036\n\004lira\030\" \001(\0132\016.cmd.Lira.Root"
+    "H\000B\t\n\007payloadJ\004\010\n\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006F"
+    "rozenBFZDgit-codecommit.eu-central-1.ama"
+    "zonaws.com/v1/repos/jettison/jonp/cmdb\006p"
+    "roto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_2eproto_deps[13] =
     {
@@ -240,7 +251,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_2eproto = {
     false,
     false,
-    1232,
+    1325,
     descriptor_table_protodef_jon_5fshared_5fcmd_2eproto,
     "jon_shared_cmd.proto",
     &descriptor_table_jon_5fshared_5fcmd_2eproto_once,
@@ -622,9 +633,9 @@ Root::Root(
                offsetof(Impl_, protocol_version_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, protocol_version_),
-           offsetof(Impl_, client_type_) -
+           offsetof(Impl_, client_time_ms_) -
                offsetof(Impl_, protocol_version_) +
-               sizeof(Impl_::client_type_));
+               sizeof(Impl_::client_time_ms_));
   switch (payload_case()) {
     case PAYLOAD_NOT_SET:
       break;
@@ -689,9 +700,9 @@ inline void Root::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, protocol_version_),
            0,
-           offsetof(Impl_, client_type_) -
+           offsetof(Impl_, client_time_ms_) -
                offsetof(Impl_, protocol_version_) +
-               sizeof(Impl_::client_type_));
+               sizeof(Impl_::client_time_ms_));
 }
 Root::~Root() {
   // @@protoc_insertion_point(destructor:cmd.Root)
@@ -875,15 +886,15 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 20, 15, 0, 7> Root::_table_ = {
+const ::_pbi::TcParseTable<4, 24, 15, 0, 7> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    34, 56,  // max_field_number, fast_idx_mask
+    34, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    524256,  // skipmap
+    523776,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    20,  // num_field_entries
+    24,  // num_field_entries
     15,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -909,11 +920,27 @@ const ::_pbi::TcParseTable<3, 20, 15, 0, 7> Root::_table_ = {
     // .ser.JonGuiDataClientType client_type = 5;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Root, _impl_.client_type_), 63>(),
      {40, 63, 0, PROTOBUF_FIELD_OFFSET(Root, _impl_.client_type_)}},
+    // uint64 frame_time_day = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Root, _impl_.frame_time_day_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(Root, _impl_.frame_time_day_)}},
+    // uint64 frame_time_heat = 7;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Root, _impl_.frame_time_heat_), 63>(),
+     {56, 63, 0, PROTOBUF_FIELD_OFFSET(Root, _impl_.frame_time_heat_)}},
+    // uint64 state_time = 8;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Root, _impl_.state_time_), 63>(),
+     {64, 63, 0, PROTOBUF_FIELD_OFFSET(Root, _impl_.state_time_)}},
+    // uint64 client_time_ms = 9;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(Root, _impl_.client_time_ms_), 63>(),
+     {72, 63, 0, PROTOBUF_FIELD_OFFSET(Root, _impl_.client_time_ms_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     33, 0, 1,
-    65532, 18,
+    65532, 22,
     65535, 65535
   }}, {{
     // uint32 protocol_version = 1;
@@ -931,6 +958,18 @@ const ::_pbi::TcParseTable<3, 20, 15, 0, 7> Root::_table_ = {
     // .ser.JonGuiDataClientType client_type = 5;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.client_type_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // uint64 frame_time_day = 6;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.frame_time_day_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 frame_time_heat = 7;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.frame_time_heat_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 state_time = 8;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.state_time_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // uint64 client_time_ms = 9;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.client_time_ms_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
     // .cmd.DayCamera.Root day_camera = 20;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.day_camera_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
@@ -1004,8 +1043,8 @@ PROTOBUF_NOINLINE void Root::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.protocol_version_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.client_type_) -
-      reinterpret_cast<char*>(&_impl_.protocol_version_)) + sizeof(_impl_.client_type_));
+      reinterpret_cast<char*>(&_impl_.client_time_ms_) -
+      reinterpret_cast<char*>(&_impl_.protocol_version_)) + sizeof(_impl_.client_time_ms_));
   clear_payload();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -1058,6 +1097,34 @@ PROTOBUF_NOINLINE void Root::Clear() {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
                 5, this_._internal_client_type(), target);
+          }
+
+          // uint64 frame_time_day = 6;
+          if (this_._internal_frame_time_day() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                6, this_._internal_frame_time_day(), target);
+          }
+
+          // uint64 frame_time_heat = 7;
+          if (this_._internal_frame_time_heat() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                7, this_._internal_frame_time_heat(), target);
+          }
+
+          // uint64 state_time = 8;
+          if (this_._internal_state_time() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                8, this_._internal_state_time(), target);
+          }
+
+          // uint64 client_time_ms = 9;
+          if (this_._internal_client_time_ms() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                9, this_._internal_client_time_ms(), target);
           }
 
           switch (this_.payload_case()) {
@@ -1202,6 +1269,26 @@ PROTOBUF_NOINLINE void Root::Clear() {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_client_type());
             }
+            // uint64 frame_time_day = 6;
+            if (this_._internal_frame_time_day() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_frame_time_day());
+            }
+            // uint64 frame_time_heat = 7;
+            if (this_._internal_frame_time_heat() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_frame_time_heat());
+            }
+            // uint64 state_time = 8;
+            if (this_._internal_state_time() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_state_time());
+            }
+            // uint64 client_time_ms = 9;
+            if (this_._internal_client_time_ms() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_client_time_ms());
+            }
           }
           switch (this_.payload_case()) {
             // .cmd.DayCamera.Root day_camera = 20;
@@ -1325,6 +1412,18 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
   }
   if (from._internal_client_type() != 0) {
     _this->_impl_.client_type_ = from._impl_.client_type_;
+  }
+  if (from._internal_frame_time_day() != 0) {
+    _this->_impl_.frame_time_day_ = from._impl_.frame_time_day_;
+  }
+  if (from._internal_frame_time_heat() != 0) {
+    _this->_impl_.frame_time_heat_ = from._impl_.frame_time_heat_;
+  }
+  if (from._internal_state_time() != 0) {
+    _this->_impl_.state_time_ = from._impl_.state_time_;
+  }
+  if (from._internal_client_time_ms() != 0) {
+    _this->_impl_.client_time_ms_ = from._impl_.client_time_ms_;
   }
   if (const uint32_t oneof_from_case = from._impl_._oneof_case_[0]) {
     const uint32_t oneof_to_case = _this->_impl_._oneof_case_[0];
@@ -1491,8 +1590,8 @@ void Root::InternalSwap(Root* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Root, _impl_.client_type_)
-      + sizeof(Root::_impl_.client_type_)
+      PROTOBUF_FIELD_OFFSET(Root, _impl_.client_time_ms_)
+      + sizeof(Root::_impl_.client_time_ms_)
       - PROTOBUF_FIELD_OFFSET(Root, _impl_.protocol_version_)>(
           reinterpret_cast<char*>(&_impl_.protocol_version_),
           reinterpret_cast<char*>(&other->_impl_.protocol_version_));

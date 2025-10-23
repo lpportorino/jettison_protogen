@@ -42,6 +42,13 @@ type Root struct {
 	Important       bool                       `protobuf:"varint,3,opt,name=important,proto3" json:"important,omitempty"`
 	FromCvSubsystem bool                       `protobuf:"varint,4,opt,name=from_cv_subsystem,json=fromCvSubsystem,proto3" json:"from_cv_subsystem,omitempty"`
 	ClientType      types.JonGuiDataClientType `protobuf:"varint,5,opt,name=client_type,json=clientType,proto3,enum=ser.JonGuiDataClientType" json:"client_type,omitempty"`
+	// Frame timestamps (PTS) from video streams when command was issued
+	FrameTimeDay  uint64 `protobuf:"varint,6,opt,name=frame_time_day,json=frameTimeDay,proto3" json:"frame_time_day,omitempty"`    // Day camera frame timestamp (nanoseconds)
+	FrameTimeHeat uint64 `protobuf:"varint,7,opt,name=frame_time_heat,json=frameTimeHeat,proto3" json:"frame_time_heat,omitempty"` // Thermal camera frame timestamp (nanoseconds)
+	// System monotonic time when user performed action
+	StateTime uint64 `protobuf:"varint,8,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time (nanoseconds)
+	// Client wall-clock time when command was issued
+	ClientTimeMs uint64 `protobuf:"varint,9,opt,name=client_time_ms,json=clientTimeMs,proto3" json:"client_time_ms,omitempty"` // Client epoch time in milliseconds (from performance.timeOrigin + performance.now())
 	// Types that are valid to be assigned to Payload:
 	//
 	//	*Root_DayCamera
@@ -127,6 +134,34 @@ func (x *Root) GetClientType() types.JonGuiDataClientType {
 		return x.ClientType
 	}
 	return types.JonGuiDataClientType(0)
+}
+
+func (x *Root) GetFrameTimeDay() uint64 {
+	if x != nil {
+		return x.FrameTimeDay
+	}
+	return 0
+}
+
+func (x *Root) GetFrameTimeHeat() uint64 {
+	if x != nil {
+		return x.FrameTimeHeat
+	}
+	return 0
+}
+
+func (x *Root) GetStateTime() uint64 {
+	if x != nil {
+		return x.StateTime
+	}
+	return 0
+}
+
+func (x *Root) GetClientTimeMs() uint64 {
+	if x != nil {
+		return x.ClientTimeMs
+	}
+	return 0
 }
 
 func (x *Root) GetPayload() isRoot_Payload {
@@ -477,7 +512,7 @@ var File_jon_shared_cmd_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1bjon_shared_data_types.proto\"\xa3\a\n" +
+	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1bjon_shared_data_types.proto\"\xb6\b\n" +
 	"\x04Root\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12\x1d\n" +
@@ -487,7 +522,12 @@ const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\x11from_cv_subsystem\x18\x04 \x01(\bR\x0ffromCvSubsystem\x12F\n" +
 	"\vclient_type\x18\x05 \x01(\x0e2\x19.ser.JonGuiDataClientTypeB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\n" +
-	"clientType\x124\n" +
+	"clientType\x12$\n" +
+	"\x0eframe_time_day\x18\x06 \x01(\x04R\fframeTimeDay\x12&\n" +
+	"\x0fframe_time_heat\x18\a \x01(\x04R\rframeTimeHeat\x12\x1d\n" +
+	"\n" +
+	"state_time\x18\b \x01(\x04R\tstateTime\x12$\n" +
+	"\x0eclient_time_ms\x18\t \x01(\x04R\fclientTimeMs\x124\n" +
 	"\n" +
 	"day_camera\x18\x14 \x01(\v2\x13.cmd.DayCamera.RootH\x00R\tdayCamera\x127\n" +
 	"\vheat_camera\x18\x15 \x01(\v2\x14.cmd.HeatCamera.RootH\x00R\n" +
@@ -505,7 +545,8 @@ const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\x02cv\x18  \x01(\v2\f.cmd.CV.RootH\x00R\x02cv\x12N\n" +
 	"\x14day_cam_glass_heater\x18! \x01(\v2\x1b.cmd.DayCamGlassHeater.RootH\x00R\x11dayCamGlassHeater\x12$\n" +
 	"\x04lira\x18\" \x01(\v2\x0e.cmd.Lira.RootH\x00R\x04liraB\x10\n" +
-	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\x06\x10\x14\"\x06\n" +
+	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\n" +
+	"\x10\x14\"\x06\n" +
 	"\x04Ping\"\x06\n" +
 	"\x04Noop\"\b\n" +
 	"\x06FrozenB\x8e\x01\n" +

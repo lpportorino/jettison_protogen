@@ -210,6 +210,7 @@ typedef struct _cmd_RotaryPlatform_RotateToNDC {
     ser_JonGuiDataVideoChannel channel;
     double x;
     double y;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
     uint64_t frame_time; /* Video frame timestamp */
     uint64_t state_time; /* System monotonic time from state when user performed action */
 } cmd_RotaryPlatform_RotateToNDC;
@@ -218,6 +219,7 @@ typedef struct _cmd_RotaryPlatform_HaltWithNDC {
     ser_JonGuiDataVideoChannel channel;
     double x;
     double y;
+    /* TODO: Remove these fields after migration - now in Root message (fields 6-8) */
     uint64_t frame_time; /* Video frame timestamp at gesture end */
     uint64_t state_time; /* System monotonic time from state when gesture ended */
 } cmd_RotaryPlatform_HaltWithNDC;

@@ -61,6 +61,9 @@ extern FocusDefaultTypeInternal _Focus_default_instance_;
 class FocusROI;
 struct FocusROIDefaultTypeInternal;
 extern FocusROIDefaultTypeInternal _FocusROI_default_instance_;
+class FxROI;
+struct FxROIDefaultTypeInternal;
+extern FxROIDefaultTypeInternal _FxROI_default_instance_;
 class GetMeteo;
 struct GetMeteoDefaultTypeInternal;
 extern GetMeteoDefaultTypeInternal _GetMeteo_default_instance_;
@@ -5091,6 +5094,256 @@ class GetMeteo final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class FxROI final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.FxROI) */ {
+ public:
+  inline FxROI() : FxROI(nullptr) {}
+  ~FxROI() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FxROI* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FxROI));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FxROI(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline FxROI(const FxROI& from) : FxROI(nullptr, from) {}
+  inline FxROI(FxROI&& from) noexcept
+      : FxROI(nullptr, std::move(from)) {}
+  inline FxROI& operator=(const FxROI& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FxROI& operator=(FxROI&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FxROI& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const FxROI* internal_default_instance() {
+    return reinterpret_cast<const FxROI*>(
+        &_FxROI_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 33;
+  friend void swap(FxROI& a, FxROI& b) { a.Swap(&b); }
+  inline void Swap(FxROI* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FxROI* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FxROI* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<FxROI>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const FxROI& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const FxROI& from) { FxROI::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(FxROI* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.FxROI"; }
+
+ protected:
+  explicit FxROI(::google::protobuf::Arena* arena);
+  FxROI(::google::protobuf::Arena* arena, const FxROI& from);
+  FxROI(::google::protobuf::Arena* arena, FxROI&& from) noexcept
+      : FxROI(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kX1FieldNumber = 1,
+    kY1FieldNumber = 2,
+    kX2FieldNumber = 3,
+    kY2FieldNumber = 4,
+    kFrameTimeFieldNumber = 5,
+    kStateTimeFieldNumber = 6,
+  };
+  // double x1 = 1;
+  void clear_x1() ;
+  double x1() const;
+  void set_x1(double value);
+
+  private:
+  double _internal_x1() const;
+  void _internal_set_x1(double value);
+
+  public:
+  // double y1 = 2;
+  void clear_y1() ;
+  double y1() const;
+  void set_y1(double value);
+
+  private:
+  double _internal_y1() const;
+  void _internal_set_y1(double value);
+
+  public:
+  // double x2 = 3;
+  void clear_x2() ;
+  double x2() const;
+  void set_x2(double value);
+
+  private:
+  double _internal_x2() const;
+  void _internal_set_x2(double value);
+
+  public:
+  // double y2 = 4;
+  void clear_y2() ;
+  double y2() const;
+  void set_y2(double value);
+
+  private:
+  double _internal_y2() const;
+  void _internal_set_y2(double value);
+
+  public:
+  // uint64 frame_time = 5;
+  void clear_frame_time() ;
+  ::uint64_t frame_time() const;
+  void set_frame_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_time() const;
+  void _internal_set_frame_time(::uint64_t value);
+
+  public:
+  // uint64 state_time = 6;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.FxROI)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 6, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const FxROI& from_msg);
+    double x1_;
+    double y1_;
+    double x2_;
+    double y2_;
+    ::uint64_t frame_time_;
+    ::uint64_t state_time_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
 class FocusROI final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.DayCamera.FocusROI) */ {
  public:
@@ -6142,6 +6395,7 @@ class Root final : public ::google::protobuf::Message
     kFocusRoi = 18,
     kTrackRoi = 19,
     kZoomRoi = 20,
+    kFxRoi = 21,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -6255,6 +6509,7 @@ class Root final : public ::google::protobuf::Message
     kFocusRoiFieldNumber = 18,
     kTrackRoiFieldNumber = 19,
     kZoomRoiFieldNumber = 20,
+    kFxRoiFieldNumber = 21,
   };
   // .cmd.DayCamera.Focus focus = 1;
   bool has_focus() const;
@@ -6636,6 +6891,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::DayCamera::ZoomROI* _internal_mutable_zoom_roi();
 
   public:
+  // .cmd.DayCamera.FxROI fx_roi = 21;
+  bool has_fx_roi() const;
+  private:
+  bool _internal_has_fx_roi() const;
+
+  public:
+  void clear_fx_roi() ;
+  const ::cmd::DayCamera::FxROI& fx_roi() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::FxROI* release_fx_roi();
+  ::cmd::DayCamera::FxROI* mutable_fx_roi();
+  void set_allocated_fx_roi(::cmd::DayCamera::FxROI* value);
+  void unsafe_arena_set_allocated_fx_roi(::cmd::DayCamera::FxROI* value);
+  ::cmd::DayCamera::FxROI* unsafe_arena_release_fx_roi();
+
+  private:
+  const ::cmd::DayCamera::FxROI& _internal_fx_roi() const;
+  ::cmd::DayCamera::FxROI* _internal_mutable_fx_roi();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Root)
@@ -6661,11 +6935,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_focus_roi();
   void set_has_track_roi();
   void set_has_zoom_roi();
+  void set_has_fx_roi();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 20, 20,
+      0, 21, 21,
       0, 2>
       _table_;
 
@@ -6706,6 +6981,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::DayCamera::FocusROI* focus_roi_;
       ::cmd::DayCamera::TrackROI* track_roi_;
       ::cmd::DayCamera::ZoomROI* zoom_roi_;
+      ::cmd::DayCamera::FxROI* fx_roi_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -8460,6 +8736,85 @@ inline ::cmd::DayCamera::ZoomROI* Root::_internal_mutable_zoom_roi() {
 inline ::cmd::DayCamera::ZoomROI* Root::mutable_zoom_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::DayCamera::ZoomROI* _msg = _internal_mutable_zoom_roi();
   // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Root.zoom_roi)
+  return _msg;
+}
+
+// .cmd.DayCamera.FxROI fx_roi = 21;
+inline bool Root::has_fx_roi() const {
+  return cmd_case() == kFxRoi;
+}
+inline bool Root::_internal_has_fx_roi() const {
+  return cmd_case() == kFxRoi;
+}
+inline void Root::set_has_fx_roi() {
+  _impl_._oneof_case_[0] = kFxRoi;
+}
+inline void Root::clear_fx_roi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kFxRoi) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.fx_roi_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.fx_roi_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::FxROI* Root::release_fx_roi() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Root.fx_roi)
+  if (cmd_case() == kFxRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.fx_roi_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.fx_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::FxROI& Root::_internal_fx_roi() const {
+  return cmd_case() == kFxRoi ? *_impl_.cmd_.fx_roi_ : reinterpret_cast<::cmd::DayCamera::FxROI&>(::cmd::DayCamera::_FxROI_default_instance_);
+}
+inline const ::cmd::DayCamera::FxROI& Root::fx_roi() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Root.fx_roi)
+  return _internal_fx_roi();
+}
+inline ::cmd::DayCamera::FxROI* Root::unsafe_arena_release_fx_roi() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Root.fx_roi)
+  if (cmd_case() == kFxRoi) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.fx_roi_;
+    _impl_.cmd_.fx_roi_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_fx_roi(::cmd::DayCamera::FxROI* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_fx_roi();
+    _impl_.cmd_.fx_roi_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Root.fx_roi)
+}
+inline ::cmd::DayCamera::FxROI* Root::_internal_mutable_fx_roi() {
+  if (cmd_case() != kFxRoi) {
+    clear_cmd();
+    set_has_fx_roi();
+    _impl_.cmd_.fx_roi_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::FxROI>(GetArena());
+  }
+  return _impl_.cmd_.fx_roi_;
+}
+inline ::cmd::DayCamera::FxROI* Root::mutable_fx_roi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::FxROI* _msg = _internal_mutable_fx_roi();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Root.fx_roi)
   return _msg;
 }
 
@@ -10307,6 +10662,142 @@ inline ::uint64_t ZoomROI::_internal_state_time() const {
   return _impl_.state_time_;
 }
 inline void ZoomROI::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// FxROI
+
+// double x1 = 1;
+inline void FxROI::clear_x1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = 0;
+}
+inline double FxROI::x1() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FxROI.x1)
+  return _internal_x1();
+}
+inline void FxROI::set_x1(double value) {
+  _internal_set_x1(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FxROI.x1)
+}
+inline double FxROI::_internal_x1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x1_;
+}
+inline void FxROI::_internal_set_x1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = value;
+}
+
+// double y1 = 2;
+inline void FxROI::clear_y1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = 0;
+}
+inline double FxROI::y1() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FxROI.y1)
+  return _internal_y1();
+}
+inline void FxROI::set_y1(double value) {
+  _internal_set_y1(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FxROI.y1)
+}
+inline double FxROI::_internal_y1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y1_;
+}
+inline void FxROI::_internal_set_y1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = value;
+}
+
+// double x2 = 3;
+inline void FxROI::clear_x2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = 0;
+}
+inline double FxROI::x2() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FxROI.x2)
+  return _internal_x2();
+}
+inline void FxROI::set_x2(double value) {
+  _internal_set_x2(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FxROI.x2)
+}
+inline double FxROI::_internal_x2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x2_;
+}
+inline void FxROI::_internal_set_x2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = value;
+}
+
+// double y2 = 4;
+inline void FxROI::clear_y2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = 0;
+}
+inline double FxROI::y2() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FxROI.y2)
+  return _internal_y2();
+}
+inline void FxROI::set_y2(double value) {
+  _internal_set_y2(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FxROI.y2)
+}
+inline double FxROI::_internal_y2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y2_;
+}
+inline void FxROI::_internal_set_y2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = value;
+}
+
+// uint64 frame_time = 5;
+inline void FxROI::clear_frame_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t FxROI::frame_time() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FxROI.frame_time)
+  return _internal_frame_time();
+}
+inline void FxROI::set_frame_time(::uint64_t value) {
+  _internal_set_frame_time(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FxROI.frame_time)
+}
+inline ::uint64_t FxROI::_internal_frame_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_time_;
+}
+inline void FxROI::_internal_set_frame_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_ = value;
+}
+
+// uint64 state_time = 6;
+inline void FxROI::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t FxROI::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.FxROI.state_time)
+  return _internal_state_time();
+}
+inline void FxROI::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.FxROI.state_time)
+}
+inline ::uint64_t FxROI::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void FxROI::_internal_set_state_time(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.state_time_ = value;
 }

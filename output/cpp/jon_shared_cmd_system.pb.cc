@@ -27,6 +27,24 @@ namespace _fl = ::google::protobuf::internal::field_layout;
 namespace cmd {
 namespace System {
               template <typename>
+PROTOBUF_CONSTEXPR WipeUserData::WipeUserData(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct WipeUserDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WipeUserDataDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WipeUserDataDefaultTypeInternal() {}
+  union {
+    WipeUserData _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WipeUserDataDefaultTypeInternal _WipeUserData_default_instance_;
+              template <typename>
 PROTOBUF_CONSTEXPR UnmarkRecImportant::UnmarkRecImportant(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
@@ -141,6 +159,24 @@ struct SetLocalizationDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetLocalizationDefaultTypeInternal _SetLocalization_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR SaveFactoryDefaults::SaveFactoryDefaults(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct SaveFactoryDefaultsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SaveFactoryDefaultsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SaveFactoryDefaultsDefaultTypeInternal() {}
+  union {
+    SaveFactoryDefaults _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SaveFactoryDefaultsDefaultTypeInternal _SaveFactoryDefaults_default_instance_;
               template <typename>
 PROTOBUF_CONSTEXPR ResetConfigs::ResetConfigs(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -323,6 +359,8 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::System::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::System::StartALl, _internal_metadata_),
@@ -358,6 +396,22 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::System::ResetConfigs, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::SaveFactoryDefaults, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::WipeUserData, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
@@ -434,19 +488,21 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::System::Root)},
-        {22, -1, -1, sizeof(::cmd::System::StartALl)},
-        {30, -1, -1, sizeof(::cmd::System::StopALl)},
-        {38, -1, -1, sizeof(::cmd::System::Reboot)},
-        {46, -1, -1, sizeof(::cmd::System::PowerOff)},
-        {54, -1, -1, sizeof(::cmd::System::ResetConfigs)},
-        {62, -1, -1, sizeof(::cmd::System::StartRec)},
-        {70, -1, -1, sizeof(::cmd::System::StopRec)},
-        {78, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
-        {86, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
-        {94, -1, -1, sizeof(::cmd::System::EnterTransport)},
-        {102, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
-        {110, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
-        {118, -1, -1, sizeof(::cmd::System::SetLocalization)},
+        {24, -1, -1, sizeof(::cmd::System::StartALl)},
+        {32, -1, -1, sizeof(::cmd::System::StopALl)},
+        {40, -1, -1, sizeof(::cmd::System::Reboot)},
+        {48, -1, -1, sizeof(::cmd::System::PowerOff)},
+        {56, -1, -1, sizeof(::cmd::System::ResetConfigs)},
+        {64, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
+        {72, -1, -1, sizeof(::cmd::System::WipeUserData)},
+        {80, -1, -1, sizeof(::cmd::System::StartRec)},
+        {88, -1, -1, sizeof(::cmd::System::StopRec)},
+        {96, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
+        {104, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
+        {112, -1, -1, sizeof(::cmd::System::EnterTransport)},
+        {120, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
+        {128, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
+        {136, -1, -1, sizeof(::cmd::System::SetLocalization)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_Root_default_instance_._instance,
@@ -455,6 +511,8 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_Reboot_default_instance_._instance,
     &::cmd::System::_PowerOff_default_instance_._instance,
     &::cmd::System::_ResetConfigs_default_instance_._instance,
+    &::cmd::System::_SaveFactoryDefaults_default_instance_._instance,
+    &::cmd::System::_WipeUserData_default_instance_._instance,
     &::cmd::System::_StartRec_default_instance_._instance,
     &::cmd::System::_StopRec_default_instance_._instance,
     &::cmd::System::_MarkRecImportant_default_instance_._instance,
@@ -467,7 +525,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste"
-    "m\032\033jon_shared_data_types.proto\"\243\005\n\004Root\022"
+    "m\032\033jon_shared_data_types.proto\"\231\006\n\004Root\022"
     ")\n\tstart_all\030\001 \001(\0132\024.cmd.System.StartALl"
     "H\000\022\'\n\010stop_all\030\002 \001(\0132\023.cmd.System.StopAL"
     "lH\000\022$\n\006reboot\030\003 \001(\0132\022.cmd.System.RebootH"
@@ -484,16 +542,20 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_
     "TransportH\000\022>\n\024geodesic_mode_enable\030\014 \001("
     "\0132\036.cmd.System.EnableGeodesicModeH\000\022@\n\025g"
     "eodesic_mode_disable\030\r \001(\0132\037.cmd.System."
-    "DisableGeodesicModeH\000B\005\n\003cmd\"\n\n\010StartALl"
-    "\"\t\n\007StopALl\"\010\n\006Reboot\"\n\n\010PowerOff\"\016\n\014Res"
-    "etConfigs\"\n\n\010StartRec\"\t\n\007StopRec\"\022\n\020Mark"
-    "RecImportant\"\024\n\022UnmarkRecImportant\"\020\n\016En"
-    "terTransport\"\024\n\022EnableGeodesicMode\"\025\n\023Di"
-    "sableGeodesicMode\"B\n\017SetLocalization\022/\n\003"
-    "loc\030\001 \001(\0162\".ser.JonGuiDataSystemLocaliza"
-    "tionsBMZKgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/cmd/sy"
-    "stemb\006proto3"
+    "DisableGeodesicModeH\000\022@\n\025save_factory_de"
+    "faults\030\016 \001(\0132\037.cmd.System.SaveFactoryDef"
+    "aultsH\000\0222\n\016wipe_user_data\030\017 \001(\0132\030.cmd.Sy"
+    "stem.WipeUserDataH\000B\005\n\003cmd\"\n\n\010StartALl\"\t"
+    "\n\007StopALl\"\010\n\006Reboot\"\n\n\010PowerOff\"\016\n\014Reset"
+    "Configs\"\025\n\023SaveFactoryDefaults\"\016\n\014WipeUs"
+    "erData\"\n\n\010StartRec\"\t\n\007StopRec\"\022\n\020MarkRec"
+    "Important\"\024\n\022UnmarkRecImportant\"\020\n\016Enter"
+    "Transport\"\024\n\022EnableGeodesicMode\"\025\n\023Disab"
+    "leGeodesicMode\"B\n\017SetLocalization\022/\n\003loc"
+    "\030\001 \001(\0162\".ser.JonGuiDataSystemLocalizatio"
+    "nsBMZKgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/cmd/syste"
+    "mb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps[1] =
     {
@@ -503,13 +565,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto = {
     false,
     false,
-    1092,
+    1249,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto,
     "jon_shared_cmd_system.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps,
     1,
-    14,
+    16,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto::offsets,
@@ -695,6 +757,32 @@ void Root::set_allocated_geodesic_mode_disable(::cmd::System::DisableGeodesicMod
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.geodesic_mode_disable)
 }
+void Root::set_allocated_save_factory_defaults(::cmd::System::SaveFactoryDefaults* save_factory_defaults) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (save_factory_defaults) {
+    ::google::protobuf::Arena* submessage_arena = save_factory_defaults->GetArena();
+    if (message_arena != submessage_arena) {
+      save_factory_defaults = ::google::protobuf::internal::GetOwnedMessage(message_arena, save_factory_defaults, submessage_arena);
+    }
+    set_has_save_factory_defaults();
+    _impl_.cmd_.save_factory_defaults_ = save_factory_defaults;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.save_factory_defaults)
+}
+void Root::set_allocated_wipe_user_data(::cmd::System::WipeUserData* wipe_user_data) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (wipe_user_data) {
+    ::google::protobuf::Arena* submessage_arena = wipe_user_data->GetArena();
+    if (message_arena != submessage_arena) {
+      wipe_user_data = ::google::protobuf::internal::GetOwnedMessage(message_arena, wipe_user_data, submessage_arena);
+    }
+    set_has_wipe_user_data();
+    _impl_.cmd_.wipe_user_data_ = wipe_user_data;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.wipe_user_data)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -765,6 +853,12 @@ Root::Root(
         break;
       case kGeodesicModeDisable:
         _impl_.cmd_.geodesic_mode_disable_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::DisableGeodesicMode>(arena, *from._impl_.cmd_.geodesic_mode_disable_);
+        break;
+      case kSaveFactoryDefaults:
+        _impl_.cmd_.save_factory_defaults_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::SaveFactoryDefaults>(arena, *from._impl_.cmd_.save_factory_defaults_);
+        break;
+      case kWipeUserData:
+        _impl_.cmd_.wipe_user_data_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::WipeUserData>(arena, *from._impl_.cmd_.wipe_user_data_);
         break;
   }
 
@@ -902,6 +996,22 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kSaveFactoryDefaults: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.save_factory_defaults_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.save_factory_defaults_);
+      }
+      break;
+    }
+    case kWipeUserData: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.wipe_user_data_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.wipe_user_data_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -946,16 +1056,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 13, 13, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    13, 0,  // max_field_number, fast_idx_mask
+    15, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294959104,  // skipmap
+    4294934528,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    13,  // num_field_entries
-    13,  // num_aux_entries
+    15,  // num_field_entries
+    15,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1007,6 +1117,12 @@ const ::_pbi::TcParseTable<0, 13, 13, 0, 2> Root::_table_ = {
     // .cmd.System.DisableGeodesicMode geodesic_mode_disable = 13;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.geodesic_mode_disable_), _Internal::kOneofCaseOffset + 0, 12,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.SaveFactoryDefaults save_factory_defaults = 14;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.save_factory_defaults_), _Internal::kOneofCaseOffset + 0, 13,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.WipeUserData wipe_user_data = 15;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.wipe_user_data_), _Internal::kOneofCaseOffset + 0, 14,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::System::StartALl>()},
     {::_pbi::TcParser::GetTable<::cmd::System::StopALl>()},
@@ -1021,6 +1137,8 @@ const ::_pbi::TcParseTable<0, 13, 13, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::System::EnterTransport>()},
     {::_pbi::TcParser::GetTable<::cmd::System::EnableGeodesicMode>()},
     {::_pbi::TcParser::GetTable<::cmd::System::DisableGeodesicMode>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::SaveFactoryDefaults>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::WipeUserData>()},
   }}, {{
   }},
 };
@@ -1130,6 +1248,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kSaveFactoryDefaults: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  14, *this_._impl_.cmd_.save_factory_defaults_, this_._impl_.cmd_.save_factory_defaults_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kWipeUserData: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  15, *this_._impl_.cmd_.wipe_user_data_, this_._impl_.cmd_.wipe_user_data_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -1233,6 +1363,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kGeodesicModeDisable: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.geodesic_mode_disable_);
+              break;
+            }
+            // .cmd.System.SaveFactoryDefaults save_factory_defaults = 14;
+            case kSaveFactoryDefaults: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.save_factory_defaults_);
+              break;
+            }
+            // .cmd.System.WipeUserData wipe_user_data = 15;
+            case kWipeUserData: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.wipe_user_data_);
               break;
             }
             case CMD_NOT_SET: {
@@ -1377,6 +1519,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::System::DisableGeodesicMode>(arena, *from._impl_.cmd_.geodesic_mode_disable_);
         } else {
           _this->_impl_.cmd_.geodesic_mode_disable_->MergeFrom(from._internal_geodesic_mode_disable());
+        }
+        break;
+      }
+      case kSaveFactoryDefaults: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.save_factory_defaults_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::SaveFactoryDefaults>(arena, *from._impl_.cmd_.save_factory_defaults_);
+        } else {
+          _this->_impl_.cmd_.save_factory_defaults_->MergeFrom(from._internal_save_factory_defaults());
+        }
+        break;
+      }
+      case kWipeUserData: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.wipe_user_data_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::WipeUserData>(arena, *from._impl_.cmd_.wipe_user_data_);
+        } else {
+          _this->_impl_.cmd_.wipe_user_data_->MergeFrom(from._internal_wipe_user_data());
         }
         break;
       }
@@ -1918,6 +2078,212 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ResetConfigs::_table_ = {
 
 
 ::google::protobuf::Metadata ResetConfigs::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SaveFactoryDefaults::_Internal {
+ public:
+};
+
+SaveFactoryDefaults::SaveFactoryDefaults(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.System.SaveFactoryDefaults)
+}
+SaveFactoryDefaults::SaveFactoryDefaults(
+    ::google::protobuf::Arena* arena,
+    const SaveFactoryDefaults& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SaveFactoryDefaults* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.System.SaveFactoryDefaults)
+}
+
+inline void* SaveFactoryDefaults::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SaveFactoryDefaults(arena);
+}
+constexpr auto SaveFactoryDefaults::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SaveFactoryDefaults),
+                                            alignof(SaveFactoryDefaults));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SaveFactoryDefaults::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SaveFactoryDefaults_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SaveFactoryDefaults::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<SaveFactoryDefaults>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SaveFactoryDefaults::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<SaveFactoryDefaults>(), &SaveFactoryDefaults::ByteSizeLong,
+            &SaveFactoryDefaults::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SaveFactoryDefaults, _impl_._cached_size_),
+        false,
+    },
+    &SaveFactoryDefaults::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SaveFactoryDefaults::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> SaveFactoryDefaults::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::SaveFactoryDefaults>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata SaveFactoryDefaults::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class WipeUserData::_Internal {
+ public:
+};
+
+WipeUserData::WipeUserData(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.System.WipeUserData)
+}
+WipeUserData::WipeUserData(
+    ::google::protobuf::Arena* arena,
+    const WipeUserData& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  WipeUserData* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.System.WipeUserData)
+}
+
+inline void* WipeUserData::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) WipeUserData(arena);
+}
+constexpr auto WipeUserData::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(WipeUserData),
+                                            alignof(WipeUserData));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull WipeUserData::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_WipeUserData_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &WipeUserData::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<WipeUserData>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &WipeUserData::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<WipeUserData>(), &WipeUserData::ByteSizeLong,
+            &WipeUserData::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(WipeUserData, _impl_._cached_size_),
+        false,
+    },
+    &WipeUserData::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* WipeUserData::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> WipeUserData::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::WipeUserData>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata WipeUserData::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

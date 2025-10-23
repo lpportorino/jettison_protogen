@@ -6325,6 +6325,10 @@ public final class JonSharedCmdCv {
     double getY();
 
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 4;</code>
      * @return The frameTime.
      */
@@ -6421,6 +6425,10 @@ public final class JonSharedCmdCv {
     public static final int FRAME_TIME_FIELD_NUMBER = 4;
     private long frameTime_ = 0L;
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 4;</code>
      * @return The frameTime.
      */
@@ -6953,6 +6961,10 @@ public final class JonSharedCmdCv {
 
       private long frameTime_ ;
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 4;</code>
        * @return The frameTime.
        */
@@ -6961,6 +6973,10 @@ public final class JonSharedCmdCv {
         return frameTime_;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 4;</code>
        * @param value The frameTime to set.
        * @return This builder for chaining.
@@ -6973,6 +6989,10 @@ public final class JonSharedCmdCv {
         return this;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 4;</code>
        * @return This builder for chaining.
        */

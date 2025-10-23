@@ -65,6 +65,46 @@ public final class JonSharedCmd {
     ser.JonSharedDataTypes.JonGuiDataClientType getClientType();
 
     /**
+     * <pre>
+     * Frame timestamps (PTS) from video streams when command was issued
+     * </pre>
+     *
+     * <code>uint64 frame_time_day = 6;</code>
+     * @return The frameTimeDay.
+     */
+    long getFrameTimeDay();
+
+    /**
+     * <pre>
+     * Thermal camera frame timestamp (nanoseconds)
+     * </pre>
+     *
+     * <code>uint64 frame_time_heat = 7;</code>
+     * @return The frameTimeHeat.
+     */
+    long getFrameTimeHeat();
+
+    /**
+     * <pre>
+     * System monotonic time when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 8;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
+
+    /**
+     * <pre>
+     * Client wall-clock time when command was issued
+     * </pre>
+     *
+     * <code>uint64 client_time_ms = 9;</code>
+     * @return The clientTimeMs.
+     */
+    long getClientTimeMs();
+
+    /**
      * <code>.cmd.DayCamera.Root day_camera = 20;</code>
      * @return Whether the dayCamera field is set.
      */
@@ -457,6 +497,66 @@ public final class JonSharedCmd {
     @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataClientType getClientType() {
       ser.JonSharedDataTypes.JonGuiDataClientType result = ser.JonSharedDataTypes.JonGuiDataClientType.forNumber(clientType_);
       return result == null ? ser.JonSharedDataTypes.JonGuiDataClientType.UNRECOGNIZED : result;
+    }
+
+    public static final int FRAME_TIME_DAY_FIELD_NUMBER = 6;
+    private long frameTimeDay_ = 0L;
+    /**
+     * <pre>
+     * Frame timestamps (PTS) from video streams when command was issued
+     * </pre>
+     *
+     * <code>uint64 frame_time_day = 6;</code>
+     * @return The frameTimeDay.
+     */
+    @java.lang.Override
+    public long getFrameTimeDay() {
+      return frameTimeDay_;
+    }
+
+    public static final int FRAME_TIME_HEAT_FIELD_NUMBER = 7;
+    private long frameTimeHeat_ = 0L;
+    /**
+     * <pre>
+     * Thermal camera frame timestamp (nanoseconds)
+     * </pre>
+     *
+     * <code>uint64 frame_time_heat = 7;</code>
+     * @return The frameTimeHeat.
+     */
+    @java.lang.Override
+    public long getFrameTimeHeat() {
+      return frameTimeHeat_;
+    }
+
+    public static final int STATE_TIME_FIELD_NUMBER = 8;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 8;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
+    public static final int CLIENT_TIME_MS_FIELD_NUMBER = 9;
+    private long clientTimeMs_ = 0L;
+    /**
+     * <pre>
+     * Client wall-clock time when command was issued
+     * </pre>
+     *
+     * <code>uint64 client_time_ms = 9;</code>
+     * @return The clientTimeMs.
+     */
+    @java.lang.Override
+    public long getClientTimeMs() {
+      return clientTimeMs_;
     }
 
     public static final int DAY_CAMERA_FIELD_NUMBER = 20;
@@ -953,6 +1053,18 @@ public final class JonSharedCmd {
       if (clientType_ != ser.JonSharedDataTypes.JonGuiDataClientType.JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIED.getNumber()) {
         output.writeEnum(5, clientType_);
       }
+      if (frameTimeDay_ != 0L) {
+        output.writeUInt64(6, frameTimeDay_);
+      }
+      if (frameTimeHeat_ != 0L) {
+        output.writeUInt64(7, frameTimeHeat_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(8, stateTime_);
+      }
+      if (clientTimeMs_ != 0L) {
+        output.writeUInt64(9, clientTimeMs_);
+      }
       if (payloadCase_ == 20) {
         output.writeMessage(20, (cmd.DayCamera.JonSharedCmdDayCamera.Root) payload_);
       }
@@ -1026,6 +1138,22 @@ public final class JonSharedCmd {
       if (clientType_ != ser.JonSharedDataTypes.JonGuiDataClientType.JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, clientType_);
+      }
+      if (frameTimeDay_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, frameTimeDay_);
+      }
+      if (frameTimeHeat_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, frameTimeHeat_);
+      }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(8, stateTime_);
+      }
+      if (clientTimeMs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(9, clientTimeMs_);
       }
       if (payloadCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
@@ -1111,6 +1239,14 @@ public final class JonSharedCmd {
       if (getFromCvSubsystem()
           != other.getFromCvSubsystem()) return false;
       if (clientType_ != other.clientType_) return false;
+      if (getFrameTimeDay()
+          != other.getFrameTimeDay()) return false;
+      if (getFrameTimeHeat()
+          != other.getFrameTimeHeat()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
+      if (getClientTimeMs()
+          != other.getClientTimeMs()) return false;
       if (!getPayloadCase().equals(other.getPayloadCase())) return false;
       switch (payloadCase_) {
         case 20:
@@ -1199,6 +1335,18 @@ public final class JonSharedCmd {
           getFromCvSubsystem());
       hash = (37 * hash) + CLIENT_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + clientType_;
+      hash = (37 * hash) + FRAME_TIME_DAY_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFrameTimeDay());
+      hash = (37 * hash) + FRAME_TIME_HEAT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFrameTimeHeat());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
+      hash = (37 * hash) + CLIENT_TIME_MS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getClientTimeMs());
       switch (payloadCase_) {
         case 20:
           hash = (37 * hash) + DAY_CAMERA_FIELD_NUMBER;
@@ -1399,6 +1547,10 @@ public final class JonSharedCmd {
         important_ = false;
         fromCvSubsystem_ = false;
         clientType_ = 0;
+        frameTimeDay_ = 0L;
+        frameTimeHeat_ = 0L;
+        stateTime_ = 0L;
+        clientTimeMs_ = 0L;
         if (dayCameraBuilder_ != null) {
           dayCameraBuilder_.clear();
         }
@@ -1495,6 +1647,18 @@ public final class JonSharedCmd {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.clientType_ = clientType_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.frameTimeDay_ = frameTimeDay_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.frameTimeHeat_ = frameTimeHeat_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.clientTimeMs_ = clientTimeMs_;
+        }
       }
 
       private void buildPartialOneofs(cmd.JonSharedCmd.Root result) {
@@ -1588,6 +1752,18 @@ public final class JonSharedCmd {
         }
         if (other.clientType_ != 0) {
           setClientTypeValue(other.getClientTypeValue());
+        }
+        if (other.getFrameTimeDay() != 0L) {
+          setFrameTimeDay(other.getFrameTimeDay());
+        }
+        if (other.getFrameTimeHeat() != 0L) {
+          setFrameTimeHeat(other.getFrameTimeHeat());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
+        }
+        if (other.getClientTimeMs() != 0L) {
+          setClientTimeMs(other.getClientTimeMs());
         }
         switch (other.getPayloadCase()) {
           case DAY_CAMERA: {
@@ -1705,6 +1881,26 @@ public final class JonSharedCmd {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 40
+              case 48: {
+                frameTimeDay_ = input.readUInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
+              case 56: {
+                frameTimeHeat_ = input.readUInt64();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 64: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 64
+              case 72: {
+                clientTimeMs_ = input.readUInt64();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
               case 162: {
                 input.readMessage(
                     getDayCameraFieldBuilder().getBuilder(),
@@ -2019,6 +2215,182 @@ public final class JonSharedCmd {
       public Builder clearClientType() {
         bitField0_ = (bitField0_ & ~0x00000010);
         clientType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long frameTimeDay_ ;
+      /**
+       * <pre>
+       * Frame timestamps (PTS) from video streams when command was issued
+       * </pre>
+       *
+       * <code>uint64 frame_time_day = 6;</code>
+       * @return The frameTimeDay.
+       */
+      @java.lang.Override
+      public long getFrameTimeDay() {
+        return frameTimeDay_;
+      }
+      /**
+       * <pre>
+       * Frame timestamps (PTS) from video streams when command was issued
+       * </pre>
+       *
+       * <code>uint64 frame_time_day = 6;</code>
+       * @param value The frameTimeDay to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameTimeDay(long value) {
+
+        frameTimeDay_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Frame timestamps (PTS) from video streams when command was issued
+       * </pre>
+       *
+       * <code>uint64 frame_time_day = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFrameTimeDay() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        frameTimeDay_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long frameTimeHeat_ ;
+      /**
+       * <pre>
+       * Thermal camera frame timestamp (nanoseconds)
+       * </pre>
+       *
+       * <code>uint64 frame_time_heat = 7;</code>
+       * @return The frameTimeHeat.
+       */
+      @java.lang.Override
+      public long getFrameTimeHeat() {
+        return frameTimeHeat_;
+      }
+      /**
+       * <pre>
+       * Thermal camera frame timestamp (nanoseconds)
+       * </pre>
+       *
+       * <code>uint64 frame_time_heat = 7;</code>
+       * @param value The frameTimeHeat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameTimeHeat(long value) {
+
+        frameTimeHeat_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Thermal camera frame timestamp (nanoseconds)
+       * </pre>
+       *
+       * <code>uint64 frame_time_heat = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFrameTimeHeat() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        frameTimeHeat_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 8;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 8;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        stateTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long clientTimeMs_ ;
+      /**
+       * <pre>
+       * Client wall-clock time when command was issued
+       * </pre>
+       *
+       * <code>uint64 client_time_ms = 9;</code>
+       * @return The clientTimeMs.
+       */
+      @java.lang.Override
+      public long getClientTimeMs() {
+        return clientTimeMs_;
+      }
+      /**
+       * <pre>
+       * Client wall-clock time when command was issued
+       * </pre>
+       *
+       * <code>uint64 client_time_ms = 9;</code>
+       * @param value The clientTimeMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientTimeMs(long value) {
+
+        clientTimeMs_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Client wall-clock time when command was issued
+       * </pre>
+       *
+       * <code>uint64 client_time_ms = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientTimeMs() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        clientTimeMs_ = 0L;
         onChanged();
         return this;
       }
@@ -5309,28 +5681,30 @@ public final class JonSharedCmd {
       "o\032\027jon_shared_cmd_cv.proto\032)jon_shared_c" +
       "md_day_cam_glass_heater.proto\032\031jon_share" +
       "d_cmd_lira.proto\032\033jon_shared_data_types." +
-      "proto\"\345\005\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
+      "proto\"\302\006\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
       "B\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\ti" +
       "mportant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001(" +
       "\010\022:\n\013client_type\030\005 \001(\0162\031.ser.JonGuiDataC" +
-      "lientTypeB\n\272H\007\202\001\004\020\001 \000\022)\n\nday_camera\030\024 \001(" +
-      "\0132\023.cmd.DayCamera.RootH\000\022+\n\013heat_camera\030" +
-      "\025 \001(\0132\024.cmd.HeatCamera.RootH\000\022\034\n\003gps\030\026 \001" +
-      "(\0132\r.cmd.Gps.RootH\000\022$\n\007compass\030\027 \001(\0132\021.c" +
-      "md.Compass.RootH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf" +
-      ".RootH\000\022(\n\tlrf_calib\030\031 \001(\0132\023.cmd.Lrf_cal" +
-      "ib.RootH\000\022*\n\006rotary\030\032 \001(\0132\030.cmd.RotaryPl" +
-      "atform.RootH\000\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.Roo" +
-      "tH\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035" +
-      " \001(\0132\t.cmd.NoopH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd." +
-      "FrozenH\000\022\"\n\006system\030\037 \001(\0132\020.cmd.System.Ro" +
-      "otH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.RootH\000\022;\n\024day_" +
-      "cam_glass_heater\030! \001(\0132\033.cmd.DayCamGlass" +
-      "Heater.RootH\000\022\036\n\004lira\030\" \001(\0132\016.cmd.Lira.R" +
-      "ootH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\006\020\024\"\006\n\004Ping\"\006\n" +
-      "\004Noop\"\010\n\006FrozenBFZDgit-codecommit.eu-cen" +
-      "tral-1.amazonaws.com/v1/repos/jettison/j" +
-      "onp/cmdb\006proto3"
+      "lientTypeB\n\272H\007\202\001\004\020\001 \000\022\026\n\016frame_time_day\030" +
+      "\006 \001(\004\022\027\n\017frame_time_heat\030\007 \001(\004\022\022\n\nstate_" +
+      "time\030\010 \001(\004\022\026\n\016client_time_ms\030\t \001(\004\022)\n\nda" +
+      "y_camera\030\024 \001(\0132\023.cmd.DayCamera.RootH\000\022+\n" +
+      "\013heat_camera\030\025 \001(\0132\024.cmd.HeatCamera.Root" +
+      "H\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.RootH\000\022$\n\007comp" +
+      "ass\030\027 \001(\0132\021.cmd.Compass.RootH\000\022\034\n\003lrf\030\030 " +
+      "\001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_calib\030\031 \001(\0132" +
+      "\023.cmd.Lrf_calib.RootH\000\022*\n\006rotary\030\032 \001(\0132\030" +
+      ".cmd.RotaryPlatform.RootH\000\022\034\n\003osd\030\033 \001(\0132" +
+      "\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.Pin" +
+      "gH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH\000\022\035\n\006frozen" +
+      "\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006system\030\037 \001(\0132\020." +
+      "cmd.System.RootH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.R" +
+      "ootH\000\022;\n\024day_cam_glass_heater\030! \001(\0132\033.cm" +
+      "d.DayCamGlassHeater.RootH\000\022\036\n\004lira\030\" \001(\013" +
+      "2\016.cmd.Lira.RootH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\n" +
+      "\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006FrozenBFZDgit-code" +
+      "commit.eu-central-1.amazonaws.com/v1/rep" +
+      "os/jettison/jonp/cmdb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5355,7 +5729,7 @@ public final class JonSharedCmd {
     internal_static_cmd_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Root_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Payload", });
+        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Payload", });
     internal_static_cmd_Ping_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Ping_fieldAccessorTable = new

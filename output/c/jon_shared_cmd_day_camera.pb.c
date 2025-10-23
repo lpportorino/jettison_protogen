@@ -105,6 +105,9 @@ PB_BIND(cmd_DayCamera_TrackROI, cmd_DayCamera_TrackROI, AUTO)
 PB_BIND(cmd_DayCamera_ZoomROI, cmd_DayCamera_ZoomROI, AUTO)
 
 
+PB_BIND(cmd_DayCamera_FxROI, cmd_DayCamera_FxROI, AUTO)
+
+
 
 #ifndef PB_CONVERT_DOUBLE_FLOAT
 /* On some platforms (such as AVR), double is really float.

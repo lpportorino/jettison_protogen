@@ -40,6 +40,8 @@ type Root struct {
 	//	*Root_EnterTransport
 	//	*Root_GeodesicModeEnable
 	//	*Root_GeodesicModeDisable
+	//	*Root_SaveFactoryDefaults
+	//	*Root_WipeUserData
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -199,6 +201,24 @@ func (x *Root) GetGeodesicModeDisable() *DisableGeodesicMode {
 	return nil
 }
 
+func (x *Root) GetSaveFactoryDefaults() *SaveFactoryDefaults {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_SaveFactoryDefaults); ok {
+			return x.SaveFactoryDefaults
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetWipeUserData() *WipeUserData {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_WipeUserData); ok {
+			return x.WipeUserData
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -255,6 +275,14 @@ type Root_GeodesicModeDisable struct {
 	GeodesicModeDisable *DisableGeodesicMode `protobuf:"bytes,13,opt,name=geodesic_mode_disable,json=geodesicModeDisable,proto3,oneof"`
 }
 
+type Root_SaveFactoryDefaults struct {
+	SaveFactoryDefaults *SaveFactoryDefaults `protobuf:"bytes,14,opt,name=save_factory_defaults,json=saveFactoryDefaults,proto3,oneof"`
+}
+
+type Root_WipeUserData struct {
+	WipeUserData *WipeUserData `protobuf:"bytes,15,opt,name=wipe_user_data,json=wipeUserData,proto3,oneof"`
+}
+
 func (*Root_StartAll) isRoot_Cmd() {}
 
 func (*Root_StopAll) isRoot_Cmd() {}
@@ -280,6 +308,10 @@ func (*Root_EnterTransport) isRoot_Cmd() {}
 func (*Root_GeodesicModeEnable) isRoot_Cmd() {}
 
 func (*Root_GeodesicModeDisable) isRoot_Cmd() {}
+
+func (*Root_SaveFactoryDefaults) isRoot_Cmd() {}
+
+func (*Root_WipeUserData) isRoot_Cmd() {}
 
 type StartALl struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -461,6 +493,78 @@ func (*ResetConfigs) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{5}
 }
 
+type SaveFactoryDefaults struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SaveFactoryDefaults) Reset() {
+	*x = SaveFactoryDefaults{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SaveFactoryDefaults) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SaveFactoryDefaults) ProtoMessage() {}
+
+func (x *SaveFactoryDefaults) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SaveFactoryDefaults.ProtoReflect.Descriptor instead.
+func (*SaveFactoryDefaults) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{6}
+}
+
+type WipeUserData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WipeUserData) Reset() {
+	*x = WipeUserData{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WipeUserData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WipeUserData) ProtoMessage() {}
+
+func (x *WipeUserData) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WipeUserData.ProtoReflect.Descriptor instead.
+func (*WipeUserData) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{7}
+}
+
 type StartRec struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -469,7 +573,7 @@ type StartRec struct {
 
 func (x *StartRec) Reset() {
 	*x = StartRec{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[6]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -481,7 +585,7 @@ func (x *StartRec) String() string {
 func (*StartRec) ProtoMessage() {}
 
 func (x *StartRec) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[6]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -494,7 +598,7 @@ func (x *StartRec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartRec.ProtoReflect.Descriptor instead.
 func (*StartRec) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{6}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{8}
 }
 
 type StopRec struct {
@@ -505,7 +609,7 @@ type StopRec struct {
 
 func (x *StopRec) Reset() {
 	*x = StopRec{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[7]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -517,7 +621,7 @@ func (x *StopRec) String() string {
 func (*StopRec) ProtoMessage() {}
 
 func (x *StopRec) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[7]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -530,7 +634,7 @@ func (x *StopRec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopRec.ProtoReflect.Descriptor instead.
 func (*StopRec) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{7}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{9}
 }
 
 type MarkRecImportant struct {
@@ -541,7 +645,7 @@ type MarkRecImportant struct {
 
 func (x *MarkRecImportant) Reset() {
 	*x = MarkRecImportant{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[8]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -553,7 +657,7 @@ func (x *MarkRecImportant) String() string {
 func (*MarkRecImportant) ProtoMessage() {}
 
 func (x *MarkRecImportant) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[8]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -566,7 +670,7 @@ func (x *MarkRecImportant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkRecImportant.ProtoReflect.Descriptor instead.
 func (*MarkRecImportant) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{8}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{10}
 }
 
 type UnmarkRecImportant struct {
@@ -577,7 +681,7 @@ type UnmarkRecImportant struct {
 
 func (x *UnmarkRecImportant) Reset() {
 	*x = UnmarkRecImportant{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[9]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -589,7 +693,7 @@ func (x *UnmarkRecImportant) String() string {
 func (*UnmarkRecImportant) ProtoMessage() {}
 
 func (x *UnmarkRecImportant) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[9]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -602,7 +706,7 @@ func (x *UnmarkRecImportant) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnmarkRecImportant.ProtoReflect.Descriptor instead.
 func (*UnmarkRecImportant) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{9}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{11}
 }
 
 type EnterTransport struct {
@@ -613,7 +717,7 @@ type EnterTransport struct {
 
 func (x *EnterTransport) Reset() {
 	*x = EnterTransport{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[10]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -625,7 +729,7 @@ func (x *EnterTransport) String() string {
 func (*EnterTransport) ProtoMessage() {}
 
 func (x *EnterTransport) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[10]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -638,7 +742,7 @@ func (x *EnterTransport) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnterTransport.ProtoReflect.Descriptor instead.
 func (*EnterTransport) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{10}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{12}
 }
 
 type EnableGeodesicMode struct {
@@ -649,7 +753,7 @@ type EnableGeodesicMode struct {
 
 func (x *EnableGeodesicMode) Reset() {
 	*x = EnableGeodesicMode{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[11]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -661,7 +765,7 @@ func (x *EnableGeodesicMode) String() string {
 func (*EnableGeodesicMode) ProtoMessage() {}
 
 func (x *EnableGeodesicMode) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[11]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -674,7 +778,7 @@ func (x *EnableGeodesicMode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EnableGeodesicMode.ProtoReflect.Descriptor instead.
 func (*EnableGeodesicMode) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{11}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{13}
 }
 
 type DisableGeodesicMode struct {
@@ -685,7 +789,7 @@ type DisableGeodesicMode struct {
 
 func (x *DisableGeodesicMode) Reset() {
 	*x = DisableGeodesicMode{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[12]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -697,7 +801,7 @@ func (x *DisableGeodesicMode) String() string {
 func (*DisableGeodesicMode) ProtoMessage() {}
 
 func (x *DisableGeodesicMode) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[12]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -710,7 +814,7 @@ func (x *DisableGeodesicMode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DisableGeodesicMode.ProtoReflect.Descriptor instead.
 func (*DisableGeodesicMode) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{12}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{14}
 }
 
 type SetLocalization struct {
@@ -722,7 +826,7 @@ type SetLocalization struct {
 
 func (x *SetLocalization) Reset() {
 	*x = SetLocalization{}
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[13]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -734,7 +838,7 @@ func (x *SetLocalization) String() string {
 func (*SetLocalization) ProtoMessage() {}
 
 func (x *SetLocalization) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_system_proto_msgTypes[13]
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -747,7 +851,7 @@ func (x *SetLocalization) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetLocalization.ProtoReflect.Descriptor instead.
 func (*SetLocalization) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{13}
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *SetLocalization) GetLoc() types.JonGuiDataSystemLocalizations {
@@ -762,7 +866,7 @@ var File_jon_shared_cmd_system_proto protoreflect.FileDescriptor
 const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_system.proto\x12\n" +
-	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xdd\x06\n" +
+	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf6\a\n" +
 	"\x04Root\x123\n" +
 	"\tstart_all\x18\x01 \x01(\v2\x14.cmd.System.StartALlH\x00R\bstartAll\x120\n" +
 	"\bstop_all\x18\x02 \x01(\v2\x13.cmd.System.StopALlH\x00R\astopAll\x12,\n" +
@@ -777,7 +881,9 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	" \x01(\v2\x1e.cmd.System.UnmarkRecImportantH\x00R\x12unmarkRecImportant\x12E\n" +
 	"\x0fenter_transport\x18\v \x01(\v2\x1a.cmd.System.EnterTransportH\x00R\x0eenterTransport\x12R\n" +
 	"\x14geodesic_mode_enable\x18\f \x01(\v2\x1e.cmd.System.EnableGeodesicModeH\x00R\x12geodesicModeEnable\x12U\n" +
-	"\x15geodesic_mode_disable\x18\r \x01(\v2\x1f.cmd.System.DisableGeodesicModeH\x00R\x13geodesicModeDisableB\f\n" +
+	"\x15geodesic_mode_disable\x18\r \x01(\v2\x1f.cmd.System.DisableGeodesicModeH\x00R\x13geodesicModeDisable\x12U\n" +
+	"\x15save_factory_defaults\x18\x0e \x01(\v2\x1f.cmd.System.SaveFactoryDefaultsH\x00R\x13saveFactoryDefaults\x12@\n" +
+	"\x0ewipe_user_data\x18\x0f \x01(\v2\x18.cmd.System.WipeUserDataH\x00R\fwipeUserDataB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\n" +
 	"\n" +
 	"\bStartALl\"\t\n" +
@@ -785,7 +891,9 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\x06Reboot\"\n" +
 	"\n" +
 	"\bPowerOff\"\x0e\n" +
-	"\fResetConfigs\"\n" +
+	"\fResetConfigs\"\x15\n" +
+	"\x13SaveFactoryDefaults\"\x0e\n" +
+	"\fWipeUserData\"\n" +
 	"\n" +
 	"\bStartRec\"\t\n" +
 	"\aStopRec\"\x12\n" +
@@ -813,7 +921,7 @@ func file_jon_shared_cmd_system_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_system_proto_rawDescData
 }
 
-var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*Root)(nil),                             // 0: cmd.System.Root
 	(*StartALl)(nil),                         // 1: cmd.System.StartALl
@@ -821,36 +929,40 @@ var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*Reboot)(nil),                           // 3: cmd.System.Reboot
 	(*PowerOff)(nil),                         // 4: cmd.System.PowerOff
 	(*ResetConfigs)(nil),                     // 5: cmd.System.ResetConfigs
-	(*StartRec)(nil),                         // 6: cmd.System.StartRec
-	(*StopRec)(nil),                          // 7: cmd.System.StopRec
-	(*MarkRecImportant)(nil),                 // 8: cmd.System.MarkRecImportant
-	(*UnmarkRecImportant)(nil),               // 9: cmd.System.UnmarkRecImportant
-	(*EnterTransport)(nil),                   // 10: cmd.System.EnterTransport
-	(*EnableGeodesicMode)(nil),               // 11: cmd.System.EnableGeodesicMode
-	(*DisableGeodesicMode)(nil),              // 12: cmd.System.DisableGeodesicMode
-	(*SetLocalization)(nil),                  // 13: cmd.System.SetLocalization
-	(types.JonGuiDataSystemLocalizations)(0), // 14: ser.JonGuiDataSystemLocalizations
+	(*SaveFactoryDefaults)(nil),              // 6: cmd.System.SaveFactoryDefaults
+	(*WipeUserData)(nil),                     // 7: cmd.System.WipeUserData
+	(*StartRec)(nil),                         // 8: cmd.System.StartRec
+	(*StopRec)(nil),                          // 9: cmd.System.StopRec
+	(*MarkRecImportant)(nil),                 // 10: cmd.System.MarkRecImportant
+	(*UnmarkRecImportant)(nil),               // 11: cmd.System.UnmarkRecImportant
+	(*EnterTransport)(nil),                   // 12: cmd.System.EnterTransport
+	(*EnableGeodesicMode)(nil),               // 13: cmd.System.EnableGeodesicMode
+	(*DisableGeodesicMode)(nil),              // 14: cmd.System.DisableGeodesicMode
+	(*SetLocalization)(nil),                  // 15: cmd.System.SetLocalization
+	(types.JonGuiDataSystemLocalizations)(0), // 16: ser.JonGuiDataSystemLocalizations
 }
 var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	1,  // 0: cmd.System.Root.start_all:type_name -> cmd.System.StartALl
 	2,  // 1: cmd.System.Root.stop_all:type_name -> cmd.System.StopALl
 	3,  // 2: cmd.System.Root.reboot:type_name -> cmd.System.Reboot
 	4,  // 3: cmd.System.Root.power_off:type_name -> cmd.System.PowerOff
-	13, // 4: cmd.System.Root.localization:type_name -> cmd.System.SetLocalization
+	15, // 4: cmd.System.Root.localization:type_name -> cmd.System.SetLocalization
 	5,  // 5: cmd.System.Root.reset_configs:type_name -> cmd.System.ResetConfigs
-	6,  // 6: cmd.System.Root.start_rec:type_name -> cmd.System.StartRec
-	7,  // 7: cmd.System.Root.stop_rec:type_name -> cmd.System.StopRec
-	8,  // 8: cmd.System.Root.mark_rec_important:type_name -> cmd.System.MarkRecImportant
-	9,  // 9: cmd.System.Root.unmark_rec_important:type_name -> cmd.System.UnmarkRecImportant
-	10, // 10: cmd.System.Root.enter_transport:type_name -> cmd.System.EnterTransport
-	11, // 11: cmd.System.Root.geodesic_mode_enable:type_name -> cmd.System.EnableGeodesicMode
-	12, // 12: cmd.System.Root.geodesic_mode_disable:type_name -> cmd.System.DisableGeodesicMode
-	14, // 13: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	8,  // 6: cmd.System.Root.start_rec:type_name -> cmd.System.StartRec
+	9,  // 7: cmd.System.Root.stop_rec:type_name -> cmd.System.StopRec
+	10, // 8: cmd.System.Root.mark_rec_important:type_name -> cmd.System.MarkRecImportant
+	11, // 9: cmd.System.Root.unmark_rec_important:type_name -> cmd.System.UnmarkRecImportant
+	12, // 10: cmd.System.Root.enter_transport:type_name -> cmd.System.EnterTransport
+	13, // 11: cmd.System.Root.geodesic_mode_enable:type_name -> cmd.System.EnableGeodesicMode
+	14, // 12: cmd.System.Root.geodesic_mode_disable:type_name -> cmd.System.DisableGeodesicMode
+	6,  // 13: cmd.System.Root.save_factory_defaults:type_name -> cmd.System.SaveFactoryDefaults
+	7,  // 14: cmd.System.Root.wipe_user_data:type_name -> cmd.System.WipeUserData
+	16, // 15: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_system_proto_init() }
@@ -872,6 +984,8 @@ func file_jon_shared_cmd_system_proto_init() {
 		(*Root_EnterTransport)(nil),
 		(*Root_GeodesicModeEnable)(nil),
 		(*Root_GeodesicModeDisable)(nil),
+		(*Root_SaveFactoryDefaults)(nil),
+		(*Root_WipeUserData)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -879,7 +993,7 @@ func file_jon_shared_cmd_system_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_system_proto_rawDesc), len(file_jon_shared_cmd_system_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

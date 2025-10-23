@@ -2583,6 +2583,21 @@ public final class JonSharedCmdDayCamera {
      */
     cmd.DayCamera.JonSharedCmdDayCamera.ZoomROIOrBuilder getZoomRoiOrBuilder();
 
+    /**
+     * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+     * @return Whether the fxRoi field is set.
+     */
+    boolean hasFxRoi();
+    /**
+     * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+     * @return The fxRoi.
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.FxROI getFxRoi();
+    /**
+     * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder getFxRoiOrBuilder();
+
     cmd.DayCamera.JonSharedCmdDayCamera.Root.CmdCase getCmdCase();
   }
   /**
@@ -2648,6 +2663,7 @@ public final class JonSharedCmdDayCamera {
       FOCUS_ROI(18),
       TRACK_ROI(19),
       ZOOM_ROI(20),
+      FX_ROI(21),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -2685,6 +2701,7 @@ public final class JonSharedCmdDayCamera {
           case 18: return FOCUS_ROI;
           case 19: return TRACK_ROI;
           case 20: return ZOOM_ROI;
+          case 21: return FX_ROI;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -3320,6 +3337,37 @@ public final class JonSharedCmdDayCamera {
       return cmd.DayCamera.JonSharedCmdDayCamera.ZoomROI.getDefaultInstance();
     }
 
+    public static final int FX_ROI_FIELD_NUMBER = 21;
+    /**
+     * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+     * @return Whether the fxRoi field is set.
+     */
+    @java.lang.Override
+    public boolean hasFxRoi() {
+      return cmdCase_ == 21;
+    }
+    /**
+     * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+     * @return The fxRoi.
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FxROI getFxRoi() {
+      if (cmdCase_ == 21) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder getFxRoiOrBuilder() {
+      if (cmdCase_ == 21) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3393,6 +3441,9 @@ public final class JonSharedCmdDayCamera {
       }
       if (cmdCase_ == 20) {
         output.writeMessage(20, (cmd.DayCamera.JonSharedCmdDayCamera.ZoomROI) cmd_);
+      }
+      if (cmdCase_ == 21) {
+        output.writeMessage(21, (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3482,6 +3533,10 @@ public final class JonSharedCmdDayCamera {
       if (cmdCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(20, (cmd.DayCamera.JonSharedCmdDayCamera.ZoomROI) cmd_);
+      }
+      if (cmdCase_ == 21) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3580,6 +3635,10 @@ public final class JonSharedCmdDayCamera {
           if (!getZoomRoi()
               .equals(other.getZoomRoi())) return false;
           break;
+        case 21:
+          if (!getFxRoi()
+              .equals(other.getFxRoi())) return false;
+          break;
         case 0:
         default:
       }
@@ -3674,6 +3733,10 @@ public final class JonSharedCmdDayCamera {
         case 20:
           hash = (37 * hash) + ZOOM_ROI_FIELD_NUMBER;
           hash = (53 * hash) + getZoomRoi().hashCode();
+          break;
+        case 21:
+          hash = (37 * hash) + FX_ROI_FIELD_NUMBER;
+          hash = (53 * hash) + getFxRoi().hashCode();
           break;
         case 0:
         default:
@@ -3869,6 +3932,9 @@ public final class JonSharedCmdDayCamera {
         if (zoomRoiBuilder_ != null) {
           zoomRoiBuilder_.clear();
         }
+        if (fxRoiBuilder_ != null) {
+          fxRoiBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -3990,6 +4056,10 @@ public final class JonSharedCmdDayCamera {
             zoomRoiBuilder_ != null) {
           result.cmd_ = zoomRoiBuilder_.build();
         }
+        if (cmdCase_ == 21 &&
+            fxRoiBuilder_ != null) {
+          result.cmd_ = fxRoiBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -4083,6 +4153,10 @@ public final class JonSharedCmdDayCamera {
           }
           case ZOOM_ROI: {
             mergeZoomRoi(other.getZoomRoi());
+            break;
+          }
+          case FX_ROI: {
+            mergeFxRoi(other.getFxRoi());
             break;
           }
           case CMD_NOT_SET: {
@@ -4255,6 +4329,13 @@ public final class JonSharedCmdDayCamera {
                 cmdCase_ = 20;
                 break;
               } // case 162
+              case 170: {
+                input.readMessage(
+                    getFxRoiFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 21;
+                break;
+              } // case 170
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -7125,6 +7206,148 @@ public final class JonSharedCmdDayCamera {
         cmdCase_ = 20;
         onChanged();
         return zoomRoiBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.FxROI, cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder> fxRoiBuilder_;
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       * @return Whether the fxRoi field is set.
+       */
+      @java.lang.Override
+      public boolean hasFxRoi() {
+        return cmdCase_ == 21;
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       * @return The fxRoi.
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FxROI getFxRoi() {
+        if (fxRoiBuilder_ == null) {
+          if (cmdCase_ == 21) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 21) {
+            return fxRoiBuilder_.getMessage();
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      public Builder setFxRoi(cmd.DayCamera.JonSharedCmdDayCamera.FxROI value) {
+        if (fxRoiBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          fxRoiBuilder_.setMessage(value);
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      public Builder setFxRoi(
+          cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder builderForValue) {
+        if (fxRoiBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          fxRoiBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      public Builder mergeFxRoi(cmd.DayCamera.JonSharedCmdDayCamera.FxROI value) {
+        if (fxRoiBuilder_ == null) {
+          if (cmdCase_ == 21 &&
+              cmd_ != cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance()) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.FxROI.newBuilder((cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 21) {
+            fxRoiBuilder_.mergeFrom(value);
+          } else {
+            fxRoiBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      public Builder clearFxRoi() {
+        if (fxRoiBuilder_ == null) {
+          if (cmdCase_ == 21) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 21) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          fxRoiBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      public cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder getFxRoiBuilder() {
+        return getFxRoiFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder getFxRoiOrBuilder() {
+        if ((cmdCase_ == 21) && (fxRoiBuilder_ != null)) {
+          return fxRoiBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 21) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.FxROI fx_roi = 21;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.FxROI, cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder> 
+          getFxRoiFieldBuilder() {
+        if (fxRoiBuilder_ == null) {
+          if (!(cmdCase_ == 21)) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+          }
+          fxRoiBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.DayCamera.JonSharedCmdDayCamera.FxROI, cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder, cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder>(
+                  (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 21;
+        onChanged();
+        return fxRoiBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.DayCamera.Root)
@@ -19753,6 +19976,10 @@ public final class JonSharedCmdDayCamera {
     double getY2();
 
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 5;</code>
      * @return The frameTime.
      */
@@ -19852,6 +20079,10 @@ public final class JonSharedCmdDayCamera {
     public static final int FRAME_TIME_FIELD_NUMBER = 5;
     private long frameTime_ = 0L;
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 5;</code>
      * @return The frameTime.
      */
@@ -20423,6 +20654,10 @@ public final class JonSharedCmdDayCamera {
 
       private long frameTime_ ;
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @return The frameTime.
        */
@@ -20431,6 +20666,10 @@ public final class JonSharedCmdDayCamera {
         return frameTime_;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @param value The frameTime to set.
        * @return This builder for chaining.
@@ -20443,6 +20682,10 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @return This builder for chaining.
        */
@@ -20577,6 +20820,10 @@ public final class JonSharedCmdDayCamera {
     double getY2();
 
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 5;</code>
      * @return The frameTime.
      */
@@ -20676,6 +20923,10 @@ public final class JonSharedCmdDayCamera {
     public static final int FRAME_TIME_FIELD_NUMBER = 5;
     private long frameTime_ = 0L;
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 5;</code>
      * @return The frameTime.
      */
@@ -21247,6 +21498,10 @@ public final class JonSharedCmdDayCamera {
 
       private long frameTime_ ;
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @return The frameTime.
        */
@@ -21255,6 +21510,10 @@ public final class JonSharedCmdDayCamera {
         return frameTime_;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @param value The frameTime to set.
        * @return This builder for chaining.
@@ -21267,6 +21526,10 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @return This builder for chaining.
        */
@@ -21401,6 +21664,10 @@ public final class JonSharedCmdDayCamera {
     double getY2();
 
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 5;</code>
      * @return The frameTime.
      */
@@ -21500,6 +21767,10 @@ public final class JonSharedCmdDayCamera {
     public static final int FRAME_TIME_FIELD_NUMBER = 5;
     private long frameTime_ = 0L;
     /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
      * <code>uint64 frame_time = 5;</code>
      * @return The frameTime.
      */
@@ -22071,6 +22342,10 @@ public final class JonSharedCmdDayCamera {
 
       private long frameTime_ ;
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @return The frameTime.
        */
@@ -22079,6 +22354,10 @@ public final class JonSharedCmdDayCamera {
         return frameTime_;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @param value The frameTime to set.
        * @return This builder for chaining.
@@ -22091,6 +22370,10 @@ public final class JonSharedCmdDayCamera {
         return this;
       }
       /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
        * <code>uint64 frame_time = 5;</code>
        * @return This builder for chaining.
        */
@@ -22191,6 +22474,850 @@ public final class JonSharedCmdDayCamera {
 
     @java.lang.Override
     public cmd.DayCamera.JonSharedCmdDayCamera.ZoomROI getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FxROIOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.DayCamera.FxROI)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    double getX1();
+
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    double getY1();
+
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    double getX2();
+
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    double getY2();
+
+    /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
+     * <code>uint64 frame_time = 5;</code>
+     * @return The frameTime.
+     */
+    long getFrameTime();
+
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    long getStateTime();
+  }
+  /**
+   * Protobuf type {@code cmd.DayCamera.FxROI}
+   */
+  public static final class FxROI extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.DayCamera.FxROI)
+      FxROIOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        FxROI.class.getName());
+    }
+    // Use FxROI.newBuilder() to construct.
+    private FxROI(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private FxROI() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FxROI_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FxROI_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.DayCamera.JonSharedCmdDayCamera.FxROI.class, cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder.class);
+    }
+
+    public static final int X1_FIELD_NUMBER = 1;
+    private double x1_ = 0D;
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    @java.lang.Override
+    public double getX1() {
+      return x1_;
+    }
+
+    public static final int Y1_FIELD_NUMBER = 2;
+    private double y1_ = 0D;
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    @java.lang.Override
+    public double getY1() {
+      return y1_;
+    }
+
+    public static final int X2_FIELD_NUMBER = 3;
+    private double x2_ = 0D;
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    @java.lang.Override
+    public double getX2() {
+      return x2_;
+    }
+
+    public static final int Y2_FIELD_NUMBER = 4;
+    private double y2_ = 0D;
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    @java.lang.Override
+    public double getY2() {
+      return y2_;
+    }
+
+    public static final int FRAME_TIME_FIELD_NUMBER = 5;
+    private long frameTime_ = 0L;
+    /**
+     * <pre>
+     * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+     * </pre>
+     *
+     * <code>uint64 frame_time = 5;</code>
+     * @return The frameTime.
+     */
+    @java.lang.Override
+    public long getFrameTime() {
+      return frameTime_;
+    }
+
+    public static final int STATE_TIME_FIELD_NUMBER = 6;
+    private long stateTime_ = 0L;
+    /**
+     * <pre>
+     * System monotonic time from state when user performed action
+     * </pre>
+     *
+     * <code>uint64 state_time = 6;</code>
+     * @return The stateTime.
+     */
+    @java.lang.Override
+    public long getStateTime() {
+      return stateTime_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        output.writeDouble(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        output.writeDouble(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        output.writeDouble(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        output.writeDouble(4, y2_);
+      }
+      if (frameTime_ != 0L) {
+        output.writeUInt64(5, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        output.writeUInt64(6, stateTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, y2_);
+      }
+      if (frameTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, frameTime_);
+      }
+      if (stateTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(6, stateTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.DayCamera.JonSharedCmdDayCamera.FxROI)) {
+        return super.equals(obj);
+      }
+      cmd.DayCamera.JonSharedCmdDayCamera.FxROI other = (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) obj;
+
+      if (java.lang.Double.doubleToLongBits(getX1())
+          != java.lang.Double.doubleToLongBits(
+              other.getX1())) return false;
+      if (java.lang.Double.doubleToLongBits(getY1())
+          != java.lang.Double.doubleToLongBits(
+              other.getY1())) return false;
+      if (java.lang.Double.doubleToLongBits(getX2())
+          != java.lang.Double.doubleToLongBits(
+              other.getX2())) return false;
+      if (java.lang.Double.doubleToLongBits(getY2())
+          != java.lang.Double.doubleToLongBits(
+              other.getY2())) return false;
+      if (getFrameTime()
+          != other.getFrameTime()) return false;
+      if (getStateTime()
+          != other.getStateTime()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX1()));
+      hash = (37 * hash) + Y1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY1()));
+      hash = (37 * hash) + X2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX2()));
+      hash = (37 * hash) + Y2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY2()));
+      hash = (37 * hash) + FRAME_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFrameTime());
+      hash = (37 * hash) + STATE_TIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getStateTime());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.DayCamera.JonSharedCmdDayCamera.FxROI prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.DayCamera.FxROI}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.DayCamera.FxROI)
+        cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FxROI_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FxROI_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.DayCamera.JonSharedCmdDayCamera.FxROI.class, cmd.DayCamera.JonSharedCmdDayCamera.FxROI.Builder.class);
+      }
+
+      // Construct using cmd.DayCamera.JonSharedCmdDayCamera.FxROI.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x1_ = 0D;
+        y1_ = 0D;
+        x2_ = 0D;
+        y2_ = 0D;
+        frameTime_ = 0L;
+        stateTime_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_FxROI_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FxROI getDefaultInstanceForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FxROI build() {
+        cmd.DayCamera.JonSharedCmdDayCamera.FxROI result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.FxROI buildPartial() {
+        cmd.DayCamera.JonSharedCmdDayCamera.FxROI result = new cmd.DayCamera.JonSharedCmdDayCamera.FxROI(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.DayCamera.JonSharedCmdDayCamera.FxROI result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x1_ = x1_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y1_ = y1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.x2_ = x2_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.y2_ = y2_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.frameTime_ = frameTime_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.DayCamera.JonSharedCmdDayCamera.FxROI) {
+          return mergeFrom((cmd.DayCamera.JonSharedCmdDayCamera.FxROI)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.FxROI other) {
+        if (other == cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance()) return this;
+        if (other.getX1() != 0D) {
+          setX1(other.getX1());
+        }
+        if (other.getY1() != 0D) {
+          setY1(other.getY1());
+        }
+        if (other.getX2() != 0D) {
+          setX2(other.getX2());
+        }
+        if (other.getY2() != 0D) {
+          setY2(other.getY2());
+        }
+        if (other.getFrameTime() != 0L) {
+          setFrameTime(other.getFrameTime());
+        }
+        if (other.getStateTime() != 0L) {
+          setStateTime(other.getStateTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                x1_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                y1_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                x2_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 33: {
+                y2_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 33
+              case 40: {
+                frameTime_ = input.readUInt64();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
+              case 48: {
+                stateTime_ = input.readUInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double x1_ ;
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x1.
+       */
+      @java.lang.Override
+      public double getX1() {
+        return x1_;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX1(double value) {
+
+        x1_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX1() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y1_ ;
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y1.
+       */
+      @java.lang.Override
+      public double getY1() {
+        return y1_;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY1(double value) {
+
+        y1_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY1() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double x2_ ;
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The x2.
+       */
+      @java.lang.Override
+      public double getX2() {
+        return x2_;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The x2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX2(double value) {
+
+        x2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        x2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y2_ ;
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The y2.
+       */
+      @java.lang.Override
+      public double getY2() {
+        return y2_;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The y2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY2(double value) {
+
+        y2_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY2() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        y2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private long frameTime_ ;
+      /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
+       * <code>uint64 frame_time = 5;</code>
+       * @return The frameTime.
+       */
+      @java.lang.Override
+      public long getFrameTime() {
+        return frameTime_;
+      }
+      /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
+       * <code>uint64 frame_time = 5;</code>
+       * @param value The frameTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFrameTime(long value) {
+
+        frameTime_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * TODO: Remove these fields after migration - now in Root message (fields 6-8)
+       * </pre>
+       *
+       * <code>uint64 frame_time = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFrameTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        frameTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long stateTime_ ;
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return The stateTime.
+       */
+      @java.lang.Override
+      public long getStateTime() {
+        return stateTime_;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @param value The stateTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateTime(long value) {
+
+        stateTime_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * System monotonic time from state when user performed action
+       * </pre>
+       *
+       * <code>uint64 state_time = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        stateTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.DayCamera.FxROI)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.DayCamera.FxROI)
+    private static final cmd.DayCamera.JonSharedCmdDayCamera.FxROI DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.DayCamera.JonSharedCmdDayCamera.FxROI();
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.FxROI getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FxROI>
+        PARSER = new com.google.protobuf.AbstractParser<FxROI>() {
+      @java.lang.Override
+      public FxROI parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<FxROI> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FxROI> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.FxROI getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -22361,6 +23488,11 @@ public final class JonSharedCmdDayCamera {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_DayCamera_ZoomROI_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_DayCamera_FxROI_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_DayCamera_FxROI_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -22380,7 +23512,7 @@ public final class JonSharedCmdDayCamera {
       "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"7\n\rSetCla" +
       "heLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000" +
       "\000\000\000\000\000\000\000\"9\n\017ShiftClaheLevel\022&\n\005value\030\001 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\344\007\n\004Root\022%\n\005f" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\214\010\n\004Root\022%\n\005f" +
       "ocus\030\001 \001(\0132\024.cmd.DayCamera.FocusH\000\022#\n\004zo" +
       "om\030\002 \001(\0132\023.cmd.DayCamera.ZoomH\000\022*\n\010set_i" +
       "ris\030\003 \001(\0132\026.cmd.DayCamera.SetIrisH\000\022@\n\024s" +
@@ -22405,7 +23537,8 @@ public final class JonSharedCmdDayCamera {
       "ocus_roi\030\022 \001(\0132\027.cmd.DayCamera.FocusROIH" +
       "\000\022,\n\ttrack_roi\030\023 \001(\0132\027.cmd.DayCamera.Tra" +
       "ckROIH\000\022*\n\010zoom_roi\030\024 \001(\0132\026.cmd.DayCamer" +
-      "a.ZoomROIH\000B\014\n\003cmd\022\005\272H\002\010\001\"\010\n\006GetPos\"\014\n\nN" +
+      "a.ZoomROIH\000\022&\n\006fx_roi\030\025 \001(\0132\024.cmd.DayCam" +
+      "era.FxROIH\000B\014\n\003cmd\022\005\272H\002\010\001\"\010\n\006GetPos\"\014\n\nN" +
       "extFxMode\"\014\n\nPrevFxMode\"\017\n\rRefreshFxMode" +
       "\"\t\n\007HaltAll\"?\n\tSetFxMode\0222\n\004mode\030\001 \001(\0162\030" +
       ".ser.JonGuiDataFxModeDayB\n\272H\007\202\001\004\020\001 \000\"4\n\023" +
@@ -22452,9 +23585,14 @@ public final class JonSharedCmdDayCamera {
       "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
       "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
       "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004" +
-      "\022\022\n\nstate_time\030\006 \001(\004BQZOgit-codecommit.e" +
-      "u-central-1.amazonaws.com/v1/repos/jetti" +
-      "son/jonp/cmd/day_camerab\006proto3"
+      "\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030\001 \001" +
+      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H" +
+      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022\022" +
+      "\n\nstate_time\030\006 \001(\004BQZOgit-codecommit.eu-" +
+      "central-1.amazonaws.com/v1/repos/jettiso" +
+      "n/jonp/cmd/day_camerab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -22497,7 +23635,7 @@ public final class JonSharedCmdDayCamera {
     internal_static_cmd_DayCamera_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Root_descriptor,
-        new java.lang.String[] { "Focus", "Zoom", "SetIris", "SetInfraRedFilter", "Start", "Stop", "Photo", "SetAutoIris", "HaltAll", "SetFxMode", "NextFxMode", "PrevFxMode", "GetMeteo", "RefreshFxMode", "SetDigitalZoomLevel", "SetClaheLevel", "ShiftClaheLevel", "FocusRoi", "TrackRoi", "ZoomRoi", "Cmd", });
+        new java.lang.String[] { "Focus", "Zoom", "SetIris", "SetInfraRedFilter", "Start", "Stop", "Photo", "SetAutoIris", "HaltAll", "SetFxMode", "NextFxMode", "PrevFxMode", "GetMeteo", "RefreshFxMode", "SetDigitalZoomLevel", "SetClaheLevel", "ShiftClaheLevel", "FocusRoi", "TrackRoi", "ZoomRoi", "FxRoi", "Cmd", });
     internal_static_cmd_DayCamera_GetPos_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_cmd_DayCamera_GetPos_fieldAccessorTable = new
@@ -22659,6 +23797,12 @@ public final class JonSharedCmdDayCamera {
     internal_static_cmd_DayCamera_ZoomROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_ZoomROI_descriptor,
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
+    internal_static_cmd_DayCamera_FxROI_descriptor =
+      getDescriptor().getMessageTypes().get(33);
+    internal_static_cmd_DayCamera_FxROI_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_DayCamera_FxROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();

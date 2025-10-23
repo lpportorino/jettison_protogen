@@ -61,6 +61,7 @@ type Root struct {
 	//	*Root_FocusRoi
 	//	*Root_TrackRoi
 	//	*Root_ZoomRoi
+	//	*Root_FxRoi
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -409,6 +410,15 @@ func (x *Root) GetZoomRoi() *ZoomROI {
 	return nil
 }
 
+func (x *Root) GetFxRoi() *FxROI {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_FxRoi); ok {
+			return x.FxRoi
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -549,6 +559,10 @@ type Root_ZoomRoi struct {
 	ZoomRoi *ZoomROI `protobuf:"bytes,37,opt,name=zoom_roi,json=zoomRoi,proto3,oneof"`
 }
 
+type Root_FxRoi struct {
+	FxRoi *FxROI `protobuf:"bytes,38,opt,name=fx_roi,json=fxRoi,proto3,oneof"`
+}
+
 func (*Root_Zoom) isRoot_Cmd() {}
 
 func (*Root_SetAgc) isRoot_Cmd() {}
@@ -616,6 +630,8 @@ func (*Root_FocusRoi) isRoot_Cmd() {}
 func (*Root_TrackRoi) isRoot_Cmd() {}
 
 func (*Root_ZoomRoi) isRoot_Cmd() {}
+
+func (*Root_FxRoi) isRoot_Cmd() {}
 
 type SetFxMode struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
@@ -2064,13 +2080,14 @@ func (*SaveToTable) Descriptor() ([]byte, []int) {
 }
 
 type FocusROI struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
-	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
-	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
-	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
-	FrameTime     uint64                 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
-	StateTime     uint64                 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
+	state protoimpl.MessageState `protogen:"open.v1"`
+	X1    float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1    float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
+	X2    float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
+	Y2    float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+	FrameTime     uint64 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
+	StateTime     uint64 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2148,13 +2165,14 @@ func (x *FocusROI) GetStateTime() uint64 {
 }
 
 type TrackROI struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
-	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
-	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
-	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
-	FrameTime     uint64                 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
-	StateTime     uint64                 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
+	state protoimpl.MessageState `protogen:"open.v1"`
+	X1    float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1    float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
+	X2    float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
+	Y2    float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+	FrameTime     uint64 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
+	StateTime     uint64 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2232,13 +2250,14 @@ func (x *TrackROI) GetStateTime() uint64 {
 }
 
 type ZoomROI struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
-	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
-	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
-	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
-	FrameTime     uint64                 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
-	StateTime     uint64                 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
+	state protoimpl.MessageState `protogen:"open.v1"`
+	X1    float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1    float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
+	X2    float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
+	Y2    float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+	FrameTime     uint64 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
+	StateTime     uint64 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2315,11 +2334,96 @@ func (x *ZoomROI) GetStateTime() uint64 {
 	return 0
 }
 
+type FxROI struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	X1    float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1    float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
+	X2    float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
+	Y2    float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+	FrameTime     uint64 `protobuf:"varint,5,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"`
+	StateTime     uint64 `protobuf:"varint,6,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FxROI) Reset() {
+	*x = FxROI{}
+	mi := &file_jon_shared_cmd_heat_camera_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FxROI) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FxROI) ProtoMessage() {}
+
+func (x *FxROI) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heat_camera_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FxROI.ProtoReflect.Descriptor instead.
+func (*FxROI) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heat_camera_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *FxROI) GetX1() float64 {
+	if x != nil {
+		return x.X1
+	}
+	return 0
+}
+
+func (x *FxROI) GetY1() float64 {
+	if x != nil {
+		return x.Y1
+	}
+	return 0
+}
+
+func (x *FxROI) GetX2() float64 {
+	if x != nil {
+		return x.X2
+	}
+	return 0
+}
+
+func (x *FxROI) GetY2() float64 {
+	if x != nil {
+		return x.Y2
+	}
+	return 0
+}
+
+func (x *FxROI) GetFrameTime() uint64 {
+	if x != nil {
+		return x.FrameTime
+	}
+	return 0
+}
+
+func (x *FxROI) GetStateTime() uint64 {
+	if x != nil {
+		return x.StateTime
+	}
+	return 0
+}
+
 var File_jon_shared_cmd_heat_camera_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_cmd_heat_camera.proto\x12\x0ecmd.HeatCamera\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb4\x10\n" +
+	" jon_shared_cmd_heat_camera.proto\x12\x0ecmd.HeatCamera\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xe4\x10\n" +
 	"\x04Root\x12*\n" +
 	"\x04zoom\x18\x01 \x01(\v2\x14.cmd.HeatCamera.ZoomH\x00R\x04zoom\x121\n" +
 	"\aset_agc\x18\x02 \x01(\v2\x16.cmd.HeatCamera.SetAGCH\x00R\x06setAgc\x12;\n" +
@@ -2362,7 +2466,8 @@ const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\x11shift_clahe_level\x18\" \x01(\v2\x1f.cmd.HeatCamera.ShiftClaheLevelH\x00R\x0fshiftClaheLevel\x127\n" +
 	"\tfocus_roi\x18# \x01(\v2\x18.cmd.HeatCamera.FocusROIH\x00R\bfocusRoi\x127\n" +
 	"\ttrack_roi\x18$ \x01(\v2\x18.cmd.HeatCamera.TrackROIH\x00R\btrackRoi\x124\n" +
-	"\bzoom_roi\x18% \x01(\v2\x17.cmd.HeatCamera.ZoomROIH\x00R\azoomRoiB\f\n" +
+	"\bzoom_roi\x18% \x01(\v2\x17.cmd.HeatCamera.ZoomROIH\x00R\azoomRoi\x12.\n" +
+	"\x06fx_roi\x18& \x01(\v2\x15.cmd.HeatCamera.FxROIH\x00R\x05fxRoiB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"F\n" +
 	"\tSetFxMode\x129\n" +
 	"\x04mode\x18\x01 \x01(\x0e2\x19.ser.JonGuiDataFxModeHeatB\n" +
@@ -2451,6 +2556,15 @@ const file_jon_shared_cmd_heat_camera_proto_rawDesc = "" +
 	"\n" +
 	"frame_time\x18\x05 \x01(\x04R\tframeTime\x12\x1d\n" +
 	"\n" +
+	"state_time\x18\x06 \x01(\x04R\tstateTime\"\xe9\x01\n" +
+	"\x05FxROI\x12'\n" +
+	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
+	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +
+	"\x02x2\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x2\x12'\n" +
+	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\x12\x1d\n" +
+	"\n" +
+	"frame_time\x18\x05 \x01(\x04R\tframeTime\x12\x1d\n" +
+	"\n" +
 	"state_time\x18\x06 \x01(\x04R\tstateTimeB\xdc\x01\n" +
 	"\x12com.cmd.HeatCameraB\x1bJonSharedCmdHeatCameraProtoP\x01ZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heat_camera\xa2\x02\x03CHX\xaa\x02\x0eCmd.HeatCamera\xca\x02\x0eCmd\\HeatCamera\xe2\x02\x1aCmd\\HeatCamera\\GPBMetadata\xea\x02\x0fCmd::HeatCamerab\x06proto3"
 
@@ -2466,7 +2580,7 @@ func file_jon_shared_cmd_heat_camera_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_heat_camera_proto_rawDescData
 }
 
-var file_jon_shared_cmd_heat_camera_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
+var file_jon_shared_cmd_heat_camera_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
 var file_jon_shared_cmd_heat_camera_proto_goTypes = []any{
 	(*Root)(nil),                    // 0: cmd.HeatCamera.Root
 	(*SetFxMode)(nil),               // 1: cmd.HeatCamera.SetFxMode
@@ -2508,9 +2622,10 @@ var file_jon_shared_cmd_heat_camera_proto_goTypes = []any{
 	(*FocusROI)(nil),                // 37: cmd.HeatCamera.FocusROI
 	(*TrackROI)(nil),                // 38: cmd.HeatCamera.TrackROI
 	(*ZoomROI)(nil),                 // 39: cmd.HeatCamera.ZoomROI
-	(types.JonGuiDataFxModeHeat)(0), // 40: ser.JonGuiDataFxModeHeat
-	(types.JonGuiDataVideoChannelHeatAGCModes)(0), // 41: ser.JonGuiDataVideoChannelHeatAGCModes
-	(types.JonGuiDataVideoChannelHeatFilters)(0),  // 42: ser.JonGuiDataVideoChannelHeatFilters
+	(*FxROI)(nil),                   // 40: cmd.HeatCamera.FxROI
+	(types.JonGuiDataFxModeHeat)(0), // 41: ser.JonGuiDataFxModeHeat
+	(types.JonGuiDataVideoChannelHeatAGCModes)(0), // 42: ser.JonGuiDataVideoChannelHeatAGCModes
+	(types.JonGuiDataVideoChannelHeatFilters)(0),  // 43: ser.JonGuiDataVideoChannelHeatFilters
 }
 var file_jon_shared_cmd_heat_camera_proto_depIdxs = []int32{
 	22, // 0: cmd.HeatCamera.Root.zoom:type_name -> cmd.HeatCamera.Zoom
@@ -2547,17 +2662,18 @@ var file_jon_shared_cmd_heat_camera_proto_depIdxs = []int32{
 	37, // 31: cmd.HeatCamera.Root.focus_roi:type_name -> cmd.HeatCamera.FocusROI
 	38, // 32: cmd.HeatCamera.Root.track_roi:type_name -> cmd.HeatCamera.TrackROI
 	39, // 33: cmd.HeatCamera.Root.zoom_roi:type_name -> cmd.HeatCamera.ZoomROI
-	40, // 34: cmd.HeatCamera.SetFxMode.mode:type_name -> ser.JonGuiDataFxModeHeat
-	26, // 35: cmd.HeatCamera.Zoom.set_zoom_table_value:type_name -> cmd.HeatCamera.SetZoomTableValue
-	23, // 36: cmd.HeatCamera.Zoom.next_zoom_table_pos:type_name -> cmd.HeatCamera.NextZoomTablePos
-	24, // 37: cmd.HeatCamera.Zoom.prev_zoom_table_pos:type_name -> cmd.HeatCamera.PrevZoomTablePos
-	41, // 38: cmd.HeatCamera.SetAGC.value:type_name -> ser.JonGuiDataVideoChannelHeatAGCModes
-	42, // 39: cmd.HeatCamera.SetFilters.value:type_name -> ser.JonGuiDataVideoChannelHeatFilters
-	40, // [40:40] is the sub-list for method output_type
-	40, // [40:40] is the sub-list for method input_type
-	40, // [40:40] is the sub-list for extension type_name
-	40, // [40:40] is the sub-list for extension extendee
-	0,  // [0:40] is the sub-list for field type_name
+	40, // 34: cmd.HeatCamera.Root.fx_roi:type_name -> cmd.HeatCamera.FxROI
+	41, // 35: cmd.HeatCamera.SetFxMode.mode:type_name -> ser.JonGuiDataFxModeHeat
+	26, // 36: cmd.HeatCamera.Zoom.set_zoom_table_value:type_name -> cmd.HeatCamera.SetZoomTableValue
+	23, // 37: cmd.HeatCamera.Zoom.next_zoom_table_pos:type_name -> cmd.HeatCamera.NextZoomTablePos
+	24, // 38: cmd.HeatCamera.Zoom.prev_zoom_table_pos:type_name -> cmd.HeatCamera.PrevZoomTablePos
+	42, // 39: cmd.HeatCamera.SetAGC.value:type_name -> ser.JonGuiDataVideoChannelHeatAGCModes
+	43, // 40: cmd.HeatCamera.SetFilters.value:type_name -> ser.JonGuiDataVideoChannelHeatFilters
+	41, // [41:41] is the sub-list for method output_type
+	41, // [41:41] is the sub-list for method input_type
+	41, // [41:41] is the sub-list for extension type_name
+	41, // [41:41] is the sub-list for extension extendee
+	0,  // [0:41] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_heat_camera_proto_init() }
@@ -2600,6 +2716,7 @@ func file_jon_shared_cmd_heat_camera_proto_init() {
 		(*Root_FocusRoi)(nil),
 		(*Root_TrackRoi)(nil),
 		(*Root_ZoomRoi)(nil),
+		(*Root_FxRoi)(nil),
 	}
 	file_jon_shared_cmd_heat_camera_proto_msgTypes[22].OneofWrappers = []any{
 		(*Zoom_SetZoomTableValue)(nil),
@@ -2612,7 +2729,7 @@ func file_jon_shared_cmd_heat_camera_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_heat_camera_proto_rawDesc), len(file_jon_shared_cmd_heat_camera_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   40,
+			NumMessages:   41,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

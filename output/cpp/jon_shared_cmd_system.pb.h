@@ -79,6 +79,9 @@ extern ResetConfigsDefaultTypeInternal _ResetConfigs_default_instance_;
 class Root;
 struct RootDefaultTypeInternal;
 extern RootDefaultTypeInternal _Root_default_instance_;
+class SaveFactoryDefaults;
+struct SaveFactoryDefaultsDefaultTypeInternal;
+extern SaveFactoryDefaultsDefaultTypeInternal _SaveFactoryDefaults_default_instance_;
 class SetLocalization;
 struct SetLocalizationDefaultTypeInternal;
 extern SetLocalizationDefaultTypeInternal _SetLocalization_default_instance_;
@@ -97,6 +100,9 @@ extern StopRecDefaultTypeInternal _StopRec_default_instance_;
 class UnmarkRecImportant;
 struct UnmarkRecImportantDefaultTypeInternal;
 extern UnmarkRecImportantDefaultTypeInternal _UnmarkRecImportant_default_instance_;
+class WipeUserData;
+struct WipeUserDataDefaultTypeInternal;
+extern WipeUserDataDefaultTypeInternal _WipeUserData_default_instance_;
 }  // namespace System
 }  // namespace cmd
 namespace google {
@@ -110,6 +116,151 @@ namespace System {
 // ===================================================================
 
 
+// -------------------------------------------------------------------
+
+class WipeUserData final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.System.WipeUserData) */ {
+ public:
+  inline WipeUserData() : WipeUserData(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(WipeUserData* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(WipeUserData));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR WipeUserData(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline WipeUserData(const WipeUserData& from) : WipeUserData(nullptr, from) {}
+  inline WipeUserData(WipeUserData&& from) noexcept
+      : WipeUserData(nullptr, std::move(from)) {}
+  inline WipeUserData& operator=(const WipeUserData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline WipeUserData& operator=(WipeUserData&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const WipeUserData& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const WipeUserData* internal_default_instance() {
+    return reinterpret_cast<const WipeUserData*>(
+        &_WipeUserData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(WipeUserData& a, WipeUserData& b) { a.Swap(&b); }
+  inline void Swap(WipeUserData* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(WipeUserData* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  WipeUserData* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<WipeUserData>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const WipeUserData& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const WipeUserData& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.WipeUserData"; }
+
+ protected:
+  explicit WipeUserData(::google::protobuf::Arena* arena);
+  WipeUserData(::google::protobuf::Arena* arena, const WipeUserData& from);
+  WipeUserData(::google::protobuf::Arena* arena, WipeUserData&& from) noexcept
+      : WipeUserData(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.System.WipeUserData)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const WipeUserData& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
 // -------------------------------------------------------------------
 
 class UnmarkRecImportant final : public ::google::protobuf::internal::ZeroFieldsBase
@@ -170,7 +321,7 @@ class UnmarkRecImportant final : public ::google::protobuf::internal::ZeroFields
     return reinterpret_cast<const UnmarkRecImportant*>(
         &_UnmarkRecImportant_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(UnmarkRecImportant& a, UnmarkRecImportant& b) { a.Swap(&b); }
   inline void Swap(UnmarkRecImportant* other) {
     if (other == this) return;
@@ -315,7 +466,7 @@ class StopRec final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const StopRec*>(
         &_StopRec_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(StopRec& a, StopRec& b) { a.Swap(&b); }
   inline void Swap(StopRec* other) {
     if (other == this) return;
@@ -605,7 +756,7 @@ class StartRec final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const StartRec*>(
         &_StartRec_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(StartRec& a, StartRec& b) { a.Swap(&b); }
   inline void Swap(StartRec* other) {
     if (other == this) return;
@@ -896,7 +1047,7 @@ class SetLocalization final : public ::google::protobuf::Message
     return reinterpret_cast<const SetLocalization*>(
         &_SetLocalization_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(SetLocalization& a, SetLocalization& b) { a.Swap(&b); }
   inline void Swap(SetLocalization* other) {
     if (other == this) return;
@@ -1023,6 +1174,151 @@ class SetLocalization final : public ::google::protobuf::Message
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SaveFactoryDefaults final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.System.SaveFactoryDefaults) */ {
+ public:
+  inline SaveFactoryDefaults() : SaveFactoryDefaults(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SaveFactoryDefaults* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SaveFactoryDefaults));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SaveFactoryDefaults(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SaveFactoryDefaults(const SaveFactoryDefaults& from) : SaveFactoryDefaults(nullptr, from) {}
+  inline SaveFactoryDefaults(SaveFactoryDefaults&& from) noexcept
+      : SaveFactoryDefaults(nullptr, std::move(from)) {}
+  inline SaveFactoryDefaults& operator=(const SaveFactoryDefaults& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SaveFactoryDefaults& operator=(SaveFactoryDefaults&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SaveFactoryDefaults& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SaveFactoryDefaults* internal_default_instance() {
+    return reinterpret_cast<const SaveFactoryDefaults*>(
+        &_SaveFactoryDefaults_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 6;
+  friend void swap(SaveFactoryDefaults& a, SaveFactoryDefaults& b) { a.Swap(&b); }
+  inline void Swap(SaveFactoryDefaults* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SaveFactoryDefaults* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SaveFactoryDefaults* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<SaveFactoryDefaults>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const SaveFactoryDefaults& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const SaveFactoryDefaults& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.SaveFactoryDefaults"; }
+
+ protected:
+  explicit SaveFactoryDefaults(::google::protobuf::Arena* arena);
+  SaveFactoryDefaults(::google::protobuf::Arena* arena, const SaveFactoryDefaults& from);
+  SaveFactoryDefaults(::google::protobuf::Arena* arena, SaveFactoryDefaults&& from) noexcept
+      : SaveFactoryDefaults(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.System.SaveFactoryDefaults)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SaveFactoryDefaults& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1520,7 +1816,7 @@ class MarkRecImportant final : public ::google::protobuf::internal::ZeroFieldsBa
     return reinterpret_cast<const MarkRecImportant*>(
         &_MarkRecImportant_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(MarkRecImportant& a, MarkRecImportant& b) { a.Swap(&b); }
   inline void Swap(MarkRecImportant* other) {
     if (other == this) return;
@@ -1665,7 +1961,7 @@ class EnterTransport final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const EnterTransport*>(
         &_EnterTransport_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 12;
   friend void swap(EnterTransport& a, EnterTransport& b) { a.Swap(&b); }
   inline void Swap(EnterTransport* other) {
     if (other == this) return;
@@ -1810,7 +2106,7 @@ class EnableGeodesicMode final : public ::google::protobuf::internal::ZeroFields
     return reinterpret_cast<const EnableGeodesicMode*>(
         &_EnableGeodesicMode_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(EnableGeodesicMode& a, EnableGeodesicMode& b) { a.Swap(&b); }
   inline void Swap(EnableGeodesicMode* other) {
     if (other == this) return;
@@ -1955,7 +2251,7 @@ class DisableGeodesicMode final : public ::google::protobuf::internal::ZeroField
     return reinterpret_cast<const DisableGeodesicMode*>(
         &_DisableGeodesicMode_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(DisableGeodesicMode& a, DisableGeodesicMode& b) { a.Swap(&b); }
   inline void Swap(DisableGeodesicMode* other) {
     if (other == this) return;
@@ -2111,6 +2407,8 @@ class Root final : public ::google::protobuf::Message
     kEnterTransport = 11,
     kGeodesicModeEnable = 12,
     kGeodesicModeDisable = 13,
+    kSaveFactoryDefaults = 14,
+    kWipeUserData = 15,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -2217,6 +2515,8 @@ class Root final : public ::google::protobuf::Message
     kEnterTransportFieldNumber = 11,
     kGeodesicModeEnableFieldNumber = 12,
     kGeodesicModeDisableFieldNumber = 13,
+    kSaveFactoryDefaultsFieldNumber = 14,
+    kWipeUserDataFieldNumber = 15,
   };
   // .cmd.System.StartALl start_all = 1;
   bool has_start_all() const;
@@ -2465,6 +2765,44 @@ class Root final : public ::google::protobuf::Message
   ::cmd::System::DisableGeodesicMode* _internal_mutable_geodesic_mode_disable();
 
   public:
+  // .cmd.System.SaveFactoryDefaults save_factory_defaults = 14;
+  bool has_save_factory_defaults() const;
+  private:
+  bool _internal_has_save_factory_defaults() const;
+
+  public:
+  void clear_save_factory_defaults() ;
+  const ::cmd::System::SaveFactoryDefaults& save_factory_defaults() const;
+  PROTOBUF_NODISCARD ::cmd::System::SaveFactoryDefaults* release_save_factory_defaults();
+  ::cmd::System::SaveFactoryDefaults* mutable_save_factory_defaults();
+  void set_allocated_save_factory_defaults(::cmd::System::SaveFactoryDefaults* value);
+  void unsafe_arena_set_allocated_save_factory_defaults(::cmd::System::SaveFactoryDefaults* value);
+  ::cmd::System::SaveFactoryDefaults* unsafe_arena_release_save_factory_defaults();
+
+  private:
+  const ::cmd::System::SaveFactoryDefaults& _internal_save_factory_defaults() const;
+  ::cmd::System::SaveFactoryDefaults* _internal_mutable_save_factory_defaults();
+
+  public:
+  // .cmd.System.WipeUserData wipe_user_data = 15;
+  bool has_wipe_user_data() const;
+  private:
+  bool _internal_has_wipe_user_data() const;
+
+  public:
+  void clear_wipe_user_data() ;
+  const ::cmd::System::WipeUserData& wipe_user_data() const;
+  PROTOBUF_NODISCARD ::cmd::System::WipeUserData* release_wipe_user_data();
+  ::cmd::System::WipeUserData* mutable_wipe_user_data();
+  void set_allocated_wipe_user_data(::cmd::System::WipeUserData* value);
+  void unsafe_arena_set_allocated_wipe_user_data(::cmd::System::WipeUserData* value);
+  ::cmd::System::WipeUserData* unsafe_arena_release_wipe_user_data();
+
+  private:
+  const ::cmd::System::WipeUserData& _internal_wipe_user_data() const;
+  ::cmd::System::WipeUserData* _internal_mutable_wipe_user_data();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.System.Root)
@@ -2483,11 +2821,13 @@ class Root final : public ::google::protobuf::Message
   void set_has_enter_transport();
   void set_has_geodesic_mode_enable();
   void set_has_geodesic_mode_disable();
+  void set_has_save_factory_defaults();
+  void set_has_wipe_user_data();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 13, 13,
+      0, 15, 15,
       0, 2>
       _table_;
 
@@ -2521,6 +2861,8 @@ class Root final : public ::google::protobuf::Message
       ::cmd::System::EnterTransport* enter_transport_;
       ::cmd::System::EnableGeodesicMode* geodesic_mode_enable_;
       ::cmd::System::DisableGeodesicMode* geodesic_mode_disable_;
+      ::cmd::System::SaveFactoryDefaults* save_factory_defaults_;
+      ::cmd::System::WipeUserData* wipe_user_data_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -3573,6 +3915,164 @@ inline ::cmd::System::DisableGeodesicMode* Root::mutable_geodesic_mode_disable()
   return _msg;
 }
 
+// .cmd.System.SaveFactoryDefaults save_factory_defaults = 14;
+inline bool Root::has_save_factory_defaults() const {
+  return cmd_case() == kSaveFactoryDefaults;
+}
+inline bool Root::_internal_has_save_factory_defaults() const {
+  return cmd_case() == kSaveFactoryDefaults;
+}
+inline void Root::set_has_save_factory_defaults() {
+  _impl_._oneof_case_[0] = kSaveFactoryDefaults;
+}
+inline void Root::clear_save_factory_defaults() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kSaveFactoryDefaults) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.save_factory_defaults_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.save_factory_defaults_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::SaveFactoryDefaults* Root::release_save_factory_defaults() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.save_factory_defaults)
+  if (cmd_case() == kSaveFactoryDefaults) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.save_factory_defaults_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.save_factory_defaults_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::SaveFactoryDefaults& Root::_internal_save_factory_defaults() const {
+  return cmd_case() == kSaveFactoryDefaults ? *_impl_.cmd_.save_factory_defaults_ : reinterpret_cast<::cmd::System::SaveFactoryDefaults&>(::cmd::System::_SaveFactoryDefaults_default_instance_);
+}
+inline const ::cmd::System::SaveFactoryDefaults& Root::save_factory_defaults() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.save_factory_defaults)
+  return _internal_save_factory_defaults();
+}
+inline ::cmd::System::SaveFactoryDefaults* Root::unsafe_arena_release_save_factory_defaults() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.save_factory_defaults)
+  if (cmd_case() == kSaveFactoryDefaults) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.save_factory_defaults_;
+    _impl_.cmd_.save_factory_defaults_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_save_factory_defaults(::cmd::System::SaveFactoryDefaults* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_save_factory_defaults();
+    _impl_.cmd_.save_factory_defaults_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.save_factory_defaults)
+}
+inline ::cmd::System::SaveFactoryDefaults* Root::_internal_mutable_save_factory_defaults() {
+  if (cmd_case() != kSaveFactoryDefaults) {
+    clear_cmd();
+    set_has_save_factory_defaults();
+    _impl_.cmd_.save_factory_defaults_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::SaveFactoryDefaults>(GetArena());
+  }
+  return _impl_.cmd_.save_factory_defaults_;
+}
+inline ::cmd::System::SaveFactoryDefaults* Root::mutable_save_factory_defaults() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::SaveFactoryDefaults* _msg = _internal_mutable_save_factory_defaults();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.save_factory_defaults)
+  return _msg;
+}
+
+// .cmd.System.WipeUserData wipe_user_data = 15;
+inline bool Root::has_wipe_user_data() const {
+  return cmd_case() == kWipeUserData;
+}
+inline bool Root::_internal_has_wipe_user_data() const {
+  return cmd_case() == kWipeUserData;
+}
+inline void Root::set_has_wipe_user_data() {
+  _impl_._oneof_case_[0] = kWipeUserData;
+}
+inline void Root::clear_wipe_user_data() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kWipeUserData) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.wipe_user_data_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.wipe_user_data_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::WipeUserData* Root::release_wipe_user_data() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.wipe_user_data)
+  if (cmd_case() == kWipeUserData) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.wipe_user_data_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.wipe_user_data_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::WipeUserData& Root::_internal_wipe_user_data() const {
+  return cmd_case() == kWipeUserData ? *_impl_.cmd_.wipe_user_data_ : reinterpret_cast<::cmd::System::WipeUserData&>(::cmd::System::_WipeUserData_default_instance_);
+}
+inline const ::cmd::System::WipeUserData& Root::wipe_user_data() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.wipe_user_data)
+  return _internal_wipe_user_data();
+}
+inline ::cmd::System::WipeUserData* Root::unsafe_arena_release_wipe_user_data() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.wipe_user_data)
+  if (cmd_case() == kWipeUserData) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.wipe_user_data_;
+    _impl_.cmd_.wipe_user_data_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_wipe_user_data(::cmd::System::WipeUserData* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_wipe_user_data();
+    _impl_.cmd_.wipe_user_data_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.wipe_user_data)
+}
+inline ::cmd::System::WipeUserData* Root::_internal_mutable_wipe_user_data() {
+  if (cmd_case() != kWipeUserData) {
+    clear_cmd();
+    set_has_wipe_user_data();
+    _impl_.cmd_.wipe_user_data_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::WipeUserData>(GetArena());
+  }
+  return _impl_.cmd_.wipe_user_data_;
+}
+inline ::cmd::System::WipeUserData* Root::mutable_wipe_user_data() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::WipeUserData* _msg = _internal_mutable_wipe_user_data();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.wipe_user_data)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -3601,6 +4101,14 @@ inline Root::CmdCase Root::cmd_case() const {
 // -------------------------------------------------------------------
 
 // ResetConfigs
+
+// -------------------------------------------------------------------
+
+// SaveFactoryDefaults
+
+// -------------------------------------------------------------------
+
+// WipeUserData
 
 // -------------------------------------------------------------------
 

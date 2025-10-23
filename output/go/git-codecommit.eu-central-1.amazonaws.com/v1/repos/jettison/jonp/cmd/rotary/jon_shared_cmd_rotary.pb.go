@@ -2434,12 +2434,13 @@ func (x *SetOriginGPS) GetAltitude() float64 {
 }
 
 type RotateToNDC struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Channel       types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
-	X             float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y             float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
-	FrameTime     uint64                       `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"` // Video frame timestamp
-	StateTime     uint64                       `protobuf:"varint,5,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
+	state   protoimpl.MessageState       `protogen:"open.v1"`
+	Channel types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
+	X       float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
+	Y       float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
+	// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+	FrameTime     uint64 `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"` // Video frame timestamp
+	StateTime     uint64 `protobuf:"varint,5,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when user performed action
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2510,12 +2511,13 @@ func (x *RotateToNDC) GetStateTime() uint64 {
 }
 
 type HaltWithNDC struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Channel       types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
-	X             float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y             float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
-	FrameTime     uint64                       `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"` // Video frame timestamp at gesture end
-	StateTime     uint64                       `protobuf:"varint,5,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when gesture ended
+	state   protoimpl.MessageState       `protogen:"open.v1"`
+	Channel types.JonGuiDataVideoChannel `protobuf:"varint,1,opt,name=channel,proto3,enum=ser.JonGuiDataVideoChannel" json:"channel,omitempty"`
+	X       float64                      `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"`
+	Y       float64                      `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"`
+	// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+	FrameTime     uint64 `protobuf:"varint,4,opt,name=frame_time,json=frameTime,proto3" json:"frame_time,omitempty"` // Video frame timestamp at gesture end
+	StateTime     uint64 `protobuf:"varint,5,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time from state when gesture ended
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

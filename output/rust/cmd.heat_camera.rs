@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37"
+        tags = "1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -79,6 +79,8 @@ pub mod root {
         TrackRoi(super::TrackRoi),
         #[prost(message, tag = "37")]
         ZoomRoi(super::ZoomRoi),
+        #[prost(message, tag = "38")]
+        FxRoi(super::FxRoi),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -217,6 +219,7 @@ pub struct FocusRoi {
     pub x2: f64,
     #[prost(double, tag = "4")]
     pub y2: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
     #[prost(uint64, tag = "5")]
     pub frame_time: u64,
     /// System monotonic time from state when user performed action
@@ -233,6 +236,7 @@ pub struct TrackRoi {
     pub x2: f64,
     #[prost(double, tag = "4")]
     pub y2: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
     #[prost(uint64, tag = "5")]
     pub frame_time: u64,
     /// System monotonic time from state when user performed action
@@ -249,6 +253,24 @@ pub struct ZoomRoi {
     pub x2: f64,
     #[prost(double, tag = "4")]
     pub y2: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+    #[prost(uint64, tag = "5")]
+    pub frame_time: u64,
+    /// System monotonic time from state when user performed action
+    #[prost(uint64, tag = "6")]
+    pub state_time: u64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct FxRoi {
+    #[prost(double, tag = "1")]
+    pub x1: f64,
+    #[prost(double, tag = "2")]
+    pub y1: f64,
+    #[prost(double, tag = "3")]
+    pub x2: f64,
+    #[prost(double, tag = "4")]
+    pub y2: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
     #[prost(uint64, tag = "5")]
     pub frame_time: u64,
     /// System monotonic time from state when user performed action

@@ -224,6 +224,36 @@ public final class JonSharedCmdSystem {
      */
     cmd.System.JonSharedCmdSystem.DisableGeodesicModeOrBuilder getGeodesicModeDisableOrBuilder();
 
+    /**
+     * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+     * @return Whether the saveFactoryDefaults field is set.
+     */
+    boolean hasSaveFactoryDefaults();
+    /**
+     * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+     * @return The saveFactoryDefaults.
+     */
+    cmd.System.JonSharedCmdSystem.SaveFactoryDefaults getSaveFactoryDefaults();
+    /**
+     * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+     */
+    cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder getSaveFactoryDefaultsOrBuilder();
+
+    /**
+     * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+     * @return Whether the wipeUserData field is set.
+     */
+    boolean hasWipeUserData();
+    /**
+     * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+     * @return The wipeUserData.
+     */
+    cmd.System.JonSharedCmdSystem.WipeUserData getWipeUserData();
+    /**
+     * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+     */
+    cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder getWipeUserDataOrBuilder();
+
     cmd.System.JonSharedCmdSystem.Root.CmdCase getCmdCase();
   }
   /**
@@ -282,6 +312,8 @@ public final class JonSharedCmdSystem {
       ENTER_TRANSPORT(11),
       GEODESIC_MODE_ENABLE(12),
       GEODESIC_MODE_DISABLE(13),
+      SAVE_FACTORY_DEFAULTS(14),
+      WIPE_USER_DATA(15),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -312,6 +344,8 @@ public final class JonSharedCmdSystem {
           case 11: return ENTER_TRANSPORT;
           case 12: return GEODESIC_MODE_ENABLE;
           case 13: return GEODESIC_MODE_DISABLE;
+          case 14: return SAVE_FACTORY_DEFAULTS;
+          case 15: return WIPE_USER_DATA;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -730,6 +764,68 @@ public final class JonSharedCmdSystem {
       return cmd.System.JonSharedCmdSystem.DisableGeodesicMode.getDefaultInstance();
     }
 
+    public static final int SAVE_FACTORY_DEFAULTS_FIELD_NUMBER = 14;
+    /**
+     * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+     * @return Whether the saveFactoryDefaults field is set.
+     */
+    @java.lang.Override
+    public boolean hasSaveFactoryDefaults() {
+      return cmdCase_ == 14;
+    }
+    /**
+     * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+     * @return The saveFactoryDefaults.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults getSaveFactoryDefaults() {
+      if (cmdCase_ == 14) {
+         return (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder getSaveFactoryDefaultsOrBuilder() {
+      if (cmdCase_ == 14) {
+         return (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+    }
+
+    public static final int WIPE_USER_DATA_FIELD_NUMBER = 15;
+    /**
+     * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+     * @return Whether the wipeUserData field is set.
+     */
+    @java.lang.Override
+    public boolean hasWipeUserData() {
+      return cmdCase_ == 15;
+    }
+    /**
+     * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+     * @return The wipeUserData.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.WipeUserData getWipeUserData() {
+      if (cmdCase_ == 15) {
+         return (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder getWipeUserDataOrBuilder() {
+      if (cmdCase_ == 15) {
+         return (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -782,6 +878,12 @@ public final class JonSharedCmdSystem {
       }
       if (cmdCase_ == 13) {
         output.writeMessage(13, (cmd.System.JonSharedCmdSystem.DisableGeodesicMode) cmd_);
+      }
+      if (cmdCase_ == 14) {
+        output.writeMessage(14, (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_);
+      }
+      if (cmdCase_ == 15) {
+        output.writeMessage(15, (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -843,6 +945,14 @@ public final class JonSharedCmdSystem {
       if (cmdCase_ == 13) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(13, (cmd.System.JonSharedCmdSystem.DisableGeodesicMode) cmd_);
+      }
+      if (cmdCase_ == 14) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_);
+      }
+      if (cmdCase_ == 15) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -913,6 +1023,14 @@ public final class JonSharedCmdSystem {
           if (!getGeodesicModeDisable()
               .equals(other.getGeodesicModeDisable())) return false;
           break;
+        case 14:
+          if (!getSaveFactoryDefaults()
+              .equals(other.getSaveFactoryDefaults())) return false;
+          break;
+        case 15:
+          if (!getWipeUserData()
+              .equals(other.getWipeUserData())) return false;
+          break;
         case 0:
         default:
       }
@@ -979,6 +1097,14 @@ public final class JonSharedCmdSystem {
         case 13:
           hash = (37 * hash) + GEODESIC_MODE_DISABLE_FIELD_NUMBER;
           hash = (53 * hash) + getGeodesicModeDisable().hashCode();
+          break;
+        case 14:
+          hash = (37 * hash) + SAVE_FACTORY_DEFAULTS_FIELD_NUMBER;
+          hash = (53 * hash) + getSaveFactoryDefaults().hashCode();
+          break;
+        case 15:
+          hash = (37 * hash) + WIPE_USER_DATA_FIELD_NUMBER;
+          hash = (53 * hash) + getWipeUserData().hashCode();
           break;
         case 0:
         default:
@@ -1153,6 +1279,12 @@ public final class JonSharedCmdSystem {
         if (geodesicModeDisableBuilder_ != null) {
           geodesicModeDisableBuilder_.clear();
         }
+        if (saveFactoryDefaultsBuilder_ != null) {
+          saveFactoryDefaultsBuilder_.clear();
+        }
+        if (wipeUserDataBuilder_ != null) {
+          wipeUserDataBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1246,6 +1378,14 @@ public final class JonSharedCmdSystem {
             geodesicModeDisableBuilder_ != null) {
           result.cmd_ = geodesicModeDisableBuilder_.build();
         }
+        if (cmdCase_ == 14 &&
+            saveFactoryDefaultsBuilder_ != null) {
+          result.cmd_ = saveFactoryDefaultsBuilder_.build();
+        }
+        if (cmdCase_ == 15 &&
+            wipeUserDataBuilder_ != null) {
+          result.cmd_ = wipeUserDataBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -1311,6 +1451,14 @@ public final class JonSharedCmdSystem {
           }
           case GEODESIC_MODE_DISABLE: {
             mergeGeodesicModeDisable(other.getGeodesicModeDisable());
+            break;
+          }
+          case SAVE_FACTORY_DEFAULTS: {
+            mergeSaveFactoryDefaults(other.getSaveFactoryDefaults());
+            break;
+          }
+          case WIPE_USER_DATA: {
+            mergeWipeUserData(other.getWipeUserData());
             break;
           }
           case CMD_NOT_SET: {
@@ -1434,6 +1582,20 @@ public final class JonSharedCmdSystem {
                 cmdCase_ = 13;
                 break;
               } // case 106
+              case 114: {
+                input.readMessage(
+                    getSaveFactoryDefaultsFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 14;
+                break;
+              } // case 114
+              case 122: {
+                input.readMessage(
+                    getWipeUserDataFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 15;
+                break;
+              } // case 122
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3312,6 +3474,290 @@ public final class JonSharedCmdSystem {
         return geodesicModeDisableBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.SaveFactoryDefaults, cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder, cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder> saveFactoryDefaultsBuilder_;
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       * @return Whether the saveFactoryDefaults field is set.
+       */
+      @java.lang.Override
+      public boolean hasSaveFactoryDefaults() {
+        return cmdCase_ == 14;
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       * @return The saveFactoryDefaults.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults getSaveFactoryDefaults() {
+        if (saveFactoryDefaultsBuilder_ == null) {
+          if (cmdCase_ == 14) {
+            return (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 14) {
+            return saveFactoryDefaultsBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      public Builder setSaveFactoryDefaults(cmd.System.JonSharedCmdSystem.SaveFactoryDefaults value) {
+        if (saveFactoryDefaultsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          saveFactoryDefaultsBuilder_.setMessage(value);
+        }
+        cmdCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      public Builder setSaveFactoryDefaults(
+          cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder builderForValue) {
+        if (saveFactoryDefaultsBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          saveFactoryDefaultsBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      public Builder mergeSaveFactoryDefaults(cmd.System.JonSharedCmdSystem.SaveFactoryDefaults value) {
+        if (saveFactoryDefaultsBuilder_ == null) {
+          if (cmdCase_ == 14 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.newBuilder((cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 14) {
+            saveFactoryDefaultsBuilder_.mergeFrom(value);
+          } else {
+            saveFactoryDefaultsBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 14;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      public Builder clearSaveFactoryDefaults() {
+        if (saveFactoryDefaultsBuilder_ == null) {
+          if (cmdCase_ == 14) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 14) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          saveFactoryDefaultsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder getSaveFactoryDefaultsBuilder() {
+        return getSaveFactoryDefaultsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder getSaveFactoryDefaultsOrBuilder() {
+        if ((cmdCase_ == 14) && (saveFactoryDefaultsBuilder_ != null)) {
+          return saveFactoryDefaultsBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 14) {
+            return (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.SaveFactoryDefaults save_factory_defaults = 14;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.SaveFactoryDefaults, cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder, cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder> 
+          getSaveFactoryDefaultsFieldBuilder() {
+        if (saveFactoryDefaultsBuilder_ == null) {
+          if (!(cmdCase_ == 14)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+          }
+          saveFactoryDefaultsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.SaveFactoryDefaults, cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder, cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 14;
+        onChanged();
+        return saveFactoryDefaultsBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.WipeUserData, cmd.System.JonSharedCmdSystem.WipeUserData.Builder, cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder> wipeUserDataBuilder_;
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       * @return Whether the wipeUserData field is set.
+       */
+      @java.lang.Override
+      public boolean hasWipeUserData() {
+        return cmdCase_ == 15;
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       * @return The wipeUserData.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.WipeUserData getWipeUserData() {
+        if (wipeUserDataBuilder_ == null) {
+          if (cmdCase_ == 15) {
+            return (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 15) {
+            return wipeUserDataBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      public Builder setWipeUserData(cmd.System.JonSharedCmdSystem.WipeUserData value) {
+        if (wipeUserDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          wipeUserDataBuilder_.setMessage(value);
+        }
+        cmdCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      public Builder setWipeUserData(
+          cmd.System.JonSharedCmdSystem.WipeUserData.Builder builderForValue) {
+        if (wipeUserDataBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          wipeUserDataBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      public Builder mergeWipeUserData(cmd.System.JonSharedCmdSystem.WipeUserData value) {
+        if (wipeUserDataBuilder_ == null) {
+          if (cmdCase_ == 15 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.WipeUserData.newBuilder((cmd.System.JonSharedCmdSystem.WipeUserData) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 15) {
+            wipeUserDataBuilder_.mergeFrom(value);
+          } else {
+            wipeUserDataBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 15;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      public Builder clearWipeUserData() {
+        if (wipeUserDataBuilder_ == null) {
+          if (cmdCase_ == 15) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 15) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          wipeUserDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.WipeUserData.Builder getWipeUserDataBuilder() {
+        return getWipeUserDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder getWipeUserDataOrBuilder() {
+        if ((cmdCase_ == 15) && (wipeUserDataBuilder_ != null)) {
+          return wipeUserDataBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 15) {
+            return (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.WipeUserData wipe_user_data = 15;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.WipeUserData, cmd.System.JonSharedCmdSystem.WipeUserData.Builder, cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder> 
+          getWipeUserDataFieldBuilder() {
+        if (wipeUserDataBuilder_ == null) {
+          if (!(cmdCase_ == 15)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+          }
+          wipeUserDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.WipeUserData, cmd.System.JonSharedCmdSystem.WipeUserData.Builder, cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 15;
+        onChanged();
+        return wipeUserDataBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:cmd.System.Root)
     }
 
@@ -5133,6 +5579,716 @@ public final class JonSharedCmdSystem {
 
     @java.lang.Override
     public cmd.System.JonSharedCmdSystem.ResetConfigs getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SaveFactoryDefaultsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.SaveFactoryDefaults)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.System.SaveFactoryDefaults}
+   */
+  public static final class SaveFactoryDefaults extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.SaveFactoryDefaults)
+      SaveFactoryDefaultsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SaveFactoryDefaults.class.getName());
+    }
+    // Use SaveFactoryDefaults.newBuilder() to construct.
+    private SaveFactoryDefaults(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SaveFactoryDefaults() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SaveFactoryDefaults_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SaveFactoryDefaults_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.class, cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.SaveFactoryDefaults)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.SaveFactoryDefaults other = (cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.SaveFactoryDefaults prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.SaveFactoryDefaults}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.SaveFactoryDefaults)
+        cmd.System.JonSharedCmdSystem.SaveFactoryDefaultsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SaveFactoryDefaults_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SaveFactoryDefaults_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.class, cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SaveFactoryDefaults_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults build() {
+        cmd.System.JonSharedCmdSystem.SaveFactoryDefaults result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults buildPartial() {
+        cmd.System.JonSharedCmdSystem.SaveFactoryDefaults result = new cmd.System.JonSharedCmdSystem.SaveFactoryDefaults(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.SaveFactoryDefaults) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.SaveFactoryDefaults)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.SaveFactoryDefaults other) {
+        if (other == cmd.System.JonSharedCmdSystem.SaveFactoryDefaults.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.SaveFactoryDefaults)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.SaveFactoryDefaults)
+    private static final cmd.System.JonSharedCmdSystem.SaveFactoryDefaults DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.SaveFactoryDefaults();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SaveFactoryDefaults getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SaveFactoryDefaults>
+        PARSER = new com.google.protobuf.AbstractParser<SaveFactoryDefaults>() {
+      @java.lang.Override
+      public SaveFactoryDefaults parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SaveFactoryDefaults> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SaveFactoryDefaults> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SaveFactoryDefaults getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface WipeUserDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.WipeUserData)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.System.WipeUserData}
+   */
+  public static final class WipeUserData extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.WipeUserData)
+      WipeUserDataOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        WipeUserData.class.getName());
+    }
+    // Use WipeUserData.newBuilder() to construct.
+    private WipeUserData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private WipeUserData() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_WipeUserData_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_WipeUserData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.WipeUserData.class, cmd.System.JonSharedCmdSystem.WipeUserData.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.WipeUserData)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.WipeUserData other = (cmd.System.JonSharedCmdSystem.WipeUserData) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.WipeUserData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.WipeUserData prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.WipeUserData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.WipeUserData)
+        cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_WipeUserData_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_WipeUserData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.WipeUserData.class, cmd.System.JonSharedCmdSystem.WipeUserData.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.WipeUserData.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_WipeUserData_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.WipeUserData getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.WipeUserData build() {
+        cmd.System.JonSharedCmdSystem.WipeUserData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.WipeUserData buildPartial() {
+        cmd.System.JonSharedCmdSystem.WipeUserData result = new cmd.System.JonSharedCmdSystem.WipeUserData(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.WipeUserData) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.WipeUserData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.WipeUserData other) {
+        if (other == cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.WipeUserData)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.WipeUserData)
+    private static final cmd.System.JonSharedCmdSystem.WipeUserData DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.WipeUserData();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.WipeUserData getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<WipeUserData>
+        PARSER = new com.google.protobuf.AbstractParser<WipeUserData>() {
+      @java.lang.Override
+      public WipeUserData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<WipeUserData> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<WipeUserData> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.WipeUserData getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -8121,6 +9277,16 @@ public final class JonSharedCmdSystem {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_System_ResetConfigs_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_SaveFactoryDefaults_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_SaveFactoryDefaults_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_WipeUserData_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_WipeUserData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_System_StartRec_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -8171,7 +9337,7 @@ public final class JonSharedCmdSystem {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste" +
       "m\032\033buf/validate/validate.proto\032\033jon_shar" +
-      "ed_data_types.proto\"\252\005\n\004Root\022)\n\tstart_al" +
+      "ed_data_types.proto\"\240\006\n\004Root\022)\n\tstart_al" +
       "l\030\001 \001(\0132\024.cmd.System.StartALlH\000\022\'\n\010stop_" +
       "all\030\002 \001(\0132\023.cmd.System.StopALlH\000\022$\n\006rebo" +
       "ot\030\003 \001(\0132\022.cmd.System.RebootH\000\022)\n\tpower_" +
@@ -8188,16 +9354,20 @@ public final class JonSharedCmdSystem {
       "\022>\n\024geodesic_mode_enable\030\014 \001(\0132\036.cmd.Sys" +
       "tem.EnableGeodesicModeH\000\022@\n\025geodesic_mod" +
       "e_disable\030\r \001(\0132\037.cmd.System.DisableGeod" +
-      "esicModeH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007" +
-      "StopALl\"\010\n\006Reboot\"\n\n\010PowerOff\"\016\n\014ResetCo" +
-      "nfigs\"\n\n\010StartRec\"\t\n\007StopRec\"\022\n\020MarkRecI" +
-      "mportant\"\024\n\022UnmarkRecImportant\"\020\n\016EnterT" +
-      "ransport\"\024\n\022EnableGeodesicMode\"\025\n\023Disabl" +
-      "eGeodesicMode\"N\n\017SetLocalization\022;\n\003loc\030" +
-      "\001 \001(\0162\".ser.JonGuiDataSystemLocalization" +
-      "sB\n\272H\007\202\001\004\020\001 \000BMZKgit-codecommit.eu-centr" +
-      "al-1.amazonaws.com/v1/repos/jettison/jon" +
-      "p/cmd/systemb\006proto3"
+      "esicModeH\000\022@\n\025save_factory_defaults\030\016 \001(" +
+      "\0132\037.cmd.System.SaveFactoryDefaultsH\000\0222\n\016" +
+      "wipe_user_data\030\017 \001(\0132\030.cmd.System.WipeUs" +
+      "erDataH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007St" +
+      "opALl\"\010\n\006Reboot\"\n\n\010PowerOff\"\016\n\014ResetConf" +
+      "igs\"\025\n\023SaveFactoryDefaults\"\016\n\014WipeUserDa" +
+      "ta\"\n\n\010StartRec\"\t\n\007StopRec\"\022\n\020MarkRecImpo" +
+      "rtant\"\024\n\022UnmarkRecImportant\"\020\n\016EnterTran" +
+      "sport\"\024\n\022EnableGeodesicMode\"\025\n\023DisableGe" +
+      "odesicMode\"N\n\017SetLocalization\022;\n\003loc\030\001 \001" +
+      "(\0162\".ser.JonGuiDataSystemLocalizationsB\n" +
+      "\272H\007\202\001\004\020\001 \000BMZKgit-codecommit.eu-central-" +
+      "1.amazonaws.com/v1/repos/jettison/jonp/c" +
+      "md/systemb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -8210,7 +9380,7 @@ public final class JonSharedCmdSystem {
     internal_static_cmd_System_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_Root_descriptor,
-        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "Cmd", });
+        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "Cmd", });
     internal_static_cmd_System_StartALl_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_System_StartALl_fieldAccessorTable = new
@@ -8241,50 +9411,62 @@ public final class JonSharedCmdSystem {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_ResetConfigs_descriptor,
         new java.lang.String[] { });
-    internal_static_cmd_System_StartRec_descriptor =
+    internal_static_cmd_System_SaveFactoryDefaults_descriptor =
       getDescriptor().getMessageTypes().get(6);
+    internal_static_cmd_System_SaveFactoryDefaults_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_SaveFactoryDefaults_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_System_WipeUserData_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_cmd_System_WipeUserData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_WipeUserData_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_System_StartRec_descriptor =
+      getDescriptor().getMessageTypes().get(8);
     internal_static_cmd_System_StartRec_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_StartRec_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_StopRec_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_cmd_System_StopRec_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_StopRec_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_MarkRecImportant_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_cmd_System_MarkRecImportant_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_MarkRecImportant_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_UnmarkRecImportant_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_cmd_System_UnmarkRecImportant_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_UnmarkRecImportant_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_EnterTransport_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_cmd_System_EnterTransport_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_EnterTransport_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_EnableGeodesicMode_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_cmd_System_EnableGeodesicMode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_EnableGeodesicMode_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_DisableGeodesicMode_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_cmd_System_DisableGeodesicMode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_DisableGeodesicMode_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_System_SetLocalization_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_cmd_System_SetLocalization_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_SetLocalization_descriptor,

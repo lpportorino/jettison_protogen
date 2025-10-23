@@ -311,6 +311,8 @@ pub struct RotateToNdc {
     pub x: f64,
     #[prost(double, tag = "3")]
     pub y: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+    ///
     /// Video frame timestamp
     #[prost(uint64, tag = "4")]
     pub frame_time: u64,
@@ -326,6 +328,8 @@ pub struct HaltWithNdc {
     pub x: f64,
     #[prost(double, tag = "3")]
     pub y: f64,
+    /// TODO: Remove these fields after migration - now in Root message (fields 6-8)
+    ///
     /// Video frame timestamp at gesture end
     #[prost(uint64, tag = "4")]
     pub frame_time: u64,

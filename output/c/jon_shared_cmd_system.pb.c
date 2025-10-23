@@ -24,6 +24,12 @@ PB_BIND(cmd_System_PowerOff, cmd_System_PowerOff, AUTO)
 PB_BIND(cmd_System_ResetConfigs, cmd_System_ResetConfigs, AUTO)
 
 
+PB_BIND(cmd_System_SaveFactoryDefaults, cmd_System_SaveFactoryDefaults, AUTO)
+
+
+PB_BIND(cmd_System_WipeUserData, cmd_System_WipeUserData, AUTO)
+
+
 PB_BIND(cmd_System_StartRec, cmd_System_StartRec, AUTO)
 
 

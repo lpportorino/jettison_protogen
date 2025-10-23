@@ -11,6 +11,24 @@ pub struct Root {
     pub from_cv_subsystem: bool,
     #[prost(enumeration = "super::ser::JonGuiDataClientType", tag = "5")]
     pub client_type: i32,
+    /// Frame timestamps (PTS) from video streams when command was issued
+    ///
+    /// Day camera frame timestamp (nanoseconds)
+    #[prost(uint64, tag = "6")]
+    pub frame_time_day: u64,
+    /// Thermal camera frame timestamp (nanoseconds)
+    #[prost(uint64, tag = "7")]
+    pub frame_time_heat: u64,
+    /// System monotonic time when user performed action
+    ///
+    /// System monotonic time (nanoseconds)
+    #[prost(uint64, tag = "8")]
+    pub state_time: u64,
+    /// Client wall-clock time when command was issued
+    ///
+    /// Client epoch time in milliseconds (from performance.timeOrigin + performance.now())
+    #[prost(uint64, tag = "9")]
+    pub client_time_ms: u64,
     #[prost(
         oneof = "root::Payload",
         tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34"

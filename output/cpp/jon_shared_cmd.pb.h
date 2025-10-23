@@ -695,6 +695,10 @@ class Root final : public ::google::protobuf::Message
     kImportantFieldNumber = 3,
     kFromCvSubsystemFieldNumber = 4,
     kClientTypeFieldNumber = 5,
+    kFrameTimeDayFieldNumber = 6,
+    kFrameTimeHeatFieldNumber = 7,
+    kStateTimeFieldNumber = 8,
+    kClientTimeMsFieldNumber = 9,
     kDayCameraFieldNumber = 20,
     kHeatCameraFieldNumber = 21,
     kGpsFieldNumber = 22,
@@ -759,6 +763,46 @@ class Root final : public ::google::protobuf::Message
   private:
   ::ser::JonGuiDataClientType _internal_client_type() const;
   void _internal_set_client_type(::ser::JonGuiDataClientType value);
+
+  public:
+  // uint64 frame_time_day = 6;
+  void clear_frame_time_day() ;
+  ::uint64_t frame_time_day() const;
+  void set_frame_time_day(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_time_day() const;
+  void _internal_set_frame_time_day(::uint64_t value);
+
+  public:
+  // uint64 frame_time_heat = 7;
+  void clear_frame_time_heat() ;
+  ::uint64_t frame_time_heat() const;
+  void set_frame_time_heat(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_time_heat() const;
+  void _internal_set_frame_time_heat(::uint64_t value);
+
+  public:
+  // uint64 state_time = 8;
+  void clear_state_time() ;
+  ::uint64_t state_time() const;
+  void set_state_time(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_state_time() const;
+  void _internal_set_state_time(::uint64_t value);
+
+  public:
+  // uint64 client_time_ms = 9;
+  void clear_client_time_ms() ;
+  ::uint64_t client_time_ms() const;
+  void set_client_time_ms(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_client_time_ms() const;
+  void _internal_set_client_time_ms(::uint64_t value);
 
   public:
   // .cmd.DayCamera.Root day_camera = 20;
@@ -1070,7 +1114,7 @@ class Root final : public ::google::protobuf::Message
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 20, 15,
+      4, 24, 15,
       0, 7>
       _table_;
 
@@ -1093,6 +1137,10 @@ class Root final : public ::google::protobuf::Message
     bool important_;
     bool from_cv_subsystem_;
     int client_type_;
+    ::uint64_t frame_time_day_;
+    ::uint64_t frame_time_heat_;
+    ::uint64_t state_time_;
+    ::uint64_t client_time_ms_;
     union PayloadUnion {
       constexpr PayloadUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
@@ -1244,6 +1292,94 @@ inline ::ser::JonGuiDataClientType Root::_internal_client_type() const {
 inline void Root::_internal_set_client_type(::ser::JonGuiDataClientType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.client_type_ = value;
+}
+
+// uint64 frame_time_day = 6;
+inline void Root::clear_frame_time_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_day_ = ::uint64_t{0u};
+}
+inline ::uint64_t Root::frame_time_day() const {
+  // @@protoc_insertion_point(field_get:cmd.Root.frame_time_day)
+  return _internal_frame_time_day();
+}
+inline void Root::set_frame_time_day(::uint64_t value) {
+  _internal_set_frame_time_day(value);
+  // @@protoc_insertion_point(field_set:cmd.Root.frame_time_day)
+}
+inline ::uint64_t Root::_internal_frame_time_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_time_day_;
+}
+inline void Root::_internal_set_frame_time_day(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_day_ = value;
+}
+
+// uint64 frame_time_heat = 7;
+inline void Root::clear_frame_time_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_heat_ = ::uint64_t{0u};
+}
+inline ::uint64_t Root::frame_time_heat() const {
+  // @@protoc_insertion_point(field_get:cmd.Root.frame_time_heat)
+  return _internal_frame_time_heat();
+}
+inline void Root::set_frame_time_heat(::uint64_t value) {
+  _internal_set_frame_time_heat(value);
+  // @@protoc_insertion_point(field_set:cmd.Root.frame_time_heat)
+}
+inline ::uint64_t Root::_internal_frame_time_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_time_heat_;
+}
+inline void Root::_internal_set_frame_time_heat(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_time_heat_ = value;
+}
+
+// uint64 state_time = 8;
+inline void Root::clear_state_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = ::uint64_t{0u};
+}
+inline ::uint64_t Root::state_time() const {
+  // @@protoc_insertion_point(field_get:cmd.Root.state_time)
+  return _internal_state_time();
+}
+inline void Root::set_state_time(::uint64_t value) {
+  _internal_set_state_time(value);
+  // @@protoc_insertion_point(field_set:cmd.Root.state_time)
+}
+inline ::uint64_t Root::_internal_state_time() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.state_time_;
+}
+inline void Root::_internal_set_state_time(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_time_ = value;
+}
+
+// uint64 client_time_ms = 9;
+inline void Root::clear_client_time_ms() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_time_ms_ = ::uint64_t{0u};
+}
+inline ::uint64_t Root::client_time_ms() const {
+  // @@protoc_insertion_point(field_get:cmd.Root.client_time_ms)
+  return _internal_client_time_ms();
+}
+inline void Root::set_client_time_ms(::uint64_t value) {
+  _internal_set_client_time_ms(value);
+  // @@protoc_insertion_point(field_set:cmd.Root.client_time_ms)
+}
+inline ::uint64_t Root::_internal_client_time_ms() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.client_time_ms_;
+}
+inline void Root::_internal_set_client_time_ms(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_time_ms_ = value;
 }
 
 // .cmd.DayCamera.Root day_camera = 20;
