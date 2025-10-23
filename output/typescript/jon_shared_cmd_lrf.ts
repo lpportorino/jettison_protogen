@@ -29,8 +29,6 @@ export interface Root {
   getMeteo?: GetMeteo | undefined;
   refineOn?: RefineOn | undefined;
   refineOff?: RefineOff | undefined;
-  continuousMeasureStart?: ContinuousMeasureStart | undefined;
-  continuousMeasureStop?: ContinuousMeasureStop | undefined;
 }
 
 export interface GetMeteo {
@@ -79,12 +77,6 @@ export interface SetScanMode {
 export interface NewSession {
 }
 
-export interface ContinuousMeasureStart {
-}
-
-export interface ContinuousMeasureStop {
-}
-
 function createBaseRoot(): Root {
   return {
     measure: undefined,
@@ -102,8 +94,6 @@ function createBaseRoot(): Root {
     getMeteo: undefined,
     refineOn: undefined,
     refineOff: undefined,
-    continuousMeasureStart: undefined,
-    continuousMeasureStop: undefined,
   };
 }
 
@@ -153,12 +143,6 @@ export const Root: MessageFns<Root> = {
     }
     if (message.refineOff !== undefined) {
       RefineOff.encode(message.refineOff, writer.uint32(122).fork()).join();
-    }
-    if (message.continuousMeasureStart !== undefined) {
-      ContinuousMeasureStart.encode(message.continuousMeasureStart, writer.uint32(130).fork()).join();
-    }
-    if (message.continuousMeasureStop !== undefined) {
-      ContinuousMeasureStop.encode(message.continuousMeasureStop, writer.uint32(138).fork()).join();
     }
     return writer;
   },
@@ -290,22 +274,6 @@ export const Root: MessageFns<Root> = {
           message.refineOff = RefineOff.decode(reader, reader.uint32());
           continue;
         }
-        case 16: {
-          if (tag !== 130) {
-            break;
-          }
-
-          message.continuousMeasureStart = ContinuousMeasureStart.decode(reader, reader.uint32());
-          continue;
-        }
-        case 17: {
-          if (tag !== 138) {
-            break;
-          }
-
-          message.continuousMeasureStop = ContinuousMeasureStop.decode(reader, reader.uint32());
-          continue;
-        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -338,12 +306,6 @@ export const Root: MessageFns<Root> = {
       getMeteo: isSet(object.getMeteo) ? GetMeteo.fromJSON(object.getMeteo) : undefined,
       refineOn: isSet(object.refineOn) ? RefineOn.fromJSON(object.refineOn) : undefined,
       refineOff: isSet(object.refineOff) ? RefineOff.fromJSON(object.refineOff) : undefined,
-      continuousMeasureStart: isSet(object.continuousMeasureStart)
-        ? ContinuousMeasureStart.fromJSON(object.continuousMeasureStart)
-        : undefined,
-      continuousMeasureStop: isSet(object.continuousMeasureStop)
-        ? ContinuousMeasureStop.fromJSON(object.continuousMeasureStop)
-        : undefined,
     };
   },
 
@@ -393,12 +355,6 @@ export const Root: MessageFns<Root> = {
     }
     if (message.refineOff !== undefined) {
       obj.refineOff = RefineOff.toJSON(message.refineOff);
-    }
-    if (message.continuousMeasureStart !== undefined) {
-      obj.continuousMeasureStart = ContinuousMeasureStart.toJSON(message.continuousMeasureStart);
-    }
-    if (message.continuousMeasureStop !== undefined) {
-      obj.continuousMeasureStop = ContinuousMeasureStop.toJSON(message.continuousMeasureStop);
     }
     return obj;
   },
@@ -451,14 +407,6 @@ export const Root: MessageFns<Root> = {
     message.refineOff = (object.refineOff !== undefined && object.refineOff !== null)
       ? RefineOff.fromPartial(object.refineOff)
       : undefined;
-    message.continuousMeasureStart =
-      (object.continuousMeasureStart !== undefined && object.continuousMeasureStart !== null)
-        ? ContinuousMeasureStart.fromPartial(object.continuousMeasureStart)
-        : undefined;
-    message.continuousMeasureStop =
-      (object.continuousMeasureStop !== undefined && object.continuousMeasureStop !== null)
-        ? ContinuousMeasureStop.fromPartial(object.continuousMeasureStop)
-        : undefined;
     return message;
   },
 };
@@ -1119,92 +1067,6 @@ export const NewSession: MessageFns<NewSession> = {
   },
   fromPartial<I extends Exact<DeepPartial<NewSession>, I>>(_: I): NewSession {
     const message = createBaseNewSession();
-    return message;
-  },
-};
-
-function createBaseContinuousMeasureStart(): ContinuousMeasureStart {
-  return {};
-}
-
-export const ContinuousMeasureStart: MessageFns<ContinuousMeasureStart> = {
-  encode(_: ContinuousMeasureStart, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ContinuousMeasureStart {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseContinuousMeasureStart();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(_: any): ContinuousMeasureStart {
-    return {};
-  },
-
-  toJSON(_: ContinuousMeasureStart): unknown {
-    const obj: any = {};
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<ContinuousMeasureStart>, I>>(base?: I): ContinuousMeasureStart {
-    return ContinuousMeasureStart.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<ContinuousMeasureStart>, I>>(_: I): ContinuousMeasureStart {
-    const message = createBaseContinuousMeasureStart();
-    return message;
-  },
-};
-
-function createBaseContinuousMeasureStop(): ContinuousMeasureStop {
-  return {};
-}
-
-export const ContinuousMeasureStop: MessageFns<ContinuousMeasureStop> = {
-  encode(_: ContinuousMeasureStop, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): ContinuousMeasureStop {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseContinuousMeasureStop();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(_: any): ContinuousMeasureStop {
-    return {};
-  },
-
-  toJSON(_: ContinuousMeasureStop): unknown {
-    const obj: any = {};
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<ContinuousMeasureStop>, I>>(base?: I): ContinuousMeasureStop {
-    return ContinuousMeasureStop.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<ContinuousMeasureStop>, I>>(_: I): ContinuousMeasureStop {
-    const message = createBaseContinuousMeasureStop();
     return message;
   },
 };

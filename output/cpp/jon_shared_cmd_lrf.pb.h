@@ -55,12 +55,6 @@ extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto;
 namespace cmd {
 namespace Lrf {
-class ContinuousMeasureStart;
-struct ContinuousMeasureStartDefaultTypeInternal;
-extern ContinuousMeasureStartDefaultTypeInternal _ContinuousMeasureStart_default_instance_;
-class ContinuousMeasureStop;
-struct ContinuousMeasureStopDefaultTypeInternal;
-extern ContinuousMeasureStopDefaultTypeInternal _ContinuousMeasureStop_default_instance_;
 class DisableFogMode;
 struct DisableFogModeDefaultTypeInternal;
 extern DisableFogModeDefaultTypeInternal _DisableFogMode_default_instance_;
@@ -2344,296 +2338,6 @@ class DisableFogMode final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
-class ContinuousMeasureStop final : public ::google::protobuf::internal::ZeroFieldsBase
-/* @@protoc_insertion_point(class_definition:cmd.Lrf.ContinuousMeasureStop) */ {
- public:
-  inline ContinuousMeasureStop() : ContinuousMeasureStop(nullptr) {}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ContinuousMeasureStop* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ContinuousMeasureStop));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ContinuousMeasureStop(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline ContinuousMeasureStop(const ContinuousMeasureStop& from) : ContinuousMeasureStop(nullptr, from) {}
-  inline ContinuousMeasureStop(ContinuousMeasureStop&& from) noexcept
-      : ContinuousMeasureStop(nullptr, std::move(from)) {}
-  inline ContinuousMeasureStop& operator=(const ContinuousMeasureStop& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ContinuousMeasureStop& operator=(ContinuousMeasureStop&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ContinuousMeasureStop& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ContinuousMeasureStop* internal_default_instance() {
-    return reinterpret_cast<const ContinuousMeasureStop*>(
-        &_ContinuousMeasureStop_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 17;
-  friend void swap(ContinuousMeasureStop& a, ContinuousMeasureStop& b) { a.Swap(&b); }
-  inline void Swap(ContinuousMeasureStop* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ContinuousMeasureStop* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ContinuousMeasureStop* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<ContinuousMeasureStop>(arena);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const ContinuousMeasureStop& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const ContinuousMeasureStop& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "cmd.Lrf.ContinuousMeasureStop"; }
-
- protected:
-  explicit ContinuousMeasureStop(::google::protobuf::Arena* arena);
-  ContinuousMeasureStop(::google::protobuf::Arena* arena, const ContinuousMeasureStop& from);
-  ContinuousMeasureStop(::google::protobuf::Arena* arena, ContinuousMeasureStop&& from) noexcept
-      : ContinuousMeasureStop(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  // @@protoc_insertion_point(class_scope:cmd.Lrf.ContinuousMeasureStop)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const ContinuousMeasureStop& from_msg);
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  friend struct ::TableStruct_jon_5fshared_5fcmd_5flrf_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ContinuousMeasureStart final : public ::google::protobuf::internal::ZeroFieldsBase
-/* @@protoc_insertion_point(class_definition:cmd.Lrf.ContinuousMeasureStart) */ {
- public:
-  inline ContinuousMeasureStart() : ContinuousMeasureStart(nullptr) {}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ContinuousMeasureStart* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ContinuousMeasureStart));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ContinuousMeasureStart(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline ContinuousMeasureStart(const ContinuousMeasureStart& from) : ContinuousMeasureStart(nullptr, from) {}
-  inline ContinuousMeasureStart(ContinuousMeasureStart&& from) noexcept
-      : ContinuousMeasureStart(nullptr, std::move(from)) {}
-  inline ContinuousMeasureStart& operator=(const ContinuousMeasureStart& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ContinuousMeasureStart& operator=(ContinuousMeasureStart&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ContinuousMeasureStart& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ContinuousMeasureStart* internal_default_instance() {
-    return reinterpret_cast<const ContinuousMeasureStart*>(
-        &_ContinuousMeasureStart_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 16;
-  friend void swap(ContinuousMeasureStart& a, ContinuousMeasureStart& b) { a.Swap(&b); }
-  inline void Swap(ContinuousMeasureStart* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ContinuousMeasureStart* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ContinuousMeasureStart* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<ContinuousMeasureStart>(arena);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const ContinuousMeasureStart& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const ContinuousMeasureStart& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "cmd.Lrf.ContinuousMeasureStart"; }
-
- protected:
-  explicit ContinuousMeasureStart(::google::protobuf::Arena* arena);
-  ContinuousMeasureStart(::google::protobuf::Arena* arena, const ContinuousMeasureStart& from);
-  ContinuousMeasureStart(::google::protobuf::Arena* arena, ContinuousMeasureStart&& from) noexcept
-      : ContinuousMeasureStart(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  // @@protoc_insertion_point(class_scope:cmd.Lrf.ContinuousMeasureStart)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      0, 0, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const ContinuousMeasureStart& from_msg);
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  friend struct ::TableStruct_jon_5fshared_5fcmd_5flrf_2eproto;
-};
-// -------------------------------------------------------------------
-
 class Root final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.Lrf.Root) */ {
  public:
@@ -2705,8 +2409,6 @@ class Root final : public ::google::protobuf::Message
     kGetMeteo = 13,
     kRefineOn = 14,
     kRefineOff = 15,
-    kContinuousMeasureStart = 16,
-    kContinuousMeasureStop = 17,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -2815,8 +2517,6 @@ class Root final : public ::google::protobuf::Message
     kGetMeteoFieldNumber = 13,
     kRefineOnFieldNumber = 14,
     kRefineOffFieldNumber = 15,
-    kContinuousMeasureStartFieldNumber = 16,
-    kContinuousMeasureStopFieldNumber = 17,
   };
   // .cmd.Lrf.Measure measure = 1;
   bool has_measure() const;
@@ -3103,44 +2803,6 @@ class Root final : public ::google::protobuf::Message
   ::cmd::Lrf::RefineOff* _internal_mutable_refine_off();
 
   public:
-  // .cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;
-  bool has_continuous_measure_start() const;
-  private:
-  bool _internal_has_continuous_measure_start() const;
-
-  public:
-  void clear_continuous_measure_start() ;
-  const ::cmd::Lrf::ContinuousMeasureStart& continuous_measure_start() const;
-  PROTOBUF_NODISCARD ::cmd::Lrf::ContinuousMeasureStart* release_continuous_measure_start();
-  ::cmd::Lrf::ContinuousMeasureStart* mutable_continuous_measure_start();
-  void set_allocated_continuous_measure_start(::cmd::Lrf::ContinuousMeasureStart* value);
-  void unsafe_arena_set_allocated_continuous_measure_start(::cmd::Lrf::ContinuousMeasureStart* value);
-  ::cmd::Lrf::ContinuousMeasureStart* unsafe_arena_release_continuous_measure_start();
-
-  private:
-  const ::cmd::Lrf::ContinuousMeasureStart& _internal_continuous_measure_start() const;
-  ::cmd::Lrf::ContinuousMeasureStart* _internal_mutable_continuous_measure_start();
-
-  public:
-  // .cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;
-  bool has_continuous_measure_stop() const;
-  private:
-  bool _internal_has_continuous_measure_stop() const;
-
-  public:
-  void clear_continuous_measure_stop() ;
-  const ::cmd::Lrf::ContinuousMeasureStop& continuous_measure_stop() const;
-  PROTOBUF_NODISCARD ::cmd::Lrf::ContinuousMeasureStop* release_continuous_measure_stop();
-  ::cmd::Lrf::ContinuousMeasureStop* mutable_continuous_measure_stop();
-  void set_allocated_continuous_measure_stop(::cmd::Lrf::ContinuousMeasureStop* value);
-  void unsafe_arena_set_allocated_continuous_measure_stop(::cmd::Lrf::ContinuousMeasureStop* value);
-  ::cmd::Lrf::ContinuousMeasureStop* unsafe_arena_release_continuous_measure_stop();
-
-  private:
-  const ::cmd::Lrf::ContinuousMeasureStop& _internal_continuous_measure_stop() const;
-  ::cmd::Lrf::ContinuousMeasureStop* _internal_mutable_continuous_measure_stop();
-
-  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Lrf.Root)
@@ -3161,13 +2823,11 @@ class Root final : public ::google::protobuf::Message
   void set_has_get_meteo();
   void set_has_refine_on();
   void set_has_refine_off();
-  void set_has_continuous_measure_start();
-  void set_has_continuous_measure_stop();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 17, 17,
+      0, 15, 15,
       0, 2>
       _table_;
 
@@ -3203,8 +2863,6 @@ class Root final : public ::google::protobuf::Message
       ::cmd::Lrf::GetMeteo* get_meteo_;
       ::cmd::Lrf::RefineOn* refine_on_;
       ::cmd::Lrf::RefineOff* refine_off_;
-      ::cmd::Lrf::ContinuousMeasureStart* continuous_measure_start_;
-      ::cmd::Lrf::ContinuousMeasureStop* continuous_measure_stop_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -4415,164 +4073,6 @@ inline ::cmd::Lrf::RefineOff* Root::mutable_refine_off() ABSL_ATTRIBUTE_LIFETIME
   return _msg;
 }
 
-// .cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;
-inline bool Root::has_continuous_measure_start() const {
-  return cmd_case() == kContinuousMeasureStart;
-}
-inline bool Root::_internal_has_continuous_measure_start() const {
-  return cmd_case() == kContinuousMeasureStart;
-}
-inline void Root::set_has_continuous_measure_start() {
-  _impl_._oneof_case_[0] = kContinuousMeasureStart;
-}
-inline void Root::clear_continuous_measure_start() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cmd_case() == kContinuousMeasureStart) {
-    if (GetArena() == nullptr) {
-      delete _impl_.cmd_.continuous_measure_start_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.continuous_measure_start_);
-    }
-    clear_has_cmd();
-  }
-}
-inline ::cmd::Lrf::ContinuousMeasureStart* Root::release_continuous_measure_start() {
-  // @@protoc_insertion_point(field_release:cmd.Lrf.Root.continuous_measure_start)
-  if (cmd_case() == kContinuousMeasureStart) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.continuous_measure_start_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.cmd_.continuous_measure_start_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::cmd::Lrf::ContinuousMeasureStart& Root::_internal_continuous_measure_start() const {
-  return cmd_case() == kContinuousMeasureStart ? *_impl_.cmd_.continuous_measure_start_ : reinterpret_cast<::cmd::Lrf::ContinuousMeasureStart&>(::cmd::Lrf::_ContinuousMeasureStart_default_instance_);
-}
-inline const ::cmd::Lrf::ContinuousMeasureStart& Root::continuous_measure_start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.Lrf.Root.continuous_measure_start)
-  return _internal_continuous_measure_start();
-}
-inline ::cmd::Lrf::ContinuousMeasureStart* Root::unsafe_arena_release_continuous_measure_start() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Lrf.Root.continuous_measure_start)
-  if (cmd_case() == kContinuousMeasureStart) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.continuous_measure_start_;
-    _impl_.cmd_.continuous_measure_start_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Root::unsafe_arena_set_allocated_continuous_measure_start(::cmd::Lrf::ContinuousMeasureStart* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_cmd();
-  if (value) {
-    set_has_continuous_measure_start();
-    _impl_.cmd_.continuous_measure_start_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Lrf.Root.continuous_measure_start)
-}
-inline ::cmd::Lrf::ContinuousMeasureStart* Root::_internal_mutable_continuous_measure_start() {
-  if (cmd_case() != kContinuousMeasureStart) {
-    clear_cmd();
-    set_has_continuous_measure_start();
-    _impl_.cmd_.continuous_measure_start_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::Lrf::ContinuousMeasureStart>(GetArena());
-  }
-  return _impl_.cmd_.continuous_measure_start_;
-}
-inline ::cmd::Lrf::ContinuousMeasureStart* Root::mutable_continuous_measure_start() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::Lrf::ContinuousMeasureStart* _msg = _internal_mutable_continuous_measure_start();
-  // @@protoc_insertion_point(field_mutable:cmd.Lrf.Root.continuous_measure_start)
-  return _msg;
-}
-
-// .cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;
-inline bool Root::has_continuous_measure_stop() const {
-  return cmd_case() == kContinuousMeasureStop;
-}
-inline bool Root::_internal_has_continuous_measure_stop() const {
-  return cmd_case() == kContinuousMeasureStop;
-}
-inline void Root::set_has_continuous_measure_stop() {
-  _impl_._oneof_case_[0] = kContinuousMeasureStop;
-}
-inline void Root::clear_continuous_measure_stop() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cmd_case() == kContinuousMeasureStop) {
-    if (GetArena() == nullptr) {
-      delete _impl_.cmd_.continuous_measure_stop_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.continuous_measure_stop_);
-    }
-    clear_has_cmd();
-  }
-}
-inline ::cmd::Lrf::ContinuousMeasureStop* Root::release_continuous_measure_stop() {
-  // @@protoc_insertion_point(field_release:cmd.Lrf.Root.continuous_measure_stop)
-  if (cmd_case() == kContinuousMeasureStop) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.continuous_measure_stop_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.cmd_.continuous_measure_stop_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::cmd::Lrf::ContinuousMeasureStop& Root::_internal_continuous_measure_stop() const {
-  return cmd_case() == kContinuousMeasureStop ? *_impl_.cmd_.continuous_measure_stop_ : reinterpret_cast<::cmd::Lrf::ContinuousMeasureStop&>(::cmd::Lrf::_ContinuousMeasureStop_default_instance_);
-}
-inline const ::cmd::Lrf::ContinuousMeasureStop& Root::continuous_measure_stop() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.Lrf.Root.continuous_measure_stop)
-  return _internal_continuous_measure_stop();
-}
-inline ::cmd::Lrf::ContinuousMeasureStop* Root::unsafe_arena_release_continuous_measure_stop() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Lrf.Root.continuous_measure_stop)
-  if (cmd_case() == kContinuousMeasureStop) {
-    clear_has_cmd();
-    auto* temp = _impl_.cmd_.continuous_measure_stop_;
-    _impl_.cmd_.continuous_measure_stop_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Root::unsafe_arena_set_allocated_continuous_measure_stop(::cmd::Lrf::ContinuousMeasureStop* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_cmd();
-  if (value) {
-    set_has_continuous_measure_stop();
-    _impl_.cmd_.continuous_measure_stop_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Lrf.Root.continuous_measure_stop)
-}
-inline ::cmd::Lrf::ContinuousMeasureStop* Root::_internal_mutable_continuous_measure_stop() {
-  if (cmd_case() != kContinuousMeasureStop) {
-    clear_cmd();
-    set_has_continuous_measure_stop();
-    _impl_.cmd_.continuous_measure_stop_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::Lrf::ContinuousMeasureStop>(GetArena());
-  }
-  return _impl_.cmd_.continuous_measure_stop_;
-}
-inline ::cmd::Lrf::ContinuousMeasureStop* Root::mutable_continuous_measure_stop() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::Lrf::ContinuousMeasureStop* _msg = _internal_mutable_continuous_measure_stop();
-  // @@protoc_insertion_point(field_mutable:cmd.Lrf.Root.continuous_measure_stop)
-  return _msg;
-}
-
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -4663,14 +4163,6 @@ inline void SetScanMode::_internal_set_mode(::ser::JonGuiDataLrfScanModes value)
 // -------------------------------------------------------------------
 
 // NewSession
-
-// -------------------------------------------------------------------
-
-// ContinuousMeasureStart
-
-// -------------------------------------------------------------------
-
-// ContinuousMeasureStop
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

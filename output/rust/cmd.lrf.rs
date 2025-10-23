@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -41,10 +41,6 @@ pub mod root {
         RefineOn(super::RefineOn),
         #[prost(message, tag = "15")]
         RefineOff(super::RefineOff),
-        #[prost(message, tag = "16")]
-        ContinuousMeasureStart(super::ContinuousMeasureStart),
-        #[prost(message, tag = "17")]
-        ContinuousMeasureStop(super::ContinuousMeasureStop),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -80,7 +76,3 @@ pub struct SetScanMode {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct NewSession {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct ContinuousMeasureStart {}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct ContinuousMeasureStop {}

@@ -54,10 +54,4 @@ PB_BIND(cmd_Lrf_SetScanMode, cmd_Lrf_SetScanMode, AUTO)
 PB_BIND(cmd_Lrf_NewSession, cmd_Lrf_NewSession, AUTO)
 
 
-PB_BIND(cmd_Lrf_ContinuousMeasureStart, cmd_Lrf_ContinuousMeasureStart, AUTO)
-
-
-PB_BIND(cmd_Lrf_ContinuousMeasureStop, cmd_Lrf_ContinuousMeasureStop, AUTO)
-
-
 
