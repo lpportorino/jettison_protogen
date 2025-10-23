@@ -69,6 +69,7 @@ message Root {
     FocusROI focus_roi = 18;
     TrackROI track_roi = 19;
     ZoomROI zoom_roi = 20;
+    FxROI fx_roi = 21;
   }
 }
 
@@ -210,6 +211,28 @@ message TrackROI {
 }
 
 message ZoomROI {
+  double x1 = 1 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y1 = 2 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double x2 = 3 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double y2 = 4 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  // TODO: Remove these fields after migration - now in Root message (fields 6-8)
+  uint64 frame_time = 5;
+  uint64 state_time = 6;  // System monotonic time from state when user performed action
+}
+
+message FxROI {
   double x1 = 1 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0

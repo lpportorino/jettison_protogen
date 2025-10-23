@@ -22,6 +22,8 @@ message Root {
     EnterTransport enter_transport = 11;
     EnableGeodesicMode geodesic_mode_enable = 12;
     DisableGeodesicMode geodesic_mode_disable = 13;
+    SaveFactoryDefaults save_factory_defaults = 14;
+    WipeUserData wipe_user_data = 15;
   }
 }
 
@@ -34,6 +36,10 @@ message Reboot {}
 message PowerOff {}
 
 message ResetConfigs {}
+
+message SaveFactoryDefaults {}
+
+message WipeUserData {}
 
 message StartRec {}
 
