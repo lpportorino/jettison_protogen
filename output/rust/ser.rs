@@ -883,6 +883,8 @@ pub struct JonGuiDataLrf {
     pub fog_mode_enabled: bool,
     #[prost(bool, tag = "7")]
     pub is_refining: bool,
+    #[prost(bool, tag = "8")]
+    pub is_continuous_measuring: bool,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTarget {

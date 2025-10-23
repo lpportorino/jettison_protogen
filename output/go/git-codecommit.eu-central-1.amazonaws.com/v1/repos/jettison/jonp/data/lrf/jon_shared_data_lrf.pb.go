@@ -24,16 +24,17 @@ const (
 )
 
 type JonGuiDataLrf struct {
-	state          protoimpl.MessageState                `protogen:"open.v1"`
-	IsScanning     bool                                  `protobuf:"varint,1,opt,name=is_scanning,json=isScanning,proto3" json:"is_scanning,omitempty"`
-	IsMeasuring    bool                                  `protobuf:"varint,2,opt,name=is_measuring,json=isMeasuring,proto3" json:"is_measuring,omitempty"`
-	MeasureId      int32                                 `protobuf:"varint,3,opt,name=measure_id,json=measureId,proto3" json:"measure_id,omitempty"`
-	Target         *JonGuiDataTarget                     `protobuf:"bytes,4,opt,name=target,proto3" json:"target,omitempty"`
-	PointerMode    types.JonGuiDatatLrfLaserPointerModes `protobuf:"varint,5,opt,name=pointer_mode,json=pointerMode,proto3,enum=ser.JonGuiDatatLrfLaserPointerModes" json:"pointer_mode,omitempty"`
-	FogModeEnabled bool                                  `protobuf:"varint,6,opt,name=fogModeEnabled,proto3" json:"fogModeEnabled,omitempty"`
-	IsRefining     bool                                  `protobuf:"varint,7,opt,name=is_refining,json=isRefining,proto3" json:"is_refining,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state                 protoimpl.MessageState                `protogen:"open.v1"`
+	IsScanning            bool                                  `protobuf:"varint,1,opt,name=is_scanning,json=isScanning,proto3" json:"is_scanning,omitempty"`
+	IsMeasuring           bool                                  `protobuf:"varint,2,opt,name=is_measuring,json=isMeasuring,proto3" json:"is_measuring,omitempty"`
+	MeasureId             int32                                 `protobuf:"varint,3,opt,name=measure_id,json=measureId,proto3" json:"measure_id,omitempty"`
+	Target                *JonGuiDataTarget                     `protobuf:"bytes,4,opt,name=target,proto3" json:"target,omitempty"`
+	PointerMode           types.JonGuiDatatLrfLaserPointerModes `protobuf:"varint,5,opt,name=pointer_mode,json=pointerMode,proto3,enum=ser.JonGuiDatatLrfLaserPointerModes" json:"pointer_mode,omitempty"`
+	FogModeEnabled        bool                                  `protobuf:"varint,6,opt,name=fogModeEnabled,proto3" json:"fogModeEnabled,omitempty"`
+	IsRefining            bool                                  `protobuf:"varint,7,opt,name=is_refining,json=isRefining,proto3" json:"is_refining,omitempty"`
+	IsContinuousMeasuring bool                                  `protobuf:"varint,8,opt,name=is_continuous_measuring,json=isContinuousMeasuring,proto3" json:"is_continuous_measuring,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *JonGuiDataLrf) Reset() {
@@ -111,6 +112,13 @@ func (x *JonGuiDataLrf) GetFogModeEnabled() bool {
 func (x *JonGuiDataLrf) GetIsRefining() bool {
 	if x != nil {
 		return x.IsRefining
+	}
+	return false
+}
+
+func (x *JonGuiDataLrf) GetIsContinuousMeasuring() bool {
+	if x != nil {
+		return x.IsContinuousMeasuring
 	}
 	return false
 }
@@ -384,7 +392,7 @@ var File_jon_shared_data_lrf_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc6\x02\n" +
+	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfe\x02\n" +
 	"\rJonGuiDataLrf\x12\x1f\n" +
 	"\vis_scanning\x18\x01 \x01(\bR\n" +
 	"isScanning\x12!\n" +
@@ -395,7 +403,8 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\fpointer_mode\x18\x05 \x01(\x0e2$.ser.JonGuiDatatLrfLaserPointerModesB\b\xbaH\x05\x82\x01\x02\x10\x01R\vpointerMode\x12&\n" +
 	"\x0efogModeEnabled\x18\x06 \x01(\bR\x0efogModeEnabled\x12\x1f\n" +
 	"\vis_refining\x18\a \x01(\bR\n" +
-	"isRefining\"\xc4\b\n" +
+	"isRefining\x126\n" +
+	"\x17is_continuous_measuring\x18\b \x01(\bR\x15isContinuousMeasuring\"\xc4\b\n" +
 	"\x10JonGuiDataTarget\x12%\n" +
 	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12B\n" +
 	"\x10target_longitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x0ftargetLongitude\x12@\n" +

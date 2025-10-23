@@ -71,6 +71,14 @@ typedef struct _cmd_Lrf_NewSession {
     char dummy_field;
 } cmd_Lrf_NewSession;
 
+typedef struct _cmd_Lrf_ContinuousMeasureStart {
+    char dummy_field;
+} cmd_Lrf_ContinuousMeasureStart;
+
+typedef struct _cmd_Lrf_ContinuousMeasureStop {
+    char dummy_field;
+} cmd_Lrf_ContinuousMeasureStop;
+
 typedef struct _cmd_Lrf_Root {
     pb_size_t which_cmd;
     union {
@@ -89,6 +97,8 @@ typedef struct _cmd_Lrf_Root {
         cmd_Lrf_GetMeteo get_meteo;
         cmd_Lrf_RefineOn refine_on;
         cmd_Lrf_RefineOff refine_off;
+        cmd_Lrf_ContinuousMeasureStart continuous_measure_start;
+        cmd_Lrf_ContinuousMeasureStop continuous_measure_stop;
     } cmd;
 } cmd_Lrf_Root;
 
@@ -114,6 +124,8 @@ extern "C" {
 #define cmd_Lrf_DisableFogMode_init_default      {0}
 #define cmd_Lrf_SetScanMode_init_default         {_ser_JonGuiDataLrfScanModes_MIN}
 #define cmd_Lrf_NewSession_init_default          {0}
+#define cmd_Lrf_ContinuousMeasureStart_init_default {0}
+#define cmd_Lrf_ContinuousMeasureStop_init_default {0}
 #define cmd_Lrf_Root_init_zero                   {0, {cmd_Lrf_Measure_init_zero}}
 #define cmd_Lrf_GetMeteo_init_zero               {0}
 #define cmd_Lrf_Start_init_zero                  {0}
@@ -130,6 +142,8 @@ extern "C" {
 #define cmd_Lrf_DisableFogMode_init_zero         {0}
 #define cmd_Lrf_SetScanMode_init_zero            {_ser_JonGuiDataLrfScanModes_MIN}
 #define cmd_Lrf_NewSession_init_zero             {0}
+#define cmd_Lrf_ContinuousMeasureStart_init_zero {0}
+#define cmd_Lrf_ContinuousMeasureStop_init_zero  {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_Lrf_SetScanMode_mode_tag             1
@@ -148,6 +162,8 @@ extern "C" {
 #define cmd_Lrf_Root_get_meteo_tag               13
 #define cmd_Lrf_Root_refine_on_tag               14
 #define cmd_Lrf_Root_refine_off_tag              15
+#define cmd_Lrf_Root_continuous_measure_start_tag 16
+#define cmd_Lrf_Root_continuous_measure_stop_tag 17
 
 /* Struct field encoding specification for nanopb */
 #define cmd_Lrf_Root_FIELDLIST(X, a) \
@@ -165,7 +181,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_scan_mode,cmd.set_scan_mode),  11) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,new_session,cmd.new_session),  12) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_meteo,cmd.get_meteo),  13) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,refine_on,cmd.refine_on),  14) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,refine_off,cmd.refine_off),  15)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,refine_off,cmd.refine_off),  15) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,continuous_measure_start,cmd.continuous_measure_start),  16) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,continuous_measure_stop,cmd.continuous_measure_stop),  17)
 #define cmd_Lrf_Root_CALLBACK NULL
 #define cmd_Lrf_Root_DEFAULT NULL
 #define cmd_Lrf_Root_cmd_measure_MSGTYPE cmd_Lrf_Measure
@@ -183,6 +201,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,refine_off,cmd.refine_off),  15)
 #define cmd_Lrf_Root_cmd_get_meteo_MSGTYPE cmd_Lrf_GetMeteo
 #define cmd_Lrf_Root_cmd_refine_on_MSGTYPE cmd_Lrf_RefineOn
 #define cmd_Lrf_Root_cmd_refine_off_MSGTYPE cmd_Lrf_RefineOff
+#define cmd_Lrf_Root_cmd_continuous_measure_start_MSGTYPE cmd_Lrf_ContinuousMeasureStart
+#define cmd_Lrf_Root_cmd_continuous_measure_stop_MSGTYPE cmd_Lrf_ContinuousMeasureStop
 
 #define cmd_Lrf_GetMeteo_FIELDLIST(X, a) \
 
@@ -259,6 +279,16 @@ X(a, STATIC,   SINGULAR, UENUM,    mode,              1)
 #define cmd_Lrf_NewSession_CALLBACK NULL
 #define cmd_Lrf_NewSession_DEFAULT NULL
 
+#define cmd_Lrf_ContinuousMeasureStart_FIELDLIST(X, a) \
+
+#define cmd_Lrf_ContinuousMeasureStart_CALLBACK NULL
+#define cmd_Lrf_ContinuousMeasureStart_DEFAULT NULL
+
+#define cmd_Lrf_ContinuousMeasureStop_FIELDLIST(X, a) \
+
+#define cmd_Lrf_ContinuousMeasureStop_CALLBACK NULL
+#define cmd_Lrf_ContinuousMeasureStop_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_Lrf_Root_msg;
 extern const pb_msgdesc_t cmd_Lrf_GetMeteo_msg;
 extern const pb_msgdesc_t cmd_Lrf_Start_msg;
@@ -275,6 +305,8 @@ extern const pb_msgdesc_t cmd_Lrf_EnableFogMode_msg;
 extern const pb_msgdesc_t cmd_Lrf_DisableFogMode_msg;
 extern const pb_msgdesc_t cmd_Lrf_SetScanMode_msg;
 extern const pb_msgdesc_t cmd_Lrf_NewSession_msg;
+extern const pb_msgdesc_t cmd_Lrf_ContinuousMeasureStart_msg;
+extern const pb_msgdesc_t cmd_Lrf_ContinuousMeasureStop_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_Lrf_Root_fields &cmd_Lrf_Root_msg
@@ -293,9 +325,13 @@ extern const pb_msgdesc_t cmd_Lrf_NewSession_msg;
 #define cmd_Lrf_DisableFogMode_fields &cmd_Lrf_DisableFogMode_msg
 #define cmd_Lrf_SetScanMode_fields &cmd_Lrf_SetScanMode_msg
 #define cmd_Lrf_NewSession_fields &cmd_Lrf_NewSession_msg
+#define cmd_Lrf_ContinuousMeasureStart_fields &cmd_Lrf_ContinuousMeasureStart_msg
+#define cmd_Lrf_ContinuousMeasureStop_fields &cmd_Lrf_ContinuousMeasureStop_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_LRF_JON_SHARED_CMD_LRF_PB_H_MAX_SIZE cmd_Lrf_Root_size
+#define cmd_Lrf_ContinuousMeasureStart_size      0
+#define cmd_Lrf_ContinuousMeasureStop_size       0
 #define cmd_Lrf_DisableFogMode_size              0
 #define cmd_Lrf_EnableFogMode_size               0
 #define cmd_Lrf_GetMeteo_size                    0

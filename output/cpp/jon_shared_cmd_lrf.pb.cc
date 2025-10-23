@@ -303,6 +303,42 @@ struct DisableFogModeDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DisableFogModeDefaultTypeInternal _DisableFogMode_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR ContinuousMeasureStop::ContinuousMeasureStop(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct ContinuousMeasureStopDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ContinuousMeasureStopDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ContinuousMeasureStopDefaultTypeInternal() {}
+  union {
+    ContinuousMeasureStop _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ContinuousMeasureStopDefaultTypeInternal _ContinuousMeasureStop_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR ContinuousMeasureStart::ContinuousMeasureStart(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct ContinuousMeasureStartDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ContinuousMeasureStartDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ContinuousMeasureStartDefaultTypeInternal() {}
+  union {
+    ContinuousMeasureStart _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ContinuousMeasureStartDefaultTypeInternal _ContinuousMeasureStart_default_instance_;
 
 inline constexpr Root::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -346,6 +382,8 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -483,26 +521,44 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Lrf::ContinuousMeasureStart, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Lrf::ContinuousMeasureStop, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::Lrf::Root)},
-        {24, -1, -1, sizeof(::cmd::Lrf::GetMeteo)},
-        {32, -1, -1, sizeof(::cmd::Lrf::Start)},
-        {40, -1, -1, sizeof(::cmd::Lrf::Stop)},
-        {48, -1, -1, sizeof(::cmd::Lrf::Measure)},
-        {56, -1, -1, sizeof(::cmd::Lrf::ScanOn)},
-        {64, -1, -1, sizeof(::cmd::Lrf::ScanOff)},
-        {72, -1, -1, sizeof(::cmd::Lrf::RefineOff)},
-        {80, -1, -1, sizeof(::cmd::Lrf::RefineOn)},
-        {88, -1, -1, sizeof(::cmd::Lrf::TargetDesignatorOff)},
-        {96, -1, -1, sizeof(::cmd::Lrf::TargetDesignatorOnModeA)},
-        {104, -1, -1, sizeof(::cmd::Lrf::TargetDesignatorOnModeB)},
-        {112, -1, -1, sizeof(::cmd::Lrf::EnableFogMode)},
-        {120, -1, -1, sizeof(::cmd::Lrf::DisableFogMode)},
-        {128, -1, -1, sizeof(::cmd::Lrf::SetScanMode)},
-        {137, -1, -1, sizeof(::cmd::Lrf::NewSession)},
+        {26, -1, -1, sizeof(::cmd::Lrf::GetMeteo)},
+        {34, -1, -1, sizeof(::cmd::Lrf::Start)},
+        {42, -1, -1, sizeof(::cmd::Lrf::Stop)},
+        {50, -1, -1, sizeof(::cmd::Lrf::Measure)},
+        {58, -1, -1, sizeof(::cmd::Lrf::ScanOn)},
+        {66, -1, -1, sizeof(::cmd::Lrf::ScanOff)},
+        {74, -1, -1, sizeof(::cmd::Lrf::RefineOff)},
+        {82, -1, -1, sizeof(::cmd::Lrf::RefineOn)},
+        {90, -1, -1, sizeof(::cmd::Lrf::TargetDesignatorOff)},
+        {98, -1, -1, sizeof(::cmd::Lrf::TargetDesignatorOnModeA)},
+        {106, -1, -1, sizeof(::cmd::Lrf::TargetDesignatorOnModeB)},
+        {114, -1, -1, sizeof(::cmd::Lrf::EnableFogMode)},
+        {122, -1, -1, sizeof(::cmd::Lrf::DisableFogMode)},
+        {130, -1, -1, sizeof(::cmd::Lrf::SetScanMode)},
+        {139, -1, -1, sizeof(::cmd::Lrf::NewSession)},
+        {147, -1, -1, sizeof(::cmd::Lrf::ContinuousMeasureStart)},
+        {155, -1, -1, sizeof(::cmd::Lrf::ContinuousMeasureStop)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Lrf::_Root_default_instance_._instance,
@@ -521,11 +577,13 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Lrf::_DisableFogMode_default_instance_._instance,
     &::cmd::Lrf::_SetScanMode_default_instance_._instance,
     &::cmd::Lrf::_NewSession_default_instance_._instance,
+    &::cmd::Lrf::_ContinuousMeasureStart_default_instance_._instance,
+    &::cmd::Lrf::_ContinuousMeasureStop_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\030jon_shared_cmd_lrf.proto\022\007cmd.Lrf\032\033jon"
-    "_shared_data_types.proto\"\312\005\n\004Root\022#\n\007mea"
+    "_shared_data_types.proto\"\322\006\n\004Root\022#\n\007mea"
     "sure\030\001 \001(\0132\020.cmd.Lrf.MeasureH\000\022\"\n\007scan_o"
     "n\030\002 \001(\0132\017.cmd.Lrf.ScanOnH\000\022$\n\010scan_off\030\003"
     " \001(\0132\020.cmd.Lrf.ScanOffH\000\022\037\n\005start\030\004 \001(\0132"
@@ -543,16 +601,21 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_2eproto[] ABSL_ATT
     "NewSessionH\000\022&\n\tget_meteo\030\r \001(\0132\021.cmd.Lr"
     "f.GetMeteoH\000\022&\n\trefine_on\030\016 \001(\0132\021.cmd.Lr"
     "f.RefineOnH\000\022(\n\nrefine_off\030\017 \001(\0132\022.cmd.L"
-    "rf.RefineOffH\000B\005\n\003cmd\"\n\n\010GetMeteo\"\007\n\005Sta"
-    "rt\"\006\n\004Stop\"\t\n\007Measure\"\010\n\006ScanOn\"\t\n\007ScanO"
-    "ff\"\013\n\tRefineOff\"\n\n\010RefineOn\"\025\n\023TargetDes"
-    "ignatorOff\"\031\n\027TargetDesignatorOnModeA\"\031\n"
-    "\027TargetDesignatorOnModeB\"\017\n\rEnableFogMod"
-    "e\"\020\n\016DisableFogMode\"8\n\013SetScanMode\022)\n\004mo"
-    "de\030\001 \001(\0162\033.ser.JonGuiDataLrfScanModes\"\014\n"
-    "\nNewSessionBJZHgit-codecommit.eu-central"
-    "-1.amazonaws.com/v1/repos/jettison/jonp/"
-    "cmd/lrfb\006proto3"
+    "rf.RefineOffH\000\022C\n\030continuous_measure_sta"
+    "rt\030\020 \001(\0132\037.cmd.Lrf.ContinuousMeasureStar"
+    "tH\000\022A\n\027continuous_measure_stop\030\021 \001(\0132\036.c"
+    "md.Lrf.ContinuousMeasureStopH\000B\005\n\003cmd\"\n\n"
+    "\010GetMeteo\"\007\n\005Start\"\006\n\004Stop\"\t\n\007Measure\"\010\n"
+    "\006ScanOn\"\t\n\007ScanOff\"\013\n\tRefineOff\"\n\n\010Refin"
+    "eOn\"\025\n\023TargetDesignatorOff\"\031\n\027TargetDesi"
+    "gnatorOnModeA\"\031\n\027TargetDesignatorOnModeB"
+    "\"\017\n\rEnableFogMode\"\020\n\016DisableFogMode\"8\n\013S"
+    "etScanMode\022)\n\004mode\030\001 \001(\0162\033.ser.JonGuiDat"
+    "aLrfScanModes\"\014\n\nNewSession\"\030\n\026Continuou"
+    "sMeasureStart\"\027\n\025ContinuousMeasureStopBJ"
+    "ZHgit-codecommit.eu-central-1.amazonaws."
+    "com/v1/repos/jettison/jonp/cmd/lrfb\006prot"
+    "o3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_deps[1] =
     {
@@ -562,13 +625,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto = {
     false,
     false,
-    1135,
+    1322,
     descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_2eproto,
     "jon_shared_cmd_lrf.proto",
     &descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_deps,
     1,
-    16,
+    18,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5flrf_2eproto::offsets,
@@ -780,6 +843,32 @@ void Root::set_allocated_refine_off(::cmd::Lrf::RefineOff* refine_off) {
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.Lrf.Root.refine_off)
 }
+void Root::set_allocated_continuous_measure_start(::cmd::Lrf::ContinuousMeasureStart* continuous_measure_start) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (continuous_measure_start) {
+    ::google::protobuf::Arena* submessage_arena = continuous_measure_start->GetArena();
+    if (message_arena != submessage_arena) {
+      continuous_measure_start = ::google::protobuf::internal::GetOwnedMessage(message_arena, continuous_measure_start, submessage_arena);
+    }
+    set_has_continuous_measure_start();
+    _impl_.cmd_.continuous_measure_start_ = continuous_measure_start;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Lrf.Root.continuous_measure_start)
+}
+void Root::set_allocated_continuous_measure_stop(::cmd::Lrf::ContinuousMeasureStop* continuous_measure_stop) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (continuous_measure_stop) {
+    ::google::protobuf::Arena* submessage_arena = continuous_measure_stop->GetArena();
+    if (message_arena != submessage_arena) {
+      continuous_measure_stop = ::google::protobuf::internal::GetOwnedMessage(message_arena, continuous_measure_stop, submessage_arena);
+    }
+    set_has_continuous_measure_stop();
+    _impl_.cmd_.continuous_measure_stop_ = continuous_measure_stop;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Lrf.Root.continuous_measure_stop)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -856,6 +945,12 @@ Root::Root(
         break;
       case kRefineOff:
         _impl_.cmd_.refine_off_ = ::google::protobuf::Message::CopyConstruct<::cmd::Lrf::RefineOff>(arena, *from._impl_.cmd_.refine_off_);
+        break;
+      case kContinuousMeasureStart:
+        _impl_.cmd_.continuous_measure_start_ = ::google::protobuf::Message::CopyConstruct<::cmd::Lrf::ContinuousMeasureStart>(arena, *from._impl_.cmd_.continuous_measure_start_);
+        break;
+      case kContinuousMeasureStop:
+        _impl_.cmd_.continuous_measure_stop_ = ::google::protobuf::Message::CopyConstruct<::cmd::Lrf::ContinuousMeasureStop>(arena, *from._impl_.cmd_.continuous_measure_stop_);
         break;
   }
 
@@ -1009,6 +1104,22 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kContinuousMeasureStart: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.continuous_measure_start_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.continuous_measure_start_);
+      }
+      break;
+    }
+    case kContinuousMeasureStop: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.continuous_measure_stop_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.continuous_measure_stop_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -1053,16 +1164,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 17, 17, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    15, 0,  // max_field_number, fast_idx_mask
+    17, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294934528,  // skipmap
+    4294836224,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    15,  // num_field_entries
-    15,  // num_aux_entries
+    17,  // num_field_entries
+    17,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1120,6 +1231,12 @@ const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
     // .cmd.Lrf.RefineOff refine_off = 15;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.refine_off_), _Internal::kOneofCaseOffset + 0, 14,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.continuous_measure_start_), _Internal::kOneofCaseOffset + 0, 15,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.continuous_measure_stop_), _Internal::kOneofCaseOffset + 0, 16,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::Lrf::Measure>()},
     {::_pbi::TcParser::GetTable<::cmd::Lrf::ScanOn>()},
@@ -1136,6 +1253,8 @@ const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::Lrf::GetMeteo>()},
     {::_pbi::TcParser::GetTable<::cmd::Lrf::RefineOn>()},
     {::_pbi::TcParser::GetTable<::cmd::Lrf::RefineOff>()},
+    {::_pbi::TcParser::GetTable<::cmd::Lrf::ContinuousMeasureStart>()},
+    {::_pbi::TcParser::GetTable<::cmd::Lrf::ContinuousMeasureStop>()},
   }}, {{
   }},
 };
@@ -1257,6 +1376,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kContinuousMeasureStart: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  16, *this_._impl_.cmd_.continuous_measure_start_, this_._impl_.cmd_.continuous_measure_start_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kContinuousMeasureStop: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  17, *this_._impl_.cmd_.continuous_measure_stop_, this_._impl_.cmd_.continuous_measure_stop_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -1372,6 +1503,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kRefineOff: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.refine_off_);
+              break;
+            }
+            // .cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;
+            case kContinuousMeasureStart: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.continuous_measure_start_);
+              break;
+            }
+            // .cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;
+            case kContinuousMeasureStop: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.continuous_measure_stop_);
               break;
             }
             case CMD_NOT_SET: {
@@ -1534,6 +1677,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::Lrf::RefineOff>(arena, *from._impl_.cmd_.refine_off_);
         } else {
           _this->_impl_.cmd_.refine_off_->MergeFrom(from._internal_refine_off());
+        }
+        break;
+      }
+      case kContinuousMeasureStart: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.continuous_measure_start_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Lrf::ContinuousMeasureStart>(arena, *from._impl_.cmd_.continuous_measure_start_);
+        } else {
+          _this->_impl_.cmd_.continuous_measure_start_->MergeFrom(from._internal_continuous_measure_start());
+        }
+        break;
+      }
+      case kContinuousMeasureStop: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.continuous_measure_stop_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Lrf::ContinuousMeasureStop>(arena, *from._impl_.cmd_.continuous_measure_stop_);
+        } else {
+          _this->_impl_.cmd_.continuous_measure_stop_->MergeFrom(from._internal_continuous_measure_stop());
         }
         break;
       }
@@ -3209,6 +3370,212 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> NewSession::_table_ = {
 
 
 ::google::protobuf::Metadata NewSession::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ContinuousMeasureStart::_Internal {
+ public:
+};
+
+ContinuousMeasureStart::ContinuousMeasureStart(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.Lrf.ContinuousMeasureStart)
+}
+ContinuousMeasureStart::ContinuousMeasureStart(
+    ::google::protobuf::Arena* arena,
+    const ContinuousMeasureStart& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ContinuousMeasureStart* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Lrf.ContinuousMeasureStart)
+}
+
+inline void* ContinuousMeasureStart::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ContinuousMeasureStart(arena);
+}
+constexpr auto ContinuousMeasureStart::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ContinuousMeasureStart),
+                                            alignof(ContinuousMeasureStart));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ContinuousMeasureStart::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ContinuousMeasureStart_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ContinuousMeasureStart::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ContinuousMeasureStart>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ContinuousMeasureStart::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<ContinuousMeasureStart>(), &ContinuousMeasureStart::ByteSizeLong,
+            &ContinuousMeasureStart::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ContinuousMeasureStart, _impl_._cached_size_),
+        false,
+    },
+    &ContinuousMeasureStart::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ContinuousMeasureStart::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ContinuousMeasureStart::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Lrf::ContinuousMeasureStart>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata ContinuousMeasureStart::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ContinuousMeasureStop::_Internal {
+ public:
+};
+
+ContinuousMeasureStop::ContinuousMeasureStop(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.Lrf.ContinuousMeasureStop)
+}
+ContinuousMeasureStop::ContinuousMeasureStop(
+    ::google::protobuf::Arena* arena,
+    const ContinuousMeasureStop& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ContinuousMeasureStop* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Lrf.ContinuousMeasureStop)
+}
+
+inline void* ContinuousMeasureStop::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ContinuousMeasureStop(arena);
+}
+constexpr auto ContinuousMeasureStop::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ContinuousMeasureStop),
+                                            alignof(ContinuousMeasureStop));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ContinuousMeasureStop::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ContinuousMeasureStop_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ContinuousMeasureStop::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ContinuousMeasureStop>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ContinuousMeasureStop::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<ContinuousMeasureStop>(), &ContinuousMeasureStop::ByteSizeLong,
+            &ContinuousMeasureStop::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ContinuousMeasureStop, _impl_._cached_size_),
+        false,
+    },
+    &ContinuousMeasureStop::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ContinuousMeasureStop::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ContinuousMeasureStop::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Lrf::ContinuousMeasureStop>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata ContinuousMeasureStop::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

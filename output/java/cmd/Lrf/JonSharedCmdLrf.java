@@ -254,6 +254,36 @@ public final class JonSharedCmdLrf {
      */
     cmd.Lrf.JonSharedCmdLrf.RefineOffOrBuilder getRefineOffOrBuilder();
 
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+     * @return Whether the continuousMeasureStart field is set.
+     */
+    boolean hasContinuousMeasureStart();
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+     * @return The continuousMeasureStart.
+     */
+    cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart getContinuousMeasureStart();
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+     */
+    cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder getContinuousMeasureStartOrBuilder();
+
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+     * @return Whether the continuousMeasureStop field is set.
+     */
+    boolean hasContinuousMeasureStop();
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+     * @return The continuousMeasureStop.
+     */
+    cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop getContinuousMeasureStop();
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+     */
+    cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder getContinuousMeasureStopOrBuilder();
+
     cmd.Lrf.JonSharedCmdLrf.Root.CmdCase getCmdCase();
   }
   /**
@@ -314,6 +344,8 @@ public final class JonSharedCmdLrf {
       GET_METEO(13),
       REFINE_ON(14),
       REFINE_OFF(15),
+      CONTINUOUS_MEASURE_START(16),
+      CONTINUOUS_MEASURE_STOP(17),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -346,6 +378,8 @@ public final class JonSharedCmdLrf {
           case 13: return GET_METEO;
           case 14: return REFINE_ON;
           case 15: return REFINE_OFF;
+          case 16: return CONTINUOUS_MEASURE_START;
+          case 17: return CONTINUOUS_MEASURE_STOP;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -826,6 +860,68 @@ public final class JonSharedCmdLrf {
       return cmd.Lrf.JonSharedCmdLrf.RefineOff.getDefaultInstance();
     }
 
+    public static final int CONTINUOUS_MEASURE_START_FIELD_NUMBER = 16;
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+     * @return Whether the continuousMeasureStart field is set.
+     */
+    @java.lang.Override
+    public boolean hasContinuousMeasureStart() {
+      return cmdCase_ == 16;
+    }
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+     * @return The continuousMeasureStart.
+     */
+    @java.lang.Override
+    public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart getContinuousMeasureStart() {
+      if (cmdCase_ == 16) {
+         return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_;
+      }
+      return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+     */
+    @java.lang.Override
+    public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder getContinuousMeasureStartOrBuilder() {
+      if (cmdCase_ == 16) {
+         return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_;
+      }
+      return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+    }
+
+    public static final int CONTINUOUS_MEASURE_STOP_FIELD_NUMBER = 17;
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+     * @return Whether the continuousMeasureStop field is set.
+     */
+    @java.lang.Override
+    public boolean hasContinuousMeasureStop() {
+      return cmdCase_ == 17;
+    }
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+     * @return The continuousMeasureStop.
+     */
+    @java.lang.Override
+    public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop getContinuousMeasureStop() {
+      if (cmdCase_ == 17) {
+         return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_;
+      }
+      return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+     */
+    @java.lang.Override
+    public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder getContinuousMeasureStopOrBuilder() {
+      if (cmdCase_ == 17) {
+         return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_;
+      }
+      return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -884,6 +980,12 @@ public final class JonSharedCmdLrf {
       }
       if (cmdCase_ == 15) {
         output.writeMessage(15, (cmd.Lrf.JonSharedCmdLrf.RefineOff) cmd_);
+      }
+      if (cmdCase_ == 16) {
+        output.writeMessage(16, (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_);
+      }
+      if (cmdCase_ == 17) {
+        output.writeMessage(17, (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -953,6 +1055,14 @@ public final class JonSharedCmdLrf {
       if (cmdCase_ == 15) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, (cmd.Lrf.JonSharedCmdLrf.RefineOff) cmd_);
+      }
+      if (cmdCase_ == 16) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_);
+      }
+      if (cmdCase_ == 17) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1031,6 +1141,14 @@ public final class JonSharedCmdLrf {
           if (!getRefineOff()
               .equals(other.getRefineOff())) return false;
           break;
+        case 16:
+          if (!getContinuousMeasureStart()
+              .equals(other.getContinuousMeasureStart())) return false;
+          break;
+        case 17:
+          if (!getContinuousMeasureStop()
+              .equals(other.getContinuousMeasureStop())) return false;
+          break;
         case 0:
         default:
       }
@@ -1105,6 +1223,14 @@ public final class JonSharedCmdLrf {
         case 15:
           hash = (37 * hash) + REFINE_OFF_FIELD_NUMBER;
           hash = (53 * hash) + getRefineOff().hashCode();
+          break;
+        case 16:
+          hash = (37 * hash) + CONTINUOUS_MEASURE_START_FIELD_NUMBER;
+          hash = (53 * hash) + getContinuousMeasureStart().hashCode();
+          break;
+        case 17:
+          hash = (37 * hash) + CONTINUOUS_MEASURE_STOP_FIELD_NUMBER;
+          hash = (53 * hash) + getContinuousMeasureStop().hashCode();
           break;
         case 0:
         default:
@@ -1285,6 +1411,12 @@ public final class JonSharedCmdLrf {
         if (refineOffBuilder_ != null) {
           refineOffBuilder_.clear();
         }
+        if (continuousMeasureStartBuilder_ != null) {
+          continuousMeasureStartBuilder_.clear();
+        }
+        if (continuousMeasureStopBuilder_ != null) {
+          continuousMeasureStopBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1386,6 +1518,14 @@ public final class JonSharedCmdLrf {
             refineOffBuilder_ != null) {
           result.cmd_ = refineOffBuilder_.build();
         }
+        if (cmdCase_ == 16 &&
+            continuousMeasureStartBuilder_ != null) {
+          result.cmd_ = continuousMeasureStartBuilder_.build();
+        }
+        if (cmdCase_ == 17 &&
+            continuousMeasureStopBuilder_ != null) {
+          result.cmd_ = continuousMeasureStopBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -1459,6 +1599,14 @@ public final class JonSharedCmdLrf {
           }
           case REFINE_OFF: {
             mergeRefineOff(other.getRefineOff());
+            break;
+          }
+          case CONTINUOUS_MEASURE_START: {
+            mergeContinuousMeasureStart(other.getContinuousMeasureStart());
+            break;
+          }
+          case CONTINUOUS_MEASURE_STOP: {
+            mergeContinuousMeasureStop(other.getContinuousMeasureStop());
             break;
           }
           case CMD_NOT_SET: {
@@ -1596,6 +1744,20 @@ public final class JonSharedCmdLrf {
                 cmdCase_ = 15;
                 break;
               } // case 122
+              case 130: {
+                input.readMessage(
+                    getContinuousMeasureStartFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 16;
+                break;
+              } // case 130
+              case 138: {
+                input.readMessage(
+                    getContinuousMeasureStopFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 17;
+                break;
+              } // case 138
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3756,6 +3918,290 @@ public final class JonSharedCmdLrf {
         cmdCase_ = 15;
         onChanged();
         return refineOffBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder> continuousMeasureStartBuilder_;
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       * @return Whether the continuousMeasureStart field is set.
+       */
+      @java.lang.Override
+      public boolean hasContinuousMeasureStart() {
+        return cmdCase_ == 16;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       * @return The continuousMeasureStart.
+       */
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart getContinuousMeasureStart() {
+        if (continuousMeasureStartBuilder_ == null) {
+          if (cmdCase_ == 16) {
+            return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_;
+          }
+          return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 16) {
+            return continuousMeasureStartBuilder_.getMessage();
+          }
+          return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      public Builder setContinuousMeasureStart(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart value) {
+        if (continuousMeasureStartBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          continuousMeasureStartBuilder_.setMessage(value);
+        }
+        cmdCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      public Builder setContinuousMeasureStart(
+          cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder builderForValue) {
+        if (continuousMeasureStartBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          continuousMeasureStartBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      public Builder mergeContinuousMeasureStart(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart value) {
+        if (continuousMeasureStartBuilder_ == null) {
+          if (cmdCase_ == 16 &&
+              cmd_ != cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance()) {
+            cmd_ = cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.newBuilder((cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 16) {
+            continuousMeasureStartBuilder_.mergeFrom(value);
+          } else {
+            continuousMeasureStartBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      public Builder clearContinuousMeasureStart() {
+        if (continuousMeasureStartBuilder_ == null) {
+          if (cmdCase_ == 16) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 16) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          continuousMeasureStartBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder getContinuousMeasureStartBuilder() {
+        return getContinuousMeasureStartFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder getContinuousMeasureStartOrBuilder() {
+        if ((cmdCase_ == 16) && (continuousMeasureStartBuilder_ != null)) {
+          return continuousMeasureStartBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 16) {
+            return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_;
+          }
+          return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStart continuous_measure_start = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder> 
+          getContinuousMeasureStartFieldBuilder() {
+        if (continuousMeasureStartBuilder_ == null) {
+          if (!(cmdCase_ == 16)) {
+            cmd_ = cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+          }
+          continuousMeasureStartBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder>(
+                  (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 16;
+        onChanged();
+        return continuousMeasureStartBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder> continuousMeasureStopBuilder_;
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       * @return Whether the continuousMeasureStop field is set.
+       */
+      @java.lang.Override
+      public boolean hasContinuousMeasureStop() {
+        return cmdCase_ == 17;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       * @return The continuousMeasureStop.
+       */
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop getContinuousMeasureStop() {
+        if (continuousMeasureStopBuilder_ == null) {
+          if (cmdCase_ == 17) {
+            return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_;
+          }
+          return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 17) {
+            return continuousMeasureStopBuilder_.getMessage();
+          }
+          return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      public Builder setContinuousMeasureStop(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop value) {
+        if (continuousMeasureStopBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          continuousMeasureStopBuilder_.setMessage(value);
+        }
+        cmdCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      public Builder setContinuousMeasureStop(
+          cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder builderForValue) {
+        if (continuousMeasureStopBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          continuousMeasureStopBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      public Builder mergeContinuousMeasureStop(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop value) {
+        if (continuousMeasureStopBuilder_ == null) {
+          if (cmdCase_ == 17 &&
+              cmd_ != cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance()) {
+            cmd_ = cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.newBuilder((cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 17) {
+            continuousMeasureStopBuilder_.mergeFrom(value);
+          } else {
+            continuousMeasureStopBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      public Builder clearContinuousMeasureStop() {
+        if (continuousMeasureStopBuilder_ == null) {
+          if (cmdCase_ == 17) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 17) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          continuousMeasureStopBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder getContinuousMeasureStopBuilder() {
+        return getContinuousMeasureStopFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder getContinuousMeasureStopOrBuilder() {
+        if ((cmdCase_ == 17) && (continuousMeasureStopBuilder_ != null)) {
+          return continuousMeasureStopBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 17) {
+            return (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_;
+          }
+          return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Lrf.ContinuousMeasureStop continuous_measure_stop = 17;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder> 
+          getContinuousMeasureStopFieldBuilder() {
+        if (continuousMeasureStopBuilder_ == null) {
+          if (!(cmdCase_ == 17)) {
+            cmd_ = cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+          }
+          continuousMeasureStopBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder>(
+                  (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 17;
+        onChanged();
+        return continuousMeasureStopBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.Lrf.Root)
@@ -9246,6 +9692,716 @@ public final class JonSharedCmdLrf {
 
   }
 
+  public interface ContinuousMeasureStartOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Lrf.ContinuousMeasureStart)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.Lrf.ContinuousMeasureStart}
+   */
+  public static final class ContinuousMeasureStart extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Lrf.ContinuousMeasureStart)
+      ContinuousMeasureStartOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ContinuousMeasureStart.class.getName());
+    }
+    // Use ContinuousMeasureStart.newBuilder() to construct.
+    private ContinuousMeasureStart(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ContinuousMeasureStart() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStart_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStart_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.class, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart)) {
+        return super.equals(obj);
+      }
+      cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart other = (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.Lrf.ContinuousMeasureStart}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Lrf.ContinuousMeasureStart)
+        cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStartOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStart_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStart_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.class, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.Builder.class);
+      }
+
+      // Construct using cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStart_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart getDefaultInstanceForType() {
+        return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart build() {
+        cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart buildPartial() {
+        cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart result = new cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart) {
+          return mergeFrom((cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart other) {
+        if (other == cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Lrf.ContinuousMeasureStart)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Lrf.ContinuousMeasureStart)
+    private static final cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart();
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ContinuousMeasureStart>
+        PARSER = new com.google.protobuf.AbstractParser<ContinuousMeasureStart>() {
+      @java.lang.Override
+      public ContinuousMeasureStart parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ContinuousMeasureStart> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ContinuousMeasureStart> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStart getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ContinuousMeasureStopOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Lrf.ContinuousMeasureStop)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.Lrf.ContinuousMeasureStop}
+   */
+  public static final class ContinuousMeasureStop extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Lrf.ContinuousMeasureStop)
+      ContinuousMeasureStopOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ContinuousMeasureStop.class.getName());
+    }
+    // Use ContinuousMeasureStop.newBuilder() to construct.
+    private ContinuousMeasureStop(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ContinuousMeasureStop() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStop_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStop_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.class, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop)) {
+        return super.equals(obj);
+      }
+      cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop other = (cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.Lrf.ContinuousMeasureStop}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Lrf.ContinuousMeasureStop)
+        cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStopOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStop_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStop_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.class, cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.Builder.class);
+      }
+
+      // Construct using cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Lrf.JonSharedCmdLrf.internal_static_cmd_Lrf_ContinuousMeasureStop_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop getDefaultInstanceForType() {
+        return cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop build() {
+        cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop buildPartial() {
+        cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop result = new cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop) {
+          return mergeFrom((cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop other) {
+        if (other == cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Lrf.ContinuousMeasureStop)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Lrf.ContinuousMeasureStop)
+    private static final cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop();
+    }
+
+    public static cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ContinuousMeasureStop>
+        PARSER = new com.google.protobuf.AbstractParser<ContinuousMeasureStop>() {
+      @java.lang.Override
+      public ContinuousMeasureStop parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ContinuousMeasureStop> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ContinuousMeasureStop> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Lrf.JonSharedCmdLrf.ContinuousMeasureStop getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_Lrf_Root_descriptor;
   private static final 
@@ -9326,6 +10482,16 @@ public final class JonSharedCmdLrf {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_Lrf_NewSession_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Lrf_ContinuousMeasureStart_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Lrf_ContinuousMeasureStart_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Lrf_ContinuousMeasureStop_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Lrf_ContinuousMeasureStop_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9337,7 +10503,7 @@ public final class JonSharedCmdLrf {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_cmd_lrf.proto\022\007cmd.Lrf\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\321\005\n\004Root\022#\n\007measure\030\001 \001(\0132" +
+      "a_types.proto\"\331\006\n\004Root\022#\n\007measure\030\001 \001(\0132" +
       "\020.cmd.Lrf.MeasureH\000\022\"\n\007scan_on\030\002 \001(\0132\017.c" +
       "md.Lrf.ScanOnH\000\022$\n\010scan_off\030\003 \001(\0132\020.cmd." +
       "Lrf.ScanOffH\000\022\037\n\005start\030\004 \001(\0132\016.cmd.Lrf.S" +
@@ -9355,16 +10521,21 @@ public final class JonSharedCmdLrf {
       "\000\022&\n\tget_meteo\030\r \001(\0132\021.cmd.Lrf.GetMeteoH" +
       "\000\022&\n\trefine_on\030\016 \001(\0132\021.cmd.Lrf.RefineOnH" +
       "\000\022(\n\nrefine_off\030\017 \001(\0132\022.cmd.Lrf.RefineOf" +
-      "fH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010GetMeteo\"\007\n\005Start\"\006" +
-      "\n\004Stop\"\t\n\007Measure\"\010\n\006ScanOn\"\t\n\007ScanOff\"\013" +
-      "\n\tRefineOff\"\n\n\010RefineOn\"\025\n\023TargetDesigna" +
-      "torOff\"\031\n\027TargetDesignatorOnModeA\"\031\n\027Tar" +
-      "getDesignatorOnModeB\"\017\n\rEnableFogMode\"\020\n" +
-      "\016DisableFogMode\"D\n\013SetScanMode\0225\n\004mode\030\001" +
-      " \001(\0162\033.ser.JonGuiDataLrfScanModesB\n\272H\007\202\001" +
-      "\004\020\001 \000\"\014\n\nNewSessionBJZHgit-codecommit.eu" +
-      "-central-1.amazonaws.com/v1/repos/jettis" +
-      "on/jonp/cmd/lrfb\006proto3"
+      "fH\000\022C\n\030continuous_measure_start\030\020 \001(\0132\037." +
+      "cmd.Lrf.ContinuousMeasureStartH\000\022A\n\027cont" +
+      "inuous_measure_stop\030\021 \001(\0132\036.cmd.Lrf.Cont" +
+      "inuousMeasureStopH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010Get" +
+      "Meteo\"\007\n\005Start\"\006\n\004Stop\"\t\n\007Measure\"\010\n\006Sca" +
+      "nOn\"\t\n\007ScanOff\"\013\n\tRefineOff\"\n\n\010RefineOn\"" +
+      "\025\n\023TargetDesignatorOff\"\031\n\027TargetDesignat" +
+      "orOnModeA\"\031\n\027TargetDesignatorOnModeB\"\017\n\r" +
+      "EnableFogMode\"\020\n\016DisableFogMode\"D\n\013SetSc" +
+      "anMode\0225\n\004mode\030\001 \001(\0162\033.ser.JonGuiDataLrf" +
+      "ScanModesB\n\272H\007\202\001\004\020\001 \000\"\014\n\nNewSession\"\030\n\026C" +
+      "ontinuousMeasureStart\"\027\n\025ContinuousMeasu" +
+      "reStopBJZHgit-codecommit.eu-central-1.am" +
+      "azonaws.com/v1/repos/jettison/jonp/cmd/l" +
+      "rfb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9377,7 +10548,7 @@ public final class JonSharedCmdLrf {
     internal_static_cmd_Lrf_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Lrf_Root_descriptor,
-        new java.lang.String[] { "Measure", "ScanOn", "ScanOff", "Start", "Stop", "TargetDesignatorOff", "TargetDesignatorOnModeA", "TargetDesignatorOnModeB", "EnableFogMode", "DisableFogMode", "SetScanMode", "NewSession", "GetMeteo", "RefineOn", "RefineOff", "Cmd", });
+        new java.lang.String[] { "Measure", "ScanOn", "ScanOff", "Start", "Stop", "TargetDesignatorOff", "TargetDesignatorOnModeA", "TargetDesignatorOnModeB", "EnableFogMode", "DisableFogMode", "SetScanMode", "NewSession", "GetMeteo", "RefineOn", "RefineOff", "ContinuousMeasureStart", "ContinuousMeasureStop", "Cmd", });
     internal_static_cmd_Lrf_GetMeteo_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Lrf_GetMeteo_fieldAccessorTable = new
@@ -9467,6 +10638,18 @@ public final class JonSharedCmdLrf {
     internal_static_cmd_Lrf_NewSession_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Lrf_NewSession_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_Lrf_ContinuousMeasureStart_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_cmd_Lrf_ContinuousMeasureStart_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Lrf_ContinuousMeasureStart_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_Lrf_ContinuousMeasureStop_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_cmd_Lrf_ContinuousMeasureStop_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Lrf_ContinuousMeasureStop_descriptor,
         new java.lang.String[] { });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();

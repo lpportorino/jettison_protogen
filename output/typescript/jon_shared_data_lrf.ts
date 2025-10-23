@@ -24,6 +24,7 @@ export interface JonGuiDataLrf {
   pointerMode: JonGuiDatatLrfLaserPointerModes;
   fogModeEnabled: boolean;
   isRefining: boolean;
+  isContinuousMeasuring: boolean;
 }
 
 export interface JonGuiDataTarget {
@@ -66,6 +67,7 @@ function createBaseJonGuiDataLrf(): JonGuiDataLrf {
     pointerMode: 0,
     fogModeEnabled: false,
     isRefining: false,
+    isContinuousMeasuring: false,
   };
 }
 
@@ -91,6 +93,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     }
     if (message.isRefining !== false) {
       writer.uint32(56).bool(message.isRefining);
+    }
+    if (message.isContinuousMeasuring !== false) {
+      writer.uint32(64).bool(message.isContinuousMeasuring);
     }
     return writer;
   },
@@ -158,6 +163,14 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
           message.isRefining = reader.bool();
           continue;
         }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.isContinuousMeasuring = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -176,6 +189,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
       pointerMode: isSet(object.pointerMode) ? jonGuiDatatLrfLaserPointerModesFromJSON(object.pointerMode) : 0,
       fogModeEnabled: isSet(object.fogModeEnabled) ? globalThis.Boolean(object.fogModeEnabled) : false,
       isRefining: isSet(object.isRefining) ? globalThis.Boolean(object.isRefining) : false,
+      isContinuousMeasuring: isSet(object.isContinuousMeasuring)
+        ? globalThis.Boolean(object.isContinuousMeasuring)
+        : false,
     };
   },
 
@@ -202,6 +218,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     if (message.isRefining !== false) {
       obj.isRefining = message.isRefining;
     }
+    if (message.isContinuousMeasuring !== false) {
+      obj.isContinuousMeasuring = message.isContinuousMeasuring;
+    }
     return obj;
   },
 
@@ -219,6 +238,7 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     message.pointerMode = object.pointerMode ?? 0;
     message.fogModeEnabled = object.fogModeEnabled ?? false;
     message.isRefining = object.isRefining ?? false;
+    message.isContinuousMeasuring = object.isContinuousMeasuring ?? false;
     return message;
   },
 };

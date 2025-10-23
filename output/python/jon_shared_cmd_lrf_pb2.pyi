@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("measure", "scan_on", "scan_off", "start", "stop", "target_designator_off", "target_designator_on_mode_a", "target_designator_on_mode_b", "enable_fog_mode", "disable_fog_mode", "set_scan_mode", "new_session", "get_meteo", "refine_on", "refine_off")
+    __slots__ = ("measure", "scan_on", "scan_off", "start", "stop", "target_designator_off", "target_designator_on_mode_a", "target_designator_on_mode_b", "enable_fog_mode", "disable_fog_mode", "set_scan_mode", "new_session", "get_meteo", "refine_on", "refine_off", "continuous_measure_start", "continuous_measure_stop")
     MEASURE_FIELD_NUMBER: _ClassVar[int]
     SCAN_ON_FIELD_NUMBER: _ClassVar[int]
     SCAN_OFF_FIELD_NUMBER: _ClassVar[int]
@@ -22,6 +22,8 @@ class Root(_message.Message):
     GET_METEO_FIELD_NUMBER: _ClassVar[int]
     REFINE_ON_FIELD_NUMBER: _ClassVar[int]
     REFINE_OFF_FIELD_NUMBER: _ClassVar[int]
+    CONTINUOUS_MEASURE_START_FIELD_NUMBER: _ClassVar[int]
+    CONTINUOUS_MEASURE_STOP_FIELD_NUMBER: _ClassVar[int]
     measure: Measure
     scan_on: ScanOn
     scan_off: ScanOff
@@ -37,7 +39,9 @@ class Root(_message.Message):
     get_meteo: GetMeteo
     refine_on: RefineOn
     refine_off: RefineOff
-    def __init__(self, measure: _Optional[_Union[Measure, _Mapping]] = ..., scan_on: _Optional[_Union[ScanOn, _Mapping]] = ..., scan_off: _Optional[_Union[ScanOff, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., target_designator_off: _Optional[_Union[TargetDesignatorOff, _Mapping]] = ..., target_designator_on_mode_a: _Optional[_Union[TargetDesignatorOnModeA, _Mapping]] = ..., target_designator_on_mode_b: _Optional[_Union[TargetDesignatorOnModeB, _Mapping]] = ..., enable_fog_mode: _Optional[_Union[EnableFogMode, _Mapping]] = ..., disable_fog_mode: _Optional[_Union[DisableFogMode, _Mapping]] = ..., set_scan_mode: _Optional[_Union[SetScanMode, _Mapping]] = ..., new_session: _Optional[_Union[NewSession, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refine_on: _Optional[_Union[RefineOn, _Mapping]] = ..., refine_off: _Optional[_Union[RefineOff, _Mapping]] = ...) -> None: ...
+    continuous_measure_start: ContinuousMeasureStart
+    continuous_measure_stop: ContinuousMeasureStop
+    def __init__(self, measure: _Optional[_Union[Measure, _Mapping]] = ..., scan_on: _Optional[_Union[ScanOn, _Mapping]] = ..., scan_off: _Optional[_Union[ScanOff, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., target_designator_off: _Optional[_Union[TargetDesignatorOff, _Mapping]] = ..., target_designator_on_mode_a: _Optional[_Union[TargetDesignatorOnModeA, _Mapping]] = ..., target_designator_on_mode_b: _Optional[_Union[TargetDesignatorOnModeB, _Mapping]] = ..., enable_fog_mode: _Optional[_Union[EnableFogMode, _Mapping]] = ..., disable_fog_mode: _Optional[_Union[DisableFogMode, _Mapping]] = ..., set_scan_mode: _Optional[_Union[SetScanMode, _Mapping]] = ..., new_session: _Optional[_Union[NewSession, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refine_on: _Optional[_Union[RefineOn, _Mapping]] = ..., refine_off: _Optional[_Union[RefineOff, _Mapping]] = ..., continuous_measure_start: _Optional[_Union[ContinuousMeasureStart, _Mapping]] = ..., continuous_measure_stop: _Optional[_Union[ContinuousMeasureStop, _Mapping]] = ...) -> None: ...
 
 class GetMeteo(_message.Message):
     __slots__ = ()
@@ -98,5 +102,13 @@ class SetScanMode(_message.Message):
     def __init__(self, mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataLrfScanModes, str]] = ...) -> None: ...
 
 class NewSession(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class ContinuousMeasureStart(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class ContinuousMeasureStop(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...

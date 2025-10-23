@@ -42,6 +42,8 @@ type Root struct {
 	//	*Root_GetMeteo
 	//	*Root_RefineOn
 	//	*Root_RefineOff
+	//	*Root_ContinuousMeasureStart
+	//	*Root_ContinuousMeasureStop
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -219,6 +221,24 @@ func (x *Root) GetRefineOff() *RefineOff {
 	return nil
 }
 
+func (x *Root) GetContinuousMeasureStart() *ContinuousMeasureStart {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_ContinuousMeasureStart); ok {
+			return x.ContinuousMeasureStart
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetContinuousMeasureStop() *ContinuousMeasureStop {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_ContinuousMeasureStop); ok {
+			return x.ContinuousMeasureStop
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -283,6 +303,14 @@ type Root_RefineOff struct {
 	RefineOff *RefineOff `protobuf:"bytes,15,opt,name=refine_off,json=refineOff,proto3,oneof"`
 }
 
+type Root_ContinuousMeasureStart struct {
+	ContinuousMeasureStart *ContinuousMeasureStart `protobuf:"bytes,16,opt,name=continuous_measure_start,json=continuousMeasureStart,proto3,oneof"`
+}
+
+type Root_ContinuousMeasureStop struct {
+	ContinuousMeasureStop *ContinuousMeasureStop `protobuf:"bytes,17,opt,name=continuous_measure_stop,json=continuousMeasureStop,proto3,oneof"`
+}
+
 func (*Root_Measure) isRoot_Cmd() {}
 
 func (*Root_ScanOn) isRoot_Cmd() {}
@@ -312,6 +340,10 @@ func (*Root_GetMeteo) isRoot_Cmd() {}
 func (*Root_RefineOn) isRoot_Cmd() {}
 
 func (*Root_RefineOff) isRoot_Cmd() {}
+
+func (*Root_ContinuousMeasureStart) isRoot_Cmd() {}
+
+func (*Root_ContinuousMeasureStop) isRoot_Cmd() {}
 
 type GetMeteo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -861,11 +893,83 @@ func (*NewSession) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_lrf_proto_rawDescGZIP(), []int{15}
 }
 
+type ContinuousMeasureStart struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ContinuousMeasureStart) Reset() {
+	*x = ContinuousMeasureStart{}
+	mi := &file_jon_shared_cmd_lrf_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ContinuousMeasureStart) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContinuousMeasureStart) ProtoMessage() {}
+
+func (x *ContinuousMeasureStart) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_lrf_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContinuousMeasureStart.ProtoReflect.Descriptor instead.
+func (*ContinuousMeasureStart) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_lrf_proto_rawDescGZIP(), []int{16}
+}
+
+type ContinuousMeasureStop struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ContinuousMeasureStop) Reset() {
+	*x = ContinuousMeasureStop{}
+	mi := &file_jon_shared_cmd_lrf_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ContinuousMeasureStop) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContinuousMeasureStop) ProtoMessage() {}
+
+func (x *ContinuousMeasureStop) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_lrf_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContinuousMeasureStop.ProtoReflect.Descriptor instead.
+func (*ContinuousMeasureStop) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_lrf_proto_rawDescGZIP(), []int{17}
+}
+
 var File_jon_shared_cmd_lrf_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_lrf_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_cmd_lrf.proto\x12\acmd.Lrf\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x96\a\n" +
+	"\x18jon_shared_cmd_lrf.proto\x12\acmd.Lrf\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xcd\b\n" +
 	"\x04Root\x12,\n" +
 	"\ameasure\x18\x01 \x01(\v2\x10.cmd.Lrf.MeasureH\x00R\ameasure\x12*\n" +
 	"\ascan_on\x18\x02 \x01(\v2\x0f.cmd.Lrf.ScanOnH\x00R\x06scanOn\x12-\n" +
@@ -884,7 +988,9 @@ const file_jon_shared_cmd_lrf_proto_rawDesc = "" +
 	"\tget_meteo\x18\r \x01(\v2\x11.cmd.Lrf.GetMeteoH\x00R\bgetMeteo\x120\n" +
 	"\trefine_on\x18\x0e \x01(\v2\x11.cmd.Lrf.RefineOnH\x00R\brefineOn\x123\n" +
 	"\n" +
-	"refine_off\x18\x0f \x01(\v2\x12.cmd.Lrf.RefineOffH\x00R\trefineOffB\f\n" +
+	"refine_off\x18\x0f \x01(\v2\x12.cmd.Lrf.RefineOffH\x00R\trefineOff\x12[\n" +
+	"\x18continuous_measure_start\x18\x10 \x01(\v2\x1f.cmd.Lrf.ContinuousMeasureStartH\x00R\x16continuousMeasureStart\x12X\n" +
+	"\x17continuous_measure_stop\x18\x11 \x01(\v2\x1e.cmd.Lrf.ContinuousMeasureStopH\x00R\x15continuousMeasureStopB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\n" +
 	"\n" +
 	"\bGetMeteo\"\a\n" +
@@ -905,7 +1011,9 @@ const file_jon_shared_cmd_lrf_proto_rawDesc = "" +
 	"\x04mode\x18\x01 \x01(\x0e2\x1b.ser.JonGuiDataLrfScanModesB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x04mode\"\f\n" +
 	"\n" +
-	"NewSessionB\xaa\x01\n" +
+	"NewSession\"\x18\n" +
+	"\x16ContinuousMeasureStart\"\x17\n" +
+	"\x15ContinuousMeasureStopB\xaa\x01\n" +
 	"\vcom.cmd.LrfB\x14JonSharedCmdLrfProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/lrf\xa2\x02\x03CLX\xaa\x02\aCmd.Lrf\xca\x02\aCmd\\Lrf\xe2\x02\x13Cmd\\Lrf\\GPBMetadata\xea\x02\bCmd::Lrfb\x06proto3"
 
 var (
@@ -920,7 +1028,7 @@ func file_jon_shared_cmd_lrf_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_lrf_proto_rawDescData
 }
 
-var file_jon_shared_cmd_lrf_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_jon_shared_cmd_lrf_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_jon_shared_cmd_lrf_proto_goTypes = []any{
 	(*Root)(nil),                      // 0: cmd.Lrf.Root
 	(*GetMeteo)(nil),                  // 1: cmd.Lrf.GetMeteo
@@ -938,7 +1046,9 @@ var file_jon_shared_cmd_lrf_proto_goTypes = []any{
 	(*DisableFogMode)(nil),            // 13: cmd.Lrf.DisableFogMode
 	(*SetScanMode)(nil),               // 14: cmd.Lrf.SetScanMode
 	(*NewSession)(nil),                // 15: cmd.Lrf.NewSession
-	(types.JonGuiDataLrfScanModes)(0), // 16: ser.JonGuiDataLrfScanModes
+	(*ContinuousMeasureStart)(nil),    // 16: cmd.Lrf.ContinuousMeasureStart
+	(*ContinuousMeasureStop)(nil),     // 17: cmd.Lrf.ContinuousMeasureStop
+	(types.JonGuiDataLrfScanModes)(0), // 18: ser.JonGuiDataLrfScanModes
 }
 var file_jon_shared_cmd_lrf_proto_depIdxs = []int32{
 	4,  // 0: cmd.Lrf.Root.measure:type_name -> cmd.Lrf.Measure
@@ -956,12 +1066,14 @@ var file_jon_shared_cmd_lrf_proto_depIdxs = []int32{
 	1,  // 12: cmd.Lrf.Root.get_meteo:type_name -> cmd.Lrf.GetMeteo
 	8,  // 13: cmd.Lrf.Root.refine_on:type_name -> cmd.Lrf.RefineOn
 	7,  // 14: cmd.Lrf.Root.refine_off:type_name -> cmd.Lrf.RefineOff
-	16, // 15: cmd.Lrf.SetScanMode.mode:type_name -> ser.JonGuiDataLrfScanModes
-	16, // [16:16] is the sub-list for method output_type
-	16, // [16:16] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	16, // 15: cmd.Lrf.Root.continuous_measure_start:type_name -> cmd.Lrf.ContinuousMeasureStart
+	17, // 16: cmd.Lrf.Root.continuous_measure_stop:type_name -> cmd.Lrf.ContinuousMeasureStop
+	18, // 17: cmd.Lrf.SetScanMode.mode:type_name -> ser.JonGuiDataLrfScanModes
+	18, // [18:18] is the sub-list for method output_type
+	18, // [18:18] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_lrf_proto_init() }
@@ -985,6 +1097,8 @@ func file_jon_shared_cmd_lrf_proto_init() {
 		(*Root_GetMeteo)(nil),
 		(*Root_RefineOn)(nil),
 		(*Root_RefineOff)(nil),
+		(*Root_ContinuousMeasureStart)(nil),
+		(*Root_ContinuousMeasureStop)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -992,7 +1106,7 @@ func file_jon_shared_cmd_lrf_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_lrf_proto_rawDesc), len(file_jon_shared_cmd_lrf_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
