@@ -121,7 +121,7 @@ extern const pb_msgdesc_t ser_JonGUIState_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_PB_H_MAX_SIZE        ser_JonGUIState_size
-#define ser_JonGUIState_size                     1118
+#define ser_JonGUIState_size                     1121
 
 #ifdef __cplusplus
 } /* extern "C" */

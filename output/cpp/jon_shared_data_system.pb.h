@@ -238,6 +238,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     kGeodesicModeFieldNumber = 21,
     kCvDumpingFieldNumber = 22,
     kRecognitionModeFieldNumber = 23,
+    kAccumulatorStateFieldNumber = 24,
   };
   // double cpu_temperature = 1;
   void clear_cpu_temperature() ;
@@ -469,12 +470,22 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_recognition_mode(bool value);
 
   public:
+  // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+  void clear_accumulator_state() ;
+  ::ser::JonGuiDataAccumulatorStateIdx accumulator_state() const;
+  void set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value);
+
+  private:
+  ::ser::JonGuiDataAccumulatorStateIdx _internal_accumulator_state() const;
+  void _internal_set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataSystem)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 23, 0,
+      5, 24, 0,
       0, 2>
       _table_;
 
@@ -515,6 +526,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     bool geodesic_mode_;
     bool cv_dumping_;
     bool recognition_mode_;
+    int accumulator_state_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1042,6 +1054,28 @@ inline bool JonGuiDataSystem::_internal_recognition_mode() const {
 inline void JonGuiDataSystem::_internal_set_recognition_mode(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.recognition_mode_ = value;
+}
+
+// .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+inline void JonGuiDataSystem::clear_accumulator_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.accumulator_state_ = 0;
+}
+inline ::ser::JonGuiDataAccumulatorStateIdx JonGuiDataSystem::accumulator_state() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataSystem.accumulator_state)
+  return _internal_accumulator_state();
+}
+inline void JonGuiDataSystem::set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value) {
+  _internal_set_accumulator_state(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataSystem.accumulator_state)
+}
+inline ::ser::JonGuiDataAccumulatorStateIdx JonGuiDataSystem::_internal_accumulator_state() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataAccumulatorStateIdx>(_impl_.accumulator_state_);
+}
+inline void JonGuiDataSystem::_internal_set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.accumulator_state_ = value;
 }
 
 #ifdef __GNUC__

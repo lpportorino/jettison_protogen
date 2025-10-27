@@ -48,6 +48,7 @@ type JonGuiDataSystem struct {
 	GeodesicMode         bool                                `protobuf:"varint,21,opt,name=geodesic_mode,json=geodesicMode,proto3" json:"geodesic_mode,omitempty"`
 	CvDumping            bool                                `protobuf:"varint,22,opt,name=cv_dumping,json=cvDumping,proto3" json:"cv_dumping,omitempty"`
 	RecognitionMode      bool                                `protobuf:"varint,23,opt,name=recognition_mode,json=recognitionMode,proto3" json:"recognition_mode,omitempty"`
+	AccumulatorState     types.JonGuiDataAccumulatorStateIdx `protobuf:"varint,24,opt,name=accumulator_state,json=accumulatorState,proto3,enum=ser.JonGuiDataAccumulatorStateIdx" json:"accumulator_state,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -243,12 +244,18 @@ func (x *JonGuiDataSystem) GetRecognitionMode() bool {
 	return false
 }
 
+func (x *JonGuiDataSystem) GetAccumulatorState() types.JonGuiDataAccumulatorStateIdx {
+	if x != nil {
+		return x.AccumulatorState
+	}
+	return types.JonGuiDataAccumulatorStateIdx(0)
+}
+
 var File_jon_shared_data_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb2\n" +
-	"\n" +
+	"\x1cjon_shared_data_system.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x8f\v\n" +
 	"\x10JonGuiDataSystem\x12[\n" +
 	"\x0fcpu_temperature\x18\x01 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x809@I\x00\x00\x00\x00\x00\x00N@I\x00\x00\x00\x00\x00 T@\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\x0ecpuTemperature\x12[\n" +
 	"\x0fgpu_temperature\x18\x02 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00>@I\x00\x00\x00\x00\x00\x80Q@I\x00\x00\x00\x00\x00`U@\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\x0egpuTemperature\x12M\n" +
@@ -277,7 +284,9 @@ const file_jon_shared_data_system_proto_rawDesc = "" +
 	"\rgeodesic_mode\x18\x15 \x01(\bR\fgeodesicMode\x12\x1d\n" +
 	"\n" +
 	"cv_dumping\x18\x16 \x01(\bR\tcvDumping\x12)\n" +
-	"\x10recognition_mode\x18\x17 \x01(\bR\x0frecognitionModeB\x9d\x01\n" +
+	"\x10recognition_mode\x18\x17 \x01(\bR\x0frecognitionMode\x12[\n" +
+	"\x11accumulator_state\x18\x18 \x01(\x0e2\".ser.JonGuiDataAccumulatorStateIdxB\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x10accumulatorStateB\x9d\x01\n" +
 	"\acom.serB\x18JonSharedDataSystemProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/system\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -296,14 +305,16 @@ var file_jon_shared_data_system_proto_msgTypes = make([]protoimpl.MessageInfo, 1
 var file_jon_shared_data_system_proto_goTypes = []any{
 	(*JonGuiDataSystem)(nil),                 // 0: ser.JonGuiDataSystem
 	(types.JonGuiDataSystemLocalizations)(0), // 1: ser.JonGuiDataSystemLocalizations
+	(types.JonGuiDataAccumulatorStateIdx)(0), // 2: ser.JonGuiDataAccumulatorStateIdx
 }
 var file_jon_shared_data_system_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataSystem.loc:type_name -> ser.JonGuiDataSystemLocalizations
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: ser.JonGuiDataSystem.accumulator_state:type_name -> ser.JonGuiDataAccumulatorStateIdx
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_system_proto_init() }

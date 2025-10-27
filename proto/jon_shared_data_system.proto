@@ -68,4 +68,8 @@ message JonGuiDataSystem {
   bool geodesic_mode = 21;
   bool cv_dumping = 22;
   bool recognition_mode = 23;
+  JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
 }

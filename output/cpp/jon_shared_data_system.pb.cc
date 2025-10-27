@@ -51,6 +51,7 @@ inline constexpr JonGuiDataSystem::Impl_::Impl_(
         geodesic_mode_{false},
         cv_dumping_{false},
         recognition_mode_{false},
+        accumulator_state_{static_cast< ::ser::JonGuiDataAccumulatorStateIdx >(0)},
         _cached_size_{0} {}
 
 template <typename>
@@ -111,6 +112,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.geodesic_mode_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.cv_dumping_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.recognition_mode_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataSystem, _impl_.accumulator_state_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -123,7 +125,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\034jon_shared_data_system.proto\022\003ser\032\033jon"
-    "_shared_data_types.proto\"\370\004\n\020JonGuiDataS"
+    "_shared_data_types.proto\"\267\005\n\020JonGuiDataS"
     "ystem\022\027\n\017cpu_temperature\030\001 \001(\001\022\027\n\017gpu_te"
     "mperature\030\002 \001(\001\022\020\n\010gpu_load\030\003 \001(\001\022\020\n\010cpu"
     "_load\030\004 \001(\001\022\031\n\021power_consumption\030\005 \001(\001\022/"
@@ -139,9 +141,11 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto[] ABSL
     "(\005\022\020\n\010tracking\030\022 \001(\010\022\024\n\014vampire_mode\030\023 \001"
     "(\010\022\032\n\022stabilization_mode\030\024 \001(\010\022\025\n\rgeodes"
     "ic_mode\030\025 \001(\010\022\022\n\ncv_dumping\030\026 \001(\010\022\030\n\020rec"
-    "ognition_mode\030\027 \001(\010BNZLgit-codecommit.eu"
-    "-central-1.amazonaws.com/v1/repos/jettis"
-    "on/jonp/data/systemb\006proto3"
+    "ognition_mode\030\027 \001(\010\022=\n\021accumulator_state"
+    "\030\030 \001(\0162\".ser.JonGuiDataAccumulatorStateI"
+    "dxBNZLgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/data/syst"
+    "emb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_deps[1] =
     {
@@ -151,7 +155,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_o
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto = {
     false,
     false,
-    787,
+    850,
     descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto,
     "jon_shared_data_system.proto",
     &descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_once,
@@ -195,9 +199,9 @@ inline void JonGuiDataSystem::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, cpu_temperature_),
            0,
-           offsetof(Impl_, recognition_mode_) -
+           offsetof(Impl_, accumulator_state_) -
                offsetof(Impl_, cpu_temperature_) +
-               sizeof(Impl_::recognition_mode_));
+               sizeof(Impl_::accumulator_state_));
 }
 JonGuiDataSystem::~JonGuiDataSystem() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataSystem)
@@ -246,15 +250,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataSystem::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 23, 0, 0, 2> JonGuiDataSystem::_table_ = {
+const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    23, 248,  // max_field_number, fast_idx_mask
+    24, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4286578688,  // skipmap
+    4278190080,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    23,  // num_field_entries
+    24,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -334,7 +338,9 @@ const ::_pbi::TcParseTable<5, 23, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // bool recognition_mode = 23;
     {::_pbi::TcParser::FastV8S2,
      {440, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.recognition_mode_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+    {::_pbi::TcParser::FastV32S2,
+     {448, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.accumulator_state_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -414,6 +420,9 @@ const ::_pbi::TcParseTable<5, 23, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // bool recognition_mode = 23;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.recognition_mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.accumulator_state_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
   // no aux_entries
   {{
@@ -428,8 +437,8 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.cpu_temperature_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.recognition_mode_) -
-      reinterpret_cast<char*>(&_impl_.cpu_temperature_)) + sizeof(_impl_.recognition_mode_));
+      reinterpret_cast<char*>(&_impl_.accumulator_state_) -
+      reinterpret_cast<char*>(&_impl_.cpu_temperature_)) + sizeof(_impl_.accumulator_state_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -609,6 +618,13 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
                 23, this_._internal_recognition_mode(), target);
           }
 
+          // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+          if (this_._internal_accumulator_state() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                24, this_._internal_accumulator_state(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -734,6 +750,11 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
             if (this_._internal_recognition_mode() != 0) {
               total_size += 3;
             }
+            // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+            if (this_._internal_accumulator_state() != 0) {
+              total_size += 2 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_accumulator_state());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -816,6 +837,9 @@ void JonGuiDataSystem::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   if (from._internal_recognition_mode() != 0) {
     _this->_impl_.recognition_mode_ = from._impl_.recognition_mode_;
   }
+  if (from._internal_accumulator_state() != 0) {
+    _this->_impl_.accumulator_state_ = from._impl_.accumulator_state_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -831,8 +855,8 @@ void JonGuiDataSystem::InternalSwap(JonGuiDataSystem* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.recognition_mode_)
-      + sizeof(JonGuiDataSystem::_impl_.recognition_mode_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.accumulator_state_)
+      + sizeof(JonGuiDataSystem::_impl_.accumulator_state_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_)>(
           reinterpret_cast<char*>(&_impl_.cpu_temperature_),
           reinterpret_cast<char*>(&other->_impl_.cpu_temperature_));

@@ -171,6 +171,17 @@ public final class JonSharedDataSystem {
      * @return The recognitionMode.
      */
     boolean getRecognitionMode();
+
+    /**
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for accumulatorState.
+     */
+    int getAccumulatorStateValue();
+    /**
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+     * @return The accumulatorState.
+     */
+    ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx getAccumulatorState();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataSystem}
@@ -195,6 +206,7 @@ public final class JonSharedDataSystem {
     }
     private JonGuiDataSystem() {
       loc_ = 0;
+      accumulatorState_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -470,6 +482,24 @@ public final class JonSharedDataSystem {
       return recognitionMode_;
     }
 
+    public static final int ACCUMULATOR_STATE_FIELD_NUMBER = 24;
+    private int accumulatorState_ = 0;
+    /**
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for accumulatorState.
+     */
+    @java.lang.Override public int getAccumulatorStateValue() {
+      return accumulatorState_;
+    }
+    /**
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+     * @return The accumulatorState.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx getAccumulatorState() {
+      ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx result = ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.forNumber(accumulatorState_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -552,6 +582,9 @@ public final class JonSharedDataSystem {
       }
       if (recognitionMode_ != false) {
         output.writeBool(23, recognitionMode_);
+      }
+      if (accumulatorState_ != ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(24, accumulatorState_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -654,6 +687,10 @@ public final class JonSharedDataSystem {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(23, recognitionMode_);
       }
+      if (accumulatorState_ != ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(24, accumulatorState_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -719,6 +756,7 @@ public final class JonSharedDataSystem {
           != other.getCvDumping()) return false;
       if (getRecognitionMode()
           != other.getRecognitionMode()) return false;
+      if (accumulatorState_ != other.accumulatorState_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -791,6 +829,8 @@ public final class JonSharedDataSystem {
       hash = (37 * hash) + RECOGNITION_MODE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getRecognitionMode());
+      hash = (37 * hash) + ACCUMULATOR_STATE_FIELD_NUMBER;
+      hash = (53 * hash) + accumulatorState_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -945,6 +985,7 @@ public final class JonSharedDataSystem {
         geodesicMode_ = false;
         cvDumping_ = false;
         recognitionMode_ = false;
+        accumulatorState_ = 0;
         return this;
       }
 
@@ -1047,6 +1088,9 @@ public final class JonSharedDataSystem {
         if (((from_bitField0_ & 0x00400000) != 0)) {
           result.recognitionMode_ = recognitionMode_;
         }
+        if (((from_bitField0_ & 0x00800000) != 0)) {
+          result.accumulatorState_ = accumulatorState_;
+        }
       }
 
       @java.lang.Override
@@ -1129,6 +1173,9 @@ public final class JonSharedDataSystem {
         }
         if (other.getRecognitionMode() != false) {
           setRecognitionMode(other.getRecognitionMode());
+        }
+        if (other.accumulatorState_ != 0) {
+          setAccumulatorStateValue(other.getAccumulatorStateValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1271,6 +1318,11 @@ public final class JonSharedDataSystem {
                 bitField0_ |= 0x00400000;
                 break;
               } // case 184
+              case 192: {
+                accumulatorState_ = input.readEnum();
+                bitField0_ |= 0x00800000;
+                break;
+              } // case 192
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2045,6 +2097,59 @@ public final class JonSharedDataSystem {
         return this;
       }
 
+      private int accumulatorState_ = 0;
+      /**
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for accumulatorState.
+       */
+      @java.lang.Override public int getAccumulatorStateValue() {
+        return accumulatorState_;
+      }
+      /**
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for accumulatorState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccumulatorStateValue(int value) {
+        accumulatorState_ = value;
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+       * @return The accumulatorState.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx getAccumulatorState() {
+        ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx result = ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.forNumber(accumulatorState_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+       * @param value The accumulatorState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccumulatorState(ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00800000;
+        accumulatorState_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccumulatorState() {
+        bitField0_ = (bitField0_ & ~0x00800000);
+        accumulatorState_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataSystem)
     }
 
@@ -2112,7 +2217,7 @@ public final class JonSharedDataSystem {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_system.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\322\007\n\020JonGuiDataSystem\022K\n\017cp" +
+      "a_types.proto\"\235\010\n\020JonGuiDataSystem\022K\n\017cp" +
       "u_temperature\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)ffff" +
       "f\022q\300I\000\000\000\000\000\2009@I\000\000\000\000\000\000N@I\000\000\000\000\000 T@\022K\n\017gpu_t" +
       "emperature\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)fffff\022q" +
@@ -2136,10 +2241,11 @@ public final class JonSharedDataSystem {
       "\030\021 \001(\005B\t\272H\006\032\004\030d(\000\022\020\n\010tracking\030\022 \001(\010\022\024\n\014v" +
       "ampire_mode\030\023 \001(\010\022\032\n\022stabilization_mode\030" +
       "\024 \001(\010\022\025\n\rgeodesic_mode\030\025 \001(\010\022\022\n\ncv_dumpi" +
-      "ng\030\026 \001(\010\022\030\n\020recognition_mode\030\027 \001(\010BNZLgi" +
-      "t-codecommit.eu-central-1.amazonaws.com/" +
-      "v1/repos/jettison/jonp/data/systemb\006prot" +
-      "o3"
+      "ng\030\026 \001(\010\022\030\n\020recognition_mode\030\027 \001(\010\022I\n\021ac" +
+      "cumulator_state\030\030 \001(\0162\".ser.JonGuiDataAc" +
+      "cumulatorStateIdxB\n\272H\007\202\001\004\020\001 \000BNZLgit-cod" +
+      "ecommit.eu-central-1.amazonaws.com/v1/re" +
+      "pos/jettison/jonp/data/systemb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2152,7 +2258,7 @@ public final class JonSharedDataSystem {
     internal_static_ser_JonGuiDataSystem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataSystem_descriptor,
-        new java.lang.String[] { "CpuTemperature", "GpuTemperature", "GpuLoad", "CpuLoad", "PowerConsumption", "Loc", "CurVideoRecDirYear", "CurVideoRecDirMonth", "CurVideoRecDirDay", "CurVideoRecDirHour", "CurVideoRecDirMinute", "CurVideoRecDirSecond", "RecEnabled", "ImportantRecEnabled", "LowDiskSpace", "NoDiskSpace", "DiskSpace", "Tracking", "VampireMode", "StabilizationMode", "GeodesicMode", "CvDumping", "RecognitionMode", });
+        new java.lang.String[] { "CpuTemperature", "GpuTemperature", "GpuLoad", "CpuLoad", "PowerConsumption", "Loc", "CurVideoRecDirYear", "CurVideoRecDirMonth", "CurVideoRecDirDay", "CurVideoRecDirHour", "CurVideoRecDirMinute", "CurVideoRecDirSecond", "RecEnabled", "ImportantRecEnabled", "LowDiskSpace", "NoDiskSpace", "DiskSpace", "Tracking", "VampireMode", "StabilizationMode", "GeodesicMode", "CvDumping", "RecognitionMode", "AccumulatorState", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

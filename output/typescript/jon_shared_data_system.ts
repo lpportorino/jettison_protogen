@@ -8,6 +8,9 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 import {
+  JonGuiDataAccumulatorStateIdx,
+  jonGuiDataAccumulatorStateIdxFromJSON,
+  jonGuiDataAccumulatorStateIdxToJSON,
   JonGuiDataSystemLocalizations,
   jonGuiDataSystemLocalizationsFromJSON,
   jonGuiDataSystemLocalizationsToJSON,
@@ -37,6 +40,7 @@ export interface JonGuiDataSystem {
   geodesicMode: boolean;
   cvDumping: boolean;
   recognitionMode: boolean;
+  accumulatorState: JonGuiDataAccumulatorStateIdx;
 }
 
 function createBaseJonGuiDataSystem(): JonGuiDataSystem {
@@ -64,6 +68,7 @@ function createBaseJonGuiDataSystem(): JonGuiDataSystem {
     geodesicMode: false,
     cvDumping: false,
     recognitionMode: false,
+    accumulatorState: 0,
   };
 }
 
@@ -137,6 +142,9 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
     }
     if (message.recognitionMode !== false) {
       writer.uint32(184).bool(message.recognitionMode);
+    }
+    if (message.accumulatorState !== 0) {
+      writer.uint32(192).int32(message.accumulatorState);
     }
     return writer;
   },
@@ -332,6 +340,14 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
           message.recognitionMode = reader.bool();
           continue;
         }
+        case 24: {
+          if (tag !== 192) {
+            break;
+          }
+
+          message.accumulatorState = reader.int32() as any;
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -366,6 +382,9 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
       geodesicMode: isSet(object.geodesicMode) ? globalThis.Boolean(object.geodesicMode) : false,
       cvDumping: isSet(object.cvDumping) ? globalThis.Boolean(object.cvDumping) : false,
       recognitionMode: isSet(object.recognitionMode) ? globalThis.Boolean(object.recognitionMode) : false,
+      accumulatorState: isSet(object.accumulatorState)
+        ? jonGuiDataAccumulatorStateIdxFromJSON(object.accumulatorState)
+        : 0,
     };
   },
 
@@ -440,6 +459,9 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
     if (message.recognitionMode !== false) {
       obj.recognitionMode = message.recognitionMode;
     }
+    if (message.accumulatorState !== 0) {
+      obj.accumulatorState = jonGuiDataAccumulatorStateIdxToJSON(message.accumulatorState);
+    }
     return obj;
   },
 
@@ -471,6 +493,7 @@ export const JonGuiDataSystem: MessageFns<JonGuiDataSystem> = {
     message.geodesicMode = object.geodesicMode ?? false;
     message.cvDumping = object.cvDumping ?? false;
     message.recognitionMode = object.recognitionMode ?? false;
+    message.accumulatorState = object.accumulatorState ?? 0;
     return message;
   },
 };

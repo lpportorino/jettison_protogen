@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataSystem(_message.Message):
-    __slots__ = ("cpu_temperature", "gpu_temperature", "gpu_load", "cpu_load", "power_consumption", "loc", "cur_video_rec_dir_year", "cur_video_rec_dir_month", "cur_video_rec_dir_day", "cur_video_rec_dir_hour", "cur_video_rec_dir_minute", "cur_video_rec_dir_second", "rec_enabled", "important_rec_enabled", "low_disk_space", "no_disk_space", "disk_space", "tracking", "vampire_mode", "stabilization_mode", "geodesic_mode", "cv_dumping", "recognition_mode")
+    __slots__ = ("cpu_temperature", "gpu_temperature", "gpu_load", "cpu_load", "power_consumption", "loc", "cur_video_rec_dir_year", "cur_video_rec_dir_month", "cur_video_rec_dir_day", "cur_video_rec_dir_hour", "cur_video_rec_dir_minute", "cur_video_rec_dir_second", "rec_enabled", "important_rec_enabled", "low_disk_space", "no_disk_space", "disk_space", "tracking", "vampire_mode", "stabilization_mode", "geodesic_mode", "cv_dumping", "recognition_mode", "accumulator_state")
     CPU_TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
     GPU_TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
     GPU_LOAD_FIELD_NUMBER: _ClassVar[int]
@@ -30,6 +30,7 @@ class JonGuiDataSystem(_message.Message):
     GEODESIC_MODE_FIELD_NUMBER: _ClassVar[int]
     CV_DUMPING_FIELD_NUMBER: _ClassVar[int]
     RECOGNITION_MODE_FIELD_NUMBER: _ClassVar[int]
+    ACCUMULATOR_STATE_FIELD_NUMBER: _ClassVar[int]
     cpu_temperature: float
     gpu_temperature: float
     gpu_load: float
@@ -53,4 +54,5 @@ class JonGuiDataSystem(_message.Message):
     geodesic_mode: bool
     cv_dumping: bool
     recognition_mode: bool
-    def __init__(self, cpu_temperature: _Optional[float] = ..., gpu_temperature: _Optional[float] = ..., gpu_load: _Optional[float] = ..., cpu_load: _Optional[float] = ..., power_consumption: _Optional[float] = ..., loc: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSystemLocalizations, str]] = ..., cur_video_rec_dir_year: _Optional[int] = ..., cur_video_rec_dir_month: _Optional[int] = ..., cur_video_rec_dir_day: _Optional[int] = ..., cur_video_rec_dir_hour: _Optional[int] = ..., cur_video_rec_dir_minute: _Optional[int] = ..., cur_video_rec_dir_second: _Optional[int] = ..., rec_enabled: bool = ..., important_rec_enabled: bool = ..., low_disk_space: bool = ..., no_disk_space: bool = ..., disk_space: _Optional[int] = ..., tracking: bool = ..., vampire_mode: bool = ..., stabilization_mode: bool = ..., geodesic_mode: bool = ..., cv_dumping: bool = ..., recognition_mode: bool = ...) -> None: ...
+    accumulator_state: _jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx
+    def __init__(self, cpu_temperature: _Optional[float] = ..., gpu_temperature: _Optional[float] = ..., gpu_load: _Optional[float] = ..., cpu_load: _Optional[float] = ..., power_consumption: _Optional[float] = ..., loc: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataSystemLocalizations, str]] = ..., cur_video_rec_dir_year: _Optional[int] = ..., cur_video_rec_dir_month: _Optional[int] = ..., cur_video_rec_dir_day: _Optional[int] = ..., cur_video_rec_dir_hour: _Optional[int] = ..., cur_video_rec_dir_minute: _Optional[int] = ..., cur_video_rec_dir_second: _Optional[int] = ..., rec_enabled: bool = ..., important_rec_enabled: bool = ..., low_disk_space: bool = ..., no_disk_space: bool = ..., disk_space: _Optional[int] = ..., tracking: bool = ..., vampire_mode: bool = ..., stabilization_mode: bool = ..., geodesic_mode: bool = ..., cv_dumping: bool = ..., recognition_mode: bool = ..., accumulator_state: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx, str]] = ...) -> None: ...
