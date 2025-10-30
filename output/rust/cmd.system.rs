@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -41,6 +41,18 @@ pub mod root {
         SaveFactoryDefaults(super::SaveFactoryDefaults),
         #[prost(message, tag = "15")]
         WipeUserData(super::WipeUserData),
+        #[prost(message, tag = "16")]
+        StepYear(super::StepYear),
+        #[prost(message, tag = "17")]
+        StepMonth(super::StepMonth),
+        #[prost(message, tag = "18")]
+        StepDay(super::StepDay),
+        #[prost(message, tag = "19")]
+        StepHour(super::StepHour),
+        #[prost(message, tag = "20")]
+        StepMinute(super::StepMinute),
+        #[prost(message, tag = "21")]
+        StepSecond(super::StepSecond),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -75,4 +87,40 @@ pub struct DisableGeodesicMode {}
 pub struct SetLocalization {
     #[prost(enumeration = "super::super::ser::JonGuiDataSystemLocalizations", tag = "1")]
     pub loc: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepYear {
+    /// Positive or negative year offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepMonth {
+    /// Positive or negative month offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepDay {
+    /// Positive or negative day offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepHour {
+    /// Positive or negative hour offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepMinute {
+    /// Positive or negative minute offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepSecond {
+    /// Positive or negative second offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
 }

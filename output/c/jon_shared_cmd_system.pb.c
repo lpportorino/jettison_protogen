@@ -54,4 +54,22 @@ PB_BIND(cmd_System_DisableGeodesicMode, cmd_System_DisableGeodesicMode, AUTO)
 PB_BIND(cmd_System_SetLocalization, cmd_System_SetLocalization, AUTO)
 
 
+PB_BIND(cmd_System_StepYear, cmd_System_StepYear, AUTO)
+
+
+PB_BIND(cmd_System_StepMonth, cmd_System_StepMonth, AUTO)
+
+
+PB_BIND(cmd_System_StepDay, cmd_System_StepDay, AUTO)
+
+
+PB_BIND(cmd_System_StepHour, cmd_System_StepHour, AUTO)
+
+
+PB_BIND(cmd_System_StepMinute, cmd_System_StepMinute, AUTO)
+
+
+PB_BIND(cmd_System_StepSecond, cmd_System_StepSecond, AUTO)
+
+
 

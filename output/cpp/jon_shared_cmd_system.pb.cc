@@ -98,6 +98,156 @@ struct StopALlDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StopALlDefaultTypeInternal _StopALl_default_instance_;
+
+inline constexpr StepYear::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepYear::StepYear(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepYearDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepYearDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepYearDefaultTypeInternal() {}
+  union {
+    StepYear _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepYearDefaultTypeInternal _StepYear_default_instance_;
+
+inline constexpr StepSecond::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepSecond::StepSecond(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepSecondDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepSecondDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepSecondDefaultTypeInternal() {}
+  union {
+    StepSecond _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepSecondDefaultTypeInternal _StepSecond_default_instance_;
+
+inline constexpr StepMonth::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepMonth::StepMonth(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepMonthDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepMonthDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepMonthDefaultTypeInternal() {}
+  union {
+    StepMonth _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepMonthDefaultTypeInternal _StepMonth_default_instance_;
+
+inline constexpr StepMinute::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepMinute::StepMinute(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepMinuteDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepMinuteDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepMinuteDefaultTypeInternal() {}
+  union {
+    StepMinute _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepMinuteDefaultTypeInternal _StepMinute_default_instance_;
+
+inline constexpr StepHour::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepHour::StepHour(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepHourDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepHourDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepHourDefaultTypeInternal() {}
+  union {
+    StepHour _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepHourDefaultTypeInternal _StepHour_default_instance_;
+
+inline constexpr StepDay::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepDay::StepDay(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepDayDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepDayDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepDayDefaultTypeInternal() {}
+  union {
+    StepDay _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepDayDefaultTypeInternal _StepDay_default_instance_;
               template <typename>
 PROTOBUF_CONSTEXPR StartRec::StartRec(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -361,6 +511,12 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::System::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::System::StartALl, _internal_metadata_),
@@ -483,26 +639,86 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::cmd::System::SetLocalization, _impl_.loc_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepYear, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepYear, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepMonth, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepMonth, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepDay, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepDay, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepHour, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepHour, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepMinute, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepMinute, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepSecond, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepSecond, _impl_.offset_),
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::System::Root)},
-        {24, -1, -1, sizeof(::cmd::System::StartALl)},
-        {32, -1, -1, sizeof(::cmd::System::StopALl)},
-        {40, -1, -1, sizeof(::cmd::System::Reboot)},
-        {48, -1, -1, sizeof(::cmd::System::PowerOff)},
-        {56, -1, -1, sizeof(::cmd::System::ResetConfigs)},
-        {64, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
-        {72, -1, -1, sizeof(::cmd::System::WipeUserData)},
-        {80, -1, -1, sizeof(::cmd::System::StartRec)},
-        {88, -1, -1, sizeof(::cmd::System::StopRec)},
-        {96, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
-        {104, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
-        {112, -1, -1, sizeof(::cmd::System::EnterTransport)},
-        {120, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
-        {128, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
-        {136, -1, -1, sizeof(::cmd::System::SetLocalization)},
+        {30, -1, -1, sizeof(::cmd::System::StartALl)},
+        {38, -1, -1, sizeof(::cmd::System::StopALl)},
+        {46, -1, -1, sizeof(::cmd::System::Reboot)},
+        {54, -1, -1, sizeof(::cmd::System::PowerOff)},
+        {62, -1, -1, sizeof(::cmd::System::ResetConfigs)},
+        {70, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
+        {78, -1, -1, sizeof(::cmd::System::WipeUserData)},
+        {86, -1, -1, sizeof(::cmd::System::StartRec)},
+        {94, -1, -1, sizeof(::cmd::System::StopRec)},
+        {102, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
+        {110, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
+        {118, -1, -1, sizeof(::cmd::System::EnterTransport)},
+        {126, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
+        {134, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
+        {142, -1, -1, sizeof(::cmd::System::SetLocalization)},
+        {151, -1, -1, sizeof(::cmd::System::StepYear)},
+        {160, -1, -1, sizeof(::cmd::System::StepMonth)},
+        {169, -1, -1, sizeof(::cmd::System::StepDay)},
+        {178, -1, -1, sizeof(::cmd::System::StepHour)},
+        {187, -1, -1, sizeof(::cmd::System::StepMinute)},
+        {196, -1, -1, sizeof(::cmd::System::StepSecond)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_Root_default_instance_._instance,
@@ -521,11 +737,17 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_EnableGeodesicMode_default_instance_._instance,
     &::cmd::System::_DisableGeodesicMode_default_instance_._instance,
     &::cmd::System::_SetLocalization_default_instance_._instance,
+    &::cmd::System::_StepYear_default_instance_._instance,
+    &::cmd::System::_StepMonth_default_instance_._instance,
+    &::cmd::System::_StepDay_default_instance_._instance,
+    &::cmd::System::_StepHour_default_instance_._instance,
+    &::cmd::System::_StepMinute_default_instance_._instance,
+    &::cmd::System::_StepSecond_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste"
-    "m\032\033jon_shared_data_types.proto\"\231\006\n\004Root\022"
+    "m\032\033jon_shared_data_types.proto\"\243\010\n\004Root\022"
     ")\n\tstart_all\030\001 \001(\0132\024.cmd.System.StartALl"
     "H\000\022\'\n\010stop_all\030\002 \001(\0132\023.cmd.System.StopAL"
     "lH\000\022$\n\006reboot\030\003 \001(\0132\022.cmd.System.RebootH"
@@ -545,17 +767,28 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_
     "DisableGeodesicModeH\000\022@\n\025save_factory_de"
     "faults\030\016 \001(\0132\037.cmd.System.SaveFactoryDef"
     "aultsH\000\0222\n\016wipe_user_data\030\017 \001(\0132\030.cmd.Sy"
-    "stem.WipeUserDataH\000B\005\n\003cmd\"\n\n\010StartALl\"\t"
-    "\n\007StopALl\"\010\n\006Reboot\"\n\n\010PowerOff\"\016\n\014Reset"
-    "Configs\"\025\n\023SaveFactoryDefaults\"\016\n\014WipeUs"
-    "erData\"\n\n\010StartRec\"\t\n\007StopRec\"\022\n\020MarkRec"
-    "Important\"\024\n\022UnmarkRecImportant\"\020\n\016Enter"
-    "Transport\"\024\n\022EnableGeodesicMode\"\025\n\023Disab"
-    "leGeodesicMode\"B\n\017SetLocalization\022/\n\003loc"
-    "\030\001 \001(\0162\".ser.JonGuiDataSystemLocalizatio"
-    "nsBMZKgit-codecommit.eu-central-1.amazon"
-    "aws.com/v1/repos/jettison/jonp/cmd/syste"
-    "mb\006proto3"
+    "stem.WipeUserDataH\000\022)\n\tstep_year\030\020 \001(\0132\024"
+    ".cmd.System.StepYearH\000\022+\n\nstep_month\030\021 \001"
+    "(\0132\025.cmd.System.StepMonthH\000\022\'\n\010step_day\030"
+    "\022 \001(\0132\023.cmd.System.StepDayH\000\022)\n\tstep_hou"
+    "r\030\023 \001(\0132\024.cmd.System.StepHourH\000\022-\n\013step_"
+    "minute\030\024 \001(\0132\026.cmd.System.StepMinuteH\000\022-"
+    "\n\013step_second\030\025 \001(\0132\026.cmd.System.StepSec"
+    "ondH\000B\005\n\003cmd\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006R"
+    "eboot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023Sav"
+    "eFactoryDefaults\"\016\n\014WipeUserData\"\n\n\010Star"
+    "tRec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022U"
+    "nmarkRecImportant\"\020\n\016EnterTransport\"\024\n\022E"
+    "nableGeodesicMode\"\025\n\023DisableGeodesicMode"
+    "\"B\n\017SetLocalization\022/\n\003loc\030\001 \001(\0162\".ser.J"
+    "onGuiDataSystemLocalizations\"\032\n\010StepYear"
+    "\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016\n\006offset\030"
+    "\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(\005\"\032\n\010Step"
+    "Hour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMinute\022\016\n\006of"
+    "fset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006offset\030\001 \001(\005"
+    "BMZKgit-codecommit.eu-central-1.amazonaw"
+    "s.com/v1/repos/jettison/jonp/cmd/systemb"
+    "\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps[1] =
     {
@@ -565,13 +798,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto = {
     false,
     false,
-    1249,
+    1687,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto,
     "jon_shared_cmd_system.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps,
     1,
-    16,
+    22,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto::offsets,
@@ -783,6 +1016,84 @@ void Root::set_allocated_wipe_user_data(::cmd::System::WipeUserData* wipe_user_d
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.wipe_user_data)
 }
+void Root::set_allocated_step_year(::cmd::System::StepYear* step_year) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_year) {
+    ::google::protobuf::Arena* submessage_arena = step_year->GetArena();
+    if (message_arena != submessage_arena) {
+      step_year = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_year, submessage_arena);
+    }
+    set_has_step_year();
+    _impl_.cmd_.step_year_ = step_year;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_year)
+}
+void Root::set_allocated_step_month(::cmd::System::StepMonth* step_month) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_month) {
+    ::google::protobuf::Arena* submessage_arena = step_month->GetArena();
+    if (message_arena != submessage_arena) {
+      step_month = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_month, submessage_arena);
+    }
+    set_has_step_month();
+    _impl_.cmd_.step_month_ = step_month;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_month)
+}
+void Root::set_allocated_step_day(::cmd::System::StepDay* step_day) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_day) {
+    ::google::protobuf::Arena* submessage_arena = step_day->GetArena();
+    if (message_arena != submessage_arena) {
+      step_day = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_day, submessage_arena);
+    }
+    set_has_step_day();
+    _impl_.cmd_.step_day_ = step_day;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_day)
+}
+void Root::set_allocated_step_hour(::cmd::System::StepHour* step_hour) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_hour) {
+    ::google::protobuf::Arena* submessage_arena = step_hour->GetArena();
+    if (message_arena != submessage_arena) {
+      step_hour = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_hour, submessage_arena);
+    }
+    set_has_step_hour();
+    _impl_.cmd_.step_hour_ = step_hour;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_hour)
+}
+void Root::set_allocated_step_minute(::cmd::System::StepMinute* step_minute) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_minute) {
+    ::google::protobuf::Arena* submessage_arena = step_minute->GetArena();
+    if (message_arena != submessage_arena) {
+      step_minute = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_minute, submessage_arena);
+    }
+    set_has_step_minute();
+    _impl_.cmd_.step_minute_ = step_minute;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_minute)
+}
+void Root::set_allocated_step_second(::cmd::System::StepSecond* step_second) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_second) {
+    ::google::protobuf::Arena* submessage_arena = step_second->GetArena();
+    if (message_arena != submessage_arena) {
+      step_second = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_second, submessage_arena);
+    }
+    set_has_step_second();
+    _impl_.cmd_.step_second_ = step_second;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_second)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -859,6 +1170,24 @@ Root::Root(
         break;
       case kWipeUserData:
         _impl_.cmd_.wipe_user_data_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::WipeUserData>(arena, *from._impl_.cmd_.wipe_user_data_);
+        break;
+      case kStepYear:
+        _impl_.cmd_.step_year_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepYear>(arena, *from._impl_.cmd_.step_year_);
+        break;
+      case kStepMonth:
+        _impl_.cmd_.step_month_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepMonth>(arena, *from._impl_.cmd_.step_month_);
+        break;
+      case kStepDay:
+        _impl_.cmd_.step_day_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepDay>(arena, *from._impl_.cmd_.step_day_);
+        break;
+      case kStepHour:
+        _impl_.cmd_.step_hour_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepHour>(arena, *from._impl_.cmd_.step_hour_);
+        break;
+      case kStepMinute:
+        _impl_.cmd_.step_minute_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepMinute>(arena, *from._impl_.cmd_.step_minute_);
+        break;
+      case kStepSecond:
+        _impl_.cmd_.step_second_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepSecond>(arena, *from._impl_.cmd_.step_second_);
         break;
   }
 
@@ -1012,6 +1341,54 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kStepYear: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_year_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_year_);
+      }
+      break;
+    }
+    case kStepMonth: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_month_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_month_);
+      }
+      break;
+    }
+    case kStepDay: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_day_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_day_);
+      }
+      break;
+    }
+    case kStepHour: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_hour_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_hour_);
+      }
+      break;
+    }
+    case kStepMinute: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_minute_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_minute_);
+      }
+      break;
+    }
+    case kStepSecond: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_second_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_second_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -1056,16 +1433,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    15, 0,  // max_field_number, fast_idx_mask
+    21, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294934528,  // skipmap
+    4292870144,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    15,  // num_field_entries
-    15,  // num_aux_entries
+    21,  // num_field_entries
+    21,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1123,6 +1500,24 @@ const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
     // .cmd.System.WipeUserData wipe_user_data = 15;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.wipe_user_data_), _Internal::kOneofCaseOffset + 0, 14,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepYear step_year = 16;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_year_), _Internal::kOneofCaseOffset + 0, 15,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepMonth step_month = 17;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_month_), _Internal::kOneofCaseOffset + 0, 16,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepDay step_day = 18;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_day_), _Internal::kOneofCaseOffset + 0, 17,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepHour step_hour = 19;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_hour_), _Internal::kOneofCaseOffset + 0, 18,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepMinute step_minute = 20;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_minute_), _Internal::kOneofCaseOffset + 0, 19,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepSecond step_second = 21;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_second_), _Internal::kOneofCaseOffset + 0, 20,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::System::StartALl>()},
     {::_pbi::TcParser::GetTable<::cmd::System::StopALl>()},
@@ -1139,6 +1534,12 @@ const ::_pbi::TcParseTable<0, 15, 15, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::System::DisableGeodesicMode>()},
     {::_pbi::TcParser::GetTable<::cmd::System::SaveFactoryDefaults>()},
     {::_pbi::TcParser::GetTable<::cmd::System::WipeUserData>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepYear>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepMonth>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepDay>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepHour>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepMinute>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepSecond>()},
   }}, {{
   }},
 };
@@ -1260,6 +1661,42 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kStepYear: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  16, *this_._impl_.cmd_.step_year_, this_._impl_.cmd_.step_year_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStepMonth: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  17, *this_._impl_.cmd_.step_month_, this_._impl_.cmd_.step_month_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStepDay: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  18, *this_._impl_.cmd_.step_day_, this_._impl_.cmd_.step_day_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStepHour: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  19, *this_._impl_.cmd_.step_hour_, this_._impl_.cmd_.step_hour_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStepMinute: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  20, *this_._impl_.cmd_.step_minute_, this_._impl_.cmd_.step_minute_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStepSecond: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  21, *this_._impl_.cmd_.step_second_, this_._impl_.cmd_.step_second_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -1375,6 +1812,42 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kWipeUserData: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.wipe_user_data_);
+              break;
+            }
+            // .cmd.System.StepYear step_year = 16;
+            case kStepYear: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_year_);
+              break;
+            }
+            // .cmd.System.StepMonth step_month = 17;
+            case kStepMonth: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_month_);
+              break;
+            }
+            // .cmd.System.StepDay step_day = 18;
+            case kStepDay: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_day_);
+              break;
+            }
+            // .cmd.System.StepHour step_hour = 19;
+            case kStepHour: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_hour_);
+              break;
+            }
+            // .cmd.System.StepMinute step_minute = 20;
+            case kStepMinute: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_minute_);
+              break;
+            }
+            // .cmd.System.StepSecond step_second = 21;
+            case kStepSecond: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_second_);
               break;
             }
             case CMD_NOT_SET: {
@@ -1537,6 +2010,60 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::System::WipeUserData>(arena, *from._impl_.cmd_.wipe_user_data_);
         } else {
           _this->_impl_.cmd_.wipe_user_data_->MergeFrom(from._internal_wipe_user_data());
+        }
+        break;
+      }
+      case kStepYear: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_year_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepYear>(arena, *from._impl_.cmd_.step_year_);
+        } else {
+          _this->_impl_.cmd_.step_year_->MergeFrom(from._internal_step_year());
+        }
+        break;
+      }
+      case kStepMonth: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_month_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepMonth>(arena, *from._impl_.cmd_.step_month_);
+        } else {
+          _this->_impl_.cmd_.step_month_->MergeFrom(from._internal_step_month());
+        }
+        break;
+      }
+      case kStepDay: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_day_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepDay>(arena, *from._impl_.cmd_.step_day_);
+        } else {
+          _this->_impl_.cmd_.step_day_->MergeFrom(from._internal_step_day());
+        }
+        break;
+      }
+      case kStepHour: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_hour_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepHour>(arena, *from._impl_.cmd_.step_hour_);
+        } else {
+          _this->_impl_.cmd_.step_hour_->MergeFrom(from._internal_step_hour());
+        }
+        break;
+      }
+      case kStepMinute: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_minute_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepMinute>(arena, *from._impl_.cmd_.step_minute_);
+        } else {
+          _this->_impl_.cmd_.step_minute_->MergeFrom(from._internal_step_minute());
+        }
+        break;
+      }
+      case kStepSecond: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_second_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepSecond>(arena, *from._impl_.cmd_.step_second_);
+        } else {
+          _this->_impl_.cmd_.step_second_->MergeFrom(from._internal_step_second());
         }
         break;
       }
@@ -3212,6 +3739,1248 @@ void SetLocalization::InternalSwap(SetLocalization* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata SetLocalization::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepYear::_Internal {
+ public:
+};
+
+StepYear::StepYear(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepYear)
+}
+StepYear::StepYear(
+    ::google::protobuf::Arena* arena, const StepYear& from)
+    : StepYear(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepYear::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepYear::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepYear::~StepYear() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepYear)
+  SharedDtor(*this);
+}
+inline void StepYear::SharedDtor(MessageLite& self) {
+  StepYear& this_ = static_cast<StepYear&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepYear::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepYear(arena);
+}
+constexpr auto StepYear::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepYear),
+                                            alignof(StepYear));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepYear::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepYear_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepYear::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepYear>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepYear::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepYear>(), &StepYear::ByteSizeLong,
+            &StepYear::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepYear, _impl_._cached_size_),
+        false,
+    },
+    &StepYear::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepYear::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepYear::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepYear>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepYear, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepYear, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepYear, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepYear::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepYear)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepYear::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepYear& this_ = static_cast<const StepYear&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepYear::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepYear& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepYear)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepYear)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepYear::ByteSizeLong(const MessageLite& base) {
+          const StepYear& this_ = static_cast<const StepYear&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepYear::ByteSizeLong() const {
+          const StepYear& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepYear)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepYear::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepYear*>(&to_msg);
+  auto& from = static_cast<const StepYear&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepYear)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepYear::CopyFrom(const StepYear& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepYear)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepYear::InternalSwap(StepYear* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepYear::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepMonth::_Internal {
+ public:
+};
+
+StepMonth::StepMonth(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepMonth)
+}
+StepMonth::StepMonth(
+    ::google::protobuf::Arena* arena, const StepMonth& from)
+    : StepMonth(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepMonth::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepMonth::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepMonth::~StepMonth() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepMonth)
+  SharedDtor(*this);
+}
+inline void StepMonth::SharedDtor(MessageLite& self) {
+  StepMonth& this_ = static_cast<StepMonth&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepMonth::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepMonth(arena);
+}
+constexpr auto StepMonth::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepMonth),
+                                            alignof(StepMonth));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepMonth::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepMonth_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepMonth::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepMonth>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepMonth::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepMonth>(), &StepMonth::ByteSizeLong,
+            &StepMonth::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepMonth, _impl_._cached_size_),
+        false,
+    },
+    &StepMonth::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepMonth::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepMonth::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepMonth>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepMonth, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepMonth, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepMonth, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepMonth::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepMonth)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepMonth::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepMonth& this_ = static_cast<const StepMonth&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepMonth::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepMonth& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepMonth)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepMonth)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepMonth::ByteSizeLong(const MessageLite& base) {
+          const StepMonth& this_ = static_cast<const StepMonth&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepMonth::ByteSizeLong() const {
+          const StepMonth& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepMonth)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepMonth::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepMonth*>(&to_msg);
+  auto& from = static_cast<const StepMonth&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepMonth)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepMonth::CopyFrom(const StepMonth& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepMonth)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepMonth::InternalSwap(StepMonth* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepMonth::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepDay::_Internal {
+ public:
+};
+
+StepDay::StepDay(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepDay)
+}
+StepDay::StepDay(
+    ::google::protobuf::Arena* arena, const StepDay& from)
+    : StepDay(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepDay::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepDay::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepDay::~StepDay() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepDay)
+  SharedDtor(*this);
+}
+inline void StepDay::SharedDtor(MessageLite& self) {
+  StepDay& this_ = static_cast<StepDay&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepDay::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepDay(arena);
+}
+constexpr auto StepDay::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepDay),
+                                            alignof(StepDay));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepDay::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepDay_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepDay::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepDay>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepDay::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepDay>(), &StepDay::ByteSizeLong,
+            &StepDay::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepDay, _impl_._cached_size_),
+        false,
+    },
+    &StepDay::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepDay::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepDay::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepDay>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepDay, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepDay, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepDay, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepDay::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepDay)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepDay::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepDay& this_ = static_cast<const StepDay&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepDay::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepDay& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepDay)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepDay)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepDay::ByteSizeLong(const MessageLite& base) {
+          const StepDay& this_ = static_cast<const StepDay&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepDay::ByteSizeLong() const {
+          const StepDay& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepDay)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepDay::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepDay*>(&to_msg);
+  auto& from = static_cast<const StepDay&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepDay)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepDay::CopyFrom(const StepDay& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepDay)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepDay::InternalSwap(StepDay* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepDay::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepHour::_Internal {
+ public:
+};
+
+StepHour::StepHour(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepHour)
+}
+StepHour::StepHour(
+    ::google::protobuf::Arena* arena, const StepHour& from)
+    : StepHour(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepHour::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepHour::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepHour::~StepHour() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepHour)
+  SharedDtor(*this);
+}
+inline void StepHour::SharedDtor(MessageLite& self) {
+  StepHour& this_ = static_cast<StepHour&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepHour::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepHour(arena);
+}
+constexpr auto StepHour::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepHour),
+                                            alignof(StepHour));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepHour::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepHour_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepHour::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepHour>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepHour::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepHour>(), &StepHour::ByteSizeLong,
+            &StepHour::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepHour, _impl_._cached_size_),
+        false,
+    },
+    &StepHour::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepHour::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepHour::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepHour>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepHour, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepHour, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepHour, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepHour::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepHour)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepHour::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepHour& this_ = static_cast<const StepHour&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepHour::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepHour& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepHour)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepHour)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepHour::ByteSizeLong(const MessageLite& base) {
+          const StepHour& this_ = static_cast<const StepHour&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepHour::ByteSizeLong() const {
+          const StepHour& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepHour)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepHour::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepHour*>(&to_msg);
+  auto& from = static_cast<const StepHour&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepHour)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepHour::CopyFrom(const StepHour& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepHour)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepHour::InternalSwap(StepHour* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepHour::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepMinute::_Internal {
+ public:
+};
+
+StepMinute::StepMinute(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepMinute)
+}
+StepMinute::StepMinute(
+    ::google::protobuf::Arena* arena, const StepMinute& from)
+    : StepMinute(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepMinute::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepMinute::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepMinute::~StepMinute() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepMinute)
+  SharedDtor(*this);
+}
+inline void StepMinute::SharedDtor(MessageLite& self) {
+  StepMinute& this_ = static_cast<StepMinute&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepMinute::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepMinute(arena);
+}
+constexpr auto StepMinute::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepMinute),
+                                            alignof(StepMinute));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepMinute::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepMinute_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepMinute::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepMinute>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepMinute::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepMinute>(), &StepMinute::ByteSizeLong,
+            &StepMinute::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepMinute, _impl_._cached_size_),
+        false,
+    },
+    &StepMinute::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepMinute::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepMinute::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepMinute>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepMinute, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepMinute, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepMinute, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepMinute::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepMinute)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepMinute::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepMinute& this_ = static_cast<const StepMinute&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepMinute::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepMinute& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepMinute)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepMinute)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepMinute::ByteSizeLong(const MessageLite& base) {
+          const StepMinute& this_ = static_cast<const StepMinute&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepMinute::ByteSizeLong() const {
+          const StepMinute& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepMinute)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepMinute::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepMinute*>(&to_msg);
+  auto& from = static_cast<const StepMinute&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepMinute)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepMinute::CopyFrom(const StepMinute& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepMinute)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepMinute::InternalSwap(StepMinute* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepMinute::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepSecond::_Internal {
+ public:
+};
+
+StepSecond::StepSecond(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepSecond)
+}
+StepSecond::StepSecond(
+    ::google::protobuf::Arena* arena, const StepSecond& from)
+    : StepSecond(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepSecond::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepSecond::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepSecond::~StepSecond() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepSecond)
+  SharedDtor(*this);
+}
+inline void StepSecond::SharedDtor(MessageLite& self) {
+  StepSecond& this_ = static_cast<StepSecond&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepSecond::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepSecond(arena);
+}
+constexpr auto StepSecond::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepSecond),
+                                            alignof(StepSecond));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepSecond::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepSecond_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepSecond::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepSecond>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepSecond::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepSecond>(), &StepSecond::ByteSizeLong,
+            &StepSecond::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepSecond, _impl_._cached_size_),
+        false,
+    },
+    &StepSecond::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepSecond::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepSecond::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepSecond>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepSecond, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepSecond, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepSecond, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepSecond::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepSecond)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepSecond::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepSecond& this_ = static_cast<const StepSecond&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepSecond::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepSecond& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepSecond)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepSecond)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepSecond::ByteSizeLong(const MessageLite& base) {
+          const StepSecond& this_ = static_cast<const StepSecond&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepSecond::ByteSizeLong() const {
+          const StepSecond& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepSecond)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepSecond::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepSecond*>(&to_msg);
+  auto& from = static_cast<const StepSecond&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepSecond)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepSecond::CopyFrom(const StepSecond& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepSecond)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepSecond::InternalSwap(StepSecond* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepSecond::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

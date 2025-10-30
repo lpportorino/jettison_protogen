@@ -71,6 +71,30 @@ typedef struct _cmd_System_SetLocalization {
     ser_JonGuiDataSystemLocalizations loc;
 } cmd_System_SetLocalization;
 
+typedef struct _cmd_System_StepYear {
+    int32_t offset; /* Positive or negative year offset */
+} cmd_System_StepYear;
+
+typedef struct _cmd_System_StepMonth {
+    int32_t offset; /* Positive or negative month offset */
+} cmd_System_StepMonth;
+
+typedef struct _cmd_System_StepDay {
+    int32_t offset; /* Positive or negative day offset */
+} cmd_System_StepDay;
+
+typedef struct _cmd_System_StepHour {
+    int32_t offset; /* Positive or negative hour offset */
+} cmd_System_StepHour;
+
+typedef struct _cmd_System_StepMinute {
+    int32_t offset; /* Positive or negative minute offset */
+} cmd_System_StepMinute;
+
+typedef struct _cmd_System_StepSecond {
+    int32_t offset; /* Positive or negative second offset */
+} cmd_System_StepSecond;
+
 typedef struct _cmd_System_Root {
     pb_size_t which_cmd;
     union {
@@ -89,6 +113,12 @@ typedef struct _cmd_System_Root {
         cmd_System_DisableGeodesicMode geodesic_mode_disable;
         cmd_System_SaveFactoryDefaults save_factory_defaults;
         cmd_System_WipeUserData wipe_user_data;
+        cmd_System_StepYear step_year;
+        cmd_System_StepMonth step_month;
+        cmd_System_StepDay step_day;
+        cmd_System_StepHour step_hour;
+        cmd_System_StepMinute step_minute;
+        cmd_System_StepSecond step_second;
     } cmd;
 } cmd_System_Root;
 
@@ -114,6 +144,12 @@ extern "C" {
 #define cmd_System_EnableGeodesicMode_init_default {0}
 #define cmd_System_DisableGeodesicMode_init_default {0}
 #define cmd_System_SetLocalization_init_default  {_ser_JonGuiDataSystemLocalizations_MIN}
+#define cmd_System_StepYear_init_default         {0}
+#define cmd_System_StepMonth_init_default        {0}
+#define cmd_System_StepDay_init_default          {0}
+#define cmd_System_StepHour_init_default         {0}
+#define cmd_System_StepMinute_init_default       {0}
+#define cmd_System_StepSecond_init_default       {0}
 #define cmd_System_Root_init_zero                {0, {cmd_System_StartALl_init_zero}}
 #define cmd_System_StartALl_init_zero            {0}
 #define cmd_System_StopALl_init_zero             {0}
@@ -130,9 +166,21 @@ extern "C" {
 #define cmd_System_EnableGeodesicMode_init_zero  {0}
 #define cmd_System_DisableGeodesicMode_init_zero {0}
 #define cmd_System_SetLocalization_init_zero     {_ser_JonGuiDataSystemLocalizations_MIN}
+#define cmd_System_StepYear_init_zero            {0}
+#define cmd_System_StepMonth_init_zero           {0}
+#define cmd_System_StepDay_init_zero             {0}
+#define cmd_System_StepHour_init_zero            {0}
+#define cmd_System_StepMinute_init_zero          {0}
+#define cmd_System_StepSecond_init_zero          {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_System_SetLocalization_loc_tag       1
+#define cmd_System_StepYear_offset_tag           1
+#define cmd_System_StepMonth_offset_tag          1
+#define cmd_System_StepDay_offset_tag            1
+#define cmd_System_StepHour_offset_tag           1
+#define cmd_System_StepMinute_offset_tag         1
+#define cmd_System_StepSecond_offset_tag         1
 #define cmd_System_Root_start_all_tag            1
 #define cmd_System_Root_stop_all_tag             2
 #define cmd_System_Root_reboot_tag               3
@@ -148,6 +196,12 @@ extern "C" {
 #define cmd_System_Root_geodesic_mode_disable_tag 13
 #define cmd_System_Root_save_factory_defaults_tag 14
 #define cmd_System_Root_wipe_user_data_tag       15
+#define cmd_System_Root_step_year_tag            16
+#define cmd_System_Root_step_month_tag           17
+#define cmd_System_Root_step_day_tag             18
+#define cmd_System_Root_step_hour_tag            19
+#define cmd_System_Root_step_minute_tag          20
+#define cmd_System_Root_step_second_tag          21
 
 /* Struct field encoding specification for nanopb */
 #define cmd_System_Root_FIELDLIST(X, a) \
@@ -165,7 +219,13 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,enter_transport,cmd.enter_transport),  1
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_enable,cmd.geodesic_mode_enable),  12) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,geodesic_mode_disable,cmd.geodesic_mode_disable),  13) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,save_factory_defaults,cmd.save_factory_defaults),  14) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,wipe_user_data,cmd.wipe_user_data),  15)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,wipe_user_data,cmd.wipe_user_data),  15) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_year,cmd.step_year),  16) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_month,cmd.step_month),  17) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_day,cmd.step_day),  18) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_hour,cmd.step_hour),  19) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_minute,cmd.step_minute),  20) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_second,cmd.step_second),  21)
 #define cmd_System_Root_CALLBACK NULL
 #define cmd_System_Root_DEFAULT NULL
 #define cmd_System_Root_cmd_start_all_MSGTYPE cmd_System_StartALl
@@ -183,6 +243,12 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,wipe_user_data,cmd.wipe_user_data),  15)
 #define cmd_System_Root_cmd_geodesic_mode_disable_MSGTYPE cmd_System_DisableGeodesicMode
 #define cmd_System_Root_cmd_save_factory_defaults_MSGTYPE cmd_System_SaveFactoryDefaults
 #define cmd_System_Root_cmd_wipe_user_data_MSGTYPE cmd_System_WipeUserData
+#define cmd_System_Root_cmd_step_year_MSGTYPE cmd_System_StepYear
+#define cmd_System_Root_cmd_step_month_MSGTYPE cmd_System_StepMonth
+#define cmd_System_Root_cmd_step_day_MSGTYPE cmd_System_StepDay
+#define cmd_System_Root_cmd_step_hour_MSGTYPE cmd_System_StepHour
+#define cmd_System_Root_cmd_step_minute_MSGTYPE cmd_System_StepMinute
+#define cmd_System_Root_cmd_step_second_MSGTYPE cmd_System_StepSecond
 
 #define cmd_System_StartALl_FIELDLIST(X, a) \
 
@@ -259,6 +325,36 @@ X(a, STATIC,   SINGULAR, UENUM,    loc,               1)
 #define cmd_System_SetLocalization_CALLBACK NULL
 #define cmd_System_SetLocalization_DEFAULT NULL
 
+#define cmd_System_StepYear_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    offset,            1)
+#define cmd_System_StepYear_CALLBACK NULL
+#define cmd_System_StepYear_DEFAULT NULL
+
+#define cmd_System_StepMonth_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    offset,            1)
+#define cmd_System_StepMonth_CALLBACK NULL
+#define cmd_System_StepMonth_DEFAULT NULL
+
+#define cmd_System_StepDay_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    offset,            1)
+#define cmd_System_StepDay_CALLBACK NULL
+#define cmd_System_StepDay_DEFAULT NULL
+
+#define cmd_System_StepHour_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    offset,            1)
+#define cmd_System_StepHour_CALLBACK NULL
+#define cmd_System_StepHour_DEFAULT NULL
+
+#define cmd_System_StepMinute_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    offset,            1)
+#define cmd_System_StepMinute_CALLBACK NULL
+#define cmd_System_StepMinute_DEFAULT NULL
+
+#define cmd_System_StepSecond_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    offset,            1)
+#define cmd_System_StepSecond_CALLBACK NULL
+#define cmd_System_StepSecond_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_System_Root_msg;
 extern const pb_msgdesc_t cmd_System_StartALl_msg;
 extern const pb_msgdesc_t cmd_System_StopALl_msg;
@@ -275,6 +371,12 @@ extern const pb_msgdesc_t cmd_System_EnterTransport_msg;
 extern const pb_msgdesc_t cmd_System_EnableGeodesicMode_msg;
 extern const pb_msgdesc_t cmd_System_DisableGeodesicMode_msg;
 extern const pb_msgdesc_t cmd_System_SetLocalization_msg;
+extern const pb_msgdesc_t cmd_System_StepYear_msg;
+extern const pb_msgdesc_t cmd_System_StepMonth_msg;
+extern const pb_msgdesc_t cmd_System_StepDay_msg;
+extern const pb_msgdesc_t cmd_System_StepHour_msg;
+extern const pb_msgdesc_t cmd_System_StepMinute_msg;
+extern const pb_msgdesc_t cmd_System_StepSecond_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_System_Root_fields &cmd_System_Root_msg
@@ -293,6 +395,12 @@ extern const pb_msgdesc_t cmd_System_SetLocalization_msg;
 #define cmd_System_EnableGeodesicMode_fields &cmd_System_EnableGeodesicMode_msg
 #define cmd_System_DisableGeodesicMode_fields &cmd_System_DisableGeodesicMode_msg
 #define cmd_System_SetLocalization_fields &cmd_System_SetLocalization_msg
+#define cmd_System_StepYear_fields &cmd_System_StepYear_msg
+#define cmd_System_StepMonth_fields &cmd_System_StepMonth_msg
+#define cmd_System_StepDay_fields &cmd_System_StepDay_msg
+#define cmd_System_StepHour_fields &cmd_System_StepHour_msg
+#define cmd_System_StepMinute_fields &cmd_System_StepMinute_msg
+#define cmd_System_StepSecond_fields &cmd_System_StepSecond_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_SYSTEM_JON_SHARED_CMD_SYSTEM_PB_H_MAX_SIZE cmd_System_Root_size
@@ -303,11 +411,17 @@ extern const pb_msgdesc_t cmd_System_SetLocalization_msg;
 #define cmd_System_PowerOff_size                 0
 #define cmd_System_Reboot_size                   0
 #define cmd_System_ResetConfigs_size             0
-#define cmd_System_Root_size                     4
+#define cmd_System_Root_size                     14
 #define cmd_System_SaveFactoryDefaults_size      0
 #define cmd_System_SetLocalization_size          2
 #define cmd_System_StartALl_size                 0
 #define cmd_System_StartRec_size                 0
+#define cmd_System_StepDay_size                  11
+#define cmd_System_StepHour_size                 11
+#define cmd_System_StepMinute_size               11
+#define cmd_System_StepMonth_size                11
+#define cmd_System_StepSecond_size               11
+#define cmd_System_StepYear_size                 11
 #define cmd_System_StopALl_size                  0
 #define cmd_System_StopRec_size                  0
 #define cmd_System_UnmarkRecImportant_size       0

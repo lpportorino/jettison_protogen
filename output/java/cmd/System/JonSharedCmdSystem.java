@@ -254,6 +254,96 @@ public final class JonSharedCmdSystem {
      */
     cmd.System.JonSharedCmdSystem.WipeUserDataOrBuilder getWipeUserDataOrBuilder();
 
+    /**
+     * <code>.cmd.System.StepYear step_year = 16;</code>
+     * @return Whether the stepYear field is set.
+     */
+    boolean hasStepYear();
+    /**
+     * <code>.cmd.System.StepYear step_year = 16;</code>
+     * @return The stepYear.
+     */
+    cmd.System.JonSharedCmdSystem.StepYear getStepYear();
+    /**
+     * <code>.cmd.System.StepYear step_year = 16;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepYearOrBuilder getStepYearOrBuilder();
+
+    /**
+     * <code>.cmd.System.StepMonth step_month = 17;</code>
+     * @return Whether the stepMonth field is set.
+     */
+    boolean hasStepMonth();
+    /**
+     * <code>.cmd.System.StepMonth step_month = 17;</code>
+     * @return The stepMonth.
+     */
+    cmd.System.JonSharedCmdSystem.StepMonth getStepMonth();
+    /**
+     * <code>.cmd.System.StepMonth step_month = 17;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepMonthOrBuilder getStepMonthOrBuilder();
+
+    /**
+     * <code>.cmd.System.StepDay step_day = 18;</code>
+     * @return Whether the stepDay field is set.
+     */
+    boolean hasStepDay();
+    /**
+     * <code>.cmd.System.StepDay step_day = 18;</code>
+     * @return The stepDay.
+     */
+    cmd.System.JonSharedCmdSystem.StepDay getStepDay();
+    /**
+     * <code>.cmd.System.StepDay step_day = 18;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepDayOrBuilder getStepDayOrBuilder();
+
+    /**
+     * <code>.cmd.System.StepHour step_hour = 19;</code>
+     * @return Whether the stepHour field is set.
+     */
+    boolean hasStepHour();
+    /**
+     * <code>.cmd.System.StepHour step_hour = 19;</code>
+     * @return The stepHour.
+     */
+    cmd.System.JonSharedCmdSystem.StepHour getStepHour();
+    /**
+     * <code>.cmd.System.StepHour step_hour = 19;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepHourOrBuilder getStepHourOrBuilder();
+
+    /**
+     * <code>.cmd.System.StepMinute step_minute = 20;</code>
+     * @return Whether the stepMinute field is set.
+     */
+    boolean hasStepMinute();
+    /**
+     * <code>.cmd.System.StepMinute step_minute = 20;</code>
+     * @return The stepMinute.
+     */
+    cmd.System.JonSharedCmdSystem.StepMinute getStepMinute();
+    /**
+     * <code>.cmd.System.StepMinute step_minute = 20;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder getStepMinuteOrBuilder();
+
+    /**
+     * <code>.cmd.System.StepSecond step_second = 21;</code>
+     * @return Whether the stepSecond field is set.
+     */
+    boolean hasStepSecond();
+    /**
+     * <code>.cmd.System.StepSecond step_second = 21;</code>
+     * @return The stepSecond.
+     */
+    cmd.System.JonSharedCmdSystem.StepSecond getStepSecond();
+    /**
+     * <code>.cmd.System.StepSecond step_second = 21;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepSecondOrBuilder getStepSecondOrBuilder();
+
     cmd.System.JonSharedCmdSystem.Root.CmdCase getCmdCase();
   }
   /**
@@ -314,6 +404,12 @@ public final class JonSharedCmdSystem {
       GEODESIC_MODE_DISABLE(13),
       SAVE_FACTORY_DEFAULTS(14),
       WIPE_USER_DATA(15),
+      STEP_YEAR(16),
+      STEP_MONTH(17),
+      STEP_DAY(18),
+      STEP_HOUR(19),
+      STEP_MINUTE(20),
+      STEP_SECOND(21),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -346,6 +442,12 @@ public final class JonSharedCmdSystem {
           case 13: return GEODESIC_MODE_DISABLE;
           case 14: return SAVE_FACTORY_DEFAULTS;
           case 15: return WIPE_USER_DATA;
+          case 16: return STEP_YEAR;
+          case 17: return STEP_MONTH;
+          case 18: return STEP_DAY;
+          case 19: return STEP_HOUR;
+          case 20: return STEP_MINUTE;
+          case 21: return STEP_SECOND;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -826,6 +928,192 @@ public final class JonSharedCmdSystem {
       return cmd.System.JonSharedCmdSystem.WipeUserData.getDefaultInstance();
     }
 
+    public static final int STEP_YEAR_FIELD_NUMBER = 16;
+    /**
+     * <code>.cmd.System.StepYear step_year = 16;</code>
+     * @return Whether the stepYear field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepYear() {
+      return cmdCase_ == 16;
+    }
+    /**
+     * <code>.cmd.System.StepYear step_year = 16;</code>
+     * @return The stepYear.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepYear getStepYear() {
+      if (cmdCase_ == 16) {
+         return (cmd.System.JonSharedCmdSystem.StepYear) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepYear step_year = 16;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepYearOrBuilder getStepYearOrBuilder() {
+      if (cmdCase_ == 16) {
+         return (cmd.System.JonSharedCmdSystem.StepYear) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+    }
+
+    public static final int STEP_MONTH_FIELD_NUMBER = 17;
+    /**
+     * <code>.cmd.System.StepMonth step_month = 17;</code>
+     * @return Whether the stepMonth field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepMonth() {
+      return cmdCase_ == 17;
+    }
+    /**
+     * <code>.cmd.System.StepMonth step_month = 17;</code>
+     * @return The stepMonth.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepMonth getStepMonth() {
+      if (cmdCase_ == 17) {
+         return (cmd.System.JonSharedCmdSystem.StepMonth) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepMonth step_month = 17;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepMonthOrBuilder getStepMonthOrBuilder() {
+      if (cmdCase_ == 17) {
+         return (cmd.System.JonSharedCmdSystem.StepMonth) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+    }
+
+    public static final int STEP_DAY_FIELD_NUMBER = 18;
+    /**
+     * <code>.cmd.System.StepDay step_day = 18;</code>
+     * @return Whether the stepDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepDay() {
+      return cmdCase_ == 18;
+    }
+    /**
+     * <code>.cmd.System.StepDay step_day = 18;</code>
+     * @return The stepDay.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepDay getStepDay() {
+      if (cmdCase_ == 18) {
+         return (cmd.System.JonSharedCmdSystem.StepDay) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepDay step_day = 18;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepDayOrBuilder getStepDayOrBuilder() {
+      if (cmdCase_ == 18) {
+         return (cmd.System.JonSharedCmdSystem.StepDay) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+    }
+
+    public static final int STEP_HOUR_FIELD_NUMBER = 19;
+    /**
+     * <code>.cmd.System.StepHour step_hour = 19;</code>
+     * @return Whether the stepHour field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepHour() {
+      return cmdCase_ == 19;
+    }
+    /**
+     * <code>.cmd.System.StepHour step_hour = 19;</code>
+     * @return The stepHour.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepHour getStepHour() {
+      if (cmdCase_ == 19) {
+         return (cmd.System.JonSharedCmdSystem.StepHour) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepHour step_hour = 19;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepHourOrBuilder getStepHourOrBuilder() {
+      if (cmdCase_ == 19) {
+         return (cmd.System.JonSharedCmdSystem.StepHour) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+    }
+
+    public static final int STEP_MINUTE_FIELD_NUMBER = 20;
+    /**
+     * <code>.cmd.System.StepMinute step_minute = 20;</code>
+     * @return Whether the stepMinute field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepMinute() {
+      return cmdCase_ == 20;
+    }
+    /**
+     * <code>.cmd.System.StepMinute step_minute = 20;</code>
+     * @return The stepMinute.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepMinute getStepMinute() {
+      if (cmdCase_ == 20) {
+         return (cmd.System.JonSharedCmdSystem.StepMinute) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepMinute step_minute = 20;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder getStepMinuteOrBuilder() {
+      if (cmdCase_ == 20) {
+         return (cmd.System.JonSharedCmdSystem.StepMinute) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+    }
+
+    public static final int STEP_SECOND_FIELD_NUMBER = 21;
+    /**
+     * <code>.cmd.System.StepSecond step_second = 21;</code>
+     * @return Whether the stepSecond field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepSecond() {
+      return cmdCase_ == 21;
+    }
+    /**
+     * <code>.cmd.System.StepSecond step_second = 21;</code>
+     * @return The stepSecond.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepSecond getStepSecond() {
+      if (cmdCase_ == 21) {
+         return (cmd.System.JonSharedCmdSystem.StepSecond) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepSecond step_second = 21;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepSecondOrBuilder getStepSecondOrBuilder() {
+      if (cmdCase_ == 21) {
+         return (cmd.System.JonSharedCmdSystem.StepSecond) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -884,6 +1172,24 @@ public final class JonSharedCmdSystem {
       }
       if (cmdCase_ == 15) {
         output.writeMessage(15, (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_);
+      }
+      if (cmdCase_ == 16) {
+        output.writeMessage(16, (cmd.System.JonSharedCmdSystem.StepYear) cmd_);
+      }
+      if (cmdCase_ == 17) {
+        output.writeMessage(17, (cmd.System.JonSharedCmdSystem.StepMonth) cmd_);
+      }
+      if (cmdCase_ == 18) {
+        output.writeMessage(18, (cmd.System.JonSharedCmdSystem.StepDay) cmd_);
+      }
+      if (cmdCase_ == 19) {
+        output.writeMessage(19, (cmd.System.JonSharedCmdSystem.StepHour) cmd_);
+      }
+      if (cmdCase_ == 20) {
+        output.writeMessage(20, (cmd.System.JonSharedCmdSystem.StepMinute) cmd_);
+      }
+      if (cmdCase_ == 21) {
+        output.writeMessage(21, (cmd.System.JonSharedCmdSystem.StepSecond) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -953,6 +1259,30 @@ public final class JonSharedCmdSystem {
       if (cmdCase_ == 15) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, (cmd.System.JonSharedCmdSystem.WipeUserData) cmd_);
+      }
+      if (cmdCase_ == 16) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, (cmd.System.JonSharedCmdSystem.StepYear) cmd_);
+      }
+      if (cmdCase_ == 17) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, (cmd.System.JonSharedCmdSystem.StepMonth) cmd_);
+      }
+      if (cmdCase_ == 18) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(18, (cmd.System.JonSharedCmdSystem.StepDay) cmd_);
+      }
+      if (cmdCase_ == 19) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(19, (cmd.System.JonSharedCmdSystem.StepHour) cmd_);
+      }
+      if (cmdCase_ == 20) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(20, (cmd.System.JonSharedCmdSystem.StepMinute) cmd_);
+      }
+      if (cmdCase_ == 21) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, (cmd.System.JonSharedCmdSystem.StepSecond) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1031,6 +1361,30 @@ public final class JonSharedCmdSystem {
           if (!getWipeUserData()
               .equals(other.getWipeUserData())) return false;
           break;
+        case 16:
+          if (!getStepYear()
+              .equals(other.getStepYear())) return false;
+          break;
+        case 17:
+          if (!getStepMonth()
+              .equals(other.getStepMonth())) return false;
+          break;
+        case 18:
+          if (!getStepDay()
+              .equals(other.getStepDay())) return false;
+          break;
+        case 19:
+          if (!getStepHour()
+              .equals(other.getStepHour())) return false;
+          break;
+        case 20:
+          if (!getStepMinute()
+              .equals(other.getStepMinute())) return false;
+          break;
+        case 21:
+          if (!getStepSecond()
+              .equals(other.getStepSecond())) return false;
+          break;
         case 0:
         default:
       }
@@ -1105,6 +1459,30 @@ public final class JonSharedCmdSystem {
         case 15:
           hash = (37 * hash) + WIPE_USER_DATA_FIELD_NUMBER;
           hash = (53 * hash) + getWipeUserData().hashCode();
+          break;
+        case 16:
+          hash = (37 * hash) + STEP_YEAR_FIELD_NUMBER;
+          hash = (53 * hash) + getStepYear().hashCode();
+          break;
+        case 17:
+          hash = (37 * hash) + STEP_MONTH_FIELD_NUMBER;
+          hash = (53 * hash) + getStepMonth().hashCode();
+          break;
+        case 18:
+          hash = (37 * hash) + STEP_DAY_FIELD_NUMBER;
+          hash = (53 * hash) + getStepDay().hashCode();
+          break;
+        case 19:
+          hash = (37 * hash) + STEP_HOUR_FIELD_NUMBER;
+          hash = (53 * hash) + getStepHour().hashCode();
+          break;
+        case 20:
+          hash = (37 * hash) + STEP_MINUTE_FIELD_NUMBER;
+          hash = (53 * hash) + getStepMinute().hashCode();
+          break;
+        case 21:
+          hash = (37 * hash) + STEP_SECOND_FIELD_NUMBER;
+          hash = (53 * hash) + getStepSecond().hashCode();
           break;
         case 0:
         default:
@@ -1285,6 +1663,24 @@ public final class JonSharedCmdSystem {
         if (wipeUserDataBuilder_ != null) {
           wipeUserDataBuilder_.clear();
         }
+        if (stepYearBuilder_ != null) {
+          stepYearBuilder_.clear();
+        }
+        if (stepMonthBuilder_ != null) {
+          stepMonthBuilder_.clear();
+        }
+        if (stepDayBuilder_ != null) {
+          stepDayBuilder_.clear();
+        }
+        if (stepHourBuilder_ != null) {
+          stepHourBuilder_.clear();
+        }
+        if (stepMinuteBuilder_ != null) {
+          stepMinuteBuilder_.clear();
+        }
+        if (stepSecondBuilder_ != null) {
+          stepSecondBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1386,6 +1782,30 @@ public final class JonSharedCmdSystem {
             wipeUserDataBuilder_ != null) {
           result.cmd_ = wipeUserDataBuilder_.build();
         }
+        if (cmdCase_ == 16 &&
+            stepYearBuilder_ != null) {
+          result.cmd_ = stepYearBuilder_.build();
+        }
+        if (cmdCase_ == 17 &&
+            stepMonthBuilder_ != null) {
+          result.cmd_ = stepMonthBuilder_.build();
+        }
+        if (cmdCase_ == 18 &&
+            stepDayBuilder_ != null) {
+          result.cmd_ = stepDayBuilder_.build();
+        }
+        if (cmdCase_ == 19 &&
+            stepHourBuilder_ != null) {
+          result.cmd_ = stepHourBuilder_.build();
+        }
+        if (cmdCase_ == 20 &&
+            stepMinuteBuilder_ != null) {
+          result.cmd_ = stepMinuteBuilder_.build();
+        }
+        if (cmdCase_ == 21 &&
+            stepSecondBuilder_ != null) {
+          result.cmd_ = stepSecondBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -1459,6 +1879,30 @@ public final class JonSharedCmdSystem {
           }
           case WIPE_USER_DATA: {
             mergeWipeUserData(other.getWipeUserData());
+            break;
+          }
+          case STEP_YEAR: {
+            mergeStepYear(other.getStepYear());
+            break;
+          }
+          case STEP_MONTH: {
+            mergeStepMonth(other.getStepMonth());
+            break;
+          }
+          case STEP_DAY: {
+            mergeStepDay(other.getStepDay());
+            break;
+          }
+          case STEP_HOUR: {
+            mergeStepHour(other.getStepHour());
+            break;
+          }
+          case STEP_MINUTE: {
+            mergeStepMinute(other.getStepMinute());
+            break;
+          }
+          case STEP_SECOND: {
+            mergeStepSecond(other.getStepSecond());
             break;
           }
           case CMD_NOT_SET: {
@@ -1596,6 +2040,48 @@ public final class JonSharedCmdSystem {
                 cmdCase_ = 15;
                 break;
               } // case 122
+              case 130: {
+                input.readMessage(
+                    getStepYearFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 16;
+                break;
+              } // case 130
+              case 138: {
+                input.readMessage(
+                    getStepMonthFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 17;
+                break;
+              } // case 138
+              case 146: {
+                input.readMessage(
+                    getStepDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 18;
+                break;
+              } // case 146
+              case 154: {
+                input.readMessage(
+                    getStepHourFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 19;
+                break;
+              } // case 154
+              case 162: {
+                input.readMessage(
+                    getStepMinuteFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 20;
+                break;
+              } // case 162
+              case 170: {
+                input.readMessage(
+                    getStepSecondFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 21;
+                break;
+              } // case 170
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3756,6 +4242,858 @@ public final class JonSharedCmdSystem {
         cmdCase_ = 15;
         onChanged();
         return wipeUserDataBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepYear, cmd.System.JonSharedCmdSystem.StepYear.Builder, cmd.System.JonSharedCmdSystem.StepYearOrBuilder> stepYearBuilder_;
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       * @return Whether the stepYear field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepYear() {
+        return cmdCase_ == 16;
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       * @return The stepYear.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepYear getStepYear() {
+        if (stepYearBuilder_ == null) {
+          if (cmdCase_ == 16) {
+            return (cmd.System.JonSharedCmdSystem.StepYear) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 16) {
+            return stepYearBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      public Builder setStepYear(cmd.System.JonSharedCmdSystem.StepYear value) {
+        if (stepYearBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepYearBuilder_.setMessage(value);
+        }
+        cmdCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      public Builder setStepYear(
+          cmd.System.JonSharedCmdSystem.StepYear.Builder builderForValue) {
+        if (stepYearBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepYearBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      public Builder mergeStepYear(cmd.System.JonSharedCmdSystem.StepYear value) {
+        if (stepYearBuilder_ == null) {
+          if (cmdCase_ == 16 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepYear.newBuilder((cmd.System.JonSharedCmdSystem.StepYear) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 16) {
+            stepYearBuilder_.mergeFrom(value);
+          } else {
+            stepYearBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 16;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      public Builder clearStepYear() {
+        if (stepYearBuilder_ == null) {
+          if (cmdCase_ == 16) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 16) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepYearBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepYear.Builder getStepYearBuilder() {
+        return getStepYearFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepYearOrBuilder getStepYearOrBuilder() {
+        if ((cmdCase_ == 16) && (stepYearBuilder_ != null)) {
+          return stepYearBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 16) {
+            return (cmd.System.JonSharedCmdSystem.StepYear) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepYear step_year = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepYear, cmd.System.JonSharedCmdSystem.StepYear.Builder, cmd.System.JonSharedCmdSystem.StepYearOrBuilder> 
+          getStepYearFieldBuilder() {
+        if (stepYearBuilder_ == null) {
+          if (!(cmdCase_ == 16)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+          }
+          stepYearBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepYear, cmd.System.JonSharedCmdSystem.StepYear.Builder, cmd.System.JonSharedCmdSystem.StepYearOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepYear) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 16;
+        onChanged();
+        return stepYearBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepMonth, cmd.System.JonSharedCmdSystem.StepMonth.Builder, cmd.System.JonSharedCmdSystem.StepMonthOrBuilder> stepMonthBuilder_;
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       * @return Whether the stepMonth field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepMonth() {
+        return cmdCase_ == 17;
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       * @return The stepMonth.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMonth getStepMonth() {
+        if (stepMonthBuilder_ == null) {
+          if (cmdCase_ == 17) {
+            return (cmd.System.JonSharedCmdSystem.StepMonth) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 17) {
+            return stepMonthBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      public Builder setStepMonth(cmd.System.JonSharedCmdSystem.StepMonth value) {
+        if (stepMonthBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepMonthBuilder_.setMessage(value);
+        }
+        cmdCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      public Builder setStepMonth(
+          cmd.System.JonSharedCmdSystem.StepMonth.Builder builderForValue) {
+        if (stepMonthBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepMonthBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      public Builder mergeStepMonth(cmd.System.JonSharedCmdSystem.StepMonth value) {
+        if (stepMonthBuilder_ == null) {
+          if (cmdCase_ == 17 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepMonth.newBuilder((cmd.System.JonSharedCmdSystem.StepMonth) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 17) {
+            stepMonthBuilder_.mergeFrom(value);
+          } else {
+            stepMonthBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 17;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      public Builder clearStepMonth() {
+        if (stepMonthBuilder_ == null) {
+          if (cmdCase_ == 17) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 17) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepMonthBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepMonth.Builder getStepMonthBuilder() {
+        return getStepMonthFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMonthOrBuilder getStepMonthOrBuilder() {
+        if ((cmdCase_ == 17) && (stepMonthBuilder_ != null)) {
+          return stepMonthBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 17) {
+            return (cmd.System.JonSharedCmdSystem.StepMonth) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepMonth step_month = 17;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepMonth, cmd.System.JonSharedCmdSystem.StepMonth.Builder, cmd.System.JonSharedCmdSystem.StepMonthOrBuilder> 
+          getStepMonthFieldBuilder() {
+        if (stepMonthBuilder_ == null) {
+          if (!(cmdCase_ == 17)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+          }
+          stepMonthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepMonth, cmd.System.JonSharedCmdSystem.StepMonth.Builder, cmd.System.JonSharedCmdSystem.StepMonthOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepMonth) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 17;
+        onChanged();
+        return stepMonthBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepDay, cmd.System.JonSharedCmdSystem.StepDay.Builder, cmd.System.JonSharedCmdSystem.StepDayOrBuilder> stepDayBuilder_;
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       * @return Whether the stepDay field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepDay() {
+        return cmdCase_ == 18;
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       * @return The stepDay.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepDay getStepDay() {
+        if (stepDayBuilder_ == null) {
+          if (cmdCase_ == 18) {
+            return (cmd.System.JonSharedCmdSystem.StepDay) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 18) {
+            return stepDayBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      public Builder setStepDay(cmd.System.JonSharedCmdSystem.StepDay value) {
+        if (stepDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepDayBuilder_.setMessage(value);
+        }
+        cmdCase_ = 18;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      public Builder setStepDay(
+          cmd.System.JonSharedCmdSystem.StepDay.Builder builderForValue) {
+        if (stepDayBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepDayBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 18;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      public Builder mergeStepDay(cmd.System.JonSharedCmdSystem.StepDay value) {
+        if (stepDayBuilder_ == null) {
+          if (cmdCase_ == 18 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepDay.newBuilder((cmd.System.JonSharedCmdSystem.StepDay) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 18) {
+            stepDayBuilder_.mergeFrom(value);
+          } else {
+            stepDayBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 18;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      public Builder clearStepDay() {
+        if (stepDayBuilder_ == null) {
+          if (cmdCase_ == 18) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 18) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepDayBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepDay.Builder getStepDayBuilder() {
+        return getStepDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepDayOrBuilder getStepDayOrBuilder() {
+        if ((cmdCase_ == 18) && (stepDayBuilder_ != null)) {
+          return stepDayBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 18) {
+            return (cmd.System.JonSharedCmdSystem.StepDay) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepDay step_day = 18;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepDay, cmd.System.JonSharedCmdSystem.StepDay.Builder, cmd.System.JonSharedCmdSystem.StepDayOrBuilder> 
+          getStepDayFieldBuilder() {
+        if (stepDayBuilder_ == null) {
+          if (!(cmdCase_ == 18)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+          }
+          stepDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepDay, cmd.System.JonSharedCmdSystem.StepDay.Builder, cmd.System.JonSharedCmdSystem.StepDayOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepDay) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 18;
+        onChanged();
+        return stepDayBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepHour, cmd.System.JonSharedCmdSystem.StepHour.Builder, cmd.System.JonSharedCmdSystem.StepHourOrBuilder> stepHourBuilder_;
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       * @return Whether the stepHour field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepHour() {
+        return cmdCase_ == 19;
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       * @return The stepHour.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepHour getStepHour() {
+        if (stepHourBuilder_ == null) {
+          if (cmdCase_ == 19) {
+            return (cmd.System.JonSharedCmdSystem.StepHour) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 19) {
+            return stepHourBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      public Builder setStepHour(cmd.System.JonSharedCmdSystem.StepHour value) {
+        if (stepHourBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepHourBuilder_.setMessage(value);
+        }
+        cmdCase_ = 19;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      public Builder setStepHour(
+          cmd.System.JonSharedCmdSystem.StepHour.Builder builderForValue) {
+        if (stepHourBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepHourBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 19;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      public Builder mergeStepHour(cmd.System.JonSharedCmdSystem.StepHour value) {
+        if (stepHourBuilder_ == null) {
+          if (cmdCase_ == 19 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepHour.newBuilder((cmd.System.JonSharedCmdSystem.StepHour) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 19) {
+            stepHourBuilder_.mergeFrom(value);
+          } else {
+            stepHourBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 19;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      public Builder clearStepHour() {
+        if (stepHourBuilder_ == null) {
+          if (cmdCase_ == 19) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 19) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepHourBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepHour.Builder getStepHourBuilder() {
+        return getStepHourFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepHourOrBuilder getStepHourOrBuilder() {
+        if ((cmdCase_ == 19) && (stepHourBuilder_ != null)) {
+          return stepHourBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 19) {
+            return (cmd.System.JonSharedCmdSystem.StepHour) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepHour step_hour = 19;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepHour, cmd.System.JonSharedCmdSystem.StepHour.Builder, cmd.System.JonSharedCmdSystem.StepHourOrBuilder> 
+          getStepHourFieldBuilder() {
+        if (stepHourBuilder_ == null) {
+          if (!(cmdCase_ == 19)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+          }
+          stepHourBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepHour, cmd.System.JonSharedCmdSystem.StepHour.Builder, cmd.System.JonSharedCmdSystem.StepHourOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepHour) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 19;
+        onChanged();
+        return stepHourBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepMinute, cmd.System.JonSharedCmdSystem.StepMinute.Builder, cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder> stepMinuteBuilder_;
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       * @return Whether the stepMinute field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepMinute() {
+        return cmdCase_ == 20;
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       * @return The stepMinute.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMinute getStepMinute() {
+        if (stepMinuteBuilder_ == null) {
+          if (cmdCase_ == 20) {
+            return (cmd.System.JonSharedCmdSystem.StepMinute) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 20) {
+            return stepMinuteBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      public Builder setStepMinute(cmd.System.JonSharedCmdSystem.StepMinute value) {
+        if (stepMinuteBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepMinuteBuilder_.setMessage(value);
+        }
+        cmdCase_ = 20;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      public Builder setStepMinute(
+          cmd.System.JonSharedCmdSystem.StepMinute.Builder builderForValue) {
+        if (stepMinuteBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepMinuteBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 20;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      public Builder mergeStepMinute(cmd.System.JonSharedCmdSystem.StepMinute value) {
+        if (stepMinuteBuilder_ == null) {
+          if (cmdCase_ == 20 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepMinute.newBuilder((cmd.System.JonSharedCmdSystem.StepMinute) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 20) {
+            stepMinuteBuilder_.mergeFrom(value);
+          } else {
+            stepMinuteBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 20;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      public Builder clearStepMinute() {
+        if (stepMinuteBuilder_ == null) {
+          if (cmdCase_ == 20) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 20) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepMinuteBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepMinute.Builder getStepMinuteBuilder() {
+        return getStepMinuteFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder getStepMinuteOrBuilder() {
+        if ((cmdCase_ == 20) && (stepMinuteBuilder_ != null)) {
+          return stepMinuteBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 20) {
+            return (cmd.System.JonSharedCmdSystem.StepMinute) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepMinute step_minute = 20;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepMinute, cmd.System.JonSharedCmdSystem.StepMinute.Builder, cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder> 
+          getStepMinuteFieldBuilder() {
+        if (stepMinuteBuilder_ == null) {
+          if (!(cmdCase_ == 20)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+          }
+          stepMinuteBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepMinute, cmd.System.JonSharedCmdSystem.StepMinute.Builder, cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepMinute) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 20;
+        onChanged();
+        return stepMinuteBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepSecond, cmd.System.JonSharedCmdSystem.StepSecond.Builder, cmd.System.JonSharedCmdSystem.StepSecondOrBuilder> stepSecondBuilder_;
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       * @return Whether the stepSecond field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepSecond() {
+        return cmdCase_ == 21;
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       * @return The stepSecond.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepSecond getStepSecond() {
+        if (stepSecondBuilder_ == null) {
+          if (cmdCase_ == 21) {
+            return (cmd.System.JonSharedCmdSystem.StepSecond) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 21) {
+            return stepSecondBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      public Builder setStepSecond(cmd.System.JonSharedCmdSystem.StepSecond value) {
+        if (stepSecondBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepSecondBuilder_.setMessage(value);
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      public Builder setStepSecond(
+          cmd.System.JonSharedCmdSystem.StepSecond.Builder builderForValue) {
+        if (stepSecondBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepSecondBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      public Builder mergeStepSecond(cmd.System.JonSharedCmdSystem.StepSecond value) {
+        if (stepSecondBuilder_ == null) {
+          if (cmdCase_ == 21 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepSecond.newBuilder((cmd.System.JonSharedCmdSystem.StepSecond) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 21) {
+            stepSecondBuilder_.mergeFrom(value);
+          } else {
+            stepSecondBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      public Builder clearStepSecond() {
+        if (stepSecondBuilder_ == null) {
+          if (cmdCase_ == 21) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 21) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepSecondBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepSecond.Builder getStepSecondBuilder() {
+        return getStepSecondFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepSecondOrBuilder getStepSecondOrBuilder() {
+        if ((cmdCase_ == 21) && (stepSecondBuilder_ != null)) {
+          return stepSecondBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 21) {
+            return (cmd.System.JonSharedCmdSystem.StepSecond) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepSecond step_second = 21;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepSecond, cmd.System.JonSharedCmdSystem.StepSecond.Builder, cmd.System.JonSharedCmdSystem.StepSecondOrBuilder> 
+          getStepSecondFieldBuilder() {
+        if (stepSecondBuilder_ == null) {
+          if (!(cmdCase_ == 21)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+          }
+          stepSecondBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepSecond, cmd.System.JonSharedCmdSystem.StepSecond.Builder, cmd.System.JonSharedCmdSystem.StepSecondOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepSecond) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 21;
+        onChanged();
+        return stepSecondBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.System.Root)
@@ -9246,6 +10584,2730 @@ public final class JonSharedCmdSystem {
 
   }
 
+  public interface StepYearOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepYear)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative year offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepYear}
+   */
+  public static final class StepYear extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepYear)
+      StepYearOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepYear.class.getName());
+    }
+    // Use StepYear.newBuilder() to construct.
+    private StepYear(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepYear() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepYear_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepYear_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepYear.class, cmd.System.JonSharedCmdSystem.StepYear.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative year offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepYear)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepYear other = (cmd.System.JonSharedCmdSystem.StepYear) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepYear parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepYear parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepYear parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepYear prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepYear}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepYear)
+        cmd.System.JonSharedCmdSystem.StepYearOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepYear_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepYear_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepYear.class, cmd.System.JonSharedCmdSystem.StepYear.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepYear.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepYear_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepYear getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepYear build() {
+        cmd.System.JonSharedCmdSystem.StepYear result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepYear buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepYear result = new cmd.System.JonSharedCmdSystem.StepYear(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepYear result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepYear) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepYear)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepYear other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepYear.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative year offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative year offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative year offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepYear)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepYear)
+    private static final cmd.System.JonSharedCmdSystem.StepYear DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepYear();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepYear getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepYear>
+        PARSER = new com.google.protobuf.AbstractParser<StepYear>() {
+      @java.lang.Override
+      public StepYear parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepYear> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepYear> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepYear getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StepMonthOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepMonth)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative month offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepMonth}
+   */
+  public static final class StepMonth extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepMonth)
+      StepMonthOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepMonth.class.getName());
+    }
+    // Use StepMonth.newBuilder() to construct.
+    private StepMonth(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepMonth() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMonth_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMonth_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepMonth.class, cmd.System.JonSharedCmdSystem.StepMonth.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative month offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepMonth)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepMonth other = (cmd.System.JonSharedCmdSystem.StepMonth) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMonth parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepMonth prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepMonth}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepMonth)
+        cmd.System.JonSharedCmdSystem.StepMonthOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMonth_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMonth_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepMonth.class, cmd.System.JonSharedCmdSystem.StepMonth.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepMonth.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMonth_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMonth getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMonth build() {
+        cmd.System.JonSharedCmdSystem.StepMonth result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMonth buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepMonth result = new cmd.System.JonSharedCmdSystem.StepMonth(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepMonth result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepMonth) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepMonth)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepMonth other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepMonth.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative month offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative month offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative month offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepMonth)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepMonth)
+    private static final cmd.System.JonSharedCmdSystem.StepMonth DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepMonth();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMonth getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepMonth>
+        PARSER = new com.google.protobuf.AbstractParser<StepMonth>() {
+      @java.lang.Override
+      public StepMonth parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepMonth> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepMonth> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepMonth getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StepDayOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepDay)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative day offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepDay}
+   */
+  public static final class StepDay extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepDay)
+      StepDayOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepDay.class.getName());
+    }
+    // Use StepDay.newBuilder() to construct.
+    private StepDay(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepDay() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepDay_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepDay_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepDay.class, cmd.System.JonSharedCmdSystem.StepDay.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative day offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepDay)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepDay other = (cmd.System.JonSharedCmdSystem.StepDay) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepDay parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepDay parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepDay parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepDay prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepDay}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepDay)
+        cmd.System.JonSharedCmdSystem.StepDayOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepDay_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepDay_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepDay.class, cmd.System.JonSharedCmdSystem.StepDay.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepDay.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepDay_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepDay getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepDay build() {
+        cmd.System.JonSharedCmdSystem.StepDay result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepDay buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepDay result = new cmd.System.JonSharedCmdSystem.StepDay(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepDay result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepDay) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepDay)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepDay other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepDay.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative day offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative day offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative day offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepDay)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepDay)
+    private static final cmd.System.JonSharedCmdSystem.StepDay DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepDay();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepDay getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepDay>
+        PARSER = new com.google.protobuf.AbstractParser<StepDay>() {
+      @java.lang.Override
+      public StepDay parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepDay> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepDay> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepDay getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StepHourOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepHour)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative hour offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepHour}
+   */
+  public static final class StepHour extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepHour)
+      StepHourOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepHour.class.getName());
+    }
+    // Use StepHour.newBuilder() to construct.
+    private StepHour(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepHour() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepHour_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepHour_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepHour.class, cmd.System.JonSharedCmdSystem.StepHour.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative hour offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepHour)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepHour other = (cmd.System.JonSharedCmdSystem.StepHour) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepHour parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepHour parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepHour parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepHour prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepHour}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepHour)
+        cmd.System.JonSharedCmdSystem.StepHourOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepHour_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepHour_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepHour.class, cmd.System.JonSharedCmdSystem.StepHour.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepHour.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepHour_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepHour getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepHour build() {
+        cmd.System.JonSharedCmdSystem.StepHour result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepHour buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepHour result = new cmd.System.JonSharedCmdSystem.StepHour(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepHour result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepHour) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepHour)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepHour other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepHour.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative hour offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative hour offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative hour offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepHour)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepHour)
+    private static final cmd.System.JonSharedCmdSystem.StepHour DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepHour();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepHour getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepHour>
+        PARSER = new com.google.protobuf.AbstractParser<StepHour>() {
+      @java.lang.Override
+      public StepHour parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepHour> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepHour> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepHour getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StepMinuteOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepMinute)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative minute offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepMinute}
+   */
+  public static final class StepMinute extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepMinute)
+      StepMinuteOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepMinute.class.getName());
+    }
+    // Use StepMinute.newBuilder() to construct.
+    private StepMinute(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepMinute() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMinute_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMinute_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepMinute.class, cmd.System.JonSharedCmdSystem.StepMinute.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative minute offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepMinute)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepMinute other = (cmd.System.JonSharedCmdSystem.StepMinute) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepMinute parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepMinute prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepMinute}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepMinute)
+        cmd.System.JonSharedCmdSystem.StepMinuteOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMinute_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMinute_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepMinute.class, cmd.System.JonSharedCmdSystem.StepMinute.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepMinute.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepMinute_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMinute getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMinute build() {
+        cmd.System.JonSharedCmdSystem.StepMinute result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepMinute buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepMinute result = new cmd.System.JonSharedCmdSystem.StepMinute(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepMinute result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepMinute) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepMinute)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepMinute other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepMinute.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative minute offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative minute offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative minute offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepMinute)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepMinute)
+    private static final cmd.System.JonSharedCmdSystem.StepMinute DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepMinute();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepMinute getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepMinute>
+        PARSER = new com.google.protobuf.AbstractParser<StepMinute>() {
+      @java.lang.Override
+      public StepMinute parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepMinute> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepMinute> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepMinute getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StepSecondOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepSecond)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative second offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepSecond}
+   */
+  public static final class StepSecond extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepSecond)
+      StepSecondOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepSecond.class.getName());
+    }
+    // Use StepSecond.newBuilder() to construct.
+    private StepSecond(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepSecond() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepSecond_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepSecond_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepSecond.class, cmd.System.JonSharedCmdSystem.StepSecond.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative second offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepSecond)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepSecond other = (cmd.System.JonSharedCmdSystem.StepSecond) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepSecond parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepSecond prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepSecond}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepSecond)
+        cmd.System.JonSharedCmdSystem.StepSecondOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepSecond_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepSecond_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepSecond.class, cmd.System.JonSharedCmdSystem.StepSecond.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepSecond.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepSecond_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepSecond getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepSecond build() {
+        cmd.System.JonSharedCmdSystem.StepSecond result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepSecond buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepSecond result = new cmd.System.JonSharedCmdSystem.StepSecond(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepSecond result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepSecond) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepSecond)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepSecond other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative second offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative second offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative second offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepSecond)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepSecond)
+    private static final cmd.System.JonSharedCmdSystem.StepSecond DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepSecond();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepSecond getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepSecond>
+        PARSER = new com.google.protobuf.AbstractParser<StepSecond>() {
+      @java.lang.Override
+      public StepSecond parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepSecond> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepSecond> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepSecond getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_System_Root_descriptor;
   private static final 
@@ -9326,6 +13388,36 @@ public final class JonSharedCmdSystem {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_System_SetLocalization_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepYear_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepYear_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepMonth_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepMonth_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepDay_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepDay_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepHour_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepHour_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepMinute_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepMinute_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepSecond_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepSecond_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9337,7 +13429,7 @@ public final class JonSharedCmdSystem {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste" +
       "m\032\033buf/validate/validate.proto\032\033jon_shar" +
-      "ed_data_types.proto\"\240\006\n\004Root\022)\n\tstart_al" +
+      "ed_data_types.proto\"\252\010\n\004Root\022)\n\tstart_al" +
       "l\030\001 \001(\0132\024.cmd.System.StartALlH\000\022\'\n\010stop_" +
       "all\030\002 \001(\0132\023.cmd.System.StopALlH\000\022$\n\006rebo" +
       "ot\030\003 \001(\0132\022.cmd.System.RebootH\000\022)\n\tpower_" +
@@ -9357,17 +13449,28 @@ public final class JonSharedCmdSystem {
       "esicModeH\000\022@\n\025save_factory_defaults\030\016 \001(" +
       "\0132\037.cmd.System.SaveFactoryDefaultsH\000\0222\n\016" +
       "wipe_user_data\030\017 \001(\0132\030.cmd.System.WipeUs" +
-      "erDataH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007St" +
-      "opALl\"\010\n\006Reboot\"\n\n\010PowerOff\"\016\n\014ResetConf" +
-      "igs\"\025\n\023SaveFactoryDefaults\"\016\n\014WipeUserDa" +
-      "ta\"\n\n\010StartRec\"\t\n\007StopRec\"\022\n\020MarkRecImpo" +
-      "rtant\"\024\n\022UnmarkRecImportant\"\020\n\016EnterTran" +
-      "sport\"\024\n\022EnableGeodesicMode\"\025\n\023DisableGe" +
-      "odesicMode\"N\n\017SetLocalization\022;\n\003loc\030\001 \001" +
-      "(\0162\".ser.JonGuiDataSystemLocalizationsB\n" +
-      "\272H\007\202\001\004\020\001 \000BMZKgit-codecommit.eu-central-" +
-      "1.amazonaws.com/v1/repos/jettison/jonp/c" +
-      "md/systemb\006proto3"
+      "erDataH\000\022)\n\tstep_year\030\020 \001(\0132\024.cmd.System" +
+      ".StepYearH\000\022+\n\nstep_month\030\021 \001(\0132\025.cmd.Sy" +
+      "stem.StepMonthH\000\022\'\n\010step_day\030\022 \001(\0132\023.cmd" +
+      ".System.StepDayH\000\022)\n\tstep_hour\030\023 \001(\0132\024.c" +
+      "md.System.StepHourH\000\022-\n\013step_minute\030\024 \001(" +
+      "\0132\026.cmd.System.StepMinuteH\000\022-\n\013step_seco" +
+      "nd\030\025 \001(\0132\026.cmd.System.StepSecondH\000B\014\n\003cm" +
+      "d\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Reboo" +
+      "t\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveFac" +
+      "toryDefaults\"\016\n\014WipeUserData\"\n\n\010StartRec" +
+      "\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unmar" +
+      "kRecImportant\"\020\n\016EnterTransport\"\024\n\022Enabl" +
+      "eGeodesicMode\"\025\n\023DisableGeodesicMode\"N\n\017" +
+      "SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.JonGu" +
+      "iDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032\n\010" +
+      "StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016\n" +
+      "\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(\005" +
+      "\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMinu" +
+      "te\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006offs" +
+      "et\030\001 \001(\005BMZKgit-codecommit.eu-central-1." +
+      "amazonaws.com/v1/repos/jettison/jonp/cmd" +
+      "/systemb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9380,7 +13483,7 @@ public final class JonSharedCmdSystem {
     internal_static_cmd_System_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_Root_descriptor,
-        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "Cmd", });
+        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "StepYear", "StepMonth", "StepDay", "StepHour", "StepMinute", "StepSecond", "Cmd", });
     internal_static_cmd_System_StartALl_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_System_StartALl_fieldAccessorTable = new
@@ -9471,6 +13574,42 @@ public final class JonSharedCmdSystem {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_SetLocalization_descriptor,
         new java.lang.String[] { "Loc", });
+    internal_static_cmd_System_StepYear_descriptor =
+      getDescriptor().getMessageTypes().get(16);
+    internal_static_cmd_System_StepYear_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepYear_descriptor,
+        new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_StepMonth_descriptor =
+      getDescriptor().getMessageTypes().get(17);
+    internal_static_cmd_System_StepMonth_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepMonth_descriptor,
+        new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_StepDay_descriptor =
+      getDescriptor().getMessageTypes().get(18);
+    internal_static_cmd_System_StepDay_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepDay_descriptor,
+        new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_StepHour_descriptor =
+      getDescriptor().getMessageTypes().get(19);
+    internal_static_cmd_System_StepHour_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepHour_descriptor,
+        new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_StepMinute_descriptor =
+      getDescriptor().getMessageTypes().get(20);
+    internal_static_cmd_System_StepMinute_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepMinute_descriptor,
+        new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_StepSecond_descriptor =
+      getDescriptor().getMessageTypes().get(21);
+    internal_static_cmd_System_StepSecond_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepSecond_descriptor,
+        new java.lang.String[] { "Offset", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

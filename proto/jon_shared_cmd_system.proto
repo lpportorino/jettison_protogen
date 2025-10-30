@@ -24,6 +24,12 @@ message Root {
     DisableGeodesicMode geodesic_mode_disable = 13;
     SaveFactoryDefaults save_factory_defaults = 14;
     WipeUserData wipe_user_data = 15;
+    StepYear step_year = 16;
+    StepMonth step_month = 17;
+    StepDay step_day = 18;
+    StepHour step_hour = 19;
+    StepMinute step_minute = 20;
+    StepSecond step_second = 21;
   }
 }
 
@@ -60,4 +66,28 @@ message SetLocalization {
     defined_only: true,
     not_in: [0]
   }];
+}
+
+message StepYear {
+  int32 offset = 1;  // Positive or negative year offset
+}
+
+message StepMonth {
+  int32 offset = 1;  // Positive or negative month offset
+}
+
+message StepDay {
+  int32 offset = 1;  // Positive or negative day offset
+}
+
+message StepHour {
+  int32 offset = 1;  // Positive or negative hour offset
+}
+
+message StepMinute {
+  int32 offset = 1;  // Positive or negative minute offset
+}
+
+message StepSecond {
+  int32 offset = 1;  // Positive or negative second offset
 }

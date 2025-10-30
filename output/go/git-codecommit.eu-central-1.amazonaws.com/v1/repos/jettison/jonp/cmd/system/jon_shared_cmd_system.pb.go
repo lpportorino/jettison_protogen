@@ -42,6 +42,12 @@ type Root struct {
 	//	*Root_GeodesicModeDisable
 	//	*Root_SaveFactoryDefaults
 	//	*Root_WipeUserData
+	//	*Root_StepYear
+	//	*Root_StepMonth
+	//	*Root_StepDay
+	//	*Root_StepHour
+	//	*Root_StepMinute
+	//	*Root_StepSecond
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -219,6 +225,60 @@ func (x *Root) GetWipeUserData() *WipeUserData {
 	return nil
 }
 
+func (x *Root) GetStepYear() *StepYear {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepYear); ok {
+			return x.StepYear
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStepMonth() *StepMonth {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepMonth); ok {
+			return x.StepMonth
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStepDay() *StepDay {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepDay); ok {
+			return x.StepDay
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStepHour() *StepHour {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepHour); ok {
+			return x.StepHour
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStepMinute() *StepMinute {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepMinute); ok {
+			return x.StepMinute
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStepSecond() *StepSecond {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepSecond); ok {
+			return x.StepSecond
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -283,6 +343,30 @@ type Root_WipeUserData struct {
 	WipeUserData *WipeUserData `protobuf:"bytes,15,opt,name=wipe_user_data,json=wipeUserData,proto3,oneof"`
 }
 
+type Root_StepYear struct {
+	StepYear *StepYear `protobuf:"bytes,16,opt,name=step_year,json=stepYear,proto3,oneof"`
+}
+
+type Root_StepMonth struct {
+	StepMonth *StepMonth `protobuf:"bytes,17,opt,name=step_month,json=stepMonth,proto3,oneof"`
+}
+
+type Root_StepDay struct {
+	StepDay *StepDay `protobuf:"bytes,18,opt,name=step_day,json=stepDay,proto3,oneof"`
+}
+
+type Root_StepHour struct {
+	StepHour *StepHour `protobuf:"bytes,19,opt,name=step_hour,json=stepHour,proto3,oneof"`
+}
+
+type Root_StepMinute struct {
+	StepMinute *StepMinute `protobuf:"bytes,20,opt,name=step_minute,json=stepMinute,proto3,oneof"`
+}
+
+type Root_StepSecond struct {
+	StepSecond *StepSecond `protobuf:"bytes,21,opt,name=step_second,json=stepSecond,proto3,oneof"`
+}
+
 func (*Root_StartAll) isRoot_Cmd() {}
 
 func (*Root_StopAll) isRoot_Cmd() {}
@@ -312,6 +396,18 @@ func (*Root_GeodesicModeDisable) isRoot_Cmd() {}
 func (*Root_SaveFactoryDefaults) isRoot_Cmd() {}
 
 func (*Root_WipeUserData) isRoot_Cmd() {}
+
+func (*Root_StepYear) isRoot_Cmd() {}
+
+func (*Root_StepMonth) isRoot_Cmd() {}
+
+func (*Root_StepDay) isRoot_Cmd() {}
+
+func (*Root_StepHour) isRoot_Cmd() {}
+
+func (*Root_StepMinute) isRoot_Cmd() {}
+
+func (*Root_StepSecond) isRoot_Cmd() {}
 
 type StartALl struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -861,12 +957,277 @@ func (x *SetLocalization) GetLoc() types.JonGuiDataSystemLocalizations {
 	return types.JonGuiDataSystemLocalizations(0)
 }
 
+type StepYear struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative year offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepYear) Reset() {
+	*x = StepYear{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepYear) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepYear) ProtoMessage() {}
+
+func (x *StepYear) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepYear.ProtoReflect.Descriptor instead.
+func (*StepYear) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *StepYear) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type StepMonth struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative month offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepMonth) Reset() {
+	*x = StepMonth{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepMonth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepMonth) ProtoMessage() {}
+
+func (x *StepMonth) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepMonth.ProtoReflect.Descriptor instead.
+func (*StepMonth) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *StepMonth) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type StepDay struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative day offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepDay) Reset() {
+	*x = StepDay{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepDay) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepDay) ProtoMessage() {}
+
+func (x *StepDay) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepDay.ProtoReflect.Descriptor instead.
+func (*StepDay) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *StepDay) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type StepHour struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative hour offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepHour) Reset() {
+	*x = StepHour{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepHour) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepHour) ProtoMessage() {}
+
+func (x *StepHour) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepHour.ProtoReflect.Descriptor instead.
+func (*StepHour) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *StepHour) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type StepMinute struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative minute offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepMinute) Reset() {
+	*x = StepMinute{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepMinute) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepMinute) ProtoMessage() {}
+
+func (x *StepMinute) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepMinute.ProtoReflect.Descriptor instead.
+func (*StepMinute) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *StepMinute) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type StepSecond struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative second offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepSecond) Reset() {
+	*x = StepSecond{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepSecond) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepSecond) ProtoMessage() {}
+
+func (x *StepSecond) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepSecond.ProtoReflect.Descriptor instead.
+func (*StepSecond) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *StepSecond) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
 var File_jon_shared_cmd_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_system.proto\x12\n" +
-	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf6\a\n" +
+	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc0\n" +
+	"\n" +
 	"\x04Root\x123\n" +
 	"\tstart_all\x18\x01 \x01(\v2\x14.cmd.System.StartALlH\x00R\bstartAll\x120\n" +
 	"\bstop_all\x18\x02 \x01(\v2\x13.cmd.System.StopALlH\x00R\astopAll\x12,\n" +
@@ -883,7 +1244,16 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\x14geodesic_mode_enable\x18\f \x01(\v2\x1e.cmd.System.EnableGeodesicModeH\x00R\x12geodesicModeEnable\x12U\n" +
 	"\x15geodesic_mode_disable\x18\r \x01(\v2\x1f.cmd.System.DisableGeodesicModeH\x00R\x13geodesicModeDisable\x12U\n" +
 	"\x15save_factory_defaults\x18\x0e \x01(\v2\x1f.cmd.System.SaveFactoryDefaultsH\x00R\x13saveFactoryDefaults\x12@\n" +
-	"\x0ewipe_user_data\x18\x0f \x01(\v2\x18.cmd.System.WipeUserDataH\x00R\fwipeUserDataB\f\n" +
+	"\x0ewipe_user_data\x18\x0f \x01(\v2\x18.cmd.System.WipeUserDataH\x00R\fwipeUserData\x123\n" +
+	"\tstep_year\x18\x10 \x01(\v2\x14.cmd.System.StepYearH\x00R\bstepYear\x126\n" +
+	"\n" +
+	"step_month\x18\x11 \x01(\v2\x15.cmd.System.StepMonthH\x00R\tstepMonth\x120\n" +
+	"\bstep_day\x18\x12 \x01(\v2\x13.cmd.System.StepDayH\x00R\astepDay\x123\n" +
+	"\tstep_hour\x18\x13 \x01(\v2\x14.cmd.System.StepHourH\x00R\bstepHour\x129\n" +
+	"\vstep_minute\x18\x14 \x01(\v2\x16.cmd.System.StepMinuteH\x00R\n" +
+	"stepMinute\x129\n" +
+	"\vstep_second\x18\x15 \x01(\v2\x16.cmd.System.StepSecondH\x00R\n" +
+	"stepSecondB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\n" +
 	"\n" +
 	"\bStartALl\"\t\n" +
@@ -904,7 +1274,21 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\x13DisableGeodesicMode\"S\n" +
 	"\x0fSetLocalization\x12@\n" +
 	"\x03loc\x18\x01 \x01(\x0e2\".ser.JonGuiDataSystemLocalizationsB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x03locB\xbf\x01\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x03loc\"\"\n" +
+	"\bStepYear\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"#\n" +
+	"\tStepMonth\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"!\n" +
+	"\aStepDay\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"\"\n" +
+	"\bStepHour\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"$\n" +
+	"\n" +
+	"StepMinute\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"$\n" +
+	"\n" +
+	"StepSecond\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offsetB\xbf\x01\n" +
 	"\x0ecom.cmd.SystemB\x17JonSharedCmdSystemProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/system\xa2\x02\x03CSX\xaa\x02\n" +
 	"Cmd.System\xca\x02\n" +
 	"Cmd\\System\xe2\x02\x16Cmd\\System\\GPBMetadata\xea\x02\vCmd::Systemb\x06proto3"
@@ -921,7 +1305,7 @@ func file_jon_shared_cmd_system_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_system_proto_rawDescData
 }
 
-var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*Root)(nil),                             // 0: cmd.System.Root
 	(*StartALl)(nil),                         // 1: cmd.System.StartALl
@@ -939,7 +1323,13 @@ var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*EnableGeodesicMode)(nil),               // 13: cmd.System.EnableGeodesicMode
 	(*DisableGeodesicMode)(nil),              // 14: cmd.System.DisableGeodesicMode
 	(*SetLocalization)(nil),                  // 15: cmd.System.SetLocalization
-	(types.JonGuiDataSystemLocalizations)(0), // 16: ser.JonGuiDataSystemLocalizations
+	(*StepYear)(nil),                         // 16: cmd.System.StepYear
+	(*StepMonth)(nil),                        // 17: cmd.System.StepMonth
+	(*StepDay)(nil),                          // 18: cmd.System.StepDay
+	(*StepHour)(nil),                         // 19: cmd.System.StepHour
+	(*StepMinute)(nil),                       // 20: cmd.System.StepMinute
+	(*StepSecond)(nil),                       // 21: cmd.System.StepSecond
+	(types.JonGuiDataSystemLocalizations)(0), // 22: ser.JonGuiDataSystemLocalizations
 }
 var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	1,  // 0: cmd.System.Root.start_all:type_name -> cmd.System.StartALl
@@ -957,12 +1347,18 @@ var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	14, // 12: cmd.System.Root.geodesic_mode_disable:type_name -> cmd.System.DisableGeodesicMode
 	6,  // 13: cmd.System.Root.save_factory_defaults:type_name -> cmd.System.SaveFactoryDefaults
 	7,  // 14: cmd.System.Root.wipe_user_data:type_name -> cmd.System.WipeUserData
-	16, // 15: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
-	16, // [16:16] is the sub-list for method output_type
-	16, // [16:16] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	16, // 15: cmd.System.Root.step_year:type_name -> cmd.System.StepYear
+	17, // 16: cmd.System.Root.step_month:type_name -> cmd.System.StepMonth
+	18, // 17: cmd.System.Root.step_day:type_name -> cmd.System.StepDay
+	19, // 18: cmd.System.Root.step_hour:type_name -> cmd.System.StepHour
+	20, // 19: cmd.System.Root.step_minute:type_name -> cmd.System.StepMinute
+	21, // 20: cmd.System.Root.step_second:type_name -> cmd.System.StepSecond
+	22, // 21: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
+	22, // [22:22] is the sub-list for method output_type
+	22, // [22:22] is the sub-list for method input_type
+	22, // [22:22] is the sub-list for extension type_name
+	22, // [22:22] is the sub-list for extension extendee
+	0,  // [0:22] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_system_proto_init() }
@@ -986,6 +1382,12 @@ func file_jon_shared_cmd_system_proto_init() {
 		(*Root_GeodesicModeDisable)(nil),
 		(*Root_SaveFactoryDefaults)(nil),
 		(*Root_WipeUserData)(nil),
+		(*Root_StepYear)(nil),
+		(*Root_StepMonth)(nil),
+		(*Root_StepDay)(nil),
+		(*Root_StepHour)(nil),
+		(*Root_StepMinute)(nil),
+		(*Root_StepSecond)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -993,7 +1395,7 @@ func file_jon_shared_cmd_system_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_system_proto_rawDesc), len(file_jon_shared_cmd_system_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

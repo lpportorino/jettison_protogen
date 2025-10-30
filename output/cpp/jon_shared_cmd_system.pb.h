@@ -91,6 +91,24 @@ extern StartALlDefaultTypeInternal _StartALl_default_instance_;
 class StartRec;
 struct StartRecDefaultTypeInternal;
 extern StartRecDefaultTypeInternal _StartRec_default_instance_;
+class StepDay;
+struct StepDayDefaultTypeInternal;
+extern StepDayDefaultTypeInternal _StepDay_default_instance_;
+class StepHour;
+struct StepHourDefaultTypeInternal;
+extern StepHourDefaultTypeInternal _StepHour_default_instance_;
+class StepMinute;
+struct StepMinuteDefaultTypeInternal;
+extern StepMinuteDefaultTypeInternal _StepMinute_default_instance_;
+class StepMonth;
+struct StepMonthDefaultTypeInternal;
+extern StepMonthDefaultTypeInternal _StepMonth_default_instance_;
+class StepSecond;
+struct StepSecondDefaultTypeInternal;
+extern StepSecondDefaultTypeInternal _StepSecond_default_instance_;
+class StepYear;
+struct StepYearDefaultTypeInternal;
+extern StepYearDefaultTypeInternal _StepYear_default_instance_;
 class StopALl;
 struct StopALlDefaultTypeInternal;
 extern StopALlDefaultTypeInternal _StopALl_default_instance_;
@@ -694,6 +712,1146 @@ class StopALl final : public ::google::protobuf::internal::ZeroFieldsBase
                           const StopALl& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepYear final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepYear) */ {
+ public:
+  inline StepYear() : StepYear(nullptr) {}
+  ~StepYear() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepYear* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepYear));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepYear(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepYear(const StepYear& from) : StepYear(nullptr, from) {}
+  inline StepYear(StepYear&& from) noexcept
+      : StepYear(nullptr, std::move(from)) {}
+  inline StepYear& operator=(const StepYear& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepYear& operator=(StepYear&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepYear& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepYear* internal_default_instance() {
+    return reinterpret_cast<const StepYear*>(
+        &_StepYear_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 16;
+  friend void swap(StepYear& a, StepYear& b) { a.Swap(&b); }
+  inline void Swap(StepYear* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepYear* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepYear* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepYear>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepYear& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepYear& from) { StepYear::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepYear* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepYear"; }
+
+ protected:
+  explicit StepYear(::google::protobuf::Arena* arena);
+  StepYear(::google::protobuf::Arena* arena, const StepYear& from);
+  StepYear(::google::protobuf::Arena* arena, StepYear&& from) noexcept
+      : StepYear(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepYear)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepYear& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepSecond final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepSecond) */ {
+ public:
+  inline StepSecond() : StepSecond(nullptr) {}
+  ~StepSecond() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepSecond* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepSecond));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepSecond(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepSecond(const StepSecond& from) : StepSecond(nullptr, from) {}
+  inline StepSecond(StepSecond&& from) noexcept
+      : StepSecond(nullptr, std::move(from)) {}
+  inline StepSecond& operator=(const StepSecond& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepSecond& operator=(StepSecond&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepSecond& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepSecond* internal_default_instance() {
+    return reinterpret_cast<const StepSecond*>(
+        &_StepSecond_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 21;
+  friend void swap(StepSecond& a, StepSecond& b) { a.Swap(&b); }
+  inline void Swap(StepSecond* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepSecond* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepSecond* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepSecond>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepSecond& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepSecond& from) { StepSecond::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepSecond* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepSecond"; }
+
+ protected:
+  explicit StepSecond(::google::protobuf::Arena* arena);
+  StepSecond(::google::protobuf::Arena* arena, const StepSecond& from);
+  StepSecond(::google::protobuf::Arena* arena, StepSecond&& from) noexcept
+      : StepSecond(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepSecond)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepSecond& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepMonth final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepMonth) */ {
+ public:
+  inline StepMonth() : StepMonth(nullptr) {}
+  ~StepMonth() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepMonth* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepMonth));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepMonth(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepMonth(const StepMonth& from) : StepMonth(nullptr, from) {}
+  inline StepMonth(StepMonth&& from) noexcept
+      : StepMonth(nullptr, std::move(from)) {}
+  inline StepMonth& operator=(const StepMonth& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepMonth& operator=(StepMonth&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepMonth& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepMonth* internal_default_instance() {
+    return reinterpret_cast<const StepMonth*>(
+        &_StepMonth_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 17;
+  friend void swap(StepMonth& a, StepMonth& b) { a.Swap(&b); }
+  inline void Swap(StepMonth* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepMonth* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepMonth* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepMonth>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepMonth& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepMonth& from) { StepMonth::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepMonth* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepMonth"; }
+
+ protected:
+  explicit StepMonth(::google::protobuf::Arena* arena);
+  StepMonth(::google::protobuf::Arena* arena, const StepMonth& from);
+  StepMonth(::google::protobuf::Arena* arena, StepMonth&& from) noexcept
+      : StepMonth(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepMonth)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepMonth& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepMinute final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepMinute) */ {
+ public:
+  inline StepMinute() : StepMinute(nullptr) {}
+  ~StepMinute() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepMinute* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepMinute));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepMinute(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepMinute(const StepMinute& from) : StepMinute(nullptr, from) {}
+  inline StepMinute(StepMinute&& from) noexcept
+      : StepMinute(nullptr, std::move(from)) {}
+  inline StepMinute& operator=(const StepMinute& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepMinute& operator=(StepMinute&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepMinute& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepMinute* internal_default_instance() {
+    return reinterpret_cast<const StepMinute*>(
+        &_StepMinute_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 20;
+  friend void swap(StepMinute& a, StepMinute& b) { a.Swap(&b); }
+  inline void Swap(StepMinute* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepMinute* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepMinute* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepMinute>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepMinute& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepMinute& from) { StepMinute::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepMinute* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepMinute"; }
+
+ protected:
+  explicit StepMinute(::google::protobuf::Arena* arena);
+  StepMinute(::google::protobuf::Arena* arena, const StepMinute& from);
+  StepMinute(::google::protobuf::Arena* arena, StepMinute&& from) noexcept
+      : StepMinute(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepMinute)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepMinute& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepHour final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepHour) */ {
+ public:
+  inline StepHour() : StepHour(nullptr) {}
+  ~StepHour() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepHour* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepHour));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepHour(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepHour(const StepHour& from) : StepHour(nullptr, from) {}
+  inline StepHour(StepHour&& from) noexcept
+      : StepHour(nullptr, std::move(from)) {}
+  inline StepHour& operator=(const StepHour& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepHour& operator=(StepHour&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepHour& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepHour* internal_default_instance() {
+    return reinterpret_cast<const StepHour*>(
+        &_StepHour_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 19;
+  friend void swap(StepHour& a, StepHour& b) { a.Swap(&b); }
+  inline void Swap(StepHour* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepHour* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepHour* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepHour>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepHour& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepHour& from) { StepHour::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepHour* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepHour"; }
+
+ protected:
+  explicit StepHour(::google::protobuf::Arena* arena);
+  StepHour(::google::protobuf::Arena* arena, const StepHour& from);
+  StepHour(::google::protobuf::Arena* arena, StepHour&& from) noexcept
+      : StepHour(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepHour)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepHour& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepDay final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepDay) */ {
+ public:
+  inline StepDay() : StepDay(nullptr) {}
+  ~StepDay() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepDay* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepDay));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepDay(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepDay(const StepDay& from) : StepDay(nullptr, from) {}
+  inline StepDay(StepDay&& from) noexcept
+      : StepDay(nullptr, std::move(from)) {}
+  inline StepDay& operator=(const StepDay& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepDay& operator=(StepDay&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepDay& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepDay* internal_default_instance() {
+    return reinterpret_cast<const StepDay*>(
+        &_StepDay_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 18;
+  friend void swap(StepDay& a, StepDay& b) { a.Swap(&b); }
+  inline void Swap(StepDay* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepDay* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepDay* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepDay>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepDay& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepDay& from) { StepDay::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepDay* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepDay"; }
+
+ protected:
+  explicit StepDay(::google::protobuf::Arena* arena);
+  StepDay(::google::protobuf::Arena* arena, const StepDay& from);
+  StepDay(::google::protobuf::Arena* arena, StepDay&& from) noexcept
+      : StepDay(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepDay)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepDay& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
 };
 // -------------------------------------------------------------------
@@ -2409,6 +3567,12 @@ class Root final : public ::google::protobuf::Message
     kGeodesicModeDisable = 13,
     kSaveFactoryDefaults = 14,
     kWipeUserData = 15,
+    kStepYear = 16,
+    kStepMonth = 17,
+    kStepDay = 18,
+    kStepHour = 19,
+    kStepMinute = 20,
+    kStepSecond = 21,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -2517,6 +3681,12 @@ class Root final : public ::google::protobuf::Message
     kGeodesicModeDisableFieldNumber = 13,
     kSaveFactoryDefaultsFieldNumber = 14,
     kWipeUserDataFieldNumber = 15,
+    kStepYearFieldNumber = 16,
+    kStepMonthFieldNumber = 17,
+    kStepDayFieldNumber = 18,
+    kStepHourFieldNumber = 19,
+    kStepMinuteFieldNumber = 20,
+    kStepSecondFieldNumber = 21,
   };
   // .cmd.System.StartALl start_all = 1;
   bool has_start_all() const;
@@ -2803,6 +3973,120 @@ class Root final : public ::google::protobuf::Message
   ::cmd::System::WipeUserData* _internal_mutable_wipe_user_data();
 
   public:
+  // .cmd.System.StepYear step_year = 16;
+  bool has_step_year() const;
+  private:
+  bool _internal_has_step_year() const;
+
+  public:
+  void clear_step_year() ;
+  const ::cmd::System::StepYear& step_year() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepYear* release_step_year();
+  ::cmd::System::StepYear* mutable_step_year();
+  void set_allocated_step_year(::cmd::System::StepYear* value);
+  void unsafe_arena_set_allocated_step_year(::cmd::System::StepYear* value);
+  ::cmd::System::StepYear* unsafe_arena_release_step_year();
+
+  private:
+  const ::cmd::System::StepYear& _internal_step_year() const;
+  ::cmd::System::StepYear* _internal_mutable_step_year();
+
+  public:
+  // .cmd.System.StepMonth step_month = 17;
+  bool has_step_month() const;
+  private:
+  bool _internal_has_step_month() const;
+
+  public:
+  void clear_step_month() ;
+  const ::cmd::System::StepMonth& step_month() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepMonth* release_step_month();
+  ::cmd::System::StepMonth* mutable_step_month();
+  void set_allocated_step_month(::cmd::System::StepMonth* value);
+  void unsafe_arena_set_allocated_step_month(::cmd::System::StepMonth* value);
+  ::cmd::System::StepMonth* unsafe_arena_release_step_month();
+
+  private:
+  const ::cmd::System::StepMonth& _internal_step_month() const;
+  ::cmd::System::StepMonth* _internal_mutable_step_month();
+
+  public:
+  // .cmd.System.StepDay step_day = 18;
+  bool has_step_day() const;
+  private:
+  bool _internal_has_step_day() const;
+
+  public:
+  void clear_step_day() ;
+  const ::cmd::System::StepDay& step_day() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepDay* release_step_day();
+  ::cmd::System::StepDay* mutable_step_day();
+  void set_allocated_step_day(::cmd::System::StepDay* value);
+  void unsafe_arena_set_allocated_step_day(::cmd::System::StepDay* value);
+  ::cmd::System::StepDay* unsafe_arena_release_step_day();
+
+  private:
+  const ::cmd::System::StepDay& _internal_step_day() const;
+  ::cmd::System::StepDay* _internal_mutable_step_day();
+
+  public:
+  // .cmd.System.StepHour step_hour = 19;
+  bool has_step_hour() const;
+  private:
+  bool _internal_has_step_hour() const;
+
+  public:
+  void clear_step_hour() ;
+  const ::cmd::System::StepHour& step_hour() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepHour* release_step_hour();
+  ::cmd::System::StepHour* mutable_step_hour();
+  void set_allocated_step_hour(::cmd::System::StepHour* value);
+  void unsafe_arena_set_allocated_step_hour(::cmd::System::StepHour* value);
+  ::cmd::System::StepHour* unsafe_arena_release_step_hour();
+
+  private:
+  const ::cmd::System::StepHour& _internal_step_hour() const;
+  ::cmd::System::StepHour* _internal_mutable_step_hour();
+
+  public:
+  // .cmd.System.StepMinute step_minute = 20;
+  bool has_step_minute() const;
+  private:
+  bool _internal_has_step_minute() const;
+
+  public:
+  void clear_step_minute() ;
+  const ::cmd::System::StepMinute& step_minute() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepMinute* release_step_minute();
+  ::cmd::System::StepMinute* mutable_step_minute();
+  void set_allocated_step_minute(::cmd::System::StepMinute* value);
+  void unsafe_arena_set_allocated_step_minute(::cmd::System::StepMinute* value);
+  ::cmd::System::StepMinute* unsafe_arena_release_step_minute();
+
+  private:
+  const ::cmd::System::StepMinute& _internal_step_minute() const;
+  ::cmd::System::StepMinute* _internal_mutable_step_minute();
+
+  public:
+  // .cmd.System.StepSecond step_second = 21;
+  bool has_step_second() const;
+  private:
+  bool _internal_has_step_second() const;
+
+  public:
+  void clear_step_second() ;
+  const ::cmd::System::StepSecond& step_second() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepSecond* release_step_second();
+  ::cmd::System::StepSecond* mutable_step_second();
+  void set_allocated_step_second(::cmd::System::StepSecond* value);
+  void unsafe_arena_set_allocated_step_second(::cmd::System::StepSecond* value);
+  ::cmd::System::StepSecond* unsafe_arena_release_step_second();
+
+  private:
+  const ::cmd::System::StepSecond& _internal_step_second() const;
+  ::cmd::System::StepSecond* _internal_mutable_step_second();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.System.Root)
@@ -2823,11 +4107,17 @@ class Root final : public ::google::protobuf::Message
   void set_has_geodesic_mode_disable();
   void set_has_save_factory_defaults();
   void set_has_wipe_user_data();
+  void set_has_step_year();
+  void set_has_step_month();
+  void set_has_step_day();
+  void set_has_step_hour();
+  void set_has_step_minute();
+  void set_has_step_second();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 15, 15,
+      0, 21, 21,
       0, 2>
       _table_;
 
@@ -2863,6 +4153,12 @@ class Root final : public ::google::protobuf::Message
       ::cmd::System::DisableGeodesicMode* geodesic_mode_disable_;
       ::cmd::System::SaveFactoryDefaults* save_factory_defaults_;
       ::cmd::System::WipeUserData* wipe_user_data_;
+      ::cmd::System::StepYear* step_year_;
+      ::cmd::System::StepMonth* step_month_;
+      ::cmd::System::StepDay* step_day_;
+      ::cmd::System::StepHour* step_hour_;
+      ::cmd::System::StepMinute* step_minute_;
+      ::cmd::System::StepSecond* step_second_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -4073,6 +5369,480 @@ inline ::cmd::System::WipeUserData* Root::mutable_wipe_user_data() ABSL_ATTRIBUT
   return _msg;
 }
 
+// .cmd.System.StepYear step_year = 16;
+inline bool Root::has_step_year() const {
+  return cmd_case() == kStepYear;
+}
+inline bool Root::_internal_has_step_year() const {
+  return cmd_case() == kStepYear;
+}
+inline void Root::set_has_step_year() {
+  _impl_._oneof_case_[0] = kStepYear;
+}
+inline void Root::clear_step_year() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepYear) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_year_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_year_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepYear* Root::release_step_year() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_year)
+  if (cmd_case() == kStepYear) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_year_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_year_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepYear& Root::_internal_step_year() const {
+  return cmd_case() == kStepYear ? *_impl_.cmd_.step_year_ : reinterpret_cast<::cmd::System::StepYear&>(::cmd::System::_StepYear_default_instance_);
+}
+inline const ::cmd::System::StepYear& Root::step_year() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_year)
+  return _internal_step_year();
+}
+inline ::cmd::System::StepYear* Root::unsafe_arena_release_step_year() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_year)
+  if (cmd_case() == kStepYear) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_year_;
+    _impl_.cmd_.step_year_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_year(::cmd::System::StepYear* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_year();
+    _impl_.cmd_.step_year_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_year)
+}
+inline ::cmd::System::StepYear* Root::_internal_mutable_step_year() {
+  if (cmd_case() != kStepYear) {
+    clear_cmd();
+    set_has_step_year();
+    _impl_.cmd_.step_year_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepYear>(GetArena());
+  }
+  return _impl_.cmd_.step_year_;
+}
+inline ::cmd::System::StepYear* Root::mutable_step_year() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepYear* _msg = _internal_mutable_step_year();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_year)
+  return _msg;
+}
+
+// .cmd.System.StepMonth step_month = 17;
+inline bool Root::has_step_month() const {
+  return cmd_case() == kStepMonth;
+}
+inline bool Root::_internal_has_step_month() const {
+  return cmd_case() == kStepMonth;
+}
+inline void Root::set_has_step_month() {
+  _impl_._oneof_case_[0] = kStepMonth;
+}
+inline void Root::clear_step_month() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepMonth) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_month_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_month_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepMonth* Root::release_step_month() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_month)
+  if (cmd_case() == kStepMonth) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_month_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_month_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepMonth& Root::_internal_step_month() const {
+  return cmd_case() == kStepMonth ? *_impl_.cmd_.step_month_ : reinterpret_cast<::cmd::System::StepMonth&>(::cmd::System::_StepMonth_default_instance_);
+}
+inline const ::cmd::System::StepMonth& Root::step_month() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_month)
+  return _internal_step_month();
+}
+inline ::cmd::System::StepMonth* Root::unsafe_arena_release_step_month() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_month)
+  if (cmd_case() == kStepMonth) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_month_;
+    _impl_.cmd_.step_month_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_month(::cmd::System::StepMonth* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_month();
+    _impl_.cmd_.step_month_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_month)
+}
+inline ::cmd::System::StepMonth* Root::_internal_mutable_step_month() {
+  if (cmd_case() != kStepMonth) {
+    clear_cmd();
+    set_has_step_month();
+    _impl_.cmd_.step_month_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepMonth>(GetArena());
+  }
+  return _impl_.cmd_.step_month_;
+}
+inline ::cmd::System::StepMonth* Root::mutable_step_month() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepMonth* _msg = _internal_mutable_step_month();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_month)
+  return _msg;
+}
+
+// .cmd.System.StepDay step_day = 18;
+inline bool Root::has_step_day() const {
+  return cmd_case() == kStepDay;
+}
+inline bool Root::_internal_has_step_day() const {
+  return cmd_case() == kStepDay;
+}
+inline void Root::set_has_step_day() {
+  _impl_._oneof_case_[0] = kStepDay;
+}
+inline void Root::clear_step_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepDay) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_day_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_day_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepDay* Root::release_step_day() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_day)
+  if (cmd_case() == kStepDay) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_day_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_day_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepDay& Root::_internal_step_day() const {
+  return cmd_case() == kStepDay ? *_impl_.cmd_.step_day_ : reinterpret_cast<::cmd::System::StepDay&>(::cmd::System::_StepDay_default_instance_);
+}
+inline const ::cmd::System::StepDay& Root::step_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_day)
+  return _internal_step_day();
+}
+inline ::cmd::System::StepDay* Root::unsafe_arena_release_step_day() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_day)
+  if (cmd_case() == kStepDay) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_day_;
+    _impl_.cmd_.step_day_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_day(::cmd::System::StepDay* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_day();
+    _impl_.cmd_.step_day_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_day)
+}
+inline ::cmd::System::StepDay* Root::_internal_mutable_step_day() {
+  if (cmd_case() != kStepDay) {
+    clear_cmd();
+    set_has_step_day();
+    _impl_.cmd_.step_day_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepDay>(GetArena());
+  }
+  return _impl_.cmd_.step_day_;
+}
+inline ::cmd::System::StepDay* Root::mutable_step_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepDay* _msg = _internal_mutable_step_day();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_day)
+  return _msg;
+}
+
+// .cmd.System.StepHour step_hour = 19;
+inline bool Root::has_step_hour() const {
+  return cmd_case() == kStepHour;
+}
+inline bool Root::_internal_has_step_hour() const {
+  return cmd_case() == kStepHour;
+}
+inline void Root::set_has_step_hour() {
+  _impl_._oneof_case_[0] = kStepHour;
+}
+inline void Root::clear_step_hour() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepHour) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_hour_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_hour_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepHour* Root::release_step_hour() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_hour)
+  if (cmd_case() == kStepHour) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_hour_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_hour_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepHour& Root::_internal_step_hour() const {
+  return cmd_case() == kStepHour ? *_impl_.cmd_.step_hour_ : reinterpret_cast<::cmd::System::StepHour&>(::cmd::System::_StepHour_default_instance_);
+}
+inline const ::cmd::System::StepHour& Root::step_hour() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_hour)
+  return _internal_step_hour();
+}
+inline ::cmd::System::StepHour* Root::unsafe_arena_release_step_hour() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_hour)
+  if (cmd_case() == kStepHour) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_hour_;
+    _impl_.cmd_.step_hour_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_hour(::cmd::System::StepHour* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_hour();
+    _impl_.cmd_.step_hour_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_hour)
+}
+inline ::cmd::System::StepHour* Root::_internal_mutable_step_hour() {
+  if (cmd_case() != kStepHour) {
+    clear_cmd();
+    set_has_step_hour();
+    _impl_.cmd_.step_hour_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepHour>(GetArena());
+  }
+  return _impl_.cmd_.step_hour_;
+}
+inline ::cmd::System::StepHour* Root::mutable_step_hour() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepHour* _msg = _internal_mutable_step_hour();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_hour)
+  return _msg;
+}
+
+// .cmd.System.StepMinute step_minute = 20;
+inline bool Root::has_step_minute() const {
+  return cmd_case() == kStepMinute;
+}
+inline bool Root::_internal_has_step_minute() const {
+  return cmd_case() == kStepMinute;
+}
+inline void Root::set_has_step_minute() {
+  _impl_._oneof_case_[0] = kStepMinute;
+}
+inline void Root::clear_step_minute() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepMinute) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_minute_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_minute_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepMinute* Root::release_step_minute() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_minute)
+  if (cmd_case() == kStepMinute) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_minute_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_minute_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepMinute& Root::_internal_step_minute() const {
+  return cmd_case() == kStepMinute ? *_impl_.cmd_.step_minute_ : reinterpret_cast<::cmd::System::StepMinute&>(::cmd::System::_StepMinute_default_instance_);
+}
+inline const ::cmd::System::StepMinute& Root::step_minute() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_minute)
+  return _internal_step_minute();
+}
+inline ::cmd::System::StepMinute* Root::unsafe_arena_release_step_minute() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_minute)
+  if (cmd_case() == kStepMinute) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_minute_;
+    _impl_.cmd_.step_minute_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_minute(::cmd::System::StepMinute* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_minute();
+    _impl_.cmd_.step_minute_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_minute)
+}
+inline ::cmd::System::StepMinute* Root::_internal_mutable_step_minute() {
+  if (cmd_case() != kStepMinute) {
+    clear_cmd();
+    set_has_step_minute();
+    _impl_.cmd_.step_minute_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepMinute>(GetArena());
+  }
+  return _impl_.cmd_.step_minute_;
+}
+inline ::cmd::System::StepMinute* Root::mutable_step_minute() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepMinute* _msg = _internal_mutable_step_minute();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_minute)
+  return _msg;
+}
+
+// .cmd.System.StepSecond step_second = 21;
+inline bool Root::has_step_second() const {
+  return cmd_case() == kStepSecond;
+}
+inline bool Root::_internal_has_step_second() const {
+  return cmd_case() == kStepSecond;
+}
+inline void Root::set_has_step_second() {
+  _impl_._oneof_case_[0] = kStepSecond;
+}
+inline void Root::clear_step_second() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepSecond) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_second_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_second_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepSecond* Root::release_step_second() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_second)
+  if (cmd_case() == kStepSecond) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_second_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_second_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepSecond& Root::_internal_step_second() const {
+  return cmd_case() == kStepSecond ? *_impl_.cmd_.step_second_ : reinterpret_cast<::cmd::System::StepSecond&>(::cmd::System::_StepSecond_default_instance_);
+}
+inline const ::cmd::System::StepSecond& Root::step_second() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_second)
+  return _internal_step_second();
+}
+inline ::cmd::System::StepSecond* Root::unsafe_arena_release_step_second() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_second)
+  if (cmd_case() == kStepSecond) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_second_;
+    _impl_.cmd_.step_second_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_second(::cmd::System::StepSecond* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_second();
+    _impl_.cmd_.step_second_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_second)
+}
+inline ::cmd::System::StepSecond* Root::_internal_mutable_step_second() {
+  if (cmd_case() != kStepSecond) {
+    clear_cmd();
+    set_has_step_second();
+    _impl_.cmd_.step_second_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepSecond>(GetArena());
+  }
+  return _impl_.cmd_.step_second_;
+}
+inline ::cmd::System::StepSecond* Root::mutable_step_second() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepSecond* _msg = _internal_mutable_step_second();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_second)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -4162,6 +5932,162 @@ inline ::ser::JonGuiDataSystemLocalizations SetLocalization::_internal_loc() con
 inline void SetLocalization::_internal_set_loc(::ser::JonGuiDataSystemLocalizations value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.loc_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepYear
+
+// int32 offset = 1;
+inline void StepYear::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepYear::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepYear.offset)
+  return _internal_offset();
+}
+inline void StepYear::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepYear.offset)
+}
+inline ::int32_t StepYear::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepYear::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepMonth
+
+// int32 offset = 1;
+inline void StepMonth::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepMonth::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepMonth.offset)
+  return _internal_offset();
+}
+inline void StepMonth::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepMonth.offset)
+}
+inline ::int32_t StepMonth::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepMonth::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepDay
+
+// int32 offset = 1;
+inline void StepDay::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepDay::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepDay.offset)
+  return _internal_offset();
+}
+inline void StepDay::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepDay.offset)
+}
+inline ::int32_t StepDay::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepDay::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepHour
+
+// int32 offset = 1;
+inline void StepHour::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepHour::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepHour.offset)
+  return _internal_offset();
+}
+inline void StepHour::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepHour.offset)
+}
+inline ::int32_t StepHour::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepHour::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepMinute
+
+// int32 offset = 1;
+inline void StepMinute::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepMinute::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepMinute.offset)
+  return _internal_offset();
+}
+inline void StepMinute::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepMinute.offset)
+}
+inline ::int32_t StepMinute::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepMinute::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepSecond
+
+// int32 offset = 1;
+inline void StepSecond::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepSecond::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepSecond.offset)
+  return _internal_offset();
+}
+inline void StepSecond::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepSecond.offset)
+}
+inline ::int32_t StepSecond::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepSecond::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
 }
 
 #ifdef __GNUC__
