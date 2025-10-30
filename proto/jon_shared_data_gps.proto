@@ -36,4 +36,5 @@ message JonGuiDataGps {
     not_in: [0]  // Assuming 0 is UNSPECIFIED in the enum
   }];
   bool use_manual = 8;
+  int64 timestamp = 9;  // GPS timestamp from satellite (Unix time in seconds)
 }
