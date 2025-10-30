@@ -34,6 +34,7 @@ message Root {
     ScanUpdateNode scan_update_node = 23;
     ScanAddNode scan_add_node = 24;
     HaltWithNDC halt_with_ndc = 25;
+    SetSpiritLevel set_spirit_level = 26;
   }
 }
 
@@ -361,4 +362,27 @@ message HaltWithNDC {
   // TODO: Remove these fields after migration - now in Root message (fields 6-8)
   uint64 frame_time = 4;  // Video frame timestamp at gesture end
   uint64 state_time = 5;  // System monotonic time from state when gesture ended
+}
+
+message SetSpiritLevel {
+  //elevation correction fot the rotary
+  double pitch = 1 [(buf.validate.field).double = {
+    gte: -90.0,
+    lte: 90.0
+  }];
+  //bank correction for the rotary
+  double roll = 2 [(buf.validate.field).double = {
+    gte: -90.0,
+    lte: 90.0
+  }];
+  //offset pan of the rotary
+  double pan_offset = 3 [(buf.validate.field).double = {
+    gte: -180.0,
+    lte: 180.0
+  }];
+  //offset tilt for the rotary
+  double tilt_offset = 4 [(buf.validate.field).double = {
+    gte: -90.0,
+    lte: 90.0
+  }];
 }
