@@ -58,9 +58,15 @@ namespace System {
 class DisableGeodesicMode;
 struct DisableGeodesicModeDefaultTypeInternal;
 extern DisableGeodesicModeDefaultTypeInternal _DisableGeodesicMode_default_instance_;
+class DisableManualTime;
+struct DisableManualTimeDefaultTypeInternal;
+extern DisableManualTimeDefaultTypeInternal _DisableManualTime_default_instance_;
 class EnableGeodesicMode;
 struct EnableGeodesicModeDefaultTypeInternal;
 extern EnableGeodesicModeDefaultTypeInternal _EnableGeodesicMode_default_instance_;
+class EnableManualTime;
+struct EnableManualTimeDefaultTypeInternal;
+extern EnableManualTimeDefaultTypeInternal _EnableManualTime_default_instance_;
 class EnterTransport;
 struct EnterTransportDefaultTypeInternal;
 extern EnterTransportDefaultTypeInternal _EnterTransport_default_instance_;
@@ -3206,6 +3212,151 @@ class EnterTransport final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class EnableManualTime final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.System.EnableManualTime) */ {
+ public:
+  inline EnableManualTime() : EnableManualTime(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(EnableManualTime* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(EnableManualTime));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR EnableManualTime(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline EnableManualTime(const EnableManualTime& from) : EnableManualTime(nullptr, from) {}
+  inline EnableManualTime(EnableManualTime&& from) noexcept
+      : EnableManualTime(nullptr, std::move(from)) {}
+  inline EnableManualTime& operator=(const EnableManualTime& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EnableManualTime& operator=(EnableManualTime&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EnableManualTime& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EnableManualTime* internal_default_instance() {
+    return reinterpret_cast<const EnableManualTime*>(
+        &_EnableManualTime_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 22;
+  friend void swap(EnableManualTime& a, EnableManualTime& b) { a.Swap(&b); }
+  inline void Swap(EnableManualTime* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EnableManualTime* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EnableManualTime* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<EnableManualTime>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const EnableManualTime& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const EnableManualTime& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.EnableManualTime"; }
+
+ protected:
+  explicit EnableManualTime(::google::protobuf::Arena* arena);
+  EnableManualTime(::google::protobuf::Arena* arena, const EnableManualTime& from);
+  EnableManualTime(::google::protobuf::Arena* arena, EnableManualTime&& from) noexcept
+      : EnableManualTime(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.System.EnableManualTime)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const EnableManualTime& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
 class EnableGeodesicMode final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:cmd.System.EnableGeodesicMode) */ {
  public:
@@ -3345,6 +3496,151 @@ class EnableGeodesicMode final : public ::google::protobuf::internal::ZeroFields
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const EnableGeodesicMode& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DisableManualTime final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.System.DisableManualTime) */ {
+ public:
+  inline DisableManualTime() : DisableManualTime(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(DisableManualTime* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(DisableManualTime));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR DisableManualTime(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline DisableManualTime(const DisableManualTime& from) : DisableManualTime(nullptr, from) {}
+  inline DisableManualTime(DisableManualTime&& from) noexcept
+      : DisableManualTime(nullptr, std::move(from)) {}
+  inline DisableManualTime& operator=(const DisableManualTime& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DisableManualTime& operator=(DisableManualTime&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DisableManualTime& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DisableManualTime* internal_default_instance() {
+    return reinterpret_cast<const DisableManualTime*>(
+        &_DisableManualTime_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 23;
+  friend void swap(DisableManualTime& a, DisableManualTime& b) { a.Swap(&b); }
+  inline void Swap(DisableManualTime* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DisableManualTime* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DisableManualTime* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<DisableManualTime>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const DisableManualTime& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const DisableManualTime& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.DisableManualTime"; }
+
+ protected:
+  explicit DisableManualTime(::google::protobuf::Arena* arena);
+  DisableManualTime(::google::protobuf::Arena* arena, const DisableManualTime& from);
+  DisableManualTime(::google::protobuf::Arena* arena, DisableManualTime&& from) noexcept
+      : DisableManualTime(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.System.DisableManualTime)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const DisableManualTime& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
@@ -3573,6 +3869,8 @@ class Root final : public ::google::protobuf::Message
     kStepHour = 19,
     kStepMinute = 20,
     kStepSecond = 21,
+    kEnableManualTime = 22,
+    kDisableManualTime = 23,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -3687,6 +3985,8 @@ class Root final : public ::google::protobuf::Message
     kStepHourFieldNumber = 19,
     kStepMinuteFieldNumber = 20,
     kStepSecondFieldNumber = 21,
+    kEnableManualTimeFieldNumber = 22,
+    kDisableManualTimeFieldNumber = 23,
   };
   // .cmd.System.StartALl start_all = 1;
   bool has_start_all() const;
@@ -4087,6 +4387,44 @@ class Root final : public ::google::protobuf::Message
   ::cmd::System::StepSecond* _internal_mutable_step_second();
 
   public:
+  // .cmd.System.EnableManualTime enable_manual_time = 22;
+  bool has_enable_manual_time() const;
+  private:
+  bool _internal_has_enable_manual_time() const;
+
+  public:
+  void clear_enable_manual_time() ;
+  const ::cmd::System::EnableManualTime& enable_manual_time() const;
+  PROTOBUF_NODISCARD ::cmd::System::EnableManualTime* release_enable_manual_time();
+  ::cmd::System::EnableManualTime* mutable_enable_manual_time();
+  void set_allocated_enable_manual_time(::cmd::System::EnableManualTime* value);
+  void unsafe_arena_set_allocated_enable_manual_time(::cmd::System::EnableManualTime* value);
+  ::cmd::System::EnableManualTime* unsafe_arena_release_enable_manual_time();
+
+  private:
+  const ::cmd::System::EnableManualTime& _internal_enable_manual_time() const;
+  ::cmd::System::EnableManualTime* _internal_mutable_enable_manual_time();
+
+  public:
+  // .cmd.System.DisableManualTime disable_manual_time = 23;
+  bool has_disable_manual_time() const;
+  private:
+  bool _internal_has_disable_manual_time() const;
+
+  public:
+  void clear_disable_manual_time() ;
+  const ::cmd::System::DisableManualTime& disable_manual_time() const;
+  PROTOBUF_NODISCARD ::cmd::System::DisableManualTime* release_disable_manual_time();
+  ::cmd::System::DisableManualTime* mutable_disable_manual_time();
+  void set_allocated_disable_manual_time(::cmd::System::DisableManualTime* value);
+  void unsafe_arena_set_allocated_disable_manual_time(::cmd::System::DisableManualTime* value);
+  ::cmd::System::DisableManualTime* unsafe_arena_release_disable_manual_time();
+
+  private:
+  const ::cmd::System::DisableManualTime& _internal_disable_manual_time() const;
+  ::cmd::System::DisableManualTime* _internal_mutable_disable_manual_time();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.System.Root)
@@ -4113,11 +4451,13 @@ class Root final : public ::google::protobuf::Message
   void set_has_step_hour();
   void set_has_step_minute();
   void set_has_step_second();
+  void set_has_enable_manual_time();
+  void set_has_disable_manual_time();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 21, 21,
+      0, 23, 23,
       0, 2>
       _table_;
 
@@ -4159,6 +4499,8 @@ class Root final : public ::google::protobuf::Message
       ::cmd::System::StepHour* step_hour_;
       ::cmd::System::StepMinute* step_minute_;
       ::cmd::System::StepSecond* step_second_;
+      ::cmd::System::EnableManualTime* enable_manual_time_;
+      ::cmd::System::DisableManualTime* disable_manual_time_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -5843,6 +6185,164 @@ inline ::cmd::System::StepSecond* Root::mutable_step_second() ABSL_ATTRIBUTE_LIF
   return _msg;
 }
 
+// .cmd.System.EnableManualTime enable_manual_time = 22;
+inline bool Root::has_enable_manual_time() const {
+  return cmd_case() == kEnableManualTime;
+}
+inline bool Root::_internal_has_enable_manual_time() const {
+  return cmd_case() == kEnableManualTime;
+}
+inline void Root::set_has_enable_manual_time() {
+  _impl_._oneof_case_[0] = kEnableManualTime;
+}
+inline void Root::clear_enable_manual_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kEnableManualTime) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.enable_manual_time_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.enable_manual_time_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::EnableManualTime* Root::release_enable_manual_time() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.enable_manual_time)
+  if (cmd_case() == kEnableManualTime) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.enable_manual_time_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.enable_manual_time_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::EnableManualTime& Root::_internal_enable_manual_time() const {
+  return cmd_case() == kEnableManualTime ? *_impl_.cmd_.enable_manual_time_ : reinterpret_cast<::cmd::System::EnableManualTime&>(::cmd::System::_EnableManualTime_default_instance_);
+}
+inline const ::cmd::System::EnableManualTime& Root::enable_manual_time() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.enable_manual_time)
+  return _internal_enable_manual_time();
+}
+inline ::cmd::System::EnableManualTime* Root::unsafe_arena_release_enable_manual_time() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.enable_manual_time)
+  if (cmd_case() == kEnableManualTime) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.enable_manual_time_;
+    _impl_.cmd_.enable_manual_time_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_enable_manual_time(::cmd::System::EnableManualTime* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_enable_manual_time();
+    _impl_.cmd_.enable_manual_time_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.enable_manual_time)
+}
+inline ::cmd::System::EnableManualTime* Root::_internal_mutable_enable_manual_time() {
+  if (cmd_case() != kEnableManualTime) {
+    clear_cmd();
+    set_has_enable_manual_time();
+    _impl_.cmd_.enable_manual_time_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::EnableManualTime>(GetArena());
+  }
+  return _impl_.cmd_.enable_manual_time_;
+}
+inline ::cmd::System::EnableManualTime* Root::mutable_enable_manual_time() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::EnableManualTime* _msg = _internal_mutable_enable_manual_time();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.enable_manual_time)
+  return _msg;
+}
+
+// .cmd.System.DisableManualTime disable_manual_time = 23;
+inline bool Root::has_disable_manual_time() const {
+  return cmd_case() == kDisableManualTime;
+}
+inline bool Root::_internal_has_disable_manual_time() const {
+  return cmd_case() == kDisableManualTime;
+}
+inline void Root::set_has_disable_manual_time() {
+  _impl_._oneof_case_[0] = kDisableManualTime;
+}
+inline void Root::clear_disable_manual_time() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kDisableManualTime) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.disable_manual_time_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.disable_manual_time_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::DisableManualTime* Root::release_disable_manual_time() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.disable_manual_time)
+  if (cmd_case() == kDisableManualTime) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.disable_manual_time_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.disable_manual_time_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::DisableManualTime& Root::_internal_disable_manual_time() const {
+  return cmd_case() == kDisableManualTime ? *_impl_.cmd_.disable_manual_time_ : reinterpret_cast<::cmd::System::DisableManualTime&>(::cmd::System::_DisableManualTime_default_instance_);
+}
+inline const ::cmd::System::DisableManualTime& Root::disable_manual_time() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.disable_manual_time)
+  return _internal_disable_manual_time();
+}
+inline ::cmd::System::DisableManualTime* Root::unsafe_arena_release_disable_manual_time() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.disable_manual_time)
+  if (cmd_case() == kDisableManualTime) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.disable_manual_time_;
+    _impl_.cmd_.disable_manual_time_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_disable_manual_time(::cmd::System::DisableManualTime* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_disable_manual_time();
+    _impl_.cmd_.disable_manual_time_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.disable_manual_time)
+}
+inline ::cmd::System::DisableManualTime* Root::_internal_mutable_disable_manual_time() {
+  if (cmd_case() != kDisableManualTime) {
+    clear_cmd();
+    set_has_disable_manual_time();
+    _impl_.cmd_.disable_manual_time_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::DisableManualTime>(GetArena());
+  }
+  return _impl_.cmd_.disable_manual_time_;
+}
+inline ::cmd::System::DisableManualTime* Root::mutable_disable_manual_time() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::DisableManualTime* _msg = _internal_mutable_disable_manual_time();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.disable_manual_time)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -6089,6 +6589,14 @@ inline void StepSecond::_internal_set_offset(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.offset_ = value;
 }
+
+// -------------------------------------------------------------------
+
+// EnableManualTime
+
+// -------------------------------------------------------------------
+
+// DisableManualTime
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

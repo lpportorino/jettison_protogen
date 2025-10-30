@@ -95,6 +95,14 @@ typedef struct _cmd_System_StepSecond {
     int32_t offset; /* Positive or negative second offset */
 } cmd_System_StepSecond;
 
+typedef struct _cmd_System_EnableManualTime {
+    char dummy_field;
+} cmd_System_EnableManualTime;
+
+typedef struct _cmd_System_DisableManualTime {
+    char dummy_field;
+} cmd_System_DisableManualTime;
+
 typedef struct _cmd_System_Root {
     pb_size_t which_cmd;
     union {
@@ -119,6 +127,8 @@ typedef struct _cmd_System_Root {
         cmd_System_StepHour step_hour;
         cmd_System_StepMinute step_minute;
         cmd_System_StepSecond step_second;
+        cmd_System_EnableManualTime enable_manual_time;
+        cmd_System_DisableManualTime disable_manual_time;
     } cmd;
 } cmd_System_Root;
 
@@ -150,6 +160,8 @@ extern "C" {
 #define cmd_System_StepHour_init_default         {0}
 #define cmd_System_StepMinute_init_default       {0}
 #define cmd_System_StepSecond_init_default       {0}
+#define cmd_System_EnableManualTime_init_default {0}
+#define cmd_System_DisableManualTime_init_default {0}
 #define cmd_System_Root_init_zero                {0, {cmd_System_StartALl_init_zero}}
 #define cmd_System_StartALl_init_zero            {0}
 #define cmd_System_StopALl_init_zero             {0}
@@ -172,6 +184,8 @@ extern "C" {
 #define cmd_System_StepHour_init_zero            {0}
 #define cmd_System_StepMinute_init_zero          {0}
 #define cmd_System_StepSecond_init_zero          {0}
+#define cmd_System_EnableManualTime_init_zero    {0}
+#define cmd_System_DisableManualTime_init_zero   {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_System_SetLocalization_loc_tag       1
@@ -202,6 +216,8 @@ extern "C" {
 #define cmd_System_Root_step_hour_tag            19
 #define cmd_System_Root_step_minute_tag          20
 #define cmd_System_Root_step_second_tag          21
+#define cmd_System_Root_enable_manual_time_tag   22
+#define cmd_System_Root_disable_manual_time_tag  23
 
 /* Struct field encoding specification for nanopb */
 #define cmd_System_Root_FIELDLIST(X, a) \
@@ -225,7 +241,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_month,cmd.step_month),  17) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_day,cmd.step_day),  18) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_hour,cmd.step_hour),  19) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_minute,cmd.step_minute),  20) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_second,cmd.step_second),  21)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_second,cmd.step_second),  21) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,enable_manual_time,cmd.enable_manual_time),  22) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,disable_manual_time,cmd.disable_manual_time),  23)
 #define cmd_System_Root_CALLBACK NULL
 #define cmd_System_Root_DEFAULT NULL
 #define cmd_System_Root_cmd_start_all_MSGTYPE cmd_System_StartALl
@@ -249,6 +267,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,step_second,cmd.step_second),  21)
 #define cmd_System_Root_cmd_step_hour_MSGTYPE cmd_System_StepHour
 #define cmd_System_Root_cmd_step_minute_MSGTYPE cmd_System_StepMinute
 #define cmd_System_Root_cmd_step_second_MSGTYPE cmd_System_StepSecond
+#define cmd_System_Root_cmd_enable_manual_time_MSGTYPE cmd_System_EnableManualTime
+#define cmd_System_Root_cmd_disable_manual_time_MSGTYPE cmd_System_DisableManualTime
 
 #define cmd_System_StartALl_FIELDLIST(X, a) \
 
@@ -355,6 +375,16 @@ X(a, STATIC,   SINGULAR, INT32,    offset,            1)
 #define cmd_System_StepSecond_CALLBACK NULL
 #define cmd_System_StepSecond_DEFAULT NULL
 
+#define cmd_System_EnableManualTime_FIELDLIST(X, a) \
+
+#define cmd_System_EnableManualTime_CALLBACK NULL
+#define cmd_System_EnableManualTime_DEFAULT NULL
+
+#define cmd_System_DisableManualTime_FIELDLIST(X, a) \
+
+#define cmd_System_DisableManualTime_CALLBACK NULL
+#define cmd_System_DisableManualTime_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_System_Root_msg;
 extern const pb_msgdesc_t cmd_System_StartALl_msg;
 extern const pb_msgdesc_t cmd_System_StopALl_msg;
@@ -377,6 +407,8 @@ extern const pb_msgdesc_t cmd_System_StepDay_msg;
 extern const pb_msgdesc_t cmd_System_StepHour_msg;
 extern const pb_msgdesc_t cmd_System_StepMinute_msg;
 extern const pb_msgdesc_t cmd_System_StepSecond_msg;
+extern const pb_msgdesc_t cmd_System_EnableManualTime_msg;
+extern const pb_msgdesc_t cmd_System_DisableManualTime_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_System_Root_fields &cmd_System_Root_msg
@@ -401,11 +433,15 @@ extern const pb_msgdesc_t cmd_System_StepSecond_msg;
 #define cmd_System_StepHour_fields &cmd_System_StepHour_msg
 #define cmd_System_StepMinute_fields &cmd_System_StepMinute_msg
 #define cmd_System_StepSecond_fields &cmd_System_StepSecond_msg
+#define cmd_System_EnableManualTime_fields &cmd_System_EnableManualTime_msg
+#define cmd_System_DisableManualTime_fields &cmd_System_DisableManualTime_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_SYSTEM_JON_SHARED_CMD_SYSTEM_PB_H_MAX_SIZE cmd_System_Root_size
 #define cmd_System_DisableGeodesicMode_size      0
+#define cmd_System_DisableManualTime_size        0
 #define cmd_System_EnableGeodesicMode_size       0
+#define cmd_System_EnableManualTime_size         0
 #define cmd_System_EnterTransport_size           0
 #define cmd_System_MarkRecImportant_size         0
 #define cmd_System_PowerOff_size                 0

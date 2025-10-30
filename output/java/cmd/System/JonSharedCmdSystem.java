@@ -344,6 +344,36 @@ public final class JonSharedCmdSystem {
      */
     cmd.System.JonSharedCmdSystem.StepSecondOrBuilder getStepSecondOrBuilder();
 
+    /**
+     * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+     * @return Whether the enableManualTime field is set.
+     */
+    boolean hasEnableManualTime();
+    /**
+     * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+     * @return The enableManualTime.
+     */
+    cmd.System.JonSharedCmdSystem.EnableManualTime getEnableManualTime();
+    /**
+     * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+     */
+    cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder getEnableManualTimeOrBuilder();
+
+    /**
+     * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+     * @return Whether the disableManualTime field is set.
+     */
+    boolean hasDisableManualTime();
+    /**
+     * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+     * @return The disableManualTime.
+     */
+    cmd.System.JonSharedCmdSystem.DisableManualTime getDisableManualTime();
+    /**
+     * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+     */
+    cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder getDisableManualTimeOrBuilder();
+
     cmd.System.JonSharedCmdSystem.Root.CmdCase getCmdCase();
   }
   /**
@@ -410,6 +440,8 @@ public final class JonSharedCmdSystem {
       STEP_HOUR(19),
       STEP_MINUTE(20),
       STEP_SECOND(21),
+      ENABLE_MANUAL_TIME(22),
+      DISABLE_MANUAL_TIME(23),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -448,6 +480,8 @@ public final class JonSharedCmdSystem {
           case 19: return STEP_HOUR;
           case 20: return STEP_MINUTE;
           case 21: return STEP_SECOND;
+          case 22: return ENABLE_MANUAL_TIME;
+          case 23: return DISABLE_MANUAL_TIME;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -1114,6 +1148,68 @@ public final class JonSharedCmdSystem {
       return cmd.System.JonSharedCmdSystem.StepSecond.getDefaultInstance();
     }
 
+    public static final int ENABLE_MANUAL_TIME_FIELD_NUMBER = 22;
+    /**
+     * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+     * @return Whether the enableManualTime field is set.
+     */
+    @java.lang.Override
+    public boolean hasEnableManualTime() {
+      return cmdCase_ == 22;
+    }
+    /**
+     * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+     * @return The enableManualTime.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.EnableManualTime getEnableManualTime() {
+      if (cmdCase_ == 22) {
+         return (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder getEnableManualTimeOrBuilder() {
+      if (cmdCase_ == 22) {
+         return (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+    }
+
+    public static final int DISABLE_MANUAL_TIME_FIELD_NUMBER = 23;
+    /**
+     * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+     * @return Whether the disableManualTime field is set.
+     */
+    @java.lang.Override
+    public boolean hasDisableManualTime() {
+      return cmdCase_ == 23;
+    }
+    /**
+     * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+     * @return The disableManualTime.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.DisableManualTime getDisableManualTime() {
+      if (cmdCase_ == 23) {
+         return (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder getDisableManualTimeOrBuilder() {
+      if (cmdCase_ == 23) {
+         return (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1190,6 +1286,12 @@ public final class JonSharedCmdSystem {
       }
       if (cmdCase_ == 21) {
         output.writeMessage(21, (cmd.System.JonSharedCmdSystem.StepSecond) cmd_);
+      }
+      if (cmdCase_ == 22) {
+        output.writeMessage(22, (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_);
+      }
+      if (cmdCase_ == 23) {
+        output.writeMessage(23, (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1283,6 +1385,14 @@ public final class JonSharedCmdSystem {
       if (cmdCase_ == 21) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(21, (cmd.System.JonSharedCmdSystem.StepSecond) cmd_);
+      }
+      if (cmdCase_ == 22) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_);
+      }
+      if (cmdCase_ == 23) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(23, (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1385,6 +1495,14 @@ public final class JonSharedCmdSystem {
           if (!getStepSecond()
               .equals(other.getStepSecond())) return false;
           break;
+        case 22:
+          if (!getEnableManualTime()
+              .equals(other.getEnableManualTime())) return false;
+          break;
+        case 23:
+          if (!getDisableManualTime()
+              .equals(other.getDisableManualTime())) return false;
+          break;
         case 0:
         default:
       }
@@ -1483,6 +1601,14 @@ public final class JonSharedCmdSystem {
         case 21:
           hash = (37 * hash) + STEP_SECOND_FIELD_NUMBER;
           hash = (53 * hash) + getStepSecond().hashCode();
+          break;
+        case 22:
+          hash = (37 * hash) + ENABLE_MANUAL_TIME_FIELD_NUMBER;
+          hash = (53 * hash) + getEnableManualTime().hashCode();
+          break;
+        case 23:
+          hash = (37 * hash) + DISABLE_MANUAL_TIME_FIELD_NUMBER;
+          hash = (53 * hash) + getDisableManualTime().hashCode();
           break;
         case 0:
         default:
@@ -1681,6 +1807,12 @@ public final class JonSharedCmdSystem {
         if (stepSecondBuilder_ != null) {
           stepSecondBuilder_.clear();
         }
+        if (enableManualTimeBuilder_ != null) {
+          enableManualTimeBuilder_.clear();
+        }
+        if (disableManualTimeBuilder_ != null) {
+          disableManualTimeBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1806,6 +1938,14 @@ public final class JonSharedCmdSystem {
             stepSecondBuilder_ != null) {
           result.cmd_ = stepSecondBuilder_.build();
         }
+        if (cmdCase_ == 22 &&
+            enableManualTimeBuilder_ != null) {
+          result.cmd_ = enableManualTimeBuilder_.build();
+        }
+        if (cmdCase_ == 23 &&
+            disableManualTimeBuilder_ != null) {
+          result.cmd_ = disableManualTimeBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -1903,6 +2043,14 @@ public final class JonSharedCmdSystem {
           }
           case STEP_SECOND: {
             mergeStepSecond(other.getStepSecond());
+            break;
+          }
+          case ENABLE_MANUAL_TIME: {
+            mergeEnableManualTime(other.getEnableManualTime());
+            break;
+          }
+          case DISABLE_MANUAL_TIME: {
+            mergeDisableManualTime(other.getDisableManualTime());
             break;
           }
           case CMD_NOT_SET: {
@@ -2082,6 +2230,20 @@ public final class JonSharedCmdSystem {
                 cmdCase_ = 21;
                 break;
               } // case 170
+              case 178: {
+                input.readMessage(
+                    getEnableManualTimeFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 22;
+                break;
+              } // case 178
+              case 186: {
+                input.readMessage(
+                    getDisableManualTimeFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 23;
+                break;
+              } // case 186
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5094,6 +5256,290 @@ public final class JonSharedCmdSystem {
         cmdCase_ = 21;
         onChanged();
         return stepSecondBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.EnableManualTime, cmd.System.JonSharedCmdSystem.EnableManualTime.Builder, cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder> enableManualTimeBuilder_;
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       * @return Whether the enableManualTime field is set.
+       */
+      @java.lang.Override
+      public boolean hasEnableManualTime() {
+        return cmdCase_ == 22;
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       * @return The enableManualTime.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.EnableManualTime getEnableManualTime() {
+        if (enableManualTimeBuilder_ == null) {
+          if (cmdCase_ == 22) {
+            return (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 22) {
+            return enableManualTimeBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      public Builder setEnableManualTime(cmd.System.JonSharedCmdSystem.EnableManualTime value) {
+        if (enableManualTimeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          enableManualTimeBuilder_.setMessage(value);
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      public Builder setEnableManualTime(
+          cmd.System.JonSharedCmdSystem.EnableManualTime.Builder builderForValue) {
+        if (enableManualTimeBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          enableManualTimeBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      public Builder mergeEnableManualTime(cmd.System.JonSharedCmdSystem.EnableManualTime value) {
+        if (enableManualTimeBuilder_ == null) {
+          if (cmdCase_ == 22 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.EnableManualTime.newBuilder((cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 22) {
+            enableManualTimeBuilder_.mergeFrom(value);
+          } else {
+            enableManualTimeBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      public Builder clearEnableManualTime() {
+        if (enableManualTimeBuilder_ == null) {
+          if (cmdCase_ == 22) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 22) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          enableManualTimeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.EnableManualTime.Builder getEnableManualTimeBuilder() {
+        return getEnableManualTimeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder getEnableManualTimeOrBuilder() {
+        if ((cmdCase_ == 22) && (enableManualTimeBuilder_ != null)) {
+          return enableManualTimeBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 22) {
+            return (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.EnableManualTime enable_manual_time = 22;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.EnableManualTime, cmd.System.JonSharedCmdSystem.EnableManualTime.Builder, cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder> 
+          getEnableManualTimeFieldBuilder() {
+        if (enableManualTimeBuilder_ == null) {
+          if (!(cmdCase_ == 22)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+          }
+          enableManualTimeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.EnableManualTime, cmd.System.JonSharedCmdSystem.EnableManualTime.Builder, cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.EnableManualTime) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 22;
+        onChanged();
+        return enableManualTimeBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.DisableManualTime, cmd.System.JonSharedCmdSystem.DisableManualTime.Builder, cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder> disableManualTimeBuilder_;
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       * @return Whether the disableManualTime field is set.
+       */
+      @java.lang.Override
+      public boolean hasDisableManualTime() {
+        return cmdCase_ == 23;
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       * @return The disableManualTime.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.DisableManualTime getDisableManualTime() {
+        if (disableManualTimeBuilder_ == null) {
+          if (cmdCase_ == 23) {
+            return (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 23) {
+            return disableManualTimeBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      public Builder setDisableManualTime(cmd.System.JonSharedCmdSystem.DisableManualTime value) {
+        if (disableManualTimeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          disableManualTimeBuilder_.setMessage(value);
+        }
+        cmdCase_ = 23;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      public Builder setDisableManualTime(
+          cmd.System.JonSharedCmdSystem.DisableManualTime.Builder builderForValue) {
+        if (disableManualTimeBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          disableManualTimeBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 23;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      public Builder mergeDisableManualTime(cmd.System.JonSharedCmdSystem.DisableManualTime value) {
+        if (disableManualTimeBuilder_ == null) {
+          if (cmdCase_ == 23 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.DisableManualTime.newBuilder((cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 23) {
+            disableManualTimeBuilder_.mergeFrom(value);
+          } else {
+            disableManualTimeBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 23;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      public Builder clearDisableManualTime() {
+        if (disableManualTimeBuilder_ == null) {
+          if (cmdCase_ == 23) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 23) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          disableManualTimeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.DisableManualTime.Builder getDisableManualTimeBuilder() {
+        return getDisableManualTimeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder getDisableManualTimeOrBuilder() {
+        if ((cmdCase_ == 23) && (disableManualTimeBuilder_ != null)) {
+          return disableManualTimeBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 23) {
+            return (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.DisableManualTime disable_manual_time = 23;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.DisableManualTime, cmd.System.JonSharedCmdSystem.DisableManualTime.Builder, cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder> 
+          getDisableManualTimeFieldBuilder() {
+        if (disableManualTimeBuilder_ == null) {
+          if (!(cmdCase_ == 23)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+          }
+          disableManualTimeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.DisableManualTime, cmd.System.JonSharedCmdSystem.DisableManualTime.Builder, cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 23;
+        onChanged();
+        return disableManualTimeBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.System.Root)
@@ -13308,6 +13754,716 @@ public final class JonSharedCmdSystem {
 
   }
 
+  public interface EnableManualTimeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.EnableManualTime)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.System.EnableManualTime}
+   */
+  public static final class EnableManualTime extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.EnableManualTime)
+      EnableManualTimeOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        EnableManualTime.class.getName());
+    }
+    // Use EnableManualTime.newBuilder() to construct.
+    private EnableManualTime(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private EnableManualTime() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_EnableManualTime_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_EnableManualTime_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.EnableManualTime.class, cmd.System.JonSharedCmdSystem.EnableManualTime.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.EnableManualTime)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.EnableManualTime other = (cmd.System.JonSharedCmdSystem.EnableManualTime) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.EnableManualTime prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.EnableManualTime}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.EnableManualTime)
+        cmd.System.JonSharedCmdSystem.EnableManualTimeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_EnableManualTime_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_EnableManualTime_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.EnableManualTime.class, cmd.System.JonSharedCmdSystem.EnableManualTime.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.EnableManualTime.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_EnableManualTime_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.EnableManualTime getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.EnableManualTime build() {
+        cmd.System.JonSharedCmdSystem.EnableManualTime result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.EnableManualTime buildPartial() {
+        cmd.System.JonSharedCmdSystem.EnableManualTime result = new cmd.System.JonSharedCmdSystem.EnableManualTime(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.EnableManualTime) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.EnableManualTime)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.EnableManualTime other) {
+        if (other == cmd.System.JonSharedCmdSystem.EnableManualTime.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.EnableManualTime)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.EnableManualTime)
+    private static final cmd.System.JonSharedCmdSystem.EnableManualTime DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.EnableManualTime();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.EnableManualTime getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<EnableManualTime>
+        PARSER = new com.google.protobuf.AbstractParser<EnableManualTime>() {
+      @java.lang.Override
+      public EnableManualTime parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnableManualTime> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnableManualTime> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.EnableManualTime getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DisableManualTimeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.DisableManualTime)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.System.DisableManualTime}
+   */
+  public static final class DisableManualTime extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.DisableManualTime)
+      DisableManualTimeOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        DisableManualTime.class.getName());
+    }
+    // Use DisableManualTime.newBuilder() to construct.
+    private DisableManualTime(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private DisableManualTime() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_DisableManualTime_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_DisableManualTime_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.DisableManualTime.class, cmd.System.JonSharedCmdSystem.DisableManualTime.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.DisableManualTime)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.DisableManualTime other = (cmd.System.JonSharedCmdSystem.DisableManualTime) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.DisableManualTime prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.DisableManualTime}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.DisableManualTime)
+        cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_DisableManualTime_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_DisableManualTime_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.DisableManualTime.class, cmd.System.JonSharedCmdSystem.DisableManualTime.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.DisableManualTime.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_DisableManualTime_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.DisableManualTime getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.DisableManualTime build() {
+        cmd.System.JonSharedCmdSystem.DisableManualTime result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.DisableManualTime buildPartial() {
+        cmd.System.JonSharedCmdSystem.DisableManualTime result = new cmd.System.JonSharedCmdSystem.DisableManualTime(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.DisableManualTime) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.DisableManualTime)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.DisableManualTime other) {
+        if (other == cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.DisableManualTime)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.DisableManualTime)
+    private static final cmd.System.JonSharedCmdSystem.DisableManualTime DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.DisableManualTime();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.DisableManualTime getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DisableManualTime>
+        PARSER = new com.google.protobuf.AbstractParser<DisableManualTime>() {
+      @java.lang.Override
+      public DisableManualTime parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<DisableManualTime> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DisableManualTime> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.DisableManualTime getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_System_Root_descriptor;
   private static final 
@@ -13418,6 +14574,16 @@ public final class JonSharedCmdSystem {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_System_StepSecond_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_EnableManualTime_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_EnableManualTime_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_DisableManualTime_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_DisableManualTime_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -13429,7 +14595,7 @@ public final class JonSharedCmdSystem {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste" +
       "m\032\033buf/validate/validate.proto\032\033jon_shar" +
-      "ed_data_types.proto\"\252\010\n\004Root\022)\n\tstart_al" +
+      "ed_data_types.proto\"\244\t\n\004Root\022)\n\tstart_al" +
       "l\030\001 \001(\0132\024.cmd.System.StartALlH\000\022\'\n\010stop_" +
       "all\030\002 \001(\0132\023.cmd.System.StopALlH\000\022$\n\006rebo" +
       "ot\030\003 \001(\0132\022.cmd.System.RebootH\000\022)\n\tpower_" +
@@ -13455,22 +14621,26 @@ public final class JonSharedCmdSystem {
       ".System.StepDayH\000\022)\n\tstep_hour\030\023 \001(\0132\024.c" +
       "md.System.StepHourH\000\022-\n\013step_minute\030\024 \001(" +
       "\0132\026.cmd.System.StepMinuteH\000\022-\n\013step_seco" +
-      "nd\030\025 \001(\0132\026.cmd.System.StepSecondH\000B\014\n\003cm" +
-      "d\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Reboo" +
-      "t\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveFac" +
-      "toryDefaults\"\016\n\014WipeUserData\"\n\n\010StartRec" +
-      "\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unmar" +
-      "kRecImportant\"\020\n\016EnterTransport\"\024\n\022Enabl" +
-      "eGeodesicMode\"\025\n\023DisableGeodesicMode\"N\n\017" +
-      "SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.JonGu" +
-      "iDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032\n\010" +
-      "StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016\n" +
-      "\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(\005" +
-      "\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMinu" +
-      "te\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006offs" +
-      "et\030\001 \001(\005BMZKgit-codecommit.eu-central-1." +
-      "amazonaws.com/v1/repos/jettison/jonp/cmd" +
-      "/systemb\006proto3"
+      "nd\030\025 \001(\0132\026.cmd.System.StepSecondH\000\022:\n\022en" +
+      "able_manual_time\030\026 \001(\0132\034.cmd.System.Enab" +
+      "leManualTimeH\000\022<\n\023disable_manual_time\030\027 " +
+      "\001(\0132\035.cmd.System.DisableManualTimeH\000B\014\n\003" +
+      "cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Reb" +
+      "oot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveF" +
+      "actoryDefaults\"\016\n\014WipeUserData\"\n\n\010StartR" +
+      "ec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unm" +
+      "arkRecImportant\"\020\n\016EnterTransport\"\024\n\022Ena" +
+      "bleGeodesicMode\"\025\n\023DisableGeodesicMode\"N" +
+      "\n\017SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.Jon" +
+      "GuiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032" +
+      "\n\010StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022" +
+      "\016\n\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001" +
+      "(\005\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMi" +
+      "nute\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006of" +
+      "fset\030\001 \001(\005\"\022\n\020EnableManualTime\"\023\n\021Disabl" +
+      "eManualTimeBMZKgit-codecommit.eu-central" +
+      "-1.amazonaws.com/v1/repos/jettison/jonp/" +
+      "cmd/systemb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -13483,7 +14653,7 @@ public final class JonSharedCmdSystem {
     internal_static_cmd_System_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_Root_descriptor,
-        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "StepYear", "StepMonth", "StepDay", "StepHour", "StepMinute", "StepSecond", "Cmd", });
+        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "StepYear", "StepMonth", "StepDay", "StepHour", "StepMinute", "StepSecond", "EnableManualTime", "DisableManualTime", "Cmd", });
     internal_static_cmd_System_StartALl_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_System_StartALl_fieldAccessorTable = new
@@ -13610,6 +14780,18 @@ public final class JonSharedCmdSystem {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_StepSecond_descriptor,
         new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_EnableManualTime_descriptor =
+      getDescriptor().getMessageTypes().get(22);
+    internal_static_cmd_System_EnableManualTime_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_EnableManualTime_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_System_DisableManualTime_descriptor =
+      getDescriptor().getMessageTypes().get(23);
+    internal_static_cmd_System_DisableManualTime_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_DisableManualTime_descriptor,
+        new java.lang.String[] { });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

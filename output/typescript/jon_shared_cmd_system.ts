@@ -35,6 +35,8 @@ export interface Root {
   stepHour?: StepHour | undefined;
   stepMinute?: StepMinute | undefined;
   stepSecond?: StepSecond | undefined;
+  enableManualTime?: EnableManualTime | undefined;
+  disableManualTime?: DisableManualTime | undefined;
 }
 
 export interface StartALl {
@@ -113,6 +115,12 @@ export interface StepSecond {
   offset: number;
 }
 
+export interface EnableManualTime {
+}
+
+export interface DisableManualTime {
+}
+
 function createBaseRoot(): Root {
   return {
     startAll: undefined,
@@ -136,6 +144,8 @@ function createBaseRoot(): Root {
     stepHour: undefined,
     stepMinute: undefined,
     stepSecond: undefined,
+    enableManualTime: undefined,
+    disableManualTime: undefined,
   };
 }
 
@@ -203,6 +213,12 @@ export const Root: MessageFns<Root> = {
     }
     if (message.stepSecond !== undefined) {
       StepSecond.encode(message.stepSecond, writer.uint32(170).fork()).join();
+    }
+    if (message.enableManualTime !== undefined) {
+      EnableManualTime.encode(message.enableManualTime, writer.uint32(178).fork()).join();
+    }
+    if (message.disableManualTime !== undefined) {
+      DisableManualTime.encode(message.disableManualTime, writer.uint32(186).fork()).join();
     }
     return writer;
   },
@@ -382,6 +398,22 @@ export const Root: MessageFns<Root> = {
           message.stepSecond = StepSecond.decode(reader, reader.uint32());
           continue;
         }
+        case 22: {
+          if (tag !== 178) {
+            break;
+          }
+
+          message.enableManualTime = EnableManualTime.decode(reader, reader.uint32());
+          continue;
+        }
+        case 23: {
+          if (tag !== 186) {
+            break;
+          }
+
+          message.disableManualTime = DisableManualTime.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -422,6 +454,10 @@ export const Root: MessageFns<Root> = {
       stepHour: isSet(object.stepHour) ? StepHour.fromJSON(object.stepHour) : undefined,
       stepMinute: isSet(object.stepMinute) ? StepMinute.fromJSON(object.stepMinute) : undefined,
       stepSecond: isSet(object.stepSecond) ? StepSecond.fromJSON(object.stepSecond) : undefined,
+      enableManualTime: isSet(object.enableManualTime) ? EnableManualTime.fromJSON(object.enableManualTime) : undefined,
+      disableManualTime: isSet(object.disableManualTime)
+        ? DisableManualTime.fromJSON(object.disableManualTime)
+        : undefined,
     };
   },
 
@@ -489,6 +525,12 @@ export const Root: MessageFns<Root> = {
     }
     if (message.stepSecond !== undefined) {
       obj.stepSecond = StepSecond.toJSON(message.stepSecond);
+    }
+    if (message.enableManualTime !== undefined) {
+      obj.enableManualTime = EnableManualTime.toJSON(message.enableManualTime);
+    }
+    if (message.disableManualTime !== undefined) {
+      obj.disableManualTime = DisableManualTime.toJSON(message.disableManualTime);
     }
     return obj;
   },
@@ -560,6 +602,12 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.stepSecond = (object.stepSecond !== undefined && object.stepSecond !== null)
       ? StepSecond.fromPartial(object.stepSecond)
+      : undefined;
+    message.enableManualTime = (object.enableManualTime !== undefined && object.enableManualTime !== null)
+      ? EnableManualTime.fromPartial(object.enableManualTime)
+      : undefined;
+    message.disableManualTime = (object.disableManualTime !== undefined && object.disableManualTime !== null)
+      ? DisableManualTime.fromPartial(object.disableManualTime)
       : undefined;
     return message;
   },
@@ -1569,6 +1617,92 @@ export const StepSecond: MessageFns<StepSecond> = {
   fromPartial<I extends Exact<DeepPartial<StepSecond>, I>>(object: I): StepSecond {
     const message = createBaseStepSecond();
     message.offset = object.offset ?? 0;
+    return message;
+  },
+};
+
+function createBaseEnableManualTime(): EnableManualTime {
+  return {};
+}
+
+export const EnableManualTime: MessageFns<EnableManualTime> = {
+  encode(_: EnableManualTime, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EnableManualTime {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEnableManualTime();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): EnableManualTime {
+    return {};
+  },
+
+  toJSON(_: EnableManualTime): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EnableManualTime>, I>>(base?: I): EnableManualTime {
+    return EnableManualTime.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EnableManualTime>, I>>(_: I): EnableManualTime {
+    const message = createBaseEnableManualTime();
+    return message;
+  },
+};
+
+function createBaseDisableManualTime(): DisableManualTime {
+  return {};
+}
+
+export const DisableManualTime: MessageFns<DisableManualTime> = {
+  encode(_: DisableManualTime, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DisableManualTime {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDisableManualTime();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): DisableManualTime {
+    return {};
+  },
+
+  toJSON(_: DisableManualTime): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DisableManualTime>, I>>(base?: I): DisableManualTime {
+    return DisableManualTime.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DisableManualTime>, I>>(_: I): DisableManualTime {
+    const message = createBaseDisableManualTime();
     return message;
   },
 };

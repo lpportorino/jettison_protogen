@@ -48,6 +48,8 @@ type Root struct {
 	//	*Root_StepHour
 	//	*Root_StepMinute
 	//	*Root_StepSecond
+	//	*Root_EnableManualTime
+	//	*Root_DisableManualTime
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -279,6 +281,24 @@ func (x *Root) GetStepSecond() *StepSecond {
 	return nil
 }
 
+func (x *Root) GetEnableManualTime() *EnableManualTime {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_EnableManualTime); ok {
+			return x.EnableManualTime
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetDisableManualTime() *DisableManualTime {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_DisableManualTime); ok {
+			return x.DisableManualTime
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -367,6 +387,14 @@ type Root_StepSecond struct {
 	StepSecond *StepSecond `protobuf:"bytes,21,opt,name=step_second,json=stepSecond,proto3,oneof"`
 }
 
+type Root_EnableManualTime struct {
+	EnableManualTime *EnableManualTime `protobuf:"bytes,22,opt,name=enable_manual_time,json=enableManualTime,proto3,oneof"`
+}
+
+type Root_DisableManualTime struct {
+	DisableManualTime *DisableManualTime `protobuf:"bytes,23,opt,name=disable_manual_time,json=disableManualTime,proto3,oneof"`
+}
+
 func (*Root_StartAll) isRoot_Cmd() {}
 
 func (*Root_StopAll) isRoot_Cmd() {}
@@ -408,6 +436,10 @@ func (*Root_StepHour) isRoot_Cmd() {}
 func (*Root_StepMinute) isRoot_Cmd() {}
 
 func (*Root_StepSecond) isRoot_Cmd() {}
+
+func (*Root_EnableManualTime) isRoot_Cmd() {}
+
+func (*Root_DisableManualTime) isRoot_Cmd() {}
 
 type StartALl struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1221,13 +1253,84 @@ func (x *StepSecond) GetOffset() int32 {
 	return 0
 }
 
+type EnableManualTime struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnableManualTime) Reset() {
+	*x = EnableManualTime{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnableManualTime) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnableManualTime) ProtoMessage() {}
+
+func (x *EnableManualTime) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnableManualTime.ProtoReflect.Descriptor instead.
+func (*EnableManualTime) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{22}
+}
+
+type DisableManualTime struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DisableManualTime) Reset() {
+	*x = DisableManualTime{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DisableManualTime) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DisableManualTime) ProtoMessage() {}
+
+func (x *DisableManualTime) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DisableManualTime.ProtoReflect.Descriptor instead.
+func (*DisableManualTime) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{23}
+}
+
 var File_jon_shared_cmd_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_system.proto\x12\n" +
-	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc0\n" +
-	"\n" +
+	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xdf\v\n" +
 	"\x04Root\x123\n" +
 	"\tstart_all\x18\x01 \x01(\v2\x14.cmd.System.StartALlH\x00R\bstartAll\x120\n" +
 	"\bstop_all\x18\x02 \x01(\v2\x13.cmd.System.StopALlH\x00R\astopAll\x12,\n" +
@@ -1253,7 +1356,9 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\vstep_minute\x18\x14 \x01(\v2\x16.cmd.System.StepMinuteH\x00R\n" +
 	"stepMinute\x129\n" +
 	"\vstep_second\x18\x15 \x01(\v2\x16.cmd.System.StepSecondH\x00R\n" +
-	"stepSecondB\f\n" +
+	"stepSecond\x12L\n" +
+	"\x12enable_manual_time\x18\x16 \x01(\v2\x1c.cmd.System.EnableManualTimeH\x00R\x10enableManualTime\x12O\n" +
+	"\x13disable_manual_time\x18\x17 \x01(\v2\x1d.cmd.System.DisableManualTimeH\x00R\x11disableManualTimeB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\n" +
 	"\n" +
 	"\bStartALl\"\t\n" +
@@ -1288,7 +1393,9 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\x06offset\x18\x01 \x01(\x05R\x06offset\"$\n" +
 	"\n" +
 	"StepSecond\x12\x16\n" +
-	"\x06offset\x18\x01 \x01(\x05R\x06offsetB\xbf\x01\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"\x12\n" +
+	"\x10EnableManualTime\"\x13\n" +
+	"\x11DisableManualTimeB\xbf\x01\n" +
 	"\x0ecom.cmd.SystemB\x17JonSharedCmdSystemProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/system\xa2\x02\x03CSX\xaa\x02\n" +
 	"Cmd.System\xca\x02\n" +
 	"Cmd\\System\xe2\x02\x16Cmd\\System\\GPBMetadata\xea\x02\vCmd::Systemb\x06proto3"
@@ -1305,7 +1412,7 @@ func file_jon_shared_cmd_system_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_system_proto_rawDescData
 }
 
-var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*Root)(nil),                             // 0: cmd.System.Root
 	(*StartALl)(nil),                         // 1: cmd.System.StartALl
@@ -1329,7 +1436,9 @@ var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*StepHour)(nil),                         // 19: cmd.System.StepHour
 	(*StepMinute)(nil),                       // 20: cmd.System.StepMinute
 	(*StepSecond)(nil),                       // 21: cmd.System.StepSecond
-	(types.JonGuiDataSystemLocalizations)(0), // 22: ser.JonGuiDataSystemLocalizations
+	(*EnableManualTime)(nil),                 // 22: cmd.System.EnableManualTime
+	(*DisableManualTime)(nil),                // 23: cmd.System.DisableManualTime
+	(types.JonGuiDataSystemLocalizations)(0), // 24: ser.JonGuiDataSystemLocalizations
 }
 var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	1,  // 0: cmd.System.Root.start_all:type_name -> cmd.System.StartALl
@@ -1353,12 +1462,14 @@ var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	19, // 18: cmd.System.Root.step_hour:type_name -> cmd.System.StepHour
 	20, // 19: cmd.System.Root.step_minute:type_name -> cmd.System.StepMinute
 	21, // 20: cmd.System.Root.step_second:type_name -> cmd.System.StepSecond
-	22, // 21: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
-	22, // [22:22] is the sub-list for method output_type
-	22, // [22:22] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	22, // 21: cmd.System.Root.enable_manual_time:type_name -> cmd.System.EnableManualTime
+	23, // 22: cmd.System.Root.disable_manual_time:type_name -> cmd.System.DisableManualTime
+	24, // 23: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
+	24, // [24:24] is the sub-list for method output_type
+	24, // [24:24] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_system_proto_init() }
@@ -1388,6 +1499,8 @@ func file_jon_shared_cmd_system_proto_init() {
 		(*Root_StepHour)(nil),
 		(*Root_StepMinute)(nil),
 		(*Root_StepSecond)(nil),
+		(*Root_EnableManualTime)(nil),
+		(*Root_DisableManualTime)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1395,7 +1508,7 @@ func file_jon_shared_cmd_system_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_system_proto_rawDesc), len(file_jon_shared_cmd_system_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   22,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -30,6 +30,8 @@ message Root {
     StepHour step_hour = 19;
     StepMinute step_minute = 20;
     StepSecond step_second = 21;
+    EnableManualTime enable_manual_time = 22;
+    DisableManualTime disable_manual_time = 23;
   }
 }
 
@@ -91,3 +93,7 @@ message StepMinute {
 message StepSecond {
   int32 offset = 1;  // Positive or negative second offset
 }
+
+message EnableManualTime {}
+
+message DisableManualTime {}

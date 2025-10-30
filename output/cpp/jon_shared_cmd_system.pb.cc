@@ -418,6 +418,24 @@ struct EnterTransportDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EnterTransportDefaultTypeInternal _EnterTransport_default_instance_;
               template <typename>
+PROTOBUF_CONSTEXPR EnableManualTime::EnableManualTime(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct EnableManualTimeDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EnableManualTimeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EnableManualTimeDefaultTypeInternal() {}
+  union {
+    EnableManualTime _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EnableManualTimeDefaultTypeInternal _EnableManualTime_default_instance_;
+              template <typename>
 PROTOBUF_CONSTEXPR EnableGeodesicMode::EnableGeodesicMode(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
@@ -435,6 +453,24 @@ struct EnableGeodesicModeDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EnableGeodesicModeDefaultTypeInternal _EnableGeodesicMode_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR DisableManualTime::DisableManualTime(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct DisableManualTimeDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DisableManualTimeDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DisableManualTimeDefaultTypeInternal() {}
+  union {
+    DisableManualTime _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DisableManualTimeDefaultTypeInternal _DisableManualTime_default_instance_;
               template <typename>
 PROTOBUF_CONSTEXPR DisableGeodesicMode::DisableGeodesicMode(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -496,6 +532,8 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -693,32 +731,50 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::cmd::System::StepSecond, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::EnableManualTime, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::DisableManualTime, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::System::Root)},
-        {30, -1, -1, sizeof(::cmd::System::StartALl)},
-        {38, -1, -1, sizeof(::cmd::System::StopALl)},
-        {46, -1, -1, sizeof(::cmd::System::Reboot)},
-        {54, -1, -1, sizeof(::cmd::System::PowerOff)},
-        {62, -1, -1, sizeof(::cmd::System::ResetConfigs)},
-        {70, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
-        {78, -1, -1, sizeof(::cmd::System::WipeUserData)},
-        {86, -1, -1, sizeof(::cmd::System::StartRec)},
-        {94, -1, -1, sizeof(::cmd::System::StopRec)},
-        {102, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
-        {110, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
-        {118, -1, -1, sizeof(::cmd::System::EnterTransport)},
-        {126, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
-        {134, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
-        {142, -1, -1, sizeof(::cmd::System::SetLocalization)},
-        {151, -1, -1, sizeof(::cmd::System::StepYear)},
-        {160, -1, -1, sizeof(::cmd::System::StepMonth)},
-        {169, -1, -1, sizeof(::cmd::System::StepDay)},
-        {178, -1, -1, sizeof(::cmd::System::StepHour)},
-        {187, -1, -1, sizeof(::cmd::System::StepMinute)},
-        {196, -1, -1, sizeof(::cmd::System::StepSecond)},
+        {32, -1, -1, sizeof(::cmd::System::StartALl)},
+        {40, -1, -1, sizeof(::cmd::System::StopALl)},
+        {48, -1, -1, sizeof(::cmd::System::Reboot)},
+        {56, -1, -1, sizeof(::cmd::System::PowerOff)},
+        {64, -1, -1, sizeof(::cmd::System::ResetConfigs)},
+        {72, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
+        {80, -1, -1, sizeof(::cmd::System::WipeUserData)},
+        {88, -1, -1, sizeof(::cmd::System::StartRec)},
+        {96, -1, -1, sizeof(::cmd::System::StopRec)},
+        {104, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
+        {112, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
+        {120, -1, -1, sizeof(::cmd::System::EnterTransport)},
+        {128, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
+        {136, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
+        {144, -1, -1, sizeof(::cmd::System::SetLocalization)},
+        {153, -1, -1, sizeof(::cmd::System::StepYear)},
+        {162, -1, -1, sizeof(::cmd::System::StepMonth)},
+        {171, -1, -1, sizeof(::cmd::System::StepDay)},
+        {180, -1, -1, sizeof(::cmd::System::StepHour)},
+        {189, -1, -1, sizeof(::cmd::System::StepMinute)},
+        {198, -1, -1, sizeof(::cmd::System::StepSecond)},
+        {207, -1, -1, sizeof(::cmd::System::EnableManualTime)},
+        {215, -1, -1, sizeof(::cmd::System::DisableManualTime)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_Root_default_instance_._instance,
@@ -743,11 +799,13 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_StepHour_default_instance_._instance,
     &::cmd::System::_StepMinute_default_instance_._instance,
     &::cmd::System::_StepSecond_default_instance_._instance,
+    &::cmd::System::_EnableManualTime_default_instance_._instance,
+    &::cmd::System::_DisableManualTime_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste"
-    "m\032\033jon_shared_data_types.proto\"\243\010\n\004Root\022"
+    "m\032\033jon_shared_data_types.proto\"\235\t\n\004Root\022"
     ")\n\tstart_all\030\001 \001(\0132\024.cmd.System.StartALl"
     "H\000\022\'\n\010stop_all\030\002 \001(\0132\023.cmd.System.StopAL"
     "lH\000\022$\n\006reboot\030\003 \001(\0132\022.cmd.System.RebootH"
@@ -774,21 +832,25 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_
     "r\030\023 \001(\0132\024.cmd.System.StepHourH\000\022-\n\013step_"
     "minute\030\024 \001(\0132\026.cmd.System.StepMinuteH\000\022-"
     "\n\013step_second\030\025 \001(\0132\026.cmd.System.StepSec"
-    "ondH\000B\005\n\003cmd\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006R"
-    "eboot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023Sav"
-    "eFactoryDefaults\"\016\n\014WipeUserData\"\n\n\010Star"
-    "tRec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022U"
-    "nmarkRecImportant\"\020\n\016EnterTransport\"\024\n\022E"
-    "nableGeodesicMode\"\025\n\023DisableGeodesicMode"
-    "\"B\n\017SetLocalization\022/\n\003loc\030\001 \001(\0162\".ser.J"
-    "onGuiDataSystemLocalizations\"\032\n\010StepYear"
-    "\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016\n\006offset\030"
-    "\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(\005\"\032\n\010Step"
-    "Hour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMinute\022\016\n\006of"
-    "fset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006offset\030\001 \001(\005"
-    "BMZKgit-codecommit.eu-central-1.amazonaw"
-    "s.com/v1/repos/jettison/jonp/cmd/systemb"
-    "\006proto3"
+    "ondH\000\022:\n\022enable_manual_time\030\026 \001(\0132\034.cmd."
+    "System.EnableManualTimeH\000\022<\n\023disable_man"
+    "ual_time\030\027 \001(\0132\035.cmd.System.DisableManua"
+    "lTimeH\000B\005\n\003cmd\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n"
+    "\006Reboot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023S"
+    "aveFactoryDefaults\"\016\n\014WipeUserData\"\n\n\010St"
+    "artRec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n"
+    "\022UnmarkRecImportant\"\020\n\016EnterTransport\"\024\n"
+    "\022EnableGeodesicMode\"\025\n\023DisableGeodesicMo"
+    "de\"B\n\017SetLocalization\022/\n\003loc\030\001 \001(\0162\".ser"
+    ".JonGuiDataSystemLocalizations\"\032\n\010StepYe"
+    "ar\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016\n\006offse"
+    "t\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(\005\"\032\n\010St"
+    "epHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMinute\022\016\n\006"
+    "offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006offset\030\001 \001"
+    "(\005\"\022\n\020EnableManualTime\"\023\n\021DisableManualT"
+    "imeBMZKgit-codecommit.eu-central-1.amazo"
+    "naws.com/v1/repos/jettison/jonp/cmd/syst"
+    "emb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps[1] =
     {
@@ -798,13 +860,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto = {
     false,
     false,
-    1687,
+    1850,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto,
     "jon_shared_cmd_system.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps,
     1,
-    22,
+    24,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto::offsets,
@@ -1094,6 +1156,32 @@ void Root::set_allocated_step_second(::cmd::System::StepSecond* step_second) {
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_second)
 }
+void Root::set_allocated_enable_manual_time(::cmd::System::EnableManualTime* enable_manual_time) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (enable_manual_time) {
+    ::google::protobuf::Arena* submessage_arena = enable_manual_time->GetArena();
+    if (message_arena != submessage_arena) {
+      enable_manual_time = ::google::protobuf::internal::GetOwnedMessage(message_arena, enable_manual_time, submessage_arena);
+    }
+    set_has_enable_manual_time();
+    _impl_.cmd_.enable_manual_time_ = enable_manual_time;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.enable_manual_time)
+}
+void Root::set_allocated_disable_manual_time(::cmd::System::DisableManualTime* disable_manual_time) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (disable_manual_time) {
+    ::google::protobuf::Arena* submessage_arena = disable_manual_time->GetArena();
+    if (message_arena != submessage_arena) {
+      disable_manual_time = ::google::protobuf::internal::GetOwnedMessage(message_arena, disable_manual_time, submessage_arena);
+    }
+    set_has_disable_manual_time();
+    _impl_.cmd_.disable_manual_time_ = disable_manual_time;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.disable_manual_time)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -1188,6 +1276,12 @@ Root::Root(
         break;
       case kStepSecond:
         _impl_.cmd_.step_second_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepSecond>(arena, *from._impl_.cmd_.step_second_);
+        break;
+      case kEnableManualTime:
+        _impl_.cmd_.enable_manual_time_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::EnableManualTime>(arena, *from._impl_.cmd_.enable_manual_time_);
+        break;
+      case kDisableManualTime:
+        _impl_.cmd_.disable_manual_time_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::DisableManualTime>(arena, *from._impl_.cmd_.disable_manual_time_);
         break;
   }
 
@@ -1389,6 +1483,22 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kEnableManualTime: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.enable_manual_time_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.enable_manual_time_);
+      }
+      break;
+    }
+    case kDisableManualTime: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.disable_manual_time_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.disable_manual_time_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -1433,16 +1543,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 23, 23, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    21, 0,  // max_field_number, fast_idx_mask
+    23, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4292870144,  // skipmap
+    4286578688,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    21,  // num_field_entries
-    21,  // num_aux_entries
+    23,  // num_field_entries
+    23,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1518,6 +1628,12 @@ const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
     // .cmd.System.StepSecond step_second = 21;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_second_), _Internal::kOneofCaseOffset + 0, 20,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.EnableManualTime enable_manual_time = 22;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.enable_manual_time_), _Internal::kOneofCaseOffset + 0, 21,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.DisableManualTime disable_manual_time = 23;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.disable_manual_time_), _Internal::kOneofCaseOffset + 0, 22,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::System::StartALl>()},
     {::_pbi::TcParser::GetTable<::cmd::System::StopALl>()},
@@ -1540,6 +1656,8 @@ const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::System::StepHour>()},
     {::_pbi::TcParser::GetTable<::cmd::System::StepMinute>()},
     {::_pbi::TcParser::GetTable<::cmd::System::StepSecond>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::EnableManualTime>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::DisableManualTime>()},
   }}, {{
   }},
 };
@@ -1697,6 +1815,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kEnableManualTime: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  22, *this_._impl_.cmd_.enable_manual_time_, this_._impl_.cmd_.enable_manual_time_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kDisableManualTime: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  23, *this_._impl_.cmd_.disable_manual_time_, this_._impl_.cmd_.disable_manual_time_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -1848,6 +1978,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kStepSecond: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_second_);
+              break;
+            }
+            // .cmd.System.EnableManualTime enable_manual_time = 22;
+            case kEnableManualTime: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.enable_manual_time_);
+              break;
+            }
+            // .cmd.System.DisableManualTime disable_manual_time = 23;
+            case kDisableManualTime: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.disable_manual_time_);
               break;
             }
             case CMD_NOT_SET: {
@@ -2064,6 +2206,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::System::StepSecond>(arena, *from._impl_.cmd_.step_second_);
         } else {
           _this->_impl_.cmd_.step_second_->MergeFrom(from._internal_step_second());
+        }
+        break;
+      }
+      case kEnableManualTime: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.enable_manual_time_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::EnableManualTime>(arena, *from._impl_.cmd_.enable_manual_time_);
+        } else {
+          _this->_impl_.cmd_.enable_manual_time_->MergeFrom(from._internal_enable_manual_time());
+        }
+        break;
+      }
+      case kDisableManualTime: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.disable_manual_time_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::DisableManualTime>(arena, *from._impl_.cmd_.disable_manual_time_);
+        } else {
+          _this->_impl_.cmd_.disable_manual_time_->MergeFrom(from._internal_disable_manual_time());
         }
         break;
       }
@@ -4982,6 +5142,212 @@ void StepSecond::InternalSwap(StepSecond* PROTOBUF_RESTRICT other) {
 
 ::google::protobuf::Metadata StepSecond::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class EnableManualTime::_Internal {
+ public:
+};
+
+EnableManualTime::EnableManualTime(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.System.EnableManualTime)
+}
+EnableManualTime::EnableManualTime(
+    ::google::protobuf::Arena* arena,
+    const EnableManualTime& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  EnableManualTime* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.System.EnableManualTime)
+}
+
+inline void* EnableManualTime::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) EnableManualTime(arena);
+}
+constexpr auto EnableManualTime::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(EnableManualTime),
+                                            alignof(EnableManualTime));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull EnableManualTime::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_EnableManualTime_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &EnableManualTime::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<EnableManualTime>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &EnableManualTime::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<EnableManualTime>(), &EnableManualTime::ByteSizeLong,
+            &EnableManualTime::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(EnableManualTime, _impl_._cached_size_),
+        false,
+    },
+    &EnableManualTime::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* EnableManualTime::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> EnableManualTime::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::EnableManualTime>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata EnableManualTime::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class DisableManualTime::_Internal {
+ public:
+};
+
+DisableManualTime::DisableManualTime(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.System.DisableManualTime)
+}
+DisableManualTime::DisableManualTime(
+    ::google::protobuf::Arena* arena,
+    const DisableManualTime& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  DisableManualTime* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.System.DisableManualTime)
+}
+
+inline void* DisableManualTime::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) DisableManualTime(arena);
+}
+constexpr auto DisableManualTime::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(DisableManualTime),
+                                            alignof(DisableManualTime));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull DisableManualTime::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_DisableManualTime_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &DisableManualTime::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<DisableManualTime>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &DisableManualTime::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<DisableManualTime>(), &DisableManualTime::ByteSizeLong,
+            &DisableManualTime::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(DisableManualTime, _impl_._cached_size_),
+        false,
+    },
+    &DisableManualTime::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* DisableManualTime::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> DisableManualTime::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::DisableManualTime>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata DisableManualTime::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace System

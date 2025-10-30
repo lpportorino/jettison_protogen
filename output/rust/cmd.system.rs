@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -53,6 +53,10 @@ pub mod root {
         StepMinute(super::StepMinute),
         #[prost(message, tag = "21")]
         StepSecond(super::StepSecond),
+        #[prost(message, tag = "22")]
+        EnableManualTime(super::EnableManualTime),
+        #[prost(message, tag = "23")]
+        DisableManualTime(super::DisableManualTime),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -124,3 +128,7 @@ pub struct StepSecond {
     #[prost(int32, tag = "1")]
     pub offset: i32,
 }
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct EnableManualTime {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct DisableManualTime {}

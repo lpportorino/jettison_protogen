@@ -72,4 +72,10 @@ PB_BIND(cmd_System_StepMinute, cmd_System_StepMinute, AUTO)
 PB_BIND(cmd_System_StepSecond, cmd_System_StepSecond, AUTO)
 
 
+PB_BIND(cmd_System_EnableManualTime, cmd_System_EnableManualTime, AUTO)
+
+
+PB_BIND(cmd_System_DisableManualTime, cmd_System_DisableManualTime, AUTO)
+
+
 
