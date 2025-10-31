@@ -808,31 +808,6 @@ impl JonGuiDataClientType {
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCameraHeat {
-    #[prost(double, tag = "1")]
-    pub zoom_pos: f64,
-    #[prost(enumeration = "JonGuiDataVideoChannelHeatAgcModes", tag = "2")]
-    pub agc_mode: i32,
-    #[prost(enumeration = "JonGuiDataVideoChannelHeatFilters", tag = "3")]
-    pub filter: i32,
-    #[prost(bool, tag = "4")]
-    pub auto_focus: bool,
-    #[prost(int32, tag = "5")]
-    pub zoom_table_pos: i32,
-    #[prost(int32, tag = "6")]
-    pub zoom_table_pos_max: i32,
-    #[prost(int32, tag = "7")]
-    pub dde_level: i32,
-    #[prost(bool, tag = "8")]
-    pub dde_enabled: bool,
-    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "9")]
-    pub fx_mode: i32,
-    #[prost(double, tag = "10")]
-    pub digital_zoom_level: f64,
-    #[prost(double, tag = "11")]
-    pub clahe_level: f64,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTime {
     #[prost(int64, tag = "1")]
     pub timestamp: i64,
@@ -1096,6 +1071,31 @@ pub struct JonGuiDataCameraDay {
     pub auto_focus: bool,
     #[prost(bool, tag = "9")]
     pub auto_iris: bool,
+    #[prost(double, tag = "10")]
+    pub digital_zoom_level: f64,
+    #[prost(double, tag = "11")]
+    pub clahe_level: f64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataCameraHeat {
+    #[prost(double, tag = "1")]
+    pub zoom_pos: f64,
+    #[prost(enumeration = "JonGuiDataVideoChannelHeatAgcModes", tag = "2")]
+    pub agc_mode: i32,
+    #[prost(enumeration = "JonGuiDataVideoChannelHeatFilters", tag = "3")]
+    pub filter: i32,
+    #[prost(bool, tag = "4")]
+    pub auto_focus: bool,
+    #[prost(int32, tag = "5")]
+    pub zoom_table_pos: i32,
+    #[prost(int32, tag = "6")]
+    pub zoom_table_pos_max: i32,
+    #[prost(int32, tag = "7")]
+    pub dde_level: i32,
+    #[prost(bool, tag = "8")]
+    pub dde_enabled: bool,
+    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "9")]
+    pub fx_mode: i32,
     #[prost(double, tag = "10")]
     pub digital_zoom_level: f64,
     #[prost(double, tag = "11")]
