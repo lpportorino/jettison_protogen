@@ -7,22 +7,28 @@ ENV GO_VERSION=1.23.4
 ENV RUST_VERSION=1.83.0
 
 # Install base dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    cmake \
-    curl \
-    git \
-    wget \
-    unzip \
-    python3 \
-    python3-pip \
-    python3-venv \
-    openjdk-17-jdk \
-    maven \
-    nodejs \
-    npm \
-    gawk \
-    && rm -rf /var/lib/apt/lists/*
+# Use retry logic to handle transient repository issues
+RUN for i in 1 2 3; do \
+        apt-get update && \
+        apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        curl \
+        git \
+        wget \
+        unzip \
+        python3 \
+        python3-pip \
+        python3-venv \
+        openjdk-17-jdk \
+        maven \
+        nodejs \
+        npm \
+        gawk \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/* \
+        && break || sleep 5; \
+    done
 
 # Detect architecture and install Protocol Buffers compiler
 RUN ARCH=$(uname -m) && \
