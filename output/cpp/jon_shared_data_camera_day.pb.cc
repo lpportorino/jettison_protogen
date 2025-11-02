@@ -39,6 +39,8 @@ inline constexpr JonGuiDataCameraDay::Impl_::Impl_(
         auto_iris_{false},
         digital_zoom_level_{0},
         clahe_level_{0},
+        horizontal_fov_degrees_{0},
+        vertical_fov_degrees_{0},
         _cached_size_{0} {}
 
 template <typename>
@@ -87,6 +89,8 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.auto_iris_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.digital_zoom_level_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.clahe_level_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.horizontal_fov_degrees_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.vertical_fov_degrees_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -99,17 +103,18 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n jon_shared_data_camera_day.proto\022\003ser\032"
-    "\033jon_shared_data_types.proto\"\234\002\n\023JonGuiD"
+    "\033jon_shared_data_types.proto\"\332\002\n\023JonGuiD"
     "ataCameraDay\022\021\n\tfocus_pos\030\001 \001(\001\022\020\n\010zoom_"
     "pos\030\002 \001(\001\022\020\n\010iris_pos\030\003 \001(\001\022\027\n\017infrared_"
     "filter\030\004 \001(\010\022\026\n\016zoom_table_pos\030\005 \001(\005\022\032\n\022"
     "zoom_table_pos_max\030\006 \001(\005\022)\n\007fx_mode\030\007 \001("
     "\0162\030.ser.JonGuiDataFxModeDay\022\022\n\nauto_focu"
     "s\030\010 \001(\010\022\021\n\tauto_iris\030\t \001(\010\022\032\n\022digital_zo"
-    "om_level\030\n \001(\001\022\023\n\013clahe_level\030\013 \001(\001BRZPg"
-    "it-codecommit.eu-central-1.amazonaws.com"
-    "/v1/repos/jettison/jonp/data/camera_dayb"
-    "\006proto3"
+    "om_level\030\n \001(\001\022\023\n\013clahe_level\030\013 \001(\001\022\036\n\026h"
+    "orizontal_fov_degrees\030\014 \001(\001\022\034\n\024vertical_"
+    "fov_degrees\030\r \001(\001BRZPgit-codecommit.eu-c"
+    "entral-1.amazonaws.com/v1/repos/jettison"
+    "/jonp/data/camera_dayb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps[1] =
     {
@@ -119,7 +124,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2ep
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto = {
     false,
     false,
-    447,
+    509,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto,
     "jon_shared_data_camera_day.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_once,
@@ -163,9 +168,9 @@ inline void JonGuiDataCameraDay::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, focus_pos_),
            0,
-           offsetof(Impl_, clahe_level_) -
+           offsetof(Impl_, vertical_fov_degrees_) -
                offsetof(Impl_, focus_pos_) +
-               sizeof(Impl_::clahe_level_));
+               sizeof(Impl_::vertical_fov_degrees_));
 }
 JonGuiDataCameraDay::~JonGuiDataCameraDay() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataCameraDay)
@@ -214,15 +219,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCameraDay::GetClassData
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
+const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    11, 120,  // max_field_number, fast_idx_mask
+    13, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294965248,  // skipmap
+    4294959104,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    11,  // num_field_entries
+    13,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -266,8 +271,12 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     // double clahe_level = 11;
     {::_pbi::TcParser::FastF64S1,
      {89, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.clahe_level_)}},
-    {::_pbi::TcParser::MiniParse, {}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // double horizontal_fov_degrees = 12;
+    {::_pbi::TcParser::FastF64S1,
+     {97, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.horizontal_fov_degrees_)}},
+    // double vertical_fov_degrees = 13;
+    {::_pbi::TcParser::FastF64S1,
+     {105, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
@@ -306,6 +315,12 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     // double clahe_level = 11;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.clahe_level_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double horizontal_fov_degrees = 12;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.horizontal_fov_degrees_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // double vertical_fov_degrees = 13;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
   // no aux_entries
   {{
@@ -320,8 +335,8 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.focus_pos_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.clahe_level_) -
-      reinterpret_cast<char*>(&_impl_.focus_pos_)) + sizeof(_impl_.clahe_level_));
+      reinterpret_cast<char*>(&_impl_.vertical_fov_degrees_) -
+      reinterpret_cast<char*>(&_impl_.focus_pos_)) + sizeof(_impl_.vertical_fov_degrees_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -417,6 +432,20 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
                 11, this_._internal_clahe_level(), target);
           }
 
+          // double horizontal_fov_degrees = 12;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_horizontal_fov_degrees()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                12, this_._internal_horizontal_fov_degrees(), target);
+          }
+
+          // double vertical_fov_degrees = 13;
+          if (::absl::bit_cast<::uint64_t>(this_._internal_vertical_fov_degrees()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                13, this_._internal_vertical_fov_degrees(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -489,6 +518,14 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_clahe_level()) != 0) {
               total_size += 9;
             }
+            // double horizontal_fov_degrees = 12;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_horizontal_fov_degrees()) != 0) {
+              total_size += 9;
+            }
+            // double vertical_fov_degrees = 13;
+            if (::absl::bit_cast<::uint64_t>(this_._internal_vertical_fov_degrees()) != 0) {
+              total_size += 9;
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -535,6 +572,12 @@ void JonGuiDataCameraDay::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   if (::absl::bit_cast<::uint64_t>(from._internal_clahe_level()) != 0) {
     _this->_impl_.clahe_level_ = from._impl_.clahe_level_;
   }
+  if (::absl::bit_cast<::uint64_t>(from._internal_horizontal_fov_degrees()) != 0) {
+    _this->_impl_.horizontal_fov_degrees_ = from._impl_.horizontal_fov_degrees_;
+  }
+  if (::absl::bit_cast<::uint64_t>(from._internal_vertical_fov_degrees()) != 0) {
+    _this->_impl_.vertical_fov_degrees_ = from._impl_.vertical_fov_degrees_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -550,8 +593,8 @@ void JonGuiDataCameraDay::InternalSwap(JonGuiDataCameraDay* PROTOBUF_RESTRICT ot
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.clahe_level_)
-      + sizeof(JonGuiDataCameraDay::_impl_.clahe_level_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_)
+      + sizeof(JonGuiDataCameraDay::_impl_.vertical_fov_degrees_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.focus_pos_)>(
           reinterpret_cast<char*>(&_impl_.focus_pos_),
           reinterpret_cast<char*>(&other->_impl_.focus_pos_));

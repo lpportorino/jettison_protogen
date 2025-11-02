@@ -23,6 +23,8 @@ typedef struct _ser_JonGuiDataCameraDay {
     bool auto_iris;
     double digital_zoom_level;
     double clahe_level;
+    double horizontal_fov_degrees;
+    double vertical_fov_degrees;
 } ser_JonGuiDataCameraDay;
 
 
@@ -31,8 +33,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0}
-#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0}
+#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCameraDay_focus_pos_tag    1
@@ -46,6 +48,8 @@ extern "C" {
 #define ser_JonGuiDataCameraDay_auto_iris_tag    9
 #define ser_JonGuiDataCameraDay_digital_zoom_level_tag 10
 #define ser_JonGuiDataCameraDay_clahe_level_tag  11
+#define ser_JonGuiDataCameraDay_horizontal_fov_degrees_tag 12
+#define ser_JonGuiDataCameraDay_vertical_fov_degrees_tag 13
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraDay_FIELDLIST(X, a) \
@@ -59,7 +63,9 @@ X(a, STATIC,   SINGULAR, UENUM,    fx_mode,           7) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_focus,        8) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_iris,         9) \
 X(a, STATIC,   SINGULAR, DOUBLE,   digital_zoom_level,  10) \
-X(a, STATIC,   SINGULAR, DOUBLE,   clahe_level,      11)
+X(a, STATIC,   SINGULAR, DOUBLE,   clahe_level,      11) \
+X(a, STATIC,   SINGULAR, DOUBLE,   horizontal_fov_degrees,  12) \
+X(a, STATIC,   SINGULAR, DOUBLE,   vertical_fov_degrees,  13)
 #define ser_JonGuiDataCameraDay_CALLBACK NULL
 #define ser_JonGuiDataCameraDay_DEFAULT NULL
 
@@ -70,7 +76,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraDay_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_DAY_PB_H_MAX_SIZE ser_JonGuiDataCameraDay_size
-#define ser_JonGuiDataCameraDay_size             75
+#define ser_JonGuiDataCameraDay_size             93
 
 #ifdef __cplusplus
 } /* extern "C" */

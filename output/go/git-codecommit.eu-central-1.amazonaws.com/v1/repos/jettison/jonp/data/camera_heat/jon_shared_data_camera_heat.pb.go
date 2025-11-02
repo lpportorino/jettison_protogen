@@ -24,20 +24,22 @@ const (
 )
 
 type JonGuiDataCameraHeat struct {
-	state            protoimpl.MessageState                   `protogen:"open.v1"`
-	ZoomPos          float64                                  `protobuf:"fixed64,1,opt,name=zoom_pos,json=zoomPos,proto3" json:"zoom_pos,omitempty"`
-	AgcMode          types.JonGuiDataVideoChannelHeatAGCModes `protobuf:"varint,2,opt,name=agc_mode,json=agcMode,proto3,enum=ser.JonGuiDataVideoChannelHeatAGCModes" json:"agc_mode,omitempty"`
-	Filter           types.JonGuiDataVideoChannelHeatFilters  `protobuf:"varint,3,opt,name=filter,proto3,enum=ser.JonGuiDataVideoChannelHeatFilters" json:"filter,omitempty"`
-	AutoFocus        bool                                     `protobuf:"varint,4,opt,name=auto_focus,json=autoFocus,proto3" json:"auto_focus,omitempty"`
-	ZoomTablePos     int32                                    `protobuf:"varint,5,opt,name=zoom_table_pos,json=zoomTablePos,proto3" json:"zoom_table_pos,omitempty"`
-	ZoomTablePosMax  int32                                    `protobuf:"varint,6,opt,name=zoom_table_pos_max,json=zoomTablePosMax,proto3" json:"zoom_table_pos_max,omitempty"`
-	DdeLevel         int32                                    `protobuf:"varint,7,opt,name=dde_level,json=ddeLevel,proto3" json:"dde_level,omitempty"`
-	DdeEnabled       bool                                     `protobuf:"varint,8,opt,name=dde_enabled,json=ddeEnabled,proto3" json:"dde_enabled,omitempty"`
-	FxMode           types.JonGuiDataFxModeHeat               `protobuf:"varint,9,opt,name=fx_mode,json=fxMode,proto3,enum=ser.JonGuiDataFxModeHeat" json:"fx_mode,omitempty"`
-	DigitalZoomLevel float64                                  `protobuf:"fixed64,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
-	ClaheLevel       float64                                  `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state                protoimpl.MessageState                   `protogen:"open.v1"`
+	ZoomPos              float64                                  `protobuf:"fixed64,1,opt,name=zoom_pos,json=zoomPos,proto3" json:"zoom_pos,omitempty"`
+	AgcMode              types.JonGuiDataVideoChannelHeatAGCModes `protobuf:"varint,2,opt,name=agc_mode,json=agcMode,proto3,enum=ser.JonGuiDataVideoChannelHeatAGCModes" json:"agc_mode,omitempty"`
+	Filter               types.JonGuiDataVideoChannelHeatFilters  `protobuf:"varint,3,opt,name=filter,proto3,enum=ser.JonGuiDataVideoChannelHeatFilters" json:"filter,omitempty"`
+	AutoFocus            bool                                     `protobuf:"varint,4,opt,name=auto_focus,json=autoFocus,proto3" json:"auto_focus,omitempty"`
+	ZoomTablePos         int32                                    `protobuf:"varint,5,opt,name=zoom_table_pos,json=zoomTablePos,proto3" json:"zoom_table_pos,omitempty"`
+	ZoomTablePosMax      int32                                    `protobuf:"varint,6,opt,name=zoom_table_pos_max,json=zoomTablePosMax,proto3" json:"zoom_table_pos_max,omitempty"`
+	DdeLevel             int32                                    `protobuf:"varint,7,opt,name=dde_level,json=ddeLevel,proto3" json:"dde_level,omitempty"`
+	DdeEnabled           bool                                     `protobuf:"varint,8,opt,name=dde_enabled,json=ddeEnabled,proto3" json:"dde_enabled,omitempty"`
+	FxMode               types.JonGuiDataFxModeHeat               `protobuf:"varint,9,opt,name=fx_mode,json=fxMode,proto3,enum=ser.JonGuiDataFxModeHeat" json:"fx_mode,omitempty"`
+	DigitalZoomLevel     float64                                  `protobuf:"fixed64,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
+	ClaheLevel           float64                                  `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
+	HorizontalFovDegrees float64                                  `protobuf:"fixed64,12,opt,name=horizontal_fov_degrees,json=horizontalFovDegrees,proto3" json:"horizontal_fov_degrees,omitempty"`
+	VerticalFovDegrees   float64                                  `protobuf:"fixed64,13,opt,name=vertical_fov_degrees,json=verticalFovDegrees,proto3" json:"vertical_fov_degrees,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCameraHeat) Reset() {
@@ -147,11 +149,25 @@ func (x *JonGuiDataCameraHeat) GetClaheLevel() float64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraHeat) GetHorizontalFovDegrees() float64 {
+	if x != nil {
+		return x.HorizontalFovDegrees
+	}
+	return 0
+}
+
+func (x *JonGuiDataCameraHeat) GetVerticalFovDegrees() float64 {
+	if x != nil {
+		return x.VerticalFovDegrees
+	}
+	return 0
+}
+
 var File_jon_shared_data_camera_heat_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
-	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xea\x04\n" +
+	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x84\x06\n" +
 	"\x14JonGuiDataCameraHeat\x122\n" +
 	"\bzoom_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x12N\n" +
 	"\bagc_mode\x18\x02 \x01(\x0e2'.ser.JonGuiDataVideoChannelHeatAGCModesB\n" +
@@ -170,7 +186,9 @@ const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\x12digital_zoom_level\x18\n" +
 	" \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x10digitalZoomLevel\x128\n" +
 	"\vclahe_level\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
-	"claheLevelB\xa6\x01\n" +
+	"claheLevel\x12M\n" +
+	"\x16horizontal_fov_degrees\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x14horizontalFovDegrees\x12I\n" +
+	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegreesB\xa6\x01\n" +
 	"\acom.serB\x1cJonSharedDataCameraHeatProtoP\x01ZQgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

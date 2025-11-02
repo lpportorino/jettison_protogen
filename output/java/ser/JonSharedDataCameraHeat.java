@@ -109,6 +109,18 @@ public final class JonSharedDataCameraHeat {
      * @return The claheLevel.
      */
     double getClaheLevel();
+
+    /**
+     * <code>double horizontal_fov_degrees = 12 [(.buf.validate.field) = { ... }</code>
+     * @return The horizontalFovDegrees.
+     */
+    double getHorizontalFovDegrees();
+
+    /**
+     * <code>double vertical_fov_degrees = 13 [(.buf.validate.field) = { ... }</code>
+     * @return The verticalFovDegrees.
+     */
+    double getVerticalFovDegrees();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraHeat}
@@ -292,6 +304,28 @@ public final class JonSharedDataCameraHeat {
       return claheLevel_;
     }
 
+    public static final int HORIZONTAL_FOV_DEGREES_FIELD_NUMBER = 12;
+    private double horizontalFovDegrees_ = 0D;
+    /**
+     * <code>double horizontal_fov_degrees = 12 [(.buf.validate.field) = { ... }</code>
+     * @return The horizontalFovDegrees.
+     */
+    @java.lang.Override
+    public double getHorizontalFovDegrees() {
+      return horizontalFovDegrees_;
+    }
+
+    public static final int VERTICAL_FOV_DEGREES_FIELD_NUMBER = 13;
+    private double verticalFovDegrees_ = 0D;
+    /**
+     * <code>double vertical_fov_degrees = 13 [(.buf.validate.field) = { ... }</code>
+     * @return The verticalFovDegrees.
+     */
+    @java.lang.Override
+    public double getVerticalFovDegrees() {
+      return verticalFovDegrees_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -338,6 +372,12 @@ public final class JonSharedDataCameraHeat {
       }
       if (java.lang.Double.doubleToRawLongBits(claheLevel_) != 0) {
         output.writeDouble(11, claheLevel_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(horizontalFovDegrees_) != 0) {
+        output.writeDouble(12, horizontalFovDegrees_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(verticalFovDegrees_) != 0) {
+        output.writeDouble(13, verticalFovDegrees_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -392,6 +432,14 @@ public final class JonSharedDataCameraHeat {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(11, claheLevel_);
       }
+      if (java.lang.Double.doubleToRawLongBits(horizontalFovDegrees_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(12, horizontalFovDegrees_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(verticalFovDegrees_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(13, verticalFovDegrees_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -429,6 +477,12 @@ public final class JonSharedDataCameraHeat {
       if (java.lang.Double.doubleToLongBits(getClaheLevel())
           != java.lang.Double.doubleToLongBits(
               other.getClaheLevel())) return false;
+      if (java.lang.Double.doubleToLongBits(getHorizontalFovDegrees())
+          != java.lang.Double.doubleToLongBits(
+              other.getHorizontalFovDegrees())) return false;
+      if (java.lang.Double.doubleToLongBits(getVerticalFovDegrees())
+          != java.lang.Double.doubleToLongBits(
+              other.getVerticalFovDegrees())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -467,6 +521,12 @@ public final class JonSharedDataCameraHeat {
       hash = (37 * hash) + CLAHE_LEVEL_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getClaheLevel()));
+      hash = (37 * hash) + HORIZONTAL_FOV_DEGREES_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getHorizontalFovDegrees()));
+      hash = (37 * hash) + VERTICAL_FOV_DEGREES_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getVerticalFovDegrees()));
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -609,6 +669,8 @@ public final class JonSharedDataCameraHeat {
         fxMode_ = 0;
         digitalZoomLevel_ = 0D;
         claheLevel_ = 0D;
+        horizontalFovDegrees_ = 0D;
+        verticalFovDegrees_ = 0D;
         return this;
       }
 
@@ -675,6 +737,12 @@ public final class JonSharedDataCameraHeat {
         if (((from_bitField0_ & 0x00000400) != 0)) {
           result.claheLevel_ = claheLevel_;
         }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.horizontalFovDegrees_ = horizontalFovDegrees_;
+        }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.verticalFovDegrees_ = verticalFovDegrees_;
+        }
       }
 
       @java.lang.Override
@@ -721,6 +789,12 @@ public final class JonSharedDataCameraHeat {
         }
         if (other.getClaheLevel() != 0D) {
           setClaheLevel(other.getClaheLevel());
+        }
+        if (other.getHorizontalFovDegrees() != 0D) {
+          setHorizontalFovDegrees(other.getHorizontalFovDegrees());
+        }
+        if (other.getVerticalFovDegrees() != 0D) {
+          setVerticalFovDegrees(other.getVerticalFovDegrees());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -803,6 +877,16 @@ public final class JonSharedDataCameraHeat {
                 bitField0_ |= 0x00000400;
                 break;
               } // case 89
+              case 97: {
+                horizontalFovDegrees_ = input.readDouble();
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 97
+              case 105: {
+                verticalFovDegrees_ = input.readDouble();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 105
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1235,6 +1319,70 @@ public final class JonSharedDataCameraHeat {
         return this;
       }
 
+      private double horizontalFovDegrees_ ;
+      /**
+       * <code>double horizontal_fov_degrees = 12 [(.buf.validate.field) = { ... }</code>
+       * @return The horizontalFovDegrees.
+       */
+      @java.lang.Override
+      public double getHorizontalFovDegrees() {
+        return horizontalFovDegrees_;
+      }
+      /**
+       * <code>double horizontal_fov_degrees = 12 [(.buf.validate.field) = { ... }</code>
+       * @param value The horizontalFovDegrees to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHorizontalFovDegrees(double value) {
+
+        horizontalFovDegrees_ = value;
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double horizontal_fov_degrees = 12 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHorizontalFovDegrees() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        horizontalFovDegrees_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double verticalFovDegrees_ ;
+      /**
+       * <code>double vertical_fov_degrees = 13 [(.buf.validate.field) = { ... }</code>
+       * @return The verticalFovDegrees.
+       */
+      @java.lang.Override
+      public double getVerticalFovDegrees() {
+        return verticalFovDegrees_;
+      }
+      /**
+       * <code>double vertical_fov_degrees = 13 [(.buf.validate.field) = { ... }</code>
+       * @param value The verticalFovDegrees to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVerticalFovDegrees(double value) {
+
+        verticalFovDegrees_ = value;
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double vertical_fov_degrees = 13 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVerticalFovDegrees() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        verticalFovDegrees_ = 0D;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraHeat)
     }
 
@@ -1302,7 +1450,7 @@ public final class JonSharedDataCameraHeat {
     java.lang.String[] descriptorData = {
       "\n!jon_shared_data_camera_heat.proto\022\003ser" +
       "\032\033buf/validate/validate.proto\032\033jon_share" +
-      "d_data_types.proto\"\352\003\n\024JonGuiDataCameraH" +
+      "d_data_types.proto\"\332\004\n\024JonGuiDataCameraH" +
       "eat\022)\n\010zoom_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
       "\000\000\000\000\000\000\022E\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDat" +
       "aVideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n" +
@@ -1314,10 +1462,12 @@ public final class JonSharedDataCameraHeat {
       "d\030\010 \001(\010\0224\n\007fx_mode\030\t \001(\0162\031.ser.JonGuiDat" +
       "aFxModeHeatB\010\272H\005\202\001\002\020\001\022*\n\022digital_zoom_le" +
       "vel\030\n \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\022,\n\013clahe_level" +
-      "\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000BSZQgit-c" +
-      "odecommit.eu-central-1.amazonaws.com/v1/" +
-      "repos/jettison/jonp/data/camera_heatb\006pr" +
-      "oto3"
+      "\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\0227\n\026horiz" +
+      "ontal_fov_degrees\030\014 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!" +
+      "\000\000\000\000\000\000\000\000\0225\n\024vertical_fov_degrees\030\r \001(\001B\027" +
+      "\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000BSZQgit-codecommi" +
+      "t.eu-central-1.amazonaws.com/v1/repos/je" +
+      "ttison/jonp/data/camera_heatb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1330,7 +1480,7 @@ public final class JonSharedDataCameraHeat {
     internal_static_ser_JonGuiDataCameraHeat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraHeat_descriptor,
-        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", });
+        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

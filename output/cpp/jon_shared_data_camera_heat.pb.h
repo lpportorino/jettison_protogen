@@ -225,6 +225,8 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     kDdeLevelFieldNumber = 7,
     kDigitalZoomLevelFieldNumber = 10,
     kClaheLevelFieldNumber = 11,
+    kHorizontalFovDegreesFieldNumber = 12,
+    kVerticalFovDegreesFieldNumber = 13,
     kFxModeFieldNumber = 9,
   };
   // double zoom_pos = 1;
@@ -327,6 +329,26 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_clahe_level(double value);
 
   public:
+  // double horizontal_fov_degrees = 12;
+  void clear_horizontal_fov_degrees() ;
+  double horizontal_fov_degrees() const;
+  void set_horizontal_fov_degrees(double value);
+
+  private:
+  double _internal_horizontal_fov_degrees() const;
+  void _internal_set_horizontal_fov_degrees(double value);
+
+  public:
+  // double vertical_fov_degrees = 13;
+  void clear_vertical_fov_degrees() ;
+  double vertical_fov_degrees() const;
+  void set_vertical_fov_degrees(double value);
+
+  private:
+  double _internal_vertical_fov_degrees() const;
+  void _internal_set_vertical_fov_degrees(double value);
+
+  public:
   // .ser.JonGuiDataFxModeHeat fx_mode = 9;
   void clear_fx_mode() ;
   ::ser::JonGuiDataFxModeHeat fx_mode() const;
@@ -342,7 +364,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 11, 0,
+      4, 13, 0,
       0, 2>
       _table_;
 
@@ -370,6 +392,8 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     ::int32_t dde_level_;
     double digital_zoom_level_;
     double clahe_level_;
+    double horizontal_fov_degrees_;
+    double vertical_fov_degrees_;
     int fx_mode_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -634,6 +658,50 @@ inline double JonGuiDataCameraHeat::_internal_clahe_level() const {
 inline void JonGuiDataCameraHeat::_internal_set_clahe_level(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.clahe_level_ = value;
+}
+
+// double horizontal_fov_degrees = 12;
+inline void JonGuiDataCameraHeat::clear_horizontal_fov_degrees() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.horizontal_fov_degrees_ = 0;
+}
+inline double JonGuiDataCameraHeat::horizontal_fov_degrees() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.horizontal_fov_degrees)
+  return _internal_horizontal_fov_degrees();
+}
+inline void JonGuiDataCameraHeat::set_horizontal_fov_degrees(double value) {
+  _internal_set_horizontal_fov_degrees(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.horizontal_fov_degrees)
+}
+inline double JonGuiDataCameraHeat::_internal_horizontal_fov_degrees() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.horizontal_fov_degrees_;
+}
+inline void JonGuiDataCameraHeat::_internal_set_horizontal_fov_degrees(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.horizontal_fov_degrees_ = value;
+}
+
+// double vertical_fov_degrees = 13;
+inline void JonGuiDataCameraHeat::clear_vertical_fov_degrees() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.vertical_fov_degrees_ = 0;
+}
+inline double JonGuiDataCameraHeat::vertical_fov_degrees() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.vertical_fov_degrees)
+  return _internal_vertical_fov_degrees();
+}
+inline void JonGuiDataCameraHeat::set_vertical_fov_degrees(double value) {
+  _internal_set_vertical_fov_degrees(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.vertical_fov_degrees)
+}
+inline double JonGuiDataCameraHeat::_internal_vertical_fov_degrees() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.vertical_fov_degrees_;
+}
+inline void JonGuiDataCameraHeat::_internal_set_vertical_fov_degrees(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.vertical_fov_degrees_ = value;
 }
 
 #ifdef __GNUC__

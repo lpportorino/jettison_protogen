@@ -226,6 +226,8 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     kAutoIrisFieldNumber = 9,
     kDigitalZoomLevelFieldNumber = 10,
     kClaheLevelFieldNumber = 11,
+    kHorizontalFovDegreesFieldNumber = 12,
+    kVerticalFovDegreesFieldNumber = 13,
   };
   // double focus_pos = 1;
   void clear_focus_pos() ;
@@ -337,12 +339,32 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   void _internal_set_clahe_level(double value);
 
   public:
+  // double horizontal_fov_degrees = 12;
+  void clear_horizontal_fov_degrees() ;
+  double horizontal_fov_degrees() const;
+  void set_horizontal_fov_degrees(double value);
+
+  private:
+  double _internal_horizontal_fov_degrees() const;
+  void _internal_set_horizontal_fov_degrees(double value);
+
+  public:
+  // double vertical_fov_degrees = 13;
+  void clear_vertical_fov_degrees() ;
+  double vertical_fov_degrees() const;
+  void set_vertical_fov_degrees(double value);
+
+  private:
+  double _internal_vertical_fov_degrees() const;
+  void _internal_set_vertical_fov_degrees(double value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCameraDay)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 11, 0,
+      4, 13, 0,
       0, 2>
       _table_;
 
@@ -371,6 +393,8 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     bool auto_iris_;
     double digital_zoom_level_;
     double clahe_level_;
+    double horizontal_fov_degrees_;
+    double vertical_fov_degrees_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -634,6 +658,50 @@ inline double JonGuiDataCameraDay::_internal_clahe_level() const {
 inline void JonGuiDataCameraDay::_internal_set_clahe_level(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.clahe_level_ = value;
+}
+
+// double horizontal_fov_degrees = 12;
+inline void JonGuiDataCameraDay::clear_horizontal_fov_degrees() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.horizontal_fov_degrees_ = 0;
+}
+inline double JonGuiDataCameraDay::horizontal_fov_degrees() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.horizontal_fov_degrees)
+  return _internal_horizontal_fov_degrees();
+}
+inline void JonGuiDataCameraDay::set_horizontal_fov_degrees(double value) {
+  _internal_set_horizontal_fov_degrees(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.horizontal_fov_degrees)
+}
+inline double JonGuiDataCameraDay::_internal_horizontal_fov_degrees() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.horizontal_fov_degrees_;
+}
+inline void JonGuiDataCameraDay::_internal_set_horizontal_fov_degrees(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.horizontal_fov_degrees_ = value;
+}
+
+// double vertical_fov_degrees = 13;
+inline void JonGuiDataCameraDay::clear_vertical_fov_degrees() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.vertical_fov_degrees_ = 0;
+}
+inline double JonGuiDataCameraDay::vertical_fov_degrees() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.vertical_fov_degrees)
+  return _internal_vertical_fov_degrees();
+}
+inline void JonGuiDataCameraDay::set_vertical_fov_degrees(double value) {
+  _internal_set_vertical_fov_degrees(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.vertical_fov_degrees)
+}
+inline double JonGuiDataCameraDay::_internal_vertical_fov_degrees() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.vertical_fov_degrees_;
+}
+inline void JonGuiDataCameraDay::_internal_set_vertical_fov_degrees(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.vertical_fov_degrees_ = value;
 }
 
 #ifdef __GNUC__

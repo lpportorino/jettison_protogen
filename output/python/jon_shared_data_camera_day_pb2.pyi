@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataCameraDay(_message.Message):
-    __slots__ = ("focus_pos", "zoom_pos", "iris_pos", "infrared_filter", "zoom_table_pos", "zoom_table_pos_max", "fx_mode", "auto_focus", "auto_iris", "digital_zoom_level", "clahe_level")
+    __slots__ = ("focus_pos", "zoom_pos", "iris_pos", "infrared_filter", "zoom_table_pos", "zoom_table_pos_max", "fx_mode", "auto_focus", "auto_iris", "digital_zoom_level", "clahe_level", "horizontal_fov_degrees", "vertical_fov_degrees")
     FOCUS_POS_FIELD_NUMBER: _ClassVar[int]
     ZOOM_POS_FIELD_NUMBER: _ClassVar[int]
     IRIS_POS_FIELD_NUMBER: _ClassVar[int]
@@ -18,6 +18,8 @@ class JonGuiDataCameraDay(_message.Message):
     AUTO_IRIS_FIELD_NUMBER: _ClassVar[int]
     DIGITAL_ZOOM_LEVEL_FIELD_NUMBER: _ClassVar[int]
     CLAHE_LEVEL_FIELD_NUMBER: _ClassVar[int]
+    HORIZONTAL_FOV_DEGREES_FIELD_NUMBER: _ClassVar[int]
+    VERTICAL_FOV_DEGREES_FIELD_NUMBER: _ClassVar[int]
     focus_pos: float
     zoom_pos: float
     iris_pos: float
@@ -29,4 +31,6 @@ class JonGuiDataCameraDay(_message.Message):
     auto_iris: bool
     digital_zoom_level: float
     clahe_level: float
-    def __init__(self, focus_pos: _Optional[float] = ..., zoom_pos: _Optional[float] = ..., iris_pos: _Optional[float] = ..., infrared_filter: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., auto_focus: bool = ..., auto_iris: bool = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ...) -> None: ...
+    horizontal_fov_degrees: float
+    vertical_fov_degrees: float
+    def __init__(self, focus_pos: _Optional[float] = ..., zoom_pos: _Optional[float] = ..., iris_pos: _Optional[float] = ..., infrared_filter: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., auto_focus: bool = ..., auto_iris: bool = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ...) -> None: ...

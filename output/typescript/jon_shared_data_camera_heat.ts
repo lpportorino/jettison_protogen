@@ -31,6 +31,8 @@ export interface JonGuiDataCameraHeat {
   fxMode: JonGuiDataFxModeHeat;
   digitalZoomLevel: number;
   claheLevel: number;
+  horizontalFovDegrees: number;
+  verticalFovDegrees: number;
 }
 
 function createBaseJonGuiDataCameraHeat(): JonGuiDataCameraHeat {
@@ -46,6 +48,8 @@ function createBaseJonGuiDataCameraHeat(): JonGuiDataCameraHeat {
     fxMode: 0,
     digitalZoomLevel: 0,
     claheLevel: 0,
+    horizontalFovDegrees: 0,
+    verticalFovDegrees: 0,
   };
 }
 
@@ -83,6 +87,12 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
     }
     if (message.claheLevel !== 0) {
       writer.uint32(89).double(message.claheLevel);
+    }
+    if (message.horizontalFovDegrees !== 0) {
+      writer.uint32(97).double(message.horizontalFovDegrees);
+    }
+    if (message.verticalFovDegrees !== 0) {
+      writer.uint32(105).double(message.verticalFovDegrees);
     }
     return writer;
   },
@@ -182,6 +192,22 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
           message.claheLevel = reader.double();
           continue;
         }
+        case 12: {
+          if (tag !== 97) {
+            break;
+          }
+
+          message.horizontalFovDegrees = reader.double();
+          continue;
+        }
+        case 13: {
+          if (tag !== 105) {
+            break;
+          }
+
+          message.verticalFovDegrees = reader.double();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -204,6 +230,8 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
       fxMode: isSet(object.fxMode) ? jonGuiDataFxModeHeatFromJSON(object.fxMode) : 0,
       digitalZoomLevel: isSet(object.digitalZoomLevel) ? globalThis.Number(object.digitalZoomLevel) : 0,
       claheLevel: isSet(object.claheLevel) ? globalThis.Number(object.claheLevel) : 0,
+      horizontalFovDegrees: isSet(object.horizontalFovDegrees) ? globalThis.Number(object.horizontalFovDegrees) : 0,
+      verticalFovDegrees: isSet(object.verticalFovDegrees) ? globalThis.Number(object.verticalFovDegrees) : 0,
     };
   },
 
@@ -242,6 +270,12 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
     if (message.claheLevel !== 0) {
       obj.claheLevel = message.claheLevel;
     }
+    if (message.horizontalFovDegrees !== 0) {
+      obj.horizontalFovDegrees = message.horizontalFovDegrees;
+    }
+    if (message.verticalFovDegrees !== 0) {
+      obj.verticalFovDegrees = message.verticalFovDegrees;
+    }
     return obj;
   },
 
@@ -261,6 +295,8 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
     message.fxMode = object.fxMode ?? 0;
     message.digitalZoomLevel = object.digitalZoomLevel ?? 0;
     message.claheLevel = object.claheLevel ?? 0;
+    message.horizontalFovDegrees = object.horizontalFovDegrees ?? 0;
+    message.verticalFovDegrees = object.verticalFovDegrees ?? 0;
     return message;
   },
 };

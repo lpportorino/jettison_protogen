@@ -21,6 +21,8 @@ export interface JonGuiDataCameraDay {
   autoIris: boolean;
   digitalZoomLevel: number;
   claheLevel: number;
+  horizontalFovDegrees: number;
+  verticalFovDegrees: number;
 }
 
 function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
@@ -36,6 +38,8 @@ function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
     autoIris: false,
     digitalZoomLevel: 0,
     claheLevel: 0,
+    horizontalFovDegrees: 0,
+    verticalFovDegrees: 0,
   };
 }
 
@@ -73,6 +77,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     }
     if (message.claheLevel !== 0) {
       writer.uint32(89).double(message.claheLevel);
+    }
+    if (message.horizontalFovDegrees !== 0) {
+      writer.uint32(97).double(message.horizontalFovDegrees);
+    }
+    if (message.verticalFovDegrees !== 0) {
+      writer.uint32(105).double(message.verticalFovDegrees);
     }
     return writer;
   },
@@ -172,6 +182,22 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
           message.claheLevel = reader.double();
           continue;
         }
+        case 12: {
+          if (tag !== 97) {
+            break;
+          }
+
+          message.horizontalFovDegrees = reader.double();
+          continue;
+        }
+        case 13: {
+          if (tag !== 105) {
+            break;
+          }
+
+          message.verticalFovDegrees = reader.double();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -194,6 +220,8 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
       autoIris: isSet(object.autoIris) ? globalThis.Boolean(object.autoIris) : false,
       digitalZoomLevel: isSet(object.digitalZoomLevel) ? globalThis.Number(object.digitalZoomLevel) : 0,
       claheLevel: isSet(object.claheLevel) ? globalThis.Number(object.claheLevel) : 0,
+      horizontalFovDegrees: isSet(object.horizontalFovDegrees) ? globalThis.Number(object.horizontalFovDegrees) : 0,
+      verticalFovDegrees: isSet(object.verticalFovDegrees) ? globalThis.Number(object.verticalFovDegrees) : 0,
     };
   },
 
@@ -232,6 +260,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     if (message.claheLevel !== 0) {
       obj.claheLevel = message.claheLevel;
     }
+    if (message.horizontalFovDegrees !== 0) {
+      obj.horizontalFovDegrees = message.horizontalFovDegrees;
+    }
+    if (message.verticalFovDegrees !== 0) {
+      obj.verticalFovDegrees = message.verticalFovDegrees;
+    }
     return obj;
   },
 
@@ -251,6 +285,8 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     message.autoIris = object.autoIris ?? false;
     message.digitalZoomLevel = object.digitalZoomLevel ?? 0;
     message.claheLevel = object.claheLevel ?? 0;
+    message.horizontalFovDegrees = object.horizontalFovDegrees ?? 0;
+    message.verticalFovDegrees = object.verticalFovDegrees ?? 0;
     return message;
   },
 };

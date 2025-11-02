@@ -24,20 +24,22 @@ const (
 )
 
 type JonGuiDataCameraDay struct {
-	state            protoimpl.MessageState    `protogen:"open.v1"`
-	FocusPos         float64                   `protobuf:"fixed64,1,opt,name=focus_pos,json=focusPos,proto3" json:"focus_pos,omitempty"`
-	ZoomPos          float64                   `protobuf:"fixed64,2,opt,name=zoom_pos,json=zoomPos,proto3" json:"zoom_pos,omitempty"`
-	IrisPos          float64                   `protobuf:"fixed64,3,opt,name=iris_pos,json=irisPos,proto3" json:"iris_pos,omitempty"`
-	InfraredFilter   bool                      `protobuf:"varint,4,opt,name=infrared_filter,json=infraredFilter,proto3" json:"infrared_filter,omitempty"`
-	ZoomTablePos     int32                     `protobuf:"varint,5,opt,name=zoom_table_pos,json=zoomTablePos,proto3" json:"zoom_table_pos,omitempty"`
-	ZoomTablePosMax  int32                     `protobuf:"varint,6,opt,name=zoom_table_pos_max,json=zoomTablePosMax,proto3" json:"zoom_table_pos_max,omitempty"`
-	FxMode           types.JonGuiDataFxModeDay `protobuf:"varint,7,opt,name=fx_mode,json=fxMode,proto3,enum=ser.JonGuiDataFxModeDay" json:"fx_mode,omitempty"`
-	AutoFocus        bool                      `protobuf:"varint,8,opt,name=auto_focus,json=autoFocus,proto3" json:"auto_focus,omitempty"`
-	AutoIris         bool                      `protobuf:"varint,9,opt,name=auto_iris,json=autoIris,proto3" json:"auto_iris,omitempty"`
-	DigitalZoomLevel float64                   `protobuf:"fixed64,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
-	ClaheLevel       float64                   `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state                protoimpl.MessageState    `protogen:"open.v1"`
+	FocusPos             float64                   `protobuf:"fixed64,1,opt,name=focus_pos,json=focusPos,proto3" json:"focus_pos,omitempty"`
+	ZoomPos              float64                   `protobuf:"fixed64,2,opt,name=zoom_pos,json=zoomPos,proto3" json:"zoom_pos,omitempty"`
+	IrisPos              float64                   `protobuf:"fixed64,3,opt,name=iris_pos,json=irisPos,proto3" json:"iris_pos,omitempty"`
+	InfraredFilter       bool                      `protobuf:"varint,4,opt,name=infrared_filter,json=infraredFilter,proto3" json:"infrared_filter,omitempty"`
+	ZoomTablePos         int32                     `protobuf:"varint,5,opt,name=zoom_table_pos,json=zoomTablePos,proto3" json:"zoom_table_pos,omitempty"`
+	ZoomTablePosMax      int32                     `protobuf:"varint,6,opt,name=zoom_table_pos_max,json=zoomTablePosMax,proto3" json:"zoom_table_pos_max,omitempty"`
+	FxMode               types.JonGuiDataFxModeDay `protobuf:"varint,7,opt,name=fx_mode,json=fxMode,proto3,enum=ser.JonGuiDataFxModeDay" json:"fx_mode,omitempty"`
+	AutoFocus            bool                      `protobuf:"varint,8,opt,name=auto_focus,json=autoFocus,proto3" json:"auto_focus,omitempty"`
+	AutoIris             bool                      `protobuf:"varint,9,opt,name=auto_iris,json=autoIris,proto3" json:"auto_iris,omitempty"`
+	DigitalZoomLevel     float64                   `protobuf:"fixed64,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
+	ClaheLevel           float64                   `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
+	HorizontalFovDegrees float64                   `protobuf:"fixed64,12,opt,name=horizontal_fov_degrees,json=horizontalFovDegrees,proto3" json:"horizontal_fov_degrees,omitempty"`
+	VerticalFovDegrees   float64                   `protobuf:"fixed64,13,opt,name=vertical_fov_degrees,json=verticalFovDegrees,proto3" json:"vertical_fov_degrees,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCameraDay) Reset() {
@@ -147,11 +149,25 @@ func (x *JonGuiDataCameraDay) GetClaheLevel() float64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraDay) GetHorizontalFovDegrees() float64 {
+	if x != nil {
+		return x.HorizontalFovDegrees
+	}
+	return 0
+}
+
+func (x *JonGuiDataCameraDay) GetVerticalFovDegrees() float64 {
+	if x != nil {
+		return x.VerticalFovDegrees
+	}
+	return 0
+}
+
 var File_jon_shared_data_camera_day_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb2\x04\n" +
+	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xcc\x05\n" +
 	"\x13JonGuiDataCameraDay\x124\n" +
 	"\tfocus_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\bfocusPos\x122\n" +
 	"\bzoom_pos\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x122\n" +
@@ -166,7 +182,9 @@ const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\x12digital_zoom_level\x18\n" +
 	" \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x10digitalZoomLevel\x128\n" +
 	"\vclahe_level\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
-	"claheLevelB\xa4\x01\n" +
+	"claheLevel\x12M\n" +
+	"\x16horizontal_fov_degrees\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x14horizontalFovDegrees\x12I\n" +
+	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegreesB\xa4\x01\n" +
 	"\acom.serB\x1bJonSharedDataCameraDayProtoP\x01ZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_day\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

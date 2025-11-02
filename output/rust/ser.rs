@@ -1075,6 +1075,10 @@ pub struct JonGuiDataCameraDay {
     pub digital_zoom_level: f64,
     #[prost(double, tag = "11")]
     pub clahe_level: f64,
+    #[prost(double, tag = "12")]
+    pub horizontal_fov_degrees: f64,
+    #[prost(double, tag = "13")]
+    pub vertical_fov_degrees: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCameraHeat {
@@ -1100,6 +1104,10 @@ pub struct JonGuiDataCameraHeat {
     pub digital_zoom_level: f64,
     #[prost(double, tag = "11")]
     pub clahe_level: f64,
+    #[prost(double, tag = "12")]
+    pub horizontal_fov_degrees: f64,
+    #[prost(double, tag = "13")]
+    pub vertical_fov_degrees: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataRecOsd {
