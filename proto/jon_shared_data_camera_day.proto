@@ -38,4 +38,12 @@ message JonGuiDataCameraDay {
     gte: 0.0,
     lte: 1.0
   }];
+  double horizontal_fov_degrees = 12 [(buf.validate.field).double = {
+    gt: 0.0,
+    lt: 360.0
+  }];
+  double vertical_fov_degrees = 13 [(buf.validate.field).double = {
+    gt: 0.0,
+    lt: 360.0
+  }];
 }
