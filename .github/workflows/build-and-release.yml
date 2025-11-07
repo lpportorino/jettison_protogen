@@ -334,6 +334,61 @@ jobs:
           echo "TYPESCRIPT_PUSH secret not configured, skipping"
         fi
 
+    # Push to TypeScript Validated (protovalidate-es) repository
+    - name: Push to jettison_protovalidate_es
+      run: |
+        set -e  # Exit on any error
+        if [ -n "${{ secrets.PUSH_TO_PROTOVALIDATE_ES }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_protovalidate_es.git target-repo || {
+            echo "Failed to clone repository"
+            exit 1
+          }
+
+          cd target-repo
+
+          # Setup SSH key for pushing
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PUSH_TO_PROTOVALIDATE_ES }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          # Configure git to use SSH for push
+          git remote set-url origin git@github.com:lpportorino/jettison_protovalidate_es.git
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Update files
+          rm -rf *.ts package.json
+          cp -r ../output/typescript-validated/* .
+
+          echo "# Jettison Protovalidate ES" > README.md
+          echo "" >> README.md
+          echo "Auto-generated TypeScript bindings with validation using @bufbuild/protovalidate-es." >> README.md
+          echo "" >> README.md
+          echo "## Installation" >> README.md
+          echo "\`\`\`bash" >> README.md
+          echo "npm install @lpportorino/jettison-protovalidate-es" >> README.md
+          echo "\`\`\`" >> README.md
+          echo "" >> README.md
+          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+          echo "Commit: ${{ github.sha }}" >> README.md
+
+          git add -A
+          git diff --staged --quiet || {
+            git commit -m "Update TypeScript validated bindings from ${{ github.sha }}"
+            # Pull latest changes before pushing to avoid rejection
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
+          }
+        else
+          echo "PUSH_TO_PROTOVALIDATE_ES secret not configured, skipping"
+        fi
+
     # Push to Rust repository
     - name: Push to jettison_proto_rust
       run: |
@@ -527,6 +582,7 @@ jobs:
         - Go (with buf.validate)
         - Python
         - TypeScript
+        - TypeScript-validated (with protovalidate-es)
         - Rust
         - Java (with buf.validate)
         - JSON Descriptors
@@ -572,6 +628,7 @@ jobs:
         - Go (with buf.validate) - [jettison_proto_go](https://github.com/lpportorico/jettison_proto_go)
         - Python - [jettison_proto_python](https://github.com/lpportorico/jettison_proto_python)
         - TypeScript - [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript)
+        - TypeScript (validated) - [jettison_protovalidate_es](https://github.com/lpportorico/jettison_protovalidate_es)
         - Rust - [jettison_proto_rust](https://github.com/lpportorico/jettison_proto_rust)
         - Java (with buf.validate) - [jettison_proto_java](https://github.com/lpportorico/jettison_proto_java)
         - JSON Descriptors - [jettison_proto_json-descriptors](https://github.com/lpportorico/jettison_proto_json-descriptors)" \

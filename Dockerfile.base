@@ -76,7 +76,9 @@ RUN pip3 install --break-system-packages \
 RUN npm install -g \
     ts-proto \
     @bufbuild/protoc-gen-es \
-    @bufbuild/protoc-gen-connect-es
+    @bufbuild/protoc-gen-connect-es \
+    @bufbuild/protobuf \
+    @bufbuild/protovalidate
 
 # Install Go protobuf plugins
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest \

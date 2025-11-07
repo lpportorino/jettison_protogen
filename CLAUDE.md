@@ -26,17 +26,15 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 ### Generated Output Structure
 ```
 output/
-├── c/          # nanopb C bindings
-├── cpp/        # C++ bindings
-├── go/         # Go bindings (without validation)
-├── java/       # Java bindings (without validation)
-├── python/     # Python bindings with type stubs
-├── rust/       # Rust bindings using prost
-└── typescript/ # TypeScript bindings using ts-proto
-
-output-validated/
-├── go/         # Go bindings with protoc-gen-validate
-└── java/       # Java bindings with protoc-gen-validate
+├── c/                    # nanopb C bindings
+├── cpp/                  # C++ bindings
+├── go/                   # Go bindings with buf.validate support
+├── java/                 # Java bindings with buf.validate support
+├── python/               # Python bindings with type stubs
+├── rust/                 # Rust bindings using prost
+├── typescript/           # TypeScript bindings using ts-proto (no validation)
+├── typescript-validated/ # TypeScript bindings with protovalidate-es
+└── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
 ```
 
 ## Key Patterns
@@ -75,6 +73,7 @@ Generated bindings are automatically distributed to dedicated repositories:
 | Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) |
 | Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) |
 | TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) |
+| TypeScript (validated) | [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es) |
 | Rust | [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust) |
 | Java | [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java) |
 | JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors) |
@@ -88,6 +87,7 @@ For automated distribution, these deploy keys must be configured as repository s
 - `GO_PUSH` - Deploy key for jettison_proto_go
 - `PYTHON_PUSH` - Deploy key for jettison_proto_python
 - `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
+- `PUSH_TO_PROTOVALIDATE_ES` - Deploy key for jettison_protovalidate_es
 - `RUST_PUSH` - Deploy key for jettison_proto_rust
 - `JAVA_PUSH` - Deploy key for jettison_proto_java
 - `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors
@@ -186,10 +186,18 @@ make versions
 - Validation uses protoc-gen-validate
 - Package structure follows proto package declarations
 
-**TypeScript**
-- Uses ts-proto for idiomatic TypeScript
+**TypeScript (Standard)**
+- Uses ts-proto for idiomatic TypeScript without validation
 - Configured options: esModuleInterop, forceLong=long
 - Generates index files for easier imports
+- Output directory: `output/typescript/`
+
+**TypeScript (Validated)**
+- Uses @bufbuild/protoc-gen-es with @bufbuild/protovalidate
+- Includes buf.validate annotations for runtime validation
+- Generates TypeScript with validation support
+- Published as @lpportorino/jettison-protovalidate-es
+- Output directory: `output/typescript-validated/`
 
 **Rust**
 - Uses prost-build in a temporary Cargo project

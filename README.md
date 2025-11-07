@@ -5,7 +5,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 ## Features
 
 - **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
-- **Buf.validate support**: Go and Java bindings include validation support by default
+- **Buf.validate support**: Go, Java, and TypeScript (validated) bindings include validation support
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Sequential generation**: All languages generated in a single GitHub Actions job
 - **Automatic distribution**: Generated code pushed to language-specific repositories
@@ -72,6 +72,7 @@ Generated bindings are automatically distributed to dedicated repositories:
 | Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) | Go module |
 | Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) | Python package |
 | TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) | npm package |
+| TypeScript (validated) | [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es) | npm package |
 | Rust | [jettison_proto_rust](https://github.com/lpportorino/jettison_proto_rust) | Cargo crate |
 | Java | [jettison_proto_java](https://github.com/lpportorino/jettison_proto_java) | Maven/Gradle |
 | JSON Descriptors | [jettison_proto_json-descriptors](https://github.com/lpportorino/jettison_proto_json-descriptors) | JSON files |
@@ -82,17 +83,18 @@ The `output/` directory in this repository contains the latest generated files:
 
 ```
 output/
-├── c/               # C bindings (nanopb)
-├── cpp/             # C++ bindings
-├── go/              # Go bindings with buf.validate support
-├── python/          # Python bindings with type stubs
-├── typescript/      # TypeScript bindings (ts-proto)
-├── rust/            # Rust bindings (prost)
-├── java/            # Java bindings with buf.validate support
-└── json-descriptors/# JSON FileDescriptorSets with buf.validate annotations
+├── c/                    # C bindings (nanopb)
+├── cpp/                  # C++ bindings
+├── go/                   # Go bindings with buf.validate support
+├── python/               # Python bindings with type stubs
+├── typescript/           # TypeScript bindings (ts-proto, no validation)
+├── typescript-validated/ # TypeScript bindings with protovalidate-es
+├── rust/                 # Rust bindings (prost)
+├── java/                 # Java bindings with buf.validate support
+└── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
 ```
 
-**Note**: Go and Java bindings include buf.validate support by default.
+**Note**: Go, Java, and TypeScript-validated bindings include buf.validate support.
 
 
 ## Language-Specific Features
@@ -114,8 +116,14 @@ output/
 - Runtime validation requires protovalidate-java library
 
 ### TypeScript
-- Uses ts-proto for idiomatic TypeScript code
-- Configured with esModuleInterop and proper long handling
+- **Standard (ts-proto)**: Idiomatic TypeScript without validation
+  - Configured with esModuleInterop and proper long handling
+  - Available in `output/typescript/` directory
+- **Validated (protoc-gen-es)**: TypeScript with runtime validation support
+  - Uses @bufbuild/protoc-gen-es and @bufbuild/protovalidate
+  - Includes buf.validate annotations for runtime validation
+  - Available in `output/typescript-validated/` directory
+  - Published as @lpportorino/jettison-protovalidate-es
 
 ### Rust
 - Uses prost for Rust code generation
@@ -171,6 +179,7 @@ For automated distribution, configure these deploy keys as repository secrets:
 - `GO_PUSH` - Deploy key for jettison_proto_go
 - `PYTHON_PUSH` - Deploy key for jettison_proto_python
 - `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
+- `PUSH_TO_PROTOVALIDATE_ES` - Deploy key for jettison_protovalidate_es
 - `RUST_PUSH` - Deploy key for jettison_proto_rust
 - `JAVA_PUSH` - Deploy key for jettison_proto_java
 - `JSON_DESCRIPTORS_PUSH` - Deploy key for jettison_proto_json-descriptors

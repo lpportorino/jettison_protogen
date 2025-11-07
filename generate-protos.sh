@@ -74,7 +74,7 @@ fi
 
 # Create output directories with full permissions
 print_info "Creating output directories..."
-mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors}
+mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors,typescript-validated}
 # Set directory permissions to 777
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
 
@@ -521,10 +521,77 @@ echo "Generated files:"
 ls -la /workspace/output/
 '
 
+# TypeScript validated generation script with protovalidate-es
+TYPESCRIPT_VALIDATED_SCRIPT='
+set -ex
+# Create a temporary directory for proto files with validate imports
+mkdir -p /tmp/ts_proto_val
+
+# Copy proto files to temporary directory
+cp -r /workspace/proto/* /tmp/ts_proto_val/
+
+# Copy buf validate proto definitions
+mkdir -p /tmp/ts_proto_val/buf/validate
+cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/ts_proto_val/buf/validate/
+
+# Add validate imports to proto files
+cd /tmp/ts_proto_val
+for proto in *.proto; do
+    if [ -f "$proto" ]; then
+        /usr/local/bin/add-validate-import.sh "$proto"
+    fi
+done
+
+# List all files to verify
+echo "Proto files in /tmp/ts_proto_val:"
+find /tmp/ts_proto_val -name "*.proto" | sort
+
+# Generate TypeScript using @bufbuild/protoc-gen-es with validation
+echo "Generating TypeScript with protovalidate-es..."
+protoc -I/tmp/ts_proto_val \
+    --plugin=/usr/local/lib/node_modules/@bufbuild/protoc-gen-es/bin/protoc-gen-es \
+    --es_out=/workspace/output \
+    --es_opt=target=ts \
+    /tmp/ts_proto_val/*.proto
+
+# Create package.json for the generated output
+cat > /workspace/output/package.json << "PKG_EOF"
+{
+  "name": "@lpportorino/jettison-protovalidate-es",
+  "version": "1.0.0",
+  "description": "Jettison protocol buffers with validation for TypeScript/JavaScript",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": ["**/*.js", "**/*.d.ts"],
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.2.2",
+    "@bufbuild/protovalidate": "^0.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpportorino/jettison_protovalidate_es.git"
+  },
+  "keywords": ["protobuf", "validation", "protovalidate", "typescript"],
+  "author": "Jettison",
+  "license": "MIT"
+}
+PKG_EOF
+
+# Verify files were generated
+if [ -z "$(find /workspace/output -name "*_pb.js" -o -name "*_pb.ts" -type f 2>/dev/null)" ]; then
+    echo "ERROR: No TypeScript files were generated!"
+    exit 1
+fi
+echo "TypeScript validated generation successful!"
+echo "Generated files:"
+ls -la /workspace/output/
+'
+
 # Run all generations
 FAILED_LANGS=()
 
-for lang in c cpp go python typescript rust java json-descriptors; do
+for lang in c cpp go python typescript rust java json-descriptors typescript-validated; do
     case $lang in
         c) script="$C_SCRIPT" ;;
         cpp) script="$CPP_SCRIPT" ;;
@@ -534,8 +601,9 @@ for lang in c cpp go python typescript rust java json-descriptors; do
         rust) script="$RUST_SCRIPT" ;;
         java) script="$JAVA_SCRIPT" ;;
         json-descriptors) script="$JSON_DESCRIPTOR_SCRIPT" ;;
+        typescript-validated) script="$TYPESCRIPT_VALIDATED_SCRIPT" ;;
     esac
-    
+
     if ! run_generation "$lang" "$script"; then
         FAILED_LANGS+=("$lang")
     fi
@@ -551,7 +619,7 @@ print_info "========== Generation Summary =========="
 print_info "Output directory: $OUTPUT_BASE_DIR"
 
 # Check what was generated
-for lang in c cpp go python typescript rust java json-descriptors; do
+for lang in c cpp go python typescript rust java json-descriptors typescript-validated; do
     count=$(find "$OUTPUT_BASE_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "$lang: $count files generated"
@@ -561,7 +629,7 @@ for lang in c cpp go python typescript rust java json-descriptors; do
 done
 
 print_info ""
-print_info "Note: Go and Java bindings now include buf.validate support by default"
+print_info "Note: Go, Java, and TypeScript-validated bindings include buf.validate support"
 
 if [ ${#FAILED_LANGS[@]} -gt 0 ]; then
     print_error "Failed languages: ${FAILED_LANGS[*]}"
