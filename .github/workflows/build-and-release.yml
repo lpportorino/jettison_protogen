@@ -381,8 +381,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update TypeScript validated bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
