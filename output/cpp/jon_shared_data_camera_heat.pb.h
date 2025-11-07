@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -229,7 +230,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     kVerticalFovDegreesFieldNumber = 13,
     kFxModeFieldNumber = 9,
   };
-  // double zoom_pos = 1;
+  // double zoom_pos = 1 [(.buf.validate.field) = {
   void clear_zoom_pos() ;
   double zoom_pos() const;
   void set_zoom_pos(double value);
@@ -239,7 +240,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_zoom_pos(double value);
 
   public:
-  // .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2;
+  // .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2 [(.buf.validate.field) = {
   void clear_agc_mode() ;
   ::ser::JonGuiDataVideoChannelHeatAGCModes agc_mode() const;
   void set_agc_mode(::ser::JonGuiDataVideoChannelHeatAGCModes value);
@@ -249,7 +250,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_agc_mode(::ser::JonGuiDataVideoChannelHeatAGCModes value);
 
   public:
-  // .ser.JonGuiDataVideoChannelHeatFilters filter = 3;
+  // .ser.JonGuiDataVideoChannelHeatFilters filter = 3 [(.buf.validate.field) = {
   void clear_filter() ;
   ::ser::JonGuiDataVideoChannelHeatFilters filter() const;
   void set_filter(::ser::JonGuiDataVideoChannelHeatFilters value);
@@ -259,7 +260,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_filter(::ser::JonGuiDataVideoChannelHeatFilters value);
 
   public:
-  // int32 zoom_table_pos = 5;
+  // int32 zoom_table_pos = 5 [(.buf.validate.field) = {
   void clear_zoom_table_pos() ;
   ::int32_t zoom_table_pos() const;
   void set_zoom_table_pos(::int32_t value);
@@ -269,7 +270,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_zoom_table_pos(::int32_t value);
 
   public:
-  // int32 zoom_table_pos_max = 6;
+  // int32 zoom_table_pos_max = 6 [(.buf.validate.field) = {
   void clear_zoom_table_pos_max() ;
   ::int32_t zoom_table_pos_max() const;
   void set_zoom_table_pos_max(::int32_t value);
@@ -299,7 +300,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_dde_enabled(bool value);
 
   public:
-  // int32 dde_level = 7;
+  // int32 dde_level = 7 [(.buf.validate.field) = {
   void clear_dde_level() ;
   ::int32_t dde_level() const;
   void set_dde_level(::int32_t value);
@@ -309,7 +310,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_dde_level(::int32_t value);
 
   public:
-  // double digital_zoom_level = 10;
+  // double digital_zoom_level = 10 [(.buf.validate.field) = {
   void clear_digital_zoom_level() ;
   double digital_zoom_level() const;
   void set_digital_zoom_level(double value);
@@ -319,7 +320,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_digital_zoom_level(double value);
 
   public:
-  // double clahe_level = 11;
+  // double clahe_level = 11 [(.buf.validate.field) = {
   void clear_clahe_level() ;
   double clahe_level() const;
   void set_clahe_level(double value);
@@ -329,7 +330,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_clahe_level(double value);
 
   public:
-  // double horizontal_fov_degrees = 12;
+  // double horizontal_fov_degrees = 12 [(.buf.validate.field) = {
   void clear_horizontal_fov_degrees() ;
   double horizontal_fov_degrees() const;
   void set_horizontal_fov_degrees(double value);
@@ -339,7 +340,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_horizontal_fov_degrees(double value);
 
   public:
-  // double vertical_fov_degrees = 13;
+  // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
   void clear_vertical_fov_degrees() ;
   double vertical_fov_degrees() const;
   void set_vertical_fov_degrees(double value);
@@ -349,7 +350,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_vertical_fov_degrees(double value);
 
   public:
-  // .ser.JonGuiDataFxModeHeat fx_mode = 9;
+  // .ser.JonGuiDataFxModeHeat fx_mode = 9 [(.buf.validate.field) = {
   void clear_fx_mode() ;
   ::ser::JonGuiDataFxModeHeat fx_mode() const;
   void set_fx_mode(::ser::JonGuiDataFxModeHeat value);
@@ -418,7 +419,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
 
 // JonGuiDataCameraHeat
 
-// double zoom_pos = 1;
+// double zoom_pos = 1 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_zoom_pos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.zoom_pos_ = 0;
@@ -440,7 +441,7 @@ inline void JonGuiDataCameraHeat::_internal_set_zoom_pos(double value) {
   _impl_.zoom_pos_ = value;
 }
 
-// .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2;
+// .ser.JonGuiDataVideoChannelHeatAGCModes agc_mode = 2 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_agc_mode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.agc_mode_ = 0;
@@ -462,7 +463,7 @@ inline void JonGuiDataCameraHeat::_internal_set_agc_mode(::ser::JonGuiDataVideoC
   _impl_.agc_mode_ = value;
 }
 
-// .ser.JonGuiDataVideoChannelHeatFilters filter = 3;
+// .ser.JonGuiDataVideoChannelHeatFilters filter = 3 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_filter() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.filter_ = 0;
@@ -506,7 +507,7 @@ inline void JonGuiDataCameraHeat::_internal_set_auto_focus(bool value) {
   _impl_.auto_focus_ = value;
 }
 
-// int32 zoom_table_pos = 5;
+// int32 zoom_table_pos = 5 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_zoom_table_pos() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.zoom_table_pos_ = 0;
@@ -528,7 +529,7 @@ inline void JonGuiDataCameraHeat::_internal_set_zoom_table_pos(::int32_t value) 
   _impl_.zoom_table_pos_ = value;
 }
 
-// int32 zoom_table_pos_max = 6;
+// int32 zoom_table_pos_max = 6 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_zoom_table_pos_max() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.zoom_table_pos_max_ = 0;
@@ -550,7 +551,7 @@ inline void JonGuiDataCameraHeat::_internal_set_zoom_table_pos_max(::int32_t val
   _impl_.zoom_table_pos_max_ = value;
 }
 
-// int32 dde_level = 7;
+// int32 dde_level = 7 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_dde_level() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.dde_level_ = 0;
@@ -594,7 +595,7 @@ inline void JonGuiDataCameraHeat::_internal_set_dde_enabled(bool value) {
   _impl_.dde_enabled_ = value;
 }
 
-// .ser.JonGuiDataFxModeHeat fx_mode = 9;
+// .ser.JonGuiDataFxModeHeat fx_mode = 9 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_fx_mode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.fx_mode_ = 0;
@@ -616,7 +617,7 @@ inline void JonGuiDataCameraHeat::_internal_set_fx_mode(::ser::JonGuiDataFxModeH
   _impl_.fx_mode_ = value;
 }
 
-// double digital_zoom_level = 10;
+// double digital_zoom_level = 10 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_digital_zoom_level() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.digital_zoom_level_ = 0;
@@ -638,7 +639,7 @@ inline void JonGuiDataCameraHeat::_internal_set_digital_zoom_level(double value)
   _impl_.digital_zoom_level_ = value;
 }
 
-// double clahe_level = 11;
+// double clahe_level = 11 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_clahe_level() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.clahe_level_ = 0;
@@ -660,7 +661,7 @@ inline void JonGuiDataCameraHeat::_internal_set_clahe_level(double value) {
   _impl_.clahe_level_ = value;
 }
 
-// double horizontal_fov_degrees = 12;
+// double horizontal_fov_degrees = 12 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_horizontal_fov_degrees() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.horizontal_fov_degrees_ = 0;
@@ -682,7 +683,7 @@ inline void JonGuiDataCameraHeat::_internal_set_horizontal_fov_degrees(double va
   _impl_.horizontal_fov_degrees_ = value;
 }
 
-// double vertical_fov_degrees = 13;
+// double vertical_fov_degrees = 13 [(.buf.validate.field) = {
 inline void JonGuiDataCameraHeat::clear_vertical_fov_degrees() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.vertical_fov_degrees_ = 0;

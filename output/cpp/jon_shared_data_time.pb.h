@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -219,7 +220,7 @@ class JonGuiDataTime final : public ::google::protobuf::Message
     kZoneIdFieldNumber = 3,
     kUseManualTimeFieldNumber = 4,
   };
-  // int64 timestamp = 1;
+  // int64 timestamp = 1 [(.buf.validate.field) = {
   void clear_timestamp() ;
   ::int64_t timestamp() const;
   void set_timestamp(::int64_t value);
@@ -229,7 +230,7 @@ class JonGuiDataTime final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
-  // int64 manual_timestamp = 2;
+  // int64 manual_timestamp = 2 [(.buf.validate.field) = {
   void clear_manual_timestamp() ;
   ::int64_t manual_timestamp() const;
   void set_manual_timestamp(::int64_t value);
@@ -309,7 +310,7 @@ class JonGuiDataTime final : public ::google::protobuf::Message
 
 // JonGuiDataTime
 
-// int64 timestamp = 1;
+// int64 timestamp = 1 [(.buf.validate.field) = {
 inline void JonGuiDataTime::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};
@@ -331,7 +332,7 @@ inline void JonGuiDataTime::_internal_set_timestamp(::int64_t value) {
   _impl_.timestamp_ = value;
 }
 
-// int64 manual_timestamp = 2;
+// int64 manual_timestamp = 2 [(.buf.validate.field) = {
 inline void JonGuiDataTime::clear_manual_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.manual_timestamp_ = ::int64_t{0};

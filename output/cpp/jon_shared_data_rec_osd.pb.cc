@@ -90,32 +90,34 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5frec_5fosd_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\035jon_shared_data_rec_osd.proto\022\003ser\032\033jo"
-    "n_shared_data_types.proto\"\224\002\n\020JonGuiData"
-    "RecOsd\022+\n\006screen\030\001 \001(\0162\033.ser.JonGuiDataR"
-    "ecOsdScreen\022\030\n\020heat_osd_enabled\030\002 \001(\010\022\027\n"
-    "\017day_osd_enabled\030\003 \001(\010\022(\n heat_crosshair"
-    "_offset_horizontal\030\004 \001(\005\022&\n\036heat_crossha"
-    "ir_offset_vertical\030\005 \001(\005\022\'\n\037day_crosshai"
-    "r_offset_horizontal\030\006 \001(\005\022%\n\035day_crossha"
-    "ir_offset_vertical\030\007 \001(\005BOZMgit-codecomm"
-    "it.eu-central-1.amazonaws.com/v1/repos/j"
-    "ettison/jonp/data/rec_osdb\006proto3"
+    "\n\035jon_shared_data_rec_osd.proto\022\003ser\032\033bu"
+    "f/validate/validate.proto\032\033jon_shared_da"
+    "ta_types.proto\"\240\002\n\020JonGuiDataRecOsd\0227\n\006s"
+    "creen\030\001 \001(\0162\033.ser.JonGuiDataRecOsdScreen"
+    "B\n\272H\007\202\001\004\020\001 \000\022\030\n\020heat_osd_enabled\030\002 \001(\010\022\027"
+    "\n\017day_osd_enabled\030\003 \001(\010\022(\n heat_crosshai"
+    "r_offset_horizontal\030\004 \001(\005\022&\n\036heat_crossh"
+    "air_offset_vertical\030\005 \001(\005\022\'\n\037day_crossha"
+    "ir_offset_horizontal\030\006 \001(\005\022%\n\035day_crossh"
+    "air_offset_vertical\030\007 \001(\005BOZMgit-codecom"
+    "mit.eu-central-1.amazonaws.com/v1/repos/"
+    "jettison/jonp/data/rec_osdb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frec_5fosd_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frec_5fosd_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5frec_5fosd_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5frec_5fosd_2eproto = {
     false,
     false,
-    433,
+    474,
     descriptor_table_protodef_jon_5fshared_5fdata_5frec_5fosd_2eproto,
     "jon_shared_data_rec_osd.proto",
     &descriptor_table_jon_5fshared_5fdata_5frec_5fosd_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5frec_5fosd_2eproto_deps,
-    1,
+    2,
     1,
     schemas,
     file_default_instances,
@@ -224,7 +226,7 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataRecOsd::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .ser.JonGuiDataRecOsdScreen screen = 1;
+    // .ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataRecOsd, _impl_.screen_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRecOsd, _impl_.screen_)}},
     // bool heat_osd_enabled = 2;
@@ -248,7 +250,7 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataRecOsd::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataRecOsdScreen screen = 1;
+    // .ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRecOsd, _impl_.screen_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
     // bool heat_osd_enabled = 2;
@@ -303,7 +305,7 @@ PROTOBUF_NOINLINE void JonGuiDataRecOsd::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataRecOsdScreen screen = 1;
+          // .ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = {
           if (this_._internal_screen() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -377,7 +379,7 @@ PROTOBUF_NOINLINE void JonGuiDataRecOsd::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // .ser.JonGuiDataRecOsdScreen screen = 1;
+            // .ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = {
             if (this_._internal_screen() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_screen());

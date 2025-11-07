@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -236,7 +237,7 @@ class ShiftOffsetsBy final : public ::google::protobuf::Message
     kXFieldNumber = 1,
     kYFieldNumber = 2,
   };
-  // int32 x = 1;
+  // int32 x = 1 [(.buf.validate.field) = {
   void clear_x() ;
   ::int32_t x() const;
   void set_x(::int32_t value);
@@ -246,7 +247,7 @@ class ShiftOffsetsBy final : public ::google::protobuf::Message
   void _internal_set_x(::int32_t value);
 
   public:
-  // int32 y = 2;
+  // int32 y = 2 [(.buf.validate.field) = {
   void clear_y() ;
   ::int32_t y() const;
   void set_y(::int32_t value);
@@ -438,7 +439,7 @@ class SetOffsets final : public ::google::protobuf::Message
     kXFieldNumber = 1,
     kYFieldNumber = 2,
   };
-  // int32 x = 1;
+  // int32 x = 1 [(.buf.validate.field) = {
   void clear_x() ;
   ::int32_t x() const;
   void set_x(::int32_t value);
@@ -448,7 +449,7 @@ class SetOffsets final : public ::google::protobuf::Message
   void _internal_set_x(::int32_t value);
 
   public:
-  // int32 y = 2;
+  // int32 y = 2 [(.buf.validate.field) = {
   void clear_y() ;
   ::int32_t y() const;
   void set_y(::int32_t value);
@@ -1814,7 +1815,7 @@ inline Offsets::CmdCase Offsets::cmd_case() const {
 
 // SetOffsets
 
-// int32 x = 1;
+// int32 x = 1 [(.buf.validate.field) = {
 inline void SetOffsets::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
@@ -1836,7 +1837,7 @@ inline void SetOffsets::_internal_set_x(::int32_t value) {
   _impl_.x_ = value;
 }
 
-// int32 y = 2;
+// int32 y = 2 [(.buf.validate.field) = {
 inline void SetOffsets::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;
@@ -1862,7 +1863,7 @@ inline void SetOffsets::_internal_set_y(::int32_t value) {
 
 // ShiftOffsetsBy
 
-// int32 x = 1;
+// int32 x = 1 [(.buf.validate.field) = {
 inline void ShiftOffsetsBy::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
@@ -1884,7 +1885,7 @@ inline void ShiftOffsetsBy::_internal_set_x(::int32_t value) {
   _impl_.x_ = value;
 }
 
-// int32 y = 2;
+// int32 y = 2 [(.buf.validate.field) = {
 inline void ShiftOffsetsBy::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;

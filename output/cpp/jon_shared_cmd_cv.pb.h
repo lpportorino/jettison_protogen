@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -693,7 +694,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
     kStateTimeFieldNumber = 5,
     kChannelFieldNumber = 1,
   };
-  // double x = 2;
+  // double x = 2 [(.buf.validate.field) = {
   void clear_x() ;
   double x() const;
   void set_x(double value);
@@ -703,7 +704,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
   void _internal_set_x(double value);
 
   public:
-  // double y = 3;
+  // double y = 3 [(.buf.validate.field) = {
   void clear_y() ;
   double y() const;
   void set_y(double value);
@@ -733,7 +734,7 @@ class StartTrackNDC final : public ::google::protobuf::Message
   void _internal_set_state_time(::uint64_t value);
 
   public:
-  // .ser.JonGuiDataVideoChannel channel = 1;
+  // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
   void clear_channel() ;
   ::ser::JonGuiDataVideoChannel channel() const;
   void set_channel(::ser::JonGuiDataVideoChannel value);
@@ -1218,7 +1219,7 @@ class SetAutoFocus final : public ::google::protobuf::Message
     kChannelFieldNumber = 1,
     kValueFieldNumber = 2,
   };
-  // .ser.JonGuiDataVideoChannel channel = 1;
+  // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
   void clear_channel() ;
   ::ser::JonGuiDataVideoChannel channel() const;
   void set_channel(::ser::JonGuiDataVideoChannel value);
@@ -3223,7 +3224,7 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetAutoFocus
 
-// .ser.JonGuiDataVideoChannel channel = 1;
+// .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
 inline void SetAutoFocus::clear_channel() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.channel_ = 0;
@@ -3271,7 +3272,7 @@ inline void SetAutoFocus::_internal_set_value(bool value) {
 
 // StartTrackNDC
 
-// .ser.JonGuiDataVideoChannel channel = 1;
+// .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
 inline void StartTrackNDC::clear_channel() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.channel_ = 0;
@@ -3293,7 +3294,7 @@ inline void StartTrackNDC::_internal_set_channel(::ser::JonGuiDataVideoChannel v
   _impl_.channel_ = value;
 }
 
-// double x = 2;
+// double x = 2 [(.buf.validate.field) = {
 inline void StartTrackNDC::clear_x() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x_ = 0;
@@ -3315,7 +3316,7 @@ inline void StartTrackNDC::_internal_set_x(double value) {
   _impl_.x_ = value;
 }
 
-// double y = 3;
+// double y = 3 [(.buf.validate.field) = {
 inline void StartTrackNDC::clear_y() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y_ = 0;

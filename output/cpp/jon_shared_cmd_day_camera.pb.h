@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -325,7 +326,7 @@ class ZoomROI final : public ::google::protobuf::Message
     kFrameTimeFieldNumber = 5,
     kStateTimeFieldNumber = 6,
   };
-  // double x1 = 1;
+  // double x1 = 1 [(.buf.validate.field) = {
   void clear_x1() ;
   double x1() const;
   void set_x1(double value);
@@ -335,7 +336,7 @@ class ZoomROI final : public ::google::protobuf::Message
   void _internal_set_x1(double value);
 
   public:
-  // double y1 = 2;
+  // double y1 = 2 [(.buf.validate.field) = {
   void clear_y1() ;
   double y1() const;
   void set_y1(double value);
@@ -345,7 +346,7 @@ class ZoomROI final : public ::google::protobuf::Message
   void _internal_set_y1(double value);
 
   public:
-  // double x2 = 3;
+  // double x2 = 3 [(.buf.validate.field) = {
   void clear_x2() ;
   double x2() const;
   void set_x2(double value);
@@ -355,7 +356,7 @@ class ZoomROI final : public ::google::protobuf::Message
   void _internal_set_x2(double value);
 
   public:
-  // double y2 = 4;
+  // double y2 = 4 [(.buf.validate.field) = {
   void clear_y2() ;
   double y2() const;
   void set_y2(double value);
@@ -575,7 +576,7 @@ class TrackROI final : public ::google::protobuf::Message
     kFrameTimeFieldNumber = 5,
     kStateTimeFieldNumber = 6,
   };
-  // double x1 = 1;
+  // double x1 = 1 [(.buf.validate.field) = {
   void clear_x1() ;
   double x1() const;
   void set_x1(double value);
@@ -585,7 +586,7 @@ class TrackROI final : public ::google::protobuf::Message
   void _internal_set_x1(double value);
 
   public:
-  // double y1 = 2;
+  // double y1 = 2 [(.buf.validate.field) = {
   void clear_y1() ;
   double y1() const;
   void set_y1(double value);
@@ -595,7 +596,7 @@ class TrackROI final : public ::google::protobuf::Message
   void _internal_set_y1(double value);
 
   public:
-  // double x2 = 3;
+  // double x2 = 3 [(.buf.validate.field) = {
   void clear_x2() ;
   double x2() const;
   void set_x2(double value);
@@ -605,7 +606,7 @@ class TrackROI final : public ::google::protobuf::Message
   void _internal_set_x2(double value);
 
   public:
-  // double y2 = 4;
+  // double y2 = 4 [(.buf.validate.field) = {
   void clear_y2() ;
   double y2() const;
   void set_y2(double value);
@@ -1110,7 +1111,7 @@ class ShiftClaheLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -1300,7 +1301,7 @@ class SetZoomTableValue final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // int32 value = 1;
+  // int32 value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   ::int32_t value() const;
   void set_value(::int32_t value);
@@ -1490,7 +1491,7 @@ class SetValue final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -1680,7 +1681,7 @@ class SetIris final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -2060,7 +2061,7 @@ class SetFxMode final : public ::google::protobuf::Message
   enum : int {
     kModeFieldNumber = 1,
   };
-  // .ser.JonGuiDataFxModeDay mode = 1;
+  // .ser.JonGuiDataFxModeDay mode = 1 [(.buf.validate.field) = {
   void clear_mode() ;
   ::ser::JonGuiDataFxModeDay mode() const;
   void set_mode(::ser::JonGuiDataFxModeDay value);
@@ -2250,7 +2251,7 @@ class SetDigitalZoomLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -2440,7 +2441,7 @@ class SetClaheLevel final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -3980,7 +3981,7 @@ class Offset final : public ::google::protobuf::Message
   enum : int {
     kOffsetValueFieldNumber = 1,
   };
-  // double offset_value = 1;
+  // double offset_value = 1 [(.buf.validate.field) = {
   void clear_offset_value() ;
   double offset_value() const;
   void set_offset_value(double value);
@@ -4461,7 +4462,7 @@ class Move final : public ::google::protobuf::Message
     kTargetValueFieldNumber = 1,
     kSpeedFieldNumber = 2,
   };
-  // double target_value = 1;
+  // double target_value = 1 [(.buf.validate.field) = {
   void clear_target_value() ;
   double target_value() const;
   void set_target_value(double value);
@@ -4471,7 +4472,7 @@ class Move final : public ::google::protobuf::Message
   void _internal_set_target_value(double value);
 
   public:
-  // double speed = 2;
+  // double speed = 2 [(.buf.validate.field) = {
   void clear_speed() ;
   double speed() const;
   void set_speed(double value);
@@ -5247,7 +5248,7 @@ class FxROI final : public ::google::protobuf::Message
     kFrameTimeFieldNumber = 5,
     kStateTimeFieldNumber = 6,
   };
-  // double x1 = 1;
+  // double x1 = 1 [(.buf.validate.field) = {
   void clear_x1() ;
   double x1() const;
   void set_x1(double value);
@@ -5257,7 +5258,7 @@ class FxROI final : public ::google::protobuf::Message
   void _internal_set_x1(double value);
 
   public:
-  // double y1 = 2;
+  // double y1 = 2 [(.buf.validate.field) = {
   void clear_y1() ;
   double y1() const;
   void set_y1(double value);
@@ -5267,7 +5268,7 @@ class FxROI final : public ::google::protobuf::Message
   void _internal_set_y1(double value);
 
   public:
-  // double x2 = 3;
+  // double x2 = 3 [(.buf.validate.field) = {
   void clear_x2() ;
   double x2() const;
   void set_x2(double value);
@@ -5277,7 +5278,7 @@ class FxROI final : public ::google::protobuf::Message
   void _internal_set_x2(double value);
 
   public:
-  // double y2 = 4;
+  // double y2 = 4 [(.buf.validate.field) = {
   void clear_y2() ;
   double y2() const;
   void set_y2(double value);
@@ -5497,7 +5498,7 @@ class FocusROI final : public ::google::protobuf::Message
     kFrameTimeFieldNumber = 5,
     kStateTimeFieldNumber = 6,
   };
-  // double x1 = 1;
+  // double x1 = 1 [(.buf.validate.field) = {
   void clear_x1() ;
   double x1() const;
   void set_x1(double value);
@@ -5507,7 +5508,7 @@ class FocusROI final : public ::google::protobuf::Message
   void _internal_set_x1(double value);
 
   public:
-  // double y1 = 2;
+  // double y1 = 2 [(.buf.validate.field) = {
   void clear_y1() ;
   double y1() const;
   void set_y1(double value);
@@ -5517,7 +5518,7 @@ class FocusROI final : public ::google::protobuf::Message
   void _internal_set_y1(double value);
 
   public:
-  // double x2 = 3;
+  // double x2 = 3 [(.buf.validate.field) = {
   void clear_x2() ;
   double x2() const;
   void set_x2(double value);
@@ -5527,7 +5528,7 @@ class FocusROI final : public ::google::protobuf::Message
   void _internal_set_x2(double value);
 
   public:
-  // double y2 = 4;
+  // double y2 = 4 [(.buf.validate.field) = {
   void clear_y2() ;
   double y2() const;
   void set_y2(double value);
@@ -7007,7 +7008,7 @@ class Root final : public ::google::protobuf::Message
 
 // SetValue
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetValue::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -7033,7 +7034,7 @@ inline void SetValue::_internal_set_value(double value) {
 
 // Move
 
-// double target_value = 1;
+// double target_value = 1 [(.buf.validate.field) = {
 inline void Move::clear_target_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_value_ = 0;
@@ -7055,7 +7056,7 @@ inline void Move::_internal_set_target_value(double value) {
   _impl_.target_value_ = value;
 }
 
-// double speed = 2;
+// double speed = 2 [(.buf.validate.field) = {
 inline void Move::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;
@@ -7081,7 +7082,7 @@ inline void Move::_internal_set_speed(double value) {
 
 // Offset
 
-// double offset_value = 1;
+// double offset_value = 1 [(.buf.validate.field) = {
 inline void Offset::clear_offset_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.offset_value_ = 0;
@@ -7107,7 +7108,7 @@ inline void Offset::_internal_set_offset_value(double value) {
 
 // SetClaheLevel
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetClaheLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -7133,7 +7134,7 @@ inline void SetClaheLevel::_internal_set_value(double value) {
 
 // ShiftClaheLevel
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void ShiftClaheLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -8851,7 +8852,7 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetFxMode
 
-// .ser.JonGuiDataFxModeDay mode = 1;
+// .ser.JonGuiDataFxModeDay mode = 1 [(.buf.validate.field) = {
 inline void SetFxMode::clear_mode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.mode_ = 0;
@@ -8877,7 +8878,7 @@ inline void SetFxMode::_internal_set_mode(::ser::JonGuiDataFxModeDay value) {
 
 // SetDigitalZoomLevel
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetDigitalZoomLevel::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -10122,7 +10123,7 @@ inline Zoom::CmdCase Zoom::cmd_case() const {
 
 // SetIris
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetIris::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -10200,7 +10201,7 @@ inline void SetAutoIris::_internal_set_value(bool value) {
 
 // SetZoomTableValue
 
-// int32 value = 1;
+// int32 value = 1 [(.buf.validate.field) = {
 inline void SetZoomTableValue::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -10262,7 +10263,7 @@ inline void SetZoomTableValue::_internal_set_value(::int32_t value) {
 
 // FocusROI
 
-// double x1 = 1;
+// double x1 = 1 [(.buf.validate.field) = {
 inline void FocusROI::clear_x1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x1_ = 0;
@@ -10284,7 +10285,7 @@ inline void FocusROI::_internal_set_x1(double value) {
   _impl_.x1_ = value;
 }
 
-// double y1 = 2;
+// double y1 = 2 [(.buf.validate.field) = {
 inline void FocusROI::clear_y1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y1_ = 0;
@@ -10306,7 +10307,7 @@ inline void FocusROI::_internal_set_y1(double value) {
   _impl_.y1_ = value;
 }
 
-// double x2 = 3;
+// double x2 = 3 [(.buf.validate.field) = {
 inline void FocusROI::clear_x2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x2_ = 0;
@@ -10328,7 +10329,7 @@ inline void FocusROI::_internal_set_x2(double value) {
   _impl_.x2_ = value;
 }
 
-// double y2 = 4;
+// double y2 = 4 [(.buf.validate.field) = {
 inline void FocusROI::clear_y2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y2_ = 0;
@@ -10398,7 +10399,7 @@ inline void FocusROI::_internal_set_state_time(::uint64_t value) {
 
 // TrackROI
 
-// double x1 = 1;
+// double x1 = 1 [(.buf.validate.field) = {
 inline void TrackROI::clear_x1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x1_ = 0;
@@ -10420,7 +10421,7 @@ inline void TrackROI::_internal_set_x1(double value) {
   _impl_.x1_ = value;
 }
 
-// double y1 = 2;
+// double y1 = 2 [(.buf.validate.field) = {
 inline void TrackROI::clear_y1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y1_ = 0;
@@ -10442,7 +10443,7 @@ inline void TrackROI::_internal_set_y1(double value) {
   _impl_.y1_ = value;
 }
 
-// double x2 = 3;
+// double x2 = 3 [(.buf.validate.field) = {
 inline void TrackROI::clear_x2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x2_ = 0;
@@ -10464,7 +10465,7 @@ inline void TrackROI::_internal_set_x2(double value) {
   _impl_.x2_ = value;
 }
 
-// double y2 = 4;
+// double y2 = 4 [(.buf.validate.field) = {
 inline void TrackROI::clear_y2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y2_ = 0;
@@ -10534,7 +10535,7 @@ inline void TrackROI::_internal_set_state_time(::uint64_t value) {
 
 // ZoomROI
 
-// double x1 = 1;
+// double x1 = 1 [(.buf.validate.field) = {
 inline void ZoomROI::clear_x1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x1_ = 0;
@@ -10556,7 +10557,7 @@ inline void ZoomROI::_internal_set_x1(double value) {
   _impl_.x1_ = value;
 }
 
-// double y1 = 2;
+// double y1 = 2 [(.buf.validate.field) = {
 inline void ZoomROI::clear_y1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y1_ = 0;
@@ -10578,7 +10579,7 @@ inline void ZoomROI::_internal_set_y1(double value) {
   _impl_.y1_ = value;
 }
 
-// double x2 = 3;
+// double x2 = 3 [(.buf.validate.field) = {
 inline void ZoomROI::clear_x2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x2_ = 0;
@@ -10600,7 +10601,7 @@ inline void ZoomROI::_internal_set_x2(double value) {
   _impl_.x2_ = value;
 }
 
-// double y2 = 4;
+// double y2 = 4 [(.buf.validate.field) = {
 inline void ZoomROI::clear_y2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y2_ = 0;
@@ -10670,7 +10671,7 @@ inline void ZoomROI::_internal_set_state_time(::uint64_t value) {
 
 // FxROI
 
-// double x1 = 1;
+// double x1 = 1 [(.buf.validate.field) = {
 inline void FxROI::clear_x1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x1_ = 0;
@@ -10692,7 +10693,7 @@ inline void FxROI::_internal_set_x1(double value) {
   _impl_.x1_ = value;
 }
 
-// double y1 = 2;
+// double y1 = 2 [(.buf.validate.field) = {
 inline void FxROI::clear_y1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y1_ = 0;
@@ -10714,7 +10715,7 @@ inline void FxROI::_internal_set_y1(double value) {
   _impl_.y1_ = value;
 }
 
-// double x2 = 3;
+// double x2 = 3 [(.buf.validate.field) = {
 inline void FxROI::clear_x2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.x2_ = 0;
@@ -10736,7 +10737,7 @@ inline void FxROI::_internal_set_x2(double value) {
   _impl_.x2_ = value;
 }
 
-// double y2 = 4;
+// double y2 = 4 [(.buf.validate.field) = {
 inline void FxROI::clear_y2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.y2_ = 0;

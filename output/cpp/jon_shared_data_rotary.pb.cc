@@ -175,40 +175,60 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\034jon_shared_data_rotary.proto\022\003ser\032\033jon"
-    "_shared_data_types.proto\"\303\003\n\020JonGuiDataR"
-    "otary\022\017\n\007azimuth\030\001 \001(\001\022\025\n\razimuth_speed\030"
-    "\002 \001(\001\022\021\n\televation\030\003 \001(\001\022\027\n\017elevation_sp"
-    "eed\030\004 \001(\001\022\030\n\020platform_azimuth\030\005 \001(\001\022\032\n\022p"
-    "latform_elevation\030\006 \001(\001\022\025\n\rplatform_bank"
-    "\030\007 \001(\001\022\021\n\tis_moving\030\010 \001(\010\022\'\n\004mode\030\t \001(\0162"
-    "\031.ser.JonGuiDataRotaryMode\022\023\n\013is_scannin"
-    "g\030\n \001(\010\022\032\n\022is_scanning_paused\030\013 \001(\010\022\035\n\025u"
-    "se_rotary_as_compass\030\014 \001(\010\022\023\n\013scan_targe"
-    "t\030\r \001(\005\022\027\n\017scan_target_max\030\016 \001(\005\022\023\n\013sun_"
-    "azimuth\030\017 \001(\001\022\025\n\rsun_elevation\030\020 \001(\001\022(\n\021"
-    "current_scan_node\030\021 \001(\0132\r.ser.ScanNode\"\223"
-    "\001\n\010ScanNode\022\r\n\005index\030\001 \001(\005\022\031\n\021DayZoomTab"
-    "leValue\030\002 \001(\005\022\032\n\022HeatZoomTableValue\030\003 \001("
-    "\005\022\017\n\007azimuth\030\004 \001(\001\022\021\n\televation\030\005 \001(\001\022\016\n"
-    "\006linger\030\006 \001(\001\022\r\n\005speed\030\007 \001(\001BNZLgit-code"
-    "commit.eu-central-1.amazonaws.com/v1/rep"
-    "os/jettison/jonp/data/rotaryb\006proto3"
+    "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf"
+    "/validate/validate.proto\032\033jon_shared_dat"
+    "a_types.proto\"\221\010\n\020JonGuiDataRotary\022L\n\007az"
+    "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000"
+    "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim"
+    "uth_speed\030\002 \001(\001BD\272HA\022\?\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
+    "I\000\000\000\000\000\000\360\277I\000\000\000\000\000\000\340\277I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\340\?I\000\000\000"
+    "\000\000\000\360\?\022E\n\televation\030\003 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@"
+    ")\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022]\n\017"
+    "elevation_speed\030\004 \001(\001BD\272HA\022\?\031\000\000\000\000\000\000\360\?)\000\000"
+    "\000\000\000\000\360\277I\000\000\000\000\000\000\360\277I\000\000\000\000\000\000\340\277I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000"
+    "\340\?I\000\000\000\000\000\000\360\?\022U\n\020platform_azimuth\030\005 \001(\001B;\272"
+    "H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@"
+    "I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022N\n\022platform_elevation"
+    "\030\006 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300"
+    "I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022I\n\rplatform_bank\030\007 \001("
+    "\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200V\300I\000\000\000\000"
+    "\000\000\000\000I\000\000\000\000\000\200V@\022\021\n\tis_moving\030\010 \001(\010\0223\n\004mode"
+    "\030\t \001(\0162\031.ser.JonGuiDataRotaryModeB\n\272H\007\202\001"
+    "\004\020\001 \000\022\023\n\013is_scanning\030\n \001(\010\022\032\n\022is_scannin"
+    "g_paused\030\013 \001(\010\022\035\n\025use_rotary_as_compass\030"
+    "\014 \001(\010\022\"\n\013scan_target\030\r \001(\005B\r\272H\n\032\010(\000@\001@\002@"
+    "\003\022&\n\017scan_target_max\030\016 \001(\005B\r\272H\n\032\010(\000@\001@\002@"
+    "\003\022P\n\013sun_azimuth\030\017 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000"
+    "\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000"
+    "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200"
+    "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000"
+    "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser"
+    ".ScanNodeB\006\272H\003\310\001\001\"\211\002\n\010ScanNode\022\026\n\005index\030"
+    "\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001("
+    "\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007"
+    "\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@"
+    ")\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000"
+    "\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000"
+    "\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000"
+    "\000\000\000\000\000BNZLgit-codecommit.eu-central-1.ama"
+    "zonaws.com/v1/repos/jettison/jonp/data/r"
+    "otaryb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5frotary_2eproto = {
     false,
     false,
-    756,
+    1493,
     descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto,
     "jon_shared_data_rotary.proto",
     &descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps,
-    1,
+    2,
     2,
     schemas,
     file_default_instances,
@@ -350,31 +370,31 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double azimuth = 1;
+    // double azimuth = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_)}},
-    // double azimuth_speed = 2;
+    // double azimuth_speed = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_speed_)}},
-    // double elevation = 3;
+    // double elevation = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_)}},
-    // double elevation_speed = 4;
+    // double elevation_speed = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_speed_)}},
-    // double platform_azimuth = 5;
+    // double platform_azimuth = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_azimuth_)}},
-    // double platform_elevation = 6;
+    // double platform_elevation = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_elevation_)}},
-    // double platform_bank = 7;
+    // double platform_bank = 7 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {57, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_bank_)}},
     // bool is_moving = 8;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataRotary, _impl_.is_moving_), 63>(),
      {64, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_moving_)}},
-    // .ser.JonGuiDataRotaryMode mode = 9;
+    // .ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataRotary, _impl_.mode_), 63>(),
      {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.mode_)}},
     // bool is_scanning = 10;
@@ -386,19 +406,19 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // bool use_rotary_as_compass = 12;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataRotary, _impl_.use_rotary_as_compass_), 63>(),
      {96, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.use_rotary_as_compass_)}},
-    // int32 scan_target = 13;
+    // int32 scan_target = 13 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataRotary, _impl_.scan_target_), 63>(),
      {104, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.scan_target_)}},
-    // int32 scan_target_max = 14;
+    // int32 scan_target_max = 14 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataRotary, _impl_.scan_target_max_), 63>(),
      {112, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.scan_target_max_)}},
-    // double sun_azimuth = 15;
+    // double sun_azimuth = 15 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {121, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_azimuth_)}},
-    // double sun_elevation = 16;
+    // double sun_elevation = 16 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
      {385, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_)}},
-    // .ser.ScanNode current_scan_node = 17;
+    // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastMtS2,
      {394, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_)}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -418,31 +438,31 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double azimuth = 1;
+    // double azimuth = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double azimuth_speed = 2;
+    // double azimuth_speed = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.azimuth_speed_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation = 3;
+    // double elevation = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation_speed = 4;
+    // double elevation_speed = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.elevation_speed_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double platform_azimuth = 5;
+    // double platform_azimuth = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_azimuth_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double platform_elevation = 6;
+    // double platform_elevation = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_elevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double platform_bank = 7;
+    // double platform_bank = 7 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.platform_bank_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool is_moving = 8;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_moving_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // .ser.JonGuiDataRotaryMode mode = 9;
+    // .ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.mode_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
     // bool is_scanning = 10;
@@ -454,19 +474,19 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // bool use_rotary_as_compass = 12;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.use_rotary_as_compass_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // int32 scan_target = 13;
+    // int32 scan_target = 13 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.scan_target_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 scan_target_max = 14;
+    // int32 scan_target_max = 14 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.scan_target_max_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // double sun_azimuth = 15;
+    // double sun_azimuth = 15 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_azimuth_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double sun_elevation = 16;
+    // double sun_elevation = 16 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // .ser.ScanNode current_scan_node = 17;
+    // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
@@ -509,49 +529,49 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double azimuth = 1;
+          // double azimuth = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_azimuth(), target);
           }
 
-          // double azimuth_speed = 2;
+          // double azimuth_speed = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth_speed()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_azimuth_speed(), target);
           }
 
-          // double elevation = 3;
+          // double elevation = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_elevation(), target);
           }
 
-          // double elevation_speed = 4;
+          // double elevation_speed = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_elevation_speed()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_elevation_speed(), target);
           }
 
-          // double platform_azimuth = 5;
+          // double platform_azimuth = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_platform_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_platform_azimuth(), target);
           }
 
-          // double platform_elevation = 6;
+          // double platform_elevation = 6 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_platform_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 6, this_._internal_platform_elevation(), target);
           }
 
-          // double platform_bank = 7;
+          // double platform_bank = 7 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_platform_bank()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -565,7 +585,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
                 8, this_._internal_is_moving(), target);
           }
 
-          // .ser.JonGuiDataRotaryMode mode = 9;
+          // .ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = {
           if (this_._internal_mode() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -593,28 +613,28 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
                 12, this_._internal_use_rotary_as_compass(), target);
           }
 
-          // int32 scan_target = 13;
+          // int32 scan_target = 13 [(.buf.validate.field) = {
           if (this_._internal_scan_target() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<13>(
                     stream, this_._internal_scan_target(), target);
           }
 
-          // int32 scan_target_max = 14;
+          // int32 scan_target_max = 14 [(.buf.validate.field) = {
           if (this_._internal_scan_target_max() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<14>(
                     stream, this_._internal_scan_target_max(), target);
           }
 
-          // double sun_azimuth = 15;
+          // double sun_azimuth = 15 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_sun_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 15, this_._internal_sun_azimuth(), target);
           }
 
-          // double sun_elevation = 16;
+          // double sun_elevation = 16 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_sun_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -622,7 +642,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
-          // .ser.ScanNode current_scan_node = 17;
+          // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
           if (cached_has_bits & 0x00000001u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 17, *this_._impl_.current_scan_node_, this_._impl_.current_scan_node_->GetCachedSize(), target,
@@ -654,7 +674,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // .ser.ScanNode current_scan_node = 17;
+            // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
             cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 2 +
@@ -662,35 +682,35 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
             }
           }
            {
-            // double azimuth = 1;
+            // double azimuth = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
               total_size += 9;
             }
-            // double azimuth_speed = 2;
+            // double azimuth_speed = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth_speed()) != 0) {
               total_size += 9;
             }
-            // double elevation = 3;
+            // double elevation = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
               total_size += 9;
             }
-            // double elevation_speed = 4;
+            // double elevation_speed = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_elevation_speed()) != 0) {
               total_size += 9;
             }
-            // double platform_azimuth = 5;
+            // double platform_azimuth = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_platform_azimuth()) != 0) {
               total_size += 9;
             }
-            // double platform_elevation = 6;
+            // double platform_elevation = 6 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_platform_elevation()) != 0) {
               total_size += 9;
             }
-            // double platform_bank = 7;
+            // double platform_bank = 7 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_platform_bank()) != 0) {
               total_size += 9;
             }
-            // .ser.JonGuiDataRotaryMode mode = 9;
+            // .ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = {
             if (this_._internal_mode() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_mode());
@@ -711,21 +731,21 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
             if (this_._internal_use_rotary_as_compass() != 0) {
               total_size += 2;
             }
-            // int32 scan_target = 13;
+            // int32 scan_target = 13 [(.buf.validate.field) = {
             if (this_._internal_scan_target() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_scan_target());
             }
-            // int32 scan_target_max = 14;
+            // int32 scan_target_max = 14 [(.buf.validate.field) = {
             if (this_._internal_scan_target_max() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_scan_target_max());
             }
-            // double sun_azimuth = 15;
+            // double sun_azimuth = 15 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_sun_azimuth()) != 0) {
               total_size += 9;
             }
-            // double sun_elevation = 16;
+            // double sun_elevation = 16 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_sun_elevation()) != 0) {
               total_size += 10;
             }
@@ -928,49 +948,49 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> ScanNode::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // int32 index = 1;
+    // int32 index = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanNode, _impl_.index_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.index_)}},
-    // int32 DayZoomTableValue = 2;
+    // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanNode, _impl_.dayzoomtablevalue_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.dayzoomtablevalue_)}},
-    // int32 HeatZoomTableValue = 3;
+    // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ScanNode, _impl_.heatzoomtablevalue_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.heatzoomtablevalue_)}},
-    // double azimuth = 4;
+    // double azimuth = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.azimuth_)}},
-    // double elevation = 5;
+    // double elevation = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.elevation_)}},
-    // double linger = 6;
+    // double linger = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.linger_)}},
-    // double speed = 7;
+    // double speed = 7 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {57, 63, 0, PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.speed_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 index = 1;
+    // int32 index = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.index_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 DayZoomTableValue = 2;
+    // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.dayzoomtablevalue_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 HeatZoomTableValue = 3;
+    // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.heatzoomtablevalue_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // double azimuth = 4;
+    // double azimuth = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.azimuth_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation = 5;
+    // double elevation = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.elevation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double linger = 6;
+    // double linger = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.linger_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double speed = 7;
+    // double speed = 7 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ScanNode, _impl_.speed_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -1007,49 +1027,49 @@ PROTOBUF_NOINLINE void ScanNode::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 index = 1;
+          // int32 index = 1 [(.buf.validate.field) = {
           if (this_._internal_index() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<1>(
                     stream, this_._internal_index(), target);
           }
 
-          // int32 DayZoomTableValue = 2;
+          // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
           if (this_._internal_dayzoomtablevalue() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<2>(
                     stream, this_._internal_dayzoomtablevalue(), target);
           }
 
-          // int32 HeatZoomTableValue = 3;
+          // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
           if (this_._internal_heatzoomtablevalue() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<3>(
                     stream, this_._internal_heatzoomtablevalue(), target);
           }
 
-          // double azimuth = 4;
+          // double azimuth = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_azimuth(), target);
           }
 
-          // double elevation = 5;
+          // double elevation = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_elevation(), target);
           }
 
-          // double linger = 6;
+          // double linger = 6 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_linger()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 6, this_._internal_linger(), target);
           }
 
-          // double speed = 7;
+          // double speed = 7 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -1081,33 +1101,33 @@ PROTOBUF_NOINLINE void ScanNode::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // int32 index = 1;
+            // int32 index = 1 [(.buf.validate.field) = {
             if (this_._internal_index() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_index());
             }
-            // int32 DayZoomTableValue = 2;
+            // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
             if (this_._internal_dayzoomtablevalue() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_dayzoomtablevalue());
             }
-            // double azimuth = 4;
+            // double azimuth = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
               total_size += 9;
             }
-            // double elevation = 5;
+            // double elevation = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
               total_size += 9;
             }
-            // double linger = 6;
+            // double linger = 6 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_linger()) != 0) {
               total_size += 9;
             }
-            // double speed = 7;
+            // double speed = 7 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_speed()) != 0) {
               total_size += 9;
             }
-            // int32 HeatZoomTableValue = 3;
+            // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
             if (this_._internal_heatzoomtablevalue() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_heatzoomtablevalue());

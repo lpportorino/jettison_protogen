@@ -257,30 +257,37 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_5falign_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\036jon_shared_cmd_lrf_align.proto\022\rcmd.Lr"
-    "f_calib\"`\n\004Root\022%\n\003day\030\001 \001(\0132\026.cmd.Lrf_c"
-    "alib.OffsetsH\000\022&\n\004heat\030\002 \001(\0132\026.cmd.Lrf_c"
-    "alib.OffsetsH\000B\t\n\007channel\"\304\001\n\007Offsets\022(\n"
-    "\003set\030\001 \001(\0132\031.cmd.Lrf_calib.SetOffsetsH\000\022"
-    "*\n\004save\030\002 \001(\0132\032.cmd.Lrf_calib.SaveOffset"
-    "sH\000\022,\n\005reset\030\003 \001(\0132\033.cmd.Lrf_calib.Reset"
-    "OffsetsH\000\022.\n\005shift\030\004 \001(\0132\035.cmd.Lrf_calib"
-    ".ShiftOffsetsByH\000B\005\n\003cmd\"\"\n\nSetOffsets\022\t"
-    "\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"&\n\016ShiftOffsetsBy\022\t"
-    "\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\016\n\014ResetOffsets\"\r\n\013"
+    "f_calib\032\033buf/validate/validate.proto\"`\n\004"
+    "Root\022%\n\003day\030\001 \001(\0132\026.cmd.Lrf_calib.Offset"
+    "sH\000\022&\n\004heat\030\002 \001(\0132\026.cmd.Lrf_calib.Offset"
+    "sH\000B\t\n\007channel\"\313\001\n\007Offsets\022(\n\003set\030\001 \001(\0132"
+    "\031.cmd.Lrf_calib.SetOffsetsH\000\022*\n\004save\030\002 \001"
+    "(\0132\032.cmd.Lrf_calib.SaveOffsetsH\000\022,\n\005rese"
+    "t\030\003 \001(\0132\033.cmd.Lrf_calib.ResetOffsetsH\000\022."
+    "\n\005shift\030\004 \001(\0132\035.cmd.Lrf_calib.ShiftOffse"
+    "tsByH\000B\014\n\003cmd\022\005\272H\002\010\001\"L\n\nSetOffsets\022\036\n\001x\030"
+    "\001 \001(\005B\023\272H\020\032\016\030\200\017(\200\361\377\377\377\377\377\377\377\001\022\036\n\001y\030\002 \001(\005B\023\272"
+    "H\020\032\016\030\270\010(\310\367\377\377\377\377\377\377\377\001\"P\n\016ShiftOffsetsBy\022\036\n\001"
+    "x\030\001 \001(\005B\023\272H\020\032\016\030\200\017(\200\361\377\377\377\377\377\377\377\001\022\036\n\001y\030\002 \001(\005B"
+    "\023\272H\020\032\016\030\270\010(\310\367\377\377\377\377\377\377\377\001\"\016\n\014ResetOffsets\"\r\n\013"
     "SaveOffsetsBPZNgit-codecommit.eu-central"
     "-1.amazonaws.com/v1/repos/jettison/jonp/"
     "cmd/lrf_alignb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5flrf_5falign_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5flrf_5falign_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5flrf_5falign_2eproto = {
     false,
     false,
-    541,
+    661,
     descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_5falign_2eproto,
     "jon_shared_cmd_lrf_align.proto",
     &descriptor_table_jon_5fshared_5fcmd_5flrf_5falign_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fcmd_5flrf_5falign_2eproto_deps,
+    1,
     6,
     schemas,
     file_default_instances,
@@ -1183,19 +1190,19 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SetOffsets::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Lrf_calib::SetOffsets>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 y = 2;
+    // int32 y = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetOffsets, _impl_.y_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsets, _impl_.y_)}},
-    // int32 x = 1;
+    // int32 x = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetOffsets, _impl_.x_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsets, _impl_.x_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 x = 1;
+    // int32 x = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetOffsets, _impl_.x_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 y = 2;
+    // int32 y = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetOffsets, _impl_.y_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }},
@@ -1232,14 +1239,14 @@ PROTOBUF_NOINLINE void SetOffsets::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 x = 1;
+          // int32 x = 1 [(.buf.validate.field) = {
           if (this_._internal_x() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<1>(
                     stream, this_._internal_x(), target);
           }
 
-          // int32 y = 2;
+          // int32 y = 2 [(.buf.validate.field) = {
           if (this_._internal_y() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<2>(
@@ -1271,12 +1278,12 @@ PROTOBUF_NOINLINE void SetOffsets::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // int32 x = 1;
+            // int32 x = 1 [(.buf.validate.field) = {
             if (this_._internal_x() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_x());
             }
-            // int32 y = 2;
+            // int32 y = 2 [(.buf.validate.field) = {
             if (this_._internal_y() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_y());
@@ -1424,19 +1431,19 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> ShiftOffsetsBy::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Lrf_calib::ShiftOffsetsBy>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 y = 2;
+    // int32 y = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShiftOffsetsBy, _impl_.y_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftOffsetsBy, _impl_.y_)}},
-    // int32 x = 1;
+    // int32 x = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShiftOffsetsBy, _impl_.x_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftOffsetsBy, _impl_.x_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 x = 1;
+    // int32 x = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ShiftOffsetsBy, _impl_.x_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 y = 2;
+    // int32 y = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ShiftOffsetsBy, _impl_.y_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }},
@@ -1473,14 +1480,14 @@ PROTOBUF_NOINLINE void ShiftOffsetsBy::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 x = 1;
+          // int32 x = 1 [(.buf.validate.field) = {
           if (this_._internal_x() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<1>(
                     stream, this_._internal_x(), target);
           }
 
-          // int32 y = 2;
+          // int32 y = 2 [(.buf.validate.field) = {
           if (this_._internal_y() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<2>(
@@ -1512,12 +1519,12 @@ PROTOBUF_NOINLINE void ShiftOffsetsBy::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // int32 x = 1;
+            // int32 x = 1 [(.buf.validate.field) = {
             if (this_._internal_x() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_x());
             }
-            // int32 y = 2;
+            // int32 y = 2 [(.buf.validate.field) = {
             if (this_._internal_y() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_y());

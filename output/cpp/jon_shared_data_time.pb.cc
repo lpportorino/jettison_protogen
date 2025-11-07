@@ -84,23 +84,28 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5ftime_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\032jon_shared_data_time.proto\022\003ser\"g\n\016Jon"
-    "GuiDataTime\022\021\n\ttimestamp\030\001 \001(\003\022\030\n\020manual"
-    "_timestamp\030\002 \001(\003\022\017\n\007zone_id\030\003 \001(\005\022\027\n\017use"
-    "_manual_time\030\004 \001(\010BLZJgit-codecommit.eu-"
-    "central-1.amazonaws.com/v1/repos/jettiso"
-    "n/jonp/data/timeb\006proto3"
+    "\n\032jon_shared_data_time.proto\022\003ser\032\033buf/v"
+    "alidate/validate.proto\"y\n\016JonGuiDataTime"
+    "\022\032\n\ttimestamp\030\001 \001(\003B\007\272H\004\"\002(\000\022!\n\020manual_t"
+    "imestamp\030\002 \001(\003B\007\272H\004\"\002(\000\022\017\n\007zone_id\030\003 \001(\005"
+    "\022\027\n\017use_manual_time\030\004 \001(\010BLZJgit-codecom"
+    "mit.eu-central-1.amazonaws.com/v1/repos/"
+    "jettison/jonp/data/timeb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftime_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftime_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftime_2eproto = {
     false,
     false,
-    224,
+    271,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftime_2eproto,
     "jon_shared_data_time.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftime_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fdata_5ftime_2eproto_deps,
+    1,
     1,
     schemas,
     file_default_instances,
@@ -211,10 +216,10 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> JonGuiDataTime::_table_ = {
     // bool use_manual_time = 4;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataTime, _impl_.use_manual_time_), 63>(),
      {32, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTime, _impl_.use_manual_time_)}},
-    // int64 timestamp = 1;
+    // int64 timestamp = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonGuiDataTime, _impl_.timestamp_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTime, _impl_.timestamp_)}},
-    // int64 manual_timestamp = 2;
+    // int64 manual_timestamp = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonGuiDataTime, _impl_.manual_timestamp_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTime, _impl_.manual_timestamp_)}},
     // int32 zone_id = 3;
@@ -223,10 +228,10 @@ const ::_pbi::TcParseTable<2, 4, 0, 0, 2> JonGuiDataTime::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // int64 timestamp = 1;
+    // int64 timestamp = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTime, _impl_.timestamp_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // int64 manual_timestamp = 2;
+    // int64 manual_timestamp = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTime, _impl_.manual_timestamp_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
     // int32 zone_id = 3;
@@ -269,14 +274,14 @@ PROTOBUF_NOINLINE void JonGuiDataTime::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int64 timestamp = 1;
+          // int64 timestamp = 1 [(.buf.validate.field) = {
           if (this_._internal_timestamp() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt64ToArrayWithField<1>(
                     stream, this_._internal_timestamp(), target);
           }
 
-          // int64 manual_timestamp = 2;
+          // int64 manual_timestamp = 2 [(.buf.validate.field) = {
           if (this_._internal_manual_timestamp() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt64ToArrayWithField<2>(
@@ -322,12 +327,12 @@ PROTOBUF_NOINLINE void JonGuiDataTime::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // int64 timestamp = 1;
+            // int64 timestamp = 1 [(.buf.validate.field) = {
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
             }
-            // int64 manual_timestamp = 2;
+            // int64 manual_timestamp = 2 [(.buf.validate.field) = {
             if (this_._internal_manual_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_manual_timestamp());

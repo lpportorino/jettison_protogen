@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -235,7 +236,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
     kUuidPart3FieldNumber = 10,
     kUuidPart4FieldNumber = 11,
   };
-  // int64 timestamp = 1;
+  // int64 timestamp = 1 [(.buf.validate.field) = {
   void clear_timestamp() ;
   ::int64_t timestamp() const;
   void set_timestamp(::int64_t value);
@@ -245,7 +246,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
-  // double target_longitude = 2;
+  // double target_longitude = 2 [(.buf.validate.field) = {
   void clear_target_longitude() ;
   double target_longitude() const;
   void set_target_longitude(double value);
@@ -255,7 +256,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
   void _internal_set_target_longitude(double value);
 
   public:
-  // double target_latitude = 3;
+  // double target_latitude = 3 [(.buf.validate.field) = {
   void clear_target_latitude() ;
   double target_latitude() const;
   void set_target_latitude(double value);
@@ -265,7 +266,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
   void _internal_set_target_latitude(double value);
 
   public:
-  // double target_altitude = 4;
+  // double target_altitude = 4 [(.buf.validate.field) = {
   void clear_target_altitude() ;
   double target_altitude() const;
   void set_target_altitude(double value);
@@ -275,7 +276,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
   void _internal_set_target_altitude(double value);
 
   public:
-  // double target_azimuth = 5;
+  // double target_azimuth = 5 [(.buf.validate.field) = {
   void clear_target_azimuth() ;
   double target_azimuth() const;
   void set_target_azimuth(double value);
@@ -285,7 +286,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
   void _internal_set_target_azimuth(double value);
 
   public:
-  // double target_elevation = 6;
+  // double target_elevation = 6 [(.buf.validate.field) = {
   void clear_target_elevation() ;
   double target_elevation() const;
   void set_target_elevation(double value);
@@ -295,7 +296,7 @@ class JonGuiDataLiraTarget final : public ::google::protobuf::Message
   void _internal_set_target_elevation(double value);
 
   public:
-  // double distance = 7;
+  // double distance = 7 [(.buf.validate.field) = {
   void clear_distance() ;
   double distance() const;
   void set_distance(double value);
@@ -1003,7 +1004,7 @@ inline void Refine_target::set_allocated_target(::cmd::Lira::JonGuiDataLiraTarge
 
 // JonGuiDataLiraTarget
 
-// int64 timestamp = 1;
+// int64 timestamp = 1 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};
@@ -1025,7 +1026,7 @@ inline void JonGuiDataLiraTarget::_internal_set_timestamp(::int64_t value) {
   _impl_.timestamp_ = value;
 }
 
-// double target_longitude = 2;
+// double target_longitude = 2 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_target_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_longitude_ = 0;
@@ -1047,7 +1048,7 @@ inline void JonGuiDataLiraTarget::_internal_set_target_longitude(double value) {
   _impl_.target_longitude_ = value;
 }
 
-// double target_latitude = 3;
+// double target_latitude = 3 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_target_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_latitude_ = 0;
@@ -1069,7 +1070,7 @@ inline void JonGuiDataLiraTarget::_internal_set_target_latitude(double value) {
   _impl_.target_latitude_ = value;
 }
 
-// double target_altitude = 4;
+// double target_altitude = 4 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_target_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_altitude_ = 0;
@@ -1091,7 +1092,7 @@ inline void JonGuiDataLiraTarget::_internal_set_target_altitude(double value) {
   _impl_.target_altitude_ = value;
 }
 
-// double target_azimuth = 5;
+// double target_azimuth = 5 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_target_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_azimuth_ = 0;
@@ -1113,7 +1114,7 @@ inline void JonGuiDataLiraTarget::_internal_set_target_azimuth(double value) {
   _impl_.target_azimuth_ = value;
 }
 
-// double target_elevation = 6;
+// double target_elevation = 6 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_target_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_elevation_ = 0;
@@ -1135,7 +1136,7 @@ inline void JonGuiDataLiraTarget::_internal_set_target_elevation(double value) {
   _impl_.target_elevation_ = value;
 }
 
-// double distance = 7;
+// double distance = 7 [(.buf.validate.field) = {
 inline void JonGuiDataLiraTarget::clear_distance() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.distance_ = 0;

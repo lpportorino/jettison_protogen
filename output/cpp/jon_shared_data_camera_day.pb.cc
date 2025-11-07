@@ -103,33 +103,40 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n jon_shared_data_camera_day.proto\022\003ser\032"
-    "\033jon_shared_data_types.proto\"\332\002\n\023JonGuiD"
-    "ataCameraDay\022\021\n\tfocus_pos\030\001 \001(\001\022\020\n\010zoom_"
-    "pos\030\002 \001(\001\022\020\n\010iris_pos\030\003 \001(\001\022\027\n\017infrared_"
-    "filter\030\004 \001(\010\022\026\n\016zoom_table_pos\030\005 \001(\005\022\032\n\022"
-    "zoom_table_pos_max\030\006 \001(\005\022)\n\007fx_mode\030\007 \001("
-    "\0162\030.ser.JonGuiDataFxModeDay\022\022\n\nauto_focu"
-    "s\030\010 \001(\010\022\021\n\tauto_iris\030\t \001(\010\022\032\n\022digital_zo"
-    "om_level\030\n \001(\001\022\023\n\013clahe_level\030\013 \001(\001\022\036\n\026h"
-    "orizontal_fov_degrees\030\014 \001(\001\022\034\n\024vertical_"
-    "fov_degrees\030\r \001(\001BRZPgit-codecommit.eu-c"
-    "entral-1.amazonaws.com/v1/repos/jettison"
-    "/jonp/data/camera_dayb\006proto3"
+    "\033buf/validate/validate.proto\032\033jon_shared"
+    "_data_types.proto\"\234\004\n\023JonGuiDataCameraDa"
+    "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000"
+    "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
+    "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
+    "\360\?)\000\000\000\000\000\000\000\000\022\027\n\017infrared_filter\030\004 \001(\010\022\037\n\016"
+    "zoom_table_pos\030\005 \001(\005B\007\272H\004\032\002(\000\022#\n\022zoom_ta"
+    "ble_pos_max\030\006 \001(\005B\007\272H\004\032\002(\000\0223\n\007fx_mode\030\007 "
+    "\001(\0162\030.ser.JonGuiDataFxModeDayB\010\272H\005\202\001\002\020\001\022"
+    "\022\n\nauto_focus\030\010 \001(\010\022\021\n\tauto_iris\030\t \001(\010\022*"
+    "\n\022digital_zoom_level\030\n \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000"
+    "\360\?\022,\n\013clahe_level\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
+    "\000\000\000\000\000\000\000\000\0227\n\026horizontal_fov_degrees\030\014 \001(\001"
+    "B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000\0225\n\024vertical_fo"
+    "v_degrees\030\r \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000"
+    "BRZPgit-codecommit.eu-central-1.amazonaw"
+    "s.com/v1/repos/jettison/jonp/data/camera"
+    "_dayb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto = {
     false,
     false,
-    509,
+    732,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto,
     "jon_shared_data_camera_day.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps,
-    1,
+    2,
     1,
     schemas,
     file_default_instances,
@@ -238,25 +245,25 @@ const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double focus_pos = 1;
+    // double focus_pos = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.focus_pos_)}},
-    // double zoom_pos = 2;
+    // double zoom_pos = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.zoom_pos_)}},
-    // double iris_pos = 3;
+    // double iris_pos = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.iris_pos_)}},
     // bool infrared_filter = 4;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCameraDay, _impl_.infrared_filter_), 63>(),
      {32, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.infrared_filter_)}},
-    // int32 zoom_table_pos = 5;
+    // int32 zoom_table_pos = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCameraDay, _impl_.zoom_table_pos_), 63>(),
      {40, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.zoom_table_pos_)}},
-    // int32 zoom_table_pos_max = 6;
+    // int32 zoom_table_pos_max = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCameraDay, _impl_.zoom_table_pos_max_), 63>(),
      {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.zoom_table_pos_max_)}},
-    // .ser.JonGuiDataFxModeDay fx_mode = 7;
+    // .ser.JonGuiDataFxModeDay fx_mode = 7 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCameraDay, _impl_.fx_mode_), 63>(),
      {56, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.fx_mode_)}},
     // bool auto_focus = 8;
@@ -265,16 +272,16 @@ const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     // bool auto_iris = 9;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCameraDay, _impl_.auto_iris_), 63>(),
      {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.auto_iris_)}},
-    // double digital_zoom_level = 10;
+    // double digital_zoom_level = 10 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {81, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.digital_zoom_level_)}},
-    // double clahe_level = 11;
+    // double clahe_level = 11 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {89, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.clahe_level_)}},
-    // double horizontal_fov_degrees = 12;
+    // double horizontal_fov_degrees = 12 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {97, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.horizontal_fov_degrees_)}},
-    // double vertical_fov_degrees = 13;
+    // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {105, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_)}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -282,25 +289,25 @@ const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double focus_pos = 1;
+    // double focus_pos = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.focus_pos_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double zoom_pos = 2;
+    // double zoom_pos = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.zoom_pos_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double iris_pos = 3;
+    // double iris_pos = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.iris_pos_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool infrared_filter = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.infrared_filter_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // int32 zoom_table_pos = 5;
+    // int32 zoom_table_pos = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.zoom_table_pos_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 zoom_table_pos_max = 6;
+    // int32 zoom_table_pos_max = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.zoom_table_pos_max_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // .ser.JonGuiDataFxModeDay fx_mode = 7;
+    // .ser.JonGuiDataFxModeDay fx_mode = 7 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.fx_mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
     // bool auto_focus = 8;
@@ -309,16 +316,16 @@ const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     // bool auto_iris = 9;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.auto_iris_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // double digital_zoom_level = 10;
+    // double digital_zoom_level = 10 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.digital_zoom_level_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double clahe_level = 11;
+    // double clahe_level = 11 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.clahe_level_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double horizontal_fov_degrees = 12;
+    // double horizontal_fov_degrees = 12 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.horizontal_fov_degrees_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double vertical_fov_degrees = 13;
+    // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -355,21 +362,21 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double focus_pos = 1;
+          // double focus_pos = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_focus_pos()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_focus_pos(), target);
           }
 
-          // double zoom_pos = 2;
+          // double zoom_pos = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_zoom_pos()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_zoom_pos(), target);
           }
 
-          // double iris_pos = 3;
+          // double iris_pos = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_iris_pos()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -383,21 +390,21 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
                 4, this_._internal_infrared_filter(), target);
           }
 
-          // int32 zoom_table_pos = 5;
+          // int32 zoom_table_pos = 5 [(.buf.validate.field) = {
           if (this_._internal_zoom_table_pos() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<5>(
                     stream, this_._internal_zoom_table_pos(), target);
           }
 
-          // int32 zoom_table_pos_max = 6;
+          // int32 zoom_table_pos_max = 6 [(.buf.validate.field) = {
           if (this_._internal_zoom_table_pos_max() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<6>(
                     stream, this_._internal_zoom_table_pos_max(), target);
           }
 
-          // .ser.JonGuiDataFxModeDay fx_mode = 7;
+          // .ser.JonGuiDataFxModeDay fx_mode = 7 [(.buf.validate.field) = {
           if (this_._internal_fx_mode() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -418,28 +425,28 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
                 9, this_._internal_auto_iris(), target);
           }
 
-          // double digital_zoom_level = 10;
+          // double digital_zoom_level = 10 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_digital_zoom_level()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 10, this_._internal_digital_zoom_level(), target);
           }
 
-          // double clahe_level = 11;
+          // double clahe_level = 11 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_clahe_level()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 11, this_._internal_clahe_level(), target);
           }
 
-          // double horizontal_fov_degrees = 12;
+          // double horizontal_fov_degrees = 12 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_horizontal_fov_degrees()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 12, this_._internal_horizontal_fov_degrees(), target);
           }
 
-          // double vertical_fov_degrees = 13;
+          // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_vertical_fov_degrees()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -471,29 +478,29 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double focus_pos = 1;
+            // double focus_pos = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_focus_pos()) != 0) {
               total_size += 9;
             }
-            // double zoom_pos = 2;
+            // double zoom_pos = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_zoom_pos()) != 0) {
               total_size += 9;
             }
-            // double iris_pos = 3;
+            // double iris_pos = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_iris_pos()) != 0) {
               total_size += 9;
             }
-            // int32 zoom_table_pos = 5;
+            // int32 zoom_table_pos = 5 [(.buf.validate.field) = {
             if (this_._internal_zoom_table_pos() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_zoom_table_pos());
             }
-            // int32 zoom_table_pos_max = 6;
+            // int32 zoom_table_pos_max = 6 [(.buf.validate.field) = {
             if (this_._internal_zoom_table_pos_max() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_zoom_table_pos_max());
             }
-            // .ser.JonGuiDataFxModeDay fx_mode = 7;
+            // .ser.JonGuiDataFxModeDay fx_mode = 7 [(.buf.validate.field) = {
             if (this_._internal_fx_mode() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_fx_mode());
@@ -510,19 +517,19 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
             if (this_._internal_auto_iris() != 0) {
               total_size += 2;
             }
-            // double digital_zoom_level = 10;
+            // double digital_zoom_level = 10 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_digital_zoom_level()) != 0) {
               total_size += 9;
             }
-            // double clahe_level = 11;
+            // double clahe_level = 11 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_clahe_level()) != 0) {
               total_size += 9;
             }
-            // double horizontal_fov_degrees = 12;
+            // double horizontal_fov_degrees = 12 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_horizontal_fov_degrees()) != 0) {
               total_size += 9;
             }
-            // double vertical_fov_degrees = 13;
+            // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_vertical_fov_degrees()) != 0) {
               total_size += 9;
             }

@@ -237,46 +237,56 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\031jon_shared_data_lrf.proto\022\003ser\032\033jon_sh"
-    "ared_data_types.proto\"\377\001\n\rJonGuiDataLrf\022"
-    "\023\n\013is_scanning\030\001 \001(\010\022\024\n\014is_measuring\030\002 \001"
-    "(\010\022\022\n\nmeasure_id\030\003 \001(\005\022%\n\006target\030\004 \001(\0132\025"
-    ".ser.JonGuiDataTarget\022:\n\014pointer_mode\030\005 "
-    "\001(\0162$.ser.JonGuiDatatLrfLaserPointerMode"
-    "s\022\026\n\016fogModeEnabled\030\006 \001(\010\022\023\n\013is_refining"
-    "\030\007 \001(\010\022\037\n\027is_continuous_measuring\030\010 \001(\010\""
-    "\232\004\n\020JonGuiDataTarget\022\021\n\ttimestamp\030\001 \001(\003\022"
-    "\030\n\020target_longitude\030\002 \001(\001\022\027\n\017target_lati"
-    "tude\030\003 \001(\001\022\027\n\017target_altitude\030\004 \001(\001\022\032\n\022o"
-    "bserver_longitude\030\005 \001(\001\022\031\n\021observer_lati"
-    "tude\030\006 \001(\001\022\031\n\021observer_altitude\030\007 \001(\001\022\030\n"
-    "\020observer_azimuth\030\010 \001(\001\022\032\n\022observer_elev"
-    "ation\030\t \001(\001\022\025\n\robserver_bank\030\n \001(\001\022\023\n\013di"
-    "stance_2d\030\013 \001(\001\022\023\n\013distance_3b\030\014 \001(\001\0224\n\021"
-    "observer_fix_type\030\r \001(\0162\031.ser.JonGuiData"
-    "GpsFixType\022\022\n\nsession_id\030\016 \001(\005\022\021\n\ttarget"
-    "_id\030\017 \001(\005\022#\n\014target_color\030\020 \001(\0132\r.ser.Rg"
-    "bColor\022\014\n\004type\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005"
-    "\022\022\n\nuuid_part2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005"
-    "\022\022\n\nuuid_part4\030\025 \001(\005\"4\n\010RgbColor\022\013\n\003red\030"
-    "\001 \001(\r\022\r\n\005green\030\002 \001(\r\022\014\n\004blue\030\003 \001(\rBKZIgi"
-    "t-codecommit.eu-central-1.amazonaws.com/"
-    "v1/repos/jettison/jonp/data/lrfb\006proto3"
+    "\n\031jon_shared_data_lrf.proto\022\003ser\032\033buf/va"
+    "lidate/validate.proto\032\033jon_shared_data_t"
+    "ypes.proto\"\222\002\n\rJonGuiDataLrf\022\023\n\013is_scann"
+    "ing\030\001 \001(\010\022\024\n\014is_measuring\030\002 \001(\010\022\033\n\nmeasu"
+    "re_id\030\003 \001(\005B\007\272H\004\032\002(\000\022%\n\006target\030\004 \001(\0132\025.s"
+    "er.JonGuiDataTarget\022D\n\014pointer_mode\030\005 \001("
+    "\0162$.ser.JonGuiDatatLrfLaserPointerModesB"
+    "\010\272H\005\202\001\002\020\001\022\026\n\016fogModeEnabled\030\006 \001(\010\022\023\n\013is_"
+    "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin"
+    "g\030\010 \001(\010\"\242\006\n\020JonGuiDataTarget\022\032\n\ttimestam"
+    "p\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001"
+    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_la"
+    "titude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n"
+    "\017target_altitude\030\004 \001(\001\0223\n\022observer_longi"
+    "tude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021o"
+    "bserver_latitude\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000"
+    "\000\000\000\000\200V\300\022\031\n\021observer_altitude\030\007 \001(\001\0221\n\020ob"
+    "server_azimuth\030\010 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000"
+    "\000\000\000\000\000\0223\n\022observer_elevation\030\t \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\robserver_bank\030\n \001("
+    "\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022,\n\013distance_2"
+    "d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022,\n\013dist"
+    "ance_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@"
+    "\n\021observer_fix_type\030\r \001(\0162\031.ser.JonGuiDa"
+    "taGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030\016"
+    " \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002("
+    "\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbColor\022\014"
+    "\n\004type\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid"
+    "_part2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid"
+    "_part4\030\025 \001(\005\"X\n\010RgbColor\022\027\n\003red\030\001 \001(\rB\n\272"
+    "H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004"
+    "blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000BKZIgit-codecommit"
+    ".eu-central-1.amazonaws.com/v1/repos/jet"
+    "tison/jonp/data/lrfb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5flrf_2eproto = {
     false,
     false,
-    999,
+    1347,
     descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto,
     "jon_shared_data_lrf.proto",
     &descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_deps,
-    1,
+    2,
     3,
     schemas,
     file_default_instances,
@@ -426,13 +436,13 @@ const ::_pbi::TcParseTable<3, 8, 1, 0, 2> JonGuiDataLrf::_table_ = {
     // bool is_measuring = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataLrf, _impl_.is_measuring_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.is_measuring_)}},
-    // int32 measure_id = 3;
+    // int32 measure_id = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataLrf, _impl_.measure_id_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.measure_id_)}},
     // .ser.JonGuiDataTarget target = 4;
     {::_pbi::TcParser::FastMtS1,
      {34, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.target_)}},
-    // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5;
+    // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataLrf, _impl_.pointer_mode_), 63>(),
      {40, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.pointer_mode_)}},
     // bool fogModeEnabled = 6;
@@ -450,13 +460,13 @@ const ::_pbi::TcParseTable<3, 8, 1, 0, 2> JonGuiDataLrf::_table_ = {
     // bool is_measuring = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.is_measuring_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // int32 measure_id = 3;
+    // int32 measure_id = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.measure_id_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // .ser.JonGuiDataTarget target = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.target_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5;
+    // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.pointer_mode_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
     // bool fogModeEnabled = 6;
@@ -522,7 +532,7 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
                 2, this_._internal_is_measuring(), target);
           }
 
-          // int32 measure_id = 3;
+          // int32 measure_id = 3 [(.buf.validate.field) = {
           if (this_._internal_measure_id() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<3>(
@@ -537,7 +547,7 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
                 stream);
           }
 
-          // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5;
+          // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = {
           if (this_._internal_pointer_mode() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -598,7 +608,7 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
             }
           }
            {
-            // int32 measure_id = 3;
+            // int32 measure_id = 3 [(.buf.validate.field) = {
             if (this_._internal_measure_id() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_measure_id());
@@ -619,7 +629,7 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
             if (this_._internal_is_refining() != 0) {
               total_size += 2;
             }
-            // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5;
+            // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = {
             if (this_._internal_pointer_mode() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_pointer_mode());
@@ -833,49 +843,49 @@ const ::_pbi::TcParseTable<5, 21, 1, 0, 2> JonGuiDataTarget::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // int64 timestamp = 1;
+    // int64 timestamp = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonGuiDataTarget, _impl_.timestamp_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.timestamp_)}},
-    // double target_longitude = 2;
+    // double target_longitude = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_longitude_)}},
-    // double target_latitude = 3;
+    // double target_latitude = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_latitude_)}},
     // double target_altitude = 4;
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_altitude_)}},
-    // double observer_longitude = 5;
+    // double observer_longitude = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_longitude_)}},
-    // double observer_latitude = 6;
+    // double observer_latitude = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_latitude_)}},
     // double observer_altitude = 7;
     {::_pbi::TcParser::FastF64S1,
      {57, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_altitude_)}},
-    // double observer_azimuth = 8;
+    // double observer_azimuth = 8 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {65, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_azimuth_)}},
-    // double observer_elevation = 9;
+    // double observer_elevation = 9 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {73, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_elevation_)}},
-    // double observer_bank = 10;
+    // double observer_bank = 10 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {81, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_bank_)}},
-    // double distance_2d = 11;
+    // double distance_2d = 11 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {89, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_2d_)}},
-    // double distance_3b = 12;
+    // double distance_3b = 12 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {97, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_3b_)}},
-    // .ser.JonGuiDataGpsFixType observer_fix_type = 13;
+    // .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataTarget, _impl_.observer_fix_type_), 63>(),
      {104, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_fix_type_)}},
-    // int32 session_id = 14;
+    // int32 session_id = 14 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataTarget, _impl_.session_id_), 63>(),
      {112, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.session_id_)}},
-    // int32 target_id = 15;
+    // int32 target_id = 15 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataTarget, _impl_.target_id_), 63>(),
      {120, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_id_)}},
     // .ser.RgbColor target_color = 16;
@@ -909,49 +919,49 @@ const ::_pbi::TcParseTable<5, 21, 1, 0, 2> JonGuiDataTarget::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // int64 timestamp = 1;
+    // int64 timestamp = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.timestamp_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // double target_longitude = 2;
+    // double target_longitude = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_longitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_latitude = 3;
+    // double target_latitude = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_latitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double target_altitude = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_altitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double observer_longitude = 5;
+    // double observer_longitude = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_longitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double observer_latitude = 6;
+    // double observer_latitude = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_latitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double observer_altitude = 7;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_altitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double observer_azimuth = 8;
+    // double observer_azimuth = 8 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_azimuth_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double observer_elevation = 9;
+    // double observer_elevation = 9 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_elevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double observer_bank = 10;
+    // double observer_bank = 10 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_bank_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double distance_2d = 11;
+    // double distance_2d = 11 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_2d_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double distance_3b = 12;
+    // double distance_3b = 12 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.distance_3b_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // .ser.JonGuiDataGpsFixType observer_fix_type = 13;
+    // .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.observer_fix_type_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // int32 session_id = 14;
+    // int32 session_id = 14 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.session_id_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 target_id = 15;
+    // int32 target_id = 15 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataTarget, _impl_.target_id_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // .ser.RgbColor target_color = 16;
@@ -1012,21 +1022,21 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int64 timestamp = 1;
+          // int64 timestamp = 1 [(.buf.validate.field) = {
           if (this_._internal_timestamp() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt64ToArrayWithField<1>(
                     stream, this_._internal_timestamp(), target);
           }
 
-          // double target_longitude = 2;
+          // double target_longitude = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_longitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_target_longitude(), target);
           }
 
-          // double target_latitude = 3;
+          // double target_latitude = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_latitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -1040,14 +1050,14 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
                 4, this_._internal_target_altitude(), target);
           }
 
-          // double observer_longitude = 5;
+          // double observer_longitude = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_observer_longitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_observer_longitude(), target);
           }
 
-          // double observer_latitude = 6;
+          // double observer_latitude = 6 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_observer_latitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -1061,56 +1071,56 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
                 7, this_._internal_observer_altitude(), target);
           }
 
-          // double observer_azimuth = 8;
+          // double observer_azimuth = 8 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_observer_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 8, this_._internal_observer_azimuth(), target);
           }
 
-          // double observer_elevation = 9;
+          // double observer_elevation = 9 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_observer_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 9, this_._internal_observer_elevation(), target);
           }
 
-          // double observer_bank = 10;
+          // double observer_bank = 10 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_observer_bank()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 10, this_._internal_observer_bank(), target);
           }
 
-          // double distance_2d = 11;
+          // double distance_2d = 11 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_distance_2d()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 11, this_._internal_distance_2d(), target);
           }
 
-          // double distance_3b = 12;
+          // double distance_3b = 12 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_distance_3b()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 12, this_._internal_distance_3b(), target);
           }
 
-          // .ser.JonGuiDataGpsFixType observer_fix_type = 13;
+          // .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {
           if (this_._internal_observer_fix_type() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
                 13, this_._internal_observer_fix_type(), target);
           }
 
-          // int32 session_id = 14;
+          // int32 session_id = 14 [(.buf.validate.field) = {
           if (this_._internal_session_id() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<14>(
                     stream, this_._internal_session_id(), target);
           }
 
-          // int32 target_id = 15;
+          // int32 target_id = 15 [(.buf.validate.field) = {
           if (this_._internal_target_id() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<15>(
@@ -1193,16 +1203,16 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
             }
           }
            {
-            // int64 timestamp = 1;
+            // int64 timestamp = 1 [(.buf.validate.field) = {
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
             }
-            // double target_longitude = 2;
+            // double target_longitude = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_longitude()) != 0) {
               total_size += 9;
             }
-            // double target_latitude = 3;
+            // double target_latitude = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_latitude()) != 0) {
               total_size += 9;
             }
@@ -1210,11 +1220,11 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_altitude()) != 0) {
               total_size += 9;
             }
-            // double observer_longitude = 5;
+            // double observer_longitude = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_observer_longitude()) != 0) {
               total_size += 9;
             }
-            // double observer_latitude = 6;
+            // double observer_latitude = 6 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_observer_latitude()) != 0) {
               total_size += 9;
             }
@@ -1222,37 +1232,37 @@ PROTOBUF_NOINLINE void JonGuiDataTarget::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_observer_altitude()) != 0) {
               total_size += 9;
             }
-            // double observer_azimuth = 8;
+            // double observer_azimuth = 8 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_observer_azimuth()) != 0) {
               total_size += 9;
             }
-            // double observer_elevation = 9;
+            // double observer_elevation = 9 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_observer_elevation()) != 0) {
               total_size += 9;
             }
-            // double observer_bank = 10;
+            // double observer_bank = 10 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_observer_bank()) != 0) {
               total_size += 9;
             }
-            // double distance_2d = 11;
+            // double distance_2d = 11 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_distance_2d()) != 0) {
               total_size += 9;
             }
-            // double distance_3b = 12;
+            // double distance_3b = 12 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_distance_3b()) != 0) {
               total_size += 9;
             }
-            // .ser.JonGuiDataGpsFixType observer_fix_type = 13;
+            // .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {
             if (this_._internal_observer_fix_type() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_observer_fix_type());
             }
-            // int32 session_id = 14;
+            // int32 session_id = 14 [(.buf.validate.field) = {
             if (this_._internal_session_id() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_session_id());
             }
-            // int32 target_id = 15;
+            // int32 target_id = 15 [(.buf.validate.field) = {
             if (this_._internal_target_id() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_target_id());
@@ -1493,25 +1503,25 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> RgbColor::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // uint32 red = 1;
+    // uint32 red = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RgbColor, _impl_.red_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(RgbColor, _impl_.red_)}},
-    // uint32 green = 2;
+    // uint32 green = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RgbColor, _impl_.green_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(RgbColor, _impl_.green_)}},
-    // uint32 blue = 3;
+    // uint32 blue = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RgbColor, _impl_.blue_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(RgbColor, _impl_.blue_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // uint32 red = 1;
+    // uint32 red = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(RgbColor, _impl_.red_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint32 green = 2;
+    // uint32 green = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(RgbColor, _impl_.green_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint32 blue = 3;
+    // uint32 blue = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(RgbColor, _impl_.blue_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
@@ -1548,21 +1558,21 @@ PROTOBUF_NOINLINE void RgbColor::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // uint32 red = 1;
+          // uint32 red = 1 [(.buf.validate.field) = {
           if (this_._internal_red() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
                 1, this_._internal_red(), target);
           }
 
-          // uint32 green = 2;
+          // uint32 green = 2 [(.buf.validate.field) = {
           if (this_._internal_green() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
                 2, this_._internal_green(), target);
           }
 
-          // uint32 blue = 3;
+          // uint32 blue = 3 [(.buf.validate.field) = {
           if (this_._internal_blue() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
@@ -1594,17 +1604,17 @@ PROTOBUF_NOINLINE void RgbColor::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // uint32 red = 1;
+            // uint32 red = 1 [(.buf.validate.field) = {
             if (this_._internal_red() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_red());
             }
-            // uint32 green = 2;
+            // uint32 green = 2 [(.buf.validate.field) = {
             if (this_._internal_green() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_green());
             }
-            // uint32 blue = 3;
+            // uint32 blue = 3 [(.buf.validate.field) = {
             if (this_._internal_blue() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_blue());

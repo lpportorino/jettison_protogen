@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -240,7 +241,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
     kRecognitionModeFieldNumber = 23,
     kAccumulatorStateFieldNumber = 24,
   };
-  // double cpu_temperature = 1;
+  // double cpu_temperature = 1 [(.buf.validate.field) = {
   void clear_cpu_temperature() ;
   double cpu_temperature() const;
   void set_cpu_temperature(double value);
@@ -250,7 +251,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cpu_temperature(double value);
 
   public:
-  // double gpu_temperature = 2;
+  // double gpu_temperature = 2 [(.buf.validate.field) = {
   void clear_gpu_temperature() ;
   double gpu_temperature() const;
   void set_gpu_temperature(double value);
@@ -260,7 +261,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_gpu_temperature(double value);
 
   public:
-  // double gpu_load = 3;
+  // double gpu_load = 3 [(.buf.validate.field) = {
   void clear_gpu_load() ;
   double gpu_load() const;
   void set_gpu_load(double value);
@@ -270,7 +271,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_gpu_load(double value);
 
   public:
-  // double cpu_load = 4;
+  // double cpu_load = 4 [(.buf.validate.field) = {
   void clear_cpu_load() ;
   double cpu_load() const;
   void set_cpu_load(double value);
@@ -280,7 +281,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cpu_load(double value);
 
   public:
-  // double power_consumption = 5;
+  // double power_consumption = 5 [(.buf.validate.field) = {
   void clear_power_consumption() ;
   double power_consumption() const;
   void set_power_consumption(double value);
@@ -290,7 +291,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_power_consumption(double value);
 
   public:
-  // .ser.JonGuiDataSystemLocalizations loc = 6;
+  // .ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = {
   void clear_loc() ;
   ::ser::JonGuiDataSystemLocalizations loc() const;
   void set_loc(::ser::JonGuiDataSystemLocalizations value);
@@ -300,7 +301,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_loc(::ser::JonGuiDataSystemLocalizations value);
 
   public:
-  // int32 cur_video_rec_dir_year = 7;
+  // int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = {
   void clear_cur_video_rec_dir_year() ;
   ::int32_t cur_video_rec_dir_year() const;
   void set_cur_video_rec_dir_year(::int32_t value);
@@ -310,7 +311,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cur_video_rec_dir_year(::int32_t value);
 
   public:
-  // int32 cur_video_rec_dir_month = 8;
+  // int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = {
   void clear_cur_video_rec_dir_month() ;
   ::int32_t cur_video_rec_dir_month() const;
   void set_cur_video_rec_dir_month(::int32_t value);
@@ -320,7 +321,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cur_video_rec_dir_month(::int32_t value);
 
   public:
-  // int32 cur_video_rec_dir_day = 9;
+  // int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = {
   void clear_cur_video_rec_dir_day() ;
   ::int32_t cur_video_rec_dir_day() const;
   void set_cur_video_rec_dir_day(::int32_t value);
@@ -330,7 +331,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cur_video_rec_dir_day(::int32_t value);
 
   public:
-  // int32 cur_video_rec_dir_hour = 10;
+  // int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = {
   void clear_cur_video_rec_dir_hour() ;
   ::int32_t cur_video_rec_dir_hour() const;
   void set_cur_video_rec_dir_hour(::int32_t value);
@@ -340,7 +341,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cur_video_rec_dir_hour(::int32_t value);
 
   public:
-  // int32 cur_video_rec_dir_minute = 11;
+  // int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = {
   void clear_cur_video_rec_dir_minute() ;
   ::int32_t cur_video_rec_dir_minute() const;
   void set_cur_video_rec_dir_minute(::int32_t value);
@@ -350,7 +351,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_cur_video_rec_dir_minute(::int32_t value);
 
   public:
-  // int32 cur_video_rec_dir_second = 12;
+  // int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = {
   void clear_cur_video_rec_dir_second() ;
   ::int32_t cur_video_rec_dir_second() const;
   void set_cur_video_rec_dir_second(::int32_t value);
@@ -400,7 +401,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_no_disk_space(bool value);
 
   public:
-  // int32 disk_space = 17;
+  // int32 disk_space = 17 [(.buf.validate.field) = {
   void clear_disk_space() ;
   ::int32_t disk_space() const;
   void set_disk_space(::int32_t value);
@@ -470,7 +471,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
   void _internal_set_recognition_mode(bool value);
 
   public:
-  // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+  // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = {
   void clear_accumulator_state() ;
   ::ser::JonGuiDataAccumulatorStateIdx accumulator_state() const;
   void set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value);
@@ -550,7 +551,7 @@ class JonGuiDataSystem final : public ::google::protobuf::Message
 
 // JonGuiDataSystem
 
-// double cpu_temperature = 1;
+// double cpu_temperature = 1 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cpu_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cpu_temperature_ = 0;
@@ -572,7 +573,7 @@ inline void JonGuiDataSystem::_internal_set_cpu_temperature(double value) {
   _impl_.cpu_temperature_ = value;
 }
 
-// double gpu_temperature = 2;
+// double gpu_temperature = 2 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_gpu_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.gpu_temperature_ = 0;
@@ -594,7 +595,7 @@ inline void JonGuiDataSystem::_internal_set_gpu_temperature(double value) {
   _impl_.gpu_temperature_ = value;
 }
 
-// double gpu_load = 3;
+// double gpu_load = 3 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_gpu_load() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.gpu_load_ = 0;
@@ -616,7 +617,7 @@ inline void JonGuiDataSystem::_internal_set_gpu_load(double value) {
   _impl_.gpu_load_ = value;
 }
 
-// double cpu_load = 4;
+// double cpu_load = 4 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cpu_load() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cpu_load_ = 0;
@@ -638,7 +639,7 @@ inline void JonGuiDataSystem::_internal_set_cpu_load(double value) {
   _impl_.cpu_load_ = value;
 }
 
-// double power_consumption = 5;
+// double power_consumption = 5 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_power_consumption() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.power_consumption_ = 0;
@@ -660,7 +661,7 @@ inline void JonGuiDataSystem::_internal_set_power_consumption(double value) {
   _impl_.power_consumption_ = value;
 }
 
-// .ser.JonGuiDataSystemLocalizations loc = 6;
+// .ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_loc() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.loc_ = 0;
@@ -682,7 +683,7 @@ inline void JonGuiDataSystem::_internal_set_loc(::ser::JonGuiDataSystemLocalizat
   _impl_.loc_ = value;
 }
 
-// int32 cur_video_rec_dir_year = 7;
+// int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cur_video_rec_dir_year() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cur_video_rec_dir_year_ = 0;
@@ -704,7 +705,7 @@ inline void JonGuiDataSystem::_internal_set_cur_video_rec_dir_year(::int32_t val
   _impl_.cur_video_rec_dir_year_ = value;
 }
 
-// int32 cur_video_rec_dir_month = 8;
+// int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cur_video_rec_dir_month() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cur_video_rec_dir_month_ = 0;
@@ -726,7 +727,7 @@ inline void JonGuiDataSystem::_internal_set_cur_video_rec_dir_month(::int32_t va
   _impl_.cur_video_rec_dir_month_ = value;
 }
 
-// int32 cur_video_rec_dir_day = 9;
+// int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cur_video_rec_dir_day() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cur_video_rec_dir_day_ = 0;
@@ -748,7 +749,7 @@ inline void JonGuiDataSystem::_internal_set_cur_video_rec_dir_day(::int32_t valu
   _impl_.cur_video_rec_dir_day_ = value;
 }
 
-// int32 cur_video_rec_dir_hour = 10;
+// int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cur_video_rec_dir_hour() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cur_video_rec_dir_hour_ = 0;
@@ -770,7 +771,7 @@ inline void JonGuiDataSystem::_internal_set_cur_video_rec_dir_hour(::int32_t val
   _impl_.cur_video_rec_dir_hour_ = value;
 }
 
-// int32 cur_video_rec_dir_minute = 11;
+// int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cur_video_rec_dir_minute() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cur_video_rec_dir_minute_ = 0;
@@ -792,7 +793,7 @@ inline void JonGuiDataSystem::_internal_set_cur_video_rec_dir_minute(::int32_t v
   _impl_.cur_video_rec_dir_minute_ = value;
 }
 
-// int32 cur_video_rec_dir_second = 12;
+// int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_cur_video_rec_dir_second() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cur_video_rec_dir_second_ = 0;
@@ -902,7 +903,7 @@ inline void JonGuiDataSystem::_internal_set_no_disk_space(bool value) {
   _impl_.no_disk_space_ = value;
 }
 
-// int32 disk_space = 17;
+// int32 disk_space = 17 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_disk_space() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.disk_space_ = 0;
@@ -1056,7 +1057,7 @@ inline void JonGuiDataSystem::_internal_set_recognition_mode(bool value) {
   _impl_.recognition_mode_ = value;
 }
 
-// .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+// .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = {
 inline void JonGuiDataSystem::clear_accumulator_state() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.accumulator_state_ = 0;

@@ -124,43 +124,53 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\034jon_shared_data_system.proto\022\003ser\032\033jon"
-    "_shared_data_types.proto\"\267\005\n\020JonGuiDataS"
-    "ystem\022\027\n\017cpu_temperature\030\001 \001(\001\022\027\n\017gpu_te"
-    "mperature\030\002 \001(\001\022\020\n\010gpu_load\030\003 \001(\001\022\020\n\010cpu"
-    "_load\030\004 \001(\001\022\031\n\021power_consumption\030\005 \001(\001\022/"
-    "\n\003loc\030\006 \001(\0162\".ser.JonGuiDataSystemLocali"
-    "zations\022\036\n\026cur_video_rec_dir_year\030\007 \001(\005\022"
-    "\037\n\027cur_video_rec_dir_month\030\010 \001(\005\022\035\n\025cur_"
-    "video_rec_dir_day\030\t \001(\005\022\036\n\026cur_video_rec"
-    "_dir_hour\030\n \001(\005\022 \n\030cur_video_rec_dir_min"
-    "ute\030\013 \001(\005\022 \n\030cur_video_rec_dir_second\030\014 "
-    "\001(\005\022\023\n\013rec_enabled\030\r \001(\010\022\035\n\025important_re"
-    "c_enabled\030\016 \001(\010\022\026\n\016low_disk_space\030\017 \001(\010\022"
-    "\025\n\rno_disk_space\030\020 \001(\010\022\022\n\ndisk_space\030\021 \001"
-    "(\005\022\020\n\010tracking\030\022 \001(\010\022\024\n\014vampire_mode\030\023 \001"
-    "(\010\022\032\n\022stabilization_mode\030\024 \001(\010\022\025\n\rgeodes"
-    "ic_mode\030\025 \001(\010\022\022\n\ncv_dumping\030\026 \001(\010\022\030\n\020rec"
-    "ognition_mode\030\027 \001(\010\022=\n\021accumulator_state"
-    "\030\030 \001(\0162\".ser.JonGuiDataAccumulatorStateI"
-    "dxBNZLgit-codecommit.eu-central-1.amazon"
-    "aws.com/v1/repos/jettison/jonp/data/syst"
-    "emb\006proto3"
+    "\n\034jon_shared_data_system.proto\022\003ser\032\033buf"
+    "/validate/validate.proto\032\033jon_shared_dat"
+    "a_types.proto\"\235\010\n\020JonGuiDataSystem\022K\n\017cp"
+    "u_temperature\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)ffff"
+    "f\022q\300I\000\000\000\000\000\2009@I\000\000\000\000\000\000N@I\000\000\000\000\000 T@\022K\n\017gpu_t"
+    "emperature\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\300b@)fffff\022q"
+    "\300I\000\000\000\000\000\000>@I\000\000\000\000\000\200Q@I\000\000\000\000\000`U@\022D\n\010gpu_load"
+    "\030\003 \001(\001B2\272H/\022-\031\000\000\000\000\000\000Y@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000"
+    "I\000\000\000\000\000\000I@I\000\000\000\000\000\000Y@\022M\n\010cpu_load\030\004 \001(\001B;\272H"
+    "8\0226\031\000\000\000\000\000\000Y@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I"
+    "\000\000\000\000\000\300R@I\000\000\000\000\000\000Y@\022M\n\021power_consumption\030\005"
+    " \001(\001B2\272H/\022-\031\000\000\000\000\000@\217@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\024@I\000"
+    "\000\000\000\000\000I@I\000\000\000\000\000\000i@\022;\n\003loc\030\006 \001(\0162\".ser.JonG"
+    "uiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\022\'\n"
+    "\026cur_video_rec_dir_year\030\007 \001(\005B\007\272H\004\032\002(\000\022("
+    "\n\027cur_video_rec_dir_month\030\010 \001(\005B\007\272H\004\032\002(\000"
+    "\022&\n\025cur_video_rec_dir_day\030\t \001(\005B\007\272H\004\032\002(\000"
+    "\022\'\n\026cur_video_rec_dir_hour\030\n \001(\005B\007\272H\004\032\002("
+    "\000\022)\n\030cur_video_rec_dir_minute\030\013 \001(\005B\007\272H\004"
+    "\032\002(\000\022)\n\030cur_video_rec_dir_second\030\014 \001(\005B\007"
+    "\272H\004\032\002(\000\022\023\n\013rec_enabled\030\r \001(\010\022\035\n\025importan"
+    "t_rec_enabled\030\016 \001(\010\022\026\n\016low_disk_space\030\017 "
+    "\001(\010\022\025\n\rno_disk_space\030\020 \001(\010\022\035\n\ndisk_space"
+    "\030\021 \001(\005B\t\272H\006\032\004\030d(\000\022\020\n\010tracking\030\022 \001(\010\022\024\n\014v"
+    "ampire_mode\030\023 \001(\010\022\032\n\022stabilization_mode\030"
+    "\024 \001(\010\022\025\n\rgeodesic_mode\030\025 \001(\010\022\022\n\ncv_dumpi"
+    "ng\030\026 \001(\010\022\030\n\020recognition_mode\030\027 \001(\010\022I\n\021ac"
+    "cumulator_state\030\030 \001(\0162\".ser.JonGuiDataAc"
+    "cumulatorStateIdxB\n\272H\007\202\001\004\020\001 \000BNZLgit-cod"
+    "ecommit.eu-central-1.amazonaws.com/v1/re"
+    "pos/jettison/jonp/data/systemb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto = {
     false,
     false,
-    850,
+    1237,
     descriptor_table_protodef_jon_5fshared_5fdata_5fsystem_2eproto,
     "jon_shared_data_system.proto",
     &descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5fsystem_2eproto_deps,
-    1,
+    2,
     1,
     schemas,
     file_default_instances,
@@ -269,40 +279,40 @@ const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double cpu_temperature = 1;
+    // double cpu_temperature = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_)}},
-    // double gpu_temperature = 2;
+    // double gpu_temperature = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_temperature_)}},
-    // double gpu_load = 3;
+    // double gpu_load = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_load_)}},
-    // double cpu_load = 4;
+    // double cpu_load = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_load_)}},
-    // double power_consumption = 5;
+    // double power_consumption = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.power_consumption_)}},
-    // .ser.JonGuiDataSystemLocalizations loc = 6;
+    // .ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.loc_), 63>(),
      {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.loc_)}},
-    // int32 cur_video_rec_dir_year = 7;
+    // int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.cur_video_rec_dir_year_), 63>(),
      {56, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_year_)}},
-    // int32 cur_video_rec_dir_month = 8;
+    // int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.cur_video_rec_dir_month_), 63>(),
      {64, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_month_)}},
-    // int32 cur_video_rec_dir_day = 9;
+    // int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.cur_video_rec_dir_day_), 63>(),
      {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_day_)}},
-    // int32 cur_video_rec_dir_hour = 10;
+    // int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.cur_video_rec_dir_hour_), 63>(),
      {80, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_hour_)}},
-    // int32 cur_video_rec_dir_minute = 11;
+    // int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.cur_video_rec_dir_minute_), 63>(),
      {88, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_minute_)}},
-    // int32 cur_video_rec_dir_second = 12;
+    // int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataSystem, _impl_.cur_video_rec_dir_second_), 63>(),
      {96, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_second_)}},
     // bool rec_enabled = 13;
@@ -317,7 +327,7 @@ const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // bool no_disk_space = 16;
     {::_pbi::TcParser::FastV8S2,
      {384, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.no_disk_space_)}},
-    // int32 disk_space = 17;
+    // int32 disk_space = 17 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastV32S2,
      {392, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.disk_space_)}},
     // bool tracking = 18;
@@ -338,7 +348,7 @@ const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // bool recognition_mode = 23;
     {::_pbi::TcParser::FastV8S2,
      {440, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.recognition_mode_)}},
-    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastV32S2,
      {448, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.accumulator_state_)}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -351,40 +361,40 @@ const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double cpu_temperature = 1;
+    // double cpu_temperature = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_temperature_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double gpu_temperature = 2;
+    // double gpu_temperature = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_temperature_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double gpu_load = 3;
+    // double gpu_load = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.gpu_load_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double cpu_load = 4;
+    // double cpu_load = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cpu_load_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double power_consumption = 5;
+    // double power_consumption = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.power_consumption_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // .ser.JonGuiDataSystemLocalizations loc = 6;
+    // .ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.loc_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // int32 cur_video_rec_dir_year = 7;
+    // int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_year_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 cur_video_rec_dir_month = 8;
+    // int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_month_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 cur_video_rec_dir_day = 9;
+    // int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_day_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 cur_video_rec_dir_hour = 10;
+    // int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_hour_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 cur_video_rec_dir_minute = 11;
+    // int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_minute_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 cur_video_rec_dir_second = 12;
+    // int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.cur_video_rec_dir_second_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // bool rec_enabled = 13;
@@ -399,7 +409,7 @@ const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // bool no_disk_space = 16;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.no_disk_space_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // int32 disk_space = 17;
+    // int32 disk_space = 17 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.disk_space_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // bool tracking = 18;
@@ -420,7 +430,7 @@ const ::_pbi::TcParseTable<5, 24, 0, 0, 2> JonGuiDataSystem::_table_ = {
     // bool recognition_mode = 23;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.recognition_mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataSystem, _impl_.accumulator_state_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -457,84 +467,84 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double cpu_temperature = 1;
+          // double cpu_temperature = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_temperature()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_cpu_temperature(), target);
           }
 
-          // double gpu_temperature = 2;
+          // double gpu_temperature = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_temperature()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_gpu_temperature(), target);
           }
 
-          // double gpu_load = 3;
+          // double gpu_load = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_load()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_gpu_load(), target);
           }
 
-          // double cpu_load = 4;
+          // double cpu_load = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_load()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_cpu_load(), target);
           }
 
-          // double power_consumption = 5;
+          // double power_consumption = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_power_consumption()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_power_consumption(), target);
           }
 
-          // .ser.JonGuiDataSystemLocalizations loc = 6;
+          // .ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = {
           if (this_._internal_loc() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
                 6, this_._internal_loc(), target);
           }
 
-          // int32 cur_video_rec_dir_year = 7;
+          // int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = {
           if (this_._internal_cur_video_rec_dir_year() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<7>(
                     stream, this_._internal_cur_video_rec_dir_year(), target);
           }
 
-          // int32 cur_video_rec_dir_month = 8;
+          // int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = {
           if (this_._internal_cur_video_rec_dir_month() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<8>(
                     stream, this_._internal_cur_video_rec_dir_month(), target);
           }
 
-          // int32 cur_video_rec_dir_day = 9;
+          // int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = {
           if (this_._internal_cur_video_rec_dir_day() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<9>(
                     stream, this_._internal_cur_video_rec_dir_day(), target);
           }
 
-          // int32 cur_video_rec_dir_hour = 10;
+          // int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = {
           if (this_._internal_cur_video_rec_dir_hour() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<10>(
                     stream, this_._internal_cur_video_rec_dir_hour(), target);
           }
 
-          // int32 cur_video_rec_dir_minute = 11;
+          // int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = {
           if (this_._internal_cur_video_rec_dir_minute() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<11>(
                     stream, this_._internal_cur_video_rec_dir_minute(), target);
           }
 
-          // int32 cur_video_rec_dir_second = 12;
+          // int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = {
           if (this_._internal_cur_video_rec_dir_second() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<12>(
@@ -569,7 +579,7 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
                 16, this_._internal_no_disk_space(), target);
           }
 
-          // int32 disk_space = 17;
+          // int32 disk_space = 17 [(.buf.validate.field) = {
           if (this_._internal_disk_space() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteInt32ToArray(
@@ -618,7 +628,7 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
                 23, this_._internal_recognition_mode(), target);
           }
 
-          // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+          // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = {
           if (this_._internal_accumulator_state() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -650,57 +660,57 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double cpu_temperature = 1;
+            // double cpu_temperature = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_temperature()) != 0) {
               total_size += 9;
             }
-            // double gpu_temperature = 2;
+            // double gpu_temperature = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_temperature()) != 0) {
               total_size += 9;
             }
-            // double gpu_load = 3;
+            // double gpu_load = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_gpu_load()) != 0) {
               total_size += 9;
             }
-            // double cpu_load = 4;
+            // double cpu_load = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_cpu_load()) != 0) {
               total_size += 9;
             }
-            // double power_consumption = 5;
+            // double power_consumption = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_power_consumption()) != 0) {
               total_size += 9;
             }
-            // .ser.JonGuiDataSystemLocalizations loc = 6;
+            // .ser.JonGuiDataSystemLocalizations loc = 6 [(.buf.validate.field) = {
             if (this_._internal_loc() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_loc());
             }
-            // int32 cur_video_rec_dir_year = 7;
+            // int32 cur_video_rec_dir_year = 7 [(.buf.validate.field) = {
             if (this_._internal_cur_video_rec_dir_year() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_cur_video_rec_dir_year());
             }
-            // int32 cur_video_rec_dir_month = 8;
+            // int32 cur_video_rec_dir_month = 8 [(.buf.validate.field) = {
             if (this_._internal_cur_video_rec_dir_month() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_cur_video_rec_dir_month());
             }
-            // int32 cur_video_rec_dir_day = 9;
+            // int32 cur_video_rec_dir_day = 9 [(.buf.validate.field) = {
             if (this_._internal_cur_video_rec_dir_day() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_cur_video_rec_dir_day());
             }
-            // int32 cur_video_rec_dir_hour = 10;
+            // int32 cur_video_rec_dir_hour = 10 [(.buf.validate.field) = {
             if (this_._internal_cur_video_rec_dir_hour() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_cur_video_rec_dir_hour());
             }
-            // int32 cur_video_rec_dir_minute = 11;
+            // int32 cur_video_rec_dir_minute = 11 [(.buf.validate.field) = {
             if (this_._internal_cur_video_rec_dir_minute() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_cur_video_rec_dir_minute());
             }
-            // int32 cur_video_rec_dir_second = 12;
+            // int32 cur_video_rec_dir_second = 12 [(.buf.validate.field) = {
             if (this_._internal_cur_video_rec_dir_second() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_cur_video_rec_dir_second());
@@ -721,7 +731,7 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
             if (this_._internal_no_disk_space() != 0) {
               total_size += 3;
             }
-            // int32 disk_space = 17;
+            // int32 disk_space = 17 [(.buf.validate.field) = {
             if (this_._internal_disk_space() != 0) {
               total_size += 2 + ::_pbi::WireFormatLite::Int32Size(
                                               this_._internal_disk_space());
@@ -750,7 +760,7 @@ PROTOBUF_NOINLINE void JonGuiDataSystem::Clear() {
             if (this_._internal_recognition_mode() != 0) {
               total_size += 3;
             }
-            // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24;
+            // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 24 [(.buf.validate.field) = {
             if (this_._internal_accumulator_state() != 0) {
               total_size += 2 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_accumulator_state());

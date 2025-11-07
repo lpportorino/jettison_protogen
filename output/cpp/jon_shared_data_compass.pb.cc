@@ -90,25 +90,38 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\035jon_shared_data_compass.proto\022\003ser\"\247\001\n"
-    "\021JonGuiDataCompass\022\017\n\007azimuth\030\001 \001(\001\022\021\n\te"
-    "levation\030\002 \001(\001\022\014\n\004bank\030\003 \001(\001\022\025\n\roffsetAz"
-    "imuth\030\004 \001(\001\022\027\n\017offsetElevation\030\005 \001(\001\022\033\n\023"
-    "magneticDeclination\030\006 \001(\001\022\023\n\013calibrating"
-    "\030\007 \001(\010BOZMgit-codecommit.eu-central-1.am"
-    "azonaws.com/v1/repos/jettison/jonp/data/"
-    "compassb\006proto3"
+    "\n\035jon_shared_data_compass.proto\022\003ser\032\033bu"
+    "f/validate/validate.proto\"\350\003\n\021JonGuiData"
+    "Compass\022L\n\007azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@"
+    ")\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000"
+    "\000\000\340p@\022E\n\televation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@"
+    ")\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004"
+    "bank\030\003 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000"
+    "\000\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022I\n\roffsetAzimuth\030"
+    "\004 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I"
+    "\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022K\n\017offsetElevation\030\005 \001"
+    "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000"
+    "\000\000\000\000\000I\000\000\000\000\000\000>@\022O\n\023magneticDeclination\030\006 "
+    "\001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000"
+    "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010BOZM"
+    "git-codecommit.eu-central-1.amazonaws.co"
+    "m/v1/repos/jettison/jonp/data/compassb\006p"
+    "roto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto = {
     false,
     false,
-    295,
+    645,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto,
     "jon_shared_data_compass.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_deps,
+    1,
     1,
     schemas,
     file_default_instances,
@@ -217,22 +230,22 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataCompass::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double azimuth = 1;
+    // double azimuth = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_)}},
-    // double elevation = 2;
+    // double elevation = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.elevation_)}},
-    // double bank = 3;
+    // double bank = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.bank_)}},
-    // double offsetAzimuth = 4;
+    // double offsetAzimuth = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetazimuth_)}},
-    // double offsetElevation = 5;
+    // double offsetElevation = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetelevation_)}},
-    // double magneticDeclination = 6;
+    // double magneticDeclination = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.magneticdeclination_)}},
     // bool calibrating = 7;
@@ -241,22 +254,22 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataCompass::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double azimuth = 1;
+    // double azimuth = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation = 2;
+    // double elevation = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.elevation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double bank = 3;
+    // double bank = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.bank_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double offsetAzimuth = 4;
+    // double offsetAzimuth = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetazimuth_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double offsetElevation = 5;
+    // double offsetElevation = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetelevation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double magneticDeclination = 6;
+    // double magneticDeclination = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.magneticdeclination_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool calibrating = 7;
@@ -296,42 +309,42 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double azimuth = 1;
+          // double azimuth = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_azimuth(), target);
           }
 
-          // double elevation = 2;
+          // double elevation = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_elevation(), target);
           }
 
-          // double bank = 3;
+          // double bank = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_bank()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_bank(), target);
           }
 
-          // double offsetAzimuth = 4;
+          // double offsetAzimuth = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_offsetazimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_offsetazimuth(), target);
           }
 
-          // double offsetElevation = 5;
+          // double offsetElevation = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_offsetelevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_offsetelevation(), target);
           }
 
-          // double magneticDeclination = 6;
+          // double magneticDeclination = 6 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_magneticdeclination()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -370,27 +383,27 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double azimuth = 1;
+            // double azimuth = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
               total_size += 9;
             }
-            // double elevation = 2;
+            // double elevation = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
               total_size += 9;
             }
-            // double bank = 3;
+            // double bank = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_bank()) != 0) {
               total_size += 9;
             }
-            // double offsetAzimuth = 4;
+            // double offsetAzimuth = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_offsetazimuth()) != 0) {
               total_size += 9;
             }
-            // double offsetElevation = 5;
+            // double offsetElevation = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_offsetelevation()) != 0) {
               total_size += 9;
             }
-            // double magneticDeclination = 6;
+            // double magneticDeclination = 6 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_magneticdeclination()) != 0) {
               total_size += 9;
             }

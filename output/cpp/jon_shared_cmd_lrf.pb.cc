@@ -524,50 +524,52 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\030jon_shared_cmd_lrf.proto\022\007cmd.Lrf\032\033jon"
-    "_shared_data_types.proto\"\312\005\n\004Root\022#\n\007mea"
-    "sure\030\001 \001(\0132\020.cmd.Lrf.MeasureH\000\022\"\n\007scan_o"
-    "n\030\002 \001(\0132\017.cmd.Lrf.ScanOnH\000\022$\n\010scan_off\030\003"
-    " \001(\0132\020.cmd.Lrf.ScanOffH\000\022\037\n\005start\030\004 \001(\0132"
-    "\016.cmd.Lrf.StartH\000\022\035\n\004stop\030\005 \001(\0132\r.cmd.Lr"
-    "f.StopH\000\022=\n\025target_designator_off\030\006 \001(\0132"
-    "\034.cmd.Lrf.TargetDesignatorOffH\000\022G\n\033targe"
-    "t_designator_on_mode_a\030\007 \001(\0132 .cmd.Lrf.T"
-    "argetDesignatorOnModeAH\000\022G\n\033target_desig"
-    "nator_on_mode_b\030\010 \001(\0132 .cmd.Lrf.TargetDe"
-    "signatorOnModeBH\000\0221\n\017enable_fog_mode\030\t \001"
-    "(\0132\026.cmd.Lrf.EnableFogModeH\000\0223\n\020disable_"
-    "fog_mode\030\n \001(\0132\027.cmd.Lrf.DisableFogModeH"
-    "\000\022-\n\rset_scan_mode\030\013 \001(\0132\024.cmd.Lrf.SetSc"
-    "anModeH\000\022*\n\013new_session\030\014 \001(\0132\023.cmd.Lrf."
-    "NewSessionH\000\022&\n\tget_meteo\030\r \001(\0132\021.cmd.Lr"
-    "f.GetMeteoH\000\022&\n\trefine_on\030\016 \001(\0132\021.cmd.Lr"
-    "f.RefineOnH\000\022(\n\nrefine_off\030\017 \001(\0132\022.cmd.L"
-    "rf.RefineOffH\000B\005\n\003cmd\"\n\n\010GetMeteo\"\007\n\005Sta"
-    "rt\"\006\n\004Stop\"\t\n\007Measure\"\010\n\006ScanOn\"\t\n\007ScanO"
-    "ff\"\013\n\tRefineOff\"\n\n\010RefineOn\"\025\n\023TargetDes"
-    "ignatorOff\"\031\n\027TargetDesignatorOnModeA\"\031\n"
-    "\027TargetDesignatorOnModeB\"\017\n\rEnableFogMod"
-    "e\"\020\n\016DisableFogMode\"8\n\013SetScanMode\022)\n\004mo"
-    "de\030\001 \001(\0162\033.ser.JonGuiDataLrfScanModes\"\014\n"
-    "\nNewSessionBJZHgit-codecommit.eu-central"
-    "-1.amazonaws.com/v1/repos/jettison/jonp/"
-    "cmd/lrfb\006proto3"
+    "\n\030jon_shared_cmd_lrf.proto\022\007cmd.Lrf\032\033buf"
+    "/validate/validate.proto\032\033jon_shared_dat"
+    "a_types.proto\"\321\005\n\004Root\022#\n\007measure\030\001 \001(\0132"
+    "\020.cmd.Lrf.MeasureH\000\022\"\n\007scan_on\030\002 \001(\0132\017.c"
+    "md.Lrf.ScanOnH\000\022$\n\010scan_off\030\003 \001(\0132\020.cmd."
+    "Lrf.ScanOffH\000\022\037\n\005start\030\004 \001(\0132\016.cmd.Lrf.S"
+    "tartH\000\022\035\n\004stop\030\005 \001(\0132\r.cmd.Lrf.StopH\000\022=\n"
+    "\025target_designator_off\030\006 \001(\0132\034.cmd.Lrf.T"
+    "argetDesignatorOffH\000\022G\n\033target_designato"
+    "r_on_mode_a\030\007 \001(\0132 .cmd.Lrf.TargetDesign"
+    "atorOnModeAH\000\022G\n\033target_designator_on_mo"
+    "de_b\030\010 \001(\0132 .cmd.Lrf.TargetDesignatorOnM"
+    "odeBH\000\0221\n\017enable_fog_mode\030\t \001(\0132\026.cmd.Lr"
+    "f.EnableFogModeH\000\0223\n\020disable_fog_mode\030\n "
+    "\001(\0132\027.cmd.Lrf.DisableFogModeH\000\022-\n\rset_sc"
+    "an_mode\030\013 \001(\0132\024.cmd.Lrf.SetScanModeH\000\022*\n"
+    "\013new_session\030\014 \001(\0132\023.cmd.Lrf.NewSessionH"
+    "\000\022&\n\tget_meteo\030\r \001(\0132\021.cmd.Lrf.GetMeteoH"
+    "\000\022&\n\trefine_on\030\016 \001(\0132\021.cmd.Lrf.RefineOnH"
+    "\000\022(\n\nrefine_off\030\017 \001(\0132\022.cmd.Lrf.RefineOf"
+    "fH\000B\014\n\003cmd\022\005\272H\002\010\001\"\n\n\010GetMeteo\"\007\n\005Start\"\006"
+    "\n\004Stop\"\t\n\007Measure\"\010\n\006ScanOn\"\t\n\007ScanOff\"\013"
+    "\n\tRefineOff\"\n\n\010RefineOn\"\025\n\023TargetDesigna"
+    "torOff\"\031\n\027TargetDesignatorOnModeA\"\031\n\027Tar"
+    "getDesignatorOnModeB\"\017\n\rEnableFogMode\"\020\n"
+    "\016DisableFogMode\"D\n\013SetScanMode\0225\n\004mode\030\001"
+    " \001(\0162\033.ser.JonGuiDataLrfScanModesB\n\272H\007\202\001"
+    "\004\020\001 \000\"\014\n\nNewSessionBJZHgit-codecommit.eu"
+    "-central-1.amazonaws.com/v1/repos/jettis"
+    "on/jonp/cmd/lrfb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto = {
     false,
     false,
-    1135,
+    1183,
     descriptor_table_protodef_jon_5fshared_5fcmd_5flrf_2eproto,
     "jon_shared_cmd_lrf.proto",
     &descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto_deps,
-    1,
+    2,
     16,
     schemas,
     file_default_instances,
@@ -2995,13 +2997,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetScanMode::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Lrf::SetScanMode>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataLrfScanModes mode = 1;
+    // .ser.JonGuiDataLrfScanModes mode = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetScanMode, _impl_.mode_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetScanMode, _impl_.mode_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataLrfScanModes mode = 1;
+    // .ser.JonGuiDataLrfScanModes mode = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetScanMode, _impl_.mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -3036,7 +3038,7 @@ PROTOBUF_NOINLINE void SetScanMode::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataLrfScanModes mode = 1;
+          // .ser.JonGuiDataLrfScanModes mode = 1 [(.buf.validate.field) = {
           if (this_._internal_mode() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -3067,7 +3069,7 @@ PROTOBUF_NOINLINE void SetScanMode::Clear() {
           (void)cached_has_bits;
 
            {
-            // .ser.JonGuiDataLrfScanModes mode = 1;
+            // .ser.JonGuiDataLrfScanModes mode = 1 [(.buf.validate.field) = {
             if (this_._internal_mode() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_mode());

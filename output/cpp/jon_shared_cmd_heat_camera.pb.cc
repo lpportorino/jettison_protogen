@@ -1409,103 +1409,119 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n jon_shared_cmd_heat_camera.proto\022\016cmd."
-    "HeatCamera\032\033jon_shared_data_types.proto\""
-    "\326\r\n\004Root\022$\n\004zoom\030\001 \001(\0132\024.cmd.HeatCamera."
-    "ZoomH\000\022)\n\007set_agc\030\002 \001(\0132\026.cmd.HeatCamera"
-    ".SetAGCH\000\0220\n\nset_filter\030\003 \001(\0132\032.cmd.Heat"
-    "Camera.SetFiltersH\000\022&\n\005start\030\004 \001(\0132\025.cmd"
-    ".HeatCamera.StartH\000\022$\n\004stop\030\005 \001(\0132\024.cmd."
-    "HeatCamera.StopH\000\022&\n\005photo\030\006 \001(\0132\025.cmd.H"
-    "eatCamera.PhotoH\000\022)\n\007zoom_in\030\n \001(\0132\026.cmd"
-    ".HeatCamera.ZoomInH\000\022+\n\010zoom_out\030\013 \001(\0132\027"
-    ".cmd.HeatCamera.ZoomOutH\000\022-\n\tzoom_stop\030\014"
-    " \001(\0132\030.cmd.HeatCamera.ZoomStopH\000\022+\n\010focu"
-    "s_in\030\r \001(\0132\027.cmd.HeatCamera.FocusInH\000\022-\n"
-    "\tfocus_out\030\016 \001(\0132\030.cmd.HeatCamera.FocusO"
-    "utH\000\022/\n\nfocus_stop\030\017 \001(\0132\031.cmd.HeatCamer"
-    "a.FocusStopH\000\022.\n\tcalibrate\030\020 \001(\0132\031.cmd.H"
-    "eatCamera.CalibrateH\000\0224\n\rset_dde_level\030\021"
-    " \001(\0132\033.cmd.HeatCamera.SetDDELevelH\000\022/\n\ne"
-    "nable_dde\030\022 \001(\0132\031.cmd.HeatCamera.EnableD"
-    "DEH\000\0221\n\013disable_dde\030\023 \001(\0132\032.cmd.HeatCame"
-    "ra.DisableDDEH\000\0226\n\016set_auto_focus\030\024 \001(\0132"
-    "\034.cmd.HeatCamera.SetAutoFocusH\000\0228\n\017focus"
-    "_step_plus\030\025 \001(\0132\035.cmd.HeatCamera.FocusS"
-    "tepPlusH\000\022:\n\020focus_step_minus\030\026 \001(\0132\036.cm"
-    "d.HeatCamera.FocusStepMinusH\000\0220\n\013set_fx_"
-    "mode\030\027 \001(\0132\031.cmd.HeatCamera.SetFxModeH\000\022"
-    "2\n\014next_fx_mode\030\030 \001(\0132\032.cmd.HeatCamera.N"
-    "extFxModeH\000\0222\n\014prev_fx_mode\030\031 \001(\0132\032.cmd."
-    "HeatCamera.PrevFxModeH\000\022-\n\tget_meteo\030\032 \001"
-    "(\0132\030.cmd.HeatCamera.GetMeteoH\000\022-\n\tshift_"
-    "dde\030\033 \001(\0132\030.cmd.HeatCamera.ShiftDDEH\000\0228\n"
-    "\017refresh_fx_mode\030\034 \001(\0132\035.cmd.HeatCamera."
-    "RefreshFxModeH\000\022/\n\nreset_zoom\030\035 \001(\0132\031.cm"
-    "d.HeatCamera.ResetZoomH\000\0224\n\rsave_to_tabl"
-    "e\030\036 \001(\0132\033.cmd.HeatCamera.SaveToTableH\000\0226"
-    "\n\016set_calib_mode\030\037 \001(\0132\034.cmd.HeatCamera."
-    "SetCalibModeH\000\022E\n\026set_digital_zoom_level"
-    "\030  \001(\0132#.cmd.HeatCamera.SetDigitalZoomLe"
-    "velH\000\0228\n\017set_clahe_level\030! \001(\0132\035.cmd.Hea"
-    "tCamera.SetClaheLevelH\000\022<\n\021shift_clahe_l"
-    "evel\030\" \001(\0132\037.cmd.HeatCamera.ShiftClaheLe"
-    "velH\000\022-\n\tfocus_roi\030# \001(\0132\030.cmd.HeatCamer"
-    "a.FocusROIH\000\022-\n\ttrack_roi\030$ \001(\0132\030.cmd.He"
-    "atCamera.TrackROIH\000\022+\n\010zoom_roi\030% \001(\0132\027."
-    "cmd.HeatCamera.ZoomROIH\000\022\'\n\006fx_roi\030& \001(\013"
-    "2\025.cmd.HeatCamera.FxROIH\000B\005\n\003cmd\"4\n\tSetF"
-    "xMode\022\'\n\004mode\030\001 \001(\0162\031.ser.JonGuiDataFxMo"
-    "deHeat\"\036\n\rSetClaheLevel\022\r\n\005value\030\001 \001(\001\" "
-    "\n\017ShiftClaheLevel\022\r\n\005value\030\001 \001(\001\"\014\n\nNext"
-    "FxMode\"\014\n\nPrevFxMode\"\017\n\rRefreshFxMode\"\013\n"
-    "\tEnableDDE\"\014\n\nDisableDDE\"\031\n\010SetValue\022\r\n\005"
-    "value\030\001 \001(\001\"\034\n\013SetDDELevel\022\r\n\005value\030\001 \001("
-    "\005\"$\n\023SetDigitalZoomLevel\022\r\n\005value\030\001 \001(\001\""
-    "\031\n\010ShiftDDE\022\r\n\005value\030\001 \001(\005\"\010\n\006ZoomIn\"\t\n\007"
-    "ZoomOut\"\n\n\010ZoomStop\"\t\n\007FocusIn\"\n\n\010FocusO"
-    "ut\"\013\n\tFocusStop\"\017\n\rFocusStepPlus\"\020\n\016Focu"
-    "sStepMinus\"\013\n\tCalibrate\"\322\001\n\004Zoom\022A\n\024set_"
-    "zoom_table_value\030\001 \001(\0132!.cmd.HeatCamera."
-    "SetZoomTableValueH\000\022\?\n\023next_zoom_table_p"
-    "os\030\002 \001(\0132 .cmd.HeatCamera.NextZoomTableP"
-    "osH\000\022\?\n\023prev_zoom_table_pos\030\003 \001(\0132 .cmd."
-    "HeatCamera.PrevZoomTablePosH\000B\005\n\003cmd\"\022\n\020"
-    "NextZoomTablePos\"\022\n\020PrevZoomTablePos\"\016\n\014"
-    "SetCalibMode\"\"\n\021SetZoomTableValue\022\r\n\005val"
-    "ue\030\001 \001(\005\"@\n\006SetAGC\0226\n\005value\030\001 \001(\0162\'.ser."
-    "JonGuiDataVideoChannelHeatAGCModes\"C\n\nSe"
-    "tFilters\0225\n\005value\030\001 \001(\0162&.ser.JonGuiData"
-    "VideoChannelHeatFilters\"\007\n\005Start\"\006\n\004Stop"
-    "\"\006\n\004Halt\"\007\n\005Photo\"\n\n\010GetMeteo\"\035\n\014SetAuto"
-    "Focus\022\r\n\005value\030\001 \001(\010\"\013\n\tResetZoom\"\r\n\013Sav"
-    "eToTable\"b\n\010FocusROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002"
-    " \001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\022\022\n\nframe_ti"
-    "me\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\"b\n\010TrackROI"
-    "\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 \001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002"
-    "y2\030\004 \001(\001\022\022\n\nframe_time\030\005 \001(\004\022\022\n\nstate_ti"
-    "me\030\006 \001(\004\"a\n\007ZoomROI\022\n\n\002x1\030\001 \001(\001\022\n\n\002y1\030\002 "
-    "\001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004 \001(\001\022\022\n\nframe_tim"
-    "e\030\005 \001(\004\022\022\n\nstate_time\030\006 \001(\004\"_\n\005FxROI\022\n\n\002"
-    "x1\030\001 \001(\001\022\n\n\002y1\030\002 \001(\001\022\n\n\002x2\030\003 \001(\001\022\n\n\002y2\030\004"
-    " \001(\001\022\022\n\nframe_time\030\005 \001(\004\022\022\n\nstate_time\030\006"
-    " \001(\004BRZPgit-codecommit.eu-central-1.amaz"
-    "onaws.com/v1/repos/jettison/jonp/cmd/hea"
-    "t_camerab\006proto3"
+    "HeatCamera\032\033buf/validate/validate.proto\032"
+    "\033jon_shared_data_types.proto\"\335\r\n\004Root\022$\n"
+    "\004zoom\030\001 \001(\0132\024.cmd.HeatCamera.ZoomH\000\022)\n\007s"
+    "et_agc\030\002 \001(\0132\026.cmd.HeatCamera.SetAGCH\000\0220"
+    "\n\nset_filter\030\003 \001(\0132\032.cmd.HeatCamera.SetF"
+    "iltersH\000\022&\n\005start\030\004 \001(\0132\025.cmd.HeatCamera"
+    ".StartH\000\022$\n\004stop\030\005 \001(\0132\024.cmd.HeatCamera."
+    "StopH\000\022&\n\005photo\030\006 \001(\0132\025.cmd.HeatCamera.P"
+    "hotoH\000\022)\n\007zoom_in\030\n \001(\0132\026.cmd.HeatCamera"
+    ".ZoomInH\000\022+\n\010zoom_out\030\013 \001(\0132\027.cmd.HeatCa"
+    "mera.ZoomOutH\000\022-\n\tzoom_stop\030\014 \001(\0132\030.cmd."
+    "HeatCamera.ZoomStopH\000\022+\n\010focus_in\030\r \001(\0132"
+    "\027.cmd.HeatCamera.FocusInH\000\022-\n\tfocus_out\030"
+    "\016 \001(\0132\030.cmd.HeatCamera.FocusOutH\000\022/\n\nfoc"
+    "us_stop\030\017 \001(\0132\031.cmd.HeatCamera.FocusStop"
+    "H\000\022.\n\tcalibrate\030\020 \001(\0132\031.cmd.HeatCamera.C"
+    "alibrateH\000\0224\n\rset_dde_level\030\021 \001(\0132\033.cmd."
+    "HeatCamera.SetDDELevelH\000\022/\n\nenable_dde\030\022"
+    " \001(\0132\031.cmd.HeatCamera.EnableDDEH\000\0221\n\013dis"
+    "able_dde\030\023 \001(\0132\032.cmd.HeatCamera.DisableD"
+    "DEH\000\0226\n\016set_auto_focus\030\024 \001(\0132\034.cmd.HeatC"
+    "amera.SetAutoFocusH\000\0228\n\017focus_step_plus\030"
+    "\025 \001(\0132\035.cmd.HeatCamera.FocusStepPlusH\000\022:"
+    "\n\020focus_step_minus\030\026 \001(\0132\036.cmd.HeatCamer"
+    "a.FocusStepMinusH\000\0220\n\013set_fx_mode\030\027 \001(\0132"
+    "\031.cmd.HeatCamera.SetFxModeH\000\0222\n\014next_fx_"
+    "mode\030\030 \001(\0132\032.cmd.HeatCamera.NextFxModeH\000"
+    "\0222\n\014prev_fx_mode\030\031 \001(\0132\032.cmd.HeatCamera."
+    "PrevFxModeH\000\022-\n\tget_meteo\030\032 \001(\0132\030.cmd.He"
+    "atCamera.GetMeteoH\000\022-\n\tshift_dde\030\033 \001(\0132\030"
+    ".cmd.HeatCamera.ShiftDDEH\000\0228\n\017refresh_fx"
+    "_mode\030\034 \001(\0132\035.cmd.HeatCamera.RefreshFxMo"
+    "deH\000\022/\n\nreset_zoom\030\035 \001(\0132\031.cmd.HeatCamer"
+    "a.ResetZoomH\000\0224\n\rsave_to_table\030\036 \001(\0132\033.c"
+    "md.HeatCamera.SaveToTableH\000\0226\n\016set_calib"
+    "_mode\030\037 \001(\0132\034.cmd.HeatCamera.SetCalibMod"
+    "eH\000\022E\n\026set_digital_zoom_level\030  \001(\0132#.cm"
+    "d.HeatCamera.SetDigitalZoomLevelH\000\0228\n\017se"
+    "t_clahe_level\030! \001(\0132\035.cmd.HeatCamera.Set"
+    "ClaheLevelH\000\022<\n\021shift_clahe_level\030\" \001(\0132"
+    "\037.cmd.HeatCamera.ShiftClaheLevelH\000\022-\n\tfo"
+    "cus_roi\030# \001(\0132\030.cmd.HeatCamera.FocusROIH"
+    "\000\022-\n\ttrack_roi\030$ \001(\0132\030.cmd.HeatCamera.Tr"
+    "ackROIH\000\022+\n\010zoom_roi\030% \001(\0132\027.cmd.HeatCam"
+    "era.ZoomROIH\000\022\'\n\006fx_roi\030& \001(\0132\025.cmd.Heat"
+    "Camera.FxROIH\000B\014\n\003cmd\022\005\272H\002\010\001\"@\n\tSetFxMod"
+    "e\0223\n\004mode\030\001 \001(\0162\031.ser.JonGuiDataFxModeHe"
+    "atB\n\272H\007\202\001\004\020\001 \000\"7\n\rSetClaheLevel\022&\n\005value"
+    "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\"9\n\017Shift"
+    "ClaheLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360"
+    "\?)\000\000\000\000\000\000\360\277\"\014\n\nNextFxMode\"\014\n\nPrevFxMode\"\017"
+    "\n\rRefreshFxMode\"\013\n\tEnableDDE\"\014\n\nDisableD"
+    "DE\"2\n\010SetValue\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000"
+    "\000\000\000\360\?)\000\000\000\000\000\000\000\000\"\'\n\013SetDDELevel\022\030\n\005value\030\001"
+    " \001(\005B\t\272H\006\032\004\030d(\000\"4\n\023SetDigitalZoomLevel\022\035"
+    "\n\005value\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360\?\"-\n\010ShiftDD"
+    "E\022!\n\005value\030\001 \001(\005B\022\272H\017\032\r\030d(\234\377\377\377\377\377\377\377\377\001\"\010\n\006"
+    "ZoomIn\"\t\n\007ZoomOut\"\n\n\010ZoomStop\"\t\n\007FocusIn"
+    "\"\n\n\010FocusOut\"\013\n\tFocusStop\"\017\n\rFocusStepPl"
+    "us\"\020\n\016FocusStepMinus\"\013\n\tCalibrate\"\331\001\n\004Zo"
+    "om\022A\n\024set_zoom_table_value\030\001 \001(\0132!.cmd.H"
+    "eatCamera.SetZoomTableValueH\000\022\?\n\023next_zo"
+    "om_table_pos\030\002 \001(\0132 .cmd.HeatCamera.Next"
+    "ZoomTablePosH\000\022\?\n\023prev_zoom_table_pos\030\003 "
+    "\001(\0132 .cmd.HeatCamera.PrevZoomTablePosH\000B"
+    "\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoomTablePos\"\022\n\020Pre"
+    "vZoomTablePos\"\016\n\014SetCalibMode\"+\n\021SetZoom"
+    "TableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"L\n\006Se"
+    "tAGC\022B\n\005value\030\001 \001(\0162\'.ser.JonGuiDataVide"
+    "oChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\"O\n\nSetF"
+    "ilters\022A\n\005value\030\001 \001(\0162&.ser.JonGuiDataVi"
+    "deoChannelHeatFiltersB\n\272H\007\202\001\004\020\001 \000\"\007\n\005Sta"
+    "rt\"\006\n\004Stop\"\006\n\004Halt\"\007\n\005Photo\"\n\n\010GetMeteo\""
+    "\035\n\014SetAutoFocus\022\r\n\005value\030\001 \001(\010\"\013\n\tResetZ"
+    "oom\"\r\n\013SaveToTable\"\306\001\n\010FocusROI\022#\n\002x1\030\001 "
+    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001"
+    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272"
+    "H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022"
+    "\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022"
+    "\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x1\030\001"
+    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001("
+    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027"
+    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024"
+    "\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004"
+    "\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x1\030\001"
+    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001("
+    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027"
+    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024"
+    "\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004"
+    "\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030\001 \001"
+    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B"
+    "\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H"
+    "\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022\022"
+    "\n\nstate_time\030\006 \001(\004BRZPgit-codecommit.eu-"
+    "central-1.amazonaws.com/v1/repos/jettiso"
+    "n/jonp/cmd/heat_camerab\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto = {
     false,
     false,
-    3296,
+    3910,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto,
     "jon_shared_cmd_heat_camera.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto_deps,
-    1,
+    2,
     41,
     schemas,
     file_default_instances,
@@ -3576,13 +3592,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetFxMode::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetFxMode>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataFxModeHeat mode = 1;
+    // .ser.JonGuiDataFxModeHeat mode = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetFxMode, _impl_.mode_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetFxMode, _impl_.mode_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataFxModeHeat mode = 1;
+    // .ser.JonGuiDataFxModeHeat mode = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetFxMode, _impl_.mode_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -3617,7 +3633,7 @@ PROTOBUF_NOINLINE void SetFxMode::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataFxModeHeat mode = 1;
+          // .ser.JonGuiDataFxModeHeat mode = 1 [(.buf.validate.field) = {
           if (this_._internal_mode() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -3648,7 +3664,7 @@ PROTOBUF_NOINLINE void SetFxMode::Clear() {
           (void)cached_has_bits;
 
            {
-            // .ser.JonGuiDataFxModeHeat mode = 1;
+            // .ser.JonGuiDataFxModeHeat mode = 1 [(.buf.validate.field) = {
             if (this_._internal_mode() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_mode());
@@ -3783,13 +3799,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetClaheLevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetClaheLevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetClaheLevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetClaheLevel, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -3824,7 +3840,7 @@ PROTOBUF_NOINLINE void SetClaheLevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -3855,7 +3871,7 @@ PROTOBUF_NOINLINE void SetClaheLevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }
@@ -3989,13 +4005,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> ShiftClaheLevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::ShiftClaheLevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftClaheLevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ShiftClaheLevel, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -4030,7 +4046,7 @@ PROTOBUF_NOINLINE void ShiftClaheLevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -4061,7 +4077,7 @@ PROTOBUF_NOINLINE void ShiftClaheLevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }
@@ -4710,13 +4726,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetValue::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetValue>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetValue, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetValue, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -4751,7 +4767,7 @@ PROTOBUF_NOINLINE void SetValue::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -4782,7 +4798,7 @@ PROTOBUF_NOINLINE void SetValue::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }
@@ -4916,13 +4932,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetDDELevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetDDELevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 value = 1;
+    // int32 value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetDDELevel, _impl_.value_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetDDELevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 value = 1;
+    // int32 value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetDDELevel, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }},
@@ -4957,7 +4973,7 @@ PROTOBUF_NOINLINE void SetDDELevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 value = 1;
+          // int32 value = 1 [(.buf.validate.field) = {
           if (this_._internal_value() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<1>(
@@ -4988,7 +5004,7 @@ PROTOBUF_NOINLINE void SetDDELevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // int32 value = 1;
+            // int32 value = 1 [(.buf.validate.field) = {
             if (this_._internal_value() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_value());
@@ -5123,13 +5139,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetDigitalZoomLevel::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetDigitalZoomLevel>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetDigitalZoomLevel, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetDigitalZoomLevel, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -5164,7 +5180,7 @@ PROTOBUF_NOINLINE void SetDigitalZoomLevel::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -5195,7 +5211,7 @@ PROTOBUF_NOINLINE void SetDigitalZoomLevel::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }
@@ -5329,13 +5345,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> ShiftDDE::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::ShiftDDE>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 value = 1;
+    // int32 value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShiftDDE, _impl_.value_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftDDE, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 value = 1;
+    // int32 value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ShiftDDE, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }},
@@ -5370,7 +5386,7 @@ PROTOBUF_NOINLINE void ShiftDDE::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 value = 1;
+          // int32 value = 1 [(.buf.validate.field) = {
           if (this_._internal_value() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<1>(
@@ -5401,7 +5417,7 @@ PROTOBUF_NOINLINE void ShiftDDE::Clear() {
           (void)cached_has_bits;
 
            {
-            // int32 value = 1;
+            // int32 value = 1 [(.buf.validate.field) = {
             if (this_._internal_value() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_value());
@@ -7169,13 +7185,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetZoomTableValue::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetZoomTableValue>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 value = 1;
+    // int32 value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetZoomTableValue, _impl_.value_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetZoomTableValue, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 value = 1;
+    // int32 value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetZoomTableValue, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
   }},
@@ -7210,7 +7226,7 @@ PROTOBUF_NOINLINE void SetZoomTableValue::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int32 value = 1;
+          // int32 value = 1 [(.buf.validate.field) = {
           if (this_._internal_value() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt32ToArrayWithField<1>(
@@ -7241,7 +7257,7 @@ PROTOBUF_NOINLINE void SetZoomTableValue::Clear() {
           (void)cached_has_bits;
 
            {
-            // int32 value = 1;
+            // int32 value = 1 [(.buf.validate.field) = {
             if (this_._internal_value() != 0) {
               total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
                   this_._internal_value());
@@ -7376,13 +7392,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetAGC::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetAGC>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1;
+    // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetAGC, _impl_.value_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetAGC, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1;
+    // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetAGC, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -7417,7 +7433,7 @@ PROTOBUF_NOINLINE void SetAGC::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1;
+          // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1 [(.buf.validate.field) = {
           if (this_._internal_value() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -7448,7 +7464,7 @@ PROTOBUF_NOINLINE void SetAGC::Clear() {
           (void)cached_has_bits;
 
            {
-            // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1;
+            // .ser.JonGuiDataVideoChannelHeatAGCModes value = 1 [(.buf.validate.field) = {
             if (this_._internal_value() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_value());
@@ -7583,13 +7599,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetFilters::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::HeatCamera::SetFilters>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataVideoChannelHeatFilters value = 1;
+    // .ser.JonGuiDataVideoChannelHeatFilters value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetFilters, _impl_.value_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetFilters, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataVideoChannelHeatFilters value = 1;
+    // .ser.JonGuiDataVideoChannelHeatFilters value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetFilters, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -7624,7 +7640,7 @@ PROTOBUF_NOINLINE void SetFilters::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataVideoChannelHeatFilters value = 1;
+          // .ser.JonGuiDataVideoChannelHeatFilters value = 1 [(.buf.validate.field) = {
           if (this_._internal_value() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -7655,7 +7671,7 @@ PROTOBUF_NOINLINE void SetFilters::Clear() {
           (void)cached_has_bits;
 
            {
-            // .ser.JonGuiDataVideoChannelHeatFilters value = 1;
+            // .ser.JonGuiDataVideoChannelHeatFilters value = 1 [(.buf.validate.field) = {
             if (this_._internal_value() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_value());
@@ -8723,16 +8739,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> FocusROI::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_)}},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y1_)}},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x2_)}},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_)}},
     // uint64 frame_time = 5;
@@ -8745,16 +8761,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> FocusROI::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.x2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FocusROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint64 frame_time = 5;
@@ -8797,28 +8813,28 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double x1 = 1;
+          // double x1 = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_x1(), target);
           }
 
-          // double y1 = 2;
+          // double y1 = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_y1(), target);
           }
 
-          // double x2 = 3;
+          // double x2 = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_x2(), target);
           }
 
-          // double y2 = 4;
+          // double y2 = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -8864,19 +8880,19 @@ PROTOBUF_NOINLINE void FocusROI::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double x1 = 1;
+            // double x1 = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
               total_size += 9;
             }
-            // double y1 = 2;
+            // double y1 = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
               total_size += 9;
             }
-            // double x2 = 3;
+            // double x2 = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
               total_size += 9;
             }
-            // double y2 = 4;
+            // double y2 = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
@@ -9046,16 +9062,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> TrackROI::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x1_)}},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y1_)}},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x2_)}},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y2_)}},
     // uint64 frame_time = 5;
@@ -9068,16 +9084,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> TrackROI::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.x2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(TrackROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint64 frame_time = 5;
@@ -9120,28 +9136,28 @@ PROTOBUF_NOINLINE void TrackROI::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double x1 = 1;
+          // double x1 = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_x1(), target);
           }
 
-          // double y1 = 2;
+          // double y1 = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_y1(), target);
           }
 
-          // double x2 = 3;
+          // double x2 = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_x2(), target);
           }
 
-          // double y2 = 4;
+          // double y2 = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -9187,19 +9203,19 @@ PROTOBUF_NOINLINE void TrackROI::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double x1 = 1;
+            // double x1 = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
               total_size += 9;
             }
-            // double y1 = 2;
+            // double y1 = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
               total_size += 9;
             }
-            // double x2 = 3;
+            // double x2 = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
               total_size += 9;
             }
-            // double y2 = 4;
+            // double y2 = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
@@ -9369,16 +9385,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> ZoomROI::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x1_)}},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y1_)}},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x2_)}},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y2_)}},
     // uint64 frame_time = 5;
@@ -9391,16 +9407,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> ZoomROI::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.x2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ZoomROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint64 frame_time = 5;
@@ -9443,28 +9459,28 @@ PROTOBUF_NOINLINE void ZoomROI::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double x1 = 1;
+          // double x1 = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_x1(), target);
           }
 
-          // double y1 = 2;
+          // double y1 = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_y1(), target);
           }
 
-          // double x2 = 3;
+          // double x2 = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_x2(), target);
           }
 
-          // double y2 = 4;
+          // double y2 = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -9510,19 +9526,19 @@ PROTOBUF_NOINLINE void ZoomROI::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double x1 = 1;
+            // double x1 = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
               total_size += 9;
             }
-            // double y1 = 2;
+            // double y1 = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
               total_size += 9;
             }
-            // double x2 = 3;
+            // double x2 = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
               total_size += 9;
             }
-            // double y2 = 4;
+            // double y2 = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }
@@ -9692,16 +9708,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> FxROI::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(FxROI, _impl_.x1_)}},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(FxROI, _impl_.y1_)}},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(FxROI, _impl_.x2_)}},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(FxROI, _impl_.y2_)}},
     // uint64 frame_time = 5;
@@ -9714,16 +9730,16 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> FxROI::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // double x1 = 1;
+    // double x1 = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FxROI, _impl_.x1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y1 = 2;
+    // double y1 = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FxROI, _impl_.y1_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double x2 = 3;
+    // double x2 = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FxROI, _impl_.x2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y2 = 4;
+    // double y2 = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(FxROI, _impl_.y2_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint64 frame_time = 5;
@@ -9766,28 +9782,28 @@ PROTOBUF_NOINLINE void FxROI::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double x1 = 1;
+          // double x1 = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_x1(), target);
           }
 
-          // double y1 = 2;
+          // double y1 = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_y1(), target);
           }
 
-          // double x2 = 3;
+          // double x2 = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_x2(), target);
           }
 
-          // double y2 = 4;
+          // double y2 = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -9833,19 +9849,19 @@ PROTOBUF_NOINLINE void FxROI::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double x1 = 1;
+            // double x1 = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x1()) != 0) {
               total_size += 9;
             }
-            // double y1 = 2;
+            // double y1 = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y1()) != 0) {
               total_size += 9;
             }
-            // double x2 = 3;
+            // double x2 = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x2()) != 0) {
               total_size += 9;
             }
-            // double y2 = 4;
+            // double y2 = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y2()) != 0) {
               total_size += 9;
             }

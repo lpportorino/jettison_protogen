@@ -126,8 +126,10 @@ output/
 - Compatible with Python 3.x
 
 ### C++
-- Standard protocol buffer generation
-- No validation support (use protovalidate-cc if needed)
+- Standard protocol buffer generation with buf.validate annotations preserved
+- Generated code includes validation metadata as field options/extensions
+- Runtime validation requires protovalidate-cc library (see usage example below)
+- Applications must build and link against [protovalidate-cc](https://github.com/bufbuild/protovalidate-cc)
 
 ### JSON Descriptors
 - Complete FileDescriptorSet in JSON format generated using buf CLI
@@ -199,6 +201,63 @@ The Docker image includes:
 - All necessary protoc plugins
 
 ## Examples
+
+### Using C++ Validation
+
+C++ bindings now include buf.validate metadata when generated. To use validation at runtime:
+
+```cpp
+#include <buf/validate/validator.h>
+#include "jon_shared_data_camera_day.pb.h"
+
+// Create validator factory and validator
+auto factory_result = buf::validate::ValidatorFactory::New();
+if (!factory_result.ok()) {
+    std::cerr << "Failed to create validator factory" << std::endl;
+    return 1;
+}
+
+google::protobuf::Arena arena;
+buf::validate::Validator validator = factory_result.value()->NewValidator(&arena);
+
+// Create and populate your message
+ser::JonGuiDataCameraDay message;
+message.set_zoom_pos(1.5);  // Invalid: exceeds max 1.0
+
+// Validate the message
+auto violations_result = validator.Validate(message);
+if (!violations_result.ok()) {
+    std::cerr << "Validation error: " << violations_result.status() << std::endl;
+    return 1;
+}
+
+buf::validate::Violations violations = violations_result.value();
+if (violations.violations_size() > 0) {
+    // Handle validation errors
+    for (const auto& violation : violations.violations()) {
+        std::cerr << "Field: " << violation.field_path() << std::endl;
+        std::cerr << "Constraint: " << violation.constraint_id() << std::endl;
+        std::cerr << "Message: " << violation.message() << std::endl;
+    }
+}
+```
+
+**Dependencies**:
+- [protovalidate-cc](https://github.com/bufbuild/protovalidate-cc) v1.0.0-rc.2+
+- [CEL-C++](https://github.com/google/cel-cpp) v0.11.0+
+- Add to your CMakeLists.txt or build system
+
+**CMake Example**:
+```cmake
+find_package(protobuf-validate-cc REQUIRED)
+find_package(cel-cpp REQUIRED)
+
+target_link_libraries(your_target
+    PRIVATE
+    protovalidate-cc::protovalidate-cc
+    cel-cpp::cel
+)
+```
 
 ### Using Java Validation
 

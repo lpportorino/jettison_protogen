@@ -91,24 +91,36 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\'jon_shared_data_actual_space_time.prot"
-    "o\022\003ser\"\227\001\n\031JonGuiDataActualSpaceTime\022\017\n\007"
-    "azimuth\030\001 \001(\001\022\021\n\televation\030\002 \001(\001\022\014\n\004bank"
-    "\030\003 \001(\001\022\020\n\010latitude\030\004 \001(\001\022\021\n\tlongitude\030\005 "
-    "\001(\001\022\020\n\010altitude\030\006 \001(\001\022\021\n\ttimestamp\030\007 \001(\003"
-    "BYZWgit-codecommit.eu-central-1.amazonaw"
-    "s.com/v1/repos/jettison/jonp/data/actual"
-    "_space_timeb\006proto3"
+    "o\022\003ser\032\033buf/validate/validate.proto\"\306\003\n\031"
+    "JonGuiDataActualSpaceTime\022L\n\007azimuth\030\001 \001"
+    "(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000"
+    "\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022E\n\televation\030\002 \001"
+    "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000"
+    "\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004bank\030\003 \001(\001B2\272H/\022-\021\000\000\000\000"
+    "\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@"
+    "\022D\n\010latitude\030\004 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000"
+    "\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022E\n\tlongit"
+    "ude\030\005 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000"
+    "\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022)\n\010altitude\030\006 \001(\001B"
+    "\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\022\032\n\ttimestamp\030\007 "
+    "\001(\003B\007\272H\004\"\002(\000BYZWgit-codecommit.eu-centra"
+    "l-1.amazonaws.com/v1/repos/jettison/jonp"
+    "/data/actual_space_timeb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto = {
     false,
     false,
-    299,
+    631,
     descriptor_table_protodef_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto,
     "jon_shared_data_actual_space_time.proto",
     &descriptor_table_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fdata_5factual_5fspace_5ftime_2eproto_deps,
+    1,
     1,
     schemas,
     file_default_instances,
@@ -217,49 +229,49 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataActualSpaceTime::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double azimuth = 1;
+    // double azimuth = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.azimuth_)}},
-    // double elevation = 2;
+    // double elevation = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.elevation_)}},
-    // double bank = 3;
+    // double bank = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.bank_)}},
-    // double latitude = 4;
+    // double latitude = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.latitude_)}},
-    // double longitude = 5;
+    // double longitude = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.longitude_)}},
-    // double altitude = 6;
+    // double altitude = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.altitude_)}},
-    // int64 timestamp = 7;
+    // int64 timestamp = 7 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonGuiDataActualSpaceTime, _impl_.timestamp_), 63>(),
      {56, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.timestamp_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double azimuth = 1;
+    // double azimuth = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.azimuth_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double elevation = 2;
+    // double elevation = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.elevation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double bank = 3;
+    // double bank = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.bank_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double latitude = 4;
+    // double latitude = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.latitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double longitude = 5;
+    // double longitude = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.longitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double altitude = 6;
+    // double altitude = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.altitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // int64 timestamp = 7;
+    // int64 timestamp = 7 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataActualSpaceTime, _impl_.timestamp_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
   }},
@@ -296,49 +308,49 @@ PROTOBUF_NOINLINE void JonGuiDataActualSpaceTime::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double azimuth = 1;
+          // double azimuth = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_azimuth(), target);
           }
 
-          // double elevation = 2;
+          // double elevation = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_elevation(), target);
           }
 
-          // double bank = 3;
+          // double bank = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_bank()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_bank(), target);
           }
 
-          // double latitude = 4;
+          // double latitude = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_latitude(), target);
           }
 
-          // double longitude = 5;
+          // double longitude = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_longitude(), target);
           }
 
-          // double altitude = 6;
+          // double altitude = 6 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 6, this_._internal_altitude(), target);
           }
 
-          // int64 timestamp = 7;
+          // int64 timestamp = 7 [(.buf.validate.field) = {
           if (this_._internal_timestamp() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt64ToArrayWithField<7>(
@@ -370,31 +382,31 @@ PROTOBUF_NOINLINE void JonGuiDataActualSpaceTime::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double azimuth = 1;
+            // double azimuth = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
               total_size += 9;
             }
-            // double elevation = 2;
+            // double elevation = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_elevation()) != 0) {
               total_size += 9;
             }
-            // double bank = 3;
+            // double bank = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_bank()) != 0) {
               total_size += 9;
             }
-            // double latitude = 4;
+            // double latitude = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
               total_size += 9;
             }
-            // double longitude = 5;
+            // double longitude = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
               total_size += 9;
             }
-            // double altitude = 6;
+            // double altitude = 6 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
               total_size += 9;
             }
-            // int64 timestamp = 7;
+            // int64 timestamp = 7 [(.buf.validate.field) = {
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());

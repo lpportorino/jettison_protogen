@@ -169,6 +169,13 @@ make versions
 - Removes all validation annotations via AWK preprocessing
 - Generates fixed-size structs suitable for microcontrollers
 
+**C++**
+- Standard protoc generation with buf.validate annotations preserved
+- Annotations embedded as field options/extensions in generated code
+- Includes `buf/validate/validate.pb.h` header references
+- Runtime validation requires protovalidate-cc and CEL-C++ libraries (not included in generated output)
+- Applications must link against protovalidate-cc for runtime validation
+
 **Go**
 - Standard generation uses official protoc-gen-go
 - Validation uses envoyproxy/protoc-gen-validate
@@ -197,13 +204,19 @@ make versions
 ### Validation Support
 
 Proto files use buf.validate annotations for validation constraints. The validated outputs include these annotations in the generated code:
-- Go: Standard protobuf generation with buf.validate annotations preserved
-- Java: Standard protobuf generation with buf.validate annotations preserved
-- Runtime validation: Applications should use the protovalidate libraries:
-  - Go: github.com/bufbuild/protovalidate-go
-  - Java: build.buf.protovalidate
+- **C++**: Standard protobuf generation with buf.validate annotations preserved as field options/extensions
+- **Go**: Standard protobuf generation with buf.validate annotations preserved
+- **Java**: Standard protobuf generation with buf.validate annotations preserved
 
-Note: We migrated from protoc-gen-validate (PGV) to buf protovalidate for better compatibility and modern validation approach.
+Runtime validation requires the protovalidate libraries:
+- **C++**: https://github.com/bufbuild/protovalidate-cc (requires CEL-C++ 0.11.0+)
+- **Go**: github.com/bufbuild/protovalidate-go
+- **Java**: build.buf.protovalidate
+
+**Important Notes**:
+- C++ generated code includes buf.validate header references, but applications must build and link against protovalidate-cc separately
+- The protovalidate-cc library is not included in the Docker image or generated output (it's only needed at runtime by applications)
+- We migrated from protoc-gen-validate (PGV) to buf protovalidate for better compatibility and modern validation approach
 
 ### JSON Descriptor Generation
 
@@ -248,8 +261,8 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 
 ## Known Limitations
 
-1. C++ validation not supported (library compatibility issues)
-2. nanopb requires annotation removal (doesn't support extensions)
+1. C++ validation annotations are preserved in generated code, but runtime validation requires applications to build and link protovalidate-cc separately
+2. nanopb (C) requires annotation removal (doesn't support extensions)
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution

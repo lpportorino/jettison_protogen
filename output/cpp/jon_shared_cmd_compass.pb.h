@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -736,7 +737,7 @@ class SetOffsetAngleElevation final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -926,7 +927,7 @@ class SetOffsetAngleAzimuth final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -1116,7 +1117,7 @@ class SetMagneticDeclination final : public ::google::protobuf::Message
   enum : int {
     kValueFieldNumber = 1,
   };
-  // double value = 1;
+  // double value = 1 [(.buf.validate.field) = {
   void clear_value() ;
   double value() const;
   void set_value(double value);
@@ -3400,7 +3401,7 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetMagneticDeclination
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetMagneticDeclination::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -3426,7 +3427,7 @@ inline void SetMagneticDeclination::_internal_set_value(double value) {
 
 // SetOffsetAngleAzimuth
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetOffsetAngleAzimuth::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;
@@ -3452,7 +3453,7 @@ inline void SetOffsetAngleAzimuth::_internal_set_value(double value) {
 
 // SetOffsetAngleElevation
 
-// double value = 1;
+// double value = 1 [(.buf.validate.field) = {
 inline void SetOffsetAngleElevation::clear_value() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = 0;

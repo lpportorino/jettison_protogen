@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -2300,7 +2301,7 @@ class SetLocalization final : public ::google::protobuf::Message
   enum : int {
     kLocFieldNumber = 1,
   };
-  // .ser.JonGuiDataSystemLocalizations loc = 1;
+  // .ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = {
   void clear_loc() ;
   ::ser::JonGuiDataSystemLocalizations loc() const;
   void set_loc(::ser::JonGuiDataSystemLocalizations value);
@@ -6412,7 +6413,7 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetLocalization
 
-// .ser.JonGuiDataSystemLocalizations loc = 1;
+// .ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = {
 inline void SetLocalization::clear_loc() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.loc_ = 0;

@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -223,7 +224,7 @@ class JonGuiDataRecOsd final : public ::google::protobuf::Message
     kDayCrosshairOffsetHorizontalFieldNumber = 6,
     kDayCrosshairOffsetVerticalFieldNumber = 7,
   };
-  // .ser.JonGuiDataRecOsdScreen screen = 1;
+  // .ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = {
   void clear_screen() ;
   ::ser::JonGuiDataRecOsdScreen screen() const;
   void set_screen(::ser::JonGuiDataRecOsdScreen value);
@@ -346,7 +347,7 @@ class JonGuiDataRecOsd final : public ::google::protobuf::Message
 
 // JonGuiDataRecOsd
 
-// .ser.JonGuiDataRecOsdScreen screen = 1;
+// .ser.JonGuiDataRecOsdScreen screen = 1 [(.buf.validate.field) = {
 inline void JonGuiDataRecOsd::clear_screen() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.screen_ = 0;

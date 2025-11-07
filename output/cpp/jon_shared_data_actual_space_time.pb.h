@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -222,7 +223,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
     kAltitudeFieldNumber = 6,
     kTimestampFieldNumber = 7,
   };
-  // double azimuth = 1;
+  // double azimuth = 1 [(.buf.validate.field) = {
   void clear_azimuth() ;
   double azimuth() const;
   void set_azimuth(double value);
@@ -232,7 +233,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_azimuth(double value);
 
   public:
-  // double elevation = 2;
+  // double elevation = 2 [(.buf.validate.field) = {
   void clear_elevation() ;
   double elevation() const;
   void set_elevation(double value);
@@ -242,7 +243,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_elevation(double value);
 
   public:
-  // double bank = 3;
+  // double bank = 3 [(.buf.validate.field) = {
   void clear_bank() ;
   double bank() const;
   void set_bank(double value);
@@ -252,7 +253,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_bank(double value);
 
   public:
-  // double latitude = 4;
+  // double latitude = 4 [(.buf.validate.field) = {
   void clear_latitude() ;
   double latitude() const;
   void set_latitude(double value);
@@ -262,7 +263,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_latitude(double value);
 
   public:
-  // double longitude = 5;
+  // double longitude = 5 [(.buf.validate.field) = {
   void clear_longitude() ;
   double longitude() const;
   void set_longitude(double value);
@@ -272,7 +273,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_longitude(double value);
 
   public:
-  // double altitude = 6;
+  // double altitude = 6 [(.buf.validate.field) = {
   void clear_altitude() ;
   double altitude() const;
   void set_altitude(double value);
@@ -282,7 +283,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_altitude(double value);
 
   public:
-  // int64 timestamp = 7;
+  // int64 timestamp = 7 [(.buf.validate.field) = {
   void clear_timestamp() ;
   ::int64_t timestamp() const;
   void set_timestamp(::int64_t value);
@@ -345,7 +346,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
 
 // JonGuiDataActualSpaceTime
 
-// double azimuth = 1;
+// double azimuth = 1 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = 0;
@@ -367,7 +368,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_azimuth(double value) {
   _impl_.azimuth_ = value;
 }
 
-// double elevation = 2;
+// double elevation = 2 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = 0;
@@ -389,7 +390,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_elevation(double value) {
   _impl_.elevation_ = value;
 }
 
-// double bank = 3;
+// double bank = 3 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.bank_ = 0;
@@ -411,7 +412,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_bank(double value) {
   _impl_.bank_ = value;
 }
 
-// double latitude = 4;
+// double latitude = 4 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = 0;
@@ -433,7 +434,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_latitude(double value) {
   _impl_.latitude_ = value;
 }
 
-// double longitude = 5;
+// double longitude = 5 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = 0;
@@ -455,7 +456,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_longitude(double value) {
   _impl_.longitude_ = value;
 }
 
-// double altitude = 6;
+// double altitude = 6 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;
@@ -477,7 +478,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_altitude(double value) {
   _impl_.altitude_ = value;
 }
 
-// int64 timestamp = 7;
+// int64 timestamp = 7 [(.buf.validate.field) = {
 inline void JonGuiDataActualSpaceTime::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};

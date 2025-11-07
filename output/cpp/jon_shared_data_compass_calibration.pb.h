@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -222,7 +223,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
     kTargetBankFieldNumber = 5,
     kStatusFieldNumber = 6,
   };
-  // uint32 stage = 1;
+  // uint32 stage = 1 [(.buf.validate.field) = {
   void clear_stage() ;
   ::uint32_t stage() const;
   void set_stage(::uint32_t value);
@@ -232,7 +233,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
   void _internal_set_stage(::uint32_t value);
 
   public:
-  // uint32 final_stage = 2;
+  // uint32 final_stage = 2 [(.buf.validate.field) = {
   void clear_final_stage() ;
   ::uint32_t final_stage() const;
   void set_final_stage(::uint32_t value);
@@ -242,7 +243,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
   void _internal_set_final_stage(::uint32_t value);
 
   public:
-  // double target_azimuth = 3;
+  // double target_azimuth = 3 [(.buf.validate.field) = {
   void clear_target_azimuth() ;
   double target_azimuth() const;
   void set_target_azimuth(double value);
@@ -252,7 +253,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
   void _internal_set_target_azimuth(double value);
 
   public:
-  // double target_elevation = 4;
+  // double target_elevation = 4 [(.buf.validate.field) = {
   void clear_target_elevation() ;
   double target_elevation() const;
   void set_target_elevation(double value);
@@ -262,7 +263,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
   void _internal_set_target_elevation(double value);
 
   public:
-  // double target_bank = 5;
+  // double target_bank = 5 [(.buf.validate.field) = {
   void clear_target_bank() ;
   double target_bank() const;
   void set_target_bank(double value);
@@ -272,7 +273,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
   void _internal_set_target_bank(double value);
 
   public:
-  // .ser.JonGuiDataCompassCalibrateStatus status = 6;
+  // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
   void clear_status() ;
   ::ser::JonGuiDataCompassCalibrateStatus status() const;
   void set_status(::ser::JonGuiDataCompassCalibrateStatus value);
@@ -334,7 +335,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
 
 // JonGuiDataCompassCalibration
 
-// uint32 stage = 1;
+// uint32 stage = 1 [(.buf.validate.field) = {
 inline void JonGuiDataCompassCalibration::clear_stage() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.stage_ = 0u;
@@ -356,7 +357,7 @@ inline void JonGuiDataCompassCalibration::_internal_set_stage(::uint32_t value) 
   _impl_.stage_ = value;
 }
 
-// uint32 final_stage = 2;
+// uint32 final_stage = 2 [(.buf.validate.field) = {
 inline void JonGuiDataCompassCalibration::clear_final_stage() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.final_stage_ = 0u;
@@ -378,7 +379,7 @@ inline void JonGuiDataCompassCalibration::_internal_set_final_stage(::uint32_t v
   _impl_.final_stage_ = value;
 }
 
-// double target_azimuth = 3;
+// double target_azimuth = 3 [(.buf.validate.field) = {
 inline void JonGuiDataCompassCalibration::clear_target_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_azimuth_ = 0;
@@ -400,7 +401,7 @@ inline void JonGuiDataCompassCalibration::_internal_set_target_azimuth(double va
   _impl_.target_azimuth_ = value;
 }
 
-// double target_elevation = 4;
+// double target_elevation = 4 [(.buf.validate.field) = {
 inline void JonGuiDataCompassCalibration::clear_target_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_elevation_ = 0;
@@ -422,7 +423,7 @@ inline void JonGuiDataCompassCalibration::_internal_set_target_elevation(double 
   _impl_.target_elevation_ = value;
 }
 
-// double target_bank = 5;
+// double target_bank = 5 [(.buf.validate.field) = {
 inline void JonGuiDataCompassCalibration::clear_target_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_bank_ = 0;
@@ -444,7 +445,7 @@ inline void JonGuiDataCompassCalibration::_internal_set_target_bank(double value
   _impl_.target_bank_ = value;
 }
 
-// .ser.JonGuiDataCompassCalibrateStatus status = 6;
+// .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
 inline void JonGuiDataCompassCalibration::clear_status() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.status_ = 0;

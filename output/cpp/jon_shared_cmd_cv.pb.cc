@@ -426,51 +426,54 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033jon_s"
-    "hared_data_types.proto\"\362\004\n\004Root\022.\n\016set_a"
-    "uto_focus\030\001 \001(\0132\024.cmd.CV.SetAutoFocusH\000\022"
-    "0\n\017start_track_ndc\030\002 \001(\0132\025.cmd.CV.StartT"
-    "rackNDCH\000\022\'\n\nstop_track\030\003 \001(\0132\021.cmd.CV.S"
-    "topTrackH\000\0228\n\023vampire_mode_enable\030\004 \001(\0132"
-    "\031.cmd.CV.VampireModeEnableH\000\022:\n\024vampire_"
-    "mode_disable\030\005 \001(\0132\032.cmd.CV.VampireModeD"
-    "isableH\000\022D\n\031stabilization_mode_enable\030\006 "
-    "\001(\0132\037.cmd.CV.StabilizationModeEnableH\000\022F"
-    "\n\032stabilization_mode_disable\030\007 \001(\0132 .cmd"
-    ".CV.StabilizationModeDisableH\000\022\'\n\ndump_s"
-    "tart\030\010 \001(\0132\021.cmd.CV.DumpStartH\000\022%\n\tdump_"
-    "stop\030\t \001(\0132\020.cmd.CV.DumpStopH\000\022@\n\027recogn"
-    "ition_mode_enable\030\n \001(\0132\035.cmd.CV.Recogni"
-    "tionModeEnableH\000\022B\n\030recognition_mode_dis"
-    "able\030\013 \001(\0132\036.cmd.CV.RecognitionModeDisab"
-    "leH\000B\005\n\003cmd\"\023\n\021VampireModeEnable\"\013\n\tDump"
-    "Start\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\""
-    "\031\n\027StabilizationModeEnable\"\032\n\030Stabilizat"
-    "ionModeDisable\"\027\n\025RecognitionModeEnable\""
-    "\030\n\026RecognitionModeDisable\"K\n\014SetAutoFocu"
-    "s\022,\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideo"
-    "Channel\022\r\n\005value\030\002 \001(\010\"{\n\rStartTrackNDC\022"
-    ",\n\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoCh"
-    "annel\022\t\n\001x\030\002 \001(\001\022\t\n\001y\030\003 \001(\001\022\022\n\nframe_tim"
-    "e\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrack"
-    "BIZGgit-codecommit.eu-central-1.amazonaw"
-    "s.com/v1/repos/jettison/jonp/cmd/cvb\006pro"
-    "to3"
+    "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033buf/v"
+    "alidate/validate.proto\032\033jon_shared_data_"
+    "types.proto\"\371\004\n\004Root\022.\n\016set_auto_focus\030\001"
+    " \001(\0132\024.cmd.CV.SetAutoFocusH\000\0220\n\017start_tr"
+    "ack_ndc\030\002 \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'"
+    "\n\nstop_track\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\022"
+    "8\n\023vampire_mode_enable\030\004 \001(\0132\031.cmd.CV.Va"
+    "mpireModeEnableH\000\022:\n\024vampire_mode_disabl"
+    "e\030\005 \001(\0132\032.cmd.CV.VampireModeDisableH\000\022D\n"
+    "\031stabilization_mode_enable\030\006 \001(\0132\037.cmd.C"
+    "V.StabilizationModeEnableH\000\022F\n\032stabiliza"
+    "tion_mode_disable\030\007 \001(\0132 .cmd.CV.Stabili"
+    "zationModeDisableH\000\022\'\n\ndump_start\030\010 \001(\0132"
+    "\021.cmd.CV.DumpStartH\000\022%\n\tdump_stop\030\t \001(\0132"
+    "\020.cmd.CV.DumpStopH\000\022@\n\027recognition_mode_"
+    "enable\030\n \001(\0132\035.cmd.CV.RecognitionModeEna"
+    "bleH\000\022B\n\030recognition_mode_disable\030\013 \001(\0132"
+    "\036.cmd.CV.RecognitionModeDisableH\000B\014\n\003cmd"
+    "\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpStar"
+    "t\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\"\031\n\027S"
+    "tabilizationModeEnable\"\032\n\030StabilizationM"
+    "odeDisable\"\027\n\025RecognitionModeEnable\"\030\n\026R"
+    "ecognitionModeDisable\"W\n\014SetAutoFocus\0228\n"
+    "\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoChan"
+    "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\271\001\n\rStart"
+    "TrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDa"
+    "taVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272"
+    "H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022"
+    "\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022"
+    "\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrackBIZGgit-c"
+    "odecommit.eu-central-1.amazonaws.com/v1/"
+    "repos/jettison/jonp/cmd/cvb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto = {
     false,
     false,
-    1163,
+    1274,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fcv_2eproto,
     "jon_shared_cmd_cv.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto_deps,
-    1,
+    2,
     12,
     schemas,
     file_default_instances,
@@ -2195,13 +2198,13 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SetAutoFocus::_table_ = {
     // bool value = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(SetAutoFocus, _impl_.value_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(SetAutoFocus, _impl_.value_)}},
-    // .ser.JonGuiDataVideoChannel channel = 1;
+    // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetAutoFocus, _impl_.channel_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetAutoFocus, _impl_.channel_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataVideoChannel channel = 1;
+    // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetAutoFocus, _impl_.channel_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
     // bool value = 2;
@@ -2241,7 +2244,7 @@ PROTOBUF_NOINLINE void SetAutoFocus::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataVideoChannel channel = 1;
+          // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
           if (this_._internal_channel() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -2280,7 +2283,7 @@ PROTOBUF_NOINLINE void SetAutoFocus::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // .ser.JonGuiDataVideoChannel channel = 1;
+            // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
             if (this_._internal_channel() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_channel());
@@ -2433,13 +2436,13 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> StartTrackNDC::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .ser.JonGuiDataVideoChannel channel = 1;
+    // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StartTrackNDC, _impl_.channel_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.channel_)}},
-    // double x = 2;
+    // double x = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.x_)}},
-    // double y = 3;
+    // double y = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.y_)}},
     // uint64 frame_time = 4;
@@ -2453,13 +2456,13 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> StartTrackNDC::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataVideoChannel channel = 1;
+    // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.channel_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // double x = 2;
+    // double x = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.x_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double y = 3;
+    // double y = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(StartTrackNDC, _impl_.y_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // uint64 frame_time = 4;
@@ -2502,21 +2505,21 @@ PROTOBUF_NOINLINE void StartTrackNDC::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataVideoChannel channel = 1;
+          // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
           if (this_._internal_channel() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
                 1, this_._internal_channel(), target);
           }
 
-          // double x = 2;
+          // double x = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_x(), target);
           }
 
-          // double y = 3;
+          // double y = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -2562,11 +2565,11 @@ PROTOBUF_NOINLINE void StartTrackNDC::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double x = 2;
+            // double x = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_x()) != 0) {
               total_size += 9;
             }
-            // double y = 3;
+            // double y = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_y()) != 0) {
               total_size += 9;
             }
@@ -2580,7 +2583,7 @@ PROTOBUF_NOINLINE void StartTrackNDC::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
                   this_._internal_state_time());
             }
-            // .ser.JonGuiDataVideoChannel channel = 1;
+            // .ser.JonGuiDataVideoChannel channel = 1 [(.buf.validate.field) = {
             if (this_._internal_channel() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_channel());

@@ -246,30 +246,37 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fgps_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\030jon_shared_cmd_gps.proto\022\007cmd.Gps\"\362\001\n\004"
-    "Root\022\037\n\005start\030\001 \001(\0132\016.cmd.Gps.StartH\000\022\035\n"
-    "\004stop\030\002 \001(\0132\r.cmd.Gps.StopH\000\0229\n\023set_manu"
-    "al_position\030\003 \001(\0132\032.cmd.Gps.SetManualPos"
-    "itionH\000\022@\n\027set_use_manual_position\030\004 \001(\013"
-    "2\035.cmd.Gps.SetUseManualPositionH\000\022&\n\tget"
-    "_meteo\030\005 \001(\0132\021.cmd.Gps.GetMeteoH\000B\005\n\003cmd"
-    "\"\007\n\005Start\"\006\n\004Stop\"\n\n\010GetMeteo\"$\n\024SetUseM"
-    "anualPosition\022\014\n\004flag\030\001 \001(\010\"J\n\021SetManual"
-    "Position\022\020\n\010latitude\030\001 \001(\001\022\021\n\tlongitude\030"
-    "\002 \001(\001\022\020\n\010altitude\030\003 \001(\001BJZHgit-codecommi"
-    "t.eu-central-1.amazonaws.com/v1/repos/je"
-    "ttison/jonp/cmd/gpsb\006proto3"
+    "\n\030jon_shared_cmd_gps.proto\022\007cmd.Gps\032\033buf"
+    "/validate/validate.proto\"\371\001\n\004Root\022\037\n\005sta"
+    "rt\030\001 \001(\0132\016.cmd.Gps.StartH\000\022\035\n\004stop\030\002 \001(\013"
+    "2\r.cmd.Gps.StopH\000\0229\n\023set_manual_position"
+    "\030\003 \001(\0132\032.cmd.Gps.SetManualPositionH\000\022@\n\027"
+    "set_use_manual_position\030\004 \001(\0132\035.cmd.Gps."
+    "SetUseManualPositionH\000\022&\n\tget_meteo\030\005 \001("
+    "\0132\021.cmd.Gps.GetMeteoH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005"
+    "Start\"\006\n\004Stop\"\n\n\010GetMeteo\"$\n\024SetUseManua"
+    "lPosition\022\014\n\004flag\030\001 \001(\010\"\225\001\n\021SetManualPos"
+    "ition\022)\n\010latitude\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)"
+    "\000\000\000\000\000\200V\300\022*\n\tlongitude\030\002 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000"
+    "\200f@)\000\000\000\000\000\200f\300\022)\n\010altitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000"
+    "\000\000\000j\370@)\000\000\000\000\000\340z\300BJZHgit-codecommit.eu-cen"
+    "tral-1.amazonaws.com/v1/repos/jettison/j"
+    "onp/cmd/gpsb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fgps_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fgps_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fgps_2eproto = {
     false,
     false,
-    507,
+    619,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fgps_2eproto,
     "jon_shared_cmd_gps.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fgps_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fcmd_5fgps_2eproto_deps,
+    1,
     6,
     schemas,
     file_default_instances,
@@ -1389,25 +1396,25 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> SetManualPosition::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // double latitude = 1;
+    // double latitude = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.latitude_)}},
-    // double longitude = 2;
+    // double longitude = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.longitude_)}},
-    // double altitude = 3;
+    // double altitude = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.altitude_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double latitude = 1;
+    // double latitude = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.latitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double longitude = 2;
+    // double longitude = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.longitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double altitude = 3;
+    // double altitude = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetManualPosition, _impl_.altitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -1444,21 +1451,21 @@ PROTOBUF_NOINLINE void SetManualPosition::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double latitude = 1;
+          // double latitude = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 1, this_._internal_latitude(), target);
           }
 
-          // double longitude = 2;
+          // double longitude = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_longitude(), target);
           }
 
-          // double altitude = 3;
+          // double altitude = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -1490,15 +1497,15 @@ PROTOBUF_NOINLINE void SetManualPosition::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double latitude = 1;
+            // double latitude = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
               total_size += 9;
             }
-            // double longitude = 2;
+            // double longitude = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_longitude()) != 0) {
               total_size += 9;
             }
-            // double altitude = 3;
+            // double altitude = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
               total_size += 9;
             }

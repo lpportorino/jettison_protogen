@@ -805,67 +805,69 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste"
-    "m\032\033jon_shared_data_types.proto\"\235\t\n\004Root\022"
-    ")\n\tstart_all\030\001 \001(\0132\024.cmd.System.StartALl"
-    "H\000\022\'\n\010stop_all\030\002 \001(\0132\023.cmd.System.StopAL"
-    "lH\000\022$\n\006reboot\030\003 \001(\0132\022.cmd.System.RebootH"
-    "\000\022)\n\tpower_off\030\004 \001(\0132\024.cmd.System.PowerO"
-    "ffH\000\0223\n\014localization\030\005 \001(\0132\033.cmd.System."
-    "SetLocalizationH\000\0221\n\rreset_configs\030\006 \001(\013"
-    "2\030.cmd.System.ResetConfigsH\000\022)\n\tstart_re"
-    "c\030\007 \001(\0132\024.cmd.System.StartRecH\000\022\'\n\010stop_"
-    "rec\030\010 \001(\0132\023.cmd.System.StopRecH\000\022:\n\022mark"
-    "_rec_important\030\t \001(\0132\034.cmd.System.MarkRe"
-    "cImportantH\000\022>\n\024unmark_rec_important\030\n \001"
-    "(\0132\036.cmd.System.UnmarkRecImportantH\000\0225\n\017"
-    "enter_transport\030\013 \001(\0132\032.cmd.System.Enter"
-    "TransportH\000\022>\n\024geodesic_mode_enable\030\014 \001("
-    "\0132\036.cmd.System.EnableGeodesicModeH\000\022@\n\025g"
-    "eodesic_mode_disable\030\r \001(\0132\037.cmd.System."
-    "DisableGeodesicModeH\000\022@\n\025save_factory_de"
-    "faults\030\016 \001(\0132\037.cmd.System.SaveFactoryDef"
-    "aultsH\000\0222\n\016wipe_user_data\030\017 \001(\0132\030.cmd.Sy"
-    "stem.WipeUserDataH\000\022)\n\tstep_year\030\020 \001(\0132\024"
-    ".cmd.System.StepYearH\000\022+\n\nstep_month\030\021 \001"
-    "(\0132\025.cmd.System.StepMonthH\000\022\'\n\010step_day\030"
-    "\022 \001(\0132\023.cmd.System.StepDayH\000\022)\n\tstep_hou"
-    "r\030\023 \001(\0132\024.cmd.System.StepHourH\000\022-\n\013step_"
-    "minute\030\024 \001(\0132\026.cmd.System.StepMinuteH\000\022-"
-    "\n\013step_second\030\025 \001(\0132\026.cmd.System.StepSec"
-    "ondH\000\022:\n\022enable_manual_time\030\026 \001(\0132\034.cmd."
-    "System.EnableManualTimeH\000\022<\n\023disable_man"
-    "ual_time\030\027 \001(\0132\035.cmd.System.DisableManua"
-    "lTimeH\000B\005\n\003cmd\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n"
-    "\006Reboot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023S"
-    "aveFactoryDefaults\"\016\n\014WipeUserData\"\n\n\010St"
-    "artRec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n"
-    "\022UnmarkRecImportant\"\020\n\016EnterTransport\"\024\n"
-    "\022EnableGeodesicMode\"\025\n\023DisableGeodesicMo"
-    "de\"B\n\017SetLocalization\022/\n\003loc\030\001 \001(\0162\".ser"
-    ".JonGuiDataSystemLocalizations\"\032\n\010StepYe"
-    "ar\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016\n\006offse"
-    "t\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(\005\"\032\n\010St"
-    "epHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMinute\022\016\n\006"
-    "offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006offset\030\001 \001"
-    "(\005\"\022\n\020EnableManualTime\"\023\n\021DisableManualT"
-    "imeBMZKgit-codecommit.eu-central-1.amazo"
-    "naws.com/v1/repos/jettison/jonp/cmd/syst"
-    "emb\006proto3"
+    "m\032\033buf/validate/validate.proto\032\033jon_shar"
+    "ed_data_types.proto\"\244\t\n\004Root\022)\n\tstart_al"
+    "l\030\001 \001(\0132\024.cmd.System.StartALlH\000\022\'\n\010stop_"
+    "all\030\002 \001(\0132\023.cmd.System.StopALlH\000\022$\n\006rebo"
+    "ot\030\003 \001(\0132\022.cmd.System.RebootH\000\022)\n\tpower_"
+    "off\030\004 \001(\0132\024.cmd.System.PowerOffH\000\0223\n\014loc"
+    "alization\030\005 \001(\0132\033.cmd.System.SetLocaliza"
+    "tionH\000\0221\n\rreset_configs\030\006 \001(\0132\030.cmd.Syst"
+    "em.ResetConfigsH\000\022)\n\tstart_rec\030\007 \001(\0132\024.c"
+    "md.System.StartRecH\000\022\'\n\010stop_rec\030\010 \001(\0132\023"
+    ".cmd.System.StopRecH\000\022:\n\022mark_rec_import"
+    "ant\030\t \001(\0132\034.cmd.System.MarkRecImportantH"
+    "\000\022>\n\024unmark_rec_important\030\n \001(\0132\036.cmd.Sy"
+    "stem.UnmarkRecImportantH\000\0225\n\017enter_trans"
+    "port\030\013 \001(\0132\032.cmd.System.EnterTransportH\000"
+    "\022>\n\024geodesic_mode_enable\030\014 \001(\0132\036.cmd.Sys"
+    "tem.EnableGeodesicModeH\000\022@\n\025geodesic_mod"
+    "e_disable\030\r \001(\0132\037.cmd.System.DisableGeod"
+    "esicModeH\000\022@\n\025save_factory_defaults\030\016 \001("
+    "\0132\037.cmd.System.SaveFactoryDefaultsH\000\0222\n\016"
+    "wipe_user_data\030\017 \001(\0132\030.cmd.System.WipeUs"
+    "erDataH\000\022)\n\tstep_year\030\020 \001(\0132\024.cmd.System"
+    ".StepYearH\000\022+\n\nstep_month\030\021 \001(\0132\025.cmd.Sy"
+    "stem.StepMonthH\000\022\'\n\010step_day\030\022 \001(\0132\023.cmd"
+    ".System.StepDayH\000\022)\n\tstep_hour\030\023 \001(\0132\024.c"
+    "md.System.StepHourH\000\022-\n\013step_minute\030\024 \001("
+    "\0132\026.cmd.System.StepMinuteH\000\022-\n\013step_seco"
+    "nd\030\025 \001(\0132\026.cmd.System.StepSecondH\000\022:\n\022en"
+    "able_manual_time\030\026 \001(\0132\034.cmd.System.Enab"
+    "leManualTimeH\000\022<\n\023disable_manual_time\030\027 "
+    "\001(\0132\035.cmd.System.DisableManualTimeH\000B\014\n\003"
+    "cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Reb"
+    "oot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveF"
+    "actoryDefaults\"\016\n\014WipeUserData\"\n\n\010StartR"
+    "ec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unm"
+    "arkRecImportant\"\020\n\016EnterTransport\"\024\n\022Ena"
+    "bleGeodesicMode\"\025\n\023DisableGeodesicMode\"N"
+    "\n\017SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.Jon"
+    "GuiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032"
+    "\n\010StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022"
+    "\016\n\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001"
+    "(\005\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMi"
+    "nute\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006of"
+    "fset\030\001 \001(\005\"\022\n\020EnableManualTime\"\023\n\021Disabl"
+    "eManualTimeBMZKgit-codecommit.eu-central"
+    "-1.amazonaws.com/v1/repos/jettison/jonp/"
+    "cmd/systemb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto = {
     false,
     false,
-    1850,
+    1898,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto,
     "jon_shared_cmd_system.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps,
-    1,
+    2,
     24,
     schemas,
     file_default_instances,
@@ -3788,13 +3790,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetLocalization::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::System::SetLocalization>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataSystemLocalizations loc = 1;
+    // .ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetLocalization, _impl_.loc_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetLocalization, _impl_.loc_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .ser.JonGuiDataSystemLocalizations loc = 1;
+    // .ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetLocalization, _impl_.loc_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -3829,7 +3831,7 @@ PROTOBUF_NOINLINE void SetLocalization::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // .ser.JonGuiDataSystemLocalizations loc = 1;
+          // .ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = {
           if (this_._internal_loc() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -3860,7 +3862,7 @@ PROTOBUF_NOINLINE void SetLocalization::Clear() {
           (void)cached_has_bits;
 
            {
-            // .ser.JonGuiDataSystemLocalizations loc = 1;
+            // .ser.JonGuiDataSystemLocalizations loc = 1 [(.buf.validate.field) = {
             if (this_._internal_loc() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_loc());

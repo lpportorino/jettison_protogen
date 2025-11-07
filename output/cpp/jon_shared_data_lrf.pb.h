@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -225,7 +226,7 @@ class RgbColor final : public ::google::protobuf::Message
     kGreenFieldNumber = 2,
     kBlueFieldNumber = 3,
   };
-  // uint32 red = 1;
+  // uint32 red = 1 [(.buf.validate.field) = {
   void clear_red() ;
   ::uint32_t red() const;
   void set_red(::uint32_t value);
@@ -235,7 +236,7 @@ class RgbColor final : public ::google::protobuf::Message
   void _internal_set_red(::uint32_t value);
 
   public:
-  // uint32 green = 2;
+  // uint32 green = 2 [(.buf.validate.field) = {
   void clear_green() ;
   ::uint32_t green() const;
   void set_green(::uint32_t value);
@@ -245,7 +246,7 @@ class RgbColor final : public ::google::protobuf::Message
   void _internal_set_green(::uint32_t value);
 
   public:
-  // uint32 blue = 3;
+  // uint32 blue = 3 [(.buf.validate.field) = {
   void clear_blue() ;
   ::uint32_t blue() const;
   void set_blue(::uint32_t value);
@@ -472,7 +473,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   ::ser::RgbColor* _internal_mutable_target_color();
 
   public:
-  // int64 timestamp = 1;
+  // int64 timestamp = 1 [(.buf.validate.field) = {
   void clear_timestamp() ;
   ::int64_t timestamp() const;
   void set_timestamp(::int64_t value);
@@ -482,7 +483,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_timestamp(::int64_t value);
 
   public:
-  // double target_longitude = 2;
+  // double target_longitude = 2 [(.buf.validate.field) = {
   void clear_target_longitude() ;
   double target_longitude() const;
   void set_target_longitude(double value);
@@ -492,7 +493,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_target_longitude(double value);
 
   public:
-  // double target_latitude = 3;
+  // double target_latitude = 3 [(.buf.validate.field) = {
   void clear_target_latitude() ;
   double target_latitude() const;
   void set_target_latitude(double value);
@@ -512,7 +513,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_target_altitude(double value);
 
   public:
-  // double observer_longitude = 5;
+  // double observer_longitude = 5 [(.buf.validate.field) = {
   void clear_observer_longitude() ;
   double observer_longitude() const;
   void set_observer_longitude(double value);
@@ -522,7 +523,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_observer_longitude(double value);
 
   public:
-  // double observer_latitude = 6;
+  // double observer_latitude = 6 [(.buf.validate.field) = {
   void clear_observer_latitude() ;
   double observer_latitude() const;
   void set_observer_latitude(double value);
@@ -542,7 +543,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_observer_altitude(double value);
 
   public:
-  // double observer_azimuth = 8;
+  // double observer_azimuth = 8 [(.buf.validate.field) = {
   void clear_observer_azimuth() ;
   double observer_azimuth() const;
   void set_observer_azimuth(double value);
@@ -552,7 +553,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_observer_azimuth(double value);
 
   public:
-  // double observer_elevation = 9;
+  // double observer_elevation = 9 [(.buf.validate.field) = {
   void clear_observer_elevation() ;
   double observer_elevation() const;
   void set_observer_elevation(double value);
@@ -562,7 +563,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_observer_elevation(double value);
 
   public:
-  // double observer_bank = 10;
+  // double observer_bank = 10 [(.buf.validate.field) = {
   void clear_observer_bank() ;
   double observer_bank() const;
   void set_observer_bank(double value);
@@ -572,7 +573,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_observer_bank(double value);
 
   public:
-  // double distance_2d = 11;
+  // double distance_2d = 11 [(.buf.validate.field) = {
   void clear_distance_2d() ;
   double distance_2d() const;
   void set_distance_2d(double value);
@@ -582,7 +583,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_distance_2d(double value);
 
   public:
-  // double distance_3b = 12;
+  // double distance_3b = 12 [(.buf.validate.field) = {
   void clear_distance_3b() ;
   double distance_3b() const;
   void set_distance_3b(double value);
@@ -592,7 +593,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_distance_3b(double value);
 
   public:
-  // .ser.JonGuiDataGpsFixType observer_fix_type = 13;
+  // .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {
   void clear_observer_fix_type() ;
   ::ser::JonGuiDataGpsFixType observer_fix_type() const;
   void set_observer_fix_type(::ser::JonGuiDataGpsFixType value);
@@ -602,7 +603,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_observer_fix_type(::ser::JonGuiDataGpsFixType value);
 
   public:
-  // int32 session_id = 14;
+  // int32 session_id = 14 [(.buf.validate.field) = {
   void clear_session_id() ;
   ::int32_t session_id() const;
   void set_session_id(::int32_t value);
@@ -612,7 +613,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_session_id(::int32_t value);
 
   public:
-  // int32 target_id = 15;
+  // int32 target_id = 15 [(.buf.validate.field) = {
   void clear_target_id() ;
   ::int32_t target_id() const;
   void set_target_id(::int32_t value);
@@ -895,7 +896,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   ::ser::JonGuiDataTarget* _internal_mutable_target();
 
   public:
-  // int32 measure_id = 3;
+  // int32 measure_id = 3 [(.buf.validate.field) = {
   void clear_measure_id() ;
   ::int32_t measure_id() const;
   void set_measure_id(::int32_t value);
@@ -945,7 +946,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   void _internal_set_is_refining(bool value);
 
   public:
-  // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5;
+  // .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = {
   void clear_pointer_mode() ;
   ::ser::JonGuiDatatLrfLaserPointerModes pointer_mode() const;
   void set_pointer_mode(::ser::JonGuiDatatLrfLaserPointerModes value);
@@ -1064,7 +1065,7 @@ inline void JonGuiDataLrf::_internal_set_is_measuring(bool value) {
   _impl_.is_measuring_ = value;
 }
 
-// int32 measure_id = 3;
+// int32 measure_id = 3 [(.buf.validate.field) = {
 inline void JonGuiDataLrf::clear_measure_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.measure_id_ = 0;
@@ -1182,7 +1183,7 @@ inline void JonGuiDataLrf::set_allocated_target(::ser::JonGuiDataTarget* value) 
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataLrf.target)
 }
 
-// .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5;
+// .ser.JonGuiDatatLrfLaserPointerModes pointer_mode = 5 [(.buf.validate.field) = {
 inline void JonGuiDataLrf::clear_pointer_mode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.pointer_mode_ = 0;
@@ -1274,7 +1275,7 @@ inline void JonGuiDataLrf::_internal_set_is_continuous_measuring(bool value) {
 
 // JonGuiDataTarget
 
-// int64 timestamp = 1;
+// int64 timestamp = 1 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_timestamp() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = ::int64_t{0};
@@ -1296,7 +1297,7 @@ inline void JonGuiDataTarget::_internal_set_timestamp(::int64_t value) {
   _impl_.timestamp_ = value;
 }
 
-// double target_longitude = 2;
+// double target_longitude = 2 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_target_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_longitude_ = 0;
@@ -1318,7 +1319,7 @@ inline void JonGuiDataTarget::_internal_set_target_longitude(double value) {
   _impl_.target_longitude_ = value;
 }
 
-// double target_latitude = 3;
+// double target_latitude = 3 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_target_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_latitude_ = 0;
@@ -1362,7 +1363,7 @@ inline void JonGuiDataTarget::_internal_set_target_altitude(double value) {
   _impl_.target_altitude_ = value;
 }
 
-// double observer_longitude = 5;
+// double observer_longitude = 5 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_observer_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.observer_longitude_ = 0;
@@ -1384,7 +1385,7 @@ inline void JonGuiDataTarget::_internal_set_observer_longitude(double value) {
   _impl_.observer_longitude_ = value;
 }
 
-// double observer_latitude = 6;
+// double observer_latitude = 6 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_observer_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.observer_latitude_ = 0;
@@ -1428,7 +1429,7 @@ inline void JonGuiDataTarget::_internal_set_observer_altitude(double value) {
   _impl_.observer_altitude_ = value;
 }
 
-// double observer_azimuth = 8;
+// double observer_azimuth = 8 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_observer_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.observer_azimuth_ = 0;
@@ -1450,7 +1451,7 @@ inline void JonGuiDataTarget::_internal_set_observer_azimuth(double value) {
   _impl_.observer_azimuth_ = value;
 }
 
-// double observer_elevation = 9;
+// double observer_elevation = 9 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_observer_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.observer_elevation_ = 0;
@@ -1472,7 +1473,7 @@ inline void JonGuiDataTarget::_internal_set_observer_elevation(double value) {
   _impl_.observer_elevation_ = value;
 }
 
-// double observer_bank = 10;
+// double observer_bank = 10 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_observer_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.observer_bank_ = 0;
@@ -1494,7 +1495,7 @@ inline void JonGuiDataTarget::_internal_set_observer_bank(double value) {
   _impl_.observer_bank_ = value;
 }
 
-// double distance_2d = 11;
+// double distance_2d = 11 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_distance_2d() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.distance_2d_ = 0;
@@ -1516,7 +1517,7 @@ inline void JonGuiDataTarget::_internal_set_distance_2d(double value) {
   _impl_.distance_2d_ = value;
 }
 
-// double distance_3b = 12;
+// double distance_3b = 12 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_distance_3b() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.distance_3b_ = 0;
@@ -1538,7 +1539,7 @@ inline void JonGuiDataTarget::_internal_set_distance_3b(double value) {
   _impl_.distance_3b_ = value;
 }
 
-// .ser.JonGuiDataGpsFixType observer_fix_type = 13;
+// .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_observer_fix_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.observer_fix_type_ = 0;
@@ -1560,7 +1561,7 @@ inline void JonGuiDataTarget::_internal_set_observer_fix_type(::ser::JonGuiDataG
   _impl_.observer_fix_type_ = value;
 }
 
-// int32 session_id = 14;
+// int32 session_id = 14 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_session_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.session_id_ = 0;
@@ -1582,7 +1583,7 @@ inline void JonGuiDataTarget::_internal_set_session_id(::int32_t value) {
   _impl_.session_id_ = value;
 }
 
-// int32 target_id = 15;
+// int32 target_id = 15 [(.buf.validate.field) = {
 inline void JonGuiDataTarget::clear_target_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.target_id_ = 0;
@@ -1814,7 +1815,7 @@ inline void JonGuiDataTarget::_internal_set_uuid_part4(::int32_t value) {
 
 // RgbColor
 
-// uint32 red = 1;
+// uint32 red = 1 [(.buf.validate.field) = {
 inline void RgbColor::clear_red() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.red_ = 0u;
@@ -1836,7 +1837,7 @@ inline void RgbColor::_internal_set_red(::uint32_t value) {
   _impl_.red_ = value;
 }
 
-// uint32 green = 2;
+// uint32 green = 2 [(.buf.validate.field) = {
 inline void RgbColor::clear_green() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.green_ = 0u;
@@ -1858,7 +1859,7 @@ inline void RgbColor::_internal_set_green(::uint32_t value) {
   _impl_.green_ = value;
 }
 
-// uint32 blue = 3;
+// uint32 blue = 3 [(.buf.validate.field) = {
 inline void RgbColor::clear_blue() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.blue_ = 0u;

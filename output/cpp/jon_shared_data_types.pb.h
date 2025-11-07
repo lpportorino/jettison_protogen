@@ -30,6 +30,7 @@
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/generated_enum_reflection.h"
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -874,7 +875,7 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
     kHumidityFieldNumber = 2,
     kPressureFieldNumber = 3,
   };
-  // double temperature = 1;
+  // double temperature = 1 [(.buf.validate.field) = {
   void clear_temperature() ;
   double temperature() const;
   void set_temperature(double value);
@@ -884,7 +885,7 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
   void _internal_set_temperature(double value);
 
   public:
-  // double humidity = 2;
+  // double humidity = 2 [(.buf.validate.field) = {
   void clear_humidity() ;
   double humidity() const;
   void set_humidity(double value);
@@ -894,7 +895,7 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
   void _internal_set_humidity(double value);
 
   public:
-  // double pressure = 3;
+  // double pressure = 3 [(.buf.validate.field) = {
   void clear_pressure() ;
   double pressure() const;
   void set_pressure(double value);
@@ -953,7 +954,7 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
 
 // JonGuiDataMeteo
 
-// double temperature = 1;
+// double temperature = 1 [(.buf.validate.field) = {
 inline void JonGuiDataMeteo::clear_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.temperature_ = 0;
@@ -975,7 +976,7 @@ inline void JonGuiDataMeteo::_internal_set_temperature(double value) {
   _impl_.temperature_ = value;
 }
 
-// double humidity = 2;
+// double humidity = 2 [(.buf.validate.field) = {
 inline void JonGuiDataMeteo::clear_humidity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.humidity_ = 0;
@@ -997,7 +998,7 @@ inline void JonGuiDataMeteo::_internal_set_humidity(double value) {
   _impl_.humidity_ = value;
 }
 
-// double pressure = 3;
+// double pressure = 3 [(.buf.validate.field) = {
 inline void JonGuiDataMeteo::clear_pressure() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.pressure_ = 0;

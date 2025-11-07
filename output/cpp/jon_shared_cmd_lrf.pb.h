@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -991,7 +992,7 @@ class SetScanMode final : public ::google::protobuf::Message
   enum : int {
     kModeFieldNumber = 1,
   };
-  // .ser.JonGuiDataLrfScanModes mode = 1;
+  // .ser.JonGuiDataLrfScanModes mode = 1 [(.buf.validate.field) = {
   void clear_mode() ;
   ::ser::JonGuiDataLrfScanModes mode() const;
   void set_mode(::ser::JonGuiDataLrfScanModes value);
@@ -4138,7 +4139,7 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetScanMode
 
-// .ser.JonGuiDataLrfScanModes mode = 1;
+// .ser.JonGuiDataLrfScanModes mode = 1 [(.buf.validate.field) = {
 inline void SetScanMode::clear_mode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.mode_ = 0;

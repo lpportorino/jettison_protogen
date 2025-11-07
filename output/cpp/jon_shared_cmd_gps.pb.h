@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -717,7 +718,7 @@ class SetManualPosition final : public ::google::protobuf::Message
     kLongitudeFieldNumber = 2,
     kAltitudeFieldNumber = 3,
   };
-  // double latitude = 1;
+  // double latitude = 1 [(.buf.validate.field) = {
   void clear_latitude() ;
   double latitude() const;
   void set_latitude(double value);
@@ -727,7 +728,7 @@ class SetManualPosition final : public ::google::protobuf::Message
   void _internal_set_latitude(double value);
 
   public:
-  // double longitude = 2;
+  // double longitude = 2 [(.buf.validate.field) = {
   void clear_longitude() ;
   double longitude() const;
   void set_longitude(double value);
@@ -737,7 +738,7 @@ class SetManualPosition final : public ::google::protobuf::Message
   void _internal_set_longitude(double value);
 
   public:
-  // double altitude = 3;
+  // double altitude = 3 [(.buf.validate.field) = {
   void clear_altitude() ;
   double altitude() const;
   void set_altitude(double value);
@@ -1692,7 +1693,7 @@ inline void SetUseManualPosition::_internal_set_flag(bool value) {
 
 // SetManualPosition
 
-// double latitude = 1;
+// double latitude = 1 [(.buf.validate.field) = {
 inline void SetManualPosition::clear_latitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.latitude_ = 0;
@@ -1714,7 +1715,7 @@ inline void SetManualPosition::_internal_set_latitude(double value) {
   _impl_.latitude_ = value;
 }
 
-// double longitude = 2;
+// double longitude = 2 [(.buf.validate.field) = {
 inline void SetManualPosition::clear_longitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.longitude_ = 0;
@@ -1736,7 +1737,7 @@ inline void SetManualPosition::_internal_set_longitude(double value) {
   _impl_.longitude_ = value;
 }
 
-// double altitude = 3;
+// double altitude = 3 [(.buf.validate.field) = {
 inline void SetManualPosition::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;

@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -217,7 +218,7 @@ class JonGuiDataDayCamGlassHeater final : public ::google::protobuf::Message
     kTemperatureFieldNumber = 1,
     kStatusFieldNumber = 2,
   };
-  // double temperature = 1;
+  // double temperature = 1 [(.buf.validate.field) = {
   void clear_temperature() ;
   double temperature() const;
   void set_temperature(double value);
@@ -285,7 +286,7 @@ class JonGuiDataDayCamGlassHeater final : public ::google::protobuf::Message
 
 // JonGuiDataDayCamGlassHeater
 
-// double temperature = 1;
+// double temperature = 1 [(.buf.validate.field) = {
 inline void JonGuiDataDayCamGlassHeater::clear_temperature() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.temperature_ = 0;

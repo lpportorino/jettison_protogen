@@ -137,16 +137,26 @@ cp /opt/nanopb/pb_decode.h /workspace/output/
 cp /opt/nanopb/pb_decode.c /workspace/output/
 '
 
-# C++ generation script
+# C++ generation script with buf.validate support
 CPP_SCRIPT='
 set -e
-mkdir -p /tmp/cleaned_proto
+mkdir -p /tmp/cpp_proto_val
+
+# Copy proto files WITH validate imports (do NOT clean/strip annotations)
 for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+    cp "$proto" "/tmp/cpp_proto_val/$(basename "$proto")"
+    /usr/local/bin/add-validate-import.sh "/tmp/cpp_proto_val/$(basename "$proto")"
 done
-protoc -I/tmp/cleaned_proto \
+
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/cpp_proto_val/
+
+# Generate C++ with validation annotations preserved
+protoc -I/tmp/cpp_proto_val \
     --cpp_out=/workspace/output \
-    /tmp/cleaned_proto/*.proto
+    /tmp/cpp_proto_val/*.proto
+
+echo "C++ generation with buf.validate support completed"
 '
 
 # Go generation script with validation support

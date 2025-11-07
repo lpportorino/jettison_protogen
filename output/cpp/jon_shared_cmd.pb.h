@@ -30,6 +30,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_cmd_compass.pb.h"
 #include "jon_shared_cmd_gps.pb.h"
 #include "jon_shared_cmd_lrf.pb.h"
@@ -715,7 +716,7 @@ class Root final : public ::google::protobuf::Message
     kDayCamGlassHeaterFieldNumber = 33,
     kLiraFieldNumber = 34,
   };
-  // uint32 protocol_version = 1;
+  // uint32 protocol_version = 1 [(.buf.validate.field) = {
   void clear_protocol_version() ;
   ::uint32_t protocol_version() const;
   void set_protocol_version(::uint32_t value);
@@ -755,7 +756,7 @@ class Root final : public ::google::protobuf::Message
   void _internal_set_from_cv_subsystem(bool value);
 
   public:
-  // .ser.JonGuiDataClientType client_type = 5;
+  // .ser.JonGuiDataClientType client_type = 5 [(.buf.validate.field) = {
   void clear_client_type() ;
   ::ser::JonGuiDataClientType client_type() const;
   void set_client_type(::ser::JonGuiDataClientType value);
@@ -1184,7 +1185,7 @@ class Root final : public ::google::protobuf::Message
 
 // Root
 
-// uint32 protocol_version = 1;
+// uint32 protocol_version = 1 [(.buf.validate.field) = {
 inline void Root::clear_protocol_version() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.protocol_version_ = 0u;
@@ -1272,7 +1273,7 @@ inline void Root::_internal_set_from_cv_subsystem(bool value) {
   _impl_.from_cv_subsystem_ = value;
 }
 
-// .ser.JonGuiDataClientType client_type = 5;
+// .ser.JonGuiDataClientType client_type = 5 [(.buf.validate.field) = {
 inline void Root::clear_client_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.client_type_ = 0;

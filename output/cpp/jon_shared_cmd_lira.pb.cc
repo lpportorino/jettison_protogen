@@ -175,30 +175,39 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5flira_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\031jon_shared_cmd_lira.proto\022\010cmd.Lira\"\?\n"
-    "\004Root\0220\n\rrefine_target\030\001 \001(\0132\027.cmd.Lira."
-    "Refine_targetH\000B\005\n\003cmd\"\?\n\rRefine_target\022"
-    ".\n\006target\030\001 \001(\0132\036.cmd.Lira.JonGuiDataLir"
-    "aTarget\"\211\002\n\024JonGuiDataLiraTarget\022\021\n\ttime"
-    "stamp\030\001 \001(\003\022\030\n\020target_longitude\030\002 \001(\001\022\027\n"
-    "\017target_latitude\030\003 \001(\001\022\027\n\017target_altitud"
-    "e\030\004 \001(\001\022\026\n\016target_azimuth\030\005 \001(\001\022\030\n\020targe"
-    "t_elevation\030\006 \001(\001\022\020\n\010distance\030\007 \001(\001\022\022\n\nu"
-    "uid_part1\030\010 \001(\005\022\022\n\nuuid_part2\030\t \001(\005\022\022\n\nu"
-    "uid_part3\030\n \001(\005\022\022\n\nuuid_part4\030\013 \001(\005BKZIg"
-    "it-codecommit.eu-central-1.amazonaws.com"
-    "/v1/repos/jettison/jonp/cmd/lirab\006proto3"
+    "\n\031jon_shared_cmd_lira.proto\022\010cmd.Lira\032\033b"
+    "uf/validate/validate.proto\"F\n\004Root\0220\n\rre"
+    "fine_target\030\001 \001(\0132\027.cmd.Lira.Refine_targ"
+    "etH\000B\014\n\003cmd\022\005\272H\002\010\001\"\?\n\rRefine_target\022.\n\006t"
+    "arget\030\001 \001(\0132\036.cmd.Lira.JonGuiDataLiraTar"
+    "get\"\237\003\n\024JonGuiDataLiraTarget\022\032\n\ttimestam"
+    "p\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001"
+    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_la"
+    "titude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\0220\n"
+    "\017target_altitude\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000"
+    "\000\000\000\000\340z\300\022/\n\016target_azimuth\030\005 \001(\001B\027\272H\024\022\022\021\000"
+    "\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0221\n\020target_elevation\030\006 \001"
+    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022 \n\010distance\030"
+    "\007 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022\022\n\nuuid_part1\030\010 \001("
+    "\005\022\022\n\nuuid_part2\030\t \001(\005\022\022\n\nuuid_part3\030\n \001("
+    "\005\022\022\n\nuuid_part4\030\013 \001(\005BKZIgit-codecommit."
+    "eu-central-1.amazonaws.com/v1/repos/jett"
+    "ison/jonp/cmd/lirab\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5flira_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5flira_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5flira_2eproto = {
     false,
     false,
-    520,
+    706,
     descriptor_table_protodef_jon_5fshared_5fcmd_5flira_2eproto,
     "jon_shared_cmd_lira.proto",
     &descriptor_table_jon_5fshared_5fcmd_5flira_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fcmd_5flira_2eproto_deps,
+    1,
     3,
     schemas,
     file_default_instances,
@@ -854,25 +863,25 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataLiraTarget::_table_ = {
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // int64 timestamp = 1;
+    // int64 timestamp = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonGuiDataLiraTarget, _impl_.timestamp_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.timestamp_)}},
-    // double target_longitude = 2;
+    // double target_longitude = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_longitude_)}},
-    // double target_latitude = 3;
+    // double target_latitude = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_latitude_)}},
-    // double target_altitude = 4;
+    // double target_altitude = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_altitude_)}},
-    // double target_azimuth = 5;
+    // double target_azimuth = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_azimuth_)}},
-    // double target_elevation = 6;
+    // double target_elevation = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_elevation_)}},
-    // double distance = 7;
+    // double distance = 7 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {57, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.distance_)}},
     // int32 uuid_part1 = 8;
@@ -894,25 +903,25 @@ const ::_pbi::TcParseTable<4, 11, 0, 0, 2> JonGuiDataLiraTarget::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // int64 timestamp = 1;
+    // int64 timestamp = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.timestamp_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
-    // double target_longitude = 2;
+    // double target_longitude = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_longitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_latitude = 3;
+    // double target_latitude = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_latitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_altitude = 4;
+    // double target_altitude = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_altitude_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_azimuth = 5;
+    // double target_azimuth = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_azimuth_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_elevation = 6;
+    // double target_elevation = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.target_elevation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double distance = 7;
+    // double distance = 7 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLiraTarget, _impl_.distance_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // int32 uuid_part1 = 8;
@@ -961,49 +970,49 @@ PROTOBUF_NOINLINE void JonGuiDataLiraTarget::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // int64 timestamp = 1;
+          // int64 timestamp = 1 [(.buf.validate.field) = {
           if (this_._internal_timestamp() != 0) {
             target = ::google::protobuf::internal::WireFormatLite::
                 WriteInt64ToArrayWithField<1>(
                     stream, this_._internal_timestamp(), target);
           }
 
-          // double target_longitude = 2;
+          // double target_longitude = 2 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_longitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 2, this_._internal_target_longitude(), target);
           }
 
-          // double target_latitude = 3;
+          // double target_latitude = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_latitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_target_latitude(), target);
           }
 
-          // double target_altitude = 4;
+          // double target_altitude = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_altitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_target_altitude(), target);
           }
 
-          // double target_azimuth = 5;
+          // double target_azimuth = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_target_azimuth(), target);
           }
 
-          // double target_elevation = 6;
+          // double target_elevation = 6 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 6, this_._internal_target_elevation(), target);
           }
 
-          // double distance = 7;
+          // double distance = 7 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_distance()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -1063,32 +1072,32 @@ PROTOBUF_NOINLINE void JonGuiDataLiraTarget::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // int64 timestamp = 1;
+            // int64 timestamp = 1 [(.buf.validate.field) = {
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
                   this_._internal_timestamp());
             }
-            // double target_longitude = 2;
+            // double target_longitude = 2 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_longitude()) != 0) {
               total_size += 9;
             }
-            // double target_latitude = 3;
+            // double target_latitude = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_latitude()) != 0) {
               total_size += 9;
             }
-            // double target_altitude = 4;
+            // double target_altitude = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_altitude()) != 0) {
               total_size += 9;
             }
-            // double target_azimuth = 5;
+            // double target_azimuth = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_azimuth()) != 0) {
               total_size += 9;
             }
-            // double target_elevation = 6;
+            // double target_elevation = 6 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_elevation()) != 0) {
               total_size += 9;
             }
-            // double distance = 7;
+            // double distance = 7 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_distance()) != 0) {
               total_size += 9;
             }

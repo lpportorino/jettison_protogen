@@ -227,29 +227,33 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n)jon_shared_cmd_day_cam_glass_heater.pr"
-    "oto\022\025cmd.DayCamGlassHeater\"\205\002\n\004Root\022-\n\005s"
-    "tart\030\001 \001(\0132\034.cmd.DayCamGlassHeater.Start"
-    "H\000\022+\n\004stop\030\002 \001(\0132\033.cmd.DayCamGlassHeater"
-    ".StopH\000\0220\n\007turn_on\030\003 \001(\0132\035.cmd.DayCamGla"
-    "ssHeater.TurnOnH\000\0222\n\010turn_off\030\004 \001(\0132\036.cm"
-    "d.DayCamGlassHeater.TurnOffH\000\0224\n\tget_met"
-    "eo\030\005 \001(\0132\037.cmd.DayCamGlassHeater.GetMete"
-    "oH\000B\005\n\003cmd\"\007\n\005Start\"\006\n\004Stop\"\010\n\006TurnOn\"\t\n"
-    "\007TurnOff\"\n\n\010GetMeteoB[ZYgit-codecommit.e"
-    "u-central-1.amazonaws.com/v1/repos/jetti"
-    "son/jonp/cmd/day_cam_glass_heaterb\006proto"
-    "3"
+    "oto\022\025cmd.DayCamGlassHeater\032\033buf/validate"
+    "/validate.proto\"\214\002\n\004Root\022-\n\005start\030\001 \001(\0132"
+    "\034.cmd.DayCamGlassHeater.StartH\000\022+\n\004stop\030"
+    "\002 \001(\0132\033.cmd.DayCamGlassHeater.StopH\000\0220\n\007"
+    "turn_on\030\003 \001(\0132\035.cmd.DayCamGlassHeater.Tu"
+    "rnOnH\000\0222\n\010turn_off\030\004 \001(\0132\036.cmd.DayCamGla"
+    "ssHeater.TurnOffH\000\0224\n\tget_meteo\030\005 \001(\0132\037."
+    "cmd.DayCamGlassHeater.GetMeteoH\000B\014\n\003cmd\022"
+    "\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\010\n\006TurnOn\"\t\n\007Tur"
+    "nOff\"\n\n\010GetMeteoB[ZYgit-codecommit.eu-ce"
+    "ntral-1.amazonaws.com/v1/repos/jettison/"
+    "jonp/cmd/day_cam_glass_heaterb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto = {
     false,
     false,
-    481,
+    517,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto,
     "jon_shared_cmd_day_cam_glass_heater.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto_deps,
+    1,
     6,
     schemas,
     file_default_instances,

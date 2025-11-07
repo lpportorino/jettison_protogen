@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -226,7 +227,7 @@ class ScanNode final : public ::google::protobuf::Message
     kSpeedFieldNumber = 7,
     kHeatZoomTableValueFieldNumber = 3,
   };
-  // int32 index = 1;
+  // int32 index = 1 [(.buf.validate.field) = {
   void clear_index() ;
   ::int32_t index() const;
   void set_index(::int32_t value);
@@ -236,7 +237,7 @@ class ScanNode final : public ::google::protobuf::Message
   void _internal_set_index(::int32_t value);
 
   public:
-  // int32 DayZoomTableValue = 2;
+  // int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
   void clear_dayzoomtablevalue() ;
   ::int32_t dayzoomtablevalue() const;
   void set_dayzoomtablevalue(::int32_t value);
@@ -246,7 +247,7 @@ class ScanNode final : public ::google::protobuf::Message
   void _internal_set_dayzoomtablevalue(::int32_t value);
 
   public:
-  // double azimuth = 4;
+  // double azimuth = 4 [(.buf.validate.field) = {
   void clear_azimuth() ;
   double azimuth() const;
   void set_azimuth(double value);
@@ -256,7 +257,7 @@ class ScanNode final : public ::google::protobuf::Message
   void _internal_set_azimuth(double value);
 
   public:
-  // double elevation = 5;
+  // double elevation = 5 [(.buf.validate.field) = {
   void clear_elevation() ;
   double elevation() const;
   void set_elevation(double value);
@@ -266,7 +267,7 @@ class ScanNode final : public ::google::protobuf::Message
   void _internal_set_elevation(double value);
 
   public:
-  // double linger = 6;
+  // double linger = 6 [(.buf.validate.field) = {
   void clear_linger() ;
   double linger() const;
   void set_linger(double value);
@@ -276,7 +277,7 @@ class ScanNode final : public ::google::protobuf::Message
   void _internal_set_linger(double value);
 
   public:
-  // double speed = 7;
+  // double speed = 7 [(.buf.validate.field) = {
   void clear_speed() ;
   double speed() const;
   void set_speed(double value);
@@ -286,7 +287,7 @@ class ScanNode final : public ::google::protobuf::Message
   void _internal_set_speed(double value);
 
   public:
-  // int32 HeatZoomTableValue = 3;
+  // int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
   void clear_heatzoomtablevalue() ;
   ::int32_t heatzoomtablevalue() const;
   void set_heatzoomtablevalue(::int32_t value);
@@ -498,7 +499,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     kSunAzimuthFieldNumber = 15,
     kSunElevationFieldNumber = 16,
   };
-  // .ser.ScanNode current_scan_node = 17;
+  // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
   bool has_current_scan_node() const;
   void clear_current_scan_node() ;
   const ::ser::ScanNode& current_scan_node() const;
@@ -513,7 +514,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   ::ser::ScanNode* _internal_mutable_current_scan_node();
 
   public:
-  // double azimuth = 1;
+  // double azimuth = 1 [(.buf.validate.field) = {
   void clear_azimuth() ;
   double azimuth() const;
   void set_azimuth(double value);
@@ -523,7 +524,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_azimuth(double value);
 
   public:
-  // double azimuth_speed = 2;
+  // double azimuth_speed = 2 [(.buf.validate.field) = {
   void clear_azimuth_speed() ;
   double azimuth_speed() const;
   void set_azimuth_speed(double value);
@@ -533,7 +534,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_azimuth_speed(double value);
 
   public:
-  // double elevation = 3;
+  // double elevation = 3 [(.buf.validate.field) = {
   void clear_elevation() ;
   double elevation() const;
   void set_elevation(double value);
@@ -543,7 +544,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_elevation(double value);
 
   public:
-  // double elevation_speed = 4;
+  // double elevation_speed = 4 [(.buf.validate.field) = {
   void clear_elevation_speed() ;
   double elevation_speed() const;
   void set_elevation_speed(double value);
@@ -553,7 +554,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_elevation_speed(double value);
 
   public:
-  // double platform_azimuth = 5;
+  // double platform_azimuth = 5 [(.buf.validate.field) = {
   void clear_platform_azimuth() ;
   double platform_azimuth() const;
   void set_platform_azimuth(double value);
@@ -563,7 +564,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_platform_azimuth(double value);
 
   public:
-  // double platform_elevation = 6;
+  // double platform_elevation = 6 [(.buf.validate.field) = {
   void clear_platform_elevation() ;
   double platform_elevation() const;
   void set_platform_elevation(double value);
@@ -573,7 +574,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_platform_elevation(double value);
 
   public:
-  // double platform_bank = 7;
+  // double platform_bank = 7 [(.buf.validate.field) = {
   void clear_platform_bank() ;
   double platform_bank() const;
   void set_platform_bank(double value);
@@ -583,7 +584,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_platform_bank(double value);
 
   public:
-  // .ser.JonGuiDataRotaryMode mode = 9;
+  // .ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = {
   void clear_mode() ;
   ::ser::JonGuiDataRotaryMode mode() const;
   void set_mode(::ser::JonGuiDataRotaryMode value);
@@ -633,7 +634,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_use_rotary_as_compass(bool value);
 
   public:
-  // int32 scan_target = 13;
+  // int32 scan_target = 13 [(.buf.validate.field) = {
   void clear_scan_target() ;
   ::int32_t scan_target() const;
   void set_scan_target(::int32_t value);
@@ -643,7 +644,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_scan_target(::int32_t value);
 
   public:
-  // int32 scan_target_max = 14;
+  // int32 scan_target_max = 14 [(.buf.validate.field) = {
   void clear_scan_target_max() ;
   ::int32_t scan_target_max() const;
   void set_scan_target_max(::int32_t value);
@@ -653,7 +654,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_scan_target_max(::int32_t value);
 
   public:
-  // double sun_azimuth = 15;
+  // double sun_azimuth = 15 [(.buf.validate.field) = {
   void clear_sun_azimuth() ;
   double sun_azimuth() const;
   void set_sun_azimuth(double value);
@@ -663,7 +664,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_sun_azimuth(double value);
 
   public:
-  // double sun_elevation = 16;
+  // double sun_elevation = 16 [(.buf.validate.field) = {
   void clear_sun_elevation() ;
   double sun_elevation() const;
   void set_sun_elevation(double value);
@@ -737,7 +738,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
 
 // JonGuiDataRotary
 
-// double azimuth = 1;
+// double azimuth = 1 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = 0;
@@ -759,7 +760,7 @@ inline void JonGuiDataRotary::_internal_set_azimuth(double value) {
   _impl_.azimuth_ = value;
 }
 
-// double azimuth_speed = 2;
+// double azimuth_speed = 2 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_azimuth_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_speed_ = 0;
@@ -781,7 +782,7 @@ inline void JonGuiDataRotary::_internal_set_azimuth_speed(double value) {
   _impl_.azimuth_speed_ = value;
 }
 
-// double elevation = 3;
+// double elevation = 3 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = 0;
@@ -803,7 +804,7 @@ inline void JonGuiDataRotary::_internal_set_elevation(double value) {
   _impl_.elevation_ = value;
 }
 
-// double elevation_speed = 4;
+// double elevation_speed = 4 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_elevation_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_speed_ = 0;
@@ -825,7 +826,7 @@ inline void JonGuiDataRotary::_internal_set_elevation_speed(double value) {
   _impl_.elevation_speed_ = value;
 }
 
-// double platform_azimuth = 5;
+// double platform_azimuth = 5 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_platform_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_azimuth_ = 0;
@@ -847,7 +848,7 @@ inline void JonGuiDataRotary::_internal_set_platform_azimuth(double value) {
   _impl_.platform_azimuth_ = value;
 }
 
-// double platform_elevation = 6;
+// double platform_elevation = 6 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_platform_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_elevation_ = 0;
@@ -869,7 +870,7 @@ inline void JonGuiDataRotary::_internal_set_platform_elevation(double value) {
   _impl_.platform_elevation_ = value;
 }
 
-// double platform_bank = 7;
+// double platform_bank = 7 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_platform_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.platform_bank_ = 0;
@@ -913,7 +914,7 @@ inline void JonGuiDataRotary::_internal_set_is_moving(bool value) {
   _impl_.is_moving_ = value;
 }
 
-// .ser.JonGuiDataRotaryMode mode = 9;
+// .ser.JonGuiDataRotaryMode mode = 9 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_mode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.mode_ = 0;
@@ -1001,7 +1002,7 @@ inline void JonGuiDataRotary::_internal_set_use_rotary_as_compass(bool value) {
   _impl_.use_rotary_as_compass_ = value;
 }
 
-// int32 scan_target = 13;
+// int32 scan_target = 13 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_scan_target() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.scan_target_ = 0;
@@ -1023,7 +1024,7 @@ inline void JonGuiDataRotary::_internal_set_scan_target(::int32_t value) {
   _impl_.scan_target_ = value;
 }
 
-// int32 scan_target_max = 14;
+// int32 scan_target_max = 14 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_scan_target_max() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.scan_target_max_ = 0;
@@ -1045,7 +1046,7 @@ inline void JonGuiDataRotary::_internal_set_scan_target_max(::int32_t value) {
   _impl_.scan_target_max_ = value;
 }
 
-// double sun_azimuth = 15;
+// double sun_azimuth = 15 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_sun_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sun_azimuth_ = 0;
@@ -1067,7 +1068,7 @@ inline void JonGuiDataRotary::_internal_set_sun_azimuth(double value) {
   _impl_.sun_azimuth_ = value;
 }
 
-// double sun_elevation = 16;
+// double sun_elevation = 16 [(.buf.validate.field) = {
 inline void JonGuiDataRotary::clear_sun_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.sun_elevation_ = 0;
@@ -1089,7 +1090,7 @@ inline void JonGuiDataRotary::_internal_set_sun_elevation(double value) {
   _impl_.sun_elevation_ = value;
 }
 
-// .ser.ScanNode current_scan_node = 17;
+// .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
 inline bool JonGuiDataRotary::has_current_scan_node() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.current_scan_node_ != nullptr);
@@ -1189,7 +1190,7 @@ inline void JonGuiDataRotary::set_allocated_current_scan_node(::ser::ScanNode* v
 
 // ScanNode
 
-// int32 index = 1;
+// int32 index = 1 [(.buf.validate.field) = {
 inline void ScanNode::clear_index() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.index_ = 0;
@@ -1211,7 +1212,7 @@ inline void ScanNode::_internal_set_index(::int32_t value) {
   _impl_.index_ = value;
 }
 
-// int32 DayZoomTableValue = 2;
+// int32 DayZoomTableValue = 2 [(.buf.validate.field) = {
 inline void ScanNode::clear_dayzoomtablevalue() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.dayzoomtablevalue_ = 0;
@@ -1233,7 +1234,7 @@ inline void ScanNode::_internal_set_dayzoomtablevalue(::int32_t value) {
   _impl_.dayzoomtablevalue_ = value;
 }
 
-// int32 HeatZoomTableValue = 3;
+// int32 HeatZoomTableValue = 3 [(.buf.validate.field) = {
 inline void ScanNode::clear_heatzoomtablevalue() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.heatzoomtablevalue_ = 0;
@@ -1255,7 +1256,7 @@ inline void ScanNode::_internal_set_heatzoomtablevalue(::int32_t value) {
   _impl_.heatzoomtablevalue_ = value;
 }
 
-// double azimuth = 4;
+// double azimuth = 4 [(.buf.validate.field) = {
 inline void ScanNode::clear_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = 0;
@@ -1277,7 +1278,7 @@ inline void ScanNode::_internal_set_azimuth(double value) {
   _impl_.azimuth_ = value;
 }
 
-// double elevation = 5;
+// double elevation = 5 [(.buf.validate.field) = {
 inline void ScanNode::clear_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = 0;
@@ -1299,7 +1300,7 @@ inline void ScanNode::_internal_set_elevation(double value) {
   _impl_.elevation_ = value;
 }
 
-// double linger = 6;
+// double linger = 6 [(.buf.validate.field) = {
 inline void ScanNode::clear_linger() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.linger_ = 0;
@@ -1321,7 +1322,7 @@ inline void ScanNode::_internal_set_linger(double value) {
   _impl_.linger_ = value;
 }
 
-// double speed = 7;
+// double speed = 7 [(.buf.validate.field) = {
 inline void ScanNode::clear_speed() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.speed_ = 0;

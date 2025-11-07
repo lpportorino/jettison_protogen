@@ -29,6 +29,7 @@
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
+#include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -222,7 +223,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     kMagneticDeclinationFieldNumber = 6,
     kCalibratingFieldNumber = 7,
   };
-  // double azimuth = 1;
+  // double azimuth = 1 [(.buf.validate.field) = {
   void clear_azimuth() ;
   double azimuth() const;
   void set_azimuth(double value);
@@ -232,7 +233,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   void _internal_set_azimuth(double value);
 
   public:
-  // double elevation = 2;
+  // double elevation = 2 [(.buf.validate.field) = {
   void clear_elevation() ;
   double elevation() const;
   void set_elevation(double value);
@@ -242,7 +243,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   void _internal_set_elevation(double value);
 
   public:
-  // double bank = 3;
+  // double bank = 3 [(.buf.validate.field) = {
   void clear_bank() ;
   double bank() const;
   void set_bank(double value);
@@ -252,7 +253,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   void _internal_set_bank(double value);
 
   public:
-  // double offsetAzimuth = 4;
+  // double offsetAzimuth = 4 [(.buf.validate.field) = {
   void clear_offsetazimuth() ;
   double offsetazimuth() const;
   void set_offsetazimuth(double value);
@@ -262,7 +263,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   void _internal_set_offsetazimuth(double value);
 
   public:
-  // double offsetElevation = 5;
+  // double offsetElevation = 5 [(.buf.validate.field) = {
   void clear_offsetelevation() ;
   double offsetelevation() const;
   void set_offsetelevation(double value);
@@ -272,7 +273,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   void _internal_set_offsetelevation(double value);
 
   public:
-  // double magneticDeclination = 6;
+  // double magneticDeclination = 6 [(.buf.validate.field) = {
   void clear_magneticdeclination() ;
   double magneticdeclination() const;
   void set_magneticdeclination(double value);
@@ -345,7 +346,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
 
 // JonGuiDataCompass
 
-// double azimuth = 1;
+// double azimuth = 1 [(.buf.validate.field) = {
 inline void JonGuiDataCompass::clear_azimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.azimuth_ = 0;
@@ -367,7 +368,7 @@ inline void JonGuiDataCompass::_internal_set_azimuth(double value) {
   _impl_.azimuth_ = value;
 }
 
-// double elevation = 2;
+// double elevation = 2 [(.buf.validate.field) = {
 inline void JonGuiDataCompass::clear_elevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.elevation_ = 0;
@@ -389,7 +390,7 @@ inline void JonGuiDataCompass::_internal_set_elevation(double value) {
   _impl_.elevation_ = value;
 }
 
-// double bank = 3;
+// double bank = 3 [(.buf.validate.field) = {
 inline void JonGuiDataCompass::clear_bank() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.bank_ = 0;
@@ -411,7 +412,7 @@ inline void JonGuiDataCompass::_internal_set_bank(double value) {
   _impl_.bank_ = value;
 }
 
-// double offsetAzimuth = 4;
+// double offsetAzimuth = 4 [(.buf.validate.field) = {
 inline void JonGuiDataCompass::clear_offsetazimuth() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.offsetazimuth_ = 0;
@@ -433,7 +434,7 @@ inline void JonGuiDataCompass::_internal_set_offsetazimuth(double value) {
   _impl_.offsetazimuth_ = value;
 }
 
-// double offsetElevation = 5;
+// double offsetElevation = 5 [(.buf.validate.field) = {
 inline void JonGuiDataCompass::clear_offsetelevation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.offsetelevation_ = 0;
@@ -455,7 +456,7 @@ inline void JonGuiDataCompass::_internal_set_offsetelevation(double value) {
   _impl_.offsetelevation_ = value;
 }
 
-// double magneticDeclination = 6;
+// double magneticDeclination = 6 [(.buf.validate.field) = {
 inline void JonGuiDataCompass::clear_magneticdeclination() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.magneticdeclination_ = 0;

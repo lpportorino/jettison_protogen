@@ -461,43 +461,52 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fcompass_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\034jon_shared_cmd_compass.proto\022\013cmd.Comp"
-    "ass\"\230\005\n\004Root\022#\n\005start\030\001 \001(\0132\022.cmd.Compas"
-    "s.StartH\000\022!\n\004stop\030\002 \001(\0132\021.cmd.Compass.St"
-    "opH\000\022G\n\030set_magnetic_declination\030\003 \001(\0132#"
-    ".cmd.Compass.SetMagneticDeclinationH\000\022F\n"
-    "\030set_offset_angle_azimuth\030\004 \001(\0132\".cmd.Co"
-    "mpass.SetOffsetAngleAzimuthH\000\022J\n\032set_off"
-    "set_angle_elevation\030\005 \001(\0132$.cmd.Compass."
-    "SetOffsetAngleElevationH\000\022D\n\027set_use_rot"
-    "ary_position\030\006 \001(\0132!.cmd.Compass.SetUseR"
-    "otaryPositionH\000\022\?\n\024start_calibrate_long\030"
-    "\007 \001(\0132\037.cmd.Compass.CalibrateStartLongH\000"
-    "\022A\n\025start_calibrate_short\030\010 \001(\0132 .cmd.Co"
-    "mpass.CalibrateStartShortH\000\0224\n\016calibrate"
-    "_next\030\t \001(\0132\032.cmd.Compass.CalibrateNextH"
-    "\000\0228\n\020calibrate_cencel\030\n \001(\0132\034.cmd.Compas"
-    "s.CalibrateCencelH\000\022*\n\tget_meteo\030\013 \001(\0132\025"
-    ".cmd.Compass.GetMeteoH\000B\005\n\003cmd\"\007\n\005Start\""
-    "\006\n\004Stop\"\006\n\004Next\"\024\n\022CalibrateStartLong\"\025\n"
-    "\023CalibrateStartShort\"\017\n\rCalibrateNext\"\021\n"
-    "\017CalibrateCencel\"\n\n\010GetMeteo\"\'\n\026SetMagne"
-    "ticDeclination\022\r\n\005value\030\001 \001(\001\"&\n\025SetOffs"
-    "etAngleAzimuth\022\r\n\005value\030\001 \001(\001\"(\n\027SetOffs"
-    "etAngleElevation\022\r\n\005value\030\001 \001(\001\"$\n\024SetUs"
-    "eRotaryPosition\022\014\n\004flag\030\001 \001(\010BNZLgit-cod"
-    "ecommit.eu-central-1.amazonaws.com/v1/re"
-    "pos/jettison/jonp/cmd/compassb\006proto3"
+    "ass\032\033buf/validate/validate.proto\"\237\005\n\004Roo"
+    "t\022#\n\005start\030\001 \001(\0132\022.cmd.Compass.StartH\000\022!"
+    "\n\004stop\030\002 \001(\0132\021.cmd.Compass.StopH\000\022G\n\030set"
+    "_magnetic_declination\030\003 \001(\0132#.cmd.Compas"
+    "s.SetMagneticDeclinationH\000\022F\n\030set_offset"
+    "_angle_azimuth\030\004 \001(\0132\".cmd.Compass.SetOf"
+    "fsetAngleAzimuthH\000\022J\n\032set_offset_angle_e"
+    "levation\030\005 \001(\0132$.cmd.Compass.SetOffsetAn"
+    "gleElevationH\000\022D\n\027set_use_rotary_positio"
+    "n\030\006 \001(\0132!.cmd.Compass.SetUseRotaryPositi"
+    "onH\000\022\?\n\024start_calibrate_long\030\007 \001(\0132\037.cmd"
+    ".Compass.CalibrateStartLongH\000\022A\n\025start_c"
+    "alibrate_short\030\010 \001(\0132 .cmd.Compass.Calib"
+    "rateStartShortH\000\0224\n\016calibrate_next\030\t \001(\013"
+    "2\032.cmd.Compass.CalibrateNextH\000\0228\n\020calibr"
+    "ate_cencel\030\n \001(\0132\034.cmd.Compass.Calibrate"
+    "CencelH\000\022*\n\tget_meteo\030\013 \001(\0132\025.cmd.Compas"
+    "s.GetMeteoH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004S"
+    "top\"\006\n\004Next\"\024\n\022CalibrateStartLong\"\025\n\023Cal"
+    "ibrateStartShort\"\017\n\rCalibrateNext\"\021\n\017Cal"
+    "ibrateCencel\"\n\n\010GetMeteo\"[\n\026SetMagneticD"
+    "eclination\022A\n\005value\030\001 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f"
+    "@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000.@\"Z\n"
+    "\025SetOffsetAngleAzimuth\022A\n\005value\030\001 \001(\001B2\272"
+    "H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000"
+    "I\000\000\000\000\000\200F@\"\\\n\027SetOffsetAngleElevation\022A\n\005"
+    "value\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000"
+    "\000\000\000>\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000>@\"$\n\024SetUseRotaryP"
+    "osition\022\014\n\004flag\030\001 \001(\010BNZLgit-codecommit."
+    "eu-central-1.amazonaws.com/v1/repos/jett"
+    "ison/jonp/cmd/compassb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fcompass_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fcompass_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fcompass_2eproto = {
     false,
     false,
-    1077,
+    1269,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fcompass_2eproto,
     "jon_shared_cmd_compass.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fcompass_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fcmd_5fcompass_2eproto_deps,
+    1,
     13,
     schemas,
     file_default_instances,
@@ -2214,13 +2223,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetMagneticDeclination::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Compass::SetMagneticDeclination>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetMagneticDeclination, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetMagneticDeclination, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -2255,7 +2264,7 @@ PROTOBUF_NOINLINE void SetMagneticDeclination::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -2286,7 +2295,7 @@ PROTOBUF_NOINLINE void SetMagneticDeclination::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }
@@ -2420,13 +2429,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetOffsetAngleAzimuth::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Compass::SetOffsetAngleAzimuth>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsetAngleAzimuth, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetOffsetAngleAzimuth, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -2461,7 +2470,7 @@ PROTOBUF_NOINLINE void SetOffsetAngleAzimuth::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -2492,7 +2501,7 @@ PROTOBUF_NOINLINE void SetOffsetAngleAzimuth::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }
@@ -2626,13 +2635,13 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetOffsetAngleElevation::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Compass::SetOffsetAngleElevation>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(SetOffsetAngleElevation, _impl_.value_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double value = 1;
+    // double value = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(SetOffsetAngleElevation, _impl_.value_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
   }},
@@ -2667,7 +2676,7 @@ PROTOBUF_NOINLINE void SetOffsetAngleElevation::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double value = 1;
+          // double value = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -2698,7 +2707,7 @@ PROTOBUF_NOINLINE void SetOffsetAngleElevation::Clear() {
           (void)cached_has_bits;
 
            {
-            // double value = 1;
+            // double value = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_value()) != 0) {
               total_size += 9;
             }

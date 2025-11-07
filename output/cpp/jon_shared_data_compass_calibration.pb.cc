@@ -89,30 +89,34 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n)jon_shared_data_compass_calibration.pr"
-    "oto\022\003ser\032\033jon_shared_data_types.proto\"\300\001"
-    "\n\034JonGuiDataCompassCalibration\022\r\n\005stage\030"
-    "\001 \001(\r\022\023\n\013final_stage\030\002 \001(\r\022\026\n\016target_azi"
-    "muth\030\003 \001(\001\022\030\n\020target_elevation\030\004 \001(\001\022\023\n\013"
-    "target_bank\030\005 \001(\001\0225\n\006status\030\006 \001(\0162%.ser."
-    "JonGuiDataCompassCalibrateStatusB[ZYgit-"
-    "codecommit.eu-central-1.amazonaws.com/v1"
-    "/repos/jettison/jonp/data/compass_calibr"
-    "ationb\006proto3"
+    "oto\022\003ser\032\033buf/validate/validate.proto\032\033j"
+    "on_shared_data_types.proto\"\251\002\n\034JonGuiDat"
+    "aCompassCalibration\022\026\n\005stage\030\001 \001(\rB\007\272H\004*"
+    "\002(\000\022\034\n\013final_stage\030\002 \001(\rB\007\272H\004*\002 \000\022/\n\016tar"
+    "get_azimuth\030\003 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000"
+    "\000\000\0221\n\020target_elevation\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000"
+    "\000\200V@)\000\000\000\000\000\200V\300\022,\n\013target_bank\030\005 \001(\001B\027\272H\024\022"
+    "\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022A\n\006status\030\006 \001(\0162%.se"
+    "r.JonGuiDataCompassCalibrateStatusB\n\272H\007\202"
+    "\001\004\020\001 \000B[ZYgit-codecommit.eu-central-1.am"
+    "azonaws.com/v1/repos/jettison/jonp/data/"
+    "compass_calibrationb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto_deps[2] =
     {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto = {
     false,
     false,
-    373,
+    507,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto,
     "jon_shared_data_compass_calibration.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto_deps,
-    1,
+    2,
     1,
     schemas,
     file_default_instances,
@@ -221,44 +225,44 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> JonGuiDataCompassCalibration::_table_ 
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // uint32 stage = 1;
+    // uint32 stage = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCompassCalibration, _impl_.stage_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.stage_)}},
-    // uint32 final_stage = 2;
+    // uint32 final_stage = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCompassCalibration, _impl_.final_stage_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.final_stage_)}},
-    // double target_azimuth = 3;
+    // double target_azimuth = 3 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.target_azimuth_)}},
-    // double target_elevation = 4;
+    // double target_elevation = 4 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {33, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.target_elevation_)}},
-    // double target_bank = 5;
+    // double target_bank = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.target_bank_)}},
-    // .ser.JonGuiDataCompassCalibrateStatus status = 6;
+    // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCompassCalibration, _impl_.status_), 63>(),
      {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.status_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
-    // uint32 stage = 1;
+    // uint32 stage = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.stage_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint32 final_stage = 2;
+    // uint32 final_stage = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.final_stage_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // double target_azimuth = 3;
+    // double target_azimuth = 3 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.target_azimuth_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_elevation = 4;
+    // double target_elevation = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.target_elevation_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double target_bank = 5;
+    // double target_bank = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.target_bank_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // .ser.JonGuiDataCompassCalibrateStatus status = 6;
+    // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.status_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }},
@@ -295,42 +299,42 @@ PROTOBUF_NOINLINE void JonGuiDataCompassCalibration::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // uint32 stage = 1;
+          // uint32 stage = 1 [(.buf.validate.field) = {
           if (this_._internal_stage() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
                 1, this_._internal_stage(), target);
           }
 
-          // uint32 final_stage = 2;
+          // uint32 final_stage = 2 [(.buf.validate.field) = {
           if (this_._internal_final_stage() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
                 2, this_._internal_final_stage(), target);
           }
 
-          // double target_azimuth = 3;
+          // double target_azimuth = 3 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_azimuth()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 3, this_._internal_target_azimuth(), target);
           }
 
-          // double target_elevation = 4;
+          // double target_elevation = 4 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_elevation()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 4, this_._internal_target_elevation(), target);
           }
 
-          // double target_bank = 5;
+          // double target_bank = 5 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_target_bank()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
                 5, this_._internal_target_bank(), target);
           }
 
-          // .ser.JonGuiDataCompassCalibrateStatus status = 6;
+          // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
           if (this_._internal_status() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -362,29 +366,29 @@ PROTOBUF_NOINLINE void JonGuiDataCompassCalibration::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // uint32 stage = 1;
+            // uint32 stage = 1 [(.buf.validate.field) = {
             if (this_._internal_stage() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_stage());
             }
-            // uint32 final_stage = 2;
+            // uint32 final_stage = 2 [(.buf.validate.field) = {
             if (this_._internal_final_stage() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_final_stage());
             }
-            // double target_azimuth = 3;
+            // double target_azimuth = 3 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_azimuth()) != 0) {
               total_size += 9;
             }
-            // double target_elevation = 4;
+            // double target_elevation = 4 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_elevation()) != 0) {
               total_size += 9;
             }
-            // double target_bank = 5;
+            // double target_bank = 5 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_target_bank()) != 0) {
               total_size += 9;
             }
-            // .ser.JonGuiDataCompassCalibrateStatus status = 6;
+            // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
             if (this_._internal_status() != 0) {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_status());

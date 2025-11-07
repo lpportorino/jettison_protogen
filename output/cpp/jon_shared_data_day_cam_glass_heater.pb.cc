@@ -81,22 +81,28 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n*jon_shared_data_day_cam_glass_heater.p"
-    "roto\022\003ser\"B\n\033JonGuiDataDayCamGlassHeater"
-    "\022\023\n\013temperature\030\001 \001(\001\022\016\n\006status\030\002 \001(\010B\\Z"
-    "Zgit-codecommit.eu-central-1.amazonaws.c"
-    "om/v1/repos/jettison/jonp/data/day_cam_g"
-    "lass_heaterb\006proto3"
+    "roto\022\003ser\032\033buf/validate/validate.proto\"\177"
+    "\n\033JonGuiDataDayCamGlassHeater\022P\n\013tempera"
+    "ture\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000"
+    "\000\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006statu"
+    "s\030\002 \001(\010B\\ZZgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/data"
+    "/day_cam_glass_heaterb\006proto3"
+};
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto_deps[1] =
+    {
+        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto = {
     false,
     false,
-    219,
+    309,
     descriptor_table_protodef_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto,
     "jon_shared_data_day_cam_glass_heater.proto",
     &descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto_once,
-    nullptr,
-    0,
+    descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto_deps,
+    1,
     1,
     schemas,
     file_default_instances,
@@ -207,13 +213,13 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> JonGuiDataDayCamGlassHeater::_table_ =
     // bool status = 2;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataDayCamGlassHeater, _impl_.status_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.status_)}},
-    // double temperature = 1;
+    // double temperature = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.temperature_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // double temperature = 1;
+    // double temperature = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.temperature_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool status = 2;
@@ -253,7 +259,7 @@ PROTOBUF_NOINLINE void JonGuiDataDayCamGlassHeater::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // double temperature = 1;
+          // double temperature = 1 [(.buf.validate.field) = {
           if (::absl::bit_cast<::uint64_t>(this_._internal_temperature()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -292,7 +298,7 @@ PROTOBUF_NOINLINE void JonGuiDataDayCamGlassHeater::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // double temperature = 1;
+            // double temperature = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_temperature()) != 0) {
               total_size += 9;
             }
