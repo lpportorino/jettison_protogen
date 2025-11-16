@@ -11,4 +11,5 @@ message JonGuiDataDayCamGlassHeater {
     example: [-20, 0, 25, 100]
   }];
   bool status = 2;
+  bool is_started = 3;
 }

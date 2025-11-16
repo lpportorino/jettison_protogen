@@ -36,4 +36,5 @@ message JonGuiDataCompass {
     example: [-15, 0, 15]
   }];
   bool calibrating = 7;
+  bool is_started = 8;
 }

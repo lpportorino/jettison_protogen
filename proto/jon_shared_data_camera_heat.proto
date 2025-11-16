@@ -49,4 +49,5 @@ message JonGuiDataCameraHeat {
     gt: 0.0,
     lt: 360.0
   }];
+  bool is_started = 14;
 }
