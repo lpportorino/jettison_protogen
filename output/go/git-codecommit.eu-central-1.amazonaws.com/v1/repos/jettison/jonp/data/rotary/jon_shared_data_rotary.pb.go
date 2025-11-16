@@ -42,6 +42,7 @@ type JonGuiDataRotary struct {
 	SunAzimuth         float64                    `protobuf:"fixed64,15,opt,name=sun_azimuth,json=sunAzimuth,proto3" json:"sun_azimuth,omitempty"`
 	SunElevation       float64                    `protobuf:"fixed64,16,opt,name=sun_elevation,json=sunElevation,proto3" json:"sun_elevation,omitempty"`
 	CurrentScanNode    *ScanNode                  `protobuf:"bytes,17,opt,name=current_scan_node,json=currentScanNode,proto3" json:"current_scan_node,omitempty"`
+	IsStarted          bool                       `protobuf:"varint,18,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -195,6 +196,13 @@ func (x *JonGuiDataRotary) GetCurrentScanNode() *ScanNode {
 	return nil
 }
 
+func (x *JonGuiDataRotary) GetIsStarted() bool {
+	if x != nil {
+		return x.IsStarted
+	}
+	return false
+}
+
 type ScanNode struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Index              int32                  `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
@@ -291,7 +299,8 @@ var File_jon_shared_data_rotary_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfd\t\n" +
+	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9c\n" +
+	"\n" +
 	"\x10JonGuiDataRotary\x12U\n" +
 	"\aazimuth\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\aazimuth\x12i\n" +
 	"\razimuth_speed\x18\x02 \x01(\x01BD\xbaHA\x12?I\x00\x00\x00\x00\x00\x00\xf0\xbfI\x00\x00\x00\x00\x00\x00\xe0\xbfI\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\xe0?I\x00\x00\x00\x00\x00\x00\xf0?\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\fazimuthSpeed\x12P\n" +
@@ -316,7 +325,9 @@ const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\vsun_azimuth\x18\x0f \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
 	"sunAzimuth\x12`\n" +
 	"\rsun_elevation\x18\x10 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\fsunElevation\x12A\n" +
-	"\x11current_scan_node\x18\x11 \x01(\v2\r.ser.ScanNodeB\x06\xbaH\x03\xc8\x01\x01R\x0fcurrentScanNode\"\xda\x02\n" +
+	"\x11current_scan_node\x18\x11 \x01(\v2\r.ser.ScanNodeB\x06\xbaH\x03\xc8\x01\x01R\x0fcurrentScanNode\x12\x1d\n" +
+	"\n" +
+	"is_started\x18\x12 \x01(\bR\tisStarted\"\xda\x02\n" +
 	"\bScanNode\x12\x1d\n" +
 	"\x05index\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x05index\x125\n" +
 	"\x11DayZoomTableValue\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11DayZoomTableValue\x127\n" +

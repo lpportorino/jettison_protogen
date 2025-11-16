@@ -221,9 +221,10 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     kFilterFieldNumber = 3,
     kZoomTablePosFieldNumber = 5,
     kZoomTablePosMaxFieldNumber = 6,
+    kDdeLevelFieldNumber = 7,
     kAutoFocusFieldNumber = 4,
     kDdeEnabledFieldNumber = 8,
-    kDdeLevelFieldNumber = 7,
+    kIsStartedFieldNumber = 14,
     kDigitalZoomLevelFieldNumber = 10,
     kClaheLevelFieldNumber = 11,
     kHorizontalFovDegreesFieldNumber = 12,
@@ -280,6 +281,16 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_zoom_table_pos_max(::int32_t value);
 
   public:
+  // int32 dde_level = 7 [(.buf.validate.field) = {
+  void clear_dde_level() ;
+  ::int32_t dde_level() const;
+  void set_dde_level(::int32_t value);
+
+  private:
+  ::int32_t _internal_dde_level() const;
+  void _internal_set_dde_level(::int32_t value);
+
+  public:
   // bool auto_focus = 4;
   void clear_auto_focus() ;
   bool auto_focus() const;
@@ -300,14 +311,14 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_dde_enabled(bool value);
 
   public:
-  // int32 dde_level = 7 [(.buf.validate.field) = {
-  void clear_dde_level() ;
-  ::int32_t dde_level() const;
-  void set_dde_level(::int32_t value);
+  // bool is_started = 14;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
 
   private:
-  ::int32_t _internal_dde_level() const;
-  void _internal_set_dde_level(::int32_t value);
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
 
   public:
   // double digital_zoom_level = 10 [(.buf.validate.field) = {
@@ -365,7 +376,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 13, 0,
+      4, 14, 0,
       0, 2>
       _table_;
 
@@ -388,9 +399,10 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     int filter_;
     ::int32_t zoom_table_pos_;
     ::int32_t zoom_table_pos_max_;
+    ::int32_t dde_level_;
     bool auto_focus_;
     bool dde_enabled_;
-    ::int32_t dde_level_;
+    bool is_started_;
     double digital_zoom_level_;
     double clahe_level_;
     double horizontal_fov_degrees_;
@@ -703,6 +715,28 @@ inline double JonGuiDataCameraHeat::_internal_vertical_fov_degrees() const {
 inline void JonGuiDataCameraHeat::_internal_set_vertical_fov_degrees(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.vertical_fov_degrees_ = value;
+}
+
+// bool is_started = 14;
+inline void JonGuiDataCameraHeat::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataCameraHeat::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataCameraHeat::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.is_started)
+}
+inline bool JonGuiDataCameraHeat::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataCameraHeat::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 #ifdef __GNUC__

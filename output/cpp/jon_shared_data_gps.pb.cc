@@ -36,6 +36,7 @@ inline constexpr JonGuiDataGps::Impl_::Impl_(
         manual_altitude_{0},
         fix_type_{static_cast< ::ser::JonGuiDataGpsFixType >(0)},
         use_manual_{false},
+        is_started_{false},
         timestamp_{::int64_t{0}},
         _cached_size_{0} {}
 
@@ -83,6 +84,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.fix_type_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.use_manual_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataGps, _impl_.is_started_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -96,7 +98,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_gps.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\210\003\n\rJonGuiDataGps\022*\n\tlongitud"
+    "ypes.proto\"\234\003\n\rJonGuiDataGps\022*\n\tlongitud"
     "e\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010lati"
     "tude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022)\n\010a"
     "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\0221"
@@ -106,9 +108,9 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto[] ABSL_AT
     " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\0227\n\010fix_typ"
     "e\030\007 \001(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202"
     "\001\004\020\001 \000\022\022\n\nuse_manual\030\010 \001(\010\022\021\n\ttimestamp\030"
-    "\t \001(\003BKZIgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/data/g"
-    "psb\006proto3"
+    "\t \001(\003\022\022\n\nis_started\030\n \001(\010BKZIgit-codecom"
+    "mit.eu-central-1.amazonaws.com/v1/repos/"
+    "jettison/jonp/data/gpsb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_deps[2] =
     {
@@ -119,7 +121,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fgps_2eproto = {
     false,
     false,
-    570,
+    590,
     descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto,
     "jon_shared_data_gps.proto",
     &descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_once,
@@ -214,15 +216,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataGps::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 9, 0, 0, 2> JonGuiDataGps::_table_ = {
+const ::_pbi::TcParseTable<4, 10, 0, 0, 2> JonGuiDataGps::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    9, 120,  // max_field_number, fast_idx_mask
+    10, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966784,  // skipmap
+    4294966272,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
+    10,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -260,7 +262,9 @@ const ::_pbi::TcParseTable<4, 9, 0, 0, 2> JonGuiDataGps::_table_ = {
     // int64 timestamp = 9;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonGuiDataGps, _impl_.timestamp_), 63>(),
      {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.timestamp_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // bool is_started = 10;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataGps, _impl_.is_started_), 63>(),
+     {80, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.is_started_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -296,6 +300,9 @@ const ::_pbi::TcParseTable<4, 9, 0, 0, 2> JonGuiDataGps::_table_ = {
     // int64 timestamp = 9;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.timestamp_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
+    // bool is_started = 10;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.is_started_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }},
   // no aux_entries
   {{
@@ -393,6 +400,13 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
                     stream, this_._internal_timestamp(), target);
           }
 
+          // bool is_started = 10;
+          if (this_._internal_is_started() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                10, this_._internal_is_started(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -451,6 +465,10 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
             if (this_._internal_use_manual() != 0) {
               total_size += 2;
             }
+            // bool is_started = 10;
+            if (this_._internal_is_started() != 0) {
+              total_size += 2;
+            }
             // int64 timestamp = 9;
             if (this_._internal_timestamp() != 0) {
               total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
@@ -492,6 +510,9 @@ void JonGuiDataGps::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   }
   if (from._internal_use_manual() != 0) {
     _this->_impl_.use_manual_ = from._impl_.use_manual_;
+  }
+  if (from._internal_is_started() != 0) {
+    _this->_impl_.is_started_ = from._impl_.is_started_;
   }
   if (from._internal_timestamp() != 0) {
     _this->_impl_.timestamp_ = from._impl_.timestamp_;

@@ -76,7 +76,8 @@ inline constexpr JonGuiDataRotary::Impl_::Impl_(
         scan_target_{0},
         scan_target_max_{0},
         sun_azimuth_{0},
-        sun_elevation_{0} {}
+        sun_elevation_{0},
+        is_started_{false} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataRotary::JonGuiDataRotary(::_pbi::ConstantInitialized)
@@ -130,6 +131,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.sun_azimuth_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.sun_elevation_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.current_scan_node_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.is_started_),
         ~0u,
         ~0u,
         ~0u,
@@ -147,6 +149,7 @@ const ::uint32_t
         ~0u,
         ~0u,
         0,
+        ~0u,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ser::ScanNode, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -166,8 +169,8 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 25, -1, sizeof(::ser::JonGuiDataRotary)},
-        {42, -1, -1, sizeof(::ser::ScanNode)},
+        {0, 26, -1, sizeof(::ser::JonGuiDataRotary)},
+        {44, -1, -1, sizeof(::ser::ScanNode)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataRotary_default_instance_._instance,
@@ -177,7 +180,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf"
     "/validate/validate.proto\032\033jon_shared_dat"
-    "a_types.proto\"\221\010\n\020JonGuiDataRotary\022L\n\007az"
+    "a_types.proto\"\245\010\n\020JonGuiDataRotary\022L\n\007az"
     "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000"
     "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim"
     "uth_speed\030\002 \001(\001BD\272HA\022\?\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
@@ -203,16 +206,16 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200"
     "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000"
     "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser"
-    ".ScanNodeB\006\272H\003\310\001\001\"\211\002\n\010ScanNode\022\026\n\005index\030"
-    "\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001("
-    "\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007"
-    "\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@"
-    ")\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000"
-    "\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000"
-    "\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000"
-    "\000\000\000\000\000BNZLgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/data/r"
-    "otaryb\006proto3"
+    ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\"\211\002"
+    "\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021Da"
+    "yZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZo"
+    "omTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004"
+    " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televati"
+    "on\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006lin"
+    "ger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001"
+    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000BNZLgit-codecom"
+    "mit.eu-central-1.amazonaws.com/v1/repos/"
+    "jettison/jonp/data/rotaryb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps[2] =
     {
@@ -223,7 +226,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_o
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5frotary_2eproto = {
     false,
     false,
-    1493,
+    1513,
     descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto,
     "jon_shared_data_rotary.proto",
     &descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_once,
@@ -283,9 +286,9 @@ JonGuiDataRotary::JonGuiDataRotary(
                offsetof(Impl_, azimuth_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, azimuth_),
-           offsetof(Impl_, sun_elevation_) -
+           offsetof(Impl_, is_started_) -
                offsetof(Impl_, azimuth_) +
-               sizeof(Impl_::sun_elevation_));
+               sizeof(Impl_::is_started_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataRotary)
 }
@@ -299,9 +302,9 @@ inline void JonGuiDataRotary::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, current_scan_node_),
            0,
-           offsetof(Impl_, sun_elevation_) -
+           offsetof(Impl_, is_started_) -
                offsetof(Impl_, current_scan_node_) +
-               sizeof(Impl_::sun_elevation_));
+               sizeof(Impl_::is_started_));
 }
 JonGuiDataRotary::~JonGuiDataRotary() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataRotary)
@@ -351,15 +354,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataRotary::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
+const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataRotary::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_._has_bits_),
     0, // no _extensions_
-    17, 248,  // max_field_number, fast_idx_mask
+    18, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294836224,  // skipmap
+    4294705152,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    17,  // num_field_entries
+    18,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -421,7 +424,9 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastMtS2,
      {394, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // bool is_started = 18;
+    {::_pbi::TcParser::FastV8S2,
+     {400, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_started_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -489,6 +494,9 @@ const ::_pbi::TcParseTable<5, 17, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // bool is_started = 18;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_started_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::ScanNode>()},
   }}, {{
@@ -508,8 +516,8 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
     _impl_.current_scan_node_->Clear();
   }
   ::memset(&_impl_.azimuth_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.sun_elevation_) -
-      reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.sun_elevation_));
+      reinterpret_cast<char*>(&_impl_.is_started_) -
+      reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.is_started_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -649,6 +657,13 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
                 stream);
           }
 
+          // bool is_started = 18;
+          if (this_._internal_is_started() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                18, this_._internal_is_started(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -749,6 +764,10 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_sun_elevation()) != 0) {
               total_size += 10;
             }
+            // bool is_started = 18;
+            if (this_._internal_is_started() != 0) {
+              total_size += 3;
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -821,6 +840,9 @@ void JonGuiDataRotary::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   if (::absl::bit_cast<::uint64_t>(from._internal_sun_elevation()) != 0) {
     _this->_impl_.sun_elevation_ = from._impl_.sun_elevation_;
   }
+  if (from._internal_is_started() != 0) {
+    _this->_impl_.is_started_ = from._impl_.is_started_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -838,8 +860,8 @@ void JonGuiDataRotary::InternalSwap(JonGuiDataRotary* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_)
-      + sizeof(JonGuiDataRotary::_impl_.sun_elevation_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_started_)
+      + sizeof(JonGuiDataRotary::_impl_.is_started_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_)>(
           reinterpret_cast<char*>(&_impl_.current_scan_node_),
           reinterpret_cast<char*>(&other->_impl_.current_scan_node_));

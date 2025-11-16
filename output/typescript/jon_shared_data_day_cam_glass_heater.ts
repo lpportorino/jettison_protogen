@@ -11,10 +11,11 @@ import Long from "long";
 export interface JonGuiDataDayCamGlassHeater {
   temperature: number;
   status: boolean;
+  isStarted: boolean;
 }
 
 function createBaseJonGuiDataDayCamGlassHeater(): JonGuiDataDayCamGlassHeater {
-  return { temperature: 0, status: false };
+  return { temperature: 0, status: false, isStarted: false };
 }
 
 export const JonGuiDataDayCamGlassHeater: MessageFns<JonGuiDataDayCamGlassHeater> = {
@@ -24,6 +25,9 @@ export const JonGuiDataDayCamGlassHeater: MessageFns<JonGuiDataDayCamGlassHeater
     }
     if (message.status !== false) {
       writer.uint32(16).bool(message.status);
+    }
+    if (message.isStarted !== false) {
+      writer.uint32(24).bool(message.isStarted);
     }
     return writer;
   },
@@ -51,6 +55,14 @@ export const JonGuiDataDayCamGlassHeater: MessageFns<JonGuiDataDayCamGlassHeater
           message.status = reader.bool();
           continue;
         }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.isStarted = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -64,6 +76,7 @@ export const JonGuiDataDayCamGlassHeater: MessageFns<JonGuiDataDayCamGlassHeater
     return {
       temperature: isSet(object.temperature) ? globalThis.Number(object.temperature) : 0,
       status: isSet(object.status) ? globalThis.Boolean(object.status) : false,
+      isStarted: isSet(object.isStarted) ? globalThis.Boolean(object.isStarted) : false,
     };
   },
 
@@ -75,6 +88,9 @@ export const JonGuiDataDayCamGlassHeater: MessageFns<JonGuiDataDayCamGlassHeater
     if (message.status !== false) {
       obj.status = message.status;
     }
+    if (message.isStarted !== false) {
+      obj.isStarted = message.isStarted;
+    }
     return obj;
   },
 
@@ -85,6 +101,7 @@ export const JonGuiDataDayCamGlassHeater: MessageFns<JonGuiDataDayCamGlassHeater
     const message = createBaseJonGuiDataDayCamGlassHeater();
     message.temperature = object.temperature ?? 0;
     message.status = object.status ?? false;
+    message.isStarted = object.isStarted ?? false;
     return message;
   },
 };

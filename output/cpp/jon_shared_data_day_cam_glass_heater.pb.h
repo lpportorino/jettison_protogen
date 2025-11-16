@@ -217,6 +217,7 @@ class JonGuiDataDayCamGlassHeater final : public ::google::protobuf::Message
   enum : int {
     kTemperatureFieldNumber = 1,
     kStatusFieldNumber = 2,
+    kIsStartedFieldNumber = 3,
   };
   // double temperature = 1 [(.buf.validate.field) = {
   void clear_temperature() ;
@@ -238,12 +239,22 @@ class JonGuiDataDayCamGlassHeater final : public ::google::protobuf::Message
   void _internal_set_status(bool value);
 
   public:
+  // bool is_started = 3;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
+
+  private:
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataDayCamGlassHeater)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
+      2, 3, 0,
       0, 2>
       _table_;
 
@@ -263,6 +274,7 @@ class JonGuiDataDayCamGlassHeater final : public ::google::protobuf::Message
                           const JonGuiDataDayCamGlassHeater& from_msg);
     double temperature_;
     bool status_;
+    bool is_started_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -328,6 +340,28 @@ inline bool JonGuiDataDayCamGlassHeater::_internal_status() const {
 inline void JonGuiDataDayCamGlassHeater::_internal_set_status(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.status_ = value;
+}
+
+// bool is_started = 3;
+inline void JonGuiDataDayCamGlassHeater::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataDayCamGlassHeater::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataDayCamGlassHeater.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataDayCamGlassHeater::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataDayCamGlassHeater.is_started)
+}
+inline bool JonGuiDataDayCamGlassHeater::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataDayCamGlassHeater::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 #ifdef __GNUC__

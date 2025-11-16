@@ -224,6 +224,7 @@ class JonGuiDataGps final : public ::google::protobuf::Message
     kManualAltitudeFieldNumber = 6,
     kFixTypeFieldNumber = 7,
     kUseManualFieldNumber = 8,
+    kIsStartedFieldNumber = 10,
     kTimestampFieldNumber = 9,
   };
   // double longitude = 1 [(.buf.validate.field) = {
@@ -306,6 +307,16 @@ class JonGuiDataGps final : public ::google::protobuf::Message
   void _internal_set_use_manual(bool value);
 
   public:
+  // bool is_started = 10;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
+
+  private:
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
+
+  public:
   // int64 timestamp = 9;
   void clear_timestamp() ;
   ::int64_t timestamp() const;
@@ -321,7 +332,7 @@ class JonGuiDataGps final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 9, 0,
+      4, 10, 0,
       0, 2>
       _table_;
 
@@ -347,6 +358,7 @@ class JonGuiDataGps final : public ::google::protobuf::Message
     double manual_altitude_;
     int fix_type_;
     bool use_manual_;
+    bool is_started_;
     ::int64_t timestamp_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -567,6 +579,28 @@ inline ::int64_t JonGuiDataGps::_internal_timestamp() const {
 inline void JonGuiDataGps::_internal_set_timestamp(::int64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.timestamp_ = value;
+}
+
+// bool is_started = 10;
+inline void JonGuiDataGps::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataGps::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataGps.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataGps::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataGps.is_started)
+}
+inline bool JonGuiDataGps::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataGps::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 #ifdef __GNUC__

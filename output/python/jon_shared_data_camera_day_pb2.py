@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xda\x02\n\x13JonGuiDataCameraDay\x12\x11\n\tfocus_pos\x18\x01 \x01(\x01\x12\x10\n\x08zoom_pos\x18\x02 \x01(\x01\x12\x10\n\x08iris_pos\x18\x03 \x01(\x01\x12\x17\n\x0finfrared_filter\x18\x04 \x01(\x08\x12\x16\n\x0ezoom_table_pos\x18\x05 \x01(\x05\x12\x1a\n\x12zoom_table_pos_max\x18\x06 \x01(\x05\x12)\n\x07\x66x_mode\x18\x07 \x01(\x0e\x32\x18.ser.JonGuiDataFxModeDay\x12\x12\n\nauto_focus\x18\x08 \x01(\x08\x12\x11\n\tauto_iris\x18\t \x01(\x08\x12\x1a\n\x12\x64igital_zoom_level\x18\n \x01(\x01\x12\x13\n\x0b\x63lahe_level\x18\x0b \x01(\x01\x12\x1e\n\x16horizontal_fov_degrees\x18\x0c \x01(\x01\x12\x1c\n\x14vertical_fov_degrees\x18\r \x01(\x01\x42RZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_dayb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xee\x02\n\x13JonGuiDataCameraDay\x12\x11\n\tfocus_pos\x18\x01 \x01(\x01\x12\x10\n\x08zoom_pos\x18\x02 \x01(\x01\x12\x10\n\x08iris_pos\x18\x03 \x01(\x01\x12\x17\n\x0finfrared_filter\x18\x04 \x01(\x08\x12\x16\n\x0ezoom_table_pos\x18\x05 \x01(\x05\x12\x1a\n\x12zoom_table_pos_max\x18\x06 \x01(\x05\x12)\n\x07\x66x_mode\x18\x07 \x01(\x0e\x32\x18.ser.JonGuiDataFxModeDay\x12\x12\n\nauto_focus\x18\x08 \x01(\x08\x12\x11\n\tauto_iris\x18\t \x01(\x08\x12\x1a\n\x12\x64igital_zoom_level\x18\n \x01(\x01\x12\x13\n\x0b\x63lahe_level\x18\x0b \x01(\x01\x12\x1e\n\x16horizontal_fov_degrees\x18\x0c \x01(\x01\x12\x1c\n\x14vertical_fov_degrees\x18\r \x01(\x01\x12\x12\n\nis_started\x18\x0e \x01(\x08\x42RZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_dayb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,5 +34,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_day'
   _globals['_JONGUIDATACAMERADAY']._serialized_start=71
-  _globals['_JONGUIDATACAMERADAY']._serialized_end=417
+  _globals['_JONGUIDATACAMERADAY']._serialized_end=437
 # @@protoc_insertion_point(module_scope)

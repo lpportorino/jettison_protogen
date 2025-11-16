@@ -33,6 +33,7 @@ export interface JonGuiDataCameraHeat {
   claheLevel: number;
   horizontalFovDegrees: number;
   verticalFovDegrees: number;
+  isStarted: boolean;
 }
 
 function createBaseJonGuiDataCameraHeat(): JonGuiDataCameraHeat {
@@ -50,6 +51,7 @@ function createBaseJonGuiDataCameraHeat(): JonGuiDataCameraHeat {
     claheLevel: 0,
     horizontalFovDegrees: 0,
     verticalFovDegrees: 0,
+    isStarted: false,
   };
 }
 
@@ -93,6 +95,9 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
     }
     if (message.verticalFovDegrees !== 0) {
       writer.uint32(105).double(message.verticalFovDegrees);
+    }
+    if (message.isStarted !== false) {
+      writer.uint32(112).bool(message.isStarted);
     }
     return writer;
   },
@@ -208,6 +213,14 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
           message.verticalFovDegrees = reader.double();
           continue;
         }
+        case 14: {
+          if (tag !== 112) {
+            break;
+          }
+
+          message.isStarted = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -232,6 +245,7 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
       claheLevel: isSet(object.claheLevel) ? globalThis.Number(object.claheLevel) : 0,
       horizontalFovDegrees: isSet(object.horizontalFovDegrees) ? globalThis.Number(object.horizontalFovDegrees) : 0,
       verticalFovDegrees: isSet(object.verticalFovDegrees) ? globalThis.Number(object.verticalFovDegrees) : 0,
+      isStarted: isSet(object.isStarted) ? globalThis.Boolean(object.isStarted) : false,
     };
   },
 
@@ -276,6 +290,9 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
     if (message.verticalFovDegrees !== 0) {
       obj.verticalFovDegrees = message.verticalFovDegrees;
     }
+    if (message.isStarted !== false) {
+      obj.isStarted = message.isStarted;
+    }
     return obj;
   },
 
@@ -297,6 +314,7 @@ export const JonGuiDataCameraHeat: MessageFns<JonGuiDataCameraHeat> = {
     message.claheLevel = object.claheLevel ?? 0;
     message.horizontalFovDegrees = object.horizontalFovDegrees ?? 0;
     message.verticalFovDegrees = object.verticalFovDegrees ?? 0;
+    message.isStarted = object.isStarted ?? false;
     return message;
   },
 };

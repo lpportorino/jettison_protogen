@@ -31,6 +31,7 @@ export interface JonGuiDataRotary {
   sunAzimuth: number;
   sunElevation: number;
   currentScanNode: ScanNode | undefined;
+  isStarted: boolean;
 }
 
 export interface ScanNode {
@@ -62,6 +63,7 @@ function createBaseJonGuiDataRotary(): JonGuiDataRotary {
     sunAzimuth: 0,
     sunElevation: 0,
     currentScanNode: undefined,
+    isStarted: false,
   };
 }
 
@@ -117,6 +119,9 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     }
     if (message.currentScanNode !== undefined) {
       ScanNode.encode(message.currentScanNode, writer.uint32(138).fork()).join();
+    }
+    if (message.isStarted !== false) {
+      writer.uint32(144).bool(message.isStarted);
     }
     return writer;
   },
@@ -264,6 +269,14 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
           message.currentScanNode = ScanNode.decode(reader, reader.uint32());
           continue;
         }
+        case 18: {
+          if (tag !== 144) {
+            break;
+          }
+
+          message.isStarted = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -292,6 +305,7 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
       sunAzimuth: isSet(object.sunAzimuth) ? globalThis.Number(object.sunAzimuth) : 0,
       sunElevation: isSet(object.sunElevation) ? globalThis.Number(object.sunElevation) : 0,
       currentScanNode: isSet(object.currentScanNode) ? ScanNode.fromJSON(object.currentScanNode) : undefined,
+      isStarted: isSet(object.isStarted) ? globalThis.Boolean(object.isStarted) : false,
     };
   },
 
@@ -348,6 +362,9 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     if (message.currentScanNode !== undefined) {
       obj.currentScanNode = ScanNode.toJSON(message.currentScanNode);
     }
+    if (message.isStarted !== false) {
+      obj.isStarted = message.isStarted;
+    }
     return obj;
   },
 
@@ -375,6 +392,7 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     message.currentScanNode = (object.currentScanNode !== undefined && object.currentScanNode !== null)
       ? ScanNode.fromPartial(object.currentScanNode)
       : undefined;
+    message.isStarted = object.isStarted ?? false;
     return message;
   },
 };

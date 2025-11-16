@@ -144,6 +144,12 @@ public final class JonSharedDataRotary {
      * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
      */
     ser.JonSharedDataRotary.ScanNodeOrBuilder getCurrentScanNodeOrBuilder();
+
+    /**
+     * <code>bool is_started = 18;</code>
+     * @return The isStarted.
+     */
+    boolean getIsStarted();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataRotary}
@@ -393,6 +399,17 @@ public final class JonSharedDataRotary {
       return currentScanNode_ == null ? ser.JonSharedDataRotary.ScanNode.getDefaultInstance() : currentScanNode_;
     }
 
+    public static final int IS_STARTED_FIELD_NUMBER = 18;
+    private boolean isStarted_ = false;
+    /**
+     * <code>bool is_started = 18;</code>
+     * @return The isStarted.
+     */
+    @java.lang.Override
+    public boolean getIsStarted() {
+      return isStarted_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -457,6 +474,9 @@ public final class JonSharedDataRotary {
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(17, getCurrentScanNode());
+      }
+      if (isStarted_ != false) {
+        output.writeBool(18, isStarted_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -535,6 +555,10 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, getCurrentScanNode());
       }
+      if (isStarted_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(18, isStarted_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -595,6 +619,8 @@ public final class JonSharedDataRotary {
         if (!getCurrentScanNode()
             .equals(other.getCurrentScanNode())) return false;
       }
+      if (getIsStarted()
+          != other.getIsStarted()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -655,6 +681,9 @@ public final class JonSharedDataRotary {
         hash = (37 * hash) + CURRENT_SCAN_NODE_FIELD_NUMBER;
         hash = (53 * hash) + getCurrentScanNode().hashCode();
       }
+      hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsStarted());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -813,6 +842,7 @@ public final class JonSharedDataRotary {
           currentScanNodeBuilder_.dispose();
           currentScanNodeBuilder_ = null;
         }
+        isStarted_ = false;
         return this;
       }
 
@@ -901,6 +931,9 @@ public final class JonSharedDataRotary {
               : currentScanNodeBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.isStarted_ = isStarted_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -966,6 +999,9 @@ public final class JonSharedDataRotary {
         }
         if (other.hasCurrentScanNode()) {
           mergeCurrentScanNode(other.getCurrentScanNode());
+        }
+        if (other.getIsStarted() != false) {
+          setIsStarted(other.getIsStarted());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1080,6 +1116,11 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00010000;
                 break;
               } // case 138
+              case 144: {
+                isStarted_ = input.readBool();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 144
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1749,6 +1790,38 @@ public final class JonSharedDataRotary {
           currentScanNode_ = null;
         }
         return currentScanNodeBuilder_;
+      }
+
+      private boolean isStarted_ ;
+      /**
+       * <code>bool is_started = 18;</code>
+       * @return The isStarted.
+       */
+      @java.lang.Override
+      public boolean getIsStarted() {
+        return isStarted_;
+      }
+      /**
+       * <code>bool is_started = 18;</code>
+       * @param value The isStarted to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsStarted(boolean value) {
+
+        isStarted_ = value;
+        bitField0_ |= 0x00020000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_started = 18;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsStarted() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        isStarted_ = false;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataRotary)
@@ -2697,7 +2770,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\221\010\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\245\010\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -2723,16 +2796,16 @@ public final class JonSharedDataRotary {
       "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200" +
       "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000" +
       "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser" +
-      ".ScanNodeB\006\272H\003\310\001\001\"\211\002\n\010ScanNode\022\026\n\005index\030" +
-      "\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001(" +
-      "\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007" +
-      "\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@" +
-      ")\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
-      "\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000" +
-      "\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000" +
-      "\000\000\000\000\000BNZLgit-codecommit.eu-central-1.ama" +
-      "zonaws.com/v1/repos/jettison/jonp/data/r" +
-      "otaryb\006proto3"
+      ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\"\211\002" +
+      "\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021Da" +
+      "yZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZo" +
+      "omTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004" +
+      " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televati" +
+      "on\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006lin" +
+      "ger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001" +
+      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecom" +
+      "mit.eu-central-1.amazonaws.com/v1/repos/" +
+      "jettison/jonp/data/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2745,7 +2818,7 @@ public final class JonSharedDataRotary {
     internal_static_ser_JonGuiDataRotary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataRotary_descriptor,
-        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", });
+        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", });
     internal_static_ser_ScanNode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_ScanNode_fieldAccessorTable = new

@@ -498,6 +498,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     kScanTargetMaxFieldNumber = 14,
     kSunAzimuthFieldNumber = 15,
     kSunElevationFieldNumber = 16,
+    kIsStartedFieldNumber = 18,
   };
   // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
   bool has_current_scan_node() const;
@@ -674,12 +675,22 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_sun_elevation(double value);
 
   public:
+  // bool is_started = 18;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
+
+  private:
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataRotary)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 17, 1,
+      5, 18, 1,
       0, 2>
       _table_;
 
@@ -716,6 +727,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     ::int32_t scan_target_max_;
     double sun_azimuth_;
     double sun_elevation_;
+    bool is_started_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1184,6 +1196,28 @@ inline void JonGuiDataRotary::set_allocated_current_scan_node(::ser::ScanNode* v
 
   _impl_.current_scan_node_ = reinterpret_cast<::ser::ScanNode*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataRotary.current_scan_node)
+}
+
+// bool is_started = 18;
+inline void JonGuiDataRotary::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataRotary::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataRotary::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.is_started)
+}
+inline bool JonGuiDataRotary::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataRotary::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 // -------------------------------------------------------------------

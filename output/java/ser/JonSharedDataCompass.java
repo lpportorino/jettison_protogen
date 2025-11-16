@@ -70,6 +70,12 @@ public final class JonSharedDataCompass {
      * @return The calibrating.
      */
     boolean getCalibrating();
+
+    /**
+     * <code>bool is_started = 8;</code>
+     * @return The isStarted.
+     */
+    boolean getIsStarted();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCompass}
@@ -185,6 +191,17 @@ public final class JonSharedDataCompass {
       return calibrating_;
     }
 
+    public static final int IS_STARTED_FIELD_NUMBER = 8;
+    private boolean isStarted_ = false;
+    /**
+     * <code>bool is_started = 8;</code>
+     * @return The isStarted.
+     */
+    @java.lang.Override
+    public boolean getIsStarted() {
+      return isStarted_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -219,6 +236,9 @@ public final class JonSharedDataCompass {
       }
       if (calibrating_ != false) {
         output.writeBool(7, calibrating_);
+      }
+      if (isStarted_ != false) {
+        output.writeBool(8, isStarted_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -257,6 +277,10 @@ public final class JonSharedDataCompass {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, calibrating_);
       }
+      if (isStarted_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, isStarted_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -292,6 +316,8 @@ public final class JonSharedDataCompass {
               other.getMagneticDeclination())) return false;
       if (getCalibrating()
           != other.getCalibrating()) return false;
+      if (getIsStarted()
+          != other.getIsStarted()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -324,6 +350,9 @@ public final class JonSharedDataCompass {
       hash = (37 * hash) + CALIBRATING_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getCalibrating());
+      hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsStarted());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -462,6 +491,7 @@ public final class JonSharedDataCompass {
         offsetElevation_ = 0D;
         magneticDeclination_ = 0D;
         calibrating_ = false;
+        isStarted_ = false;
         return this;
       }
 
@@ -516,6 +546,9 @@ public final class JonSharedDataCompass {
         if (((from_bitField0_ & 0x00000040) != 0)) {
           result.calibrating_ = calibrating_;
         }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.isStarted_ = isStarted_;
+        }
       }
 
       @java.lang.Override
@@ -550,6 +583,9 @@ public final class JonSharedDataCompass {
         }
         if (other.getCalibrating() != false) {
           setCalibrating(other.getCalibrating());
+        }
+        if (other.getIsStarted() != false) {
+          setIsStarted(other.getIsStarted());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -612,6 +648,11 @@ public final class JonSharedDataCompass {
                 bitField0_ |= 0x00000040;
                 break;
               } // case 56
+              case 64: {
+                isStarted_ = input.readBool();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 64
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -853,6 +894,38 @@ public final class JonSharedDataCompass {
         return this;
       }
 
+      private boolean isStarted_ ;
+      /**
+       * <code>bool is_started = 8;</code>
+       * @return The isStarted.
+       */
+      @java.lang.Override
+      public boolean getIsStarted() {
+        return isStarted_;
+      }
+      /**
+       * <code>bool is_started = 8;</code>
+       * @param value The isStarted to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsStarted(boolean value) {
+
+        isStarted_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_started = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsStarted() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        isStarted_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCompass)
     }
 
@@ -919,7 +992,7 @@ public final class JonSharedDataCompass {
   static {
     java.lang.String[] descriptorData = {
       "\n\035jon_shared_data_compass.proto\022\003ser\032\033bu" +
-      "f/validate/validate.proto\"\350\003\n\021JonGuiData" +
+      "f/validate/validate.proto\"\374\003\n\021JonGuiData" +
       "Compass\022L\n\007azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@" +
       ")\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000" +
       "\000\000\340p@\022E\n\televation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@" +
@@ -931,10 +1004,10 @@ public final class JonSharedDataCompass {
       "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\000>@\022O\n\023magneticDeclination\030\006 " +
       "\001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000" +
-      "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010BOZM" +
-      "git-codecommit.eu-central-1.amazonaws.co" +
-      "m/v1/repos/jettison/jonp/data/compassb\006p" +
-      "roto3"
+      "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010\022\022\n\n" +
+      "is_started\030\010 \001(\010BOZMgit-codecommit.eu-ce" +
+      "ntral-1.amazonaws.com/v1/repos/jettison/" +
+      "jonp/data/compassb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -946,7 +1019,7 @@ public final class JonSharedDataCompass {
     internal_static_ser_JonGuiDataCompass_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCompass_descriptor,
-        new java.lang.String[] { "Azimuth", "Elevation", "Bank", "OffsetAzimuth", "OffsetElevation", "MagneticDeclination", "Calibrating", });
+        new java.lang.String[] { "Azimuth", "Elevation", "Bank", "OffsetAzimuth", "OffsetElevation", "MagneticDeclination", "Calibrating", "IsStarted", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

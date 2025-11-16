@@ -38,6 +38,7 @@ type JonGuiDataCameraHeat struct {
 	ClaheLevel           float64                                  `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
 	HorizontalFovDegrees float64                                  `protobuf:"fixed64,12,opt,name=horizontal_fov_degrees,json=horizontalFovDegrees,proto3" json:"horizontal_fov_degrees,omitempty"`
 	VerticalFovDegrees   float64                                  `protobuf:"fixed64,13,opt,name=vertical_fov_degrees,json=verticalFovDegrees,proto3" json:"vertical_fov_degrees,omitempty"`
+	IsStarted            bool                                     `protobuf:"varint,14,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -163,11 +164,18 @@ func (x *JonGuiDataCameraHeat) GetVerticalFovDegrees() float64 {
 	return 0
 }
 
+func (x *JonGuiDataCameraHeat) GetIsStarted() bool {
+	if x != nil {
+		return x.IsStarted
+	}
+	return false
+}
+
 var File_jon_shared_data_camera_heat_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
-	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x84\x06\n" +
+	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xa3\x06\n" +
 	"\x14JonGuiDataCameraHeat\x122\n" +
 	"\bzoom_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x12N\n" +
 	"\bagc_mode\x18\x02 \x01(\x0e2'.ser.JonGuiDataVideoChannelHeatAGCModesB\n" +
@@ -188,7 +196,9 @@ const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\vclahe_level\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
 	"claheLevel\x12M\n" +
 	"\x16horizontal_fov_degrees\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x14horizontalFovDegrees\x12I\n" +
-	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegreesB\xa6\x01\n" +
+	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegrees\x12\x1d\n" +
+	"\n" +
+	"is_started\x18\x0e \x01(\bR\tisStartedB\xa6\x01\n" +
 	"\acom.serB\x1cJonSharedDataCameraHeatProtoP\x01ZQgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

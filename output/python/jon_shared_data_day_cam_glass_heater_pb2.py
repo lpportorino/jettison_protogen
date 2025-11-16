@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n*jon_shared_data_day_cam_glass_heater.proto\x12\x03ser\"B\n\x1bJonGuiDataDayCamGlassHeater\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x0e\n\x06status\x18\x02 \x01(\x08\x42\\ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heaterb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n*jon_shared_data_day_cam_glass_heater.proto\x12\x03ser\"V\n\x1bJonGuiDataDayCamGlassHeater\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12\x12\n\nis_started\x18\x03 \x01(\x08\x42\\ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heaterb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,5 +33,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heater'
   _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_start=51
-  _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_end=117
+  _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_end=137
 # @@protoc_insertion_point(module_scope)

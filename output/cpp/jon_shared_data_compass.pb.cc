@@ -35,6 +35,7 @@ inline constexpr JonGuiDataCompass::Impl_::Impl_(
         offsetelevation_{0},
         magneticdeclination_{0},
         calibrating_{false},
+        is_started_{false},
         _cached_size_{0} {}
 
 template <typename>
@@ -79,6 +80,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.offsetelevation_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.magneticdeclination_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.calibrating_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.is_started_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -91,7 +93,7 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\035jon_shared_data_compass.proto\022\003ser\032\033bu"
-    "f/validate/validate.proto\"\350\003\n\021JonGuiData"
+    "f/validate/validate.proto\"\374\003\n\021JonGuiData"
     "Compass\022L\n\007azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@"
     ")\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000"
     "\000\000\340p@\022E\n\televation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@"
@@ -103,10 +105,10 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto[] ABS
     "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000"
     "\000\000\000\000\000I\000\000\000\000\000\000>@\022O\n\023magneticDeclination\030\006 "
     "\001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000"
-    "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010BOZM"
-    "git-codecommit.eu-central-1.amazonaws.co"
-    "m/v1/repos/jettison/jonp/data/compassb\006p"
-    "roto3"
+    "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010\022\022\n\n"
+    "is_started\030\010 \001(\010BOZMgit-codecommit.eu-ce"
+    "ntral-1.amazonaws.com/v1/repos/jettison/"
+    "jonp/data/compassb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_deps[1] =
     {
@@ -116,7 +118,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto = {
     false,
     false,
-    645,
+    665,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto,
     "jon_shared_data_compass.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_once,
@@ -160,9 +162,9 @@ inline void JonGuiDataCompass::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, azimuth_),
            0,
-           offsetof(Impl_, calibrating_) -
+           offsetof(Impl_, is_started_) -
                offsetof(Impl_, azimuth_) +
-               sizeof(Impl_::calibrating_));
+               sizeof(Impl_::is_started_));
 }
 JonGuiDataCompass::~JonGuiDataCompass() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataCompass)
@@ -211,15 +213,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCompass::GetClassData()
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataCompass::_table_ = {
+const ::_pbi::TcParseTable<3, 8, 0, 0, 2> JonGuiDataCompass::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    7, 56,  // max_field_number, fast_idx_mask
+    8, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967168,  // skipmap
+    4294967040,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    7,  // num_field_entries
+    8,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -229,7 +231,9 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataCompass::_table_ = {
     ::_pbi::TcParser::GetTable<::ser::JonGuiDataCompass>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    {::_pbi::TcParser::MiniParse, {}},
+    // bool is_started = 8;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCompass, _impl_.is_started_), 63>(),
+     {64, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_)}},
     // double azimuth = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_)}},
@@ -275,6 +279,9 @@ const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataCompass::_table_ = {
     // bool calibrating = 7;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.calibrating_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // bool is_started = 8;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }},
   // no aux_entries
   {{
@@ -289,8 +296,8 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.azimuth_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.calibrating_) -
-      reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.calibrating_));
+      reinterpret_cast<char*>(&_impl_.is_started_) -
+      reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.is_started_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -358,6 +365,13 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
                 7, this_._internal_calibrating(), target);
           }
 
+          // bool is_started = 8;
+          if (this_._internal_is_started() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                8, this_._internal_is_started(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -411,6 +425,10 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
             if (this_._internal_calibrating() != 0) {
               total_size += 2;
             }
+            // bool is_started = 8;
+            if (this_._internal_is_started() != 0) {
+              total_size += 2;
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -445,6 +463,9 @@ void JonGuiDataCompass::MergeImpl(::google::protobuf::MessageLite& to_msg, const
   if (from._internal_calibrating() != 0) {
     _this->_impl_.calibrating_ = from._impl_.calibrating_;
   }
+  if (from._internal_is_started() != 0) {
+    _this->_impl_.is_started_ = from._impl_.is_started_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -460,8 +481,8 @@ void JonGuiDataCompass::InternalSwap(JonGuiDataCompass* PROTOBUF_RESTRICT other)
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.calibrating_)
-      + sizeof(JonGuiDataCompass::_impl_.calibrating_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_)
+      + sizeof(JonGuiDataCompass::_impl_.is_started_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_)>(
           reinterpret_cast<char*>(&_impl_.azimuth_),
           reinterpret_cast<char*>(&other->_impl_.azimuth_));

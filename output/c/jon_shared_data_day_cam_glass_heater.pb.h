@@ -13,6 +13,7 @@
 typedef struct _ser_JonGuiDataDayCamGlassHeater {
     double temperature;
     bool status;
+    bool is_started;
 } ser_JonGuiDataDayCamGlassHeater;
 
 
@@ -21,17 +22,19 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataDayCamGlassHeater_init_default {0, 0}
-#define ser_JonGuiDataDayCamGlassHeater_init_zero {0, 0}
+#define ser_JonGuiDataDayCamGlassHeater_init_default {0, 0, 0}
+#define ser_JonGuiDataDayCamGlassHeater_init_zero {0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataDayCamGlassHeater_temperature_tag 1
 #define ser_JonGuiDataDayCamGlassHeater_status_tag 2
+#define ser_JonGuiDataDayCamGlassHeater_is_started_tag 3
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataDayCamGlassHeater_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, DOUBLE,   temperature,       1) \
-X(a, STATIC,   SINGULAR, BOOL,     status,            2)
+X(a, STATIC,   SINGULAR, BOOL,     status,            2) \
+X(a, STATIC,   SINGULAR, BOOL,     is_started,        3)
 #define ser_JonGuiDataDayCamGlassHeater_CALLBACK NULL
 #define ser_JonGuiDataDayCamGlassHeater_DEFAULT NULL
 
@@ -42,7 +45,7 @@ extern const pb_msgdesc_t ser_JonGuiDataDayCamGlassHeater_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_DAY_CAM_GLASS_HEATER_PB_H_MAX_SIZE ser_JonGuiDataDayCamGlassHeater_size
-#define ser_JonGuiDataDayCamGlassHeater_size     11
+#define ser_JonGuiDataDayCamGlassHeater_size     13
 
 #ifdef __cplusplus
 } /* extern "C" */

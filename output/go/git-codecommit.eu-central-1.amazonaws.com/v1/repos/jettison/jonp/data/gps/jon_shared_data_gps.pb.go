@@ -34,6 +34,7 @@ type JonGuiDataGps struct {
 	FixType         types.JonGuiDataGpsFixType `protobuf:"varint,7,opt,name=fix_type,json=fixType,proto3,enum=ser.JonGuiDataGpsFixType" json:"fix_type,omitempty"`
 	UseManual       bool                       `protobuf:"varint,8,opt,name=use_manual,json=useManual,proto3" json:"use_manual,omitempty"`
 	Timestamp       int64                      `protobuf:"varint,9,opt,name=timestamp,proto3" json:"timestamp,omitempty"` // GPS timestamp from satellite (Unix time in seconds)
+	IsStarted       bool                       `protobuf:"varint,10,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -131,11 +132,18 @@ func (x *JonGuiDataGps) GetTimestamp() int64 {
 	return 0
 }
 
+func (x *JonGuiDataGps) GetIsStarted() bool {
+	if x != nil {
+		return x.IsStarted
+	}
+	return false
+}
+
 var File_jon_shared_data_gps_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_gps_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_gps.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf7\x03\n" +
+	"\x19jon_shared_data_gps.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x96\x04\n" +
 	"\rJonGuiDataGps\x125\n" +
 	"\tlongitude\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
 	"\blatitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x123\n" +
@@ -147,7 +155,10 @@ const file_jon_shared_data_gps_proto_rawDesc = "" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\afixType\x12\x1d\n" +
 	"\n" +
 	"use_manual\x18\b \x01(\bR\tuseManual\x12\x1c\n" +
-	"\ttimestamp\x18\t \x01(\x03R\ttimestampB\x97\x01\n" +
+	"\ttimestamp\x18\t \x01(\x03R\ttimestamp\x12\x1d\n" +
+	"\n" +
+	"is_started\x18\n" +
+	" \x01(\bR\tisStartedB\x97\x01\n" +
 	"\acom.serB\x15JonSharedDataGpsProtoP\x01ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gps\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

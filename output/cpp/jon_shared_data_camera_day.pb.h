@@ -225,6 +225,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     kInfraredFilterFieldNumber = 4,
     kAutoFocusFieldNumber = 8,
     kAutoIrisFieldNumber = 9,
+    kIsStartedFieldNumber = 14,
     kDigitalZoomLevelFieldNumber = 10,
     kClaheLevelFieldNumber = 11,
     kHorizontalFovDegreesFieldNumber = 12,
@@ -320,6 +321,16 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   void _internal_set_auto_iris(bool value);
 
   public:
+  // bool is_started = 14;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
+
+  private:
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
+
+  public:
   // double digital_zoom_level = 10 [(.buf.validate.field) = {
   void clear_digital_zoom_level() ;
   double digital_zoom_level() const;
@@ -365,7 +376,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 13, 0,
+      4, 14, 0,
       0, 2>
       _table_;
 
@@ -392,6 +403,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     bool infrared_filter_;
     bool auto_focus_;
     bool auto_iris_;
+    bool is_started_;
     double digital_zoom_level_;
     double clahe_level_;
     double horizontal_fov_degrees_;
@@ -703,6 +715,28 @@ inline double JonGuiDataCameraDay::_internal_vertical_fov_degrees() const {
 inline void JonGuiDataCameraDay::_internal_set_vertical_fov_degrees(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.vertical_fov_degrees_ = value;
+}
+
+// bool is_started = 14;
+inline void JonGuiDataCameraDay::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataCameraDay::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataCameraDay::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.is_started)
+}
+inline bool JonGuiDataCameraDay::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataCameraDay::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 #ifdef __GNUC__

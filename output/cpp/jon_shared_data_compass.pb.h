@@ -222,6 +222,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     kOffsetElevationFieldNumber = 5,
     kMagneticDeclinationFieldNumber = 6,
     kCalibratingFieldNumber = 7,
+    kIsStartedFieldNumber = 8,
   };
   // double azimuth = 1 [(.buf.validate.field) = {
   void clear_azimuth() ;
@@ -293,12 +294,22 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   void _internal_set_calibrating(bool value);
 
   public:
+  // bool is_started = 8;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
+
+  private:
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCompass)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 7, 0,
+      3, 8, 0,
       0, 2>
       _table_;
 
@@ -323,6 +334,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     double offsetelevation_;
     double magneticdeclination_;
     bool calibrating_;
+    bool is_started_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -498,6 +510,28 @@ inline bool JonGuiDataCompass::_internal_calibrating() const {
 inline void JonGuiDataCompass::_internal_set_calibrating(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.calibrating_ = value;
+}
+
+// bool is_started = 8;
+inline void JonGuiDataCompass::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataCompass::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCompass.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataCompass::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCompass.is_started)
+}
+inline bool JonGuiDataCompass::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataCompass::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 #ifdef __GNUC__

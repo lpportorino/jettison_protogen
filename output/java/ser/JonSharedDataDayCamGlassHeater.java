@@ -40,6 +40,12 @@ public final class JonSharedDataDayCamGlassHeater {
      * @return The status.
      */
     boolean getStatus();
+
+    /**
+     * <code>bool is_started = 3;</code>
+     * @return The isStarted.
+     */
+    boolean getIsStarted();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataDayCamGlassHeater}
@@ -100,6 +106,17 @@ public final class JonSharedDataDayCamGlassHeater {
       return status_;
     }
 
+    public static final int IS_STARTED_FIELD_NUMBER = 3;
+    private boolean isStarted_ = false;
+    /**
+     * <code>bool is_started = 3;</code>
+     * @return The isStarted.
+     */
+    @java.lang.Override
+    public boolean getIsStarted() {
+      return isStarted_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -120,6 +137,9 @@ public final class JonSharedDataDayCamGlassHeater {
       if (status_ != false) {
         output.writeBool(2, status_);
       }
+      if (isStarted_ != false) {
+        output.writeBool(3, isStarted_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -136,6 +156,10 @@ public final class JonSharedDataDayCamGlassHeater {
       if (status_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, status_);
+      }
+      if (isStarted_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isStarted_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -157,6 +181,8 @@ public final class JonSharedDataDayCamGlassHeater {
               other.getTemperature())) return false;
       if (getStatus()
           != other.getStatus()) return false;
+      if (getIsStarted()
+          != other.getIsStarted()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -174,6 +200,9 @@ public final class JonSharedDataDayCamGlassHeater {
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getStatus());
+      hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsStarted());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -307,6 +336,7 @@ public final class JonSharedDataDayCamGlassHeater {
         bitField0_ = 0;
         temperature_ = 0D;
         status_ = false;
+        isStarted_ = false;
         return this;
       }
 
@@ -346,6 +376,9 @@ public final class JonSharedDataDayCamGlassHeater {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.status_ = status_;
         }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.isStarted_ = isStarted_;
+        }
       }
 
       @java.lang.Override
@@ -365,6 +398,9 @@ public final class JonSharedDataDayCamGlassHeater {
         }
         if (other.getStatus() != false) {
           setStatus(other.getStatus());
+        }
+        if (other.getIsStarted() != false) {
+          setIsStarted(other.getIsStarted());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -402,6 +438,11 @@ public final class JonSharedDataDayCamGlassHeater {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 16
+              case 24: {
+                isStarted_ = input.readBool();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -483,6 +524,38 @@ public final class JonSharedDataDayCamGlassHeater {
         return this;
       }
 
+      private boolean isStarted_ ;
+      /**
+       * <code>bool is_started = 3;</code>
+       * @return The isStarted.
+       */
+      @java.lang.Override
+      public boolean getIsStarted() {
+        return isStarted_;
+      }
+      /**
+       * <code>bool is_started = 3;</code>
+       * @param value The isStarted to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsStarted(boolean value) {
+
+        isStarted_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_started = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsStarted() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isStarted_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataDayCamGlassHeater)
     }
 
@@ -549,13 +622,14 @@ public final class JonSharedDataDayCamGlassHeater {
   static {
     java.lang.String[] descriptorData = {
       "\n*jon_shared_data_day_cam_glass_heater.p" +
-      "roto\022\003ser\032\033buf/validate/validate.proto\"\177" +
-      "\n\033JonGuiDataDayCamGlassHeater\022P\n\013tempera" +
-      "ture\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000" +
-      "\000\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006statu" +
-      "s\030\002 \001(\010B\\ZZgit-codecommit.eu-central-1.a" +
-      "mazonaws.com/v1/repos/jettison/jonp/data" +
-      "/day_cam_glass_heaterb\006proto3"
+      "roto\022\003ser\032\033buf/validate/validate.proto\"\223" +
+      "\001\n\033JonGuiDataDayCamGlassHeater\022P\n\013temper" +
+      "ature\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000" +
+      "\000\000\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006stat" +
+      "us\030\002 \001(\010\022\022\n\nis_started\030\003 \001(\010B\\ZZgit-code" +
+      "commit.eu-central-1.amazonaws.com/v1/rep" +
+      "os/jettison/jonp/data/day_cam_glass_heat" +
+      "erb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -567,7 +641,7 @@ public final class JonSharedDataDayCamGlassHeater {
     internal_static_ser_JonGuiDataDayCamGlassHeater_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataDayCamGlassHeater_descriptor,
-        new java.lang.String[] { "Temperature", "Status", });
+        new java.lang.String[] { "Temperature", "Status", "IsStarted", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

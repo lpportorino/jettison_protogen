@@ -18,6 +18,7 @@ typedef struct _ser_JonGuiDataCompass {
     double offsetElevation;
     double magneticDeclination;
     bool calibrating;
+    bool is_started;
 } ser_JonGuiDataCompass;
 
 
@@ -26,8 +27,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCompass_init_default       {0, 0, 0, 0, 0, 0, 0}
-#define ser_JonGuiDataCompass_init_zero          {0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataCompass_init_default       {0, 0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataCompass_init_zero          {0, 0, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCompass_azimuth_tag        1
@@ -37,6 +38,7 @@ extern "C" {
 #define ser_JonGuiDataCompass_offsetElevation_tag 5
 #define ser_JonGuiDataCompass_magneticDeclination_tag 6
 #define ser_JonGuiDataCompass_calibrating_tag    7
+#define ser_JonGuiDataCompass_is_started_tag     8
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCompass_FIELDLIST(X, a) \
@@ -46,7 +48,8 @@ X(a, STATIC,   SINGULAR, DOUBLE,   bank,              3) \
 X(a, STATIC,   SINGULAR, DOUBLE,   offsetAzimuth,     4) \
 X(a, STATIC,   SINGULAR, DOUBLE,   offsetElevation,   5) \
 X(a, STATIC,   SINGULAR, DOUBLE,   magneticDeclination,   6) \
-X(a, STATIC,   SINGULAR, BOOL,     calibrating,       7)
+X(a, STATIC,   SINGULAR, BOOL,     calibrating,       7) \
+X(a, STATIC,   SINGULAR, BOOL,     is_started,        8)
 #define ser_JonGuiDataCompass_CALLBACK NULL
 #define ser_JonGuiDataCompass_DEFAULT NULL
 
@@ -57,7 +60,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCompass_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_COMPASS_PB_H_MAX_SIZE ser_JonGuiDataCompass_size
-#define ser_JonGuiDataCompass_size               56
+#define ser_JonGuiDataCompass_size               58
 
 #ifdef __cplusplus
 } /* extern "C" */

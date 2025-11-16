@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19jon_shared_data_gps.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xe6\x01\n\rJonGuiDataGps\x12\x11\n\tlongitude\x18\x01 \x01(\x01\x12\x10\n\x08latitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x18\n\x10manual_longitude\x18\x04 \x01(\x01\x12\x17\n\x0fmanual_latitude\x18\x05 \x01(\x01\x12\x17\n\x0fmanual_altitude\x18\x06 \x01(\x01\x12+\n\x08\x66ix_type\x18\x07 \x01(\x0e\x32\x19.ser.JonGuiDataGpsFixType\x12\x12\n\nuse_manual\x18\x08 \x01(\x08\x12\x11\n\ttimestamp\x18\t \x01(\x03\x42KZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gpsb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19jon_shared_data_gps.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xfa\x01\n\rJonGuiDataGps\x12\x11\n\tlongitude\x18\x01 \x01(\x01\x12\x10\n\x08latitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x18\n\x10manual_longitude\x18\x04 \x01(\x01\x12\x17\n\x0fmanual_latitude\x18\x05 \x01(\x01\x12\x17\n\x0fmanual_altitude\x18\x06 \x01(\x01\x12+\n\x08\x66ix_type\x18\x07 \x01(\x0e\x32\x19.ser.JonGuiDataGpsFixType\x12\x12\n\nuse_manual\x18\x08 \x01(\x08\x12\x11\n\ttimestamp\x18\t \x01(\x03\x12\x12\n\nis_started\x18\n \x01(\x08\x42KZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gpsb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,5 +34,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gps'
   _globals['_JONGUIDATAGPS']._serialized_start=64
-  _globals['_JONGUIDATAGPS']._serialized_end=294
+  _globals['_JONGUIDATAGPS']._serialized_end=314
 # @@protoc_insertion_point(module_scope)

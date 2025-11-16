@@ -16,6 +16,7 @@ export interface JonGuiDataCompass {
   offsetElevation: number;
   magneticDeclination: number;
   calibrating: boolean;
+  isStarted: boolean;
 }
 
 function createBaseJonGuiDataCompass(): JonGuiDataCompass {
@@ -27,6 +28,7 @@ function createBaseJonGuiDataCompass(): JonGuiDataCompass {
     offsetElevation: 0,
     magneticDeclination: 0,
     calibrating: false,
+    isStarted: false,
   };
 }
 
@@ -52,6 +54,9 @@ export const JonGuiDataCompass: MessageFns<JonGuiDataCompass> = {
     }
     if (message.calibrating !== false) {
       writer.uint32(56).bool(message.calibrating);
+    }
+    if (message.isStarted !== false) {
+      writer.uint32(64).bool(message.isStarted);
     }
     return writer;
   },
@@ -119,6 +124,14 @@ export const JonGuiDataCompass: MessageFns<JonGuiDataCompass> = {
           message.calibrating = reader.bool();
           continue;
         }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.isStarted = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -137,6 +150,7 @@ export const JonGuiDataCompass: MessageFns<JonGuiDataCompass> = {
       offsetElevation: isSet(object.offsetElevation) ? globalThis.Number(object.offsetElevation) : 0,
       magneticDeclination: isSet(object.magneticDeclination) ? globalThis.Number(object.magneticDeclination) : 0,
       calibrating: isSet(object.calibrating) ? globalThis.Boolean(object.calibrating) : false,
+      isStarted: isSet(object.isStarted) ? globalThis.Boolean(object.isStarted) : false,
     };
   },
 
@@ -163,6 +177,9 @@ export const JonGuiDataCompass: MessageFns<JonGuiDataCompass> = {
     if (message.calibrating !== false) {
       obj.calibrating = message.calibrating;
     }
+    if (message.isStarted !== false) {
+      obj.isStarted = message.isStarted;
+    }
     return obj;
   },
 
@@ -178,6 +195,7 @@ export const JonGuiDataCompass: MessageFns<JonGuiDataCompass> = {
     message.offsetElevation = object.offsetElevation ?? 0;
     message.magneticDeclination = object.magneticDeclination ?? 0;
     message.calibrating = object.calibrating ?? false;
+    message.isStarted = object.isStarted ?? false;
     return message;
   },
 };

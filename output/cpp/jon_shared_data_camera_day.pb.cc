@@ -37,6 +37,7 @@ inline constexpr JonGuiDataCameraDay::Impl_::Impl_(
         infrared_filter_{false},
         auto_focus_{false},
         auto_iris_{false},
+        is_started_{false},
         digital_zoom_level_{0},
         clahe_level_{0},
         horizontal_fov_degrees_{0},
@@ -91,6 +92,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.clahe_level_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.horizontal_fov_degrees_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.vertical_fov_degrees_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.is_started_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -104,7 +106,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[
     protodesc_cold) = {
     "\n jon_shared_data_camera_day.proto\022\003ser\032"
     "\033buf/validate/validate.proto\032\033jon_shared"
-    "_data_types.proto\"\234\004\n\023JonGuiDataCameraDa"
+    "_data_types.proto\"\260\004\n\023JonGuiDataCameraDa"
     "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000"
     "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
     "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
@@ -118,9 +120,9 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[
     "\000\000\000\000\000\000\000\000\0227\n\026horizontal_fov_degrees\030\014 \001(\001"
     "B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000\0225\n\024vertical_fo"
     "v_degrees\030\r \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000"
-    "BRZPgit-codecommit.eu-central-1.amazonaw"
-    "s.com/v1/repos/jettison/jonp/data/camera"
-    "_dayb\006proto3"
+    "\022\022\n\nis_started\030\016 \001(\010BRZPgit-codecommit.e"
+    "u-central-1.amazonaws.com/v1/repos/jetti"
+    "son/jonp/data/camera_dayb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps[2] =
     {
@@ -131,7 +133,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2ep
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto = {
     false,
     false,
-    732,
+    752,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto,
     "jon_shared_data_camera_day.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_once,
@@ -226,15 +228,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCameraDay::GetClassData
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
+const ::_pbi::TcParseTable<4, 14, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    13, 120,  // max_field_number, fast_idx_mask
+    14, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294959104,  // skipmap
+    4294950912,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    13,  // num_field_entries
+    14,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -284,7 +286,9 @@ const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {105, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // bool is_started = 14;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCameraDay, _impl_.is_started_), 63>(),
+     {112, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.is_started_)}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
@@ -328,6 +332,9 @@ const ::_pbi::TcParseTable<4, 13, 0, 0, 2> JonGuiDataCameraDay::_table_ = {
     // double vertical_fov_degrees = 13 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.vertical_fov_degrees_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // bool is_started = 14;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.is_started_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }},
   // no aux_entries
   {{
@@ -453,6 +460,13 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
                 13, this_._internal_vertical_fov_degrees(), target);
           }
 
+          // bool is_started = 14;
+          if (this_._internal_is_started() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                14, this_._internal_is_started(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -517,6 +531,10 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
             if (this_._internal_auto_iris() != 0) {
               total_size += 2;
             }
+            // bool is_started = 14;
+            if (this_._internal_is_started() != 0) {
+              total_size += 2;
+            }
             // double digital_zoom_level = 10 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_digital_zoom_level()) != 0) {
               total_size += 9;
@@ -572,6 +590,9 @@ void JonGuiDataCameraDay::MergeImpl(::google::protobuf::MessageLite& to_msg, con
   }
   if (from._internal_auto_iris() != 0) {
     _this->_impl_.auto_iris_ = from._impl_.auto_iris_;
+  }
+  if (from._internal_is_started() != 0) {
+    _this->_impl_.is_started_ = from._impl_.is_started_;
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_digital_zoom_level()) != 0) {
     _this->_impl_.digital_zoom_level_ = from._impl_.digital_zoom_level_;

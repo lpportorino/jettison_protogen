@@ -30,6 +30,7 @@ inline constexpr JonGuiDataDayCamGlassHeater::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : temperature_{0},
         status_{false},
+        is_started_{false},
         _cached_size_{0} {}
 
 template <typename>
@@ -69,6 +70,7 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataDayCamGlassHeater, _impl_.temperature_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataDayCamGlassHeater, _impl_.status_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataDayCamGlassHeater, _impl_.is_started_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -81,13 +83,14 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n*jon_shared_data_day_cam_glass_heater.p"
-    "roto\022\003ser\032\033buf/validate/validate.proto\"\177"
-    "\n\033JonGuiDataDayCamGlassHeater\022P\n\013tempera"
-    "ture\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000"
-    "\000\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006statu"
-    "s\030\002 \001(\010B\\ZZgit-codecommit.eu-central-1.a"
-    "mazonaws.com/v1/repos/jettison/jonp/data"
-    "/day_cam_glass_heaterb\006proto3"
+    "roto\022\003ser\032\033buf/validate/validate.proto\"\223"
+    "\001\n\033JonGuiDataDayCamGlassHeater\022P\n\013temper"
+    "ature\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000"
+    "\000\000\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006stat"
+    "us\030\002 \001(\010\022\022\n\nis_started\030\003 \001(\010B\\ZZgit-code"
+    "commit.eu-central-1.amazonaws.com/v1/rep"
+    "os/jettison/jonp/data/day_cam_glass_heat"
+    "erb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto_deps[1] =
     {
@@ -97,7 +100,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglas
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto = {
     false,
     false,
-    309,
+    330,
     descriptor_table_protodef_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto,
     "jon_shared_data_day_cam_glass_heater.proto",
     &descriptor_table_jon_5fshared_5fdata_5fday_5fcam_5fglass_5fheater_2eproto_once,
@@ -141,9 +144,9 @@ inline void JonGuiDataDayCamGlassHeater::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, temperature_),
            0,
-           offsetof(Impl_, status_) -
+           offsetof(Impl_, is_started_) -
                offsetof(Impl_, temperature_) +
-               sizeof(Impl_::status_));
+               sizeof(Impl_::is_started_));
 }
 JonGuiDataDayCamGlassHeater::~JonGuiDataDayCamGlassHeater() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataDayCamGlassHeater)
@@ -192,15 +195,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataDayCamGlassHeater::GetC
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 0, 2> JonGuiDataDayCamGlassHeater::_table_ = {
+const ::_pbi::TcParseTable<2, 3, 0, 0, 2> JonGuiDataDayCamGlassHeater::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    3, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    3,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -210,12 +213,16 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> JonGuiDataDayCamGlassHeater::_table_ =
     ::_pbi::TcParser::GetTable<::ser::JonGuiDataDayCamGlassHeater>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // bool status = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataDayCamGlassHeater, _impl_.status_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.status_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double temperature = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.temperature_)}},
+    // bool status = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataDayCamGlassHeater, _impl_.status_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.status_)}},
+    // bool is_started = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataDayCamGlassHeater, _impl_.is_started_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.is_started_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -224,6 +231,9 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> JonGuiDataDayCamGlassHeater::_table_ =
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool status = 2;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.status_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // bool is_started = 3;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.is_started_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }},
   // no aux_entries
@@ -239,8 +249,8 @@ PROTOBUF_NOINLINE void JonGuiDataDayCamGlassHeater::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.temperature_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.status_) -
-      reinterpret_cast<char*>(&_impl_.temperature_)) + sizeof(_impl_.status_));
+      reinterpret_cast<char*>(&_impl_.is_started_) -
+      reinterpret_cast<char*>(&_impl_.temperature_)) + sizeof(_impl_.is_started_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -271,6 +281,13 @@ PROTOBUF_NOINLINE void JonGuiDataDayCamGlassHeater::Clear() {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteBoolToArray(
                 2, this_._internal_status(), target);
+          }
+
+          // bool is_started = 3;
+          if (this_._internal_is_started() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                3, this_._internal_is_started(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -306,6 +323,10 @@ PROTOBUF_NOINLINE void JonGuiDataDayCamGlassHeater::Clear() {
             if (this_._internal_status() != 0) {
               total_size += 2;
             }
+            // bool is_started = 3;
+            if (this_._internal_is_started() != 0) {
+              total_size += 2;
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -325,6 +346,9 @@ void JonGuiDataDayCamGlassHeater::MergeImpl(::google::protobuf::MessageLite& to_
   if (from._internal_status() != 0) {
     _this->_impl_.status_ = from._impl_.status_;
   }
+  if (from._internal_is_started() != 0) {
+    _this->_impl_.is_started_ = from._impl_.is_started_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -340,8 +364,8 @@ void JonGuiDataDayCamGlassHeater::InternalSwap(JonGuiDataDayCamGlassHeater* PROT
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.status_)
-      + sizeof(JonGuiDataDayCamGlassHeater::_impl_.status_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.is_started_)
+      + sizeof(JonGuiDataDayCamGlassHeater::_impl_.is_started_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataDayCamGlassHeater, _impl_.temperature_)>(
           reinterpret_cast<char*>(&_impl_.temperature_),
           reinterpret_cast<char*>(&other->_impl_.temperature_));

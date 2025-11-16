@@ -90,6 +90,12 @@ public final class JonSharedDataLrf {
      * @return The isContinuousMeasuring.
      */
     boolean getIsContinuousMeasuring();
+
+    /**
+     * <code>bool is_started = 9;</code>
+     * @return The isStarted.
+     */
+    boolean getIsStarted();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataLrf}
@@ -240,6 +246,17 @@ public final class JonSharedDataLrf {
       return isContinuousMeasuring_;
     }
 
+    public static final int IS_STARTED_FIELD_NUMBER = 9;
+    private boolean isStarted_ = false;
+    /**
+     * <code>bool is_started = 9;</code>
+     * @return The isStarted.
+     */
+    @java.lang.Override
+    public boolean getIsStarted() {
+      return isStarted_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -277,6 +294,9 @@ public final class JonSharedDataLrf {
       }
       if (isContinuousMeasuring_ != false) {
         output.writeBool(8, isContinuousMeasuring_);
+      }
+      if (isStarted_ != false) {
+        output.writeBool(9, isStarted_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -319,6 +339,10 @@ public final class JonSharedDataLrf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, isContinuousMeasuring_);
       }
+      if (isStarted_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(9, isStarted_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -352,6 +376,8 @@ public final class JonSharedDataLrf {
           != other.getIsRefining()) return false;
       if (getIsContinuousMeasuring()
           != other.getIsContinuousMeasuring()) return false;
+      if (getIsStarted()
+          != other.getIsStarted()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -386,6 +412,9 @@ public final class JonSharedDataLrf {
       hash = (37 * hash) + IS_CONTINUOUS_MEASURING_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsContinuousMeasuring());
+      hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsStarted());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -535,6 +564,7 @@ public final class JonSharedDataLrf {
         fogModeEnabled_ = false;
         isRefining_ = false;
         isContinuousMeasuring_ = false;
+        isStarted_ = false;
         return this;
       }
 
@@ -596,6 +626,9 @@ public final class JonSharedDataLrf {
         if (((from_bitField0_ & 0x00000080) != 0)) {
           result.isContinuousMeasuring_ = isContinuousMeasuring_;
         }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.isStarted_ = isStarted_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -634,6 +667,9 @@ public final class JonSharedDataLrf {
         }
         if (other.getIsContinuousMeasuring() != false) {
           setIsContinuousMeasuring(other.getIsContinuousMeasuring());
+        }
+        if (other.getIsStarted() != false) {
+          setIsStarted(other.getIsStarted());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -703,6 +739,11 @@ public final class JonSharedDataLrf {
                 bitField0_ |= 0x00000080;
                 break;
               } // case 64
+              case 72: {
+                isStarted_ = input.readBool();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1082,6 +1123,38 @@ public final class JonSharedDataLrf {
       public Builder clearIsContinuousMeasuring() {
         bitField0_ = (bitField0_ & ~0x00000080);
         isContinuousMeasuring_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean isStarted_ ;
+      /**
+       * <code>bool is_started = 9;</code>
+       * @return The isStarted.
+       */
+      @java.lang.Override
+      public boolean getIsStarted() {
+        return isStarted_;
+      }
+      /**
+       * <code>bool is_started = 9;</code>
+       * @param value The isStarted to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsStarted(boolean value) {
+
+        isStarted_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_started = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsStarted() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        isStarted_ = false;
         onChanged();
         return this;
       }
@@ -3827,38 +3900,39 @@ public final class JonSharedDataLrf {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_lrf.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\222\002\n\rJonGuiDataLrf\022\023\n\013is_scann" +
+      "ypes.proto\"\246\002\n\rJonGuiDataLrf\022\023\n\013is_scann" +
       "ing\030\001 \001(\010\022\024\n\014is_measuring\030\002 \001(\010\022\033\n\nmeasu" +
       "re_id\030\003 \001(\005B\007\272H\004\032\002(\000\022%\n\006target\030\004 \001(\0132\025.s" +
       "er.JonGuiDataTarget\022D\n\014pointer_mode\030\005 \001(" +
       "\0162$.ser.JonGuiDatatLrfLaserPointerModesB" +
       "\010\272H\005\202\001\002\020\001\022\026\n\016fogModeEnabled\030\006 \001(\010\022\023\n\013is_" +
       "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin" +
-      "g\030\010 \001(\010\"\242\006\n\020JonGuiDataTarget\022\032\n\ttimestam" +
-      "p\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001" +
-      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_la" +
-      "titude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n" +
-      "\017target_altitude\030\004 \001(\001\0223\n\022observer_longi" +
-      "tude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021o" +
-      "bserver_latitude\030\006 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000" +
-      "\000\000\000\000\200V\300\022\031\n\021observer_altitude\030\007 \001(\001\0221\n\020ob" +
-      "server_azimuth\030\010 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000" +
-      "\000\000\000\000\000\0223\n\022observer_elevation\030\t \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\robserver_bank\030\n \001(" +
-      "\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022,\n\013distance_2" +
-      "d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022,\n\013dist" +
-      "ance_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@" +
-      "\n\021observer_fix_type\030\r \001(\0162\031.ser.JonGuiDa" +
-      "taGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030\016" +
-      " \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002(" +
-      "\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbColor\022\014" +
-      "\n\004type\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid" +
-      "_part2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid" +
-      "_part4\030\025 \001(\005\"X\n\010RgbColor\022\027\n\003red\030\001 \001(\rB\n\272" +
-      "H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004" +
-      "blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000BKZIgit-codecommit" +
-      ".eu-central-1.amazonaws.com/v1/repos/jet" +
-      "tison/jonp/data/lrfb\006proto3"
+      "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\"\242\006\n\020JonGuiDa" +
+      "taTarget\022\032\n\ttimestamp\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020" +
+      "target_longitude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000" +
+      "\000\000\000\000\200f\300\0220\n\017target_latitude\030\003 \001(\001B\027\272H\024\022\022\031" +
+      "\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017target_altitude\030\004 \001" +
+      "(\001\0223\n\022observer_longitude\030\005 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021observer_latitude\030\006 \001" +
+      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\031\n\021observer_" +
+      "altitude\030\007 \001(\001\0221\n\020observer_azimuth\030\010 \001(\001" +
+      "B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0223\n\022observer_el" +
+      "evation\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022." +
+      "\n\robserver_bank\030\n \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000" +
+      "\000\000\000\200f\300\022,\n\013distance_2d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200" +
+      "\204\036A)\000\000\000\000\000\000\000\000\022,\n\013distance_3b\030\014 \001(\001B\027\272H\024\022\022" +
+      "\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@\n\021observer_fix_type\030" +
+      "\r \001(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004" +
+      "\020\001 \000\022\033\n\nsession_id\030\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttar" +
+      "get_id\030\017 \001(\005B\007\272H\004\032\002(\000\022#\n\014target_color\030\020 " +
+      "\001(\0132\r.ser.RgbColor\022\014\n\004type\030\021 \001(\r\022\022\n\nuuid" +
+      "_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022\022\n\nuuid" +
+      "_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\"X\n\010RgbC" +
+      "olor\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002" +
+      " \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001" +
+      "(\000BKZIgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/data/lrfb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3871,7 +3945,7 @@ public final class JonSharedDataLrf {
     internal_static_ser_JonGuiDataLrf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataLrf_descriptor,
-        new java.lang.String[] { "IsScanning", "IsMeasuring", "MeasureId", "Target", "PointerMode", "FogModeEnabled", "IsRefining", "IsContinuousMeasuring", });
+        new java.lang.String[] { "IsScanning", "IsMeasuring", "MeasureId", "Target", "PointerMode", "FogModeEnabled", "IsRefining", "IsContinuousMeasuring", "IsStarted", });
     internal_static_ser_JonGuiDataTarget_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_JonGuiDataTarget_fieldAccessorTable = new

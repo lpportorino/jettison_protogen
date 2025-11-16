@@ -111,6 +111,12 @@ public final class JonSharedDataCameraDay {
      * @return The verticalFovDegrees.
      */
     double getVerticalFovDegrees();
+
+    /**
+     * <code>bool is_started = 14;</code>
+     * @return The isStarted.
+     */
+    boolean getIsStarted();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraDay}
@@ -300,6 +306,17 @@ public final class JonSharedDataCameraDay {
       return verticalFovDegrees_;
     }
 
+    public static final int IS_STARTED_FIELD_NUMBER = 14;
+    private boolean isStarted_ = false;
+    /**
+     * <code>bool is_started = 14;</code>
+     * @return The isStarted.
+     */
+    @java.lang.Override
+    public boolean getIsStarted() {
+      return isStarted_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -352,6 +369,9 @@ public final class JonSharedDataCameraDay {
       }
       if (java.lang.Double.doubleToRawLongBits(verticalFovDegrees_) != 0) {
         output.writeDouble(13, verticalFovDegrees_);
+      }
+      if (isStarted_ != false) {
+        output.writeBool(14, isStarted_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -414,6 +434,10 @@ public final class JonSharedDataCameraDay {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(13, verticalFovDegrees_);
       }
+      if (isStarted_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(14, isStarted_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -461,6 +485,8 @@ public final class JonSharedDataCameraDay {
       if (java.lang.Double.doubleToLongBits(getVerticalFovDegrees())
           != java.lang.Double.doubleToLongBits(
               other.getVerticalFovDegrees())) return false;
+      if (getIsStarted()
+          != other.getIsStarted()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -508,6 +534,9 @@ public final class JonSharedDataCameraDay {
       hash = (37 * hash) + VERTICAL_FOV_DEGREES_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getVerticalFovDegrees()));
+      hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsStarted());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -652,6 +681,7 @@ public final class JonSharedDataCameraDay {
         claheLevel_ = 0D;
         horizontalFovDegrees_ = 0D;
         verticalFovDegrees_ = 0D;
+        isStarted_ = false;
         return this;
       }
 
@@ -724,6 +754,9 @@ public final class JonSharedDataCameraDay {
         if (((from_bitField0_ & 0x00001000) != 0)) {
           result.verticalFovDegrees_ = verticalFovDegrees_;
         }
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.isStarted_ = isStarted_;
+        }
       }
 
       @java.lang.Override
@@ -776,6 +809,9 @@ public final class JonSharedDataCameraDay {
         }
         if (other.getVerticalFovDegrees() != 0D) {
           setVerticalFovDegrees(other.getVerticalFovDegrees());
+        }
+        if (other.getIsStarted() != false) {
+          setIsStarted(other.getIsStarted());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -868,6 +904,11 @@ public final class JonSharedDataCameraDay {
                 bitField0_ |= 0x00001000;
                 break;
               } // case 105
+              case 112: {
+                isStarted_ = input.readBool();
+                bitField0_ |= 0x00002000;
+                break;
+              } // case 112
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1322,6 +1363,38 @@ public final class JonSharedDataCameraDay {
         return this;
       }
 
+      private boolean isStarted_ ;
+      /**
+       * <code>bool is_started = 14;</code>
+       * @return The isStarted.
+       */
+      @java.lang.Override
+      public boolean getIsStarted() {
+        return isStarted_;
+      }
+      /**
+       * <code>bool is_started = 14;</code>
+       * @param value The isStarted to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsStarted(boolean value) {
+
+        isStarted_ = value;
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool is_started = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsStarted() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        isStarted_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraDay)
     }
 
@@ -1389,7 +1462,7 @@ public final class JonSharedDataCameraDay {
     java.lang.String[] descriptorData = {
       "\n jon_shared_data_camera_day.proto\022\003ser\032" +
       "\033buf/validate/validate.proto\032\033jon_shared" +
-      "_data_types.proto\"\234\004\n\023JonGuiDataCameraDa" +
+      "_data_types.proto\"\260\004\n\023JonGuiDataCameraDa" +
       "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000" +
       "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
       "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
@@ -1403,9 +1476,9 @@ public final class JonSharedDataCameraDay {
       "\000\000\000\000\000\000\000\000\0227\n\026horizontal_fov_degrees\030\014 \001(\001" +
       "B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000\0225\n\024vertical_fo" +
       "v_degrees\030\r \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000" +
-      "BRZPgit-codecommit.eu-central-1.amazonaw" +
-      "s.com/v1/repos/jettison/jonp/data/camera" +
-      "_dayb\006proto3"
+      "\022\022\n\nis_started\030\016 \001(\010BRZPgit-codecommit.e" +
+      "u-central-1.amazonaws.com/v1/repos/jetti" +
+      "son/jonp/data/camera_dayb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1418,7 +1491,7 @@ public final class JonSharedDataCameraDay {
     internal_static_ser_JonGuiDataCameraDay_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraDay_descriptor,
-        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", });
+        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

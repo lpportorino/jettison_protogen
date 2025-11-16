@@ -24,6 +24,7 @@ export interface JonGuiDataGps {
   useManual: boolean;
   /** GPS timestamp from satellite (Unix time in seconds) */
   timestamp: Long;
+  isStarted: boolean;
 }
 
 function createBaseJonGuiDataGps(): JonGuiDataGps {
@@ -37,6 +38,7 @@ function createBaseJonGuiDataGps(): JonGuiDataGps {
     fixType: 0,
     useManual: false,
     timestamp: Long.ZERO,
+    isStarted: false,
   };
 }
 
@@ -68,6 +70,9 @@ export const JonGuiDataGps: MessageFns<JonGuiDataGps> = {
     }
     if (!message.timestamp.equals(Long.ZERO)) {
       writer.uint32(72).int64(message.timestamp.toString());
+    }
+    if (message.isStarted !== false) {
+      writer.uint32(80).bool(message.isStarted);
     }
     return writer;
   },
@@ -151,6 +156,14 @@ export const JonGuiDataGps: MessageFns<JonGuiDataGps> = {
           message.timestamp = Long.fromString(reader.int64().toString());
           continue;
         }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.isStarted = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -171,6 +184,7 @@ export const JonGuiDataGps: MessageFns<JonGuiDataGps> = {
       fixType: isSet(object.fixType) ? jonGuiDataGpsFixTypeFromJSON(object.fixType) : 0,
       useManual: isSet(object.useManual) ? globalThis.Boolean(object.useManual) : false,
       timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.ZERO,
+      isStarted: isSet(object.isStarted) ? globalThis.Boolean(object.isStarted) : false,
     };
   },
 
@@ -203,6 +217,9 @@ export const JonGuiDataGps: MessageFns<JonGuiDataGps> = {
     if (!message.timestamp.equals(Long.ZERO)) {
       obj.timestamp = (message.timestamp || Long.ZERO).toString();
     }
+    if (message.isStarted !== false) {
+      obj.isStarted = message.isStarted;
+    }
     return obj;
   },
 
@@ -222,6 +239,7 @@ export const JonGuiDataGps: MessageFns<JonGuiDataGps> = {
     message.timestamp = (object.timestamp !== undefined && object.timestamp !== null)
       ? Long.fromValue(object.timestamp)
       : Long.ZERO;
+    message.isStarted = object.isStarted ?? false;
     return message;
   },
 };

@@ -25,6 +25,7 @@ typedef struct _ser_JonGuiDataCameraHeat {
     double clahe_level;
     double horizontal_fov_degrees;
     double vertical_fov_degrees;
+    bool is_started;
 } ser_JonGuiDataCameraHeat;
 
 
@@ -33,8 +34,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCameraHeat_init_default    {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0}
-#define ser_JonGuiDataCameraHeat_init_zero       {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0}
+#define ser_JonGuiDataCameraHeat_init_default    {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataCameraHeat_init_zero       {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCameraHeat_zoom_pos_tag    1
@@ -50,6 +51,7 @@ extern "C" {
 #define ser_JonGuiDataCameraHeat_clahe_level_tag 11
 #define ser_JonGuiDataCameraHeat_horizontal_fov_degrees_tag 12
 #define ser_JonGuiDataCameraHeat_vertical_fov_degrees_tag 13
+#define ser_JonGuiDataCameraHeat_is_started_tag  14
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraHeat_FIELDLIST(X, a) \
@@ -65,7 +67,8 @@ X(a, STATIC,   SINGULAR, UENUM,    fx_mode,           9) \
 X(a, STATIC,   SINGULAR, DOUBLE,   digital_zoom_level,  10) \
 X(a, STATIC,   SINGULAR, DOUBLE,   clahe_level,      11) \
 X(a, STATIC,   SINGULAR, DOUBLE,   horizontal_fov_degrees,  12) \
-X(a, STATIC,   SINGULAR, DOUBLE,   vertical_fov_degrees,  13)
+X(a, STATIC,   SINGULAR, DOUBLE,   vertical_fov_degrees,  13) \
+X(a, STATIC,   SINGULAR, BOOL,     is_started,       14)
 #define ser_JonGuiDataCameraHeat_CALLBACK NULL
 #define ser_JonGuiDataCameraHeat_DEFAULT NULL
 
@@ -76,7 +79,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraHeat_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_HEAT_PB_H_MAX_SIZE ser_JonGuiDataCameraHeat_size
-#define ser_JonGuiDataCameraHeat_size            88
+#define ser_JonGuiDataCameraHeat_size            90
 
 #ifdef __cplusplus
 } /* extern "C" */

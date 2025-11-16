@@ -25,6 +25,7 @@ export interface JonGuiDataLrf {
   fogModeEnabled: boolean;
   isRefining: boolean;
   isContinuousMeasuring: boolean;
+  isStarted: boolean;
 }
 
 export interface JonGuiDataTarget {
@@ -68,6 +69,7 @@ function createBaseJonGuiDataLrf(): JonGuiDataLrf {
     fogModeEnabled: false,
     isRefining: false,
     isContinuousMeasuring: false,
+    isStarted: false,
   };
 }
 
@@ -96,6 +98,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     }
     if (message.isContinuousMeasuring !== false) {
       writer.uint32(64).bool(message.isContinuousMeasuring);
+    }
+    if (message.isStarted !== false) {
+      writer.uint32(72).bool(message.isStarted);
     }
     return writer;
   },
@@ -171,6 +176,14 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
           message.isContinuousMeasuring = reader.bool();
           continue;
         }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.isStarted = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -192,6 +205,7 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
       isContinuousMeasuring: isSet(object.isContinuousMeasuring)
         ? globalThis.Boolean(object.isContinuousMeasuring)
         : false,
+      isStarted: isSet(object.isStarted) ? globalThis.Boolean(object.isStarted) : false,
     };
   },
 
@@ -221,6 +235,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     if (message.isContinuousMeasuring !== false) {
       obj.isContinuousMeasuring = message.isContinuousMeasuring;
     }
+    if (message.isStarted !== false) {
+      obj.isStarted = message.isStarted;
+    }
     return obj;
   },
 
@@ -239,6 +256,7 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     message.fogModeEnabled = object.fogModeEnabled ?? false;
     message.isRefining = object.isRefining ?? false;
     message.isContinuousMeasuring = object.isContinuousMeasuring ?? false;
+    message.isStarted = object.isStarted ?? false;
     return message;
   },
 };

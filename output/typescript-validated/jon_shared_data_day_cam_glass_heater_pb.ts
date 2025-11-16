@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_day_cam_glass_heater.proto.
  */
 export const file_jon_shared_data_day_cam_glass_heater: GenFile = /*@__PURE__*/
-  fileDesc("Cipqb25fc2hhcmVkX2RhdGFfZGF5X2NhbV9nbGFzc19oZWF0ZXIucHJvdG8SA3NlciJ/ChtKb25HdWlEYXRhRGF5Q2FtR2xhc3NIZWF0ZXISUAoLdGVtcGVyYXR1cmUYASABKAFCO7pIOBI2GcP1KFyPooRAKWZmZmZmEnHASQAAAAAAADTASQAAAAAAAAAASQAAAAAAADlASQAAAAAAAFlAEg4KBnN0YXR1cxgCIAEoCEJcWlpnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvZGF5X2NhbV9nbGFzc19oZWF0ZXJiBnByb3RvMw", [file_buf_validate_validate]);
+  fileDesc("Cipqb25fc2hhcmVkX2RhdGFfZGF5X2NhbV9nbGFzc19oZWF0ZXIucHJvdG8SA3NlciKTAQobSm9uR3VpRGF0YURheUNhbUdsYXNzSGVhdGVyElAKC3RlbXBlcmF0dXJlGAEgASgBQju6SDgSNhnD9Shcj6KEQClmZmZmZhJxwEkAAAAAAAA0wEkAAAAAAAAAAEkAAAAAAAA5QEkAAAAAAABZQBIOCgZzdGF0dXMYAiABKAgSEgoKaXNfc3RhcnRlZBgDIAEoCEJcWlpnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvZGF5X2NhbV9nbGFzc19oZWF0ZXJiBnByb3RvMw", [file_buf_validate_validate]);
 
 /**
  * @generated from message ser.JonGuiDataDayCamGlassHeater
@@ -26,6 +26,11 @@ export type JonGuiDataDayCamGlassHeater = Message<"ser.JonGuiDataDayCamGlassHeat
    * @generated from field: bool status = 2;
    */
   status: boolean;
+
+  /**
+   * @generated from field: bool is_started = 3;
+   */
+  isStarted: boolean;
 };
 
 /**

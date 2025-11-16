@@ -5,7 +5,7 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataCompass(_message.Message):
-    __slots__ = ("azimuth", "elevation", "bank", "offsetAzimuth", "offsetElevation", "magneticDeclination", "calibrating")
+    __slots__ = ("azimuth", "elevation", "bank", "offsetAzimuth", "offsetElevation", "magneticDeclination", "calibrating", "is_started")
     AZIMUTH_FIELD_NUMBER: _ClassVar[int]
     ELEVATION_FIELD_NUMBER: _ClassVar[int]
     BANK_FIELD_NUMBER: _ClassVar[int]
@@ -13,6 +13,7 @@ class JonGuiDataCompass(_message.Message):
     OFFSETELEVATION_FIELD_NUMBER: _ClassVar[int]
     MAGNETICDECLINATION_FIELD_NUMBER: _ClassVar[int]
     CALIBRATING_FIELD_NUMBER: _ClassVar[int]
+    IS_STARTED_FIELD_NUMBER: _ClassVar[int]
     azimuth: float
     elevation: float
     bank: float
@@ -20,4 +21,5 @@ class JonGuiDataCompass(_message.Message):
     offsetElevation: float
     magneticDeclination: float
     calibrating: bool
-    def __init__(self, azimuth: _Optional[float] = ..., elevation: _Optional[float] = ..., bank: _Optional[float] = ..., offsetAzimuth: _Optional[float] = ..., offsetElevation: _Optional[float] = ..., magneticDeclination: _Optional[float] = ..., calibrating: bool = ...) -> None: ...
+    is_started: bool
+    def __init__(self, azimuth: _Optional[float] = ..., elevation: _Optional[float] = ..., bank: _Optional[float] = ..., offsetAzimuth: _Optional[float] = ..., offsetElevation: _Optional[float] = ..., magneticDeclination: _Optional[float] = ..., calibrating: bool = ..., is_started: bool = ...) -> None: ...

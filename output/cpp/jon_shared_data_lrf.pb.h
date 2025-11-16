@@ -880,6 +880,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
     kIsRefiningFieldNumber = 7,
     kPointerModeFieldNumber = 5,
     kIsContinuousMeasuringFieldNumber = 8,
+    kIsStartedFieldNumber = 9,
   };
   // .ser.JonGuiDataTarget target = 4;
   bool has_target() const;
@@ -966,12 +967,22 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   void _internal_set_is_continuous_measuring(bool value);
 
   public:
+  // bool is_started = 9;
+  void clear_is_started() ;
+  bool is_started() const;
+  void set_is_started(bool value);
+
+  private:
+  bool _internal_is_started() const;
+  void _internal_set_is_started(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataLrf)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 8, 1,
+      4, 9, 1,
       0, 2>
       _table_;
 
@@ -999,6 +1010,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
     bool is_refining_;
     int pointer_mode_;
     bool is_continuous_measuring_;
+    bool is_started_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1269,6 +1281,28 @@ inline bool JonGuiDataLrf::_internal_is_continuous_measuring() const {
 inline void JonGuiDataLrf::_internal_set_is_continuous_measuring(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.is_continuous_measuring_ = value;
+}
+
+// bool is_started = 9;
+inline void JonGuiDataLrf::clear_is_started() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = false;
+}
+inline bool JonGuiDataLrf::is_started() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataLrf.is_started)
+  return _internal_is_started();
+}
+inline void JonGuiDataLrf::set_is_started(bool value) {
+  _internal_set_is_started(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataLrf.is_started)
+}
+inline bool JonGuiDataLrf::_internal_is_started() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.is_started_;
+}
+inline void JonGuiDataLrf::_internal_set_is_started(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.is_started_ = value;
 }
 
 // -------------------------------------------------------------------
