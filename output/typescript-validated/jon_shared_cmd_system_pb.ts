@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_system.proto.
  */
 export const file_jon_shared_cmd_system: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2NtZF9zeXN0ZW0ucHJvdG8SCmNtZC5TeXN0ZW0ipAkKBFJvb3QSKQoJc3RhcnRfYWxsGAEgASgLMhQuY21kLlN5c3RlbS5TdGFydEFMbEgAEicKCHN0b3BfYWxsGAIgASgLMhMuY21kLlN5c3RlbS5TdG9wQUxsSAASJAoGcmVib290GAMgASgLMhIuY21kLlN5c3RlbS5SZWJvb3RIABIpCglwb3dlcl9vZmYYBCABKAsyFC5jbWQuU3lzdGVtLlBvd2VyT2ZmSAASMwoMbG9jYWxpemF0aW9uGAUgASgLMhsuY21kLlN5c3RlbS5TZXRMb2NhbGl6YXRpb25IABIxCg1yZXNldF9jb25maWdzGAYgASgLMhguY21kLlN5c3RlbS5SZXNldENvbmZpZ3NIABIpCglzdGFydF9yZWMYByABKAsyFC5jbWQuU3lzdGVtLlN0YXJ0UmVjSAASJwoIc3RvcF9yZWMYCCABKAsyEy5jbWQuU3lzdGVtLlN0b3BSZWNIABI6ChJtYXJrX3JlY19pbXBvcnRhbnQYCSABKAsyHC5jbWQuU3lzdGVtLk1hcmtSZWNJbXBvcnRhbnRIABI+ChR1bm1hcmtfcmVjX2ltcG9ydGFudBgKIAEoCzIeLmNtZC5TeXN0ZW0uVW5tYXJrUmVjSW1wb3J0YW50SAASNQoPZW50ZXJfdHJhbnNwb3J0GAsgASgLMhouY21kLlN5c3RlbS5FbnRlclRyYW5zcG9ydEgAEj4KFGdlb2Rlc2ljX21vZGVfZW5hYmxlGAwgASgLMh4uY21kLlN5c3RlbS5FbmFibGVHZW9kZXNpY01vZGVIABJAChVnZW9kZXNpY19tb2RlX2Rpc2FibGUYDSABKAsyHy5jbWQuU3lzdGVtLkRpc2FibGVHZW9kZXNpY01vZGVIABJAChVzYXZlX2ZhY3RvcnlfZGVmYXVsdHMYDiABKAsyHy5jbWQuU3lzdGVtLlNhdmVGYWN0b3J5RGVmYXVsdHNIABIyCg53aXBlX3VzZXJfZGF0YRgPIAEoCzIYLmNtZC5TeXN0ZW0uV2lwZVVzZXJEYXRhSAASKQoJc3RlcF95ZWFyGBAgASgLMhQuY21kLlN5c3RlbS5TdGVwWWVhckgAEisKCnN0ZXBfbW9udGgYESABKAsyFS5jbWQuU3lzdGVtLlN0ZXBNb250aEgAEicKCHN0ZXBfZGF5GBIgASgLMhMuY21kLlN5c3RlbS5TdGVwRGF5SAASKQoJc3RlcF9ob3VyGBMgASgLMhQuY21kLlN5c3RlbS5TdGVwSG91ckgAEi0KC3N0ZXBfbWludXRlGBQgASgLMhYuY21kLlN5c3RlbS5TdGVwTWludXRlSAASLQoLc3RlcF9zZWNvbmQYFSABKAsyFi5jbWQuU3lzdGVtLlN0ZXBTZWNvbmRIABI6ChJlbmFibGVfbWFudWFsX3RpbWUYFiABKAsyHC5jbWQuU3lzdGVtLkVuYWJsZU1hbnVhbFRpbWVIABI8ChNkaXNhYmxlX21hbnVhbF90aW1lGBcgASgLMh0uY21kLlN5c3RlbS5EaXNhYmxlTWFudWFsVGltZUgAQgwKA2NtZBIFukgCCAEiCgoIU3RhcnRBTGwiCQoHU3RvcEFMbCIICgZSZWJvb3QiCgoIUG93ZXJPZmYiDgoMUmVzZXRDb25maWdzIhUKE1NhdmVGYWN0b3J5RGVmYXVsdHMiDgoMV2lwZVVzZXJEYXRhIgoKCFN0YXJ0UmVjIgkKB1N0b3BSZWMiEgoQTWFya1JlY0ltcG9ydGFudCIUChJVbm1hcmtSZWNJbXBvcnRhbnQiEAoORW50ZXJUcmFuc3BvcnQiFAoSRW5hYmxlR2VvZGVzaWNNb2RlIhUKE0Rpc2FibGVHZW9kZXNpY01vZGUiTgoPU2V0TG9jYWxpemF0aW9uEjsKA2xvYxgBIAEoDjIiLnNlci5Kb25HdWlEYXRhU3lzdGVtTG9jYWxpemF0aW9uc0IKukgHggEEEAEgACIaCghTdGVwWWVhchIOCgZvZmZzZXQYASABKAUiGwoJU3RlcE1vbnRoEg4KBm9mZnNldBgBIAEoBSIZCgdTdGVwRGF5Eg4KBm9mZnNldBgBIAEoBSIaCghTdGVwSG91chIOCgZvZmZzZXQYASABKAUiHAoKU3RlcE1pbnV0ZRIOCgZvZmZzZXQYASABKAUiHAoKU3RlcFNlY29uZBIOCgZvZmZzZXQYASABKAUiEgoQRW5hYmxlTWFudWFsVGltZSITChFEaXNhYmxlTWFudWFsVGltZUJNWktnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NtZC9zeXN0ZW1iBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chtqb25fc2hhcmVkX2NtZF9zeXN0ZW0ucHJvdG8SCmNtZC5TeXN0ZW0iwwoKBFJvb3QSKQoJc3RhcnRfYWxsGAEgASgLMhQuY21kLlN5c3RlbS5TdGFydEFMbEgAEicKCHN0b3BfYWxsGAIgASgLMhMuY21kLlN5c3RlbS5TdG9wQUxsSAASJAoGcmVib290GAMgASgLMhIuY21kLlN5c3RlbS5SZWJvb3RIABIpCglwb3dlcl9vZmYYBCABKAsyFC5jbWQuU3lzdGVtLlBvd2VyT2ZmSAASMwoMbG9jYWxpemF0aW9uGAUgASgLMhsuY21kLlN5c3RlbS5TZXRMb2NhbGl6YXRpb25IABIxCg1yZXNldF9jb25maWdzGAYgASgLMhguY21kLlN5c3RlbS5SZXNldENvbmZpZ3NIABIpCglzdGFydF9yZWMYByABKAsyFC5jbWQuU3lzdGVtLlN0YXJ0UmVjSAASJwoIc3RvcF9yZWMYCCABKAsyEy5jbWQuU3lzdGVtLlN0b3BSZWNIABI6ChJtYXJrX3JlY19pbXBvcnRhbnQYCSABKAsyHC5jbWQuU3lzdGVtLk1hcmtSZWNJbXBvcnRhbnRIABI+ChR1bm1hcmtfcmVjX2ltcG9ydGFudBgKIAEoCzIeLmNtZC5TeXN0ZW0uVW5tYXJrUmVjSW1wb3J0YW50SAASNQoPZW50ZXJfdHJhbnNwb3J0GAsgASgLMhouY21kLlN5c3RlbS5FbnRlclRyYW5zcG9ydEgAEj4KFGdlb2Rlc2ljX21vZGVfZW5hYmxlGAwgASgLMh4uY21kLlN5c3RlbS5FbmFibGVHZW9kZXNpY01vZGVIABJAChVnZW9kZXNpY19tb2RlX2Rpc2FibGUYDSABKAsyHy5jbWQuU3lzdGVtLkRpc2FibGVHZW9kZXNpY01vZGVIABJAChVzYXZlX2ZhY3RvcnlfZGVmYXVsdHMYDiABKAsyHy5jbWQuU3lzdGVtLlNhdmVGYWN0b3J5RGVmYXVsdHNIABIyCg53aXBlX3VzZXJfZGF0YRgPIAEoCzIYLmNtZC5TeXN0ZW0uV2lwZVVzZXJEYXRhSAASKQoJc3RlcF95ZWFyGBAgASgLMhQuY21kLlN5c3RlbS5TdGVwWWVhckgAEisKCnN0ZXBfbW9udGgYESABKAsyFS5jbWQuU3lzdGVtLlN0ZXBNb250aEgAEicKCHN0ZXBfZGF5GBIgASgLMhMuY21kLlN5c3RlbS5TdGVwRGF5SAASKQoJc3RlcF9ob3VyGBMgASgLMhQuY21kLlN5c3RlbS5TdGVwSG91ckgAEi0KC3N0ZXBfbWludXRlGBQgASgLMhYuY21kLlN5c3RlbS5TdGVwTWludXRlSAASLQoLc3RlcF9zZWNvbmQYFSABKAsyFi5jbWQuU3lzdGVtLlN0ZXBTZWNvbmRIABI6ChJlbmFibGVfbWFudWFsX3RpbWUYFiABKAsyHC5jbWQuU3lzdGVtLkVuYWJsZU1hbnVhbFRpbWVIABI8ChNkaXNhYmxlX21hbnVhbF90aW1lGBcgASgLMh0uY21kLlN5c3RlbS5EaXNhYmxlTWFudWFsVGltZUgAEjAKDXNldF90aW1lX3pvbmUYGCABKAsyFy5jbWQuU3lzdGVtLlNldFRpbWVab25lSAASMgoOc3RlcF90aW1lX3pvbmUYGSABKAsyGC5jbWQuU3lzdGVtLlN0ZXBUaW1lWm9uZUgAEjcKEXNldF90aW1lX2FuZF96b25lGBogASgLMhouY21kLlN5c3RlbS5TZXRUaW1lQW5kWm9uZUgAQgwKA2NtZBIFukgCCAEiCgoIU3RhcnRBTGwiCQoHU3RvcEFMbCIICgZSZWJvb3QiCgoIUG93ZXJPZmYiDgoMUmVzZXRDb25maWdzIhUKE1NhdmVGYWN0b3J5RGVmYXVsdHMiDgoMV2lwZVVzZXJEYXRhIgoKCFN0YXJ0UmVjIgkKB1N0b3BSZWMiEgoQTWFya1JlY0ltcG9ydGFudCIUChJVbm1hcmtSZWNJbXBvcnRhbnQiEAoORW50ZXJUcmFuc3BvcnQiFAoSRW5hYmxlR2VvZGVzaWNNb2RlIhUKE0Rpc2FibGVHZW9kZXNpY01vZGUiTgoPU2V0TG9jYWxpemF0aW9uEjsKA2xvYxgBIAEoDjIiLnNlci5Kb25HdWlEYXRhU3lzdGVtTG9jYWxpemF0aW9uc0IKukgHggEEEAEgACIaCghTdGVwWWVhchIOCgZvZmZzZXQYASABKAUiGwoJU3RlcE1vbnRoEg4KBm9mZnNldBgBIAEoBSIZCgdTdGVwRGF5Eg4KBm9mZnNldBgBIAEoBSIaCghTdGVwSG91chIOCgZvZmZzZXQYASABKAUiHAoKU3RlcE1pbnV0ZRIOCgZvZmZzZXQYASABKAUiHAoKU3RlcFNlY29uZBIOCgZvZmZzZXQYASABKAUiEgoQRW5hYmxlTWFudWFsVGltZSITChFEaXNhYmxlTWFudWFsVGltZSIqCgtTZXRUaW1lWm9uZRIbCgd6b25lX2lkGAEgASgFQgq6SAcaBRDTBCgAIh4KDFN0ZXBUaW1lWm9uZRIOCgZvZmZzZXQYASABKAUiSQoOU2V0VGltZUFuZFpvbmUSGgoJdGltZXN0YW1wGAEgASgDQge6SAQiAigAEhsKB3pvbmVfaWQYAiABKAVCCrpIBxoFENMEKABCTVpLZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvc3lzdGVtYgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message cmd.System.Root
@@ -160,6 +160,24 @@ export type Root = Message<"cmd.System.Root"> & {
      */
     value: DisableManualTime;
     case: "disableManualTime";
+  } | {
+    /**
+     * @generated from field: cmd.System.SetTimeZone set_time_zone = 24;
+     */
+    value: SetTimeZone;
+    case: "setTimeZone";
+  } | {
+    /**
+     * @generated from field: cmd.System.StepTimeZone step_time_zone = 25;
+     */
+    value: StepTimeZone;
+    case: "stepTimeZone";
+  } | {
+    /**
+     * @generated from field: cmd.System.SetTimeAndZone set_time_and_zone = 26;
+     */
+    value: SetTimeAndZone;
+    case: "setTimeAndZone";
   } | { case: undefined; value?: undefined };
 };
 
@@ -508,4 +526,62 @@ export type DisableManualTime = Message<"cmd.System.DisableManualTime"> & {
  */
 export const DisableManualTimeSchema: GenMessage<DisableManualTime> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_system, 23);
+
+/**
+ * @generated from message cmd.System.SetTimeZone
+ */
+export type SetTimeZone = Message<"cmd.System.SetTimeZone"> & {
+  /**
+   * @generated from field: int32 zone_id = 1;
+   */
+  zoneId: number;
+};
+
+/**
+ * Describes the message cmd.System.SetTimeZone.
+ * Use `create(SetTimeZoneSchema)` to create a new message.
+ */
+export const SetTimeZoneSchema: GenMessage<SetTimeZone> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_system, 24);
+
+/**
+ * @generated from message cmd.System.StepTimeZone
+ */
+export type StepTimeZone = Message<"cmd.System.StepTimeZone"> & {
+  /**
+   * Positive or negative timezone index offset
+   *
+   * @generated from field: int32 offset = 1;
+   */
+  offset: number;
+};
+
+/**
+ * Describes the message cmd.System.StepTimeZone.
+ * Use `create(StepTimeZoneSchema)` to create a new message.
+ */
+export const StepTimeZoneSchema: GenMessage<StepTimeZone> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_system, 25);
+
+/**
+ * @generated from message cmd.System.SetTimeAndZone
+ */
+export type SetTimeAndZone = Message<"cmd.System.SetTimeAndZone"> & {
+  /**
+   * @generated from field: int64 timestamp = 1;
+   */
+  timestamp: bigint;
+
+  /**
+   * @generated from field: int32 zone_id = 2;
+   */
+  zoneId: number;
+};
+
+/**
+ * Describes the message cmd.System.SetTimeAndZone.
+ * Use `create(SetTimeAndZoneSchema)` to create a new message.
+ */
+export const SetTimeAndZoneSchema: GenMessage<SetTimeAndZone> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_system, 26);
 

@@ -37,6 +37,9 @@ export interface Root {
   stepSecond?: StepSecond | undefined;
   enableManualTime?: EnableManualTime | undefined;
   disableManualTime?: DisableManualTime | undefined;
+  setTimeZone?: SetTimeZone | undefined;
+  stepTimeZone?: StepTimeZone | undefined;
+  setTimeAndZone?: SetTimeAndZone | undefined;
 }
 
 export interface StartALl {
@@ -121,6 +124,20 @@ export interface EnableManualTime {
 export interface DisableManualTime {
 }
 
+export interface SetTimeZone {
+  zoneId: number;
+}
+
+export interface StepTimeZone {
+  /** Positive or negative timezone index offset */
+  offset: number;
+}
+
+export interface SetTimeAndZone {
+  timestamp: Long;
+  zoneId: number;
+}
+
 function createBaseRoot(): Root {
   return {
     startAll: undefined,
@@ -146,6 +163,9 @@ function createBaseRoot(): Root {
     stepSecond: undefined,
     enableManualTime: undefined,
     disableManualTime: undefined,
+    setTimeZone: undefined,
+    stepTimeZone: undefined,
+    setTimeAndZone: undefined,
   };
 }
 
@@ -219,6 +239,15 @@ export const Root: MessageFns<Root> = {
     }
     if (message.disableManualTime !== undefined) {
       DisableManualTime.encode(message.disableManualTime, writer.uint32(186).fork()).join();
+    }
+    if (message.setTimeZone !== undefined) {
+      SetTimeZone.encode(message.setTimeZone, writer.uint32(194).fork()).join();
+    }
+    if (message.stepTimeZone !== undefined) {
+      StepTimeZone.encode(message.stepTimeZone, writer.uint32(202).fork()).join();
+    }
+    if (message.setTimeAndZone !== undefined) {
+      SetTimeAndZone.encode(message.setTimeAndZone, writer.uint32(210).fork()).join();
     }
     return writer;
   },
@@ -414,6 +443,30 @@ export const Root: MessageFns<Root> = {
           message.disableManualTime = DisableManualTime.decode(reader, reader.uint32());
           continue;
         }
+        case 24: {
+          if (tag !== 194) {
+            break;
+          }
+
+          message.setTimeZone = SetTimeZone.decode(reader, reader.uint32());
+          continue;
+        }
+        case 25: {
+          if (tag !== 202) {
+            break;
+          }
+
+          message.stepTimeZone = StepTimeZone.decode(reader, reader.uint32());
+          continue;
+        }
+        case 26: {
+          if (tag !== 210) {
+            break;
+          }
+
+          message.setTimeAndZone = SetTimeAndZone.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -458,6 +511,9 @@ export const Root: MessageFns<Root> = {
       disableManualTime: isSet(object.disableManualTime)
         ? DisableManualTime.fromJSON(object.disableManualTime)
         : undefined,
+      setTimeZone: isSet(object.setTimeZone) ? SetTimeZone.fromJSON(object.setTimeZone) : undefined,
+      stepTimeZone: isSet(object.stepTimeZone) ? StepTimeZone.fromJSON(object.stepTimeZone) : undefined,
+      setTimeAndZone: isSet(object.setTimeAndZone) ? SetTimeAndZone.fromJSON(object.setTimeAndZone) : undefined,
     };
   },
 
@@ -531,6 +587,15 @@ export const Root: MessageFns<Root> = {
     }
     if (message.disableManualTime !== undefined) {
       obj.disableManualTime = DisableManualTime.toJSON(message.disableManualTime);
+    }
+    if (message.setTimeZone !== undefined) {
+      obj.setTimeZone = SetTimeZone.toJSON(message.setTimeZone);
+    }
+    if (message.stepTimeZone !== undefined) {
+      obj.stepTimeZone = StepTimeZone.toJSON(message.stepTimeZone);
+    }
+    if (message.setTimeAndZone !== undefined) {
+      obj.setTimeAndZone = SetTimeAndZone.toJSON(message.setTimeAndZone);
     }
     return obj;
   },
@@ -608,6 +673,15 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.disableManualTime = (object.disableManualTime !== undefined && object.disableManualTime !== null)
       ? DisableManualTime.fromPartial(object.disableManualTime)
+      : undefined;
+    message.setTimeZone = (object.setTimeZone !== undefined && object.setTimeZone !== null)
+      ? SetTimeZone.fromPartial(object.setTimeZone)
+      : undefined;
+    message.stepTimeZone = (object.stepTimeZone !== undefined && object.stepTimeZone !== null)
+      ? StepTimeZone.fromPartial(object.stepTimeZone)
+      : undefined;
+    message.setTimeAndZone = (object.setTimeAndZone !== undefined && object.setTimeAndZone !== null)
+      ? SetTimeAndZone.fromPartial(object.setTimeAndZone)
       : undefined;
     return message;
   },
@@ -1703,6 +1777,200 @@ export const DisableManualTime: MessageFns<DisableManualTime> = {
   },
   fromPartial<I extends Exact<DeepPartial<DisableManualTime>, I>>(_: I): DisableManualTime {
     const message = createBaseDisableManualTime();
+    return message;
+  },
+};
+
+function createBaseSetTimeZone(): SetTimeZone {
+  return { zoneId: 0 };
+}
+
+export const SetTimeZone: MessageFns<SetTimeZone> = {
+  encode(message: SetTimeZone, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.zoneId !== 0) {
+      writer.uint32(8).int32(message.zoneId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SetTimeZone {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSetTimeZone();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.zoneId = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SetTimeZone {
+    return { zoneId: isSet(object.zoneId) ? globalThis.Number(object.zoneId) : 0 };
+  },
+
+  toJSON(message: SetTimeZone): unknown {
+    const obj: any = {};
+    if (message.zoneId !== 0) {
+      obj.zoneId = Math.round(message.zoneId);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SetTimeZone>, I>>(base?: I): SetTimeZone {
+    return SetTimeZone.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SetTimeZone>, I>>(object: I): SetTimeZone {
+    const message = createBaseSetTimeZone();
+    message.zoneId = object.zoneId ?? 0;
+    return message;
+  },
+};
+
+function createBaseStepTimeZone(): StepTimeZone {
+  return { offset: 0 };
+}
+
+export const StepTimeZone: MessageFns<StepTimeZone> = {
+  encode(message: StepTimeZone, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.offset !== 0) {
+      writer.uint32(8).int32(message.offset);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StepTimeZone {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStepTimeZone();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.offset = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StepTimeZone {
+    return { offset: isSet(object.offset) ? globalThis.Number(object.offset) : 0 };
+  },
+
+  toJSON(message: StepTimeZone): unknown {
+    const obj: any = {};
+    if (message.offset !== 0) {
+      obj.offset = Math.round(message.offset);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StepTimeZone>, I>>(base?: I): StepTimeZone {
+    return StepTimeZone.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StepTimeZone>, I>>(object: I): StepTimeZone {
+    const message = createBaseStepTimeZone();
+    message.offset = object.offset ?? 0;
+    return message;
+  },
+};
+
+function createBaseSetTimeAndZone(): SetTimeAndZone {
+  return { timestamp: Long.ZERO, zoneId: 0 };
+}
+
+export const SetTimeAndZone: MessageFns<SetTimeAndZone> = {
+  encode(message: SetTimeAndZone, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (!message.timestamp.equals(Long.ZERO)) {
+      writer.uint32(8).int64(message.timestamp.toString());
+    }
+    if (message.zoneId !== 0) {
+      writer.uint32(16).int32(message.zoneId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SetTimeAndZone {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSetTimeAndZone();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.timestamp = Long.fromString(reader.int64().toString());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.zoneId = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SetTimeAndZone {
+    return {
+      timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.ZERO,
+      zoneId: isSet(object.zoneId) ? globalThis.Number(object.zoneId) : 0,
+    };
+  },
+
+  toJSON(message: SetTimeAndZone): unknown {
+    const obj: any = {};
+    if (!message.timestamp.equals(Long.ZERO)) {
+      obj.timestamp = (message.timestamp || Long.ZERO).toString();
+    }
+    if (message.zoneId !== 0) {
+      obj.zoneId = Math.round(message.zoneId);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SetTimeAndZone>, I>>(base?: I): SetTimeAndZone {
+    return SetTimeAndZone.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SetTimeAndZone>, I>>(object: I): SetTimeAndZone {
+    const message = createBaseSetTimeAndZone();
+    message.timestamp = (object.timestamp !== undefined && object.timestamp !== null)
+      ? Long.fromValue(object.timestamp)
+      : Long.ZERO;
+    message.zoneId = object.zoneId ?? 0;
     return message;
   },
 };

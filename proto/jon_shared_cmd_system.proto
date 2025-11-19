@@ -32,6 +32,9 @@ message Root {
     StepSecond step_second = 21;
     EnableManualTime enable_manual_time = 22;
     DisableManualTime disable_manual_time = 23;
+    SetTimeZone set_time_zone = 24;
+    StepTimeZone step_time_zone = 25;
+    SetTimeAndZone set_time_and_zone = 26;
   }
 }
 
@@ -97,3 +100,24 @@ message StepSecond {
 message EnableManualTime {}
 
 message DisableManualTime {}
+
+message SetTimeZone {
+  int32 zone_id = 1 [(buf.validate.field).int32 = {
+    gte: 0,
+    lt: 595  // JON_SHARED_DATA_TIMEZONE_COUNT
+  }];
+}
+
+message StepTimeZone {
+  int32 offset = 1;  // Positive or negative timezone index offset
+}
+
+message SetTimeAndZone {
+  int64 timestamp = 1 [(buf.validate.field).int64 = {
+    gte: 0
+  }];
+  int32 zone_id = 2 [(buf.validate.field).int32 = {
+    gte: 0,
+    lt: 595  // JON_SHARED_DATA_TIMEZONE_COUNT
+  }];
+}

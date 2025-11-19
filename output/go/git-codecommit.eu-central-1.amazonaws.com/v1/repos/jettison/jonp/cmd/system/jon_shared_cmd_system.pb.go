@@ -50,6 +50,9 @@ type Root struct {
 	//	*Root_StepSecond
 	//	*Root_EnableManualTime
 	//	*Root_DisableManualTime
+	//	*Root_SetTimeZone
+	//	*Root_StepTimeZone
+	//	*Root_SetTimeAndZone
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -299,6 +302,33 @@ func (x *Root) GetDisableManualTime() *DisableManualTime {
 	return nil
 }
 
+func (x *Root) GetSetTimeZone() *SetTimeZone {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_SetTimeZone); ok {
+			return x.SetTimeZone
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStepTimeZone() *StepTimeZone {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_StepTimeZone); ok {
+			return x.StepTimeZone
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetSetTimeAndZone() *SetTimeAndZone {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_SetTimeAndZone); ok {
+			return x.SetTimeAndZone
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -395,6 +425,18 @@ type Root_DisableManualTime struct {
 	DisableManualTime *DisableManualTime `protobuf:"bytes,23,opt,name=disable_manual_time,json=disableManualTime,proto3,oneof"`
 }
 
+type Root_SetTimeZone struct {
+	SetTimeZone *SetTimeZone `protobuf:"bytes,24,opt,name=set_time_zone,json=setTimeZone,proto3,oneof"`
+}
+
+type Root_StepTimeZone struct {
+	StepTimeZone *StepTimeZone `protobuf:"bytes,25,opt,name=step_time_zone,json=stepTimeZone,proto3,oneof"`
+}
+
+type Root_SetTimeAndZone struct {
+	SetTimeAndZone *SetTimeAndZone `protobuf:"bytes,26,opt,name=set_time_and_zone,json=setTimeAndZone,proto3,oneof"`
+}
+
 func (*Root_StartAll) isRoot_Cmd() {}
 
 func (*Root_StopAll) isRoot_Cmd() {}
@@ -440,6 +482,12 @@ func (*Root_StepSecond) isRoot_Cmd() {}
 func (*Root_EnableManualTime) isRoot_Cmd() {}
 
 func (*Root_DisableManualTime) isRoot_Cmd() {}
+
+func (*Root_SetTimeZone) isRoot_Cmd() {}
+
+func (*Root_StepTimeZone) isRoot_Cmd() {}
+
+func (*Root_SetTimeAndZone) isRoot_Cmd() {}
 
 type StartALl struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1325,12 +1373,152 @@ func (*DisableManualTime) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{23}
 }
 
+type SetTimeZone struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ZoneId        int32                  `protobuf:"varint,1,opt,name=zone_id,json=zoneId,proto3" json:"zone_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetTimeZone) Reset() {
+	*x = SetTimeZone{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetTimeZone) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetTimeZone) ProtoMessage() {}
+
+func (x *SetTimeZone) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetTimeZone.ProtoReflect.Descriptor instead.
+func (*SetTimeZone) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *SetTimeZone) GetZoneId() int32 {
+	if x != nil {
+		return x.ZoneId
+	}
+	return 0
+}
+
+type StepTimeZone struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Offset        int32                  `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"` // Positive or negative timezone index offset
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StepTimeZone) Reset() {
+	*x = StepTimeZone{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepTimeZone) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepTimeZone) ProtoMessage() {}
+
+func (x *StepTimeZone) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepTimeZone.ProtoReflect.Descriptor instead.
+func (*StepTimeZone) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *StepTimeZone) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type SetTimeAndZone struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Timestamp     int64                  `protobuf:"varint,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	ZoneId        int32                  `protobuf:"varint,2,opt,name=zone_id,json=zoneId,proto3" json:"zone_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetTimeAndZone) Reset() {
+	*x = SetTimeAndZone{}
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetTimeAndZone) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetTimeAndZone) ProtoMessage() {}
+
+func (x *SetTimeAndZone) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_system_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetTimeAndZone.ProtoReflect.Descriptor instead.
+func (*SetTimeAndZone) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_system_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *SetTimeAndZone) GetTimestamp() int64 {
+	if x != nil {
+		return x.Timestamp
+	}
+	return 0
+}
+
+func (x *SetTimeAndZone) GetZoneId() int32 {
+	if x != nil {
+		return x.ZoneId
+	}
+	return 0
+}
+
 var File_jon_shared_cmd_system_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_system.proto\x12\n" +
-	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xdf\v\n" +
+	"cmd.System\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xa9\r\n" +
 	"\x04Root\x123\n" +
 	"\tstart_all\x18\x01 \x01(\v2\x14.cmd.System.StartALlH\x00R\bstartAll\x120\n" +
 	"\bstop_all\x18\x02 \x01(\v2\x13.cmd.System.StopALlH\x00R\astopAll\x12,\n" +
@@ -1358,7 +1546,10 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"\vstep_second\x18\x15 \x01(\v2\x16.cmd.System.StepSecondH\x00R\n" +
 	"stepSecond\x12L\n" +
 	"\x12enable_manual_time\x18\x16 \x01(\v2\x1c.cmd.System.EnableManualTimeH\x00R\x10enableManualTime\x12O\n" +
-	"\x13disable_manual_time\x18\x17 \x01(\v2\x1d.cmd.System.DisableManualTimeH\x00R\x11disableManualTimeB\f\n" +
+	"\x13disable_manual_time\x18\x17 \x01(\v2\x1d.cmd.System.DisableManualTimeH\x00R\x11disableManualTime\x12=\n" +
+	"\rset_time_zone\x18\x18 \x01(\v2\x17.cmd.System.SetTimeZoneH\x00R\vsetTimeZone\x12@\n" +
+	"\x0estep_time_zone\x18\x19 \x01(\v2\x18.cmd.System.StepTimeZoneH\x00R\fstepTimeZone\x12G\n" +
+	"\x11set_time_and_zone\x18\x1a \x01(\v2\x1a.cmd.System.SetTimeAndZoneH\x00R\x0esetTimeAndZoneB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\n" +
 	"\n" +
 	"\bStartALl\"\t\n" +
@@ -1395,7 +1586,16 @@ const file_jon_shared_cmd_system_proto_rawDesc = "" +
 	"StepSecond\x12\x16\n" +
 	"\x06offset\x18\x01 \x01(\x05R\x06offset\"\x12\n" +
 	"\x10EnableManualTime\"\x13\n" +
-	"\x11DisableManualTimeB\xbf\x01\n" +
+	"\x11DisableManualTime\"2\n" +
+	"\vSetTimeZone\x12#\n" +
+	"\azone_id\x18\x01 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x10\xd3\x04(\x00R\x06zoneId\"&\n" +
+	"\fStepTimeZone\x12\x16\n" +
+	"\x06offset\x18\x01 \x01(\x05R\x06offset\"\\\n" +
+	"\x0eSetTimeAndZone\x12%\n" +
+	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12#\n" +
+	"\azone_id\x18\x02 \x01(\x05B\n" +
+	"\xbaH\a\x1a\x05\x10\xd3\x04(\x00R\x06zoneIdB\xbf\x01\n" +
 	"\x0ecom.cmd.SystemB\x17JonSharedCmdSystemProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/system\xa2\x02\x03CSX\xaa\x02\n" +
 	"Cmd.System\xca\x02\n" +
 	"Cmd\\System\xe2\x02\x16Cmd\\System\\GPBMetadata\xea\x02\vCmd::Systemb\x06proto3"
@@ -1412,7 +1612,7 @@ func file_jon_shared_cmd_system_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_system_proto_rawDescData
 }
 
-var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_jon_shared_cmd_system_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*Root)(nil),                             // 0: cmd.System.Root
 	(*StartALl)(nil),                         // 1: cmd.System.StartALl
@@ -1438,7 +1638,10 @@ var file_jon_shared_cmd_system_proto_goTypes = []any{
 	(*StepSecond)(nil),                       // 21: cmd.System.StepSecond
 	(*EnableManualTime)(nil),                 // 22: cmd.System.EnableManualTime
 	(*DisableManualTime)(nil),                // 23: cmd.System.DisableManualTime
-	(types.JonGuiDataSystemLocalizations)(0), // 24: ser.JonGuiDataSystemLocalizations
+	(*SetTimeZone)(nil),                      // 24: cmd.System.SetTimeZone
+	(*StepTimeZone)(nil),                     // 25: cmd.System.StepTimeZone
+	(*SetTimeAndZone)(nil),                   // 26: cmd.System.SetTimeAndZone
+	(types.JonGuiDataSystemLocalizations)(0), // 27: ser.JonGuiDataSystemLocalizations
 }
 var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	1,  // 0: cmd.System.Root.start_all:type_name -> cmd.System.StartALl
@@ -1464,12 +1667,15 @@ var file_jon_shared_cmd_system_proto_depIdxs = []int32{
 	21, // 20: cmd.System.Root.step_second:type_name -> cmd.System.StepSecond
 	22, // 21: cmd.System.Root.enable_manual_time:type_name -> cmd.System.EnableManualTime
 	23, // 22: cmd.System.Root.disable_manual_time:type_name -> cmd.System.DisableManualTime
-	24, // 23: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	24, // 23: cmd.System.Root.set_time_zone:type_name -> cmd.System.SetTimeZone
+	25, // 24: cmd.System.Root.step_time_zone:type_name -> cmd.System.StepTimeZone
+	26, // 25: cmd.System.Root.set_time_and_zone:type_name -> cmd.System.SetTimeAndZone
+	27, // 26: cmd.System.SetLocalization.loc:type_name -> ser.JonGuiDataSystemLocalizations
+	27, // [27:27] is the sub-list for method output_type
+	27, // [27:27] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_system_proto_init() }
@@ -1501,6 +1707,9 @@ func file_jon_shared_cmd_system_proto_init() {
 		(*Root_StepSecond)(nil),
 		(*Root_EnableManualTime)(nil),
 		(*Root_DisableManualTime)(nil),
+		(*Root_SetTimeZone)(nil),
+		(*Root_StepTimeZone)(nil),
+		(*Root_SetTimeAndZone)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1508,7 +1717,7 @@ func file_jon_shared_cmd_system_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_system_proto_rawDesc), len(file_jon_shared_cmd_system_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

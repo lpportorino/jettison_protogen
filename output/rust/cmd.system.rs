@@ -3,7 +3,7 @@
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -57,6 +57,12 @@ pub mod root {
         EnableManualTime(super::EnableManualTime),
         #[prost(message, tag = "23")]
         DisableManualTime(super::DisableManualTime),
+        #[prost(message, tag = "24")]
+        SetTimeZone(super::SetTimeZone),
+        #[prost(message, tag = "25")]
+        StepTimeZone(super::StepTimeZone),
+        #[prost(message, tag = "26")]
+        SetTimeAndZone(super::SetTimeAndZone),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -132,3 +138,21 @@ pub struct StepSecond {
 pub struct EnableManualTime {}
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct DisableManualTime {}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SetTimeZone {
+    #[prost(int32, tag = "1")]
+    pub zone_id: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct StepTimeZone {
+    /// Positive or negative timezone index offset
+    #[prost(int32, tag = "1")]
+    pub offset: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SetTimeAndZone {
+    #[prost(int64, tag = "1")]
+    pub timestamp: i64,
+    #[prost(int32, tag = "2")]
+    pub zone_id: i32,
+}

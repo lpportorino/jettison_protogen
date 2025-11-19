@@ -78,4 +78,13 @@ PB_BIND(cmd_System_EnableManualTime, cmd_System_EnableManualTime, AUTO)
 PB_BIND(cmd_System_DisableManualTime, cmd_System_DisableManualTime, AUTO)
 
 
+PB_BIND(cmd_System_SetTimeZone, cmd_System_SetTimeZone, AUTO)
+
+
+PB_BIND(cmd_System_StepTimeZone, cmd_System_StepTimeZone, AUTO)
+
+
+PB_BIND(cmd_System_SetTimeAndZone, cmd_System_SetTimeAndZone, AUTO)
+
+
 

@@ -92,6 +92,12 @@ extern SaveFactoryDefaultsDefaultTypeInternal _SaveFactoryDefaults_default_insta
 class SetLocalization;
 struct SetLocalizationDefaultTypeInternal;
 extern SetLocalizationDefaultTypeInternal _SetLocalization_default_instance_;
+class SetTimeAndZone;
+struct SetTimeAndZoneDefaultTypeInternal;
+extern SetTimeAndZoneDefaultTypeInternal _SetTimeAndZone_default_instance_;
+class SetTimeZone;
+struct SetTimeZoneDefaultTypeInternal;
+extern SetTimeZoneDefaultTypeInternal _SetTimeZone_default_instance_;
 class StartALl;
 struct StartALlDefaultTypeInternal;
 extern StartALlDefaultTypeInternal _StartALl_default_instance_;
@@ -113,6 +119,9 @@ extern StepMonthDefaultTypeInternal _StepMonth_default_instance_;
 class StepSecond;
 struct StepSecondDefaultTypeInternal;
 extern StepSecondDefaultTypeInternal _StepSecond_default_instance_;
+class StepTimeZone;
+struct StepTimeZoneDefaultTypeInternal;
+extern StepTimeZoneDefaultTypeInternal _StepTimeZone_default_instance_;
 class StepYear;
 struct StepYearDefaultTypeInternal;
 extern StepYearDefaultTypeInternal _StepYear_default_instance_;
@@ -904,6 +913,196 @@ class StepYear final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const StepYear& from_msg);
+    ::int32_t offset_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepTimeZone final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.StepTimeZone) */ {
+ public:
+  inline StepTimeZone() : StepTimeZone(nullptr) {}
+  ~StepTimeZone() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepTimeZone* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepTimeZone));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepTimeZone(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepTimeZone(const StepTimeZone& from) : StepTimeZone(nullptr, from) {}
+  inline StepTimeZone(StepTimeZone&& from) noexcept
+      : StepTimeZone(nullptr, std::move(from)) {}
+  inline StepTimeZone& operator=(const StepTimeZone& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepTimeZone& operator=(StepTimeZone&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepTimeZone& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepTimeZone* internal_default_instance() {
+    return reinterpret_cast<const StepTimeZone*>(
+        &_StepTimeZone_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 25;
+  friend void swap(StepTimeZone& a, StepTimeZone& b) { a.Swap(&b); }
+  inline void Swap(StepTimeZone* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepTimeZone* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepTimeZone* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepTimeZone>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepTimeZone& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepTimeZone& from) { StepTimeZone::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepTimeZone* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.StepTimeZone"; }
+
+ protected:
+  explicit StepTimeZone(::google::protobuf::Arena* arena);
+  StepTimeZone(::google::protobuf::Arena* arena, const StepTimeZone& from);
+  StepTimeZone(::google::protobuf::Arena* arena, StepTimeZone&& from) noexcept
+      : StepTimeZone(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOffsetFieldNumber = 1,
+  };
+  // int32 offset = 1;
+  void clear_offset() ;
+  ::int32_t offset() const;
+  void set_offset(::int32_t value);
+
+  private:
+  ::int32_t _internal_offset() const;
+  void _internal_set_offset(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.StepTimeZone)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepTimeZone& from_msg);
     ::int32_t offset_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -2149,6 +2348,398 @@ class StartALl final : public ::google::protobuf::internal::ZeroFieldsBase
                           const StartALl& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SetTimeZone final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.SetTimeZone) */ {
+ public:
+  inline SetTimeZone() : SetTimeZone(nullptr) {}
+  ~SetTimeZone() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SetTimeZone* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SetTimeZone));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SetTimeZone(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SetTimeZone(const SetTimeZone& from) : SetTimeZone(nullptr, from) {}
+  inline SetTimeZone(SetTimeZone&& from) noexcept
+      : SetTimeZone(nullptr, std::move(from)) {}
+  inline SetTimeZone& operator=(const SetTimeZone& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SetTimeZone& operator=(SetTimeZone&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SetTimeZone& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SetTimeZone* internal_default_instance() {
+    return reinterpret_cast<const SetTimeZone*>(
+        &_SetTimeZone_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 24;
+  friend void swap(SetTimeZone& a, SetTimeZone& b) { a.Swap(&b); }
+  inline void Swap(SetTimeZone* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SetTimeZone* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SetTimeZone* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SetTimeZone>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SetTimeZone& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SetTimeZone& from) { SetTimeZone::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SetTimeZone* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.SetTimeZone"; }
+
+ protected:
+  explicit SetTimeZone(::google::protobuf::Arena* arena);
+  SetTimeZone(::google::protobuf::Arena* arena, const SetTimeZone& from);
+  SetTimeZone(::google::protobuf::Arena* arena, SetTimeZone&& from) noexcept
+      : SetTimeZone(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kZoneIdFieldNumber = 1,
+  };
+  // int32 zone_id = 1 [(.buf.validate.field) = {
+  void clear_zone_id() ;
+  ::int32_t zone_id() const;
+  void set_zone_id(::int32_t value);
+
+  private:
+  ::int32_t _internal_zone_id() const;
+  void _internal_set_zone_id(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.SetTimeZone)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SetTimeZone& from_msg);
+    ::int32_t zone_id_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SetTimeAndZone final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.System.SetTimeAndZone) */ {
+ public:
+  inline SetTimeAndZone() : SetTimeAndZone(nullptr) {}
+  ~SetTimeAndZone() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SetTimeAndZone* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SetTimeAndZone));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SetTimeAndZone(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SetTimeAndZone(const SetTimeAndZone& from) : SetTimeAndZone(nullptr, from) {}
+  inline SetTimeAndZone(SetTimeAndZone&& from) noexcept
+      : SetTimeAndZone(nullptr, std::move(from)) {}
+  inline SetTimeAndZone& operator=(const SetTimeAndZone& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SetTimeAndZone& operator=(SetTimeAndZone&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SetTimeAndZone& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SetTimeAndZone* internal_default_instance() {
+    return reinterpret_cast<const SetTimeAndZone*>(
+        &_SetTimeAndZone_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 26;
+  friend void swap(SetTimeAndZone& a, SetTimeAndZone& b) { a.Swap(&b); }
+  inline void Swap(SetTimeAndZone* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SetTimeAndZone* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SetTimeAndZone* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SetTimeAndZone>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SetTimeAndZone& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SetTimeAndZone& from) { SetTimeAndZone::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SetTimeAndZone* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.System.SetTimeAndZone"; }
+
+ protected:
+  explicit SetTimeAndZone(::google::protobuf::Arena* arena);
+  SetTimeAndZone(::google::protobuf::Arena* arena, const SetTimeAndZone& from);
+  SetTimeAndZone(::google::protobuf::Arena* arena, SetTimeAndZone&& from) noexcept
+      : SetTimeAndZone(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTimestampFieldNumber = 1,
+    kZoneIdFieldNumber = 2,
+  };
+  // int64 timestamp = 1 [(.buf.validate.field) = {
+  void clear_timestamp() ;
+  ::int64_t timestamp() const;
+  void set_timestamp(::int64_t value);
+
+  private:
+  ::int64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::int64_t value);
+
+  public:
+  // int32 zone_id = 2 [(.buf.validate.field) = {
+  void clear_zone_id() ;
+  ::int32_t zone_id() const;
+  void set_zone_id(::int32_t value);
+
+  private:
+  ::int32_t _internal_zone_id() const;
+  void _internal_set_zone_id(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.System.SetTimeAndZone)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SetTimeAndZone& from_msg);
+    ::int64_t timestamp_;
+    ::int32_t zone_id_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto;
 };
 // -------------------------------------------------------------------
@@ -3872,6 +4463,9 @@ class Root final : public ::google::protobuf::Message
     kStepSecond = 21,
     kEnableManualTime = 22,
     kDisableManualTime = 23,
+    kSetTimeZone = 24,
+    kStepTimeZone = 25,
+    kSetTimeAndZone = 26,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -3988,6 +4582,9 @@ class Root final : public ::google::protobuf::Message
     kStepSecondFieldNumber = 21,
     kEnableManualTimeFieldNumber = 22,
     kDisableManualTimeFieldNumber = 23,
+    kSetTimeZoneFieldNumber = 24,
+    kStepTimeZoneFieldNumber = 25,
+    kSetTimeAndZoneFieldNumber = 26,
   };
   // .cmd.System.StartALl start_all = 1;
   bool has_start_all() const;
@@ -4426,6 +5023,63 @@ class Root final : public ::google::protobuf::Message
   ::cmd::System::DisableManualTime* _internal_mutable_disable_manual_time();
 
   public:
+  // .cmd.System.SetTimeZone set_time_zone = 24;
+  bool has_set_time_zone() const;
+  private:
+  bool _internal_has_set_time_zone() const;
+
+  public:
+  void clear_set_time_zone() ;
+  const ::cmd::System::SetTimeZone& set_time_zone() const;
+  PROTOBUF_NODISCARD ::cmd::System::SetTimeZone* release_set_time_zone();
+  ::cmd::System::SetTimeZone* mutable_set_time_zone();
+  void set_allocated_set_time_zone(::cmd::System::SetTimeZone* value);
+  void unsafe_arena_set_allocated_set_time_zone(::cmd::System::SetTimeZone* value);
+  ::cmd::System::SetTimeZone* unsafe_arena_release_set_time_zone();
+
+  private:
+  const ::cmd::System::SetTimeZone& _internal_set_time_zone() const;
+  ::cmd::System::SetTimeZone* _internal_mutable_set_time_zone();
+
+  public:
+  // .cmd.System.StepTimeZone step_time_zone = 25;
+  bool has_step_time_zone() const;
+  private:
+  bool _internal_has_step_time_zone() const;
+
+  public:
+  void clear_step_time_zone() ;
+  const ::cmd::System::StepTimeZone& step_time_zone() const;
+  PROTOBUF_NODISCARD ::cmd::System::StepTimeZone* release_step_time_zone();
+  ::cmd::System::StepTimeZone* mutable_step_time_zone();
+  void set_allocated_step_time_zone(::cmd::System::StepTimeZone* value);
+  void unsafe_arena_set_allocated_step_time_zone(::cmd::System::StepTimeZone* value);
+  ::cmd::System::StepTimeZone* unsafe_arena_release_step_time_zone();
+
+  private:
+  const ::cmd::System::StepTimeZone& _internal_step_time_zone() const;
+  ::cmd::System::StepTimeZone* _internal_mutable_step_time_zone();
+
+  public:
+  // .cmd.System.SetTimeAndZone set_time_and_zone = 26;
+  bool has_set_time_and_zone() const;
+  private:
+  bool _internal_has_set_time_and_zone() const;
+
+  public:
+  void clear_set_time_and_zone() ;
+  const ::cmd::System::SetTimeAndZone& set_time_and_zone() const;
+  PROTOBUF_NODISCARD ::cmd::System::SetTimeAndZone* release_set_time_and_zone();
+  ::cmd::System::SetTimeAndZone* mutable_set_time_and_zone();
+  void set_allocated_set_time_and_zone(::cmd::System::SetTimeAndZone* value);
+  void unsafe_arena_set_allocated_set_time_and_zone(::cmd::System::SetTimeAndZone* value);
+  ::cmd::System::SetTimeAndZone* unsafe_arena_release_set_time_and_zone();
+
+  private:
+  const ::cmd::System::SetTimeAndZone& _internal_set_time_and_zone() const;
+  ::cmd::System::SetTimeAndZone* _internal_mutable_set_time_and_zone();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.System.Root)
@@ -4454,11 +5108,14 @@ class Root final : public ::google::protobuf::Message
   void set_has_step_second();
   void set_has_enable_manual_time();
   void set_has_disable_manual_time();
+  void set_has_set_time_zone();
+  void set_has_step_time_zone();
+  void set_has_set_time_and_zone();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 23, 23,
+      0, 26, 26,
       0, 2>
       _table_;
 
@@ -4502,6 +5159,9 @@ class Root final : public ::google::protobuf::Message
       ::cmd::System::StepSecond* step_second_;
       ::cmd::System::EnableManualTime* enable_manual_time_;
       ::cmd::System::DisableManualTime* disable_manual_time_;
+      ::cmd::System::SetTimeZone* set_time_zone_;
+      ::cmd::System::StepTimeZone* step_time_zone_;
+      ::cmd::System::SetTimeAndZone* set_time_and_zone_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -6344,6 +7004,243 @@ inline ::cmd::System::DisableManualTime* Root::mutable_disable_manual_time() ABS
   return _msg;
 }
 
+// .cmd.System.SetTimeZone set_time_zone = 24;
+inline bool Root::has_set_time_zone() const {
+  return cmd_case() == kSetTimeZone;
+}
+inline bool Root::_internal_has_set_time_zone() const {
+  return cmd_case() == kSetTimeZone;
+}
+inline void Root::set_has_set_time_zone() {
+  _impl_._oneof_case_[0] = kSetTimeZone;
+}
+inline void Root::clear_set_time_zone() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kSetTimeZone) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.set_time_zone_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_time_zone_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::SetTimeZone* Root::release_set_time_zone() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.set_time_zone)
+  if (cmd_case() == kSetTimeZone) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_time_zone_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.set_time_zone_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::SetTimeZone& Root::_internal_set_time_zone() const {
+  return cmd_case() == kSetTimeZone ? *_impl_.cmd_.set_time_zone_ : reinterpret_cast<::cmd::System::SetTimeZone&>(::cmd::System::_SetTimeZone_default_instance_);
+}
+inline const ::cmd::System::SetTimeZone& Root::set_time_zone() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.set_time_zone)
+  return _internal_set_time_zone();
+}
+inline ::cmd::System::SetTimeZone* Root::unsafe_arena_release_set_time_zone() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.set_time_zone)
+  if (cmd_case() == kSetTimeZone) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_time_zone_;
+    _impl_.cmd_.set_time_zone_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_set_time_zone(::cmd::System::SetTimeZone* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_set_time_zone();
+    _impl_.cmd_.set_time_zone_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.set_time_zone)
+}
+inline ::cmd::System::SetTimeZone* Root::_internal_mutable_set_time_zone() {
+  if (cmd_case() != kSetTimeZone) {
+    clear_cmd();
+    set_has_set_time_zone();
+    _impl_.cmd_.set_time_zone_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::SetTimeZone>(GetArena());
+  }
+  return _impl_.cmd_.set_time_zone_;
+}
+inline ::cmd::System::SetTimeZone* Root::mutable_set_time_zone() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::SetTimeZone* _msg = _internal_mutable_set_time_zone();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.set_time_zone)
+  return _msg;
+}
+
+// .cmd.System.StepTimeZone step_time_zone = 25;
+inline bool Root::has_step_time_zone() const {
+  return cmd_case() == kStepTimeZone;
+}
+inline bool Root::_internal_has_step_time_zone() const {
+  return cmd_case() == kStepTimeZone;
+}
+inline void Root::set_has_step_time_zone() {
+  _impl_._oneof_case_[0] = kStepTimeZone;
+}
+inline void Root::clear_step_time_zone() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStepTimeZone) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.step_time_zone_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_time_zone_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::StepTimeZone* Root::release_step_time_zone() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.step_time_zone)
+  if (cmd_case() == kStepTimeZone) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_time_zone_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.step_time_zone_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::StepTimeZone& Root::_internal_step_time_zone() const {
+  return cmd_case() == kStepTimeZone ? *_impl_.cmd_.step_time_zone_ : reinterpret_cast<::cmd::System::StepTimeZone&>(::cmd::System::_StepTimeZone_default_instance_);
+}
+inline const ::cmd::System::StepTimeZone& Root::step_time_zone() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.step_time_zone)
+  return _internal_step_time_zone();
+}
+inline ::cmd::System::StepTimeZone* Root::unsafe_arena_release_step_time_zone() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.step_time_zone)
+  if (cmd_case() == kStepTimeZone) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.step_time_zone_;
+    _impl_.cmd_.step_time_zone_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_step_time_zone(::cmd::System::StepTimeZone* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_step_time_zone();
+    _impl_.cmd_.step_time_zone_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.step_time_zone)
+}
+inline ::cmd::System::StepTimeZone* Root::_internal_mutable_step_time_zone() {
+  if (cmd_case() != kStepTimeZone) {
+    clear_cmd();
+    set_has_step_time_zone();
+    _impl_.cmd_.step_time_zone_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::StepTimeZone>(GetArena());
+  }
+  return _impl_.cmd_.step_time_zone_;
+}
+inline ::cmd::System::StepTimeZone* Root::mutable_step_time_zone() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::StepTimeZone* _msg = _internal_mutable_step_time_zone();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.step_time_zone)
+  return _msg;
+}
+
+// .cmd.System.SetTimeAndZone set_time_and_zone = 26;
+inline bool Root::has_set_time_and_zone() const {
+  return cmd_case() == kSetTimeAndZone;
+}
+inline bool Root::_internal_has_set_time_and_zone() const {
+  return cmd_case() == kSetTimeAndZone;
+}
+inline void Root::set_has_set_time_and_zone() {
+  _impl_._oneof_case_[0] = kSetTimeAndZone;
+}
+inline void Root::clear_set_time_and_zone() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kSetTimeAndZone) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.set_time_and_zone_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_time_and_zone_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::System::SetTimeAndZone* Root::release_set_time_and_zone() {
+  // @@protoc_insertion_point(field_release:cmd.System.Root.set_time_and_zone)
+  if (cmd_case() == kSetTimeAndZone) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_time_and_zone_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.set_time_and_zone_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::System::SetTimeAndZone& Root::_internal_set_time_and_zone() const {
+  return cmd_case() == kSetTimeAndZone ? *_impl_.cmd_.set_time_and_zone_ : reinterpret_cast<::cmd::System::SetTimeAndZone&>(::cmd::System::_SetTimeAndZone_default_instance_);
+}
+inline const ::cmd::System::SetTimeAndZone& Root::set_time_and_zone() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.System.Root.set_time_and_zone)
+  return _internal_set_time_and_zone();
+}
+inline ::cmd::System::SetTimeAndZone* Root::unsafe_arena_release_set_time_and_zone() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.System.Root.set_time_and_zone)
+  if (cmd_case() == kSetTimeAndZone) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_time_and_zone_;
+    _impl_.cmd_.set_time_and_zone_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_set_time_and_zone(::cmd::System::SetTimeAndZone* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_set_time_and_zone();
+    _impl_.cmd_.set_time_and_zone_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.System.Root.set_time_and_zone)
+}
+inline ::cmd::System::SetTimeAndZone* Root::_internal_mutable_set_time_and_zone() {
+  if (cmd_case() != kSetTimeAndZone) {
+    clear_cmd();
+    set_has_set_time_and_zone();
+    _impl_.cmd_.set_time_and_zone_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::System::SetTimeAndZone>(GetArena());
+  }
+  return _impl_.cmd_.set_time_and_zone_;
+}
+inline ::cmd::System::SetTimeAndZone* Root::mutable_set_time_and_zone() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::System::SetTimeAndZone* _msg = _internal_mutable_set_time_and_zone();
+  // @@protoc_insertion_point(field_mutable:cmd.System.Root.set_time_and_zone)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -6598,6 +7495,106 @@ inline void StepSecond::_internal_set_offset(::int32_t value) {
 // -------------------------------------------------------------------
 
 // DisableManualTime
+
+// -------------------------------------------------------------------
+
+// SetTimeZone
+
+// int32 zone_id = 1 [(.buf.validate.field) = {
+inline void SetTimeZone::clear_zone_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zone_id_ = 0;
+}
+inline ::int32_t SetTimeZone::zone_id() const {
+  // @@protoc_insertion_point(field_get:cmd.System.SetTimeZone.zone_id)
+  return _internal_zone_id();
+}
+inline void SetTimeZone::set_zone_id(::int32_t value) {
+  _internal_set_zone_id(value);
+  // @@protoc_insertion_point(field_set:cmd.System.SetTimeZone.zone_id)
+}
+inline ::int32_t SetTimeZone::_internal_zone_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.zone_id_;
+}
+inline void SetTimeZone::_internal_set_zone_id(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zone_id_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// StepTimeZone
+
+// int32 offset = 1;
+inline void StepTimeZone::clear_offset() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = 0;
+}
+inline ::int32_t StepTimeZone::offset() const {
+  // @@protoc_insertion_point(field_get:cmd.System.StepTimeZone.offset)
+  return _internal_offset();
+}
+inline void StepTimeZone::set_offset(::int32_t value) {
+  _internal_set_offset(value);
+  // @@protoc_insertion_point(field_set:cmd.System.StepTimeZone.offset)
+}
+inline ::int32_t StepTimeZone::_internal_offset() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.offset_;
+}
+inline void StepTimeZone::_internal_set_offset(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.offset_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// SetTimeAndZone
+
+// int64 timestamp = 1 [(.buf.validate.field) = {
+inline void SetTimeAndZone::clear_timestamp() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = ::int64_t{0};
+}
+inline ::int64_t SetTimeAndZone::timestamp() const {
+  // @@protoc_insertion_point(field_get:cmd.System.SetTimeAndZone.timestamp)
+  return _internal_timestamp();
+}
+inline void SetTimeAndZone::set_timestamp(::int64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:cmd.System.SetTimeAndZone.timestamp)
+}
+inline ::int64_t SetTimeAndZone::_internal_timestamp() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.timestamp_;
+}
+inline void SetTimeAndZone::_internal_set_timestamp(::int64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = value;
+}
+
+// int32 zone_id = 2 [(.buf.validate.field) = {
+inline void SetTimeAndZone::clear_zone_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zone_id_ = 0;
+}
+inline ::int32_t SetTimeAndZone::zone_id() const {
+  // @@protoc_insertion_point(field_get:cmd.System.SetTimeAndZone.zone_id)
+  return _internal_zone_id();
+}
+inline void SetTimeAndZone::set_zone_id(::int32_t value) {
+  _internal_set_zone_id(value);
+  // @@protoc_insertion_point(field_set:cmd.System.SetTimeAndZone.zone_id)
+}
+inline ::int32_t SetTimeAndZone::_internal_zone_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.zone_id_;
+}
+inline void SetTimeAndZone::_internal_set_zone_id(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.zone_id_ = value;
+}
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

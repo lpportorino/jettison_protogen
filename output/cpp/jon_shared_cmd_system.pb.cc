@@ -124,6 +124,31 @@ struct StepYearDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepYearDefaultTypeInternal _StepYear_default_instance_;
 
+inline constexpr StepTimeZone::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : offset_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepTimeZone::StepTimeZone(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepTimeZoneDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepTimeZoneDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepTimeZoneDefaultTypeInternal() {}
+  union {
+    StepTimeZone _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepTimeZoneDefaultTypeInternal _StepTimeZone_default_instance_;
+
 inline constexpr StepSecond::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : offset_{0},
@@ -284,6 +309,57 @@ struct StartALlDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StartALlDefaultTypeInternal _StartALl_default_instance_;
+
+inline constexpr SetTimeZone::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : zone_id_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SetTimeZone::SetTimeZone(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SetTimeZoneDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SetTimeZoneDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SetTimeZoneDefaultTypeInternal() {}
+  union {
+    SetTimeZone _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetTimeZoneDefaultTypeInternal _SetTimeZone_default_instance_;
+
+inline constexpr SetTimeAndZone::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : timestamp_{::int64_t{0}},
+        zone_id_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SetTimeAndZone::SetTimeAndZone(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SetTimeAndZoneDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SetTimeAndZoneDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SetTimeAndZoneDefaultTypeInternal() {}
+  union {
+    SetTimeAndZone _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetTimeAndZoneDefaultTypeInternal _SetTimeAndZone_default_instance_;
 
 inline constexpr SetLocalization::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -555,6 +631,9 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::System::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::System::StartALl, _internal_metadata_),
@@ -747,34 +826,65 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::SetTimeZone, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::SetTimeZone, _impl_.zone_id_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepTimeZone, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::StepTimeZone, _impl_.offset_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::System::SetTimeAndZone, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::System::SetTimeAndZone, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::cmd::System::SetTimeAndZone, _impl_.zone_id_),
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::System::Root)},
-        {32, -1, -1, sizeof(::cmd::System::StartALl)},
-        {40, -1, -1, sizeof(::cmd::System::StopALl)},
-        {48, -1, -1, sizeof(::cmd::System::Reboot)},
-        {56, -1, -1, sizeof(::cmd::System::PowerOff)},
-        {64, -1, -1, sizeof(::cmd::System::ResetConfigs)},
-        {72, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
-        {80, -1, -1, sizeof(::cmd::System::WipeUserData)},
-        {88, -1, -1, sizeof(::cmd::System::StartRec)},
-        {96, -1, -1, sizeof(::cmd::System::StopRec)},
-        {104, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
-        {112, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
-        {120, -1, -1, sizeof(::cmd::System::EnterTransport)},
-        {128, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
-        {136, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
-        {144, -1, -1, sizeof(::cmd::System::SetLocalization)},
-        {153, -1, -1, sizeof(::cmd::System::StepYear)},
-        {162, -1, -1, sizeof(::cmd::System::StepMonth)},
-        {171, -1, -1, sizeof(::cmd::System::StepDay)},
-        {180, -1, -1, sizeof(::cmd::System::StepHour)},
-        {189, -1, -1, sizeof(::cmd::System::StepMinute)},
-        {198, -1, -1, sizeof(::cmd::System::StepSecond)},
-        {207, -1, -1, sizeof(::cmd::System::EnableManualTime)},
-        {215, -1, -1, sizeof(::cmd::System::DisableManualTime)},
+        {35, -1, -1, sizeof(::cmd::System::StartALl)},
+        {43, -1, -1, sizeof(::cmd::System::StopALl)},
+        {51, -1, -1, sizeof(::cmd::System::Reboot)},
+        {59, -1, -1, sizeof(::cmd::System::PowerOff)},
+        {67, -1, -1, sizeof(::cmd::System::ResetConfigs)},
+        {75, -1, -1, sizeof(::cmd::System::SaveFactoryDefaults)},
+        {83, -1, -1, sizeof(::cmd::System::WipeUserData)},
+        {91, -1, -1, sizeof(::cmd::System::StartRec)},
+        {99, -1, -1, sizeof(::cmd::System::StopRec)},
+        {107, -1, -1, sizeof(::cmd::System::MarkRecImportant)},
+        {115, -1, -1, sizeof(::cmd::System::UnmarkRecImportant)},
+        {123, -1, -1, sizeof(::cmd::System::EnterTransport)},
+        {131, -1, -1, sizeof(::cmd::System::EnableGeodesicMode)},
+        {139, -1, -1, sizeof(::cmd::System::DisableGeodesicMode)},
+        {147, -1, -1, sizeof(::cmd::System::SetLocalization)},
+        {156, -1, -1, sizeof(::cmd::System::StepYear)},
+        {165, -1, -1, sizeof(::cmd::System::StepMonth)},
+        {174, -1, -1, sizeof(::cmd::System::StepDay)},
+        {183, -1, -1, sizeof(::cmd::System::StepHour)},
+        {192, -1, -1, sizeof(::cmd::System::StepMinute)},
+        {201, -1, -1, sizeof(::cmd::System::StepSecond)},
+        {210, -1, -1, sizeof(::cmd::System::EnableManualTime)},
+        {218, -1, -1, sizeof(::cmd::System::DisableManualTime)},
+        {226, -1, -1, sizeof(::cmd::System::SetTimeZone)},
+        {235, -1, -1, sizeof(::cmd::System::StepTimeZone)},
+        {244, -1, -1, sizeof(::cmd::System::SetTimeAndZone)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_Root_default_instance_._instance,
@@ -801,12 +911,15 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::System::_StepSecond_default_instance_._instance,
     &::cmd::System::_EnableManualTime_default_instance_._instance,
     &::cmd::System::_DisableManualTime_default_instance_._instance,
+    &::cmd::System::_SetTimeZone_default_instance_._instance,
+    &::cmd::System::_StepTimeZone_default_instance_._instance,
+    &::cmd::System::_SetTimeAndZone_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste"
     "m\032\033buf/validate/validate.proto\032\033jon_shar"
-    "ed_data_types.proto\"\244\t\n\004Root\022)\n\tstart_al"
+    "ed_data_types.proto\"\303\n\n\004Root\022)\n\tstart_al"
     "l\030\001 \001(\0132\024.cmd.System.StartALlH\000\022\'\n\010stop_"
     "all\030\002 \001(\0132\023.cmd.System.StopALlH\000\022$\n\006rebo"
     "ot\030\003 \001(\0132\022.cmd.System.RebootH\000\022)\n\tpower_"
@@ -835,23 +948,31 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto[] ABSL_
     "nd\030\025 \001(\0132\026.cmd.System.StepSecondH\000\022:\n\022en"
     "able_manual_time\030\026 \001(\0132\034.cmd.System.Enab"
     "leManualTimeH\000\022<\n\023disable_manual_time\030\027 "
-    "\001(\0132\035.cmd.System.DisableManualTimeH\000B\014\n\003"
-    "cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Reb"
-    "oot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveF"
-    "actoryDefaults\"\016\n\014WipeUserData\"\n\n\010StartR"
-    "ec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unm"
-    "arkRecImportant\"\020\n\016EnterTransport\"\024\n\022Ena"
-    "bleGeodesicMode\"\025\n\023DisableGeodesicMode\"N"
-    "\n\017SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.Jon"
-    "GuiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032"
-    "\n\010StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022"
-    "\016\n\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001"
-    "(\005\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMi"
-    "nute\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006of"
-    "fset\030\001 \001(\005\"\022\n\020EnableManualTime\"\023\n\021Disabl"
-    "eManualTimeBMZKgit-codecommit.eu-central"
-    "-1.amazonaws.com/v1/repos/jettison/jonp/"
-    "cmd/systemb\006proto3"
+    "\001(\0132\035.cmd.System.DisableManualTimeH\000\0220\n\r"
+    "set_time_zone\030\030 \001(\0132\027.cmd.System.SetTime"
+    "ZoneH\000\0222\n\016step_time_zone\030\031 \001(\0132\030.cmd.Sys"
+    "tem.StepTimeZoneH\000\0227\n\021set_time_and_zone\030"
+    "\032 \001(\0132\032.cmd.System.SetTimeAndZoneH\000B\014\n\003c"
+    "md\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Rebo"
+    "ot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveFa"
+    "ctoryDefaults\"\016\n\014WipeUserData\"\n\n\010StartRe"
+    "c\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unma"
+    "rkRecImportant\"\020\n\016EnterTransport\"\024\n\022Enab"
+    "leGeodesicMode\"\025\n\023DisableGeodesicMode\"N\n"
+    "\017SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.JonG"
+    "uiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032\n"
+    "\010StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016"
+    "\n\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001("
+    "\005\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMin"
+    "ute\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006off"
+    "set\030\001 \001(\005\"\022\n\020EnableManualTime\"\023\n\021Disable"
+    "ManualTime\"*\n\013SetTimeZone\022\033\n\007zone_id\030\001 \001"
+    "(\005B\n\272H\007\032\005\020\323\004(\000\"\036\n\014StepTimeZone\022\016\n\006offset"
+    "\030\001 \001(\005\"I\n\016SetTimeAndZone\022\032\n\ttimestamp\030\001 "
+    "\001(\003B\007\272H\004\"\002(\000\022\033\n\007zone_id\030\002 \001(\005B\n\272H\007\032\005\020\323\004("
+    "\000BMZKgit-codecommit.eu-central-1.amazona"
+    "ws.com/v1/repos/jettison/jonp/cmd/system"
+    "b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps[2] =
     {
@@ -862,13 +983,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto = {
     false,
     false,
-    1898,
+    2208,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fsystem_2eproto,
     "jon_shared_cmd_system.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto_deps,
     2,
-    24,
+    27,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fsystem_2eproto::offsets,
@@ -1184,6 +1305,45 @@ void Root::set_allocated_disable_manual_time(::cmd::System::DisableManualTime* d
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.disable_manual_time)
 }
+void Root::set_allocated_set_time_zone(::cmd::System::SetTimeZone* set_time_zone) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (set_time_zone) {
+    ::google::protobuf::Arena* submessage_arena = set_time_zone->GetArena();
+    if (message_arena != submessage_arena) {
+      set_time_zone = ::google::protobuf::internal::GetOwnedMessage(message_arena, set_time_zone, submessage_arena);
+    }
+    set_has_set_time_zone();
+    _impl_.cmd_.set_time_zone_ = set_time_zone;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.set_time_zone)
+}
+void Root::set_allocated_step_time_zone(::cmd::System::StepTimeZone* step_time_zone) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (step_time_zone) {
+    ::google::protobuf::Arena* submessage_arena = step_time_zone->GetArena();
+    if (message_arena != submessage_arena) {
+      step_time_zone = ::google::protobuf::internal::GetOwnedMessage(message_arena, step_time_zone, submessage_arena);
+    }
+    set_has_step_time_zone();
+    _impl_.cmd_.step_time_zone_ = step_time_zone;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.step_time_zone)
+}
+void Root::set_allocated_set_time_and_zone(::cmd::System::SetTimeAndZone* set_time_and_zone) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (set_time_and_zone) {
+    ::google::protobuf::Arena* submessage_arena = set_time_and_zone->GetArena();
+    if (message_arena != submessage_arena) {
+      set_time_and_zone = ::google::protobuf::internal::GetOwnedMessage(message_arena, set_time_and_zone, submessage_arena);
+    }
+    set_has_set_time_and_zone();
+    _impl_.cmd_.set_time_and_zone_ = set_time_and_zone;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.System.Root.set_time_and_zone)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -1284,6 +1444,15 @@ Root::Root(
         break;
       case kDisableManualTime:
         _impl_.cmd_.disable_manual_time_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::DisableManualTime>(arena, *from._impl_.cmd_.disable_manual_time_);
+        break;
+      case kSetTimeZone:
+        _impl_.cmd_.set_time_zone_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::SetTimeZone>(arena, *from._impl_.cmd_.set_time_zone_);
+        break;
+      case kStepTimeZone:
+        _impl_.cmd_.step_time_zone_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::StepTimeZone>(arena, *from._impl_.cmd_.step_time_zone_);
+        break;
+      case kSetTimeAndZone:
+        _impl_.cmd_.set_time_and_zone_ = ::google::protobuf::Message::CopyConstruct<::cmd::System::SetTimeAndZone>(arena, *from._impl_.cmd_.set_time_and_zone_);
         break;
   }
 
@@ -1501,6 +1670,30 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kSetTimeZone: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.set_time_zone_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_time_zone_);
+      }
+      break;
+    }
+    case kStepTimeZone: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.step_time_zone_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.step_time_zone_);
+      }
+      break;
+    }
+    case kSetTimeAndZone: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.set_time_and_zone_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_time_and_zone_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -1545,16 +1738,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 23, 23, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 26, 26, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    23, 0,  // max_field_number, fast_idx_mask
+    26, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4286578688,  // skipmap
+    4227858432,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    23,  // num_field_entries
-    23,  // num_aux_entries
+    26,  // num_field_entries
+    26,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1636,6 +1829,15 @@ const ::_pbi::TcParseTable<0, 23, 23, 0, 2> Root::_table_ = {
     // .cmd.System.DisableManualTime disable_manual_time = 23;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.disable_manual_time_), _Internal::kOneofCaseOffset + 0, 22,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.SetTimeZone set_time_zone = 24;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.set_time_zone_), _Internal::kOneofCaseOffset + 0, 23,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.StepTimeZone step_time_zone = 25;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.step_time_zone_), _Internal::kOneofCaseOffset + 0, 24,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.System.SetTimeAndZone set_time_and_zone = 26;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.set_time_and_zone_), _Internal::kOneofCaseOffset + 0, 25,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::System::StartALl>()},
     {::_pbi::TcParser::GetTable<::cmd::System::StopALl>()},
@@ -1660,6 +1862,9 @@ const ::_pbi::TcParseTable<0, 23, 23, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::System::StepSecond>()},
     {::_pbi::TcParser::GetTable<::cmd::System::EnableManualTime>()},
     {::_pbi::TcParser::GetTable<::cmd::System::DisableManualTime>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::SetTimeZone>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::StepTimeZone>()},
+    {::_pbi::TcParser::GetTable<::cmd::System::SetTimeAndZone>()},
   }}, {{
   }},
 };
@@ -1829,6 +2034,24 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kSetTimeZone: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  24, *this_._impl_.cmd_.set_time_zone_, this_._impl_.cmd_.set_time_zone_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStepTimeZone: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  25, *this_._impl_.cmd_.step_time_zone_, this_._impl_.cmd_.step_time_zone_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kSetTimeAndZone: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  26, *this_._impl_.cmd_.set_time_and_zone_, this_._impl_.cmd_.set_time_and_zone_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -1992,6 +2215,24 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kDisableManualTime: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.disable_manual_time_);
+              break;
+            }
+            // .cmd.System.SetTimeZone set_time_zone = 24;
+            case kSetTimeZone: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.set_time_zone_);
+              break;
+            }
+            // .cmd.System.StepTimeZone step_time_zone = 25;
+            case kStepTimeZone: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.step_time_zone_);
+              break;
+            }
+            // .cmd.System.SetTimeAndZone set_time_and_zone = 26;
+            case kSetTimeAndZone: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.set_time_and_zone_);
               break;
             }
             case CMD_NOT_SET: {
@@ -2226,6 +2467,33 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::System::DisableManualTime>(arena, *from._impl_.cmd_.disable_manual_time_);
         } else {
           _this->_impl_.cmd_.disable_manual_time_->MergeFrom(from._internal_disable_manual_time());
+        }
+        break;
+      }
+      case kSetTimeZone: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.set_time_zone_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::SetTimeZone>(arena, *from._impl_.cmd_.set_time_zone_);
+        } else {
+          _this->_impl_.cmd_.set_time_zone_->MergeFrom(from._internal_set_time_zone());
+        }
+        break;
+      }
+      case kStepTimeZone: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.step_time_zone_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::StepTimeZone>(arena, *from._impl_.cmd_.step_time_zone_);
+        } else {
+          _this->_impl_.cmd_.step_time_zone_->MergeFrom(from._internal_step_time_zone());
+        }
+        break;
+      }
+      case kSetTimeAndZone: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.set_time_and_zone_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::System::SetTimeAndZone>(arena, *from._impl_.cmd_.set_time_and_zone_);
+        } else {
+          _this->_impl_.cmd_.set_time_and_zone_->MergeFrom(from._internal_set_time_and_zone());
         }
         break;
       }
@@ -5350,6 +5618,661 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> DisableManualTime::_table_ = {
 
 ::google::protobuf::Metadata DisableManualTime::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SetTimeZone::_Internal {
+ public:
+};
+
+SetTimeZone::SetTimeZone(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.SetTimeZone)
+}
+SetTimeZone::SetTimeZone(
+    ::google::protobuf::Arena* arena, const SetTimeZone& from)
+    : SetTimeZone(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE SetTimeZone::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void SetTimeZone::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.zone_id_ = {};
+}
+SetTimeZone::~SetTimeZone() {
+  // @@protoc_insertion_point(destructor:cmd.System.SetTimeZone)
+  SharedDtor(*this);
+}
+inline void SetTimeZone::SharedDtor(MessageLite& self) {
+  SetTimeZone& this_ = static_cast<SetTimeZone&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* SetTimeZone::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SetTimeZone(arena);
+}
+constexpr auto SetTimeZone::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SetTimeZone),
+                                            alignof(SetTimeZone));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SetTimeZone::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SetTimeZone_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SetTimeZone::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SetTimeZone>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SetTimeZone::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SetTimeZone>(), &SetTimeZone::ByteSizeLong,
+            &SetTimeZone::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SetTimeZone, _impl_._cached_size_),
+        false,
+    },
+    &SetTimeZone::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SetTimeZone::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetTimeZone::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::SetTimeZone>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 zone_id = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetTimeZone, _impl_.zone_id_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetTimeZone, _impl_.zone_id_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 zone_id = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetTimeZone, _impl_.zone_id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void SetTimeZone::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.SetTimeZone)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.zone_id_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SetTimeZone::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SetTimeZone& this_ = static_cast<const SetTimeZone&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SetTimeZone::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SetTimeZone& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.SetTimeZone)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 zone_id = 1 [(.buf.validate.field) = {
+          if (this_._internal_zone_id() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_zone_id(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.SetTimeZone)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SetTimeZone::ByteSizeLong(const MessageLite& base) {
+          const SetTimeZone& this_ = static_cast<const SetTimeZone&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SetTimeZone::ByteSizeLong() const {
+          const SetTimeZone& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.SetTimeZone)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 zone_id = 1 [(.buf.validate.field) = {
+            if (this_._internal_zone_id() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_zone_id());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SetTimeZone::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SetTimeZone*>(&to_msg);
+  auto& from = static_cast<const SetTimeZone&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.SetTimeZone)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_zone_id() != 0) {
+    _this->_impl_.zone_id_ = from._impl_.zone_id_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SetTimeZone::CopyFrom(const SetTimeZone& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.SetTimeZone)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SetTimeZone::InternalSwap(SetTimeZone* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.zone_id_, other->_impl_.zone_id_);
+}
+
+::google::protobuf::Metadata SetTimeZone::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepTimeZone::_Internal {
+ public:
+};
+
+StepTimeZone::StepTimeZone(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.StepTimeZone)
+}
+StepTimeZone::StepTimeZone(
+    ::google::protobuf::Arena* arena, const StepTimeZone& from)
+    : StepTimeZone(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE StepTimeZone::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void StepTimeZone::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.offset_ = {};
+}
+StepTimeZone::~StepTimeZone() {
+  // @@protoc_insertion_point(destructor:cmd.System.StepTimeZone)
+  SharedDtor(*this);
+}
+inline void StepTimeZone::SharedDtor(MessageLite& self) {
+  StepTimeZone& this_ = static_cast<StepTimeZone&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* StepTimeZone::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepTimeZone(arena);
+}
+constexpr auto StepTimeZone::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(StepTimeZone),
+                                            alignof(StepTimeZone));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepTimeZone::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepTimeZone_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepTimeZone::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepTimeZone>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepTimeZone::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepTimeZone>(), &StepTimeZone::ByteSizeLong,
+            &StepTimeZone::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepTimeZone, _impl_._cached_size_),
+        false,
+    },
+    &StepTimeZone::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepTimeZone::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> StepTimeZone::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::StepTimeZone>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 offset = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepTimeZone, _impl_.offset_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepTimeZone, _impl_.offset_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 offset = 1;
+    {PROTOBUF_FIELD_OFFSET(StepTimeZone, _impl_.offset_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void StepTimeZone::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.StepTimeZone)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.offset_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepTimeZone::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepTimeZone& this_ = static_cast<const StepTimeZone&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepTimeZone::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepTimeZone& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.StepTimeZone)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int32 offset = 1;
+          if (this_._internal_offset() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<1>(
+                    stream, this_._internal_offset(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.StepTimeZone)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepTimeZone::ByteSizeLong(const MessageLite& base) {
+          const StepTimeZone& this_ = static_cast<const StepTimeZone&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepTimeZone::ByteSizeLong() const {
+          const StepTimeZone& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.StepTimeZone)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // int32 offset = 1;
+            if (this_._internal_offset() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_offset());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepTimeZone::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepTimeZone*>(&to_msg);
+  auto& from = static_cast<const StepTimeZone&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.StepTimeZone)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_offset() != 0) {
+    _this->_impl_.offset_ = from._impl_.offset_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepTimeZone::CopyFrom(const StepTimeZone& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.StepTimeZone)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepTimeZone::InternalSwap(StepTimeZone* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.offset_, other->_impl_.offset_);
+}
+
+::google::protobuf::Metadata StepTimeZone::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SetTimeAndZone::_Internal {
+ public:
+};
+
+SetTimeAndZone::SetTimeAndZone(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.System.SetTimeAndZone)
+}
+SetTimeAndZone::SetTimeAndZone(
+    ::google::protobuf::Arena* arena, const SetTimeAndZone& from)
+    : SetTimeAndZone(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE SetTimeAndZone::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void SetTimeAndZone::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           0,
+           offsetof(Impl_, zone_id_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::zone_id_));
+}
+SetTimeAndZone::~SetTimeAndZone() {
+  // @@protoc_insertion_point(destructor:cmd.System.SetTimeAndZone)
+  SharedDtor(*this);
+}
+inline void SetTimeAndZone::SharedDtor(MessageLite& self) {
+  SetTimeAndZone& this_ = static_cast<SetTimeAndZone&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* SetTimeAndZone::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SetTimeAndZone(arena);
+}
+constexpr auto SetTimeAndZone::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SetTimeAndZone),
+                                            alignof(SetTimeAndZone));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SetTimeAndZone::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SetTimeAndZone_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SetTimeAndZone::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SetTimeAndZone>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SetTimeAndZone::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SetTimeAndZone>(), &SetTimeAndZone::ByteSizeLong,
+            &SetTimeAndZone::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_._cached_size_),
+        false,
+    },
+    &SetTimeAndZone::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fsystem_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SetTimeAndZone::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SetTimeAndZone::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::System::SetTimeAndZone>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // int32 zone_id = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(SetTimeAndZone, _impl_.zone_id_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_.zone_id_)}},
+    // int64 timestamp = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(SetTimeAndZone, _impl_.timestamp_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_.timestamp_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int64 timestamp = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_.timestamp_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
+    // int32 zone_id = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_.zone_id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void SetTimeAndZone::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.System.SetTimeAndZone)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.zone_id_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.zone_id_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SetTimeAndZone::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SetTimeAndZone& this_ = static_cast<const SetTimeAndZone&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SetTimeAndZone::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SetTimeAndZone& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.System.SetTimeAndZone)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // int64 timestamp = 1 [(.buf.validate.field) = {
+          if (this_._internal_timestamp() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt64ToArrayWithField<1>(
+                    stream, this_._internal_timestamp(), target);
+          }
+
+          // int32 zone_id = 2 [(.buf.validate.field) = {
+          if (this_._internal_zone_id() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<2>(
+                    stream, this_._internal_zone_id(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.System.SetTimeAndZone)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SetTimeAndZone::ByteSizeLong(const MessageLite& base) {
+          const SetTimeAndZone& this_ = static_cast<const SetTimeAndZone&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SetTimeAndZone::ByteSizeLong() const {
+          const SetTimeAndZone& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.System.SetTimeAndZone)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // int64 timestamp = 1 [(.buf.validate.field) = {
+            if (this_._internal_timestamp() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+                  this_._internal_timestamp());
+            }
+            // int32 zone_id = 2 [(.buf.validate.field) = {
+            if (this_._internal_zone_id() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_zone_id());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SetTimeAndZone::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SetTimeAndZone*>(&to_msg);
+  auto& from = static_cast<const SetTimeAndZone&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.System.SetTimeAndZone)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_timestamp() != 0) {
+    _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  }
+  if (from._internal_zone_id() != 0) {
+    _this->_impl_.zone_id_ = from._impl_.zone_id_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SetTimeAndZone::CopyFrom(const SetTimeAndZone& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.System.SetTimeAndZone)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SetTimeAndZone::InternalSwap(SetTimeAndZone* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_.zone_id_)
+      + sizeof(SetTimeAndZone::_impl_.zone_id_)
+      - PROTOBUF_FIELD_OFFSET(SetTimeAndZone, _impl_.timestamp_)>(
+          reinterpret_cast<char*>(&_impl_.timestamp_),
+          reinterpret_cast<char*>(&other->_impl_.timestamp_));
+}
+
+::google::protobuf::Metadata SetTimeAndZone::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace System

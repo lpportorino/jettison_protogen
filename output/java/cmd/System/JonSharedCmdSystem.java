@@ -374,6 +374,51 @@ public final class JonSharedCmdSystem {
      */
     cmd.System.JonSharedCmdSystem.DisableManualTimeOrBuilder getDisableManualTimeOrBuilder();
 
+    /**
+     * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+     * @return Whether the setTimeZone field is set.
+     */
+    boolean hasSetTimeZone();
+    /**
+     * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+     * @return The setTimeZone.
+     */
+    cmd.System.JonSharedCmdSystem.SetTimeZone getSetTimeZone();
+    /**
+     * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+     */
+    cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder getSetTimeZoneOrBuilder();
+
+    /**
+     * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+     * @return Whether the stepTimeZone field is set.
+     */
+    boolean hasStepTimeZone();
+    /**
+     * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+     * @return The stepTimeZone.
+     */
+    cmd.System.JonSharedCmdSystem.StepTimeZone getStepTimeZone();
+    /**
+     * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+     */
+    cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder getStepTimeZoneOrBuilder();
+
+    /**
+     * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+     * @return Whether the setTimeAndZone field is set.
+     */
+    boolean hasSetTimeAndZone();
+    /**
+     * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+     * @return The setTimeAndZone.
+     */
+    cmd.System.JonSharedCmdSystem.SetTimeAndZone getSetTimeAndZone();
+    /**
+     * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+     */
+    cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder getSetTimeAndZoneOrBuilder();
+
     cmd.System.JonSharedCmdSystem.Root.CmdCase getCmdCase();
   }
   /**
@@ -442,6 +487,9 @@ public final class JonSharedCmdSystem {
       STEP_SECOND(21),
       ENABLE_MANUAL_TIME(22),
       DISABLE_MANUAL_TIME(23),
+      SET_TIME_ZONE(24),
+      STEP_TIME_ZONE(25),
+      SET_TIME_AND_ZONE(26),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -482,6 +530,9 @@ public final class JonSharedCmdSystem {
           case 21: return STEP_SECOND;
           case 22: return ENABLE_MANUAL_TIME;
           case 23: return DISABLE_MANUAL_TIME;
+          case 24: return SET_TIME_ZONE;
+          case 25: return STEP_TIME_ZONE;
+          case 26: return SET_TIME_AND_ZONE;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -1210,6 +1261,99 @@ public final class JonSharedCmdSystem {
       return cmd.System.JonSharedCmdSystem.DisableManualTime.getDefaultInstance();
     }
 
+    public static final int SET_TIME_ZONE_FIELD_NUMBER = 24;
+    /**
+     * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+     * @return Whether the setTimeZone field is set.
+     */
+    @java.lang.Override
+    public boolean hasSetTimeZone() {
+      return cmdCase_ == 24;
+    }
+    /**
+     * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+     * @return The setTimeZone.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SetTimeZone getSetTimeZone() {
+      if (cmdCase_ == 24) {
+         return (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder getSetTimeZoneOrBuilder() {
+      if (cmdCase_ == 24) {
+         return (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+    }
+
+    public static final int STEP_TIME_ZONE_FIELD_NUMBER = 25;
+    /**
+     * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+     * @return Whether the stepTimeZone field is set.
+     */
+    @java.lang.Override
+    public boolean hasStepTimeZone() {
+      return cmdCase_ == 25;
+    }
+    /**
+     * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+     * @return The stepTimeZone.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepTimeZone getStepTimeZone() {
+      if (cmdCase_ == 25) {
+         return (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder getStepTimeZoneOrBuilder() {
+      if (cmdCase_ == 25) {
+         return (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+    }
+
+    public static final int SET_TIME_AND_ZONE_FIELD_NUMBER = 26;
+    /**
+     * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+     * @return Whether the setTimeAndZone field is set.
+     */
+    @java.lang.Override
+    public boolean hasSetTimeAndZone() {
+      return cmdCase_ == 26;
+    }
+    /**
+     * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+     * @return The setTimeAndZone.
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SetTimeAndZone getSetTimeAndZone() {
+      if (cmdCase_ == 26) {
+         return (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+     */
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder getSetTimeAndZoneOrBuilder() {
+      if (cmdCase_ == 26) {
+         return (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_;
+      }
+      return cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1292,6 +1436,15 @@ public final class JonSharedCmdSystem {
       }
       if (cmdCase_ == 23) {
         output.writeMessage(23, (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_);
+      }
+      if (cmdCase_ == 24) {
+        output.writeMessage(24, (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_);
+      }
+      if (cmdCase_ == 25) {
+        output.writeMessage(25, (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_);
+      }
+      if (cmdCase_ == 26) {
+        output.writeMessage(26, (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1393,6 +1546,18 @@ public final class JonSharedCmdSystem {
       if (cmdCase_ == 23) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(23, (cmd.System.JonSharedCmdSystem.DisableManualTime) cmd_);
+      }
+      if (cmdCase_ == 24) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(24, (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_);
+      }
+      if (cmdCase_ == 25) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(25, (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_);
+      }
+      if (cmdCase_ == 26) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(26, (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1503,6 +1668,18 @@ public final class JonSharedCmdSystem {
           if (!getDisableManualTime()
               .equals(other.getDisableManualTime())) return false;
           break;
+        case 24:
+          if (!getSetTimeZone()
+              .equals(other.getSetTimeZone())) return false;
+          break;
+        case 25:
+          if (!getStepTimeZone()
+              .equals(other.getStepTimeZone())) return false;
+          break;
+        case 26:
+          if (!getSetTimeAndZone()
+              .equals(other.getSetTimeAndZone())) return false;
+          break;
         case 0:
         default:
       }
@@ -1609,6 +1786,18 @@ public final class JonSharedCmdSystem {
         case 23:
           hash = (37 * hash) + DISABLE_MANUAL_TIME_FIELD_NUMBER;
           hash = (53 * hash) + getDisableManualTime().hashCode();
+          break;
+        case 24:
+          hash = (37 * hash) + SET_TIME_ZONE_FIELD_NUMBER;
+          hash = (53 * hash) + getSetTimeZone().hashCode();
+          break;
+        case 25:
+          hash = (37 * hash) + STEP_TIME_ZONE_FIELD_NUMBER;
+          hash = (53 * hash) + getStepTimeZone().hashCode();
+          break;
+        case 26:
+          hash = (37 * hash) + SET_TIME_AND_ZONE_FIELD_NUMBER;
+          hash = (53 * hash) + getSetTimeAndZone().hashCode();
           break;
         case 0:
         default:
@@ -1813,6 +2002,15 @@ public final class JonSharedCmdSystem {
         if (disableManualTimeBuilder_ != null) {
           disableManualTimeBuilder_.clear();
         }
+        if (setTimeZoneBuilder_ != null) {
+          setTimeZoneBuilder_.clear();
+        }
+        if (stepTimeZoneBuilder_ != null) {
+          stepTimeZoneBuilder_.clear();
+        }
+        if (setTimeAndZoneBuilder_ != null) {
+          setTimeAndZoneBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1946,6 +2144,18 @@ public final class JonSharedCmdSystem {
             disableManualTimeBuilder_ != null) {
           result.cmd_ = disableManualTimeBuilder_.build();
         }
+        if (cmdCase_ == 24 &&
+            setTimeZoneBuilder_ != null) {
+          result.cmd_ = setTimeZoneBuilder_.build();
+        }
+        if (cmdCase_ == 25 &&
+            stepTimeZoneBuilder_ != null) {
+          result.cmd_ = stepTimeZoneBuilder_.build();
+        }
+        if (cmdCase_ == 26 &&
+            setTimeAndZoneBuilder_ != null) {
+          result.cmd_ = setTimeAndZoneBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -2051,6 +2261,18 @@ public final class JonSharedCmdSystem {
           }
           case DISABLE_MANUAL_TIME: {
             mergeDisableManualTime(other.getDisableManualTime());
+            break;
+          }
+          case SET_TIME_ZONE: {
+            mergeSetTimeZone(other.getSetTimeZone());
+            break;
+          }
+          case STEP_TIME_ZONE: {
+            mergeStepTimeZone(other.getStepTimeZone());
+            break;
+          }
+          case SET_TIME_AND_ZONE: {
+            mergeSetTimeAndZone(other.getSetTimeAndZone());
             break;
           }
           case CMD_NOT_SET: {
@@ -2244,6 +2466,27 @@ public final class JonSharedCmdSystem {
                 cmdCase_ = 23;
                 break;
               } // case 186
+              case 194: {
+                input.readMessage(
+                    getSetTimeZoneFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 24;
+                break;
+              } // case 194
+              case 202: {
+                input.readMessage(
+                    getStepTimeZoneFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 25;
+                break;
+              } // case 202
+              case 210: {
+                input.readMessage(
+                    getSetTimeAndZoneFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 26;
+                break;
+              } // case 210
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5540,6 +5783,432 @@ public final class JonSharedCmdSystem {
         cmdCase_ = 23;
         onChanged();
         return disableManualTimeBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.SetTimeZone, cmd.System.JonSharedCmdSystem.SetTimeZone.Builder, cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder> setTimeZoneBuilder_;
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       * @return Whether the setTimeZone field is set.
+       */
+      @java.lang.Override
+      public boolean hasSetTimeZone() {
+        return cmdCase_ == 24;
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       * @return The setTimeZone.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeZone getSetTimeZone() {
+        if (setTimeZoneBuilder_ == null) {
+          if (cmdCase_ == 24) {
+            return (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 24) {
+            return setTimeZoneBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      public Builder setSetTimeZone(cmd.System.JonSharedCmdSystem.SetTimeZone value) {
+        if (setTimeZoneBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          setTimeZoneBuilder_.setMessage(value);
+        }
+        cmdCase_ = 24;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      public Builder setSetTimeZone(
+          cmd.System.JonSharedCmdSystem.SetTimeZone.Builder builderForValue) {
+        if (setTimeZoneBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          setTimeZoneBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 24;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      public Builder mergeSetTimeZone(cmd.System.JonSharedCmdSystem.SetTimeZone value) {
+        if (setTimeZoneBuilder_ == null) {
+          if (cmdCase_ == 24 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.SetTimeZone.newBuilder((cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 24) {
+            setTimeZoneBuilder_.mergeFrom(value);
+          } else {
+            setTimeZoneBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 24;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      public Builder clearSetTimeZone() {
+        if (setTimeZoneBuilder_ == null) {
+          if (cmdCase_ == 24) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 24) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          setTimeZoneBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.SetTimeZone.Builder getSetTimeZoneBuilder() {
+        return getSetTimeZoneFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder getSetTimeZoneOrBuilder() {
+        if ((cmdCase_ == 24) && (setTimeZoneBuilder_ != null)) {
+          return setTimeZoneBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 24) {
+            return (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.SetTimeZone set_time_zone = 24;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.SetTimeZone, cmd.System.JonSharedCmdSystem.SetTimeZone.Builder, cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder> 
+          getSetTimeZoneFieldBuilder() {
+        if (setTimeZoneBuilder_ == null) {
+          if (!(cmdCase_ == 24)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+          }
+          setTimeZoneBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.SetTimeZone, cmd.System.JonSharedCmdSystem.SetTimeZone.Builder, cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.SetTimeZone) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 24;
+        onChanged();
+        return setTimeZoneBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepTimeZone, cmd.System.JonSharedCmdSystem.StepTimeZone.Builder, cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder> stepTimeZoneBuilder_;
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       * @return Whether the stepTimeZone field is set.
+       */
+      @java.lang.Override
+      public boolean hasStepTimeZone() {
+        return cmdCase_ == 25;
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       * @return The stepTimeZone.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepTimeZone getStepTimeZone() {
+        if (stepTimeZoneBuilder_ == null) {
+          if (cmdCase_ == 25) {
+            return (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 25) {
+            return stepTimeZoneBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      public Builder setStepTimeZone(cmd.System.JonSharedCmdSystem.StepTimeZone value) {
+        if (stepTimeZoneBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stepTimeZoneBuilder_.setMessage(value);
+        }
+        cmdCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      public Builder setStepTimeZone(
+          cmd.System.JonSharedCmdSystem.StepTimeZone.Builder builderForValue) {
+        if (stepTimeZoneBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stepTimeZoneBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      public Builder mergeStepTimeZone(cmd.System.JonSharedCmdSystem.StepTimeZone value) {
+        if (stepTimeZoneBuilder_ == null) {
+          if (cmdCase_ == 25 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepTimeZone.newBuilder((cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 25) {
+            stepTimeZoneBuilder_.mergeFrom(value);
+          } else {
+            stepTimeZoneBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 25;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      public Builder clearStepTimeZone() {
+        if (stepTimeZoneBuilder_ == null) {
+          if (cmdCase_ == 25) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 25) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stepTimeZoneBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.StepTimeZone.Builder getStepTimeZoneBuilder() {
+        return getStepTimeZoneFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder getStepTimeZoneOrBuilder() {
+        if ((cmdCase_ == 25) && (stepTimeZoneBuilder_ != null)) {
+          return stepTimeZoneBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 25) {
+            return (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.StepTimeZone step_time_zone = 25;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.StepTimeZone, cmd.System.JonSharedCmdSystem.StepTimeZone.Builder, cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder> 
+          getStepTimeZoneFieldBuilder() {
+        if (stepTimeZoneBuilder_ == null) {
+          if (!(cmdCase_ == 25)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+          }
+          stepTimeZoneBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.StepTimeZone, cmd.System.JonSharedCmdSystem.StepTimeZone.Builder, cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.StepTimeZone) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 25;
+        onChanged();
+        return stepTimeZoneBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.SetTimeAndZone, cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder, cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder> setTimeAndZoneBuilder_;
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       * @return Whether the setTimeAndZone field is set.
+       */
+      @java.lang.Override
+      public boolean hasSetTimeAndZone() {
+        return cmdCase_ == 26;
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       * @return The setTimeAndZone.
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeAndZone getSetTimeAndZone() {
+        if (setTimeAndZoneBuilder_ == null) {
+          if (cmdCase_ == 26) {
+            return (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 26) {
+            return setTimeAndZoneBuilder_.getMessage();
+          }
+          return cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      public Builder setSetTimeAndZone(cmd.System.JonSharedCmdSystem.SetTimeAndZone value) {
+        if (setTimeAndZoneBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          setTimeAndZoneBuilder_.setMessage(value);
+        }
+        cmdCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      public Builder setSetTimeAndZone(
+          cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder builderForValue) {
+        if (setTimeAndZoneBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          setTimeAndZoneBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      public Builder mergeSetTimeAndZone(cmd.System.JonSharedCmdSystem.SetTimeAndZone value) {
+        if (setTimeAndZoneBuilder_ == null) {
+          if (cmdCase_ == 26 &&
+              cmd_ != cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance()) {
+            cmd_ = cmd.System.JonSharedCmdSystem.SetTimeAndZone.newBuilder((cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 26) {
+            setTimeAndZoneBuilder_.mergeFrom(value);
+          } else {
+            setTimeAndZoneBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 26;
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      public Builder clearSetTimeAndZone() {
+        if (setTimeAndZoneBuilder_ == null) {
+          if (cmdCase_ == 26) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 26) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          setTimeAndZoneBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      public cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder getSetTimeAndZoneBuilder() {
+        return getSetTimeAndZoneFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder getSetTimeAndZoneOrBuilder() {
+        if ((cmdCase_ == 26) && (setTimeAndZoneBuilder_ != null)) {
+          return setTimeAndZoneBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 26) {
+            return (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_;
+          }
+          return cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.System.SetTimeAndZone set_time_and_zone = 26;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.System.JonSharedCmdSystem.SetTimeAndZone, cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder, cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder> 
+          getSetTimeAndZoneFieldBuilder() {
+        if (setTimeAndZoneBuilder_ == null) {
+          if (!(cmdCase_ == 26)) {
+            cmd_ = cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+          }
+          setTimeAndZoneBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.System.JonSharedCmdSystem.SetTimeAndZone, cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder, cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder>(
+                  (cmd.System.JonSharedCmdSystem.SetTimeAndZone) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 26;
+        onChanged();
+        return setTimeAndZoneBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.System.Root)
@@ -14464,6 +15133,1401 @@ public final class JonSharedCmdSystem {
 
   }
 
+  public interface SetTimeZoneOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.SetTimeZone)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 zone_id = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The zoneId.
+     */
+    int getZoneId();
+  }
+  /**
+   * Protobuf type {@code cmd.System.SetTimeZone}
+   */
+  public static final class SetTimeZone extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.SetTimeZone)
+      SetTimeZoneOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SetTimeZone.class.getName());
+    }
+    // Use SetTimeZone.newBuilder() to construct.
+    private SetTimeZone(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SetTimeZone() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeZone_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeZone_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.SetTimeZone.class, cmd.System.JonSharedCmdSystem.SetTimeZone.Builder.class);
+    }
+
+    public static final int ZONE_ID_FIELD_NUMBER = 1;
+    private int zoneId_ = 0;
+    /**
+     * <code>int32 zone_id = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The zoneId.
+     */
+    @java.lang.Override
+    public int getZoneId() {
+      return zoneId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (zoneId_ != 0) {
+        output.writeInt32(1, zoneId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (zoneId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, zoneId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.SetTimeZone)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.SetTimeZone other = (cmd.System.JonSharedCmdSystem.SetTimeZone) obj;
+
+      if (getZoneId()
+          != other.getZoneId()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ZONE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getZoneId();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.SetTimeZone prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.SetTimeZone}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.SetTimeZone)
+        cmd.System.JonSharedCmdSystem.SetTimeZoneOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeZone_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeZone_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.SetTimeZone.class, cmd.System.JonSharedCmdSystem.SetTimeZone.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.SetTimeZone.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        zoneId_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeZone_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeZone getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeZone build() {
+        cmd.System.JonSharedCmdSystem.SetTimeZone result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeZone buildPartial() {
+        cmd.System.JonSharedCmdSystem.SetTimeZone result = new cmd.System.JonSharedCmdSystem.SetTimeZone(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.SetTimeZone result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.zoneId_ = zoneId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.SetTimeZone) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.SetTimeZone)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.SetTimeZone other) {
+        if (other == cmd.System.JonSharedCmdSystem.SetTimeZone.getDefaultInstance()) return this;
+        if (other.getZoneId() != 0) {
+          setZoneId(other.getZoneId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                zoneId_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int zoneId_ ;
+      /**
+       * <code>int32 zone_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The zoneId.
+       */
+      @java.lang.Override
+      public int getZoneId() {
+        return zoneId_;
+      }
+      /**
+       * <code>int32 zone_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The zoneId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZoneId(int value) {
+
+        zoneId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 zone_id = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZoneId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        zoneId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.SetTimeZone)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.SetTimeZone)
+    private static final cmd.System.JonSharedCmdSystem.SetTimeZone DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.SetTimeZone();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeZone getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetTimeZone>
+        PARSER = new com.google.protobuf.AbstractParser<SetTimeZone>() {
+      @java.lang.Override
+      public SetTimeZone parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetTimeZone> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetTimeZone> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SetTimeZone getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StepTimeZoneOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.StepTimeZone)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Positive or negative timezone index offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    int getOffset();
+  }
+  /**
+   * Protobuf type {@code cmd.System.StepTimeZone}
+   */
+  public static final class StepTimeZone extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.StepTimeZone)
+      StepTimeZoneOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepTimeZone.class.getName());
+    }
+    // Use StepTimeZone.newBuilder() to construct.
+    private StepTimeZone(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepTimeZone() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepTimeZone_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepTimeZone_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.StepTimeZone.class, cmd.System.JonSharedCmdSystem.StepTimeZone.Builder.class);
+    }
+
+    public static final int OFFSET_FIELD_NUMBER = 1;
+    private int offset_ = 0;
+    /**
+     * <pre>
+     * Positive or negative timezone index offset
+     * </pre>
+     *
+     * <code>int32 offset = 1;</code>
+     * @return The offset.
+     */
+    @java.lang.Override
+    public int getOffset() {
+      return offset_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (offset_ != 0) {
+        output.writeInt32(1, offset_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (offset_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, offset_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.StepTimeZone)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.StepTimeZone other = (cmd.System.JonSharedCmdSystem.StepTimeZone) obj;
+
+      if (getOffset()
+          != other.getOffset()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + OFFSET_FIELD_NUMBER;
+      hash = (53 * hash) + getOffset();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.StepTimeZone prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.StepTimeZone}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.StepTimeZone)
+        cmd.System.JonSharedCmdSystem.StepTimeZoneOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepTimeZone_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepTimeZone_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.StepTimeZone.class, cmd.System.JonSharedCmdSystem.StepTimeZone.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.StepTimeZone.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        offset_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_StepTimeZone_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepTimeZone getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepTimeZone build() {
+        cmd.System.JonSharedCmdSystem.StepTimeZone result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.StepTimeZone buildPartial() {
+        cmd.System.JonSharedCmdSystem.StepTimeZone result = new cmd.System.JonSharedCmdSystem.StepTimeZone(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.StepTimeZone result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.offset_ = offset_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.StepTimeZone) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.StepTimeZone)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.StepTimeZone other) {
+        if (other == cmd.System.JonSharedCmdSystem.StepTimeZone.getDefaultInstance()) return this;
+        if (other.getOffset() != 0) {
+          setOffset(other.getOffset());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                offset_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int offset_ ;
+      /**
+       * <pre>
+       * Positive or negative timezone index offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return The offset.
+       */
+      @java.lang.Override
+      public int getOffset() {
+        return offset_;
+      }
+      /**
+       * <pre>
+       * Positive or negative timezone index offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @param value The offset to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOffset(int value) {
+
+        offset_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Positive or negative timezone index offset
+       * </pre>
+       *
+       * <code>int32 offset = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOffset() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        offset_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.StepTimeZone)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.StepTimeZone)
+    private static final cmd.System.JonSharedCmdSystem.StepTimeZone DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.StepTimeZone();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.StepTimeZone getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepTimeZone>
+        PARSER = new com.google.protobuf.AbstractParser<StepTimeZone>() {
+      @java.lang.Override
+      public StepTimeZone parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepTimeZone> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepTimeZone> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.StepTimeZone getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SetTimeAndZoneOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.System.SetTimeAndZone)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int64 timestamp = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The timestamp.
+     */
+    long getTimestamp();
+
+    /**
+     * <code>int32 zone_id = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The zoneId.
+     */
+    int getZoneId();
+  }
+  /**
+   * Protobuf type {@code cmd.System.SetTimeAndZone}
+   */
+  public static final class SetTimeAndZone extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.System.SetTimeAndZone)
+      SetTimeAndZoneOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SetTimeAndZone.class.getName());
+    }
+    // Use SetTimeAndZone.newBuilder() to construct.
+    private SetTimeAndZone(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SetTimeAndZone() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeAndZone_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeAndZone_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.System.JonSharedCmdSystem.SetTimeAndZone.class, cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder.class);
+    }
+
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    private long timestamp_ = 0L;
+    /**
+     * <code>int64 timestamp = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The timestamp.
+     */
+    @java.lang.Override
+    public long getTimestamp() {
+      return timestamp_;
+    }
+
+    public static final int ZONE_ID_FIELD_NUMBER = 2;
+    private int zoneId_ = 0;
+    /**
+     * <code>int32 zone_id = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The zoneId.
+     */
+    @java.lang.Override
+    public int getZoneId() {
+      return zoneId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (timestamp_ != 0L) {
+        output.writeInt64(1, timestamp_);
+      }
+      if (zoneId_ != 0) {
+        output.writeInt32(2, zoneId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (timestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, timestamp_);
+      }
+      if (zoneId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, zoneId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.System.JonSharedCmdSystem.SetTimeAndZone)) {
+        return super.equals(obj);
+      }
+      cmd.System.JonSharedCmdSystem.SetTimeAndZone other = (cmd.System.JonSharedCmdSystem.SetTimeAndZone) obj;
+
+      if (getTimestamp()
+          != other.getTimestamp()) return false;
+      if (getZoneId()
+          != other.getZoneId()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTimestamp());
+      hash = (37 * hash) + ZONE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getZoneId();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.System.JonSharedCmdSystem.SetTimeAndZone prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.System.SetTimeAndZone}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.System.SetTimeAndZone)
+        cmd.System.JonSharedCmdSystem.SetTimeAndZoneOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeAndZone_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeAndZone_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.System.JonSharedCmdSystem.SetTimeAndZone.class, cmd.System.JonSharedCmdSystem.SetTimeAndZone.Builder.class);
+      }
+
+      // Construct using cmd.System.JonSharedCmdSystem.SetTimeAndZone.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        timestamp_ = 0L;
+        zoneId_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.System.JonSharedCmdSystem.internal_static_cmd_System_SetTimeAndZone_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeAndZone getDefaultInstanceForType() {
+        return cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeAndZone build() {
+        cmd.System.JonSharedCmdSystem.SetTimeAndZone result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.System.JonSharedCmdSystem.SetTimeAndZone buildPartial() {
+        cmd.System.JonSharedCmdSystem.SetTimeAndZone result = new cmd.System.JonSharedCmdSystem.SetTimeAndZone(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.System.JonSharedCmdSystem.SetTimeAndZone result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.timestamp_ = timestamp_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.zoneId_ = zoneId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.System.JonSharedCmdSystem.SetTimeAndZone) {
+          return mergeFrom((cmd.System.JonSharedCmdSystem.SetTimeAndZone)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.System.JonSharedCmdSystem.SetTimeAndZone other) {
+        if (other == cmd.System.JonSharedCmdSystem.SetTimeAndZone.getDefaultInstance()) return this;
+        if (other.getTimestamp() != 0L) {
+          setTimestamp(other.getTimestamp());
+        }
+        if (other.getZoneId() != 0) {
+          setZoneId(other.getZoneId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                timestamp_ = input.readInt64();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                zoneId_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private long timestamp_ ;
+      /**
+       * <code>int64 timestamp = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The timestamp.
+       */
+      @java.lang.Override
+      public long getTimestamp() {
+        return timestamp_;
+      }
+      /**
+       * <code>int64 timestamp = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The timestamp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTimestamp(long value) {
+
+        timestamp_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 timestamp = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTimestamp() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        timestamp_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int zoneId_ ;
+      /**
+       * <code>int32 zone_id = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The zoneId.
+       */
+      @java.lang.Override
+      public int getZoneId() {
+        return zoneId_;
+      }
+      /**
+       * <code>int32 zone_id = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The zoneId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZoneId(int value) {
+
+        zoneId_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 zone_id = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZoneId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        zoneId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.System.SetTimeAndZone)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.System.SetTimeAndZone)
+    private static final cmd.System.JonSharedCmdSystem.SetTimeAndZone DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.System.JonSharedCmdSystem.SetTimeAndZone();
+    }
+
+    public static cmd.System.JonSharedCmdSystem.SetTimeAndZone getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetTimeAndZone>
+        PARSER = new com.google.protobuf.AbstractParser<SetTimeAndZone>() {
+      @java.lang.Override
+      public SetTimeAndZone parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetTimeAndZone> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetTimeAndZone> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.System.JonSharedCmdSystem.SetTimeAndZone getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_System_Root_descriptor;
   private static final 
@@ -14584,6 +16648,21 @@ public final class JonSharedCmdSystem {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_System_DisableManualTime_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_SetTimeZone_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_SetTimeZone_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_StepTimeZone_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_StepTimeZone_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_System_SetTimeAndZone_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_System_SetTimeAndZone_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -14595,7 +16674,7 @@ public final class JonSharedCmdSystem {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_system.proto\022\ncmd.Syste" +
       "m\032\033buf/validate/validate.proto\032\033jon_shar" +
-      "ed_data_types.proto\"\244\t\n\004Root\022)\n\tstart_al" +
+      "ed_data_types.proto\"\303\n\n\004Root\022)\n\tstart_al" +
       "l\030\001 \001(\0132\024.cmd.System.StartALlH\000\022\'\n\010stop_" +
       "all\030\002 \001(\0132\023.cmd.System.StopALlH\000\022$\n\006rebo" +
       "ot\030\003 \001(\0132\022.cmd.System.RebootH\000\022)\n\tpower_" +
@@ -14624,23 +16703,31 @@ public final class JonSharedCmdSystem {
       "nd\030\025 \001(\0132\026.cmd.System.StepSecondH\000\022:\n\022en" +
       "able_manual_time\030\026 \001(\0132\034.cmd.System.Enab" +
       "leManualTimeH\000\022<\n\023disable_manual_time\030\027 " +
-      "\001(\0132\035.cmd.System.DisableManualTimeH\000B\014\n\003" +
-      "cmd\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Reb" +
-      "oot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveF" +
-      "actoryDefaults\"\016\n\014WipeUserData\"\n\n\010StartR" +
-      "ec\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unm" +
-      "arkRecImportant\"\020\n\016EnterTransport\"\024\n\022Ena" +
-      "bleGeodesicMode\"\025\n\023DisableGeodesicMode\"N" +
-      "\n\017SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.Jon" +
-      "GuiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032" +
-      "\n\010StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022" +
-      "\016\n\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001" +
-      "(\005\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMi" +
-      "nute\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006of" +
-      "fset\030\001 \001(\005\"\022\n\020EnableManualTime\"\023\n\021Disabl" +
-      "eManualTimeBMZKgit-codecommit.eu-central" +
-      "-1.amazonaws.com/v1/repos/jettison/jonp/" +
-      "cmd/systemb\006proto3"
+      "\001(\0132\035.cmd.System.DisableManualTimeH\000\0220\n\r" +
+      "set_time_zone\030\030 \001(\0132\027.cmd.System.SetTime" +
+      "ZoneH\000\0222\n\016step_time_zone\030\031 \001(\0132\030.cmd.Sys" +
+      "tem.StepTimeZoneH\000\0227\n\021set_time_and_zone\030" +
+      "\032 \001(\0132\032.cmd.System.SetTimeAndZoneH\000B\014\n\003c" +
+      "md\022\005\272H\002\010\001\"\n\n\010StartALl\"\t\n\007StopALl\"\010\n\006Rebo" +
+      "ot\"\n\n\010PowerOff\"\016\n\014ResetConfigs\"\025\n\023SaveFa" +
+      "ctoryDefaults\"\016\n\014WipeUserData\"\n\n\010StartRe" +
+      "c\"\t\n\007StopRec\"\022\n\020MarkRecImportant\"\024\n\022Unma" +
+      "rkRecImportant\"\020\n\016EnterTransport\"\024\n\022Enab" +
+      "leGeodesicMode\"\025\n\023DisableGeodesicMode\"N\n" +
+      "\017SetLocalization\022;\n\003loc\030\001 \001(\0162\".ser.JonG" +
+      "uiDataSystemLocalizationsB\n\272H\007\202\001\004\020\001 \000\"\032\n" +
+      "\010StepYear\022\016\n\006offset\030\001 \001(\005\"\033\n\tStepMonth\022\016" +
+      "\n\006offset\030\001 \001(\005\"\031\n\007StepDay\022\016\n\006offset\030\001 \001(" +
+      "\005\"\032\n\010StepHour\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepMin" +
+      "ute\022\016\n\006offset\030\001 \001(\005\"\034\n\nStepSecond\022\016\n\006off" +
+      "set\030\001 \001(\005\"\022\n\020EnableManualTime\"\023\n\021Disable" +
+      "ManualTime\"*\n\013SetTimeZone\022\033\n\007zone_id\030\001 \001" +
+      "(\005B\n\272H\007\032\005\020\323\004(\000\"\036\n\014StepTimeZone\022\016\n\006offset" +
+      "\030\001 \001(\005\"I\n\016SetTimeAndZone\022\032\n\ttimestamp\030\001 " +
+      "\001(\003B\007\272H\004\"\002(\000\022\033\n\007zone_id\030\002 \001(\005B\n\272H\007\032\005\020\323\004(" +
+      "\000BMZKgit-codecommit.eu-central-1.amazona" +
+      "ws.com/v1/repos/jettison/jonp/cmd/system" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -14653,7 +16740,7 @@ public final class JonSharedCmdSystem {
     internal_static_cmd_System_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_Root_descriptor,
-        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "StepYear", "StepMonth", "StepDay", "StepHour", "StepMinute", "StepSecond", "EnableManualTime", "DisableManualTime", "Cmd", });
+        new java.lang.String[] { "StartAll", "StopAll", "Reboot", "PowerOff", "Localization", "ResetConfigs", "StartRec", "StopRec", "MarkRecImportant", "UnmarkRecImportant", "EnterTransport", "GeodesicModeEnable", "GeodesicModeDisable", "SaveFactoryDefaults", "WipeUserData", "StepYear", "StepMonth", "StepDay", "StepHour", "StepMinute", "StepSecond", "EnableManualTime", "DisableManualTime", "SetTimeZone", "StepTimeZone", "SetTimeAndZone", "Cmd", });
     internal_static_cmd_System_StartALl_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_System_StartALl_fieldAccessorTable = new
@@ -14792,6 +16879,24 @@ public final class JonSharedCmdSystem {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_System_DisableManualTime_descriptor,
         new java.lang.String[] { });
+    internal_static_cmd_System_SetTimeZone_descriptor =
+      getDescriptor().getMessageTypes().get(24);
+    internal_static_cmd_System_SetTimeZone_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_SetTimeZone_descriptor,
+        new java.lang.String[] { "ZoneId", });
+    internal_static_cmd_System_StepTimeZone_descriptor =
+      getDescriptor().getMessageTypes().get(25);
+    internal_static_cmd_System_StepTimeZone_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_StepTimeZone_descriptor,
+        new java.lang.String[] { "Offset", });
+    internal_static_cmd_System_SetTimeAndZone_descriptor =
+      getDescriptor().getMessageTypes().get(26);
+    internal_static_cmd_System_SetTimeAndZone_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_System_SetTimeAndZone_descriptor,
+        new java.lang.String[] { "Timestamp", "ZoneId", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
