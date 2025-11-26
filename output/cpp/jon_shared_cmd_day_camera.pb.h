@@ -116,6 +116,9 @@ extern SaveToTableDefaultTypeInternal _SaveToTable_default_instance_;
 class SaveToTableFocus;
 struct SaveToTableFocusDefaultTypeInternal;
 extern SaveToTableFocusDefaultTypeInternal _SaveToTableFocus_default_instance_;
+class SetAutoGain;
+struct SetAutoGainDefaultTypeInternal;
+extern SetAutoGainDefaultTypeInternal _SetAutoGain_default_instance_;
 class SetAutoIris;
 struct SetAutoIrisDefaultTypeInternal;
 extern SetAutoIrisDefaultTypeInternal _SetAutoIris_default_instance_;
@@ -232,7 +235,7 @@ class ZoomROI final : public ::google::protobuf::Message
     return reinterpret_cast<const ZoomROI*>(
         &_ZoomROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 32;
+  static constexpr int kIndexInFileMessages = 33;
   friend void swap(ZoomROI& a, ZoomROI& b) { a.Swap(&b); }
   inline void Swap(ZoomROI* other) {
     if (other == this) return;
@@ -482,7 +485,7 @@ class TrackROI final : public ::google::protobuf::Message
     return reinterpret_cast<const TrackROI*>(
         &_TrackROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 31;
+  static constexpr int kIndexInFileMessages = 32;
   friend void swap(TrackROI& a, TrackROI& b) { a.Swap(&b); }
   inline void Swap(TrackROI* other) {
     if (other == this) return;
@@ -731,7 +734,7 @@ class Stop final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const Stop*>(
         &_Stop_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 21;
+  static constexpr int kIndexInFileMessages = 22;
   friend void swap(Stop& a, Stop& b) { a.Swap(&b); }
   inline void Swap(Stop* other) {
     if (other == this) return;
@@ -876,7 +879,7 @@ class Start final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const Start*>(
         &_Start_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 22;
+  static constexpr int kIndexInFileMessages = 23;
   friend void swap(Start& a, Start& b) { a.Swap(&b); }
   inline void Swap(Start* other) {
     if (other == this) return;
@@ -1212,7 +1215,7 @@ class SetZoomTableValue final : public ::google::protobuf::Message
     return reinterpret_cast<const SetZoomTableValue*>(
         &_SetZoomTableValue_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 20;
+  static constexpr int kIndexInFileMessages = 21;
   friend void swap(SetZoomTableValue& a, SetZoomTableValue& b) { a.Swap(&b); }
   inline void Swap(SetZoomTableValue* other) {
     if (other == this) return;
@@ -2673,6 +2676,196 @@ class SetAutoIris final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class SetAutoGain final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.DayCamera.SetAutoGain) */ {
+ public:
+  inline SetAutoGain() : SetAutoGain(nullptr) {}
+  ~SetAutoGain() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SetAutoGain* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SetAutoGain));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SetAutoGain(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline SetAutoGain(const SetAutoGain& from) : SetAutoGain(nullptr, from) {}
+  inline SetAutoGain(SetAutoGain&& from) noexcept
+      : SetAutoGain(nullptr, std::move(from)) {}
+  inline SetAutoGain& operator=(const SetAutoGain& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SetAutoGain& operator=(SetAutoGain&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SetAutoGain& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SetAutoGain* internal_default_instance() {
+    return reinterpret_cast<const SetAutoGain*>(
+        &_SetAutoGain_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 20;
+  friend void swap(SetAutoGain& a, SetAutoGain& b) { a.Swap(&b); }
+  inline void Swap(SetAutoGain* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SetAutoGain* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SetAutoGain* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SetAutoGain>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SetAutoGain& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SetAutoGain& from) { SetAutoGain::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SetAutoGain* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.DayCamera.SetAutoGain"; }
+
+ protected:
+  explicit SetAutoGain(::google::protobuf::Arena* arena);
+  SetAutoGain(::google::protobuf::Arena* arena, const SetAutoGain& from);
+  SetAutoGain(::google::protobuf::Arena* arena, SetAutoGain&& from) noexcept
+      : SetAutoGain(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kValueFieldNumber = 1,
+  };
+  // bool value = 1;
+  void clear_value() ;
+  bool value() const;
+  void set_value(bool value);
+
+  private:
+  bool _internal_value() const;
+  void _internal_set_value(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.DayCamera.SetAutoGain)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const SetAutoGain& from_msg);
+    bool value_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto;
+};
+// -------------------------------------------------------------------
+
 class SaveToTableFocus final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:cmd.DayCamera.SaveToTableFocus) */ {
  public:
@@ -2731,7 +2924,7 @@ class SaveToTableFocus final : public ::google::protobuf::internal::ZeroFieldsBa
     return reinterpret_cast<const SaveToTableFocus*>(
         &_SaveToTableFocus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 29;
+  static constexpr int kIndexInFileMessages = 30;
   friend void swap(SaveToTableFocus& a, SaveToTableFocus& b) { a.Swap(&b); }
   inline void Swap(SaveToTableFocus* other) {
     if (other == this) return;
@@ -2876,7 +3069,7 @@ class SaveToTable final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const SaveToTable*>(
         &_SaveToTable_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 28;
+  static constexpr int kIndexInFileMessages = 29;
   friend void swap(SaveToTable& a, SaveToTable& b) { a.Swap(&b); }
   inline void Swap(SaveToTable* other) {
     if (other == this) return;
@@ -3021,7 +3214,7 @@ class ResetZoom final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ResetZoom*>(
         &_ResetZoom_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 26;
+  static constexpr int kIndexInFileMessages = 27;
   friend void swap(ResetZoom& a, ResetZoom& b) { a.Swap(&b); }
   inline void Swap(ResetZoom* other) {
     if (other == this) return;
@@ -3166,7 +3359,7 @@ class ResetFocus final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const ResetFocus*>(
         &_ResetFocus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 27;
+  static constexpr int kIndexInFileMessages = 28;
   friend void swap(ResetFocus& a, ResetFocus& b) { a.Swap(&b); }
   inline void Swap(ResetFocus* other) {
     if (other == this) return;
@@ -3746,7 +3939,7 @@ class Photo final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const Photo*>(
         &_Photo_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 23;
+  static constexpr int kIndexInFileMessages = 24;
   friend void swap(Photo& a, Photo& b) { a.Swap(&b); }
   inline void Swap(Photo* other) {
     if (other == this) return;
@@ -4718,7 +4911,7 @@ class Halt final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const Halt*>(
         &_Halt_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 25;
   friend void swap(Halt& a, Halt& b) { a.Swap(&b); }
   inline void Swap(Halt* other) {
     if (other == this) return;
@@ -5008,7 +5201,7 @@ class GetMeteo final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const GetMeteo*>(
         &_GetMeteo_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(GetMeteo& a, GetMeteo& b) { a.Swap(&b); }
   inline void Swap(GetMeteo* other) {
     if (other == this) return;
@@ -5154,7 +5347,7 @@ class FxROI final : public ::google::protobuf::Message
     return reinterpret_cast<const FxROI*>(
         &_FxROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 33;
+  static constexpr int kIndexInFileMessages = 34;
   friend void swap(FxROI& a, FxROI& b) { a.Swap(&b); }
   inline void Swap(FxROI* other) {
     if (other == this) return;
@@ -5404,7 +5597,7 @@ class FocusROI final : public ::google::protobuf::Message
     return reinterpret_cast<const FocusROI*>(
         &_FocusROI_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 30;
+  static constexpr int kIndexInFileMessages = 31;
   friend void swap(FocusROI& a, FocusROI& b) { a.Swap(&b); }
   inline void Swap(FocusROI* other) {
     if (other == this) return;
@@ -6397,6 +6590,7 @@ class Root final : public ::google::protobuf::Message
     kTrackRoi = 19,
     kZoomRoi = 20,
     kFxRoi = 21,
+    kSetAutoGain = 22,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -6511,6 +6705,7 @@ class Root final : public ::google::protobuf::Message
     kTrackRoiFieldNumber = 19,
     kZoomRoiFieldNumber = 20,
     kFxRoiFieldNumber = 21,
+    kSetAutoGainFieldNumber = 22,
   };
   // .cmd.DayCamera.Focus focus = 1;
   bool has_focus() const;
@@ -6911,6 +7106,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::DayCamera::FxROI* _internal_mutable_fx_roi();
 
   public:
+  // .cmd.DayCamera.SetAutoGain set_auto_gain = 22;
+  bool has_set_auto_gain() const;
+  private:
+  bool _internal_has_set_auto_gain() const;
+
+  public:
+  void clear_set_auto_gain() ;
+  const ::cmd::DayCamera::SetAutoGain& set_auto_gain() const;
+  PROTOBUF_NODISCARD ::cmd::DayCamera::SetAutoGain* release_set_auto_gain();
+  ::cmd::DayCamera::SetAutoGain* mutable_set_auto_gain();
+  void set_allocated_set_auto_gain(::cmd::DayCamera::SetAutoGain* value);
+  void unsafe_arena_set_allocated_set_auto_gain(::cmd::DayCamera::SetAutoGain* value);
+  ::cmd::DayCamera::SetAutoGain* unsafe_arena_release_set_auto_gain();
+
+  private:
+  const ::cmd::DayCamera::SetAutoGain& _internal_set_auto_gain() const;
+  ::cmd::DayCamera::SetAutoGain* _internal_mutable_set_auto_gain();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.DayCamera.Root)
@@ -6937,11 +7151,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_track_roi();
   void set_has_zoom_roi();
   void set_has_fx_roi();
+  void set_has_set_auto_gain();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 21, 21,
+      0, 22, 22,
       0, 2>
       _table_;
 
@@ -6983,6 +7198,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::DayCamera::TrackROI* track_roi_;
       ::cmd::DayCamera::ZoomROI* zoom_roi_;
       ::cmd::DayCamera::FxROI* fx_roi_;
+      ::cmd::DayCamera::SetAutoGain* set_auto_gain_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -8819,6 +9035,85 @@ inline ::cmd::DayCamera::FxROI* Root::mutable_fx_roi() ABSL_ATTRIBUTE_LIFETIME_B
   return _msg;
 }
 
+// .cmd.DayCamera.SetAutoGain set_auto_gain = 22;
+inline bool Root::has_set_auto_gain() const {
+  return cmd_case() == kSetAutoGain;
+}
+inline bool Root::_internal_has_set_auto_gain() const {
+  return cmd_case() == kSetAutoGain;
+}
+inline void Root::set_has_set_auto_gain() {
+  _impl_._oneof_case_[0] = kSetAutoGain;
+}
+inline void Root::clear_set_auto_gain() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kSetAutoGain) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.set_auto_gain_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_auto_gain_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::DayCamera::SetAutoGain* Root::release_set_auto_gain() {
+  // @@protoc_insertion_point(field_release:cmd.DayCamera.Root.set_auto_gain)
+  if (cmd_case() == kSetAutoGain) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_auto_gain_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.set_auto_gain_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::DayCamera::SetAutoGain& Root::_internal_set_auto_gain() const {
+  return cmd_case() == kSetAutoGain ? *_impl_.cmd_.set_auto_gain_ : reinterpret_cast<::cmd::DayCamera::SetAutoGain&>(::cmd::DayCamera::_SetAutoGain_default_instance_);
+}
+inline const ::cmd::DayCamera::SetAutoGain& Root::set_auto_gain() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.Root.set_auto_gain)
+  return _internal_set_auto_gain();
+}
+inline ::cmd::DayCamera::SetAutoGain* Root::unsafe_arena_release_set_auto_gain() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.DayCamera.Root.set_auto_gain)
+  if (cmd_case() == kSetAutoGain) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.set_auto_gain_;
+    _impl_.cmd_.set_auto_gain_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_set_auto_gain(::cmd::DayCamera::SetAutoGain* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_set_auto_gain();
+    _impl_.cmd_.set_auto_gain_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.DayCamera.Root.set_auto_gain)
+}
+inline ::cmd::DayCamera::SetAutoGain* Root::_internal_mutable_set_auto_gain() {
+  if (cmd_case() != kSetAutoGain) {
+    clear_cmd();
+    set_has_set_auto_gain();
+    _impl_.cmd_.set_auto_gain_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamera::SetAutoGain>(GetArena());
+  }
+  return _impl_.cmd_.set_auto_gain_;
+}
+inline ::cmd::DayCamera::SetAutoGain* Root::mutable_set_auto_gain() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::DayCamera::SetAutoGain* _msg = _internal_mutable_set_auto_gain();
+  // @@protoc_insertion_point(field_mutable:cmd.DayCamera.Root.set_auto_gain)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -10193,6 +10488,32 @@ inline bool SetAutoIris::_internal_value() const {
   return _impl_.value_;
 }
 inline void SetAutoIris::_internal_set_value(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// SetAutoGain
+
+// bool value = 1;
+inline void SetAutoGain::clear_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_ = false;
+}
+inline bool SetAutoGain::value() const {
+  // @@protoc_insertion_point(field_get:cmd.DayCamera.SetAutoGain.value)
+  return _internal_value();
+}
+inline void SetAutoGain::set_value(bool value) {
+  _internal_set_value(value);
+  // @@protoc_insertion_point(field_set:cmd.DayCamera.SetAutoGain.value)
+}
+inline bool SetAutoGain::_internal_value() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.value_;
+}
+inline void SetAutoGain::_internal_set_value(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.value_ = value;
 }

@@ -52,6 +52,7 @@ export interface Root {
   trackRoi?: TrackROI | undefined;
   zoomRoi?: ZoomROI | undefined;
   fxRoi?: FxROI | undefined;
+  setAutoGain?: SetAutoGain | undefined;
 }
 
 export interface GetPos {
@@ -113,6 +114,10 @@ export interface SetInfraRedFilter {
 }
 
 export interface SetAutoIris {
+  value: boolean;
+}
+
+export interface SetAutoGain {
   value: boolean;
 }
 
@@ -522,6 +527,7 @@ function createBaseRoot(): Root {
     trackRoi: undefined,
     zoomRoi: undefined,
     fxRoi: undefined,
+    setAutoGain: undefined,
   };
 }
 
@@ -589,6 +595,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.fxRoi !== undefined) {
       FxROI.encode(message.fxRoi, writer.uint32(170).fork()).join();
+    }
+    if (message.setAutoGain !== undefined) {
+      SetAutoGain.encode(message.setAutoGain, writer.uint32(178).fork()).join();
     }
     return writer;
   },
@@ -768,6 +777,14 @@ export const Root: MessageFns<Root> = {
           message.fxRoi = FxROI.decode(reader, reader.uint32());
           continue;
         }
+        case 22: {
+          if (tag !== 178) {
+            break;
+          }
+
+          message.setAutoGain = SetAutoGain.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -804,6 +821,7 @@ export const Root: MessageFns<Root> = {
       trackRoi: isSet(object.trackRoi) ? TrackROI.fromJSON(object.trackRoi) : undefined,
       zoomRoi: isSet(object.zoomRoi) ? ZoomROI.fromJSON(object.zoomRoi) : undefined,
       fxRoi: isSet(object.fxRoi) ? FxROI.fromJSON(object.fxRoi) : undefined,
+      setAutoGain: isSet(object.setAutoGain) ? SetAutoGain.fromJSON(object.setAutoGain) : undefined,
     };
   },
 
@@ -872,6 +890,9 @@ export const Root: MessageFns<Root> = {
     if (message.fxRoi !== undefined) {
       obj.fxRoi = FxROI.toJSON(message.fxRoi);
     }
+    if (message.setAutoGain !== undefined) {
+      obj.setAutoGain = SetAutoGain.toJSON(message.setAutoGain);
+    }
     return obj;
   },
 
@@ -931,6 +952,9 @@ export const Root: MessageFns<Root> = {
       ? ZoomROI.fromPartial(object.zoomRoi)
       : undefined;
     message.fxRoi = (object.fxRoi !== undefined && object.fxRoi !== null) ? FxROI.fromPartial(object.fxRoi) : undefined;
+    message.setAutoGain = (object.setAutoGain !== undefined && object.setAutoGain !== null)
+      ? SetAutoGain.fromPartial(object.setAutoGain)
+      : undefined;
     return message;
   },
 };
@@ -1890,6 +1914,64 @@ export const SetAutoIris: MessageFns<SetAutoIris> = {
   },
   fromPartial<I extends Exact<DeepPartial<SetAutoIris>, I>>(object: I): SetAutoIris {
     const message = createBaseSetAutoIris();
+    message.value = object.value ?? false;
+    return message;
+  },
+};
+
+function createBaseSetAutoGain(): SetAutoGain {
+  return { value: false };
+}
+
+export const SetAutoGain: MessageFns<SetAutoGain> = {
+  encode(message: SetAutoGain, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.value !== false) {
+      writer.uint32(8).bool(message.value);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SetAutoGain {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSetAutoGain();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.value = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SetAutoGain {
+    return { value: isSet(object.value) ? globalThis.Boolean(object.value) : false };
+  },
+
+  toJSON(message: SetAutoGain): unknown {
+    const obj: any = {};
+    if (message.value !== false) {
+      obj.value = message.value;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SetAutoGain>, I>>(base?: I): SetAutoGain {
+    return SetAutoGain.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SetAutoGain>, I>>(object: I): SetAutoGain {
+    const message = createBaseSetAutoGain();
     message.value = object.value ?? false;
     return message;
   },

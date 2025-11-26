@@ -80,6 +80,10 @@ typedef struct _cmd_DayCamera_SetAutoIris {
     bool value;
 } cmd_DayCamera_SetAutoIris;
 
+typedef struct _cmd_DayCamera_SetAutoGain {
+    bool value;
+} cmd_DayCamera_SetAutoGain;
+
 typedef struct _cmd_DayCamera_SetZoomTableValue {
     int32_t value;
 } cmd_DayCamera_SetZoomTableValue;
@@ -211,6 +215,7 @@ typedef struct _cmd_DayCamera_Root {
         cmd_DayCamera_TrackROI track_roi;
         cmd_DayCamera_ZoomROI zoom_roi;
         cmd_DayCamera_FxROI fx_roi;
+        cmd_DayCamera_SetAutoGain set_auto_gain;
     } cmd;
 } cmd_DayCamera_Root;
 
@@ -240,6 +245,7 @@ extern "C" {
 #define cmd_DayCamera_SetIris_init_default       {0}
 #define cmd_DayCamera_SetInfraRedFilter_init_default {0}
 #define cmd_DayCamera_SetAutoIris_init_default   {0}
+#define cmd_DayCamera_SetAutoGain_init_default   {0}
 #define cmd_DayCamera_SetZoomTableValue_init_default {0}
 #define cmd_DayCamera_Stop_init_default          {0}
 #define cmd_DayCamera_Start_init_default         {0}
@@ -274,6 +280,7 @@ extern "C" {
 #define cmd_DayCamera_SetIris_init_zero          {0}
 #define cmd_DayCamera_SetInfraRedFilter_init_zero {0}
 #define cmd_DayCamera_SetAutoIris_init_zero      {0}
+#define cmd_DayCamera_SetAutoGain_init_zero      {0}
 #define cmd_DayCamera_SetZoomTableValue_init_zero {0}
 #define cmd_DayCamera_Stop_init_zero             {0}
 #define cmd_DayCamera_Start_init_zero            {0}
@@ -301,6 +308,7 @@ extern "C" {
 #define cmd_DayCamera_SetIris_value_tag          1
 #define cmd_DayCamera_SetInfraRedFilter_value_tag 1
 #define cmd_DayCamera_SetAutoIris_value_tag      1
+#define cmd_DayCamera_SetAutoGain_value_tag      1
 #define cmd_DayCamera_SetZoomTableValue_value_tag 1
 #define cmd_DayCamera_Zoom_set_value_tag         1
 #define cmd_DayCamera_Zoom_move_tag              2
@@ -362,6 +370,7 @@ extern "C" {
 #define cmd_DayCamera_Root_track_roi_tag         19
 #define cmd_DayCamera_Root_zoom_roi_tag          20
 #define cmd_DayCamera_Root_fx_roi_tag            21
+#define cmd_DayCamera_Root_set_auto_gain_tag     22
 
 /* Struct field encoding specification for nanopb */
 #define cmd_DayCamera_SetValue_FIELDLIST(X, a) \
@@ -411,7 +420,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,shift_clahe_level,cmd.shift_clahe_level)
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,focus_roi,cmd.focus_roi),  18) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,track_roi,cmd.track_roi),  19) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,zoom_roi,cmd.zoom_roi),  20) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  21)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  21) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_auto_gain,cmd.set_auto_gain),  22)
 #define cmd_DayCamera_Root_CALLBACK NULL
 #define cmd_DayCamera_Root_DEFAULT NULL
 #define cmd_DayCamera_Root_cmd_focus_MSGTYPE cmd_DayCamera_Focus
@@ -435,6 +445,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,fx_roi,cmd.fx_roi),  21)
 #define cmd_DayCamera_Root_cmd_track_roi_MSGTYPE cmd_DayCamera_TrackROI
 #define cmd_DayCamera_Root_cmd_zoom_roi_MSGTYPE cmd_DayCamera_ZoomROI
 #define cmd_DayCamera_Root_cmd_fx_roi_MSGTYPE cmd_DayCamera_FxROI
+#define cmd_DayCamera_Root_cmd_set_auto_gain_MSGTYPE cmd_DayCamera_SetAutoGain
 
 #define cmd_DayCamera_GetPos_FIELDLIST(X, a) \
 
@@ -533,6 +544,11 @@ X(a, STATIC,   SINGULAR, BOOL,     value,             1)
 X(a, STATIC,   SINGULAR, BOOL,     value,             1)
 #define cmd_DayCamera_SetAutoIris_CALLBACK NULL
 #define cmd_DayCamera_SetAutoIris_DEFAULT NULL
+
+#define cmd_DayCamera_SetAutoGain_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     value,             1)
+#define cmd_DayCamera_SetAutoGain_CALLBACK NULL
+#define cmd_DayCamera_SetAutoGain_DEFAULT NULL
 
 #define cmd_DayCamera_SetZoomTableValue_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    value,             1)
@@ -644,6 +660,7 @@ extern const pb_msgdesc_t cmd_DayCamera_PrevZoomTablePos_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SetIris_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SetInfraRedFilter_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SetAutoIris_msg;
+extern const pb_msgdesc_t cmd_DayCamera_SetAutoGain_msg;
 extern const pb_msgdesc_t cmd_DayCamera_SetZoomTableValue_msg;
 extern const pb_msgdesc_t cmd_DayCamera_Stop_msg;
 extern const pb_msgdesc_t cmd_DayCamera_Start_msg;
@@ -680,6 +697,7 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 #define cmd_DayCamera_SetIris_fields &cmd_DayCamera_SetIris_msg
 #define cmd_DayCamera_SetInfraRedFilter_fields &cmd_DayCamera_SetInfraRedFilter_msg
 #define cmd_DayCamera_SetAutoIris_fields &cmd_DayCamera_SetAutoIris_msg
+#define cmd_DayCamera_SetAutoGain_fields &cmd_DayCamera_SetAutoGain_msg
 #define cmd_DayCamera_SetZoomTableValue_fields &cmd_DayCamera_SetZoomTableValue_msg
 #define cmd_DayCamera_Stop_fields &cmd_DayCamera_Stop_msg
 #define cmd_DayCamera_Start_fields &cmd_DayCamera_Start_msg
@@ -717,6 +735,7 @@ extern const pb_msgdesc_t cmd_DayCamera_FxROI_msg;
 #define cmd_DayCamera_Root_size                  61
 #define cmd_DayCamera_SaveToTableFocus_size      0
 #define cmd_DayCamera_SaveToTable_size           0
+#define cmd_DayCamera_SetAutoGain_size           2
 #define cmd_DayCamera_SetAutoIris_size           2
 #define cmd_DayCamera_SetClaheLevel_size         9
 #define cmd_DayCamera_SetDigitalZoomLevel_size   9

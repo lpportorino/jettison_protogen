@@ -66,6 +66,9 @@ PB_BIND(cmd_DayCamera_SetInfraRedFilter, cmd_DayCamera_SetInfraRedFilter, AUTO)
 PB_BIND(cmd_DayCamera_SetAutoIris, cmd_DayCamera_SetAutoIris, AUTO)
 
 
+PB_BIND(cmd_DayCamera_SetAutoGain, cmd_DayCamera_SetAutoGain, AUTO)
+
+
 PB_BIND(cmd_DayCamera_SetZoomTableValue, cmd_DayCamera_SetZoomTableValue, AUTO)
 
 

@@ -30,7 +30,7 @@ pub struct ShiftClaheLevel {
 pub struct Root {
     #[prost(
         oneof = "root::Cmd",
-        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21"
+        tags = "1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22"
     )]
     pub cmd: ::core::option::Option<root::Cmd>,
 }
@@ -80,6 +80,8 @@ pub mod root {
         ZoomRoi(super::ZoomRoi),
         #[prost(message, tag = "21")]
         FxRoi(super::FxRoi),
+        #[prost(message, tag = "22")]
+        SetAutoGain(super::SetAutoGain),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -170,6 +172,11 @@ pub struct SetInfraRedFilter {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct SetAutoIris {
+    #[prost(bool, tag = "1")]
+    pub value: bool,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct SetAutoGain {
     #[prost(bool, tag = "1")]
     pub value: bool,
 }

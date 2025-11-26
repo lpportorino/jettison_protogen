@@ -89,6 +89,12 @@ public final class JonSharedDataCameraDay {
     boolean getAutoIris();
 
     /**
+     * <code>bool auto_gain = 15;</code>
+     * @return The autoGain.
+     */
+    boolean getAutoGain();
+
+    /**
      * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
      * @return The digitalZoomLevel.
      */
@@ -262,6 +268,17 @@ public final class JonSharedDataCameraDay {
       return autoIris_;
     }
 
+    public static final int AUTO_GAIN_FIELD_NUMBER = 15;
+    private boolean autoGain_ = false;
+    /**
+     * <code>bool auto_gain = 15;</code>
+     * @return The autoGain.
+     */
+    @java.lang.Override
+    public boolean getAutoGain() {
+      return autoGain_;
+    }
+
     public static final int DIGITAL_ZOOM_LEVEL_FIELD_NUMBER = 10;
     private double digitalZoomLevel_ = 0D;
     /**
@@ -373,6 +390,9 @@ public final class JonSharedDataCameraDay {
       if (isStarted_ != false) {
         output.writeBool(14, isStarted_);
       }
+      if (autoGain_ != false) {
+        output.writeBool(15, autoGain_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -438,6 +458,10 @@ public final class JonSharedDataCameraDay {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(14, isStarted_);
       }
+      if (autoGain_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(15, autoGain_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -473,6 +497,8 @@ public final class JonSharedDataCameraDay {
           != other.getAutoFocus()) return false;
       if (getAutoIris()
           != other.getAutoIris()) return false;
+      if (getAutoGain()
+          != other.getAutoGain()) return false;
       if (java.lang.Double.doubleToLongBits(getDigitalZoomLevel())
           != java.lang.Double.doubleToLongBits(
               other.getDigitalZoomLevel())) return false;
@@ -522,6 +548,9 @@ public final class JonSharedDataCameraDay {
       hash = (37 * hash) + AUTO_IRIS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getAutoIris());
+      hash = (37 * hash) + AUTO_GAIN_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAutoGain());
       hash = (37 * hash) + DIGITAL_ZOOM_LEVEL_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getDigitalZoomLevel()));
@@ -677,6 +706,7 @@ public final class JonSharedDataCameraDay {
         fxMode_ = 0;
         autoFocus_ = false;
         autoIris_ = false;
+        autoGain_ = false;
         digitalZoomLevel_ = 0D;
         claheLevel_ = 0D;
         horizontalFovDegrees_ = 0D;
@@ -743,18 +773,21 @@ public final class JonSharedDataCameraDay {
           result.autoIris_ = autoIris_;
         }
         if (((from_bitField0_ & 0x00000200) != 0)) {
-          result.digitalZoomLevel_ = digitalZoomLevel_;
+          result.autoGain_ = autoGain_;
         }
         if (((from_bitField0_ & 0x00000400) != 0)) {
-          result.claheLevel_ = claheLevel_;
+          result.digitalZoomLevel_ = digitalZoomLevel_;
         }
         if (((from_bitField0_ & 0x00000800) != 0)) {
-          result.horizontalFovDegrees_ = horizontalFovDegrees_;
+          result.claheLevel_ = claheLevel_;
         }
         if (((from_bitField0_ & 0x00001000) != 0)) {
-          result.verticalFovDegrees_ = verticalFovDegrees_;
+          result.horizontalFovDegrees_ = horizontalFovDegrees_;
         }
         if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.verticalFovDegrees_ = verticalFovDegrees_;
+        }
+        if (((from_bitField0_ & 0x00004000) != 0)) {
           result.isStarted_ = isStarted_;
         }
       }
@@ -797,6 +830,9 @@ public final class JonSharedDataCameraDay {
         }
         if (other.getAutoIris() != false) {
           setAutoIris(other.getAutoIris());
+        }
+        if (other.getAutoGain() != false) {
+          setAutoGain(other.getAutoGain());
         }
         if (other.getDigitalZoomLevel() != 0D) {
           setDigitalZoomLevel(other.getDigitalZoomLevel());
@@ -886,29 +922,34 @@ public final class JonSharedDataCameraDay {
               } // case 72
               case 81: {
                 digitalZoomLevel_ = input.readDouble();
-                bitField0_ |= 0x00000200;
+                bitField0_ |= 0x00000400;
                 break;
               } // case 81
               case 89: {
                 claheLevel_ = input.readDouble();
-                bitField0_ |= 0x00000400;
+                bitField0_ |= 0x00000800;
                 break;
               } // case 89
               case 97: {
                 horizontalFovDegrees_ = input.readDouble();
-                bitField0_ |= 0x00000800;
+                bitField0_ |= 0x00001000;
                 break;
               } // case 97
               case 105: {
                 verticalFovDegrees_ = input.readDouble();
-                bitField0_ |= 0x00001000;
+                bitField0_ |= 0x00002000;
                 break;
               } // case 105
               case 112: {
                 isStarted_ = input.readBool();
-                bitField0_ |= 0x00002000;
+                bitField0_ |= 0x00004000;
                 break;
               } // case 112
+              case 120: {
+                autoGain_ = input.readBool();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 120
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1235,6 +1276,38 @@ public final class JonSharedDataCameraDay {
         return this;
       }
 
+      private boolean autoGain_ ;
+      /**
+       * <code>bool auto_gain = 15;</code>
+       * @return The autoGain.
+       */
+      @java.lang.Override
+      public boolean getAutoGain() {
+        return autoGain_;
+      }
+      /**
+       * <code>bool auto_gain = 15;</code>
+       * @param value The autoGain to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAutoGain(boolean value) {
+
+        autoGain_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool auto_gain = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAutoGain() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        autoGain_ = false;
+        onChanged();
+        return this;
+      }
+
       private double digitalZoomLevel_ ;
       /**
        * <code>double digital_zoom_level = 10 [(.buf.validate.field) = { ... }</code>
@@ -1252,7 +1325,7 @@ public final class JonSharedDataCameraDay {
       public Builder setDigitalZoomLevel(double value) {
 
         digitalZoomLevel_ = value;
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -1261,7 +1334,7 @@ public final class JonSharedDataCameraDay {
        * @return This builder for chaining.
        */
       public Builder clearDigitalZoomLevel() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         digitalZoomLevel_ = 0D;
         onChanged();
         return this;
@@ -1284,7 +1357,7 @@ public final class JonSharedDataCameraDay {
       public Builder setClaheLevel(double value) {
 
         claheLevel_ = value;
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -1293,7 +1366,7 @@ public final class JonSharedDataCameraDay {
        * @return This builder for chaining.
        */
       public Builder clearClaheLevel() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         claheLevel_ = 0D;
         onChanged();
         return this;
@@ -1316,7 +1389,7 @@ public final class JonSharedDataCameraDay {
       public Builder setHorizontalFovDegrees(double value) {
 
         horizontalFovDegrees_ = value;
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -1325,7 +1398,7 @@ public final class JonSharedDataCameraDay {
        * @return This builder for chaining.
        */
       public Builder clearHorizontalFovDegrees() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00001000);
         horizontalFovDegrees_ = 0D;
         onChanged();
         return this;
@@ -1348,7 +1421,7 @@ public final class JonSharedDataCameraDay {
       public Builder setVerticalFovDegrees(double value) {
 
         verticalFovDegrees_ = value;
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -1357,7 +1430,7 @@ public final class JonSharedDataCameraDay {
        * @return This builder for chaining.
        */
       public Builder clearVerticalFovDegrees() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         verticalFovDegrees_ = 0D;
         onChanged();
         return this;
@@ -1380,7 +1453,7 @@ public final class JonSharedDataCameraDay {
       public Builder setIsStarted(boolean value) {
 
         isStarted_ = value;
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -1389,7 +1462,7 @@ public final class JonSharedDataCameraDay {
        * @return This builder for chaining.
        */
       public Builder clearIsStarted() {
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         isStarted_ = false;
         onChanged();
         return this;
@@ -1462,7 +1535,7 @@ public final class JonSharedDataCameraDay {
     java.lang.String[] descriptorData = {
       "\n jon_shared_data_camera_day.proto\022\003ser\032" +
       "\033buf/validate/validate.proto\032\033jon_shared" +
-      "_data_types.proto\"\260\004\n\023JonGuiDataCameraDa" +
+      "_data_types.proto\"\303\004\n\023JonGuiDataCameraDa" +
       "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000" +
       "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
       "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
@@ -1470,15 +1543,16 @@ public final class JonSharedDataCameraDay {
       "zoom_table_pos\030\005 \001(\005B\007\272H\004\032\002(\000\022#\n\022zoom_ta" +
       "ble_pos_max\030\006 \001(\005B\007\272H\004\032\002(\000\0223\n\007fx_mode\030\007 " +
       "\001(\0162\030.ser.JonGuiDataFxModeDayB\010\272H\005\202\001\002\020\001\022" +
-      "\022\n\nauto_focus\030\010 \001(\010\022\021\n\tauto_iris\030\t \001(\010\022*" +
-      "\n\022digital_zoom_level\030\n \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000" +
-      "\360?\022,\n\013clahe_level\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
-      "\000\000\000\000\000\000\000\000\0227\n\026horizontal_fov_degrees\030\014 \001(\001" +
-      "B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000\0225\n\024vertical_fo" +
-      "v_degrees\030\r \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000" +
-      "\022\022\n\nis_started\030\016 \001(\010BRZPgit-codecommit.e" +
-      "u-central-1.amazonaws.com/v1/repos/jetti" +
-      "son/jonp/data/camera_dayb\006proto3"
+      "\022\n\nauto_focus\030\010 \001(\010\022\021\n\tauto_iris\030\t \001(\010\022\021" +
+      "\n\tauto_gain\030\017 \001(\010\022*\n\022digital_zoom_level\030" +
+      "\n \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\022,\n\013clahe_level\030\013 \001" +
+      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\0227\n\026horizonta" +
+      "l_fov_degrees\030\014 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000" +
+      "\000\000\000\000\0225\n\024vertical_fov_degrees\030\r \001(\001B\027\272H\024\022" +
+      "\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000\022\022\n\nis_started\030\016 \001(\010B" +
+      "RZPgit-codecommit.eu-central-1.amazonaws" +
+      ".com/v1/repos/jettison/jonp/data/camera_" +
+      "dayb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1491,7 +1565,7 @@ public final class JonSharedDataCameraDay {
     internal_static_ser_JonGuiDataCameraDay_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraDay_descriptor,
-        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", });
+        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "AutoGain", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

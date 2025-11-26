@@ -19,6 +19,7 @@ export interface JonGuiDataCameraDay {
   fxMode: JonGuiDataFxModeDay;
   autoFocus: boolean;
   autoIris: boolean;
+  autoGain: boolean;
   digitalZoomLevel: number;
   claheLevel: number;
   horizontalFovDegrees: number;
@@ -37,6 +38,7 @@ function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
     fxMode: 0,
     autoFocus: false,
     autoIris: false,
+    autoGain: false,
     digitalZoomLevel: 0,
     claheLevel: 0,
     horizontalFovDegrees: 0,
@@ -73,6 +75,9 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     }
     if (message.autoIris !== false) {
       writer.uint32(72).bool(message.autoIris);
+    }
+    if (message.autoGain !== false) {
+      writer.uint32(120).bool(message.autoGain);
     }
     if (message.digitalZoomLevel !== 0) {
       writer.uint32(81).double(message.digitalZoomLevel);
@@ -171,6 +176,14 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
           message.autoIris = reader.bool();
           continue;
         }
+        case 15: {
+          if (tag !== 120) {
+            break;
+          }
+
+          message.autoGain = reader.bool();
+          continue;
+        }
         case 10: {
           if (tag !== 81) {
             break;
@@ -231,6 +244,7 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
       fxMode: isSet(object.fxMode) ? jonGuiDataFxModeDayFromJSON(object.fxMode) : 0,
       autoFocus: isSet(object.autoFocus) ? globalThis.Boolean(object.autoFocus) : false,
       autoIris: isSet(object.autoIris) ? globalThis.Boolean(object.autoIris) : false,
+      autoGain: isSet(object.autoGain) ? globalThis.Boolean(object.autoGain) : false,
       digitalZoomLevel: isSet(object.digitalZoomLevel) ? globalThis.Number(object.digitalZoomLevel) : 0,
       claheLevel: isSet(object.claheLevel) ? globalThis.Number(object.claheLevel) : 0,
       horizontalFovDegrees: isSet(object.horizontalFovDegrees) ? globalThis.Number(object.horizontalFovDegrees) : 0,
@@ -268,6 +282,9 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     if (message.autoIris !== false) {
       obj.autoIris = message.autoIris;
     }
+    if (message.autoGain !== false) {
+      obj.autoGain = message.autoGain;
+    }
     if (message.digitalZoomLevel !== 0) {
       obj.digitalZoomLevel = message.digitalZoomLevel;
     }
@@ -300,6 +317,7 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     message.fxMode = object.fxMode ?? 0;
     message.autoFocus = object.autoFocus ?? false;
     message.autoIris = object.autoIris ?? false;
+    message.autoGain = object.autoGain ?? false;
     message.digitalZoomLevel = object.digitalZoomLevel ?? 0;
     message.claheLevel = object.claheLevel ?? 0;
     message.horizontalFovDegrees = object.horizontalFovDegrees ?? 0;

@@ -2598,6 +2598,21 @@ public final class JonSharedCmdDayCamera {
      */
     cmd.DayCamera.JonSharedCmdDayCamera.FxROIOrBuilder getFxRoiOrBuilder();
 
+    /**
+     * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+     * @return Whether the setAutoGain field is set.
+     */
+    boolean hasSetAutoGain();
+    /**
+     * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+     * @return The setAutoGain.
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain getSetAutoGain();
+    /**
+     * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+     */
+    cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder getSetAutoGainOrBuilder();
+
     cmd.DayCamera.JonSharedCmdDayCamera.Root.CmdCase getCmdCase();
   }
   /**
@@ -2664,6 +2679,7 @@ public final class JonSharedCmdDayCamera {
       TRACK_ROI(19),
       ZOOM_ROI(20),
       FX_ROI(21),
+      SET_AUTO_GAIN(22),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -2702,6 +2718,7 @@ public final class JonSharedCmdDayCamera {
           case 19: return TRACK_ROI;
           case 20: return ZOOM_ROI;
           case 21: return FX_ROI;
+          case 22: return SET_AUTO_GAIN;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -3368,6 +3385,37 @@ public final class JonSharedCmdDayCamera {
       return cmd.DayCamera.JonSharedCmdDayCamera.FxROI.getDefaultInstance();
     }
 
+    public static final int SET_AUTO_GAIN_FIELD_NUMBER = 22;
+    /**
+     * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+     * @return Whether the setAutoGain field is set.
+     */
+    @java.lang.Override
+    public boolean hasSetAutoGain() {
+      return cmdCase_ == 22;
+    }
+    /**
+     * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+     * @return The setAutoGain.
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain getSetAutoGain() {
+      if (cmdCase_ == 22) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+     */
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder getSetAutoGainOrBuilder() {
+      if (cmdCase_ == 22) {
+         return (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_;
+      }
+      return cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3444,6 +3492,9 @@ public final class JonSharedCmdDayCamera {
       }
       if (cmdCase_ == 21) {
         output.writeMessage(21, (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_);
+      }
+      if (cmdCase_ == 22) {
+        output.writeMessage(22, (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3537,6 +3588,10 @@ public final class JonSharedCmdDayCamera {
       if (cmdCase_ == 21) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(21, (cmd.DayCamera.JonSharedCmdDayCamera.FxROI) cmd_);
+      }
+      if (cmdCase_ == 22) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -3639,6 +3694,10 @@ public final class JonSharedCmdDayCamera {
           if (!getFxRoi()
               .equals(other.getFxRoi())) return false;
           break;
+        case 22:
+          if (!getSetAutoGain()
+              .equals(other.getSetAutoGain())) return false;
+          break;
         case 0:
         default:
       }
@@ -3737,6 +3796,10 @@ public final class JonSharedCmdDayCamera {
         case 21:
           hash = (37 * hash) + FX_ROI_FIELD_NUMBER;
           hash = (53 * hash) + getFxRoi().hashCode();
+          break;
+        case 22:
+          hash = (37 * hash) + SET_AUTO_GAIN_FIELD_NUMBER;
+          hash = (53 * hash) + getSetAutoGain().hashCode();
           break;
         case 0:
         default:
@@ -3935,6 +3998,9 @@ public final class JonSharedCmdDayCamera {
         if (fxRoiBuilder_ != null) {
           fxRoiBuilder_.clear();
         }
+        if (setAutoGainBuilder_ != null) {
+          setAutoGainBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -4060,6 +4126,10 @@ public final class JonSharedCmdDayCamera {
             fxRoiBuilder_ != null) {
           result.cmd_ = fxRoiBuilder_.build();
         }
+        if (cmdCase_ == 22 &&
+            setAutoGainBuilder_ != null) {
+          result.cmd_ = setAutoGainBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -4157,6 +4227,10 @@ public final class JonSharedCmdDayCamera {
           }
           case FX_ROI: {
             mergeFxRoi(other.getFxRoi());
+            break;
+          }
+          case SET_AUTO_GAIN: {
+            mergeSetAutoGain(other.getSetAutoGain());
             break;
           }
           case CMD_NOT_SET: {
@@ -4336,6 +4410,13 @@ public final class JonSharedCmdDayCamera {
                 cmdCase_ = 21;
                 break;
               } // case 170
+              case 178: {
+                input.readMessage(
+                    getSetAutoGainFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 22;
+                break;
+              } // case 178
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -7348,6 +7429,148 @@ public final class JonSharedCmdDayCamera {
         cmdCase_ = 21;
         onChanged();
         return fxRoiBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder> setAutoGainBuilder_;
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       * @return Whether the setAutoGain field is set.
+       */
+      @java.lang.Override
+      public boolean hasSetAutoGain() {
+        return cmdCase_ == 22;
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       * @return The setAutoGain.
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain getSetAutoGain() {
+        if (setAutoGainBuilder_ == null) {
+          if (cmdCase_ == 22) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 22) {
+            return setAutoGainBuilder_.getMessage();
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      public Builder setSetAutoGain(cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain value) {
+        if (setAutoGainBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          setAutoGainBuilder_.setMessage(value);
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      public Builder setSetAutoGain(
+          cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder builderForValue) {
+        if (setAutoGainBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          setAutoGainBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      public Builder mergeSetAutoGain(cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain value) {
+        if (setAutoGainBuilder_ == null) {
+          if (cmdCase_ == 22 &&
+              cmd_ != cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance()) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.newBuilder((cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 22) {
+            setAutoGainBuilder_.mergeFrom(value);
+          } else {
+            setAutoGainBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      public Builder clearSetAutoGain() {
+        if (setAutoGainBuilder_ == null) {
+          if (cmdCase_ == 22) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 22) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          setAutoGainBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder getSetAutoGainBuilder() {
+        return getSetAutoGainFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder getSetAutoGainOrBuilder() {
+        if ((cmdCase_ == 22) && (setAutoGainBuilder_ != null)) {
+          return setAutoGainBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 22) {
+            return (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_;
+          }
+          return cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.DayCamera.SetAutoGain set_auto_gain = 22;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder> 
+          getSetAutoGainFieldBuilder() {
+        if (setAutoGainBuilder_ == null) {
+          if (!(cmdCase_ == 22)) {
+            cmd_ = cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+          }
+          setAutoGainBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder>(
+                  (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 22;
+        onChanged();
+        return setAutoGainBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.DayCamera.Root)
@@ -16318,6 +16541,441 @@ public final class JonSharedCmdDayCamera {
 
   }
 
+  public interface SetAutoGainOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.DayCamera.SetAutoGain)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool value = 1;</code>
+     * @return The value.
+     */
+    boolean getValue();
+  }
+  /**
+   * Protobuf type {@code cmd.DayCamera.SetAutoGain}
+   */
+  public static final class SetAutoGain extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.DayCamera.SetAutoGain)
+      SetAutoGainOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SetAutoGain.class.getName());
+    }
+    // Use SetAutoGain.newBuilder() to construct.
+    private SetAutoGain(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SetAutoGain() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_SetAutoGain_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_SetAutoGain_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.class, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder.class);
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private boolean value_ = false;
+    /**
+     * <code>bool value = 1;</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public boolean getValue() {
+      return value_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (value_ != false) {
+        output.writeBool(1, value_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (value_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, value_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain)) {
+        return super.equals(obj);
+      }
+      cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain other = (cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) obj;
+
+      if (getValue()
+          != other.getValue()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getValue());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.DayCamera.SetAutoGain}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.DayCamera.SetAutoGain)
+        cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGainOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_SetAutoGain_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_SetAutoGain_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.class, cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.Builder.class);
+      }
+
+      // Construct using cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        value_ = false;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.internal_static_cmd_DayCamera_SetAutoGain_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain getDefaultInstanceForType() {
+        return cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain build() {
+        cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain buildPartial() {
+        cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain result = new cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.value_ = value_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain) {
+          return mergeFrom((cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain other) {
+        if (other == cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain.getDefaultInstance()) return this;
+        if (other.getValue() != false) {
+          setValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                value_ = input.readBool();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private boolean value_ ;
+      /**
+       * <code>bool value = 1;</code>
+       * @return The value.
+       */
+      @java.lang.Override
+      public boolean getValue() {
+        return value_;
+      }
+      /**
+       * <code>bool value = 1;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValue(boolean value) {
+
+        value_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool value = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        value_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.DayCamera.SetAutoGain)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.DayCamera.SetAutoGain)
+    private static final cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain();
+    }
+
+    public static cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetAutoGain>
+        PARSER = new com.google.protobuf.AbstractParser<SetAutoGain>() {
+      @java.lang.Override
+      public SetAutoGain parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetAutoGain> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetAutoGain> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.DayCamera.JonSharedCmdDayCamera.SetAutoGain getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface SetZoomTableValueOrBuilder extends
       // @@protoc_insertion_point(interface_extends:cmd.DayCamera.SetZoomTableValue)
       com.google.protobuf.MessageOrBuilder {
@@ -23424,6 +24082,11 @@ public final class JonSharedCmdDayCamera {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_DayCamera_SetAutoIris_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_DayCamera_SetAutoGain_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_DayCamera_SetAutoGain_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_DayCamera_SetZoomTableValue_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -23512,7 +24175,7 @@ public final class JonSharedCmdDayCamera {
       "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"7\n\rSetCla" +
       "heLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000" +
       "\000\000\000\000\000\000\000\"9\n\017ShiftClaheLevel\022&\n\005value\030\001 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\214\010\n\004Root\022%\n\005f" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"\301\010\n\004Root\022%\n\005f" +
       "ocus\030\001 \001(\0132\024.cmd.DayCamera.FocusH\000\022#\n\004zo" +
       "om\030\002 \001(\0132\023.cmd.DayCamera.ZoomH\000\022*\n\010set_i" +
       "ris\030\003 \001(\0132\026.cmd.DayCamera.SetIrisH\000\022@\n\024s" +
@@ -23538,61 +24201,63 @@ public final class JonSharedCmdDayCamera {
       "\000\022,\n\ttrack_roi\030\023 \001(\0132\027.cmd.DayCamera.Tra" +
       "ckROIH\000\022*\n\010zoom_roi\030\024 \001(\0132\026.cmd.DayCamer" +
       "a.ZoomROIH\000\022&\n\006fx_roi\030\025 \001(\0132\024.cmd.DayCam" +
-      "era.FxROIH\000B\014\n\003cmd\022\005\272H\002\010\001\"\010\n\006GetPos\"\014\n\nN" +
-      "extFxMode\"\014\n\nPrevFxMode\"\017\n\rRefreshFxMode" +
-      "\"\t\n\007HaltAll\"?\n\tSetFxMode\0222\n\004mode\030\001 \001(\0162\030" +
-      ".ser.JonGuiDataFxModeDayB\n\272H\007\202\001\004\020\001 \000\"4\n\023" +
-      "SetDigitalZoomLevel\022\035\n\005value\030\001 \001(\001B\016\272H\013\022" +
-      "\t)\000\000\000\000\000\000\360?\"\250\002\n\005Focus\022,\n\tset_value\030\001 \001(\0132" +
-      "\027.cmd.DayCamera.SetValueH\000\022#\n\004move\030\002 \001(\013" +
-      "2\023.cmd.DayCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023." +
-      "cmd.DayCamera.HaltH\000\022\'\n\006offset\030\004 \001(\0132\025.c" +
-      "md.DayCamera.OffsetH\000\0220\n\013reset_focus\030\005 \001" +
-      "(\0132\031.cmd.DayCamera.ResetFocusH\000\022>\n\023save_" +
-      "to_table_focus\030\006 \001(\0132\037.cmd.DayCamera.Sav" +
-      "eToTableFocusH\000B\014\n\003cmd\022\005\272H\002\010\001\"\334\003\n\004Zoom\022," +
-      "\n\tset_value\030\001 \001(\0132\027.cmd.DayCamera.SetVal" +
-      "ueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH" +
-      "\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022@" +
-      "\n\024set_zoom_table_value\030\004 \001(\0132 .cmd.DayCa" +
-      "mera.SetZoomTableValueH\000\022>\n\023next_zoom_ta" +
-      "ble_pos\030\005 \001(\0132\037.cmd.DayCamera.NextZoomTa" +
-      "blePosH\000\022>\n\023prev_zoom_table_pos\030\006 \001(\0132\037." +
-      "cmd.DayCamera.PrevZoomTablePosH\000\022\'\n\006offs" +
-      "et\030\007 \001(\0132\025.cmd.DayCamera.OffsetH\000\022.\n\nres" +
-      "et_zoom\030\010 \001(\0132\030.cmd.DayCamera.ResetZoomH" +
-      "\000\0223\n\rsave_to_table\030\t \001(\0132\032.cmd.DayCamera" +
-      ".SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoom" +
-      "TablePos\"\022\n\020PrevZoomTablePos\"1\n\007SetIris\022" +
-      "&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\000\000\"" +
-      "\"\n\021SetInfraRedFilter\022\r\n\005value\030\001 \001(\010\"\034\n\013S" +
-      "etAutoIris\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomTabl" +
-      "eValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007" +
-      "\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\t" +
-      "ResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTable\"\022" +
-      "\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1\030\001 " +
-      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001" +
-      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022" +
-      "\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022" +
-      "\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x1\030\001" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
-      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004" +
-      "\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x1\030\001" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
-      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
-      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004" +
-      "\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030\001 \001" +
-      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H" +
-      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022\022" +
-      "\n\nstate_time\030\006 \001(\004BQZOgit-codecommit.eu-" +
-      "central-1.amazonaws.com/v1/repos/jettiso" +
-      "n/jonp/cmd/day_camerab\006proto3"
+      "era.FxROIH\000\0223\n\rset_auto_gain\030\026 \001(\0132\032.cmd" +
+      ".DayCamera.SetAutoGainH\000B\014\n\003cmd\022\005\272H\002\010\001\"\010" +
+      "\n\006GetPos\"\014\n\nNextFxMode\"\014\n\nPrevFxMode\"\017\n\r" +
+      "RefreshFxMode\"\t\n\007HaltAll\"?\n\tSetFxMode\0222\n" +
+      "\004mode\030\001 \001(\0162\030.ser.JonGuiDataFxModeDayB\n\272" +
+      "H\007\202\001\004\020\001 \000\"4\n\023SetDigitalZoomLevel\022\035\n\005valu" +
+      "e\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360?\"\250\002\n\005Focus\022,\n\tset" +
+      "_value\030\001 \001(\0132\027.cmd.DayCamera.SetValueH\000\022" +
+      "#\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH\000\022#\n\004" +
+      "halt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022\'\n\006off" +
+      "set\030\004 \001(\0132\025.cmd.DayCamera.OffsetH\000\0220\n\013re" +
+      "set_focus\030\005 \001(\0132\031.cmd.DayCamera.ResetFoc" +
+      "usH\000\022>\n\023save_to_table_focus\030\006 \001(\0132\037.cmd." +
+      "DayCamera.SaveToTableFocusH\000B\014\n\003cmd\022\005\272H\002" +
+      "\010\001\"\334\003\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.Day" +
+      "Camera.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.Da" +
+      "yCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCa" +
+      "mera.HaltH\000\022@\n\024set_zoom_table_value\030\004 \001(" +
+      "\0132 .cmd.DayCamera.SetZoomTableValueH\000\022>\n" +
+      "\023next_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCame" +
+      "ra.NextZoomTablePosH\000\022>\n\023prev_zoom_table" +
+      "_pos\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTable" +
+      "PosH\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Of" +
+      "fsetH\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCame" +
+      "ra.ResetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032." +
+      "cmd.DayCamera.SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010" +
+      "\001\"\022\n\020NextZoomTablePos\"\022\n\020PrevZoomTablePo" +
+      "s\"1\n\007SetIris\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
+      "\000\360?)\000\000\000\000\000\000\000\000\"\"\n\021SetInfraRedFilter\022\r\n\005val" +
+      "ue\030\001 \001(\010\"\034\n\013SetAutoIris\022\r\n\005value\030\001 \001(\010\"\034" +
+      "\n\013SetAutoGain\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomT" +
+      "ableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Sto" +
+      "p\"\007\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"" +
+      "\013\n\tResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTabl" +
+      "e\"\022\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1" +
+      "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 " +
+      "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001" +
+      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001" +
+      "(\004\022\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x" +
+      "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 " +
+      "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x" +
+      "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 " +
+      "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030" +
+      "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001" +
+      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H" +
+      "\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(" +
+      "\004\022\022\n\nstate_time\030\006 \001(\004BQZOgit-codecommit." +
+      "eu-central-1.amazonaws.com/v1/repos/jett" +
+      "ison/jonp/cmd/day_camerab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -23635,7 +24300,7 @@ public final class JonSharedCmdDayCamera {
     internal_static_cmd_DayCamera_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Root_descriptor,
-        new java.lang.String[] { "Focus", "Zoom", "SetIris", "SetInfraRedFilter", "Start", "Stop", "Photo", "SetAutoIris", "HaltAll", "SetFxMode", "NextFxMode", "PrevFxMode", "GetMeteo", "RefreshFxMode", "SetDigitalZoomLevel", "SetClaheLevel", "ShiftClaheLevel", "FocusRoi", "TrackRoi", "ZoomRoi", "FxRoi", "Cmd", });
+        new java.lang.String[] { "Focus", "Zoom", "SetIris", "SetInfraRedFilter", "Start", "Stop", "Photo", "SetAutoIris", "HaltAll", "SetFxMode", "NextFxMode", "PrevFxMode", "GetMeteo", "RefreshFxMode", "SetDigitalZoomLevel", "SetClaheLevel", "ShiftClaheLevel", "FocusRoi", "TrackRoi", "ZoomRoi", "FxRoi", "SetAutoGain", "Cmd", });
     internal_static_cmd_DayCamera_GetPos_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_cmd_DayCamera_GetPos_fieldAccessorTable = new
@@ -23720,86 +24385,92 @@ public final class JonSharedCmdDayCamera {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_SetAutoIris_descriptor,
         new java.lang.String[] { "Value", });
-    internal_static_cmd_DayCamera_SetZoomTableValue_descriptor =
+    internal_static_cmd_DayCamera_SetAutoGain_descriptor =
       getDescriptor().getMessageTypes().get(20);
+    internal_static_cmd_DayCamera_SetAutoGain_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_DayCamera_SetAutoGain_descriptor,
+        new java.lang.String[] { "Value", });
+    internal_static_cmd_DayCamera_SetZoomTableValue_descriptor =
+      getDescriptor().getMessageTypes().get(21);
     internal_static_cmd_DayCamera_SetZoomTableValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_SetZoomTableValue_descriptor,
         new java.lang.String[] { "Value", });
     internal_static_cmd_DayCamera_Stop_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_cmd_DayCamera_Stop_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Stop_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_Start_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_cmd_DayCamera_Start_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Start_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_Photo_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_cmd_DayCamera_Photo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Photo_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_Halt_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_cmd_DayCamera_Halt_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_Halt_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_GetMeteo_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(26);
     internal_static_cmd_DayCamera_GetMeteo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_GetMeteo_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_ResetZoom_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_cmd_DayCamera_ResetZoom_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_ResetZoom_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_ResetFocus_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_cmd_DayCamera_ResetFocus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_ResetFocus_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_SaveToTable_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_cmd_DayCamera_SaveToTable_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_SaveToTable_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_SaveToTableFocus_descriptor =
-      getDescriptor().getMessageTypes().get(29);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_cmd_DayCamera_SaveToTableFocus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_SaveToTableFocus_descriptor,
         new java.lang.String[] { });
     internal_static_cmd_DayCamera_FocusROI_descriptor =
-      getDescriptor().getMessageTypes().get(30);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_cmd_DayCamera_FocusROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_FocusROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_TrackROI_descriptor =
-      getDescriptor().getMessageTypes().get(31);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_cmd_DayCamera_TrackROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_TrackROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_ZoomROI_descriptor =
-      getDescriptor().getMessageTypes().get(32);
+      getDescriptor().getMessageTypes().get(33);
     internal_static_cmd_DayCamera_ZoomROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_ZoomROI_descriptor,
         new java.lang.String[] { "X1", "Y1", "X2", "Y2", "FrameTime", "StateTime", });
     internal_static_cmd_DayCamera_FxROI_descriptor =
-      getDescriptor().getMessageTypes().get(33);
+      getDescriptor().getMessageTypes().get(34);
     internal_static_cmd_DayCamera_FxROI_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_DayCamera_FxROI_descriptor,

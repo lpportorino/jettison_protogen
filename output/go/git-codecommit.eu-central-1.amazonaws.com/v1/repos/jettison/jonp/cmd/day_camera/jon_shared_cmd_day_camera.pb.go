@@ -276,6 +276,7 @@ type Root struct {
 	//	*Root_TrackRoi
 	//	*Root_ZoomRoi
 	//	*Root_FxRoi
+	//	*Root_SetAutoGain
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -507,6 +508,15 @@ func (x *Root) GetFxRoi() *FxROI {
 	return nil
 }
 
+func (x *Root) GetSetAutoGain() *SetAutoGain {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_SetAutoGain); ok {
+			return x.SetAutoGain
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -595,6 +605,10 @@ type Root_FxRoi struct {
 	FxRoi *FxROI `protobuf:"bytes,21,opt,name=fx_roi,json=fxRoi,proto3,oneof"`
 }
 
+type Root_SetAutoGain struct {
+	SetAutoGain *SetAutoGain `protobuf:"bytes,22,opt,name=set_auto_gain,json=setAutoGain,proto3,oneof"`
+}
+
 func (*Root_Focus) isRoot_Cmd() {}
 
 func (*Root_Zoom) isRoot_Cmd() {}
@@ -636,6 +650,8 @@ func (*Root_TrackRoi) isRoot_Cmd() {}
 func (*Root_ZoomRoi) isRoot_Cmd() {}
 
 func (*Root_FxRoi) isRoot_Cmd() {}
+
+func (*Root_SetAutoGain) isRoot_Cmd() {}
 
 type GetPos struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -1449,6 +1465,50 @@ func (x *SetAutoIris) GetValue() bool {
 	return false
 }
 
+type SetAutoGain struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Value         bool                   `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetAutoGain) Reset() {
+	*x = SetAutoGain{}
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetAutoGain) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetAutoGain) ProtoMessage() {}
+
+func (x *SetAutoGain) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetAutoGain.ProtoReflect.Descriptor instead.
+func (*SetAutoGain) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *SetAutoGain) GetValue() bool {
+	if x != nil {
+		return x.Value
+	}
+	return false
+}
+
 type SetZoomTableValue struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Value         int32                  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
@@ -1458,7 +1518,7 @@ type SetZoomTableValue struct {
 
 func (x *SetZoomTableValue) Reset() {
 	*x = SetZoomTableValue{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[20]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1470,7 +1530,7 @@ func (x *SetZoomTableValue) String() string {
 func (*SetZoomTableValue) ProtoMessage() {}
 
 func (x *SetZoomTableValue) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[20]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1483,7 +1543,7 @@ func (x *SetZoomTableValue) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetZoomTableValue.ProtoReflect.Descriptor instead.
 func (*SetZoomTableValue) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{20}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *SetZoomTableValue) GetValue() int32 {
@@ -1501,7 +1561,7 @@ type Stop struct {
 
 func (x *Stop) Reset() {
 	*x = Stop{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[21]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1513,7 +1573,7 @@ func (x *Stop) String() string {
 func (*Stop) ProtoMessage() {}
 
 func (x *Stop) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[21]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1526,7 +1586,7 @@ func (x *Stop) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Stop.ProtoReflect.Descriptor instead.
 func (*Stop) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{21}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{22}
 }
 
 type Start struct {
@@ -1537,7 +1597,7 @@ type Start struct {
 
 func (x *Start) Reset() {
 	*x = Start{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[22]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1549,7 +1609,7 @@ func (x *Start) String() string {
 func (*Start) ProtoMessage() {}
 
 func (x *Start) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[22]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1562,7 +1622,7 @@ func (x *Start) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Start.ProtoReflect.Descriptor instead.
 func (*Start) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{22}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{23}
 }
 
 type Photo struct {
@@ -1573,7 +1633,7 @@ type Photo struct {
 
 func (x *Photo) Reset() {
 	*x = Photo{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[23]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1585,7 +1645,7 @@ func (x *Photo) String() string {
 func (*Photo) ProtoMessage() {}
 
 func (x *Photo) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[23]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1598,7 +1658,7 @@ func (x *Photo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Photo.ProtoReflect.Descriptor instead.
 func (*Photo) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{23}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{24}
 }
 
 type Halt struct {
@@ -1609,7 +1669,7 @@ type Halt struct {
 
 func (x *Halt) Reset() {
 	*x = Halt{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[24]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1621,7 +1681,7 @@ func (x *Halt) String() string {
 func (*Halt) ProtoMessage() {}
 
 func (x *Halt) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[24]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1634,7 +1694,7 @@ func (x *Halt) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Halt.ProtoReflect.Descriptor instead.
 func (*Halt) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{24}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{25}
 }
 
 type GetMeteo struct {
@@ -1645,7 +1705,7 @@ type GetMeteo struct {
 
 func (x *GetMeteo) Reset() {
 	*x = GetMeteo{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[25]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1657,7 +1717,7 @@ func (x *GetMeteo) String() string {
 func (*GetMeteo) ProtoMessage() {}
 
 func (x *GetMeteo) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[25]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1670,7 +1730,7 @@ func (x *GetMeteo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMeteo.ProtoReflect.Descriptor instead.
 func (*GetMeteo) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{25}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{26}
 }
 
 type ResetZoom struct {
@@ -1681,7 +1741,7 @@ type ResetZoom struct {
 
 func (x *ResetZoom) Reset() {
 	*x = ResetZoom{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[26]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1693,7 +1753,7 @@ func (x *ResetZoom) String() string {
 func (*ResetZoom) ProtoMessage() {}
 
 func (x *ResetZoom) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[26]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1706,7 +1766,7 @@ func (x *ResetZoom) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResetZoom.ProtoReflect.Descriptor instead.
 func (*ResetZoom) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{26}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{27}
 }
 
 type ResetFocus struct {
@@ -1717,7 +1777,7 @@ type ResetFocus struct {
 
 func (x *ResetFocus) Reset() {
 	*x = ResetFocus{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[27]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1729,7 +1789,7 @@ func (x *ResetFocus) String() string {
 func (*ResetFocus) ProtoMessage() {}
 
 func (x *ResetFocus) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[27]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1742,7 +1802,7 @@ func (x *ResetFocus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResetFocus.ProtoReflect.Descriptor instead.
 func (*ResetFocus) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{27}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{28}
 }
 
 type SaveToTable struct {
@@ -1753,7 +1813,7 @@ type SaveToTable struct {
 
 func (x *SaveToTable) Reset() {
 	*x = SaveToTable{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[28]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1765,7 +1825,7 @@ func (x *SaveToTable) String() string {
 func (*SaveToTable) ProtoMessage() {}
 
 func (x *SaveToTable) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[28]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1778,7 +1838,7 @@ func (x *SaveToTable) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveToTable.ProtoReflect.Descriptor instead.
 func (*SaveToTable) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{28}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{29}
 }
 
 type SaveToTableFocus struct {
@@ -1789,7 +1849,7 @@ type SaveToTableFocus struct {
 
 func (x *SaveToTableFocus) Reset() {
 	*x = SaveToTableFocus{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[29]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1801,7 +1861,7 @@ func (x *SaveToTableFocus) String() string {
 func (*SaveToTableFocus) ProtoMessage() {}
 
 func (x *SaveToTableFocus) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[29]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1814,7 +1874,7 @@ func (x *SaveToTableFocus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SaveToTableFocus.ProtoReflect.Descriptor instead.
 func (*SaveToTableFocus) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{29}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{30}
 }
 
 type FocusROI struct {
@@ -1832,7 +1892,7 @@ type FocusROI struct {
 
 func (x *FocusROI) Reset() {
 	*x = FocusROI{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[30]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1844,7 +1904,7 @@ func (x *FocusROI) String() string {
 func (*FocusROI) ProtoMessage() {}
 
 func (x *FocusROI) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[30]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1857,7 +1917,7 @@ func (x *FocusROI) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FocusROI.ProtoReflect.Descriptor instead.
 func (*FocusROI) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{30}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *FocusROI) GetX1() float64 {
@@ -1917,7 +1977,7 @@ type TrackROI struct {
 
 func (x *TrackROI) Reset() {
 	*x = TrackROI{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[31]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1929,7 +1989,7 @@ func (x *TrackROI) String() string {
 func (*TrackROI) ProtoMessage() {}
 
 func (x *TrackROI) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[31]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1942,7 +2002,7 @@ func (x *TrackROI) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TrackROI.ProtoReflect.Descriptor instead.
 func (*TrackROI) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{31}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *TrackROI) GetX1() float64 {
@@ -2002,7 +2062,7 @@ type ZoomROI struct {
 
 func (x *ZoomROI) Reset() {
 	*x = ZoomROI{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[32]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2014,7 +2074,7 @@ func (x *ZoomROI) String() string {
 func (*ZoomROI) ProtoMessage() {}
 
 func (x *ZoomROI) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[32]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2027,7 +2087,7 @@ func (x *ZoomROI) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ZoomROI.ProtoReflect.Descriptor instead.
 func (*ZoomROI) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{32}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *ZoomROI) GetX1() float64 {
@@ -2087,7 +2147,7 @@ type FxROI struct {
 
 func (x *FxROI) Reset() {
 	*x = FxROI{}
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[33]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2099,7 +2159,7 @@ func (x *FxROI) String() string {
 func (*FxROI) ProtoMessage() {}
 
 func (x *FxROI) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[33]
+	mi := &file_jon_shared_cmd_day_camera_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2112,7 +2172,7 @@ func (x *FxROI) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FxROI.ProtoReflect.Descriptor instead.
 func (*FxROI) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{33}
+	return file_jon_shared_cmd_day_camera_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *FxROI) GetX1() float64 {
@@ -2172,7 +2232,8 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\rSetClaheLevel\x12-\n" +
 	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\"@\n" +
 	"\x0fShiftClaheLevel\x12-\n" +
-	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05value\"\xf4\t\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05value\"\xb6\n" +
+	"\n" +
 	"\x04Root\x12,\n" +
 	"\x05focus\x18\x01 \x01(\v2\x14.cmd.DayCamera.FocusH\x00R\x05focus\x12)\n" +
 	"\x04zoom\x18\x02 \x01(\v2\x13.cmd.DayCamera.ZoomH\x00R\x04zoom\x123\n" +
@@ -2197,7 +2258,8 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\tfocus_roi\x18\x12 \x01(\v2\x17.cmd.DayCamera.FocusROIH\x00R\bfocusRoi\x126\n" +
 	"\ttrack_roi\x18\x13 \x01(\v2\x17.cmd.DayCamera.TrackROIH\x00R\btrackRoi\x123\n" +
 	"\bzoom_roi\x18\x14 \x01(\v2\x16.cmd.DayCamera.ZoomROIH\x00R\azoomRoi\x12-\n" +
-	"\x06fx_roi\x18\x15 \x01(\v2\x14.cmd.DayCamera.FxROIH\x00R\x05fxRoiB\f\n" +
+	"\x06fx_roi\x18\x15 \x01(\v2\x14.cmd.DayCamera.FxROIH\x00R\x05fxRoi\x12@\n" +
+	"\rset_auto_gain\x18\x16 \x01(\v2\x1a.cmd.DayCamera.SetAutoGainH\x00R\vsetAutoGainB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\b\n" +
 	"\x06GetPos\"\f\n" +
 	"\n" +
@@ -2239,6 +2301,8 @@ const file_jon_shared_cmd_day_camera_proto_rawDesc = "" +
 	"\x11SetInfraRedFilter\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\bR\x05value\"#\n" +
 	"\vSetAutoIris\x12\x14\n" +
+	"\x05value\x18\x01 \x01(\bR\x05value\"#\n" +
+	"\vSetAutoGain\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\bR\x05value\"2\n" +
 	"\x11SetZoomTableValue\x12\x1d\n" +
 	"\x05value\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x05value\"\x06\n" +
@@ -2303,7 +2367,7 @@ func file_jon_shared_cmd_day_camera_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_day_camera_proto_rawDescData
 }
 
-var file_jon_shared_cmd_day_camera_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
+var file_jon_shared_cmd_day_camera_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
 var file_jon_shared_cmd_day_camera_proto_goTypes = []any{
 	(*SetValue)(nil),               // 0: cmd.DayCamera.SetValue
 	(*Move)(nil),                   // 1: cmd.DayCamera.Move
@@ -2325,65 +2389,67 @@ var file_jon_shared_cmd_day_camera_proto_goTypes = []any{
 	(*SetIris)(nil),                // 17: cmd.DayCamera.SetIris
 	(*SetInfraRedFilter)(nil),      // 18: cmd.DayCamera.SetInfraRedFilter
 	(*SetAutoIris)(nil),            // 19: cmd.DayCamera.SetAutoIris
-	(*SetZoomTableValue)(nil),      // 20: cmd.DayCamera.SetZoomTableValue
-	(*Stop)(nil),                   // 21: cmd.DayCamera.Stop
-	(*Start)(nil),                  // 22: cmd.DayCamera.Start
-	(*Photo)(nil),                  // 23: cmd.DayCamera.Photo
-	(*Halt)(nil),                   // 24: cmd.DayCamera.Halt
-	(*GetMeteo)(nil),               // 25: cmd.DayCamera.GetMeteo
-	(*ResetZoom)(nil),              // 26: cmd.DayCamera.ResetZoom
-	(*ResetFocus)(nil),             // 27: cmd.DayCamera.ResetFocus
-	(*SaveToTable)(nil),            // 28: cmd.DayCamera.SaveToTable
-	(*SaveToTableFocus)(nil),       // 29: cmd.DayCamera.SaveToTableFocus
-	(*FocusROI)(nil),               // 30: cmd.DayCamera.FocusROI
-	(*TrackROI)(nil),               // 31: cmd.DayCamera.TrackROI
-	(*ZoomROI)(nil),                // 32: cmd.DayCamera.ZoomROI
-	(*FxROI)(nil),                  // 33: cmd.DayCamera.FxROI
-	(types.JonGuiDataFxModeDay)(0), // 34: ser.JonGuiDataFxModeDay
+	(*SetAutoGain)(nil),            // 20: cmd.DayCamera.SetAutoGain
+	(*SetZoomTableValue)(nil),      // 21: cmd.DayCamera.SetZoomTableValue
+	(*Stop)(nil),                   // 22: cmd.DayCamera.Stop
+	(*Start)(nil),                  // 23: cmd.DayCamera.Start
+	(*Photo)(nil),                  // 24: cmd.DayCamera.Photo
+	(*Halt)(nil),                   // 25: cmd.DayCamera.Halt
+	(*GetMeteo)(nil),               // 26: cmd.DayCamera.GetMeteo
+	(*ResetZoom)(nil),              // 27: cmd.DayCamera.ResetZoom
+	(*ResetFocus)(nil),             // 28: cmd.DayCamera.ResetFocus
+	(*SaveToTable)(nil),            // 29: cmd.DayCamera.SaveToTable
+	(*SaveToTableFocus)(nil),       // 30: cmd.DayCamera.SaveToTableFocus
+	(*FocusROI)(nil),               // 31: cmd.DayCamera.FocusROI
+	(*TrackROI)(nil),               // 32: cmd.DayCamera.TrackROI
+	(*ZoomROI)(nil),                // 33: cmd.DayCamera.ZoomROI
+	(*FxROI)(nil),                  // 34: cmd.DayCamera.FxROI
+	(types.JonGuiDataFxModeDay)(0), // 35: ser.JonGuiDataFxModeDay
 }
 var file_jon_shared_cmd_day_camera_proto_depIdxs = []int32{
 	13, // 0: cmd.DayCamera.Root.focus:type_name -> cmd.DayCamera.Focus
 	14, // 1: cmd.DayCamera.Root.zoom:type_name -> cmd.DayCamera.Zoom
 	17, // 2: cmd.DayCamera.Root.set_iris:type_name -> cmd.DayCamera.SetIris
 	18, // 3: cmd.DayCamera.Root.set_infra_red_filter:type_name -> cmd.DayCamera.SetInfraRedFilter
-	22, // 4: cmd.DayCamera.Root.start:type_name -> cmd.DayCamera.Start
-	21, // 5: cmd.DayCamera.Root.stop:type_name -> cmd.DayCamera.Stop
-	23, // 6: cmd.DayCamera.Root.photo:type_name -> cmd.DayCamera.Photo
+	23, // 4: cmd.DayCamera.Root.start:type_name -> cmd.DayCamera.Start
+	22, // 5: cmd.DayCamera.Root.stop:type_name -> cmd.DayCamera.Stop
+	24, // 6: cmd.DayCamera.Root.photo:type_name -> cmd.DayCamera.Photo
 	19, // 7: cmd.DayCamera.Root.set_auto_iris:type_name -> cmd.DayCamera.SetAutoIris
 	10, // 8: cmd.DayCamera.Root.halt_all:type_name -> cmd.DayCamera.HaltAll
 	11, // 9: cmd.DayCamera.Root.set_fx_mode:type_name -> cmd.DayCamera.SetFxMode
 	7,  // 10: cmd.DayCamera.Root.next_fx_mode:type_name -> cmd.DayCamera.NextFxMode
 	8,  // 11: cmd.DayCamera.Root.prev_fx_mode:type_name -> cmd.DayCamera.PrevFxMode
-	25, // 12: cmd.DayCamera.Root.get_meteo:type_name -> cmd.DayCamera.GetMeteo
+	26, // 12: cmd.DayCamera.Root.get_meteo:type_name -> cmd.DayCamera.GetMeteo
 	9,  // 13: cmd.DayCamera.Root.refresh_fx_mode:type_name -> cmd.DayCamera.RefreshFxMode
 	12, // 14: cmd.DayCamera.Root.set_digital_zoom_level:type_name -> cmd.DayCamera.SetDigitalZoomLevel
 	3,  // 15: cmd.DayCamera.Root.set_clahe_level:type_name -> cmd.DayCamera.SetClaheLevel
 	4,  // 16: cmd.DayCamera.Root.shift_clahe_level:type_name -> cmd.DayCamera.ShiftClaheLevel
-	30, // 17: cmd.DayCamera.Root.focus_roi:type_name -> cmd.DayCamera.FocusROI
-	31, // 18: cmd.DayCamera.Root.track_roi:type_name -> cmd.DayCamera.TrackROI
-	32, // 19: cmd.DayCamera.Root.zoom_roi:type_name -> cmd.DayCamera.ZoomROI
-	33, // 20: cmd.DayCamera.Root.fx_roi:type_name -> cmd.DayCamera.FxROI
-	34, // 21: cmd.DayCamera.SetFxMode.mode:type_name -> ser.JonGuiDataFxModeDay
-	0,  // 22: cmd.DayCamera.Focus.set_value:type_name -> cmd.DayCamera.SetValue
-	1,  // 23: cmd.DayCamera.Focus.move:type_name -> cmd.DayCamera.Move
-	24, // 24: cmd.DayCamera.Focus.halt:type_name -> cmd.DayCamera.Halt
-	2,  // 25: cmd.DayCamera.Focus.offset:type_name -> cmd.DayCamera.Offset
-	27, // 26: cmd.DayCamera.Focus.reset_focus:type_name -> cmd.DayCamera.ResetFocus
-	29, // 27: cmd.DayCamera.Focus.save_to_table_focus:type_name -> cmd.DayCamera.SaveToTableFocus
-	0,  // 28: cmd.DayCamera.Zoom.set_value:type_name -> cmd.DayCamera.SetValue
-	1,  // 29: cmd.DayCamera.Zoom.move:type_name -> cmd.DayCamera.Move
-	24, // 30: cmd.DayCamera.Zoom.halt:type_name -> cmd.DayCamera.Halt
-	20, // 31: cmd.DayCamera.Zoom.set_zoom_table_value:type_name -> cmd.DayCamera.SetZoomTableValue
-	15, // 32: cmd.DayCamera.Zoom.next_zoom_table_pos:type_name -> cmd.DayCamera.NextZoomTablePos
-	16, // 33: cmd.DayCamera.Zoom.prev_zoom_table_pos:type_name -> cmd.DayCamera.PrevZoomTablePos
-	2,  // 34: cmd.DayCamera.Zoom.offset:type_name -> cmd.DayCamera.Offset
-	26, // 35: cmd.DayCamera.Zoom.reset_zoom:type_name -> cmd.DayCamera.ResetZoom
-	28, // 36: cmd.DayCamera.Zoom.save_to_table:type_name -> cmd.DayCamera.SaveToTable
-	37, // [37:37] is the sub-list for method output_type
-	37, // [37:37] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	31, // 17: cmd.DayCamera.Root.focus_roi:type_name -> cmd.DayCamera.FocusROI
+	32, // 18: cmd.DayCamera.Root.track_roi:type_name -> cmd.DayCamera.TrackROI
+	33, // 19: cmd.DayCamera.Root.zoom_roi:type_name -> cmd.DayCamera.ZoomROI
+	34, // 20: cmd.DayCamera.Root.fx_roi:type_name -> cmd.DayCamera.FxROI
+	20, // 21: cmd.DayCamera.Root.set_auto_gain:type_name -> cmd.DayCamera.SetAutoGain
+	35, // 22: cmd.DayCamera.SetFxMode.mode:type_name -> ser.JonGuiDataFxModeDay
+	0,  // 23: cmd.DayCamera.Focus.set_value:type_name -> cmd.DayCamera.SetValue
+	1,  // 24: cmd.DayCamera.Focus.move:type_name -> cmd.DayCamera.Move
+	25, // 25: cmd.DayCamera.Focus.halt:type_name -> cmd.DayCamera.Halt
+	2,  // 26: cmd.DayCamera.Focus.offset:type_name -> cmd.DayCamera.Offset
+	28, // 27: cmd.DayCamera.Focus.reset_focus:type_name -> cmd.DayCamera.ResetFocus
+	30, // 28: cmd.DayCamera.Focus.save_to_table_focus:type_name -> cmd.DayCamera.SaveToTableFocus
+	0,  // 29: cmd.DayCamera.Zoom.set_value:type_name -> cmd.DayCamera.SetValue
+	1,  // 30: cmd.DayCamera.Zoom.move:type_name -> cmd.DayCamera.Move
+	25, // 31: cmd.DayCamera.Zoom.halt:type_name -> cmd.DayCamera.Halt
+	21, // 32: cmd.DayCamera.Zoom.set_zoom_table_value:type_name -> cmd.DayCamera.SetZoomTableValue
+	15, // 33: cmd.DayCamera.Zoom.next_zoom_table_pos:type_name -> cmd.DayCamera.NextZoomTablePos
+	16, // 34: cmd.DayCamera.Zoom.prev_zoom_table_pos:type_name -> cmd.DayCamera.PrevZoomTablePos
+	2,  // 35: cmd.DayCamera.Zoom.offset:type_name -> cmd.DayCamera.Offset
+	27, // 36: cmd.DayCamera.Zoom.reset_zoom:type_name -> cmd.DayCamera.ResetZoom
+	29, // 37: cmd.DayCamera.Zoom.save_to_table:type_name -> cmd.DayCamera.SaveToTable
+	38, // [38:38] is the sub-list for method output_type
+	38, // [38:38] is the sub-list for method input_type
+	38, // [38:38] is the sub-list for extension type_name
+	38, // [38:38] is the sub-list for extension extendee
+	0,  // [0:38] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_day_camera_proto_init() }
@@ -2413,6 +2479,7 @@ func file_jon_shared_cmd_day_camera_proto_init() {
 		(*Root_TrackRoi)(nil),
 		(*Root_ZoomRoi)(nil),
 		(*Root_FxRoi)(nil),
+		(*Root_SetAutoGain)(nil),
 	}
 	file_jon_shared_cmd_day_camera_proto_msgTypes[13].OneofWrappers = []any{
 		(*Focus_SetValue)(nil),
@@ -2439,7 +2506,7 @@ func file_jon_shared_cmd_day_camera_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_day_camera_proto_rawDesc), len(file_jon_shared_cmd_day_camera_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   34,
+			NumMessages:   35,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -34,6 +34,7 @@ type JonGuiDataCameraDay struct {
 	FxMode               types.JonGuiDataFxModeDay `protobuf:"varint,7,opt,name=fx_mode,json=fxMode,proto3,enum=ser.JonGuiDataFxModeDay" json:"fx_mode,omitempty"`
 	AutoFocus            bool                      `protobuf:"varint,8,opt,name=auto_focus,json=autoFocus,proto3" json:"auto_focus,omitempty"`
 	AutoIris             bool                      `protobuf:"varint,9,opt,name=auto_iris,json=autoIris,proto3" json:"auto_iris,omitempty"`
+	AutoGain             bool                      `protobuf:"varint,15,opt,name=auto_gain,json=autoGain,proto3" json:"auto_gain,omitempty"`
 	DigitalZoomLevel     float64                   `protobuf:"fixed64,10,opt,name=digital_zoom_level,json=digitalZoomLevel,proto3" json:"digital_zoom_level,omitempty"`
 	ClaheLevel           float64                   `protobuf:"fixed64,11,opt,name=clahe_level,json=claheLevel,proto3" json:"clahe_level,omitempty"`
 	HorizontalFovDegrees float64                   `protobuf:"fixed64,12,opt,name=horizontal_fov_degrees,json=horizontalFovDegrees,proto3" json:"horizontal_fov_degrees,omitempty"`
@@ -136,6 +137,13 @@ func (x *JonGuiDataCameraDay) GetAutoIris() bool {
 	return false
 }
 
+func (x *JonGuiDataCameraDay) GetAutoGain() bool {
+	if x != nil {
+		return x.AutoGain
+	}
+	return false
+}
+
 func (x *JonGuiDataCameraDay) GetDigitalZoomLevel() float64 {
 	if x != nil {
 		return x.DigitalZoomLevel
@@ -175,7 +183,7 @@ var File_jon_shared_data_camera_day_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xeb\x05\n" +
+	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x88\x06\n" +
 	"\x13JonGuiDataCameraDay\x124\n" +
 	"\tfocus_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\bfocusPos\x122\n" +
 	"\bzoom_pos\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x122\n" +
@@ -186,7 +194,8 @@ const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\afx_mode\x18\a \x01(\x0e2\x18.ser.JonGuiDataFxModeDayB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06fxMode\x12\x1d\n" +
 	"\n" +
 	"auto_focus\x18\b \x01(\bR\tautoFocus\x12\x1b\n" +
-	"\tauto_iris\x18\t \x01(\bR\bautoIris\x12<\n" +
+	"\tauto_iris\x18\t \x01(\bR\bautoIris\x12\x1b\n" +
+	"\tauto_gain\x18\x0f \x01(\bR\bautoGain\x12<\n" +
 	"\x12digital_zoom_level\x18\n" +
 	" \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x10digitalZoomLevel\x128\n" +
 	"\vclahe_level\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +

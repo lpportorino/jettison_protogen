@@ -70,6 +70,7 @@ message Root {
     TrackROI track_roi = 19;
     ZoomROI zoom_roi = 20;
     FxROI fx_roi = 21;
+    SetAutoGain set_auto_gain = 22;
   }
 }
 
@@ -139,6 +140,10 @@ message SetInfraRedFilter {
 }
 
 message SetAutoIris {
+  bool value = 1;
+}
+
+message SetAutoGain {
   bool value = 1;
 }
 

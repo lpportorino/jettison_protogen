@@ -347,6 +347,31 @@ struct SetAutoIrisDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetAutoIrisDefaultTypeInternal _SetAutoIris_default_instance_;
+
+inline constexpr SetAutoGain::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : value_{false},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SetAutoGain::SetAutoGain(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SetAutoGainDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SetAutoGainDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SetAutoGainDefaultTypeInternal() {}
+  union {
+    SetAutoGain _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetAutoGainDefaultTypeInternal _SetAutoGain_default_instance_;
               template <typename>
 PROTOBUF_CONSTEXPR SaveToTableFocus::SaveToTableFocus(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -872,6 +897,7 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::GetPos, _internal_metadata_),
@@ -1007,6 +1033,15 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::SetAutoIris, _impl_.value_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::SetAutoGain, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::SetAutoGain, _impl_.value_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::DayCamera::SetZoomTableValue, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -1154,34 +1189,35 @@ static const ::_pbi::MigrationSchema
         {28, -1, -1, sizeof(::cmd::DayCamera::SetClaheLevel)},
         {37, -1, -1, sizeof(::cmd::DayCamera::ShiftClaheLevel)},
         {46, -1, -1, sizeof(::cmd::DayCamera::Root)},
-        {76, -1, -1, sizeof(::cmd::DayCamera::GetPos)},
-        {84, -1, -1, sizeof(::cmd::DayCamera::NextFxMode)},
-        {92, -1, -1, sizeof(::cmd::DayCamera::PrevFxMode)},
-        {100, -1, -1, sizeof(::cmd::DayCamera::RefreshFxMode)},
-        {108, -1, -1, sizeof(::cmd::DayCamera::HaltAll)},
-        {116, -1, -1, sizeof(::cmd::DayCamera::SetFxMode)},
-        {125, -1, -1, sizeof(::cmd::DayCamera::SetDigitalZoomLevel)},
-        {134, -1, -1, sizeof(::cmd::DayCamera::Focus)},
-        {149, -1, -1, sizeof(::cmd::DayCamera::Zoom)},
-        {167, -1, -1, sizeof(::cmd::DayCamera::NextZoomTablePos)},
-        {175, -1, -1, sizeof(::cmd::DayCamera::PrevZoomTablePos)},
-        {183, -1, -1, sizeof(::cmd::DayCamera::SetIris)},
-        {192, -1, -1, sizeof(::cmd::DayCamera::SetInfraRedFilter)},
-        {201, -1, -1, sizeof(::cmd::DayCamera::SetAutoIris)},
-        {210, -1, -1, sizeof(::cmd::DayCamera::SetZoomTableValue)},
-        {219, -1, -1, sizeof(::cmd::DayCamera::Stop)},
-        {227, -1, -1, sizeof(::cmd::DayCamera::Start)},
-        {235, -1, -1, sizeof(::cmd::DayCamera::Photo)},
-        {243, -1, -1, sizeof(::cmd::DayCamera::Halt)},
-        {251, -1, -1, sizeof(::cmd::DayCamera::GetMeteo)},
-        {259, -1, -1, sizeof(::cmd::DayCamera::ResetZoom)},
-        {267, -1, -1, sizeof(::cmd::DayCamera::ResetFocus)},
-        {275, -1, -1, sizeof(::cmd::DayCamera::SaveToTable)},
-        {283, -1, -1, sizeof(::cmd::DayCamera::SaveToTableFocus)},
-        {291, -1, -1, sizeof(::cmd::DayCamera::FocusROI)},
-        {305, -1, -1, sizeof(::cmd::DayCamera::TrackROI)},
-        {319, -1, -1, sizeof(::cmd::DayCamera::ZoomROI)},
-        {333, -1, -1, sizeof(::cmd::DayCamera::FxROI)},
+        {77, -1, -1, sizeof(::cmd::DayCamera::GetPos)},
+        {85, -1, -1, sizeof(::cmd::DayCamera::NextFxMode)},
+        {93, -1, -1, sizeof(::cmd::DayCamera::PrevFxMode)},
+        {101, -1, -1, sizeof(::cmd::DayCamera::RefreshFxMode)},
+        {109, -1, -1, sizeof(::cmd::DayCamera::HaltAll)},
+        {117, -1, -1, sizeof(::cmd::DayCamera::SetFxMode)},
+        {126, -1, -1, sizeof(::cmd::DayCamera::SetDigitalZoomLevel)},
+        {135, -1, -1, sizeof(::cmd::DayCamera::Focus)},
+        {150, -1, -1, sizeof(::cmd::DayCamera::Zoom)},
+        {168, -1, -1, sizeof(::cmd::DayCamera::NextZoomTablePos)},
+        {176, -1, -1, sizeof(::cmd::DayCamera::PrevZoomTablePos)},
+        {184, -1, -1, sizeof(::cmd::DayCamera::SetIris)},
+        {193, -1, -1, sizeof(::cmd::DayCamera::SetInfraRedFilter)},
+        {202, -1, -1, sizeof(::cmd::DayCamera::SetAutoIris)},
+        {211, -1, -1, sizeof(::cmd::DayCamera::SetAutoGain)},
+        {220, -1, -1, sizeof(::cmd::DayCamera::SetZoomTableValue)},
+        {229, -1, -1, sizeof(::cmd::DayCamera::Stop)},
+        {237, -1, -1, sizeof(::cmd::DayCamera::Start)},
+        {245, -1, -1, sizeof(::cmd::DayCamera::Photo)},
+        {253, -1, -1, sizeof(::cmd::DayCamera::Halt)},
+        {261, -1, -1, sizeof(::cmd::DayCamera::GetMeteo)},
+        {269, -1, -1, sizeof(::cmd::DayCamera::ResetZoom)},
+        {277, -1, -1, sizeof(::cmd::DayCamera::ResetFocus)},
+        {285, -1, -1, sizeof(::cmd::DayCamera::SaveToTable)},
+        {293, -1, -1, sizeof(::cmd::DayCamera::SaveToTableFocus)},
+        {301, -1, -1, sizeof(::cmd::DayCamera::FocusROI)},
+        {315, -1, -1, sizeof(::cmd::DayCamera::TrackROI)},
+        {329, -1, -1, sizeof(::cmd::DayCamera::ZoomROI)},
+        {343, -1, -1, sizeof(::cmd::DayCamera::FxROI)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::DayCamera::_SetValue_default_instance_._instance,
@@ -1204,6 +1240,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::DayCamera::_SetIris_default_instance_._instance,
     &::cmd::DayCamera::_SetInfraRedFilter_default_instance_._instance,
     &::cmd::DayCamera::_SetAutoIris_default_instance_._instance,
+    &::cmd::DayCamera::_SetAutoGain_default_instance_._instance,
     &::cmd::DayCamera::_SetZoomTableValue_default_instance_._instance,
     &::cmd::DayCamera::_Stop_default_instance_._instance,
     &::cmd::DayCamera::_Start_default_instance_._instance,
@@ -1231,7 +1268,7 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcamera_2eproto[]
     "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\"7\n\rSetCla"
     "heLevel\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000"
     "\000\000\000\000\000\000\000\"9\n\017ShiftClaheLevel\022&\n\005value\030\001 \001("
-    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\"\214\010\n\004Root\022%\n\005f"
+    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\"\301\010\n\004Root\022%\n\005f"
     "ocus\030\001 \001(\0132\024.cmd.DayCamera.FocusH\000\022#\n\004zo"
     "om\030\002 \001(\0132\023.cmd.DayCamera.ZoomH\000\022*\n\010set_i"
     "ris\030\003 \001(\0132\026.cmd.DayCamera.SetIrisH\000\022@\n\024s"
@@ -1257,61 +1294,63 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcamera_2eproto[]
     "\000\022,\n\ttrack_roi\030\023 \001(\0132\027.cmd.DayCamera.Tra"
     "ckROIH\000\022*\n\010zoom_roi\030\024 \001(\0132\026.cmd.DayCamer"
     "a.ZoomROIH\000\022&\n\006fx_roi\030\025 \001(\0132\024.cmd.DayCam"
-    "era.FxROIH\000B\014\n\003cmd\022\005\272H\002\010\001\"\010\n\006GetPos\"\014\n\nN"
-    "extFxMode\"\014\n\nPrevFxMode\"\017\n\rRefreshFxMode"
-    "\"\t\n\007HaltAll\"\?\n\tSetFxMode\0222\n\004mode\030\001 \001(\0162\030"
-    ".ser.JonGuiDataFxModeDayB\n\272H\007\202\001\004\020\001 \000\"4\n\023"
-    "SetDigitalZoomLevel\022\035\n\005value\030\001 \001(\001B\016\272H\013\022"
-    "\t)\000\000\000\000\000\000\360\?\"\250\002\n\005Focus\022,\n\tset_value\030\001 \001(\0132"
-    "\027.cmd.DayCamera.SetValueH\000\022#\n\004move\030\002 \001(\013"
-    "2\023.cmd.DayCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023."
-    "cmd.DayCamera.HaltH\000\022\'\n\006offset\030\004 \001(\0132\025.c"
-    "md.DayCamera.OffsetH\000\0220\n\013reset_focus\030\005 \001"
-    "(\0132\031.cmd.DayCamera.ResetFocusH\000\022>\n\023save_"
-    "to_table_focus\030\006 \001(\0132\037.cmd.DayCamera.Sav"
-    "eToTableFocusH\000B\014\n\003cmd\022\005\272H\002\010\001\"\334\003\n\004Zoom\022,"
-    "\n\tset_value\030\001 \001(\0132\027.cmd.DayCamera.SetVal"
-    "ueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH"
-    "\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022@"
-    "\n\024set_zoom_table_value\030\004 \001(\0132 .cmd.DayCa"
-    "mera.SetZoomTableValueH\000\022>\n\023next_zoom_ta"
-    "ble_pos\030\005 \001(\0132\037.cmd.DayCamera.NextZoomTa"
-    "blePosH\000\022>\n\023prev_zoom_table_pos\030\006 \001(\0132\037."
-    "cmd.DayCamera.PrevZoomTablePosH\000\022\'\n\006offs"
-    "et\030\007 \001(\0132\025.cmd.DayCamera.OffsetH\000\022.\n\nres"
-    "et_zoom\030\010 \001(\0132\030.cmd.DayCamera.ResetZoomH"
-    "\000\0223\n\rsave_to_table\030\t \001(\0132\032.cmd.DayCamera"
-    ".SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010\001\"\022\n\020NextZoom"
-    "TablePos\"\022\n\020PrevZoomTablePos\"1\n\007SetIris\022"
-    "&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\000\000\""
-    "\"\n\021SetInfraRedFilter\022\r\n\005value\030\001 \001(\010\"\034\n\013S"
-    "etAutoIris\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomTabl"
-    "eValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Stop\"\007"
-    "\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\"\013\n\t"
-    "ResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTable\"\022"
-    "\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1\030\001 "
-    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001"
-    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272"
-    "H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022"
-    "\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022"
-    "\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x1\030\001"
-    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001("
-    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024"
-    "\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004"
-    "\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x1\030\001"
-    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001("
-    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024"
-    "\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004"
-    "\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030\001 \001"
-    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(\001B"
-    "\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027\272H"
-    "\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024\022\022"
-    "\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001(\004\022\022"
-    "\n\nstate_time\030\006 \001(\004BQZOgit-codecommit.eu-"
-    "central-1.amazonaws.com/v1/repos/jettiso"
-    "n/jonp/cmd/day_camerab\006proto3"
+    "era.FxROIH\000\0223\n\rset_auto_gain\030\026 \001(\0132\032.cmd"
+    ".DayCamera.SetAutoGainH\000B\014\n\003cmd\022\005\272H\002\010\001\"\010"
+    "\n\006GetPos\"\014\n\nNextFxMode\"\014\n\nPrevFxMode\"\017\n\r"
+    "RefreshFxMode\"\t\n\007HaltAll\"\?\n\tSetFxMode\0222\n"
+    "\004mode\030\001 \001(\0162\030.ser.JonGuiDataFxModeDayB\n\272"
+    "H\007\202\001\004\020\001 \000\"4\n\023SetDigitalZoomLevel\022\035\n\005valu"
+    "e\030\001 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\360\?\"\250\002\n\005Focus\022,\n\tset"
+    "_value\030\001 \001(\0132\027.cmd.DayCamera.SetValueH\000\022"
+    "#\n\004move\030\002 \001(\0132\023.cmd.DayCamera.MoveH\000\022#\n\004"
+    "halt\030\003 \001(\0132\023.cmd.DayCamera.HaltH\000\022\'\n\006off"
+    "set\030\004 \001(\0132\025.cmd.DayCamera.OffsetH\000\0220\n\013re"
+    "set_focus\030\005 \001(\0132\031.cmd.DayCamera.ResetFoc"
+    "usH\000\022>\n\023save_to_table_focus\030\006 \001(\0132\037.cmd."
+    "DayCamera.SaveToTableFocusH\000B\014\n\003cmd\022\005\272H\002"
+    "\010\001\"\334\003\n\004Zoom\022,\n\tset_value\030\001 \001(\0132\027.cmd.Day"
+    "Camera.SetValueH\000\022#\n\004move\030\002 \001(\0132\023.cmd.Da"
+    "yCamera.MoveH\000\022#\n\004halt\030\003 \001(\0132\023.cmd.DayCa"
+    "mera.HaltH\000\022@\n\024set_zoom_table_value\030\004 \001("
+    "\0132 .cmd.DayCamera.SetZoomTableValueH\000\022>\n"
+    "\023next_zoom_table_pos\030\005 \001(\0132\037.cmd.DayCame"
+    "ra.NextZoomTablePosH\000\022>\n\023prev_zoom_table"
+    "_pos\030\006 \001(\0132\037.cmd.DayCamera.PrevZoomTable"
+    "PosH\000\022\'\n\006offset\030\007 \001(\0132\025.cmd.DayCamera.Of"
+    "fsetH\000\022.\n\nreset_zoom\030\010 \001(\0132\030.cmd.DayCame"
+    "ra.ResetZoomH\000\0223\n\rsave_to_table\030\t \001(\0132\032."
+    "cmd.DayCamera.SaveToTableH\000B\014\n\003cmd\022\005\272H\002\010"
+    "\001\"\022\n\020NextZoomTablePos\"\022\n\020PrevZoomTablePo"
+    "s\"1\n\007SetIris\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
+    "\000\360\?)\000\000\000\000\000\000\000\000\"\"\n\021SetInfraRedFilter\022\r\n\005val"
+    "ue\030\001 \001(\010\"\034\n\013SetAutoIris\022\r\n\005value\030\001 \001(\010\"\034"
+    "\n\013SetAutoGain\022\r\n\005value\030\001 \001(\010\"+\n\021SetZoomT"
+    "ableValue\022\026\n\005value\030\001 \001(\005B\007\272H\004\032\002(\000\"\006\n\004Sto"
+    "p\"\007\n\005Start\"\007\n\005Photo\"\006\n\004Halt\"\n\n\010GetMeteo\""
+    "\013\n\tResetZoom\"\014\n\nResetFocus\"\r\n\013SaveToTabl"
+    "e\"\022\n\020SaveToTableFocus\"\306\001\n\010FocusROI\022#\n\002x1"
+    "\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 "
+    "\001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001"
+    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272"
+    "H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001"
+    "(\004\022\022\n\nstate_time\030\006 \001(\004\"\306\001\n\010TrackROI\022#\n\002x"
+    "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002"
+    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001("
+    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027"
+    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 "
+    "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\305\001\n\007ZoomROI\022#\n\002x"
+    "1\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002"
+    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001("
+    "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027"
+    "\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 "
+    "\001(\004\022\022\n\nstate_time\030\006 \001(\004\"\303\001\n\005FxROI\022#\n\002x1\030"
+    "\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001"
+    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B"
+    "\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H"
+    "\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\005 \001("
+    "\004\022\022\n\nstate_time\030\006 \001(\004BQZOgit-codecommit."
+    "eu-central-1.amazonaws.com/v1/repos/jett"
+    "ison/jonp/cmd/day_camerab\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto_deps[2] =
     {
@@ -1322,13 +1361,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2epr
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto = {
     false,
     false,
-    3629,
+    3712,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
     "jon_shared_cmd_day_camera.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto_deps,
     2,
-    34,
+    35,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fday_5fcamera_2eproto::offsets,
@@ -2681,6 +2720,19 @@ void Root::set_allocated_fx_roi(::cmd::DayCamera::FxROI* fx_roi) {
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Root.fx_roi)
 }
+void Root::set_allocated_set_auto_gain(::cmd::DayCamera::SetAutoGain* set_auto_gain) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (set_auto_gain) {
+    ::google::protobuf::Arena* submessage_arena = set_auto_gain->GetArena();
+    if (message_arena != submessage_arena) {
+      set_auto_gain = ::google::protobuf::internal::GetOwnedMessage(message_arena, set_auto_gain, submessage_arena);
+    }
+    set_has_set_auto_gain();
+    _impl_.cmd_.set_auto_gain_ = set_auto_gain;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.DayCamera.Root.set_auto_gain)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -2775,6 +2827,9 @@ Root::Root(
         break;
       case kFxRoi:
         _impl_.cmd_.fx_roi_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::FxROI>(arena, *from._impl_.cmd_.fx_roi_);
+        break;
+      case kSetAutoGain:
+        _impl_.cmd_.set_auto_gain_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::SetAutoGain>(arena, *from._impl_.cmd_.set_auto_gain_);
         break;
   }
 
@@ -2976,6 +3031,14 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kSetAutoGain: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.set_auto_gain_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_auto_gain_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -3020,16 +3083,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 22, 22, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    21, 0,  // max_field_number, fast_idx_mask
+    22, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4292870144,  // skipmap
+    4290772992,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    21,  // num_field_entries
-    21,  // num_aux_entries
+    22,  // num_field_entries
+    22,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -3105,6 +3168,9 @@ const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
     // .cmd.DayCamera.FxROI fx_roi = 21;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.fx_roi_), _Internal::kOneofCaseOffset + 0, 20,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.DayCamera.SetAutoGain set_auto_gain = 22;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.set_auto_gain_), _Internal::kOneofCaseOffset + 0, 21,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::Focus>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::Zoom>()},
@@ -3127,6 +3193,7 @@ const ::_pbi::TcParseTable<0, 21, 21, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::TrackROI>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::ZoomROI>()},
     {::_pbi::TcParser::GetTable<::cmd::DayCamera::FxROI>()},
+    {::_pbi::TcParser::GetTable<::cmd::DayCamera::SetAutoGain>()},
   }}, {{
   }},
 };
@@ -3284,6 +3351,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kSetAutoGain: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  22, *this_._impl_.cmd_.set_auto_gain_, this_._impl_.cmd_.set_auto_gain_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -3435,6 +3508,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kFxRoi: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.fx_roi_);
+              break;
+            }
+            // .cmd.DayCamera.SetAutoGain set_auto_gain = 22;
+            case kSetAutoGain: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.set_auto_gain_);
               break;
             }
             case CMD_NOT_SET: {
@@ -3651,6 +3730,15 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::FxROI>(arena, *from._impl_.cmd_.fx_roi_);
         } else {
           _this->_impl_.cmd_.fx_roi_->MergeFrom(from._internal_fx_roi());
+        }
+        break;
+      }
+      case kSetAutoGain: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.set_auto_gain_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::DayCamera::SetAutoGain>(arena, *from._impl_.cmd_.set_auto_gain_);
+        } else {
+          _this->_impl_.cmd_.set_auto_gain_->MergeFrom(from._internal_set_auto_gain());
         }
         break;
       }
@@ -6664,6 +6752,212 @@ void SetAutoIris::InternalSwap(SetAutoIris* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata SetAutoIris::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SetAutoGain::_Internal {
+ public:
+};
+
+SetAutoGain::SetAutoGain(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.DayCamera.SetAutoGain)
+}
+SetAutoGain::SetAutoGain(
+    ::google::protobuf::Arena* arena, const SetAutoGain& from)
+    : SetAutoGain(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE SetAutoGain::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void SetAutoGain::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.value_ = {};
+}
+SetAutoGain::~SetAutoGain() {
+  // @@protoc_insertion_point(destructor:cmd.DayCamera.SetAutoGain)
+  SharedDtor(*this);
+}
+inline void SetAutoGain::SharedDtor(MessageLite& self) {
+  SetAutoGain& this_ = static_cast<SetAutoGain&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* SetAutoGain::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SetAutoGain(arena);
+}
+constexpr auto SetAutoGain::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SetAutoGain),
+                                            alignof(SetAutoGain));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SetAutoGain::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SetAutoGain_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SetAutoGain::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SetAutoGain>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SetAutoGain::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SetAutoGain>(), &SetAutoGain::ByteSizeLong,
+            &SetAutoGain::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SetAutoGain, _impl_._cached_size_),
+        false,
+    },
+    &SetAutoGain::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SetAutoGain::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 0, 2> SetAutoGain::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::DayCamera::SetAutoGain>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // bool value = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(SetAutoGain, _impl_.value_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(SetAutoGain, _impl_.value_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // bool value = 1;
+    {PROTOBUF_FIELD_OFFSET(SetAutoGain, _impl_.value_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void SetAutoGain::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.DayCamera.SetAutoGain)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.value_ = false;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SetAutoGain::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SetAutoGain& this_ = static_cast<const SetAutoGain&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SetAutoGain::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SetAutoGain& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.DayCamera.SetAutoGain)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // bool value = 1;
+          if (this_._internal_value() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                1, this_._internal_value(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.DayCamera.SetAutoGain)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SetAutoGain::ByteSizeLong(const MessageLite& base) {
+          const SetAutoGain& this_ = static_cast<const SetAutoGain&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SetAutoGain::ByteSizeLong() const {
+          const SetAutoGain& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.DayCamera.SetAutoGain)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+           {
+            // bool value = 1;
+            if (this_._internal_value() != 0) {
+              total_size += 2;
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SetAutoGain::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SetAutoGain*>(&to_msg);
+  auto& from = static_cast<const SetAutoGain&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.DayCamera.SetAutoGain)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_value() != 0) {
+    _this->_impl_.value_ = from._impl_.value_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SetAutoGain::CopyFrom(const SetAutoGain& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.DayCamera.SetAutoGain)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SetAutoGain::InternalSwap(SetAutoGain* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+        swap(_impl_.value_, other->_impl_.value_);
+}
+
+::google::protobuf::Metadata SetAutoGain::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================

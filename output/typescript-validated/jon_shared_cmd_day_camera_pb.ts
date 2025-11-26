@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_day_camera.proto.
  */
 export const file_jon_shared_cmd_day_camera: GenFile = /*@__PURE__*/
-  fileDesc("Ch9qb25fc2hhcmVkX2NtZF9kYXlfY2FtZXJhLnByb3RvEg1jbWQuRGF5Q2FtZXJhIjIKCFNldFZhbHVlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAACJdCgRNb3ZlEi0KDHRhcmdldF92YWx1ZRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASJgoFc3BlZWQYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAIjcKBk9mZnNldBItCgxvZmZzZXRfdmFsdWUYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/IjcKDVNldENsYWhlTGV2ZWwSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAIjkKD1NoaWZ0Q2xhaGVMZXZlbBImCgV2YWx1ZRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8ijAgKBFJvb3QSJQoFZm9jdXMYASABKAsyFC5jbWQuRGF5Q2FtZXJhLkZvY3VzSAASIwoEem9vbRgCIAEoCzITLmNtZC5EYXlDYW1lcmEuWm9vbUgAEioKCHNldF9pcmlzGAMgASgLMhYuY21kLkRheUNhbWVyYS5TZXRJcmlzSAASQAoUc2V0X2luZnJhX3JlZF9maWx0ZXIYBCABKAsyIC5jbWQuRGF5Q2FtZXJhLlNldEluZnJhUmVkRmlsdGVySAASJQoFc3RhcnQYBSABKAsyFC5jbWQuRGF5Q2FtZXJhLlN0YXJ0SAASIwoEc3RvcBgGIAEoCzITLmNtZC5EYXlDYW1lcmEuU3RvcEgAEiUKBXBob3RvGAcgASgLMhQuY21kLkRheUNhbWVyYS5QaG90b0gAEjMKDXNldF9hdXRvX2lyaXMYCCABKAsyGi5jbWQuRGF5Q2FtZXJhLlNldEF1dG9JcmlzSAASKgoIaGFsdF9hbGwYCSABKAsyFi5jbWQuRGF5Q2FtZXJhLkhhbHRBbGxIABIvCgtzZXRfZnhfbW9kZRgKIAEoCzIYLmNtZC5EYXlDYW1lcmEuU2V0RnhNb2RlSAASMQoMbmV4dF9meF9tb2RlGAsgASgLMhkuY21kLkRheUNhbWVyYS5OZXh0RnhNb2RlSAASMQoMcHJldl9meF9tb2RlGAwgASgLMhkuY21kLkRheUNhbWVyYS5QcmV2RnhNb2RlSAASLAoJZ2V0X21ldGVvGA0gASgLMhcuY21kLkRheUNhbWVyYS5HZXRNZXRlb0gAEjcKD3JlZnJlc2hfZnhfbW9kZRgOIAEoCzIcLmNtZC5EYXlDYW1lcmEuUmVmcmVzaEZ4TW9kZUgAEkQKFnNldF9kaWdpdGFsX3pvb21fbGV2ZWwYDyABKAsyIi5jbWQuRGF5Q2FtZXJhLlNldERpZ2l0YWxab29tTGV2ZWxIABI3Cg9zZXRfY2xhaGVfbGV2ZWwYECABKAsyHC5jbWQuRGF5Q2FtZXJhLlNldENsYWhlTGV2ZWxIABI7ChFzaGlmdF9jbGFoZV9sZXZlbBgRIAEoCzIeLmNtZC5EYXlDYW1lcmEuU2hpZnRDbGFoZUxldmVsSAASLAoJZm9jdXNfcm9pGBIgASgLMhcuY21kLkRheUNhbWVyYS5Gb2N1c1JPSUgAEiwKCXRyYWNrX3JvaRgTIAEoCzIXLmNtZC5EYXlDYW1lcmEuVHJhY2tST0lIABIqCgh6b29tX3JvaRgUIAEoCzIWLmNtZC5EYXlDYW1lcmEuWm9vbVJPSUgAEiYKBmZ4X3JvaRgVIAEoCzIULmNtZC5EYXlDYW1lcmEuRnhST0lIAEIMCgNjbWQSBbpIAggBIggKBkdldFBvcyIMCgpOZXh0RnhNb2RlIgwKClByZXZGeE1vZGUiDwoNUmVmcmVzaEZ4TW9kZSIJCgdIYWx0QWxsIj8KCVNldEZ4TW9kZRIyCgRtb2RlGAEgASgOMhguc2VyLkpvbkd1aURhdGFGeE1vZGVEYXlCCrpIB4IBBBABIAAiNAoTU2V0RGlnaXRhbFpvb21MZXZlbBIdCgV2YWx1ZRgBIAEoAUIOukgLEgkpAAAAAAAA8D8iqAIKBUZvY3VzEiwKCXNldF92YWx1ZRgBIAEoCzIXLmNtZC5EYXlDYW1lcmEuU2V0VmFsdWVIABIjCgRtb3ZlGAIgASgLMhMuY21kLkRheUNhbWVyYS5Nb3ZlSAASIwoEaGFsdBgDIAEoCzITLmNtZC5EYXlDYW1lcmEuSGFsdEgAEicKBm9mZnNldBgEIAEoCzIVLmNtZC5EYXlDYW1lcmEuT2Zmc2V0SAASMAoLcmVzZXRfZm9jdXMYBSABKAsyGS5jbWQuRGF5Q2FtZXJhLlJlc2V0Rm9jdXNIABI+ChNzYXZlX3RvX3RhYmxlX2ZvY3VzGAYgASgLMh8uY21kLkRheUNhbWVyYS5TYXZlVG9UYWJsZUZvY3VzSABCDAoDY21kEgW6SAIIASLcAwoEWm9vbRIsCglzZXRfdmFsdWUYASABKAsyFy5jbWQuRGF5Q2FtZXJhLlNldFZhbHVlSAASIwoEbW92ZRgCIAEoCzITLmNtZC5EYXlDYW1lcmEuTW92ZUgAEiMKBGhhbHQYAyABKAsyEy5jbWQuRGF5Q2FtZXJhLkhhbHRIABJAChRzZXRfem9vbV90YWJsZV92YWx1ZRgEIAEoCzIgLmNtZC5EYXlDYW1lcmEuU2V0Wm9vbVRhYmxlVmFsdWVIABI+ChNuZXh0X3pvb21fdGFibGVfcG9zGAUgASgLMh8uY21kLkRheUNhbWVyYS5OZXh0Wm9vbVRhYmxlUG9zSAASPgoTcHJldl96b29tX3RhYmxlX3BvcxgGIAEoCzIfLmNtZC5EYXlDYW1lcmEuUHJldlpvb21UYWJsZVBvc0gAEicKBm9mZnNldBgHIAEoCzIVLmNtZC5EYXlDYW1lcmEuT2Zmc2V0SAASLgoKcmVzZXRfem9vbRgIIAEoCzIYLmNtZC5EYXlDYW1lcmEuUmVzZXRab29tSAASMwoNc2F2ZV90b190YWJsZRgJIAEoCzIaLmNtZC5EYXlDYW1lcmEuU2F2ZVRvVGFibGVIAEIMCgNjbWQSBbpIAggBIhIKEE5leHRab29tVGFibGVQb3MiEgoQUHJldlpvb21UYWJsZVBvcyIxCgdTZXRJcmlzEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAACIiChFTZXRJbmZyYVJlZEZpbHRlchINCgV2YWx1ZRgBIAEoCCIcCgtTZXRBdXRvSXJpcxINCgV2YWx1ZRgBIAEoCCIrChFTZXRab29tVGFibGVWYWx1ZRIWCgV2YWx1ZRgBIAEoBUIHukgEGgIoACIGCgRTdG9wIgcKBVN0YXJ0IgcKBVBob3RvIgYKBEhhbHQiCgoIR2V0TWV0ZW8iCwoJUmVzZXRab29tIgwKClJlc2V0Rm9jdXMiDQoLU2F2ZVRvVGFibGUiEgoQU2F2ZVRvVGFibGVGb2N1cyLGAQoIRm9jdXNST0kSIwoCeDEYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAnkxGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ4MhgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeTIYBCABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EhIKCmZyYW1lX3RpbWUYBSABKAQSEgoKc3RhdGVfdGltZRgGIAEoBCLGAQoIVHJhY2tST0kSIwoCeDEYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAnkxGAIgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ4MhgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeTIYBCABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EhIKCmZyYW1lX3RpbWUYBSABKAQSEgoKc3RhdGVfdGltZRgGIAEoBCLFAQoHWm9vbVJPSRIjCgJ4MRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeTEYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAngyGAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ5MhgEIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgFIAEoBBISCgpzdGF0ZV90aW1lGAYgASgEIsMBCgVGeFJPSRIjCgJ4MRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeTEYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAngyGAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ5MhgEIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgFIAEoBBISCgpzdGF0ZV90aW1lGAYgASgEQlFaT2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY21kL2RheV9jYW1lcmFiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Ch9qb25fc2hhcmVkX2NtZF9kYXlfY2FtZXJhLnByb3RvEg1jbWQuRGF5Q2FtZXJhIjIKCFNldFZhbHVlEiYKBXZhbHVlGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAACJdCgRNb3ZlEi0KDHRhcmdldF92YWx1ZRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASJgoFc3BlZWQYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAIjcKBk9mZnNldBItCgxvZmZzZXRfdmFsdWUYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/IjcKDVNldENsYWhlTGV2ZWwSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAIjkKD1NoaWZ0Q2xhaGVMZXZlbBImCgV2YWx1ZRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8iwQgKBFJvb3QSJQoFZm9jdXMYASABKAsyFC5jbWQuRGF5Q2FtZXJhLkZvY3VzSAASIwoEem9vbRgCIAEoCzITLmNtZC5EYXlDYW1lcmEuWm9vbUgAEioKCHNldF9pcmlzGAMgASgLMhYuY21kLkRheUNhbWVyYS5TZXRJcmlzSAASQAoUc2V0X2luZnJhX3JlZF9maWx0ZXIYBCABKAsyIC5jbWQuRGF5Q2FtZXJhLlNldEluZnJhUmVkRmlsdGVySAASJQoFc3RhcnQYBSABKAsyFC5jbWQuRGF5Q2FtZXJhLlN0YXJ0SAASIwoEc3RvcBgGIAEoCzITLmNtZC5EYXlDYW1lcmEuU3RvcEgAEiUKBXBob3RvGAcgASgLMhQuY21kLkRheUNhbWVyYS5QaG90b0gAEjMKDXNldF9hdXRvX2lyaXMYCCABKAsyGi5jbWQuRGF5Q2FtZXJhLlNldEF1dG9JcmlzSAASKgoIaGFsdF9hbGwYCSABKAsyFi5jbWQuRGF5Q2FtZXJhLkhhbHRBbGxIABIvCgtzZXRfZnhfbW9kZRgKIAEoCzIYLmNtZC5EYXlDYW1lcmEuU2V0RnhNb2RlSAASMQoMbmV4dF9meF9tb2RlGAsgASgLMhkuY21kLkRheUNhbWVyYS5OZXh0RnhNb2RlSAASMQoMcHJldl9meF9tb2RlGAwgASgLMhkuY21kLkRheUNhbWVyYS5QcmV2RnhNb2RlSAASLAoJZ2V0X21ldGVvGA0gASgLMhcuY21kLkRheUNhbWVyYS5HZXRNZXRlb0gAEjcKD3JlZnJlc2hfZnhfbW9kZRgOIAEoCzIcLmNtZC5EYXlDYW1lcmEuUmVmcmVzaEZ4TW9kZUgAEkQKFnNldF9kaWdpdGFsX3pvb21fbGV2ZWwYDyABKAsyIi5jbWQuRGF5Q2FtZXJhLlNldERpZ2l0YWxab29tTGV2ZWxIABI3Cg9zZXRfY2xhaGVfbGV2ZWwYECABKAsyHC5jbWQuRGF5Q2FtZXJhLlNldENsYWhlTGV2ZWxIABI7ChFzaGlmdF9jbGFoZV9sZXZlbBgRIAEoCzIeLmNtZC5EYXlDYW1lcmEuU2hpZnRDbGFoZUxldmVsSAASLAoJZm9jdXNfcm9pGBIgASgLMhcuY21kLkRheUNhbWVyYS5Gb2N1c1JPSUgAEiwKCXRyYWNrX3JvaRgTIAEoCzIXLmNtZC5EYXlDYW1lcmEuVHJhY2tST0lIABIqCgh6b29tX3JvaRgUIAEoCzIWLmNtZC5EYXlDYW1lcmEuWm9vbVJPSUgAEiYKBmZ4X3JvaRgVIAEoCzIULmNtZC5EYXlDYW1lcmEuRnhST0lIABIzCg1zZXRfYXV0b19nYWluGBYgASgLMhouY21kLkRheUNhbWVyYS5TZXRBdXRvR2FpbkgAQgwKA2NtZBIFukgCCAEiCAoGR2V0UG9zIgwKCk5leHRGeE1vZGUiDAoKUHJldkZ4TW9kZSIPCg1SZWZyZXNoRnhNb2RlIgkKB0hhbHRBbGwiPwoJU2V0RnhNb2RlEjIKBG1vZGUYASABKA4yGC5zZXIuSm9uR3VpRGF0YUZ4TW9kZURheUIKukgHggEEEAEgACI0ChNTZXREaWdpdGFsWm9vbUxldmVsEh0KBXZhbHVlGAEgASgBQg66SAsSCSkAAAAAAADwPyKoAgoFRm9jdXMSLAoJc2V0X3ZhbHVlGAEgASgLMhcuY21kLkRheUNhbWVyYS5TZXRWYWx1ZUgAEiMKBG1vdmUYAiABKAsyEy5jbWQuRGF5Q2FtZXJhLk1vdmVIABIjCgRoYWx0GAMgASgLMhMuY21kLkRheUNhbWVyYS5IYWx0SAASJwoGb2Zmc2V0GAQgASgLMhUuY21kLkRheUNhbWVyYS5PZmZzZXRIABIwCgtyZXNldF9mb2N1cxgFIAEoCzIZLmNtZC5EYXlDYW1lcmEuUmVzZXRGb2N1c0gAEj4KE3NhdmVfdG9fdGFibGVfZm9jdXMYBiABKAsyHy5jbWQuRGF5Q2FtZXJhLlNhdmVUb1RhYmxlRm9jdXNIAEIMCgNjbWQSBbpIAggBItwDCgRab29tEiwKCXNldF92YWx1ZRgBIAEoCzIXLmNtZC5EYXlDYW1lcmEuU2V0VmFsdWVIABIjCgRtb3ZlGAIgASgLMhMuY21kLkRheUNhbWVyYS5Nb3ZlSAASIwoEaGFsdBgDIAEoCzITLmNtZC5EYXlDYW1lcmEuSGFsdEgAEkAKFHNldF96b29tX3RhYmxlX3ZhbHVlGAQgASgLMiAuY21kLkRheUNhbWVyYS5TZXRab29tVGFibGVWYWx1ZUgAEj4KE25leHRfem9vbV90YWJsZV9wb3MYBSABKAsyHy5jbWQuRGF5Q2FtZXJhLk5leHRab29tVGFibGVQb3NIABI+ChNwcmV2X3pvb21fdGFibGVfcG9zGAYgASgLMh8uY21kLkRheUNhbWVyYS5QcmV2Wm9vbVRhYmxlUG9zSAASJwoGb2Zmc2V0GAcgASgLMhUuY21kLkRheUNhbWVyYS5PZmZzZXRIABIuCgpyZXNldF96b29tGAggASgLMhguY21kLkRheUNhbWVyYS5SZXNldFpvb21IABIzCg1zYXZlX3RvX3RhYmxlGAkgASgLMhouY21kLkRheUNhbWVyYS5TYXZlVG9UYWJsZUgAQgwKA2NtZBIFukgCCAEiEgoQTmV4dFpvb21UYWJsZVBvcyISChBQcmV2Wm9vbVRhYmxlUG9zIjEKB1NldElyaXMSJgoFdmFsdWUYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAIiIKEVNldEluZnJhUmVkRmlsdGVyEg0KBXZhbHVlGAEgASgIIhwKC1NldEF1dG9JcmlzEg0KBXZhbHVlGAEgASgIIhwKC1NldEF1dG9HYWluEg0KBXZhbHVlGAEgASgIIisKEVNldFpvb21UYWJsZVZhbHVlEhYKBXZhbHVlGAEgASgFQge6SAQaAigAIgYKBFN0b3AiBwoFU3RhcnQiBwoFUGhvdG8iBgoESGFsdCIKCghHZXRNZXRlbyILCglSZXNldFpvb20iDAoKUmVzZXRGb2N1cyINCgtTYXZlVG9UYWJsZSISChBTYXZlVG9UYWJsZUZvY3VzIsYBCghGb2N1c1JPSRIjCgJ4MRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeTEYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAngyGAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ5MhgEIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgFIAEoBBISCgpzdGF0ZV90aW1lGAYgASgEIsYBCghUcmFja1JPSRIjCgJ4MRgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeTEYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAngyGAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ5MhgEIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgFIAEoBBISCgpzdGF0ZV90aW1lGAYgASgEIsUBCgdab29tUk9JEiMKAngxGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ5MRgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeDIYAyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAnkyGAQgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxISCgpmcmFtZV90aW1lGAUgASgEEhIKCnN0YXRlX3RpbWUYBiABKAQiwwEKBUZ4Uk9JEiMKAngxGAEgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxIjCgJ5MRgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIwoCeDIYAyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiMKAnkyGAQgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxISCgpmcmFtZV90aW1lGAUgASgEEhIKCnN0YXRlX3RpbWUYBiABKARCUVpPZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvZGF5X2NhbWVyYWIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message cmd.DayCamera.SetValue
@@ -238,6 +238,12 @@ export type Root = Message<"cmd.DayCamera.Root"> & {
      */
     value: FxROI;
     case: "fxRoi";
+  } | {
+    /**
+     * @generated from field: cmd.DayCamera.SetAutoGain set_auto_gain = 22;
+     */
+    value: SetAutoGain;
+    case: "setAutoGain";
   } | { case: undefined; value?: undefined };
 };
 
@@ -549,6 +555,23 @@ export const SetAutoIrisSchema: GenMessage<SetAutoIris> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_day_camera, 19);
 
 /**
+ * @generated from message cmd.DayCamera.SetAutoGain
+ */
+export type SetAutoGain = Message<"cmd.DayCamera.SetAutoGain"> & {
+  /**
+   * @generated from field: bool value = 1;
+   */
+  value: boolean;
+};
+
+/**
+ * Describes the message cmd.DayCamera.SetAutoGain.
+ * Use `create(SetAutoGainSchema)` to create a new message.
+ */
+export const SetAutoGainSchema: GenMessage<SetAutoGain> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_day_camera, 20);
+
+/**
  * @generated from message cmd.DayCamera.SetZoomTableValue
  */
 export type SetZoomTableValue = Message<"cmd.DayCamera.SetZoomTableValue"> & {
@@ -563,7 +586,7 @@ export type SetZoomTableValue = Message<"cmd.DayCamera.SetZoomTableValue"> & {
  * Use `create(SetZoomTableValueSchema)` to create a new message.
  */
 export const SetZoomTableValueSchema: GenMessage<SetZoomTableValue> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 20);
+  messageDesc(file_jon_shared_cmd_day_camera, 21);
 
 /**
  * @generated from message cmd.DayCamera.Stop
@@ -576,7 +599,7 @@ export type Stop = Message<"cmd.DayCamera.Stop"> & {
  * Use `create(StopSchema)` to create a new message.
  */
 export const StopSchema: GenMessage<Stop> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 21);
+  messageDesc(file_jon_shared_cmd_day_camera, 22);
 
 /**
  * @generated from message cmd.DayCamera.Start
@@ -589,7 +612,7 @@ export type Start = Message<"cmd.DayCamera.Start"> & {
  * Use `create(StartSchema)` to create a new message.
  */
 export const StartSchema: GenMessage<Start> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 22);
+  messageDesc(file_jon_shared_cmd_day_camera, 23);
 
 /**
  * @generated from message cmd.DayCamera.Photo
@@ -602,7 +625,7 @@ export type Photo = Message<"cmd.DayCamera.Photo"> & {
  * Use `create(PhotoSchema)` to create a new message.
  */
 export const PhotoSchema: GenMessage<Photo> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 23);
+  messageDesc(file_jon_shared_cmd_day_camera, 24);
 
 /**
  * @generated from message cmd.DayCamera.Halt
@@ -615,7 +638,7 @@ export type Halt = Message<"cmd.DayCamera.Halt"> & {
  * Use `create(HaltSchema)` to create a new message.
  */
 export const HaltSchema: GenMessage<Halt> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 24);
+  messageDesc(file_jon_shared_cmd_day_camera, 25);
 
 /**
  * @generated from message cmd.DayCamera.GetMeteo
@@ -628,7 +651,7 @@ export type GetMeteo = Message<"cmd.DayCamera.GetMeteo"> & {
  * Use `create(GetMeteoSchema)` to create a new message.
  */
 export const GetMeteoSchema: GenMessage<GetMeteo> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 25);
+  messageDesc(file_jon_shared_cmd_day_camera, 26);
 
 /**
  * @generated from message cmd.DayCamera.ResetZoom
@@ -641,7 +664,7 @@ export type ResetZoom = Message<"cmd.DayCamera.ResetZoom"> & {
  * Use `create(ResetZoomSchema)` to create a new message.
  */
 export const ResetZoomSchema: GenMessage<ResetZoom> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 26);
+  messageDesc(file_jon_shared_cmd_day_camera, 27);
 
 /**
  * @generated from message cmd.DayCamera.ResetFocus
@@ -654,7 +677,7 @@ export type ResetFocus = Message<"cmd.DayCamera.ResetFocus"> & {
  * Use `create(ResetFocusSchema)` to create a new message.
  */
 export const ResetFocusSchema: GenMessage<ResetFocus> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 27);
+  messageDesc(file_jon_shared_cmd_day_camera, 28);
 
 /**
  * @generated from message cmd.DayCamera.SaveToTable
@@ -667,7 +690,7 @@ export type SaveToTable = Message<"cmd.DayCamera.SaveToTable"> & {
  * Use `create(SaveToTableSchema)` to create a new message.
  */
 export const SaveToTableSchema: GenMessage<SaveToTable> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 28);
+  messageDesc(file_jon_shared_cmd_day_camera, 29);
 
 /**
  * @generated from message cmd.DayCamera.SaveToTableFocus
@@ -680,7 +703,7 @@ export type SaveToTableFocus = Message<"cmd.DayCamera.SaveToTableFocus"> & {
  * Use `create(SaveToTableFocusSchema)` to create a new message.
  */
 export const SaveToTableFocusSchema: GenMessage<SaveToTableFocus> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 29);
+  messageDesc(file_jon_shared_cmd_day_camera, 30);
 
 /**
  * @generated from message cmd.DayCamera.FocusROI
@@ -726,7 +749,7 @@ export type FocusROI = Message<"cmd.DayCamera.FocusROI"> & {
  * Use `create(FocusROISchema)` to create a new message.
  */
 export const FocusROISchema: GenMessage<FocusROI> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 30);
+  messageDesc(file_jon_shared_cmd_day_camera, 31);
 
 /**
  * @generated from message cmd.DayCamera.TrackROI
@@ -772,7 +795,7 @@ export type TrackROI = Message<"cmd.DayCamera.TrackROI"> & {
  * Use `create(TrackROISchema)` to create a new message.
  */
 export const TrackROISchema: GenMessage<TrackROI> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 31);
+  messageDesc(file_jon_shared_cmd_day_camera, 32);
 
 /**
  * @generated from message cmd.DayCamera.ZoomROI
@@ -818,7 +841,7 @@ export type ZoomROI = Message<"cmd.DayCamera.ZoomROI"> & {
  * Use `create(ZoomROISchema)` to create a new message.
  */
 export const ZoomROISchema: GenMessage<ZoomROI> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 32);
+  messageDesc(file_jon_shared_cmd_day_camera, 33);
 
 /**
  * @generated from message cmd.DayCamera.FxROI
@@ -864,5 +887,5 @@ export type FxROI = Message<"cmd.DayCamera.FxROI"> & {
  * Use `create(FxROISchema)` to create a new message.
  */
 export const FxROISchema: GenMessage<FxROI> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_day_camera, 33);
+  messageDesc(file_jon_shared_cmd_day_camera, 34);
 

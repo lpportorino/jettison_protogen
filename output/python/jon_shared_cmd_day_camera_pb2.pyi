@@ -38,7 +38,7 @@ class ShiftClaheLevel(_message.Message):
     def __init__(self, value: _Optional[float] = ...) -> None: ...
 
 class Root(_message.Message):
-    __slots__ = ("focus", "zoom", "set_iris", "set_infra_red_filter", "start", "stop", "photo", "set_auto_iris", "halt_all", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "refresh_fx_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_roi", "track_roi", "zoom_roi", "fx_roi")
+    __slots__ = ("focus", "zoom", "set_iris", "set_infra_red_filter", "start", "stop", "photo", "set_auto_iris", "halt_all", "set_fx_mode", "next_fx_mode", "prev_fx_mode", "get_meteo", "refresh_fx_mode", "set_digital_zoom_level", "set_clahe_level", "shift_clahe_level", "focus_roi", "track_roi", "zoom_roi", "fx_roi", "set_auto_gain")
     FOCUS_FIELD_NUMBER: _ClassVar[int]
     ZOOM_FIELD_NUMBER: _ClassVar[int]
     SET_IRIS_FIELD_NUMBER: _ClassVar[int]
@@ -60,6 +60,7 @@ class Root(_message.Message):
     TRACK_ROI_FIELD_NUMBER: _ClassVar[int]
     ZOOM_ROI_FIELD_NUMBER: _ClassVar[int]
     FX_ROI_FIELD_NUMBER: _ClassVar[int]
+    SET_AUTO_GAIN_FIELD_NUMBER: _ClassVar[int]
     focus: Focus
     zoom: Zoom
     set_iris: SetIris
@@ -81,7 +82,8 @@ class Root(_message.Message):
     track_roi: TrackROI
     zoom_roi: ZoomROI
     fx_roi: FxROI
-    def __init__(self, focus: _Optional[_Union[Focus, _Mapping]] = ..., zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_iris: _Optional[_Union[SetIris, _Mapping]] = ..., set_infra_red_filter: _Optional[_Union[SetInfraRedFilter, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., set_auto_iris: _Optional[_Union[SetAutoIris, _Mapping]] = ..., halt_all: _Optional[_Union[HaltAll, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_roi: _Optional[_Union[FocusROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ..., fx_roi: _Optional[_Union[FxROI, _Mapping]] = ...) -> None: ...
+    set_auto_gain: SetAutoGain
+    def __init__(self, focus: _Optional[_Union[Focus, _Mapping]] = ..., zoom: _Optional[_Union[Zoom, _Mapping]] = ..., set_iris: _Optional[_Union[SetIris, _Mapping]] = ..., set_infra_red_filter: _Optional[_Union[SetInfraRedFilter, _Mapping]] = ..., start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., photo: _Optional[_Union[Photo, _Mapping]] = ..., set_auto_iris: _Optional[_Union[SetAutoIris, _Mapping]] = ..., halt_all: _Optional[_Union[HaltAll, _Mapping]] = ..., set_fx_mode: _Optional[_Union[SetFxMode, _Mapping]] = ..., next_fx_mode: _Optional[_Union[NextFxMode, _Mapping]] = ..., prev_fx_mode: _Optional[_Union[PrevFxMode, _Mapping]] = ..., get_meteo: _Optional[_Union[GetMeteo, _Mapping]] = ..., refresh_fx_mode: _Optional[_Union[RefreshFxMode, _Mapping]] = ..., set_digital_zoom_level: _Optional[_Union[SetDigitalZoomLevel, _Mapping]] = ..., set_clahe_level: _Optional[_Union[SetClaheLevel, _Mapping]] = ..., shift_clahe_level: _Optional[_Union[ShiftClaheLevel, _Mapping]] = ..., focus_roi: _Optional[_Union[FocusROI, _Mapping]] = ..., track_roi: _Optional[_Union[TrackROI, _Mapping]] = ..., zoom_roi: _Optional[_Union[ZoomROI, _Mapping]] = ..., fx_roi: _Optional[_Union[FxROI, _Mapping]] = ..., set_auto_gain: _Optional[_Union[SetAutoGain, _Mapping]] = ...) -> None: ...
 
 class GetPos(_message.Message):
     __slots__ = ()
@@ -174,6 +176,12 @@ class SetInfraRedFilter(_message.Message):
     def __init__(self, value: bool = ...) -> None: ...
 
 class SetAutoIris(_message.Message):
+    __slots__ = ("value",)
+    VALUE_FIELD_NUMBER: _ClassVar[int]
+    value: bool
+    def __init__(self, value: bool = ...) -> None: ...
+
+class SetAutoGain(_message.Message):
     __slots__ = ("value",)
     VALUE_FIELD_NUMBER: _ClassVar[int]
     value: bool

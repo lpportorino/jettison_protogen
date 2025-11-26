@@ -31,6 +31,7 @@ message JonGuiDataCameraDay {
   }];
   bool auto_focus = 8;
   bool auto_iris = 9;
+  bool auto_gain = 15;
   double digital_zoom_level = 10 [(buf.validate.field).double = {
     gte: 1.0
   }];
