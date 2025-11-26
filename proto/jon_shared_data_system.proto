@@ -72,4 +72,9 @@ message JonGuiDataSystem {
     defined_only: true,
     not_in: [0]
   }];
+  int32 ext_bat_capacity = 25 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 100
+  }];
+  JonGuiDataExtBatStatus ext_bat_status = 26;
 }
