@@ -34,7 +34,6 @@ message Root {
     ScanUpdateNode scan_update_node = 23;
     ScanAddNode scan_add_node = 24;
     HaltWithNDC halt_with_ndc = 25;
-    SetSpiritLevel set_spirit_level = 26;
   }
 }
 
