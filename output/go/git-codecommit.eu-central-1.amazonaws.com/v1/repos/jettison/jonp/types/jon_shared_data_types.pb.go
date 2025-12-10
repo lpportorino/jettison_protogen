@@ -1033,6 +1033,61 @@ func (JonGuiDataClientType) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{17}
 }
 
+type JonGuiDataClientApp int32
+
+const (
+	JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_UNSPECIFIED    JonGuiDataClientApp = 0
+	JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_BROWSER_UI     JonGuiDataClientApp = 1
+	JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_BROWSER_MAP    JonGuiDataClientApp = 2
+	JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE JonGuiDataClientApp = 3
+	JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE  JonGuiDataClientApp = 4
+)
+
+// Enum value maps for JonGuiDataClientApp.
+var (
+	JonGuiDataClientApp_name = map[int32]string{
+		0: "JON_GUI_DATA_CLIENT_APP_UNSPECIFIED",
+		1: "JON_GUI_DATA_CLIENT_APP_BROWSER_UI",
+		2: "JON_GUI_DATA_CLIENT_APP_BROWSER_MAP",
+		3: "JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE",
+		4: "JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE",
+	}
+	JonGuiDataClientApp_value = map[string]int32{
+		"JON_GUI_DATA_CLIENT_APP_UNSPECIFIED":    0,
+		"JON_GUI_DATA_CLIENT_APP_BROWSER_UI":     1,
+		"JON_GUI_DATA_CLIENT_APP_BROWSER_MAP":    2,
+		"JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE": 3,
+		"JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE":  4,
+	}
+)
+
+func (x JonGuiDataClientApp) Enum() *JonGuiDataClientApp {
+	p := new(JonGuiDataClientApp)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataClientApp) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataClientApp) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[18].Descriptor()
+}
+
+func (JonGuiDataClientApp) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[18]
+}
+
+func (x JonGuiDataClientApp) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataClientApp.Descriptor instead.
+func (JonGuiDataClientApp) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{18}
+}
+
 type JonGuiDataExtBatStatus int32
 
 const (
@@ -1069,11 +1124,11 @@ func (x JonGuiDataExtBatStatus) String() string {
 }
 
 func (JonGuiDataExtBatStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_shared_data_types_proto_enumTypes[18].Descriptor()
+	return file_jon_shared_data_types_proto_enumTypes[19].Descriptor()
 }
 
 func (JonGuiDataExtBatStatus) Type() protoreflect.EnumType {
-	return &file_jon_shared_data_types_proto_enumTypes[18]
+	return &file_jon_shared_data_types_proto_enumTypes[19]
 }
 
 func (x JonGuiDataExtBatStatus) Number() protoreflect.EnumNumber {
@@ -1082,7 +1137,7 @@ func (x JonGuiDataExtBatStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use JonGuiDataExtBatStatus.Descriptor instead.
 func (JonGuiDataExtBatStatus) EnumDescriptor() ([]byte, []int) {
-	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{18}
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{19}
 }
 
 type JonGuiDataMeteo struct {
@@ -1269,7 +1324,13 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"$JON_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\x10\x01\x12*\n" +
 	"&JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\x10\x02\x122\n" +
 	".JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED\x10\x03\x12!\n" +
-	"\x1dJON_GUI_DATA_CLIENT_TYPE_LIRA\x10\x04*\xc7\x01\n" +
+	"\x1dJON_GUI_DATA_CLIENT_TYPE_LIRA\x10\x04*\xe6\x01\n" +
+	"\x13JonGuiDataClientApp\x12'\n" +
+	"#JON_GUI_DATA_CLIENT_APP_UNSPECIFIED\x10\x00\x12&\n" +
+	"\"JON_GUI_DATA_CLIENT_APP_BROWSER_UI\x10\x01\x12'\n" +
+	"#JON_GUI_DATA_CLIENT_APP_BROWSER_MAP\x10\x02\x12*\n" +
+	"&JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\x10\x03\x12)\n" +
+	"%JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\x10\x04*\xc7\x01\n" +
 	"\x16JonGuiDataExtBatStatus\x12+\n" +
 	"'JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED\x10\x00\x12(\n" +
 	"$JON_GUI_DATA_EXT_BAT_STATUS_CHARGING\x10\x01\x12+\n" +
@@ -1289,7 +1350,7 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_types_proto_rawDescData
 }
 
-var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 19)
+var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 20)
 var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataVideoChannelHeatFilters)(0),  // 0: ser.JonGuiDataVideoChannelHeatFilters
@@ -1310,8 +1371,9 @@ var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataFxModeHeat)(0),               // 15: ser.JonGuiDataFxModeHeat
 	(JonGuiDataSystemLocalizations)(0),      // 16: ser.JonGuiDataSystemLocalizations
 	(JonGuiDataClientType)(0),               // 17: ser.JonGuiDataClientType
-	(JonGuiDataExtBatStatus)(0),             // 18: ser.JonGuiDataExtBatStatus
-	(*JonGuiDataMeteo)(nil),                 // 19: ser.JonGuiDataMeteo
+	(JonGuiDataClientApp)(0),                // 18: ser.JonGuiDataClientApp
+	(JonGuiDataExtBatStatus)(0),             // 19: ser.JonGuiDataExtBatStatus
+	(*JonGuiDataMeteo)(nil),                 // 20: ser.JonGuiDataMeteo
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -1331,7 +1393,7 @@ func file_jon_shared_data_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
-			NumEnums:      19,
+			NumEnums:      20,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,

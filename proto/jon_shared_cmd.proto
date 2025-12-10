@@ -31,6 +31,10 @@ message Root {
     defined_only: true,
     not_in: [0]
   }];
+  ser.JonGuiDataClientApp client_app = 10 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
 
   // Frame timestamps (PTS) from video streams when command was issued
   uint64 frame_time_day = 6;   // Day camera frame timestamp (nanoseconds)
@@ -43,7 +47,7 @@ message Root {
   uint64 client_time_ms = 9;   // Client epoch time in milliseconds (from performance.timeOrigin + performance.now())
 
   // Currently unused field numbers
-  reserved 10 to 19;
+  reserved 11 to 19;
 
   oneof payload {
     option (buf.validate.oneof).required = true;

@@ -20,6 +20,9 @@ import { Root as Root8 } from "./jon_shared_cmd_osd";
 import { Root as Root7 } from "./jon_shared_cmd_rotary";
 import { Root as Root9 } from "./jon_shared_cmd_system";
 import {
+  JonGuiDataClientApp,
+  jonGuiDataClientAppFromJSON,
+  jonGuiDataClientAppToJSON,
   JonGuiDataClientType,
   jonGuiDataClientTypeFromJSON,
   jonGuiDataClientTypeToJSON,
@@ -31,6 +34,7 @@ export interface Root {
   important: boolean;
   fromCvSubsystem: boolean;
   clientType: JonGuiDataClientType;
+  clientApp: JonGuiDataClientApp;
   /** Frame timestamps (PTS) from video streams when command was issued */
   frameTimeDay: Long;
   /** Thermal camera frame timestamp (nanoseconds) */
@@ -72,6 +76,7 @@ function createBaseRoot(): Root {
     important: false,
     fromCvSubsystem: false,
     clientType: 0,
+    clientApp: 0,
     frameTimeDay: Long.UZERO,
     frameTimeHeat: Long.UZERO,
     stateTime: Long.UZERO,
@@ -110,6 +115,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.clientType !== 0) {
       writer.uint32(40).int32(message.clientType);
+    }
+    if (message.clientApp !== 0) {
+      writer.uint32(80).int32(message.clientApp);
     }
     if (!message.frameTimeDay.equals(Long.UZERO)) {
       writer.uint32(48).uint64(message.frameTimeDay.toString());
@@ -216,6 +224,14 @@ export const Root: MessageFns<Root> = {
           }
 
           message.clientType = reader.int32() as any;
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.clientApp = reader.int32() as any;
           continue;
         }
         case 6: {
@@ -386,6 +402,7 @@ export const Root: MessageFns<Root> = {
       important: isSet(object.important) ? globalThis.Boolean(object.important) : false,
       fromCvSubsystem: isSet(object.fromCvSubsystem) ? globalThis.Boolean(object.fromCvSubsystem) : false,
       clientType: isSet(object.clientType) ? jonGuiDataClientTypeFromJSON(object.clientType) : 0,
+      clientApp: isSet(object.clientApp) ? jonGuiDataClientAppFromJSON(object.clientApp) : 0,
       frameTimeDay: isSet(object.frameTimeDay) ? Long.fromValue(object.frameTimeDay) : Long.UZERO,
       frameTimeHeat: isSet(object.frameTimeHeat) ? Long.fromValue(object.frameTimeHeat) : Long.UZERO,
       stateTime: isSet(object.stateTime) ? Long.fromValue(object.stateTime) : Long.UZERO,
@@ -424,6 +441,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.clientType !== 0) {
       obj.clientType = jonGuiDataClientTypeToJSON(message.clientType);
+    }
+    if (message.clientApp !== 0) {
+      obj.clientApp = jonGuiDataClientAppToJSON(message.clientApp);
     }
     if (!message.frameTimeDay.equals(Long.UZERO)) {
       obj.frameTimeDay = (message.frameTimeDay || Long.UZERO).toString();
@@ -495,6 +515,7 @@ export const Root: MessageFns<Root> = {
     message.important = object.important ?? false;
     message.fromCvSubsystem = object.fromCvSubsystem ?? false;
     message.clientType = object.clientType ?? 0;
+    message.clientApp = object.clientApp ?? 0;
     message.frameTimeDay = (object.frameTimeDay !== undefined && object.frameTimeDay !== null)
       ? Long.fromValue(object.frameTimeDay)
       : Long.UZERO;

@@ -156,6 +156,14 @@ class JonGuiDataClientType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED: _ClassVar[JonGuiDataClientType]
     JON_GUI_DATA_CLIENT_TYPE_LIRA: _ClassVar[JonGuiDataClientType]
 
+class JonGuiDataClientApp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_CLIENT_APP_UNSPECIFIED: _ClassVar[JonGuiDataClientApp]
+    JON_GUI_DATA_CLIENT_APP_BROWSER_UI: _ClassVar[JonGuiDataClientApp]
+    JON_GUI_DATA_CLIENT_APP_BROWSER_MAP: _ClassVar[JonGuiDataClientApp]
+    JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE: _ClassVar[JonGuiDataClientApp]
+    JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE: _ClassVar[JonGuiDataClientApp]
+
 class JonGuiDataExtBatStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED: _ClassVar[JonGuiDataExtBatStatus]
@@ -259,6 +267,11 @@ JON_GUI_DATA_CLIENT_TYPE_INTERNAL_CV: JonGuiDataClientType
 JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK: JonGuiDataClientType
 JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED: JonGuiDataClientType
 JON_GUI_DATA_CLIENT_TYPE_LIRA: JonGuiDataClientType
+JON_GUI_DATA_CLIENT_APP_UNSPECIFIED: JonGuiDataClientApp
+JON_GUI_DATA_CLIENT_APP_BROWSER_UI: JonGuiDataClientApp
+JON_GUI_DATA_CLIENT_APP_BROWSER_MAP: JonGuiDataClientApp
+JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE: JonGuiDataClientApp
+JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE: JonGuiDataClientApp
 JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED: JonGuiDataExtBatStatus
 JON_GUI_DATA_EXT_BAT_STATUS_CHARGING: JonGuiDataExtBatStatus
 JON_GUI_DATA_EXT_BAT_STATUS_DISCHARGING: JonGuiDataExtBatStatus

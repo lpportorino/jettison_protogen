@@ -719,6 +719,42 @@ inline bool JonGuiDataClientType_Parse(absl::string_view name, JonGuiDataClientT
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataClientType>(
       JonGuiDataClientType_descriptor(), name, value);
 }
+enum JonGuiDataClientApp : int {
+  JON_GUI_DATA_CLIENT_APP_UNSPECIFIED = 0,
+  JON_GUI_DATA_CLIENT_APP_BROWSER_UI = 1,
+  JON_GUI_DATA_CLIENT_APP_BROWSER_MAP = 2,
+  JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE = 3,
+  JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE = 4,
+  JonGuiDataClientApp_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataClientApp_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataClientApp_IsValid(int value);
+extern const uint32_t JonGuiDataClientApp_internal_data_[];
+constexpr JonGuiDataClientApp JonGuiDataClientApp_MIN = static_cast<JonGuiDataClientApp>(0);
+constexpr JonGuiDataClientApp JonGuiDataClientApp_MAX = static_cast<JonGuiDataClientApp>(4);
+constexpr int JonGuiDataClientApp_ARRAYSIZE = 4 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataClientApp_descriptor();
+template <typename T>
+const std::string& JonGuiDataClientApp_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataClientApp>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataClientApp_Name().");
+  return JonGuiDataClientApp_Name(static_cast<JonGuiDataClientApp>(value));
+}
+template <>
+inline const std::string& JonGuiDataClientApp_Name(JonGuiDataClientApp value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataClientApp_descriptor,
+                                                 0, 4>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataClientApp_Parse(absl::string_view name, JonGuiDataClientApp* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataClientApp>(
+      JonGuiDataClientApp_descriptor(), name, value);
+}
 enum JonGuiDataExtBatStatus : int {
   JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED = 0,
   JON_GUI_DATA_EXT_BAT_STATUS_CHARGING = 1,
@@ -1173,6 +1209,12 @@ struct is_proto_enum<::ser::JonGuiDataClientType> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataClientType>() {
   return ::ser::JonGuiDataClientType_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataClientApp> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataClientApp>() {
+  return ::ser::JonGuiDataClientApp_descriptor();
 }
 template <>
 struct is_proto_enum<::ser::JonGuiDataExtBatStatus> : std::true_type {};

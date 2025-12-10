@@ -968,6 +968,57 @@ export function jonGuiDataClientTypeToJSON(object: JonGuiDataClientType): string
   }
 }
 
+export enum JonGuiDataClientApp {
+  JON_GUI_DATA_CLIENT_APP_UNSPECIFIED = 0,
+  JON_GUI_DATA_CLIENT_APP_BROWSER_UI = 1,
+  JON_GUI_DATA_CLIENT_APP_BROWSER_MAP = 2,
+  JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE = 3,
+  JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE = 4,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataClientAppFromJSON(object: any): JonGuiDataClientApp {
+  switch (object) {
+    case 0:
+    case "JON_GUI_DATA_CLIENT_APP_UNSPECIFIED":
+      return JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_UNSPECIFIED;
+    case 1:
+    case "JON_GUI_DATA_CLIENT_APP_BROWSER_UI":
+      return JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_BROWSER_UI;
+    case 2:
+    case "JON_GUI_DATA_CLIENT_APP_BROWSER_MAP":
+      return JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_BROWSER_MAP;
+    case 3:
+    case "JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE":
+      return JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE;
+    case 4:
+    case "JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE":
+      return JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataClientApp.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataClientAppToJSON(object: JonGuiDataClientApp): string {
+  switch (object) {
+    case JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_UNSPECIFIED:
+      return "JON_GUI_DATA_CLIENT_APP_UNSPECIFIED";
+    case JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_BROWSER_UI:
+      return "JON_GUI_DATA_CLIENT_APP_BROWSER_UI";
+    case JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_BROWSER_MAP:
+      return "JON_GUI_DATA_CLIENT_APP_BROWSER_MAP";
+    case JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE:
+      return "JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE";
+    case JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE:
+      return "JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE";
+    case JonGuiDataClientApp.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export enum JonGuiDataExtBatStatus {
   JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED = 0,
   JON_GUI_DATA_EXT_BAT_STATUS_CHARGING = 1,

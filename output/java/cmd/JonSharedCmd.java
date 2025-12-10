@@ -65,6 +65,17 @@ public final class JonSharedCmd {
     ser.JonSharedDataTypes.JonGuiDataClientType getClientType();
 
     /**
+     * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for clientApp.
+     */
+    int getClientAppValue();
+    /**
+     * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+     * @return The clientApp.
+     */
+    ser.JonSharedDataTypes.JonGuiDataClientApp getClientApp();
+
+    /**
      * <pre>
      * Frame timestamps (PTS) from video streams when command was issued
      * </pre>
@@ -354,6 +365,7 @@ public final class JonSharedCmd {
     }
     private Root() {
       clientType_ = 0;
+      clientApp_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -497,6 +509,24 @@ public final class JonSharedCmd {
     @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataClientType getClientType() {
       ser.JonSharedDataTypes.JonGuiDataClientType result = ser.JonSharedDataTypes.JonGuiDataClientType.forNumber(clientType_);
       return result == null ? ser.JonSharedDataTypes.JonGuiDataClientType.UNRECOGNIZED : result;
+    }
+
+    public static final int CLIENT_APP_FIELD_NUMBER = 10;
+    private int clientApp_ = 0;
+    /**
+     * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for clientApp.
+     */
+    @java.lang.Override public int getClientAppValue() {
+      return clientApp_;
+    }
+    /**
+     * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+     * @return The clientApp.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataClientApp getClientApp() {
+      ser.JonSharedDataTypes.JonGuiDataClientApp result = ser.JonSharedDataTypes.JonGuiDataClientApp.forNumber(clientApp_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataClientApp.UNRECOGNIZED : result;
     }
 
     public static final int FRAME_TIME_DAY_FIELD_NUMBER = 6;
@@ -1065,6 +1095,9 @@ public final class JonSharedCmd {
       if (clientTimeMs_ != 0L) {
         output.writeUInt64(9, clientTimeMs_);
       }
+      if (clientApp_ != ser.JonSharedDataTypes.JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_UNSPECIFIED.getNumber()) {
+        output.writeEnum(10, clientApp_);
+      }
       if (payloadCase_ == 20) {
         output.writeMessage(20, (cmd.DayCamera.JonSharedCmdDayCamera.Root) payload_);
       }
@@ -1155,6 +1188,10 @@ public final class JonSharedCmd {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(9, clientTimeMs_);
       }
+      if (clientApp_ != ser.JonSharedDataTypes.JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(10, clientApp_);
+      }
       if (payloadCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(20, (cmd.DayCamera.JonSharedCmdDayCamera.Root) payload_);
@@ -1239,6 +1276,7 @@ public final class JonSharedCmd {
       if (getFromCvSubsystem()
           != other.getFromCvSubsystem()) return false;
       if (clientType_ != other.clientType_) return false;
+      if (clientApp_ != other.clientApp_) return false;
       if (getFrameTimeDay()
           != other.getFrameTimeDay()) return false;
       if (getFrameTimeHeat()
@@ -1335,6 +1373,8 @@ public final class JonSharedCmd {
           getFromCvSubsystem());
       hash = (37 * hash) + CLIENT_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + clientType_;
+      hash = (37 * hash) + CLIENT_APP_FIELD_NUMBER;
+      hash = (53 * hash) + clientApp_;
       hash = (37 * hash) + FRAME_TIME_DAY_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFrameTimeDay());
@@ -1547,6 +1587,7 @@ public final class JonSharedCmd {
         important_ = false;
         fromCvSubsystem_ = false;
         clientType_ = 0;
+        clientApp_ = 0;
         frameTimeDay_ = 0L;
         frameTimeHeat_ = 0L;
         stateTime_ = 0L;
@@ -1648,15 +1689,18 @@ public final class JonSharedCmd {
           result.clientType_ = clientType_;
         }
         if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.frameTimeDay_ = frameTimeDay_;
+          result.clientApp_ = clientApp_;
         }
         if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.frameTimeHeat_ = frameTimeHeat_;
+          result.frameTimeDay_ = frameTimeDay_;
         }
         if (((from_bitField0_ & 0x00000080) != 0)) {
-          result.stateTime_ = stateTime_;
+          result.frameTimeHeat_ = frameTimeHeat_;
         }
         if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.stateTime_ = stateTime_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
           result.clientTimeMs_ = clientTimeMs_;
         }
       }
@@ -1752,6 +1796,9 @@ public final class JonSharedCmd {
         }
         if (other.clientType_ != 0) {
           setClientTypeValue(other.getClientTypeValue());
+        }
+        if (other.clientApp_ != 0) {
+          setClientAppValue(other.getClientAppValue());
         }
         if (other.getFrameTimeDay() != 0L) {
           setFrameTimeDay(other.getFrameTimeDay());
@@ -1883,24 +1930,29 @@ public final class JonSharedCmd {
               } // case 40
               case 48: {
                 frameTimeDay_ = input.readUInt64();
-                bitField0_ |= 0x00000020;
+                bitField0_ |= 0x00000040;
                 break;
               } // case 48
               case 56: {
                 frameTimeHeat_ = input.readUInt64();
-                bitField0_ |= 0x00000040;
+                bitField0_ |= 0x00000080;
                 break;
               } // case 56
               case 64: {
                 stateTime_ = input.readUInt64();
-                bitField0_ |= 0x00000080;
+                bitField0_ |= 0x00000100;
                 break;
               } // case 64
               case 72: {
                 clientTimeMs_ = input.readUInt64();
-                bitField0_ |= 0x00000100;
+                bitField0_ |= 0x00000200;
                 break;
               } // case 72
+              case 80: {
+                clientApp_ = input.readEnum();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 80
               case 162: {
                 input.readMessage(
                     getDayCameraFieldBuilder().getBuilder(),
@@ -2219,6 +2271,59 @@ public final class JonSharedCmd {
         return this;
       }
 
+      private int clientApp_ = 0;
+      /**
+       * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for clientApp.
+       */
+      @java.lang.Override public int getClientAppValue() {
+        return clientApp_;
+      }
+      /**
+       * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for clientApp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientAppValue(int value) {
+        clientApp_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+       * @return The clientApp.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataClientApp getClientApp() {
+        ser.JonSharedDataTypes.JonGuiDataClientApp result = ser.JonSharedDataTypes.JonGuiDataClientApp.forNumber(clientApp_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataClientApp.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+       * @param value The clientApp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientApp(ser.JonSharedDataTypes.JonGuiDataClientApp value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000020;
+        clientApp_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientApp() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        clientApp_ = 0;
+        onChanged();
+        return this;
+      }
+
       private long frameTimeDay_ ;
       /**
        * <pre>
@@ -2244,7 +2349,7 @@ public final class JonSharedCmd {
       public Builder setFrameTimeDay(long value) {
 
         frameTimeDay_ = value;
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -2257,7 +2362,7 @@ public final class JonSharedCmd {
        * @return This builder for chaining.
        */
       public Builder clearFrameTimeDay() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         frameTimeDay_ = 0L;
         onChanged();
         return this;
@@ -2288,7 +2393,7 @@ public final class JonSharedCmd {
       public Builder setFrameTimeHeat(long value) {
 
         frameTimeHeat_ = value;
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -2301,7 +2406,7 @@ public final class JonSharedCmd {
        * @return This builder for chaining.
        */
       public Builder clearFrameTimeHeat() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         frameTimeHeat_ = 0L;
         onChanged();
         return this;
@@ -2332,7 +2437,7 @@ public final class JonSharedCmd {
       public Builder setStateTime(long value) {
 
         stateTime_ = value;
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -2345,7 +2450,7 @@ public final class JonSharedCmd {
        * @return This builder for chaining.
        */
       public Builder clearStateTime() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         stateTime_ = 0L;
         onChanged();
         return this;
@@ -2376,7 +2481,7 @@ public final class JonSharedCmd {
       public Builder setClientTimeMs(long value) {
 
         clientTimeMs_ = value;
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -2389,7 +2494,7 @@ public final class JonSharedCmd {
        * @return This builder for chaining.
        */
       public Builder clearClientTimeMs() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         clientTimeMs_ = 0L;
         onChanged();
         return this;
@@ -5681,30 +5786,32 @@ public final class JonSharedCmd {
       "o\032\027jon_shared_cmd_cv.proto\032)jon_shared_c" +
       "md_day_cam_glass_heater.proto\032\031jon_share" +
       "d_cmd_lira.proto\032\033jon_shared_data_types." +
-      "proto\"\302\006\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
+      "proto\"\374\006\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
       "B\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\ti" +
       "mportant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001(" +
       "\010\022:\n\013client_type\030\005 \001(\0162\031.ser.JonGuiDataC" +
-      "lientTypeB\n\272H\007\202\001\004\020\001 \000\022\026\n\016frame_time_day\030" +
-      "\006 \001(\004\022\027\n\017frame_time_heat\030\007 \001(\004\022\022\n\nstate_" +
-      "time\030\010 \001(\004\022\026\n\016client_time_ms\030\t \001(\004\022)\n\nda" +
-      "y_camera\030\024 \001(\0132\023.cmd.DayCamera.RootH\000\022+\n" +
-      "\013heat_camera\030\025 \001(\0132\024.cmd.HeatCamera.Root" +
-      "H\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.RootH\000\022$\n\007comp" +
-      "ass\030\027 \001(\0132\021.cmd.Compass.RootH\000\022\034\n\003lrf\030\030 " +
-      "\001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_calib\030\031 \001(\0132" +
-      "\023.cmd.Lrf_calib.RootH\000\022*\n\006rotary\030\032 \001(\0132\030" +
-      ".cmd.RotaryPlatform.RootH\000\022\034\n\003osd\030\033 \001(\0132" +
-      "\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.Pin" +
-      "gH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH\000\022\035\n\006frozen" +
-      "\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006system\030\037 \001(\0132\020." +
-      "cmd.System.RootH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.R" +
-      "ootH\000\022;\n\024day_cam_glass_heater\030! \001(\0132\033.cm" +
-      "d.DayCamGlassHeater.RootH\000\022\036\n\004lira\030\" \001(\013" +
-      "2\016.cmd.Lira.RootH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\n" +
-      "\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006FrozenBFZDgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/cmdb\006proto3"
+      "lientTypeB\n\272H\007\202\001\004\020\001 \000\0228\n\nclient_app\030\n \001(" +
+      "\0162\030.ser.JonGuiDataClientAppB\n\272H\007\202\001\004\020\001 \000\022" +
+      "\026\n\016frame_time_day\030\006 \001(\004\022\027\n\017frame_time_he" +
+      "at\030\007 \001(\004\022\022\n\nstate_time\030\010 \001(\004\022\026\n\016client_t" +
+      "ime_ms\030\t \001(\004\022)\n\nday_camera\030\024 \001(\0132\023.cmd.D" +
+      "ayCamera.RootH\000\022+\n\013heat_camera\030\025 \001(\0132\024.c" +
+      "md.HeatCamera.RootH\000\022\034\n\003gps\030\026 \001(\0132\r.cmd." +
+      "Gps.RootH\000\022$\n\007compass\030\027 \001(\0132\021.cmd.Compas" +
+      "s.RootH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf.RootH\000\022(" +
+      "\n\tlrf_calib\030\031 \001(\0132\023.cmd.Lrf_calib.RootH\000" +
+      "\022*\n\006rotary\030\032 \001(\0132\030.cmd.RotaryPlatform.Ro" +
+      "otH\000\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.RootH\000\022\031\n\004pi" +
+      "ng\030\034 \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 \001(\0132\t.cm" +
+      "d.NoopH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.FrozenH\000\022" +
+      "\"\n\006system\030\037 \001(\0132\020.cmd.System.RootH\000\022\032\n\002c" +
+      "v\030  \001(\0132\014.cmd.CV.RootH\000\022;\n\024day_cam_glass" +
+      "_heater\030! \001(\0132\033.cmd.DayCamGlassHeater.Ro" +
+      "otH\000\022\036\n\004lira\030\" \001(\0132\016.cmd.Lira.RootH\000B\020\n\007" +
+      "payload\022\005\272H\002\010\001J\004\010\013\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006" +
+      "FrozenBFZDgit-codecommit.eu-central-1.am" +
+      "azonaws.com/v1/repos/jettison/jonp/cmdb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5729,7 +5836,7 @@ public final class JonSharedCmd {
     internal_static_cmd_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Root_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Payload", });
+        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Payload", });
     internal_static_cmd_Ping_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Ping_fieldAccessorTable = new

@@ -53,7 +53,7 @@ struct JonGuiDataMeteoDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataMeteoDefaultTypeInternal _JonGuiDataMeteo_default_instance_;
 }  // namespace ser
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[19];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[20];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fshared_5fdata_5ftypes_2eproto = nullptr;
 const ::uint32_t
@@ -204,14 +204,20 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002"
     "\0222\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE"
     "_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE"
-    "_LIRA\020\004*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JO"
-    "N_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022"
-    "(\n$JON_GUI_DATA_EXT_BAT_STATUS_CHARGING\020"
-    "\001\022+\n\'JON_GUI_DATA_EXT_BAT_STATUS_DISCHAR"
-    "GING\020\002\022)\n%JON_GUI_DATA_EXT_BAT_STATUS_BA"
-    "LANCING\020\003BHZFgit-codecommit.eu-central-1"
-    ".amazonaws.com/v1/repos/jettison/jonp/ty"
-    "pesb\006proto3"
+    "_LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_G"
+    "UI_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_"
+    "GUI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_"
+    "GUI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON"
+    "_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n"
+    "%JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004"
+    "*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_D"
+    "ATA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_"
+    "GUI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JO"
+    "N_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022"
+    ")\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING"
+    "\020\003BHZFgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/typesb\006pr"
+    "oto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -221,7 +227,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    5211,
+    5444,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
@@ -397,9 +403,18 @@ PROTOBUF_CONSTINIT const uint32_t JonGuiDataClientType_internal_data_[] = {
 bool JonGuiDataClientType_IsValid(int value) {
   return 0 <= value && value <= 4;
 }
-const ::google::protobuf::EnumDescriptor* JonGuiDataExtBatStatus_descriptor() {
+const ::google::protobuf::EnumDescriptor* JonGuiDataClientApp_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
   return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[18];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataClientApp_internal_data_[] = {
+    327680u, 0u, };
+bool JonGuiDataClientApp_IsValid(int value) {
+  return 0 <= value && value <= 4;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataExtBatStatus_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[19];
 }
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataExtBatStatus_internal_data_[] = {
     262144u, 0u, };

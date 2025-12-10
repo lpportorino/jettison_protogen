@@ -700,6 +700,7 @@ class Root final : public ::google::protobuf::Message
     kFrameTimeHeatFieldNumber = 7,
     kStateTimeFieldNumber = 8,
     kClientTimeMsFieldNumber = 9,
+    kClientAppFieldNumber = 10,
     kDayCameraFieldNumber = 20,
     kHeatCameraFieldNumber = 21,
     kGpsFieldNumber = 22,
@@ -804,6 +805,16 @@ class Root final : public ::google::protobuf::Message
   private:
   ::uint64_t _internal_client_time_ms() const;
   void _internal_set_client_time_ms(::uint64_t value);
+
+  public:
+  // .ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = {
+  void clear_client_app() ;
+  ::ser::JonGuiDataClientApp client_app() const;
+  void set_client_app(::ser::JonGuiDataClientApp value);
+
+  private:
+  ::ser::JonGuiDataClientApp _internal_client_app() const;
+  void _internal_set_client_app(::ser::JonGuiDataClientApp value);
 
   public:
   // .cmd.DayCamera.Root day_camera = 20;
@@ -1115,7 +1126,7 @@ class Root final : public ::google::protobuf::Message
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 24, 15,
+      4, 25, 15,
       0, 7>
       _table_;
 
@@ -1142,6 +1153,7 @@ class Root final : public ::google::protobuf::Message
     ::uint64_t frame_time_heat_;
     ::uint64_t state_time_;
     ::uint64_t client_time_ms_;
+    int client_app_;
     union PayloadUnion {
       constexpr PayloadUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
@@ -1293,6 +1305,28 @@ inline ::ser::JonGuiDataClientType Root::_internal_client_type() const {
 inline void Root::_internal_set_client_type(::ser::JonGuiDataClientType value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.client_type_ = value;
+}
+
+// .ser.JonGuiDataClientApp client_app = 10 [(.buf.validate.field) = {
+inline void Root::clear_client_app() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_app_ = 0;
+}
+inline ::ser::JonGuiDataClientApp Root::client_app() const {
+  // @@protoc_insertion_point(field_get:cmd.Root.client_app)
+  return _internal_client_app();
+}
+inline void Root::set_client_app(::ser::JonGuiDataClientApp value) {
+  _internal_set_client_app(value);
+  // @@protoc_insertion_point(field_set:cmd.Root.client_app)
+}
+inline ::ser::JonGuiDataClientApp Root::_internal_client_app() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataClientApp>(_impl_.client_app_);
+}
+inline void Root::_internal_set_client_app(::ser::JonGuiDataClientApp value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.client_app_ = value;
 }
 
 // uint64 frame_time_day = 6;

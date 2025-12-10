@@ -161,6 +161,14 @@ typedef enum _ser_JonGuiDataClientType {
     ser_JonGuiDataClientType_JON_GUI_DATA_CLIENT_TYPE_LIRA = 4
 } ser_JonGuiDataClientType;
 
+typedef enum _ser_JonGuiDataClientApp {
+    ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_UNSPECIFIED = 0,
+    ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_BROWSER_UI = 1,
+    ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_BROWSER_MAP = 2,
+    ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE = 3,
+    ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE = 4
+} ser_JonGuiDataClientApp;
+
 typedef enum _ser_JonGuiDataExtBatStatus {
     ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED = 0,
     ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_CHARGING = 1,
@@ -252,6 +260,10 @@ extern "C" {
 #define _ser_JonGuiDataClientType_MIN ser_JonGuiDataClientType_JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIED
 #define _ser_JonGuiDataClientType_MAX ser_JonGuiDataClientType_JON_GUI_DATA_CLIENT_TYPE_LIRA
 #define _ser_JonGuiDataClientType_ARRAYSIZE ((ser_JonGuiDataClientType)(ser_JonGuiDataClientType_JON_GUI_DATA_CLIENT_TYPE_LIRA+1))
+
+#define _ser_JonGuiDataClientApp_MIN ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_UNSPECIFIED
+#define _ser_JonGuiDataClientApp_MAX ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE
+#define _ser_JonGuiDataClientApp_ARRAYSIZE ((ser_JonGuiDataClientApp)(ser_JonGuiDataClientApp_JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE+1))
 
 #define _ser_JonGuiDataExtBatStatus_MIN ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED
 #define _ser_JonGuiDataExtBatStatus_MAX ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_BALANCING

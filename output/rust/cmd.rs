@@ -11,6 +11,8 @@ pub struct Root {
     pub from_cv_subsystem: bool,
     #[prost(enumeration = "super::ser::JonGuiDataClientType", tag = "5")]
     pub client_type: i32,
+    #[prost(enumeration = "super::ser::JonGuiDataClientApp", tag = "10")]
+    pub client_app: i32,
     /// Frame timestamps (PTS) from video streams when command was issued
     ///
     /// Day camera frame timestamp (nanoseconds)

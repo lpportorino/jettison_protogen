@@ -2681,6 +2681,150 @@ public final class JonSharedDataTypes {
   }
 
   /**
+   * Protobuf enum {@code ser.JonGuiDataClientApp}
+   */
+  public enum JonGuiDataClientApp
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_UNSPECIFIED = 0;</code>
+     */
+    JON_GUI_DATA_CLIENT_APP_UNSPECIFIED(0),
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_BROWSER_UI = 1;</code>
+     */
+    JON_GUI_DATA_CLIENT_APP_BROWSER_UI(1),
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_BROWSER_MAP = 2;</code>
+     */
+    JON_GUI_DATA_CLIENT_APP_BROWSER_MAP(2),
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE = 3;</code>
+     */
+    JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE(3),
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE = 4;</code>
+     */
+    JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE(4),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataClientApp.class.getName());
+    }
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_UNSPECIFIED = 0;</code>
+     */
+    public static final int JON_GUI_DATA_CLIENT_APP_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_BROWSER_UI = 1;</code>
+     */
+    public static final int JON_GUI_DATA_CLIENT_APP_BROWSER_UI_VALUE = 1;
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_BROWSER_MAP = 2;</code>
+     */
+    public static final int JON_GUI_DATA_CLIENT_APP_BROWSER_MAP_VALUE = 2;
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE = 3;</code>
+     */
+    public static final int JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE_VALUE = 3;
+    /**
+     * <code>JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE = 4;</code>
+     */
+    public static final int JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE_VALUE = 4;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static JonGuiDataClientApp valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static JonGuiDataClientApp forNumber(int value) {
+      switch (value) {
+        case 0: return JON_GUI_DATA_CLIENT_APP_UNSPECIFIED;
+        case 1: return JON_GUI_DATA_CLIENT_APP_BROWSER_UI;
+        case 2: return JON_GUI_DATA_CLIENT_APP_BROWSER_MAP;
+        case 3: return JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE;
+        case 4: return JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<JonGuiDataClientApp>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        JonGuiDataClientApp> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JonGuiDataClientApp>() {
+            public JonGuiDataClientApp findValueByNumber(int number) {
+              return JonGuiDataClientApp.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(18);
+    }
+
+    private static final JonGuiDataClientApp[] VALUES = values();
+
+    public static JonGuiDataClientApp valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private JonGuiDataClientApp(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ser.JonGuiDataClientApp)
+  }
+
+  /**
    * Protobuf enum {@code ser.JonGuiDataExtBatStatus}
    */
   public enum JonGuiDataExtBatStatus
@@ -2789,7 +2933,7 @@ public final class JonSharedDataTypes {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(18);
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(19);
     }
 
     private static final JonGuiDataExtBatStatus[] VALUES = values();
@@ -3536,14 +3680,20 @@ public final class JonSharedDataTypes {
       "JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002" +
       "\0222\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE" +
       "_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE" +
-      "_LIRA\020\004*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JO" +
-      "N_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022" +
-      "(\n$JON_GUI_DATA_EXT_BAT_STATUS_CHARGING\020" +
-      "\001\022+\n\'JON_GUI_DATA_EXT_BAT_STATUS_DISCHAR" +
-      "GING\020\002\022)\n%JON_GUI_DATA_EXT_BAT_STATUS_BA" +
-      "LANCING\020\003BHZFgit-codecommit.eu-central-1" +
-      ".amazonaws.com/v1/repos/jettison/jonp/ty" +
-      "pesb\006proto3"
+      "_LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_G" +
+      "UI_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_" +
+      "GUI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_" +
+      "GUI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON" +
+      "_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n" +
+      "%JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004" +
+      "*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_D" +
+      "ATA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_" +
+      "GUI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JO" +
+      "N_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022" +
+      ")\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING" +
+      "\020\003BHZFgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/typesb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

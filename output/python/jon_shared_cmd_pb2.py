@@ -37,7 +37,7 @@ import jon_shared_cmd_lira_pb2 as jon__shared__cmd__lira__pb2
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_shared_cmd.proto\x12\x03\x63md\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1bjon_shared_data_types.proto\"\xa0\x06\n\x04Root\x12\x18\n\x10protocol_version\x18\x01 \x01(\r\x12\x12\n\nsession_id\x18\x02 \x01(\r\x12\x11\n\timportant\x18\x03 \x01(\x08\x12\x19\n\x11\x66rom_cv_subsystem\x18\x04 \x01(\x08\x12.\n\x0b\x63lient_type\x18\x05 \x01(\x0e\x32\x19.ser.JonGuiDataClientType\x12\x16\n\x0e\x66rame_time_day\x18\x06 \x01(\x04\x12\x17\n\x0f\x66rame_time_heat\x18\x07 \x01(\x04\x12\x12\n\nstate_time\x18\x08 \x01(\x04\x12\x16\n\x0e\x63lient_time_ms\x18\t \x01(\x04\x12)\n\nday_camera\x18\x14 \x01(\x0b\x32\x13.cmd.DayCamera.RootH\x00\x12+\n\x0bheat_camera\x18\x15 \x01(\x0b\x32\x14.cmd.HeatCamera.RootH\x00\x12\x1c\n\x03gps\x18\x16 \x01(\x0b\x32\r.cmd.Gps.RootH\x00\x12$\n\x07\x63ompass\x18\x17 \x01(\x0b\x32\x11.cmd.Compass.RootH\x00\x12\x1c\n\x03lrf\x18\x18 \x01(\x0b\x32\r.cmd.Lrf.RootH\x00\x12(\n\tlrf_calib\x18\x19 \x01(\x0b\x32\x13.cmd.Lrf_calib.RootH\x00\x12*\n\x06rotary\x18\x1a \x01(\x0b\x32\x18.cmd.RotaryPlatform.RootH\x00\x12\x1c\n\x03osd\x18\x1b \x01(\x0b\x32\r.cmd.OSD.RootH\x00\x12\x19\n\x04ping\x18\x1c \x01(\x0b\x32\t.cmd.PingH\x00\x12\x19\n\x04noop\x18\x1d \x01(\x0b\x32\t.cmd.NoopH\x00\x12\x1d\n\x06\x66rozen\x18\x1e \x01(\x0b\x32\x0b.cmd.FrozenH\x00\x12\"\n\x06system\x18\x1f \x01(\x0b\x32\x10.cmd.System.RootH\x00\x12\x1a\n\x02\x63v\x18  \x01(\x0b\x32\x0c.cmd.CV.RootH\x00\x12;\n\x14\x64\x61y_cam_glass_heater\x18! \x01(\x0b\x32\x1b.cmd.DayCamGlassHeater.RootH\x00\x12\x1e\n\x04lira\x18\" \x01(\x0b\x32\x0e.cmd.Lira.RootH\x00\x42\t\n\x07payloadJ\x04\x08\n\x10\x14\"\x06\n\x04Ping\"\x06\n\x04Noop\"\x08\n\x06\x46rozenBFZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmdb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_shared_cmd.proto\x12\x03\x63md\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1bjon_shared_data_types.proto\"\xce\x06\n\x04Root\x12\x18\n\x10protocol_version\x18\x01 \x01(\r\x12\x12\n\nsession_id\x18\x02 \x01(\r\x12\x11\n\timportant\x18\x03 \x01(\x08\x12\x19\n\x11\x66rom_cv_subsystem\x18\x04 \x01(\x08\x12.\n\x0b\x63lient_type\x18\x05 \x01(\x0e\x32\x19.ser.JonGuiDataClientType\x12,\n\nclient_app\x18\n \x01(\x0e\x32\x18.ser.JonGuiDataClientApp\x12\x16\n\x0e\x66rame_time_day\x18\x06 \x01(\x04\x12\x17\n\x0f\x66rame_time_heat\x18\x07 \x01(\x04\x12\x12\n\nstate_time\x18\x08 \x01(\x04\x12\x16\n\x0e\x63lient_time_ms\x18\t \x01(\x04\x12)\n\nday_camera\x18\x14 \x01(\x0b\x32\x13.cmd.DayCamera.RootH\x00\x12+\n\x0bheat_camera\x18\x15 \x01(\x0b\x32\x14.cmd.HeatCamera.RootH\x00\x12\x1c\n\x03gps\x18\x16 \x01(\x0b\x32\r.cmd.Gps.RootH\x00\x12$\n\x07\x63ompass\x18\x17 \x01(\x0b\x32\x11.cmd.Compass.RootH\x00\x12\x1c\n\x03lrf\x18\x18 \x01(\x0b\x32\r.cmd.Lrf.RootH\x00\x12(\n\tlrf_calib\x18\x19 \x01(\x0b\x32\x13.cmd.Lrf_calib.RootH\x00\x12*\n\x06rotary\x18\x1a \x01(\x0b\x32\x18.cmd.RotaryPlatform.RootH\x00\x12\x1c\n\x03osd\x18\x1b \x01(\x0b\x32\r.cmd.OSD.RootH\x00\x12\x19\n\x04ping\x18\x1c \x01(\x0b\x32\t.cmd.PingH\x00\x12\x19\n\x04noop\x18\x1d \x01(\x0b\x32\t.cmd.NoopH\x00\x12\x1d\n\x06\x66rozen\x18\x1e \x01(\x0b\x32\x0b.cmd.FrozenH\x00\x12\"\n\x06system\x18\x1f \x01(\x0b\x32\x10.cmd.System.RootH\x00\x12\x1a\n\x02\x63v\x18  \x01(\x0b\x32\x0c.cmd.CV.RootH\x00\x12;\n\x14\x64\x61y_cam_glass_heater\x18! \x01(\x0b\x32\x1b.cmd.DayCamGlassHeater.RootH\x00\x12\x1e\n\x04lira\x18\" \x01(\x0b\x32\x0e.cmd.Lira.RootH\x00\x42\t\n\x07payloadJ\x04\x08\x0b\x10\x14\"\x06\n\x04Ping\"\x06\n\x04Noop\"\x08\n\x06\x46rozenBFZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmdb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -46,11 +46,11 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd'
   _globals['_ROOT']._serialized_start=419
-  _globals['_ROOT']._serialized_end=1219
-  _globals['_PING']._serialized_start=1221
-  _globals['_PING']._serialized_end=1227
-  _globals['_NOOP']._serialized_start=1229
-  _globals['_NOOP']._serialized_end=1235
-  _globals['_FROZEN']._serialized_start=1237
-  _globals['_FROZEN']._serialized_end=1245
+  _globals['_ROOT']._serialized_end=1265
+  _globals['_PING']._serialized_start=1267
+  _globals['_PING']._serialized_end=1273
+  _globals['_NOOP']._serialized_start=1275
+  _globals['_NOOP']._serialized_end=1281
+  _globals['_FROZEN']._serialized_start=1283
+  _globals['_FROZEN']._serialized_end=1291
 # @@protoc_insertion_point(module_scope)
