@@ -43,6 +43,7 @@
 #include "jon_shared_data_rec_osd.pb.h"
 #include "jon_shared_data_day_cam_glass_heater.pb.h"
 #include "jon_shared_data_actual_space_time.pb.h"
+#include "jon_shared_data_power.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -241,6 +242,7 @@ class JonGUIState final : public ::google::protobuf::Message
     kRecOsdFieldNumber = 23,
     kDayCamGlassHeaterFieldNumber = 24,
     kActualSpaceTimeFieldNumber = 25,
+    kPowerFieldNumber = 26,
     kSystemMonotonicTimeUsFieldNumber = 2,
     kProtocolVersionFieldNumber = 1,
   };
@@ -439,6 +441,21 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataActualSpaceTime* _internal_mutable_actual_space_time();
 
   public:
+  // .ser.JonGuiDataPower power = 26 [(.buf.validate.field) = {
+  bool has_power() const;
+  void clear_power() ;
+  const ::ser::JonGuiDataPower& power() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataPower* release_power();
+  ::ser::JonGuiDataPower* mutable_power();
+  void set_allocated_power(::ser::JonGuiDataPower* value);
+  void unsafe_arena_set_allocated_power(::ser::JonGuiDataPower* value);
+  ::ser::JonGuiDataPower* unsafe_arena_release_power();
+
+  private:
+  const ::ser::JonGuiDataPower& _internal_power() const;
+  ::ser::JonGuiDataPower* _internal_mutable_power();
+
+  public:
   // uint64 system_monotonic_time_us = 2 [(.buf.validate.field) = {
   void clear_system_monotonic_time_us() ;
   ::uint64_t system_monotonic_time_us() const;
@@ -464,7 +481,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 15, 13,
+      5, 16, 14,
       0, 2>
       _table_;
 
@@ -497,6 +514,7 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataRecOsd* rec_osd_;
     ::ser::JonGuiDataDayCamGlassHeater* day_cam_glass_heater_;
     ::ser::JonGuiDataActualSpaceTime* actual_space_time_;
+    ::ser::JonGuiDataPower* power_;
     ::uint64_t system_monotonic_time_us_;
     ::uint32_t protocol_version_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -1746,6 +1764,97 @@ inline void JonGUIState::set_allocated_actual_space_time(::ser::JonGuiDataActual
 
   _impl_.actual_space_time_ = reinterpret_cast<::ser::JonGuiDataActualSpaceTime*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.actual_space_time)
+}
+
+// .ser.JonGuiDataPower power = 26 [(.buf.validate.field) = {
+inline bool JonGUIState::has_power() const {
+  bool value = (_impl_._has_bits_[0] & 0x00002000u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.power_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataPower& JonGUIState::_internal_power() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataPower* p = _impl_.power_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataPower&>(::ser::_JonGuiDataPower_default_instance_);
+}
+inline const ::ser::JonGuiDataPower& JonGUIState::power() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.power)
+  return _internal_power();
+}
+inline void JonGUIState::unsafe_arena_set_allocated_power(::ser::JonGuiDataPower* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.power_);
+  }
+  _impl_.power_ = reinterpret_cast<::ser::JonGuiDataPower*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00002000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00002000u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.power)
+}
+inline ::ser::JonGuiDataPower* JonGUIState::release_power() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00002000u;
+  ::ser::JonGuiDataPower* released = _impl_.power_;
+  _impl_.power_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataPower* JonGUIState::unsafe_arena_release_power() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGUIState.power)
+
+  _impl_._has_bits_[0] &= ~0x00002000u;
+  ::ser::JonGuiDataPower* temp = _impl_.power_;
+  _impl_.power_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataPower* JonGUIState::_internal_mutable_power() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.power_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataPower>(GetArena());
+    _impl_.power_ = reinterpret_cast<::ser::JonGuiDataPower*>(p);
+  }
+  return _impl_.power_;
+}
+inline ::ser::JonGuiDataPower* JonGUIState::mutable_power() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00002000u;
+  ::ser::JonGuiDataPower* _msg = _internal_mutable_power();
+  // @@protoc_insertion_point(field_mutable:ser.JonGUIState.power)
+  return _msg;
+}
+inline void JonGUIState::set_allocated_power(::ser::JonGuiDataPower* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.power_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00002000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00002000u;
+  }
+
+  _impl_.power_ = reinterpret_cast<::ser::JonGuiDataPower*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.power)
 }
 
 #ifdef __GNUC__

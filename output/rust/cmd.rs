@@ -33,7 +33,7 @@ pub struct Root {
     pub client_time_ms: u64,
     #[prost(
         oneof = "root::Payload",
-        tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34"
+        tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35"
     )]
     pub payload: ::core::option::Option<root::Payload>,
 }
@@ -71,6 +71,8 @@ pub mod root {
         DayCamGlassHeater(super::day_cam_glass_heater::Root),
         #[prost(message, tag = "34")]
         Lira(super::lira::Root),
+        #[prost(message, tag = "35")]
+        Power(super::power::Root),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

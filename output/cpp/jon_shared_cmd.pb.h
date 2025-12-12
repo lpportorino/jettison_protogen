@@ -43,6 +43,7 @@
 #include "jon_shared_cmd_cv.pb.h"
 #include "jon_shared_cmd_day_cam_glass_heater.pb.h"
 #include "jon_shared_cmd_lira.pb.h"
+#include "jon_shared_cmd_power.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -598,6 +599,7 @@ class Root final : public ::google::protobuf::Message
     kCv = 32,
     kDayCamGlassHeater = 33,
     kLira = 34,
+    kPower = 35,
     PAYLOAD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -716,6 +718,7 @@ class Root final : public ::google::protobuf::Message
     kCvFieldNumber = 32,
     kDayCamGlassHeaterFieldNumber = 33,
     kLiraFieldNumber = 34,
+    kPowerFieldNumber = 35,
   };
   // uint32 protocol_version = 1 [(.buf.validate.field) = {
   void clear_protocol_version() ;
@@ -1102,6 +1105,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::Lira::Root* _internal_mutable_lira();
 
   public:
+  // .cmd.Power.Root power = 35;
+  bool has_power() const;
+  private:
+  bool _internal_has_power() const;
+
+  public:
+  void clear_power() ;
+  const ::cmd::Power::Root& power() const;
+  PROTOBUF_NODISCARD ::cmd::Power::Root* release_power();
+  ::cmd::Power::Root* mutable_power();
+  void set_allocated_power(::cmd::Power::Root* value);
+  void unsafe_arena_set_allocated_power(::cmd::Power::Root* value);
+  ::cmd::Power::Root* unsafe_arena_release_power();
+
+  private:
+  const ::cmd::Power::Root& _internal_power() const;
+  ::cmd::Power::Root* _internal_mutable_power();
+
+  public:
   void clear_payload();
   PayloadCase payload_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Root)
@@ -1122,11 +1144,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_cv();
   void set_has_day_cam_glass_heater();
   void set_has_lira();
+  void set_has_power();
   inline bool has_payload() const;
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 25, 15,
+      4, 26, 16,
       0, 7>
       _table_;
 
@@ -1172,6 +1195,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::CV::Root* cv_;
       ::cmd::DayCamGlassHeater::Root* day_cam_glass_heater_;
       ::cmd::Lira::Root* lira_;
+      ::cmd::Power::Root* power_;
     } payload_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2467,6 +2491,74 @@ inline ::cmd::Lira::Root* Root::_internal_mutable_lira() {
 inline ::cmd::Lira::Root* Root::mutable_lira() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::Lira::Root* _msg = _internal_mutable_lira();
   // @@protoc_insertion_point(field_mutable:cmd.Root.lira)
+  return _msg;
+}
+
+// .cmd.Power.Root power = 35;
+inline bool Root::has_power() const {
+  return payload_case() == kPower;
+}
+inline bool Root::_internal_has_power() const {
+  return payload_case() == kPower;
+}
+inline void Root::set_has_power() {
+  _impl_._oneof_case_[0] = kPower;
+}
+inline ::cmd::Power::Root* Root::release_power() {
+  // @@protoc_insertion_point(field_release:cmd.Root.power)
+  if (payload_case() == kPower) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.power_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.power_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Power::Root& Root::_internal_power() const {
+  return payload_case() == kPower ? *_impl_.payload_.power_ : reinterpret_cast<::cmd::Power::Root&>(::cmd::Power::_Root_default_instance_);
+}
+inline const ::cmd::Power::Root& Root::power() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Root.power)
+  return _internal_power();
+}
+inline ::cmd::Power::Root* Root::unsafe_arena_release_power() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Root.power)
+  if (payload_case() == kPower) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.power_;
+    _impl_.payload_.power_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_power(::cmd::Power::Root* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_power();
+    _impl_.payload_.power_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Root.power)
+}
+inline ::cmd::Power::Root* Root::_internal_mutable_power() {
+  if (payload_case() != kPower) {
+    clear_payload();
+    set_has_power();
+    _impl_.payload_.power_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Power::Root>(GetArena());
+  }
+  return _impl_.payload_.power_;
+}
+inline ::cmd::Power::Root* Root::mutable_power() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Power::Root* _msg = _internal_mutable_power();
+  // @@protoc_insertion_point(field_mutable:cmd.Root.power)
   return _msg;
 }
 

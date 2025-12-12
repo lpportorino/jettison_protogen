@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/power";
+
+package cmd.Power;
+
+// Power module control commands root
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    SetChannel set_channel = 1;
+    SetAll set_all = 2;
+    SetAlertThreshold set_alert_threshold = 3;
+  }
+}
+
+// Set power state for a single channel
+message SetChannel {
+  uint32 channel = 1 [(buf.validate.field).uint32 = {
+    lte: 7  // Valid channels: 0-7
+  }];
+  bool power_on = 2;
+}
+
+// Set power state for all channels
+message SetAll {
+  bool power_on = 1;
+}
+
+// Set overcurrent alert threshold for a channel
+message SetAlertThreshold {
+  uint32 channel = 1 [(buf.validate.field).uint32 = {
+    lte: 7  // Valid channels: 0-7
+  }];
+  uint32 threshold_ma = 2 [(buf.validate.field).uint32 = {
+    lte: 10000  // Max 10A threshold
+  }];  // Threshold in milliamps
+}

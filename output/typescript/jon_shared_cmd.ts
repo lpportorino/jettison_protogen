@@ -17,6 +17,7 @@ import { Root as Root12 } from "./jon_shared_cmd_lira";
 import { Root as Root5 } from "./jon_shared_cmd_lrf";
 import { Root as Root6 } from "./jon_shared_cmd_lrf_align";
 import { Root as Root8 } from "./jon_shared_cmd_osd";
+import { Root as Root13 } from "./jon_shared_cmd_power";
 import { Root as Root7 } from "./jon_shared_cmd_rotary";
 import { Root as Root9 } from "./jon_shared_cmd_system";
 import {
@@ -58,6 +59,7 @@ export interface Root {
   cv?: Root10 | undefined;
   dayCamGlassHeater?: Root11 | undefined;
   lira?: Root12 | undefined;
+  power?: Root13 | undefined;
 }
 
 export interface Ping {
@@ -96,6 +98,7 @@ function createBaseRoot(): Root {
     cv: undefined,
     dayCamGlassHeater: undefined,
     lira: undefined,
+    power: undefined,
   };
 }
 
@@ -175,6 +178,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.lira !== undefined) {
       Root12.encode(message.lira, writer.uint32(274).fork()).join();
+    }
+    if (message.power !== undefined) {
+      Root13.encode(message.power, writer.uint32(282).fork()).join();
     }
     return writer;
   },
@@ -386,6 +392,14 @@ export const Root: MessageFns<Root> = {
           message.lira = Root12.decode(reader, reader.uint32());
           continue;
         }
+        case 35: {
+          if (tag !== 282) {
+            break;
+          }
+
+          message.power = Root13.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -422,6 +436,7 @@ export const Root: MessageFns<Root> = {
       cv: isSet(object.cv) ? Root10.fromJSON(object.cv) : undefined,
       dayCamGlassHeater: isSet(object.dayCamGlassHeater) ? Root11.fromJSON(object.dayCamGlassHeater) : undefined,
       lira: isSet(object.lira) ? Root12.fromJSON(object.lira) : undefined,
+      power: isSet(object.power) ? Root13.fromJSON(object.power) : undefined,
     };
   },
 
@@ -502,6 +517,9 @@ export const Root: MessageFns<Root> = {
     if (message.lira !== undefined) {
       obj.lira = Root12.toJSON(message.lira);
     }
+    if (message.power !== undefined) {
+      obj.power = Root13.toJSON(message.power);
+    }
     return obj;
   },
 
@@ -559,6 +577,9 @@ export const Root: MessageFns<Root> = {
       ? Root11.fromPartial(object.dayCamGlassHeater)
       : undefined;
     message.lira = (object.lira !== undefined && object.lira !== null) ? Root12.fromPartial(object.lira) : undefined;
+    message.power = (object.power !== undefined && object.power !== null)
+      ? Root13.fromPartial(object.power)
+      : undefined;
     return message;
   },
 };

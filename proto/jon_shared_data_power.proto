@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power";
+
+package ser;
+
+// Power module state for a single channel (S0-S7)
+message JonGuiDataPowerModule {
+  double voltage = 1 [(buf.validate.field).double = {
+    gte: 0,
+    lte: 100,
+    example: [0, 12.5, 24.0]
+  }];  // Volts
+  double current = 2 [(buf.validate.field).double = {
+    gte: 0,
+    lte: 50,
+    example: [0, 0.5, 2.5]
+  }];  // Amps
+  double power = 3 [(buf.validate.field).double = {
+    gte: 0,
+    lte: 500,
+    example: [0, 6.0, 30.0]
+  }];  // Watts
+  bool is_on = 4;        // Channel power state
+  bool has_alarm = 5;    // Overcurrent/fault alarm
+}
+
+// Power state for all 8 channels
+message JonGuiDataPower {
+  JonGuiDataPowerModule s0 = 1;  // GPS
+  JonGuiDataPowerModule s1 = 2;  // Compass
+  JonGuiDataPowerModule s2 = 3;  // LRF (Laser Range Finder)
+  JonGuiDataPowerModule s3 = 4;  // Day Camera Lens
+  JonGuiDataPowerModule s4 = 5;  // Thermal Camera
+  JonGuiDataPowerModule s5 = 6;  // ORIN NUC (Main compute)
+  JonGuiDataPowerModule s6 = 7;  // Thermal Core
+  JonGuiDataPowerModule s7 = 8;  // Heater / Spare
+}

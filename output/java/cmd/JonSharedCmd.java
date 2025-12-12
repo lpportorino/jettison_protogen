@@ -340,6 +340,21 @@ public final class JonSharedCmd {
      */
     cmd.Lira.JonSharedCmdLira.RootOrBuilder getLiraOrBuilder();
 
+    /**
+     * <code>.cmd.Power.Root power = 35;</code>
+     * @return Whether the power field is set.
+     */
+    boolean hasPower();
+    /**
+     * <code>.cmd.Power.Root power = 35;</code>
+     * @return The power.
+     */
+    cmd.Power.JonSharedCmdPower.Root getPower();
+    /**
+     * <code>.cmd.Power.Root power = 35;</code>
+     */
+    cmd.Power.JonSharedCmdPower.RootOrBuilder getPowerOrBuilder();
+
     cmd.JonSharedCmd.Root.PayloadCase getPayloadCase();
   }
   /**
@@ -402,6 +417,7 @@ public final class JonSharedCmd {
       CV(32),
       DAY_CAM_GLASS_HEATER(33),
       LIRA(34),
+      POWER(35),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -434,6 +450,7 @@ public final class JonSharedCmd {
           case 32: return CV;
           case 33: return DAY_CAM_GLASS_HEATER;
           case 34: return LIRA;
+          case 35: return POWER;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -1054,6 +1071,37 @@ public final class JonSharedCmd {
       return cmd.Lira.JonSharedCmdLira.Root.getDefaultInstance();
     }
 
+    public static final int POWER_FIELD_NUMBER = 35;
+    /**
+     * <code>.cmd.Power.Root power = 35;</code>
+     * @return Whether the power field is set.
+     */
+    @java.lang.Override
+    public boolean hasPower() {
+      return payloadCase_ == 35;
+    }
+    /**
+     * <code>.cmd.Power.Root power = 35;</code>
+     * @return The power.
+     */
+    @java.lang.Override
+    public cmd.Power.JonSharedCmdPower.Root getPower() {
+      if (payloadCase_ == 35) {
+         return (cmd.Power.JonSharedCmdPower.Root) payload_;
+      }
+      return cmd.Power.JonSharedCmdPower.Root.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Power.Root power = 35;</code>
+     */
+    @java.lang.Override
+    public cmd.Power.JonSharedCmdPower.RootOrBuilder getPowerOrBuilder() {
+      if (payloadCase_ == 35) {
+         return (cmd.Power.JonSharedCmdPower.Root) payload_;
+      }
+      return cmd.Power.JonSharedCmdPower.Root.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1142,6 +1190,9 @@ public final class JonSharedCmd {
       }
       if (payloadCase_ == 34) {
         output.writeMessage(34, (cmd.Lira.JonSharedCmdLira.Root) payload_);
+      }
+      if (payloadCase_ == 35) {
+        output.writeMessage(35, (cmd.Power.JonSharedCmdPower.Root) payload_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1252,6 +1303,10 @@ public final class JonSharedCmd {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(34, (cmd.Lira.JonSharedCmdLira.Root) payload_);
       }
+      if (payloadCase_ == 35) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(35, (cmd.Power.JonSharedCmdPower.Root) payload_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1346,6 +1401,10 @@ public final class JonSharedCmd {
         case 34:
           if (!getLira()
               .equals(other.getLira())) return false;
+          break;
+        case 35:
+          if (!getPower()
+              .equals(other.getPower())) return false;
           break;
         case 0:
         default:
@@ -1447,6 +1506,10 @@ public final class JonSharedCmd {
         case 34:
           hash = (37 * hash) + LIRA_FIELD_NUMBER;
           hash = (53 * hash) + getLira().hashCode();
+          break;
+        case 35:
+          hash = (37 * hash) + POWER_FIELD_NUMBER;
+          hash = (53 * hash) + getPower().hashCode();
           break;
         case 0:
         default:
@@ -1637,6 +1700,9 @@ public final class JonSharedCmd {
         if (liraBuilder_ != null) {
           liraBuilder_.clear();
         }
+        if (powerBuilder_ != null) {
+          powerBuilder_.clear();
+        }
         payloadCase_ = 0;
         payload_ = null;
         return this;
@@ -1768,6 +1834,10 @@ public final class JonSharedCmd {
             liraBuilder_ != null) {
           result.payload_ = liraBuilder_.build();
         }
+        if (payloadCase_ == 35 &&
+            powerBuilder_ != null) {
+          result.payload_ = powerBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -1871,6 +1941,10 @@ public final class JonSharedCmd {
           }
           case LIRA: {
             mergeLira(other.getLira());
+            break;
+          }
+          case POWER: {
+            mergePower(other.getPower());
             break;
           }
           case PAYLOAD_NOT_SET: {
@@ -2058,6 +2132,13 @@ public final class JonSharedCmd {
                 payloadCase_ = 34;
                 break;
               } // case 274
+              case 282: {
+                input.readMessage(
+                    getPowerFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                payloadCase_ = 35;
+                break;
+              } // case 282
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4630,6 +4711,148 @@ public final class JonSharedCmd {
         return liraBuilder_;
       }
 
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Power.JonSharedCmdPower.Root, cmd.Power.JonSharedCmdPower.Root.Builder, cmd.Power.JonSharedCmdPower.RootOrBuilder> powerBuilder_;
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       * @return Whether the power field is set.
+       */
+      @java.lang.Override
+      public boolean hasPower() {
+        return payloadCase_ == 35;
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       * @return The power.
+       */
+      @java.lang.Override
+      public cmd.Power.JonSharedCmdPower.Root getPower() {
+        if (powerBuilder_ == null) {
+          if (payloadCase_ == 35) {
+            return (cmd.Power.JonSharedCmdPower.Root) payload_;
+          }
+          return cmd.Power.JonSharedCmdPower.Root.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 35) {
+            return powerBuilder_.getMessage();
+          }
+          return cmd.Power.JonSharedCmdPower.Root.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      public Builder setPower(cmd.Power.JonSharedCmdPower.Root value) {
+        if (powerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          powerBuilder_.setMessage(value);
+        }
+        payloadCase_ = 35;
+        return this;
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      public Builder setPower(
+          cmd.Power.JonSharedCmdPower.Root.Builder builderForValue) {
+        if (powerBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          powerBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 35;
+        return this;
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      public Builder mergePower(cmd.Power.JonSharedCmdPower.Root value) {
+        if (powerBuilder_ == null) {
+          if (payloadCase_ == 35 &&
+              payload_ != cmd.Power.JonSharedCmdPower.Root.getDefaultInstance()) {
+            payload_ = cmd.Power.JonSharedCmdPower.Root.newBuilder((cmd.Power.JonSharedCmdPower.Root) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 35) {
+            powerBuilder_.mergeFrom(value);
+          } else {
+            powerBuilder_.setMessage(value);
+          }
+        }
+        payloadCase_ = 35;
+        return this;
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      public Builder clearPower() {
+        if (powerBuilder_ == null) {
+          if (payloadCase_ == 35) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 35) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          powerBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      public cmd.Power.JonSharedCmdPower.Root.Builder getPowerBuilder() {
+        return getPowerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      @java.lang.Override
+      public cmd.Power.JonSharedCmdPower.RootOrBuilder getPowerOrBuilder() {
+        if ((payloadCase_ == 35) && (powerBuilder_ != null)) {
+          return powerBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 35) {
+            return (cmd.Power.JonSharedCmdPower.Root) payload_;
+          }
+          return cmd.Power.JonSharedCmdPower.Root.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Power.Root power = 35;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Power.JonSharedCmdPower.Root, cmd.Power.JonSharedCmdPower.Root.Builder, cmd.Power.JonSharedCmdPower.RootOrBuilder> 
+          getPowerFieldBuilder() {
+        if (powerBuilder_ == null) {
+          if (!(payloadCase_ == 35)) {
+            payload_ = cmd.Power.JonSharedCmdPower.Root.getDefaultInstance();
+          }
+          powerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Power.JonSharedCmdPower.Root, cmd.Power.JonSharedCmdPower.Root.Builder, cmd.Power.JonSharedCmdPower.RootOrBuilder>(
+                  (cmd.Power.JonSharedCmdPower.Root) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 35;
+        onChanged();
+        return powerBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:cmd.Root)
     }
 
@@ -5785,33 +6008,34 @@ public final class JonSharedCmd {
       "_align.proto\032\033jon_shared_cmd_system.prot" +
       "o\032\027jon_shared_cmd_cv.proto\032)jon_shared_c" +
       "md_day_cam_glass_heater.proto\032\031jon_share" +
-      "d_cmd_lira.proto\032\033jon_shared_data_types." +
-      "proto\"\374\006\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
-      "B\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\ti" +
-      "mportant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001(" +
-      "\010\022:\n\013client_type\030\005 \001(\0162\031.ser.JonGuiDataC" +
-      "lientTypeB\n\272H\007\202\001\004\020\001 \000\0228\n\nclient_app\030\n \001(" +
-      "\0162\030.ser.JonGuiDataClientAppB\n\272H\007\202\001\004\020\001 \000\022" +
-      "\026\n\016frame_time_day\030\006 \001(\004\022\027\n\017frame_time_he" +
-      "at\030\007 \001(\004\022\022\n\nstate_time\030\010 \001(\004\022\026\n\016client_t" +
-      "ime_ms\030\t \001(\004\022)\n\nday_camera\030\024 \001(\0132\023.cmd.D" +
-      "ayCamera.RootH\000\022+\n\013heat_camera\030\025 \001(\0132\024.c" +
-      "md.HeatCamera.RootH\000\022\034\n\003gps\030\026 \001(\0132\r.cmd." +
-      "Gps.RootH\000\022$\n\007compass\030\027 \001(\0132\021.cmd.Compas" +
-      "s.RootH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf.RootH\000\022(" +
-      "\n\tlrf_calib\030\031 \001(\0132\023.cmd.Lrf_calib.RootH\000" +
-      "\022*\n\006rotary\030\032 \001(\0132\030.cmd.RotaryPlatform.Ro" +
-      "otH\000\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.RootH\000\022\031\n\004pi" +
-      "ng\030\034 \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 \001(\0132\t.cm" +
-      "d.NoopH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.FrozenH\000\022" +
-      "\"\n\006system\030\037 \001(\0132\020.cmd.System.RootH\000\022\032\n\002c" +
-      "v\030  \001(\0132\014.cmd.CV.RootH\000\022;\n\024day_cam_glass" +
-      "_heater\030! \001(\0132\033.cmd.DayCamGlassHeater.Ro" +
-      "otH\000\022\036\n\004lira\030\" \001(\0132\016.cmd.Lira.RootH\000B\020\n\007" +
-      "payload\022\005\272H\002\010\001J\004\010\013\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006" +
-      "FrozenBFZDgit-codecommit.eu-central-1.am" +
-      "azonaws.com/v1/repos/jettison/jonp/cmdb\006" +
-      "proto3"
+      "d_cmd_lira.proto\032\032jon_shared_cmd_power.p" +
+      "roto\032\033jon_shared_data_types.proto\"\236\007\n\004Ro" +
+      "ot\022\'\n\020protocol_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377" +
+      "\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\timportant\030\003 \001" +
+      "(\010\022\031\n\021from_cv_subsystem\030\004 \001(\010\022:\n\013client_" +
+      "type\030\005 \001(\0162\031.ser.JonGuiDataClientTypeB\n\272" +
+      "H\007\202\001\004\020\001 \000\0228\n\nclient_app\030\n \001(\0162\030.ser.JonG" +
+      "uiDataClientAppB\n\272H\007\202\001\004\020\001 \000\022\026\n\016frame_tim" +
+      "e_day\030\006 \001(\004\022\027\n\017frame_time_heat\030\007 \001(\004\022\022\n\n" +
+      "state_time\030\010 \001(\004\022\026\n\016client_time_ms\030\t \001(\004" +
+      "\022)\n\nday_camera\030\024 \001(\0132\023.cmd.DayCamera.Roo" +
+      "tH\000\022+\n\013heat_camera\030\025 \001(\0132\024.cmd.HeatCamer" +
+      "a.RootH\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.RootH\000\022$" +
+      "\n\007compass\030\027 \001(\0132\021.cmd.Compass.RootH\000\022\034\n\003" +
+      "lrf\030\030 \001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_calib\030" +
+      "\031 \001(\0132\023.cmd.Lrf_calib.RootH\000\022*\n\006rotary\030\032" +
+      " \001(\0132\030.cmd.RotaryPlatform.RootH\000\022\034\n\003osd\030" +
+      "\033 \001(\0132\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001(\0132\t.c" +
+      "md.PingH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH\000\022\035\n\006" +
+      "frozen\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006system\030\037 " +
+      "\001(\0132\020.cmd.System.RootH\000\022\032\n\002cv\030  \001(\0132\014.cm" +
+      "d.CV.RootH\000\022;\n\024day_cam_glass_heater\030! \001(" +
+      "\0132\033.cmd.DayCamGlassHeater.RootH\000\022\036\n\004lira" +
+      "\030\" \001(\0132\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132" +
+      "\017.cmd.Power.RootH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\013" +
+      "\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006FrozenBFZDgit-code" +
+      "commit.eu-central-1.amazonaws.com/v1/rep" +
+      "os/jettison/jonp/cmdb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5829,6 +6053,7 @@ public final class JonSharedCmd {
           cmd.CV.JonSharedCmdCv.getDescriptor(),
           cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.getDescriptor(),
           cmd.Lira.JonSharedCmdLira.getDescriptor(),
+          cmd.Power.JonSharedCmdPower.getDescriptor(),
           ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_cmd_Root_descriptor =
@@ -5836,7 +6061,7 @@ public final class JonSharedCmd {
     internal_static_cmd_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Root_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Payload", });
+        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Power", "Payload", });
     internal_static_cmd_Ping_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Ping_fieldAccessorTable = new
@@ -5869,6 +6094,7 @@ public final class JonSharedCmd {
     cmd.CV.JonSharedCmdCv.getDescriptor();
     cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.getDescriptor();
     cmd.Lira.JonSharedCmdLira.getDescriptor();
+    cmd.Power.JonSharedCmdPower.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();

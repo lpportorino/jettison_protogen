@@ -17,4 +17,5 @@ export * as System from "./index.cmd.System";
 export * as CV from "./index.cmd.CV";
 export * as DayCamGlassHeater from "./index.cmd.DayCamGlassHeater";
 export * as Lira from "./index.cmd.Lira";
+export * as Power from "./index.cmd.Power";
 export * from "./jon_shared_cmd";

@@ -239,6 +239,21 @@ public final class JonSharedData {
      * <code>.ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = { ... }</code>
      */
     ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTimeOrBuilder getActualSpaceTimeOrBuilder();
+
+    /**
+     * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the power field is set.
+     */
+    boolean hasPower();
+    /**
+     * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+     * @return The power.
+     */
+    ser.JonSharedDataPower.JonGuiDataPower getPower();
+    /**
+     * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataPower.JonGuiDataPowerOrBuilder getPowerOrBuilder();
   }
   /**
    * <pre>
@@ -646,6 +661,32 @@ public final class JonSharedData {
       return actualSpaceTime_ == null ? ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime.getDefaultInstance() : actualSpaceTime_;
     }
 
+    public static final int POWER_FIELD_NUMBER = 26;
+    private ser.JonSharedDataPower.JonGuiDataPower power_;
+    /**
+     * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the power field is set.
+     */
+    @java.lang.Override
+    public boolean hasPower() {
+      return ((bitField0_ & 0x00002000) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+     * @return The power.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataPower.JonGuiDataPower getPower() {
+      return power_ == null ? ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance() : power_;
+    }
+    /**
+     * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataPower.JonGuiDataPowerOrBuilder getPowerOrBuilder() {
+      return power_ == null ? ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance() : power_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -704,6 +745,9 @@ public final class JonSharedData {
       }
       if (((bitField0_ & 0x00001000) != 0)) {
         output.writeMessage(25, getActualSpaceTime());
+      }
+      if (((bitField0_ & 0x00002000) != 0)) {
+        output.writeMessage(26, getPower());
       }
       getUnknownFields().writeTo(output);
     }
@@ -773,6 +817,10 @@ public final class JonSharedData {
       if (((bitField0_ & 0x00001000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(25, getActualSpaceTime());
+      }
+      if (((bitField0_ & 0x00002000) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(26, getPower());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -858,6 +906,11 @@ public final class JonSharedData {
         if (!getActualSpaceTime()
             .equals(other.getActualSpaceTime())) return false;
       }
+      if (hasPower() != other.hasPower()) return false;
+      if (hasPower()) {
+        if (!getPower()
+            .equals(other.getPower())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -925,6 +978,10 @@ public final class JonSharedData {
       if (hasActualSpaceTime()) {
         hash = (37 * hash) + ACTUAL_SPACE_TIME_FIELD_NUMBER;
         hash = (53 * hash) + getActualSpaceTime().hashCode();
+      }
+      if (hasPower()) {
+        hash = (37 * hash) + POWER_FIELD_NUMBER;
+        hash = (53 * hash) + getPower().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1073,6 +1130,7 @@ public final class JonSharedData {
           getRecOsdFieldBuilder();
           getDayCamGlassHeaterFieldBuilder();
           getActualSpaceTimeFieldBuilder();
+          getPowerFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1145,6 +1203,11 @@ public final class JonSharedData {
         if (actualSpaceTimeBuilder_ != null) {
           actualSpaceTimeBuilder_.dispose();
           actualSpaceTimeBuilder_ = null;
+        }
+        power_ = null;
+        if (powerBuilder_ != null) {
+          powerBuilder_.dispose();
+          powerBuilder_ = null;
         }
         return this;
       }
@@ -1264,6 +1327,12 @@ public final class JonSharedData {
               : actualSpaceTimeBuilder_.build();
           to_bitField0_ |= 0x00001000;
         }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.power_ = powerBuilder_ == null
+              ? power_
+              : powerBuilder_.build();
+          to_bitField0_ |= 0x00002000;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1323,6 +1392,9 @@ public final class JonSharedData {
         }
         if (other.hasActualSpaceTime()) {
           mergeActualSpaceTime(other.getActualSpaceTime());
+        }
+        if (other.hasPower()) {
+          mergePower(other.getPower());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1451,6 +1523,13 @@ public final class JonSharedData {
                 bitField0_ |= 0x00004000;
                 break;
               } // case 202
+              case 210: {
+                input.readMessage(
+                    getPowerFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 210
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3117,6 +3196,127 @@ public final class JonSharedData {
         return actualSpaceTimeBuilder_;
       }
 
+      private ser.JonSharedDataPower.JonGuiDataPower power_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataPower.JonGuiDataPower, ser.JonSharedDataPower.JonGuiDataPower.Builder, ser.JonSharedDataPower.JonGuiDataPowerOrBuilder> powerBuilder_;
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the power field is set.
+       */
+      public boolean hasPower() {
+        return ((bitField0_ & 0x00008000) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       * @return The power.
+       */
+      public ser.JonSharedDataPower.JonGuiDataPower getPower() {
+        if (powerBuilder_ == null) {
+          return power_ == null ? ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance() : power_;
+        } else {
+          return powerBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setPower(ser.JonSharedDataPower.JonGuiDataPower value) {
+        if (powerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          power_ = value;
+        } else {
+          powerBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setPower(
+          ser.JonSharedDataPower.JonGuiDataPower.Builder builderForValue) {
+        if (powerBuilder_ == null) {
+          power_ = builderForValue.build();
+        } else {
+          powerBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergePower(ser.JonSharedDataPower.JonGuiDataPower value) {
+        if (powerBuilder_ == null) {
+          if (((bitField0_ & 0x00008000) != 0) &&
+            power_ != null &&
+            power_ != ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance()) {
+            getPowerBuilder().mergeFrom(value);
+          } else {
+            power_ = value;
+          }
+        } else {
+          powerBuilder_.mergeFrom(value);
+        }
+        if (power_ != null) {
+          bitField0_ |= 0x00008000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearPower() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        power_ = null;
+        if (powerBuilder_ != null) {
+          powerBuilder_.dispose();
+          powerBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataPower.JonGuiDataPower.Builder getPowerBuilder() {
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return getPowerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataPower.JonGuiDataPowerOrBuilder getPowerOrBuilder() {
+        if (powerBuilder_ != null) {
+          return powerBuilder_.getMessageOrBuilder();
+        } else {
+          return power_ == null ?
+              ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance() : power_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataPower.JonGuiDataPower, ser.JonSharedDataPower.JonGuiDataPower.Builder, ser.JonSharedDataPower.JonGuiDataPowerOrBuilder> 
+          getPowerFieldBuilder() {
+        if (powerBuilder_ == null) {
+          powerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataPower.JonGuiDataPower, ser.JonSharedDataPower.JonGuiDataPower.Builder, ser.JonSharedDataPower.JonGuiDataPowerOrBuilder>(
+                  getPower(),
+                  getParentForChildren(),
+                  isClean());
+          power_ = null;
+        }
+        return powerBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGUIState)
     }
 
@@ -3194,30 +3394,32 @@ public final class JonSharedData {
       "_heat.proto\032\035jon_shared_data_rec_osd.pro" +
       "to\032*jon_shared_data_day_cam_glass_heater" +
       ".proto\032\'jon_shared_data_actual_space_tim" +
-      "e.proto\"\320\006\n\013JonGUIState\022\'\n\020protocol_vers" +
-      "ion\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 \000\022)\n\030system_monot" +
-      "onic_time_us\030\002 \001(\004B\007\272H\0042\002(\000\022-\n\006system\030\r " +
-      "\001(\0132\025.ser.JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016me" +
-      "teo_internal\030\016 \001(\0132\024.ser.JonGuiDataMeteo" +
-      "B\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser.JonGuiDataLr" +
-      "fB\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.ser.JonGuiData" +
-      "TimeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiDa" +
-      "taGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.Jon" +
-      "GuiDataCompassB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132\025" +
-      ".ser.JonGuiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_" +
-      "day\030\024 \001(\0132\030.ser.JonGuiDataCameraDayB\006\272H\003" +
-      "\310\001\001\0226\n\013camera_heat\030\025 \001(\0132\031.ser.JonGuiDat" +
-      "aCameraHeatB\006\272H\003\310\001\001\022F\n\023compass_calibrati" +
-      "on\030\026 \001(\0132!.ser.JonGuiDataCompassCalibrat" +
-      "ionB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonGu" +
-      "iDataRecOsdB\006\272H\003\310\001\001\022F\n\024day_cam_glass_hea" +
-      "ter\030\030 \001(\0132 .ser.JonGuiDataDayCamGlassHea" +
-      "terB\006\272H\003\310\001\001\022A\n\021actual_space_time\030\031 \001(\0132\036" +
-      ".ser.JonGuiDataActualSpaceTimeB\006\272H\003\310\001\001J\004" +
-      "\010\003\020\004J\004\010\004\020\005J\004\010\005\020\006J\004\010\006\020\007J\004\010\007\020\010J\004\010\010\020\tJ\004\010\t\020\n" +
-      "J\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rBGZEgit-codecommit.eu-" +
-      "central-1.amazonaws.com/v1/repos/jettiso" +
-      "n/jonp/datab\006proto3"
+      "e.proto\032\033jon_shared_data_power.proto\"\375\006\n" +
+      "\013JonGUIState\022\'\n\020protocol_version\030\001 \001(\rB\r" +
+      "\272H\n*\010\030\377\377\377\377\007 \000\022)\n\030system_monotonic_time_u" +
+      "s\030\002 \001(\004B\007\272H\0042\002(\000\022-\n\006system\030\r \001(\0132\025.ser.J" +
+      "onGuiDataSystemB\006\272H\003\310\001\001\0224\n\016meteo_interna" +
+      "l\030\016 \001(\0132\024.ser.JonGuiDataMeteoB\006\272H\003\310\001\001\022\'\n" +
+      "\003lrf\030\017 \001(\0132\022.ser.JonGuiDataLrfB\006\272H\003\310\001\001\022)" +
+      "\n\004time\030\020 \001(\0132\023.ser.JonGuiDataTimeB\006\272H\003\310\001" +
+      "\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiDataGpsB\006\272H\003\310" +
+      "\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.JonGuiDataComp" +
+      "assB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132\025.ser.JonGui" +
+      "DataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_day\030\024 \001(\0132\030" +
+      ".ser.JonGuiDataCameraDayB\006\272H\003\310\001\001\0226\n\013came" +
+      "ra_heat\030\025 \001(\0132\031.ser.JonGuiDataCameraHeat" +
+      "B\006\272H\003\310\001\001\022F\n\023compass_calibration\030\026 \001(\0132!." +
+      "ser.JonGuiDataCompassCalibrationB\006\272H\003\310\001\001" +
+      "\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonGuiDataRecOsd" +
+      "B\006\272H\003\310\001\001\022F\n\024day_cam_glass_heater\030\030 \001(\0132 " +
+      ".ser.JonGuiDataDayCamGlassHeaterB\006\272H\003\310\001\001" +
+      "\022A\n\021actual_space_time\030\031 \001(\0132\036.ser.JonGui" +
+      "DataActualSpaceTimeB\006\272H\003\310\001\001\022+\n\005power\030\032 \001" +
+      "(\0132\024.ser.JonGuiDataPowerB\006\272H\003\310\001\001J\004\010\003\020\004J\004" +
+      "\010\004\020\005J\004\010\005\020\006J\004\010\006\020\007J\004\010\007\020\010J\004\010\010\020\tJ\004\010\t\020\nJ\004\010\n\020\013" +
+      "J\004\010\013\020\014J\004\010\014\020\rBGZEgit-codecommit.eu-centra" +
+      "l-1.amazonaws.com/v1/repos/jettison/jonp" +
+      "/datab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3236,13 +3438,14 @@ public final class JonSharedData {
           ser.JonSharedDataRecOsd.getDescriptor(),
           ser.JonSharedDataDayCamGlassHeater.getDescriptor(),
           ser.JonSharedDataActualSpaceTime.getDescriptor(),
+          ser.JonSharedDataPower.getDescriptor(),
         });
     internal_static_ser_JonGUIState_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_ser_JonGUIState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGUIState_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "DayCamGlassHeater", "ActualSpaceTime", });
+        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "DayCamGlassHeater", "ActualSpaceTime", "Power", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
@@ -3258,6 +3461,7 @@ public final class JonSharedData {
     ser.JonSharedDataRecOsd.getDescriptor();
     ser.JonSharedDataDayCamGlassHeater.getDescriptor();
     ser.JonSharedDataActualSpaceTime.getDescriptor();
+    ser.JonSharedDataPower.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

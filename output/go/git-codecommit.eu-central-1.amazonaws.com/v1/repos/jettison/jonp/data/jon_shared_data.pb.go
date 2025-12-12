@@ -16,6 +16,7 @@ import (
 	day_cam_glass_heater "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heater"
 	gps "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gps"
 	lrf "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/lrf"
+	power "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power"
 	rec_osd "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/rec_osd"
 	rotary "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/rotary"
 	system "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/system"
@@ -53,6 +54,7 @@ type JonGUIState struct {
 	RecOsd                *rec_osd.JonGuiDataRecOsd                         `protobuf:"bytes,23,opt,name=rec_osd,json=recOsd,proto3" json:"rec_osd,omitempty"`
 	DayCamGlassHeater     *day_cam_glass_heater.JonGuiDataDayCamGlassHeater `protobuf:"bytes,24,opt,name=day_cam_glass_heater,json=dayCamGlassHeater,proto3" json:"day_cam_glass_heater,omitempty"`
 	ActualSpaceTime       *actual_space_time.JonGuiDataActualSpaceTime      `protobuf:"bytes,25,opt,name=actual_space_time,json=actualSpaceTime,proto3" json:"actual_space_time,omitempty"`
+	Power                 *power.JonGuiDataPower                            `protobuf:"bytes,26,opt,name=power,proto3" json:"power,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -192,11 +194,18 @@ func (x *JonGUIState) GetActualSpaceTime() *actual_space_time.JonGuiDataActualSp
 	return nil
 }
 
+func (x *JonGUIState) GetPower() *power.JonGuiDataPower {
+	if x != nil {
+		return x.Power
+	}
+	return nil
+}
+
 var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\"\x87\b\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\"\xbb\b\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
@@ -215,7 +224,8 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\x13compass_calibration\x18\x16 \x01(\v2!.ser.JonGuiDataCompassCalibrationB\x06\xbaH\x03\xc8\x01\x01R\x12compassCalibration\x126\n" +
 	"\arec_osd\x18\x17 \x01(\v2\x15.ser.JonGuiDataRecOsdB\x06\xbaH\x03\xc8\x01\x01R\x06recOsd\x12Y\n" +
 	"\x14day_cam_glass_heater\x18\x18 \x01(\v2 .ser.JonGuiDataDayCamGlassHeaterB\x06\xbaH\x03\xc8\x01\x01R\x11dayCamGlassHeater\x12R\n" +
-	"\x11actual_space_time\x18\x19 \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTimeJ\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06J\x04\b\x06\x10\aJ\x04\b\a\x10\bJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"\x11actual_space_time\x18\x19 \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTime\x122\n" +
+	"\x05power\x18\x1a \x01(\v2\x14.ser.JonGuiDataPowerB\x06\xbaH\x03\xc8\x01\x01R\x05powerJ\x04\b\x03\x10\x04J\x04\b\x04\x10\x05J\x04\b\x05\x10\x06J\x04\b\x06\x10\aJ\x04\b\a\x10\bJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
 	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rB\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
@@ -248,6 +258,7 @@ var file_jon_shared_data_proto_goTypes = []any{
 	(*rec_osd.JonGuiDataRecOsd)(nil),                         // 11: ser.JonGuiDataRecOsd
 	(*day_cam_glass_heater.JonGuiDataDayCamGlassHeater)(nil), // 12: ser.JonGuiDataDayCamGlassHeater
 	(*actual_space_time.JonGuiDataActualSpaceTime)(nil),      // 13: ser.JonGuiDataActualSpaceTime
+	(*power.JonGuiDataPower)(nil),                            // 14: ser.JonGuiDataPower
 }
 var file_jon_shared_data_proto_depIdxs = []int32{
 	1,  // 0: ser.JonGUIState.system:type_name -> ser.JonGuiDataSystem
@@ -263,11 +274,12 @@ var file_jon_shared_data_proto_depIdxs = []int32{
 	11, // 10: ser.JonGUIState.rec_osd:type_name -> ser.JonGuiDataRecOsd
 	12, // 11: ser.JonGUIState.day_cam_glass_heater:type_name -> ser.JonGuiDataDayCamGlassHeater
 	13, // 12: ser.JonGUIState.actual_space_time:type_name -> ser.JonGuiDataActualSpaceTime
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	14, // 13: ser.JonGUIState.power:type_name -> ser.JonGuiDataPower
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_proto_init() }

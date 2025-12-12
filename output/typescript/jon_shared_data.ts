@@ -15,6 +15,7 @@ import { JonGuiDataCompassCalibration } from "./jon_shared_data_compass_calibrat
 import { JonGuiDataDayCamGlassHeater } from "./jon_shared_data_day_cam_glass_heater";
 import { JonGuiDataGps } from "./jon_shared_data_gps";
 import { JonGuiDataLrf } from "./jon_shared_data_lrf";
+import { JonGuiDataPower } from "./jon_shared_data_power";
 import { JonGuiDataRecOsd } from "./jon_shared_data_rec_osd";
 import { JonGuiDataRotary } from "./jon_shared_data_rotary";
 import { JonGuiDataSystem } from "./jon_shared_data_system";
@@ -39,6 +40,7 @@ export interface JonGUIState {
   recOsd: JonGuiDataRecOsd | undefined;
   dayCamGlassHeater: JonGuiDataDayCamGlassHeater | undefined;
   actualSpaceTime: JonGuiDataActualSpaceTime | undefined;
+  power: JonGuiDataPower | undefined;
 }
 
 function createBaseJonGUIState(): JonGUIState {
@@ -58,6 +60,7 @@ function createBaseJonGUIState(): JonGUIState {
     recOsd: undefined,
     dayCamGlassHeater: undefined,
     actualSpaceTime: undefined,
+    power: undefined,
   };
 }
 
@@ -107,6 +110,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (message.actualSpaceTime !== undefined) {
       JonGuiDataActualSpaceTime.encode(message.actualSpaceTime, writer.uint32(202).fork()).join();
+    }
+    if (message.power !== undefined) {
+      JonGuiDataPower.encode(message.power, writer.uint32(210).fork()).join();
     }
     return writer;
   },
@@ -238,6 +244,14 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           message.actualSpaceTime = JonGuiDataActualSpaceTime.decode(reader, reader.uint32());
           continue;
         }
+        case 26: {
+          if (tag !== 210) {
+            break;
+          }
+
+          message.power = JonGuiDataPower.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -272,6 +286,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       actualSpaceTime: isSet(object.actualSpaceTime)
         ? JonGuiDataActualSpaceTime.fromJSON(object.actualSpaceTime)
         : undefined,
+      power: isSet(object.power) ? JonGuiDataPower.fromJSON(object.power) : undefined,
     };
   },
 
@@ -322,6 +337,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     if (message.actualSpaceTime !== undefined) {
       obj.actualSpaceTime = JonGuiDataActualSpaceTime.toJSON(message.actualSpaceTime);
     }
+    if (message.power !== undefined) {
+      obj.power = JonGuiDataPower.toJSON(message.power);
+    }
     return obj;
   },
 
@@ -369,6 +387,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       : undefined;
     message.actualSpaceTime = (object.actualSpaceTime !== undefined && object.actualSpaceTime !== null)
       ? JonGuiDataActualSpaceTime.fromPartial(object.actualSpaceTime)
+      : undefined;
+    message.power = (object.power !== undefined && object.power !== null)
+      ? JonGuiDataPower.fromPartial(object.power)
       : undefined;
     return message;
   },
