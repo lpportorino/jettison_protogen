@@ -31,6 +31,8 @@ typedef struct _ser_JonGUIState {
     ser_JonGuiDataStateSource state_source;
     uint64_t frame_pts_day_ns; /* Day pipeline GStreamer buffer PTS in nanoseconds */
     uint64_t frame_pts_heat_ns; /* Heat pipeline GStreamer buffer PTS in nanoseconds */
+    uint64_t frame_monotonic_day_us; /* Monotonic time when day frame was captured (microseconds) */
+    uint64_t frame_monotonic_heat_us; /* Monotonic time when heat frame was captured (microseconds) */
     bool has_system;
     ser_JonGuiDataSystem system;
     bool has_meteo_internal;
@@ -67,8 +69,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGUIState_init_default             {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, false, ser_JonGuiDataSystem_init_default, false, ser_JonGuiDataMeteo_init_default, false, ser_JonGuiDataLrf_init_default, false, ser_JonGuiDataTime_init_default, false, ser_JonGuiDataGps_init_default, false, ser_JonGuiDataCompass_init_default, false, ser_JonGuiDataRotary_init_default, false, ser_JonGuiDataCameraDay_init_default, false, ser_JonGuiDataCameraHeat_init_default, false, ser_JonGuiDataCompassCalibration_init_default, false, ser_JonGuiDataRecOsd_init_default, false, ser_JonGuiDataDayCamGlassHeater_init_default, false, ser_JonGuiDataActualSpaceTime_init_default, false, ser_JonGuiDataPower_init_default}
-#define ser_JonGUIState_init_zero                {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, false, ser_JonGuiDataSystem_init_zero, false, ser_JonGuiDataMeteo_init_zero, false, ser_JonGuiDataLrf_init_zero, false, ser_JonGuiDataTime_init_zero, false, ser_JonGuiDataGps_init_zero, false, ser_JonGuiDataCompass_init_zero, false, ser_JonGuiDataRotary_init_zero, false, ser_JonGuiDataCameraDay_init_zero, false, ser_JonGuiDataCameraHeat_init_zero, false, ser_JonGuiDataCompassCalibration_init_zero, false, ser_JonGuiDataRecOsd_init_zero, false, ser_JonGuiDataDayCamGlassHeater_init_zero, false, ser_JonGuiDataActualSpaceTime_init_zero, false, ser_JonGuiDataPower_init_zero}
+#define ser_JonGUIState_init_default             {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, 0, 0, false, ser_JonGuiDataSystem_init_default, false, ser_JonGuiDataMeteo_init_default, false, ser_JonGuiDataLrf_init_default, false, ser_JonGuiDataTime_init_default, false, ser_JonGuiDataGps_init_default, false, ser_JonGuiDataCompass_init_default, false, ser_JonGuiDataRotary_init_default, false, ser_JonGuiDataCameraDay_init_default, false, ser_JonGuiDataCameraHeat_init_default, false, ser_JonGuiDataCompassCalibration_init_default, false, ser_JonGuiDataRecOsd_init_default, false, ser_JonGuiDataDayCamGlassHeater_init_default, false, ser_JonGuiDataActualSpaceTime_init_default, false, ser_JonGuiDataPower_init_default}
+#define ser_JonGUIState_init_zero                {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, 0, 0, false, ser_JonGuiDataSystem_init_zero, false, ser_JonGuiDataMeteo_init_zero, false, ser_JonGuiDataLrf_init_zero, false, ser_JonGuiDataTime_init_zero, false, ser_JonGuiDataGps_init_zero, false, ser_JonGuiDataCompass_init_zero, false, ser_JonGuiDataRotary_init_zero, false, ser_JonGuiDataCameraDay_init_zero, false, ser_JonGuiDataCameraHeat_init_zero, false, ser_JonGuiDataCompassCalibration_init_zero, false, ser_JonGuiDataRecOsd_init_zero, false, ser_JonGuiDataDayCamGlassHeater_init_zero, false, ser_JonGuiDataActualSpaceTime_init_zero, false, ser_JonGuiDataPower_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGUIState_protocol_version_tag     1
@@ -76,6 +78,8 @@ extern "C" {
 #define ser_JonGUIState_state_source_tag         3
 #define ser_JonGUIState_frame_pts_day_ns_tag     4
 #define ser_JonGUIState_frame_pts_heat_ns_tag    5
+#define ser_JonGUIState_frame_monotonic_day_us_tag 6
+#define ser_JonGUIState_frame_monotonic_heat_us_tag 7
 #define ser_JonGUIState_system_tag               13
 #define ser_JonGUIState_meteo_internal_tag       14
 #define ser_JonGUIState_lrf_tag                  15
@@ -98,6 +102,8 @@ X(a, STATIC,   SINGULAR, UINT64,   system_monotonic_time_us,   2) \
 X(a, STATIC,   SINGULAR, UENUM,    state_source,      3) \
 X(a, STATIC,   SINGULAR, UINT64,   frame_pts_day_ns,   4) \
 X(a, STATIC,   SINGULAR, UINT64,   frame_pts_heat_ns,   5) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_monotonic_day_us,   6) \
+X(a, STATIC,   SINGULAR, UINT64,   frame_monotonic_heat_us,   7) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  system,           13) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  meteo_internal,   14) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  lrf,              15) \
@@ -136,7 +142,7 @@ extern const pb_msgdesc_t ser_JonGUIState_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_PB_H_MAX_SIZE        ser_JonGUIState_size
-#define ser_JonGUIState_size                     1492
+#define ser_JonGUIState_size                     1514
 
 #ifdef __cplusplus
 } /* extern "C" */

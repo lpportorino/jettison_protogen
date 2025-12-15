@@ -19,12 +19,14 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGUIState(_message.Message):
-    __slots__ = ("protocol_version", "system_monotonic_time_us", "state_source", "frame_pts_day_ns", "frame_pts_heat_ns", "system", "meteo_internal", "lrf", "time", "gps", "compass", "rotary", "camera_day", "camera_heat", "compass_calibration", "rec_osd", "day_cam_glass_heater", "actual_space_time", "power")
+    __slots__ = ("protocol_version", "system_monotonic_time_us", "state_source", "frame_pts_day_ns", "frame_pts_heat_ns", "frame_monotonic_day_us", "frame_monotonic_heat_us", "system", "meteo_internal", "lrf", "time", "gps", "compass", "rotary", "camera_day", "camera_heat", "compass_calibration", "rec_osd", "day_cam_glass_heater", "actual_space_time", "power")
     PROTOCOL_VERSION_FIELD_NUMBER: _ClassVar[int]
     SYSTEM_MONOTONIC_TIME_US_FIELD_NUMBER: _ClassVar[int]
     STATE_SOURCE_FIELD_NUMBER: _ClassVar[int]
     FRAME_PTS_DAY_NS_FIELD_NUMBER: _ClassVar[int]
     FRAME_PTS_HEAT_NS_FIELD_NUMBER: _ClassVar[int]
+    FRAME_MONOTONIC_DAY_US_FIELD_NUMBER: _ClassVar[int]
+    FRAME_MONOTONIC_HEAT_US_FIELD_NUMBER: _ClassVar[int]
     SYSTEM_FIELD_NUMBER: _ClassVar[int]
     METEO_INTERNAL_FIELD_NUMBER: _ClassVar[int]
     LRF_FIELD_NUMBER: _ClassVar[int]
@@ -44,6 +46,8 @@ class JonGUIState(_message.Message):
     state_source: _jon_shared_data_types_pb2.JonGuiDataStateSource
     frame_pts_day_ns: int
     frame_pts_heat_ns: int
+    frame_monotonic_day_us: int
+    frame_monotonic_heat_us: int
     system: _jon_shared_data_system_pb2.JonGuiDataSystem
     meteo_internal: _jon_shared_data_types_pb2.JonGuiDataMeteo
     lrf: _jon_shared_data_lrf_pb2.JonGuiDataLrf
@@ -58,4 +62,4 @@ class JonGUIState(_message.Message):
     day_cam_glass_heater: _jon_shared_data_day_cam_glass_heater_pb2.JonGuiDataDayCamGlassHeater
     actual_space_time: _jon_shared_data_actual_space_time_pb2.JonGuiDataActualSpaceTime
     power: _jon_shared_data_power_pb2.JonGuiDataPower
-    def __init__(self, protocol_version: _Optional[int] = ..., system_monotonic_time_us: _Optional[int] = ..., state_source: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataStateSource, str]] = ..., frame_pts_day_ns: _Optional[int] = ..., frame_pts_heat_ns: _Optional[int] = ..., system: _Optional[_Union[_jon_shared_data_system_pb2.JonGuiDataSystem, _Mapping]] = ..., meteo_internal: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., lrf: _Optional[_Union[_jon_shared_data_lrf_pb2.JonGuiDataLrf, _Mapping]] = ..., time: _Optional[_Union[_jon_shared_data_time_pb2.JonGuiDataTime, _Mapping]] = ..., gps: _Optional[_Union[_jon_shared_data_gps_pb2.JonGuiDataGps, _Mapping]] = ..., compass: _Optional[_Union[_jon_shared_data_compass_pb2.JonGuiDataCompass, _Mapping]] = ..., rotary: _Optional[_Union[_jon_shared_data_rotary_pb2.JonGuiDataRotary, _Mapping]] = ..., camera_day: _Optional[_Union[_jon_shared_data_camera_day_pb2.JonGuiDataCameraDay, _Mapping]] = ..., camera_heat: _Optional[_Union[_jon_shared_data_camera_heat_pb2.JonGuiDataCameraHeat, _Mapping]] = ..., compass_calibration: _Optional[_Union[_jon_shared_data_compass_calibration_pb2.JonGuiDataCompassCalibration, _Mapping]] = ..., rec_osd: _Optional[_Union[_jon_shared_data_rec_osd_pb2.JonGuiDataRecOsd, _Mapping]] = ..., day_cam_glass_heater: _Optional[_Union[_jon_shared_data_day_cam_glass_heater_pb2.JonGuiDataDayCamGlassHeater, _Mapping]] = ..., actual_space_time: _Optional[_Union[_jon_shared_data_actual_space_time_pb2.JonGuiDataActualSpaceTime, _Mapping]] = ..., power: _Optional[_Union[_jon_shared_data_power_pb2.JonGuiDataPower, _Mapping]] = ...) -> None: ...
+    def __init__(self, protocol_version: _Optional[int] = ..., system_monotonic_time_us: _Optional[int] = ..., state_source: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataStateSource, str]] = ..., frame_pts_day_ns: _Optional[int] = ..., frame_pts_heat_ns: _Optional[int] = ..., frame_monotonic_day_us: _Optional[int] = ..., frame_monotonic_heat_us: _Optional[int] = ..., system: _Optional[_Union[_jon_shared_data_system_pb2.JonGuiDataSystem, _Mapping]] = ..., meteo_internal: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., lrf: _Optional[_Union[_jon_shared_data_lrf_pb2.JonGuiDataLrf, _Mapping]] = ..., time: _Optional[_Union[_jon_shared_data_time_pb2.JonGuiDataTime, _Mapping]] = ..., gps: _Optional[_Union[_jon_shared_data_gps_pb2.JonGuiDataGps, _Mapping]] = ..., compass: _Optional[_Union[_jon_shared_data_compass_pb2.JonGuiDataCompass, _Mapping]] = ..., rotary: _Optional[_Union[_jon_shared_data_rotary_pb2.JonGuiDataRotary, _Mapping]] = ..., camera_day: _Optional[_Union[_jon_shared_data_camera_day_pb2.JonGuiDataCameraDay, _Mapping]] = ..., camera_heat: _Optional[_Union[_jon_shared_data_camera_heat_pb2.JonGuiDataCameraHeat, _Mapping]] = ..., compass_calibration: _Optional[_Union[_jon_shared_data_compass_calibration_pb2.JonGuiDataCompassCalibration, _Mapping]] = ..., rec_osd: _Optional[_Union[_jon_shared_data_rec_osd_pb2.JonGuiDataRecOsd, _Mapping]] = ..., day_cam_glass_heater: _Optional[_Union[_jon_shared_data_day_cam_glass_heater_pb2.JonGuiDataDayCamGlassHeater, _Mapping]] = ..., actual_space_time: _Optional[_Union[_jon_shared_data_actual_space_time_pb2.JonGuiDataActualSpaceTime, _Mapping]] = ..., power: _Optional[_Union[_jon_shared_data_power_pb2.JonGuiDataPower, _Mapping]] = ...) -> None: ...

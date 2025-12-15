@@ -37,6 +37,10 @@ export interface JonGUIState {
   framePtsDayNs: Long;
   /** Heat pipeline GStreamer buffer PTS in nanoseconds */
   framePtsHeatNs: Long;
+  /** Monotonic time when day frame was captured (microseconds) */
+  frameMonotonicDayUs: Long;
+  /** Monotonic time when heat frame was captured (microseconds) */
+  frameMonotonicHeatUs: Long;
   system: JonGuiDataSystem | undefined;
   meteoInternal: JonGuiDataMeteo | undefined;
   lrf: JonGuiDataLrf | undefined;
@@ -60,6 +64,8 @@ function createBaseJonGUIState(): JonGUIState {
     stateSource: 0,
     framePtsDayNs: Long.UZERO,
     framePtsHeatNs: Long.UZERO,
+    frameMonotonicDayUs: Long.UZERO,
+    frameMonotonicHeatUs: Long.UZERO,
     system: undefined,
     meteoInternal: undefined,
     lrf: undefined,
@@ -93,6 +99,12 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (!message.framePtsHeatNs.equals(Long.UZERO)) {
       writer.uint32(40).uint64(message.framePtsHeatNs.toString());
+    }
+    if (!message.frameMonotonicDayUs.equals(Long.UZERO)) {
+      writer.uint32(48).uint64(message.frameMonotonicDayUs.toString());
+    }
+    if (!message.frameMonotonicHeatUs.equals(Long.UZERO)) {
+      writer.uint32(56).uint64(message.frameMonotonicHeatUs.toString());
     }
     if (message.system !== undefined) {
       JonGuiDataSystem.encode(message.system, writer.uint32(106).fork()).join();
@@ -184,6 +196,22 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           }
 
           message.framePtsHeatNs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.frameMonotonicDayUs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.frameMonotonicHeatUs = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
         case 13: {
@@ -316,6 +344,10 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       stateSource: isSet(object.stateSource) ? jonGuiDataStateSourceFromJSON(object.stateSource) : 0,
       framePtsDayNs: isSet(object.framePtsDayNs) ? Long.fromValue(object.framePtsDayNs) : Long.UZERO,
       framePtsHeatNs: isSet(object.framePtsHeatNs) ? Long.fromValue(object.framePtsHeatNs) : Long.UZERO,
+      frameMonotonicDayUs: isSet(object.frameMonotonicDayUs) ? Long.fromValue(object.frameMonotonicDayUs) : Long.UZERO,
+      frameMonotonicHeatUs: isSet(object.frameMonotonicHeatUs)
+        ? Long.fromValue(object.frameMonotonicHeatUs)
+        : Long.UZERO,
       system: isSet(object.system) ? JonGuiDataSystem.fromJSON(object.system) : undefined,
       meteoInternal: isSet(object.meteoInternal) ? JonGuiDataMeteo.fromJSON(object.meteoInternal) : undefined,
       lrf: isSet(object.lrf) ? JonGuiDataLrf.fromJSON(object.lrf) : undefined,
@@ -355,6 +387,12 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (!message.framePtsHeatNs.equals(Long.UZERO)) {
       obj.framePtsHeatNs = (message.framePtsHeatNs || Long.UZERO).toString();
+    }
+    if (!message.frameMonotonicDayUs.equals(Long.UZERO)) {
+      obj.frameMonotonicDayUs = (message.frameMonotonicDayUs || Long.UZERO).toString();
+    }
+    if (!message.frameMonotonicHeatUs.equals(Long.UZERO)) {
+      obj.frameMonotonicHeatUs = (message.frameMonotonicHeatUs || Long.UZERO).toString();
     }
     if (message.system !== undefined) {
       obj.system = JonGuiDataSystem.toJSON(message.system);
@@ -417,6 +455,12 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       : Long.UZERO;
     message.framePtsHeatNs = (object.framePtsHeatNs !== undefined && object.framePtsHeatNs !== null)
       ? Long.fromValue(object.framePtsHeatNs)
+      : Long.UZERO;
+    message.frameMonotonicDayUs = (object.frameMonotonicDayUs !== undefined && object.frameMonotonicDayUs !== null)
+      ? Long.fromValue(object.frameMonotonicDayUs)
+      : Long.UZERO;
+    message.frameMonotonicHeatUs = (object.frameMonotonicHeatUs !== undefined && object.frameMonotonicHeatUs !== null)
+      ? Long.fromValue(object.frameMonotonicHeatUs)
       : Long.UZERO;
     message.system = (object.system !== undefined && object.system !== null)
       ? JonGuiDataSystem.fromPartial(object.system)

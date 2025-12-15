@@ -248,6 +248,8 @@ class JonGUIState final : public ::google::protobuf::Message
     kStateSourceFieldNumber = 3,
     kFramePtsDayNsFieldNumber = 4,
     kFramePtsHeatNsFieldNumber = 5,
+    kFrameMonotonicDayUsFieldNumber = 6,
+    kFrameMonotonicHeatUsFieldNumber = 7,
   };
   // .ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = {
   bool has_system() const;
@@ -509,12 +511,32 @@ class JonGUIState final : public ::google::protobuf::Message
   void _internal_set_frame_pts_heat_ns(::uint64_t value);
 
   public:
+  // uint64 frame_monotonic_day_us = 6 [(.buf.validate.field) = {
+  void clear_frame_monotonic_day_us() ;
+  ::uint64_t frame_monotonic_day_us() const;
+  void set_frame_monotonic_day_us(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_monotonic_day_us() const;
+  void _internal_set_frame_monotonic_day_us(::uint64_t value);
+
+  public:
+  // uint64 frame_monotonic_heat_us = 7 [(.buf.validate.field) = {
+  void clear_frame_monotonic_heat_us() ;
+  ::uint64_t frame_monotonic_heat_us() const;
+  void set_frame_monotonic_heat_us(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_monotonic_heat_us() const;
+  void _internal_set_frame_monotonic_heat_us(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGUIState)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 19, 14,
+      5, 21, 14,
       0, 2>
       _table_;
 
@@ -553,6 +575,8 @@ class JonGUIState final : public ::google::protobuf::Message
     int state_source_;
     ::uint64_t frame_pts_day_ns_;
     ::uint64_t frame_pts_heat_ns_;
+    ::uint64_t frame_monotonic_day_us_;
+    ::uint64_t frame_monotonic_heat_us_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -683,6 +707,50 @@ inline ::uint64_t JonGUIState::_internal_frame_pts_heat_ns() const {
 inline void JonGUIState::_internal_set_frame_pts_heat_ns(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.frame_pts_heat_ns_ = value;
+}
+
+// uint64 frame_monotonic_day_us = 6 [(.buf.validate.field) = {
+inline void JonGUIState::clear_frame_monotonic_day_us() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_monotonic_day_us_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGUIState::frame_monotonic_day_us() const {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.frame_monotonic_day_us)
+  return _internal_frame_monotonic_day_us();
+}
+inline void JonGUIState::set_frame_monotonic_day_us(::uint64_t value) {
+  _internal_set_frame_monotonic_day_us(value);
+  // @@protoc_insertion_point(field_set:ser.JonGUIState.frame_monotonic_day_us)
+}
+inline ::uint64_t JonGUIState::_internal_frame_monotonic_day_us() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_monotonic_day_us_;
+}
+inline void JonGUIState::_internal_set_frame_monotonic_day_us(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_monotonic_day_us_ = value;
+}
+
+// uint64 frame_monotonic_heat_us = 7 [(.buf.validate.field) = {
+inline void JonGUIState::clear_frame_monotonic_heat_us() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_monotonic_heat_us_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGUIState::frame_monotonic_heat_us() const {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.frame_monotonic_heat_us)
+  return _internal_frame_monotonic_heat_us();
+}
+inline void JonGUIState::set_frame_monotonic_heat_us(::uint64_t value) {
+  _internal_set_frame_monotonic_heat_us(value);
+  // @@protoc_insertion_point(field_set:ser.JonGUIState.frame_monotonic_heat_us)
+}
+inline ::uint64_t JonGUIState::_internal_frame_monotonic_heat_us() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_monotonic_heat_us_;
+}
+inline void JonGUIState::_internal_set_frame_monotonic_heat_us(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_monotonic_heat_us_ = value;
 }
 
 // .ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = {

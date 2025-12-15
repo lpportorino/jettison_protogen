@@ -42,8 +42,10 @@ type JonGUIState struct {
 	ProtocolVersion       uint32                                            `protobuf:"varint,1,opt,name=protocol_version,json=protocolVersion,proto3" json:"protocol_version,omitempty"`
 	SystemMonotonicTimeUs uint64                                            `protobuf:"varint,2,opt,name=system_monotonic_time_us,json=systemMonotonicTimeUs,proto3" json:"system_monotonic_time_us,omitempty"` // System monotonic time in microseconds
 	StateSource           types.JonGuiDataStateSource                       `protobuf:"varint,3,opt,name=state_source,json=stateSource,proto3,enum=ser.JonGuiDataStateSource" json:"state_source,omitempty"`
-	FramePtsDayNs         uint64                                            `protobuf:"varint,4,opt,name=frame_pts_day_ns,json=framePtsDayNs,proto3" json:"frame_pts_day_ns,omitempty"`    // Day pipeline GStreamer buffer PTS in nanoseconds
-	FramePtsHeatNs        uint64                                            `protobuf:"varint,5,opt,name=frame_pts_heat_ns,json=framePtsHeatNs,proto3" json:"frame_pts_heat_ns,omitempty"` // Heat pipeline GStreamer buffer PTS in nanoseconds
+	FramePtsDayNs         uint64                                            `protobuf:"varint,4,opt,name=frame_pts_day_ns,json=framePtsDayNs,proto3" json:"frame_pts_day_ns,omitempty"`                      // Day pipeline GStreamer buffer PTS in nanoseconds
+	FramePtsHeatNs        uint64                                            `protobuf:"varint,5,opt,name=frame_pts_heat_ns,json=framePtsHeatNs,proto3" json:"frame_pts_heat_ns,omitempty"`                   // Heat pipeline GStreamer buffer PTS in nanoseconds
+	FrameMonotonicDayUs   uint64                                            `protobuf:"varint,6,opt,name=frame_monotonic_day_us,json=frameMonotonicDayUs,proto3" json:"frame_monotonic_day_us,omitempty"`    // Monotonic time when day frame was captured (microseconds)
+	FrameMonotonicHeatUs  uint64                                            `protobuf:"varint,7,opt,name=frame_monotonic_heat_us,json=frameMonotonicHeatUs,proto3" json:"frame_monotonic_heat_us,omitempty"` // Monotonic time when heat frame was captured (microseconds)
 	System                *system.JonGuiDataSystem                          `protobuf:"bytes,13,opt,name=system,proto3" json:"system,omitempty"`
 	MeteoInternal         *types.JonGuiDataMeteo                            `protobuf:"bytes,14,opt,name=meteo_internal,json=meteoInternal,proto3" json:"meteo_internal,omitempty"`
 	Lrf                   *lrf.JonGuiDataLrf                                `protobuf:"bytes,15,opt,name=lrf,proto3" json:"lrf,omitempty"`
@@ -123,6 +125,20 @@ func (x *JonGUIState) GetFramePtsDayNs() uint64 {
 func (x *JonGUIState) GetFramePtsHeatNs() uint64 {
 	if x != nil {
 		return x.FramePtsHeatNs
+	}
+	return 0
+}
+
+func (x *JonGUIState) GetFrameMonotonicDayUs() uint64 {
+	if x != nil {
+		return x.FrameMonotonicDayUs
+	}
+	return 0
+}
+
+func (x *JonGUIState) GetFrameMonotonicHeatUs() uint64 {
+	if x != nil {
+		return x.FrameMonotonicHeatUs
 	}
 	return 0
 }
@@ -229,7 +245,8 @@ var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\"\xda\t\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\"\xcc\n" +
+	"\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
@@ -237,7 +254,9 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\fstate_source\x18\x03 \x01(\x0e2\x1a.ser.JonGuiDataStateSourceB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\vstateSource\x120\n" +
 	"\x10frame_pts_day_ns\x18\x04 \x01(\x04B\a\xbaH\x042\x02(\x00R\rframePtsDayNs\x122\n" +
-	"\x11frame_pts_heat_ns\x18\x05 \x01(\x04B\a\xbaH\x042\x02(\x00R\x0eframePtsHeatNs\x125\n" +
+	"\x11frame_pts_heat_ns\x18\x05 \x01(\x04B\a\xbaH\x042\x02(\x00R\x0eframePtsHeatNs\x12<\n" +
+	"\x16frame_monotonic_day_us\x18\x06 \x01(\x04B\a\xbaH\x042\x02(\x00R\x13frameMonotonicDayUs\x12>\n" +
+	"\x17frame_monotonic_heat_us\x18\a \x01(\x04B\a\xbaH\x042\x02(\x00R\x14frameMonotonicHeatUs\x125\n" +
 	"\x06system\x18\r \x01(\v2\x15.ser.JonGuiDataSystemB\x06\xbaH\x03\xc8\x01\x01R\x06system\x12C\n" +
 	"\x0emeteo_internal\x18\x0e \x01(\v2\x14.ser.JonGuiDataMeteoB\x06\xbaH\x03\xc8\x01\x01R\rmeteoInternal\x12,\n" +
 	"\x03lrf\x18\x0f \x01(\v2\x12.ser.JonGuiDataLrfB\x06\xbaH\x03\xc8\x01\x01R\x03lrf\x12/\n" +
@@ -253,7 +272,7 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\arec_osd\x18\x17 \x01(\v2\x15.ser.JonGuiDataRecOsdB\x06\xbaH\x03\xc8\x01\x01R\x06recOsd\x12Y\n" +
 	"\x14day_cam_glass_heater\x18\x18 \x01(\v2 .ser.JonGuiDataDayCamGlassHeaterB\x06\xbaH\x03\xc8\x01\x01R\x11dayCamGlassHeater\x12R\n" +
 	"\x11actual_space_time\x18\x19 \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTime\x122\n" +
-	"\x05power\x18\x1a \x01(\v2\x14.ser.JonGuiDataPowerB\x06\xbaH\x03\xc8\x01\x01R\x05powerJ\x04\b\x06\x10\aJ\x04\b\a\x10\bJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"\x05power\x18\x1a \x01(\v2\x14.ser.JonGuiDataPowerB\x06\xbaH\x03\xc8\x01\x01R\x05powerJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
 	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rB\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
