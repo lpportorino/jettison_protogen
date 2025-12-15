@@ -170,6 +170,13 @@ class JonGuiDataExtBatStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     JON_GUI_DATA_EXT_BAT_STATUS_CHARGING: _ClassVar[JonGuiDataExtBatStatus]
     JON_GUI_DATA_EXT_BAT_STATUS_DISCHARGING: _ClassVar[JonGuiDataExtBatStatus]
     JON_GUI_DATA_EXT_BAT_STATUS_BALANCING: _ClassVar[JonGuiDataExtBatStatus]
+
+class JonGuiDataStateSource(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED: _ClassVar[JonGuiDataStateSource]
+    JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE: _ClassVar[JonGuiDataStateSource]
+    JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE: _ClassVar[JonGuiDataStateSource]
+    JON_GUI_DATA_STATE_SOURCE_SYSTEM: _ClassVar[JonGuiDataStateSource]
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED: JonGuiDataVideoChannelHeatFilters
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE: JonGuiDataVideoChannelHeatFilters
 JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_BLACK: JonGuiDataVideoChannelHeatFilters
@@ -276,6 +283,10 @@ JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED: JonGuiDataExtBatStatus
 JON_GUI_DATA_EXT_BAT_STATUS_CHARGING: JonGuiDataExtBatStatus
 JON_GUI_DATA_EXT_BAT_STATUS_DISCHARGING: JonGuiDataExtBatStatus
 JON_GUI_DATA_EXT_BAT_STATUS_BALANCING: JonGuiDataExtBatStatus
+JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED: JonGuiDataStateSource
+JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE: JonGuiDataStateSource
+JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE: JonGuiDataStateSource
+JON_GUI_DATA_STATE_SOURCE_SYSTEM: JonGuiDataStateSource
 
 class JonGuiDataMeteo(_message.Message):
     __slots__ = ("temperature", "humidity", "pressure")

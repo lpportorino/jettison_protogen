@@ -20,13 +20,23 @@ import { JonGuiDataRecOsd } from "./jon_shared_data_rec_osd";
 import { JonGuiDataRotary } from "./jon_shared_data_rotary";
 import { JonGuiDataSystem } from "./jon_shared_data_system";
 import { JonGuiDataTime } from "./jon_shared_data_time";
-import { JonGuiDataMeteo } from "./jon_shared_data_types";
+import {
+  JonGuiDataMeteo,
+  JonGuiDataStateSource,
+  jonGuiDataStateSourceFromJSON,
+  jonGuiDataStateSourceToJSON,
+} from "./jon_shared_data_types";
 
 /** Root message */
 export interface JonGUIState {
   protocolVersion: number;
   /** System monotonic time in microseconds */
   systemMonotonicTimeUs: Long;
+  stateSource: JonGuiDataStateSource;
+  /** Day pipeline GStreamer buffer PTS in nanoseconds */
+  framePtsDayNs: Long;
+  /** Heat pipeline GStreamer buffer PTS in nanoseconds */
+  framePtsHeatNs: Long;
   system: JonGuiDataSystem | undefined;
   meteoInternal: JonGuiDataMeteo | undefined;
   lrf: JonGuiDataLrf | undefined;
@@ -47,6 +57,9 @@ function createBaseJonGUIState(): JonGUIState {
   return {
     protocolVersion: 0,
     systemMonotonicTimeUs: Long.UZERO,
+    stateSource: 0,
+    framePtsDayNs: Long.UZERO,
+    framePtsHeatNs: Long.UZERO,
     system: undefined,
     meteoInternal: undefined,
     lrf: undefined,
@@ -71,6 +84,15 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (!message.systemMonotonicTimeUs.equals(Long.UZERO)) {
       writer.uint32(16).uint64(message.systemMonotonicTimeUs.toString());
+    }
+    if (message.stateSource !== 0) {
+      writer.uint32(24).int32(message.stateSource);
+    }
+    if (!message.framePtsDayNs.equals(Long.UZERO)) {
+      writer.uint32(32).uint64(message.framePtsDayNs.toString());
+    }
+    if (!message.framePtsHeatNs.equals(Long.UZERO)) {
+      writer.uint32(40).uint64(message.framePtsHeatNs.toString());
     }
     if (message.system !== undefined) {
       JonGuiDataSystem.encode(message.system, writer.uint32(106).fork()).join();
@@ -138,6 +160,30 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           }
 
           message.systemMonotonicTimeUs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.stateSource = reader.int32() as any;
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.framePtsDayNs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.framePtsHeatNs = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
         case 13: {
@@ -267,6 +313,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       systemMonotonicTimeUs: isSet(object.systemMonotonicTimeUs)
         ? Long.fromValue(object.systemMonotonicTimeUs)
         : Long.UZERO,
+      stateSource: isSet(object.stateSource) ? jonGuiDataStateSourceFromJSON(object.stateSource) : 0,
+      framePtsDayNs: isSet(object.framePtsDayNs) ? Long.fromValue(object.framePtsDayNs) : Long.UZERO,
+      framePtsHeatNs: isSet(object.framePtsHeatNs) ? Long.fromValue(object.framePtsHeatNs) : Long.UZERO,
       system: isSet(object.system) ? JonGuiDataSystem.fromJSON(object.system) : undefined,
       meteoInternal: isSet(object.meteoInternal) ? JonGuiDataMeteo.fromJSON(object.meteoInternal) : undefined,
       lrf: isSet(object.lrf) ? JonGuiDataLrf.fromJSON(object.lrf) : undefined,
@@ -297,6 +346,15 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (!message.systemMonotonicTimeUs.equals(Long.UZERO)) {
       obj.systemMonotonicTimeUs = (message.systemMonotonicTimeUs || Long.UZERO).toString();
+    }
+    if (message.stateSource !== 0) {
+      obj.stateSource = jonGuiDataStateSourceToJSON(message.stateSource);
+    }
+    if (!message.framePtsDayNs.equals(Long.UZERO)) {
+      obj.framePtsDayNs = (message.framePtsDayNs || Long.UZERO).toString();
+    }
+    if (!message.framePtsHeatNs.equals(Long.UZERO)) {
+      obj.framePtsHeatNs = (message.framePtsHeatNs || Long.UZERO).toString();
     }
     if (message.system !== undefined) {
       obj.system = JonGuiDataSystem.toJSON(message.system);
@@ -353,6 +411,13 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       (object.systemMonotonicTimeUs !== undefined && object.systemMonotonicTimeUs !== null)
         ? Long.fromValue(object.systemMonotonicTimeUs)
         : Long.UZERO;
+    message.stateSource = object.stateSource ?? 0;
+    message.framePtsDayNs = (object.framePtsDayNs !== undefined && object.framePtsDayNs !== null)
+      ? Long.fromValue(object.framePtsDayNs)
+      : Long.UZERO;
+    message.framePtsHeatNs = (object.framePtsHeatNs !== undefined && object.framePtsHeatNs !== null)
+      ? Long.fromValue(object.framePtsHeatNs)
+      : Long.UZERO;
     message.system = (object.system !== undefined && object.system !== null)
       ? JonGuiDataSystem.fromPartial(object.system)
       : undefined;

@@ -46,6 +46,37 @@ public final class JonSharedData {
     long getSystemMonotonicTimeUs();
 
     /**
+     * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for stateSource.
+     */
+    int getStateSourceValue();
+    /**
+     * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The stateSource.
+     */
+    ser.JonSharedDataTypes.JonGuiDataStateSource getStateSource();
+
+    /**
+     * <pre>
+     * Day pipeline GStreamer buffer PTS in nanoseconds
+     * </pre>
+     *
+     * <code>uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The framePtsDayNs.
+     */
+    long getFramePtsDayNs();
+
+    /**
+     * <pre>
+     * Heat pipeline GStreamer buffer PTS in nanoseconds
+     * </pre>
+     *
+     * <code>uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The framePtsHeatNs.
+     */
+    long getFramePtsHeatNs();
+
+    /**
      * <code>.ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = { ... }</code>
      * @return Whether the system field is set.
      */
@@ -281,6 +312,7 @@ public final class JonSharedData {
       super(builder);
     }
     private JonGUIState() {
+      stateSource_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -321,6 +353,54 @@ public final class JonSharedData {
     @java.lang.Override
     public long getSystemMonotonicTimeUs() {
       return systemMonotonicTimeUs_;
+    }
+
+    public static final int STATE_SOURCE_FIELD_NUMBER = 3;
+    private int stateSource_ = 0;
+    /**
+     * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for stateSource.
+     */
+    @java.lang.Override public int getStateSourceValue() {
+      return stateSource_;
+    }
+    /**
+     * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The stateSource.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataStateSource getStateSource() {
+      ser.JonSharedDataTypes.JonGuiDataStateSource result = ser.JonSharedDataTypes.JonGuiDataStateSource.forNumber(stateSource_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataStateSource.UNRECOGNIZED : result;
+    }
+
+    public static final int FRAME_PTS_DAY_NS_FIELD_NUMBER = 4;
+    private long framePtsDayNs_ = 0L;
+    /**
+     * <pre>
+     * Day pipeline GStreamer buffer PTS in nanoseconds
+     * </pre>
+     *
+     * <code>uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The framePtsDayNs.
+     */
+    @java.lang.Override
+    public long getFramePtsDayNs() {
+      return framePtsDayNs_;
+    }
+
+    public static final int FRAME_PTS_HEAT_NS_FIELD_NUMBER = 5;
+    private long framePtsHeatNs_ = 0L;
+    /**
+     * <pre>
+     * Heat pipeline GStreamer buffer PTS in nanoseconds
+     * </pre>
+     *
+     * <code>uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The framePtsHeatNs.
+     */
+    @java.lang.Override
+    public long getFramePtsHeatNs() {
+      return framePtsHeatNs_;
     }
 
     public static final int SYSTEM_FIELD_NUMBER = 13;
@@ -707,6 +787,15 @@ public final class JonSharedData {
       if (systemMonotonicTimeUs_ != 0L) {
         output.writeUInt64(2, systemMonotonicTimeUs_);
       }
+      if (stateSource_ != ser.JonSharedDataTypes.JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(3, stateSource_);
+      }
+      if (framePtsDayNs_ != 0L) {
+        output.writeUInt64(4, framePtsDayNs_);
+      }
+      if (framePtsHeatNs_ != 0L) {
+        output.writeUInt64(5, framePtsHeatNs_);
+      }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(13, getSystem());
       }
@@ -765,6 +854,18 @@ public final class JonSharedData {
       if (systemMonotonicTimeUs_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, systemMonotonicTimeUs_);
+      }
+      if (stateSource_ != ser.JonSharedDataTypes.JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, stateSource_);
+      }
+      if (framePtsDayNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(4, framePtsDayNs_);
+      }
+      if (framePtsHeatNs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, framePtsHeatNs_);
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -841,6 +942,11 @@ public final class JonSharedData {
           != other.getProtocolVersion()) return false;
       if (getSystemMonotonicTimeUs()
           != other.getSystemMonotonicTimeUs()) return false;
+      if (stateSource_ != other.stateSource_) return false;
+      if (getFramePtsDayNs()
+          != other.getFramePtsDayNs()) return false;
+      if (getFramePtsHeatNs()
+          != other.getFramePtsHeatNs()) return false;
       if (hasSystem() != other.hasSystem()) return false;
       if (hasSystem()) {
         if (!getSystem()
@@ -927,6 +1033,14 @@ public final class JonSharedData {
       hash = (37 * hash) + SYSTEM_MONOTONIC_TIME_US_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getSystemMonotonicTimeUs());
+      hash = (37 * hash) + STATE_SOURCE_FIELD_NUMBER;
+      hash = (53 * hash) + stateSource_;
+      hash = (37 * hash) + FRAME_PTS_DAY_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFramePtsDayNs());
+      hash = (37 * hash) + FRAME_PTS_HEAT_NS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getFramePtsHeatNs());
       if (hasSystem()) {
         hash = (37 * hash) + SYSTEM_FIELD_NUMBER;
         hash = (53 * hash) + getSystem().hashCode();
@@ -1139,6 +1253,9 @@ public final class JonSharedData {
         bitField0_ = 0;
         protocolVersion_ = 0;
         systemMonotonicTimeUs_ = 0L;
+        stateSource_ = 0;
+        framePtsDayNs_ = 0L;
+        framePtsHeatNs_ = 0L;
         system_ = null;
         if (systemBuilder_ != null) {
           systemBuilder_.dispose();
@@ -1248,86 +1365,95 @@ public final class JonSharedData {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.systemMonotonicTimeUs_ = systemMonotonicTimeUs_;
         }
-        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.stateSource_ = stateSource_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.framePtsDayNs_ = framePtsDayNs_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.framePtsHeatNs_ = framePtsHeatNs_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000020) != 0)) {
           result.system_ = systemBuilder_ == null
               ? system_
               : systemBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
+        if (((from_bitField0_ & 0x00000040) != 0)) {
           result.meteoInternal_ = meteoInternalBuilder_ == null
               ? meteoInternal_
               : meteoInternalBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
+        if (((from_bitField0_ & 0x00000080) != 0)) {
           result.lrf_ = lrfBuilder_ == null
               ? lrf_
               : lrfBuilder_.build();
           to_bitField0_ |= 0x00000004;
         }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
+        if (((from_bitField0_ & 0x00000100) != 0)) {
           result.time_ = timeBuilder_ == null
               ? time_
               : timeBuilder_.build();
           to_bitField0_ |= 0x00000008;
         }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
+        if (((from_bitField0_ & 0x00000200) != 0)) {
           result.gps_ = gpsBuilder_ == null
               ? gps_
               : gpsBuilder_.build();
           to_bitField0_ |= 0x00000010;
         }
-        if (((from_bitField0_ & 0x00000080) != 0)) {
+        if (((from_bitField0_ & 0x00000400) != 0)) {
           result.compass_ = compassBuilder_ == null
               ? compass_
               : compassBuilder_.build();
           to_bitField0_ |= 0x00000020;
         }
-        if (((from_bitField0_ & 0x00000100) != 0)) {
+        if (((from_bitField0_ & 0x00000800) != 0)) {
           result.rotary_ = rotaryBuilder_ == null
               ? rotary_
               : rotaryBuilder_.build();
           to_bitField0_ |= 0x00000040;
         }
-        if (((from_bitField0_ & 0x00000200) != 0)) {
+        if (((from_bitField0_ & 0x00001000) != 0)) {
           result.cameraDay_ = cameraDayBuilder_ == null
               ? cameraDay_
               : cameraDayBuilder_.build();
           to_bitField0_ |= 0x00000080;
         }
-        if (((from_bitField0_ & 0x00000400) != 0)) {
+        if (((from_bitField0_ & 0x00002000) != 0)) {
           result.cameraHeat_ = cameraHeatBuilder_ == null
               ? cameraHeat_
               : cameraHeatBuilder_.build();
           to_bitField0_ |= 0x00000100;
         }
-        if (((from_bitField0_ & 0x00000800) != 0)) {
+        if (((from_bitField0_ & 0x00004000) != 0)) {
           result.compassCalibration_ = compassCalibrationBuilder_ == null
               ? compassCalibration_
               : compassCalibrationBuilder_.build();
           to_bitField0_ |= 0x00000200;
         }
-        if (((from_bitField0_ & 0x00001000) != 0)) {
+        if (((from_bitField0_ & 0x00008000) != 0)) {
           result.recOsd_ = recOsdBuilder_ == null
               ? recOsd_
               : recOsdBuilder_.build();
           to_bitField0_ |= 0x00000400;
         }
-        if (((from_bitField0_ & 0x00002000) != 0)) {
+        if (((from_bitField0_ & 0x00010000) != 0)) {
           result.dayCamGlassHeater_ = dayCamGlassHeaterBuilder_ == null
               ? dayCamGlassHeater_
               : dayCamGlassHeaterBuilder_.build();
           to_bitField0_ |= 0x00000800;
         }
-        if (((from_bitField0_ & 0x00004000) != 0)) {
+        if (((from_bitField0_ & 0x00020000) != 0)) {
           result.actualSpaceTime_ = actualSpaceTimeBuilder_ == null
               ? actualSpaceTime_
               : actualSpaceTimeBuilder_.build();
           to_bitField0_ |= 0x00001000;
         }
-        if (((from_bitField0_ & 0x00008000) != 0)) {
+        if (((from_bitField0_ & 0x00040000) != 0)) {
           result.power_ = powerBuilder_ == null
               ? power_
               : powerBuilder_.build();
@@ -1353,6 +1479,15 @@ public final class JonSharedData {
         }
         if (other.getSystemMonotonicTimeUs() != 0L) {
           setSystemMonotonicTimeUs(other.getSystemMonotonicTimeUs());
+        }
+        if (other.stateSource_ != 0) {
+          setStateSourceValue(other.getStateSourceValue());
+        }
+        if (other.getFramePtsDayNs() != 0L) {
+          setFramePtsDayNs(other.getFramePtsDayNs());
+        }
+        if (other.getFramePtsHeatNs() != 0L) {
+          setFramePtsHeatNs(other.getFramePtsHeatNs());
         }
         if (other.hasSystem()) {
           mergeSystem(other.getSystem());
@@ -1432,102 +1567,117 @@ public final class JonSharedData {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 16
+              case 24: {
+                stateSource_ = input.readEnum();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              case 32: {
+                framePtsDayNs_ = input.readUInt64();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              case 40: {
+                framePtsHeatNs_ = input.readUInt64();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
               case 106: {
                 input.readMessage(
                     getSystemFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000004;
+                bitField0_ |= 0x00000020;
                 break;
               } // case 106
               case 114: {
                 input.readMessage(
                     getMeteoInternalFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000008;
+                bitField0_ |= 0x00000040;
                 break;
               } // case 114
               case 122: {
                 input.readMessage(
                     getLrfFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000010;
+                bitField0_ |= 0x00000080;
                 break;
               } // case 122
               case 130: {
                 input.readMessage(
                     getTimeFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000020;
+                bitField0_ |= 0x00000100;
                 break;
               } // case 130
               case 138: {
                 input.readMessage(
                     getGpsFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000040;
+                bitField0_ |= 0x00000200;
                 break;
               } // case 138
               case 146: {
                 input.readMessage(
                     getCompassFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000080;
+                bitField0_ |= 0x00000400;
                 break;
               } // case 146
               case 154: {
                 input.readMessage(
                     getRotaryFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000100;
+                bitField0_ |= 0x00000800;
                 break;
               } // case 154
               case 162: {
                 input.readMessage(
                     getCameraDayFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000200;
+                bitField0_ |= 0x00001000;
                 break;
               } // case 162
               case 170: {
                 input.readMessage(
                     getCameraHeatFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000400;
+                bitField0_ |= 0x00002000;
                 break;
               } // case 170
               case 178: {
                 input.readMessage(
                     getCompassCalibrationFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000800;
+                bitField0_ |= 0x00004000;
                 break;
               } // case 178
               case 186: {
                 input.readMessage(
                     getRecOsdFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00001000;
+                bitField0_ |= 0x00008000;
                 break;
               } // case 186
               case 194: {
                 input.readMessage(
                     getDayCamGlassHeaterFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00002000;
+                bitField0_ |= 0x00010000;
                 break;
               } // case 194
               case 202: {
                 input.readMessage(
                     getActualSpaceTimeFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00004000;
+                bitField0_ |= 0x00020000;
                 break;
               } // case 202
               case 210: {
                 input.readMessage(
                     getPowerFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00008000;
+                bitField0_ |= 0x00040000;
                 break;
               } // case 210
               default: {
@@ -1623,6 +1773,147 @@ public final class JonSharedData {
         return this;
       }
 
+      private int stateSource_ = 0;
+      /**
+       * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for stateSource.
+       */
+      @java.lang.Override public int getStateSourceValue() {
+        return stateSource_;
+      }
+      /**
+       * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for stateSource to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateSourceValue(int value) {
+        stateSource_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The stateSource.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataStateSource getStateSource() {
+        ser.JonSharedDataTypes.JonGuiDataStateSource result = ser.JonSharedDataTypes.JonGuiDataStateSource.forNumber(stateSource_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataStateSource.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The stateSource to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateSource(ser.JonSharedDataTypes.JonGuiDataStateSource value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        stateSource_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStateSource() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        stateSource_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long framePtsDayNs_ ;
+      /**
+       * <pre>
+       * Day pipeline GStreamer buffer PTS in nanoseconds
+       * </pre>
+       *
+       * <code>uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The framePtsDayNs.
+       */
+      @java.lang.Override
+      public long getFramePtsDayNs() {
+        return framePtsDayNs_;
+      }
+      /**
+       * <pre>
+       * Day pipeline GStreamer buffer PTS in nanoseconds
+       * </pre>
+       *
+       * <code>uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The framePtsDayNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFramePtsDayNs(long value) {
+
+        framePtsDayNs_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day pipeline GStreamer buffer PTS in nanoseconds
+       * </pre>
+       *
+       * <code>uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFramePtsDayNs() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        framePtsDayNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long framePtsHeatNs_ ;
+      /**
+       * <pre>
+       * Heat pipeline GStreamer buffer PTS in nanoseconds
+       * </pre>
+       *
+       * <code>uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The framePtsHeatNs.
+       */
+      @java.lang.Override
+      public long getFramePtsHeatNs() {
+        return framePtsHeatNs_;
+      }
+      /**
+       * <pre>
+       * Heat pipeline GStreamer buffer PTS in nanoseconds
+       * </pre>
+       *
+       * <code>uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The framePtsHeatNs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFramePtsHeatNs(long value) {
+
+        framePtsHeatNs_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat pipeline GStreamer buffer PTS in nanoseconds
+       * </pre>
+       *
+       * <code>uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFramePtsHeatNs() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        framePtsHeatNs_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private ser.JonSharedDataSystem.JonGuiDataSystem system_;
       private com.google.protobuf.SingleFieldBuilder<
           ser.JonSharedDataSystem.JonGuiDataSystem, ser.JonSharedDataSystem.JonGuiDataSystem.Builder, ser.JonSharedDataSystem.JonGuiDataSystemOrBuilder> systemBuilder_;
@@ -1631,7 +1922,7 @@ public final class JonSharedData {
        * @return Whether the system field is set.
        */
       public boolean hasSystem() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000020) != 0);
       }
       /**
        * <code>.ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = { ... }</code>
@@ -1656,7 +1947,7 @@ public final class JonSharedData {
         } else {
           systemBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -1670,7 +1961,7 @@ public final class JonSharedData {
         } else {
           systemBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -1679,7 +1970,7 @@ public final class JonSharedData {
        */
       public Builder mergeSystem(ser.JonSharedDataSystem.JonGuiDataSystem value) {
         if (systemBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) != 0) &&
+          if (((bitField0_ & 0x00000020) != 0) &&
             system_ != null &&
             system_ != ser.JonSharedDataSystem.JonGuiDataSystem.getDefaultInstance()) {
             getSystemBuilder().mergeFrom(value);
@@ -1690,7 +1981,7 @@ public final class JonSharedData {
           systemBuilder_.mergeFrom(value);
         }
         if (system_ != null) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000020;
           onChanged();
         }
         return this;
@@ -1699,7 +1990,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearSystem() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000020);
         system_ = null;
         if (systemBuilder_ != null) {
           systemBuilder_.dispose();
@@ -1712,7 +2003,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataSystem.JonGuiDataSystem.Builder getSystemBuilder() {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000020;
         onChanged();
         return getSystemFieldBuilder().getBuilder();
       }
@@ -1752,7 +2043,7 @@ public final class JonSharedData {
        * @return Whether the meteoInternal field is set.
        */
       public boolean hasMeteoInternal() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>.ser.JonGuiDataMeteo meteo_internal = 14 [(.buf.validate.field) = { ... }</code>
@@ -1777,7 +2068,7 @@ public final class JonSharedData {
         } else {
           meteoInternalBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -1791,7 +2082,7 @@ public final class JonSharedData {
         } else {
           meteoInternalBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -1800,7 +2091,7 @@ public final class JonSharedData {
        */
       public Builder mergeMeteoInternal(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
         if (meteoInternalBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0) &&
+          if (((bitField0_ & 0x00000040) != 0) &&
             meteoInternal_ != null &&
             meteoInternal_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
             getMeteoInternalBuilder().mergeFrom(value);
@@ -1811,7 +2102,7 @@ public final class JonSharedData {
           meteoInternalBuilder_.mergeFrom(value);
         }
         if (meteoInternal_ != null) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000040;
           onChanged();
         }
         return this;
@@ -1820,7 +2111,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataMeteo meteo_internal = 14 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearMeteoInternal() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000040);
         meteoInternal_ = null;
         if (meteoInternalBuilder_ != null) {
           meteoInternalBuilder_.dispose();
@@ -1833,7 +2124,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataMeteo meteo_internal = 14 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoInternalBuilder() {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000040;
         onChanged();
         return getMeteoInternalFieldBuilder().getBuilder();
       }
@@ -1873,7 +2164,7 @@ public final class JonSharedData {
        * @return Whether the lrf field is set.
        */
       public boolean hasLrf() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000080) != 0);
       }
       /**
        * <code>.ser.JonGuiDataLrf lrf = 15 [(.buf.validate.field) = { ... }</code>
@@ -1898,7 +2189,7 @@ public final class JonSharedData {
         } else {
           lrfBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -1912,7 +2203,7 @@ public final class JonSharedData {
         } else {
           lrfBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -1921,7 +2212,7 @@ public final class JonSharedData {
        */
       public Builder mergeLrf(ser.JonSharedDataLrf.JonGuiDataLrf value) {
         if (lrfBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) != 0) &&
+          if (((bitField0_ & 0x00000080) != 0) &&
             lrf_ != null &&
             lrf_ != ser.JonSharedDataLrf.JonGuiDataLrf.getDefaultInstance()) {
             getLrfBuilder().mergeFrom(value);
@@ -1932,7 +2223,7 @@ public final class JonSharedData {
           lrfBuilder_.mergeFrom(value);
         }
         if (lrf_ != null) {
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000080;
           onChanged();
         }
         return this;
@@ -1941,7 +2232,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataLrf lrf = 15 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearLrf() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000080);
         lrf_ = null;
         if (lrfBuilder_ != null) {
           lrfBuilder_.dispose();
@@ -1954,7 +2245,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataLrf lrf = 15 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataLrf.JonGuiDataLrf.Builder getLrfBuilder() {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000080;
         onChanged();
         return getLrfFieldBuilder().getBuilder();
       }
@@ -1994,7 +2285,7 @@ public final class JonSharedData {
        * @return Whether the time field is set.
        */
       public boolean hasTime() {
-        return ((bitField0_ & 0x00000020) != 0);
+        return ((bitField0_ & 0x00000100) != 0);
       }
       /**
        * <code>.ser.JonGuiDataTime time = 16 [(.buf.validate.field) = { ... }</code>
@@ -2019,7 +2310,7 @@ public final class JonSharedData {
         } else {
           timeBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -2033,7 +2324,7 @@ public final class JonSharedData {
         } else {
           timeBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -2042,7 +2333,7 @@ public final class JonSharedData {
        */
       public Builder mergeTime(ser.JonSharedDataTime.JonGuiDataTime value) {
         if (timeBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) != 0) &&
+          if (((bitField0_ & 0x00000100) != 0) &&
             time_ != null &&
             time_ != ser.JonSharedDataTime.JonGuiDataTime.getDefaultInstance()) {
             getTimeBuilder().mergeFrom(value);
@@ -2053,7 +2344,7 @@ public final class JonSharedData {
           timeBuilder_.mergeFrom(value);
         }
         if (time_ != null) {
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000100;
           onChanged();
         }
         return this;
@@ -2062,7 +2353,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataTime time = 16 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearTime() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000100);
         time_ = null;
         if (timeBuilder_ != null) {
           timeBuilder_.dispose();
@@ -2075,7 +2366,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataTime time = 16 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataTime.JonGuiDataTime.Builder getTimeBuilder() {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000100;
         onChanged();
         return getTimeFieldBuilder().getBuilder();
       }
@@ -2115,7 +2406,7 @@ public final class JonSharedData {
        * @return Whether the gps field is set.
        */
       public boolean hasGps() {
-        return ((bitField0_ & 0x00000040) != 0);
+        return ((bitField0_ & 0x00000200) != 0);
       }
       /**
        * <code>.ser.JonGuiDataGps gps = 17 [(.buf.validate.field) = { ... }</code>
@@ -2140,7 +2431,7 @@ public final class JonSharedData {
         } else {
           gpsBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -2154,7 +2445,7 @@ public final class JonSharedData {
         } else {
           gpsBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -2163,7 +2454,7 @@ public final class JonSharedData {
        */
       public Builder mergeGps(ser.JonSharedDataGps.JonGuiDataGps value) {
         if (gpsBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) != 0) &&
+          if (((bitField0_ & 0x00000200) != 0) &&
             gps_ != null &&
             gps_ != ser.JonSharedDataGps.JonGuiDataGps.getDefaultInstance()) {
             getGpsBuilder().mergeFrom(value);
@@ -2174,7 +2465,7 @@ public final class JonSharedData {
           gpsBuilder_.mergeFrom(value);
         }
         if (gps_ != null) {
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000200;
           onChanged();
         }
         return this;
@@ -2183,7 +2474,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataGps gps = 17 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearGps() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000200);
         gps_ = null;
         if (gpsBuilder_ != null) {
           gpsBuilder_.dispose();
@@ -2196,7 +2487,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataGps gps = 17 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataGps.JonGuiDataGps.Builder getGpsBuilder() {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000200;
         onChanged();
         return getGpsFieldBuilder().getBuilder();
       }
@@ -2236,7 +2527,7 @@ public final class JonSharedData {
        * @return Whether the compass field is set.
        */
       public boolean hasCompass() {
-        return ((bitField0_ & 0x00000080) != 0);
+        return ((bitField0_ & 0x00000400) != 0);
       }
       /**
        * <code>.ser.JonGuiDataCompass compass = 18 [(.buf.validate.field) = { ... }</code>
@@ -2261,7 +2552,7 @@ public final class JonSharedData {
         } else {
           compassBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -2275,7 +2566,7 @@ public final class JonSharedData {
         } else {
           compassBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -2284,7 +2575,7 @@ public final class JonSharedData {
        */
       public Builder mergeCompass(ser.JonSharedDataCompass.JonGuiDataCompass value) {
         if (compassBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) != 0) &&
+          if (((bitField0_ & 0x00000400) != 0) &&
             compass_ != null &&
             compass_ != ser.JonSharedDataCompass.JonGuiDataCompass.getDefaultInstance()) {
             getCompassBuilder().mergeFrom(value);
@@ -2295,7 +2586,7 @@ public final class JonSharedData {
           compassBuilder_.mergeFrom(value);
         }
         if (compass_ != null) {
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000400;
           onChanged();
         }
         return this;
@@ -2304,7 +2595,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCompass compass = 18 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearCompass() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000400);
         compass_ = null;
         if (compassBuilder_ != null) {
           compassBuilder_.dispose();
@@ -2317,7 +2608,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCompass compass = 18 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataCompass.JonGuiDataCompass.Builder getCompassBuilder() {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000400;
         onChanged();
         return getCompassFieldBuilder().getBuilder();
       }
@@ -2357,7 +2648,7 @@ public final class JonSharedData {
        * @return Whether the rotary field is set.
        */
       public boolean hasRotary() {
-        return ((bitField0_ & 0x00000100) != 0);
+        return ((bitField0_ & 0x00000800) != 0);
       }
       /**
        * <code>.ser.JonGuiDataRotary rotary = 19 [(.buf.validate.field) = { ... }</code>
@@ -2382,7 +2673,7 @@ public final class JonSharedData {
         } else {
           rotaryBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -2396,7 +2687,7 @@ public final class JonSharedData {
         } else {
           rotaryBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -2405,7 +2696,7 @@ public final class JonSharedData {
        */
       public Builder mergeRotary(ser.JonSharedDataRotary.JonGuiDataRotary value) {
         if (rotaryBuilder_ == null) {
-          if (((bitField0_ & 0x00000100) != 0) &&
+          if (((bitField0_ & 0x00000800) != 0) &&
             rotary_ != null &&
             rotary_ != ser.JonSharedDataRotary.JonGuiDataRotary.getDefaultInstance()) {
             getRotaryBuilder().mergeFrom(value);
@@ -2416,7 +2707,7 @@ public final class JonSharedData {
           rotaryBuilder_.mergeFrom(value);
         }
         if (rotary_ != null) {
-          bitField0_ |= 0x00000100;
+          bitField0_ |= 0x00000800;
           onChanged();
         }
         return this;
@@ -2425,7 +2716,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataRotary rotary = 19 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearRotary() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000800);
         rotary_ = null;
         if (rotaryBuilder_ != null) {
           rotaryBuilder_.dispose();
@@ -2438,7 +2729,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataRotary rotary = 19 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataRotary.JonGuiDataRotary.Builder getRotaryBuilder() {
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000800;
         onChanged();
         return getRotaryFieldBuilder().getBuilder();
       }
@@ -2478,7 +2769,7 @@ public final class JonSharedData {
        * @return Whether the cameraDay field is set.
        */
       public boolean hasCameraDay() {
-        return ((bitField0_ & 0x00000200) != 0);
+        return ((bitField0_ & 0x00001000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataCameraDay camera_day = 20 [(.buf.validate.field) = { ... }</code>
@@ -2503,7 +2794,7 @@ public final class JonSharedData {
         } else {
           cameraDayBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -2517,7 +2808,7 @@ public final class JonSharedData {
         } else {
           cameraDayBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -2526,7 +2817,7 @@ public final class JonSharedData {
        */
       public Builder mergeCameraDay(ser.JonSharedDataCameraDay.JonGuiDataCameraDay value) {
         if (cameraDayBuilder_ == null) {
-          if (((bitField0_ & 0x00000200) != 0) &&
+          if (((bitField0_ & 0x00001000) != 0) &&
             cameraDay_ != null &&
             cameraDay_ != ser.JonSharedDataCameraDay.JonGuiDataCameraDay.getDefaultInstance()) {
             getCameraDayBuilder().mergeFrom(value);
@@ -2537,7 +2828,7 @@ public final class JonSharedData {
           cameraDayBuilder_.mergeFrom(value);
         }
         if (cameraDay_ != null) {
-          bitField0_ |= 0x00000200;
+          bitField0_ |= 0x00001000;
           onChanged();
         }
         return this;
@@ -2546,7 +2837,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCameraDay camera_day = 20 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearCameraDay() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00001000);
         cameraDay_ = null;
         if (cameraDayBuilder_ != null) {
           cameraDayBuilder_.dispose();
@@ -2559,7 +2850,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCameraDay camera_day = 20 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataCameraDay.JonGuiDataCameraDay.Builder getCameraDayBuilder() {
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00001000;
         onChanged();
         return getCameraDayFieldBuilder().getBuilder();
       }
@@ -2599,7 +2890,7 @@ public final class JonSharedData {
        * @return Whether the cameraHeat field is set.
        */
       public boolean hasCameraHeat() {
-        return ((bitField0_ & 0x00000400) != 0);
+        return ((bitField0_ & 0x00002000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataCameraHeat camera_heat = 21 [(.buf.validate.field) = { ... }</code>
@@ -2624,7 +2915,7 @@ public final class JonSharedData {
         } else {
           cameraHeatBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -2638,7 +2929,7 @@ public final class JonSharedData {
         } else {
           cameraHeatBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -2647,7 +2938,7 @@ public final class JonSharedData {
        */
       public Builder mergeCameraHeat(ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat value) {
         if (cameraHeatBuilder_ == null) {
-          if (((bitField0_ & 0x00000400) != 0) &&
+          if (((bitField0_ & 0x00002000) != 0) &&
             cameraHeat_ != null &&
             cameraHeat_ != ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat.getDefaultInstance()) {
             getCameraHeatBuilder().mergeFrom(value);
@@ -2658,7 +2949,7 @@ public final class JonSharedData {
           cameraHeatBuilder_.mergeFrom(value);
         }
         if (cameraHeat_ != null) {
-          bitField0_ |= 0x00000400;
+          bitField0_ |= 0x00002000;
           onChanged();
         }
         return this;
@@ -2667,7 +2958,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCameraHeat camera_heat = 21 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearCameraHeat() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00002000);
         cameraHeat_ = null;
         if (cameraHeatBuilder_ != null) {
           cameraHeatBuilder_.dispose();
@@ -2680,7 +2971,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCameraHeat camera_heat = 21 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataCameraHeat.JonGuiDataCameraHeat.Builder getCameraHeatBuilder() {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00002000;
         onChanged();
         return getCameraHeatFieldBuilder().getBuilder();
       }
@@ -2720,7 +3011,7 @@ public final class JonSharedData {
        * @return Whether the compassCalibration field is set.
        */
       public boolean hasCompassCalibration() {
-        return ((bitField0_ & 0x00000800) != 0);
+        return ((bitField0_ & 0x00004000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataCompassCalibration compass_calibration = 22 [(.buf.validate.field) = { ... }</code>
@@ -2745,7 +3036,7 @@ public final class JonSharedData {
         } else {
           compassCalibrationBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -2759,7 +3050,7 @@ public final class JonSharedData {
         } else {
           compassCalibrationBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -2768,7 +3059,7 @@ public final class JonSharedData {
        */
       public Builder mergeCompassCalibration(ser.JonSharedDataCompassCalibration.JonGuiDataCompassCalibration value) {
         if (compassCalibrationBuilder_ == null) {
-          if (((bitField0_ & 0x00000800) != 0) &&
+          if (((bitField0_ & 0x00004000) != 0) &&
             compassCalibration_ != null &&
             compassCalibration_ != ser.JonSharedDataCompassCalibration.JonGuiDataCompassCalibration.getDefaultInstance()) {
             getCompassCalibrationBuilder().mergeFrom(value);
@@ -2779,7 +3070,7 @@ public final class JonSharedData {
           compassCalibrationBuilder_.mergeFrom(value);
         }
         if (compassCalibration_ != null) {
-          bitField0_ |= 0x00000800;
+          bitField0_ |= 0x00004000;
           onChanged();
         }
         return this;
@@ -2788,7 +3079,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCompassCalibration compass_calibration = 22 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearCompassCalibration() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00004000);
         compassCalibration_ = null;
         if (compassCalibrationBuilder_ != null) {
           compassCalibrationBuilder_.dispose();
@@ -2801,7 +3092,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataCompassCalibration compass_calibration = 22 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataCompassCalibration.JonGuiDataCompassCalibration.Builder getCompassCalibrationBuilder() {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00004000;
         onChanged();
         return getCompassCalibrationFieldBuilder().getBuilder();
       }
@@ -2841,7 +3132,7 @@ public final class JonSharedData {
        * @return Whether the recOsd field is set.
        */
       public boolean hasRecOsd() {
-        return ((bitField0_ & 0x00001000) != 0);
+        return ((bitField0_ & 0x00008000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataRecOsd rec_osd = 23 [(.buf.validate.field) = { ... }</code>
@@ -2866,7 +3157,7 @@ public final class JonSharedData {
         } else {
           recOsdBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00008000;
         onChanged();
         return this;
       }
@@ -2880,7 +3171,7 @@ public final class JonSharedData {
         } else {
           recOsdBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00008000;
         onChanged();
         return this;
       }
@@ -2889,7 +3180,7 @@ public final class JonSharedData {
        */
       public Builder mergeRecOsd(ser.JonSharedDataRecOsd.JonGuiDataRecOsd value) {
         if (recOsdBuilder_ == null) {
-          if (((bitField0_ & 0x00001000) != 0) &&
+          if (((bitField0_ & 0x00008000) != 0) &&
             recOsd_ != null &&
             recOsd_ != ser.JonSharedDataRecOsd.JonGuiDataRecOsd.getDefaultInstance()) {
             getRecOsdBuilder().mergeFrom(value);
@@ -2900,7 +3191,7 @@ public final class JonSharedData {
           recOsdBuilder_.mergeFrom(value);
         }
         if (recOsd_ != null) {
-          bitField0_ |= 0x00001000;
+          bitField0_ |= 0x00008000;
           onChanged();
         }
         return this;
@@ -2909,7 +3200,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataRecOsd rec_osd = 23 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearRecOsd() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         recOsd_ = null;
         if (recOsdBuilder_ != null) {
           recOsdBuilder_.dispose();
@@ -2922,7 +3213,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataRecOsd rec_osd = 23 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataRecOsd.JonGuiDataRecOsd.Builder getRecOsdBuilder() {
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00008000;
         onChanged();
         return getRecOsdFieldBuilder().getBuilder();
       }
@@ -2962,7 +3253,7 @@ public final class JonSharedData {
        * @return Whether the dayCamGlassHeater field is set.
        */
       public boolean hasDayCamGlassHeater() {
-        return ((bitField0_ & 0x00002000) != 0);
+        return ((bitField0_ & 0x00010000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(.buf.validate.field) = { ... }</code>
@@ -2987,7 +3278,7 @@ public final class JonSharedData {
         } else {
           dayCamGlassHeaterBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00010000;
         onChanged();
         return this;
       }
@@ -3001,7 +3292,7 @@ public final class JonSharedData {
         } else {
           dayCamGlassHeaterBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00010000;
         onChanged();
         return this;
       }
@@ -3010,7 +3301,7 @@ public final class JonSharedData {
        */
       public Builder mergeDayCamGlassHeater(ser.JonSharedDataDayCamGlassHeater.JonGuiDataDayCamGlassHeater value) {
         if (dayCamGlassHeaterBuilder_ == null) {
-          if (((bitField0_ & 0x00002000) != 0) &&
+          if (((bitField0_ & 0x00010000) != 0) &&
             dayCamGlassHeater_ != null &&
             dayCamGlassHeater_ != ser.JonSharedDataDayCamGlassHeater.JonGuiDataDayCamGlassHeater.getDefaultInstance()) {
             getDayCamGlassHeaterBuilder().mergeFrom(value);
@@ -3021,7 +3312,7 @@ public final class JonSharedData {
           dayCamGlassHeaterBuilder_.mergeFrom(value);
         }
         if (dayCamGlassHeater_ != null) {
-          bitField0_ |= 0x00002000;
+          bitField0_ |= 0x00010000;
           onChanged();
         }
         return this;
@@ -3030,7 +3321,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearDayCamGlassHeater() {
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         dayCamGlassHeater_ = null;
         if (dayCamGlassHeaterBuilder_ != null) {
           dayCamGlassHeaterBuilder_.dispose();
@@ -3043,7 +3334,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataDayCamGlassHeater.JonGuiDataDayCamGlassHeater.Builder getDayCamGlassHeaterBuilder() {
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00010000;
         onChanged();
         return getDayCamGlassHeaterFieldBuilder().getBuilder();
       }
@@ -3083,7 +3374,7 @@ public final class JonSharedData {
        * @return Whether the actualSpaceTime field is set.
        */
       public boolean hasActualSpaceTime() {
-        return ((bitField0_ & 0x00004000) != 0);
+        return ((bitField0_ & 0x00020000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = { ... }</code>
@@ -3108,7 +3399,7 @@ public final class JonSharedData {
         } else {
           actualSpaceTimeBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00020000;
         onChanged();
         return this;
       }
@@ -3122,7 +3413,7 @@ public final class JonSharedData {
         } else {
           actualSpaceTimeBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00020000;
         onChanged();
         return this;
       }
@@ -3131,7 +3422,7 @@ public final class JonSharedData {
        */
       public Builder mergeActualSpaceTime(ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime value) {
         if (actualSpaceTimeBuilder_ == null) {
-          if (((bitField0_ & 0x00004000) != 0) &&
+          if (((bitField0_ & 0x00020000) != 0) &&
             actualSpaceTime_ != null &&
             actualSpaceTime_ != ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime.getDefaultInstance()) {
             getActualSpaceTimeBuilder().mergeFrom(value);
@@ -3142,7 +3433,7 @@ public final class JonSharedData {
           actualSpaceTimeBuilder_.mergeFrom(value);
         }
         if (actualSpaceTime_ != null) {
-          bitField0_ |= 0x00004000;
+          bitField0_ |= 0x00020000;
           onChanged();
         }
         return this;
@@ -3151,7 +3442,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearActualSpaceTime() {
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         actualSpaceTime_ = null;
         if (actualSpaceTimeBuilder_ != null) {
           actualSpaceTimeBuilder_.dispose();
@@ -3164,7 +3455,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataActualSpaceTime.JonGuiDataActualSpaceTime.Builder getActualSpaceTimeBuilder() {
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00020000;
         onChanged();
         return getActualSpaceTimeFieldBuilder().getBuilder();
       }
@@ -3204,7 +3495,7 @@ public final class JonSharedData {
        * @return Whether the power field is set.
        */
       public boolean hasPower() {
-        return ((bitField0_ & 0x00008000) != 0);
+        return ((bitField0_ & 0x00040000) != 0);
       }
       /**
        * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
@@ -3229,7 +3520,7 @@ public final class JonSharedData {
         } else {
           powerBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00040000;
         onChanged();
         return this;
       }
@@ -3243,7 +3534,7 @@ public final class JonSharedData {
         } else {
           powerBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00040000;
         onChanged();
         return this;
       }
@@ -3252,7 +3543,7 @@ public final class JonSharedData {
        */
       public Builder mergePower(ser.JonSharedDataPower.JonGuiDataPower value) {
         if (powerBuilder_ == null) {
-          if (((bitField0_ & 0x00008000) != 0) &&
+          if (((bitField0_ & 0x00040000) != 0) &&
             power_ != null &&
             power_ != ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance()) {
             getPowerBuilder().mergeFrom(value);
@@ -3263,7 +3554,7 @@ public final class JonSharedData {
           powerBuilder_.mergeFrom(value);
         }
         if (power_ != null) {
-          bitField0_ |= 0x00008000;
+          bitField0_ |= 0x00040000;
           onChanged();
         }
         return this;
@@ -3272,7 +3563,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
        */
       public Builder clearPower() {
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         power_ = null;
         if (powerBuilder_ != null) {
           powerBuilder_.dispose();
@@ -3285,7 +3576,7 @@ public final class JonSharedData {
        * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
        */
       public ser.JonSharedDataPower.JonGuiDataPower.Builder getPowerBuilder() {
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00040000;
         onChanged();
         return getPowerFieldBuilder().getBuilder();
       }
@@ -3394,32 +3685,35 @@ public final class JonSharedData {
       "_heat.proto\032\035jon_shared_data_rec_osd.pro" +
       "to\032*jon_shared_data_day_cam_glass_heater" +
       ".proto\032\'jon_shared_data_actual_space_tim" +
-      "e.proto\032\033jon_shared_data_power.proto\"\375\006\n" +
+      "e.proto\032\033jon_shared_data_power.proto\"\360\007\n" +
       "\013JonGUIState\022\'\n\020protocol_version\030\001 \001(\rB\r" +
       "\272H\n*\010\030\377\377\377\377\007 \000\022)\n\030system_monotonic_time_u" +
-      "s\030\002 \001(\004B\007\272H\0042\002(\000\022-\n\006system\030\r \001(\0132\025.ser.J" +
-      "onGuiDataSystemB\006\272H\003\310\001\001\0224\n\016meteo_interna" +
-      "l\030\016 \001(\0132\024.ser.JonGuiDataMeteoB\006\272H\003\310\001\001\022\'\n" +
-      "\003lrf\030\017 \001(\0132\022.ser.JonGuiDataLrfB\006\272H\003\310\001\001\022)" +
-      "\n\004time\030\020 \001(\0132\023.ser.JonGuiDataTimeB\006\272H\003\310\001" +
-      "\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiDataGpsB\006\272H\003\310" +
-      "\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.JonGuiDataComp" +
-      "assB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132\025.ser.JonGui" +
-      "DataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_day\030\024 \001(\0132\030" +
-      ".ser.JonGuiDataCameraDayB\006\272H\003\310\001\001\0226\n\013came" +
-      "ra_heat\030\025 \001(\0132\031.ser.JonGuiDataCameraHeat" +
-      "B\006\272H\003\310\001\001\022F\n\023compass_calibration\030\026 \001(\0132!." +
-      "ser.JonGuiDataCompassCalibrationB\006\272H\003\310\001\001" +
-      "\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonGuiDataRecOsd" +
-      "B\006\272H\003\310\001\001\022F\n\024day_cam_glass_heater\030\030 \001(\0132 " +
-      ".ser.JonGuiDataDayCamGlassHeaterB\006\272H\003\310\001\001" +
-      "\022A\n\021actual_space_time\030\031 \001(\0132\036.ser.JonGui" +
-      "DataActualSpaceTimeB\006\272H\003\310\001\001\022+\n\005power\030\032 \001" +
-      "(\0132\024.ser.JonGuiDataPowerB\006\272H\003\310\001\001J\004\010\003\020\004J\004" +
-      "\010\004\020\005J\004\010\005\020\006J\004\010\006\020\007J\004\010\007\020\010J\004\010\010\020\tJ\004\010\t\020\nJ\004\010\n\020\013" +
-      "J\004\010\013\020\014J\004\010\014\020\rBGZEgit-codecommit.eu-centra" +
-      "l-1.amazonaws.com/v1/repos/jettison/jonp" +
-      "/datab\006proto3"
+      "s\030\002 \001(\004B\007\272H\0042\002(\000\022<\n\014state_source\030\003 \001(\0162\032" +
+      ".ser.JonGuiDataStateSourceB\n\272H\007\202\001\004\020\001 \000\022!" +
+      "\n\020frame_pts_day_ns\030\004 \001(\004B\007\272H\0042\002(\000\022\"\n\021fra" +
+      "me_pts_heat_ns\030\005 \001(\004B\007\272H\0042\002(\000\022-\n\006system\030" +
+      "\r \001(\0132\025.ser.JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016" +
+      "meteo_internal\030\016 \001(\0132\024.ser.JonGuiDataMet" +
+      "eoB\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser.JonGuiData" +
+      "LrfB\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.ser.JonGuiDa" +
+      "taTimeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGui" +
+      "DataGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.J" +
+      "onGuiDataCompassB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\013" +
+      "2\025.ser.JonGuiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamer" +
+      "a_day\030\024 \001(\0132\030.ser.JonGuiDataCameraDayB\006\272" +
+      "H\003\310\001\001\0226\n\013camera_heat\030\025 \001(\0132\031.ser.JonGuiD" +
+      "ataCameraHeatB\006\272H\003\310\001\001\022F\n\023compass_calibra" +
+      "tion\030\026 \001(\0132!.ser.JonGuiDataCompassCalibr" +
+      "ationB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(\0132\025.ser.Jon" +
+      "GuiDataRecOsdB\006\272H\003\310\001\001\022F\n\024day_cam_glass_h" +
+      "eater\030\030 \001(\0132 .ser.JonGuiDataDayCamGlassH" +
+      "eaterB\006\272H\003\310\001\001\022A\n\021actual_space_time\030\031 \001(\013" +
+      "2\036.ser.JonGuiDataActualSpaceTimeB\006\272H\003\310\001\001" +
+      "\022+\n\005power\030\032 \001(\0132\024.ser.JonGuiDataPowerB\006\272" +
+      "H\003\310\001\001J\004\010\006\020\007J\004\010\007\020\010J\004\010\010\020\tJ\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020" +
+      "\014J\004\010\014\020\rBGZEgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/data" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3445,7 +3739,7 @@ public final class JonSharedData {
     internal_static_ser_JonGUIState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGUIState_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "DayCamGlassHeater", "ActualSpaceTime", "Power", });
+        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "StateSource", "FramePtsDayNs", "FramePtsHeatNs", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "DayCamGlassHeater", "ActualSpaceTime", "Power", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

@@ -26,9 +26,15 @@ message JonGUIState {
     lte: 2147483647  // Max value for Java int (avoiding overflow)
   }];
   uint64 system_monotonic_time_us = 2 [(buf.validate.field).uint64.gte = 0];  // System monotonic time in microseconds
-  
+  JonGuiDataStateSource state_source = 3 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+  uint64 frame_pts_day_ns = 4 [(buf.validate.field).uint64.gte = 0];   // Day pipeline GStreamer buffer PTS in nanoseconds
+  uint64 frame_pts_heat_ns = 5 [(buf.validate.field).uint64.gte = 0];  // Heat pipeline GStreamer buffer PTS in nanoseconds
+
   // Reserved fields for future use
-  reserved 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+  reserved 6, 7, 8, 9, 10, 11, 12;
   
   JonGuiDataSystem system = 13 [(buf.validate.field).required = true];
   JonGuiDataMeteo meteo_internal = 14 [(buf.validate.field).required = true];

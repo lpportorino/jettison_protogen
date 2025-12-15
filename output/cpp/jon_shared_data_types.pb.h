@@ -790,6 +790,41 @@ inline bool JonGuiDataExtBatStatus_Parse(absl::string_view name, JonGuiDataExtBa
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataExtBatStatus>(
       JonGuiDataExtBatStatus_descriptor(), name, value);
 }
+enum JonGuiDataStateSource : int {
+  JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED = 0,
+  JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE = 1,
+  JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE = 2,
+  JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3,
+  JonGuiDataStateSource_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataStateSource_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataStateSource_IsValid(int value);
+extern const uint32_t JonGuiDataStateSource_internal_data_[];
+constexpr JonGuiDataStateSource JonGuiDataStateSource_MIN = static_cast<JonGuiDataStateSource>(0);
+constexpr JonGuiDataStateSource JonGuiDataStateSource_MAX = static_cast<JonGuiDataStateSource>(3);
+constexpr int JonGuiDataStateSource_ARRAYSIZE = 3 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataStateSource_descriptor();
+template <typename T>
+const std::string& JonGuiDataStateSource_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataStateSource>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to JonGuiDataStateSource_Name().");
+  return JonGuiDataStateSource_Name(static_cast<JonGuiDataStateSource>(value));
+}
+template <>
+inline const std::string& JonGuiDataStateSource_Name(JonGuiDataStateSource value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataStateSource_descriptor,
+                                                 0, 3>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataStateSource_Parse(absl::string_view name, JonGuiDataStateSource* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataStateSource>(
+      JonGuiDataStateSource_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -1221,6 +1256,12 @@ struct is_proto_enum<::ser::JonGuiDataExtBatStatus> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataExtBatStatus>() {
   return ::ser::JonGuiDataExtBatStatus_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataStateSource> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataStateSource>() {
+  return ::ser::JonGuiDataStateSource_descriptor();
 }
 
 }  // namespace protobuf

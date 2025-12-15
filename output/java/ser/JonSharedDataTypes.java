@@ -2959,6 +2959,141 @@ public final class JonSharedDataTypes {
     // @@protoc_insertion_point(enum_scope:ser.JonGuiDataExtBatStatus)
   }
 
+  /**
+   * Protobuf enum {@code ser.JonGuiDataStateSource}
+   */
+  public enum JonGuiDataStateSource
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED = 0;</code>
+     */
+    JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED(0),
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE = 1;</code>
+     */
+    JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE(1),
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE = 2;</code>
+     */
+    JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE(2),
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3;</code>
+     */
+    JON_GUI_DATA_STATE_SOURCE_SYSTEM(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataStateSource.class.getName());
+    }
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED = 0;</code>
+     */
+    public static final int JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED_VALUE = 0;
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE = 1;</code>
+     */
+    public static final int JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE_VALUE = 1;
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE = 2;</code>
+     */
+    public static final int JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE_VALUE = 2;
+    /**
+     * <code>JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3;</code>
+     */
+    public static final int JON_GUI_DATA_STATE_SOURCE_SYSTEM_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static JonGuiDataStateSource valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static JonGuiDataStateSource forNumber(int value) {
+      switch (value) {
+        case 0: return JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED;
+        case 1: return JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE;
+        case 2: return JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE;
+        case 3: return JON_GUI_DATA_STATE_SOURCE_SYSTEM;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<JonGuiDataStateSource>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        JonGuiDataStateSource> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<JonGuiDataStateSource>() {
+            public JonGuiDataStateSource findValueByNumber(int number) {
+              return JonGuiDataStateSource.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.getDescriptor().getEnumTypes().get(20);
+    }
+
+    private static final JonGuiDataStateSource[] VALUES = values();
+
+    public static JonGuiDataStateSource valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private JonGuiDataStateSource(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ser.JonGuiDataStateSource)
+  }
+
   public interface JonGuiDataMeteoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ser.JonGuiDataMeteo)
       com.google.protobuf.MessageOrBuilder {
@@ -3691,9 +3826,13 @@ public final class JonSharedDataTypes {
       "GUI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JO" +
       "N_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022" +
       ")\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING" +
-      "\020\003BHZFgit-codecommit.eu-central-1.amazon" +
-      "aws.com/v1/repos/jettison/jonp/typesb\006pr" +
-      "oto3"
+      "\020\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_" +
+      "DATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_G" +
+      "UI_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'J" +
+      "ON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002" +
+      "\022$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BH" +
+      "ZFgit-codecommit.eu-central-1.amazonaws." +
+      "com/v1/repos/jettison/jonp/typesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

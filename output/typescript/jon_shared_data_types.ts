@@ -1064,6 +1064,51 @@ export function jonGuiDataExtBatStatusToJSON(object: JonGuiDataExtBatStatus): st
   }
 }
 
+export enum JonGuiDataStateSource {
+  JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED = 0,
+  JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE = 1,
+  JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE = 2,
+  JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataStateSourceFromJSON(object: any): JonGuiDataStateSource {
+  switch (object) {
+    case 0:
+    case "JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED":
+      return JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED;
+    case 1:
+    case "JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE":
+      return JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE;
+    case 2:
+    case "JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE":
+      return JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE;
+    case 3:
+    case "JON_GUI_DATA_STATE_SOURCE_SYSTEM":
+      return JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_SYSTEM;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataStateSource.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataStateSourceToJSON(object: JonGuiDataStateSource): string {
+  switch (object) {
+    case JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED:
+      return "JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED";
+    case JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE:
+      return "JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE";
+    case JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE:
+      return "JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE";
+    case JonGuiDataStateSource.JON_GUI_DATA_STATE_SOURCE_SYSTEM:
+      return "JON_GUI_DATA_STATE_SOURCE_SYSTEM";
+    case JonGuiDataStateSource.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export interface JonGuiDataMeteo {
   temperature: number;
   humidity: number;

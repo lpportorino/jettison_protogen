@@ -245,6 +245,9 @@ class JonGUIState final : public ::google::protobuf::Message
     kPowerFieldNumber = 26,
     kSystemMonotonicTimeUsFieldNumber = 2,
     kProtocolVersionFieldNumber = 1,
+    kStateSourceFieldNumber = 3,
+    kFramePtsDayNsFieldNumber = 4,
+    kFramePtsHeatNsFieldNumber = 5,
   };
   // .ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = {
   bool has_system() const;
@@ -476,12 +479,42 @@ class JonGUIState final : public ::google::protobuf::Message
   void _internal_set_protocol_version(::uint32_t value);
 
   public:
+  // .ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = {
+  void clear_state_source() ;
+  ::ser::JonGuiDataStateSource state_source() const;
+  void set_state_source(::ser::JonGuiDataStateSource value);
+
+  private:
+  ::ser::JonGuiDataStateSource _internal_state_source() const;
+  void _internal_set_state_source(::ser::JonGuiDataStateSource value);
+
+  public:
+  // uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = {
+  void clear_frame_pts_day_ns() ;
+  ::uint64_t frame_pts_day_ns() const;
+  void set_frame_pts_day_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_pts_day_ns() const;
+  void _internal_set_frame_pts_day_ns(::uint64_t value);
+
+  public:
+  // uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = {
+  void clear_frame_pts_heat_ns() ;
+  ::uint64_t frame_pts_heat_ns() const;
+  void set_frame_pts_heat_ns(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_frame_pts_heat_ns() const;
+  void _internal_set_frame_pts_heat_ns(::uint64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGUIState)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 16, 14,
+      5, 19, 14,
       0, 2>
       _table_;
 
@@ -517,6 +550,9 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataPower* power_;
     ::uint64_t system_monotonic_time_us_;
     ::uint32_t protocol_version_;
+    int state_source_;
+    ::uint64_t frame_pts_day_ns_;
+    ::uint64_t frame_pts_heat_ns_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -581,6 +617,72 @@ inline ::uint64_t JonGUIState::_internal_system_monotonic_time_us() const {
 inline void JonGUIState::_internal_set_system_monotonic_time_us(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.system_monotonic_time_us_ = value;
+}
+
+// .ser.JonGuiDataStateSource state_source = 3 [(.buf.validate.field) = {
+inline void JonGUIState::clear_state_source() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_source_ = 0;
+}
+inline ::ser::JonGuiDataStateSource JonGUIState::state_source() const {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.state_source)
+  return _internal_state_source();
+}
+inline void JonGUIState::set_state_source(::ser::JonGuiDataStateSource value) {
+  _internal_set_state_source(value);
+  // @@protoc_insertion_point(field_set:ser.JonGUIState.state_source)
+}
+inline ::ser::JonGuiDataStateSource JonGUIState::_internal_state_source() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataStateSource>(_impl_.state_source_);
+}
+inline void JonGUIState::_internal_set_state_source(::ser::JonGuiDataStateSource value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_source_ = value;
+}
+
+// uint64 frame_pts_day_ns = 4 [(.buf.validate.field) = {
+inline void JonGUIState::clear_frame_pts_day_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_pts_day_ns_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGUIState::frame_pts_day_ns() const {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.frame_pts_day_ns)
+  return _internal_frame_pts_day_ns();
+}
+inline void JonGUIState::set_frame_pts_day_ns(::uint64_t value) {
+  _internal_set_frame_pts_day_ns(value);
+  // @@protoc_insertion_point(field_set:ser.JonGUIState.frame_pts_day_ns)
+}
+inline ::uint64_t JonGUIState::_internal_frame_pts_day_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_pts_day_ns_;
+}
+inline void JonGUIState::_internal_set_frame_pts_day_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_pts_day_ns_ = value;
+}
+
+// uint64 frame_pts_heat_ns = 5 [(.buf.validate.field) = {
+inline void JonGUIState::clear_frame_pts_heat_ns() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_pts_heat_ns_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGUIState::frame_pts_heat_ns() const {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.frame_pts_heat_ns)
+  return _internal_frame_pts_heat_ns();
+}
+inline void JonGUIState::set_frame_pts_heat_ns(::uint64_t value) {
+  _internal_set_frame_pts_heat_ns(value);
+  // @@protoc_insertion_point(field_set:ser.JonGUIState.frame_pts_heat_ns)
+}
+inline ::uint64_t JonGUIState::_internal_frame_pts_heat_ns() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.frame_pts_heat_ns_;
+}
+inline void JonGUIState::_internal_set_frame_pts_heat_ns(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.frame_pts_heat_ns_ = value;
 }
 
 // .ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = {

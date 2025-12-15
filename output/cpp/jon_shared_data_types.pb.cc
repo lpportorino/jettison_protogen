@@ -53,7 +53,7 @@ struct JonGuiDataMeteoDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataMeteoDefaultTypeInternal _JonGuiDataMeteo_default_instance_;
 }  // namespace ser
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[20];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[21];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_jon_5fshared_5fdata_5ftypes_2eproto = nullptr;
 const ::uint32_t
@@ -215,9 +215,13 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "GUI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JO"
     "N_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022"
     ")\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING"
-    "\020\003BHZFgit-codecommit.eu-central-1.amazon"
-    "aws.com/v1/repos/jettison/jonp/typesb\006pr"
-    "oto3"
+    "\020\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_"
+    "DATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_G"
+    "UI_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'J"
+    "ON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002"
+    "\022$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BH"
+    "ZFgit-codecommit.eu-central-1.amazonaws."
+    "com/v1/repos/jettison/jonp/typesb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -227,7 +231,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    5444,
+    5640,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
@@ -419,6 +423,15 @@ const ::google::protobuf::EnumDescriptor* JonGuiDataExtBatStatus_descriptor() {
 PROTOBUF_CONSTINIT const uint32_t JonGuiDataExtBatStatus_internal_data_[] = {
     262144u, 0u, };
 bool JonGuiDataExtBatStatus_IsValid(int value) {
+  return 0 <= value && value <= 3;
+}
+const ::google::protobuf::EnumDescriptor* JonGuiDataStateSource_descriptor() {
+  ::google::protobuf::internal::AssignDescriptors(&descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto);
+  return file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[20];
+}
+PROTOBUF_CONSTINIT const uint32_t JonGuiDataStateSource_internal_data_[] = {
+    262144u, 0u, };
+bool JonGuiDataStateSource_IsValid(int value) {
   return 0 <= value && value <= 3;
 }
 // ===================================================================

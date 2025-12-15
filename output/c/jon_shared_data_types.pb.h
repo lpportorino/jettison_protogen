@@ -176,6 +176,13 @@ typedef enum _ser_JonGuiDataExtBatStatus {
     ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_BALANCING = 3
 } ser_JonGuiDataExtBatStatus;
 
+typedef enum _ser_JonGuiDataStateSource {
+    ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED = 0,
+    ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE = 1,
+    ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE = 2,
+    ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3
+} ser_JonGuiDataStateSource;
+
 /* Struct definitions */
 typedef struct _ser_JonGuiDataMeteo {
     double temperature;
@@ -268,6 +275,10 @@ extern "C" {
 #define _ser_JonGuiDataExtBatStatus_MIN ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED
 #define _ser_JonGuiDataExtBatStatus_MAX ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_BALANCING
 #define _ser_JonGuiDataExtBatStatus_ARRAYSIZE ((ser_JonGuiDataExtBatStatus)(ser_JonGuiDataExtBatStatus_JON_GUI_DATA_EXT_BAT_STATUS_BALANCING+1))
+
+#define _ser_JonGuiDataStateSource_MIN ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED
+#define _ser_JonGuiDataStateSource_MAX ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM
+#define _ser_JonGuiDataStateSource_ARRAYSIZE ((ser_JonGuiDataStateSource)(ser_JonGuiDataStateSource_JON_GUI_DATA_STATE_SOURCE_SYSTEM+1))
 
 
 
