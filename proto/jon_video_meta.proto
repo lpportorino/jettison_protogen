@@ -40,6 +40,7 @@ message VideoMeta {
   uint64 timestamp = 3;             // Unix seconds
   string storage_path = 4;          // Directory path to video files
   string source_type = 5;           // "day" or "heat"
+  string filename = 13;             // Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
 
   // MOOV extracted data
   uint32 frame_count = 6;
