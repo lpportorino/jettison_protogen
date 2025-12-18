@@ -5,6 +5,4 @@
 
 /* eslint-disable */
 
-export * as cmd from "./index.cmd";
-export * as ser from "./index.ser";
-export * as jon from "./index.jon";
+export * from "./jon_video_meta";
