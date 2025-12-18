@@ -1706,6 +1706,7 @@ class VideoMeta final : public ::google::protobuf::Message
     kStoragePathFieldNumber = 4,
     kSourceTypeFieldNumber = 5,
     kDsiFieldNumber = 10,
+    kFilenameFieldNumber = 13,
     kSampleTableFieldNumber = 12,
     kTimestampFieldNumber = 3,
     kSessionIdFieldNumber = 2,
@@ -1777,6 +1778,22 @@ class VideoMeta final : public ::google::protobuf::Message
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_dsi(
       const std::string& value);
   std::string* _internal_mutable_dsi();
+
+  public:
+  // string filename = 13;
+  void clear_filename() ;
+  const std::string& filename() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_filename(Arg_&& arg, Args_... args);
+  std::string* mutable_filename();
+  PROTOBUF_NODISCARD std::string* release_filename();
+  void set_allocated_filename(std::string* value);
+
+  private:
+  const std::string& _internal_filename() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_filename(
+      const std::string& value);
+  std::string* _internal_mutable_filename();
 
   public:
   // .jon.video.SampleTable sample_table = 12;
@@ -1869,8 +1886,8 @@ class VideoMeta final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 12, 1,
-      63, 2>
+      4, 13, 1,
+      71, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -1893,6 +1910,7 @@ class VideoMeta final : public ::google::protobuf::Message
     ::google::protobuf::internal::ArenaStringPtr storage_path_;
     ::google::protobuf::internal::ArenaStringPtr source_type_;
     ::google::protobuf::internal::ArenaStringPtr dsi_;
+    ::google::protobuf::internal::ArenaStringPtr filename_;
     ::jon::video::SampleTable* sample_table_;
     ::uint64_t timestamp_;
     ::int32_t session_id_;
@@ -2873,6 +2891,54 @@ inline void VideoMeta::set_allocated_source_type(std::string* value) {
     _impl_.source_type_.Set("", GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:jon.video.VideoMeta.source_type)
+}
+
+// string filename = 13;
+inline void VideoMeta::clear_filename() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.filename_.ClearToEmpty();
+}
+inline const std::string& VideoMeta::filename() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.filename)
+  return _internal_filename();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void VideoMeta::set_filename(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.filename_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.filename)
+}
+inline std::string* VideoMeta::mutable_filename() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_filename();
+  // @@protoc_insertion_point(field_mutable:jon.video.VideoMeta.filename)
+  return _s;
+}
+inline const std::string& VideoMeta::_internal_filename() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.filename_.Get();
+}
+inline void VideoMeta::_internal_set_filename(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.filename_.Set(value, GetArena());
+}
+inline std::string* VideoMeta::_internal_mutable_filename() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.filename_.Mutable( GetArena());
+}
+inline std::string* VideoMeta::release_filename() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.video.VideoMeta.filename)
+  return _impl_.filename_.Release();
+}
+inline void VideoMeta::set_allocated_filename(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.filename_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.filename_.IsDefault()) {
+    _impl_.filename_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.video.VideoMeta.filename)
 }
 
 // uint32 frame_count = 6;

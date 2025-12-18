@@ -60,12 +60,13 @@ class VideoMetaResponse(_message.Message):
     def __init__(self, videos: _Optional[_Iterable[_Union[VideoMeta, _Mapping]]] = ..., errors: _Optional[_Iterable[_Union[VideoError, _Mapping]]] = ..., total_count: _Optional[int] = ...) -> None: ...
 
 class VideoMeta(_message.Message):
-    __slots__ = ("uuid", "session_id", "timestamp", "storage_path", "source_type", "frame_count", "duration_ms", "width", "height", "dsi", "timescale", "sample_table")
+    __slots__ = ("uuid", "session_id", "timestamp", "storage_path", "source_type", "filename", "frame_count", "duration_ms", "width", "height", "dsi", "timescale", "sample_table")
     UUID_FIELD_NUMBER: _ClassVar[int]
     SESSION_ID_FIELD_NUMBER: _ClassVar[int]
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     STORAGE_PATH_FIELD_NUMBER: _ClassVar[int]
     SOURCE_TYPE_FIELD_NUMBER: _ClassVar[int]
+    FILENAME_FIELD_NUMBER: _ClassVar[int]
     FRAME_COUNT_FIELD_NUMBER: _ClassVar[int]
     DURATION_MS_FIELD_NUMBER: _ClassVar[int]
     WIDTH_FIELD_NUMBER: _ClassVar[int]
@@ -78,6 +79,7 @@ class VideoMeta(_message.Message):
     timestamp: int
     storage_path: str
     source_type: str
+    filename: str
     frame_count: int
     duration_ms: int
     width: int
@@ -85,7 +87,7 @@ class VideoMeta(_message.Message):
     dsi: bytes
     timescale: int
     sample_table: SampleTable
-    def __init__(self, uuid: _Optional[str] = ..., session_id: _Optional[int] = ..., timestamp: _Optional[int] = ..., storage_path: _Optional[str] = ..., source_type: _Optional[str] = ..., frame_count: _Optional[int] = ..., duration_ms: _Optional[int] = ..., width: _Optional[int] = ..., height: _Optional[int] = ..., dsi: _Optional[bytes] = ..., timescale: _Optional[int] = ..., sample_table: _Optional[_Union[SampleTable, _Mapping]] = ...) -> None: ...
+    def __init__(self, uuid: _Optional[str] = ..., session_id: _Optional[int] = ..., timestamp: _Optional[int] = ..., storage_path: _Optional[str] = ..., source_type: _Optional[str] = ..., filename: _Optional[str] = ..., frame_count: _Optional[int] = ..., duration_ms: _Optional[int] = ..., width: _Optional[int] = ..., height: _Optional[int] = ..., dsi: _Optional[bytes] = ..., timescale: _Optional[int] = ..., sample_table: _Optional[_Union[SampleTable, _Mapping]] = ...) -> None: ...
 
 class SampleTable(_message.Message):
     __slots__ = ("sample_sizes", "chunk_offsets", "sample_times", "sync_samples", "sample_to_chunk")

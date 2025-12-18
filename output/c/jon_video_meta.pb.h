@@ -79,6 +79,7 @@ typedef struct _jon_video_VideoMeta {
     /* Sample table (always included for playback) */
     bool has_sample_table;
     jon_video_SampleTable sample_table;
+    pb_callback_t filename; /* Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4") */
 } jon_video_VideoMeta;
 
 /* Sample-to-chunk box entry */
@@ -121,7 +122,7 @@ extern "C" {
 #define jon_video_VideoIdList_init_default       {{{NULL}, NULL}}
 #define jon_video_VideoRangeQuery_init_default   {0, 0, {{NULL}, NULL}, false, 0, false, 0}
 #define jon_video_VideoMetaResponse_init_default {{{NULL}, NULL}, {{NULL}, NULL}, 0}
-#define jon_video_VideoMeta_init_default         {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_default}
+#define jon_video_VideoMeta_init_default         {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_default, {{NULL}, NULL}}
 #define jon_video_SampleTable_init_default       {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_video_SampleToChunk_init_default     {0, 0, 0}
 #define jon_video_VideoError_init_default        {{{NULL}, NULL}, {{NULL}, NULL}, _jon_video_VideoErrorType_MIN, {{NULL}, NULL}}
@@ -129,7 +130,7 @@ extern "C" {
 #define jon_video_VideoIdList_init_zero          {{{NULL}, NULL}}
 #define jon_video_VideoRangeQuery_init_zero      {0, 0, {{NULL}, NULL}, false, 0, false, 0}
 #define jon_video_VideoMetaResponse_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}, 0}
-#define jon_video_VideoMeta_init_zero            {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_zero}
+#define jon_video_VideoMeta_init_zero            {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_zero, {{NULL}, NULL}}
 #define jon_video_SampleTable_init_zero          {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_video_SampleToChunk_init_zero        {0, 0, 0}
 #define jon_video_VideoError_init_zero           {{{NULL}, NULL}, {{NULL}, NULL}, _jon_video_VideoErrorType_MIN, {{NULL}, NULL}}
@@ -163,6 +164,7 @@ extern "C" {
 #define jon_video_VideoMeta_dsi_tag              10
 #define jon_video_VideoMeta_timescale_tag        11
 #define jon_video_VideoMeta_sample_table_tag     12
+#define jon_video_VideoMeta_filename_tag         13
 #define jon_video_SampleToChunk_first_chunk_tag  1
 #define jon_video_SampleToChunk_samples_per_chunk_tag 2
 #define jon_video_SampleToChunk_sample_description_index_tag 3
@@ -215,7 +217,8 @@ X(a, STATIC,   SINGULAR, UINT32,   width,             8) \
 X(a, STATIC,   SINGULAR, UINT32,   height,            9) \
 X(a, CALLBACK, SINGULAR, BYTES,    dsi,              10) \
 X(a, STATIC,   SINGULAR, UINT32,   timescale,        11) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  sample_table,     12)
+X(a, STATIC,   OPTIONAL, MESSAGE,  sample_table,     12) \
+X(a, CALLBACK, SINGULAR, STRING,   filename,         13)
 #define jon_video_VideoMeta_CALLBACK pb_default_field_callback
 #define jon_video_VideoMeta_DEFAULT NULL
 #define jon_video_VideoMeta_sample_table_MSGTYPE jon_video_SampleTable

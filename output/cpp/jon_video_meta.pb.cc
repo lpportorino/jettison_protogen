@@ -218,6 +218,9 @@ inline constexpr VideoMeta::Impl_::Impl_(
         dsi_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
+        filename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
         sample_table_{nullptr},
         timestamp_{::uint64_t{0u}},
         session_id_{0},
@@ -343,6 +346,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.timestamp_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.storage_path_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.source_type_),
+        PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.filename_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.frame_count_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.duration_ms_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.width_),
@@ -350,6 +354,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.dsi_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.timescale_),
         PROTOBUF_FIELD_OFFSET(::jon::video::VideoMeta, _impl_.sample_table_),
+        ~0u,
         ~0u,
         ~0u,
         ~0u,
@@ -406,10 +411,10 @@ static const ::_pbi::MigrationSchema
         {11, -1, -1, sizeof(::jon::video::VideoIdList)},
         {20, 33, -1, sizeof(::jon::video::VideoRangeQuery)},
         {38, -1, -1, sizeof(::jon::video::VideoMetaResponse)},
-        {49, 69, -1, sizeof(::jon::video::VideoMeta)},
-        {81, -1, -1, sizeof(::jon::video::SampleTable)},
-        {94, -1, -1, sizeof(::jon::video::SampleToChunk)},
-        {105, -1, -1, sizeof(::jon::video::VideoError)},
+        {49, 70, -1, sizeof(::jon::video::VideoMeta)},
+        {83, -1, -1, sizeof(::jon::video::SampleTable)},
+        {96, -1, -1, sizeof(::jon::video::SampleToChunk)},
+        {107, -1, -1, sizeof(::jon::video::VideoError)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::jon::video::_VideoMetaRequest_default_instance_._instance,
@@ -436,30 +441,31 @@ const char descriptor_table_protodef_jon_5fvideo_5fmeta_2eproto[] ABSL_ATTRIBUTE
     "_limitB\t\n\007_offset\"u\n\021VideoMetaResponse\022$"
     "\n\006videos\030\001 \003(\0132\024.jon.video.VideoMeta\022%\n\006"
     "errors\030\002 \003(\0132\025.jon.video.VideoError\022\023\n\013t"
-    "otal_count\030\003 \001(\r\"\202\002\n\tVideoMeta\022\014\n\004uuid\030\001"
+    "otal_count\030\003 \001(\r\"\224\002\n\tVideoMeta\022\014\n\004uuid\030\001"
     " \001(\t\022\022\n\nsession_id\030\002 \001(\005\022\021\n\ttimestamp\030\003 "
     "\001(\004\022\024\n\014storage_path\030\004 \001(\t\022\023\n\013source_type"
-    "\030\005 \001(\t\022\023\n\013frame_count\030\006 \001(\r\022\023\n\013duration_"
-    "ms\030\007 \001(\r\022\r\n\005width\030\010 \001(\r\022\016\n\006height\030\t \001(\r\022"
-    "\013\n\003dsi\030\n \001(\014\022\021\n\ttimescale\030\013 \001(\r\022,\n\014sampl"
-    "e_table\030\014 \001(\0132\026.jon.video.SampleTable\"\231\001"
-    "\n\013SampleTable\022\024\n\014sample_sizes\030\001 \003(\r\022\025\n\rc"
-    "hunk_offsets\030\002 \003(\004\022\024\n\014sample_times\030\003 \003(\r"
-    "\022\024\n\014sync_samples\030\004 \003(\r\0221\n\017sample_to_chun"
-    "k\030\005 \003(\0132\030.jon.video.SampleToChunk\"a\n\rSam"
-    "pleToChunk\022\023\n\013first_chunk\030\001 \001(\r\022\031\n\021sampl"
-    "es_per_chunk\030\002 \001(\r\022 \n\030sample_description"
-    "_index\030\003 \001(\r\"v\n\nVideoError\022\014\n\004uuid\030\001 \001(\t"
-    "\022\024\n\014storage_path\030\002 \001(\t\022-\n\nerror_type\030\003 \001"
-    "(\0162\031.jon.video.VideoErrorType\022\025\n\rerror_m"
-    "essage\030\004 \001(\t*\331\001\n\016VideoErrorType\022 \n\034VIDEO"
-    "_ERROR_TYPE_UNSPECIFIED\020\000\022#\n\037VIDEO_ERROR"
-    "_TYPE_FILE_NOT_FOUND\020\001\022\037\n\033VIDEO_ERROR_TY"
-    "PE_EMPTY_FILE\020\002\022\034\n\030VIDEO_ERROR_TYPE_NO_M"
-    "OOV\020\003\022!\n\035VIDEO_ERROR_TYPE_INVALID_MOOV\020\004"
-    "\022\036\n\032VIDEO_ERROR_TYPE_TRUNCATED\020\005BHZFgit-"
-    "codecommit.eu-central-1.amazonaws.com/v1"
-    "/repos/jettison/jonp/videob\006proto3"
+    "\030\005 \001(\t\022\020\n\010filename\030\r \001(\t\022\023\n\013frame_count\030"
+    "\006 \001(\r\022\023\n\013duration_ms\030\007 \001(\r\022\r\n\005width\030\010 \001("
+    "\r\022\016\n\006height\030\t \001(\r\022\013\n\003dsi\030\n \001(\014\022\021\n\ttimesc"
+    "ale\030\013 \001(\r\022,\n\014sample_table\030\014 \001(\0132\026.jon.vi"
+    "deo.SampleTable\"\231\001\n\013SampleTable\022\024\n\014sampl"
+    "e_sizes\030\001 \003(\r\022\025\n\rchunk_offsets\030\002 \003(\004\022\024\n\014"
+    "sample_times\030\003 \003(\r\022\024\n\014sync_samples\030\004 \003(\r"
+    "\0221\n\017sample_to_chunk\030\005 \003(\0132\030.jon.video.Sa"
+    "mpleToChunk\"a\n\rSampleToChunk\022\023\n\013first_ch"
+    "unk\030\001 \001(\r\022\031\n\021samples_per_chunk\030\002 \001(\r\022 \n\030"
+    "sample_description_index\030\003 \001(\r\"v\n\nVideoE"
+    "rror\022\014\n\004uuid\030\001 \001(\t\022\024\n\014storage_path\030\002 \001(\t"
+    "\022-\n\nerror_type\030\003 \001(\0162\031.jon.video.VideoEr"
+    "rorType\022\025\n\rerror_message\030\004 \001(\t*\331\001\n\016Video"
+    "ErrorType\022 \n\034VIDEO_ERROR_TYPE_UNSPECIFIE"
+    "D\020\000\022#\n\037VIDEO_ERROR_TYPE_FILE_NOT_FOUND\020\001"
+    "\022\037\n\033VIDEO_ERROR_TYPE_EMPTY_FILE\020\002\022\034\n\030VID"
+    "EO_ERROR_TYPE_NO_MOOV\020\003\022!\n\035VIDEO_ERROR_T"
+    "YPE_INVALID_MOOV\020\004\022\036\n\032VIDEO_ERROR_TYPE_T"
+    "RUNCATED\020\005BHZFgit-codecommit.eu-central-"
+    "1.amazonaws.com/v1/repos/jettison/jonp/v"
+    "ideob\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fvideo_5fmeta_2eproto_deps[1] =
     {
@@ -469,7 +475,7 @@ static ::absl::once_flag descriptor_table_jon_5fvideo_5fmeta_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fvideo_5fmeta_2eproto = {
     false,
     false,
-    1474,
+    1492,
     descriptor_table_protodef_jon_5fvideo_5fmeta_2eproto,
     "jon_video_meta.proto",
     &descriptor_table_jon_5fvideo_5fmeta_2eproto_once,
@@ -1782,7 +1788,8 @@ inline PROTOBUF_NDEBUG_INLINE VideoMeta::Impl_::Impl_(
         uuid_(arena, from.uuid_),
         storage_path_(arena, from.storage_path_),
         source_type_(arena, from.source_type_),
-        dsi_(arena, from.dsi_) {}
+        dsi_(arena, from.dsi_),
+        filename_(arena, from.filename_) {}
 
 VideoMeta::VideoMeta(
     ::google::protobuf::Arena* arena,
@@ -1818,7 +1825,8 @@ inline PROTOBUF_NDEBUG_INLINE VideoMeta::Impl_::Impl_(
         uuid_(arena),
         storage_path_(arena),
         source_type_(arena),
-        dsi_(arena) {}
+        dsi_(arena),
+        filename_(arena) {}
 
 inline void VideoMeta::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
@@ -1841,6 +1849,7 @@ inline void VideoMeta::SharedDtor(MessageLite& self) {
   this_._impl_.storage_path_.Destroy();
   this_._impl_.source_type_.Destroy();
   this_._impl_.dsi_.Destroy();
+  this_._impl_.filename_.Destroy();
   delete this_._impl_.sample_table_;
   this_._impl_.~Impl_();
 }
@@ -1881,15 +1890,15 @@ const ::google::protobuf::internal::ClassData* VideoMeta::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 12, 1, 63, 2> VideoMeta::_table_ = {
+const ::_pbi::TcParseTable<4, 13, 1, 71, 2> VideoMeta::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(VideoMeta, _impl_._has_bits_),
     0, // no _extensions_
-    12, 120,  // max_field_number, fast_idx_mask
+    13, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294963200,  // skipmap
+    4294959104,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    12,  // num_field_entries
+    13,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -1936,7 +1945,9 @@ const ::_pbi::TcParseTable<4, 12, 1, 63, 2> VideoMeta::_table_ = {
     // .jon.video.SampleTable sample_table = 12;
     {::_pbi::TcParser::FastMtS1,
      {98, 0, 0, PROTOBUF_FIELD_OFFSET(VideoMeta, _impl_.sample_table_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // string filename = 13;
+    {::_pbi::TcParser::FastUS1,
+     {106, 63, 0, PROTOBUF_FIELD_OFFSET(VideoMeta, _impl_.filename_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
@@ -1978,14 +1989,18 @@ const ::_pbi::TcParseTable<4, 12, 1, 63, 2> VideoMeta::_table_ = {
     // .jon.video.SampleTable sample_table = 12;
     {PROTOBUF_FIELD_OFFSET(VideoMeta, _impl_.sample_table_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // string filename = 13;
+    {PROTOBUF_FIELD_OFFSET(VideoMeta, _impl_.filename_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }}, {{
     {::_pbi::TcParser::GetTable<::jon::video::SampleTable>()},
   }}, {{
-    "\23\4\0\0\14\13\0\0\0\0\0\0\0\0\0\0"
+    "\23\4\0\0\14\13\0\0\0\0\0\0\0\10\0\0"
     "jon.video.VideoMeta"
     "uuid"
     "storage_path"
     "source_type"
+    "filename"
   }},
 };
 
@@ -2000,6 +2015,7 @@ PROTOBUF_NOINLINE void VideoMeta::Clear() {
   _impl_.storage_path_.ClearToEmpty();
   _impl_.source_type_.ClearToEmpty();
   _impl_.dsi_.ClearToEmpty();
+  _impl_.filename_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     ABSL_DCHECK(_impl_.sample_table_ != nullptr);
@@ -2114,6 +2130,14 @@ PROTOBUF_NOINLINE void VideoMeta::Clear() {
                 stream);
           }
 
+          // string filename = 13;
+          if (!this_._internal_filename().empty()) {
+            const std::string& _s = this_._internal_filename();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "jon.video.VideoMeta.filename");
+            target = stream->WriteStringMaybeAliased(13, _s, target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -2158,6 +2182,11 @@ PROTOBUF_NOINLINE void VideoMeta::Clear() {
             if (!this_._internal_dsi().empty()) {
               total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
                                               this_._internal_dsi());
+            }
+            // string filename = 13;
+            if (!this_._internal_filename().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_filename());
             }
           }
            {
@@ -2230,6 +2259,9 @@ void VideoMeta::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
   if (!from._internal_dsi().empty()) {
     _this->_internal_set_dsi(from._internal_dsi());
   }
+  if (!from._internal_filename().empty()) {
+    _this->_internal_set_filename(from._internal_filename());
+  }
   cached_has_bits = from._impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
     ABSL_DCHECK(from._impl_.sample_table_ != nullptr);
@@ -2283,6 +2315,7 @@ void VideoMeta::InternalSwap(VideoMeta* PROTOBUF_RESTRICT other) {
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.storage_path_, &other->_impl_.storage_path_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.source_type_, &other->_impl_.source_type_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.dsi_, &other->_impl_.dsi_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.filename_, &other->_impl_.filename_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(VideoMeta, _impl_.timescale_)
       + sizeof(VideoMeta::_impl_.timescale_)

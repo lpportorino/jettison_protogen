@@ -70,6 +70,9 @@ pub struct VideoMeta {
     /// "day" or "heat"
     #[prost(string, tag = "5")]
     pub source_type: ::prost::alloc::string::String,
+    /// Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+    #[prost(string, tag = "13")]
+    pub filename: ::prost::alloc::string::String,
     /// MOOV extracted data
     #[prost(uint32, tag = "6")]
     pub frame_count: u32,

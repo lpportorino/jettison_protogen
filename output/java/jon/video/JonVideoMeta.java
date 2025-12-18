@@ -4302,6 +4302,26 @@ public final class JonVideoMeta {
 
     /**
      * <pre>
+     * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+     * </pre>
+     *
+     * <code>string filename = 13;</code>
+     * @return The filename.
+     */
+    java.lang.String getFilename();
+    /**
+     * <pre>
+     * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+     * </pre>
+     *
+     * <code>string filename = 13;</code>
+     * @return The bytes for filename.
+     */
+    com.google.protobuf.ByteString
+        getFilenameBytes();
+
+    /**
+     * <pre>
      * MOOV extracted data
      * </pre>
      *
@@ -4404,6 +4424,7 @@ public final class JonVideoMeta {
       uuid_ = "";
       storagePath_ = "";
       sourceType_ = "";
+      filename_ = "";
       dsi_ = com.google.protobuf.ByteString.EMPTY;
     }
 
@@ -4580,6 +4601,53 @@ public final class JonVideoMeta {
       }
     }
 
+    public static final int FILENAME_FIELD_NUMBER = 13;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object filename_ = "";
+    /**
+     * <pre>
+     * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+     * </pre>
+     *
+     * <code>string filename = 13;</code>
+     * @return The filename.
+     */
+    @java.lang.Override
+    public java.lang.String getFilename() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        filename_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+     * </pre>
+     *
+     * <code>string filename = 13;</code>
+     * @return The bytes for filename.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getFilenameBytes() {
+      java.lang.Object ref = filename_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        filename_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int FRAME_COUNT_FIELD_NUMBER = 6;
     private int frameCount_ = 0;
     /**
@@ -4746,6 +4814,9 @@ public final class JonVideoMeta {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(12, getSampleTable());
       }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(filename_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 13, filename_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4800,6 +4871,9 @@ public final class JonVideoMeta {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, getSampleTable());
       }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(filename_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(13, filename_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4825,6 +4899,8 @@ public final class JonVideoMeta {
           .equals(other.getStoragePath())) return false;
       if (!getSourceType()
           .equals(other.getSourceType())) return false;
+      if (!getFilename()
+          .equals(other.getFilename())) return false;
       if (getFrameCount()
           != other.getFrameCount()) return false;
       if (getDurationMs()
@@ -4864,6 +4940,8 @@ public final class JonVideoMeta {
       hash = (53 * hash) + getStoragePath().hashCode();
       hash = (37 * hash) + SOURCE_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getSourceType().hashCode();
+      hash = (37 * hash) + FILENAME_FIELD_NUMBER;
+      hash = (53 * hash) + getFilename().hashCode();
       hash = (37 * hash) + FRAME_COUNT_FIELD_NUMBER;
       hash = (53 * hash) + getFrameCount();
       hash = (37 * hash) + DURATION_MS_FIELD_NUMBER;
@@ -5026,6 +5104,7 @@ public final class JonVideoMeta {
         timestamp_ = 0L;
         storagePath_ = "";
         sourceType_ = "";
+        filename_ = "";
         frameCount_ = 0;
         durationMs_ = 0;
         width_ = 0;
@@ -5086,25 +5165,28 @@ public final class JonVideoMeta {
           result.sourceType_ = sourceType_;
         }
         if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.frameCount_ = frameCount_;
+          result.filename_ = filename_;
         }
         if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.durationMs_ = durationMs_;
+          result.frameCount_ = frameCount_;
         }
         if (((from_bitField0_ & 0x00000080) != 0)) {
-          result.width_ = width_;
+          result.durationMs_ = durationMs_;
         }
         if (((from_bitField0_ & 0x00000100) != 0)) {
-          result.height_ = height_;
+          result.width_ = width_;
         }
         if (((from_bitField0_ & 0x00000200) != 0)) {
-          result.dsi_ = dsi_;
+          result.height_ = height_;
         }
         if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.dsi_ = dsi_;
+        }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
           result.timescale_ = timescale_;
         }
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000800) != 0)) {
+        if (((from_bitField0_ & 0x00001000) != 0)) {
           result.sampleTable_ = sampleTableBuilder_ == null
               ? sampleTable_
               : sampleTableBuilder_.build();
@@ -5144,6 +5226,11 @@ public final class JonVideoMeta {
         if (!other.getSourceType().isEmpty()) {
           sourceType_ = other.sourceType_;
           bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        if (!other.getFilename().isEmpty()) {
+          filename_ = other.filename_;
+          bitField0_ |= 0x00000020;
           onChanged();
         }
         if (other.getFrameCount() != 0) {
@@ -5220,41 +5307,46 @@ public final class JonVideoMeta {
               } // case 42
               case 48: {
                 frameCount_ = input.readUInt32();
-                bitField0_ |= 0x00000020;
+                bitField0_ |= 0x00000040;
                 break;
               } // case 48
               case 56: {
                 durationMs_ = input.readUInt32();
-                bitField0_ |= 0x00000040;
+                bitField0_ |= 0x00000080;
                 break;
               } // case 56
               case 64: {
                 width_ = input.readUInt32();
-                bitField0_ |= 0x00000080;
+                bitField0_ |= 0x00000100;
                 break;
               } // case 64
               case 72: {
                 height_ = input.readUInt32();
-                bitField0_ |= 0x00000100;
+                bitField0_ |= 0x00000200;
                 break;
               } // case 72
               case 82: {
                 dsi_ = input.readBytes();
-                bitField0_ |= 0x00000200;
+                bitField0_ |= 0x00000400;
                 break;
               } // case 82
               case 88: {
                 timescale_ = input.readUInt32();
-                bitField0_ |= 0x00000400;
+                bitField0_ |= 0x00000800;
                 break;
               } // case 88
               case 98: {
                 input.readMessage(
                     getSampleTableFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000800;
+                bitField0_ |= 0x00001000;
                 break;
               } // case 98
+              case 106: {
+                filename_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 106
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5604,6 +5696,98 @@ public final class JonVideoMeta {
         return this;
       }
 
+      private java.lang.Object filename_ = "";
+      /**
+       * <pre>
+       * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+       * </pre>
+       *
+       * <code>string filename = 13;</code>
+       * @return The filename.
+       */
+      public java.lang.String getFilename() {
+        java.lang.Object ref = filename_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          filename_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+       * </pre>
+       *
+       * <code>string filename = 13;</code>
+       * @return The bytes for filename.
+       */
+      public com.google.protobuf.ByteString
+          getFilenameBytes() {
+        java.lang.Object ref = filename_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          filename_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+       * </pre>
+       *
+       * <code>string filename = 13;</code>
+       * @param value The filename to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFilename(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        filename_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+       * </pre>
+       *
+       * <code>string filename = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFilename() {
+        filename_ = getDefaultInstance().getFilename();
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
+       * </pre>
+       *
+       * <code>string filename = 13;</code>
+       * @param value The bytes for filename to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFilenameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        filename_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+
       private int frameCount_ ;
       /**
        * <pre>
@@ -5629,7 +5813,7 @@ public final class JonVideoMeta {
       public Builder setFrameCount(int value) {
 
         frameCount_ = value;
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -5642,7 +5826,7 @@ public final class JonVideoMeta {
        * @return This builder for chaining.
        */
       public Builder clearFrameCount() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         frameCount_ = 0;
         onChanged();
         return this;
@@ -5665,7 +5849,7 @@ public final class JonVideoMeta {
       public Builder setDurationMs(int value) {
 
         durationMs_ = value;
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -5674,7 +5858,7 @@ public final class JonVideoMeta {
        * @return This builder for chaining.
        */
       public Builder clearDurationMs() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         durationMs_ = 0;
         onChanged();
         return this;
@@ -5697,7 +5881,7 @@ public final class JonVideoMeta {
       public Builder setWidth(int value) {
 
         width_ = value;
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000100;
         onChanged();
         return this;
       }
@@ -5706,7 +5890,7 @@ public final class JonVideoMeta {
        * @return This builder for chaining.
        */
       public Builder clearWidth() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000100);
         width_ = 0;
         onChanged();
         return this;
@@ -5729,7 +5913,7 @@ public final class JonVideoMeta {
       public Builder setHeight(int value) {
 
         height_ = value;
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000200;
         onChanged();
         return this;
       }
@@ -5738,7 +5922,7 @@ public final class JonVideoMeta {
        * @return This builder for chaining.
        */
       public Builder clearHeight() {
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000200);
         height_ = 0;
         onChanged();
         return this;
@@ -5769,7 +5953,7 @@ public final class JonVideoMeta {
       public Builder setDsi(com.google.protobuf.ByteString value) {
         if (value == null) { throw new NullPointerException(); }
         dsi_ = value;
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000400;
         onChanged();
         return this;
       }
@@ -5782,7 +5966,7 @@ public final class JonVideoMeta {
        * @return This builder for chaining.
        */
       public Builder clearDsi() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         dsi_ = getDefaultInstance().getDsi();
         onChanged();
         return this;
@@ -5813,7 +5997,7 @@ public final class JonVideoMeta {
       public Builder setTimescale(int value) {
 
         timescale_ = value;
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         onChanged();
         return this;
       }
@@ -5826,7 +6010,7 @@ public final class JonVideoMeta {
        * @return This builder for chaining.
        */
       public Builder clearTimescale() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         timescale_ = 0;
         onChanged();
         return this;
@@ -5844,7 +6028,7 @@ public final class JonVideoMeta {
        * @return Whether the sampleTable field is set.
        */
       public boolean hasSampleTable() {
-        return ((bitField0_ & 0x00000800) != 0);
+        return ((bitField0_ & 0x00001000) != 0);
       }
       /**
        * <pre>
@@ -5877,7 +6061,7 @@ public final class JonVideoMeta {
         } else {
           sampleTableBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -5895,7 +6079,7 @@ public final class JonVideoMeta {
         } else {
           sampleTableBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         onChanged();
         return this;
       }
@@ -5908,7 +6092,7 @@ public final class JonVideoMeta {
        */
       public Builder mergeSampleTable(jon.video.JonVideoMeta.SampleTable value) {
         if (sampleTableBuilder_ == null) {
-          if (((bitField0_ & 0x00000800) != 0) &&
+          if (((bitField0_ & 0x00001000) != 0) &&
             sampleTable_ != null &&
             sampleTable_ != jon.video.JonVideoMeta.SampleTable.getDefaultInstance()) {
             getSampleTableBuilder().mergeFrom(value);
@@ -5919,7 +6103,7 @@ public final class JonVideoMeta {
           sampleTableBuilder_.mergeFrom(value);
         }
         if (sampleTable_ != null) {
-          bitField0_ |= 0x00000800;
+          bitField0_ |= 0x00001000;
           onChanged();
         }
         return this;
@@ -5932,7 +6116,7 @@ public final class JonVideoMeta {
        * <code>.jon.video.SampleTable sample_table = 12;</code>
        */
       public Builder clearSampleTable() {
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00001000);
         sampleTable_ = null;
         if (sampleTableBuilder_ != null) {
           sampleTableBuilder_.dispose();
@@ -5949,7 +6133,7 @@ public final class JonVideoMeta {
        * <code>.jon.video.SampleTable sample_table = 12;</code>
        */
       public jon.video.JonVideoMeta.SampleTable.Builder getSampleTableBuilder() {
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00001000;
         onChanged();
         return getSampleTableFieldBuilder().getBuilder();
       }
@@ -9440,30 +9624,31 @@ public final class JonVideoMeta {
       "_limitB\t\n\007_offset\"u\n\021VideoMetaResponse\022$" +
       "\n\006videos\030\001 \003(\0132\024.jon.video.VideoMeta\022%\n\006" +
       "errors\030\002 \003(\0132\025.jon.video.VideoError\022\023\n\013t" +
-      "otal_count\030\003 \001(\r\"\202\002\n\tVideoMeta\022\014\n\004uuid\030\001" +
+      "otal_count\030\003 \001(\r\"\224\002\n\tVideoMeta\022\014\n\004uuid\030\001" +
       " \001(\t\022\022\n\nsession_id\030\002 \001(\005\022\021\n\ttimestamp\030\003 " +
       "\001(\004\022\024\n\014storage_path\030\004 \001(\t\022\023\n\013source_type" +
-      "\030\005 \001(\t\022\023\n\013frame_count\030\006 \001(\r\022\023\n\013duration_" +
-      "ms\030\007 \001(\r\022\r\n\005width\030\010 \001(\r\022\016\n\006height\030\t \001(\r\022" +
-      "\013\n\003dsi\030\n \001(\014\022\021\n\ttimescale\030\013 \001(\r\022,\n\014sampl" +
-      "e_table\030\014 \001(\0132\026.jon.video.SampleTable\"\231\001" +
-      "\n\013SampleTable\022\024\n\014sample_sizes\030\001 \003(\r\022\025\n\rc" +
-      "hunk_offsets\030\002 \003(\004\022\024\n\014sample_times\030\003 \003(\r" +
-      "\022\024\n\014sync_samples\030\004 \003(\r\0221\n\017sample_to_chun" +
-      "k\030\005 \003(\0132\030.jon.video.SampleToChunk\"a\n\rSam" +
-      "pleToChunk\022\023\n\013first_chunk\030\001 \001(\r\022\031\n\021sampl" +
-      "es_per_chunk\030\002 \001(\r\022 \n\030sample_description" +
-      "_index\030\003 \001(\r\"v\n\nVideoError\022\014\n\004uuid\030\001 \001(\t" +
-      "\022\024\n\014storage_path\030\002 \001(\t\022-\n\nerror_type\030\003 \001" +
-      "(\0162\031.jon.video.VideoErrorType\022\025\n\rerror_m" +
-      "essage\030\004 \001(\t*\331\001\n\016VideoErrorType\022 \n\034VIDEO" +
-      "_ERROR_TYPE_UNSPECIFIED\020\000\022#\n\037VIDEO_ERROR" +
-      "_TYPE_FILE_NOT_FOUND\020\001\022\037\n\033VIDEO_ERROR_TY" +
-      "PE_EMPTY_FILE\020\002\022\034\n\030VIDEO_ERROR_TYPE_NO_M" +
-      "OOV\020\003\022!\n\035VIDEO_ERROR_TYPE_INVALID_MOOV\020\004" +
-      "\022\036\n\032VIDEO_ERROR_TYPE_TRUNCATED\020\005BHZFgit-" +
-      "codecommit.eu-central-1.amazonaws.com/v1" +
-      "/repos/jettison/jonp/videob\006proto3"
+      "\030\005 \001(\t\022\020\n\010filename\030\r \001(\t\022\023\n\013frame_count\030" +
+      "\006 \001(\r\022\023\n\013duration_ms\030\007 \001(\r\022\r\n\005width\030\010 \001(" +
+      "\r\022\016\n\006height\030\t \001(\r\022\013\n\003dsi\030\n \001(\014\022\021\n\ttimesc" +
+      "ale\030\013 \001(\r\022,\n\014sample_table\030\014 \001(\0132\026.jon.vi" +
+      "deo.SampleTable\"\231\001\n\013SampleTable\022\024\n\014sampl" +
+      "e_sizes\030\001 \003(\r\022\025\n\rchunk_offsets\030\002 \003(\004\022\024\n\014" +
+      "sample_times\030\003 \003(\r\022\024\n\014sync_samples\030\004 \003(\r" +
+      "\0221\n\017sample_to_chunk\030\005 \003(\0132\030.jon.video.Sa" +
+      "mpleToChunk\"a\n\rSampleToChunk\022\023\n\013first_ch" +
+      "unk\030\001 \001(\r\022\031\n\021samples_per_chunk\030\002 \001(\r\022 \n\030" +
+      "sample_description_index\030\003 \001(\r\"v\n\nVideoE" +
+      "rror\022\014\n\004uuid\030\001 \001(\t\022\024\n\014storage_path\030\002 \001(\t" +
+      "\022-\n\nerror_type\030\003 \001(\0162\031.jon.video.VideoEr" +
+      "rorType\022\025\n\rerror_message\030\004 \001(\t*\331\001\n\016Video" +
+      "ErrorType\022 \n\034VIDEO_ERROR_TYPE_UNSPECIFIE" +
+      "D\020\000\022#\n\037VIDEO_ERROR_TYPE_FILE_NOT_FOUND\020\001" +
+      "\022\037\n\033VIDEO_ERROR_TYPE_EMPTY_FILE\020\002\022\034\n\030VID" +
+      "EO_ERROR_TYPE_NO_MOOV\020\003\022!\n\035VIDEO_ERROR_T" +
+      "YPE_INVALID_MOOV\020\004\022\036\n\032VIDEO_ERROR_TYPE_T" +
+      "RUNCATED\020\005BHZFgit-codecommit.eu-central-" +
+      "1.amazonaws.com/v1/repos/jettison/jonp/v" +
+      "ideob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9499,7 +9684,7 @@ public final class JonVideoMeta {
     internal_static_jon_video_VideoMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_video_VideoMeta_descriptor,
-        new java.lang.String[] { "Uuid", "SessionId", "Timestamp", "StoragePath", "SourceType", "FrameCount", "DurationMs", "Width", "Height", "Dsi", "Timescale", "SampleTable", });
+        new java.lang.String[] { "Uuid", "SessionId", "Timestamp", "StoragePath", "SourceType", "Filename", "FrameCount", "DurationMs", "Width", "Height", "Dsi", "Timescale", "SampleTable", });
     internal_static_jon_video_SampleTable_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_jon_video_SampleTable_fieldAccessorTable = new
