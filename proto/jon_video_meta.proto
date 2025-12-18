@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/video";
+
+package jon.video;
+
+// Request message for video metadata retrieval
+message VideoMetaRequest {
+  oneof query {
+    VideoRangeQuery range = 1;   // Time-based range query
+    VideoIdList ids = 2;         // Explicit UUID list
+  }
+}
+
+// List of video UUIDs for explicit selection
+message VideoIdList {
+  repeated string uuids = 1 [(buf.validate.field).repeated.min_items = 1];
+}
+
+// Time-based range query for selecting videos
+message VideoRangeQuery {
+  uint64 start_timestamp = 1 [(buf.validate.field).uint64.gte = 0];  // Unix seconds
+  uint64 end_timestamp = 2 [(buf.validate.field).uint64.gte = 0];    // Unix seconds
+  optional string source_type = 3;  // "day" or "heat" filter
+  optional uint32 limit = 4 [(buf.validate.field).uint32 = {gte: 1, lte: 1000}];
+  optional uint32 offset = 5;       // Pagination offset
+}
+
+// Response containing video metadata and any errors
+message VideoMetaResponse {
+  repeated VideoMeta videos = 1;    // Successfully processed videos
+  repeated VideoError errors = 2;   // Errors for failed videos
+  uint32 total_count = 3;           // Total matching (before limit)
+}
+
+// Metadata for a single video including MOOV data
+message VideoMeta {
+  string uuid = 1;
+  int32 session_id = 2;
+  uint64 timestamp = 3;             // Unix seconds
+  string storage_path = 4;          // Directory path to video files
+  string source_type = 5;           // "day" or "heat"
+
+  // MOOV extracted data
+  uint32 frame_count = 6;
+  uint32 duration_ms = 7;
+  uint32 width = 8;
+  uint32 height = 9;
+  bytes dsi = 10;                   // avcC decoder specific info
+  uint32 timescale = 11;            // Media timescale from mdhd
+
+  // Sample table (always included for playback)
+  SampleTable sample_table = 12;
+}
+
+// MP4 sample table data extracted from MOOV
+message SampleTable {
+  repeated uint32 sample_sizes = 1;       // Frame sizes in bytes (stsz)
+  repeated uint64 chunk_offsets = 2;      // Byte offsets in file (stco/co64)
+  repeated uint32 sample_times = 3;       // Decoding timestamps (stts deltas)
+  repeated uint32 sync_samples = 4;       // Keyframe indices, 1-based (stss)
+  repeated SampleToChunk sample_to_chunk = 5;  // Sample-to-chunk mapping (stsc)
+}
+
+// Sample-to-chunk box entry
+message SampleToChunk {
+  uint32 first_chunk = 1;
+  uint32 samples_per_chunk = 2;
+  uint32 sample_description_index = 3;
+}
+
+// Error information for a video that failed processing
+message VideoError {
+  string uuid = 1;
+  string storage_path = 2;
+  VideoErrorType error_type = 3;
+  string error_message = 4;
+}
+
+// Types of errors that can occur during video metadata extraction
+enum VideoErrorType {
+  VIDEO_ERROR_TYPE_UNSPECIFIED = 0;
+  VIDEO_ERROR_TYPE_FILE_NOT_FOUND = 1;
+  VIDEO_ERROR_TYPE_EMPTY_FILE = 2;
+  VIDEO_ERROR_TYPE_NO_MOOV = 3;
+  VIDEO_ERROR_TYPE_INVALID_MOOV = 4;
+  VIDEO_ERROR_TYPE_TRUNCATED = 5;
+}
