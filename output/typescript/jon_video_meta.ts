@@ -116,8 +116,6 @@ export interface VideoMeta {
   storagePath: string;
   /** "day" or "heat" */
   sourceType: string;
-  /** Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4") */
-  filename: string;
   /** MOOV extracted data */
   frameCount: number;
   durationMs: number;
@@ -529,7 +527,6 @@ function createBaseVideoMeta(): VideoMeta {
     timestamp: Long.UZERO,
     storagePath: "",
     sourceType: "",
-    filename: "",
     frameCount: 0,
     durationMs: 0,
     width: 0,
@@ -556,9 +553,6 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     }
     if (message.sourceType !== "") {
       writer.uint32(42).string(message.sourceType);
-    }
-    if (message.filename !== "") {
-      writer.uint32(106).string(message.filename);
     }
     if (message.frameCount !== 0) {
       writer.uint32(48).uint32(message.frameCount);
@@ -629,14 +623,6 @@ export const VideoMeta: MessageFns<VideoMeta> = {
           }
 
           message.sourceType = reader.string();
-          continue;
-        }
-        case 13: {
-          if (tag !== 106) {
-            break;
-          }
-
-          message.filename = reader.string();
           continue;
         }
         case 6: {
@@ -711,7 +697,6 @@ export const VideoMeta: MessageFns<VideoMeta> = {
       timestamp: isSet(object.timestamp) ? Long.fromValue(object.timestamp) : Long.UZERO,
       storagePath: isSet(object.storagePath) ? globalThis.String(object.storagePath) : "",
       sourceType: isSet(object.sourceType) ? globalThis.String(object.sourceType) : "",
-      filename: isSet(object.filename) ? globalThis.String(object.filename) : "",
       frameCount: isSet(object.frameCount) ? globalThis.Number(object.frameCount) : 0,
       durationMs: isSet(object.durationMs) ? globalThis.Number(object.durationMs) : 0,
       width: isSet(object.width) ? globalThis.Number(object.width) : 0,
@@ -738,9 +723,6 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     }
     if (message.sourceType !== "") {
       obj.sourceType = message.sourceType;
-    }
-    if (message.filename !== "") {
-      obj.filename = message.filename;
     }
     if (message.frameCount !== 0) {
       obj.frameCount = Math.round(message.frameCount);
@@ -778,7 +760,6 @@ export const VideoMeta: MessageFns<VideoMeta> = {
       : Long.UZERO;
     message.storagePath = object.storagePath ?? "";
     message.sourceType = object.sourceType ?? "";
-    message.filename = object.filename ?? "";
     message.frameCount = object.frameCount ?? 0;
     message.durationMs = object.durationMs ?? 0;
     message.width = object.width ?? 0;

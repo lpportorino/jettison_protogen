@@ -355,7 +355,6 @@ type VideoMeta struct {
 	Timestamp   uint64                 `protobuf:"varint,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                       // Unix seconds
 	StoragePath string                 `protobuf:"bytes,4,opt,name=storage_path,json=storagePath,proto3" json:"storage_path,omitempty"` // Directory path to video files
 	SourceType  string                 `protobuf:"bytes,5,opt,name=source_type,json=sourceType,proto3" json:"source_type,omitempty"`    // "day" or "heat"
-	Filename    string                 `protobuf:"bytes,13,opt,name=filename,proto3" json:"filename,omitempty"`                         // Video filename (e.g., "2025_12_18_12_46_34_0169_day.mp4")
 	// MOOV extracted data
 	FrameCount uint32 `protobuf:"varint,6,opt,name=frame_count,json=frameCount,proto3" json:"frame_count,omitempty"`
 	DurationMs uint32 `protobuf:"varint,7,opt,name=duration_ms,json=durationMs,proto3" json:"duration_ms,omitempty"`
@@ -430,13 +429,6 @@ func (x *VideoMeta) GetStoragePath() string {
 func (x *VideoMeta) GetSourceType() string {
 	if x != nil {
 		return x.SourceType
-	}
-	return ""
-}
-
-func (x *VideoMeta) GetFilename() string {
-	if x != nil {
-		return x.Filename
 	}
 	return ""
 }
@@ -723,7 +715,7 @@ const file_jon_video_meta_proto_rawDesc = "" +
 	"\x06videos\x18\x01 \x03(\v2\x14.jon.video.VideoMetaR\x06videos\x12-\n" +
 	"\x06errors\x18\x02 \x03(\v2\x15.jon.video.VideoErrorR\x06errors\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\rR\n" +
-	"totalCount\"\x97\x03\n" +
+	"totalCount\"\xfb\x02\n" +
 	"\tVideoMeta\x12\x12\n" +
 	"\x04uuid\x18\x01 \x01(\tR\x04uuid\x12\x1d\n" +
 	"\n" +
@@ -731,8 +723,7 @@ const file_jon_video_meta_proto_rawDesc = "" +
 	"\ttimestamp\x18\x03 \x01(\x04R\ttimestamp\x12!\n" +
 	"\fstorage_path\x18\x04 \x01(\tR\vstoragePath\x12\x1f\n" +
 	"\vsource_type\x18\x05 \x01(\tR\n" +
-	"sourceType\x12\x1a\n" +
-	"\bfilename\x18\r \x01(\tR\bfilename\x12\x1f\n" +
+	"sourceType\x12\x1f\n" +
 	"\vframe_count\x18\x06 \x01(\rR\n" +
 	"frameCount\x12\x1f\n" +
 	"\vduration_ms\x18\a \x01(\rR\n" +

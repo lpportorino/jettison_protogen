@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_video_meta.proto\x12\tjon.video\"o\n\x10VideoMetaRequest\x12+\n\x05range\x18\x01 \x01(\x0b\x32\x1a.jon.video.VideoRangeQueryH\x00\x12%\n\x03ids\x18\x02 \x01(\x0b\x32\x16.jon.video.VideoIdListH\x00\x42\x07\n\x05query\"\x1c\n\x0bVideoIdList\x12\r\n\x05uuids\x18\x01 \x03(\t\"\xa9\x01\n\x0fVideoRangeQuery\x12\x17\n\x0fstart_timestamp\x18\x01 \x01(\x04\x12\x15\n\rend_timestamp\x18\x02 \x01(\x04\x12\x18\n\x0bsource_type\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05limit\x18\x04 \x01(\rH\x01\x88\x01\x01\x12\x13\n\x06offset\x18\x05 \x01(\rH\x02\x88\x01\x01\x42\x0e\n\x0c_source_typeB\x08\n\x06_limitB\t\n\x07_offset\"u\n\x11VideoMetaResponse\x12$\n\x06videos\x18\x01 \x03(\x0b\x32\x14.jon.video.VideoMeta\x12%\n\x06\x65rrors\x18\x02 \x03(\x0b\x32\x15.jon.video.VideoError\x12\x13\n\x0btotal_count\x18\x03 \x01(\r\"\x94\x02\n\tVideoMeta\x12\x0c\n\x04uuid\x18\x01 \x01(\t\x12\x12\n\nsession_id\x18\x02 \x01(\x05\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x12\x14\n\x0cstorage_path\x18\x04 \x01(\t\x12\x13\n\x0bsource_type\x18\x05 \x01(\t\x12\x10\n\x08\x66ilename\x18\r \x01(\t\x12\x13\n\x0b\x66rame_count\x18\x06 \x01(\r\x12\x13\n\x0b\x64uration_ms\x18\x07 \x01(\r\x12\r\n\x05width\x18\x08 \x01(\r\x12\x0e\n\x06height\x18\t \x01(\r\x12\x0b\n\x03\x64si\x18\n \x01(\x0c\x12\x11\n\ttimescale\x18\x0b \x01(\r\x12,\n\x0csample_table\x18\x0c \x01(\x0b\x32\x16.jon.video.SampleTable\"\x99\x01\n\x0bSampleTable\x12\x14\n\x0csample_sizes\x18\x01 \x03(\r\x12\x15\n\rchunk_offsets\x18\x02 \x03(\x04\x12\x14\n\x0csample_times\x18\x03 \x03(\r\x12\x14\n\x0csync_samples\x18\x04 \x03(\r\x12\x31\n\x0fsample_to_chunk\x18\x05 \x03(\x0b\x32\x18.jon.video.SampleToChunk\"a\n\rSampleToChunk\x12\x13\n\x0b\x66irst_chunk\x18\x01 \x01(\r\x12\x19\n\x11samples_per_chunk\x18\x02 \x01(\r\x12 \n\x18sample_description_index\x18\x03 \x01(\r\"v\n\nVideoError\x12\x0c\n\x04uuid\x18\x01 \x01(\t\x12\x14\n\x0cstorage_path\x18\x02 \x01(\t\x12-\n\nerror_type\x18\x03 \x01(\x0e\x32\x19.jon.video.VideoErrorType\x12\x15\n\rerror_message\x18\x04 \x01(\t*\xd9\x01\n\x0eVideoErrorType\x12 \n\x1cVIDEO_ERROR_TYPE_UNSPECIFIED\x10\x00\x12#\n\x1fVIDEO_ERROR_TYPE_FILE_NOT_FOUND\x10\x01\x12\x1f\n\x1bVIDEO_ERROR_TYPE_EMPTY_FILE\x10\x02\x12\x1c\n\x18VIDEO_ERROR_TYPE_NO_MOOV\x10\x03\x12!\n\x1dVIDEO_ERROR_TYPE_INVALID_MOOV\x10\x04\x12\x1e\n\x1aVIDEO_ERROR_TYPE_TRUNCATED\x10\x05\x42HZFgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/videob\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_video_meta.proto\x12\tjon.video\"o\n\x10VideoMetaRequest\x12+\n\x05range\x18\x01 \x01(\x0b\x32\x1a.jon.video.VideoRangeQueryH\x00\x12%\n\x03ids\x18\x02 \x01(\x0b\x32\x16.jon.video.VideoIdListH\x00\x42\x07\n\x05query\"\x1c\n\x0bVideoIdList\x12\r\n\x05uuids\x18\x01 \x03(\t\"\xa9\x01\n\x0fVideoRangeQuery\x12\x17\n\x0fstart_timestamp\x18\x01 \x01(\x04\x12\x15\n\rend_timestamp\x18\x02 \x01(\x04\x12\x18\n\x0bsource_type\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x12\n\x05limit\x18\x04 \x01(\rH\x01\x88\x01\x01\x12\x13\n\x06offset\x18\x05 \x01(\rH\x02\x88\x01\x01\x42\x0e\n\x0c_source_typeB\x08\n\x06_limitB\t\n\x07_offset\"u\n\x11VideoMetaResponse\x12$\n\x06videos\x18\x01 \x03(\x0b\x32\x14.jon.video.VideoMeta\x12%\n\x06\x65rrors\x18\x02 \x03(\x0b\x32\x15.jon.video.VideoError\x12\x13\n\x0btotal_count\x18\x03 \x01(\r\"\x82\x02\n\tVideoMeta\x12\x0c\n\x04uuid\x18\x01 \x01(\t\x12\x12\n\nsession_id\x18\x02 \x01(\x05\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x12\x14\n\x0cstorage_path\x18\x04 \x01(\t\x12\x13\n\x0bsource_type\x18\x05 \x01(\t\x12\x13\n\x0b\x66rame_count\x18\x06 \x01(\r\x12\x13\n\x0b\x64uration_ms\x18\x07 \x01(\r\x12\r\n\x05width\x18\x08 \x01(\r\x12\x0e\n\x06height\x18\t \x01(\r\x12\x0b\n\x03\x64si\x18\n \x01(\x0c\x12\x11\n\ttimescale\x18\x0b \x01(\r\x12,\n\x0csample_table\x18\x0c \x01(\x0b\x32\x16.jon.video.SampleTable\"\x99\x01\n\x0bSampleTable\x12\x14\n\x0csample_sizes\x18\x01 \x03(\r\x12\x15\n\rchunk_offsets\x18\x02 \x03(\x04\x12\x14\n\x0csample_times\x18\x03 \x03(\r\x12\x14\n\x0csync_samples\x18\x04 \x03(\r\x12\x31\n\x0fsample_to_chunk\x18\x05 \x03(\x0b\x32\x18.jon.video.SampleToChunk\"a\n\rSampleToChunk\x12\x13\n\x0b\x66irst_chunk\x18\x01 \x01(\r\x12\x19\n\x11samples_per_chunk\x18\x02 \x01(\r\x12 \n\x18sample_description_index\x18\x03 \x01(\r\"v\n\nVideoError\x12\x0c\n\x04uuid\x18\x01 \x01(\t\x12\x14\n\x0cstorage_path\x18\x02 \x01(\t\x12-\n\nerror_type\x18\x03 \x01(\x0e\x32\x19.jon.video.VideoErrorType\x12\x15\n\rerror_message\x18\x04 \x01(\t*\xd9\x01\n\x0eVideoErrorType\x12 \n\x1cVIDEO_ERROR_TYPE_UNSPECIFIED\x10\x00\x12#\n\x1fVIDEO_ERROR_TYPE_FILE_NOT_FOUND\x10\x01\x12\x1f\n\x1bVIDEO_ERROR_TYPE_EMPTY_FILE\x10\x02\x12\x1c\n\x18VIDEO_ERROR_TYPE_NO_MOOV\x10\x03\x12!\n\x1dVIDEO_ERROR_TYPE_INVALID_MOOV\x10\x04\x12\x1e\n\x1aVIDEO_ERROR_TYPE_TRUNCATED\x10\x05\x42HZFgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/videob\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,8 +32,8 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'jon_video_meta_pb2', _globa
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZFgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/video'
-  _globals['_VIDEOERRORTYPE']._serialized_start=1124
-  _globals['_VIDEOERRORTYPE']._serialized_end=1341
+  _globals['_VIDEOERRORTYPE']._serialized_start=1106
+  _globals['_VIDEOERRORTYPE']._serialized_end=1323
   _globals['_VIDEOMETAREQUEST']._serialized_start=35
   _globals['_VIDEOMETAREQUEST']._serialized_end=146
   _globals['_VIDEOIDLIST']._serialized_start=148
@@ -43,11 +43,11 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_VIDEOMETARESPONSE']._serialized_start=350
   _globals['_VIDEOMETARESPONSE']._serialized_end=467
   _globals['_VIDEOMETA']._serialized_start=470
-  _globals['_VIDEOMETA']._serialized_end=746
-  _globals['_SAMPLETABLE']._serialized_start=749
-  _globals['_SAMPLETABLE']._serialized_end=902
-  _globals['_SAMPLETOCHUNK']._serialized_start=904
-  _globals['_SAMPLETOCHUNK']._serialized_end=1001
-  _globals['_VIDEOERROR']._serialized_start=1003
-  _globals['_VIDEOERROR']._serialized_end=1121
+  _globals['_VIDEOMETA']._serialized_end=728
+  _globals['_SAMPLETABLE']._serialized_start=731
+  _globals['_SAMPLETABLE']._serialized_end=884
+  _globals['_SAMPLETOCHUNK']._serialized_start=886
+  _globals['_SAMPLETOCHUNK']._serialized_end=983
+  _globals['_VIDEOERROR']._serialized_start=985
+  _globals['_VIDEOERROR']._serialized_end=1103
 # @@protoc_insertion_point(module_scope)
