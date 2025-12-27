@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/archive";
+
+package jon.archive;
+
+import "jon_video_meta.proto";
+
+// Archive index - always the last entry in .sych_video tar file.
+// The archive ends with an 8-byte footer: [4-byte "SYCH" magic][2-byte version][2-byte block count]
+// where block count indicates how many 1MB blocks contain the index.
+message SychArchiveIndex {
+  // Format version (currently 1)
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Unix timestamp when archive was created
+  uint64 created_at = 2 [(buf.validate.field).uint64.gt = 0];
+
+  // Origin URL for "go online" link (e.g., "https://sych.local")
+  string exported_from = 3 [(buf.validate.field).string.min_len = 1];
+
+  // File index with byte offsets for direct seeking
+  repeated ArchiveEntry files = 4 [(buf.validate.field).repeated.min_items = 1];
+
+  // Timeline data with embedded video metadata
+  TimelineIndex timeline = 5 [(buf.validate.field).required = true];
+
+  // OSD reference (paths within archive) - optional
+  optional OSDReference osd = 6;
+}
+
+// Entry in the archive file index, used for direct seeking to files
+message ArchiveEntry {
+  // Path within tar (e.g., "videos/001_abc.mp4")
+  string path = 1 [(buf.validate.field).string.min_len = 1];
+
+  // Byte offset of tar header in archive
+  uint64 header_offset = 2;
+
+  // Byte offset of file content (header_offset + 512)
+  uint64 data_offset = 3;
+
+  // File size in bytes
+  uint64 size = 4 [(buf.validate.field).uint64.gt = 0];
+}
+
+// Timeline index containing video entries with embedded metadata
+message TimelineIndex {
+  // Total frame count across all videos
+  uint32 total_frames = 1 [(buf.validate.field).uint32.gt = 0];
+
+  // Total duration in milliseconds
+  uint32 total_duration_ms = 2 [(buf.validate.field).uint32.gt = 0];
+
+  // Video entries in playback order
+  repeated VideoEntry videos = 3 [(buf.validate.field).repeated.min_items = 1];
+}
+
+// Video entry with embedded metadata from jon_video_meta.proto
+message VideoEntry {
+  // Original video ID (video:session:uuid format)
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+
+  // Path in archive (e.g., "videos/001_abc.mp4")
+  string archive_path = 2 [(buf.validate.field).string.min_len = 1];
+
+  // Thumbnail path in archive (optional, e.g., "thumbnails/001_abc.png")
+  optional string thumbnail_path = 3;
+
+  // Start frame in global timeline
+  uint32 global_frame_start = 4;
+
+  // Embedded video metadata including sample table for frame-accurate seeking
+  jon.video.VideoMeta meta = 5 [(buf.validate.field).required = true];
+}
+
+// Reference to OSD package and config within the archive
+message OSDReference {
+  // Path to OSD package tar within archive (e.g., "osd/package.tar")
+  string package_path = 1 [(buf.validate.field).string.min_len = 1];
+
+  // Path to OSD config JSON within archive (e.g., "osd/config.json")
+  string config_path = 2 [(buf.validate.field).string.min_len = 1];
+
+  // Package metadata
+  string package_name = 3 [(buf.validate.field).string.min_len = 1];
+  string package_version = 4 [(buf.validate.field).string.min_len = 1];
+
+  // Package variant (only recording_day supported for offline playback)
+  string package_variant = 5 [(buf.validate.field).string = {in: ["recording_day"]}];
+}
