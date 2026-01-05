@@ -1706,7 +1706,9 @@ class VideoMeta final : public ::google::protobuf::Message
     kStoragePathFieldNumber = 4,
     kSourceTypeFieldNumber = 5,
     kDsiFieldNumber = 10,
+    kMiniDsiFieldNumber = 25,
     kSampleTableFieldNumber = 12,
+    kMiniSampleTableFieldNumber = 27,
     kTimestampFieldNumber = 3,
     kSessionIdFieldNumber = 2,
     kFrameCountFieldNumber = 6,
@@ -1714,6 +1716,12 @@ class VideoMeta final : public ::google::protobuf::Message
     kWidthFieldNumber = 8,
     kHeightFieldNumber = 9,
     kTimescaleFieldNumber = 11,
+    kHasMiniFieldNumber = 20,
+    kMiniFrameCountFieldNumber = 21,
+    kMiniDurationMsFieldNumber = 22,
+    kMiniWidthFieldNumber = 23,
+    kMiniHeightFieldNumber = 24,
+    kMiniTimescaleFieldNumber = 26,
   };
   // string uuid = 1;
   void clear_uuid() ;
@@ -1779,6 +1787,22 @@ class VideoMeta final : public ::google::protobuf::Message
   std::string* _internal_mutable_dsi();
 
   public:
+  // bytes mini_dsi = 25;
+  void clear_mini_dsi() ;
+  const std::string& mini_dsi() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_mini_dsi(Arg_&& arg, Args_... args);
+  std::string* mutable_mini_dsi();
+  PROTOBUF_NODISCARD std::string* release_mini_dsi();
+  void set_allocated_mini_dsi(std::string* value);
+
+  private:
+  const std::string& _internal_mini_dsi() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_mini_dsi(
+      const std::string& value);
+  std::string* _internal_mutable_mini_dsi();
+
+  public:
   // .jon.video.SampleTable sample_table = 12;
   bool has_sample_table() const;
   void clear_sample_table() ;
@@ -1792,6 +1816,21 @@ class VideoMeta final : public ::google::protobuf::Message
   private:
   const ::jon::video::SampleTable& _internal_sample_table() const;
   ::jon::video::SampleTable* _internal_mutable_sample_table();
+
+  public:
+  // .jon.video.SampleTable mini_sample_table = 27;
+  bool has_mini_sample_table() const;
+  void clear_mini_sample_table() ;
+  const ::jon::video::SampleTable& mini_sample_table() const;
+  PROTOBUF_NODISCARD ::jon::video::SampleTable* release_mini_sample_table();
+  ::jon::video::SampleTable* mutable_mini_sample_table();
+  void set_allocated_mini_sample_table(::jon::video::SampleTable* value);
+  void unsafe_arena_set_allocated_mini_sample_table(::jon::video::SampleTable* value);
+  ::jon::video::SampleTable* unsafe_arena_release_mini_sample_table();
+
+  private:
+  const ::jon::video::SampleTable& _internal_mini_sample_table() const;
+  ::jon::video::SampleTable* _internal_mutable_mini_sample_table();
 
   public:
   // uint64 timestamp = 3;
@@ -1864,13 +1903,73 @@ class VideoMeta final : public ::google::protobuf::Message
   void _internal_set_timescale(::uint32_t value);
 
   public:
+  // bool has_mini = 20;
+  void clear_has_mini() ;
+  bool has_mini() const;
+  void set_has_mini(bool value);
+
+  private:
+  bool _internal_has_mini() const;
+  void _internal_set_has_mini(bool value);
+
+  public:
+  // uint32 mini_frame_count = 21;
+  void clear_mini_frame_count() ;
+  ::uint32_t mini_frame_count() const;
+  void set_mini_frame_count(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_mini_frame_count() const;
+  void _internal_set_mini_frame_count(::uint32_t value);
+
+  public:
+  // uint32 mini_duration_ms = 22;
+  void clear_mini_duration_ms() ;
+  ::uint32_t mini_duration_ms() const;
+  void set_mini_duration_ms(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_mini_duration_ms() const;
+  void _internal_set_mini_duration_ms(::uint32_t value);
+
+  public:
+  // uint32 mini_width = 23;
+  void clear_mini_width() ;
+  ::uint32_t mini_width() const;
+  void set_mini_width(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_mini_width() const;
+  void _internal_set_mini_width(::uint32_t value);
+
+  public:
+  // uint32 mini_height = 24;
+  void clear_mini_height() ;
+  ::uint32_t mini_height() const;
+  void set_mini_height(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_mini_height() const;
+  void _internal_set_mini_height(::uint32_t value);
+
+  public:
+  // uint32 mini_timescale = 26;
+  void clear_mini_timescale() ;
+  ::uint32_t mini_timescale() const;
+  void set_mini_timescale(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_mini_timescale() const;
+  void _internal_set_mini_timescale(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:jon.video.VideoMeta)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 12, 1,
-      63, 2>
+      5, 20, 2,
+      71, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -1893,7 +1992,9 @@ class VideoMeta final : public ::google::protobuf::Message
     ::google::protobuf::internal::ArenaStringPtr storage_path_;
     ::google::protobuf::internal::ArenaStringPtr source_type_;
     ::google::protobuf::internal::ArenaStringPtr dsi_;
+    ::google::protobuf::internal::ArenaStringPtr mini_dsi_;
     ::jon::video::SampleTable* sample_table_;
+    ::jon::video::SampleTable* mini_sample_table_;
     ::uint64_t timestamp_;
     ::int32_t session_id_;
     ::uint32_t frame_count_;
@@ -1901,6 +2002,12 @@ class VideoMeta final : public ::google::protobuf::Message
     ::uint32_t width_;
     ::uint32_t height_;
     ::uint32_t timescale_;
+    bool has_mini_;
+    ::uint32_t mini_frame_count_;
+    ::uint32_t mini_duration_ms_;
+    ::uint32_t mini_width_;
+    ::uint32_t mini_height_;
+    ::uint32_t mini_timescale_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -3127,6 +3234,282 @@ inline void VideoMeta::set_allocated_sample_table(::jon::video::SampleTable* val
 
   _impl_.sample_table_ = reinterpret_cast<::jon::video::SampleTable*>(value);
   // @@protoc_insertion_point(field_set_allocated:jon.video.VideoMeta.sample_table)
+}
+
+// bool has_mini = 20;
+inline void VideoMeta::clear_has_mini() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.has_mini_ = false;
+}
+inline bool VideoMeta::has_mini() const {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.has_mini)
+  return _internal_has_mini();
+}
+inline void VideoMeta::set_has_mini(bool value) {
+  _internal_set_has_mini(value);
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.has_mini)
+}
+inline bool VideoMeta::_internal_has_mini() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.has_mini_;
+}
+inline void VideoMeta::_internal_set_has_mini(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.has_mini_ = value;
+}
+
+// uint32 mini_frame_count = 21;
+inline void VideoMeta::clear_mini_frame_count() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_frame_count_ = 0u;
+}
+inline ::uint32_t VideoMeta::mini_frame_count() const {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_frame_count)
+  return _internal_mini_frame_count();
+}
+inline void VideoMeta::set_mini_frame_count(::uint32_t value) {
+  _internal_set_mini_frame_count(value);
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.mini_frame_count)
+}
+inline ::uint32_t VideoMeta::_internal_mini_frame_count() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.mini_frame_count_;
+}
+inline void VideoMeta::_internal_set_mini_frame_count(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_frame_count_ = value;
+}
+
+// uint32 mini_duration_ms = 22;
+inline void VideoMeta::clear_mini_duration_ms() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_duration_ms_ = 0u;
+}
+inline ::uint32_t VideoMeta::mini_duration_ms() const {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_duration_ms)
+  return _internal_mini_duration_ms();
+}
+inline void VideoMeta::set_mini_duration_ms(::uint32_t value) {
+  _internal_set_mini_duration_ms(value);
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.mini_duration_ms)
+}
+inline ::uint32_t VideoMeta::_internal_mini_duration_ms() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.mini_duration_ms_;
+}
+inline void VideoMeta::_internal_set_mini_duration_ms(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_duration_ms_ = value;
+}
+
+// uint32 mini_width = 23;
+inline void VideoMeta::clear_mini_width() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_width_ = 0u;
+}
+inline ::uint32_t VideoMeta::mini_width() const {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_width)
+  return _internal_mini_width();
+}
+inline void VideoMeta::set_mini_width(::uint32_t value) {
+  _internal_set_mini_width(value);
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.mini_width)
+}
+inline ::uint32_t VideoMeta::_internal_mini_width() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.mini_width_;
+}
+inline void VideoMeta::_internal_set_mini_width(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_width_ = value;
+}
+
+// uint32 mini_height = 24;
+inline void VideoMeta::clear_mini_height() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_height_ = 0u;
+}
+inline ::uint32_t VideoMeta::mini_height() const {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_height)
+  return _internal_mini_height();
+}
+inline void VideoMeta::set_mini_height(::uint32_t value) {
+  _internal_set_mini_height(value);
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.mini_height)
+}
+inline ::uint32_t VideoMeta::_internal_mini_height() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.mini_height_;
+}
+inline void VideoMeta::_internal_set_mini_height(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_height_ = value;
+}
+
+// bytes mini_dsi = 25;
+inline void VideoMeta::clear_mini_dsi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_dsi_.ClearToEmpty();
+}
+inline const std::string& VideoMeta::mini_dsi() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_dsi)
+  return _internal_mini_dsi();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void VideoMeta::set_mini_dsi(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_dsi_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.mini_dsi)
+}
+inline std::string* VideoMeta::mutable_mini_dsi() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_mini_dsi();
+  // @@protoc_insertion_point(field_mutable:jon.video.VideoMeta.mini_dsi)
+  return _s;
+}
+inline const std::string& VideoMeta::_internal_mini_dsi() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.mini_dsi_.Get();
+}
+inline void VideoMeta::_internal_set_mini_dsi(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_dsi_.Set(value, GetArena());
+}
+inline std::string* VideoMeta::_internal_mutable_mini_dsi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.mini_dsi_.Mutable( GetArena());
+}
+inline std::string* VideoMeta::release_mini_dsi() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.video.VideoMeta.mini_dsi)
+  return _impl_.mini_dsi_.Release();
+}
+inline void VideoMeta::set_allocated_mini_dsi(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_dsi_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.mini_dsi_.IsDefault()) {
+    _impl_.mini_dsi_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:jon.video.VideoMeta.mini_dsi)
+}
+
+// uint32 mini_timescale = 26;
+inline void VideoMeta::clear_mini_timescale() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_timescale_ = 0u;
+}
+inline ::uint32_t VideoMeta::mini_timescale() const {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_timescale)
+  return _internal_mini_timescale();
+}
+inline void VideoMeta::set_mini_timescale(::uint32_t value) {
+  _internal_set_mini_timescale(value);
+  // @@protoc_insertion_point(field_set:jon.video.VideoMeta.mini_timescale)
+}
+inline ::uint32_t VideoMeta::_internal_mini_timescale() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.mini_timescale_;
+}
+inline void VideoMeta::_internal_set_mini_timescale(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.mini_timescale_ = value;
+}
+
+// .jon.video.SampleTable mini_sample_table = 27;
+inline bool VideoMeta::has_mini_sample_table() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.mini_sample_table_ != nullptr);
+  return value;
+}
+inline void VideoMeta::clear_mini_sample_table() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.mini_sample_table_ != nullptr) _impl_.mini_sample_table_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::jon::video::SampleTable& VideoMeta::_internal_mini_sample_table() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::jon::video::SampleTable* p = _impl_.mini_sample_table_;
+  return p != nullptr ? *p : reinterpret_cast<const ::jon::video::SampleTable&>(::jon::video::_SampleTable_default_instance_);
+}
+inline const ::jon::video::SampleTable& VideoMeta::mini_sample_table() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.video.VideoMeta.mini_sample_table)
+  return _internal_mini_sample_table();
+}
+inline void VideoMeta::unsafe_arena_set_allocated_mini_sample_table(::jon::video::SampleTable* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.mini_sample_table_);
+  }
+  _impl_.mini_sample_table_ = reinterpret_cast<::jon::video::SampleTable*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:jon.video.VideoMeta.mini_sample_table)
+}
+inline ::jon::video::SampleTable* VideoMeta::release_mini_sample_table() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::jon::video::SampleTable* released = _impl_.mini_sample_table_;
+  _impl_.mini_sample_table_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::jon::video::SampleTable* VideoMeta::unsafe_arena_release_mini_sample_table() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:jon.video.VideoMeta.mini_sample_table)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::jon::video::SampleTable* temp = _impl_.mini_sample_table_;
+  _impl_.mini_sample_table_ = nullptr;
+  return temp;
+}
+inline ::jon::video::SampleTable* VideoMeta::_internal_mutable_mini_sample_table() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.mini_sample_table_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::jon::video::SampleTable>(GetArena());
+    _impl_.mini_sample_table_ = reinterpret_cast<::jon::video::SampleTable*>(p);
+  }
+  return _impl_.mini_sample_table_;
+}
+inline ::jon::video::SampleTable* VideoMeta::mutable_mini_sample_table() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::jon::video::SampleTable* _msg = _internal_mutable_mini_sample_table();
+  // @@protoc_insertion_point(field_mutable:jon.video.VideoMeta.mini_sample_table)
+  return _msg;
+}
+inline void VideoMeta::set_allocated_mini_sample_table(::jon::video::SampleTable* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.mini_sample_table_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.mini_sample_table_ = reinterpret_cast<::jon::video::SampleTable*>(value);
+  // @@protoc_insertion_point(field_set_allocated:jon.video.VideoMeta.mini_sample_table)
 }
 
 // -------------------------------------------------------------------

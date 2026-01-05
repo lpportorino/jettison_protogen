@@ -116,7 +116,7 @@ export interface VideoMeta {
   storagePath: string;
   /** "day" or "heat" */
   sourceType: string;
-  /** MOOV extracted data */
+  /** MOOV extracted data (full quality - video.mp4) */
   frameCount: number;
   durationMs: number;
   width: number;
@@ -126,7 +126,22 @@ export interface VideoMeta {
   /** Media timescale from mdhd */
   timescale: number;
   /** Sample table (always included for playback) */
-  sampleTable: SampleTable | undefined;
+  sampleTable:
+    | SampleTable
+    | undefined;
+  /**
+   * Mini quality metadata (preview.mp4) - for quality switching
+   * These fields are only populated if preview.mp4 exists
+   */
+  hasMini: boolean;
+  miniFrameCount: number;
+  miniDurationMs: number;
+  miniWidth: number;
+  miniHeight: number;
+  /** Mini avcC decoder specific info */
+  miniDsi: Uint8Array;
+  miniTimescale: number;
+  miniSampleTable: SampleTable | undefined;
 }
 
 /** MP4 sample table data extracted from MOOV */
@@ -534,6 +549,14 @@ function createBaseVideoMeta(): VideoMeta {
     dsi: new Uint8Array(0),
     timescale: 0,
     sampleTable: undefined,
+    hasMini: false,
+    miniFrameCount: 0,
+    miniDurationMs: 0,
+    miniWidth: 0,
+    miniHeight: 0,
+    miniDsi: new Uint8Array(0),
+    miniTimescale: 0,
+    miniSampleTable: undefined,
   };
 }
 
@@ -574,6 +597,30 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     }
     if (message.sampleTable !== undefined) {
       SampleTable.encode(message.sampleTable, writer.uint32(98).fork()).join();
+    }
+    if (message.hasMini !== false) {
+      writer.uint32(160).bool(message.hasMini);
+    }
+    if (message.miniFrameCount !== 0) {
+      writer.uint32(168).uint32(message.miniFrameCount);
+    }
+    if (message.miniDurationMs !== 0) {
+      writer.uint32(176).uint32(message.miniDurationMs);
+    }
+    if (message.miniWidth !== 0) {
+      writer.uint32(184).uint32(message.miniWidth);
+    }
+    if (message.miniHeight !== 0) {
+      writer.uint32(192).uint32(message.miniHeight);
+    }
+    if (message.miniDsi.length !== 0) {
+      writer.uint32(202).bytes(message.miniDsi);
+    }
+    if (message.miniTimescale !== 0) {
+      writer.uint32(208).uint32(message.miniTimescale);
+    }
+    if (message.miniSampleTable !== undefined) {
+      SampleTable.encode(message.miniSampleTable, writer.uint32(218).fork()).join();
     }
     return writer;
   },
@@ -681,6 +728,70 @@ export const VideoMeta: MessageFns<VideoMeta> = {
           message.sampleTable = SampleTable.decode(reader, reader.uint32());
           continue;
         }
+        case 20: {
+          if (tag !== 160) {
+            break;
+          }
+
+          message.hasMini = reader.bool();
+          continue;
+        }
+        case 21: {
+          if (tag !== 168) {
+            break;
+          }
+
+          message.miniFrameCount = reader.uint32();
+          continue;
+        }
+        case 22: {
+          if (tag !== 176) {
+            break;
+          }
+
+          message.miniDurationMs = reader.uint32();
+          continue;
+        }
+        case 23: {
+          if (tag !== 184) {
+            break;
+          }
+
+          message.miniWidth = reader.uint32();
+          continue;
+        }
+        case 24: {
+          if (tag !== 192) {
+            break;
+          }
+
+          message.miniHeight = reader.uint32();
+          continue;
+        }
+        case 25: {
+          if (tag !== 202) {
+            break;
+          }
+
+          message.miniDsi = reader.bytes();
+          continue;
+        }
+        case 26: {
+          if (tag !== 208) {
+            break;
+          }
+
+          message.miniTimescale = reader.uint32();
+          continue;
+        }
+        case 27: {
+          if (tag !== 218) {
+            break;
+          }
+
+          message.miniSampleTable = SampleTable.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -704,6 +815,14 @@ export const VideoMeta: MessageFns<VideoMeta> = {
       dsi: isSet(object.dsi) ? bytesFromBase64(object.dsi) : new Uint8Array(0),
       timescale: isSet(object.timescale) ? globalThis.Number(object.timescale) : 0,
       sampleTable: isSet(object.sampleTable) ? SampleTable.fromJSON(object.sampleTable) : undefined,
+      hasMini: isSet(object.hasMini) ? globalThis.Boolean(object.hasMini) : false,
+      miniFrameCount: isSet(object.miniFrameCount) ? globalThis.Number(object.miniFrameCount) : 0,
+      miniDurationMs: isSet(object.miniDurationMs) ? globalThis.Number(object.miniDurationMs) : 0,
+      miniWidth: isSet(object.miniWidth) ? globalThis.Number(object.miniWidth) : 0,
+      miniHeight: isSet(object.miniHeight) ? globalThis.Number(object.miniHeight) : 0,
+      miniDsi: isSet(object.miniDsi) ? bytesFromBase64(object.miniDsi) : new Uint8Array(0),
+      miniTimescale: isSet(object.miniTimescale) ? globalThis.Number(object.miniTimescale) : 0,
+      miniSampleTable: isSet(object.miniSampleTable) ? SampleTable.fromJSON(object.miniSampleTable) : undefined,
     };
   },
 
@@ -745,6 +864,30 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     if (message.sampleTable !== undefined) {
       obj.sampleTable = SampleTable.toJSON(message.sampleTable);
     }
+    if (message.hasMini !== false) {
+      obj.hasMini = message.hasMini;
+    }
+    if (message.miniFrameCount !== 0) {
+      obj.miniFrameCount = Math.round(message.miniFrameCount);
+    }
+    if (message.miniDurationMs !== 0) {
+      obj.miniDurationMs = Math.round(message.miniDurationMs);
+    }
+    if (message.miniWidth !== 0) {
+      obj.miniWidth = Math.round(message.miniWidth);
+    }
+    if (message.miniHeight !== 0) {
+      obj.miniHeight = Math.round(message.miniHeight);
+    }
+    if (message.miniDsi.length !== 0) {
+      obj.miniDsi = base64FromBytes(message.miniDsi);
+    }
+    if (message.miniTimescale !== 0) {
+      obj.miniTimescale = Math.round(message.miniTimescale);
+    }
+    if (message.miniSampleTable !== undefined) {
+      obj.miniSampleTable = SampleTable.toJSON(message.miniSampleTable);
+    }
     return obj;
   },
 
@@ -768,6 +911,16 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     message.timescale = object.timescale ?? 0;
     message.sampleTable = (object.sampleTable !== undefined && object.sampleTable !== null)
       ? SampleTable.fromPartial(object.sampleTable)
+      : undefined;
+    message.hasMini = object.hasMini ?? false;
+    message.miniFrameCount = object.miniFrameCount ?? 0;
+    message.miniDurationMs = object.miniDurationMs ?? 0;
+    message.miniWidth = object.miniWidth ?? 0;
+    message.miniHeight = object.miniHeight ?? 0;
+    message.miniDsi = object.miniDsi ?? new Uint8Array(0);
+    message.miniTimescale = object.miniTimescale ?? 0;
+    message.miniSampleTable = (object.miniSampleTable !== undefined && object.miniSampleTable !== null)
+      ? SampleTable.fromPartial(object.miniSampleTable)
       : undefined;
     return message;
   },

@@ -355,7 +355,7 @@ type VideoMeta struct {
 	Timestamp   uint64                 `protobuf:"varint,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`                       // Unix seconds
 	StoragePath string                 `protobuf:"bytes,4,opt,name=storage_path,json=storagePath,proto3" json:"storage_path,omitempty"` // Directory path to video files
 	SourceType  string                 `protobuf:"bytes,5,opt,name=source_type,json=sourceType,proto3" json:"source_type,omitempty"`    // "day" or "heat"
-	// MOOV extracted data
+	// MOOV extracted data (full quality - video.mp4)
 	FrameCount uint32 `protobuf:"varint,6,opt,name=frame_count,json=frameCount,proto3" json:"frame_count,omitempty"`
 	DurationMs uint32 `protobuf:"varint,7,opt,name=duration_ms,json=durationMs,proto3" json:"duration_ms,omitempty"`
 	Width      uint32 `protobuf:"varint,8,opt,name=width,proto3" json:"width,omitempty"`
@@ -363,9 +363,19 @@ type VideoMeta struct {
 	Dsi        []byte `protobuf:"bytes,10,opt,name=dsi,proto3" json:"dsi,omitempty"`              // avcC decoder specific info
 	Timescale  uint32 `protobuf:"varint,11,opt,name=timescale,proto3" json:"timescale,omitempty"` // Media timescale from mdhd
 	// Sample table (always included for playback)
-	SampleTable   *SampleTable `protobuf:"bytes,12,opt,name=sample_table,json=sampleTable,proto3" json:"sample_table,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	SampleTable *SampleTable `protobuf:"bytes,12,opt,name=sample_table,json=sampleTable,proto3" json:"sample_table,omitempty"`
+	// Mini quality metadata (preview.mp4) - for quality switching
+	// These fields are only populated if preview.mp4 exists
+	HasMini         bool         `protobuf:"varint,20,opt,name=has_mini,json=hasMini,proto3" json:"has_mini,omitempty"` // Whether mini quality is available
+	MiniFrameCount  uint32       `protobuf:"varint,21,opt,name=mini_frame_count,json=miniFrameCount,proto3" json:"mini_frame_count,omitempty"`
+	MiniDurationMs  uint32       `protobuf:"varint,22,opt,name=mini_duration_ms,json=miniDurationMs,proto3" json:"mini_duration_ms,omitempty"`
+	MiniWidth       uint32       `protobuf:"varint,23,opt,name=mini_width,json=miniWidth,proto3" json:"mini_width,omitempty"`
+	MiniHeight      uint32       `protobuf:"varint,24,opt,name=mini_height,json=miniHeight,proto3" json:"mini_height,omitempty"`
+	MiniDsi         []byte       `protobuf:"bytes,25,opt,name=mini_dsi,json=miniDsi,proto3" json:"mini_dsi,omitempty"` // Mini avcC decoder specific info
+	MiniTimescale   uint32       `protobuf:"varint,26,opt,name=mini_timescale,json=miniTimescale,proto3" json:"mini_timescale,omitempty"`
+	MiniSampleTable *SampleTable `protobuf:"bytes,27,opt,name=mini_sample_table,json=miniSampleTable,proto3" json:"mini_sample_table,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *VideoMeta) Reset() {
@@ -478,6 +488,62 @@ func (x *VideoMeta) GetTimescale() uint32 {
 func (x *VideoMeta) GetSampleTable() *SampleTable {
 	if x != nil {
 		return x.SampleTable
+	}
+	return nil
+}
+
+func (x *VideoMeta) GetHasMini() bool {
+	if x != nil {
+		return x.HasMini
+	}
+	return false
+}
+
+func (x *VideoMeta) GetMiniFrameCount() uint32 {
+	if x != nil {
+		return x.MiniFrameCount
+	}
+	return 0
+}
+
+func (x *VideoMeta) GetMiniDurationMs() uint32 {
+	if x != nil {
+		return x.MiniDurationMs
+	}
+	return 0
+}
+
+func (x *VideoMeta) GetMiniWidth() uint32 {
+	if x != nil {
+		return x.MiniWidth
+	}
+	return 0
+}
+
+func (x *VideoMeta) GetMiniHeight() uint32 {
+	if x != nil {
+		return x.MiniHeight
+	}
+	return 0
+}
+
+func (x *VideoMeta) GetMiniDsi() []byte {
+	if x != nil {
+		return x.MiniDsi
+	}
+	return nil
+}
+
+func (x *VideoMeta) GetMiniTimescale() uint32 {
+	if x != nil {
+		return x.MiniTimescale
+	}
+	return 0
+}
+
+func (x *VideoMeta) GetMiniSampleTable() *SampleTable {
+	if x != nil {
+		return x.MiniSampleTable
 	}
 	return nil
 }
@@ -715,7 +781,7 @@ const file_jon_video_meta_proto_rawDesc = "" +
 	"\x06videos\x18\x01 \x03(\v2\x14.jon.video.VideoMetaR\x06videos\x12-\n" +
 	"\x06errors\x18\x02 \x03(\v2\x15.jon.video.VideoErrorR\x06errors\x12\x1f\n" +
 	"\vtotal_count\x18\x03 \x01(\rR\n" +
-	"totalCount\"\xfb\x02\n" +
+	"totalCount\"\xb0\x05\n" +
 	"\tVideoMeta\x12\x12\n" +
 	"\x04uuid\x18\x01 \x01(\tR\x04uuid\x12\x1d\n" +
 	"\n" +
@@ -733,7 +799,17 @@ const file_jon_video_meta_proto_rawDesc = "" +
 	"\x03dsi\x18\n" +
 	" \x01(\fR\x03dsi\x12\x1c\n" +
 	"\ttimescale\x18\v \x01(\rR\ttimescale\x129\n" +
-	"\fsample_table\x18\f \x01(\v2\x16.jon.video.SampleTableR\vsampleTable\"\xdd\x01\n" +
+	"\fsample_table\x18\f \x01(\v2\x16.jon.video.SampleTableR\vsampleTable\x12\x19\n" +
+	"\bhas_mini\x18\x14 \x01(\bR\ahasMini\x12(\n" +
+	"\x10mini_frame_count\x18\x15 \x01(\rR\x0eminiFrameCount\x12(\n" +
+	"\x10mini_duration_ms\x18\x16 \x01(\rR\x0eminiDurationMs\x12\x1d\n" +
+	"\n" +
+	"mini_width\x18\x17 \x01(\rR\tminiWidth\x12\x1f\n" +
+	"\vmini_height\x18\x18 \x01(\rR\n" +
+	"miniHeight\x12\x19\n" +
+	"\bmini_dsi\x18\x19 \x01(\fR\aminiDsi\x12%\n" +
+	"\x0emini_timescale\x18\x1a \x01(\rR\rminiTimescale\x12B\n" +
+	"\x11mini_sample_table\x18\x1b \x01(\v2\x16.jon.video.SampleTableR\x0fminiSampleTable\"\xdd\x01\n" +
 	"\vSampleTable\x12!\n" +
 	"\fsample_sizes\x18\x01 \x03(\rR\vsampleSizes\x12#\n" +
 	"\rchunk_offsets\x18\x02 \x03(\x04R\fchunkOffsets\x12!\n" +
@@ -793,13 +869,14 @@ var file_jon_video_meta_proto_depIdxs = []int32{
 	5, // 2: jon.video.VideoMetaResponse.videos:type_name -> jon.video.VideoMeta
 	8, // 3: jon.video.VideoMetaResponse.errors:type_name -> jon.video.VideoError
 	6, // 4: jon.video.VideoMeta.sample_table:type_name -> jon.video.SampleTable
-	7, // 5: jon.video.SampleTable.sample_to_chunk:type_name -> jon.video.SampleToChunk
-	0, // 6: jon.video.VideoError.error_type:type_name -> jon.video.VideoErrorType
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	6, // 5: jon.video.VideoMeta.mini_sample_table:type_name -> jon.video.SampleTable
+	7, // 6: jon.video.SampleTable.sample_to_chunk:type_name -> jon.video.SampleToChunk
+	0, // 7: jon.video.VideoError.error_type:type_name -> jon.video.VideoErrorType
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_jon_video_meta_proto_init() }

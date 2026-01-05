@@ -4302,7 +4302,7 @@ public final class JonVideoMeta {
 
     /**
      * <pre>
-     * MOOV extracted data
+     * MOOV extracted data (full quality - video.mp4)
      * </pre>
      *
      * <code>uint32 frame_count = 6;</code>
@@ -4374,6 +4374,72 @@ public final class JonVideoMeta {
      * <code>.jon.video.SampleTable sample_table = 12;</code>
      */
     jon.video.JonVideoMeta.SampleTableOrBuilder getSampleTableOrBuilder();
+
+    /**
+     * <pre>
+     * Mini quality metadata (preview.mp4) - for quality switching
+     * These fields are only populated if preview.mp4 exists
+     * </pre>
+     *
+     * <code>bool has_mini = 20;</code>
+     * @return The hasMini.
+     */
+    boolean getHasMini();
+
+    /**
+     * <code>uint32 mini_frame_count = 21;</code>
+     * @return The miniFrameCount.
+     */
+    int getMiniFrameCount();
+
+    /**
+     * <code>uint32 mini_duration_ms = 22;</code>
+     * @return The miniDurationMs.
+     */
+    int getMiniDurationMs();
+
+    /**
+     * <code>uint32 mini_width = 23;</code>
+     * @return The miniWidth.
+     */
+    int getMiniWidth();
+
+    /**
+     * <code>uint32 mini_height = 24;</code>
+     * @return The miniHeight.
+     */
+    int getMiniHeight();
+
+    /**
+     * <pre>
+     * Mini avcC decoder specific info
+     * </pre>
+     *
+     * <code>bytes mini_dsi = 25;</code>
+     * @return The miniDsi.
+     */
+    com.google.protobuf.ByteString getMiniDsi();
+
+    /**
+     * <code>uint32 mini_timescale = 26;</code>
+     * @return The miniTimescale.
+     */
+    int getMiniTimescale();
+
+    /**
+     * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+     * @return Whether the miniSampleTable field is set.
+     */
+    boolean hasMiniSampleTable();
+    /**
+     * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+     * @return The miniSampleTable.
+     */
+    jon.video.JonVideoMeta.SampleTable getMiniSampleTable();
+    /**
+     * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+     */
+    jon.video.JonVideoMeta.SampleTableOrBuilder getMiniSampleTableOrBuilder();
   }
   /**
    * <pre>
@@ -4405,6 +4471,7 @@ public final class JonVideoMeta {
       storagePath_ = "";
       sourceType_ = "";
       dsi_ = com.google.protobuf.ByteString.EMPTY;
+      miniDsi_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -4584,7 +4651,7 @@ public final class JonVideoMeta {
     private int frameCount_ = 0;
     /**
      * <pre>
-     * MOOV extracted data
+     * MOOV extracted data (full quality - video.mp4)
      * </pre>
      *
      * <code>uint32 frame_count = 6;</code>
@@ -4696,6 +4763,118 @@ public final class JonVideoMeta {
       return sampleTable_ == null ? jon.video.JonVideoMeta.SampleTable.getDefaultInstance() : sampleTable_;
     }
 
+    public static final int HAS_MINI_FIELD_NUMBER = 20;
+    private boolean hasMini_ = false;
+    /**
+     * <pre>
+     * Mini quality metadata (preview.mp4) - for quality switching
+     * These fields are only populated if preview.mp4 exists
+     * </pre>
+     *
+     * <code>bool has_mini = 20;</code>
+     * @return The hasMini.
+     */
+    @java.lang.Override
+    public boolean getHasMini() {
+      return hasMini_;
+    }
+
+    public static final int MINI_FRAME_COUNT_FIELD_NUMBER = 21;
+    private int miniFrameCount_ = 0;
+    /**
+     * <code>uint32 mini_frame_count = 21;</code>
+     * @return The miniFrameCount.
+     */
+    @java.lang.Override
+    public int getMiniFrameCount() {
+      return miniFrameCount_;
+    }
+
+    public static final int MINI_DURATION_MS_FIELD_NUMBER = 22;
+    private int miniDurationMs_ = 0;
+    /**
+     * <code>uint32 mini_duration_ms = 22;</code>
+     * @return The miniDurationMs.
+     */
+    @java.lang.Override
+    public int getMiniDurationMs() {
+      return miniDurationMs_;
+    }
+
+    public static final int MINI_WIDTH_FIELD_NUMBER = 23;
+    private int miniWidth_ = 0;
+    /**
+     * <code>uint32 mini_width = 23;</code>
+     * @return The miniWidth.
+     */
+    @java.lang.Override
+    public int getMiniWidth() {
+      return miniWidth_;
+    }
+
+    public static final int MINI_HEIGHT_FIELD_NUMBER = 24;
+    private int miniHeight_ = 0;
+    /**
+     * <code>uint32 mini_height = 24;</code>
+     * @return The miniHeight.
+     */
+    @java.lang.Override
+    public int getMiniHeight() {
+      return miniHeight_;
+    }
+
+    public static final int MINI_DSI_FIELD_NUMBER = 25;
+    private com.google.protobuf.ByteString miniDsi_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * Mini avcC decoder specific info
+     * </pre>
+     *
+     * <code>bytes mini_dsi = 25;</code>
+     * @return The miniDsi.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getMiniDsi() {
+      return miniDsi_;
+    }
+
+    public static final int MINI_TIMESCALE_FIELD_NUMBER = 26;
+    private int miniTimescale_ = 0;
+    /**
+     * <code>uint32 mini_timescale = 26;</code>
+     * @return The miniTimescale.
+     */
+    @java.lang.Override
+    public int getMiniTimescale() {
+      return miniTimescale_;
+    }
+
+    public static final int MINI_SAMPLE_TABLE_FIELD_NUMBER = 27;
+    private jon.video.JonVideoMeta.SampleTable miniSampleTable_;
+    /**
+     * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+     * @return Whether the miniSampleTable field is set.
+     */
+    @java.lang.Override
+    public boolean hasMiniSampleTable() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+     * @return The miniSampleTable.
+     */
+    @java.lang.Override
+    public jon.video.JonVideoMeta.SampleTable getMiniSampleTable() {
+      return miniSampleTable_ == null ? jon.video.JonVideoMeta.SampleTable.getDefaultInstance() : miniSampleTable_;
+    }
+    /**
+     * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+     */
+    @java.lang.Override
+    public jon.video.JonVideoMeta.SampleTableOrBuilder getMiniSampleTableOrBuilder() {
+      return miniSampleTable_ == null ? jon.video.JonVideoMeta.SampleTable.getDefaultInstance() : miniSampleTable_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4745,6 +4924,30 @@ public final class JonVideoMeta {
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(12, getSampleTable());
+      }
+      if (hasMini_ != false) {
+        output.writeBool(20, hasMini_);
+      }
+      if (miniFrameCount_ != 0) {
+        output.writeUInt32(21, miniFrameCount_);
+      }
+      if (miniDurationMs_ != 0) {
+        output.writeUInt32(22, miniDurationMs_);
+      }
+      if (miniWidth_ != 0) {
+        output.writeUInt32(23, miniWidth_);
+      }
+      if (miniHeight_ != 0) {
+        output.writeUInt32(24, miniHeight_);
+      }
+      if (!miniDsi_.isEmpty()) {
+        output.writeBytes(25, miniDsi_);
+      }
+      if (miniTimescale_ != 0) {
+        output.writeUInt32(26, miniTimescale_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(27, getMiniSampleTable());
       }
       getUnknownFields().writeTo(output);
     }
@@ -4800,6 +5003,38 @@ public final class JonVideoMeta {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, getSampleTable());
       }
+      if (hasMini_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(20, hasMini_);
+      }
+      if (miniFrameCount_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(21, miniFrameCount_);
+      }
+      if (miniDurationMs_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(22, miniDurationMs_);
+      }
+      if (miniWidth_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(23, miniWidth_);
+      }
+      if (miniHeight_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(24, miniHeight_);
+      }
+      if (!miniDsi_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(25, miniDsi_);
+      }
+      if (miniTimescale_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(26, miniTimescale_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(27, getMiniSampleTable());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4842,6 +5077,25 @@ public final class JonVideoMeta {
         if (!getSampleTable()
             .equals(other.getSampleTable())) return false;
       }
+      if (getHasMini()
+          != other.getHasMini()) return false;
+      if (getMiniFrameCount()
+          != other.getMiniFrameCount()) return false;
+      if (getMiniDurationMs()
+          != other.getMiniDurationMs()) return false;
+      if (getMiniWidth()
+          != other.getMiniWidth()) return false;
+      if (getMiniHeight()
+          != other.getMiniHeight()) return false;
+      if (!getMiniDsi()
+          .equals(other.getMiniDsi())) return false;
+      if (getMiniTimescale()
+          != other.getMiniTimescale()) return false;
+      if (hasMiniSampleTable() != other.hasMiniSampleTable()) return false;
+      if (hasMiniSampleTable()) {
+        if (!getMiniSampleTable()
+            .equals(other.getMiniSampleTable())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -4879,6 +5133,25 @@ public final class JonVideoMeta {
       if (hasSampleTable()) {
         hash = (37 * hash) + SAMPLE_TABLE_FIELD_NUMBER;
         hash = (53 * hash) + getSampleTable().hashCode();
+      }
+      hash = (37 * hash) + HAS_MINI_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHasMini());
+      hash = (37 * hash) + MINI_FRAME_COUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getMiniFrameCount();
+      hash = (37 * hash) + MINI_DURATION_MS_FIELD_NUMBER;
+      hash = (53 * hash) + getMiniDurationMs();
+      hash = (37 * hash) + MINI_WIDTH_FIELD_NUMBER;
+      hash = (53 * hash) + getMiniWidth();
+      hash = (37 * hash) + MINI_HEIGHT_FIELD_NUMBER;
+      hash = (53 * hash) + getMiniHeight();
+      hash = (37 * hash) + MINI_DSI_FIELD_NUMBER;
+      hash = (53 * hash) + getMiniDsi().hashCode();
+      hash = (37 * hash) + MINI_TIMESCALE_FIELD_NUMBER;
+      hash = (53 * hash) + getMiniTimescale();
+      if (hasMiniSampleTable()) {
+        hash = (37 * hash) + MINI_SAMPLE_TABLE_FIELD_NUMBER;
+        hash = (53 * hash) + getMiniSampleTable().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -5015,6 +5288,7 @@ public final class JonVideoMeta {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getSampleTableFieldBuilder();
+          getMiniSampleTableFieldBuilder();
         }
       }
       @java.lang.Override
@@ -5036,6 +5310,18 @@ public final class JonVideoMeta {
         if (sampleTableBuilder_ != null) {
           sampleTableBuilder_.dispose();
           sampleTableBuilder_ = null;
+        }
+        hasMini_ = false;
+        miniFrameCount_ = 0;
+        miniDurationMs_ = 0;
+        miniWidth_ = 0;
+        miniHeight_ = 0;
+        miniDsi_ = com.google.protobuf.ByteString.EMPTY;
+        miniTimescale_ = 0;
+        miniSampleTable_ = null;
+        if (miniSampleTableBuilder_ != null) {
+          miniSampleTableBuilder_.dispose();
+          miniSampleTableBuilder_ = null;
         }
         return this;
       }
@@ -5110,6 +5396,33 @@ public final class JonVideoMeta {
               : sampleTableBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.hasMini_ = hasMini_;
+        }
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.miniFrameCount_ = miniFrameCount_;
+        }
+        if (((from_bitField0_ & 0x00004000) != 0)) {
+          result.miniDurationMs_ = miniDurationMs_;
+        }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.miniWidth_ = miniWidth_;
+        }
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.miniHeight_ = miniHeight_;
+        }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.miniDsi_ = miniDsi_;
+        }
+        if (((from_bitField0_ & 0x00040000) != 0)) {
+          result.miniTimescale_ = miniTimescale_;
+        }
+        if (((from_bitField0_ & 0x00080000) != 0)) {
+          result.miniSampleTable_ = miniSampleTableBuilder_ == null
+              ? miniSampleTable_
+              : miniSampleTableBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -5166,6 +5479,30 @@ public final class JonVideoMeta {
         }
         if (other.hasSampleTable()) {
           mergeSampleTable(other.getSampleTable());
+        }
+        if (other.getHasMini() != false) {
+          setHasMini(other.getHasMini());
+        }
+        if (other.getMiniFrameCount() != 0) {
+          setMiniFrameCount(other.getMiniFrameCount());
+        }
+        if (other.getMiniDurationMs() != 0) {
+          setMiniDurationMs(other.getMiniDurationMs());
+        }
+        if (other.getMiniWidth() != 0) {
+          setMiniWidth(other.getMiniWidth());
+        }
+        if (other.getMiniHeight() != 0) {
+          setMiniHeight(other.getMiniHeight());
+        }
+        if (other.getMiniDsi() != com.google.protobuf.ByteString.EMPTY) {
+          setMiniDsi(other.getMiniDsi());
+        }
+        if (other.getMiniTimescale() != 0) {
+          setMiniTimescale(other.getMiniTimescale());
+        }
+        if (other.hasMiniSampleTable()) {
+          mergeMiniSampleTable(other.getMiniSampleTable());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -5255,6 +5592,48 @@ public final class JonVideoMeta {
                 bitField0_ |= 0x00000800;
                 break;
               } // case 98
+              case 160: {
+                hasMini_ = input.readBool();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 160
+              case 168: {
+                miniFrameCount_ = input.readUInt32();
+                bitField0_ |= 0x00002000;
+                break;
+              } // case 168
+              case 176: {
+                miniDurationMs_ = input.readUInt32();
+                bitField0_ |= 0x00004000;
+                break;
+              } // case 176
+              case 184: {
+                miniWidth_ = input.readUInt32();
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 184
+              case 192: {
+                miniHeight_ = input.readUInt32();
+                bitField0_ |= 0x00010000;
+                break;
+              } // case 192
+              case 202: {
+                miniDsi_ = input.readBytes();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 202
+              case 208: {
+                miniTimescale_ = input.readUInt32();
+                bitField0_ |= 0x00040000;
+                break;
+              } // case 208
+              case 218: {
+                input.readMessage(
+                    getMiniSampleTableFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00080000;
+                break;
+              } // case 218
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -5607,7 +5986,7 @@ public final class JonVideoMeta {
       private int frameCount_ ;
       /**
        * <pre>
-       * MOOV extracted data
+       * MOOV extracted data (full quality - video.mp4)
        * </pre>
        *
        * <code>uint32 frame_count = 6;</code>
@@ -5619,7 +5998,7 @@ public final class JonVideoMeta {
       }
       /**
        * <pre>
-       * MOOV extracted data
+       * MOOV extracted data (full quality - video.mp4)
        * </pre>
        *
        * <code>uint32 frame_count = 6;</code>
@@ -5635,7 +6014,7 @@ public final class JonVideoMeta {
       }
       /**
        * <pre>
-       * MOOV extracted data
+       * MOOV extracted data (full quality - video.mp4)
        * </pre>
        *
        * <code>uint32 frame_count = 6;</code>
@@ -5987,6 +6366,378 @@ public final class JonVideoMeta {
           sampleTable_ = null;
         }
         return sampleTableBuilder_;
+      }
+
+      private boolean hasMini_ ;
+      /**
+       * <pre>
+       * Mini quality metadata (preview.mp4) - for quality switching
+       * These fields are only populated if preview.mp4 exists
+       * </pre>
+       *
+       * <code>bool has_mini = 20;</code>
+       * @return The hasMini.
+       */
+      @java.lang.Override
+      public boolean getHasMini() {
+        return hasMini_;
+      }
+      /**
+       * <pre>
+       * Mini quality metadata (preview.mp4) - for quality switching
+       * These fields are only populated if preview.mp4 exists
+       * </pre>
+       *
+       * <code>bool has_mini = 20;</code>
+       * @param value The hasMini to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHasMini(boolean value) {
+
+        hasMini_ = value;
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Mini quality metadata (preview.mp4) - for quality switching
+       * These fields are only populated if preview.mp4 exists
+       * </pre>
+       *
+       * <code>bool has_mini = 20;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHasMini() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        hasMini_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int miniFrameCount_ ;
+      /**
+       * <code>uint32 mini_frame_count = 21;</code>
+       * @return The miniFrameCount.
+       */
+      @java.lang.Override
+      public int getMiniFrameCount() {
+        return miniFrameCount_;
+      }
+      /**
+       * <code>uint32 mini_frame_count = 21;</code>
+       * @param value The miniFrameCount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiniFrameCount(int value) {
+
+        miniFrameCount_ = value;
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 mini_frame_count = 21;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiniFrameCount() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        miniFrameCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int miniDurationMs_ ;
+      /**
+       * <code>uint32 mini_duration_ms = 22;</code>
+       * @return The miniDurationMs.
+       */
+      @java.lang.Override
+      public int getMiniDurationMs() {
+        return miniDurationMs_;
+      }
+      /**
+       * <code>uint32 mini_duration_ms = 22;</code>
+       * @param value The miniDurationMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiniDurationMs(int value) {
+
+        miniDurationMs_ = value;
+        bitField0_ |= 0x00004000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 mini_duration_ms = 22;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiniDurationMs() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        miniDurationMs_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int miniWidth_ ;
+      /**
+       * <code>uint32 mini_width = 23;</code>
+       * @return The miniWidth.
+       */
+      @java.lang.Override
+      public int getMiniWidth() {
+        return miniWidth_;
+      }
+      /**
+       * <code>uint32 mini_width = 23;</code>
+       * @param value The miniWidth to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiniWidth(int value) {
+
+        miniWidth_ = value;
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 mini_width = 23;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiniWidth() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        miniWidth_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int miniHeight_ ;
+      /**
+       * <code>uint32 mini_height = 24;</code>
+       * @return The miniHeight.
+       */
+      @java.lang.Override
+      public int getMiniHeight() {
+        return miniHeight_;
+      }
+      /**
+       * <code>uint32 mini_height = 24;</code>
+       * @param value The miniHeight to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiniHeight(int value) {
+
+        miniHeight_ = value;
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 mini_height = 24;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiniHeight() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        miniHeight_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString miniDsi_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * Mini avcC decoder specific info
+       * </pre>
+       *
+       * <code>bytes mini_dsi = 25;</code>
+       * @return The miniDsi.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getMiniDsi() {
+        return miniDsi_;
+      }
+      /**
+       * <pre>
+       * Mini avcC decoder specific info
+       * </pre>
+       *
+       * <code>bytes mini_dsi = 25;</code>
+       * @param value The miniDsi to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiniDsi(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        miniDsi_ = value;
+        bitField0_ |= 0x00020000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Mini avcC decoder specific info
+       * </pre>
+       *
+       * <code>bytes mini_dsi = 25;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiniDsi() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        miniDsi_ = getDefaultInstance().getMiniDsi();
+        onChanged();
+        return this;
+      }
+
+      private int miniTimescale_ ;
+      /**
+       * <code>uint32 mini_timescale = 26;</code>
+       * @return The miniTimescale.
+       */
+      @java.lang.Override
+      public int getMiniTimescale() {
+        return miniTimescale_;
+      }
+      /**
+       * <code>uint32 mini_timescale = 26;</code>
+       * @param value The miniTimescale to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMiniTimescale(int value) {
+
+        miniTimescale_ = value;
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 mini_timescale = 26;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMiniTimescale() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        miniTimescale_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private jon.video.JonVideoMeta.SampleTable miniSampleTable_;
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.video.JonVideoMeta.SampleTable, jon.video.JonVideoMeta.SampleTable.Builder, jon.video.JonVideoMeta.SampleTableOrBuilder> miniSampleTableBuilder_;
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       * @return Whether the miniSampleTable field is set.
+       */
+      public boolean hasMiniSampleTable() {
+        return ((bitField0_ & 0x00080000) != 0);
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       * @return The miniSampleTable.
+       */
+      public jon.video.JonVideoMeta.SampleTable getMiniSampleTable() {
+        if (miniSampleTableBuilder_ == null) {
+          return miniSampleTable_ == null ? jon.video.JonVideoMeta.SampleTable.getDefaultInstance() : miniSampleTable_;
+        } else {
+          return miniSampleTableBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      public Builder setMiniSampleTable(jon.video.JonVideoMeta.SampleTable value) {
+        if (miniSampleTableBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          miniSampleTable_ = value;
+        } else {
+          miniSampleTableBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      public Builder setMiniSampleTable(
+          jon.video.JonVideoMeta.SampleTable.Builder builderForValue) {
+        if (miniSampleTableBuilder_ == null) {
+          miniSampleTable_ = builderForValue.build();
+        } else {
+          miniSampleTableBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      public Builder mergeMiniSampleTable(jon.video.JonVideoMeta.SampleTable value) {
+        if (miniSampleTableBuilder_ == null) {
+          if (((bitField0_ & 0x00080000) != 0) &&
+            miniSampleTable_ != null &&
+            miniSampleTable_ != jon.video.JonVideoMeta.SampleTable.getDefaultInstance()) {
+            getMiniSampleTableBuilder().mergeFrom(value);
+          } else {
+            miniSampleTable_ = value;
+          }
+        } else {
+          miniSampleTableBuilder_.mergeFrom(value);
+        }
+        if (miniSampleTable_ != null) {
+          bitField0_ |= 0x00080000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      public Builder clearMiniSampleTable() {
+        bitField0_ = (bitField0_ & ~0x00080000);
+        miniSampleTable_ = null;
+        if (miniSampleTableBuilder_ != null) {
+          miniSampleTableBuilder_.dispose();
+          miniSampleTableBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      public jon.video.JonVideoMeta.SampleTable.Builder getMiniSampleTableBuilder() {
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return getMiniSampleTableFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      public jon.video.JonVideoMeta.SampleTableOrBuilder getMiniSampleTableOrBuilder() {
+        if (miniSampleTableBuilder_ != null) {
+          return miniSampleTableBuilder_.getMessageOrBuilder();
+        } else {
+          return miniSampleTable_ == null ?
+              jon.video.JonVideoMeta.SampleTable.getDefaultInstance() : miniSampleTable_;
+        }
+      }
+      /**
+       * <code>.jon.video.SampleTable mini_sample_table = 27;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          jon.video.JonVideoMeta.SampleTable, jon.video.JonVideoMeta.SampleTable.Builder, jon.video.JonVideoMeta.SampleTableOrBuilder> 
+          getMiniSampleTableFieldBuilder() {
+        if (miniSampleTableBuilder_ == null) {
+          miniSampleTableBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              jon.video.JonVideoMeta.SampleTable, jon.video.JonVideoMeta.SampleTable.Builder, jon.video.JonVideoMeta.SampleTableOrBuilder>(
+                  getMiniSampleTable(),
+                  getParentForChildren(),
+                  isClean());
+          miniSampleTable_ = null;
+        }
+        return miniSampleTableBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:jon.video.VideoMeta)
@@ -9440,30 +10191,35 @@ public final class JonVideoMeta {
       "_limitB\t\n\007_offset\"u\n\021VideoMetaResponse\022$" +
       "\n\006videos\030\001 \003(\0132\024.jon.video.VideoMeta\022%\n\006" +
       "errors\030\002 \003(\0132\025.jon.video.VideoError\022\023\n\013t" +
-      "otal_count\030\003 \001(\r\"\202\002\n\tVideoMeta\022\014\n\004uuid\030\001" +
+      "otal_count\030\003 \001(\r\"\316\003\n\tVideoMeta\022\014\n\004uuid\030\001" +
       " \001(\t\022\022\n\nsession_id\030\002 \001(\005\022\021\n\ttimestamp\030\003 " +
       "\001(\004\022\024\n\014storage_path\030\004 \001(\t\022\023\n\013source_type" +
       "\030\005 \001(\t\022\023\n\013frame_count\030\006 \001(\r\022\023\n\013duration_" +
       "ms\030\007 \001(\r\022\r\n\005width\030\010 \001(\r\022\016\n\006height\030\t \001(\r\022" +
       "\013\n\003dsi\030\n \001(\014\022\021\n\ttimescale\030\013 \001(\r\022,\n\014sampl" +
-      "e_table\030\014 \001(\0132\026.jon.video.SampleTable\"\231\001" +
-      "\n\013SampleTable\022\024\n\014sample_sizes\030\001 \003(\r\022\025\n\rc" +
-      "hunk_offsets\030\002 \003(\004\022\024\n\014sample_times\030\003 \003(\r" +
-      "\022\024\n\014sync_samples\030\004 \003(\r\0221\n\017sample_to_chun" +
-      "k\030\005 \003(\0132\030.jon.video.SampleToChunk\"a\n\rSam" +
-      "pleToChunk\022\023\n\013first_chunk\030\001 \001(\r\022\031\n\021sampl" +
-      "es_per_chunk\030\002 \001(\r\022 \n\030sample_description" +
-      "_index\030\003 \001(\r\"v\n\nVideoError\022\014\n\004uuid\030\001 \001(\t" +
-      "\022\024\n\014storage_path\030\002 \001(\t\022-\n\nerror_type\030\003 \001" +
-      "(\0162\031.jon.video.VideoErrorType\022\025\n\rerror_m" +
-      "essage\030\004 \001(\t*\331\001\n\016VideoErrorType\022 \n\034VIDEO" +
-      "_ERROR_TYPE_UNSPECIFIED\020\000\022#\n\037VIDEO_ERROR" +
-      "_TYPE_FILE_NOT_FOUND\020\001\022\037\n\033VIDEO_ERROR_TY" +
-      "PE_EMPTY_FILE\020\002\022\034\n\030VIDEO_ERROR_TYPE_NO_M" +
-      "OOV\020\003\022!\n\035VIDEO_ERROR_TYPE_INVALID_MOOV\020\004" +
-      "\022\036\n\032VIDEO_ERROR_TYPE_TRUNCATED\020\005BHZFgit-" +
-      "codecommit.eu-central-1.amazonaws.com/v1" +
-      "/repos/jettison/jonp/videob\006proto3"
+      "e_table\030\014 \001(\0132\026.jon.video.SampleTable\022\020\n" +
+      "\010has_mini\030\024 \001(\010\022\030\n\020mini_frame_count\030\025 \001(" +
+      "\r\022\030\n\020mini_duration_ms\030\026 \001(\r\022\022\n\nmini_widt" +
+      "h\030\027 \001(\r\022\023\n\013mini_height\030\030 \001(\r\022\020\n\010mini_dsi" +
+      "\030\031 \001(\014\022\026\n\016mini_timescale\030\032 \001(\r\0221\n\021mini_s" +
+      "ample_table\030\033 \001(\0132\026.jon.video.SampleTabl" +
+      "e\"\231\001\n\013SampleTable\022\024\n\014sample_sizes\030\001 \003(\r\022" +
+      "\025\n\rchunk_offsets\030\002 \003(\004\022\024\n\014sample_times\030\003" +
+      " \003(\r\022\024\n\014sync_samples\030\004 \003(\r\0221\n\017sample_to_" +
+      "chunk\030\005 \003(\0132\030.jon.video.SampleToChunk\"a\n" +
+      "\rSampleToChunk\022\023\n\013first_chunk\030\001 \001(\r\022\031\n\021s" +
+      "amples_per_chunk\030\002 \001(\r\022 \n\030sample_descrip" +
+      "tion_index\030\003 \001(\r\"v\n\nVideoError\022\014\n\004uuid\030\001" +
+      " \001(\t\022\024\n\014storage_path\030\002 \001(\t\022-\n\nerror_type" +
+      "\030\003 \001(\0162\031.jon.video.VideoErrorType\022\025\n\rerr" +
+      "or_message\030\004 \001(\t*\331\001\n\016VideoErrorType\022 \n\034V" +
+      "IDEO_ERROR_TYPE_UNSPECIFIED\020\000\022#\n\037VIDEO_E" +
+      "RROR_TYPE_FILE_NOT_FOUND\020\001\022\037\n\033VIDEO_ERRO" +
+      "R_TYPE_EMPTY_FILE\020\002\022\034\n\030VIDEO_ERROR_TYPE_" +
+      "NO_MOOV\020\003\022!\n\035VIDEO_ERROR_TYPE_INVALID_MO" +
+      "OV\020\004\022\036\n\032VIDEO_ERROR_TYPE_TRUNCATED\020\005BHZF" +
+      "git-codecommit.eu-central-1.amazonaws.co" +
+      "m/v1/repos/jettison/jonp/videob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9499,7 +10255,7 @@ public final class JonVideoMeta {
     internal_static_jon_video_VideoMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_video_VideoMeta_descriptor,
-        new java.lang.String[] { "Uuid", "SessionId", "Timestamp", "StoragePath", "SourceType", "FrameCount", "DurationMs", "Width", "Height", "Dsi", "Timescale", "SampleTable", });
+        new java.lang.String[] { "Uuid", "SessionId", "Timestamp", "StoragePath", "SourceType", "FrameCount", "DurationMs", "Width", "Height", "Dsi", "Timescale", "SampleTable", "HasMini", "MiniFrameCount", "MiniDurationMs", "MiniWidth", "MiniHeight", "MiniDsi", "MiniTimescale", "MiniSampleTable", });
     internal_static_jon_video_SampleTable_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_jon_video_SampleTable_fieldAccessorTable = new

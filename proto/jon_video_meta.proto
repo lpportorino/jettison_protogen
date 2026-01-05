@@ -41,7 +41,7 @@ message VideoMeta {
   string storage_path = 4;          // Directory path to video files
   string source_type = 5;           // "day" or "heat"
 
-  // MOOV extracted data
+  // MOOV extracted data (full quality - video.mp4)
   uint32 frame_count = 6;
   uint32 duration_ms = 7;
   uint32 width = 8;
@@ -51,6 +51,17 @@ message VideoMeta {
 
   // Sample table (always included for playback)
   SampleTable sample_table = 12;
+
+  // Mini quality metadata (preview.mp4) - for quality switching
+  // These fields are only populated if preview.mp4 exists
+  bool has_mini = 20;               // Whether mini quality is available
+  uint32 mini_frame_count = 21;
+  uint32 mini_duration_ms = 22;
+  uint32 mini_width = 23;
+  uint32 mini_height = 24;
+  bytes mini_dsi = 25;              // Mini avcC decoder specific info
+  uint32 mini_timescale = 26;
+  SampleTable mini_sample_table = 27;
 }
 
 // MP4 sample table data extracted from MOOV

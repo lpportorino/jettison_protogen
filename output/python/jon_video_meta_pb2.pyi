@@ -60,7 +60,7 @@ class VideoMetaResponse(_message.Message):
     def __init__(self, videos: _Optional[_Iterable[_Union[VideoMeta, _Mapping]]] = ..., errors: _Optional[_Iterable[_Union[VideoError, _Mapping]]] = ..., total_count: _Optional[int] = ...) -> None: ...
 
 class VideoMeta(_message.Message):
-    __slots__ = ("uuid", "session_id", "timestamp", "storage_path", "source_type", "frame_count", "duration_ms", "width", "height", "dsi", "timescale", "sample_table")
+    __slots__ = ("uuid", "session_id", "timestamp", "storage_path", "source_type", "frame_count", "duration_ms", "width", "height", "dsi", "timescale", "sample_table", "has_mini", "mini_frame_count", "mini_duration_ms", "mini_width", "mini_height", "mini_dsi", "mini_timescale", "mini_sample_table")
     UUID_FIELD_NUMBER: _ClassVar[int]
     SESSION_ID_FIELD_NUMBER: _ClassVar[int]
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
@@ -73,6 +73,14 @@ class VideoMeta(_message.Message):
     DSI_FIELD_NUMBER: _ClassVar[int]
     TIMESCALE_FIELD_NUMBER: _ClassVar[int]
     SAMPLE_TABLE_FIELD_NUMBER: _ClassVar[int]
+    HAS_MINI_FIELD_NUMBER: _ClassVar[int]
+    MINI_FRAME_COUNT_FIELD_NUMBER: _ClassVar[int]
+    MINI_DURATION_MS_FIELD_NUMBER: _ClassVar[int]
+    MINI_WIDTH_FIELD_NUMBER: _ClassVar[int]
+    MINI_HEIGHT_FIELD_NUMBER: _ClassVar[int]
+    MINI_DSI_FIELD_NUMBER: _ClassVar[int]
+    MINI_TIMESCALE_FIELD_NUMBER: _ClassVar[int]
+    MINI_SAMPLE_TABLE_FIELD_NUMBER: _ClassVar[int]
     uuid: str
     session_id: int
     timestamp: int
@@ -85,7 +93,15 @@ class VideoMeta(_message.Message):
     dsi: bytes
     timescale: int
     sample_table: SampleTable
-    def __init__(self, uuid: _Optional[str] = ..., session_id: _Optional[int] = ..., timestamp: _Optional[int] = ..., storage_path: _Optional[str] = ..., source_type: _Optional[str] = ..., frame_count: _Optional[int] = ..., duration_ms: _Optional[int] = ..., width: _Optional[int] = ..., height: _Optional[int] = ..., dsi: _Optional[bytes] = ..., timescale: _Optional[int] = ..., sample_table: _Optional[_Union[SampleTable, _Mapping]] = ...) -> None: ...
+    has_mini: bool
+    mini_frame_count: int
+    mini_duration_ms: int
+    mini_width: int
+    mini_height: int
+    mini_dsi: bytes
+    mini_timescale: int
+    mini_sample_table: SampleTable
+    def __init__(self, uuid: _Optional[str] = ..., session_id: _Optional[int] = ..., timestamp: _Optional[int] = ..., storage_path: _Optional[str] = ..., source_type: _Optional[str] = ..., frame_count: _Optional[int] = ..., duration_ms: _Optional[int] = ..., width: _Optional[int] = ..., height: _Optional[int] = ..., dsi: _Optional[bytes] = ..., timescale: _Optional[int] = ..., sample_table: _Optional[_Union[SampleTable, _Mapping]] = ..., has_mini: bool = ..., mini_frame_count: _Optional[int] = ..., mini_duration_ms: _Optional[int] = ..., mini_width: _Optional[int] = ..., mini_height: _Optional[int] = ..., mini_dsi: _Optional[bytes] = ..., mini_timescale: _Optional[int] = ..., mini_sample_table: _Optional[_Union[SampleTable, _Mapping]] = ...) -> None: ...
 
 class SampleTable(_message.Message):
     __slots__ = ("sample_sizes", "chunk_offsets", "sample_times", "sync_samples", "sample_to_chunk")

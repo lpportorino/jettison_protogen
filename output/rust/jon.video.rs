@@ -70,7 +70,7 @@ pub struct VideoMeta {
     /// "day" or "heat"
     #[prost(string, tag = "5")]
     pub source_type: ::prost::alloc::string::String,
-    /// MOOV extracted data
+    /// MOOV extracted data (full quality - video.mp4)
     #[prost(uint32, tag = "6")]
     pub frame_count: u32,
     #[prost(uint32, tag = "7")]
@@ -88,6 +88,27 @@ pub struct VideoMeta {
     /// Sample table (always included for playback)
     #[prost(message, optional, tag = "12")]
     pub sample_table: ::core::option::Option<SampleTable>,
+    /// Mini quality metadata (preview.mp4) - for quality switching
+    /// These fields are only populated if preview.mp4 exists
+    ///
+    /// Whether mini quality is available
+    #[prost(bool, tag = "20")]
+    pub has_mini: bool,
+    #[prost(uint32, tag = "21")]
+    pub mini_frame_count: u32,
+    #[prost(uint32, tag = "22")]
+    pub mini_duration_ms: u32,
+    #[prost(uint32, tag = "23")]
+    pub mini_width: u32,
+    #[prost(uint32, tag = "24")]
+    pub mini_height: u32,
+    /// Mini avcC decoder specific info
+    #[prost(bytes = "vec", tag = "25")]
+    pub mini_dsi: ::prost::alloc::vec::Vec<u8>,
+    #[prost(uint32, tag = "26")]
+    pub mini_timescale: u32,
+    #[prost(message, optional, tag = "27")]
+    pub mini_sample_table: ::core::option::Option<SampleTable>,
 }
 /// MP4 sample table data extracted from MOOV
 #[derive(Clone, PartialEq, ::prost::Message)]

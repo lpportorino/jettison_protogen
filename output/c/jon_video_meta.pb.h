@@ -69,7 +69,7 @@ typedef struct _jon_video_VideoMeta {
     uint64_t timestamp; /* Unix seconds */
     pb_callback_t storage_path; /* Directory path to video files */
     pb_callback_t source_type; /* "day" or "heat" */
-    /* MOOV extracted data */
+    /* MOOV extracted data (full quality - video.mp4) */
     uint32_t frame_count;
     uint32_t duration_ms;
     uint32_t width;
@@ -79,6 +79,17 @@ typedef struct _jon_video_VideoMeta {
     /* Sample table (always included for playback) */
     bool has_sample_table;
     jon_video_SampleTable sample_table;
+    /* Mini quality metadata (preview.mp4) - for quality switching
+ These fields are only populated if preview.mp4 exists */
+    bool has_mini; /* Whether mini quality is available */
+    uint32_t mini_frame_count;
+    uint32_t mini_duration_ms;
+    uint32_t mini_width;
+    uint32_t mini_height;
+    pb_callback_t mini_dsi; /* Mini avcC decoder specific info */
+    uint32_t mini_timescale;
+    bool has_mini_sample_table;
+    jon_video_SampleTable mini_sample_table;
 } jon_video_VideoMeta;
 
 /* Sample-to-chunk box entry */
@@ -121,7 +132,7 @@ extern "C" {
 #define jon_video_VideoIdList_init_default       {{{NULL}, NULL}}
 #define jon_video_VideoRangeQuery_init_default   {0, 0, {{NULL}, NULL}, false, 0, false, 0}
 #define jon_video_VideoMetaResponse_init_default {{{NULL}, NULL}, {{NULL}, NULL}, 0}
-#define jon_video_VideoMeta_init_default         {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_default}
+#define jon_video_VideoMeta_init_default         {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_default, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_default}
 #define jon_video_SampleTable_init_default       {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_video_SampleToChunk_init_default     {0, 0, 0}
 #define jon_video_VideoError_init_default        {{{NULL}, NULL}, {{NULL}, NULL}, _jon_video_VideoErrorType_MIN, {{NULL}, NULL}}
@@ -129,7 +140,7 @@ extern "C" {
 #define jon_video_VideoIdList_init_zero          {{{NULL}, NULL}}
 #define jon_video_VideoRangeQuery_init_zero      {0, 0, {{NULL}, NULL}, false, 0, false, 0}
 #define jon_video_VideoMetaResponse_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}, 0}
-#define jon_video_VideoMeta_init_zero            {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_zero}
+#define jon_video_VideoMeta_init_zero            {{{NULL}, NULL}, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_zero, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, false, jon_video_SampleTable_init_zero}
 #define jon_video_SampleTable_init_zero          {{{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}}
 #define jon_video_SampleToChunk_init_zero        {0, 0, 0}
 #define jon_video_VideoError_init_zero           {{{NULL}, NULL}, {{NULL}, NULL}, _jon_video_VideoErrorType_MIN, {{NULL}, NULL}}
@@ -163,6 +174,14 @@ extern "C" {
 #define jon_video_VideoMeta_dsi_tag              10
 #define jon_video_VideoMeta_timescale_tag        11
 #define jon_video_VideoMeta_sample_table_tag     12
+#define jon_video_VideoMeta_has_mini_tag         20
+#define jon_video_VideoMeta_mini_frame_count_tag 21
+#define jon_video_VideoMeta_mini_duration_ms_tag 22
+#define jon_video_VideoMeta_mini_width_tag       23
+#define jon_video_VideoMeta_mini_height_tag      24
+#define jon_video_VideoMeta_mini_dsi_tag         25
+#define jon_video_VideoMeta_mini_timescale_tag   26
+#define jon_video_VideoMeta_mini_sample_table_tag 27
 #define jon_video_SampleToChunk_first_chunk_tag  1
 #define jon_video_SampleToChunk_samples_per_chunk_tag 2
 #define jon_video_SampleToChunk_sample_description_index_tag 3
@@ -215,10 +234,19 @@ X(a, STATIC,   SINGULAR, UINT32,   width,             8) \
 X(a, STATIC,   SINGULAR, UINT32,   height,            9) \
 X(a, CALLBACK, SINGULAR, BYTES,    dsi,              10) \
 X(a, STATIC,   SINGULAR, UINT32,   timescale,        11) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  sample_table,     12)
+X(a, STATIC,   OPTIONAL, MESSAGE,  sample_table,     12) \
+X(a, STATIC,   SINGULAR, BOOL,     has_mini,         20) \
+X(a, STATIC,   SINGULAR, UINT32,   mini_frame_count,  21) \
+X(a, STATIC,   SINGULAR, UINT32,   mini_duration_ms,  22) \
+X(a, STATIC,   SINGULAR, UINT32,   mini_width,       23) \
+X(a, STATIC,   SINGULAR, UINT32,   mini_height,      24) \
+X(a, CALLBACK, SINGULAR, BYTES,    mini_dsi,         25) \
+X(a, STATIC,   SINGULAR, UINT32,   mini_timescale,   26) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  mini_sample_table,  27)
 #define jon_video_VideoMeta_CALLBACK pb_default_field_callback
 #define jon_video_VideoMeta_DEFAULT NULL
 #define jon_video_VideoMeta_sample_table_MSGTYPE jon_video_SampleTable
+#define jon_video_VideoMeta_mini_sample_table_MSGTYPE jon_video_SampleTable
 
 #define jon_video_SampleTable_FIELDLIST(X, a) \
 X(a, CALLBACK, REPEATED, UINT32,   sample_sizes,      1) \
