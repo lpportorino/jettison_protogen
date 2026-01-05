@@ -18,7 +18,7 @@ PB_BIND(jon_video_VideoRangeQuery, jon_video_VideoRangeQuery, AUTO)
 PB_BIND(jon_video_VideoMetaResponse, jon_video_VideoMetaResponse, AUTO)
 
 
-PB_BIND(jon_video_VideoMeta, jon_video_VideoMeta, 2)
+PB_BIND(jon_video_VideoMeta, jon_video_VideoMeta, AUTO)
 
 
 PB_BIND(jon_video_SampleTable, jon_video_SampleTable, AUTO)

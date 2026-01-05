@@ -104,9 +104,20 @@ export interface VideoMetaResponse {
   errors: VideoError[];
   /** Total matching (before limit) */
   totalCount: number;
+  /** Shared encoding parameters (same for all videos in response) */
+  width: number;
+  /** 1080 for full, 270 for mini */
+  height: number;
+  /** avcC decoder specific info (shared codec config) */
+  dsi: Uint8Array;
+  /** Media timescale from mdhd */
+  timescale: number;
 }
 
-/** Metadata for a single video including MOOV data */
+/**
+ * Metadata for a single video including MOOV data
+ * Used by both /api/video/meta (full quality) and /api/video/meta-mini (preview quality)
+ */
 export interface VideoMeta {
   uuid: string;
   sessionId: number;
@@ -116,32 +127,11 @@ export interface VideoMeta {
   storagePath: string;
   /** "day" or "heat" */
   sourceType: string;
-  /** MOOV extracted data (full quality - video.mp4) */
+  /** Per-video MOOV data */
   frameCount: number;
   durationMs: number;
-  width: number;
-  height: number;
-  /** avcC decoder specific info */
-  dsi: Uint8Array;
-  /** Media timescale from mdhd */
-  timescale: number;
-  /** Sample table (always included for playback) */
-  sampleTable:
-    | SampleTable
-    | undefined;
-  /**
-   * Mini quality metadata (preview.mp4) - for quality switching
-   * These fields are only populated if preview.mp4 exists
-   */
-  hasMini: boolean;
-  miniFrameCount: number;
-  miniDurationMs: number;
-  miniWidth: number;
-  miniHeight: number;
-  /** Mini avcC decoder specific info */
-  miniDsi: Uint8Array;
-  miniTimescale: number;
-  miniSampleTable: SampleTable | undefined;
+  /** Sample table for frame-accurate seeking and playback */
+  sampleTable: SampleTable | undefined;
 }
 
 /** MP4 sample table data extracted from MOOV */
@@ -444,7 +434,7 @@ export const VideoRangeQuery: MessageFns<VideoRangeQuery> = {
 };
 
 function createBaseVideoMetaResponse(): VideoMetaResponse {
-  return { videos: [], errors: [], totalCount: 0 };
+  return { videos: [], errors: [], totalCount: 0, width: 0, height: 0, dsi: new Uint8Array(0), timescale: 0 };
 }
 
 export const VideoMetaResponse: MessageFns<VideoMetaResponse> = {
@@ -457,6 +447,18 @@ export const VideoMetaResponse: MessageFns<VideoMetaResponse> = {
     }
     if (message.totalCount !== 0) {
       writer.uint32(24).uint32(message.totalCount);
+    }
+    if (message.width !== 0) {
+      writer.uint32(80).uint32(message.width);
+    }
+    if (message.height !== 0) {
+      writer.uint32(88).uint32(message.height);
+    }
+    if (message.dsi.length !== 0) {
+      writer.uint32(98).bytes(message.dsi);
+    }
+    if (message.timescale !== 0) {
+      writer.uint32(104).uint32(message.timescale);
     }
     return writer;
   },
@@ -492,6 +494,38 @@ export const VideoMetaResponse: MessageFns<VideoMetaResponse> = {
           message.totalCount = reader.uint32();
           continue;
         }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.width = reader.uint32();
+          continue;
+        }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.height = reader.uint32();
+          continue;
+        }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.dsi = reader.bytes();
+          continue;
+        }
+        case 13: {
+          if (tag !== 104) {
+            break;
+          }
+
+          message.timescale = reader.uint32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -506,6 +540,10 @@ export const VideoMetaResponse: MessageFns<VideoMetaResponse> = {
       videos: globalThis.Array.isArray(object?.videos) ? object.videos.map((e: any) => VideoMeta.fromJSON(e)) : [],
       errors: globalThis.Array.isArray(object?.errors) ? object.errors.map((e: any) => VideoError.fromJSON(e)) : [],
       totalCount: isSet(object.totalCount) ? globalThis.Number(object.totalCount) : 0,
+      width: isSet(object.width) ? globalThis.Number(object.width) : 0,
+      height: isSet(object.height) ? globalThis.Number(object.height) : 0,
+      dsi: isSet(object.dsi) ? bytesFromBase64(object.dsi) : new Uint8Array(0),
+      timescale: isSet(object.timescale) ? globalThis.Number(object.timescale) : 0,
     };
   },
 
@@ -520,6 +558,18 @@ export const VideoMetaResponse: MessageFns<VideoMetaResponse> = {
     if (message.totalCount !== 0) {
       obj.totalCount = Math.round(message.totalCount);
     }
+    if (message.width !== 0) {
+      obj.width = Math.round(message.width);
+    }
+    if (message.height !== 0) {
+      obj.height = Math.round(message.height);
+    }
+    if (message.dsi.length !== 0) {
+      obj.dsi = base64FromBytes(message.dsi);
+    }
+    if (message.timescale !== 0) {
+      obj.timescale = Math.round(message.timescale);
+    }
     return obj;
   },
 
@@ -531,6 +581,10 @@ export const VideoMetaResponse: MessageFns<VideoMetaResponse> = {
     message.videos = object.videos?.map((e) => VideoMeta.fromPartial(e)) || [];
     message.errors = object.errors?.map((e) => VideoError.fromPartial(e)) || [];
     message.totalCount = object.totalCount ?? 0;
+    message.width = object.width ?? 0;
+    message.height = object.height ?? 0;
+    message.dsi = object.dsi ?? new Uint8Array(0);
+    message.timescale = object.timescale ?? 0;
     return message;
   },
 };
@@ -544,19 +598,7 @@ function createBaseVideoMeta(): VideoMeta {
     sourceType: "",
     frameCount: 0,
     durationMs: 0,
-    width: 0,
-    height: 0,
-    dsi: new Uint8Array(0),
-    timescale: 0,
     sampleTable: undefined,
-    hasMini: false,
-    miniFrameCount: 0,
-    miniDurationMs: 0,
-    miniWidth: 0,
-    miniHeight: 0,
-    miniDsi: new Uint8Array(0),
-    miniTimescale: 0,
-    miniSampleTable: undefined,
   };
 }
 
@@ -583,44 +625,8 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     if (message.durationMs !== 0) {
       writer.uint32(56).uint32(message.durationMs);
     }
-    if (message.width !== 0) {
-      writer.uint32(64).uint32(message.width);
-    }
-    if (message.height !== 0) {
-      writer.uint32(72).uint32(message.height);
-    }
-    if (message.dsi.length !== 0) {
-      writer.uint32(82).bytes(message.dsi);
-    }
-    if (message.timescale !== 0) {
-      writer.uint32(88).uint32(message.timescale);
-    }
     if (message.sampleTable !== undefined) {
       SampleTable.encode(message.sampleTable, writer.uint32(98).fork()).join();
-    }
-    if (message.hasMini !== false) {
-      writer.uint32(160).bool(message.hasMini);
-    }
-    if (message.miniFrameCount !== 0) {
-      writer.uint32(168).uint32(message.miniFrameCount);
-    }
-    if (message.miniDurationMs !== 0) {
-      writer.uint32(176).uint32(message.miniDurationMs);
-    }
-    if (message.miniWidth !== 0) {
-      writer.uint32(184).uint32(message.miniWidth);
-    }
-    if (message.miniHeight !== 0) {
-      writer.uint32(192).uint32(message.miniHeight);
-    }
-    if (message.miniDsi.length !== 0) {
-      writer.uint32(202).bytes(message.miniDsi);
-    }
-    if (message.miniTimescale !== 0) {
-      writer.uint32(208).uint32(message.miniTimescale);
-    }
-    if (message.miniSampleTable !== undefined) {
-      SampleTable.encode(message.miniSampleTable, writer.uint32(218).fork()).join();
     }
     return writer;
   },
@@ -688,108 +694,12 @@ export const VideoMeta: MessageFns<VideoMeta> = {
           message.durationMs = reader.uint32();
           continue;
         }
-        case 8: {
-          if (tag !== 64) {
-            break;
-          }
-
-          message.width = reader.uint32();
-          continue;
-        }
-        case 9: {
-          if (tag !== 72) {
-            break;
-          }
-
-          message.height = reader.uint32();
-          continue;
-        }
-        case 10: {
-          if (tag !== 82) {
-            break;
-          }
-
-          message.dsi = reader.bytes();
-          continue;
-        }
-        case 11: {
-          if (tag !== 88) {
-            break;
-          }
-
-          message.timescale = reader.uint32();
-          continue;
-        }
         case 12: {
           if (tag !== 98) {
             break;
           }
 
           message.sampleTable = SampleTable.decode(reader, reader.uint32());
-          continue;
-        }
-        case 20: {
-          if (tag !== 160) {
-            break;
-          }
-
-          message.hasMini = reader.bool();
-          continue;
-        }
-        case 21: {
-          if (tag !== 168) {
-            break;
-          }
-
-          message.miniFrameCount = reader.uint32();
-          continue;
-        }
-        case 22: {
-          if (tag !== 176) {
-            break;
-          }
-
-          message.miniDurationMs = reader.uint32();
-          continue;
-        }
-        case 23: {
-          if (tag !== 184) {
-            break;
-          }
-
-          message.miniWidth = reader.uint32();
-          continue;
-        }
-        case 24: {
-          if (tag !== 192) {
-            break;
-          }
-
-          message.miniHeight = reader.uint32();
-          continue;
-        }
-        case 25: {
-          if (tag !== 202) {
-            break;
-          }
-
-          message.miniDsi = reader.bytes();
-          continue;
-        }
-        case 26: {
-          if (tag !== 208) {
-            break;
-          }
-
-          message.miniTimescale = reader.uint32();
-          continue;
-        }
-        case 27: {
-          if (tag !== 218) {
-            break;
-          }
-
-          message.miniSampleTable = SampleTable.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -810,19 +720,7 @@ export const VideoMeta: MessageFns<VideoMeta> = {
       sourceType: isSet(object.sourceType) ? globalThis.String(object.sourceType) : "",
       frameCount: isSet(object.frameCount) ? globalThis.Number(object.frameCount) : 0,
       durationMs: isSet(object.durationMs) ? globalThis.Number(object.durationMs) : 0,
-      width: isSet(object.width) ? globalThis.Number(object.width) : 0,
-      height: isSet(object.height) ? globalThis.Number(object.height) : 0,
-      dsi: isSet(object.dsi) ? bytesFromBase64(object.dsi) : new Uint8Array(0),
-      timescale: isSet(object.timescale) ? globalThis.Number(object.timescale) : 0,
       sampleTable: isSet(object.sampleTable) ? SampleTable.fromJSON(object.sampleTable) : undefined,
-      hasMini: isSet(object.hasMini) ? globalThis.Boolean(object.hasMini) : false,
-      miniFrameCount: isSet(object.miniFrameCount) ? globalThis.Number(object.miniFrameCount) : 0,
-      miniDurationMs: isSet(object.miniDurationMs) ? globalThis.Number(object.miniDurationMs) : 0,
-      miniWidth: isSet(object.miniWidth) ? globalThis.Number(object.miniWidth) : 0,
-      miniHeight: isSet(object.miniHeight) ? globalThis.Number(object.miniHeight) : 0,
-      miniDsi: isSet(object.miniDsi) ? bytesFromBase64(object.miniDsi) : new Uint8Array(0),
-      miniTimescale: isSet(object.miniTimescale) ? globalThis.Number(object.miniTimescale) : 0,
-      miniSampleTable: isSet(object.miniSampleTable) ? SampleTable.fromJSON(object.miniSampleTable) : undefined,
     };
   },
 
@@ -849,44 +747,8 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     if (message.durationMs !== 0) {
       obj.durationMs = Math.round(message.durationMs);
     }
-    if (message.width !== 0) {
-      obj.width = Math.round(message.width);
-    }
-    if (message.height !== 0) {
-      obj.height = Math.round(message.height);
-    }
-    if (message.dsi.length !== 0) {
-      obj.dsi = base64FromBytes(message.dsi);
-    }
-    if (message.timescale !== 0) {
-      obj.timescale = Math.round(message.timescale);
-    }
     if (message.sampleTable !== undefined) {
       obj.sampleTable = SampleTable.toJSON(message.sampleTable);
-    }
-    if (message.hasMini !== false) {
-      obj.hasMini = message.hasMini;
-    }
-    if (message.miniFrameCount !== 0) {
-      obj.miniFrameCount = Math.round(message.miniFrameCount);
-    }
-    if (message.miniDurationMs !== 0) {
-      obj.miniDurationMs = Math.round(message.miniDurationMs);
-    }
-    if (message.miniWidth !== 0) {
-      obj.miniWidth = Math.round(message.miniWidth);
-    }
-    if (message.miniHeight !== 0) {
-      obj.miniHeight = Math.round(message.miniHeight);
-    }
-    if (message.miniDsi.length !== 0) {
-      obj.miniDsi = base64FromBytes(message.miniDsi);
-    }
-    if (message.miniTimescale !== 0) {
-      obj.miniTimescale = Math.round(message.miniTimescale);
-    }
-    if (message.miniSampleTable !== undefined) {
-      obj.miniSampleTable = SampleTable.toJSON(message.miniSampleTable);
     }
     return obj;
   },
@@ -905,22 +767,8 @@ export const VideoMeta: MessageFns<VideoMeta> = {
     message.sourceType = object.sourceType ?? "";
     message.frameCount = object.frameCount ?? 0;
     message.durationMs = object.durationMs ?? 0;
-    message.width = object.width ?? 0;
-    message.height = object.height ?? 0;
-    message.dsi = object.dsi ?? new Uint8Array(0);
-    message.timescale = object.timescale ?? 0;
     message.sampleTable = (object.sampleTable !== undefined && object.sampleTable !== null)
       ? SampleTable.fromPartial(object.sampleTable)
-      : undefined;
-    message.hasMini = object.hasMini ?? false;
-    message.miniFrameCount = object.miniFrameCount ?? 0;
-    message.miniDurationMs = object.miniDurationMs ?? 0;
-    message.miniWidth = object.miniWidth ?? 0;
-    message.miniHeight = object.miniHeight ?? 0;
-    message.miniDsi = object.miniDsi ?? new Uint8Array(0);
-    message.miniTimescale = object.miniTimescale ?? 0;
-    message.miniSampleTable = (object.miniSampleTable !== undefined && object.miniSampleTable !== null)
-      ? SampleTable.fromPartial(object.miniSampleTable)
       : undefined;
     return message;
   },

@@ -31,9 +31,16 @@ message VideoMetaResponse {
   repeated VideoMeta videos = 1;    // Successfully processed videos
   repeated VideoError errors = 2;   // Errors for failed videos
   uint32 total_count = 3;           // Total matching (before limit)
+
+  // Shared encoding parameters (same for all videos in response)
+  uint32 width = 10;                // 1920 for full, 480 for mini
+  uint32 height = 11;               // 1080 for full, 270 for mini
+  bytes dsi = 12;                   // avcC decoder specific info (shared codec config)
+  uint32 timescale = 13;            // Media timescale from mdhd
 }
 
 // Metadata for a single video including MOOV data
+// Used by both /api/video/meta (full quality) and /api/video/meta-mini (preview quality)
 message VideoMeta {
   string uuid = 1;
   int32 session_id = 2;
@@ -41,27 +48,12 @@ message VideoMeta {
   string storage_path = 4;          // Directory path to video files
   string source_type = 5;           // "day" or "heat"
 
-  // MOOV extracted data (full quality - video.mp4)
+  // Per-video MOOV data
   uint32 frame_count = 6;
   uint32 duration_ms = 7;
-  uint32 width = 8;
-  uint32 height = 9;
-  bytes dsi = 10;                   // avcC decoder specific info
-  uint32 timescale = 11;            // Media timescale from mdhd
 
-  // Sample table (always included for playback)
+  // Sample table for frame-accurate seeking and playback
   SampleTable sample_table = 12;
-
-  // Mini quality metadata (preview.mp4) - for quality switching
-  // These fields are only populated if preview.mp4 exists
-  bool has_mini = 20;               // Whether mini quality is available
-  uint32 mini_frame_count = 21;
-  uint32 mini_duration_ms = 22;
-  uint32 mini_width = 23;
-  uint32 mini_height = 24;
-  bytes mini_dsi = 25;              // Mini avcC decoder specific info
-  uint32 mini_timescale = 26;
-  SampleTable mini_sample_table = 27;
 }
 
 // MP4 sample table data extracted from MOOV

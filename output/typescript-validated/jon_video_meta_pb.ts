@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_video_meta.proto.
  */
 export const file_jon_video_meta: GenFile = /*@__PURE__*/
-  fileDesc("ChRqb25fdmlkZW9fbWV0YS5wcm90bxIJam9uLnZpZGVvIm8KEFZpZGVvTWV0YVJlcXVlc3QSKwoFcmFuZ2UYASABKAsyGi5qb24udmlkZW8uVmlkZW9SYW5nZVF1ZXJ5SAASJQoDaWRzGAIgASgLMhYuam9uLnZpZGVvLlZpZGVvSWRMaXN0SABCBwoFcXVlcnkiJgoLVmlkZW9JZExpc3QSFwoFdXVpZHMYASADKAlCCLpIBZIBAggBIscBCg9WaWRlb1JhbmdlUXVlcnkSIAoPc3RhcnRfdGltZXN0YW1wGAEgASgEQge6SAQyAigAEh4KDWVuZF90aW1lc3RhbXAYAiABKARCB7pIBDICKAASGAoLc291cmNlX3R5cGUYAyABKAlIAIgBARIeCgVsaW1pdBgEIAEoDUIKukgHKgUY6AcoAUgBiAEBEhMKBm9mZnNldBgFIAEoDUgCiAEBQg4KDF9zb3VyY2VfdHlwZUIICgZfbGltaXRCCQoHX29mZnNldCJ1ChFWaWRlb01ldGFSZXNwb25zZRIkCgZ2aWRlb3MYASADKAsyFC5qb24udmlkZW8uVmlkZW9NZXRhEiUKBmVycm9ycxgCIAMoCzIVLmpvbi52aWRlby5WaWRlb0Vycm9yEhMKC3RvdGFsX2NvdW50GAMgASgNIs4DCglWaWRlb01ldGESDAoEdXVpZBgBIAEoCRISCgpzZXNzaW9uX2lkGAIgASgFEhEKCXRpbWVzdGFtcBgDIAEoBBIUCgxzdG9yYWdlX3BhdGgYBCABKAkSEwoLc291cmNlX3R5cGUYBSABKAkSEwoLZnJhbWVfY291bnQYBiABKA0SEwoLZHVyYXRpb25fbXMYByABKA0SDQoFd2lkdGgYCCABKA0SDgoGaGVpZ2h0GAkgASgNEgsKA2RzaRgKIAEoDBIRCgl0aW1lc2NhbGUYCyABKA0SLAoMc2FtcGxlX3RhYmxlGAwgASgLMhYuam9uLnZpZGVvLlNhbXBsZVRhYmxlEhAKCGhhc19taW5pGBQgASgIEhgKEG1pbmlfZnJhbWVfY291bnQYFSABKA0SGAoQbWluaV9kdXJhdGlvbl9tcxgWIAEoDRISCgptaW5pX3dpZHRoGBcgASgNEhMKC21pbmlfaGVpZ2h0GBggASgNEhAKCG1pbmlfZHNpGBkgASgMEhYKDm1pbmlfdGltZXNjYWxlGBogASgNEjEKEW1pbmlfc2FtcGxlX3RhYmxlGBsgASgLMhYuam9uLnZpZGVvLlNhbXBsZVRhYmxlIpkBCgtTYW1wbGVUYWJsZRIUCgxzYW1wbGVfc2l6ZXMYASADKA0SFQoNY2h1bmtfb2Zmc2V0cxgCIAMoBBIUCgxzYW1wbGVfdGltZXMYAyADKA0SFAoMc3luY19zYW1wbGVzGAQgAygNEjEKD3NhbXBsZV90b19jaHVuaxgFIAMoCzIYLmpvbi52aWRlby5TYW1wbGVUb0NodW5rImEKDVNhbXBsZVRvQ2h1bmsSEwoLZmlyc3RfY2h1bmsYASABKA0SGQoRc2FtcGxlc19wZXJfY2h1bmsYAiABKA0SIAoYc2FtcGxlX2Rlc2NyaXB0aW9uX2luZGV4GAMgASgNInYKClZpZGVvRXJyb3ISDAoEdXVpZBgBIAEoCRIUCgxzdG9yYWdlX3BhdGgYAiABKAkSLQoKZXJyb3JfdHlwZRgDIAEoDjIZLmpvbi52aWRlby5WaWRlb0Vycm9yVHlwZRIVCg1lcnJvcl9tZXNzYWdlGAQgASgJKtkBCg5WaWRlb0Vycm9yVHlwZRIgChxWSURFT19FUlJPUl9UWVBFX1VOU1BFQ0lGSUVEEAASIwofVklERU9fRVJST1JfVFlQRV9GSUxFX05PVF9GT1VORBABEh8KG1ZJREVPX0VSUk9SX1RZUEVfRU1QVFlfRklMRRACEhwKGFZJREVPX0VSUk9SX1RZUEVfTk9fTU9PVhADEiEKHVZJREVPX0VSUk9SX1RZUEVfSU5WQUxJRF9NT09WEAQSHgoaVklERU9fRVJST1JfVFlQRV9UUlVOQ0FURUQQBUJIWkZnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3ZpZGVvYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChRqb25fdmlkZW9fbWV0YS5wcm90bxIJam9uLnZpZGVvIm8KEFZpZGVvTWV0YVJlcXVlc3QSKwoFcmFuZ2UYASABKAsyGi5qb24udmlkZW8uVmlkZW9SYW5nZVF1ZXJ5SAASJQoDaWRzGAIgASgLMhYuam9uLnZpZGVvLlZpZGVvSWRMaXN0SABCBwoFcXVlcnkiJgoLVmlkZW9JZExpc3QSFwoFdXVpZHMYASADKAlCCLpIBZIBAggBIscBCg9WaWRlb1JhbmdlUXVlcnkSIAoPc3RhcnRfdGltZXN0YW1wGAEgASgEQge6SAQyAigAEh4KDWVuZF90aW1lc3RhbXAYAiABKARCB7pIBDICKAASGAoLc291cmNlX3R5cGUYAyABKAlIAIgBARIeCgVsaW1pdBgEIAEoDUIKukgHKgUY6AcoAUgBiAEBEhMKBm9mZnNldBgFIAEoDUgCiAEBQg4KDF9zb3VyY2VfdHlwZUIICgZfbGltaXRCCQoHX29mZnNldCK0AQoRVmlkZW9NZXRhUmVzcG9uc2USJAoGdmlkZW9zGAEgAygLMhQuam9uLnZpZGVvLlZpZGVvTWV0YRIlCgZlcnJvcnMYAiADKAsyFS5qb24udmlkZW8uVmlkZW9FcnJvchITCgt0b3RhbF9jb3VudBgDIAEoDRINCgV3aWR0aBgKIAEoDRIOCgZoZWlnaHQYCyABKA0SCwoDZHNpGAwgASgMEhEKCXRpbWVzY2FsZRgNIAEoDSLDAQoJVmlkZW9NZXRhEgwKBHV1aWQYASABKAkSEgoKc2Vzc2lvbl9pZBgCIAEoBRIRCgl0aW1lc3RhbXAYAyABKAQSFAoMc3RvcmFnZV9wYXRoGAQgASgJEhMKC3NvdXJjZV90eXBlGAUgASgJEhMKC2ZyYW1lX2NvdW50GAYgASgNEhMKC2R1cmF0aW9uX21zGAcgASgNEiwKDHNhbXBsZV90YWJsZRgMIAEoCzIWLmpvbi52aWRlby5TYW1wbGVUYWJsZSKZAQoLU2FtcGxlVGFibGUSFAoMc2FtcGxlX3NpemVzGAEgAygNEhUKDWNodW5rX29mZnNldHMYAiADKAQSFAoMc2FtcGxlX3RpbWVzGAMgAygNEhQKDHN5bmNfc2FtcGxlcxgEIAMoDRIxCg9zYW1wbGVfdG9fY2h1bmsYBSADKAsyGC5qb24udmlkZW8uU2FtcGxlVG9DaHVuayJhCg1TYW1wbGVUb0NodW5rEhMKC2ZpcnN0X2NodW5rGAEgASgNEhkKEXNhbXBsZXNfcGVyX2NodW5rGAIgASgNEiAKGHNhbXBsZV9kZXNjcmlwdGlvbl9pbmRleBgDIAEoDSJ2CgpWaWRlb0Vycm9yEgwKBHV1aWQYASABKAkSFAoMc3RvcmFnZV9wYXRoGAIgASgJEi0KCmVycm9yX3R5cGUYAyABKA4yGS5qb24udmlkZW8uVmlkZW9FcnJvclR5cGUSFQoNZXJyb3JfbWVzc2FnZRgEIAEoCSrZAQoOVmlkZW9FcnJvclR5cGUSIAocVklERU9fRVJST1JfVFlQRV9VTlNQRUNJRklFRBAAEiMKH1ZJREVPX0VSUk9SX1RZUEVfRklMRV9OT1RfRk9VTkQQARIfChtWSURFT19FUlJPUl9UWVBFX0VNUFRZX0ZJTEUQAhIcChhWSURFT19FUlJPUl9UWVBFX05PX01PT1YQAxIhCh1WSURFT19FUlJPUl9UWVBFX0lOVkFMSURfTU9PVhAEEh4KGlZJREVPX0VSUk9SX1RZUEVfVFJVTkNBVEVEEAVCSFpGZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC92aWRlb2IGcHJvdG8z", [file_buf_validate_validate]);
 
 /**
  * Request message for video metadata retrieval
@@ -140,6 +140,36 @@ export type VideoMetaResponse = Message<"jon.video.VideoMetaResponse"> & {
    * @generated from field: uint32 total_count = 3;
    */
   totalCount: number;
+
+  /**
+   * Shared encoding parameters (same for all videos in response)
+   *
+   * 1920 for full, 480 for mini
+   *
+   * @generated from field: uint32 width = 10;
+   */
+  width: number;
+
+  /**
+   * 1080 for full, 270 for mini
+   *
+   * @generated from field: uint32 height = 11;
+   */
+  height: number;
+
+  /**
+   * avcC decoder specific info (shared codec config)
+   *
+   * @generated from field: bytes dsi = 12;
+   */
+  dsi: Uint8Array;
+
+  /**
+   * Media timescale from mdhd
+   *
+   * @generated from field: uint32 timescale = 13;
+   */
+  timescale: number;
 };
 
 /**
@@ -151,6 +181,7 @@ export const VideoMetaResponseSchema: GenMessage<VideoMetaResponse> = /*@__PURE_
 
 /**
  * Metadata for a single video including MOOV data
+ * Used by both /api/video/meta (full quality) and /api/video/meta-mini (preview quality)
  *
  * @generated from message jon.video.VideoMeta
  */
@@ -187,7 +218,7 @@ export type VideoMeta = Message<"jon.video.VideoMeta"> & {
   sourceType: string;
 
   /**
-   * MOOV extracted data (full quality - video.mp4)
+   * Per-video MOOV data
    *
    * @generated from field: uint32 frame_count = 6;
    */
@@ -199,82 +230,11 @@ export type VideoMeta = Message<"jon.video.VideoMeta"> & {
   durationMs: number;
 
   /**
-   * @generated from field: uint32 width = 8;
-   */
-  width: number;
-
-  /**
-   * @generated from field: uint32 height = 9;
-   */
-  height: number;
-
-  /**
-   * avcC decoder specific info
-   *
-   * @generated from field: bytes dsi = 10;
-   */
-  dsi: Uint8Array;
-
-  /**
-   * Media timescale from mdhd
-   *
-   * @generated from field: uint32 timescale = 11;
-   */
-  timescale: number;
-
-  /**
-   * Sample table (always included for playback)
+   * Sample table for frame-accurate seeking and playback
    *
    * @generated from field: jon.video.SampleTable sample_table = 12;
    */
   sampleTable?: SampleTable;
-
-  /**
-   * Mini quality metadata (preview.mp4) - for quality switching
-   * These fields are only populated if preview.mp4 exists
-   *
-   * Whether mini quality is available
-   *
-   * @generated from field: bool has_mini = 20;
-   */
-  hasMini: boolean;
-
-  /**
-   * @generated from field: uint32 mini_frame_count = 21;
-   */
-  miniFrameCount: number;
-
-  /**
-   * @generated from field: uint32 mini_duration_ms = 22;
-   */
-  miniDurationMs: number;
-
-  /**
-   * @generated from field: uint32 mini_width = 23;
-   */
-  miniWidth: number;
-
-  /**
-   * @generated from field: uint32 mini_height = 24;
-   */
-  miniHeight: number;
-
-  /**
-   * Mini avcC decoder specific info
-   *
-   * @generated from field: bytes mini_dsi = 25;
-   */
-  miniDsi: Uint8Array;
-
-  /**
-   * @generated from field: uint32 mini_timescale = 26;
-   */
-  miniTimescale: number;
-
-  /**
-   * @generated from field: jon.video.SampleTable mini_sample_table = 27;
-   */
-  miniSampleTable?: SampleTable;
 };
 
 /**
