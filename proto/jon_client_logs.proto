@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/logs";
+
+package jon.logs;
+
+// Client log entry - represents a single log message from the frontend
+message ClientLogEntry {
+  // Core log data (validated on ingress)
+  string lvl = 1 [(buf.validate.field).string = {in: ["error", "warn", "info", "debug"]}];
+  string mod = 2 [(buf.validate.field).string.min_len = 1];
+  string msg = 3 [(buf.validate.field).string.min_len = 1];
+  int64 ts = 4 [(buf.validate.field).int64.gte = 0];
+
+  // Source location
+  string file = 5;
+  int32 line = 6;
+
+  // Session/client info
+  string sid = 7 [(buf.validate.field).string.min_len = 1];
+  string ua = 8;                  // user agent
+  optional string url = 9;        // page path + query (optional - workers don't have location)
+  optional string origin = 10;    // page origin (optional - workers don't have location)
+  string commit = 11;             // git commit hash (build-time)
+  string build = 12;              // build timestamp
+
+  // Device info
+  int32 sw = 13 [(buf.validate.field).int32.gte = 0];
+  int32 sh = 14 [(buf.validate.field).int32.gte = 0];
+  double dpr = 15;     // device pixel ratio
+  string lang = 16;    // browser language
+  string tz = 17;      // timezone
+
+  string extra = 18;   // optional JSON blob
+
+  // Raw state snapshot bytes - NOT validated, stored as-is, decode later
+  optional bytes state_snapshot = 19;
+}
+
+// Batch of client log entries - sent over WebSocket
+message ClientLogBatch {
+  // Protocol version for future compatibility
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 1}];  // Currently only v1
+
+  repeated ClientLogEntry entries = 2 [(buf.validate.field).repeated.min_items = 1];
+}

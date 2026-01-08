@@ -5,6 +5,4 @@
 
 /* eslint-disable */
 
-export * as logs from "./index.jon.logs";
-export * as video from "./index.jon.video";
-export * as archive from "./index.jon.archive";
+export * from "./jon_client_logs";
