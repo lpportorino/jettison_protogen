@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers the thermal camera to capture a still photo from the current video feed. This parameterless command shows pending state in the UI button until capture completes, which is confirmed when the LRF target ID changes.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Cycles to the next FX enhancement mode on the thermal camera, advancing through available image enhancement filters in sequence. This parameterless command wraps around to the first mode after reaching the last one.
 
 ## Fields
 

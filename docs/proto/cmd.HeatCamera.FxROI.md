@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Specifies a rectangular region of interest for thermal camera AGC/exposure optimization and post-processing effects. The region is defined by corner coordinates in normalized device coordinates (NDC, -1 to 1 range) with frame and state timestamps for synchronization.
 
 ## Fields
 

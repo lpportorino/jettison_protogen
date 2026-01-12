@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests meteorological and diagnostic data from the thermal camera module. This parameterless fire-and-forget diagnostic command triggers the camera to return sensor readings and health metrics via state updates.
 
 ## Fields
 

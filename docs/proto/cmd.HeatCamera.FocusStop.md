@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops continuous thermal camera focus movement initiated by FocusIn or FocusOut commands. This parameterless fire-and-forget command halts ongoing focus motor operation when the user releases the focus control button.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Increments the thermal camera focus by one discrete step, bringing the focus point closer to the camera. This parameterless fire-and-forget stepper command provides single-step manual focus adjustment in the UI focus control panel.
 
 ## Fields
 

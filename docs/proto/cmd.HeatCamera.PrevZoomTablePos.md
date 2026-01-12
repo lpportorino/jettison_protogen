@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Moves the thermal camera to the previous position in the zoom lookup table, stepping backward through saved zoom presets. This parameterless command complements NextZoomTablePos for bidirectional zoom preset navigation.
 
 ## Fields
 

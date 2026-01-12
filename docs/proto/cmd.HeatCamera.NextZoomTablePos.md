@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Moves the thermal camera to the next preset zoom position in the zoom lookup table. This parameterless trigger command is nested within the Zoom submessage and advances through predefined optical zoom levels for quick magnification changes.
 
 ## Fields
 

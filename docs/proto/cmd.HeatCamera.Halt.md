@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Emergency stop command that halts all thermal camera motor movements including both zoom and focus operations. This parameterless command provides an immediate safety mechanism to stop any ongoing actuator movement.
 
 ## Fields
 

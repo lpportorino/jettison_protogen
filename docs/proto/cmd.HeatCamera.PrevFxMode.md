@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Cycles to the previous FX (effects) mode on the thermal camera, navigating backward through available thermal imaging enhancement filters. Paired with NextFxMode and SetFxMode for complete FX mode navigation control.
 
 ## Fields
 
