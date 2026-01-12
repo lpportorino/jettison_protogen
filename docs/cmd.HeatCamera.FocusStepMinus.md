@@ -1,0 +1,23 @@
+---
+id: cmd.HeatCamera.FocusStepMinus
+proto: jon_shared_cmd_heat_camera.proto
+package: cmd.HeatCamera
+type: message
+---
+
+# FocusStepMinus
+
+**Source:** `jon_shared_cmd_heat_camera.proto`
+
+## Description
+
+*No description yet.*
+
+## Fields
+
+| # | Field | Type | Constraints |
+|---|-------|------|-------------|
+
+
+
+

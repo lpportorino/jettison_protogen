@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 241 messages, 21 enums, 605 fields
+**Statistics:** 243 messages, 21 enums, 613 fields
 
 ## Messages by Package
 
@@ -307,6 +307,8 @@ type: index
 - [[ser.JonGuiDataSystem|JonGuiDataSystem]]
 - [[ser.JonGuiDataTarget|JonGuiDataTarget]]
 - [[ser.JonGuiDataTime|JonGuiDataTime]]
+- [[ser.JonOpaquePayload|JonOpaquePayload]]
+- [[ser.JonOpaquePayloadVersion|JonOpaquePayloadVersion]]
 - [[ser.RgbColor|RgbColor]]
 - [[ser.ScanNode|ScanNode]]
 

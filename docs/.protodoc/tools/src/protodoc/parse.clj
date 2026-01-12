@@ -63,14 +63,14 @@
 
       ;; String constraints
       (when-let [rules (get validate "string")]
-        (when-let [v (get rules "minLen")] (swap! constraints assoc :min-len v))
-        (when-let [v (get rules "maxLen")] (swap! constraints assoc :max-len v))
+        (when-let [v (get rules "minLen")] (swap! constraints assoc :min-len (parse-number v)))
+        (when-let [v (get rules "maxLen")] (swap! constraints assoc :max-len (parse-number v)))
         (when-let [v (get rules "pattern")] (swap! constraints assoc :pattern v)))
 
       ;; Bytes constraints
       (when-let [rules (get validate "bytes")]
-        (when-let [v (get rules "minLen")] (swap! constraints assoc :min-len v))
-        (when-let [v (get rules "maxLen")] (swap! constraints assoc :max-len v)))
+        (when-let [v (get rules "minLen")] (swap! constraints assoc :min-len (parse-number v)))
+        (when-let [v (get rules "maxLen")] (swap! constraints assoc :max-len (parse-number v))))
 
       ;; Enum constraints
       (when-let [rules (get validate "enum")]

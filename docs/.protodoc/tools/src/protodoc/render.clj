@@ -127,19 +127,16 @@
               :description (:description val)})})
 
 (defn- output-path-for-message
-  "Generate output file path for a message."
+  "Generate output file path for a message.
+   Uses flat structure with full ID as filename for Obsidian wikilink compatibility."
   [output-dir message]
-  (let [;; Convert package like "cmd.DayCamera" to path "commands/DayCamera"
-        package-path (-> (:package message)
-                         (str/replace #"^cmd\." "commands/")
-                         (str/replace #"^ser\." "state/")
-                         (str/replace "." "/"))]
-    (io/file output-dir package-path (str (:name message) ".md"))))
+  (io/file output-dir (str (:id message) ".md")))
 
 (defn- output-path-for-enum
-  "Generate output file path for an enum."
+  "Generate output file path for an enum.
+   Uses flat structure with full ID as filename for Obsidian wikilink compatibility."
   [output-dir enum]
-  (io/file output-dir "enums" (str (:name enum) ".md")))
+  (io/file output-dir (str (:id enum) ".md")))
 
 (defn render-message
   "Render a single message to markdown string."
