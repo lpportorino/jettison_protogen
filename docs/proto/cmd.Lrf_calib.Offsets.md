@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+A union message that contains one of four LRF calibration offset operations (set, save, reset, or shift) for adjusting laser rangefinder crosshair alignment on either the day or thermal imaging camera.
 
 ## Fields
 

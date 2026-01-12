@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Calibrates laser rangefinder (LRF) crosshair alignment offsets for both day and thermal cameras, supporting operations to set, shift, save, or reset X/Y pixel offsets across different zoom levels.
 
 ## Fields
 

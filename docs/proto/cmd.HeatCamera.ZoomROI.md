@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Zooms the thermal camera to a user-selected rectangular region of interest using normalized device coordinates (NDC), with frame synchronization via timestamps.
 
 ## Fields
 

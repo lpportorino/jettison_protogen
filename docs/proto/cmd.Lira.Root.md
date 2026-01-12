@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command container for LIRA target designation subsystem. Routes target refinement commands containing geospatial coordinates, directional information, and distance measurements for target tracking operations.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Resets laser rangefinder calibration offsets for either the day or thermal camera channel to their saved defaults, restoring the crosshair alignment to the previously stored calibration values.
 
 ## Fields
 

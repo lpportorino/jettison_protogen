@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the thermal camera zoom motion in progress, sent when the zoom button is released after a zoom in or out command. Used in press-release input patterns for analog zoom control.
 
 ## Fields
 

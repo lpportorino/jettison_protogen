@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Controls the thermal camera's optical zoom by setting discrete zoom table positions. Supports setting a specific zoom value, moving to the next zoom table position, or moving to the previous zoom table position.
 
 ## Fields
 

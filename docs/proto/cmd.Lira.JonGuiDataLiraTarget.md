@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+A data structure containing geographic coordinates (latitude, longitude, altitude), angular positioning (azimuth, elevation), distance, and a UUID identifier for LIRA target information sent via the Refine_target command.
 
 ## Fields
 

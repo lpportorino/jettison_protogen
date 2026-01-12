@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Updates target tracking coordinates by accepting a refined target location with GPS coordinates (latitude, longitude, altitude), azimuth/elevation angles, distance, and UUID to store in the system's last_target tracking state.
 
 ## Fields
 

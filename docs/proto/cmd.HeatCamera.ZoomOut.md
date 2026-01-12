@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Instructs the thermal camera to decrease its zoom level, typically triggered by gamepad button presses or UI controls to zoom out and view a wider field of view from the thermal imaging sensor.
 
 ## Fields
 
