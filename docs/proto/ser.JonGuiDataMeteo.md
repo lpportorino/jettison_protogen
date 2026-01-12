@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents environmental sensor data containing atmospheric measurements: temperature (in degrees Celsius), humidity (as a percentage), and pressure (in Pascal units). Used for ballistics calculations and system monitoring across multiple subsystems.
 
 ## Fields
 

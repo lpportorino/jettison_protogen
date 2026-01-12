@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies the rotation direction of a rotary device, supporting clockwise and counter-clockwise movements. Used in gimbal and pan-tilt motor commands and telemetry to indicate the direction of rotation.
 
 ## Values
 

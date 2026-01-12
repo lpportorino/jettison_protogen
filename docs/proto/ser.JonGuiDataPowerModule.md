@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents the real-time power state and telemetry for a single power distribution channel, tracking voltage, current, power consumption, on/off state, and alarm status. Used to monitor individual hardware subsystems for power management and diagnostics.
 
 ## Fields
 

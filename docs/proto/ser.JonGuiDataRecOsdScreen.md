@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies which OSD (On-Screen Display) overlay screen to display during recording: MAIN (default interface), LRF_MEASURE (laser rangefinder measurement input), LRF_RESULT (full rangefinder results), or LRF_RESULT_SIMPLIFIED (condensed results).
 
 ## Values
 

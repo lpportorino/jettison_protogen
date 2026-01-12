@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents the recording on-screen display (OSD) configuration state, tracking whether thermal and day camera overlays are enabled, along with their respective crosshair offset positions for proper alignment on recorded frames.
 
 ## Fields
 

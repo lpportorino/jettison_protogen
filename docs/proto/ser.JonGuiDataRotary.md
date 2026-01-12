@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents the real-time operational state of a rotary platform, tracking current position (azimuth, elevation, platform angles), motion characteristics (speeds and movement flags), scanning mode and progression, and auxiliary features (sun position data and compass integration mode).
 
 ## Fields
 

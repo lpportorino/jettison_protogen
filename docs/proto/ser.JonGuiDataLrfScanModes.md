@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies continuous scanning frequency modes for the laser rangefinder (LRF) device, allowing operators to configure how frequently distance measurements are acquired. Supports rates ranging from 1 Hz to 200 Hz for different precision and responsiveness requirements.
 
 ## Values
 

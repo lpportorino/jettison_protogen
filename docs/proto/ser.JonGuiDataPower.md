@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents real-time power distribution state across all 8 system channels (GPS, Compass, LRF, Day Camera, Thermal Camera, ORIN NUC, Thermal Core, and Heater), with each channel tracking voltage, current, power consumption, on/off state, and fault alarm status.
 
 ## Fields
 

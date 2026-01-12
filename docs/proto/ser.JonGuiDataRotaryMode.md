@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Represents the operational modes of a rotary gimbal platform: initialization (system setup), speed (direct velocity control), position (absolute pointing), stabilization (steady tracking), targeting (guided engagement), and video tracker (automated object tracking using computer vision).
 
 ## Values
 

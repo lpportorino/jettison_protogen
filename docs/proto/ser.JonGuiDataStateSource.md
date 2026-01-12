@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Indicates the origin of GUI state data in the system: DAY_PIPELINE (day imaging pipeline), HEAT_PIPELINE (thermal imaging pipeline), or SYSTEM (centralized system components). Used to track which subsystem originated a state update.
 
 ## Values
 
