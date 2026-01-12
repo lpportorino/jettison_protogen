@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables vampire mode (sun avoidance) in the computer vision system, allowing cameras to look directly at bright light sources like the sun without automatic avoidance behavior. Sets cv.vampire_mode_enabled to false in the backend state.
 
 ## Fields
 

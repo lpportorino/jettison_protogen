@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Specifies a region of interest for the day camera's AGC/exposure optimization and post-processing effects. The system converts NDC coordinates to pixels and configures the sensor's auto-exposure metering region (fixed 272x272 pixel ROI centered on selection).
 
 ## Fields
 

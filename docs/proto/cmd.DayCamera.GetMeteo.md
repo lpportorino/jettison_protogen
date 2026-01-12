@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Polling command that requests meteorological sensor data (temperature, humidity, pressure) from the day camera module. This is a parameterless fire-and-forget command that triggers an asynchronous response via state updates to JonGuiDataMeteo.
 
 ## Fields
 

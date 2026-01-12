@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables vampire mode for the computer vision system, which causes the cameras to actively avoid looking at the sun to protect sensors and prevent image overexposure. When enabled, the system prevents cameras from pointing at bright light sources.
 
 ## Fields
 

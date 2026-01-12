@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables computer vision-based image stabilization to reduce camera shake and vibration in the video feed. The system applies real-time stabilization algorithms to compensate for camera movement, providing steadier video output.
 
 ## Fields
 

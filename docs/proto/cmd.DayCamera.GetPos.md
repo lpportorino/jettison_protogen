@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests the current zoom and focus position values from the day camera, triggering a state update with the latest position data. Useful for synchronizing UI state or debugging position discrepancies. Response updates focus_pos, zoom_pos, iris_pos in JonGuiDataCameraDay.
 
 ## Fields
 

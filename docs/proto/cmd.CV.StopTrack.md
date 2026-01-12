@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops active video tracking on both day and thermal cameras. When sent from the frontend, it is forwarded to both pipeline command channels to terminate automatic target following. The tracking button (with corner brackets icon) only appears when system.tracking is true.
 
 ## Fields
 

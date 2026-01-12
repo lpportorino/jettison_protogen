@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates object tracking at a specific point using normalized device coordinates (NDC), where the user clicks on a video feed to begin tracking an object at that location. Includes frame and state timestamps for synchronization between frontend and backend video processing pipelines.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Composite command for controlling day camera focus operations, supporting direct value setting, continuous movement, halting, offset adjustment, reset to table value, and saving current position to the focus table. Uses a required oneof with six sub-commands.
 
 ## Fields
 
