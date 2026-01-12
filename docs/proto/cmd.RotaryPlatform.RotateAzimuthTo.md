@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the rotary platform to rotate its azimuth axis to a specified target angle at a given speed and direction, allowing controlled positioning to a target heading.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Halts all rotary platform motion and records the final normalized device coordinates (NDC x, y) where the pan gesture ended, along with video frame and system monotonic timestamps for precise position tracking.
 
 ## Fields
 

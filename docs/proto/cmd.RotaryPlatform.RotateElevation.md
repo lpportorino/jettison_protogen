@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands continuous rotation of the elevation axis at a specified speed and direction. Used for smooth, ongoing elevation changes without a target position.
 
 ## Fields
 

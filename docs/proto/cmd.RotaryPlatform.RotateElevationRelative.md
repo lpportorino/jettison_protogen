@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Rotates the rotary platform's elevation axis by a relative amount from its current position at a specified speed and direction. The value parameter specifies the relative elevation angle change (-90 to 90 degrees).
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root message for rotary platform commands that routes various control operations via a oneof field, including motion control (start, stop, halt), axis manipulation (azimuth, elevation), coordinate-based targeting (GPS, NDC), and scan operations.
 
 ## Fields
 

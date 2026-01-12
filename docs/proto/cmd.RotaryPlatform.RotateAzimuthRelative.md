@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Rotates the rotary platform's azimuth (horizontal orientation) by a relative offset from its current position at a specified speed and direction. The offset value ranges from -180 to 180 degrees with clockwise or counter-clockwise movement.
 
 ## Fields
 

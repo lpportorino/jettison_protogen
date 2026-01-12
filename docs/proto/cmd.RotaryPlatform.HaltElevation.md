@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the rotary platform's elevation (vertical) movement by halting the elevation axis. This command immediately ceases elevation rotation while potentially allowing other axes like azimuth to continue moving.
 
 ## Fields
 

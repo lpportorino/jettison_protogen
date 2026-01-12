@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Continuously rotates the azimuth axis at a specified speed in a specified direction (clockwise or counter-clockwise). This command initiates ongoing rotation until halted by a separate halt command.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops all rotary platform movement immediately by halting both azimuth and elevation axes simultaneously.
 
 ## Fields
 
