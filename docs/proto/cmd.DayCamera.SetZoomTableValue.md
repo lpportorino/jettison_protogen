@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the day camera to a specific zoom table position by index value. This command allows direct selection of predefined optical zoom levels in the camera's zoom table, providing quick access to commonly-used magnification presets.
 
 ## Fields
 

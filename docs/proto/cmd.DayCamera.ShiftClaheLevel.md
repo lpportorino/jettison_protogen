@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Incremental adjustment of the CLAHE (Contrast Limited Adaptive Histogram Equalization) level for the day camera. Applied as a relative shift value between -1 and 1, typically used with keyboard shortcuts that shift by ±0.01 increments, with the result clamped to the valid [0, 1] range.
 
 ## Fields
 

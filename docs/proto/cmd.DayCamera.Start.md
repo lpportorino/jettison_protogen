@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Starts the day camera module, initiating video streaming and enabling camera controls. This parameterless lifecycle command powers on the camera hardware and begins video capture, typically triggered via a toggle button in the UI with pending-timeout feedback.
 
 ## Fields
 

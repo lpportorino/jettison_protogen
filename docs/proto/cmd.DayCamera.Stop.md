@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops day camera operation and releases associated hardware resources. This parameterless lifecycle command terminates the active day camera stream that was started with the Start command, returning the camera to an inactive state.
 
 ## Fields
 

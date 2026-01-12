@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Composite command for controlling day camera optical zoom through multiple methods: absolute value setting, continuous movement with speed control, halt, table-based positioning, offset adjustment, reset to default, and saving current position. Uses a required oneof with nine sub-commands for flexible zoom control.
 
 ## Fields
 

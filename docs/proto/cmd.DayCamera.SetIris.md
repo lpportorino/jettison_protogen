@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Controls the camera iris (aperture) opening to adjust light intake and depth of field. The normalized value (0-1) represents aperture opening percentage, with UI presets at 0%, 3%, 5%, 7%, 10%, 15%, 20%, 30%, 50%, 75%, 100%, and Auto mode.
 
 ## Fields
 

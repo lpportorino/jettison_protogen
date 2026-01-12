@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates continuous video tracking on a specified rectangular region of interest (ROI) in the day camera feed. Uses normalized device coordinates (NDC, -1 to 1 range) with frame and system timestamps for synchronization with the camera stream.
 
 ## Fields
 

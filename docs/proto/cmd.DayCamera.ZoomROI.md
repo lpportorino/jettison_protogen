@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Zooms the day camera to focus on a region of interest (ROI) marked by the user on the video display. Accepts normalized device coordinates (NDC, -1 to 1 range) with frame and state timestamps for accurate synchronization with the video stream.
 
 ## Fields
 

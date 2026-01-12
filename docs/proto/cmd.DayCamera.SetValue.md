@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Generic value setter for day camera parameters, accepting a normalized value between 0.0 and 1.0. Used within Focus and Zoom composite commands for direct absolute positioning of camera actuators with slider-based UI patterns and fire-and-forget feedback.
 
 ## Fields
 

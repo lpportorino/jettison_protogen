@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables or disables the infrared filter on the day camera to block IR light for better color reproduction in visible light conditions. This fire-and-forget toggle command switches the physical IR-cut filter state with a boolean flag.
 
 ## Fields
 
