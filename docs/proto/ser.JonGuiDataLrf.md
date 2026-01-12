@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Encapsulates the operational state of a Laser Range Finder (LRF) device, tracking scanning/measuring modes, measurement progress, laser pointer modes, fog mode, refinement status, and targeting data including precise georeferenced measurements with target/observer coordinates and distances.
 
 ## Fields
 

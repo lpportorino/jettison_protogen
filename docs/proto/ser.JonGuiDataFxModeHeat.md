@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Defines available special effects (FX) modes for the thermal camera that control how the thermal image is processed and displayed. Includes DEFAULT plus six modes (A-F) representing different hardware-level or DSP-level image processing algorithms.
 
 ## Values
 

@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Represents the quality and type of GPS positional fix available: No Fix (no satellite lock), 1D Fix (time only), 2D Fix (lat/lon without altitude), 3D Fix (full position with altitude), and Manual Fix (user-provided coordinates). Displayed in UI as "N/A", "TIME", "2D", "3D", and "MAN".
 
 ## Values
 

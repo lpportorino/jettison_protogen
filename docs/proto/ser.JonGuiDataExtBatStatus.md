@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Represents the operational state of an external battery pack, indicating whether the battery is actively charging, discharging, or performing cell balancing. Displayed in the UI with color-coded indicators and pulsing animations for charging/balancing states.
 
 ## Values
 

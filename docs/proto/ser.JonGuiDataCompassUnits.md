@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies the angular unit system for displaying compass bearing measurements. Supports four standard angle measurement units: degrees (0-360), mils (0-6400 military/tactical), gradians (0-400), and milliradians (0-2000).
 
 ## Values
 

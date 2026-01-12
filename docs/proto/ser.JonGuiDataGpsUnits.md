@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies the coordinate format used for displaying GPS coordinates in the UI: DECIMAL_DEGREES (e.g., 40.7128), DEGREES_MINUTES_SECONDS (e.g., 40° 42' 46.08" N), or DEGREES_DECIMAL_MINUTES (e.g., 40° 42.768' N).
 
 ## Values
 

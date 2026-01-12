@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents the operational state of the day camera's glass heater, which maintains camera lens temperature to prevent fogging and ice formation. Contains a temperature reading, on/off status, and activation state flag.
 
 ## Fields
 

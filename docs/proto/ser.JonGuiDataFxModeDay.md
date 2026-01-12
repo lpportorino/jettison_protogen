@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Represents selectable image processing presets for the day camera that optimize video quality for different environmental conditions. Includes DEFAULT plus six named presets (A-F) corresponding to scenarios like Daytime, Dusk, and Fog with distinct filter and processing algorithms.
 
 ## Values
 
