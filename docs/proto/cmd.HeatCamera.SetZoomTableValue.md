@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the thermal camera optical zoom to a specific discrete table position (typically 0-4). Used for zoom table navigation in POI scanning, hotkey-based zoom control, and synchronized zoom operations with the day camera.
 
 ## Fields
 

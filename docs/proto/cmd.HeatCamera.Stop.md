@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the thermal camera subsystem and deactivates thermal imaging capture. This parameterless lifecycle command shuts down the heat camera and its processing pipeline, returning to an inactive state.
 
 ## Fields
 

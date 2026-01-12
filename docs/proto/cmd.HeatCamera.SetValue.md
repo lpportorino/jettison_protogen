@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Generic command that sets a normalized thermal camera value (0-1 range) for zoom or other parameters. Defined in the HeatCamera command protocol as part of the Zoom submessage for absolute position control.
 
 ## Fields
 

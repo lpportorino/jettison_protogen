@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the color filter mode for thermal camera display by accepting a JonGuiDataVideoChannelHeatFilters enum value. Cycles through available filter modes (HOT_BLACK, HOT_WHITE, SEPIA) to provide different color palettes for thermal image visualization.
 
 ## Fields
 

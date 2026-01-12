@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Defines a normalized coordinate region for object tracking on the thermal camera. Sent when a user draws a rectangle on the thermal video feed, specifying the region of interest (ROI) to be tracked along with frame and state timestamps for synchronization.
 
 ## Fields
 

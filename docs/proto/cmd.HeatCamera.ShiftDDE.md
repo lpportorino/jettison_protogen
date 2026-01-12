@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Incremental adjustment command for thermal camera DDE (Digital Detail Enhancement) level. Accepts positive or negative shift values between -100 and 100, typically used with keyboard shortcuts that shift the DDE level by ±15 increments.
 
 ## Fields
 

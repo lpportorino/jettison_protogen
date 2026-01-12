@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates startup of the thermal camera sensor and begins capturing thermal imaging data. This parameterless lifecycle command enables the heat camera subsystem, typically triggered via a toggle button in the UI with pending-timeout feedback.
 
 ## Fields
 

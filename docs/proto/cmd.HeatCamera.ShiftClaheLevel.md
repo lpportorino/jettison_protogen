@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Incremental adjustment command for thermal camera CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level. Accepts a normalized shift value between -1.0 and 1.0 to adjust the contrast enhancement by relative increments via keyboard shortcuts or steppers.
 
 ## Fields
 
