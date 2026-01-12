@@ -26,4 +26,95 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Defines region to zoom into on thermal camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.ZoomROI]]
+
+
+### Preconditions
+
+- Camera must be started
+- User draws rectangle or taps on video overlay
+
+
+### Implementation Notes
+
+Uses zoomOverlay component. Allows specifying a region to zoom into via rectangle selection or point tap.
+
+
+
+## Field Notes
+
+
+### x1 (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Unit:** NDC
+
+
+### y1 (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Unit:** NDC
+
+
+### x2 (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Unit:** NDC
+
+
+### y2 (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Unit:** NDC
+
+
+### frame_time (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
+
+
+### state_time (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
+
+
 

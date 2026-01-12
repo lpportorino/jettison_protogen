@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Stops the compass subsystem
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCompass]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Compass.Start]]
+
+
+
+
 

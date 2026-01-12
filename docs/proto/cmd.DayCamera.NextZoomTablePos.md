@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Steps to next predefined optical zoom position
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.Zoom]]
+- [[proto/proto/cmd.DayCamera.PrevZoomTablePos]]
+
+
+
+### Implementation Notes
+
+Cycles through zoom presets
+
+
 

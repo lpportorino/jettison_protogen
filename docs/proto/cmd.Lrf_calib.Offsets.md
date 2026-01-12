@@ -33,4 +33,26 @@ Fields: #1, #2, #3, #4
 
 
 
+## Interaction
+
+- **Category:** :settings
+
+
+### Purpose
+
+Set calibration offsets for laser rangefinder alignment
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+
+
+### Implementation Notes
+
+Used in LRF calibration workflow
+
+
 

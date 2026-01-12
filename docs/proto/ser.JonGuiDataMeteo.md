@@ -23,4 +23,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Meteorological sensor data (temperature, pressure, humidity, etc.)
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.GetMeteo]]
+- [[proto/proto/cmd.HeatCamera.GetMeteo]]
+- [[proto/proto/cmd.Lrf.GetMeteo]]
+
+
+
+### Implementation Notes
+
+Environmental sensor readings used for ballistics calculations and system monitoring
+
+
 

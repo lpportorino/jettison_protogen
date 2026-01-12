@@ -21,4 +21,37 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enable or disable infrared filter on day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Display Format:** `Boolean flag`
+
+
 

@@ -20,4 +20,30 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Stops continuous thermal camera focus movement
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.FocusIn]]
+- [[proto/proto/cmd.HeatCamera.FocusOut]]
+
+
+### Preconditions
+
+- Thermal camera must be started
+- Focus movement in progress
+
+
+
 

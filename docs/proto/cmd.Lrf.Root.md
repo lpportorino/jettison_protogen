@@ -44,4 +44,27 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :state-machine-menu
+
+
+### Purpose
+
+Root message container for laser rangefinder commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+
+
+### Implementation Notes
+
+Oneof wrapper containing start, stop, measure, scanOn, scanOff, enableFogMode, disableFogMode, targetDesignatorOff, targetDesignatorOnModeA, targetDesignatorOnModeB, getMeteo, etc.
+
+
 

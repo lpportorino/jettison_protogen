@@ -27,4 +27,87 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Recording and on-screen display configuration state
+
+
+
+
+
+### Implementation Notes
+
+Displays current OSD screen mode and crosshair offsets for both cameras
+
+
+
+## Field Notes
+
+
+### screen (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
+### heat_osd_enabled (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### day_osd_enabled (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### heat_crosshair_offset_horizontal (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** px
+
+
+### heat_crosshair_offset_vertical (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** px
+
+
+### day_crosshair_offset_horizontal (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** px
+
+
+### day_crosshair_offset_vertical (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** px
+
+
 

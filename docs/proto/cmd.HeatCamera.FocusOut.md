@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :press-accelerating
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Moves thermal camera focus continuously farther (hold to continue)
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.FocusIn]]
+- [[proto/proto/cmd.HeatCamera.FocusStop]]
+
+
+### Preconditions
+
+- Thermal camera must be started
+
+
+
 

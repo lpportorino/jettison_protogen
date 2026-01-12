@@ -22,4 +22,56 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :optimistic-visual
+
+
+### Purpose
+
+Moves day camera lens (zoom or focus) to target position at specified speed
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+
+### Preconditions
+
+- Day camera started
+
+
+### Implementation Notes
+
+Part of zoom/focus control, provides smooth movement with speed control
+
+
+
+## Field Notes
+
+
+### target_value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 3
+- **Display Format:** `{value}`
+
+
+### speed (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 2
+- **Display Format:** `Speed: {value}`
+
+
 

@@ -20,4 +20,34 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :press-accelerating
+- **Feedback:** :optimistic-visual
+
+
+### Purpose
+
+Decrease heat camera zoom level (zoom out/wider field of view)
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.ZoomIn]]
+- [[proto/proto/cmd.HeatCamera.ZoomStop]]
+- [[proto/proto/cmd.HeatCamera.ResetZoom]]
+
+
+### Preconditions
+
+- Heat camera must be started
+
+
+
 

@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Disables on-screen display overlay on day camera video
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataOsd]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.OSD.EnableDayOSD]]
+
+
+
+### Implementation Notes
+
+Removes telemetry overlay from video output
+
+
 

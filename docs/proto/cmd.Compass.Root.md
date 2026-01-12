@@ -40,4 +40,28 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :state-machine-menu
+
+
+### Purpose
+
+Root message container for compass/magnetometer commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCompass]]
+- [[proto/proto/ser.JonGuiDataCompassCalibration]]
+
+
+
+
+### Implementation Notes
+
+Oneof wrapper containing start, stop, setMagneticDeclination, setOffsetAngleAzimuth, setOffsetAngleElevation, calibration commands, etc.
+
+
 

@@ -51,4 +51,22 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+
+
+### Purpose
+
+Root container for all day camera commands
+
+
+
+
+
+### Implementation Notes
+
+This is a oneOf container message, not directly invoked. Contains all day camera sub-commands like SetIris, Focus, Zoom, etc.
+
+
 

@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Disable computer vision stabilization mode
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCV]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.CV.StabilizationModeEnable]]
+
+
+
+### Implementation Notes
+
+Empty message - trigger only
+
+
 

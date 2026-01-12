@@ -22,4 +22,54 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Shift LRF calibration offsets by incremental x/y pixels
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf_calib.SetOffsets]]
+- [[proto/proto/cmd.Lrf_calib.SaveOffsets]]
+- [[proto/proto/cmd.Lrf_calib.ResetOffsets]]
+
+
+
+
+
+## Field Notes
+
+
+### x (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** pixels
+- **Display Format:** `{value}px`
+
+
+### y (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Unit:** pixels
+- **Display Format:** `{value}px`
+
+
 

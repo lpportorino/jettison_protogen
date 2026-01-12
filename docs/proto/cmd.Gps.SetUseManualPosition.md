@@ -21,4 +21,41 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Toggle between GPS-based and manual position entry
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataGps]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Gps.SetManualPosition]]
+
+
+
+
+
+## Field Notes
+
+
+### flag (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Display Format:** `Boolean flag (true = use manual)`
+
+
 

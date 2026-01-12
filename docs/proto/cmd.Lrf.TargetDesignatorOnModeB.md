@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enable laser target designator in Mode B
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.TargetDesignatorOnModeA]]
+- [[proto/proto/cmd.Lrf.TargetDesignatorOff]]
+
+
+### Preconditions
+
+- LRF must be started
+
+
+
 

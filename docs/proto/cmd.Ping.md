@@ -20,4 +20,20 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Test connectivity and measure round-trip latency
+
+
+
+
+
+
 

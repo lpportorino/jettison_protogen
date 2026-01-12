@@ -23,4 +23,42 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Glass heater status for day camera (prevents fogging and ice)
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.GlassHeater.TurnOn]]
+- [[proto/proto/cmd.DayCamera.GlassHeater.TurnOff]]
+
+
+
+### Implementation Notes
+
+Toggle button in command palette with heater icon, 2 second pending timeout
+
+
+
+## Field Notes
+
+
+### temperature (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Display Format:** `Boolean status (on/off)`
+
+
 

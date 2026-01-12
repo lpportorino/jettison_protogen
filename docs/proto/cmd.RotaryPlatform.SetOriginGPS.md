@@ -23,4 +23,69 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets the GPS origin point for rotary platform coordinate calculations
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataGps]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.RotateToGPS]]
+
+
+
+### Implementation Notes
+
+Establishes coordinate system origin for GPS-based targeting
+
+
+
+## Field Notes
+
+
+### latitude (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+- **Display Format:** `{value}°`
+
+
+### longitude (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+- **Display Format:** `{value}°`
+
+
+### altitude (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** m
+- **Precision:** 2
+- **Display Format:** `{value} m`
+
+
 

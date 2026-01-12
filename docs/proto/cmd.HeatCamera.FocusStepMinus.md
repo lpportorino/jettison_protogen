@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Decrements thermal camera focus by one discrete step (farther)
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.FocusStepPlus]]
+- [[proto/proto/cmd.HeatCamera.FocusOut]]
+
+
+### Preconditions
+
+- Thermal camera must be started
+
+
+
 

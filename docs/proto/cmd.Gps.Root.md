@@ -34,4 +34,27 @@ Fields: #1, #2, #3, #4, #5
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :tabbed-config
+
+
+### Purpose
+
+Container for GPS module commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataGps]]
+
+
+
+
+### Implementation Notes
+
+Root message containing GPS start/stop and configuration
+
+
 

@@ -22,4 +22,48 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Enable/disable auto focus for day or heat camera via computer vision
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCV]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.SetAutoFocus]]
+
+
+
+
+
+## Field Notes
+
+
+### channel (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
+### value (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
 

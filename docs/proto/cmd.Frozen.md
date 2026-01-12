@@ -20,4 +20,20 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Debug/test command for frozen state
+
+
+
+
+
+
 

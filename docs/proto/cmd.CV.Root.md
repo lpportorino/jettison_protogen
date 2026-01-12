@@ -40,4 +40,28 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+
+
+### Purpose
+
+Root message for computer vision commands including tracking, autofocus, and mode controls
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.CV.DumpStart]]
+- [[proto/proto/cmd.CV.DumpStop]]
+
+
+
+### Implementation Notes
+
+Container message for various CV operations
+
+
 

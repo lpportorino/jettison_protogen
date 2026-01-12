@@ -21,4 +21,43 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :enum-picker
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Selects specific scan waypoint by index
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.ScanNext]]
+- [[proto/proto/cmd.RotaryPlatform.ScanPrev]]
+
+
+
+
+
+## Field Notes
+
+
+### index (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+- **Unit:** index
+- **Precision:** 0
+
+
 

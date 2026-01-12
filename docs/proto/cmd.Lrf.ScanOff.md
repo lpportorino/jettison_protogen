@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Disables continuous LRF scanning mode
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.ScanOn]]
+- [[proto/proto/cmd.Lrf.Measure]]
+
+
+### Preconditions
+
+- LRF must be started
+
+
+
 

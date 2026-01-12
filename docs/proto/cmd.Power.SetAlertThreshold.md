@@ -22,4 +22,51 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :stepper
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Sets overcurrent alert threshold for power channel monitoring
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataPower]]
+
+
+
+
+### Implementation Notes
+
+Configures per-channel overcurrent protection thresholds
+
+
+
+## Field Notes
+
+
+### channel (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+- **Display Format:** `Channel {value}`
+
+
+### threshold_ma (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :current
+- **Unit:** mA
+- **Display Format:** `{value} mA`
+
+
 

@@ -32,4 +32,27 @@ Fields: #1, #2, #3
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+
+
+### Purpose
+
+Container for power management commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataPower]]
+
+
+
+
+### Implementation Notes
+
+Root message for controlling device power channels
+
+
 

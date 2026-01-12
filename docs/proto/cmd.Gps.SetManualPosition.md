@@ -23,4 +23,58 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Set manual GPS position override
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Gps.SetUseManualPosition]]
+
+
+
+
+
+## Field Notes
+
+
+### latitude (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### longitude (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### altitude (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** meters
+- **Precision:** 1
+
+
 

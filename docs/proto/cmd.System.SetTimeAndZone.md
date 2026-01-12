@@ -22,4 +22,56 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets system time and timezone simultaneously
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataTime]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.EnableManualTime]]
+- [[proto/proto/cmd.System.SyncBrowserTimeAndZone]]
+- [[proto/proto/cmd.System.StepTimeZone]]
+
+
+
+### Implementation Notes
+
+Combined time and timezone configuration command
+
+
+
+## Field Notes
+
+
+### timestamp (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Display Format:** `{value}`
+
+
+### zone_id (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+- **Display Format:** `Zone ID: {value}`
+
+
 

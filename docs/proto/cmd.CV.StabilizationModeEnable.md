@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enables computer vision stabilization mode to reduce camera shake
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.CV.StabilizationModeDisable]]
+
+
+
+### Implementation Notes
+
+Enables CV-based image stabilization
+
+
 

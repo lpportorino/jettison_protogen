@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Disables vampire mode in computer vision
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.CV.VampireModeEnable]]
+
+
+
+### Implementation Notes
+
+Not implemented in current frontend version
+
+
 

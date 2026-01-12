@@ -27,4 +27,87 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Update parameters of an existing scan pattern node
+
+
+### Related State
+
+- [[proto/proto/ser.ScanNode]]
+
+
+
+
+
+
+## Field Notes
+
+
+### index (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### DayZoomTableValue (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### HeatZoomTableValue (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### azimuth (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### elevation (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### linger (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :duration
+- **Unit:** ms
+
+
+### speed (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

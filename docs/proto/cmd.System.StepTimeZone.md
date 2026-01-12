@@ -21,4 +21,36 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Increment or decrement timezone offset
+
+
+
+
+
+### Implementation Notes
+
+Used with buttons for ±1 and ±10 hour adjustments
+
+
+
+## Field Notes
+
+
+### offset (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

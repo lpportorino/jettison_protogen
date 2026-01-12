@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Stops the GPS module
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataGps]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Gps.Start]]
+
+
+
+### Implementation Notes
+
+Lifecycle command to shutdown GPS hardware
+
+
 

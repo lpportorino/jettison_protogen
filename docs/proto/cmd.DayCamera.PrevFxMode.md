@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Cycle to previous FX mode (visual effect) for day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.NextFxMode]]
+- [[proto/proto/cmd.DayCamera.SetFxMode]]
+
+
+
+### Implementation Notes
+
+Cycles through FX modes in reverse order, used in keyboard shortcuts and FX mode selector button
+
+
 

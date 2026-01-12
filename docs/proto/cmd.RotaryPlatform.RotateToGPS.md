@@ -23,4 +23,59 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Rotates platform to point at GPS coordinates
+
+
+
+
+### Preconditions
+
+- Rotary platform must be started
+- GPS origin must be set
+
+
+
+
+## Field Notes
+
+
+### latitude (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### longitude (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### altitude (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** m
+- **Precision:** 2
+
+
 

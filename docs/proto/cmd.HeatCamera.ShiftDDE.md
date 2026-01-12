@@ -21,4 +21,47 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Adjust DDE (Digital Detail Enhancement) level incrementally for heat camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/proto/cmd.HeatCamera.EnableDDE]]
+- [[proto/proto/cmd.HeatCamera.DisableDDE]]
+
+
+
+### Implementation Notes
+
+Used with keyboard shortcuts to shift DDE level by ±15
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Display Format:** `Shift value (positive or negative)`
+
+
 

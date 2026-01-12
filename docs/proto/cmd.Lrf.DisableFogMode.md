@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Disable LRF fog mode for normal atmospheric conditions
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.EnableFogMode]]
+- [[proto/proto/cmd.Lrf.Start]]
+
+
+### Preconditions
+
+- LRF must be started
+
+
+
 

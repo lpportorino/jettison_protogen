@@ -21,4 +21,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Generic value setter for day camera parameters
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+
+
+### Implementation Notes
+
+Not found in frontend - may be deprecated or internal
+
+
 

@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enables Digital Detail Enhancement on thermal camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.DisableDDE]]
+- [[proto/proto/cmd.HeatCamera.SetDDELevel]]
+
+
+
+### Implementation Notes
+
+DDE enhances image detail visibility
+
+
 

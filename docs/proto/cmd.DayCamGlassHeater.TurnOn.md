@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Turns on day camera glass heater
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamGlassHeater.TurnOff]]
+
+
+### Preconditions
+
+- Glass heater subsystem must be started
+
+
+
 

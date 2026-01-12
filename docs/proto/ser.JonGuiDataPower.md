@@ -28,4 +28,79 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Real-time power monitoring for all channels with voltage, current, and alarm status
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Power.SetAll]]
+- [[proto/proto/cmd.Power.SetChannel]]
+- [[proto/proto/cmd.Power.SetAlertThreshold]]
+
+
+
+### Implementation Notes
+
+Contains 8 channel structures (s0-s7), each with voltage/current/power/state
+
+
+
+## Field Notes
+
+
+### s0 (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :voltage
+- **Unit:** V
+- **Precision:** 2
+
+
+### s1 (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :current
+- **Unit:** A
+- **Precision:** 3
+
+
+### s2 (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :power
+- **Unit:** W
+- **Precision:** 2
+
+
+### s3 (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### s4 (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

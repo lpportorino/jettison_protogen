@@ -56,4 +56,78 @@ Fields: #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #3
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+
+
+### Purpose
+
+Root container for all command messages with protocol metadata
+
+
+
+
+
+### Implementation Notes
+
+This is the top-level message wrapper. Contains protocol version, session ID, timestamps, client type, and oneOf payload for specific subsystem commands. Not directly invoked by UI.
+
+
+
+## Field Notes
+
+
+### protocol_version (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### session_id (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### frame_time_day (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
+
+
+### frame_time_heat (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
+
+
+### state_time (#8)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** nanoseconds
+
+
+### client_time_ms (#9)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** milliseconds
+
+
 

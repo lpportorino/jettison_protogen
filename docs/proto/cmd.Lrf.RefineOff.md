@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Disables LRF refine mode
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.RefineOn]]
+
+
+
+### Implementation Notes
+
+Refine mode provides higher precision measurements
+
+
 

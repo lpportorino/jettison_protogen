@@ -46,4 +46,157 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+
+
+### Purpose
+
+System health, resource usage, and operational mode status
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.DisableGeodesicMode]]
+- [[proto/proto/cmd.System.EnableGeodesicMode]]
+- [[proto/proto/cmd.System.SaveFactoryDefaults]]
+
+
+
+### Implementation Notes
+
+Comprehensive system status including CPU/GPU metrics, recording state, operational modes (tracking, vampire, stabilization, geodesic, CV dumping, recognition), and battery status.
+
+
+
+## Field Notes
+
+
+### cpu_temperature (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :temperature
+- **Unit:** °C
+- **Precision:** 1
+- **Display Format:** `{value}°C`
+
+
+### gpu_temperature (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :temperature
+- **Unit:** °C
+- **Precision:** 1
+- **Display Format:** `{value}°C`
+
+
+### gpu_load (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :percentage
+- **Unit:** %
+- **Precision:** 0
+- **Display Format:** `{value}%`
+
+
+### cpu_load (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :percentage
+- **Unit:** %
+- **Precision:** 0
+- **Display Format:** `{value}%`
+
+
+### power_consumption (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :power
+- **Unit:** W
+- **Precision:** 1
+- **Display Format:** `{value}W`
+
+
+### disk_space (#17)
+
+
+#### Metadata
+
+- **Semantic Type:** :percentage
+- **Unit:** %
+- **Precision:** 0
+- **Display Format:** `{value}%`
+
+
+### tracking (#18)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### vampire_mode (#19)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### stabilization_mode (#20)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### geodesic_mode (#21)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### cv_dumping (#22)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### recognition_mode (#23)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### ext_bat_capacity (#25)
+
+
+#### Metadata
+
+- **Semantic Type:** :percentage
+- **Unit:** %
+- **Precision:** 0
+- **Display Format:** `{value}%`
+
+
 

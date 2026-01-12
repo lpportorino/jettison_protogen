@@ -20,4 +20,24 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Stop laser rangefinder operation
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.Start]]
+
+
+
+
 

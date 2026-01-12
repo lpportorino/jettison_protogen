@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Reset focus to default/home position
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.Focus]]
+
+
+
+### Implementation Notes
+
+Empty message - trigger only
+
+
 

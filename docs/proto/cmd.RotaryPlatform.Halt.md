@@ -20,4 +20,25 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Immediately halt all rotary platform motion (both azimuth and elevation)
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
+- [[proto/proto/cmd.RotaryPlatform.HaltElevation]]
+
+
+
+
 

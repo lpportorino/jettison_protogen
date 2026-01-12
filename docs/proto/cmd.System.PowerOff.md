@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Initiates full system shutdown
+
+
+
+
+### Preconditions
+
+- User confirmation required
+
+
+### Implementation Notes
+
+Requires modal confirmation, monitors server disconnect to verify shutdown
+
+
 

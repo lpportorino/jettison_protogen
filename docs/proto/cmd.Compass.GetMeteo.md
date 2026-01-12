@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Requests meteorological data from compass sensor
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCompass]]
+
+
+
+
+### Implementation Notes
+
+Queries compass for environmental sensor readings (temperature, pressure, etc.)
+
+
 

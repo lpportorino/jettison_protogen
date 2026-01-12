@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Cycles to next FX mode for day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.PrevFxMode]]
+- [[proto/proto/cmd.DayCamera.SetFxMode]]
+
+
+### Preconditions
+
+- Day camera must be started
+
+
+
 

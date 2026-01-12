@@ -23,4 +23,23 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Version information for opaque payload extension mechanism
+
+
+
+
+
+### Implementation Notes
+
+Part of platform-agnostic extension system for custom message payloads
+
+
 

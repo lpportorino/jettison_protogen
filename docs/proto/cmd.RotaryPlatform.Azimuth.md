@@ -35,4 +35,34 @@ Fields: #1, #2, #3, #4, #5, #6
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Container for azimuth axis control commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.Azimuth.RotateTo]]
+- [[proto/proto/cmd.RotaryPlatform.Azimuth.Rotate]]
+- [[proto/proto/cmd.RotaryPlatform.Azimuth.Halt]]
+
+
+
+### Implementation Notes
+
+Nested message containing all azimuth movement commands
+
+
 

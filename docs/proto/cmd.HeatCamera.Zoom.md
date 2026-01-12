@@ -32,4 +32,43 @@ Fields: #1, #2, #3
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider-with-presets
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Controls thermal camera optical zoom position
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
+- [[proto/proto/cmd.HeatCamera.ResetZoom]]
+
+
+
+
+
+## Field Notes
+
+
+### set_zoom_table_value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+- **Unit:** index
+- **Precision:** 0
+
+
 

@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Advance to next step in compass calibration sequence
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/cmd.Compass.CalibrateStartShort]]
+
+
+### Preconditions
+
+- Compass calibration must be in progress
+
+
+
 

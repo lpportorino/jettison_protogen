@@ -26,4 +26,79 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :poll-confirm
+
+
+### Purpose
+
+Start video tracking on specified Region of Interest (ROI) in day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.ZoomROI]]
+- [[proto/proto/cmd.DayCamera.FocusROI]]
+
+
+### Preconditions
+
+- Day camera must be started
+- Frame data must be available
+- System monotonic time must be synced
+
+
+### Implementation Notes
+
+ROI specified as normalized coordinates with frame timestamp for synchronization
+
+
+
+## Field Notes
+
+
+### x1 (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Display Format:** `X1 coordinate`
+
+
+### y1 (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Display Format:** `Y1 coordinate`
+
+
+### x2 (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Display Format:** `X2 coordinate`
+
+
+### y2 (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Display Format:** `Y2 coordinate`
+
+
 

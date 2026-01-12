@@ -22,4 +22,52 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Rotates elevation axis to absolute target angle
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.Elevation.SetValue]]
+- [[proto/proto/cmd.RotaryPlatform.Elevation.Halt]]
+
+
+
+
+
+## Field Notes
+
+
+### target_value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+
+
+### speed (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 2
+
+
 

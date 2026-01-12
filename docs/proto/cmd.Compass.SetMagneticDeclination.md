@@ -21,4 +21,38 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets magnetic declination correction for compass
+
+
+
+
+### Preconditions
+
+- Compass must be started
+
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** mils
+- **Precision:** 0
+
+
 

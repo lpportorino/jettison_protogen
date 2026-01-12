@@ -20,4 +20,34 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Refreshes/reapplies the current FX mode for thermal camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.SetFxMode]]
+- [[proto/proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/proto/cmd.HeatCamera.PrevFxMode]]
+
+
+
+### Implementation Notes
+
+Reinitializes current visual effects processing
+
+
 

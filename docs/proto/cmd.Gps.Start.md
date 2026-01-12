@@ -20,4 +20,36 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Starts the GPS module
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataGps]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Gps.Stop]]
+
+
+### Preconditions
+
+- System powered on
+
+
+### Implementation Notes
+
+Lifecycle command to initialize GPS hardware
+
+
 

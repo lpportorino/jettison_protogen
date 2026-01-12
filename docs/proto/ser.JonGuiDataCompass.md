@@ -28,4 +28,55 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Compass sensor data and calibration state
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Compass.Start]]
+- [[proto/proto/cmd.Compass.Stop]]
+- [[proto/proto/cmd.Compass.CalibrateStartLong]]
+
+
+
+
+
+## Field Notes
+
+
+### azimuth (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### elevation (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### bank (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
 

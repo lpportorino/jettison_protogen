@@ -21,4 +21,46 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets day camera zoom to specific table position
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.NextZoomTablePos]]
+- [[proto/proto/cmd.DayCamera.PrevZoomTablePos]]
+
+
+### Preconditions
+
+- Day camera must be started
+
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+- **Precision:** 0
+
+
 

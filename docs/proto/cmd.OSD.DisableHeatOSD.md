@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Disable on-screen display overlay on heat camera video
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataOSD]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.OSD.EnableHeatOSD]]
+- [[proto/proto/cmd.OSD.DisableDayOSD]]
+
+
+
+
 

@@ -22,4 +22,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :optimistic-visual
+
+
+### Purpose
+
+Simultaneous control of both azimuth and elevation axes
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+
+### Preconditions
+
+- Rotary platform started
+
+
+### Implementation Notes
+
+Composite command allowing coordinated dual-axis movement, used extensively in gamepad and pan controls
+
+
 

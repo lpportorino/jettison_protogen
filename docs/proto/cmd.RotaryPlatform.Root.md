@@ -54,4 +54,27 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+
+
+### Purpose
+
+Container for rotary platform commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+
+
+### Implementation Notes
+
+Root message containing azimuth/elevation and scan commands
+
+
 

@@ -21,4 +21,48 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets the DDE (Digital Detail Enhancement) level for thermal image processing
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.ShiftDDE]]
+- [[proto/proto/cmd.HeatCamera.EnableDDE]]
+- [[proto/proto/cmd.HeatCamera.DisableDDE]]
+
+
+
+### Implementation Notes
+
+Adjusts edge enhancement intensity for thermal imagery
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 2
+- **Display Format:** `Level: {value}`
+
+
 

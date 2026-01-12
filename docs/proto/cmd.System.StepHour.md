@@ -21,4 +21,48 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Adjust system clock hour by specified offset
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystemTime]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.StepMinute]]
+- [[proto/proto/cmd.System.StepSecond]]
+- [[proto/proto/cmd.System.StepDay]]
+- [[proto/proto/cmd.System.SetTimeAndZone]]
+
+
+### Preconditions
+
+- Manual time mode must be enabled
+
+
+
+
+## Field Notes
+
+
+### offset (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Display Format:** `Hour offset (integer)`
+
+
 

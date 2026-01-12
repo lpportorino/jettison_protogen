@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Trigger laser rangefinder measurement
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+
+### Preconditions
+
+- LRF must be started
+
+
+
 

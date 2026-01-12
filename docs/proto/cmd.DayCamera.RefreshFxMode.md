@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Refresh current FX mode on day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+
+
+### Implementation Notes
+
+Empty message - trigger only
+
+
 

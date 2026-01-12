@@ -21,4 +21,38 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Set absolute elevation position of rotary platform
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+
+
 

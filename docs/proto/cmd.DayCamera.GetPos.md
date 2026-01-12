@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Requests current zoom/focus position from day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+
+### Preconditions
+
+- Day camera started
+
+
+### Implementation Notes
+
+Diagnostic query command, response updates state
+
+
 

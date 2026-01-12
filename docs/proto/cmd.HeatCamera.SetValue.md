@@ -21,4 +21,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets heat camera zoom value (specific usage unclear from codebase)
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+
+
+### Implementation Notes
+
+Message defined in proto but no direct usage found in frontend command senders
+
+
 

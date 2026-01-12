@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Stops all day camera movements (zoom and focus)
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.Focus]]
+- [[proto/proto/cmd.DayCamera.Zoom]]
+
+
+### Preconditions
+
+- Day camera must be started
+
+
+### Implementation Notes
+
+Emergency stop for all camera actuators
+
+
 

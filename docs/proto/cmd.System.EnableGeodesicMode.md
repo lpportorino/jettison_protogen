@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Enable geodesic/geographic coordinate mode for position calculations
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystem]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.DisableGeodesicMode]]
+
+
+
+### Implementation Notes
+
+Empty message - trigger only
+
+
 

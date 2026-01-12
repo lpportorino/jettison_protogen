@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Starts day camera glass heater subsystem
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamGlassHeater.Stop]]
+
+
+
+
 

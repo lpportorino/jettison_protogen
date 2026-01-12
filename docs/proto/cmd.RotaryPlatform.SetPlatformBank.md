@@ -21,4 +21,39 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets platform bank angle (roll) correction
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
+- [[proto/proto/cmd.RotaryPlatform.SetPlatformElevation]]
+
+
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+
+
 

@@ -20,4 +20,35 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Disables geodesic triangulation positioning mode
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystem]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.EnableGeodesicMode]]
+
+
+### Preconditions
+
+
+
+### Implementation Notes
+
+Uses jonGeodesicModeButton component. Toggle button with triangulation icon. Pending state until server confirms via ser.JonGuiDataSystem.geodesic_mode.
+
+
 

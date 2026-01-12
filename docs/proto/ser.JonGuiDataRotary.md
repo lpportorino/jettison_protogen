@@ -38,4 +38,124 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Real-time rotary platform position and motion state
+
+
+
+
+
+### Implementation Notes
+
+Read-only state message displaying azimuth, elevation, speeds, and operational mode
+
+
+
+## Field Notes
+
+
+### azimuth (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### azimuth_speed (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 3
+- **Display Format:** `{value}`
+
+
+### elevation (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### elevation_speed (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 3
+- **Display Format:** `{value}`
+
+
+### platform_azimuth (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### platform_elevation (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### platform_bank (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### sun_azimuth (#15)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### sun_elevation (#16)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
 

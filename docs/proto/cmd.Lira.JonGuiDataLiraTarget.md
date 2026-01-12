@@ -31,4 +31,121 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+
+
+### Purpose
+
+LIRA target data structure containing geographic and angular positioning
+
+
+
+
+
+### Implementation Notes
+
+This is a nested message type used within cmd.Lira.Refine_target, not a standalone command.
+
+
+
+## Field Notes
+
+
+### timestamp (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+
+
+### target_longitude (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+
+
+### target_latitude (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+
+
+### target_altitude (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** meters
+
+
+### target_azimuth (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### target_elevation (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### distance (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** meters
+
+
+### uuid_part1 (#8)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### uuid_part2 (#9)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### uuid_part3 (#10)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### uuid_part4 (#11)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

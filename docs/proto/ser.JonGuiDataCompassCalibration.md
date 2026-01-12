@@ -26,4 +26,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+
+
+### Purpose
+
+Compass calibration state and progress
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/cmd.Compass.CalibrateStartShort]]
+- [[proto/proto/cmd.Compass.CalibrateNext]]
+- [[proto/proto/cmd.Compass.CalibrateCencel]]
+
+
+
+### Implementation Notes
+
+Contains calibration step, progress, and result data
+
+
 

@@ -20,4 +20,35 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Move to next scan node in automated scan sequence
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.ScanPrev]]
+- [[proto/proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/proto/cmd.RotaryPlatform.ScanStop]]
+- [[proto/proto/cmd.RotaryPlatform.ScanPause]]
+
+
+### Preconditions
+
+- Scan mode must be active
+
+
+
 

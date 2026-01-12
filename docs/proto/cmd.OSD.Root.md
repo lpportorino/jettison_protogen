@@ -37,4 +37,30 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Controls OSD (on-screen display) visibility and screen modes
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.OSD.ShowDefaultScreen]]
+- [[proto/proto/cmd.OSD.EnableDayOSD]]
+- [[proto/proto/cmd.OSD.DisableHeatOSD]]
+
+
+
+### Implementation Notes
+
+Container message for OSD configuration commands
+
+
 

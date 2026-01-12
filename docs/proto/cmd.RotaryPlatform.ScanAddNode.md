@@ -27,4 +27,92 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Adds a new waypoint node to scan pattern
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
+- [[proto/proto/cmd.RotaryPlatform.ScanDeleteNode]]
+
+
+
+
+
+## Field Notes
+
+
+### index (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### DayZoomTableValue (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### HeatZoomTableValue (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### azimuth (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+
+
+### elevation (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+
+
+### linger (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :duration
+- **Unit:** s
+- **Precision:** 1
+
+
+### speed (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 2
+
+
 

@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Cycles to previous FX mode for thermal camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/proto/cmd.HeatCamera.SetFxMode]]
+
+
+### Preconditions
+
+- Heat camera must be started
+
+
+
 

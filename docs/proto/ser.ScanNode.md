@@ -27,4 +27,80 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Represents a single node in a scanning pattern with position and timing parameters
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
+- [[proto/proto/cmd.RotaryPlatform.ScanAddNode]]
+- [[proto/proto/cmd.RotaryPlatform.ScanDeleteNode]]
+
+
+
+
+
+## Field Notes
+
+
+### index (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### DayZoomTableValue (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+
+
+### HeatZoomTableValue (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :duration
+- **Unit:** ms
+
+
+### azimuth (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### elevation (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### linger (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
 

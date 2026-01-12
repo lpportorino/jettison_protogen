@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enter transport/storage mode - safely prepares system for transport
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystem]]
+
+
+
+
+### Implementation Notes
+
+Lifecycle transition - typically stops all subsystems and powers down safely
+
+
 

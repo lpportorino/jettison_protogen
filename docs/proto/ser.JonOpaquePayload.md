@@ -23,4 +23,22 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+
+
+### Purpose
+
+Opaque binary payload container for extensibility
+
+
+
+
+
+### Implementation Notes
+
+Not directly used in UI - extension mechanism for custom data
+
+
 

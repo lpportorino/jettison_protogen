@@ -35,4 +35,28 @@ Fields: #1, #2, #3, #4, #5, #6
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Container for elevation axis commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+
+
+### Implementation Notes
+
+Submessage containing elevation movement commands
+
+
 

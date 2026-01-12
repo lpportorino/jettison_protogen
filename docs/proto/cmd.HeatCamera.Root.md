@@ -64,4 +64,28 @@ Fields: #1, #2, #3, #4, #5, #6, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Root message container for all heat camera commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+
+
+### Implementation Notes
+
+This is a oneof wrapper containing all heat camera command types
+
+
 

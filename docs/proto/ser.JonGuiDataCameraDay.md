@@ -35,4 +35,123 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Day camera state including zoom, focus, iris, and image processing settings
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.SetIris]]
+- [[proto/proto/cmd.DayCamera.SetAutoIris]]
+- [[proto/proto/cmd.DayCamera.SetFxMode]]
+
+
+
+
+
+## Field Notes
+
+
+### focus_pos (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 3
+
+
+### zoom_pos (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 3
+
+
+### iris_pos (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Unit:** %
+- **Precision:** 0
+- **Display Format:** `{value * 100}%`
+
+
+### infrared_filter (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### zoom_table_pos (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### zoom_table_pos_max (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### fx_mode (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
+### auto_focus (#8)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### auto_iris (#9)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### digital_zoom_level (#10)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 2
+
+
+### clahe_level (#11)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

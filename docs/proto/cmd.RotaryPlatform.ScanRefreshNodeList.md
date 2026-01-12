@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Refreshes scan node list from configuration
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/proto/cmd.RotaryPlatform.ScanSelectNode]]
+
+
+
+### Implementation Notes
+
+Updates scan waypoint list
+
+
 

@@ -24,4 +24,62 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+
+
+### Purpose
+
+Displays system time and timezone configuration
+
+
+
+
+
+### Implementation Notes
+
+Read-only status information about system time
+
+
+
+## Field Notes
+
+
+### timestamp (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+- **Display Format:** `ISO 8601 datetime`
+
+
+### manual_timestamp (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+- **Display Format:** `ISO 8601 datetime`
+
+
+### zone_id (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
+### use_manual_time (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

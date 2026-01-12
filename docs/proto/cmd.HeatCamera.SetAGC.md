@@ -21,4 +21,50 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Sets automatic gain control mode for thermal camera image enhancement
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/proto/cmd.HeatCamera.SetFilters]]
+
+
+### Preconditions
+
+- Heat camera started
+
+
+### Implementation Notes
+
+Cycles through AGC modes (MODE_1, MODE_2, MODE_3) for different viewing conditions
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Presets:** MODE_1, MODE_2, MODE_3
+
+
 

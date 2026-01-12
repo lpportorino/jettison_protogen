@@ -20,4 +20,30 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Turn off day camera glass heater to disable anti-fog/ice protection
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamGlassHeater.TurnOn]]
+- [[proto/proto/cmd.DayCamGlassHeater.Start]]
+- [[proto/proto/cmd.DayCamGlassHeater.Stop]]
+
+
+
+
 

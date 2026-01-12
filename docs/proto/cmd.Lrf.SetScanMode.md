@@ -21,4 +21,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Set LRF scan mode
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+
+
+### Implementation Notes
+
+Currently commented out in cmdLRF.ts - may be deprecated or not yet implemented
+
+
 

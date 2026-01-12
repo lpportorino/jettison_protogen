@@ -27,4 +27,99 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+
+
+### Purpose
+
+Current spatial positioning and orientation of the platform
+
+
+
+
+
+### Implementation Notes
+
+Real-time status of platform position including azimuth, elevation, bank, GPS coordinates, and timestamp. Critical for targeting and navigation.
+
+
+
+## Field Notes
+
+
+### azimuth (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### elevation (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### bank (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+- **Display Format:** `{value}°`
+
+
+### latitude (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### longitude (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### altitude (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** meters
+- **Precision:** 1
+- **Display Format:** `{value}m`
+
+
+### timestamp (#7)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+
+
 

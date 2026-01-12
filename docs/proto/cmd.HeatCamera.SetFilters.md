@@ -21,4 +21,49 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Sets color filter mode for thermal camera display
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.SetAGC]]
+
+
+### Preconditions
+
+- Heat camera started
+
+
+### Implementation Notes
+
+Cycles through filter modes (hot_black, hot_white, sepia) for different viewing preferences
+
+
+
+## Field Notes
+
+
+### value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Presets:** HOT_BLACK, HOT_WHITE, SEPIA
+
+
 

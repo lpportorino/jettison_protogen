@@ -30,4 +30,95 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+GPS position, fix type, and satellite information
+
+
+
+
+
+### Implementation Notes
+
+Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
+
+
+
+## Field Notes
+
+
+### longitude (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+- **Display Format:** `{value.toFixed(6)}`
+
+
+### latitude (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+- **Display Format:** `{value.toFixed(6)}`
+
+
+### altitude (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+- **Unit:** m
+- **Precision:** 2
+
+
+### manual_latitude (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
+### manual_altitude (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
+### timestamp (#9)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
+### is_started (#10)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** degrees
+- **Precision:** 6
+
+
 

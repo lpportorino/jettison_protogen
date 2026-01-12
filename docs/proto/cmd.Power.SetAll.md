@@ -21,4 +21,44 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Sets power state for all channels simultaneously
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataPower]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Power.SetChannel]]
+
+
+
+### Implementation Notes
+
+Channel 5 (ORIN NUC) is protected and skipped when powering off
+
+
+
+## Field Notes
+
+
+### power_on (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

@@ -21,4 +21,41 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Set FX (image enhancement) mode for heat camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/proto/cmd.HeatCamera.PrevFxMode]]
+
+
+
+
+
+## Field Notes
+
+
+### mode (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
 

@@ -20,4 +20,37 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Saves current LRF calibration offsets to persistent storage
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf_calib.SetOffsets]]
+- [[proto/proto/cmd.Lrf_calib.ResetOffsets]]
+
+
+### Preconditions
+
+- LRF must be calibrated
+
+
+### Implementation Notes
+
+Part of LRF alignment calibration workflow
+
+
 

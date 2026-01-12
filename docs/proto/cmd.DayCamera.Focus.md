@@ -35,4 +35,33 @@ Fields: #1, #2, #3, #4, #5, #6
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Controls day camera focus operations (set, move, halt, offset, reset, save)
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.SetAutoFocus]]
+- [[proto/proto/cmd.DayCamera.SetAutoGain]]
+
+
+
+### Implementation Notes
+
+Composite command with multiple focus control sub-commands
+
+
 

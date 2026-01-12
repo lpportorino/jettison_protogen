@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Requests meteorological data from day camera glass heater
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+- [[proto/proto/ser.JonGuiDataMeteo]]
+
+
+
+
+### Implementation Notes
+
+Diagnostic command to query sensor data
+
+
 

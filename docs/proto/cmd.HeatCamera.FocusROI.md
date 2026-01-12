@@ -26,4 +26,87 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Focuses camera on user-selected region of interest
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.TrackROI]]
+- [[proto/proto/cmd.HeatCamera.ZoomROI]]
+
+
+
+### Implementation Notes
+
+User draws rectangle on video to select focus area
+
+
+
+## Field Notes
+
+
+### x1 (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+
+
+### y1 (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+
+
+### x2 (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+
+
+### y2 (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+
+
+### frame_time (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+
+
+### state_time (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+
+
 

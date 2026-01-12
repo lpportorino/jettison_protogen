@@ -41,4 +41,24 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :indicator
+- **Feedback:** :poll-confirm
+
+
+### Purpose
+
+Target tracking and designation data
+
+
+
+
+
+### Implementation Notes
+
+Displays tracked target information, coordinates, and designation status
+
+
 

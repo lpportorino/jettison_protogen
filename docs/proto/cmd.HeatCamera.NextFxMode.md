@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Cycles to next FX enhancement mode
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.SetFxMode]]
+- [[proto/proto/cmd.HeatCamera.PrevFxMode]]
+
+
+
+### Implementation Notes
+
+Cycles through image enhancement modes
+
+
 

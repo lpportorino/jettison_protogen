@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Stops all system components and subsystems
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.StartALl]]
+
+
+
+### Implementation Notes
+
+Mass stop command for all devices
+
+
 

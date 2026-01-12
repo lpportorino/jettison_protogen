@@ -38,4 +38,36 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider-with-steppers
+- **Feedback:** :optimistic-visual
+
+
+### Purpose
+
+Controls day camera optical zoom through various methods
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.Focus]]
+
+
+### Preconditions
+
+- Day camera started
+
+
+### Implementation Notes
+
+Composite message supporting multiple zoom control patterns: absolute value, continuous move, halt, table positions, offset, reset
+
+
 

@@ -42,4 +42,22 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+
+
+### Purpose
+
+Root state message containing all device state data
+
+
+
+
+
+### Implementation Notes
+
+Main state container - published periodically to frontend. Contains all subsystem state messages.
+
+
 

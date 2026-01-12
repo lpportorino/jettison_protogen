@@ -20,4 +20,37 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Decrements day camera zoom to previous table position
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.NextZoomTablePos]]
+- [[proto/proto/cmd.DayCamera.SetZoomTableValue]]
+
+
+### Preconditions
+
+- Camera must be started
+
+
+### Implementation Notes
+
+No parameters. Simple decrement operation. Used in hotkey commands and mouse wheel interactions.
+
+
 

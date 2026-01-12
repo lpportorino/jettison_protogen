@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Disables manual time control and reverts to system time
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/ser.JonGuiDataTime]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.EnableManualTime]]
+
+
+
+### Implementation Notes
+
+Used in time configuration UI to switch between manual and automatic time
+
+
 

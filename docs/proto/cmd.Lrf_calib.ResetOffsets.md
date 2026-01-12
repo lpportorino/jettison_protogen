@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Reset laser rangefinder alignment offsets to factory defaults
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf_calib.SetOffsets]]
+
+
+
+### Implementation Notes
+
+Used during LRF calibration/alignment procedures
+
+
 

@@ -30,4 +30,24 @@ Fields: #1
 
 
 
+## Interaction
+
+- **Category:** :lifecycle
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Root message container for all LIRA (target designation) commands
+
+
+
+
+
+### Implementation Notes
+
+This is a oneof wrapper containing all LIRA command types
+
+
 

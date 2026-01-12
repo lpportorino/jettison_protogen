@@ -21,4 +21,46 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Refines target positioning using LIRA rangefinding data
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLira]]
+
+
+
+### Preconditions
+
+- LIRA subsystem must be active
+- Valid target data available
+
+
+### Implementation Notes
+
+Complex command with geographic coordinates, angles, and UUID for target tracking.
+
+
+
+## Field Notes
+
+
+### target (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** microseconds
+
+
 

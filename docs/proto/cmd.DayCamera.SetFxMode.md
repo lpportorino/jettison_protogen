@@ -21,4 +21,48 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Set day camera image processing FX mode preset (daytime/dusk/fog)
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.NextFxMode]]
+- [[proto/proto/cmd.DayCamera.PrevFxMode]]
+- [[proto/proto/cmd.DayCamera.RefreshFxMode]]
+
+
+### Preconditions
+
+- Day camera must be started
+
+
+
+
+## Field Notes
+
+
+### mode (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Display Format:** `{mode}`
+- **Presets:** DAY_A, DAY_B, DAY_C
+
+
 

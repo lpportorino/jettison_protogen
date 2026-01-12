@@ -20,4 +20,34 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Request meteorological data from day camera sensors
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataMeteo]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.GetMeteo]]
+- [[proto/proto/cmd.Lrf.GetMeteo]]
+- [[proto/proto/cmd.RotaryPlatform.GetMeteo]]
+
+
+
+### Implementation Notes
+
+Polling command - retrieves environmental sensor data
+
+
 

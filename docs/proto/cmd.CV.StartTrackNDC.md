@@ -25,4 +25,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Starts video tracking at normalized device coordinates
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.CV.StopTrack]]
+
+
+
+### Implementation Notes
+
+Not implemented in current frontend version
+
+
 

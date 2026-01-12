@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Unmarks current recording as important
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystem]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.MarkRecImportant]]
+
+
+
+
 

@@ -24,3 +24,34 @@ type: message
 
 
 
+## Field Notes
+
+
+### red (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Precision:** 0
+
+
+### green (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Precision:** 0
+
+
+### blue (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+- **Precision:** 0
+
+
+

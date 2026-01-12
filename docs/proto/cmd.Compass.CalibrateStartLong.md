@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Start long compass calibration procedure
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Compass.Next]]
+- [[proto/proto/cmd.Compass.CalibrateCencel]]
+
+
+
+### Implementation Notes
+
+Multi-step calibration process requiring user to rotate device
+
+
 

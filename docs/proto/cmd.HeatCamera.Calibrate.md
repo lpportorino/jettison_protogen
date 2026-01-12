@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Trigger thermal camera calibration cycle
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+
+
+### Implementation Notes
+
+Performs NUC (Non-Uniformity Correction) calibration
+
+
 

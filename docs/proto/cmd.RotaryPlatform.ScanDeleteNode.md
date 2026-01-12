@@ -21,4 +21,50 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Deletes a node from the scanning pattern
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.ScanAddNode]]
+- [[proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
+- [[proto/proto/cmd.RotaryPlatform.ScanRefreshNodeList]]
+
+
+### Preconditions
+
+- Scan pattern exists
+
+
+### Implementation Notes
+
+Part of scan pattern editor UI
+
+
+
+## Field Notes
+
+
+### index (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
 

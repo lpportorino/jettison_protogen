@@ -25,4 +25,77 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :status
+- **UI Pattern:** :indicator
+
+
+### Purpose
+
+Power module status and telemetry
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Power.SetChannel]]
+- [[proto/proto/cmd.Power.SetAll]]
+
+
+
+
+
+## Field Notes
+
+
+### voltage (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :voltage
+- **Unit:** V
+- **Precision:** 2
+- **Display Format:** `{value.toFixed(2)}V`
+
+
+### current (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :current
+- **Unit:** A
+- **Precision:** 3
+- **Display Format:** `{value.toFixed(3)}A`
+
+
+### power (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :power
+- **Unit:** W
+- **Precision:** 2
+- **Display Format:** `{value.toFixed(2)}W`
+
+
+### is_on (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### has_alarm (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

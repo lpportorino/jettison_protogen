@@ -22,4 +22,45 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Continuously rotate azimuth axis at specified speed and direction
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
+- [[proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+
+
+
+
+
+## Field Notes
+
+
+### speed (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
+### direction (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
 

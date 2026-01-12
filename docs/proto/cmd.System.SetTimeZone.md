@@ -21,4 +21,45 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :enum-picker
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Sets the system timezone
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataTime]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.StepTimeZone]]
+- [[proto/proto/cmd.System.SetTimeAndZone]]
+
+
+
+### Implementation Notes
+
+Uses numeric zone ID from timezone database
+
+
+
+## Field Notes
+
+
+### zone_id (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :count
+
+
 

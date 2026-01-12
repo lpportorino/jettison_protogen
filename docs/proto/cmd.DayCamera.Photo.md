@@ -20,4 +20,28 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Captures a photo from the day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+
+
+### Implementation Notes
+
+Button shows pending state, becomes active when LRF target ID changes (photo captured)
+
+
 

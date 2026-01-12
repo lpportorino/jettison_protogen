@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enables LRF refine mode for precision measurements
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.RefineOff]]
+- [[proto/proto/cmd.Lrf.Measure]]
+
+
+### Preconditions
+
+- LRF must be started
+
+
+
 

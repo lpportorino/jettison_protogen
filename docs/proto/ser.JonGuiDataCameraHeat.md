@@ -34,4 +34,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :indicator
+- **Feedback:** :poll-confirm
+
+
+### Purpose
+
+Thermal camera status, settings, and operational data
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.Start]]
+- [[proto/proto/cmd.HeatCamera.Stop]]
+- [[proto/proto/cmd.HeatCamera.SetAgc]]
+- [[proto/proto/cmd.HeatCamera.SetFilter]]
+- [[proto/proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
+
+
+
+### Implementation Notes
+
+Provides real-time thermal camera state including AGC mode, filter, zoom levels, and DDE settings
+
+
 

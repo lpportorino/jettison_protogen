@@ -29,4 +29,30 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :indicator
+- **Feedback:** :poll-confirm
+
+
+### Purpose
+
+Laser rangefinder measurement data and status
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Lrf.Measure]]
+- [[proto/proto/cmd.Lrf.ScanOn]]
+- [[proto/proto/cmd.Lrf.ScanOff]]
+
+
+
+### Implementation Notes
+
+Displays distance measurements, scan status, and LRF operational state
+
+
 

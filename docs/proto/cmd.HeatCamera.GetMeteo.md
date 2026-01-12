@@ -20,4 +20,26 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Requests meteorological/diagnostic data from thermal camera
+
+
+
+### Related Commands
+
+- [[proto/proto/cmd.Compass.GetMeteo]]
+- [[proto/proto/cmd.Gps.GetMeteo]]
+- [[proto/proto/cmd.RotaryPlatform.GetMeteo]]
+
+
+
+
 

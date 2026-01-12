@@ -31,4 +31,27 @@ Fields: #1, #2
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+
+
+### Purpose
+
+Root message container for LRF calibration commands
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+
+
+### Implementation Notes
+
+Calibration workflow for laser rangefinder alignment
+
+
 

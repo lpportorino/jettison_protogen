@@ -20,4 +20,33 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Disables DDE (Digital Detail Enhancement) on thermal camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraHeat]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.HeatCamera.EnableDDE]]
+- [[proto/proto/cmd.HeatCamera.SetDDELevel]]
+
+
+### Preconditions
+
+- Heat camera must be started
+
+
+
 

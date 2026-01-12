@@ -20,4 +20,29 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Stop video recording
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataSystemRecording]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.System.StartRec]]
+- [[proto/proto/cmd.System.MarkRecImportant]]
+
+
+
+
 

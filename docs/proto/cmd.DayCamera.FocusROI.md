@@ -26,4 +26,90 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Focus on region of interest (ROI) in day camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.Focus]]
+- [[proto/proto/cmd.DayCamera.TrackROI]]
+- [[proto/proto/cmd.DayCamera.ZoomROI]]
+
+
+
+### Implementation Notes
+
+User draws rectangle on video to focus
+
+
+
+## Field Notes
+
+
+### x1 (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** px
+
+
+### y1 (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** px
+
+
+### x2 (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** px
+
+
+### y2 (#4)
+
+
+#### Metadata
+
+- **Semantic Type:** :coordinate-geo
+- **Unit:** px
+
+
+### frame_time (#5)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+
+
+### state_time (#6)
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+
+
 

@@ -21,4 +21,45 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :stepper
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Offset focus or zoom by relative amount
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataCameraDay]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.DayCamera.Focus]]
+- [[proto/proto/cmd.DayCamera.Zoom]]
+
+
+
+### Implementation Notes
+
+Used within Focus and Zoom submessages
+
+
+
+## Field Notes
+
+
+### offset_value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :raw
+
+
 

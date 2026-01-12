@@ -20,4 +20,34 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Switch OSD to laser rangefinder result display screen
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataOSD]]
+- [[proto/proto/ser.JonGuiDataLrf]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.OSD.ShowDefaultScreen]]
+- [[proto/proto/cmd.OSD.ShowLRFMeasureScreen]]
+
+
+
+### Implementation Notes
+
+Empty message - trigger only
+
+
 

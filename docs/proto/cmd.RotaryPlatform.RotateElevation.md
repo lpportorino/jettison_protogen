@@ -22,4 +22,57 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :directional-mover
+- **Feedback:** :poll-confirm
+
+
+### Purpose
+
+Continuously rotates platform elevation at specified speed
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.HaltElevation]]
+- [[proto/proto/cmd.RotaryPlatform.RotateElevationTo]]
+
+
+### Preconditions
+
+- Rotary platform must be started
+- Mode must allow manual control
+
+
+
+
+## Field Notes
+
+
+### speed (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Unit:** %
+- **Precision:** 2
+- **Display Format:** `{value * 100}%`
+
+
+### direction (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
 

@@ -20,4 +20,32 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :toggle
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Enable on-screen display overlay for heat camera
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataOSD]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.OSD.DisableHeatOSD]]
+
+
+
+### Implementation Notes
+
+Empty message - trigger only
+
+
 

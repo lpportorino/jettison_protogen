@@ -34,4 +34,24 @@ Fields: #1, #2, #3, #4, #5
 
 
 
+## Interaction
+
+- **Category:** :diagnostic
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
+
+
+### Purpose
+
+Root command container for day camera glass heater
+
+
+
+
+
+### Implementation Notes
+
+Not directly invoked - contains nested commands
+
+
 

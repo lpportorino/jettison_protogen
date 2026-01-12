@@ -23,4 +23,60 @@ type: message
 
 
 
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :slider
+- **Feedback:** :pending-timeout
+
+
+### Purpose
+
+Rotates azimuth to target angle at specified speed
+
+
+### Related State
+
+- [[proto/proto/ser.JonGuiDataRotary]]
+
+
+### Related Commands
+
+- [[proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
+
+
+
+
+
+## Field Notes
+
+
+### target_value (#1)
+
+
+#### Metadata
+
+- **Semantic Type:** :angle
+- **Unit:** degrees
+- **Precision:** 2
+
+
+### speed (#2)
+
+
+#### Metadata
+
+- **Semantic Type:** :percentage
+- **Unit:** %
+- **Precision:** 0
+
+
+### direction (#3)
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+
+
 
