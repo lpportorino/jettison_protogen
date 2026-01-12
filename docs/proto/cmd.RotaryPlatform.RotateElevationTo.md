@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the rotary platform to rotate its elevation axis to an absolute target angle (between -90 and 90 degrees) at a specified speed.
 
 ## Fields
 

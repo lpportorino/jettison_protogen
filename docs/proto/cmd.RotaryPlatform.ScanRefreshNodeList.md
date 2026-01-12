@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers the server to refresh and resynchronize the current scanning pattern node list. The server updates its internal state and sends back signal notifications with the updated scan node information.
 
 ## Fields
 

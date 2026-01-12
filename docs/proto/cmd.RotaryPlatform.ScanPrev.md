@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the rotary platform to move to the previous node in the active scan pattern sequence.
 
 ## Fields
 

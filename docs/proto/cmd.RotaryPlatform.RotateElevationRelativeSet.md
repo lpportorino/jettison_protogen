@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the rotary platform's elevation angle to a value relative to its current position, specified as an offset with a clockwise or counter-clockwise direction.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Adds a waypoint node to the rotary platform scan path, specifying position (azimuth/elevation), camera zoom levels for both day and thermal sensors, dwell time, and movement speed.
 
 ## Fields
 

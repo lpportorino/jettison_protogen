@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Instructs the rotary platform to advance to the next scan node in a predefined scan path sequence. Complements the ScanPrev command for forward navigation through scan waypoints.
 
 ## Fields
 

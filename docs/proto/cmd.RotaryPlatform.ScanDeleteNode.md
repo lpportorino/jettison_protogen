@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Deletes a waypoint from the rotary scan pattern at the specified index, updating the current scan node position after removal.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the rotary platform to rotate and point toward a specified GPS coordinate location, determined by latitude, longitude, and altitude values provided from user interaction with an interactive globe map.
 
 ## Fields
 

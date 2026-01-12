@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Pauses an active rotary platform scan operation while keeping the scan state intact, allowing it to be resumed later with ScanUnpause.
 
 ## Fields
 

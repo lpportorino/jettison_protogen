@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the rotary platform to rotate and point toward a specific normalized device coordinate (NDC) location in a video frame, with synchronized timestamps from both the video frame and system state.
 
 ## Fields
 
