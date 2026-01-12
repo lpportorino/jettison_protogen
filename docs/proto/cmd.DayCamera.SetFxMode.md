@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the day camera's image processing FX mode to a specific preset (DAY_A for daytime, DAY_B for dusk, or DAY_C for fog conditions). Each mode applies predefined color and exposure settings optimized for different environmental lighting conditions to enhance video quality.
 
 ## Fields
 

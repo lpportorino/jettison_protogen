@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables or disables automatic iris control for the day camera, allowing automatic aperture adjustment based on lighting conditions. When enabled, manual iris control via SetIris is disabled; when disabled, the operator can manually adjust the iris for precise exposure control.
 
 ## Fields
 

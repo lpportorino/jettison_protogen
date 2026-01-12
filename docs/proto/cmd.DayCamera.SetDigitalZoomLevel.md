@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Controls the digital zoom magnification level for the day camera. Accepts a value representing zoom magnification (1x or higher) and operates as a fire-and-forget command with slider UI. Can be synchronized with heat camera digital zoom via a UI sync toggle for coordinated dual-camera operation.
 
 ## Fields
 

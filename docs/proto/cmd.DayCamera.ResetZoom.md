@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Resets the day camera's optical zoom to its default position (typically 1x or minimum zoom). This fire-and-forget command is triggered via an action button in the UI zoom control panel and requires the day camera to be started before execution.
 
 ## Fields
 

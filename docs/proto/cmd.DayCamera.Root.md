@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root container message for all day camera control commands using a required oneof pattern. Routes different camera operations (focus, zoom, iris, FX modes, ROI tracking, etc.) to their respective handlers. The frontend constructs and sends these command messages to the backend, where cmd_hooks_day_camera.c dispatches them to appropriate device handlers.
 
 ## Fields
 

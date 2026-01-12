@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Saves the current camera focus position to a lookup table for quick recall. This parameterless trigger command enables the camera to store and later retrieve predefined focus positions, commonly used via a save-focus action button in the day camera controls.
 
 ## Fields
 

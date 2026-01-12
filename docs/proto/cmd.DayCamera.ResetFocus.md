@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Resets the day camera's focus to its default or home position. This parameterless trigger command provides a one-click way to return focus to a known baseline state, exposed as a Reset action button in the UI with pending-timeout feedback.
 
 ## Fields
 

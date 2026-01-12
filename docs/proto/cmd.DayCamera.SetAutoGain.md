@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables or disables automatic gain control (AGC) for the day camera. When enabled, the camera automatically adjusts hardware gain to optimize brightness based on scene lighting. Exposed in the UI as a toggle control with fire-and-forget feedback.
 
 ## Fields
 

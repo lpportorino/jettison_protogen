@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Saves the current day camera optical zoom position to a zoom lookup table for later recall. This parameterless command is triggered via a fire-and-forget action button in the UI, enabling users to quickly restore frequently-used zoom positions during camera operation.
 
 ## Fields
 
