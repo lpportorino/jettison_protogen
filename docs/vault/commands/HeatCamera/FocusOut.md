@@ -18,19 +18,24 @@ Moves thermal camera focus outward (away from camera). This is a continuous moti
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
+
 ### Purpose
 
 Moves the thermal camera focus outward (away from the camera body). Used for focusing on distant objects.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
+
 
 ### Related Commands
 
@@ -38,6 +43,8 @@ Moves the thermal camera focus outward (away from the camera body). Used for foc
 - [[cmd.HeatCamera.FocusStop]]
 - [[cmd.HeatCamera.FocusStepPlus]]
 - [[cmd.HeatCamera.FocusStepMinus]]
+
+
 
 ### Implementation Notes
 

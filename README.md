@@ -346,6 +346,55 @@ make rebuild
 REBUILD_IMAGE=true ./generate-protos.sh
 ```
 
+## Proto Documentation
+
+The repository includes a documentation generator for the proto schema. See [`docs/tools/README.md`](./docs/tools/README.md) for full details.
+
+### Quick Start
+
+```bash
+# Generate documentation
+make docs-generate
+
+# Show coverage
+make docs-coverage
+
+# Search schema
+make docs-search Q="iris"
+
+# Run tests
+make docs-test
+```
+
+### Docker Usage
+
+```bash
+make docs-docker-build     # Build image
+make docs-docker-generate  # Generate docs
+make docs-docker-test      # Run tests
+make docs-docker-coverage  # Show coverage
+```
+
+### Claude Commands
+
+Two slash commands are available for proto schema exploration:
+
+- `/proto-search <query>` - Fuzzy search messages, fields, enums
+- `/proto-coverage` - Show documentation coverage report
+
+### Output Structure
+
+```
+docs/
+├── proto-db.edn    # EDN database (git committed)
+├── vault/          # Obsidian-compatible markdown
+│   ├── index.md
+│   ├── commands/   # cmd.* messages
+│   ├── state/      # ser.* messages
+│   └── enums/      # Enum definitions
+└── tools/          # Clojure tooling
+```
+
 ## License
 
 This project is licensed under the MIT License.

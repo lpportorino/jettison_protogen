@@ -19,30 +19,40 @@ Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement le
 |---|-------|------|-------------|
 | 1 | value | double | >= 0, <= 1 |
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :slider-with-steppers
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Adjusts the intensity of CLAHE enhancement on thermal imagery. Higher values increase local contrast to reveal subtle temperature differences.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
+
+
+
 
 ### Implementation Notes
 
 Slider with ± step buttons for 1% increments. Visual position maintained during drag, shown as pending until server confirms.
 
+
+
 ## Field Notes
+
 
 ### value (#1)
 
 Normalized CLAHE intensity level (0.0 = none, 1.0 = maximum enhancement).
+
 
 #### Metadata
 

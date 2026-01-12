@@ -32,29 +32,41 @@ Controls the day camera focus position. This message wraps multiple focus contro
 
 Fields: #1, #2, #3, #4, #5, #6
 
+
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :slider
 - **Feedback:** :fire-and-forget
 
+
 ### Purpose
 
 Sets the day camera focus position. The set_value field contains a normalized value (0.0-1.0) representing the focus position.
+
 
 ### Related State
 
 - [[ser.JonGuiDataCameraDay]]
 
+
+
+
 ### Implementation Notes
 
 Use the set_value field with a normalized value between 0.0 (near focus) and 1.0 (far focus/infinity). Other fields in the oneof provide alternative focus control methods like continuous move or incremental offset.
 
+
+
 ## Field Notes
+
 
 ### set_value (#1)
 
 Normalized focus position (0.0 = near, 1.0 = infinity).
+
 
 #### Metadata
 
@@ -62,7 +74,6 @@ Normalized focus position (0.0 = near, 1.0 = infinity).
 - **Unit:** %
 - **Precision:** 0
 - **Display Format:** `{value * 100}%`
-
 
 
 

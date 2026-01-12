@@ -18,19 +18,24 @@ Moves thermal camera focus inward (towards camera). This is a continuous motion 
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
+
 ### Purpose
 
 Moves the thermal camera focus inward (towards the camera body). Used for focusing on closer objects.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
+
 
 ### Related Commands
 
@@ -38,6 +43,8 @@ Moves the thermal camera focus inward (towards the camera body). Used for focusi
 - [[cmd.HeatCamera.FocusStop]]
 - [[cmd.HeatCamera.FocusStepPlus]]
 - [[cmd.HeatCamera.FocusStepMinus]]
+
+
 
 ### Implementation Notes
 

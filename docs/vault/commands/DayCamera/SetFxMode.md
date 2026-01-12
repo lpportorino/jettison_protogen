@@ -19,20 +19,26 @@ Sets the visual effects/filter mode (A-F modes) for the day camera.
 |---|-------|------|-------------|
 | 1 | mode | [[ser.JonGuiDataFxModeDay]] | defined enum value only, not in: 0 |
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :enum-picker
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Controls the visual effects/filter mode applied to the day camera image processing pipeline.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraDay]]
+
+
+
 
 ### Implementation Notes
 

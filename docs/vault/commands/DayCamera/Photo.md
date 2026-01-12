@@ -18,21 +18,27 @@ Captures a still image from the day camera. This is a fire-and-forget command th
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :dual-feedback
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Initiates photo capture from the visible spectrum camera. Success is indicated by a change in the LRF target ID in the state.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraDay]]
 - [[ser.JonGuiDataLrf]]
+
+
+
 
 ### Implementation Notes
 

@@ -122,3 +122,58 @@ versions: build ## Show versions of tools in the Docker image
 		echo 'python version:' && python3 --version && echo && \
 		echo 'java version:' && java --version | head -n1 && echo && \
 		echo 'node version:' && node --version"
+
+# === Documentation targets ===
+
+.PHONY: docs-generate
+docs-generate: ## Generate proto documentation (parse + extract + render)
+	@echo "$(GREEN)Generating proto documentation...$(NC)"
+	@cd docs/tools && clojure -M:run generate --descriptor ../../output/json-descriptors/descriptor-set.json --output-dir ../vault --db-path ../proto-db.edn
+
+.PHONY: docs-coverage
+docs-coverage: ## Show proto documentation coverage
+	@echo "$(GREEN)Documentation coverage:$(NC)"
+	@bb docs/scripts/proto-coverage.clj docs/proto-db.edn
+
+.PHONY: docs-search
+docs-search: ## Search proto docs (usage: make docs-search Q="query")
+	@bb docs/scripts/proto-search.clj "$(Q)" docs/proto-db.edn
+
+.PHONY: docs-test
+docs-test: ## Run proto documentation tests
+	@echo "$(GREEN)Running documentation tests...$(NC)"
+	@cd docs/tools && clojure -M:test
+
+.PHONY: docs-docker-build
+docs-docker-build: ## Build proto docs Docker image
+	@echo "$(GREEN)Building proto docs Docker image...$(NC)"
+	@cd docs/tools && DOCKER_BUILDKIT=1 docker build --network=host -t protodoc:latest .
+
+.PHONY: docs-docker-test
+docs-docker-test: ## Run proto docs tests in Docker
+	@echo "$(GREEN)Running proto docs tests via Docker...$(NC)"
+	@docker run --rm --network=host protodoc:latest -M:test
+
+.PHONY: docs-docker-generate
+docs-docker-generate: ## Generate docs using Docker
+	@echo "$(GREEN)Generating proto docs via Docker...$(NC)"
+	@docker run --rm --network=host \
+		-v $$(pwd)/output/json-descriptors:/data/descriptors:ro \
+		-v $$(pwd)/docs:/data/docs \
+		protodoc:latest \
+		-M:run generate \
+		--descriptor /data/descriptors/descriptor-set.json \
+		--output-dir /data/docs/vault \
+		--db-path /data/docs/proto-db.edn
+
+.PHONY: docs-docker-coverage
+docs-docker-coverage: ## Show coverage via Docker
+	@echo "$(GREEN)Proto docs coverage via Docker...$(NC)"
+	@docker run --rm --network=host \
+		-v $$(pwd)/docs:/data/docs:ro \
+		protodoc:latest \
+		-M:run coverage --db-path /data/docs/proto-db.edn
+
+.PHONY: docs-docker-all
+docs-docker-all: docs-docker-build docs-docker-test docs-docker-generate ## Build, test, and generate in Docker
+	@echo "$(GREEN)All Docker tasks complete$(NC)"

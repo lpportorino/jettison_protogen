@@ -27,115 +27,136 @@ Laser rangefinder state including distance, velocity, quality, and scan mode. Pr
 | 8 | is_continuous_measuring | bool | - |
 | 9 | is_started | bool | - |
 
+
+
 ## Interaction
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
-- **Update Rate:** Real-time
+
 
 ### Purpose
 
 Provides real-time state information for the laser rangefinder subsystem. UI components should display measurement data (distance, target coordinates, quality metrics), operational status (scanning, measuring, refining), and laser pointer mode.
 
+
+
 ### Related Commands
 
-- [[cmd.Lrf.Measure]] - Initiates single measurement
-- [[cmd.Lrf.StartContinuousMeasure]] - Starts continuous measurements
-- [[cmd.Lrf.StopContinuousMeasure]] - Stops continuous measurements
-- [[cmd.Lrf.StartScan]] - Initiates scan operation
-- [[cmd.Lrf.StopScan]] - Stops scan operation
-- [[cmd.Lrf.SetPointerMode]] - Controls laser pointer mode
-- [[cmd.Lrf.SetFogMode]] - Controls fog mode
-- [[cmd.Lrf.Start]] - Starts LRF subsystem
-- [[cmd.Lrf.Stop]] - Stops LRF subsystem
+- [[cmd.Lrf.Measure]]
+- [[cmd.Lrf.StartContinuousMeasure]]
+- [[cmd.Lrf.StopContinuousMeasure]]
+- [[cmd.Lrf.StartScan]]
+- [[cmd.Lrf.StopScan]]
+- [[cmd.Lrf.SetPointerMode]]
+- [[cmd.Lrf.SetFogMode]]
+- [[cmd.Lrf.Start]]
+- [[cmd.Lrf.Stop]]
 
-### Display Guidelines
 
-Display primary measurement data prominently (distance from target field). Show measurement status indicators (is_measuring, is_scanning, is_refining). Display target coordinates when available. Show laser pointer mode and fog mode states. Update measurement ID to indicate new measurements.
+
+
 
 ## Field Notes
+
 
 ### is_scanning (#1)
 
 LRF scan operation in progress.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Scanning" indicator or icon
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Scanning&quot; indicator or icon`
+
 
 ### is_measuring (#2)
 
 LRF measurement in progress.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Measuring" indicator or icon
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Measuring&quot; indicator or icon`
+
 
 ### measure_id (#3)
 
 Incremental measurement counter (increments with each new measurement).
 
+
 #### Metadata
 
-- **Semantic Type:** :sequence-number
+- **Semantic Type:** :count
 - **Display Format:** `Measurement #{value}`
+
 
 ### target (#4)
 
 Complete target measurement data including coordinates, distance, and metadata.
 
+
 #### Metadata
 
-- **Semantic Type:** :composite
-- **Display Format:** Extract and display key fields (distance_2d, distance_3d, target coordinates)
-- **Note:** See [[ser.JonGuiDataTarget]] for detailed field structure
+- **Semantic Type:** :raw
+- **Display Format:** `Extract and display key fields (distance_2d, distance_3d, target coordinates)`
+
 
 ### pointer_mode (#5)
 
 Current laser pointer mode.
 
+
 #### Metadata
 
-- **Semantic Type:** :enum
-- **Display Format:** Show mode name (e.g., "Off", "Continuous", "Pulsed")
+- **Semantic Type:** :enum-label
+- **Display Format:** `Show mode name (e.g., &quot;Off&quot;, &quot;Continuous&quot;, &quot;Pulsed&quot;)`
+
 
 ### fogModeEnabled (#6)
 
 Fog mode enabled state (enhances measurement accuracy in fog/haze).
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Fog Mode: ON/OFF" or indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Fog Mode: ON/OFF&quot; or indicator`
+
 
 ### is_refining (#7)
 
 LRF performing measurement refinement.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Refining" indicator or progress spinner
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Refining&quot; indicator or progress spinner`
+
 
 ### is_continuous_measuring (#8)
 
 Continuous measurement mode active.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Continuous" indicator or mode badge
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Continuous&quot; indicator or mode badge`
+
 
 ### is_started (#9)
 
 LRF subsystem running state.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "LRF: Started/Stopped" or status indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;LRF: Started/Stopped&quot; or status indicator`
 
 
 

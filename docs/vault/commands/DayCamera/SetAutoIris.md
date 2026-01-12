@@ -19,34 +19,44 @@ Enables or disables automatic iris control. When enabled, the camera automatical
 |---|-------|------|-------------|
 | 1 | value | bool | - |
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :toggle
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Controls whether the camera automatically adjusts iris based on scene brightness. Disabling auto-iris allows manual control via [[cmd.DayCamera.SetIris]].
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraDay]]
+
 
 ### Related Commands
 
 - [[cmd.DayCamera.SetIris]]
 
+
+
 ### Implementation Notes
 
 When auto-iris is enabled, [[cmd.DayCamera.SetIris]] commands are ignored. The UI should visually indicate auto mode is active and disable manual iris controls.
 
+
+
 ## Field Notes
+
 
 ### value (#1)
 
 True to enable auto-iris, false for manual control.
+
 
 #### Metadata
 

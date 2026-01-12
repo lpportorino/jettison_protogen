@@ -28,69 +28,78 @@ GPS state including position, altitude, fix type, and satellite count. Provides 
 | 9 | timestamp | int64 | - |
 | 10 | is_started | bool | - |
 
+
+
 ## Interaction
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
-- **Update Rate:** Real-time (1-10 Hz typical)
+
 
 ### Purpose
 
 Provides real-time GPS position information for the platform. UI components should display current coordinates, altitude, fix quality, and allow switching between GPS and manual position modes. Essential for targeting, navigation, and situational awareness.
 
+
+
 ### Related Commands
 
-- [[cmd.Gps.SetManualPosition]] - Sets manual override coordinates
-- [[cmd.Gps.EnableManualMode]] - Switches to manual position mode
-- [[cmd.Gps.DisableManualMode]] - Switches to GPS receiver mode
-- [[cmd.Gps.Start]] - Starts GPS subsystem
-- [[cmd.Gps.Stop]] - Stops GPS subsystem
+- [[cmd.Gps.SetManualPosition]]
+- [[cmd.Gps.EnableManualMode]]
+- [[cmd.Gps.DisableManualMode]]
+- [[cmd.Gps.Start]]
+- [[cmd.Gps.Stop]]
 
-### Display Guidelines
 
-Display current coordinates (latitude/longitude) with precision appropriate to fix type. Show altitude with unit indicator (meters). Display fix type with color coding (no fix = red, 2D = yellow, 3D = green, RTK = blue). Show mode indicator (GPS vs Manual). Display timestamp for data freshness. Consider map view for geographic context.
+
+
 
 ## Field Notes
+
 
 ### longitude (#1)
 
 Current GPS longitude (WGS84).
 
+
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
 - **Unit:** degrees
 - **Precision:** 6
 - **Display Format:** `{value}° {E/W}`
-- **Range:** -180 to 180 (negative = West, positive = East)
+
 
 ### latitude (#2)
 
 Current GPS latitude (WGS84).
 
+
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
 - **Unit:** degrees
 - **Precision:** 6
 - **Display Format:** `{value}° {N/S}`
-- **Range:** -90 to 90 (negative = South, positive = North)
+
 
 ### altitude (#3)
 
 Current GPS altitude above mean sea level.
 
+
 #### Metadata
 
-- **Semantic Type:** :altitude
+- **Semantic Type:** :distance
 - **Unit:** meters
 - **Precision:** 1
 - **Display Format:** `{value} m MSL`
-- **Range:** -430 (Dead Sea) to 100000 (beyond stratosphere)
+
 
 ### manual_longitude (#4)
 
 Manual override longitude value.
+
 
 #### Metadata
 
@@ -98,11 +107,12 @@ Manual override longitude value.
 - **Unit:** degrees
 - **Precision:** 6
 - **Display Format:** `{value}° {E/W}`
-- **Note:** Used when use_manual is true
+
 
 ### manual_latitude (#5)
 
 Manual override latitude value.
+
 
 #### Metadata
 
@@ -110,61 +120,64 @@ Manual override latitude value.
 - **Unit:** degrees
 - **Precision:** 6
 - **Display Format:** `{value}° {N/S}`
-- **Note:** Used when use_manual is true
+
 
 ### manual_altitude (#6)
 
 Manual override altitude value.
 
+
 #### Metadata
 
-- **Semantic Type:** :altitude
+- **Semantic Type:** :distance
 - **Unit:** meters
 - **Precision:** 1
 - **Display Format:** `{value} m MSL`
-- **Note:** Used when use_manual is true
+
 
 ### fix_type (#7)
 
 GPS fix quality indicator.
 
+
 #### Metadata
 
-- **Semantic Type:** :enum
-- **Display Format:** Show with color coding:
-  - No Fix: Red/Error
-  - 2D Fix: Yellow/Warning
-  - 3D Fix: Green/OK
-  - DGPS/RTK: Blue/Excellent
+- **Semantic Type:** :enum-label
+- **Display Format:** `Show with color coding:`
+
 
 ### use_manual (#8)
 
 Manual position mode active (true = using manual coordinates, false = using GPS).
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Mode: Manual/GPS" or mode indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Mode: Manual/GPS&quot; or mode indicator`
+
 
 ### timestamp (#9)
 
 GPS data timestamp (Unix epoch milliseconds).
 
+
 #### Metadata
 
 - **Semantic Type:** :timestamp
 - **Unit:** milliseconds
-- **Display Format:** Show age (e.g., "2s ago") or absolute time
-- **Note:** Use to determine data freshness
+- **Display Format:** `Show age (e.g., &quot;2s ago&quot;) or absolute time`
+
 
 ### is_started (#10)
 
 GPS subsystem running state.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "GPS: Started/Stopped" or status indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;GPS: Started/Stopped&quot; or status indicator`
 
 
 

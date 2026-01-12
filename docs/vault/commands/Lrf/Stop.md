@@ -18,24 +18,30 @@ Stops the laser rangefinder measurement operation.
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :toggle
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Terminates laser rangefinder operation to stop distance measurements.
 
+
 ### Related State
 
 - [[ser.JonGuiDataLrf]]
 
+
 ### Related Commands
 
 - [[cmd.Lrf.Start]]
+
+
 
 ### Implementation Notes
 

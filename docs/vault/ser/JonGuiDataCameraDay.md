@@ -33,137 +33,163 @@ Day camera state including zoom, focus, iris positions and modes. Provides real-
 | 13 | vertical_fov_degrees | double | > 0, < 360 |
 | 14 | is_started | bool | - |
 
+
+
 ## Interaction
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
-- **Update Rate:** Real-time
+
 
 ### Purpose
 
 Provides real-time state information for the day camera subsystem. UI components should display current positions, automation states, and field of view information to provide visual feedback for camera control commands.
 
+
+
 ### Related Commands
 
-- [[cmd.DayCamera.SetIris]] - Controls iris position
-- [[cmd.DayCamera.SetAutoIris]] - Controls auto-iris mode
-- [[cmd.DayCamera.Focus]] - Controls focus position
-- [[cmd.DayCamera.Zoom]] - Controls zoom position
-- [[cmd.DayCamera.SetInfraRedFilter]] - Controls IR filter
-- [[cmd.DayCamera.SetAutoGain]] - Controls auto-gain mode
-- [[cmd.DayCamera.SetDigitalZoomLevel]] - Controls digital zoom
-- [[cmd.DayCamera.SetClaheLevel]] - Controls CLAHE enhancement
-- [[cmd.DayCamera.SetFxMode]] - Controls effects mode
-- [[cmd.DayCamera.Start]] - Starts camera
-- [[cmd.DayCamera.Stop]] - Stops camera
+- [[cmd.DayCamera.SetIris]]
+- [[cmd.DayCamera.SetAutoIris]]
+- [[cmd.DayCamera.Focus]]
+- [[cmd.DayCamera.Zoom]]
+- [[cmd.DayCamera.SetInfraRedFilter]]
+- [[cmd.DayCamera.SetAutoGain]]
+- [[cmd.DayCamera.SetDigitalZoomLevel]]
+- [[cmd.DayCamera.SetClaheLevel]]
+- [[cmd.DayCamera.SetFxMode]]
+- [[cmd.DayCamera.Start]]
+- [[cmd.DayCamera.Stop]]
 
-### Display Guidelines
 
-Display zoom, focus, and iris as slider indicators or percentage values. Show automation states (auto_focus, auto_iris, auto_gain) as toggle indicators. Display FOV values for situational awareness. Show zoom table position as discrete steps. Effects mode and CLAHE level should be displayed when active.
+
+
 
 ## Field Notes
+
 
 ### focus_pos (#1)
 
 Current focus position (normalized).
 
+
 #### Metadata
 
 - **Semantic Type:** :normalized
 - **Unit:** %
 - **Precision:** 0
 - **Display Format:** `{value * 100}%`
+
 
 ### zoom_pos (#2)
 
 Current zoom position (normalized).
 
+
 #### Metadata
 
 - **Semantic Type:** :normalized
 - **Unit:** %
 - **Precision:** 0
 - **Display Format:** `{value * 100}%`
+
 
 ### iris_pos (#3)
 
 Current iris/aperture position (normalized).
 
+
 #### Metadata
 
 - **Semantic Type:** :normalized
 - **Unit:** %
 - **Precision:** 0
 - **Display Format:** `{value * 100}%`
+
 
 ### infrared_filter (#4)
 
 IR filter state (true = inserted, false = removed).
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "IR Filter: ON/OFF" or icon
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;IR Filter: ON/OFF&quot; or icon`
+
 
 ### zoom_table_pos (#5)
 
 Current discrete zoom position index.
 
+
 #### Metadata
 
-- **Semantic Type:** :index
+- **Semantic Type:** :count
 - **Display Format:** `{zoom_table_pos} / {zoom_table_pos_max}`
+
 
 ### zoom_table_pos_max (#6)
 
 Maximum zoom table position index.
 
+
 #### Metadata
 
 - **Semantic Type:** :count
-- **Display Format:** Used in position display
+- **Display Format:** `Used in position display`
+
 
 ### auto_focus (#8)
 
 Auto-focus enabled state.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "AF: ON/OFF" or toggle indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;AF: ON/OFF&quot; or toggle indicator`
+
 
 ### auto_iris (#9)
 
 Auto-iris enabled state.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Auto Iris: ON/OFF" or toggle indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Auto Iris: ON/OFF&quot; or toggle indicator`
+
 
 ### auto_gain (#15)
 
 Auto-gain enabled state.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Auto Gain: ON/OFF" or toggle indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Auto Gain: ON/OFF&quot; or toggle indicator`
+
 
 ### digital_zoom_level (#10)
 
 Current digital zoom multiplier.
 
+
 #### Metadata
 
-- **Semantic Type:** :multiplier
+- **Semantic Type:** :count
 - **Unit:** x
 - **Precision:** 1
 - **Display Format:** `{value}x`
 
+
 ### clahe_level (#11)
 
 CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level.
+
 
 #### Metadata
 
@@ -172,9 +198,11 @@ CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level.
 - **Precision:** 0
 - **Display Format:** `{value * 100}%`
 
+
 ### horizontal_fov_degrees (#12)
 
 Current horizontal field of view.
+
 
 #### Metadata
 
@@ -183,9 +211,11 @@ Current horizontal field of view.
 - **Precision:** 1
 - **Display Format:** `{value}° HFOV`
 
+
 ### vertical_fov_degrees (#13)
 
 Current vertical field of view.
+
 
 #### Metadata
 
@@ -194,14 +224,16 @@ Current vertical field of view.
 - **Precision:** 1
 - **Display Format:** `{value}° VFOV`
 
+
 ### is_started (#14)
 
 Camera subsystem running state.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show as "Camera: Started/Stopped" or status indicator
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show as &quot;Camera: Started/Stopped&quot; or status indicator`
 
 
 

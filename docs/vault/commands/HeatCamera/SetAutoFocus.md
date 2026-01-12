@@ -19,20 +19,24 @@ Enables or disables automatic focus for the thermal camera. When enabled, the ca
 |---|-------|------|-------------|
 | 1 | value | bool | - |
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :toggle
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Controls whether the thermal camera automatically maintains focus. Disabling allows manual focus control for specific scenarios.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
+
 
 ### Related Commands
 
@@ -41,15 +45,21 @@ Controls whether the thermal camera automatically maintains focus. Disabling all
 - [[cmd.HeatCamera.FocusIn]]
 - [[cmd.HeatCamera.FocusOut]]
 
+
+
 ### Implementation Notes
 
 When auto-focus is enabled, manual focus commands are ignored. The UI should visually indicate auto mode and disable manual focus controls.
 
+
+
 ## Field Notes
+
 
 ### value (#1)
 
 True to enable auto-focus, false for manual control.
+
 
 #### Metadata
 

@@ -18,25 +18,32 @@ Steps thermal camera focus one increment forward (outward). Provides precise, in
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :stepper
 - **Feedback:** :fire-and-forget
 
+
 ### Purpose
 
 Steps the thermal camera focus one increment forward (outward). Each invocation moves the focus motor by a single discrete step.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
+
 
 ### Related Commands
 
 - [[cmd.HeatCamera.FocusStepMinus]]
 - [[cmd.HeatCamera.FocusIn]]
 - [[cmd.HeatCamera.FocusOut]]
+
+
 
 ### Implementation Notes
 

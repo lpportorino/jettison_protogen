@@ -19,20 +19,26 @@ Sets the thermal visual effects/filter mode for the heat camera.
 |---|-------|------|-------------|
 | 1 | mode | [[ser.JonGuiDataFxModeHeat]] | defined enum value only, not in: 0 |
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :enum-picker
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Controls the thermal visual effects/filter mode applied to the heat camera image processing pipeline.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
+
+
+
 
 ### Implementation Notes
 

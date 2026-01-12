@@ -18,21 +18,27 @@ Captures a still thermal image from the heat camera. This is a fire-and-forget c
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :dual-feedback
-- **Timeout:** 2000ms
+
 
 ### Purpose
 
 Initiates thermal photo capture. Success is indicated by a change in the LRF target ID in state.
 
+
 ### Related State
 
 - [[ser.JonGuiDataCameraHeat]]
 - [[ser.JonGuiDataLrf]]
+
+
+
 
 ### Implementation Notes
 

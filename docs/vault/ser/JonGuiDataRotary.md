@@ -36,142 +36,162 @@ Real-time rotary platform state including azimuth, elevation, and movement speed
 | 17 | current_scan_node | [[ser.ScanNode]] | required |
 | 18 | is_started | bool | - |
 
+
+
 ## Interaction
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
-- **Update Rate:** Real-time
+
 
 ### Purpose
 
 Provides real-time state information for the rotary platform subsystem. UI components should display position values, movement indicators, scan progress, and operational mode.
 
+
+
 ### Related Commands
 
-- [[cmd.Rotary.MoveTo]] - Commands that modify azimuth/elevation
-- [[cmd.Rotary.SetSpeed]] - Commands that modify movement speeds
-- [[cmd.Rotary.StartScan]] - Commands that control scan operations
-- [[cmd.Rotary.SetMode]] - Commands that change operational mode
+- [[cmd.Rotary.MoveTo]]
+- [[cmd.Rotary.SetSpeed]]
+- [[cmd.Rotary.StartScan]]
+- [[cmd.Rotary.SetMode]]
 
-### Display Guidelines
 
-Display azimuth and elevation as primary indicators (compass/crosshair). Show movement speeds as directional arrows or velocity indicators. Scan progress should be shown as a progress bar (scan_target / scan_target_max). Platform orientation (bank) should be shown as a level indicator. Sun position can be overlaid on azimuth display for reference.
+
+
 
 ## Field Notes
+
 
 ### azimuth (#1)
 
 Current turret azimuth angle relative to platform reference.
 
+
 #### Metadata
 
 - **Semantic Type:** :angle
 - **Unit:** degrees
 - **Precision:** 1
 - **Display Format:** `{value}°`
-- **Range:** 0-360 (wraps)
+
 
 ### azimuth_speed (#2)
 
 Current azimuth rotation speed (normalized).
 
+
 #### Metadata
 
-- **Semantic Type:** :speed-normalized
+- **Semantic Type:** :speed
 - **Unit:** -
 - **Precision:** 2
 - **Display Format:** `{value * 100}%`
-- **Range:** -1 to 1 (negative = counterclockwise, positive = clockwise)
+
 
 ### elevation (#3)
 
 Current turret elevation angle.
 
+
 #### Metadata
 
 - **Semantic Type:** :angle
 - **Unit:** degrees
 - **Precision:** 1
 - **Display Format:** `{value}°`
-- **Range:** -90 to 90
+
 
 ### elevation_speed (#4)
 
 Current elevation movement speed (normalized).
 
+
 #### Metadata
 
-- **Semantic Type:** :speed-normalized
+- **Semantic Type:** :speed
 - **Unit:** -
 - **Precision:** 2
 - **Display Format:** `{value * 100}%`
-- **Range:** -1 to 1 (negative = down, positive = up)
+
 
 ### platform_azimuth (#5)
 
 Platform's absolute azimuth orientation.
 
+
 #### Metadata
 
 - **Semantic Type:** :angle
 - **Unit:** degrees
 - **Precision:** 1
 - **Display Format:** `{value}°`
-- **Range:** 0-360
+
 
 ### platform_elevation (#6)
 
 Platform's elevation angle.
 
+
 #### Metadata
 
 - **Semantic Type:** :angle
 - **Unit:** degrees
 - **Precision:** 1
 - **Display Format:** `{value}°`
+
 
 ### platform_bank (#7)
 
 Platform's bank/roll angle.
 
+
 #### Metadata
 
 - **Semantic Type:** :angle
 - **Unit:** degrees
 - **Precision:** 1
 - **Display Format:** `{value}°`
-- **Range:** -180 to 180
+
 
 ### is_moving (#8)
 
 True if platform is currently in motion.
 
+
 #### Metadata
 
-- **Semantic Type:** :status-flag
-- **Display Format:** Show movement indicator/icon when true
+- **Semantic Type:** :toggle-state
+- **Display Format:** `Show movement indicator/icon when true`
+
 
 ### scan_target (#13)
 
 Current scan progress counter.
+
 
 #### Metadata
 
 - **Semantic Type:** :count
 - **Display Format:** `{scan_target} / {scan_target_max}`
 
+
 ### scan_target_max (#14)
 
 Total scan points in current scan pattern.
 
+
 #### Metadata
 
 - **Semantic Type:** :count
-- **Display Format:** Used in progress bar calculation
+- **Display Format:** `Used in progress bar calculation`
+
 
 ### sun_azimuth (#15)
 
 Calculated sun azimuth position.
+
 
 #### Metadata
 
@@ -179,11 +199,12 @@ Calculated sun azimuth position.
 - **Unit:** degrees
 - **Precision:** 1
 - **Display Format:** `{value}°`
-- **Range:** 0-360
+
 
 ### sun_elevation (#16)
 
 Calculated sun elevation position.
+
 
 #### Metadata
 
