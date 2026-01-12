@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Moves day camera lens (zoom or focus) to a target position at a specified speed. Both target_value and speed are normalized (0-1 range). Used within Focus and Zoom composite commands for smooth, controlled lens movement with variable speed control.
 
 ## Fields
 

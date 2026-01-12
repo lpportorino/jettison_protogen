@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Cycles to the previous visual effect (FX) mode for the day camera. Counterpart to NextFxMode, this command navigates backward through the available FX modes list. Used in keyboard shortcuts and FX mode selector buttons for bidirectional mode navigation.
 
 ## Fields
 

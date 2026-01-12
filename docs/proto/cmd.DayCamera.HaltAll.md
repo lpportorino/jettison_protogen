@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Emergency stop command that immediately halts all day camera actuator movements (both zoom and focus motors). This parameterless command provides a safety mechanism to stop any ongoing lens movement operations instantly.
 
 ## Fields
 

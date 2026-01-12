@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Cycles to the next FX (visual effects) mode for the day camera. FX modes include image enhancement filters like CLAHE, edge detection, and color adjustments. This parameterless command advances through the available modes list, wrapping around at the end.
 
 ## Fields
 

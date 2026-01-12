@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Adjusts day camera focus or zoom position by a relative offset amount. The offset_value is normalized (-1 to 1 range) where negative values move toward minimum and positive toward maximum. Used within Focus and Zoom composite commands for incremental adjustments.
 
 ## Fields
 

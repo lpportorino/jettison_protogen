@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Decrements the day camera optical zoom to the previous position in the zoom table. Counterpart to NextZoomTablePos, this parameterless command steps backward through predefined zoom levels. Commonly triggered via hotkey commands and mouse wheel interactions for quick zoom-out operations.
 
 ## Fields
 

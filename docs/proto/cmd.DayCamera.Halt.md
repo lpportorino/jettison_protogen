@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Immediately stops zoom or focus motor movement on the day camera. Used as a sub-command within Focus and Zoom composite commands to halt individual lens actuator movement. Part of the emergency stop control pattern for lens operations.
 
 ## Fields
 

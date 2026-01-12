@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Trigger command that requests the day camera to re-apply its current FX mode settings. This parameterless command is useful for refreshing visual effects after parameter changes or to ensure the current mode is properly active without cycling to a different mode.
 
 ## Fields
 

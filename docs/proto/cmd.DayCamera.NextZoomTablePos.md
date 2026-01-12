@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Advances the day camera to the next predefined optical zoom position in the zoom table. The zoom table contains preset magnification levels (e.g., 1x, 2x, 4x, 10x) allowing quick jumps between commonly-used zoom levels without continuous adjustment.
 
 ## Fields
 

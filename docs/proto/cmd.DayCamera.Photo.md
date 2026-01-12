@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers a photo capture from the day camera. This parameterless command captures a still image from the current video feed. The UI button shows pending state until capture completes, which is indicated by a change in the LRF target ID.
 
 ## Fields
 
