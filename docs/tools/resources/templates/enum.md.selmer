@@ -1,0 +1,21 @@
+---
+id: {{id}}
+proto: {{source}}
+package: {{package}}
+type: enum
+---
+
+# {{name}}
+
+**Source:** `{{source}}`
+
+## Description
+
+{% if description %}{{description|safe}}{% else %}*No description yet.*{% endif %}
+
+## Values
+
+| # | Name | Description |
+|---|------|-------------|
+{% for val in values %}| {{val.number}} | {{val.name}} | {% if val.description %}{{val.description|safe}}{% else %}-{% endif %} |
+{% endfor %}

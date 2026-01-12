@@ -1,0 +1,22 @@
+---
+title: Proto Documentation Index
+type: index
+---
+
+# Proto Documentation
+
+**Statistics:** {{stats.message-count}} messages, {{stats.enum-count}} enums, {{stats.field-count}} fields
+
+## Messages by Package
+
+{% for pkg in packages %}
+### {{pkg.name}}
+
+{% for msg in pkg.messages %}- [[{{msg.id}}|{{msg.name}}]]
+{% endfor %}
+{% endfor %}
+
+## Enums
+
+{% for enum in enums %}- [[{{enum.id}}|{{enum.name}}]]
+{% endfor %}

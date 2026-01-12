@@ -1,0 +1,84 @@
+---
+id: {{id}}
+proto: {{source}}
+package: {{package}}
+type: message
+---
+
+# {{name}}
+
+**Source:** `{{source}}`
+
+## Description
+
+{% if description %}{{description|safe}}{% else %}*No description yet.*{% endif %}
+
+## Fields
+
+| # | Field | Type | Constraints |
+|---|-------|------|-------------|
+{% for field in fields %}| {{field.number}} | {{field.name}} | {{field.type|safe}} | {% if field.constraints %}{{field.constraints|safe}}{% else %}-{% endif %} |
+{% endfor %}
+{% if oneofs %}
+## Oneofs
+
+{% for oneof in oneofs %}
+### {{oneof.name}}{% if oneof.required %} (required){% endif %}
+
+Fields: {% for num in oneof.fields %}#{{num}}{% if not forloop.last %}, {% endif %}{% endfor %}
+
+{% endfor %}
+{% endif %}
+{% if has-interaction %}
+## Interaction
+
+{% if interaction.category %}- **Category:** :{{interaction.category}}
+{% endif %}{% if interaction.ui-pattern %}- **UI Pattern:** :{{interaction.ui-pattern}}
+{% endif %}{% if interaction.feedback %}- **Feedback:** :{{interaction.feedback}}
+{% endif %}{% if interaction.timeout-ms %}- **Timeout:** {{interaction.timeout-ms}}ms
+{% endif %}
+{% if interaction.purpose %}
+### Purpose
+
+{{interaction.purpose|safe}}
+{% endif %}
+{% if interaction.related-state %}
+### Related State
+
+{% for ref in interaction.related-state %}- {{ref|safe}}
+{% endfor %}{% endif %}
+{% if interaction.related-commands %}
+### Related Commands
+
+{% for ref in interaction.related-commands %}- {{ref|safe}}
+{% endfor %}{% endif %}
+{% if interaction.preconditions %}
+### Preconditions
+
+{% for cond in interaction.preconditions %}- {{cond}}
+{% endfor %}{% endif %}
+{% if interaction.notes %}
+### Implementation Notes
+
+{{interaction.notes|safe}}
+{% endif %}
+{% endif %}
+{% if has-field-notes %}
+## Field Notes
+
+{% for field in fields %}{% if field.has-field-note %}
+### {{field.name}} (#{{field.number}})
+
+{% if field.description %}{{field.description|safe}}
+
+{% endif %}{% if field.interaction.has-any %}
+#### Metadata
+
+{% if field.interaction.semantic-type %}- **Semantic Type:** :{{field.interaction.semantic-type}}
+{% endif %}{% if field.interaction.unit %}- **Unit:** {{field.interaction.unit}}
+{% endif %}{% if field.interaction.precision %}- **Precision:** {{field.interaction.precision}}
+{% endif %}{% if field.interaction.display-format %}- **Display Format:** `{{field.interaction.display-format}}`
+{% endif %}{% if field.interaction.presets %}- **Presets:** {{field.interaction.presets}}
+{% endif %}
+{% endif %}{% endif %}{% endfor %}
+{% endif %}

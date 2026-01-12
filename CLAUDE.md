@@ -275,10 +275,147 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution
 
+## Proto Documentation System
+
+The `docs/` directory contains a Clojure-based documentation generator for the proto schema. It produces Obsidian-compatible markdown with roundtrip support (user documentation survives regeneration).
+
+### Key Components
+
+```
+docs/
+├── proto-db.edn           # EDN database (git committed)
+├── vault/                 # Generated Obsidian vault
+│   ├── index.md          # Schema index
+│   ├── commands/         # cmd.* messages
+│   ├── state/            # ser.* messages
+│   └── enums/            # Enum definitions
+├── tools/                 # Clojure tooling
+│   ├── src/protodoc/     # Core modules
+│   ├── test/protodoc/    # Tests (64 tests, 255 assertions)
+│   ├── resources/templates/  # Selmer templates
+│   ├── Dockerfile        # temurin-25 based
+│   └── deps.edn          # Dependencies
+└── scripts/               # Babashka scripts for Claude
+    ├── proto-search.clj  # Fuzzy search
+    └── proto-coverage.clj # Coverage report
+```
+
+### Database Schema
+
+The `proto-db.edn` file contains:
+
+```clojure
+{:messages {"cmd.DayCamera.SetIris" {:id "cmd.DayCamera.SetIris"
+                                      :name "SetIris"
+                                      :package "cmd.DayCamera"
+                                      :source "jon_shared_cmd_day_camera.proto"
+                                      :description "User docs (preserved)"
+                                      :fields [{:number 1 :name "value" :type :double
+                                                :constraints {:gte 0 :lte 1}}]}}
+ :enums {"ser.JonGuiDataClientType" {...}}
+ :search-index {"iris" ["cmd.DayCamera.SetIris"] ...}}
+```
+
+### Interaction Metadata
+
+Messages and fields can have optional interaction metadata for platform-agnostic UI specifications:
+
+```clojure
+;; Message-level interaction
+{:interaction {:category :actuator           ; :sensor :actuator :settings :status :lifecycle :diagnostic
+               :ui-pattern :slider-with-presets  ; See UI patterns below
+               :feedback :pending-timeout    ; :fire-and-forget :pending-timeout :poll-confirm :optimistic-visual
+               :timeout-ms 2000
+               :purpose "Controls the iris aperture"
+               :related-state ["ser.JonGuiDataCameraDay"]
+               :related-commands ["cmd.DayCamera.SetAutoIris"]
+               :preconditions ["Camera must be started" "Auto-iris disabled"]
+               :notes "Implementation notes"}}
+
+;; Field-level interaction
+{:interaction {:semantic-type :normalized    ; :angle :percentage :temperature :voltage etc.
+               :unit "%"                     ; Display unit
+               :precision 0                  ; Decimal places
+               :display-format "{value * 100}%"
+               :presets [0 0.25 0.5 0.75 1.0 "auto"]}}
+```
+
+**UI Patterns (hierarchical):**
+- Atomic: `:toggle` `:action-button` `:slider` `:stepper` `:indicator` `:enum-picker`
+- Molecular: `:slider-with-steppers` `:press-accelerating`
+- Composite: `:slider-with-presets` `:directional-mover` `:tabbed-config` `:state-machine-menu`
+
+**Semantic Types:** `:normalized` `:angle` `:percentage` `:coordinate-geo` `:temperature` `:voltage` `:current` `:power` `:distance` `:duration` `:count` `:timestamp` `:cardinal` `:enum-label` `:raw`
+
+Interaction metadata survives roundtrip regeneration and appears in the `## Interaction` section of generated markdown.
+
+### Common Operations
+
+```bash
+# Generate docs (from repo root)
+make docs-generate
+make docs-docker-generate  # In Docker
+
+# Run tests
+make docs-test
+make docs-docker-test      # In Docker
+
+# Coverage report
+make docs-coverage
+make docs-docker-coverage  # In Docker
+
+# Search proto schema (via Claude command)
+/proto-search iris
+/proto-search camera zoom
+
+# Coverage report (via Claude command)
+/proto-coverage
+```
+
+### Claude Slash Commands
+
+Two slash commands are available for proto schema exploration:
+
+- `/proto-search <query>` - Fuzzy search messages, fields, enums
+- `/proto-coverage` - Show documentation coverage report
+
+These use Babashka scripts that read directly from `proto-db.edn`.
+
+### Workflow
+
+1. **Generate** - Parse JSON descriptors, extract user content, render markdown
+2. **Edit** - Users edit markdown in `vault/` (descriptions, field notes)
+3. **Regenerate** - User content extracted and preserved in new output
+4. **Search** - Use `/proto-search` to find messages/fields
+
+### Data Flow
+
+```
+descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.clj → vault/*.md
+                                       ↑                              │
+                                       └──────── user edits ──────────┘
+```
+
+### Testing
+
+```bash
+cd docs/tools
+clojure -M:test  # 64 tests, 255 assertions
+
+# Test categories:
+# - schema_test.clj    - Malli validation, property-based
+# - parse_test.clj     - JSON parsing, constraints, error handling
+# - extract_test.clj   - Markdown extraction, frontmatter
+# - render_test.clj    - Template rendering, wikilinks
+# - roundtrip_test.clj - E2E preservation tests
+# - core_test.clj      - CLI, integration
+```
+
 ## References
 
 ### Internal Files
 - See [`README.md`](./README.md) for user documentation
+- See [`docs/tools/README.md`](./docs/tools/README.md) for proto docs tool documentation
 - See [`scripts/proto_cleanup.awk`](./scripts/proto_cleanup.awk) for annotation removal logic
 
 ### External Documentation
@@ -287,3 +424,5 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 - [nanopb](https://github.com/nanopb/nanopb)
 - [ts-proto](https://github.com/stephenh/ts-proto)
 - [prost](https://github.com/tokio-rs/prost)
+- [Malli](https://github.com/metosin/malli) - Schema validation
+- [Selmer](https://github.com/yogthos/Selmer) - Template rendering

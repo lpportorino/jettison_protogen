@@ -1,0 +1,26 @@
+services:
+  generate:
+    build: .
+    volumes:
+      - ../../output/json-descriptors:/data/descriptors:ro
+      - ../:/data/docs
+    working_dir: /data/docs
+    command: ["-M:run", "generate", "--descriptor", "/data/descriptors/descriptor-set.json", "--output-dir", "/data/docs/vault", "--db-path", "/data/docs/proto-db.edn"]
+
+  test:
+    build: .
+    command: ["-M:test"]
+
+  coverage:
+    build: .
+    volumes:
+      - ../:/data/docs:ro
+    working_dir: /data/docs
+    command: ["-M:run", "coverage", "--db-path", "/data/docs/proto-db.edn"]
+
+  validate:
+    build: .
+    volumes:
+      - ../:/data/docs:ro
+    working_dir: /data/docs
+    command: ["-M:run", "validate", "--db-path", "/data/docs/proto-db.edn"]
