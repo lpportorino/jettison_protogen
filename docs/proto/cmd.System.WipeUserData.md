@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Permanently deletes all user data from the device, including all photos, videos, recordings, and custom settings. Requires explicit user confirmation through a modal dialog before execution due to the irreversible nature of the operation.
 
 ## Fields
 

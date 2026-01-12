@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Categorizes different types of clients connecting to the system based on their connection method: internal computer vision systems (INTERNAL_CV), local network access (LOCAL_NETWORK), certificate-protected secured connections (CERTIFICATE_PROTECTED), and LIRA device interfaces (LIRA).
 
 ## Values
 

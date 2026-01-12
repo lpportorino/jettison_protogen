@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Encapsulates real-time spatial position and temporal information of the system, containing three-dimensional attitude angles (azimuth, elevation, bank), geographic coordinates (latitude, longitude, altitude), and a timestamp. Displayed across multiple UI widgets including the azimuth compass, altitude scale, and time widget.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents the complete operational and configuration state of the thermal/infrared camera system, including optical parameters (zoom position, field-of-view, focus mode), image processing settings (AGC mode, filter selection, CLAHE enhancement, DDE dynamics enhancement), and operational status.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Captures the complete operational state of the day camera, including normalized control positions (focus, zoom, iris), automatic control modes (auto-focus, auto-iris, auto-gain), field of view angles, and image processing parameters like CLAHE level and FX mode presets.
 
 ## Fields
 

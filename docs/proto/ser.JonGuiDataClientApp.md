@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Identifies the type of client application connecting to the system, enabling the server to differentiate between different UI implementations. Defines four application types: BROWSER_UI (web interface), BROWSER_MAP (map view), DESKTOP_NATIVE (desktop app), and MOBILE_NATIVE (mobile app).
 
 ## Values
 

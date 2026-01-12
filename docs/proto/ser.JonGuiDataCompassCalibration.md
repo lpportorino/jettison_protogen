@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents the current state and progress of a compass calibration process, tracking the current step (stage), total steps required (final_stage), target orientation angles the user should point toward, and the overall calibration status.
 
 ## Fields
 

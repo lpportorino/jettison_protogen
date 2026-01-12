@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Represents the current state of the compass calibration process with five distinct statuses: not calibrating (idle), calibrating short, calibrating long (multi-stage extended calibration), finished (successful completion), and error (calibration failure).
 
 ## Values
 

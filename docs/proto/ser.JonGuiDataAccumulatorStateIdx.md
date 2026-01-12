@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Represents the charge state index of an internal battery (accumulator) with 11 discrete states ranging from empty to full, plus a charging state. Used in the battery indicator UI component with color-coded visual feedback (red=empty, orange=low, yellow=medium, green=good/full, blue=charging).
 
 ## Values
 
