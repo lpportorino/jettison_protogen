@@ -348,7 +348,7 @@ REBUILD_IMAGE=true ./generate-protos.sh
 
 ## Proto Documentation
 
-The repository includes a documentation generator for the proto schema. See [`docs/tools/README.md`](./docs/tools/README.md) for full details.
+The repository includes a documentation generator for the proto schema. See [`docs/.protodoc/tools/README.md`](./docs/.protodoc/tools/README.md) for full details.
 
 ### Quick Start
 

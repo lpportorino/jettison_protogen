@@ -277,27 +277,27 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 
 ## Proto Documentation System
 
-The `docs/` directory contains a Clojure-based documentation generator for the proto schema. It produces Obsidian-compatible markdown with roundtrip support (user documentation survives regeneration).
+The `docs/` directory IS the Obsidian vault, containing generated markdown with roundtrip support (user documentation survives regeneration). Implementation files are in `.protodoc/`.
 
 ### Key Components
 
 ```
-docs/
-├── proto-db.edn           # EDN database (git committed)
-├── vault/                 # Generated Obsidian vault
-│   ├── index.md          # Schema index
-│   ├── commands/         # cmd.* messages
-│   ├── state/            # ser.* messages
-│   └── enums/            # Enum definitions
-├── tools/                 # Clojure tooling
-│   ├── src/protodoc/     # Core modules
-│   ├── test/protodoc/    # Tests (64 tests, 255 assertions)
-│   ├── resources/templates/  # Selmer templates
-│   ├── Dockerfile        # temurin-25 based
-│   └── deps.edn          # Dependencies
-└── scripts/               # Babashka scripts for Claude
-    ├── proto-search.clj  # Fuzzy search
-    └── proto-coverage.clj # Coverage report
+docs/                      # Obsidian vault (output)
+├── .protodoc/             # Implementation files (hidden)
+│   ├── proto-db.edn      # EDN database (git committed)
+│   ├── scripts/          # Babashka scripts for Claude
+│   │   ├── proto-search.clj
+│   │   └── proto-coverage.clj
+│   └── tools/            # Clojure tooling
+│       ├── src/protodoc/ # Core modules
+│       ├── test/protodoc/# Tests (64 tests, 255 assertions)
+│       ├── resources/    # Selmer templates
+│       ├── Dockerfile    # temurin-25 based
+│       └── deps.edn      # Dependencies
+├── cmd/                   # cmd.* messages
+├── ser/                   # ser.* messages
+├── enums/                 # Enum definitions
+└── index.md               # Schema index
 ```
 
 ### Database Schema
@@ -379,19 +379,19 @@ Two slash commands are available for proto schema exploration:
 - `/proto-search <query>` - Fuzzy search messages, fields, enums
 - `/proto-coverage` - Show documentation coverage report
 
-These use Babashka scripts that read directly from `proto-db.edn`.
+These use Babashka scripts that read directly from `.protodoc/proto-db.edn`.
 
 ### Workflow
 
 1. **Generate** - Parse JSON descriptors, extract user content, render markdown
-2. **Edit** - Users edit markdown in `vault/` (descriptions, field notes)
+2. **Edit** - Users edit markdown in `docs/` (descriptions, field notes)
 3. **Regenerate** - User content extracted and preserved in new output
 4. **Search** - Use `/proto-search` to find messages/fields
 
 ### Data Flow
 
 ```
-descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.clj → vault/*.md
+descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.clj → docs/*.md
                                        ↑                              │
                                        └──────── user edits ──────────┘
 ```
@@ -399,7 +399,7 @@ descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.cl
 ### Testing
 
 ```bash
-cd docs/tools
+cd docs/.protodoc/tools
 clojure -M:test  # 64 tests, 255 assertions
 
 # Test categories:
@@ -415,7 +415,7 @@ clojure -M:test  # 64 tests, 255 assertions
 
 ### Internal Files
 - See [`README.md`](./README.md) for user documentation
-- See [`docs/tools/README.md`](./docs/tools/README.md) for proto docs tool documentation
+- See [`docs/.protodoc/tools/README.md`](./docs/.protodoc/tools/README.md) for proto docs tool documentation
 - See [`scripts/proto_cleanup.awk`](./scripts/proto_cleanup.awk) for annotation removal logic
 
 ### External Documentation

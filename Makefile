@@ -128,26 +128,26 @@ versions: build ## Show versions of tools in the Docker image
 .PHONY: docs-generate
 docs-generate: ## Generate proto documentation (parse + extract + render)
 	@echo "$(GREEN)Generating proto documentation...$(NC)"
-	@cd docs/tools && clojure -M:run generate --descriptor ../../output/json-descriptors/descriptor-set.json --output-dir ../vault --db-path ../proto-db.edn
+	@cd docs/.protodoc/tools && clojure -M:run generate --descriptor ../../../output/json-descriptors/descriptor-set.json --output-dir ../.. --db-path ../proto-db.edn
 
 .PHONY: docs-coverage
 docs-coverage: ## Show proto documentation coverage
 	@echo "$(GREEN)Documentation coverage:$(NC)"
-	@bb docs/scripts/proto-coverage.clj docs/proto-db.edn
+	@bb docs/.protodoc/scripts/proto-coverage.clj docs/.protodoc/proto-db.edn
 
 .PHONY: docs-search
 docs-search: ## Search proto docs (usage: make docs-search Q="query")
-	@bb docs/scripts/proto-search.clj "$(Q)" docs/proto-db.edn
+	@bb docs/.protodoc/scripts/proto-search.clj "$(Q)" docs/.protodoc/proto-db.edn
 
 .PHONY: docs-test
 docs-test: ## Run proto documentation tests
 	@echo "$(GREEN)Running documentation tests...$(NC)"
-	@cd docs/tools && clojure -M:test
+	@cd docs/.protodoc/tools && clojure -M:test
 
 .PHONY: docs-docker-build
 docs-docker-build: ## Build proto docs Docker image
 	@echo "$(GREEN)Building proto docs Docker image...$(NC)"
-	@cd docs/tools && DOCKER_BUILDKIT=1 docker build --network=host -t protodoc:latest .
+	@cd docs/.protodoc/tools && DOCKER_BUILDKIT=1 docker build --network=host -t protodoc:latest .
 
 .PHONY: docs-docker-test
 docs-docker-test: ## Run proto docs tests in Docker
@@ -163,8 +163,8 @@ docs-docker-generate: ## Generate docs using Docker
 		protodoc:latest \
 		-M:run generate \
 		--descriptor /data/descriptors/descriptor-set.json \
-		--output-dir /data/docs/vault \
-		--db-path /data/docs/proto-db.edn
+		--output-dir /data/docs \
+		--db-path /data/docs/.protodoc/proto-db.edn
 
 .PHONY: docs-docker-coverage
 docs-docker-coverage: ## Show coverage via Docker
@@ -172,7 +172,7 @@ docs-docker-coverage: ## Show coverage via Docker
 	@docker run --rm --network=host \
 		-v $$(pwd)/docs:/data/docs:ro \
 		protodoc:latest \
-		-M:run coverage --db-path /data/docs/proto-db.edn
+		-M:run coverage --db-path /data/docs/.protodoc/proto-db.edn
 
 .PHONY: docs-docker-all
 docs-docker-all: docs-docker-build docs-docker-test docs-docker-generate ## Build, test, and generate in Docker
