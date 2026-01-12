@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Increments or decrements the day value of the manually-set system time by a signed integer offset. Positive values advance to future days, negative values go to previous days. The UI provides buttons for -5, -1, +1, and +5 day adjustments.
 
 ## Fields
 

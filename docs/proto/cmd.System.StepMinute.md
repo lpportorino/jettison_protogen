@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Increments or decrements the device's manual time minute value by the specified offset. Positive values increment and negative values decrement the minute. The UI provides buttons for -5, -1, +1, and +5 minute adjustments.
 
 ## Fields
 

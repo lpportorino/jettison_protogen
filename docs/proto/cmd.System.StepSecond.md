@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Increments or decrements the second value of the manual time by a specified offset amount. Positive integers increment seconds and negative integers decrement seconds, allowing fine-grained time adjustment via -5, -1, +1, +5 buttons.
 
 ## Fields
 

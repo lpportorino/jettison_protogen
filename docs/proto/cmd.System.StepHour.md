@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Adjusts the manual system time by incrementing or decrementing the hour value using a positive or negative offset. The UI provides arrow buttons for -5, -1, +1, and +5 hour adjustments when manual time mode is enabled.
 
 ## Fields
 

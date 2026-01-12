@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Increments or decrements the system year value by a specified offset when in manual time mode. The UI provides buttons to adjust the year by -5, -1, +1, or +5 years through the Manual Time Control component.
 
 ## Fields
 

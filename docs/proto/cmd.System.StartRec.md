@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates video recording on the device, triggering continuous video capture from the camera streams. The recording state is tracked by the `rec_enabled` flag in the system state and works in conjunction with StopRec to control the recording lifecycle.
 
 ## Fields
 

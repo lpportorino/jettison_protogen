@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Shuts down all active system subsystems including cameras, sensors, and platform components. Triggered from the UI via a "Stop All Systems" button, this command represents the counterpart to StartALl for cleanly halting all system operations.
 
 ## Fields
 

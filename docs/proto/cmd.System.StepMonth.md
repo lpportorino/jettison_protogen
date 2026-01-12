@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Adjusts the manually set time by incrementing or decrementing the month value by a specified offset. The UI provides arrow buttons to step the month forward or backward by 1 or 5 units at a time when manual time mode is enabled.
 
 ## Fields
 

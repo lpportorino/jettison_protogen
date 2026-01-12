@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Instructs the device to immediately stop video recording. When received by the recording subsystem, this command ceases capture of thermal and day camera video data and finalizes the current recording file.
 
 ## Fields
 

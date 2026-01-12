@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Steps through available timezone options by a specified positive or negative index offset. The UI provides navigation buttons that cycle through the timezone list with offsets of -10, -1, +1, and +10 to select different timezones.
 
 ## Fields
 
