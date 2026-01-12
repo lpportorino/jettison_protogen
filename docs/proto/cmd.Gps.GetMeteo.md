@@ -35,9 +35,9 @@ Requests meteorological/diagnostic data from GPS module
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Compass.GetMeteo]]
-- [[proto/proto/proto/cmd.HeatCamera.GetMeteo]]
-- [[proto/proto/proto/cmd.RotaryPlatform.GetMeteo]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.GetMeteo]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.GetMeteo]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.GetMeteo]]
 
 
 

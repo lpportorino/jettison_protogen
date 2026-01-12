@@ -34,14 +34,14 @@ Reset heat camera zoom position to default/minimum
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.HeatCamera.ZoomIn]]
-- [[proto/proto/proto/cmd.HeatCamera.ZoomOut]]
-- [[proto/proto/proto/cmd.HeatCamera.SaveToTable]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomIn]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomOut]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SaveToTable]]
 
 
 ### Preconditions

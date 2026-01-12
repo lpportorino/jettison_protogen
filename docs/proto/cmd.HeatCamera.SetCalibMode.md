@@ -34,7 +34,7 @@ Set calibration mode for heat camera
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 

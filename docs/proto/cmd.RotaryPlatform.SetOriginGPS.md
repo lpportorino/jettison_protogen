@@ -37,12 +37,12 @@ Sets the GPS origin point for rotary platform coordinate calculations
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataGps]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataGps]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.RotaryPlatform.RotateToGPS]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateToGPS]]
 
 
 

@@ -37,14 +37,14 @@ Rotates azimuth axis by a relative offset from current position
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataRotaryPlatform]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataRotaryPlatform]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
-- [[proto/proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
-- [[proto/proto/proto/cmd.RotaryPlatform.RotateElevationRelative]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateElevationRelative]]
 
 
 

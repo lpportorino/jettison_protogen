@@ -41,7 +41,7 @@ Update parameters of an existing scan pattern node
 
 ### Related State
 
-- [[proto/proto/proto/ser.ScanNode]]
+- [[proto/proto/proto/proto/proto/ser.ScanNode]]
 
 
 

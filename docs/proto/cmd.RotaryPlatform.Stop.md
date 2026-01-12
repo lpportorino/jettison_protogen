@@ -34,13 +34,13 @@ Stop rotary platform motion and disable motor control
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.RotaryPlatform.Start]]
-- [[proto/proto/proto/cmd.RotaryPlatform.Halt]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.Start]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.Halt]]
 
 
 

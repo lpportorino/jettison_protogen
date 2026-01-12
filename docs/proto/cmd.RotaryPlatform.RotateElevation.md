@@ -36,13 +36,13 @@ Continuously rotates platform elevation at specified speed
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.RotaryPlatform.HaltElevation]]
-- [[proto/proto/proto/cmd.RotaryPlatform.RotateElevationTo]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltElevation]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateElevationTo]]
 
 
 ### Preconditions

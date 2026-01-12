@@ -39,10 +39,10 @@ Compass calibration state and progress
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Compass.CalibrateStartLong]]
-- [[proto/proto/proto/cmd.Compass.CalibrateStartShort]]
-- [[proto/proto/proto/cmd.Compass.CalibrateNext]]
-- [[proto/proto/proto/cmd.Compass.CalibrateCencel]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartShort]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateNext]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateCencel]]
 
 
 

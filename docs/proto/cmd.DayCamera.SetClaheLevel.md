@@ -35,12 +35,12 @@ Set CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level f
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.ShiftClaheLevel]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.ShiftClaheLevel]]
 
 
 ### Preconditions

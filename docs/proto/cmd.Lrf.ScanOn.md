@@ -34,13 +34,13 @@ Enables continuous LRF scanning mode
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Lrf.ScanOff]]
-- [[proto/proto/proto/cmd.Lrf.Measure]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf.ScanOff]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf.Measure]]
 
 
 ### Preconditions

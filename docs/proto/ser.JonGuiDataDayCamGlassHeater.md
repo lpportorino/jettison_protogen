@@ -38,8 +38,8 @@ Glass heater status for day camera (prevents fogging and ice)
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.GlassHeater.TurnOn]]
-- [[proto/proto/proto/cmd.DayCamera.GlassHeater.TurnOff]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.GlassHeater.TurnOn]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.GlassHeater.TurnOff]]
 
 
 

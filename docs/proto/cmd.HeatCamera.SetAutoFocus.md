@@ -35,12 +35,12 @@ Enables or disables auto-focus for thermal camera
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.CV.SetAutoFocus]]
+- [[proto/proto/proto/proto/proto/cmd.CV.SetAutoFocus]]
 
 
 ### Preconditions

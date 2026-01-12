@@ -34,14 +34,14 @@ Switch OSD to laser rangefinder measurement screen
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataOSD]]
-- [[proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataOSD]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.OSD.ShowDefaultScreen]]
-- [[proto/proto/proto/cmd.OSD.ShowLRFResultScreen]]
+- [[proto/proto/proto/proto/proto/cmd.OSD.ShowDefaultScreen]]
+- [[proto/proto/proto/proto/proto/cmd.OSD.ShowLRFResultScreen]]
 
 
 

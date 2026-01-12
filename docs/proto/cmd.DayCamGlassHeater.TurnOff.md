@@ -34,14 +34,14 @@ Turn off day camera glass heater to disable anti-fog/ice protection
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamGlassHeater.TurnOn]]
-- [[proto/proto/proto/cmd.DayCamGlassHeater.Start]]
-- [[proto/proto/proto/cmd.DayCamGlassHeater.Stop]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.TurnOn]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.Start]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.Stop]]
 
 
 

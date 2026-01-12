@@ -34,12 +34,12 @@ Stop day camera operation and release resources
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.Start]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.Start]]
 
 
 

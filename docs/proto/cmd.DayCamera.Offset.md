@@ -35,13 +35,13 @@ Offset focus or zoom by relative amount
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.Focus]]
-- [[proto/proto/proto/cmd.DayCamera.Zoom]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.Zoom]]
 
 
 

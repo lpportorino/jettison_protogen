@@ -34,7 +34,7 @@ Requests current zoom/focus position from day camera
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 

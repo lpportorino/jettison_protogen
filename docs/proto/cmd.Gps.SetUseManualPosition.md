@@ -35,12 +35,12 @@ Toggle between GPS-based and manual position entry
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataGps]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataGps]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Gps.SetManualPosition]]
+- [[proto/proto/proto/proto/proto/cmd.Gps.SetManualPosition]]
 
 
 

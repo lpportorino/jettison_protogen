@@ -35,12 +35,12 @@ Controls the camera iris (aperture) opening to adjust light intake and depth of 
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.SetAutoIris]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.SetAutoIris]]
 
 
 ### Preconditions

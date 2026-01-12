@@ -34,13 +34,13 @@ Enables LRF refine mode for precision measurements
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Lrf.RefineOff]]
-- [[proto/proto/proto/cmd.Lrf.Measure]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf.RefineOff]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf.Measure]]
 
 
 ### Preconditions

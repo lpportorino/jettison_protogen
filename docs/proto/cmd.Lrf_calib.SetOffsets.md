@@ -37,9 +37,9 @@ Sets LRF calibration offsets for alignment with camera view
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Lrf_calib.ShiftOffsetsBy]]
-- [[proto/proto/proto/cmd.Lrf_calib.SaveOffsets]]
-- [[proto/proto/proto/cmd.Lrf_calib.ResetOffsets]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf_calib.ShiftOffsetsBy]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf_calib.SaveOffsets]]
+- [[proto/proto/proto/proto/proto/cmd.Lrf_calib.ResetOffsets]]
 
 
 

@@ -35,8 +35,8 @@ Wipes all user data from the system (factory reset)
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.System.ResetConfigs]]
-- [[proto/proto/proto/cmd.System.SaveFactoryDefaults]]
+- [[proto/proto/proto/proto/proto/cmd.System.ResetConfigs]]
+- [[proto/proto/proto/proto/proto/cmd.System.SaveFactoryDefaults]]
 
 
 ### Preconditions

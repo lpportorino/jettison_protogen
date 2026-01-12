@@ -34,12 +34,12 @@ Enables vampire mode for computer vision processing
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.CV.VampireModeDisable]]
+- [[proto/proto/proto/proto/proto/cmd.CV.VampireModeDisable]]
 
 
 ### Preconditions

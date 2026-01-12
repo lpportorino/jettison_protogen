@@ -54,8 +54,8 @@ Root message for computer vision commands including tracking, autofocus, and mod
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.CV.DumpStart]]
-- [[proto/proto/proto/cmd.CV.DumpStop]]
+- [[proto/proto/proto/proto/proto/cmd.CV.DumpStart]]
+- [[proto/proto/proto/proto/proto/cmd.CV.DumpStop]]
 
 
 

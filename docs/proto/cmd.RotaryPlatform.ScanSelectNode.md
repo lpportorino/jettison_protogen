@@ -35,13 +35,13 @@ Selects specific scan waypoint by index
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.RotaryPlatform.ScanNext]]
-- [[proto/proto/proto/cmd.RotaryPlatform.ScanPrev]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanNext]]
+- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanPrev]]
 
 
 

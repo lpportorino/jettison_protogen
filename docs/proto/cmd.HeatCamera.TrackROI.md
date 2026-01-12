@@ -40,13 +40,13 @@ Defines region for object tracking on thermal camera
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.TrackROI]]
-- [[proto/proto/proto/cmd.CV.StartTrackNDC]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.TrackROI]]
+- [[proto/proto/proto/proto/proto/cmd.CV.StartTrackNDC]]
 
 
 ### Preconditions

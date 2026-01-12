@@ -35,14 +35,14 @@ Sets the DDE (Digital Detail Enhancement) level for thermal image processing
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.HeatCamera.ShiftDDE]]
-- [[proto/proto/proto/cmd.HeatCamera.EnableDDE]]
-- [[proto/proto/proto/cmd.HeatCamera.DisableDDE]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.ShiftDDE]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.EnableDDE]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.DisableDDE]]
 
 
 

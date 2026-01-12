@@ -35,14 +35,14 @@ Increments or decrements system day by offset
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataTime]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.System.StepMonth]]
-- [[proto/proto/proto/cmd.System.StepYear]]
-- [[proto/proto/proto/cmd.System.EnableManualTime]]
+- [[proto/proto/proto/proto/proto/cmd.System.StepMonth]]
+- [[proto/proto/proto/proto/proto/cmd.System.StepYear]]
+- [[proto/proto/proto/proto/proto/cmd.System.EnableManualTime]]
 
 
 ### Preconditions

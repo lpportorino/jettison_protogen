@@ -35,13 +35,13 @@ Sets automatic gain control mode for thermal camera image enhancement
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.HeatCamera.NextFxMode]]
-- [[proto/proto/proto/cmd.HeatCamera.SetFilters]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetFilters]]
 
 
 ### Preconditions

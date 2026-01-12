@@ -34,12 +34,12 @@ Unmarks current recording as important
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.System.MarkRecImportant]]
+- [[proto/proto/proto/proto/proto/cmd.System.MarkRecImportant]]
 
 
 

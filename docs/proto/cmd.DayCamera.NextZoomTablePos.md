@@ -34,13 +34,13 @@ Steps to next predefined optical zoom position
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.DayCamera.Zoom]]
-- [[proto/proto/proto/cmd.DayCamera.PrevZoomTablePos]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.Zoom]]
+- [[proto/proto/proto/proto/proto/cmd.DayCamera.PrevZoomTablePos]]
 
 
 

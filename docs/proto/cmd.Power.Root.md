@@ -45,7 +45,7 @@ Container for power management commands
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataPower]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataPower]]
 
 
 

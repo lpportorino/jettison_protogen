@@ -34,12 +34,12 @@ Save current zoom position to lookup table
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.HeatCamera.Zoom]]
+- [[proto/proto/proto/proto/proto/cmd.HeatCamera.Zoom]]
 
 
 

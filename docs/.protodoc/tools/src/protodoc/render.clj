@@ -150,6 +150,19 @@
   (selmer/render-file "enum.md.selmer"
                       (enum-to-template-data enum)))
 
+(defn- truncate-description
+  "Truncate description to max-len characters, adding ellipsis if needed."
+  [desc max-len]
+  (when desc
+    (if (<= (count desc) max-len)
+      desc
+      (str (subs desc 0 (- max-len 3)) "..."))))
+
+(defn- add-short-description
+  "Add truncated short-description to a message or enum map."
+  [item]
+  (assoc item :short-description (truncate-description (:description item) 120)))
+
 (defn render-index
   "Render the vault index."
   [db]
@@ -158,8 +171,12 @@
     (selmer/render-file "index.md.selmer"
                         {:packages (for [pkg packages]
                                      {:name pkg
-                                      :messages (sort-by :name (get messages-by-package pkg))})
-                         :enums (sort-by :name (vals (:enums db)))
+                                      :messages (->> (get messages-by-package pkg)
+                                                     (sort-by :name)
+                                                     (map add-short-description))})
+                         :enums (->> (vals (:enums db))
+                                     (sort-by :name)
+                                     (map add-short-description))
                          :stats {:message-count (count (:messages db))
                                  :enum-count (count (:enums db))
                                  :field-count (->> (:messages db)

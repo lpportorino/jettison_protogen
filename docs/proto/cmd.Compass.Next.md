@@ -35,8 +35,8 @@ Advance to next step in compass calibration sequence
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.Compass.CalibrateStartLong]]
-- [[proto/proto/proto/cmd.Compass.CalibrateStartShort]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartShort]]
 
 
 ### Preconditions

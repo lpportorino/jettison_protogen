@@ -35,7 +35,7 @@ Stops active video tracking
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.CV.StartTrackNDC]]
+- [[proto/proto/proto/proto/proto/cmd.CV.StartTrackNDC]]
 
 
 

@@ -34,12 +34,12 @@ Disables geodesic triangulation positioning mode
 
 ### Related State
 
-- [[proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/cmd.System.EnableGeodesicMode]]
+- [[proto/proto/proto/proto/proto/cmd.System.EnableGeodesicMode]]
 
 
 ### Preconditions
