@@ -12,11 +12,11 @@ type: index
 {% for pkg in packages %}
 ### {{pkg.name}}
 
-{% for msg in pkg.messages %}- [[{{msg.id}}|{{msg.name}}]]
+{% for msg in pkg.messages %}- [[proto/{{msg.id}}|{{msg.name}}]]
 {% endfor %}
 {% endfor %}
 
 ## Enums
 
-{% for enum in enums %}- [[{{enum.id}}|{{enum.name}}]]
+{% for enum in enums %}- [[proto/{{enum.id}}|{{enum.name}}]]
 {% endfor %}

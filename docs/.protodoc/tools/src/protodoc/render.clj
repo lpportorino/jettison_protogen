@@ -49,7 +49,7 @@
   "Format field type with optional reference link."
   [{:keys [type type-ref repeated]}]
   (let [base-type (if type-ref
-                    (str "[[" type-ref "]]")
+                    (str "[[proto/" type-ref "]]")
                     (name type))]
     (if repeated
       (str "repeated " base-type)
@@ -81,9 +81,9 @@
      :feedback (some-> (:feedback interaction) name)
      :timeout-ms (:timeout-ms interaction)
      :related-state (when (seq (:related-state interaction))
-                      (mapv #(str "[[" % "]]") (:related-state interaction)))
+                      (mapv #(str "[[proto/" % "]]") (:related-state interaction)))
      :related-commands (when (seq (:related-commands interaction))
-                         (mapv #(str "[[" % "]]") (:related-commands interaction)))
+                         (mapv #(str "[[proto/" % "]]") (:related-commands interaction)))
      :preconditions (:preconditions interaction)
      :notes (:notes interaction)
      :has-any true}))
@@ -128,15 +128,15 @@
 
 (defn- output-path-for-message
   "Generate output file path for a message.
-   Uses flat structure with full ID as filename for Obsidian wikilink compatibility."
+   Uses flat structure in proto/ subdirectory with full ID as filename."
   [output-dir message]
-  (io/file output-dir (str (:id message) ".md")))
+  (io/file output-dir "proto" (str (:id message) ".md")))
 
 (defn- output-path-for-enum
   "Generate output file path for an enum.
-   Uses flat structure with full ID as filename for Obsidian wikilink compatibility."
+   Uses flat structure in proto/ subdirectory with full ID as filename."
   [output-dir enum]
-  (io/file output-dir (str (:id enum) ".md")))
+  (io/file output-dir "proto" (str (:id enum) ".md")))
 
 (defn render-message
   "Render a single message to markdown string."
