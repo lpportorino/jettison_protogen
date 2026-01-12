@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates transport/shipping mode by commanding all system components (rotary platform, day camera zoom, thermal camera zoom) to move to safe parking positions (azimuth 0°, elevation 0°, zoom levels to zero) so the device can be safely transported or shipped.
 
 ## Fields
 

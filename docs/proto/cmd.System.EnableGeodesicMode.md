@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables geodesic/geographic coordinate mode, switching the system from local coordinate positioning to geographic coordinate positioning based on triangulation. This allows the system to track and display object positions using geographic coordinates rather than local reference frames.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Calibrates the rotary platform's elevation reference baseline by setting an absolute calibration value. Unlike SetElevationValue which moves the elevation axis during normal operation, this command establishes the platform's elevation offset that persists as the reference baseline.
 
 ## Fields
 

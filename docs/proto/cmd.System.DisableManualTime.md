@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables manual time mode and returns the device to automatically using GPS time instead of a manually-set timestamp. When triggered via the Manual Time Control UI toggle, it sets `use_manual_time` to false, allowing the device to synchronize with GPS time.
 
 ## Fields
 

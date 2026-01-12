@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Toggles whether the rotary platform's position readings are used as the primary compass heading source. When enabled, the platform's orientation is stored in the `use_platform_positioning` state flag and used by the rotary subsystem to determine heading.
 
 ## Fields
 

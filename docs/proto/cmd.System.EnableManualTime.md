@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Switches the device from GPS-based time synchronization to manual time mode, allowing users to manually set and adjust the system time using step commands for individual time units (year, month, day, hour, minute, second).
 
 ## Fields
 

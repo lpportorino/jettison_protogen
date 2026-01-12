@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initializes the rotary platform subsystem by triggering a PING command to test the connection and discover the hardware address. Once the PING ACK is received, the system begins querying the platform's current state and transitions from initialization mode to operational readiness.
 
 ## Fields
 

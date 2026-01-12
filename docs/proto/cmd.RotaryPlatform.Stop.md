@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops rotary platform motion and disables motor control, shutting down the rotary subsystem entirely. Unlike Halt which immediately freezes motion while keeping the system active and responsive, Stop is a lifecycle command that fully disables the rotary platform.
 
 ## Fields
 

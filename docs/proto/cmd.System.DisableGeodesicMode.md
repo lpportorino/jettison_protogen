@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables triangulation-based positioning by stopping the rotary alignment timer and returning the system to standard coordinate display mode. When geodesic mode is enabled, the system performs continuous rotary calibration to triangulate position; this command stops that alignment process.
 
 ## Fields
 

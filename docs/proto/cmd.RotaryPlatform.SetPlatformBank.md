@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the rotary platform's roll/bank angle to a specific value between -180 and 180 degrees. This command adjusts the platform's rotation around its longitudinal axis, allowing it to tilt left or right independently of azimuth and elevation adjustments.
 
 ## Fields
 
