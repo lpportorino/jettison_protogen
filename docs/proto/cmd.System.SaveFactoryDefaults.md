@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Persists the device's current system configuration as the factory default settings. These saved values become the new baseline that the device will revert to if a factory reset is performed.
 
 ## Fields
 

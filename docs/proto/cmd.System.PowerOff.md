@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers a controlled system shutdown sequence by creating a power-off flag that initiates the shutdown process. The frontend displays a confirmation dialog and monitors server disconnect to verify the system has powered down completely.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Atomically sets both the device's system timestamp and timezone in a single operation. Contains a 64-bit Unix timestamp (in nanoseconds) and a 32-bit timezone ID, primarily used when syncing the device's time with the browser's current time and locale.
 
 ## Fields
 

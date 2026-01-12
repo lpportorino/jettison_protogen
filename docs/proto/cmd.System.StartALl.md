@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers startup of all active system subsystems including cameras, sensors, and platform components. Sent from the UI via a "Start All Systems" button and represents the opposite action of the StopALl command.
 
 ## Fields
 

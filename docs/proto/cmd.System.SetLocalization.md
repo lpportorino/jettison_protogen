@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the system interface language/locale to one of the supported localizations: English (EN), Ukrainian (UA), Arabic (AR), or Czech (CS). This allows the UI to display text and localized content in the user's preferred language.
 
 ## Fields
 

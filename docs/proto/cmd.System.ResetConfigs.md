@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Resets all device configurations to their default values. The command prompts for user confirmation to prevent accidental resets, and causes the system to reload with factory default settings after a server restart.
 
 ## Fields
 

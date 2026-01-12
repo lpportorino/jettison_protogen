@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Marks the currently active recording as important by toggling an `importantRecEnabled` flag on the device state. This indicates to the system that the current video/recording session should be flagged for preservation or special handling.
 
 ## Fields
 

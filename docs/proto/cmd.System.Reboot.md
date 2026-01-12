@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Restarts the system after gracefully shutting down services, allowing users to reconnect after the system comes back online. Unlike PowerOff which completely shuts down requiring manual restart, Reboot executes `/sbin/reboot` and the system automatically restarts.
 
 ## Fields
 

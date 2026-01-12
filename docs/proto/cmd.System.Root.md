@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Union message that dispatches system-level commands through a required oneof field, allowing clients to send exactly one of 26 different system operation types (reboot, power-off, time adjustment, recording control, configuration management) in a type-safe, mutually-exclusive manner.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the device's timezone using a numeric zone ID (0-594) that maps to standard IANA timezone names (e.g., America/New_York, UTC). The timezone ID is used to update all subsequent time display calculations.
 
 ## Fields
 
