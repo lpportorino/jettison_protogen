@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the compass azimuth angle offset calibration value to correct for mounting or measurement errors in the horizontal axis. This allows manual adjustment of the compass azimuth reading by applying a fixed offset to compensate for mounting misalignment or sensor drift.
 
 ## Fields
 

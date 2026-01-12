@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command container that wraps all compass/magnetometer commands using a oneof pattern, enabling control of compass power state, calibration processes, and configuration settings. Commands are routed through the cmd_server to the compass module which communicates with the hardware via UART bridge.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Cancels an ongoing compass calibration process, returning the compass to normal operation mode. This command terminates a calibration session initiated by CalibrateStartLong or CalibrateStartShort, typically used when the user wants to abort calibration before completion.
 
 ## Fields
 

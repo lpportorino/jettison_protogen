@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates the long (comprehensive) compass calibration procedure, which guides the user through multiple stages of rotating the device to different orientations to correct for local magnetic field distortions. This is a multi-stage process (12-point) that compensates for hard-iron and soft-iron distortions.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the magnetic declination correction value for the compass to convert magnetic north readings to true north. Magnetic declination is the angle between magnetic north (as read by the compass) and true north, which varies by geographic location and changes over time.
 
 ## Fields
 

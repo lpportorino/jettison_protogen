@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates a short (4-point) compass calibration procedure that requires the device to be positioned at 4 cardinal points instead of the full multi-point long calibration. The backend sends COMPASS_CALIBRATION_4POINT to the compass device for this faster but less precise calibration mode.
 
 ## Fields
 

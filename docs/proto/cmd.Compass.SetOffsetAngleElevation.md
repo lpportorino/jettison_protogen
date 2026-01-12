@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the compass elevation angle offset calibration value to correct for mounting or measurement errors in the vertical axis. This allows manual adjustment of the compass elevation reading by applying a fixed offset to compensate for non-level mounting or local geomagnetic anomalies.
 
 ## Fields
 

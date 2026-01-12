@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests meteorological sensor data (temperature, humidity, pressure) from the compass module's environmental sensors. This command is periodically requested by a system timer (every 600ms) rather than being triggered by user interaction, allowing continuous monitoring of environmental conditions.
 
 ## Fields
 

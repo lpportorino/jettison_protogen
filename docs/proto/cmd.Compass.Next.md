@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+**UNUSED/ORPHANED MESSAGE**: This message is defined in jon_shared_cmd_compass.proto but is NOT wired into the cmd.Compass.Root oneof structure. The actual command used to advance compass calibration stages is cmd.Compass.CalibrateNext. This message can likely be removed from the proto file as dead code.
 
 ## Fields
 

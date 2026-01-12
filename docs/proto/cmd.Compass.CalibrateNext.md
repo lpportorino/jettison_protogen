@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Advances to the next step in an ongoing compass calibration sequence, signaling that the device has been positioned correctly for the current calibration stage. The backend automatically sends this command when using rotary platform positioning after the platform reaches the target position (within 5 degrees tolerance) and holds steady.
 
 ## Fields
 
