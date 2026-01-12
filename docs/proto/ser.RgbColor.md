@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Represents an RGB color value with red, green, and blue components each constrained to 0-255, used in the UI to specify and display target marker colors for laser rangefinder measurements and on-screen display (OSD) configuration.
 
 ## Fields
 

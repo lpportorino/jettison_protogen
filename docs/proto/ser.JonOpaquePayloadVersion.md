@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Structured version triplet (major, minor, build) that enables version-aware handling of opaque subsystem-specific payloads, supporting both build numbers and millisecond-precision timestamps for the build field. Allows handlers to perform version compatibility checks through simple numeric comparisons without string parsing.
 
 ## Fields
 

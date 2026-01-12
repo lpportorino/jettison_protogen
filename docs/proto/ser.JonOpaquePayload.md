@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Extensibility container that carries subsystem-specific binary payloads identified by UUIDv7 type markers and semantic versioning, allowing handlers to match payload types and verify version compatibility without the transport layer interpreting the binary data. Appears in both state and command messages as a repeated field to support multiple concurrent subsystem extensions.
 
 ## Fields
 
