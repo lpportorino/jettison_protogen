@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Routes OSD (On-Screen Display) commands to control thermal camera display modes and elements, including switching between default/LRF measurement/LRF result screens and enabling/disabling thermal and visible imagery overlays.
 
 ## Fields
 

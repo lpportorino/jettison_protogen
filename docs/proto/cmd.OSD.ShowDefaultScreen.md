@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Instructs the device to display the default OSD home screen, typically triggered by gamepad exit button or keyboard hotkey.
 
 ## Fields
 

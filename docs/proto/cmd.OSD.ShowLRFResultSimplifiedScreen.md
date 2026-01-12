@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Displays a simplified laser rangefinder result screen for continuous scanning mode, triggered after a long press of the measure button to show results in a compact overlay format during active LRF scanning.
 
 ## Fields
 

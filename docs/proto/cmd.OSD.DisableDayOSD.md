@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sends a command to disable the day-mode on-screen display (OSD) on the device, toggling off the day camera telemetry overlay by sending an empty DisableDayOSD message to the command server.
 
 ## Fields
 

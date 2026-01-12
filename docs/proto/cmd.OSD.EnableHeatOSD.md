@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables the thermal (heat) On-Screen Display (OSD) overlay on the video stream, allowing the user to toggle thermal imaging visualization on or off.
 
 ## Fields
 

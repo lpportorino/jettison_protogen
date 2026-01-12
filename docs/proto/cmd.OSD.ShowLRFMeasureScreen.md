@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Instructs the device to display the LRF measurement screen on the OSD, typically triggered when the user presses the measure button on the gamepad to initiate laser rangefinder measurement operations.
 
 ## Fields
 

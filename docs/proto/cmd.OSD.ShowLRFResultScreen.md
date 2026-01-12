@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the device to display the laser rangefinder (LRF) measurement results on the on-screen display (OSD), switching from the default view to show distance measurement data and targeting overlay.
 
 ## Fields
 

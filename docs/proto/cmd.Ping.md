@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+A lightweight keepalive command that allows clients to update their session heartbeat timestamp, enabling the server to detect disconnected sessions and automatically halt ongoing operations like camera movements or scanning.
 
 ## Fields
 

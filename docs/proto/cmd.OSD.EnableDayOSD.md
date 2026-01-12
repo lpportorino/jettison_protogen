@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables the day mode on-screen display (OSD) on the device, activating day vision overlay information in the visual feed.
 
 ## Fields
 

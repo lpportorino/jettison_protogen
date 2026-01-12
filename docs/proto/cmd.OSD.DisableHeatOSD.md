@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables the thermal (heat) overlay display on the device's on-screen display (OSD), toggling off the heat map visualization that shows thermal imaging data.
 
 ## Fields
 
