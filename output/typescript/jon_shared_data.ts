@@ -25,6 +25,7 @@ import {
   JonGuiDataStateSource,
   jonGuiDataStateSourceFromJSON,
   jonGuiDataStateSourceToJSON,
+  JonOpaquePayload,
 } from "./jon_shared_data_types";
 
 /** Root message */
@@ -41,6 +42,8 @@ export interface JonGUIState {
   frameMonotonicDayUs: Long;
   /** Monotonic time when heat frame was captured (microseconds) */
   frameMonotonicHeatUs: Long;
+  /** Opaque payloads for subsystem-specific extensions */
+  opaquePayloads: JonOpaquePayload[];
   system: JonGuiDataSystem | undefined;
   meteoInternal: JonGuiDataMeteo | undefined;
   lrf: JonGuiDataLrf | undefined;
@@ -66,6 +69,7 @@ function createBaseJonGUIState(): JonGUIState {
     framePtsHeatNs: Long.UZERO,
     frameMonotonicDayUs: Long.UZERO,
     frameMonotonicHeatUs: Long.UZERO,
+    opaquePayloads: [],
     system: undefined,
     meteoInternal: undefined,
     lrf: undefined,
@@ -105,6 +109,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (!message.frameMonotonicHeatUs.equals(Long.UZERO)) {
       writer.uint32(56).uint64(message.frameMonotonicHeatUs.toString());
+    }
+    for (const v of message.opaquePayloads) {
+      JonOpaquePayload.encode(v!, writer.uint32(66).fork()).join();
     }
     if (message.system !== undefined) {
       JonGuiDataSystem.encode(message.system, writer.uint32(106).fork()).join();
@@ -212,6 +219,14 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           }
 
           message.frameMonotonicHeatUs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.opaquePayloads.push(JonOpaquePayload.decode(reader, reader.uint32()));
           continue;
         }
         case 13: {
@@ -348,6 +363,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       frameMonotonicHeatUs: isSet(object.frameMonotonicHeatUs)
         ? Long.fromValue(object.frameMonotonicHeatUs)
         : Long.UZERO,
+      opaquePayloads: globalThis.Array.isArray(object?.opaquePayloads)
+        ? object.opaquePayloads.map((e: any) => JonOpaquePayload.fromJSON(e))
+        : [],
       system: isSet(object.system) ? JonGuiDataSystem.fromJSON(object.system) : undefined,
       meteoInternal: isSet(object.meteoInternal) ? JonGuiDataMeteo.fromJSON(object.meteoInternal) : undefined,
       lrf: isSet(object.lrf) ? JonGuiDataLrf.fromJSON(object.lrf) : undefined,
@@ -393,6 +411,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (!message.frameMonotonicHeatUs.equals(Long.UZERO)) {
       obj.frameMonotonicHeatUs = (message.frameMonotonicHeatUs || Long.UZERO).toString();
+    }
+    if (message.opaquePayloads?.length) {
+      obj.opaquePayloads = message.opaquePayloads.map((e) => JonOpaquePayload.toJSON(e));
     }
     if (message.system !== undefined) {
       obj.system = JonGuiDataSystem.toJSON(message.system);
@@ -462,6 +483,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     message.frameMonotonicHeatUs = (object.frameMonotonicHeatUs !== undefined && object.frameMonotonicHeatUs !== null)
       ? Long.fromValue(object.frameMonotonicHeatUs)
       : Long.UZERO;
+    message.opaquePayloads = object.opaquePayloads?.map((e) => JonOpaquePayload.fromPartial(e)) || [];
     message.system = (object.system !== undefined && object.system !== null)
       ? JonGuiDataSystem.fromPartial(object.system)
       : undefined;

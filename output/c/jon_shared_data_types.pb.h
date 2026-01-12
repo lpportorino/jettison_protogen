@@ -190,6 +190,27 @@ typedef struct _ser_JonGuiDataMeteo {
     double pressure;
 } ser_JonGuiDataMeteo;
 
+/* Structured version for opaque payloads.
+ Enables simple numeric comparison without string parsing. */
+typedef struct _ser_JonOpaquePayloadVersion {
+    uint32_t major;
+    uint32_t minor;
+    uint64_t build; /* Can be timestamp (ms since epoch) or build number */
+} ser_JonOpaquePayloadVersion;
+
+/* Opaque extension payload for subsystem-specific data.
+ Transport layer passes through without interpretation.
+ Handlers match on type_uuid and check version compatibility. */
+typedef struct _ser_JonOpaquePayload {
+    /* UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001") */
+    pb_callback_t type_uuid;
+    /* Structured version - handler decides compatibility logic */
+    bool has_version;
+    ser_JonOpaquePayloadVersion version;
+    /* Opaque binary payload */
+    pb_callback_t payload;
+} ser_JonOpaquePayload;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -282,14 +303,26 @@ extern "C" {
 
 
 
+
+
 /* Initializer values for message structs */
 #define ser_JonGuiDataMeteo_init_default         {0, 0, 0}
+#define ser_JonOpaquePayloadVersion_init_default {0, 0, 0}
+#define ser_JonOpaquePayload_init_default        {{{NULL}, NULL}, false, ser_JonOpaquePayloadVersion_init_default, {{NULL}, NULL}}
 #define ser_JonGuiDataMeteo_init_zero            {0, 0, 0}
+#define ser_JonOpaquePayloadVersion_init_zero    {0, 0, 0}
+#define ser_JonOpaquePayload_init_zero           {{{NULL}, NULL}, false, ser_JonOpaquePayloadVersion_init_zero, {{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataMeteo_temperature_tag      1
 #define ser_JonGuiDataMeteo_humidity_tag         2
 #define ser_JonGuiDataMeteo_pressure_tag         3
+#define ser_JonOpaquePayloadVersion_major_tag    1
+#define ser_JonOpaquePayloadVersion_minor_tag    2
+#define ser_JonOpaquePayloadVersion_build_tag    3
+#define ser_JonOpaquePayload_type_uuid_tag       1
+#define ser_JonOpaquePayload_version_tag         2
+#define ser_JonOpaquePayload_payload_tag         3
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataMeteo_FIELDLIST(X, a) \
@@ -299,14 +332,35 @@ X(a, STATIC,   SINGULAR, DOUBLE,   pressure,          3)
 #define ser_JonGuiDataMeteo_CALLBACK NULL
 #define ser_JonGuiDataMeteo_DEFAULT NULL
 
+#define ser_JonOpaquePayloadVersion_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   major,             1) \
+X(a, STATIC,   SINGULAR, UINT32,   minor,             2) \
+X(a, STATIC,   SINGULAR, UINT64,   build,             3)
+#define ser_JonOpaquePayloadVersion_CALLBACK NULL
+#define ser_JonOpaquePayloadVersion_DEFAULT NULL
+
+#define ser_JonOpaquePayload_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   type_uuid,         1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  version,           2) \
+X(a, CALLBACK, SINGULAR, BYTES,    payload,           3)
+#define ser_JonOpaquePayload_CALLBACK pb_default_field_callback
+#define ser_JonOpaquePayload_DEFAULT NULL
+#define ser_JonOpaquePayload_version_MSGTYPE ser_JonOpaquePayloadVersion
+
 extern const pb_msgdesc_t ser_JonGuiDataMeteo_msg;
+extern const pb_msgdesc_t ser_JonOpaquePayloadVersion_msg;
+extern const pb_msgdesc_t ser_JonOpaquePayload_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ser_JonGuiDataMeteo_fields &ser_JonGuiDataMeteo_msg
+#define ser_JonOpaquePayloadVersion_fields &ser_JonOpaquePayloadVersion_msg
+#define ser_JonOpaquePayload_fields &ser_JonOpaquePayload_msg
 
 /* Maximum encoded size of messages (where known) */
+/* ser_JonOpaquePayload_size depends on runtime parameters */
 #define SER_JON_SHARED_DATA_TYPES_PB_H_MAX_SIZE  ser_JonGuiDataMeteo_size
 #define ser_JonGuiDataMeteo_size                 27
+#define ser_JonOpaquePayloadVersion_size         23
 
 #ifdef __cplusplus
 } /* extern "C" */

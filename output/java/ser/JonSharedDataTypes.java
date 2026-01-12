@@ -3678,11 +3678,1549 @@ public final class JonSharedDataTypes {
 
   }
 
+  public interface JonOpaquePayloadVersionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonOpaquePayloadVersion)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>uint32 major = 1;</code>
+     * @return The major.
+     */
+    int getMajor();
+
+    /**
+     * <code>uint32 minor = 2;</code>
+     * @return The minor.
+     */
+    int getMinor();
+
+    /**
+     * <pre>
+     * Can be timestamp (ms since epoch) or build number
+     * </pre>
+     *
+     * <code>uint64 build = 3;</code>
+     * @return The build.
+     */
+    long getBuild();
+  }
+  /**
+   * <pre>
+   * Structured version for opaque payloads.
+   * Enables simple numeric comparison without string parsing.
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonOpaquePayloadVersion}
+   */
+  public static final class JonOpaquePayloadVersion extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonOpaquePayloadVersion)
+      JonOpaquePayloadVersionOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonOpaquePayloadVersion.class.getName());
+    }
+    // Use JonOpaquePayloadVersion.newBuilder() to construct.
+    private JonOpaquePayloadVersion(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonOpaquePayloadVersion() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayloadVersion_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayloadVersion_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonOpaquePayloadVersion.class, ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder.class);
+    }
+
+    public static final int MAJOR_FIELD_NUMBER = 1;
+    private int major_ = 0;
+    /**
+     * <code>uint32 major = 1;</code>
+     * @return The major.
+     */
+    @java.lang.Override
+    public int getMajor() {
+      return major_;
+    }
+
+    public static final int MINOR_FIELD_NUMBER = 2;
+    private int minor_ = 0;
+    /**
+     * <code>uint32 minor = 2;</code>
+     * @return The minor.
+     */
+    @java.lang.Override
+    public int getMinor() {
+      return minor_;
+    }
+
+    public static final int BUILD_FIELD_NUMBER = 3;
+    private long build_ = 0L;
+    /**
+     * <pre>
+     * Can be timestamp (ms since epoch) or build number
+     * </pre>
+     *
+     * <code>uint64 build = 3;</code>
+     * @return The build.
+     */
+    @java.lang.Override
+    public long getBuild() {
+      return build_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (major_ != 0) {
+        output.writeUInt32(1, major_);
+      }
+      if (minor_ != 0) {
+        output.writeUInt32(2, minor_);
+      }
+      if (build_ != 0L) {
+        output.writeUInt64(3, build_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (major_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, major_);
+      }
+      if (minor_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, minor_);
+      }
+      if (build_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, build_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonOpaquePayloadVersion)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonOpaquePayloadVersion other = (ser.JonSharedDataTypes.JonOpaquePayloadVersion) obj;
+
+      if (getMajor()
+          != other.getMajor()) return false;
+      if (getMinor()
+          != other.getMinor()) return false;
+      if (getBuild()
+          != other.getBuild()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + MAJOR_FIELD_NUMBER;
+      hash = (53 * hash) + getMajor();
+      hash = (37 * hash) + MINOR_FIELD_NUMBER;
+      hash = (53 * hash) + getMinor();
+      hash = (37 * hash) + BUILD_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getBuild());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonOpaquePayloadVersion prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Structured version for opaque payloads.
+     * Enables simple numeric comparison without string parsing.
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonOpaquePayloadVersion}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonOpaquePayloadVersion)
+        ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayloadVersion_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayloadVersion_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonOpaquePayloadVersion.class, ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonOpaquePayloadVersion.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        major_ = 0;
+        minor_ = 0;
+        build_ = 0L;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayloadVersion_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonOpaquePayloadVersion getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonOpaquePayloadVersion build() {
+        ser.JonSharedDataTypes.JonOpaquePayloadVersion result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonOpaquePayloadVersion buildPartial() {
+        ser.JonSharedDataTypes.JonOpaquePayloadVersion result = new ser.JonSharedDataTypes.JonOpaquePayloadVersion(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonOpaquePayloadVersion result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.major_ = major_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.minor_ = minor_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.build_ = build_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonOpaquePayloadVersion) {
+          return mergeFrom((ser.JonSharedDataTypes.JonOpaquePayloadVersion)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonOpaquePayloadVersion other) {
+        if (other == ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance()) return this;
+        if (other.getMajor() != 0) {
+          setMajor(other.getMajor());
+        }
+        if (other.getMinor() != 0) {
+          setMinor(other.getMinor());
+        }
+        if (other.getBuild() != 0L) {
+          setBuild(other.getBuild());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                major_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                minor_ = input.readUInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                build_ = input.readUInt64();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int major_ ;
+      /**
+       * <code>uint32 major = 1;</code>
+       * @return The major.
+       */
+      @java.lang.Override
+      public int getMajor() {
+        return major_;
+      }
+      /**
+       * <code>uint32 major = 1;</code>
+       * @param value The major to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMajor(int value) {
+
+        major_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 major = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMajor() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        major_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int minor_ ;
+      /**
+       * <code>uint32 minor = 2;</code>
+       * @return The minor.
+       */
+      @java.lang.Override
+      public int getMinor() {
+        return minor_;
+      }
+      /**
+       * <code>uint32 minor = 2;</code>
+       * @param value The minor to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMinor(int value) {
+
+        minor_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 minor = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMinor() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        minor_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long build_ ;
+      /**
+       * <pre>
+       * Can be timestamp (ms since epoch) or build number
+       * </pre>
+       *
+       * <code>uint64 build = 3;</code>
+       * @return The build.
+       */
+      @java.lang.Override
+      public long getBuild() {
+        return build_;
+      }
+      /**
+       * <pre>
+       * Can be timestamp (ms since epoch) or build number
+       * </pre>
+       *
+       * <code>uint64 build = 3;</code>
+       * @param value The build to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBuild(long value) {
+
+        build_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Can be timestamp (ms since epoch) or build number
+       * </pre>
+       *
+       * <code>uint64 build = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBuild() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        build_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonOpaquePayloadVersion)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonOpaquePayloadVersion)
+    private static final ser.JonSharedDataTypes.JonOpaquePayloadVersion DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonOpaquePayloadVersion();
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayloadVersion getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonOpaquePayloadVersion>
+        PARSER = new com.google.protobuf.AbstractParser<JonOpaquePayloadVersion>() {
+      @java.lang.Override
+      public JonOpaquePayloadVersion parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonOpaquePayloadVersion> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonOpaquePayloadVersion> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonOpaquePayloadVersion getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface JonOpaquePayloadOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonOpaquePayload)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+     * </pre>
+     *
+     * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The typeUuid.
+     */
+    java.lang.String getTypeUuid();
+    /**
+     * <pre>
+     * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+     * </pre>
+     *
+     * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for typeUuid.
+     */
+    com.google.protobuf.ByteString
+        getTypeUuidBytes();
+
+    /**
+     * <pre>
+     * Structured version - handler decides compatibility logic
+     * </pre>
+     *
+     * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the version field is set.
+     */
+    boolean hasVersion();
+    /**
+     * <pre>
+     * Structured version - handler decides compatibility logic
+     * </pre>
+     *
+     * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    ser.JonSharedDataTypes.JonOpaquePayloadVersion getVersion();
+    /**
+     * <pre>
+     * Structured version - handler decides compatibility logic
+     * </pre>
+     *
+     * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder getVersionOrBuilder();
+
+    /**
+     * <pre>
+     * Opaque binary payload
+     * </pre>
+     *
+     * <code>bytes payload = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The payload.
+     */
+    com.google.protobuf.ByteString getPayload();
+  }
+  /**
+   * <pre>
+   * Opaque extension payload for subsystem-specific data.
+   * Transport layer passes through without interpretation.
+   * Handlers match on type_uuid and check version compatibility.
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonOpaquePayload}
+   */
+  public static final class JonOpaquePayload extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonOpaquePayload)
+      JonOpaquePayloadOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonOpaquePayload.class.getName());
+    }
+    // Use JonOpaquePayload.newBuilder() to construct.
+    private JonOpaquePayload(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonOpaquePayload() {
+      typeUuid_ = "";
+      payload_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayload_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayload_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonOpaquePayload.class, ser.JonSharedDataTypes.JonOpaquePayload.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int TYPE_UUID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object typeUuid_ = "";
+    /**
+     * <pre>
+     * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+     * </pre>
+     *
+     * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The typeUuid.
+     */
+    @java.lang.Override
+    public java.lang.String getTypeUuid() {
+      java.lang.Object ref = typeUuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        typeUuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+     * </pre>
+     *
+     * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for typeUuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTypeUuidBytes() {
+      java.lang.Object ref = typeUuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        typeUuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VERSION_FIELD_NUMBER = 2;
+    private ser.JonSharedDataTypes.JonOpaquePayloadVersion version_;
+    /**
+     * <pre>
+     * Structured version - handler decides compatibility logic
+     * </pre>
+     *
+     * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the version field is set.
+     */
+    @java.lang.Override
+    public boolean hasVersion() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Structured version - handler decides compatibility logic
+     * </pre>
+     *
+     * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonOpaquePayloadVersion getVersion() {
+      return version_ == null ? ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance() : version_;
+    }
+    /**
+     * <pre>
+     * Structured version - handler decides compatibility logic
+     * </pre>
+     *
+     * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder getVersionOrBuilder() {
+      return version_ == null ? ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance() : version_;
+    }
+
+    public static final int PAYLOAD_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString payload_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <pre>
+     * Opaque binary payload
+     * </pre>
+     *
+     * <code>bytes payload = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The payload.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPayload() {
+      return payload_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(typeUuid_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, typeUuid_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(2, getVersion());
+      }
+      if (!payload_.isEmpty()) {
+        output.writeBytes(3, payload_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(typeUuid_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, typeUuid_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getVersion());
+      }
+      if (!payload_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, payload_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonOpaquePayload)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonOpaquePayload other = (ser.JonSharedDataTypes.JonOpaquePayload) obj;
+
+      if (!getTypeUuid()
+          .equals(other.getTypeUuid())) return false;
+      if (hasVersion() != other.hasVersion()) return false;
+      if (hasVersion()) {
+        if (!getVersion()
+            .equals(other.getVersion())) return false;
+      }
+      if (!getPayload()
+          .equals(other.getPayload())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TYPE_UUID_FIELD_NUMBER;
+      hash = (53 * hash) + getTypeUuid().hashCode();
+      if (hasVersion()) {
+        hash = (37 * hash) + VERSION_FIELD_NUMBER;
+        hash = (53 * hash) + getVersion().hashCode();
+      }
+      hash = (37 * hash) + PAYLOAD_FIELD_NUMBER;
+      hash = (53 * hash) + getPayload().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonOpaquePayload parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonOpaquePayload prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Opaque extension payload for subsystem-specific data.
+     * Transport layer passes through without interpretation.
+     * Handlers match on type_uuid and check version compatibility.
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonOpaquePayload}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonOpaquePayload)
+        ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayload_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayload_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonOpaquePayload.class, ser.JonSharedDataTypes.JonOpaquePayload.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonOpaquePayload.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getVersionFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        typeUuid_ = "";
+        version_ = null;
+        if (versionBuilder_ != null) {
+          versionBuilder_.dispose();
+          versionBuilder_ = null;
+        }
+        payload_ = com.google.protobuf.ByteString.EMPTY;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonOpaquePayload_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonOpaquePayload getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonOpaquePayload.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonOpaquePayload build() {
+        ser.JonSharedDataTypes.JonOpaquePayload result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonOpaquePayload buildPartial() {
+        ser.JonSharedDataTypes.JonOpaquePayload result = new ser.JonSharedDataTypes.JonOpaquePayload(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonOpaquePayload result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.typeUuid_ = typeUuid_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.version_ = versionBuilder_ == null
+              ? version_
+              : versionBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.payload_ = payload_;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonOpaquePayload) {
+          return mergeFrom((ser.JonSharedDataTypes.JonOpaquePayload)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonOpaquePayload other) {
+        if (other == ser.JonSharedDataTypes.JonOpaquePayload.getDefaultInstance()) return this;
+        if (!other.getTypeUuid().isEmpty()) {
+          typeUuid_ = other.typeUuid_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.hasVersion()) {
+          mergeVersion(other.getVersion());
+        }
+        if (other.getPayload() != com.google.protobuf.ByteString.EMPTY) {
+          setPayload(other.getPayload());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                typeUuid_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    getVersionFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                payload_ = input.readBytes();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object typeUuid_ = "";
+      /**
+       * <pre>
+       * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+       * </pre>
+       *
+       * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The typeUuid.
+       */
+      public java.lang.String getTypeUuid() {
+        java.lang.Object ref = typeUuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          typeUuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+       * </pre>
+       *
+       * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for typeUuid.
+       */
+      public com.google.protobuf.ByteString
+          getTypeUuidBytes() {
+        java.lang.Object ref = typeUuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          typeUuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+       * </pre>
+       *
+       * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The typeUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTypeUuid(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        typeUuid_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+       * </pre>
+       *
+       * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTypeUuid() {
+        typeUuid_ = getDefaultInstance().getTypeUuid();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+       * </pre>
+       *
+       * <code>string type_uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for typeUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTypeUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        typeUuid_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private ser.JonSharedDataTypes.JonOpaquePayloadVersion version_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonOpaquePayloadVersion, ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder, ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder> versionBuilder_;
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the version field is set.
+       */
+      public boolean hasVersion() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The version.
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayloadVersion getVersion() {
+        if (versionBuilder_ == null) {
+          return version_ == null ? ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance() : version_;
+        } else {
+          return versionBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setVersion(ser.JonSharedDataTypes.JonOpaquePayloadVersion value) {
+        if (versionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          version_ = value;
+        } else {
+          versionBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setVersion(
+          ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder builderForValue) {
+        if (versionBuilder_ == null) {
+          version_ = builderForValue.build();
+        } else {
+          versionBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergeVersion(ser.JonSharedDataTypes.JonOpaquePayloadVersion value) {
+        if (versionBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            version_ != null &&
+            version_ != ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance()) {
+            getVersionBuilder().mergeFrom(value);
+          } else {
+            version_ = value;
+          }
+        } else {
+          versionBuilder_.mergeFrom(value);
+        }
+        if (version_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        version_ = null;
+        if (versionBuilder_ != null) {
+          versionBuilder_.dispose();
+          versionBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder getVersionBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getVersionFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder getVersionOrBuilder() {
+        if (versionBuilder_ != null) {
+          return versionBuilder_.getMessageOrBuilder();
+        } else {
+          return version_ == null ?
+              ser.JonSharedDataTypes.JonOpaquePayloadVersion.getDefaultInstance() : version_;
+        }
+      }
+      /**
+       * <pre>
+       * Structured version - handler decides compatibility logic
+       * </pre>
+       *
+       * <code>.ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonOpaquePayloadVersion, ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder, ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder> 
+          getVersionFieldBuilder() {
+        if (versionBuilder_ == null) {
+          versionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonOpaquePayloadVersion, ser.JonSharedDataTypes.JonOpaquePayloadVersion.Builder, ser.JonSharedDataTypes.JonOpaquePayloadVersionOrBuilder>(
+                  getVersion(),
+                  getParentForChildren(),
+                  isClean());
+          version_ = null;
+        }
+        return versionBuilder_;
+      }
+
+      private com.google.protobuf.ByteString payload_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <pre>
+       * Opaque binary payload
+       * </pre>
+       *
+       * <code>bytes payload = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The payload.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getPayload() {
+        return payload_;
+      }
+      /**
+       * <pre>
+       * Opaque binary payload
+       * </pre>
+       *
+       * <code>bytes payload = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The payload to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPayload(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        payload_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque binary payload
+       * </pre>
+       *
+       * <code>bytes payload = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPayload() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        payload_ = getDefaultInstance().getPayload();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonOpaquePayload)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonOpaquePayload)
+    private static final ser.JonSharedDataTypes.JonOpaquePayload DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonOpaquePayload();
+    }
+
+    public static ser.JonSharedDataTypes.JonOpaquePayload getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonOpaquePayload>
+        PARSER = new com.google.protobuf.AbstractParser<JonOpaquePayload>() {
+      @java.lang.Override
+      public JonOpaquePayload parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonOpaquePayload> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonOpaquePayload> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonOpaquePayload getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ser_JonGuiDataMeteo_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ser_JonGuiDataMeteo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonOpaquePayloadVersion_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonOpaquePayloadVersion_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonOpaquePayload_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonOpaquePayload_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3697,142 +5235,149 @@ public final class JonSharedDataTypes {
       "teo\022,\n\013temperature\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\300b@" +
       ")fffff\022q\300\022)\n\010humidity\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
       "\000Y@)\000\000\000\000\000\000\000\000\022)\n\010pressure\030\003 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000L\375@)\000\000\000\000\000\000\000\000*\263\002\n!JonGuiDataVideoChann" +
-      "elHeatFilters\0226\n2JON_GUI_DATA_VIDEO_CHAN" +
-      "NEL_HEAT_FILTER_UNSPECIFIED\020\000\0224\n0JON_GUI" +
-      "_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHIT" +
-      "E\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_F" +
-      "ILTER_HOT_BLACK\020\002\0220\n,JON_GUI_DATA_VIDEO_" +
-      "CHANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4JON_GUI_D" +
-      "ATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVE" +
-      "RSE\020\004*\356\001\n\"JonGuiDataVideoChannelHeatAGCM" +
-      "odes\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_" +
-      "AGC_MODE_UNSPECIFIED\020\000\022.\n*JON_GUI_DATA_V" +
-      "IDEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022.\n*JON_GU" +
-      "I_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2\020\002\022." +
-      "\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MO" +
-      "DE_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&\n\"JON_GUI" +
-      "_DATA_GPS_UNITS_UNSPECIFIED\020\000\022*\n&JON_GUI" +
-      "_DATA_GPS_UNITS_DECIMAL_DEGREES\020\001\0222\n.JON" +
-      "_GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECO" +
-      "NDS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_" +
-      "DECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDataGpsFixTy" +
-      "pe\022)\n%JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIF" +
-      "IED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_TYPE_NONE\020" +
-      "\001\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_1D\020\002\022 \n\034J" +
-      "ON_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 \n\034JON_GUI" +
-      "_DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_GUI_DATA_" +
-      "GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGuiDataComp" +
-      "assUnits\022*\n&JON_GUI_DATA_COMPASS_UNITS_U" +
-      "NSPECIFIED\020\000\022&\n\"JON_GUI_DATA_COMPASS_UNI" +
-      "TS_DEGREES\020\001\022#\n\037JON_GUI_DATA_COMPASS_UNI" +
-      "TS_MILS\020\002\022#\n\037JON_GUI_DATA_COMPASS_UNITS_" +
-      "GRAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_UNITS_MRA" +
-      "D\020\004*\337\003\n\035JonGuiDataAccumulatorStateIdx\022.\n" +
-      "*JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIF" +
-      "IED\020\000\022*\n&JON_GUI_DATA_ACCUMULATOR_STATE_" +
-      "UNKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUMULATOR_ST" +
-      "ATE_EMPTY\020\002\022$\n JON_GUI_DATA_ACCUMULATOR_" +
-      "STATE_1\020\003\022$\n JON_GUI_DATA_ACCUMULATOR_ST" +
-      "ATE_2\020\004\022$\n JON_GUI_DATA_ACCUMULATOR_STAT" +
-      "E_3\020\005\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_" +
-      "4\020\006\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_5\020" +
-      "\007\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_6\020\010\022" +
-      "\'\n#JON_GUI_DATA_ACCUMULATOR_STATE_FULL\020\t" +
-      "\022+\n\'JON_GUI_DATA_ACCUMULATOR_STATE_CHARG" +
-      "ING\020\n*\217\001\n\025JonGuiDataTimeFormats\022(\n$JON_G" +
-      "UI_DATA_TIME_FORMAT_UNSPECIFIED\020\000\022\"\n\036JON" +
-      "_GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(\n$JON_GUI" +
-      "_DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002*\254\001\n\031JonG" +
-      "uiDataRotaryDirection\022-\n)JON_GUI_DATA_RO" +
-      "TARY_DIRECTION_UNSPECIFIED\020\000\022+\n\'JON_GUI_" +
-      "DATA_ROTARY_DIRECTION_CLOCKWISE\020\001\0223\n/JON" +
-      "_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCK" +
-      "WISE\020\002*\352\002\n\026JonGuiDataLrfScanModes\022*\n&JON" +
-      "_GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED\020\000\022.\n" +
-      "*JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINU" +
-      "OUS\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_4_HZ" +
-      "_CONTINUOUS\020\002\022/\n+JON_GUI_DATA_LRF_SCAN_M" +
-      "ODE_10_HZ_CONTINUOUS\020\003\022/\n+JON_GUI_DATA_L" +
-      "RF_SCAN_MODE_20_HZ_CONTINUOUS\020\004\0220\n,JON_G" +
-      "UI_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS\020" +
-      "\005\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_C" +
-      "ONTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfLaserPoint" +
-      "erModes\0223\n/JON_GUI_DATA_LRF_LASER_POINTE" +
-      "R_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DATA_LRF" +
-      "_LASER_POINTER_MODE_OFF\020\001\022,\n(JON_GUI_DAT" +
-      "A_LRF_LASER_POINTER_MODE_ON_1\020\002\022,\n(JON_G" +
-      "UI_DATA_LRF_LASER_POINTER_MODE_ON_2\020\003*\362\002" +
-      "\n JonGuiDataCompassCalibrateStatus\0225\n1JO" +
-      "N_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSP" +
-      "ECIFIED\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBR" +
-      "ATE_STATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_" +
-      "DATA_COMPASS_CALIBRATE_STATUS_CALIBRATIN" +
-      "G_SHORT\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBR" +
-      "ATE_STATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI" +
-      "_DATA_COMPASS_CALIBRATE_STATUS_FINISHED\020" +
-      "\004\022/\n+JON_GUI_DATA_COMPASS_CALIBRATE_STAT" +
-      "US_ERROR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$J" +
-      "ON_GUI_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n" +
-      "\'JON_GUI_DATA_ROTARY_MODE_INITIALIZATION" +
-      "\020\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%" +
-      "\n!JON_GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n" +
-      "&JON_GUI_DATA_ROTARY_MODE_STABILIZATION\020" +
-      "\004\022&\n\"JON_GUI_DATA_ROTARY_MODE_TARGETING\020" +
-      "\005\022*\n&JON_GUI_DATA_ROTARY_MODE_VIDEO_TRAC" +
-      "KER\020\006*\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_" +
-      "GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037" +
-      "JON_GUI_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON" +
-      "_GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGui" +
-      "DataRecOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD" +
-      "_SCREEN_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_RE" +
-      "C_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_" +
-      "OSD_SCREEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA" +
-      "_REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_" +
-      "DATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIE" +
-      "D\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n JON_GUI_D" +
-      "ATA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DAT" +
-      "A_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MOD" +
-      "E_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020" +
-      "\003\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON" +
-      "_GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DAT" +
-      "A_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHe" +
-      "at\022%\n!JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020" +
-      "\000\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JO" +
-      "N_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_D" +
-      "ATA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_" +
-      "MODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HE" +
-      "AT_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*" +
-      "\365\001\n\035JonGuiDataSystemLocalizations\0220\n,JON" +
-      "_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIE" +
-      "D\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_" +
-      "EN\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION" +
-      "_UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATIO" +
-      "N_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATI" +
-      "ON_CS\020\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_" +
-      "GUI_DATA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JO" +
-      "N_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&" +
-      "JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002" +
-      "\0222\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE" +
-      "_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE" +
-      "_LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_G" +
-      "UI_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_" +
-      "GUI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_" +
-      "GUI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON" +
-      "_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n" +
-      "%JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004" +
-      "*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_D" +
-      "ATA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_" +
-      "GUI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JO" +
-      "N_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022" +
-      ")\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING" +
-      "\020\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_" +
-      "DATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_G" +
-      "UI_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'J" +
-      "ON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002" +
-      "\022$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BH" +
-      "ZFgit-codecommit.eu-central-1.amazonaws." +
-      "com/v1/repos/jettison/jonp/typesb\006proto3"
+      "\000\000\000L\375@)\000\000\000\000\000\000\000\000\"F\n\027JonOpaquePayloadVersi" +
+      "on\022\r\n\005major\030\001 \001(\r\022\r\n\005minor\030\002 \001(\r\022\r\n\005buil" +
+      "d\030\003 \001(\004\"\314\001\n\020JonOpaquePayload\022g\n\ttype_uui" +
+      "d\030\001 \001(\tBT\272HQrO2M^[0-9a-fA-F]{8}-[0-9a-fA" +
+      "-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-" +
+      "9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.ser.Jon" +
+      "OpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007payload\030" +
+      "\003 \001(\014B\007\272H\004z\002\020\001*\263\002\n!JonGuiDataVideoChanne" +
+      "lHeatFilters\0226\n2JON_GUI_DATA_VIDEO_CHANN" +
+      "EL_HEAT_FILTER_UNSPECIFIED\020\000\0224\n0JON_GUI_" +
+      "DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE" +
+      "\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FI" +
+      "LTER_HOT_BLACK\020\002\0220\n,JON_GUI_DATA_VIDEO_C" +
+      "HANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4JON_GUI_DA" +
+      "TA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVER" +
+      "SE\020\004*\356\001\n\"JonGuiDataVideoChannelHeatAGCMo" +
+      "des\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_A" +
+      "GC_MODE_UNSPECIFIED\020\000\022.\n*JON_GUI_DATA_VI" +
+      "DEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022.\n*JON_GUI" +
+      "_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2\020\002\022.\n" +
+      "*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MOD" +
+      "E_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&\n\"JON_GUI_" +
+      "DATA_GPS_UNITS_UNSPECIFIED\020\000\022*\n&JON_GUI_" +
+      "DATA_GPS_UNITS_DECIMAL_DEGREES\020\001\0222\n.JON_" +
+      "GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECON" +
+      "DS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_D" +
+      "ECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDataGpsFixTyp" +
+      "e\022)\n%JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIFI" +
+      "ED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_TYPE_NONE\020\001" +
+      "\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_1D\020\002\022 \n\034JO" +
+      "N_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 \n\034JON_GUI_" +
+      "DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_GUI_DATA_G" +
+      "PS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGuiDataCompa" +
+      "ssUnits\022*\n&JON_GUI_DATA_COMPASS_UNITS_UN" +
+      "SPECIFIED\020\000\022&\n\"JON_GUI_DATA_COMPASS_UNIT" +
+      "S_DEGREES\020\001\022#\n\037JON_GUI_DATA_COMPASS_UNIT" +
+      "S_MILS\020\002\022#\n\037JON_GUI_DATA_COMPASS_UNITS_G" +
+      "RAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_UNITS_MRAD" +
+      "\020\004*\337\003\n\035JonGuiDataAccumulatorStateIdx\022.\n*" +
+      "JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFI" +
+      "ED\020\000\022*\n&JON_GUI_DATA_ACCUMULATOR_STATE_U" +
+      "NKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUMULATOR_STA" +
+      "TE_EMPTY\020\002\022$\n JON_GUI_DATA_ACCUMULATOR_S" +
+      "TATE_1\020\003\022$\n JON_GUI_DATA_ACCUMULATOR_STA" +
+      "TE_2\020\004\022$\n JON_GUI_DATA_ACCUMULATOR_STATE" +
+      "_3\020\005\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_4" +
+      "\020\006\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_5\020\007" +
+      "\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_6\020\010\022\'" +
+      "\n#JON_GUI_DATA_ACCUMULATOR_STATE_FULL\020\t\022" +
+      "+\n\'JON_GUI_DATA_ACCUMULATOR_STATE_CHARGI" +
+      "NG\020\n*\217\001\n\025JonGuiDataTimeFormats\022(\n$JON_GU" +
+      "I_DATA_TIME_FORMAT_UNSPECIFIED\020\000\022\"\n\036JON_" +
+      "GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(\n$JON_GUI_" +
+      "DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002*\254\001\n\031JonGu" +
+      "iDataRotaryDirection\022-\n)JON_GUI_DATA_ROT" +
+      "ARY_DIRECTION_UNSPECIFIED\020\000\022+\n\'JON_GUI_D" +
+      "ATA_ROTARY_DIRECTION_CLOCKWISE\020\001\0223\n/JON_" +
+      "GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKW" +
+      "ISE\020\002*\352\002\n\026JonGuiDataLrfScanModes\022*\n&JON_" +
+      "GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED\020\000\022.\n*" +
+      "JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINUO" +
+      "US\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_4_HZ_" +
+      "CONTINUOUS\020\002\022/\n+JON_GUI_DATA_LRF_SCAN_MO" +
+      "DE_10_HZ_CONTINUOUS\020\003\022/\n+JON_GUI_DATA_LR" +
+      "F_SCAN_MODE_20_HZ_CONTINUOUS\020\004\0220\n,JON_GU" +
+      "I_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS\020\005" +
+      "\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_CO" +
+      "NTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfLaserPointe" +
+      "rModes\0223\n/JON_GUI_DATA_LRF_LASER_POINTER" +
+      "_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DATA_LRF_" +
+      "LASER_POINTER_MODE_OFF\020\001\022,\n(JON_GUI_DATA" +
+      "_LRF_LASER_POINTER_MODE_ON_1\020\002\022,\n(JON_GU" +
+      "I_DATA_LRF_LASER_POINTER_MODE_ON_2\020\003*\362\002\n" +
+      " JonGuiDataCompassCalibrateStatus\0225\n1JON" +
+      "_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPE" +
+      "CIFIED\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBRA" +
+      "TE_STATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_D" +
+      "ATA_COMPASS_CALIBRATE_STATUS_CALIBRATING" +
+      "_SHORT\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBRA" +
+      "TE_STATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI_" +
+      "DATA_COMPASS_CALIBRATE_STATUS_FINISHED\020\004" +
+      "\022/\n+JON_GUI_DATA_COMPASS_CALIBRATE_STATU" +
+      "S_ERROR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$JO" +
+      "N_GUI_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'" +
+      "JON_GUI_DATA_ROTARY_MODE_INITIALIZATION\020" +
+      "\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%\n" +
+      "!JON_GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n&" +
+      "JON_GUI_DATA_ROTARY_MODE_STABILIZATION\020\004" +
+      "\022&\n\"JON_GUI_DATA_ROTARY_MODE_TARGETING\020\005" +
+      "\022*\n&JON_GUI_DATA_ROTARY_MODE_VIDEO_TRACK" +
+      "ER\020\006*\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_G" +
+      "UI_DATA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037J" +
+      "ON_GUI_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_" +
+      "GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiD" +
+      "ataRecOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD_" +
+      "SCREEN_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_REC" +
+      "_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_O" +
+      "SD_SCREEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_" +
+      "REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_D" +
+      "ATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED" +
+      "\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n JON_GUI_DA" +
+      "TA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA" +
+      "_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE" +
+      "_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003" +
+      "\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_" +
+      "GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA" +
+      "_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHea" +
+      "t\022%\n!JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020\000" +
+      "\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON" +
+      "_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DA" +
+      "TA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_M" +
+      "ODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEA" +
+      "T_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365" +
+      "\001\n\035JonGuiDataSystemLocalizations\0220\n,JON_" +
+      "GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED" +
+      "\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_E" +
+      "N\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_" +
+      "UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION" +
+      "_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATIO" +
+      "N_CS\020\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_G" +
+      "UI_DATA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JON" +
+      "_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&J" +
+      "ON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002\022" +
+      "2\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_" +
+      "PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_" +
+      "LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_GU" +
+      "I_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_G" +
+      "UI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_G" +
+      "UI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON_" +
+      "GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n%" +
+      "JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004*" +
+      "\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_DA" +
+      "TA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_G" +
+      "UI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JON" +
+      "_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022)" +
+      "\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING\020" +
+      "\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_D" +
+      "ATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_GU" +
+      "I_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JO" +
+      "N_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002\022" +
+      "$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BHZ" +
+      "Fgit-codecommit.eu-central-1.amazonaws.c" +
+      "om/v1/repos/jettison/jonp/typesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3845,6 +5390,18 @@ public final class JonSharedDataTypes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataMeteo_descriptor,
         new java.lang.String[] { "Temperature", "Humidity", "Pressure", });
+    internal_static_ser_JonOpaquePayloadVersion_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_ser_JonOpaquePayloadVersion_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonOpaquePayloadVersion_descriptor,
+        new java.lang.String[] { "Major", "Minor", "Build", });
+    internal_static_ser_JonOpaquePayload_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_ser_JonOpaquePayload_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonOpaquePayload_descriptor,
+        new java.lang.String[] { "TypeUuid", "Version", "Payload", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

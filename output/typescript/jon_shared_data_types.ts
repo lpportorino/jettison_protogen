@@ -1115,6 +1115,33 @@ export interface JonGuiDataMeteo {
   pressure: number;
 }
 
+/**
+ * Structured version for opaque payloads.
+ * Enables simple numeric comparison without string parsing.
+ */
+export interface JonOpaquePayloadVersion {
+  major: number;
+  minor: number;
+  /** Can be timestamp (ms since epoch) or build number */
+  build: Long;
+}
+
+/**
+ * Opaque extension payload for subsystem-specific data.
+ * Transport layer passes through without interpretation.
+ * Handlers match on type_uuid and check version compatibility.
+ */
+export interface JonOpaquePayload {
+  /** UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001") */
+  typeUuid: string;
+  /** Structured version - handler decides compatibility logic */
+  version:
+    | JonOpaquePayloadVersion
+    | undefined;
+  /** Opaque binary payload */
+  payload: Uint8Array;
+}
+
 function createBaseJonGuiDataMeteo(): JonGuiDataMeteo {
   return { temperature: 0, humidity: 0, pressure: 0 };
 }
@@ -1206,6 +1233,217 @@ export const JonGuiDataMeteo: MessageFns<JonGuiDataMeteo> = {
     return message;
   },
 };
+
+function createBaseJonOpaquePayloadVersion(): JonOpaquePayloadVersion {
+  return { major: 0, minor: 0, build: Long.UZERO };
+}
+
+export const JonOpaquePayloadVersion: MessageFns<JonOpaquePayloadVersion> = {
+  encode(message: JonOpaquePayloadVersion, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.major !== 0) {
+      writer.uint32(8).uint32(message.major);
+    }
+    if (message.minor !== 0) {
+      writer.uint32(16).uint32(message.minor);
+    }
+    if (!message.build.equals(Long.UZERO)) {
+      writer.uint32(24).uint64(message.build.toString());
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonOpaquePayloadVersion {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonOpaquePayloadVersion();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.major = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.minor = reader.uint32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.build = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonOpaquePayloadVersion {
+    return {
+      major: isSet(object.major) ? globalThis.Number(object.major) : 0,
+      minor: isSet(object.minor) ? globalThis.Number(object.minor) : 0,
+      build: isSet(object.build) ? Long.fromValue(object.build) : Long.UZERO,
+    };
+  },
+
+  toJSON(message: JonOpaquePayloadVersion): unknown {
+    const obj: any = {};
+    if (message.major !== 0) {
+      obj.major = Math.round(message.major);
+    }
+    if (message.minor !== 0) {
+      obj.minor = Math.round(message.minor);
+    }
+    if (!message.build.equals(Long.UZERO)) {
+      obj.build = (message.build || Long.UZERO).toString();
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonOpaquePayloadVersion>, I>>(base?: I): JonOpaquePayloadVersion {
+    return JonOpaquePayloadVersion.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonOpaquePayloadVersion>, I>>(object: I): JonOpaquePayloadVersion {
+    const message = createBaseJonOpaquePayloadVersion();
+    message.major = object.major ?? 0;
+    message.minor = object.minor ?? 0;
+    message.build = (object.build !== undefined && object.build !== null) ? Long.fromValue(object.build) : Long.UZERO;
+    return message;
+  },
+};
+
+function createBaseJonOpaquePayload(): JonOpaquePayload {
+  return { typeUuid: "", version: undefined, payload: new Uint8Array(0) };
+}
+
+export const JonOpaquePayload: MessageFns<JonOpaquePayload> = {
+  encode(message: JonOpaquePayload, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.typeUuid !== "") {
+      writer.uint32(10).string(message.typeUuid);
+    }
+    if (message.version !== undefined) {
+      JonOpaquePayloadVersion.encode(message.version, writer.uint32(18).fork()).join();
+    }
+    if (message.payload.length !== 0) {
+      writer.uint32(26).bytes(message.payload);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonOpaquePayload {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonOpaquePayload();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.typeUuid = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.version = JonOpaquePayloadVersion.decode(reader, reader.uint32());
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.payload = reader.bytes();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonOpaquePayload {
+    return {
+      typeUuid: isSet(object.typeUuid) ? globalThis.String(object.typeUuid) : "",
+      version: isSet(object.version) ? JonOpaquePayloadVersion.fromJSON(object.version) : undefined,
+      payload: isSet(object.payload) ? bytesFromBase64(object.payload) : new Uint8Array(0),
+    };
+  },
+
+  toJSON(message: JonOpaquePayload): unknown {
+    const obj: any = {};
+    if (message.typeUuid !== "") {
+      obj.typeUuid = message.typeUuid;
+    }
+    if (message.version !== undefined) {
+      obj.version = JonOpaquePayloadVersion.toJSON(message.version);
+    }
+    if (message.payload.length !== 0) {
+      obj.payload = base64FromBytes(message.payload);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonOpaquePayload>, I>>(base?: I): JonOpaquePayload {
+    return JonOpaquePayload.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonOpaquePayload>, I>>(object: I): JonOpaquePayload {
+    const message = createBaseJonOpaquePayload();
+    message.typeUuid = object.typeUuid ?? "";
+    message.version = (object.version !== undefined && object.version !== null)
+      ? JonOpaquePayloadVersion.fromPartial(object.version)
+      : undefined;
+    message.payload = object.payload ?? new Uint8Array(0);
+    return message;
+  },
+};
+
+function bytesFromBase64(b64: string): Uint8Array {
+  if ((globalThis as any).Buffer) {
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+  } else {
+    const bin = globalThis.atob(b64);
+    const arr = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; ++i) {
+      arr[i] = bin.charCodeAt(i);
+    }
+    return arr;
+  }
+}
+
+function base64FromBytes(arr: Uint8Array): string {
+  if ((globalThis as any).Buffer) {
+    return globalThis.Buffer.from(arr).toString("base64");
+  } else {
+    const bin: string[] = [];
+    arr.forEach((byte) => {
+      bin.push(globalThis.String.fromCharCode(byte));
+    });
+    return globalThis.btoa(bin.join(""));
+  }
+}
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 

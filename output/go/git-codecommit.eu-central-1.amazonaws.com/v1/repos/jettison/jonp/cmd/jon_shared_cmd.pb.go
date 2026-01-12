@@ -51,6 +51,8 @@ type Root struct {
 	StateTime uint64 `protobuf:"varint,8,opt,name=state_time,json=stateTime,proto3" json:"state_time,omitempty"` // System monotonic time (nanoseconds)
 	// Client wall-clock time when command was issued
 	ClientTimeMs uint64 `protobuf:"varint,9,opt,name=client_time_ms,json=clientTimeMs,proto3" json:"client_time_ms,omitempty"` // Client epoch time in milliseconds (from performance.timeOrigin + performance.now())
+	// Opaque payloads for subsystem-specific extensions
+	OpaquePayloads []*types.JonOpaquePayload `protobuf:"bytes,11,rep,name=opaque_payloads,json=opaquePayloads,proto3" json:"opaque_payloads,omitempty"`
 	// Types that are valid to be assigned to Payload:
 	//
 	//	*Root_DayCamera
@@ -172,6 +174,13 @@ func (x *Root) GetClientTimeMs() uint64 {
 		return x.ClientTimeMs
 	}
 	return 0
+}
+
+func (x *Root) GetOpaquePayloads() []*types.JonOpaquePayload {
+	if x != nil {
+		return x.OpaquePayloads
+	}
+	return nil
 }
 
 func (x *Root) GetPayload() isRoot_Payload {
@@ -537,7 +546,7 @@ var File_jon_shared_cmd_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1ajon_shared_cmd_power.proto\x1a\x1bjon_shared_data_types.proto\"\xa4\t\n" +
+	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1ajon_shared_cmd_power.proto\x1a\x1bjon_shared_data_types.proto\"\xe4\t\n" +
 	"\x04Root\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12\x1d\n" +
@@ -556,7 +565,8 @@ const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\x0fframe_time_heat\x18\a \x01(\x04R\rframeTimeHeat\x12\x1d\n" +
 	"\n" +
 	"state_time\x18\b \x01(\x04R\tstateTime\x12$\n" +
-	"\x0eclient_time_ms\x18\t \x01(\x04R\fclientTimeMs\x124\n" +
+	"\x0eclient_time_ms\x18\t \x01(\x04R\fclientTimeMs\x12>\n" +
+	"\x0fopaque_payloads\x18\v \x03(\v2\x15.ser.JonOpaquePayloadR\x0eopaquePayloads\x124\n" +
 	"\n" +
 	"day_camera\x18\x14 \x01(\v2\x13.cmd.DayCamera.RootH\x00R\tdayCamera\x127\n" +
 	"\vheat_camera\x18\x15 \x01(\v2\x14.cmd.HeatCamera.RootH\x00R\n" +
@@ -575,7 +585,7 @@ const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\x14day_cam_glass_heater\x18! \x01(\v2\x1b.cmd.DayCamGlassHeater.RootH\x00R\x11dayCamGlassHeater\x12$\n" +
 	"\x04lira\x18\" \x01(\v2\x0e.cmd.Lira.RootH\x00R\x04lira\x12'\n" +
 	"\x05power\x18# \x01(\v2\x0f.cmd.Power.RootH\x00R\x05powerB\x10\n" +
-	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\v\x10\x14\"\x06\n" +
+	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\f\x10\x14\"\x06\n" +
 	"\x04Ping\"\x06\n" +
 	"\x04Noop\"\b\n" +
 	"\x06FrozenB\x8e\x01\n" +
@@ -601,44 +611,46 @@ var file_jon_shared_cmd_proto_goTypes = []any{
 	(*Frozen)(nil),                    // 3: cmd.Frozen
 	(types.JonGuiDataClientType)(0),   // 4: ser.JonGuiDataClientType
 	(types.JonGuiDataClientApp)(0),    // 5: ser.JonGuiDataClientApp
-	(*day_camera.Root)(nil),           // 6: cmd.DayCamera.Root
-	(*heat_camera.Root)(nil),          // 7: cmd.HeatCamera.Root
-	(*gps.Root)(nil),                  // 8: cmd.Gps.Root
-	(*compass.Root)(nil),              // 9: cmd.Compass.Root
-	(*lrf.Root)(nil),                  // 10: cmd.Lrf.Root
-	(*lrf_align.Root)(nil),            // 11: cmd.Lrf_calib.Root
-	(*rotary.Root)(nil),               // 12: cmd.RotaryPlatform.Root
-	(*osd.Root)(nil),                  // 13: cmd.OSD.Root
-	(*system.Root)(nil),               // 14: cmd.System.Root
-	(*cv.Root)(nil),                   // 15: cmd.CV.Root
-	(*day_cam_glass_heater.Root)(nil), // 16: cmd.DayCamGlassHeater.Root
-	(*lira.Root)(nil),                 // 17: cmd.Lira.Root
-	(*power.Root)(nil),                // 18: cmd.Power.Root
+	(*types.JonOpaquePayload)(nil),    // 6: ser.JonOpaquePayload
+	(*day_camera.Root)(nil),           // 7: cmd.DayCamera.Root
+	(*heat_camera.Root)(nil),          // 8: cmd.HeatCamera.Root
+	(*gps.Root)(nil),                  // 9: cmd.Gps.Root
+	(*compass.Root)(nil),              // 10: cmd.Compass.Root
+	(*lrf.Root)(nil),                  // 11: cmd.Lrf.Root
+	(*lrf_align.Root)(nil),            // 12: cmd.Lrf_calib.Root
+	(*rotary.Root)(nil),               // 13: cmd.RotaryPlatform.Root
+	(*osd.Root)(nil),                  // 14: cmd.OSD.Root
+	(*system.Root)(nil),               // 15: cmd.System.Root
+	(*cv.Root)(nil),                   // 16: cmd.CV.Root
+	(*day_cam_glass_heater.Root)(nil), // 17: cmd.DayCamGlassHeater.Root
+	(*lira.Root)(nil),                 // 18: cmd.Lira.Root
+	(*power.Root)(nil),                // 19: cmd.Power.Root
 }
 var file_jon_shared_cmd_proto_depIdxs = []int32{
 	4,  // 0: cmd.Root.client_type:type_name -> ser.JonGuiDataClientType
 	5,  // 1: cmd.Root.client_app:type_name -> ser.JonGuiDataClientApp
-	6,  // 2: cmd.Root.day_camera:type_name -> cmd.DayCamera.Root
-	7,  // 3: cmd.Root.heat_camera:type_name -> cmd.HeatCamera.Root
-	8,  // 4: cmd.Root.gps:type_name -> cmd.Gps.Root
-	9,  // 5: cmd.Root.compass:type_name -> cmd.Compass.Root
-	10, // 6: cmd.Root.lrf:type_name -> cmd.Lrf.Root
-	11, // 7: cmd.Root.lrf_calib:type_name -> cmd.Lrf_calib.Root
-	12, // 8: cmd.Root.rotary:type_name -> cmd.RotaryPlatform.Root
-	13, // 9: cmd.Root.osd:type_name -> cmd.OSD.Root
-	1,  // 10: cmd.Root.ping:type_name -> cmd.Ping
-	2,  // 11: cmd.Root.noop:type_name -> cmd.Noop
-	3,  // 12: cmd.Root.frozen:type_name -> cmd.Frozen
-	14, // 13: cmd.Root.system:type_name -> cmd.System.Root
-	15, // 14: cmd.Root.cv:type_name -> cmd.CV.Root
-	16, // 15: cmd.Root.day_cam_glass_heater:type_name -> cmd.DayCamGlassHeater.Root
-	17, // 16: cmd.Root.lira:type_name -> cmd.Lira.Root
-	18, // 17: cmd.Root.power:type_name -> cmd.Power.Root
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	6,  // 2: cmd.Root.opaque_payloads:type_name -> ser.JonOpaquePayload
+	7,  // 3: cmd.Root.day_camera:type_name -> cmd.DayCamera.Root
+	8,  // 4: cmd.Root.heat_camera:type_name -> cmd.HeatCamera.Root
+	9,  // 5: cmd.Root.gps:type_name -> cmd.Gps.Root
+	10, // 6: cmd.Root.compass:type_name -> cmd.Compass.Root
+	11, // 7: cmd.Root.lrf:type_name -> cmd.Lrf.Root
+	12, // 8: cmd.Root.lrf_calib:type_name -> cmd.Lrf_calib.Root
+	13, // 9: cmd.Root.rotary:type_name -> cmd.RotaryPlatform.Root
+	14, // 10: cmd.Root.osd:type_name -> cmd.OSD.Root
+	1,  // 11: cmd.Root.ping:type_name -> cmd.Ping
+	2,  // 12: cmd.Root.noop:type_name -> cmd.Noop
+	3,  // 13: cmd.Root.frozen:type_name -> cmd.Frozen
+	15, // 14: cmd.Root.system:type_name -> cmd.System.Root
+	16, // 15: cmd.Root.cv:type_name -> cmd.CV.Root
+	17, // 16: cmd.Root.day_cam_glass_heater:type_name -> cmd.DayCamGlassHeater.Root
+	18, // 17: cmd.Root.lira:type_name -> cmd.Lira.Root
+	19, // 18: cmd.Root.power:type_name -> cmd.Power.Root
+	19, // [19:19] is the sub-list for method output_type
+	19, // [19:19] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_proto_init() }

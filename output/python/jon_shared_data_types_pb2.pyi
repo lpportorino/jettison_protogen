@@ -1,7 +1,7 @@
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Optional as _Optional
+from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -297,3 +297,23 @@ class JonGuiDataMeteo(_message.Message):
     humidity: float
     pressure: float
     def __init__(self, temperature: _Optional[float] = ..., humidity: _Optional[float] = ..., pressure: _Optional[float] = ...) -> None: ...
+
+class JonOpaquePayloadVersion(_message.Message):
+    __slots__ = ("major", "minor", "build")
+    MAJOR_FIELD_NUMBER: _ClassVar[int]
+    MINOR_FIELD_NUMBER: _ClassVar[int]
+    BUILD_FIELD_NUMBER: _ClassVar[int]
+    major: int
+    minor: int
+    build: int
+    def __init__(self, major: _Optional[int] = ..., minor: _Optional[int] = ..., build: _Optional[int] = ...) -> None: ...
+
+class JonOpaquePayload(_message.Message):
+    __slots__ = ("type_uuid", "version", "payload")
+    TYPE_UUID_FIELD_NUMBER: _ClassVar[int]
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    PAYLOAD_FIELD_NUMBER: _ClassVar[int]
+    type_uuid: str
+    version: JonOpaquePayloadVersion
+    payload: bytes
+    def __init__(self, type_uuid: _Optional[str] = ..., version: _Optional[_Union[JonOpaquePayloadVersion, _Mapping]] = ..., payload: _Optional[bytes] = ...) -> None: ...

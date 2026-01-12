@@ -693,6 +693,7 @@ class Root final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kOpaquePayloadsFieldNumber = 11,
     kProtocolVersionFieldNumber = 1,
     kSessionIdFieldNumber = 2,
     kImportantFieldNumber = 3,
@@ -720,6 +721,23 @@ class Root final : public ::google::protobuf::Message
     kLiraFieldNumber = 34,
     kPowerFieldNumber = 35,
   };
+  // repeated .ser.JonOpaquePayload opaque_payloads = 11;
+  int opaque_payloads_size() const;
+  private:
+  int _internal_opaque_payloads_size() const;
+
+  public:
+  void clear_opaque_payloads() ;
+  ::ser::JonOpaquePayload* mutable_opaque_payloads(int index);
+  ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>* mutable_opaque_payloads();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>& _internal_opaque_payloads() const;
+  ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>* _internal_mutable_opaque_payloads();
+  public:
+  const ::ser::JonOpaquePayload& opaque_payloads(int index) const;
+  ::ser::JonOpaquePayload* add_opaque_payloads();
+  const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>& opaque_payloads() const;
   // uint32 protocol_version = 1 [(.buf.validate.field) = {
   void clear_protocol_version() ;
   ::uint32_t protocol_version() const;
@@ -1149,7 +1167,7 @@ class Root final : public ::google::protobuf::Message
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 26, 16,
+      4, 27, 17,
       0, 7>
       _table_;
 
@@ -1167,6 +1185,7 @@ class Root final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const Root& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::ser::JonOpaquePayload > opaque_payloads_;
     ::uint32_t protocol_version_;
     ::uint32_t session_id_;
     bool important_;
@@ -1439,6 +1458,51 @@ inline ::uint64_t Root::_internal_client_time_ms() const {
 inline void Root::_internal_set_client_time_ms(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.client_time_ms_ = value;
+}
+
+// repeated .ser.JonOpaquePayload opaque_payloads = 11;
+inline int Root::_internal_opaque_payloads_size() const {
+  return _internal_opaque_payloads().size();
+}
+inline int Root::opaque_payloads_size() const {
+  return _internal_opaque_payloads_size();
+}
+inline ::ser::JonOpaquePayload* Root::mutable_opaque_payloads(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:cmd.Root.opaque_payloads)
+  return _internal_mutable_opaque_payloads()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>* Root::mutable_opaque_payloads()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:cmd.Root.opaque_payloads)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_opaque_payloads();
+}
+inline const ::ser::JonOpaquePayload& Root::opaque_payloads(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Root.opaque_payloads)
+  return _internal_opaque_payloads().Get(index);
+}
+inline ::ser::JonOpaquePayload* Root::add_opaque_payloads() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ser::JonOpaquePayload* _add = _internal_mutable_opaque_payloads()->Add();
+  // @@protoc_insertion_point(field_add:cmd.Root.opaque_payloads)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>& Root::opaque_payloads() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:cmd.Root.opaque_payloads)
+  return _internal_opaque_payloads();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>&
+Root::_internal_opaque_payloads() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.opaque_payloads_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>*
+Root::_internal_mutable_opaque_payloads() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.opaque_payloads_;
 }
 
 // .cmd.DayCamera.Root day_camera = 20;

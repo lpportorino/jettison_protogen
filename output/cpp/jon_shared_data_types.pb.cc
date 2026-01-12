@@ -26,6 +26,33 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace ser {
 
+inline constexpr JonOpaquePayloadVersion::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : major_{0u},
+        minor_{0u},
+        build_{::uint64_t{0u}},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR JonOpaquePayloadVersion::JonOpaquePayloadVersion(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct JonOpaquePayloadVersionDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR JonOpaquePayloadVersionDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~JonOpaquePayloadVersionDefaultTypeInternal() {}
+  union {
+    JonOpaquePayloadVersion _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonOpaquePayloadVersionDefaultTypeInternal _JonOpaquePayloadVersion_default_instance_;
+
 inline constexpr JonGuiDataMeteo::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : temperature_{0},
@@ -52,6 +79,37 @@ struct JonGuiDataMeteoDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonGuiDataMeteoDefaultTypeInternal _JonGuiDataMeteo_default_instance_;
+
+inline constexpr JonOpaquePayload::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        type_uuid_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        payload_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        version_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR JonOpaquePayload::JonOpaquePayload(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct JonOpaquePayloadDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR JonOpaquePayloadDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~JonOpaquePayloadDefaultTypeInternal() {}
+  union {
+    JonOpaquePayload _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JonOpaquePayloadDefaultTypeInternal _JonOpaquePayload_default_instance_;
 }  // namespace ser
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_jon_5fshared_5fdata_5ftypes_2eproto[21];
 static constexpr const ::_pb::ServiceDescriptor**
@@ -70,14 +128,43 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataMeteo, _impl_.temperature_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataMeteo, _impl_.humidity_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataMeteo, _impl_.pressure_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayloadVersion, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayloadVersion, _impl_.major_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayloadVersion, _impl_.minor_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayloadVersion, _impl_.build_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayload, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayload, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayload, _impl_.type_uuid_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayload, _impl_.version_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonOpaquePayload, _impl_.payload_),
+        ~0u,
+        0,
+        ~0u,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::ser::JonGuiDataMeteo)},
+        {11, -1, -1, sizeof(::ser::JonOpaquePayloadVersion)},
+        {22, 33, -1, sizeof(::ser::JonOpaquePayload)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataMeteo_default_instance_._instance,
+    &::ser::_JonOpaquePayloadVersion_default_instance_._instance,
+    &::ser::_JonOpaquePayload_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -86,142 +173,149 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto[] ABSL_
     "teo\022,\n\013temperature\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\300b@"
     ")fffff\022q\300\022)\n\010humidity\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
     "\000Y@)\000\000\000\000\000\000\000\000\022)\n\010pressure\030\003 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000L\375@)\000\000\000\000\000\000\000\000*\263\002\n!JonGuiDataVideoChann"
-    "elHeatFilters\0226\n2JON_GUI_DATA_VIDEO_CHAN"
-    "NEL_HEAT_FILTER_UNSPECIFIED\020\000\0224\n0JON_GUI"
-    "_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHIT"
-    "E\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_F"
-    "ILTER_HOT_BLACK\020\002\0220\n,JON_GUI_DATA_VIDEO_"
-    "CHANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4JON_GUI_D"
-    "ATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVE"
-    "RSE\020\004*\356\001\n\"JonGuiDataVideoChannelHeatAGCM"
-    "odes\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_"
-    "AGC_MODE_UNSPECIFIED\020\000\022.\n*JON_GUI_DATA_V"
-    "IDEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022.\n*JON_GU"
-    "I_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2\020\002\022."
-    "\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MO"
-    "DE_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&\n\"JON_GUI"
-    "_DATA_GPS_UNITS_UNSPECIFIED\020\000\022*\n&JON_GUI"
-    "_DATA_GPS_UNITS_DECIMAL_DEGREES\020\001\0222\n.JON"
-    "_GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECO"
-    "NDS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_"
-    "DECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDataGpsFixTy"
-    "pe\022)\n%JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIF"
-    "IED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_TYPE_NONE\020"
-    "\001\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_1D\020\002\022 \n\034J"
-    "ON_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 \n\034JON_GUI"
-    "_DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_GUI_DATA_"
-    "GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGuiDataComp"
-    "assUnits\022*\n&JON_GUI_DATA_COMPASS_UNITS_U"
-    "NSPECIFIED\020\000\022&\n\"JON_GUI_DATA_COMPASS_UNI"
-    "TS_DEGREES\020\001\022#\n\037JON_GUI_DATA_COMPASS_UNI"
-    "TS_MILS\020\002\022#\n\037JON_GUI_DATA_COMPASS_UNITS_"
-    "GRAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_UNITS_MRA"
-    "D\020\004*\337\003\n\035JonGuiDataAccumulatorStateIdx\022.\n"
-    "*JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIF"
-    "IED\020\000\022*\n&JON_GUI_DATA_ACCUMULATOR_STATE_"
-    "UNKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUMULATOR_ST"
-    "ATE_EMPTY\020\002\022$\n JON_GUI_DATA_ACCUMULATOR_"
-    "STATE_1\020\003\022$\n JON_GUI_DATA_ACCUMULATOR_ST"
-    "ATE_2\020\004\022$\n JON_GUI_DATA_ACCUMULATOR_STAT"
-    "E_3\020\005\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_"
-    "4\020\006\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_5\020"
-    "\007\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_6\020\010\022"
-    "\'\n#JON_GUI_DATA_ACCUMULATOR_STATE_FULL\020\t"
-    "\022+\n\'JON_GUI_DATA_ACCUMULATOR_STATE_CHARG"
-    "ING\020\n*\217\001\n\025JonGuiDataTimeFormats\022(\n$JON_G"
-    "UI_DATA_TIME_FORMAT_UNSPECIFIED\020\000\022\"\n\036JON"
-    "_GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(\n$JON_GUI"
-    "_DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002*\254\001\n\031JonG"
-    "uiDataRotaryDirection\022-\n)JON_GUI_DATA_RO"
-    "TARY_DIRECTION_UNSPECIFIED\020\000\022+\n\'JON_GUI_"
-    "DATA_ROTARY_DIRECTION_CLOCKWISE\020\001\0223\n/JON"
-    "_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCK"
-    "WISE\020\002*\352\002\n\026JonGuiDataLrfScanModes\022*\n&JON"
-    "_GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED\020\000\022.\n"
-    "*JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINU"
-    "OUS\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_4_HZ"
-    "_CONTINUOUS\020\002\022/\n+JON_GUI_DATA_LRF_SCAN_M"
-    "ODE_10_HZ_CONTINUOUS\020\003\022/\n+JON_GUI_DATA_L"
-    "RF_SCAN_MODE_20_HZ_CONTINUOUS\020\004\0220\n,JON_G"
-    "UI_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS\020"
-    "\005\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_C"
-    "ONTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfLaserPoint"
-    "erModes\0223\n/JON_GUI_DATA_LRF_LASER_POINTE"
-    "R_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DATA_LRF"
-    "_LASER_POINTER_MODE_OFF\020\001\022,\n(JON_GUI_DAT"
-    "A_LRF_LASER_POINTER_MODE_ON_1\020\002\022,\n(JON_G"
-    "UI_DATA_LRF_LASER_POINTER_MODE_ON_2\020\003*\362\002"
-    "\n JonGuiDataCompassCalibrateStatus\0225\n1JO"
-    "N_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSP"
-    "ECIFIED\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBR"
-    "ATE_STATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_"
-    "DATA_COMPASS_CALIBRATE_STATUS_CALIBRATIN"
-    "G_SHORT\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBR"
-    "ATE_STATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI"
-    "_DATA_COMPASS_CALIBRATE_STATUS_FINISHED\020"
-    "\004\022/\n+JON_GUI_DATA_COMPASS_CALIBRATE_STAT"
-    "US_ERROR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$J"
-    "ON_GUI_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n"
-    "\'JON_GUI_DATA_ROTARY_MODE_INITIALIZATION"
-    "\020\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%"
-    "\n!JON_GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n"
-    "&JON_GUI_DATA_ROTARY_MODE_STABILIZATION\020"
-    "\004\022&\n\"JON_GUI_DATA_ROTARY_MODE_TARGETING\020"
-    "\005\022*\n&JON_GUI_DATA_ROTARY_MODE_VIDEO_TRAC"
-    "KER\020\006*\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_"
-    "GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037"
-    "JON_GUI_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON"
-    "_GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGui"
-    "DataRecOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD"
-    "_SCREEN_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_RE"
-    "C_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_"
-    "OSD_SCREEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA"
-    "_REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_"
-    "DATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIE"
-    "D\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n JON_GUI_D"
-    "ATA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DAT"
-    "A_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MOD"
-    "E_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020"
-    "\003\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON"
-    "_GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DAT"
-    "A_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHe"
-    "at\022%\n!JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020"
-    "\000\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JO"
-    "N_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_D"
-    "ATA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_"
-    "MODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HE"
-    "AT_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*"
-    "\365\001\n\035JonGuiDataSystemLocalizations\0220\n,JON"
-    "_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIE"
-    "D\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_"
-    "EN\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION"
-    "_UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATIO"
-    "N_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATI"
-    "ON_CS\020\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_"
-    "GUI_DATA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JO"
-    "N_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&"
-    "JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002"
-    "\0222\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE"
-    "_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE"
-    "_LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_G"
-    "UI_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_"
-    "GUI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_"
-    "GUI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON"
-    "_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n"
-    "%JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004"
-    "*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_D"
-    "ATA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_"
-    "GUI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JO"
-    "N_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022"
-    ")\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING"
-    "\020\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_"
-    "DATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_G"
-    "UI_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'J"
-    "ON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002"
-    "\022$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BH"
-    "ZFgit-codecommit.eu-central-1.amazonaws."
-    "com/v1/repos/jettison/jonp/typesb\006proto3"
+    "\000\000\000L\375@)\000\000\000\000\000\000\000\000\"F\n\027JonOpaquePayloadVersi"
+    "on\022\r\n\005major\030\001 \001(\r\022\r\n\005minor\030\002 \001(\r\022\r\n\005buil"
+    "d\030\003 \001(\004\"\314\001\n\020JonOpaquePayload\022g\n\ttype_uui"
+    "d\030\001 \001(\tBT\272HQrO2M^[0-9a-fA-F]{8}-[0-9a-fA"
+    "-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-"
+    "9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.ser.Jon"
+    "OpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007payload\030"
+    "\003 \001(\014B\007\272H\004z\002\020\001*\263\002\n!JonGuiDataVideoChanne"
+    "lHeatFilters\0226\n2JON_GUI_DATA_VIDEO_CHANN"
+    "EL_HEAT_FILTER_UNSPECIFIED\020\000\0224\n0JON_GUI_"
+    "DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE"
+    "\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FI"
+    "LTER_HOT_BLACK\020\002\0220\n,JON_GUI_DATA_VIDEO_C"
+    "HANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4JON_GUI_DA"
+    "TA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVER"
+    "SE\020\004*\356\001\n\"JonGuiDataVideoChannelHeatAGCMo"
+    "des\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_A"
+    "GC_MODE_UNSPECIFIED\020\000\022.\n*JON_GUI_DATA_VI"
+    "DEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022.\n*JON_GUI"
+    "_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2\020\002\022.\n"
+    "*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MOD"
+    "E_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&\n\"JON_GUI_"
+    "DATA_GPS_UNITS_UNSPECIFIED\020\000\022*\n&JON_GUI_"
+    "DATA_GPS_UNITS_DECIMAL_DEGREES\020\001\0222\n.JON_"
+    "GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECON"
+    "DS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_D"
+    "ECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDataGpsFixTyp"
+    "e\022)\n%JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIFI"
+    "ED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_TYPE_NONE\020\001"
+    "\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_1D\020\002\022 \n\034JO"
+    "N_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 \n\034JON_GUI_"
+    "DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_GUI_DATA_G"
+    "PS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGuiDataCompa"
+    "ssUnits\022*\n&JON_GUI_DATA_COMPASS_UNITS_UN"
+    "SPECIFIED\020\000\022&\n\"JON_GUI_DATA_COMPASS_UNIT"
+    "S_DEGREES\020\001\022#\n\037JON_GUI_DATA_COMPASS_UNIT"
+    "S_MILS\020\002\022#\n\037JON_GUI_DATA_COMPASS_UNITS_G"
+    "RAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_UNITS_MRAD"
+    "\020\004*\337\003\n\035JonGuiDataAccumulatorStateIdx\022.\n*"
+    "JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFI"
+    "ED\020\000\022*\n&JON_GUI_DATA_ACCUMULATOR_STATE_U"
+    "NKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUMULATOR_STA"
+    "TE_EMPTY\020\002\022$\n JON_GUI_DATA_ACCUMULATOR_S"
+    "TATE_1\020\003\022$\n JON_GUI_DATA_ACCUMULATOR_STA"
+    "TE_2\020\004\022$\n JON_GUI_DATA_ACCUMULATOR_STATE"
+    "_3\020\005\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_4"
+    "\020\006\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_5\020\007"
+    "\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_6\020\010\022\'"
+    "\n#JON_GUI_DATA_ACCUMULATOR_STATE_FULL\020\t\022"
+    "+\n\'JON_GUI_DATA_ACCUMULATOR_STATE_CHARGI"
+    "NG\020\n*\217\001\n\025JonGuiDataTimeFormats\022(\n$JON_GU"
+    "I_DATA_TIME_FORMAT_UNSPECIFIED\020\000\022\"\n\036JON_"
+    "GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(\n$JON_GUI_"
+    "DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002*\254\001\n\031JonGu"
+    "iDataRotaryDirection\022-\n)JON_GUI_DATA_ROT"
+    "ARY_DIRECTION_UNSPECIFIED\020\000\022+\n\'JON_GUI_D"
+    "ATA_ROTARY_DIRECTION_CLOCKWISE\020\001\0223\n/JON_"
+    "GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKW"
+    "ISE\020\002*\352\002\n\026JonGuiDataLrfScanModes\022*\n&JON_"
+    "GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED\020\000\022.\n*"
+    "JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINUO"
+    "US\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_4_HZ_"
+    "CONTINUOUS\020\002\022/\n+JON_GUI_DATA_LRF_SCAN_MO"
+    "DE_10_HZ_CONTINUOUS\020\003\022/\n+JON_GUI_DATA_LR"
+    "F_SCAN_MODE_20_HZ_CONTINUOUS\020\004\0220\n,JON_GU"
+    "I_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS\020\005"
+    "\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_CO"
+    "NTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfLaserPointe"
+    "rModes\0223\n/JON_GUI_DATA_LRF_LASER_POINTER"
+    "_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DATA_LRF_"
+    "LASER_POINTER_MODE_OFF\020\001\022,\n(JON_GUI_DATA"
+    "_LRF_LASER_POINTER_MODE_ON_1\020\002\022,\n(JON_GU"
+    "I_DATA_LRF_LASER_POINTER_MODE_ON_2\020\003*\362\002\n"
+    " JonGuiDataCompassCalibrateStatus\0225\n1JON"
+    "_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPE"
+    "CIFIED\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBRA"
+    "TE_STATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_D"
+    "ATA_COMPASS_CALIBRATE_STATUS_CALIBRATING"
+    "_SHORT\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBRA"
+    "TE_STATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI_"
+    "DATA_COMPASS_CALIBRATE_STATUS_FINISHED\020\004"
+    "\022/\n+JON_GUI_DATA_COMPASS_CALIBRATE_STATU"
+    "S_ERROR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$JO"
+    "N_GUI_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'"
+    "JON_GUI_DATA_ROTARY_MODE_INITIALIZATION\020"
+    "\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%\n"
+    "!JON_GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n&"
+    "JON_GUI_DATA_ROTARY_MODE_STABILIZATION\020\004"
+    "\022&\n\"JON_GUI_DATA_ROTARY_MODE_TARGETING\020\005"
+    "\022*\n&JON_GUI_DATA_ROTARY_MODE_VIDEO_TRACK"
+    "ER\020\006*\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_G"
+    "UI_DATA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037J"
+    "ON_GUI_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_"
+    "GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiD"
+    "ataRecOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD_"
+    "SCREEN_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_REC"
+    "_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_O"
+    "SD_SCREEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_"
+    "REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_D"
+    "ATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED"
+    "\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n JON_GUI_DA"
+    "TA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA"
+    "_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE"
+    "_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003"
+    "\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_"
+    "GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA"
+    "_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHea"
+    "t\022%\n!JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020\000"
+    "\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON"
+    "_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DA"
+    "TA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_M"
+    "ODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEA"
+    "T_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365"
+    "\001\n\035JonGuiDataSystemLocalizations\0220\n,JON_"
+    "GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED"
+    "\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_E"
+    "N\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_"
+    "UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION"
+    "_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATIO"
+    "N_CS\020\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_G"
+    "UI_DATA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JON"
+    "_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&J"
+    "ON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002\022"
+    "2\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_"
+    "PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_"
+    "LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_GU"
+    "I_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_G"
+    "UI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_G"
+    "UI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON_"
+    "GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n%"
+    "JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004*"
+    "\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_DA"
+    "TA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_G"
+    "UI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JON"
+    "_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022)"
+    "\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING\020"
+    "\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_D"
+    "ATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_GU"
+    "I_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JO"
+    "N_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002\022"
+    "$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BHZ"
+    "Fgit-codecommit.eu-central-1.amazonaws.c"
+    "om/v1/repos/jettison/jonp/typesb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps[1] =
     {
@@ -231,13 +325,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto = {
     false,
     false,
-    5640,
+    5919,
     descriptor_table_protodef_jon_5fshared_5fdata_5ftypes_2eproto,
     "jon_shared_data_types.proto",
     &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto_deps,
     1,
-    1,
+    3,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fdata_5ftypes_2eproto::offsets,
@@ -692,6 +786,580 @@ void JonGuiDataMeteo::InternalSwap(JonGuiDataMeteo* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata JonGuiDataMeteo::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class JonOpaquePayloadVersion::_Internal {
+ public:
+};
+
+JonOpaquePayloadVersion::JonOpaquePayloadVersion(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ser.JonOpaquePayloadVersion)
+}
+JonOpaquePayloadVersion::JonOpaquePayloadVersion(
+    ::google::protobuf::Arena* arena, const JonOpaquePayloadVersion& from)
+    : JonOpaquePayloadVersion(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE JonOpaquePayloadVersion::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void JonOpaquePayloadVersion::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, major_),
+           0,
+           offsetof(Impl_, build_) -
+               offsetof(Impl_, major_) +
+               sizeof(Impl_::build_));
+}
+JonOpaquePayloadVersion::~JonOpaquePayloadVersion() {
+  // @@protoc_insertion_point(destructor:ser.JonOpaquePayloadVersion)
+  SharedDtor(*this);
+}
+inline void JonOpaquePayloadVersion::SharedDtor(MessageLite& self) {
+  JonOpaquePayloadVersion& this_ = static_cast<JonOpaquePayloadVersion&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* JonOpaquePayloadVersion::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) JonOpaquePayloadVersion(arena);
+}
+constexpr auto JonOpaquePayloadVersion::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(JonOpaquePayloadVersion),
+                                            alignof(JonOpaquePayloadVersion));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull JonOpaquePayloadVersion::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_JonOpaquePayloadVersion_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &JonOpaquePayloadVersion::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<JonOpaquePayloadVersion>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &JonOpaquePayloadVersion::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<JonOpaquePayloadVersion>(), &JonOpaquePayloadVersion::ByteSizeLong,
+            &JonOpaquePayloadVersion::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_._cached_size_),
+        false,
+    },
+    &JonOpaquePayloadVersion::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* JonOpaquePayloadVersion::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 0, 0, 2> JonOpaquePayloadVersion::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ser::JonOpaquePayloadVersion>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 major = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonOpaquePayloadVersion, _impl_.major_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.major_)}},
+    // uint32 minor = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonOpaquePayloadVersion, _impl_.minor_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.minor_)}},
+    // uint64 build = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(JonOpaquePayloadVersion, _impl_.build_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.build_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 major = 1;
+    {PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.major_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 minor = 2;
+    {PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.minor_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint64 build = 3;
+    {PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.build_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void JonOpaquePayloadVersion::Clear() {
+// @@protoc_insertion_point(message_clear_start:ser.JonOpaquePayloadVersion)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.major_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.build_) -
+      reinterpret_cast<char*>(&_impl_.major_)) + sizeof(_impl_.build_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* JonOpaquePayloadVersion::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const JonOpaquePayloadVersion& this_ = static_cast<const JonOpaquePayloadVersion&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* JonOpaquePayloadVersion::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const JonOpaquePayloadVersion& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ser.JonOpaquePayloadVersion)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 major = 1;
+          if (this_._internal_major() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_major(), target);
+          }
+
+          // uint32 minor = 2;
+          if (this_._internal_minor() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                2, this_._internal_minor(), target);
+          }
+
+          // uint64 build = 3;
+          if (this_._internal_build() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                3, this_._internal_build(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ser.JonOpaquePayloadVersion)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t JonOpaquePayloadVersion::ByteSizeLong(const MessageLite& base) {
+          const JonOpaquePayloadVersion& this_ = static_cast<const JonOpaquePayloadVersion&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t JonOpaquePayloadVersion::ByteSizeLong() const {
+          const JonOpaquePayloadVersion& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ser.JonOpaquePayloadVersion)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // uint32 major = 1;
+            if (this_._internal_major() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_major());
+            }
+            // uint32 minor = 2;
+            if (this_._internal_minor() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_minor());
+            }
+            // uint64 build = 3;
+            if (this_._internal_build() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+                  this_._internal_build());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void JonOpaquePayloadVersion::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<JonOpaquePayloadVersion*>(&to_msg);
+  auto& from = static_cast<const JonOpaquePayloadVersion&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:ser.JonOpaquePayloadVersion)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_major() != 0) {
+    _this->_impl_.major_ = from._impl_.major_;
+  }
+  if (from._internal_minor() != 0) {
+    _this->_impl_.minor_ = from._impl_.minor_;
+  }
+  if (from._internal_build() != 0) {
+    _this->_impl_.build_ = from._impl_.build_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void JonOpaquePayloadVersion::CopyFrom(const JonOpaquePayloadVersion& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ser.JonOpaquePayloadVersion)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void JonOpaquePayloadVersion::InternalSwap(JonOpaquePayloadVersion* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.build_)
+      + sizeof(JonOpaquePayloadVersion::_impl_.build_)
+      - PROTOBUF_FIELD_OFFSET(JonOpaquePayloadVersion, _impl_.major_)>(
+          reinterpret_cast<char*>(&_impl_.major_),
+          reinterpret_cast<char*>(&other->_impl_.major_));
+}
+
+::google::protobuf::Metadata JonOpaquePayloadVersion::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class JonOpaquePayload::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<JonOpaquePayload>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_._has_bits_);
+};
+
+JonOpaquePayload::JonOpaquePayload(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ser.JonOpaquePayload)
+}
+inline PROTOBUF_NDEBUG_INLINE JonOpaquePayload::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ser::JonOpaquePayload& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        type_uuid_(arena, from.type_uuid_),
+        payload_(arena, from.payload_) {}
+
+JonOpaquePayload::JonOpaquePayload(
+    ::google::protobuf::Arena* arena,
+    const JonOpaquePayload& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  JonOpaquePayload* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.version_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonOpaquePayloadVersion>(
+                              arena, *from._impl_.version_)
+                        : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:ser.JonOpaquePayload)
+}
+inline PROTOBUF_NDEBUG_INLINE JonOpaquePayload::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        type_uuid_(arena),
+        payload_(arena) {}
+
+inline void JonOpaquePayload::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.version_ = {};
+}
+JonOpaquePayload::~JonOpaquePayload() {
+  // @@protoc_insertion_point(destructor:ser.JonOpaquePayload)
+  SharedDtor(*this);
+}
+inline void JonOpaquePayload::SharedDtor(MessageLite& self) {
+  JonOpaquePayload& this_ = static_cast<JonOpaquePayload&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.type_uuid_.Destroy();
+  this_._impl_.payload_.Destroy();
+  delete this_._impl_.version_;
+  this_._impl_.~Impl_();
+}
+
+inline void* JonOpaquePayload::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) JonOpaquePayload(arena);
+}
+constexpr auto JonOpaquePayload::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(JonOpaquePayload),
+                                            alignof(JonOpaquePayload));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull JonOpaquePayload::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_JonOpaquePayload_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &JonOpaquePayload::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<JonOpaquePayload>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &JonOpaquePayload::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<JonOpaquePayload>(), &JonOpaquePayload::ByteSizeLong,
+            &JonOpaquePayload::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_._cached_size_),
+        false,
+    },
+    &JonOpaquePayload::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* JonOpaquePayload::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 1, 38, 2> JonOpaquePayload::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_._has_bits_),
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ser::JonOpaquePayload>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // string type_uuid = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_.type_uuid_)}},
+    // .ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastMtS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_.version_)}},
+    // bytes payload = 3 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastBS1,
+     {26, 63, 0, PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_.payload_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // string type_uuid = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_.type_uuid_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_.version_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // bytes payload = 3 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonOpaquePayload, _impl_.payload_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBytes | ::_fl::kRepAString)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ser::JonOpaquePayloadVersion>()},
+  }}, {{
+    "\24\11\0\0\0\0\0\0"
+    "ser.JonOpaquePayload"
+    "type_uuid"
+  }},
+};
+
+PROTOBUF_NOINLINE void JonOpaquePayload::Clear() {
+// @@protoc_insertion_point(message_clear_start:ser.JonOpaquePayload)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.type_uuid_.ClearToEmpty();
+  _impl_.payload_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.version_ != nullptr);
+    _impl_.version_->Clear();
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* JonOpaquePayload::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const JonOpaquePayload& this_ = static_cast<const JonOpaquePayload&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* JonOpaquePayload::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const JonOpaquePayload& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ser.JonOpaquePayload)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // string type_uuid = 1 [(.buf.validate.field) = {
+          if (!this_._internal_type_uuid().empty()) {
+            const std::string& _s = this_._internal_type_uuid();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ser.JonOpaquePayload.type_uuid");
+            target = stream->WriteStringMaybeAliased(1, _s, target);
+          }
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = {
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                2, *this_._impl_.version_, this_._impl_.version_->GetCachedSize(), target,
+                stream);
+          }
+
+          // bytes payload = 3 [(.buf.validate.field) = {
+          if (!this_._internal_payload().empty()) {
+            const std::string& _s = this_._internal_payload();
+            target = stream->WriteBytesMaybeAliased(3, _s, target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ser.JonOpaquePayload)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t JonOpaquePayload::ByteSizeLong(const MessageLite& base) {
+          const JonOpaquePayload& this_ = static_cast<const JonOpaquePayload&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t JonOpaquePayload::ByteSizeLong() const {
+          const JonOpaquePayload& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ser.JonOpaquePayload)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // string type_uuid = 1 [(.buf.validate.field) = {
+            if (!this_._internal_type_uuid().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_type_uuid());
+            }
+            // bytes payload = 3 [(.buf.validate.field) = {
+            if (!this_._internal_payload().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                              this_._internal_payload());
+            }
+          }
+           {
+            // .ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = {
+            cached_has_bits = this_._impl_._has_bits_[0];
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.version_);
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void JonOpaquePayload::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<JonOpaquePayload*>(&to_msg);
+  auto& from = static_cast<const JonOpaquePayload&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ser.JonOpaquePayload)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_type_uuid().empty()) {
+    _this->_internal_set_type_uuid(from._internal_type_uuid());
+  }
+  if (!from._internal_payload().empty()) {
+    _this->_internal_set_payload(from._internal_payload());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(from._impl_.version_ != nullptr);
+    if (_this->_impl_.version_ == nullptr) {
+      _this->_impl_.version_ =
+          ::google::protobuf::Message::CopyConstruct<::ser::JonOpaquePayloadVersion>(arena, *from._impl_.version_);
+    } else {
+      _this->_impl_.version_->MergeFrom(*from._impl_.version_);
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void JonOpaquePayload::CopyFrom(const JonOpaquePayload& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ser.JonOpaquePayload)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void JonOpaquePayload::InternalSwap(JonOpaquePayload* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.type_uuid_, &other->_impl_.type_uuid_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.payload_, &other->_impl_.payload_, arena);
+  swap(_impl_.version_, other->_impl_.version_);
+}
+
+::google::protobuf::Metadata JonOpaquePayload::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

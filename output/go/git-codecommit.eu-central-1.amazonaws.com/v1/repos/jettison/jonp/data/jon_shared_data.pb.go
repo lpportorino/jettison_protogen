@@ -38,30 +38,32 @@ const (
 
 // Root message
 type JonGUIState struct {
-	state                 protoimpl.MessageState                            `protogen:"open.v1"`
-	ProtocolVersion       uint32                                            `protobuf:"varint,1,opt,name=protocol_version,json=protocolVersion,proto3" json:"protocol_version,omitempty"`
-	SystemMonotonicTimeUs uint64                                            `protobuf:"varint,2,opt,name=system_monotonic_time_us,json=systemMonotonicTimeUs,proto3" json:"system_monotonic_time_us,omitempty"` // System monotonic time in microseconds
-	StateSource           types.JonGuiDataStateSource                       `protobuf:"varint,3,opt,name=state_source,json=stateSource,proto3,enum=ser.JonGuiDataStateSource" json:"state_source,omitempty"`
-	FramePtsDayNs         uint64                                            `protobuf:"varint,4,opt,name=frame_pts_day_ns,json=framePtsDayNs,proto3" json:"frame_pts_day_ns,omitempty"`                      // Day pipeline GStreamer buffer PTS in nanoseconds
-	FramePtsHeatNs        uint64                                            `protobuf:"varint,5,opt,name=frame_pts_heat_ns,json=framePtsHeatNs,proto3" json:"frame_pts_heat_ns,omitempty"`                   // Heat pipeline GStreamer buffer PTS in nanoseconds
-	FrameMonotonicDayUs   uint64                                            `protobuf:"varint,6,opt,name=frame_monotonic_day_us,json=frameMonotonicDayUs,proto3" json:"frame_monotonic_day_us,omitempty"`    // Monotonic time when day frame was captured (microseconds)
-	FrameMonotonicHeatUs  uint64                                            `protobuf:"varint,7,opt,name=frame_monotonic_heat_us,json=frameMonotonicHeatUs,proto3" json:"frame_monotonic_heat_us,omitempty"` // Monotonic time when heat frame was captured (microseconds)
-	System                *system.JonGuiDataSystem                          `protobuf:"bytes,13,opt,name=system,proto3" json:"system,omitempty"`
-	MeteoInternal         *types.JonGuiDataMeteo                            `protobuf:"bytes,14,opt,name=meteo_internal,json=meteoInternal,proto3" json:"meteo_internal,omitempty"`
-	Lrf                   *lrf.JonGuiDataLrf                                `protobuf:"bytes,15,opt,name=lrf,proto3" json:"lrf,omitempty"`
-	Time                  *time.JonGuiDataTime                              `protobuf:"bytes,16,opt,name=time,proto3" json:"time,omitempty"`
-	Gps                   *gps.JonGuiDataGps                                `protobuf:"bytes,17,opt,name=gps,proto3" json:"gps,omitempty"`
-	Compass               *compass.JonGuiDataCompass                        `protobuf:"bytes,18,opt,name=compass,proto3" json:"compass,omitempty"`
-	Rotary                *rotary.JonGuiDataRotary                          `protobuf:"bytes,19,opt,name=rotary,proto3" json:"rotary,omitempty"`
-	CameraDay             *camera_day.JonGuiDataCameraDay                   `protobuf:"bytes,20,opt,name=camera_day,json=cameraDay,proto3" json:"camera_day,omitempty"`
-	CameraHeat            *camera_heat.JonGuiDataCameraHeat                 `protobuf:"bytes,21,opt,name=camera_heat,json=cameraHeat,proto3" json:"camera_heat,omitempty"`
-	CompassCalibration    *compass_calibration.JonGuiDataCompassCalibration `protobuf:"bytes,22,opt,name=compass_calibration,json=compassCalibration,proto3" json:"compass_calibration,omitempty"`
-	RecOsd                *rec_osd.JonGuiDataRecOsd                         `protobuf:"bytes,23,opt,name=rec_osd,json=recOsd,proto3" json:"rec_osd,omitempty"`
-	DayCamGlassHeater     *day_cam_glass_heater.JonGuiDataDayCamGlassHeater `protobuf:"bytes,24,opt,name=day_cam_glass_heater,json=dayCamGlassHeater,proto3" json:"day_cam_glass_heater,omitempty"`
-	ActualSpaceTime       *actual_space_time.JonGuiDataActualSpaceTime      `protobuf:"bytes,25,opt,name=actual_space_time,json=actualSpaceTime,proto3" json:"actual_space_time,omitempty"`
-	Power                 *power.JonGuiDataPower                            `protobuf:"bytes,26,opt,name=power,proto3" json:"power,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	state                 protoimpl.MessageState      `protogen:"open.v1"`
+	ProtocolVersion       uint32                      `protobuf:"varint,1,opt,name=protocol_version,json=protocolVersion,proto3" json:"protocol_version,omitempty"`
+	SystemMonotonicTimeUs uint64                      `protobuf:"varint,2,opt,name=system_monotonic_time_us,json=systemMonotonicTimeUs,proto3" json:"system_monotonic_time_us,omitempty"` // System monotonic time in microseconds
+	StateSource           types.JonGuiDataStateSource `protobuf:"varint,3,opt,name=state_source,json=stateSource,proto3,enum=ser.JonGuiDataStateSource" json:"state_source,omitempty"`
+	FramePtsDayNs         uint64                      `protobuf:"varint,4,opt,name=frame_pts_day_ns,json=framePtsDayNs,proto3" json:"frame_pts_day_ns,omitempty"`                      // Day pipeline GStreamer buffer PTS in nanoseconds
+	FramePtsHeatNs        uint64                      `protobuf:"varint,5,opt,name=frame_pts_heat_ns,json=framePtsHeatNs,proto3" json:"frame_pts_heat_ns,omitempty"`                   // Heat pipeline GStreamer buffer PTS in nanoseconds
+	FrameMonotonicDayUs   uint64                      `protobuf:"varint,6,opt,name=frame_monotonic_day_us,json=frameMonotonicDayUs,proto3" json:"frame_monotonic_day_us,omitempty"`    // Monotonic time when day frame was captured (microseconds)
+	FrameMonotonicHeatUs  uint64                      `protobuf:"varint,7,opt,name=frame_monotonic_heat_us,json=frameMonotonicHeatUs,proto3" json:"frame_monotonic_heat_us,omitempty"` // Monotonic time when heat frame was captured (microseconds)
+	// Opaque payloads for subsystem-specific extensions
+	OpaquePayloads     []*types.JonOpaquePayload                         `protobuf:"bytes,8,rep,name=opaque_payloads,json=opaquePayloads,proto3" json:"opaque_payloads,omitempty"`
+	System             *system.JonGuiDataSystem                          `protobuf:"bytes,13,opt,name=system,proto3" json:"system,omitempty"`
+	MeteoInternal      *types.JonGuiDataMeteo                            `protobuf:"bytes,14,opt,name=meteo_internal,json=meteoInternal,proto3" json:"meteo_internal,omitempty"`
+	Lrf                *lrf.JonGuiDataLrf                                `protobuf:"bytes,15,opt,name=lrf,proto3" json:"lrf,omitempty"`
+	Time               *time.JonGuiDataTime                              `protobuf:"bytes,16,opt,name=time,proto3" json:"time,omitempty"`
+	Gps                *gps.JonGuiDataGps                                `protobuf:"bytes,17,opt,name=gps,proto3" json:"gps,omitempty"`
+	Compass            *compass.JonGuiDataCompass                        `protobuf:"bytes,18,opt,name=compass,proto3" json:"compass,omitempty"`
+	Rotary             *rotary.JonGuiDataRotary                          `protobuf:"bytes,19,opt,name=rotary,proto3" json:"rotary,omitempty"`
+	CameraDay          *camera_day.JonGuiDataCameraDay                   `protobuf:"bytes,20,opt,name=camera_day,json=cameraDay,proto3" json:"camera_day,omitempty"`
+	CameraHeat         *camera_heat.JonGuiDataCameraHeat                 `protobuf:"bytes,21,opt,name=camera_heat,json=cameraHeat,proto3" json:"camera_heat,omitempty"`
+	CompassCalibration *compass_calibration.JonGuiDataCompassCalibration `protobuf:"bytes,22,opt,name=compass_calibration,json=compassCalibration,proto3" json:"compass_calibration,omitempty"`
+	RecOsd             *rec_osd.JonGuiDataRecOsd                         `protobuf:"bytes,23,opt,name=rec_osd,json=recOsd,proto3" json:"rec_osd,omitempty"`
+	DayCamGlassHeater  *day_cam_glass_heater.JonGuiDataDayCamGlassHeater `protobuf:"bytes,24,opt,name=day_cam_glass_heater,json=dayCamGlassHeater,proto3" json:"day_cam_glass_heater,omitempty"`
+	ActualSpaceTime    *actual_space_time.JonGuiDataActualSpaceTime      `protobuf:"bytes,25,opt,name=actual_space_time,json=actualSpaceTime,proto3" json:"actual_space_time,omitempty"`
+	Power              *power.JonGuiDataPower                            `protobuf:"bytes,26,opt,name=power,proto3" json:"power,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *JonGUIState) Reset() {
@@ -141,6 +143,13 @@ func (x *JonGUIState) GetFrameMonotonicHeatUs() uint64 {
 		return x.FrameMonotonicHeatUs
 	}
 	return 0
+}
+
+func (x *JonGUIState) GetOpaquePayloads() []*types.JonOpaquePayload {
+	if x != nil {
+		return x.OpaquePayloads
+	}
+	return nil
 }
 
 func (x *JonGUIState) GetSystem() *system.JonGuiDataSystem {
@@ -245,8 +254,7 @@ var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\"\xcc\n" +
-	"\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\"\x86\v\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
@@ -256,7 +264,8 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\x10frame_pts_day_ns\x18\x04 \x01(\x04B\a\xbaH\x042\x02(\x00R\rframePtsDayNs\x122\n" +
 	"\x11frame_pts_heat_ns\x18\x05 \x01(\x04B\a\xbaH\x042\x02(\x00R\x0eframePtsHeatNs\x12<\n" +
 	"\x16frame_monotonic_day_us\x18\x06 \x01(\x04B\a\xbaH\x042\x02(\x00R\x13frameMonotonicDayUs\x12>\n" +
-	"\x17frame_monotonic_heat_us\x18\a \x01(\x04B\a\xbaH\x042\x02(\x00R\x14frameMonotonicHeatUs\x125\n" +
+	"\x17frame_monotonic_heat_us\x18\a \x01(\x04B\a\xbaH\x042\x02(\x00R\x14frameMonotonicHeatUs\x12>\n" +
+	"\x0fopaque_payloads\x18\b \x03(\v2\x15.ser.JonOpaquePayloadR\x0eopaquePayloads\x125\n" +
 	"\x06system\x18\r \x01(\v2\x15.ser.JonGuiDataSystemB\x06\xbaH\x03\xc8\x01\x01R\x06system\x12C\n" +
 	"\x0emeteo_internal\x18\x0e \x01(\v2\x14.ser.JonGuiDataMeteoB\x06\xbaH\x03\xc8\x01\x01R\rmeteoInternal\x12,\n" +
 	"\x03lrf\x18\x0f \x01(\v2\x12.ser.JonGuiDataLrfB\x06\xbaH\x03\xc8\x01\x01R\x03lrf\x12/\n" +
@@ -272,7 +281,7 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\arec_osd\x18\x17 \x01(\v2\x15.ser.JonGuiDataRecOsdB\x06\xbaH\x03\xc8\x01\x01R\x06recOsd\x12Y\n" +
 	"\x14day_cam_glass_heater\x18\x18 \x01(\v2 .ser.JonGuiDataDayCamGlassHeaterB\x06\xbaH\x03\xc8\x01\x01R\x11dayCamGlassHeater\x12R\n" +
 	"\x11actual_space_time\x18\x19 \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTime\x122\n" +
-	"\x05power\x18\x1a \x01(\v2\x14.ser.JonGuiDataPowerB\x06\xbaH\x03\xc8\x01\x01R\x05powerJ\x04\b\b\x10\tJ\x04\b\t\x10\n" +
+	"\x05power\x18\x1a \x01(\v2\x14.ser.JonGuiDataPowerB\x06\xbaH\x03\xc8\x01\x01R\x05powerJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
 	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rB\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
@@ -293,42 +302,44 @@ var file_jon_shared_data_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_proto_goTypes = []any{
 	(*JonGUIState)(nil),                                      // 0: ser.JonGUIState
 	(types.JonGuiDataStateSource)(0),                         // 1: ser.JonGuiDataStateSource
-	(*system.JonGuiDataSystem)(nil),                          // 2: ser.JonGuiDataSystem
-	(*types.JonGuiDataMeteo)(nil),                            // 3: ser.JonGuiDataMeteo
-	(*lrf.JonGuiDataLrf)(nil),                                // 4: ser.JonGuiDataLrf
-	(*time.JonGuiDataTime)(nil),                              // 5: ser.JonGuiDataTime
-	(*gps.JonGuiDataGps)(nil),                                // 6: ser.JonGuiDataGps
-	(*compass.JonGuiDataCompass)(nil),                        // 7: ser.JonGuiDataCompass
-	(*rotary.JonGuiDataRotary)(nil),                          // 8: ser.JonGuiDataRotary
-	(*camera_day.JonGuiDataCameraDay)(nil),                   // 9: ser.JonGuiDataCameraDay
-	(*camera_heat.JonGuiDataCameraHeat)(nil),                 // 10: ser.JonGuiDataCameraHeat
-	(*compass_calibration.JonGuiDataCompassCalibration)(nil), // 11: ser.JonGuiDataCompassCalibration
-	(*rec_osd.JonGuiDataRecOsd)(nil),                         // 12: ser.JonGuiDataRecOsd
-	(*day_cam_glass_heater.JonGuiDataDayCamGlassHeater)(nil), // 13: ser.JonGuiDataDayCamGlassHeater
-	(*actual_space_time.JonGuiDataActualSpaceTime)(nil),      // 14: ser.JonGuiDataActualSpaceTime
-	(*power.JonGuiDataPower)(nil),                            // 15: ser.JonGuiDataPower
+	(*types.JonOpaquePayload)(nil),                           // 2: ser.JonOpaquePayload
+	(*system.JonGuiDataSystem)(nil),                          // 3: ser.JonGuiDataSystem
+	(*types.JonGuiDataMeteo)(nil),                            // 4: ser.JonGuiDataMeteo
+	(*lrf.JonGuiDataLrf)(nil),                                // 5: ser.JonGuiDataLrf
+	(*time.JonGuiDataTime)(nil),                              // 6: ser.JonGuiDataTime
+	(*gps.JonGuiDataGps)(nil),                                // 7: ser.JonGuiDataGps
+	(*compass.JonGuiDataCompass)(nil),                        // 8: ser.JonGuiDataCompass
+	(*rotary.JonGuiDataRotary)(nil),                          // 9: ser.JonGuiDataRotary
+	(*camera_day.JonGuiDataCameraDay)(nil),                   // 10: ser.JonGuiDataCameraDay
+	(*camera_heat.JonGuiDataCameraHeat)(nil),                 // 11: ser.JonGuiDataCameraHeat
+	(*compass_calibration.JonGuiDataCompassCalibration)(nil), // 12: ser.JonGuiDataCompassCalibration
+	(*rec_osd.JonGuiDataRecOsd)(nil),                         // 13: ser.JonGuiDataRecOsd
+	(*day_cam_glass_heater.JonGuiDataDayCamGlassHeater)(nil), // 14: ser.JonGuiDataDayCamGlassHeater
+	(*actual_space_time.JonGuiDataActualSpaceTime)(nil),      // 15: ser.JonGuiDataActualSpaceTime
+	(*power.JonGuiDataPower)(nil),                            // 16: ser.JonGuiDataPower
 }
 var file_jon_shared_data_proto_depIdxs = []int32{
 	1,  // 0: ser.JonGUIState.state_source:type_name -> ser.JonGuiDataStateSource
-	2,  // 1: ser.JonGUIState.system:type_name -> ser.JonGuiDataSystem
-	3,  // 2: ser.JonGUIState.meteo_internal:type_name -> ser.JonGuiDataMeteo
-	4,  // 3: ser.JonGUIState.lrf:type_name -> ser.JonGuiDataLrf
-	5,  // 4: ser.JonGUIState.time:type_name -> ser.JonGuiDataTime
-	6,  // 5: ser.JonGUIState.gps:type_name -> ser.JonGuiDataGps
-	7,  // 6: ser.JonGUIState.compass:type_name -> ser.JonGuiDataCompass
-	8,  // 7: ser.JonGUIState.rotary:type_name -> ser.JonGuiDataRotary
-	9,  // 8: ser.JonGUIState.camera_day:type_name -> ser.JonGuiDataCameraDay
-	10, // 9: ser.JonGUIState.camera_heat:type_name -> ser.JonGuiDataCameraHeat
-	11, // 10: ser.JonGUIState.compass_calibration:type_name -> ser.JonGuiDataCompassCalibration
-	12, // 11: ser.JonGUIState.rec_osd:type_name -> ser.JonGuiDataRecOsd
-	13, // 12: ser.JonGUIState.day_cam_glass_heater:type_name -> ser.JonGuiDataDayCamGlassHeater
-	14, // 13: ser.JonGUIState.actual_space_time:type_name -> ser.JonGuiDataActualSpaceTime
-	15, // 14: ser.JonGUIState.power:type_name -> ser.JonGuiDataPower
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	2,  // 1: ser.JonGUIState.opaque_payloads:type_name -> ser.JonOpaquePayload
+	3,  // 2: ser.JonGUIState.system:type_name -> ser.JonGuiDataSystem
+	4,  // 3: ser.JonGUIState.meteo_internal:type_name -> ser.JonGuiDataMeteo
+	5,  // 4: ser.JonGUIState.lrf:type_name -> ser.JonGuiDataLrf
+	6,  // 5: ser.JonGUIState.time:type_name -> ser.JonGuiDataTime
+	7,  // 6: ser.JonGUIState.gps:type_name -> ser.JonGuiDataGps
+	8,  // 7: ser.JonGUIState.compass:type_name -> ser.JonGuiDataCompass
+	9,  // 8: ser.JonGUIState.rotary:type_name -> ser.JonGuiDataRotary
+	10, // 9: ser.JonGUIState.camera_day:type_name -> ser.JonGuiDataCameraDay
+	11, // 10: ser.JonGUIState.camera_heat:type_name -> ser.JonGuiDataCameraHeat
+	12, // 11: ser.JonGUIState.compass_calibration:type_name -> ser.JonGuiDataCompassCalibration
+	13, // 12: ser.JonGUIState.rec_osd:type_name -> ser.JonGuiDataRecOsd
+	14, // 13: ser.JonGUIState.day_cam_glass_heater:type_name -> ser.JonGuiDataDayCamGlassHeater
+	15, // 14: ser.JonGUIState.actual_space_time:type_name -> ser.JonGuiDataActualSpaceTime
+	16, // 15: ser.JonGUIState.power:type_name -> ser.JonGuiDataPower
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_proto_init() }

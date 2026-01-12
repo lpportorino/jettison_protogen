@@ -1252,6 +1252,134 @@ func (x *JonGuiDataMeteo) GetPressure() float64 {
 	return 0
 }
 
+// Structured version for opaque payloads.
+// Enables simple numeric comparison without string parsing.
+type JonOpaquePayloadVersion struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Major         uint32                 `protobuf:"varint,1,opt,name=major,proto3" json:"major,omitempty"`
+	Minor         uint32                 `protobuf:"varint,2,opt,name=minor,proto3" json:"minor,omitempty"`
+	Build         uint64                 `protobuf:"varint,3,opt,name=build,proto3" json:"build,omitempty"` // Can be timestamp (ms since epoch) or build number
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonOpaquePayloadVersion) Reset() {
+	*x = JonOpaquePayloadVersion{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonOpaquePayloadVersion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonOpaquePayloadVersion) ProtoMessage() {}
+
+func (x *JonOpaquePayloadVersion) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonOpaquePayloadVersion.ProtoReflect.Descriptor instead.
+func (*JonOpaquePayloadVersion) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *JonOpaquePayloadVersion) GetMajor() uint32 {
+	if x != nil {
+		return x.Major
+	}
+	return 0
+}
+
+func (x *JonOpaquePayloadVersion) GetMinor() uint32 {
+	if x != nil {
+		return x.Minor
+	}
+	return 0
+}
+
+func (x *JonOpaquePayloadVersion) GetBuild() uint64 {
+	if x != nil {
+		return x.Build
+	}
+	return 0
+}
+
+// Opaque extension payload for subsystem-specific data.
+// Transport layer passes through without interpretation.
+// Handlers match on type_uuid and check version compatibility.
+type JonOpaquePayload struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+	TypeUuid string `protobuf:"bytes,1,opt,name=type_uuid,json=typeUuid,proto3" json:"type_uuid,omitempty"`
+	// Structured version - handler decides compatibility logic
+	Version *JonOpaquePayloadVersion `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
+	// Opaque binary payload
+	Payload       []byte `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonOpaquePayload) Reset() {
+	*x = JonOpaquePayload{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonOpaquePayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonOpaquePayload) ProtoMessage() {}
+
+func (x *JonOpaquePayload) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonOpaquePayload.ProtoReflect.Descriptor instead.
+func (*JonOpaquePayload) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *JonOpaquePayload) GetTypeUuid() string {
+	if x != nil {
+		return x.TypeUuid
+	}
+	return ""
+}
+
+func (x *JonOpaquePayload) GetVersion() *JonOpaquePayloadVersion {
+	if x != nil {
+		return x.Version
+	}
+	return nil
+}
+
+func (x *JonOpaquePayload) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
 var File_jon_shared_data_types_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_types_proto_rawDesc = "" +
@@ -1260,7 +1388,15 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"\x0fJonGuiDataMeteo\x129\n" +
 	"\vtemperature\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\xc0b@)fffff\x12q\xc0R\vtemperature\x123\n" +
 	"\bhumidity\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\bhumidity\x123\n" +
-	"\bpressure\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00L\xfd@)\x00\x00\x00\x00\x00\x00\x00\x00R\bpressure*\xb3\x02\n" +
+	"\bpressure\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00L\xfd@)\x00\x00\x00\x00\x00\x00\x00\x00R\bpressure\"[\n" +
+	"\x17JonOpaquePayloadVersion\x12\x14\n" +
+	"\x05major\x18\x01 \x01(\rR\x05major\x12\x14\n" +
+	"\x05minor\x18\x02 \x01(\rR\x05minor\x12\x14\n" +
+	"\x05build\x18\x03 \x01(\x04R\x05build\"\xe8\x01\n" +
+	"\x10JonOpaquePayload\x12q\n" +
+	"\ttype_uuid\x18\x01 \x01(\tBT\xbaHQrO2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$R\btypeUuid\x12>\n" +
+	"\aversion\x18\x02 \x01(\v2\x1c.ser.JonOpaquePayloadVersionB\x06\xbaH\x03\xc8\x01\x01R\aversion\x12!\n" +
+	"\apayload\x18\x03 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\apayload*\xb3\x02\n" +
 	"!JonGuiDataVideoChannelHeatFilters\x126\n" +
 	"2JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\x10\x00\x124\n" +
 	"0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE\x10\x01\x124\n" +
@@ -1408,7 +1544,7 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 }
 
 var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 21)
-var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataVideoChannelHeatFilters)(0),  // 0: ser.JonGuiDataVideoChannelHeatFilters
 	(JonGuiDataVideoChannelHeatAGCModes)(0), // 1: ser.JonGuiDataVideoChannelHeatAGCModes
@@ -1432,13 +1568,16 @@ var file_jon_shared_data_types_proto_goTypes = []any{
 	(JonGuiDataExtBatStatus)(0),             // 19: ser.JonGuiDataExtBatStatus
 	(JonGuiDataStateSource)(0),              // 20: ser.JonGuiDataStateSource
 	(*JonGuiDataMeteo)(nil),                 // 21: ser.JonGuiDataMeteo
+	(*JonOpaquePayloadVersion)(nil),         // 22: ser.JonOpaquePayloadVersion
+	(*JonOpaquePayload)(nil),                // 23: ser.JonOpaquePayload
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	22, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
+	1,  // [1:1] is the sub-list for method output_type
+	1,  // [1:1] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_types_proto_init() }
@@ -1452,7 +1591,7 @@ func file_jon_shared_data_types_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
 			NumEnums:      21,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

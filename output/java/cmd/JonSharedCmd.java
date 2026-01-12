@@ -116,6 +116,50 @@ public final class JonSharedCmd {
     long getClientTimeMs();
 
     /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    java.util.List<ser.JonSharedDataTypes.JonOpaquePayload> 
+        getOpaquePayloadsList();
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    ser.JonSharedDataTypes.JonOpaquePayload getOpaquePayloads(int index);
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    int getOpaquePayloadsCount();
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    java.util.List<? extends ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder> 
+        getOpaquePayloadsOrBuilderList();
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder getOpaquePayloadsOrBuilder(
+        int index);
+
+    /**
      * <code>.cmd.DayCamera.Root day_camera = 20;</code>
      * @return Whether the dayCamera field is set.
      */
@@ -381,6 +425,7 @@ public final class JonSharedCmd {
     private Root() {
       clientType_ = 0;
       clientApp_ = 0;
+      opaquePayloads_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -604,6 +649,67 @@ public final class JonSharedCmd {
     @java.lang.Override
     public long getClientTimeMs() {
       return clientTimeMs_;
+    }
+
+    public static final int OPAQUE_PAYLOADS_FIELD_NUMBER = 11;
+    @SuppressWarnings("serial")
+    private java.util.List<ser.JonSharedDataTypes.JonOpaquePayload> opaquePayloads_;
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ser.JonSharedDataTypes.JonOpaquePayload> getOpaquePayloadsList() {
+      return opaquePayloads_;
+    }
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder> 
+        getOpaquePayloadsOrBuilderList() {
+      return opaquePayloads_;
+    }
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    @java.lang.Override
+    public int getOpaquePayloadsCount() {
+      return opaquePayloads_.size();
+    }
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonOpaquePayload getOpaquePayloads(int index) {
+      return opaquePayloads_.get(index);
+    }
+    /**
+     * <pre>
+     * Opaque payloads for subsystem-specific extensions
+     * </pre>
+     *
+     * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder getOpaquePayloadsOrBuilder(
+        int index) {
+      return opaquePayloads_.get(index);
     }
 
     public static final int DAY_CAMERA_FIELD_NUMBER = 20;
@@ -1146,6 +1252,9 @@ public final class JonSharedCmd {
       if (clientApp_ != ser.JonSharedDataTypes.JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_UNSPECIFIED.getNumber()) {
         output.writeEnum(10, clientApp_);
       }
+      for (int i = 0; i < opaquePayloads_.size(); i++) {
+        output.writeMessage(11, opaquePayloads_.get(i));
+      }
       if (payloadCase_ == 20) {
         output.writeMessage(20, (cmd.DayCamera.JonSharedCmdDayCamera.Root) payload_);
       }
@@ -1242,6 +1351,10 @@ public final class JonSharedCmd {
       if (clientApp_ != ser.JonSharedDataTypes.JonGuiDataClientApp.JON_GUI_DATA_CLIENT_APP_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(10, clientApp_);
+      }
+      for (int i = 0; i < opaquePayloads_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, opaquePayloads_.get(i));
       }
       if (payloadCase_ == 20) {
         size += com.google.protobuf.CodedOutputStream
@@ -1340,6 +1453,8 @@ public final class JonSharedCmd {
           != other.getStateTime()) return false;
       if (getClientTimeMs()
           != other.getClientTimeMs()) return false;
+      if (!getOpaquePayloadsList()
+          .equals(other.getOpaquePayloadsList())) return false;
       if (!getPayloadCase().equals(other.getPayloadCase())) return false;
       switch (payloadCase_) {
         case 20:
@@ -1446,6 +1561,10 @@ public final class JonSharedCmd {
       hash = (37 * hash) + CLIENT_TIME_MS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getClientTimeMs());
+      if (getOpaquePayloadsCount() > 0) {
+        hash = (37 * hash) + OPAQUE_PAYLOADS_FIELD_NUMBER;
+        hash = (53 * hash) + getOpaquePayloadsList().hashCode();
+      }
       switch (payloadCase_) {
         case 20:
           hash = (37 * hash) + DAY_CAMERA_FIELD_NUMBER;
@@ -1655,6 +1774,13 @@ public final class JonSharedCmd {
         frameTimeHeat_ = 0L;
         stateTime_ = 0L;
         clientTimeMs_ = 0L;
+        if (opaquePayloadsBuilder_ == null) {
+          opaquePayloads_ = java.util.Collections.emptyList();
+        } else {
+          opaquePayloads_ = null;
+          opaquePayloadsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000400);
         if (dayCameraBuilder_ != null) {
           dayCameraBuilder_.clear();
         }
@@ -1731,10 +1857,23 @@ public final class JonSharedCmd {
       @java.lang.Override
       public cmd.JonSharedCmd.Root buildPartial() {
         cmd.JonSharedCmd.Root result = new cmd.JonSharedCmd.Root(this);
+        buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
         buildPartialOneofs(result);
         onBuilt();
         return result;
+      }
+
+      private void buildPartialRepeatedFields(cmd.JonSharedCmd.Root result) {
+        if (opaquePayloadsBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) != 0)) {
+            opaquePayloads_ = java.util.Collections.unmodifiableList(opaquePayloads_);
+            bitField0_ = (bitField0_ & ~0x00000400);
+          }
+          result.opaquePayloads_ = opaquePayloads_;
+        } else {
+          result.opaquePayloads_ = opaquePayloadsBuilder_.build();
+        }
       }
 
       private void buildPartial0(cmd.JonSharedCmd.Root result) {
@@ -1882,6 +2021,32 @@ public final class JonSharedCmd {
         if (other.getClientTimeMs() != 0L) {
           setClientTimeMs(other.getClientTimeMs());
         }
+        if (opaquePayloadsBuilder_ == null) {
+          if (!other.opaquePayloads_.isEmpty()) {
+            if (opaquePayloads_.isEmpty()) {
+              opaquePayloads_ = other.opaquePayloads_;
+              bitField0_ = (bitField0_ & ~0x00000400);
+            } else {
+              ensureOpaquePayloadsIsMutable();
+              opaquePayloads_.addAll(other.opaquePayloads_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.opaquePayloads_.isEmpty()) {
+            if (opaquePayloadsBuilder_.isEmpty()) {
+              opaquePayloadsBuilder_.dispose();
+              opaquePayloadsBuilder_ = null;
+              opaquePayloads_ = other.opaquePayloads_;
+              bitField0_ = (bitField0_ & ~0x00000400);
+              opaquePayloadsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getOpaquePayloadsFieldBuilder() : null;
+            } else {
+              opaquePayloadsBuilder_.addAllMessages(other.opaquePayloads_);
+            }
+          }
+        }
         switch (other.getPayloadCase()) {
           case DAY_CAMERA: {
             mergeDayCamera(other.getDayCamera());
@@ -2027,6 +2192,19 @@ public final class JonSharedCmd {
                 bitField0_ |= 0x00000020;
                 break;
               } // case 80
+              case 90: {
+                ser.JonSharedDataTypes.JonOpaquePayload m =
+                    input.readMessage(
+                        ser.JonSharedDataTypes.JonOpaquePayload.parser(),
+                        extensionRegistry);
+                if (opaquePayloadsBuilder_ == null) {
+                  ensureOpaquePayloadsIsMutable();
+                  opaquePayloads_.add(m);
+                } else {
+                  opaquePayloadsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 90
               case 162: {
                 input.readMessage(
                     getDayCameraFieldBuilder().getBuilder(),
@@ -2579,6 +2757,318 @@ public final class JonSharedCmd {
         clientTimeMs_ = 0L;
         onChanged();
         return this;
+      }
+
+      private java.util.List<ser.JonSharedDataTypes.JonOpaquePayload> opaquePayloads_ =
+        java.util.Collections.emptyList();
+      private void ensureOpaquePayloadsIsMutable() {
+        if (!((bitField0_ & 0x00000400) != 0)) {
+          opaquePayloads_ = new java.util.ArrayList<ser.JonSharedDataTypes.JonOpaquePayload>(opaquePayloads_);
+          bitField0_ |= 0x00000400;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ser.JonSharedDataTypes.JonOpaquePayload, ser.JonSharedDataTypes.JonOpaquePayload.Builder, ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder> opaquePayloadsBuilder_;
+
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public java.util.List<ser.JonSharedDataTypes.JonOpaquePayload> getOpaquePayloadsList() {
+        if (opaquePayloadsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(opaquePayloads_);
+        } else {
+          return opaquePayloadsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public int getOpaquePayloadsCount() {
+        if (opaquePayloadsBuilder_ == null) {
+          return opaquePayloads_.size();
+        } else {
+          return opaquePayloadsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayload getOpaquePayloads(int index) {
+        if (opaquePayloadsBuilder_ == null) {
+          return opaquePayloads_.get(index);
+        } else {
+          return opaquePayloadsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder setOpaquePayloads(
+          int index, ser.JonSharedDataTypes.JonOpaquePayload value) {
+        if (opaquePayloadsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.set(index, value);
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder setOpaquePayloads(
+          int index, ser.JonSharedDataTypes.JonOpaquePayload.Builder builderForValue) {
+        if (opaquePayloadsBuilder_ == null) {
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder addOpaquePayloads(ser.JonSharedDataTypes.JonOpaquePayload value) {
+        if (opaquePayloadsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.add(value);
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder addOpaquePayloads(
+          int index, ser.JonSharedDataTypes.JonOpaquePayload value) {
+        if (opaquePayloadsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.add(index, value);
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder addOpaquePayloads(
+          ser.JonSharedDataTypes.JonOpaquePayload.Builder builderForValue) {
+        if (opaquePayloadsBuilder_ == null) {
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.add(builderForValue.build());
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder addOpaquePayloads(
+          int index, ser.JonSharedDataTypes.JonOpaquePayload.Builder builderForValue) {
+        if (opaquePayloadsBuilder_ == null) {
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder addAllOpaquePayloads(
+          java.lang.Iterable<? extends ser.JonSharedDataTypes.JonOpaquePayload> values) {
+        if (opaquePayloadsBuilder_ == null) {
+          ensureOpaquePayloadsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, opaquePayloads_);
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder clearOpaquePayloads() {
+        if (opaquePayloadsBuilder_ == null) {
+          opaquePayloads_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000400);
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public Builder removeOpaquePayloads(int index) {
+        if (opaquePayloadsBuilder_ == null) {
+          ensureOpaquePayloadsIsMutable();
+          opaquePayloads_.remove(index);
+          onChanged();
+        } else {
+          opaquePayloadsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayload.Builder getOpaquePayloadsBuilder(
+          int index) {
+        return getOpaquePayloadsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder getOpaquePayloadsOrBuilder(
+          int index) {
+        if (opaquePayloadsBuilder_ == null) {
+          return opaquePayloads_.get(index);  } else {
+          return opaquePayloadsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public java.util.List<? extends ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder> 
+           getOpaquePayloadsOrBuilderList() {
+        if (opaquePayloadsBuilder_ != null) {
+          return opaquePayloadsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(opaquePayloads_);
+        }
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayload.Builder addOpaquePayloadsBuilder() {
+        return getOpaquePayloadsFieldBuilder().addBuilder(
+            ser.JonSharedDataTypes.JonOpaquePayload.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public ser.JonSharedDataTypes.JonOpaquePayload.Builder addOpaquePayloadsBuilder(
+          int index) {
+        return getOpaquePayloadsFieldBuilder().addBuilder(
+            index, ser.JonSharedDataTypes.JonOpaquePayload.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Opaque payloads for subsystem-specific extensions
+       * </pre>
+       *
+       * <code>repeated .ser.JonOpaquePayload opaque_payloads = 11;</code>
+       */
+      public java.util.List<ser.JonSharedDataTypes.JonOpaquePayload.Builder> 
+           getOpaquePayloadsBuilderList() {
+        return getOpaquePayloadsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ser.JonSharedDataTypes.JonOpaquePayload, ser.JonSharedDataTypes.JonOpaquePayload.Builder, ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder> 
+          getOpaquePayloadsFieldBuilder() {
+        if (opaquePayloadsBuilder_ == null) {
+          opaquePayloadsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ser.JonSharedDataTypes.JonOpaquePayload, ser.JonSharedDataTypes.JonOpaquePayload.Builder, ser.JonSharedDataTypes.JonOpaquePayloadOrBuilder>(
+                  opaquePayloads_,
+                  ((bitField0_ & 0x00000400) != 0),
+                  getParentForChildren(),
+                  isClean());
+          opaquePayloads_ = null;
+        }
+        return opaquePayloadsBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilder<
@@ -6009,7 +6499,7 @@ public final class JonSharedCmd {
       "o\032\027jon_shared_cmd_cv.proto\032)jon_shared_c" +
       "md_day_cam_glass_heater.proto\032\031jon_share" +
       "d_cmd_lira.proto\032\032jon_shared_cmd_power.p" +
-      "roto\032\033jon_shared_data_types.proto\"\236\007\n\004Ro" +
+      "roto\032\033jon_shared_data_types.proto\"\316\007\n\004Ro" +
       "ot\022\'\n\020protocol_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377" +
       "\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\timportant\030\003 \001" +
       "(\010\022\031\n\021from_cv_subsystem\030\004 \001(\010\022:\n\013client_" +
@@ -6018,24 +6508,25 @@ public final class JonSharedCmd {
       "uiDataClientAppB\n\272H\007\202\001\004\020\001 \000\022\026\n\016frame_tim" +
       "e_day\030\006 \001(\004\022\027\n\017frame_time_heat\030\007 \001(\004\022\022\n\n" +
       "state_time\030\010 \001(\004\022\026\n\016client_time_ms\030\t \001(\004" +
-      "\022)\n\nday_camera\030\024 \001(\0132\023.cmd.DayCamera.Roo" +
-      "tH\000\022+\n\013heat_camera\030\025 \001(\0132\024.cmd.HeatCamer" +
-      "a.RootH\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.RootH\000\022$" +
-      "\n\007compass\030\027 \001(\0132\021.cmd.Compass.RootH\000\022\034\n\003" +
-      "lrf\030\030 \001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_calib\030" +
-      "\031 \001(\0132\023.cmd.Lrf_calib.RootH\000\022*\n\006rotary\030\032" +
-      " \001(\0132\030.cmd.RotaryPlatform.RootH\000\022\034\n\003osd\030" +
-      "\033 \001(\0132\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001(\0132\t.c" +
-      "md.PingH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH\000\022\035\n\006" +
-      "frozen\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006system\030\037 " +
-      "\001(\0132\020.cmd.System.RootH\000\022\032\n\002cv\030  \001(\0132\014.cm" +
-      "d.CV.RootH\000\022;\n\024day_cam_glass_heater\030! \001(" +
-      "\0132\033.cmd.DayCamGlassHeater.RootH\000\022\036\n\004lira" +
-      "\030\" \001(\0132\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132" +
-      "\017.cmd.Power.RootH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\013" +
-      "\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006FrozenBFZDgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/cmdb\006proto3"
+      "\022.\n\017opaque_payloads\030\013 \003(\0132\025.ser.JonOpaqu" +
+      "ePayload\022)\n\nday_camera\030\024 \001(\0132\023.cmd.DayCa" +
+      "mera.RootH\000\022+\n\013heat_camera\030\025 \001(\0132\024.cmd.H" +
+      "eatCamera.RootH\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps." +
+      "RootH\000\022$\n\007compass\030\027 \001(\0132\021.cmd.Compass.Ro" +
+      "otH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlr" +
+      "f_calib\030\031 \001(\0132\023.cmd.Lrf_calib.RootH\000\022*\n\006" +
+      "rotary\030\032 \001(\0132\030.cmd.RotaryPlatform.RootH\000" +
+      "\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034" +
+      " \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.No" +
+      "opH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006s" +
+      "ystem\030\037 \001(\0132\020.cmd.System.RootH\000\022\032\n\002cv\030  " +
+      "\001(\0132\014.cmd.CV.RootH\000\022;\n\024day_cam_glass_hea" +
+      "ter\030! \001(\0132\033.cmd.DayCamGlassHeater.RootH\000" +
+      "\022\036\n\004lira\030\" \001(\0132\016.cmd.Lira.RootH\000\022 \n\005powe" +
+      "r\030# \001(\0132\017.cmd.Power.RootH\000B\020\n\007payload\022\005\272" +
+      "H\002\010\001J\004\010\014\020\024\"\006\n\004Ping\"\006\n\004Noop\"\010\n\006FrozenBFZD" +
+      "git-codecommit.eu-central-1.amazonaws.co" +
+      "m/v1/repos/jettison/jonp/cmdb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6061,7 +6552,7 @@ public final class JonSharedCmd {
     internal_static_cmd_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Root_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Power", "Payload", });
+        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "OpaquePayloads", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Power", "Payload", });
     internal_static_cmd_Ping_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Ping_fieldAccessorTable = new

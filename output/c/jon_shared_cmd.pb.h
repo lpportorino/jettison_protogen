@@ -50,6 +50,8 @@ typedef struct _cmd_Root {
     /* Client wall-clock time when command was issued */
     uint64_t client_time_ms; /* Client epoch time in milliseconds (from performance.timeOrigin + performance.now()) */
     ser_JonGuiDataClientApp client_app;
+    /* Opaque payloads for subsystem-specific extensions */
+    pb_callback_t opaque_payloads;
     pb_size_t which_payload;
     union {
         cmd_DayCamera_Root day_camera;
@@ -77,11 +79,11 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define cmd_Root_init_default                    {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, 0, 0, 0, _ser_JonGuiDataClientApp_MIN, 0, {cmd_DayCamera_Root_init_default}}
+#define cmd_Root_init_default                    {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, 0, 0, 0, _ser_JonGuiDataClientApp_MIN, {{NULL}, NULL}, 0, {cmd_DayCamera_Root_init_default}}
 #define cmd_Ping_init_default                    {0}
 #define cmd_Noop_init_default                    {0}
 #define cmd_Frozen_init_default                  {0}
-#define cmd_Root_init_zero                       {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, 0, 0, 0, _ser_JonGuiDataClientApp_MIN, 0, {cmd_DayCamera_Root_init_zero}}
+#define cmd_Root_init_zero                       {0, 0, 0, 0, _ser_JonGuiDataClientType_MIN, 0, 0, 0, 0, _ser_JonGuiDataClientApp_MIN, {{NULL}, NULL}, 0, {cmd_DayCamera_Root_init_zero}}
 #define cmd_Ping_init_zero                       {0}
 #define cmd_Noop_init_zero                       {0}
 #define cmd_Frozen_init_zero                     {0}
@@ -97,6 +99,7 @@ extern "C" {
 #define cmd_Root_state_time_tag                  8
 #define cmd_Root_client_time_ms_tag              9
 #define cmd_Root_client_app_tag                  10
+#define cmd_Root_opaque_payloads_tag             11
 #define cmd_Root_day_camera_tag                  20
 #define cmd_Root_heat_camera_tag                 21
 #define cmd_Root_gps_tag                         22
@@ -126,6 +129,7 @@ X(a, STATIC,   SINGULAR, UINT64,   frame_time_heat,   7) \
 X(a, STATIC,   SINGULAR, UINT64,   state_time,        8) \
 X(a, STATIC,   SINGULAR, UINT64,   client_time_ms,    9) \
 X(a, STATIC,   SINGULAR, UENUM,    client_app,       10) \
+X(a, CALLBACK, REPEATED, MESSAGE,  opaque_payloads,  11) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,day_camera,payload.day_camera),  20) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,heat_camera,payload.heat_camera),  21) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,gps,payload.gps),  22) \
@@ -142,8 +146,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,cv,payload.cv),  32) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,day_cam_glass_heater,payload.day_cam_glass_heater),  33) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,lira,payload.lira),  34) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,power,payload.power),  35)
-#define cmd_Root_CALLBACK NULL
+#define cmd_Root_CALLBACK pb_default_field_callback
 #define cmd_Root_DEFAULT NULL
+#define cmd_Root_opaque_payloads_MSGTYPE ser_JonOpaquePayload
 #define cmd_Root_payload_day_camera_MSGTYPE cmd_DayCamera_Root
 #define cmd_Root_payload_heat_camera_MSGTYPE cmd_HeatCamera_Root
 #define cmd_Root_payload_gps_MSGTYPE cmd_Gps_Root
@@ -188,11 +193,10 @@ extern const pb_msgdesc_t cmd_Frozen_msg;
 #define cmd_Frozen_fields &cmd_Frozen_msg
 
 /* Maximum encoded size of messages (where known) */
-#define CMD_JON_SHARED_CMD_PB_H_MAX_SIZE         cmd_Root_size
+/* cmd_Root_size depends on runtime parameters */
 #define cmd_Frozen_size                          0
 #define cmd_Noop_size                            0
 #define cmd_Ping_size                            0
-#define cmd_Root_size                            180
 
 #ifdef __cplusplus
 } /* extern "C" */

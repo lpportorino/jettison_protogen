@@ -57,6 +57,12 @@ namespace ser {
 class JonGuiDataMeteo;
 struct JonGuiDataMeteoDefaultTypeInternal;
 extern JonGuiDataMeteoDefaultTypeInternal _JonGuiDataMeteo_default_instance_;
+class JonOpaquePayload;
+struct JonOpaquePayloadDefaultTypeInternal;
+extern JonOpaquePayloadDefaultTypeInternal _JonOpaquePayload_default_instance_;
+class JonOpaquePayloadVersion;
+struct JonOpaquePayloadVersionDefaultTypeInternal;
+extern JonOpaquePayloadVersionDefaultTypeInternal _JonOpaquePayloadVersion_default_instance_;
 }  // namespace ser
 namespace google {
 namespace protobuf {
@@ -831,6 +837,220 @@ inline bool JonGuiDataStateSource_Parse(absl::string_view name, JonGuiDataStateS
 
 // -------------------------------------------------------------------
 
+class JonOpaquePayloadVersion final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonOpaquePayloadVersion) */ {
+ public:
+  inline JonOpaquePayloadVersion() : JonOpaquePayloadVersion(nullptr) {}
+  ~JonOpaquePayloadVersion() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonOpaquePayloadVersion* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonOpaquePayloadVersion));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonOpaquePayloadVersion(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonOpaquePayloadVersion(const JonOpaquePayloadVersion& from) : JonOpaquePayloadVersion(nullptr, from) {}
+  inline JonOpaquePayloadVersion(JonOpaquePayloadVersion&& from) noexcept
+      : JonOpaquePayloadVersion(nullptr, std::move(from)) {}
+  inline JonOpaquePayloadVersion& operator=(const JonOpaquePayloadVersion& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonOpaquePayloadVersion& operator=(JonOpaquePayloadVersion&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonOpaquePayloadVersion& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonOpaquePayloadVersion* internal_default_instance() {
+    return reinterpret_cast<const JonOpaquePayloadVersion*>(
+        &_JonOpaquePayloadVersion_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(JonOpaquePayloadVersion& a, JonOpaquePayloadVersion& b) { a.Swap(&b); }
+  inline void Swap(JonOpaquePayloadVersion* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonOpaquePayloadVersion* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonOpaquePayloadVersion* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonOpaquePayloadVersion>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonOpaquePayloadVersion& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonOpaquePayloadVersion& from) { JonOpaquePayloadVersion::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonOpaquePayloadVersion* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonOpaquePayloadVersion"; }
+
+ protected:
+  explicit JonOpaquePayloadVersion(::google::protobuf::Arena* arena);
+  JonOpaquePayloadVersion(::google::protobuf::Arena* arena, const JonOpaquePayloadVersion& from);
+  JonOpaquePayloadVersion(::google::protobuf::Arena* arena, JonOpaquePayloadVersion&& from) noexcept
+      : JonOpaquePayloadVersion(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kMajorFieldNumber = 1,
+    kMinorFieldNumber = 2,
+    kBuildFieldNumber = 3,
+  };
+  // uint32 major = 1;
+  void clear_major() ;
+  ::uint32_t major() const;
+  void set_major(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_major() const;
+  void _internal_set_major(::uint32_t value);
+
+  public:
+  // uint32 minor = 2;
+  void clear_minor() ;
+  ::uint32_t minor() const;
+  void set_minor(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_minor() const;
+  void _internal_set_minor(::uint32_t value);
+
+  public:
+  // uint64 build = 3;
+  void clear_build() ;
+  ::uint64_t build() const;
+  void set_build(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_build() const;
+  void _internal_set_build(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonOpaquePayloadVersion)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonOpaquePayloadVersion& from_msg);
+    ::uint32_t major_;
+    ::uint32_t minor_;
+    ::uint64_t build_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
+// -------------------------------------------------------------------
+
 class JonGuiDataMeteo final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ser.JonGuiDataMeteo) */ {
  public:
@@ -1043,6 +1263,238 @@ class JonGuiDataMeteo final : public ::google::protobuf::Message
   union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
 };
+// -------------------------------------------------------------------
+
+class JonOpaquePayload final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonOpaquePayload) */ {
+ public:
+  inline JonOpaquePayload() : JonOpaquePayload(nullptr) {}
+  ~JonOpaquePayload() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonOpaquePayload* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonOpaquePayload));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonOpaquePayload(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonOpaquePayload(const JonOpaquePayload& from) : JonOpaquePayload(nullptr, from) {}
+  inline JonOpaquePayload(JonOpaquePayload&& from) noexcept
+      : JonOpaquePayload(nullptr, std::move(from)) {}
+  inline JonOpaquePayload& operator=(const JonOpaquePayload& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonOpaquePayload& operator=(JonOpaquePayload&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonOpaquePayload& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonOpaquePayload* internal_default_instance() {
+    return reinterpret_cast<const JonOpaquePayload*>(
+        &_JonOpaquePayload_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(JonOpaquePayload& a, JonOpaquePayload& b) { a.Swap(&b); }
+  inline void Swap(JonOpaquePayload* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonOpaquePayload* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonOpaquePayload* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonOpaquePayload>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonOpaquePayload& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonOpaquePayload& from) { JonOpaquePayload::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonOpaquePayload* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonOpaquePayload"; }
+
+ protected:
+  explicit JonOpaquePayload(::google::protobuf::Arena* arena);
+  JonOpaquePayload(::google::protobuf::Arena* arena, const JonOpaquePayload& from);
+  JonOpaquePayload(::google::protobuf::Arena* arena, JonOpaquePayload&& from) noexcept
+      : JonOpaquePayload(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTypeUuidFieldNumber = 1,
+    kPayloadFieldNumber = 3,
+    kVersionFieldNumber = 2,
+  };
+  // string type_uuid = 1 [(.buf.validate.field) = {
+  void clear_type_uuid() ;
+  const std::string& type_uuid() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_type_uuid(Arg_&& arg, Args_... args);
+  std::string* mutable_type_uuid();
+  PROTOBUF_NODISCARD std::string* release_type_uuid();
+  void set_allocated_type_uuid(std::string* value);
+
+  private:
+  const std::string& _internal_type_uuid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_type_uuid(
+      const std::string& value);
+  std::string* _internal_mutable_type_uuid();
+
+  public:
+  // bytes payload = 3 [(.buf.validate.field) = {
+  void clear_payload() ;
+  const std::string& payload() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_payload(Arg_&& arg, Args_... args);
+  std::string* mutable_payload();
+  PROTOBUF_NODISCARD std::string* release_payload();
+  void set_allocated_payload(std::string* value);
+
+  private:
+  const std::string& _internal_payload() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_payload(
+      const std::string& value);
+  std::string* _internal_mutable_payload();
+
+  public:
+  // .ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = {
+  bool has_version() const;
+  void clear_version() ;
+  const ::ser::JonOpaquePayloadVersion& version() const;
+  PROTOBUF_NODISCARD ::ser::JonOpaquePayloadVersion* release_version();
+  ::ser::JonOpaquePayloadVersion* mutable_version();
+  void set_allocated_version(::ser::JonOpaquePayloadVersion* value);
+  void unsafe_arena_set_allocated_version(::ser::JonOpaquePayloadVersion* value);
+  ::ser::JonOpaquePayloadVersion* unsafe_arena_release_version();
+
+  private:
+  const ::ser::JonOpaquePayloadVersion& _internal_version() const;
+  ::ser::JonOpaquePayloadVersion* _internal_mutable_version();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonOpaquePayload)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 1,
+      38, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonOpaquePayload& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr type_uuid_;
+    ::google::protobuf::internal::ArenaStringPtr payload_;
+    ::ser::JonOpaquePayloadVersion* version_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
 
 // ===================================================================
 
@@ -1124,6 +1576,272 @@ inline double JonGuiDataMeteo::_internal_pressure() const {
 inline void JonGuiDataMeteo::_internal_set_pressure(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.pressure_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JonOpaquePayloadVersion
+
+// uint32 major = 1;
+inline void JonOpaquePayloadVersion::clear_major() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.major_ = 0u;
+}
+inline ::uint32_t JonOpaquePayloadVersion::major() const {
+  // @@protoc_insertion_point(field_get:ser.JonOpaquePayloadVersion.major)
+  return _internal_major();
+}
+inline void JonOpaquePayloadVersion::set_major(::uint32_t value) {
+  _internal_set_major(value);
+  // @@protoc_insertion_point(field_set:ser.JonOpaquePayloadVersion.major)
+}
+inline ::uint32_t JonOpaquePayloadVersion::_internal_major() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.major_;
+}
+inline void JonOpaquePayloadVersion::_internal_set_major(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.major_ = value;
+}
+
+// uint32 minor = 2;
+inline void JonOpaquePayloadVersion::clear_minor() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.minor_ = 0u;
+}
+inline ::uint32_t JonOpaquePayloadVersion::minor() const {
+  // @@protoc_insertion_point(field_get:ser.JonOpaquePayloadVersion.minor)
+  return _internal_minor();
+}
+inline void JonOpaquePayloadVersion::set_minor(::uint32_t value) {
+  _internal_set_minor(value);
+  // @@protoc_insertion_point(field_set:ser.JonOpaquePayloadVersion.minor)
+}
+inline ::uint32_t JonOpaquePayloadVersion::_internal_minor() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.minor_;
+}
+inline void JonOpaquePayloadVersion::_internal_set_minor(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.minor_ = value;
+}
+
+// uint64 build = 3;
+inline void JonOpaquePayloadVersion::clear_build() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.build_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonOpaquePayloadVersion::build() const {
+  // @@protoc_insertion_point(field_get:ser.JonOpaquePayloadVersion.build)
+  return _internal_build();
+}
+inline void JonOpaquePayloadVersion::set_build(::uint64_t value) {
+  _internal_set_build(value);
+  // @@protoc_insertion_point(field_set:ser.JonOpaquePayloadVersion.build)
+}
+inline ::uint64_t JonOpaquePayloadVersion::_internal_build() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.build_;
+}
+inline void JonOpaquePayloadVersion::_internal_set_build(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.build_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JonOpaquePayload
+
+// string type_uuid = 1 [(.buf.validate.field) = {
+inline void JonOpaquePayload::clear_type_uuid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_uuid_.ClearToEmpty();
+}
+inline const std::string& JonOpaquePayload::type_uuid() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonOpaquePayload.type_uuid)
+  return _internal_type_uuid();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void JonOpaquePayload::set_type_uuid(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_uuid_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ser.JonOpaquePayload.type_uuid)
+}
+inline std::string* JonOpaquePayload::mutable_type_uuid() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_type_uuid();
+  // @@protoc_insertion_point(field_mutable:ser.JonOpaquePayload.type_uuid)
+  return _s;
+}
+inline const std::string& JonOpaquePayload::_internal_type_uuid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.type_uuid_.Get();
+}
+inline void JonOpaquePayload::_internal_set_type_uuid(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_uuid_.Set(value, GetArena());
+}
+inline std::string* JonOpaquePayload::_internal_mutable_type_uuid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.type_uuid_.Mutable( GetArena());
+}
+inline std::string* JonOpaquePayload::release_type_uuid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonOpaquePayload.type_uuid)
+  return _impl_.type_uuid_.Release();
+}
+inline void JonOpaquePayload::set_allocated_type_uuid(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.type_uuid_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.type_uuid_.IsDefault()) {
+    _impl_.type_uuid_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ser.JonOpaquePayload.type_uuid)
+}
+
+// .ser.JonOpaquePayloadVersion version = 2 [(.buf.validate.field) = {
+inline bool JonOpaquePayload::has_version() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.version_ != nullptr);
+  return value;
+}
+inline void JonOpaquePayload::clear_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.version_ != nullptr) _impl_.version_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ser::JonOpaquePayloadVersion& JonOpaquePayload::_internal_version() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonOpaquePayloadVersion* p = _impl_.version_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonOpaquePayloadVersion&>(::ser::_JonOpaquePayloadVersion_default_instance_);
+}
+inline const ::ser::JonOpaquePayloadVersion& JonOpaquePayload::version() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonOpaquePayload.version)
+  return _internal_version();
+}
+inline void JonOpaquePayload::unsafe_arena_set_allocated_version(::ser::JonOpaquePayloadVersion* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.version_);
+  }
+  _impl_.version_ = reinterpret_cast<::ser::JonOpaquePayloadVersion*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonOpaquePayload.version)
+}
+inline ::ser::JonOpaquePayloadVersion* JonOpaquePayload::release_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonOpaquePayloadVersion* released = _impl_.version_;
+  _impl_.version_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonOpaquePayloadVersion* JonOpaquePayload::unsafe_arena_release_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonOpaquePayload.version)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonOpaquePayloadVersion* temp = _impl_.version_;
+  _impl_.version_ = nullptr;
+  return temp;
+}
+inline ::ser::JonOpaquePayloadVersion* JonOpaquePayload::_internal_mutable_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.version_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonOpaquePayloadVersion>(GetArena());
+    _impl_.version_ = reinterpret_cast<::ser::JonOpaquePayloadVersion*>(p);
+  }
+  return _impl_.version_;
+}
+inline ::ser::JonOpaquePayloadVersion* JonOpaquePayload::mutable_version() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonOpaquePayloadVersion* _msg = _internal_mutable_version();
+  // @@protoc_insertion_point(field_mutable:ser.JonOpaquePayload.version)
+  return _msg;
+}
+inline void JonOpaquePayload::set_allocated_version(::ser::JonOpaquePayloadVersion* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.version_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.version_ = reinterpret_cast<::ser::JonOpaquePayloadVersion*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonOpaquePayload.version)
+}
+
+// bytes payload = 3 [(.buf.validate.field) = {
+inline void JonOpaquePayload::clear_payload() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.payload_.ClearToEmpty();
+}
+inline const std::string& JonOpaquePayload::payload() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonOpaquePayload.payload)
+  return _internal_payload();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void JonOpaquePayload::set_payload(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.payload_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ser.JonOpaquePayload.payload)
+}
+inline std::string* JonOpaquePayload::mutable_payload() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_payload();
+  // @@protoc_insertion_point(field_mutable:ser.JonOpaquePayload.payload)
+  return _s;
+}
+inline const std::string& JonOpaquePayload::_internal_payload() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.payload_.Get();
+}
+inline void JonOpaquePayload::_internal_set_payload(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.payload_.Set(value, GetArena());
+}
+inline std::string* JonOpaquePayload::_internal_mutable_payload() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.payload_.Mutable( GetArena());
+}
+inline std::string* JonOpaquePayload::release_payload() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonOpaquePayload.payload)
+  return _impl_.payload_.Release();
+}
+inline void JonOpaquePayload::set_allocated_payload(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.payload_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.payload_.IsDefault()) {
+    _impl_.payload_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ser.JonOpaquePayload.payload)
 }
 
 #ifdef __GNUC__

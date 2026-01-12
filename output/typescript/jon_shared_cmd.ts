@@ -27,6 +27,7 @@ import {
   JonGuiDataClientType,
   jonGuiDataClientTypeFromJSON,
   jonGuiDataClientTypeToJSON,
+  JonOpaquePayload,
 } from "./jon_shared_data_types";
 
 export interface Root {
@@ -44,6 +45,8 @@ export interface Root {
   stateTime: Long;
   /** Client wall-clock time when command was issued */
   clientTimeMs: Long;
+  /** Opaque payloads for subsystem-specific extensions */
+  opaquePayloads: JonOpaquePayload[];
   dayCamera?: Root1 | undefined;
   heatCamera?: Root2 | undefined;
   gps?: Root3 | undefined;
@@ -83,6 +86,7 @@ function createBaseRoot(): Root {
     frameTimeHeat: Long.UZERO,
     stateTime: Long.UZERO,
     clientTimeMs: Long.UZERO,
+    opaquePayloads: [],
     dayCamera: undefined,
     heatCamera: undefined,
     gps: undefined,
@@ -133,6 +137,9 @@ export const Root: MessageFns<Root> = {
     }
     if (!message.clientTimeMs.equals(Long.UZERO)) {
       writer.uint32(72).uint64(message.clientTimeMs.toString());
+    }
+    for (const v of message.opaquePayloads) {
+      JonOpaquePayload.encode(v!, writer.uint32(90).fork()).join();
     }
     if (message.dayCamera !== undefined) {
       Root1.encode(message.dayCamera, writer.uint32(162).fork()).join();
@@ -270,6 +277,14 @@ export const Root: MessageFns<Root> = {
           }
 
           message.clientTimeMs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.opaquePayloads.push(JonOpaquePayload.decode(reader, reader.uint32()));
           continue;
         }
         case 20: {
@@ -421,6 +436,9 @@ export const Root: MessageFns<Root> = {
       frameTimeHeat: isSet(object.frameTimeHeat) ? Long.fromValue(object.frameTimeHeat) : Long.UZERO,
       stateTime: isSet(object.stateTime) ? Long.fromValue(object.stateTime) : Long.UZERO,
       clientTimeMs: isSet(object.clientTimeMs) ? Long.fromValue(object.clientTimeMs) : Long.UZERO,
+      opaquePayloads: globalThis.Array.isArray(object?.opaquePayloads)
+        ? object.opaquePayloads.map((e: any) => JonOpaquePayload.fromJSON(e))
+        : [],
       dayCamera: isSet(object.dayCamera) ? Root1.fromJSON(object.dayCamera) : undefined,
       heatCamera: isSet(object.heatCamera) ? Root2.fromJSON(object.heatCamera) : undefined,
       gps: isSet(object.gps) ? Root3.fromJSON(object.gps) : undefined,
@@ -471,6 +489,9 @@ export const Root: MessageFns<Root> = {
     }
     if (!message.clientTimeMs.equals(Long.UZERO)) {
       obj.clientTimeMs = (message.clientTimeMs || Long.UZERO).toString();
+    }
+    if (message.opaquePayloads?.length) {
+      obj.opaquePayloads = message.opaquePayloads.map((e) => JonOpaquePayload.toJSON(e));
     }
     if (message.dayCamera !== undefined) {
       obj.dayCamera = Root1.toJSON(message.dayCamera);
@@ -546,6 +567,7 @@ export const Root: MessageFns<Root> = {
     message.clientTimeMs = (object.clientTimeMs !== undefined && object.clientTimeMs !== null)
       ? Long.fromValue(object.clientTimeMs)
       : Long.UZERO;
+    message.opaquePayloads = object.opaquePayloads?.map((e) => JonOpaquePayload.fromPartial(e)) || [];
     message.dayCamera = (object.dayCamera !== undefined && object.dayCamera !== null)
       ? Root1.fromPartial(object.dayCamera)
       : undefined;

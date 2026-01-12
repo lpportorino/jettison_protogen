@@ -229,6 +229,7 @@ class JonGUIState final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kOpaquePayloadsFieldNumber = 8,
     kSystemFieldNumber = 13,
     kMeteoInternalFieldNumber = 14,
     kLrfFieldNumber = 15,
@@ -251,6 +252,23 @@ class JonGUIState final : public ::google::protobuf::Message
     kFrameMonotonicDayUsFieldNumber = 6,
     kFrameMonotonicHeatUsFieldNumber = 7,
   };
+  // repeated .ser.JonOpaquePayload opaque_payloads = 8;
+  int opaque_payloads_size() const;
+  private:
+  int _internal_opaque_payloads_size() const;
+
+  public:
+  void clear_opaque_payloads() ;
+  ::ser::JonOpaquePayload* mutable_opaque_payloads(int index);
+  ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>* mutable_opaque_payloads();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>& _internal_opaque_payloads() const;
+  ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>* _internal_mutable_opaque_payloads();
+  public:
+  const ::ser::JonOpaquePayload& opaque_payloads(int index) const;
+  ::ser::JonOpaquePayload* add_opaque_payloads();
+  const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>& opaque_payloads() const;
   // .ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = {
   bool has_system() const;
   void clear_system() ;
@@ -536,7 +554,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 21, 14,
+      5, 22, 15,
       0, 2>
       _table_;
 
@@ -556,6 +574,7 @@ class JonGUIState final : public ::google::protobuf::Message
                           const JonGUIState& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::ser::JonOpaquePayload > opaque_payloads_;
     ::ser::JonGuiDataSystem* system_;
     ::ser::JonGuiDataMeteo* meteo_internal_;
     ::ser::JonGuiDataLrf* lrf_;
@@ -751,6 +770,51 @@ inline ::uint64_t JonGUIState::_internal_frame_monotonic_heat_us() const {
 inline void JonGUIState::_internal_set_frame_monotonic_heat_us(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.frame_monotonic_heat_us_ = value;
+}
+
+// repeated .ser.JonOpaquePayload opaque_payloads = 8;
+inline int JonGUIState::_internal_opaque_payloads_size() const {
+  return _internal_opaque_payloads().size();
+}
+inline int JonGUIState::opaque_payloads_size() const {
+  return _internal_opaque_payloads_size();
+}
+inline ::ser::JonOpaquePayload* JonGUIState::mutable_opaque_payloads(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:ser.JonGUIState.opaque_payloads)
+  return _internal_mutable_opaque_payloads()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>* JonGUIState::mutable_opaque_payloads()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ser.JonGUIState.opaque_payloads)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_opaque_payloads();
+}
+inline const ::ser::JonOpaquePayload& JonGUIState::opaque_payloads(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.opaque_payloads)
+  return _internal_opaque_payloads().Get(index);
+}
+inline ::ser::JonOpaquePayload* JonGUIState::add_opaque_payloads() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ser::JonOpaquePayload* _add = _internal_mutable_opaque_payloads()->Add();
+  // @@protoc_insertion_point(field_add:ser.JonGUIState.opaque_payloads)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>& JonGUIState::opaque_payloads() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ser.JonGUIState.opaque_payloads)
+  return _internal_opaque_payloads();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>&
+JonGUIState::_internal_opaque_payloads() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.opaque_payloads_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ser::JonOpaquePayload>*
+JonGUIState::_internal_mutable_opaque_payloads() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.opaque_payloads_;
 }
 
 // .ser.JonGuiDataSystem system = 13 [(.buf.validate.field) = {

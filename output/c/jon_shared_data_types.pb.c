@@ -9,6 +9,12 @@
 PB_BIND(ser_JonGuiDataMeteo, ser_JonGuiDataMeteo, AUTO)
 
 
+PB_BIND(ser_JonOpaquePayloadVersion, ser_JonOpaquePayloadVersion, AUTO)
+
+
+PB_BIND(ser_JonOpaquePayload, ser_JonOpaquePayload, AUTO)
+
+
 
 
 
