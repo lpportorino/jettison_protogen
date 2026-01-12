@@ -35,8 +35,11 @@ message JonGUIState {
   uint64 frame_monotonic_day_us = 6 [(buf.validate.field).uint64.gte = 0];   // Monotonic time when day frame was captured (microseconds)
   uint64 frame_monotonic_heat_us = 7 [(buf.validate.field).uint64.gte = 0];  // Monotonic time when heat frame was captured (microseconds)
 
+  // Opaque payloads for subsystem-specific extensions
+  repeated JonOpaquePayload opaque_payloads = 8;
+
   // Reserved fields for future use
-  reserved 8, 9, 10, 11, 12;
+  reserved 9, 10, 11, 12;
   
   JonGuiDataSystem system = 13 [(buf.validate.field).required = true];
   JonGuiDataMeteo meteo_internal = 14 [(buf.validate.field).required = true];

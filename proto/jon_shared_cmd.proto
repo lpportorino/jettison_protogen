@@ -47,8 +47,11 @@ message Root {
   // Client wall-clock time when command was issued
   uint64 client_time_ms = 9;   // Client epoch time in milliseconds (from performance.timeOrigin + performance.now())
 
-  // Currently unused field numbers
-  reserved 11 to 19;
+  // Opaque payloads for subsystem-specific extensions
+  repeated ser.JonOpaquePayload opaque_payloads = 11;
+
+  // Reserved fields for future use
+  reserved 12 to 19;
 
   oneof payload {
     option (buf.validate.oneof).required = true;

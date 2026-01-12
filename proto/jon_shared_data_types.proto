@@ -191,3 +191,27 @@ enum JonGuiDataStateSource {
   JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE = 2;
   JON_GUI_DATA_STATE_SOURCE_SYSTEM = 3;
 }
+
+// Structured version for opaque payloads.
+// Enables simple numeric comparison without string parsing.
+message JonOpaquePayloadVersion {
+  uint32 major = 1;
+  uint32 minor = 2;
+  uint64 build = 3;  // Can be timestamp (ms since epoch) or build number
+}
+
+// Opaque extension payload for subsystem-specific data.
+// Transport layer passes through without interpretation.
+// Handlers match on type_uuid and check version compatibility.
+message JonOpaquePayload {
+  // UUIDv7 identifying the payload type (e.g., "019415a9-5c34-7def-8000-000000000001")
+  string type_uuid = 1 [(buf.validate.field).string = {
+    pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+  }];
+
+  // Structured version - handler decides compatibility logic
+  JonOpaquePayloadVersion version = 2 [(buf.validate.field).required = true];
+
+  // Opaque binary payload
+  bytes payload = 3 [(buf.validate.field).bytes.min_len = 1];
+}
