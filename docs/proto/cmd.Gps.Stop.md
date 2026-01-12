@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the GPS receiver hardware and ceases position data collection. This parameterless lifecycle command shuts down the GPS module, typically triggered via a power toggle button in the UI with fire-and-forget feedback.
 
 ## Fields
 

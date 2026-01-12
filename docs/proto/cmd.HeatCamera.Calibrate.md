@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers a Non-Uniformity Correction (NUC) calibration cycle on the thermal camera to improve image accuracy. This parameterless fire-and-forget command adjusts the sensor to compensate for pixel-to-pixel variations and is typically invoked via a UI calibration button.
 
 ## Fields
 

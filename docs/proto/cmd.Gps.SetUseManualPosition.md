@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Toggles between GPS-based and manual position entry modes. When the flag is true, the system uses the manually configured position (set via SetManualPosition); when false, it uses live GPS coordinates from the receiver.
 
 ## Fields
 

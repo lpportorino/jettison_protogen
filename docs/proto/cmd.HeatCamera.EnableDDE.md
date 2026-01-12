@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables Digital Detail Enhancement (DDE) on the thermal camera to enhance image detail visibility. This parameterless command activates additional image processing that sharpens edges and improves fine feature visibility in the thermal image.
 
 ## Fields
 

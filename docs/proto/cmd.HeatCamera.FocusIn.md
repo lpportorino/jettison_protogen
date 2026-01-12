@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the thermal camera to continuously focus toward near distances while held. This parameterless trigger is used with button press/release or gamepad input as part of the focus control system alongside FocusOut and FocusStop commands.
 
 ## Fields
 

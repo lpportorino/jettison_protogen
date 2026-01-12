@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the thermal camera to continuously move focus farther away (toward infinity) while held. This parameterless trigger uses a press-accelerating UI pattern for continuous focus adjustment until released or FocusStop is called.
 
 ## Fields
 

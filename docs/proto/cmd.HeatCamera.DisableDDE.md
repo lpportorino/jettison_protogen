@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables Digital Detail Enhancement (DDE) on the thermal camera. This parameterless toggle command turns off the image processing that enhances edge detail and fine features, returning to standard thermal image output.
 
 ## Fields
 

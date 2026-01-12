@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Decrements the thermal camera focus by one discrete step, moving the focus point farther away. This parameterless fire-and-forget command is used in the UI focus control panel for precise single-step focus adjustments.
 
 ## Fields
 

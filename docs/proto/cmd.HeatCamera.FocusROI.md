@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Focuses the thermal camera on a user-selected rectangular region of interest (ROI). The ROI is defined by normalized coordinates (x1,y1) to (x2,y2) in the -1 to 1 range, with frame and state timestamps for synchronization with the video stream.
 
 ## Fields
 

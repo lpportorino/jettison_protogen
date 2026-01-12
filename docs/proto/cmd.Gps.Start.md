@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Starts the GPS module and begins receiving position data. This parameterless lifecycle command initializes the GPS hardware and triggers data collection, typically activated via a power toggle button in the UI.
 
 ## Fields
 
