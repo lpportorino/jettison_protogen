@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the rotary platform to an absolute azimuth angle (0-360 degrees) with configurable rotation direction (clockwise or counter-clockwise). This immediate positioning command is used by UI slider controls to move the platform to a specific compass bearing.
 
 ## Fields
 

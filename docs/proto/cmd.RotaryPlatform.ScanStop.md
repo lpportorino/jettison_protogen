@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Completely stops and terminates the scan pattern execution on the rotary platform, ending the scanning mode entirely. Unlike ScanPause which temporarily suspends the scan (allowing resume with ScanUnpause), ScanStop fully terminates the scan sequence.
 
 ## Fields
 

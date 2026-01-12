@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Modifies an existing scan node waypoint (identified by index) with new position coordinates (azimuth and elevation), zoom levels for both day and thermal cameras, dwell time (linger), and movement speed. This allows editing waypoint parameters in a scan sequence without recreating the node.
 
 ## Fields
 

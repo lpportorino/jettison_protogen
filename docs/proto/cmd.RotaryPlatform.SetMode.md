@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Switches the rotary platform between different operating modes: initialization, speed control, position control, stabilization, targeting, or video tracking. The command changes how the platform processes subsequent movement commands.
 
 ## Fields
 

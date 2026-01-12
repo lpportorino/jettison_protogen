@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Calibrates the platform's absolute azimuth reference point during compass calibration, aligning the rotary system's mechanical coordinate frame with magnetic north. Unlike SetAzimuthValue which moves to a position, this sets the platform-level azimuth offset used to establish orientation reference.
 
 ## Fields
 

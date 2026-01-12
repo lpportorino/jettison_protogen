@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Commands the rotary platform to select a specific scan waypoint by its index. When triggered from the UI (typically after adding or deleting nodes), it updates the backend state to reflect which waypoint is currently selected, enabling synchronization between the UI node list and server-side scan management.
 
 ## Fields
 

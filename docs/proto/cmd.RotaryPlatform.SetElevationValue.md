@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Instructs the rotary platform to move to an absolute elevation angle specified as a single value (-90 to 90 degrees). This command is triggered from the frontend's position input overlay when a user enters an elevation angle, immediately moving the platform to that exact elevation.
 
 ## Fields
 

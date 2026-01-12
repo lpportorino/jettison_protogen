@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Begins automated execution of a pre-defined scan pattern on the rotary platform, sequentially positioning the platform at each configured scan node with specified zoom, azimuth, elevation, and dwell time parameters.
 
 ## Fields
 

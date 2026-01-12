@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Establishes the GPS reference/origin point for the rotary platform by specifying latitude, longitude, and altitude coordinates. This origin point is used as the baseline reference for subsequent GPS-based operations like RotateToGPS.
 
 ## Fields
 

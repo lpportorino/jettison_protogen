@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Resumes a paused scan pattern on the rotary platform after it has been temporarily suspended with ScanPause. This command is a state-transition operation that complements ScanPause, allowing the scan to continue from where it was interrupted without needing to restart.
 
 ## Fields
 
