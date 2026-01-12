@@ -34,12 +34,12 @@ Enable geodesic/geographic coordinate mode for position calculations
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.DisableGeodesicMode]]
+- [[proto/proto/proto/cmd.System.DisableGeodesicMode]]
 
 
 

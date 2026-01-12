@@ -40,13 +40,13 @@ Focuses camera on user-selected region of interest
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.TrackROI]]
-- [[proto/proto/cmd.HeatCamera.ZoomROI]]
+- [[proto/proto/proto/cmd.HeatCamera.TrackROI]]
+- [[proto/proto/proto/cmd.HeatCamera.ZoomROI]]
 
 
 

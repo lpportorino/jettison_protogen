@@ -41,9 +41,9 @@ Represents a single node in a scanning pattern with position and timing paramete
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
-- [[proto/proto/cmd.RotaryPlatform.ScanAddNode]]
-- [[proto/proto/cmd.RotaryPlatform.ScanDeleteNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanAddNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanDeleteNode]]
 
 
 

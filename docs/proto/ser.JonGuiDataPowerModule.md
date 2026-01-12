@@ -39,8 +39,8 @@ Power module status and telemetry
 
 ### Related Commands
 
-- [[proto/proto/cmd.Power.SetChannel]]
-- [[proto/proto/cmd.Power.SetAll]]
+- [[proto/proto/proto/cmd.Power.SetChannel]]
+- [[proto/proto/proto/cmd.Power.SetAll]]
 
 
 

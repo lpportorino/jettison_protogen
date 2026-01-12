@@ -35,8 +35,8 @@ Enable laser target designator in Mode A
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf.TargetDesignatorOnModeB]]
-- [[proto/proto/cmd.Lrf.TargetDesignatorOff]]
+- [[proto/proto/proto/cmd.Lrf.TargetDesignatorOnModeB]]
+- [[proto/proto/proto/cmd.Lrf.TargetDesignatorOff]]
 
 
 ### Preconditions

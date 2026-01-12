@@ -35,8 +35,8 @@ Immediately halt all rotary platform motion (both azimuth and elevation)
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
-- [[proto/proto/cmd.RotaryPlatform.HaltElevation]]
+- [[proto/proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
+- [[proto/proto/proto/cmd.RotaryPlatform.HaltElevation]]
 
 
 

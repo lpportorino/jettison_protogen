@@ -34,14 +34,14 @@ Initiates short compass calibration procedure
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCompass]]
+- [[proto/proto/proto/ser.JonGuiDataCompass]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.Compass.CalibrateStartLong]]
-- [[proto/proto/cmd.Compass.CalibrateNext]]
-- [[proto/proto/cmd.Compass.CalibrateCencel]]
+- [[proto/proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/proto/cmd.Compass.CalibrateNext]]
+- [[proto/proto/proto/cmd.Compass.CalibrateCencel]]
 
 
 ### Preconditions

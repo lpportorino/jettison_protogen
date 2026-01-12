@@ -34,13 +34,13 @@ Refreshes scan node list from configuration
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.ScanStart]]
-- [[proto/proto/cmd.RotaryPlatform.ScanSelectNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanSelectNode]]
 
 
 

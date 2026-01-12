@@ -49,13 +49,13 @@ Controls day camera focus operations (set, move, halt, offset, reset, save)
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.SetAutoFocus]]
-- [[proto/proto/cmd.DayCamera.SetAutoGain]]
+- [[proto/proto/proto/cmd.DayCamera.SetAutoFocus]]
+- [[proto/proto/proto/cmd.DayCamera.SetAutoGain]]
 
 
 

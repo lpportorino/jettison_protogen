@@ -36,13 +36,13 @@ Rotates elevation axis to absolute target angle
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.Elevation.SetValue]]
-- [[proto/proto/cmd.RotaryPlatform.Elevation.Halt]]
+- [[proto/proto/proto/cmd.RotaryPlatform.Elevation.SetValue]]
+- [[proto/proto/proto/cmd.RotaryPlatform.Elevation.Halt]]
 
 
 

@@ -34,12 +34,12 @@ Stops the compass subsystem
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCompass]]
+- [[proto/proto/proto/ser.JonGuiDataCompass]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.Compass.Start]]
+- [[proto/proto/proto/cmd.Compass.Start]]
 
 
 

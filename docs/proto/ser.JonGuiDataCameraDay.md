@@ -49,9 +49,9 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.SetIris]]
-- [[proto/proto/cmd.DayCamera.SetAutoIris]]
-- [[proto/proto/cmd.DayCamera.SetFxMode]]
+- [[proto/proto/proto/cmd.DayCamera.SetIris]]
+- [[proto/proto/proto/cmd.DayCamera.SetAutoIris]]
+- [[proto/proto/proto/cmd.DayCamera.SetFxMode]]
 
 
 

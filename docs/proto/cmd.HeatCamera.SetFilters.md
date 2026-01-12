@@ -35,12 +35,12 @@ Sets color filter mode for thermal camera display
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.SetAGC]]
+- [[proto/proto/proto/cmd.HeatCamera.SetAGC]]
 
 
 ### Preconditions

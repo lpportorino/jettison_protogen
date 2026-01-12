@@ -34,13 +34,13 @@ Enables Digital Detail Enhancement on thermal camera
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.DisableDDE]]
-- [[proto/proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/proto/proto/cmd.HeatCamera.DisableDDE]]
+- [[proto/proto/proto/cmd.HeatCamera.SetDDELevel]]
 
 
 

@@ -35,14 +35,14 @@ Deletes a node from the scanning pattern
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.ScanAddNode]]
-- [[proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
-- [[proto/proto/cmd.RotaryPlatform.ScanRefreshNodeList]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanAddNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanRefreshNodeList]]
 
 
 ### Preconditions

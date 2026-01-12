@@ -34,7 +34,7 @@ Captures a photo from the day camera
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 

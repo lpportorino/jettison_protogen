@@ -59,9 +59,9 @@ System health, resource usage, and operational mode status
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.DisableGeodesicMode]]
-- [[proto/proto/cmd.System.EnableGeodesicMode]]
-- [[proto/proto/cmd.System.SaveFactoryDefaults]]
+- [[proto/proto/proto/cmd.System.DisableGeodesicMode]]
+- [[proto/proto/proto/cmd.System.EnableGeodesicMode]]
+- [[proto/proto/proto/cmd.System.SaveFactoryDefaults]]
 
 
 

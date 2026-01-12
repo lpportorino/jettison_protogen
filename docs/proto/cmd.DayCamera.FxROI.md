@@ -40,12 +40,12 @@ Defines region of interest for AGC/exposure optimization and post-processing eff
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.FxROI]]
+- [[proto/proto/proto/cmd.HeatCamera.FxROI]]
 
 
 ### Preconditions

@@ -36,8 +36,8 @@ Sets platform bank angle (roll) correction
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
-- [[proto/proto/cmd.RotaryPlatform.SetPlatformElevation]]
+- [[proto/proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
+- [[proto/proto/proto/cmd.RotaryPlatform.SetPlatformElevation]]
 
 
 

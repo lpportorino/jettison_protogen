@@ -35,7 +35,7 @@ Enables computer vision stabilization mode to reduce camera shake
 
 ### Related Commands
 
-- [[proto/proto/cmd.CV.StabilizationModeDisable]]
+- [[proto/proto/proto/cmd.CV.StabilizationModeDisable]]
 
 
 

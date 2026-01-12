@@ -34,13 +34,13 @@ Start zooming heat camera in (continuous motion)
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.ZoomOut]]
-- [[proto/proto/cmd.HeatCamera.ZoomStop]]
+- [[proto/proto/proto/cmd.HeatCamera.ZoomOut]]
+- [[proto/proto/proto/cmd.HeatCamera.ZoomStop]]
 
 
 

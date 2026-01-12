@@ -44,9 +44,9 @@ Laser rangefinder measurement data and status
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf.Measure]]
-- [[proto/proto/cmd.Lrf.ScanOn]]
-- [[proto/proto/cmd.Lrf.ScanOff]]
+- [[proto/proto/proto/cmd.Lrf.Measure]]
+- [[proto/proto/proto/cmd.Lrf.ScanOn]]
+- [[proto/proto/proto/cmd.Lrf.ScanOff]]
 
 
 

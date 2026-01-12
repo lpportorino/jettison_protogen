@@ -35,7 +35,7 @@ Stop laser rangefinder operation
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf.Start]]
+- [[proto/proto/proto/cmd.Lrf.Start]]
 
 
 

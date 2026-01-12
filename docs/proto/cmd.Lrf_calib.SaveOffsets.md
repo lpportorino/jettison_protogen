@@ -34,13 +34,13 @@ Saves current LRF calibration offsets to persistent storage
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf_calib.SetOffsets]]
-- [[proto/proto/cmd.Lrf_calib.ResetOffsets]]
+- [[proto/proto/proto/cmd.Lrf_calib.SetOffsets]]
+- [[proto/proto/proto/cmd.Lrf_calib.ResetOffsets]]
 
 
 ### Preconditions

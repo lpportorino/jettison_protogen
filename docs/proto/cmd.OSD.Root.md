@@ -52,9 +52,9 @@ Controls OSD (on-screen display) visibility and screen modes
 
 ### Related Commands
 
-- [[proto/proto/cmd.OSD.ShowDefaultScreen]]
-- [[proto/proto/cmd.OSD.EnableDayOSD]]
-- [[proto/proto/cmd.OSD.DisableHeatOSD]]
+- [[proto/proto/proto/cmd.OSD.ShowDefaultScreen]]
+- [[proto/proto/proto/cmd.OSD.EnableDayOSD]]
+- [[proto/proto/proto/cmd.OSD.DisableHeatOSD]]
 
 
 

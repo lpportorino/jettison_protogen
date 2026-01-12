@@ -34,12 +34,12 @@ Enable fog mode for laser range finder (optimizes for low visibility)
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf.DisableFogMode]]
+- [[proto/proto/proto/cmd.Lrf.DisableFogMode]]
 
 
 

@@ -34,18 +34,18 @@ Start all system components (cameras, sensors, platform)
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataSystem]]
-- [[proto/proto/ser.JonGuiDataCameraDay]]
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
-- [[proto/proto/ser.JonGuiDataRotary]]
-- [[proto/proto/ser.JonGuiDataCompass]]
-- [[proto/proto/ser.JonGuiDataLrf]]
-- [[proto/proto/ser.JonGuiDataGps]]
+- [[proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataCompass]]
+- [[proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/ser.JonGuiDataGps]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.StopALl]]
+- [[proto/proto/proto/cmd.System.StopALl]]
 
 
 

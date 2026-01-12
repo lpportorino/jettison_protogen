@@ -34,12 +34,12 @@ Turns on day camera glass heater
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+- [[proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamGlassHeater.TurnOff]]
+- [[proto/proto/proto/cmd.DayCamGlassHeater.TurnOff]]
 
 
 ### Preconditions

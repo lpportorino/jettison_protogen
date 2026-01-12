@@ -40,13 +40,13 @@ Zooms the day camera to focus on a region of interest marked by user on video
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.TrackROI]]
-- [[proto/proto/cmd.DayCamera.FocusROI]]
+- [[proto/proto/proto/cmd.DayCamera.TrackROI]]
+- [[proto/proto/proto/cmd.DayCamera.FocusROI]]
 
 
 ### Preconditions

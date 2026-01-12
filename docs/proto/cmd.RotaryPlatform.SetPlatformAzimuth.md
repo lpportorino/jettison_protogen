@@ -35,12 +35,12 @@ Sets absolute platform azimuth angle
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+- [[proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
 
 
 

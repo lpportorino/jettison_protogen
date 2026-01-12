@@ -42,8 +42,8 @@ Adds a new waypoint node to scan pattern
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
-- [[proto/proto/cmd.RotaryPlatform.ScanDeleteNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanUpdateNode]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanDeleteNode]]
 
 
 

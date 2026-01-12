@@ -34,13 +34,13 @@ Stop video recording
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataSystemRecording]]
+- [[proto/proto/proto/ser.JonGuiDataSystemRecording]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.StartRec]]
-- [[proto/proto/cmd.System.MarkRecImportant]]
+- [[proto/proto/proto/cmd.System.StartRec]]
+- [[proto/proto/proto/cmd.System.MarkRecImportant]]
 
 
 

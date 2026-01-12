@@ -38,7 +38,7 @@ Set manual GPS position override
 
 ### Related Commands
 
-- [[proto/proto/cmd.Gps.SetUseManualPosition]]
+- [[proto/proto/proto/cmd.Gps.SetUseManualPosition]]
 
 
 

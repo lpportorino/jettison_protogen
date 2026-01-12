@@ -34,13 +34,13 @@ Cycles to next FX mode for day camera
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.PrevFxMode]]
-- [[proto/proto/cmd.DayCamera.SetFxMode]]
+- [[proto/proto/proto/cmd.DayCamera.PrevFxMode]]
+- [[proto/proto/proto/cmd.DayCamera.SetFxMode]]
 
 
 ### Preconditions

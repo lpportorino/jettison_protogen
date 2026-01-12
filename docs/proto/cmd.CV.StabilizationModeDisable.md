@@ -34,12 +34,12 @@ Disable computer vision stabilization mode
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCV]]
+- [[proto/proto/proto/ser.JonGuiDataCV]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.CV.StabilizationModeEnable]]
+- [[proto/proto/proto/cmd.CV.StabilizationModeEnable]]
 
 
 

@@ -35,13 +35,13 @@ Set FX (image enhancement) mode for heat camera
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.NextFxMode]]
-- [[proto/proto/cmd.HeatCamera.PrevFxMode]]
+- [[proto/proto/proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/proto/proto/cmd.HeatCamera.PrevFxMode]]
 
 
 

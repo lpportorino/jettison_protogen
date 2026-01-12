@@ -37,12 +37,12 @@ Rotates azimuth to target angle at specified speed
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
+- [[proto/proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
 
 
 

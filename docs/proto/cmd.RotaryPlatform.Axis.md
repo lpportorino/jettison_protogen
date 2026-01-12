@@ -36,7 +36,7 @@ Simultaneous control of both azimuth and elevation axes
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 

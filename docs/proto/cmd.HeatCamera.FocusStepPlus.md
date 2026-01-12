@@ -35,8 +35,8 @@ Increments thermal camera focus by one discrete step (closer)
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.FocusStepMinus]]
-- [[proto/proto/cmd.HeatCamera.FocusIn]]
+- [[proto/proto/proto/cmd.HeatCamera.FocusStepMinus]]
+- [[proto/proto/proto/cmd.HeatCamera.FocusIn]]
 
 
 ### Preconditions

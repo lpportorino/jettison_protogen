@@ -34,12 +34,12 @@ Immediately stops azimuth axis movement
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.Halt]]
+- [[proto/proto/proto/cmd.RotaryPlatform.Halt]]
 
 
 

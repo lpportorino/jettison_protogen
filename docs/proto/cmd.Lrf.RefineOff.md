@@ -34,12 +34,12 @@ Disables LRF refine mode
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf.RefineOn]]
+- [[proto/proto/proto/cmd.Lrf.RefineOn]]
 
 
 

@@ -34,12 +34,12 @@ Starts day camera module initialization
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.Stop]]
+- [[proto/proto/proto/cmd.DayCamera.Stop]]
 
 
 ### Preconditions

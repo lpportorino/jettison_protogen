@@ -35,13 +35,13 @@ Increments or decrements system date by months
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.SetTimeAndZone]]
-- [[proto/proto/cmd.System.StepYear]]
+- [[proto/proto/proto/cmd.System.SetTimeAndZone]]
+- [[proto/proto/proto/cmd.System.StepYear]]
 
 
 ### Preconditions

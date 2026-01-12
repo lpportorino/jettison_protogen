@@ -34,15 +34,15 @@ Move to next scan node in automated scan sequence
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotary]]
+- [[proto/proto/proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.ScanPrev]]
-- [[proto/proto/cmd.RotaryPlatform.ScanStart]]
-- [[proto/proto/cmd.RotaryPlatform.ScanStop]]
-- [[proto/proto/cmd.RotaryPlatform.ScanPause]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanPrev]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanStop]]
+- [[proto/proto/proto/cmd.RotaryPlatform.ScanPause]]
 
 
 ### Preconditions

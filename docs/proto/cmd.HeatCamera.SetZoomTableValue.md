@@ -35,14 +35,14 @@ Sets thermal camera zoom to specific table position (discrete zoom level)
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.NextZoomTablePos]]
-- [[proto/proto/cmd.HeatCamera.PrevZoomTablePos]]
-- [[proto/proto/cmd.DayCamera.SetZoomTableValue]]
+- [[proto/proto/proto/cmd.HeatCamera.NextZoomTablePos]]
+- [[proto/proto/proto/cmd.HeatCamera.PrevZoomTablePos]]
+- [[proto/proto/proto/cmd.DayCamera.SetZoomTableValue]]
 
 
 ### Preconditions

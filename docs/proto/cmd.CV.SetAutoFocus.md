@@ -36,12 +36,12 @@ Enable/disable auto focus for day or heat camera via computer vision
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCV]]
+- [[proto/proto/proto/ser.JonGuiDataCV]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.SetAutoFocus]]
+- [[proto/proto/proto/cmd.HeatCamera.SetAutoFocus]]
 
 
 

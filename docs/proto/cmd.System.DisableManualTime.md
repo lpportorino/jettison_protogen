@@ -34,13 +34,13 @@ Disables manual time control and reverts to system time
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataSystem]]
-- [[proto/proto/ser.JonGuiDataTime]]
+- [[proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.EnableManualTime]]
+- [[proto/proto/proto/cmd.System.EnableManualTime]]
 
 
 

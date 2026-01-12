@@ -34,13 +34,13 @@ Start new LRF (Laser Range Finder) measurement session
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.Lrf.Measure]]
-- [[proto/proto/cmd.Lrf.Start]]
+- [[proto/proto/proto/cmd.Lrf.Measure]]
+- [[proto/proto/proto/cmd.Lrf.Start]]
 
 
 

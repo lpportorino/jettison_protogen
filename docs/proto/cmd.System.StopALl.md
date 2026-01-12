@@ -35,7 +35,7 @@ Stops all system components and subsystems
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.StartALl]]
+- [[proto/proto/proto/cmd.System.StartALl]]
 
 
 

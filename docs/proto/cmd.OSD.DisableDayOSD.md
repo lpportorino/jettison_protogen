@@ -34,12 +34,12 @@ Disables on-screen display overlay on day camera video
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataOsd]]
+- [[proto/proto/proto/ser.JonGuiDataOsd]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.OSD.EnableDayOSD]]
+- [[proto/proto/proto/cmd.OSD.EnableDayOSD]]
 
 
 

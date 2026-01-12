@@ -35,12 +35,12 @@ Enables or disables automatic iris control for day camera exposure
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.SetIris]]
+- [[proto/proto/proto/cmd.DayCamera.SetIris]]
 
 
 ### Preconditions

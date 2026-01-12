@@ -36,14 +36,14 @@ Sets system time and timezone simultaneously
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataTime]]
+- [[proto/proto/proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.System.EnableManualTime]]
-- [[proto/proto/cmd.System.SyncBrowserTimeAndZone]]
-- [[proto/proto/cmd.System.StepTimeZone]]
+- [[proto/proto/proto/cmd.System.EnableManualTime]]
+- [[proto/proto/proto/cmd.System.SyncBrowserTimeAndZone]]
+- [[proto/proto/proto/cmd.System.StepTimeZone]]
 
 
 

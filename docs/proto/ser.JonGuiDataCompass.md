@@ -42,9 +42,9 @@ Compass sensor data and calibration state
 
 ### Related Commands
 
-- [[proto/proto/cmd.Compass.Start]]
-- [[proto/proto/cmd.Compass.Stop]]
-- [[proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/proto/cmd.Compass.Start]]
+- [[proto/proto/proto/cmd.Compass.Stop]]
+- [[proto/proto/proto/cmd.Compass.CalibrateStartLong]]
 
 
 

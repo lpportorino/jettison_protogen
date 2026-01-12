@@ -35,7 +35,7 @@ Start dumping computer vision frames to disk for debugging
 
 ### Related Commands
 
-- [[proto/proto/cmd.CV.DumpStop]]
+- [[proto/proto/proto/cmd.CV.DumpStop]]
 
 
 

@@ -40,13 +40,13 @@ Start video tracking on specified Region of Interest (ROI) in day camera
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.ZoomROI]]
-- [[proto/proto/cmd.DayCamera.FocusROI]]
+- [[proto/proto/proto/cmd.DayCamera.ZoomROI]]
+- [[proto/proto/proto/cmd.DayCamera.FocusROI]]
 
 
 ### Preconditions

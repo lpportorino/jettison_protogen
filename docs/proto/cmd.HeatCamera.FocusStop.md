@@ -35,8 +35,8 @@ Stops continuous thermal camera focus movement
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.FocusIn]]
-- [[proto/proto/cmd.HeatCamera.FocusOut]]
+- [[proto/proto/proto/cmd.HeatCamera.FocusIn]]
+- [[proto/proto/proto/cmd.HeatCamera.FocusOut]]
 
 
 ### Preconditions

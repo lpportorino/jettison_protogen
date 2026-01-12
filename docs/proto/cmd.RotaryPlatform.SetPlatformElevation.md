@@ -35,13 +35,13 @@ Sets the platform elevation angle directly
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataRotaryPlatform]]
+- [[proto/proto/proto/ser.JonGuiDataRotaryPlatform]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
-- [[proto/proto/cmd.RotaryPlatform.SetPlatformBank]]
+- [[proto/proto/proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
+- [[proto/proto/proto/cmd.RotaryPlatform.SetPlatformBank]]
 
 
 

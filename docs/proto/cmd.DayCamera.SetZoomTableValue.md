@@ -35,13 +35,13 @@ Sets day camera zoom to specific table position
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.DayCamera.NextZoomTablePos]]
-- [[proto/proto/cmd.DayCamera.PrevZoomTablePos]]
+- [[proto/proto/proto/cmd.DayCamera.NextZoomTablePos]]
+- [[proto/proto/proto/cmd.DayCamera.PrevZoomTablePos]]
 
 
 ### Preconditions

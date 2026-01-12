@@ -34,7 +34,7 @@ Saves current configuration as factory defaults
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 

@@ -34,14 +34,14 @@ Move to previous position in heat camera zoom lookup table
 
 ### Related State
 
-- [[proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/cmd.HeatCamera.NextZoomTablePos]]
-- [[proto/proto/cmd.HeatCamera.ResetZoom]]
-- [[proto/proto/cmd.HeatCamera.SaveToTable]]
+- [[proto/proto/proto/cmd.HeatCamera.NextZoomTablePos]]
+- [[proto/proto/proto/cmd.HeatCamera.ResetZoom]]
+- [[proto/proto/proto/cmd.HeatCamera.SaveToTable]]
 
 
 ### Preconditions
