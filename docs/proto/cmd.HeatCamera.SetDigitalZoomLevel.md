@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the digital zoom magnification level for the thermal camera to a specified value (minimum 1x). Uses a slider UI interface and can be synchronized with day camera digital zoom via a UI sync toggle for coordinated dual-camera operation.
 
 ## Fields
 

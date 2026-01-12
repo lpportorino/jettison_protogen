@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the calibration mode for the thermal camera, controlling how the sensor performs Non-Uniformity Correction (NUC). This parameterless command configures calibration behavior as part of thermal imaging parameter management.
 
 ## Fields
 

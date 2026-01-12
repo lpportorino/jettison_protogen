@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Saves the current thermal camera zoom position to a lookup table for quick recall. This parameterless fire-and-forget trigger allows users to store frequently-used zoom positions for later retrieval via zoom table navigation commands.
 
 ## Fields
 

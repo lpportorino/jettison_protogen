@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Resets the thermal camera optical zoom position to its default minimum value. This parameterless actuator command returns the zoom to 1x or minimum magnification, triggered via an action button with pending-timeout feedback.
 
 ## Fields
 

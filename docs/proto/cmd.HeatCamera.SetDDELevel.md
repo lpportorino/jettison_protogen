@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the Digital Detail Enhancement (DDE) level for thermal image processing, controlling edge enhancement intensity. Accepts an integer value from 0 to 100 and is typically controlled via a slider UI with fire-and-forget feedback.
 
 ## Fields
 

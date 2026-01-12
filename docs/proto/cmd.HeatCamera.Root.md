@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root message container for all thermal camera commands using a required oneof pattern with 38 command variants. Includes zoom, focus, AGC, filters, calibration, DDE, CLAHE, and region-of-interest operations. The frontend constructs individual commands and wraps them in this Root message for dispatch.
 
 ## Fields
 

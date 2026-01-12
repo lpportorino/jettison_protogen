@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Configures the Automatic Gain Control (AGC) mode for the thermal camera to optimize image enhancement for different viewing conditions. Accepts an enumerated value (MODE_1, MODE_2, or MODE_3) that adjusts how the camera processes thermal intensity for display.
 
 ## Fields
 

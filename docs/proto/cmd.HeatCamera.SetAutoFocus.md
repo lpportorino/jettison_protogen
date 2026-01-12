@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables or disables automatic focus for the thermal camera. When enabled (value=true), the camera automatically adjusts focus based on the scene; when disabled, manual focus controls (FocusIn, FocusOut, step commands) become active.
 
 ## Fields
 

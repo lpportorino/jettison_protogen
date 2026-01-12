@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) level for the thermal camera to control image contrast enhancement. Accepts a normalized value (0-1, displayed as 0-100%) with preset options and 5% increment/decrement capability via slider UI.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Triggers a refresh/reapplication of the current visual effects (FX) mode on the thermal camera. This parameterless fire-and-forget command reinitializes the current FX processing without changing modes, useful after parameter changes or to ensure proper mode activation.
 
 ## Fields
 
