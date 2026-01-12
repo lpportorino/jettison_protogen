@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Captures comprehensive device telemetry including hardware metrics (CPU/GPU temperature and load), recording state with timestamped directories, storage status with warning indicators, operational modes (tracking, stabilization, recognition, geodesic, vampire, CV dumping), and battery status, enabling real-time monitoring of system health and operational state in the frontend UI.
 
 ## Fields
 

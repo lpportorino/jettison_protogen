@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root protocol buffer message that aggregates telemetry and state from 14 subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, glass heater control, spatiotemporal data, and power management. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
 
 ## Fields
 

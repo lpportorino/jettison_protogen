@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Manages the device's current time state with support for both system and manually-set timestamps, allowing time zone context via zone_id while a boolean flag determines whether to use the manual override or system timestamp. Used throughout the frontend and backend to synchronize time-based operations across the device state distribution system.
 
 ## Fields
 

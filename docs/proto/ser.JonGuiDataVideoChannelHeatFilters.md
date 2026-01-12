@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies thermal camera display color schemes with four filter modes: Hot White (hottest objects rendered in white), Hot Black (hottest objects rendered in black), Sepia (warm tone colorization), and Sepia Inverse (inverted warm tone colorization). Applied via HeatCamera.SetFilters to control how thermal image data is visualized in real-time.
 
 ## Values
 

@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies the UI language setting for the system, supporting four languages: English (EN), Ukrainian (UA), Arabic (AR), and Czech (CS). Users can switch the interface language via the Language control palette, which updates both the UI and device state.
 
 ## Values
 

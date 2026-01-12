@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Encodes a single laser rangefinder (LRF) measurement with the geographic coordinates of the detected target and the observer's position, orientation, and GPS fix quality, along with computed 2D and 3D distances and visual properties for UI display. Serves as the core data structure for target tracking in the GUI, enabling real-time visualization of LRF measurements on maps with color-coded targets.
 
 ## Fields
 

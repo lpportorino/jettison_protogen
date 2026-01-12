@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Controls the laser rangefinder's target designator pointer, supporting three operational states: disabled (OFF), and two active modes (ON_1 and ON_2) for different targeting scenarios. The pointer_mode field in JonGuiDataLrf tracks the current state of the LRF laser designator output.
 
 ## Values
 

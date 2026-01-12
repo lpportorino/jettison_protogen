@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Specifies the active video source with two primary channels: thermal imaging (HEAT) and visible light (DAY). Used throughout command messages and UI components to route camera control operations and render channel-specific overlays to their respective video pipelines.
 
 ## Values
 
