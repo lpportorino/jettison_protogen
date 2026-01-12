@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the X and Y laser rangefinder calibration offsets for either day or thermal camera channels, updating the crosshair alignment at the current zoom level.
 
 ## Fields
 

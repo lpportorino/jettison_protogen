@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables fog mode for LRF distance measurement, causing the laser rangefinder to revert to standard high-visibility measurement when taking distance readings.
 
 ## Fields
 

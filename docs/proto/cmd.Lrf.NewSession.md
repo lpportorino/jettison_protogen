@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Increments the LRF session counter to create a new targeting session. Each session groups related targeting operations together, and the command atomically increments a persistent session ID counter displayed in the UI.
 
 ## Fields
 

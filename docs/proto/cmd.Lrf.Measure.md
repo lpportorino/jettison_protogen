@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates a single laser rangefinder measurement operation, optionally applying fog mode correction if enabled. Sends the appropriate UART bridge command to start a measured distance acquisition.
 
 ## Fields
 

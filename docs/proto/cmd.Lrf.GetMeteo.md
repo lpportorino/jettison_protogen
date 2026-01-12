@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests current meteorological data (temperature, humidity, pressure) from the laser rangefinder device. This command is periodically sent by the system to retrieve environmental sensor readings used for ranging corrections and environmental monitoring.
 
 ## Fields
 

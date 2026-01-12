@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables LRF refine mode to allow for precise targeting adjustments. When activated, the refine mode flag is set to true on the device, enabling fine-grained control for accurate target designation.
 
 ## Fields
 

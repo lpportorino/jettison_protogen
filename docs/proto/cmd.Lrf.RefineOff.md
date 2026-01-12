@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables LRF refinement mode, setting the refining state to false to stop precision refinement operations on the laser rangefinder system.
 
 ## Fields
 

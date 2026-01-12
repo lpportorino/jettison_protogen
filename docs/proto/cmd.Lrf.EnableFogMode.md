@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables fog mode on the LRF (Laser Range Finder) device for improved range finding performance in foggy or adverse weather conditions using low visible wavelength measurement.
 
 ## Fields
 

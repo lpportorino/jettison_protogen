@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Persists the current LRF (Laser Rangefinder) camera alignment offsets for either day or thermal cameras to persistent storage by syncing the offset table to Redis.
 
 ## Fields
 

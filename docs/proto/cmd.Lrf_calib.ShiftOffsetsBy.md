@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Incrementally adjusts the laser rangefinder (LRF) calibration offsets by the specified x and y delta values for either day or thermal camera modes, shifting the crosshair alignment relative to the current calibration state.
 
 ## Fields
 
