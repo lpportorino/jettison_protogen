@@ -1,0 +1,23 @@
+---
+id: ser.JonGuiDataRotaryDirection
+proto: jon_shared_data_types.proto
+package: ser
+type: enum
+---
+
+# JonGuiDataRotaryDirection
+
+**Source:** `jon_shared_data_types.proto`
+
+## Description
+
+*No description yet.*
+
+## Values
+
+| # | Name | Description |
+|---|------|-------------|
+| 0 | JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE | - |
+| 2 | JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKWISE | - |
+

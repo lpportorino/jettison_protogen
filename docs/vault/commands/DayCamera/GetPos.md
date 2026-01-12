@@ -1,0 +1,22 @@
+---
+id: cmd.DayCamera.GetPos
+proto: jon_shared_cmd_day_camera.proto
+package: cmd.DayCamera
+type: message
+---
+
+# GetPos
+
+**Source:** `jon_shared_cmd_day_camera.proto`
+
+## Description
+
+*No description yet.*
+
+## Fields
+
+| # | Field | Type | Constraints |
+|---|-------|------|-------------|
+
+
+

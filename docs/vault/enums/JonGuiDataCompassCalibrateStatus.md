@@ -1,0 +1,26 @@
+---
+id: ser.JonGuiDataCompassCalibrateStatus
+proto: jon_shared_data_types.proto
+package: ser
+type: enum
+---
+
+# JonGuiDataCompassCalibrateStatus
+
+**Source:** `jon_shared_data_types.proto`
+
+## Description
+
+*No description yet.*
+
+## Values
+
+| # | Name | Description |
+|---|------|-------------|
+| 0 | JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_NOT_CALIBRATING | - |
+| 2 | JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_CALIBRATING_SHORT | - |
+| 3 | JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_CALIBRATING_LONG | - |
+| 4 | JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_FINISHED | - |
+| 5 | JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_ERROR | - |
+
