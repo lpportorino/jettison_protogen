@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+A no-operation command used as a placeholder in the command protocol payload; allows clients to send a valid command message without triggering any action on the device or system.
 
 ## Fields
 

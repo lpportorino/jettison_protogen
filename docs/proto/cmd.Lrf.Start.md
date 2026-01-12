@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initializes and powers on the Laser Range Finder (LRF) device hardware by sending a startup command to the LRF UART control interface.
 
 ## Fields
 

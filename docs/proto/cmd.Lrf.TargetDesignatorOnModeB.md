@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables the laser pointer on the LRF device in mode B, sending a hardware command to activate pointer mode 2 and updating the system state accordingly.
 
 ## Fields
 

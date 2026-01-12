@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates continuous laser rangefinder (LRF) scanning mode, allowing the device to perform repeated distance measurements in a scan pattern until the scan is stopped.
 
 ## Fields
 

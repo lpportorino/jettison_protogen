@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables continuous LRF scanning mode by sending a stop command to the laser rangefinder device and clearing the scanning and measuring state flags.
 
 ## Fields
 

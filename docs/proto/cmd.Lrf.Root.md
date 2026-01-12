@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command message for Laser Range Finder (LRF) operations that routes to various LRF subcommands using a oneof field. Commands include starting/stopping the LRF, measuring distances, controlling scanning and refinement modes, managing target designators, enabling fog mode, and requesting meteorological data.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Configures the scanning frequency mode of the Laser Rangefinder device, allowing selection between predefined continuous scan rates ranging from 1 Hz to 200 Hz.
 
 ## Fields
 

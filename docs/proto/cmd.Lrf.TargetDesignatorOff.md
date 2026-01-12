@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables the laser target designator pointer on the LRF device. Triggered when the gamepad pointer button is released or manually via UI commands.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables the laser pointer (target designator) in Mode A, allowing the LRF system to project a laser beam on a target for ranging and designation purposes.
 
 ## Fields
 

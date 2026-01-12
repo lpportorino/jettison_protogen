@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the LRF (Laser Rangefinder) device by setting its operational state to inactive, transitioning the device from active to stopped operation.
 
 ## Fields
 
