@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the overcurrent alert threshold for a power channel, specifying a maximum current limit (in milliamps) that triggers an alert when exceeded on channels 0-7.
 
 ## Fields
 

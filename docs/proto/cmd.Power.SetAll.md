@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets the power state for all 8 system power channels (0-7) simultaneously; when powering off, the ORIN NUC channel (channel 5) is safely skipped to prevent remote shutdown of the main compute unit.
 
 ## Fields
 

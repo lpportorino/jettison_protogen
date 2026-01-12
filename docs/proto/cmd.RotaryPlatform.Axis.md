@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sends pan (azimuth) and/or tilt (elevation) axis control commands to the rotary platform, supporting multiple movement modes including absolute position, continuous rotation, and relative movement with optional speed control.
 
 ## Fields
 

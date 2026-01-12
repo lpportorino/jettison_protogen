@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Routes power management commands to control individual power channels (0-7) or all channels simultaneously, supporting operations like setting power state per channel, powering all channels on/off, and configuring overcurrent alert thresholds in milliamps.
 
 ## Fields
 

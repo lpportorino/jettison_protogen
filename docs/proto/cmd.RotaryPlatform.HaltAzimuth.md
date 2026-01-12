@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops azimuth (horizontal rotation) movement of the rotary platform on the device, typically used to halt rotational motion along the yaw axis independently from elevation control.
 
 ## Fields
 

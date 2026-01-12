@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Top-level command message that routes client commands to various subsystems (day camera, thermal camera, GPS, compass, LRF, rotary platform, OSD, system, CV, glass heater, LIRA, power) with protocol versioning, session tracking, timestamps, and validation support.
 
 ## Fields
 

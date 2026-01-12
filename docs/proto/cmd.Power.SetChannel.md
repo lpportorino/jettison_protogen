@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sends a command to control the power state of a single device channel (0-7) such as GPS, compass, cameras, thermal core, or heater. The message specifies the channel number and whether to power it on or off.
 
 ## Fields
 

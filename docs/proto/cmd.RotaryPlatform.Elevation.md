@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Container message for elevation (tilt) axis control commands on a rotary platform, supporting operations such as setting position, rotating to a target, continuous rotation, relative movement, and halt commands.
 
 ## Fields
 

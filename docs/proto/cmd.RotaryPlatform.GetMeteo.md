@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests meteorological data from the rotary platform sensors with no parameters; the response is expected to be received via state message.
 
 ## Fields
 

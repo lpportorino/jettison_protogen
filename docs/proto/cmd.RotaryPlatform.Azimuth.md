@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Container command for controlling azimuth (horizontal) axis movement of a rotary platform, supporting absolute positioning, continuous rotation, relative adjustments, and halt operations.
 
 ## Fields
 
