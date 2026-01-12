@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command container for the day camera glass heater device using a required oneof pattern. Dispatches between start, stop, turn on, turn off, and get meteorological data commands to control the heater that prevents lens fogging and ice formation.
 
 ## Fields
 

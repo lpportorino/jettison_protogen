@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the day camera glass heater control module and disables its heating timer. This lifecycle command shuts down the heater subsystem entirely, which is different from TurnOff which only deactivates the heating element while keeping the module running.
 
 ## Fields
 

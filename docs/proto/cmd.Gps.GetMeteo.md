@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests meteorological and diagnostic data from the GPS module. This parameterless fire-and-forget command triggers the GPS system to return health metrics and environmental sensor readings via state updates.
 
 ## Fields
 

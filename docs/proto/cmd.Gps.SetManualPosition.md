@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Sets a manual GPS position override with specified latitude, longitude, and altitude coordinates. This position is used when manual position mode is enabled via SetUseManualPosition, allowing the system to operate with a fixed location when GPS signal is unavailable or for testing purposes.
 
 ## Fields
 

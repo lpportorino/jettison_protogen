@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates the day camera glass heater subsystem startup sequence. This parameterless lifecycle command initializes the heater control module, enabling subsequent TurnOn/TurnOff commands to activate the heating element for anti-fog and ice protection.
 
 ## Fields
 

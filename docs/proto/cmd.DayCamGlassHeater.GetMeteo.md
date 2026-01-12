@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests meteorological sensor data from the day camera glass heater system. This parameterless diagnostic command triggers the system to query and return weather-related sensor readings such as temperature and humidity for monitoring heater conditions.
 
 ## Fields
 

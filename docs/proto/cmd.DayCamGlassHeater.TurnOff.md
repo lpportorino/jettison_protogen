@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Turns off the day camera glass heater element, disabling its anti-fog and ice protection functionality. This actuator command deactivates heating while keeping the heater subsystem running, allowing quick reactivation via TurnOn without restarting the module.
 
 ## Fields
 

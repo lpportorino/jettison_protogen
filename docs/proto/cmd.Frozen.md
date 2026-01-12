@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+A diagnostic command message used for debug/test purposes to trigger or test the frozen state of the system. This parameterless command is allowed in readonly mode and is sent without buffering alongside ping messages for system testing.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command container for GPS module operations using a required oneof pattern. Dispatches between five command types: start, stop, set manual position, toggle manual position mode, and get meteorological data for GPS lifecycle and configuration management.
 
 ## Fields
 

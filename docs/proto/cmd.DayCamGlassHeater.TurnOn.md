@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Activates the day camera glass heater element to provide anti-fog and ice protection. This parameterless actuator command triggers the heating mechanism on the camera lens to prevent condensation and ice buildup in cold or humid conditions.
 
 ## Fields
 
