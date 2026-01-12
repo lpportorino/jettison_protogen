@@ -49,12 +49,12 @@ Thermal camera status, settings, and operational data
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.Start]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.Stop]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetAgc]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetFilter]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetDDELevel]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.Start]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.Stop]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetAgc]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetFilter]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
 
 
 

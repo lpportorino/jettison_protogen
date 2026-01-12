@@ -35,7 +35,7 @@ Set CLAHE (contrast limited adaptive histogram equalization) level for heat came
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 

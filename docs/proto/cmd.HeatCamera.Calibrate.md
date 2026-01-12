@@ -34,7 +34,7 @@ Trigger thermal camera calibration cycle
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 

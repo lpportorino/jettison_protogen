@@ -34,13 +34,13 @@ Continuously focus toward near (while held)
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.FocusOut]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.FocusStop]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusOut]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusStop]]
 
 
 

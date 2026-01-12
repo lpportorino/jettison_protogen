@@ -44,7 +44,7 @@ Root message container for LRF calibration commands
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 

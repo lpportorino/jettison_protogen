@@ -40,7 +40,7 @@ Starts video tracking at normalized device coordinates
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.CV.StopTrack]]
+- [[proto/proto/proto/proto/proto/proto/cmd.CV.StopTrack]]
 
 
 

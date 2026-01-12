@@ -34,13 +34,13 @@ Cycle to previous FX mode (visual effect) for day camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.NextFxMode]]
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.SetFxMode]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.NextFxMode]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.SetFxMode]]
 
 
 

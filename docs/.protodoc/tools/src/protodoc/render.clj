@@ -150,18 +150,10 @@
   (selmer/render-file "enum.md.selmer"
                       (enum-to-template-data enum)))
 
-(defn- truncate-description
-  "Truncate description to max-len characters, adding ellipsis if needed."
-  [desc max-len]
-  (when desc
-    (if (<= (count desc) max-len)
-      desc
-      (str (subs desc 0 (- max-len 3)) "..."))))
-
 (defn- add-short-description
-  "Add truncated short-description to a message or enum map."
+  "Add short-description (full description) to a message or enum map for index rendering."
   [item]
-  (assoc item :short-description (truncate-description (:description item) 120)))
+  (assoc item :short-description (:description item)))
 
 (defn render-index
   "Render the vault index."

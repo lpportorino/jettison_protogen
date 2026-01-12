@@ -34,12 +34,12 @@ Reset focus to default/home position
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
 
 
 

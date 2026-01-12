@@ -35,13 +35,13 @@ Controls digital zoom magnification level for thermal camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetZoomTableValue]]
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.SetDigitalZoomLevel]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetZoomTableValue]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.SetDigitalZoomLevel]]
 
 
 

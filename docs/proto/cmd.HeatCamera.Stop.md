@@ -34,12 +34,12 @@ Stops the thermal camera subsystem
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.Start]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.Start]]
 
 
 

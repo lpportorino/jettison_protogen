@@ -35,7 +35,7 @@ Reset laser rangefinder alignment offsets to factory defaults
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.Lrf_calib.SetOffsets]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Lrf_calib.SetOffsets]]
 
 
 

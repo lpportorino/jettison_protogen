@@ -35,13 +35,13 @@ Set compass elevation angle offset calibration value
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCompass]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompass]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.Compass.SetOffsetAngleAzimuth]]
-- [[proto/proto/proto/proto/proto/cmd.Compass.Start]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Compass.SetOffsetAngleAzimuth]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Compass.Start]]
 
 
 

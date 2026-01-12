@@ -34,13 +34,13 @@ Reset all system configurations to defaults
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.System.SaveFactoryDefaults]]
-- [[proto/proto/proto/proto/proto/cmd.System.WipeUserData]]
+- [[proto/proto/proto/proto/proto/proto/cmd.System.SaveFactoryDefaults]]
+- [[proto/proto/proto/proto/proto/proto/cmd.System.WipeUserData]]
 
 
 

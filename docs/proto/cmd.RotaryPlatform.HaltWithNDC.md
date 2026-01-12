@@ -39,14 +39,14 @@ Halts platform movement at specified normalized device coordinates in video fram
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateToNDC]]
-- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.Halt]]
+- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateToNDC]]
+- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Halt]]
 
 
 ### Preconditions

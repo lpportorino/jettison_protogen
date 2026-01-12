@@ -35,8 +35,8 @@ Stops all day camera movements (zoom and focus)
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.Zoom]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.Zoom]]
 
 
 ### Preconditions

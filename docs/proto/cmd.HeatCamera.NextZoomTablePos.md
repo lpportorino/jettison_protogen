@@ -34,13 +34,13 @@ Move to next preset zoom position in lookup table
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.Zoom]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.PrevZoomTablePos]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.Zoom]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.PrevZoomTablePos]]
 
 
 

@@ -35,14 +35,14 @@ Set day camera image processing FX mode preset (daytime/dusk/fog)
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.NextFxMode]]
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.PrevFxMode]]
-- [[proto/proto/proto/proto/proto/cmd.DayCamera.RefreshFxMode]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.NextFxMode]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.PrevFxMode]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.RefreshFxMode]]
 
 
 ### Preconditions

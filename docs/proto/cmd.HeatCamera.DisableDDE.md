@@ -34,13 +34,13 @@ Disables DDE (Digital Detail Enhancement) on thermal camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.EnableDDE]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.EnableDDE]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetDDELevel]]
 
 
 ### Preconditions

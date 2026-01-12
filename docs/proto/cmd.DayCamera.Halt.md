@@ -34,7 +34,7 @@ Immediately stops zoom/focus motor movement
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
 
 
 

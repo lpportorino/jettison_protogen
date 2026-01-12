@@ -35,7 +35,7 @@ Disables computer vision object recognition mode
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.CV.RecognitionModeEnable]]
+- [[proto/proto/proto/proto/proto/proto/cmd.CV.RecognitionModeEnable]]
 
 
 

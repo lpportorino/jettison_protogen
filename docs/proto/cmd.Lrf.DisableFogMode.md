@@ -34,13 +34,13 @@ Disable LRF fog mode for normal atmospheric conditions
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.Lrf.EnableFogMode]]
-- [[proto/proto/proto/proto/proto/cmd.Lrf.Start]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.EnableFogMode]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.Start]]
 
 
 ### Preconditions

@@ -35,7 +35,7 @@ Sets heat camera zoom value (specific usage unclear from codebase)
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 

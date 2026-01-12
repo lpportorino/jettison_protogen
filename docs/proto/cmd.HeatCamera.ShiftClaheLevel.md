@@ -35,12 +35,12 @@ Adjusts thermal CLAHE level incrementally
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetClaheLevel]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetClaheLevel]]
 
 
 ### Preconditions

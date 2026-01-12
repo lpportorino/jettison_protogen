@@ -34,14 +34,14 @@ Cancels an ongoing compass calibration process
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCompassCalibration]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompassCalibration]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartLong]]
-- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartShort]]
-- [[proto/proto/proto/proto/proto/cmd.Compass.CalibrateNext]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartShort]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateNext]]
 
 
 ### Preconditions

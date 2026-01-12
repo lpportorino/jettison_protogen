@@ -34,13 +34,13 @@ Halts all thermal camera motor movements (zoom and focus)
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomStop]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.FocusStop]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomStop]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusStop]]
 
 
 ### Preconditions

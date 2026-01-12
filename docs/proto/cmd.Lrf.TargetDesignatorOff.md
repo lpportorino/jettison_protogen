@@ -34,13 +34,13 @@ Turns off laser target designator
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.Lrf.TargetDesignatorOnModeA]]
-- [[proto/proto/proto/proto/proto/cmd.Lrf.TargetDesignatorOnModeB]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.TargetDesignatorOnModeA]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.TargetDesignatorOnModeB]]
 
 
 ### Preconditions

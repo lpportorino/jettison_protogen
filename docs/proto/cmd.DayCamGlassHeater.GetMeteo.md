@@ -34,8 +34,8 @@ Requests meteorological data from day camera glass heater
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataMeteo]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataMeteo]]
 
 
 

@@ -53,8 +53,8 @@ Root message container for compass/magnetometer commands
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCompass]]
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCompassCalibration]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompass]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompassCalibration]]
 
 
 

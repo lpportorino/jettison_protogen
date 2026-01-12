@@ -37,8 +37,8 @@ Continuously rotate azimuth axis at specified speed and direction
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
-- [[proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
+- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
 
 
 

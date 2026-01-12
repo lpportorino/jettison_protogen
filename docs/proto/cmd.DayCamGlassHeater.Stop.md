@@ -34,13 +34,13 @@ Stops glass heater control module
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.Start]]
-- [[proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.TurnOff]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.Start]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.TurnOff]]
 
 
 

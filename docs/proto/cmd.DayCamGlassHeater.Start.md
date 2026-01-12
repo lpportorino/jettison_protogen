@@ -34,12 +34,12 @@ Starts day camera glass heater subsystem
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataDayCamGlassHeater]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.Stop]]
+- [[proto/proto/proto/proto/proto/proto/cmd.DayCamGlassHeater.Stop]]
 
 
 

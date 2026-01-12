@@ -45,7 +45,7 @@ Set calibration offsets for laser rangefinder alignment
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
 
 
 

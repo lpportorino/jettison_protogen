@@ -34,12 +34,12 @@ Starts the GPS module
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataGps]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataGps]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.Gps.Stop]]
+- [[proto/proto/proto/proto/proto/proto/cmd.Gps.Stop]]
 
 
 ### Preconditions

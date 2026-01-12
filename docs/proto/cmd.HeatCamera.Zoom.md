@@ -46,13 +46,13 @@ Controls thermal camera optical zoom position
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
-- [[proto/proto/proto/proto/proto/cmd.HeatCamera.ResetZoom]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
+- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ResetZoom]]
 
 
 

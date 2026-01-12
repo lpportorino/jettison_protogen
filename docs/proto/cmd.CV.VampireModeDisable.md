@@ -35,7 +35,7 @@ Disables vampire mode in computer vision
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/cmd.CV.VampireModeEnable]]
+- [[proto/proto/proto/proto/proto/proto/cmd.CV.VampireModeEnable]]
 
 
 
