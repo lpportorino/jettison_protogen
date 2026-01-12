@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the computer vision frame dumping process that was previously initiated with DumpStart, ceasing the export of CV data to disk. Sets the cvDumping state to false when processed.
 
 ## Fields
 

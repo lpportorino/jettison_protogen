@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initiates recording of computer vision frame data to disk for debugging and analysis purposes. Only available in factory mode (URL parameter ui=factory). The state is tracked via data.System.cvDumping boolean field.
 
 ## Fields
 

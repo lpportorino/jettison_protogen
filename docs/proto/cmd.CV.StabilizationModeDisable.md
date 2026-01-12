@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables the computer vision image stabilization mode, allowing the camera to respond freely to manual movement instead of compensating for shake and vibration. Tooltip: "Disable Image Stabilization - allows manual camera movement".
 
 ## Fields
 

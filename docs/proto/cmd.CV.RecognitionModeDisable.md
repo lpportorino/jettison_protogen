@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. The backend sets cv.recognition_mode_enabled to false and state is reflected in system.recognitionMode.
 
 ## Fields
 

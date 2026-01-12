@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Stops the compass/IMU sensor subsystem and powers down the device, preventing heading and orientation readings until restarted. Stopping the compass also prevents calibration operations from being initiated.
 
 ## Fields
 

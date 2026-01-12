@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Configures whether to use the rotary platform's encoded position as the primary compass/orientation source instead of the physical compass sensor. When enabled, the system derives azimuth readings from the rotary platform's positional encoders rather than the magnetometer.
 
 ## Fields
 

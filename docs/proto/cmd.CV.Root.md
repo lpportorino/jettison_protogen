@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Container message for computer vision commands that provides object tracking, autofocus control, and various CV processing modes (vampire, stabilization, recognition) through a mutually-exclusive oneof command dispatch pattern.
 
 ## Fields
 

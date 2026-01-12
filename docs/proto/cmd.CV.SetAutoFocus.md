@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables or disables computer vision-based automatic focus for either the day or thermal camera channel, routing the command through the CV pipeline for software-controlled focus management. Different from cmd.HeatCamera.SetAutoFocus which is a direct hardware command.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Initializes and powers on the compass/IMU sensor subsystem, transitioning it from stopped to started state and enabling azimuth, elevation, and bank angle readings. Sets device_status to STARTED in the manifold global state.
 
 ## Fields
 

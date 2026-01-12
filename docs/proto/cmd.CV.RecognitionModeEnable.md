@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables AI-powered object recognition mode on the computer vision system, which activates detection and classification of objects in the video feed. UI displays a bracket icon with question mark and tooltip "Enable AI object recognition and tracking".
 
 ## Fields
 
