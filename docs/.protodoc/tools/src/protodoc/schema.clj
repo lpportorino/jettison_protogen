@@ -31,10 +31,13 @@
    [:lte {:optional true} number?]
    [:min-len {:optional true} int?]
    [:max-len {:optional true} int?]
+   [:min-items {:optional true} int?]
    [:defined-only {:optional true} boolean?]
    [:not-in {:optional true} [:vector int?]]
+   [:in {:optional true} [:vector :string]]
    [:required {:optional true} boolean?]
    [:pattern {:optional true} :string]
+   [:email {:optional true} boolean?]
    [:example {:optional true} [:vector number?]]])
 
 ;; ============================================================================

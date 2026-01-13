@@ -46,45 +46,158 @@
                   (catch Exception _ v))
     :else v))
 
+;; ============================================================================
+;; Constraint Registry & Multimethod Dispatch
+;; ============================================================================
+
+(def constraint-registry
+  "Registry of all known buf.validate constraint handlers.
+   Each entry is a keyword of form :type/constraint (e.g., :double/gte).
+   When adding support for new constraints, add entries here AND implement
+   corresponding defmethod parse-constraint handlers below."
+  #{;; Numeric constraints (uint32, int32, uint64, int64, double, float)
+    :uint32/gt :uint32/gte :uint32/lt :uint32/lte :uint32/example
+    :int32/gt :int32/gte :int32/lt :int32/lte :int32/example
+    :uint64/gt :uint64/gte :uint64/lt :uint64/lte :uint64/example
+    :int64/gt :int64/gte :int64/lt :int64/lte :int64/example
+    :double/gt :double/gte :double/lt :double/lte :double/example
+    :float/gt :float/gte :float/lt :float/lte :float/example
+
+    ;; String constraints
+    :string/minLen :string/maxLen :string/pattern :string/in :string/email
+
+    ;; Bytes constraints
+    :bytes/minLen :bytes/maxLen
+
+    ;; Enum constraints
+    :enum/definedOnly :enum/notIn
+
+    ;; Repeated constraints
+    :repeated/minItems
+
+    ;; General constraints
+    :required})
+
+(defmulti parse-constraint
+  "Parse a single buf.validate constraint.
+   Dispatches on constraint type as keyword :type/constraint.
+
+   Args:
+     type-key: The buf.validate type key (e.g., 'double', 'string')
+     constraint-key: The constraint name (e.g., 'gte', 'minLen')
+     value: The constraint value from JSON
+
+   Returns:
+     Map with constraint keyword and parsed value (e.g., {:gte 0.5})"
+  (fn [type-key constraint-key _value]
+    (keyword (str type-key "/" constraint-key))))
+
+;; Numeric constraint handlers (gt, gte, lt, lte, example)
+(defmethod parse-constraint :uint32/gt [_ _ v] {:gt (parse-number v)})
+(defmethod parse-constraint :uint32/gte [_ _ v] {:gte (parse-number v)})
+(defmethod parse-constraint :uint32/lt [_ _ v] {:lt (parse-number v)})
+(defmethod parse-constraint :uint32/lte [_ _ v] {:lte (parse-number v)})
+(defmethod parse-constraint :uint32/example [_ _ v] {:example (mapv parse-number v)})
+
+(defmethod parse-constraint :int32/gt [_ _ v] {:gt (parse-number v)})
+(defmethod parse-constraint :int32/gte [_ _ v] {:gte (parse-number v)})
+(defmethod parse-constraint :int32/lt [_ _ v] {:lt (parse-number v)})
+(defmethod parse-constraint :int32/lte [_ _ v] {:lte (parse-number v)})
+(defmethod parse-constraint :int32/example [_ _ v] {:example (mapv parse-number v)})
+
+(defmethod parse-constraint :uint64/gt [_ _ v] {:gt (parse-number v)})
+(defmethod parse-constraint :uint64/gte [_ _ v] {:gte (parse-number v)})
+(defmethod parse-constraint :uint64/lt [_ _ v] {:lt (parse-number v)})
+(defmethod parse-constraint :uint64/lte [_ _ v] {:lte (parse-number v)})
+(defmethod parse-constraint :uint64/example [_ _ v] {:example (mapv parse-number v)})
+
+(defmethod parse-constraint :int64/gt [_ _ v] {:gt (parse-number v)})
+(defmethod parse-constraint :int64/gte [_ _ v] {:gte (parse-number v)})
+(defmethod parse-constraint :int64/lt [_ _ v] {:lt (parse-number v)})
+(defmethod parse-constraint :int64/lte [_ _ v] {:lte (parse-number v)})
+(defmethod parse-constraint :int64/example [_ _ v] {:example (mapv parse-number v)})
+
+(defmethod parse-constraint :double/gt [_ _ v] {:gt (parse-number v)})
+(defmethod parse-constraint :double/gte [_ _ v] {:gte (parse-number v)})
+(defmethod parse-constraint :double/lt [_ _ v] {:lt (parse-number v)})
+(defmethod parse-constraint :double/lte [_ _ v] {:lte (parse-number v)})
+(defmethod parse-constraint :double/example [_ _ v] {:example (mapv parse-number v)})
+
+(defmethod parse-constraint :float/gt [_ _ v] {:gt (parse-number v)})
+(defmethod parse-constraint :float/gte [_ _ v] {:gte (parse-number v)})
+(defmethod parse-constraint :float/lt [_ _ v] {:lt (parse-number v)})
+(defmethod parse-constraint :float/lte [_ _ v] {:lte (parse-number v)})
+(defmethod parse-constraint :float/example [_ _ v] {:example (mapv parse-number v)})
+
+;; String constraint handlers
+(defmethod parse-constraint :string/minLen [_ _ v] {:min-len (parse-number v)})
+(defmethod parse-constraint :string/maxLen [_ _ v] {:max-len (parse-number v)})
+(defmethod parse-constraint :string/pattern [_ _ v] {:pattern v})
+(defmethod parse-constraint :string/in [_ _ v] {:in (vec v)})
+(defmethod parse-constraint :string/email [_ _ v] {:email (boolean v)})
+
+;; Bytes constraint handlers
+(defmethod parse-constraint :bytes/minLen [_ _ v] {:min-len (parse-number v)})
+(defmethod parse-constraint :bytes/maxLen [_ _ v] {:max-len (parse-number v)})
+
+;; Enum constraint handlers
+(defmethod parse-constraint :enum/definedOnly [_ _ v] {:defined-only (boolean v)})
+(defmethod parse-constraint :enum/notIn [_ _ v] {:not-in (vec v)})
+
+;; Repeated constraint handlers
+(defmethod parse-constraint :repeated/minItems [_ _ v] {:min-items (parse-number v)})
+
+;; Required constraint handler (special case - appears at top level of validate object)
+(defmethod parse-constraint :required [_ _ v] {:required (boolean v)})
+
 (defn- parse-buf-validate-constraints
-  "Extract constraints from buf.validate.field options."
+  "Extract constraints from buf.validate.field options with exhaustive checking.
+   Throws ex-info if an unknown constraint type is encountered."
   [options]
   (when-let [validate (get options "[buf.validate.field]")]
-    (let [constraints (atom {})]
-      ;; Numeric constraints (uint32, int32, uint64, int64, double, float)
-      (doseq [type-key ["uint32" "int32" "uint64" "int64" "double" "float"]]
-        (when-let [rules (get validate type-key)]
-          (when-let [v (get rules "gt")]  (swap! constraints assoc :gt (parse-number v)))
-          (when-let [v (get rules "gte")] (swap! constraints assoc :gte (parse-number v)))
-          (when-let [v (get rules "lt")]  (swap! constraints assoc :lt (parse-number v)))
-          (when-let [v (get rules "lte")] (swap! constraints assoc :lte (parse-number v)))
-          (when-let [v (get rules "example")]
-            (swap! constraints assoc :example (mapv parse-number v)))))
+    (let [constraints (transient {})]
 
-      ;; String constraints
-      (when-let [rules (get validate "string")]
-        (when-let [v (get rules "minLen")] (swap! constraints assoc :min-len (parse-number v)))
-        (when-let [v (get rules "maxLen")] (swap! constraints assoc :max-len (parse-number v)))
-        (when-let [v (get rules "pattern")] (swap! constraints assoc :pattern v)))
+      ;; Process all type-level constraints (numeric, string, bytes, enum, repeated)
+      (doseq [type-key (keys validate)
+              :when (not= type-key "required") ;; Handle required separately below
+              :let [rules (get validate type-key)]]
+        ;; Process each constraint within this type
+        (doseq [constraint-key (keys rules)]
+          (let [dispatch-key (keyword (str type-key "/" constraint-key))
+                value (get rules constraint-key)]
 
-      ;; Bytes constraints
-      (when-let [rules (get validate "bytes")]
-        (when-let [v (get rules "minLen")] (swap! constraints assoc :min-len (parse-number v)))
-        (when-let [v (get rules "maxLen")] (swap! constraints assoc :max-len (parse-number v))))
+            ;; Check if handler exists in registry
+            (when-not (contains? constraint-registry dispatch-key)
+              (throw (ex-info
+                      (str "Unknown buf.validate constraint: " dispatch-key "\n"
+                           "  Available constraints in registry:\n"
+                           "    " (str/join "\n    " (sort constraint-registry)) "\n\n"
+                           "  To add support:\n"
+                           "    1. Add " dispatch-key " to constraint-registry\n"
+                           "    2. Add handler: (defmethod parse-constraint " dispatch-key " [_ _ v] ...)\n"
+                           "    3. Update Constraints schema in schema.clj\n"
+                           "    4. Update format-constraints in render.clj")
+                      {:type :unknown-constraint
+                       :constraint dispatch-key
+                       :type-key type-key
+                       :constraint-key constraint-key
+                       :value value})))
 
-      ;; Enum constraints
-      (when-let [rules (get validate "enum")]
-        (when (get rules "definedOnly")
-          (swap! constraints assoc :defined-only true))
-        (when-let [v (get rules "notIn")]
-          (swap! constraints assoc :not-in (vec v))))
+            ;; Parse using multimethod and merge result
+            (let [result (parse-constraint type-key constraint-key value)]
+              (doseq [[k v] result]
+                (assoc! constraints k v))))))
 
-      ;; Required constraint
-      (when (get validate "required")
-        (swap! constraints assoc :required true))
+      ;; Handle 'required' constraint (top-level in validate object)
+      (when (contains? validate "required")
+        (let [result (parse-constraint "required" nil (get validate "required"))]
+          (doseq [[k v] result]
+            (assoc! constraints k v))))
 
-      (when (seq @constraints)
-        @constraints))))
+      ;; Return persistent map if non-empty
+      (let [result (persistent! constraints)]
+        (when (seq result)
+          result)))))
 
 (defn- parse-field
   "Parse a field descriptor into our schema format."

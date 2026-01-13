@@ -31,8 +31,17 @@
                   (:max-len constraints)
                   (conj (str "max-len: " (:max-len constraints)))
 
+                  (:min-items constraints)
+                  (conj (str "min-items: " (:min-items constraints)))
+
                   (:pattern constraints)
                   (conj (str "pattern: " (:pattern constraints)))
+
+                  (:in constraints)
+                  (conj (str "in: [" (str/join ", " (:in constraints)) "]"))
+
+                  (:email constraints)
+                  (conj "valid email")
 
                   (:defined-only constraints)
                   (conj "defined enum value only")

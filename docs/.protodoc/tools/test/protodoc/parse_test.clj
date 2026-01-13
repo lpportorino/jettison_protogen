@@ -245,3 +245,197 @@
           indexed (parse/build-search-index db)]
       ;; Both should be indexed under "test"
       (is (= 2 (count (get-in indexed [:search-index "test"])))))))
+
+;; ============================================================================
+;; New Constraint Type Tests
+;; ============================================================================
+
+(deftest parse-string-in-constraint-test
+  (testing "Parses string.in constraint (allowed string values)"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "LogLevel"
+                          "field"
+                          [{"name" "level"
+                            "number" 1
+                            "type" "TYPE_STRING"
+                            "options" {"[buf.validate.field]" {"string" {"in" ["error" "warn" "info" "debug"]}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "string-in" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              msg (get-in db [:messages "test.LogLevel"])
+              field (first (:fields msg))]
+          (is (= ["error" "warn" "info" "debug"] (:in (:constraints field)))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-string-email-constraint-test
+  (testing "Parses string.email constraint (email validation)"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "User"
+                          "field"
+                          [{"name" "email"
+                            "number" 1
+                            "type" "TYPE_STRING"
+                            "options" {"[buf.validate.field]" {"string" {"email" true}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "string-email" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              msg (get-in db [:messages "test.User"])
+              field (first (:fields msg))]
+          (is (true? (:email (:constraints field)))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-repeated-min-items-constraint-test
+  (testing "Parses repeated.minItems constraint (minimum array length)"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Container"
+                          "field"
+                          [{"name" "items"
+                            "number" 1
+                            "type" "TYPE_STRING"
+                            "label" "LABEL_REPEATED"
+                            "options" {"[buf.validate.field]" {"repeated" {"minItems" "1"}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "repeated-min" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              msg (get-in db [:messages "test.Container"])
+              field (first (:fields msg))]
+          (is (= 1 (:min-items (:constraints field)))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-multiple-new-constraints-test
+  (testing "Parses multiple new constraint types together"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Complex"
+                          "field"
+                          [{"name" "email"
+                            "number" 1
+                            "type" "TYPE_STRING"
+                            "options" {"[buf.validate.field]" {"string" {"email" true "minLen" "5" "maxLen" "100"}}}}
+                           {"name" "tags"
+                            "number" 2
+                            "type" "TYPE_STRING"
+                            "label" "LABEL_REPEATED"
+                            "options" {"[buf.validate.field]" {"repeated" {"minItems" "2"}}}}
+                           {"name" "status"
+                            "number" 3
+                            "type" "TYPE_STRING"
+                            "options" {"[buf.validate.field]" {"string" {"in" ["active" "inactive" "pending"]}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "multi-new" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              msg (get-in db [:messages "test.Complex"])
+              email-field (first (filter #(= "email" (:name %)) (:fields msg)))
+              tags-field (first (filter #(= "tags" (:name %)) (:fields msg)))
+              status-field (first (filter #(= "status" (:name %)) (:fields msg)))]
+          ;; Email field has email + min/max len
+          (is (true? (:email (:constraints email-field))))
+          (is (= 5 (:min-len (:constraints email-field))))
+          (is (= 100 (:max-len (:constraints email-field))))
+          ;; Tags field has min-items
+          (is (= 2 (:min-items (:constraints tags-field))))
+          ;; Status field has in
+          (is (= ["active" "inactive" "pending"] (:in (:constraints status-field)))))
+        (finally
+          (.delete temp-file))))))
+
+;; ============================================================================
+;; Unknown Constraint Error Handling Tests
+;; ============================================================================
+
+(deftest unknown-constraint-throws-test
+  (testing "Unknown constraint type throws ex-info with descriptive message"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Test"
+                          "field"
+                          [{"name" "value"
+                            "number" 1
+                            "type" "TYPE_STRING"
+                            "options" {"[buf.validate.field]" {"string" {"unknownConstraint" "someValue"}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "unknown" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (is (thrown-with-msg?
+             clojure.lang.ExceptionInfo
+             #"Unknown buf.validate constraint: :string/unknownConstraint"
+             (parse/parse-descriptor-file (.getPath temp-file))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest unknown-constraint-error-data-test
+  (testing "Unknown constraint ex-info contains useful error data"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Test"
+                          "field"
+                          [{"name" "value"
+                            "number" 1
+                            "type" "TYPE_DOUBLE"
+                            "options" {"[buf.validate.field]" {"double" {"newConstraint" 42}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "unknown-data" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (try
+          (parse/parse-descriptor-file (.getPath temp-file))
+          (is false "Should have thrown ex-info")
+          (catch clojure.lang.ExceptionInfo e
+            (let [data (ex-data e)]
+              (is (= :unknown-constraint (:type data)))
+              (is (= :double/newConstraint (:constraint data)))
+              (is (= "double" (:type-key data)))
+              (is (= "newConstraint" (:constraint-key data)))
+              (is (= 42 (:value data))))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest unknown-constraint-suggests-fix-test
+  (testing "Unknown constraint error message suggests how to add handler"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "Test"
+                          "field"
+                          [{"name" "count"
+                            "number" 1
+                            "type" "TYPE_UINT32"
+                            "options" {"[buf.validate.field]" {"uint32" {"customRule" 100}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "suggest" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (try
+          (parse/parse-descriptor-file (.getPath temp-file))
+          (is false "Should have thrown")
+          (catch clojure.lang.ExceptionInfo e
+            (let [msg (ex-message e)]
+              ;; Should contain suggestions for fixing
+              (is (re-find #"To add support:" msg))
+              (is (re-find #"Add :uint32/customRule to constraint-registry" msg))
+              (is (re-find #"defmethod parse-constraint :uint32/customRule" msg))
+              (is (re-find #"Update Constraints schema" msg))
+              (is (re-find #"Update format-constraints" msg)))))
+        (finally
+          (.delete temp-file))))))
