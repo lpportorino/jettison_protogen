@@ -103,8 +103,8 @@
           (is (= 1 (count (:messages db))))
           (is (= 1 (count (:enums db)))))
         ;; Verify markdown was created
-        (is (.exists (io/file temp-out "test/TestMsg.md")))
-        (is (.exists (io/file temp-out "enums/TestEnum.md")))
+        (is (.exists (io/file temp-out "proto/test.TestMsg.md")))
+        (is (.exists (io/file temp-out "proto/test.TestEnum.md")))
         (is (.exists (io/file temp-out "index.md")))
         (finally
           (.delete temp-desc)

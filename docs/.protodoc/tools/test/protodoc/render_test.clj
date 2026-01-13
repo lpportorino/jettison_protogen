@@ -63,7 +63,7 @@
                          :type :message
                          :type-ref "ser.JonGuiDataCameraDay"}]}
           md (render/render-message msg)]
-      (is (str/includes? md "[[ser.JonGuiDataCameraDay]]")))))
+      (is (str/includes? md "[[proto/ser.JonGuiDataCameraDay]]")))))
 
 (deftest render-index-test
   (testing "Renders index markdown"
@@ -88,10 +88,10 @@
       (is (str/includes? md "2 messages"))
       (is (str/includes? md "1 enums"))
       ;; Check message links
-      (is (str/includes? md "[[cmd.Test|Test]]"))
-      (is (str/includes? md "[[cmd.Other|Other]]"))
+      (is (str/includes? md "[[proto/cmd.Test|Test]]"))
+      (is (str/includes? md "[[proto/cmd.Other|Other]]"))
       ;; Check enum links
-      (is (str/includes? md "[[ser.Enum1|Enum1]]")))))
+      (is (str/includes? md "[[proto/ser.Enum1|Enum1]]")))))
 
 (deftest render-repeated-field-test
   (testing "Marks repeated fields"
@@ -158,9 +158,9 @@
       (is (str/includes? md "### Purpose"))
       (is (str/includes? md "physical iris aperture"))
       (is (str/includes? md "### Related State"))
-      (is (str/includes? md "[[ser.JonGuiDataCameraDay]]"))
+      (is (str/includes? md "[[proto/ser.JonGuiDataCameraDay]]"))
       (is (str/includes? md "### Related Commands"))
-      (is (str/includes? md "[[cmd.DayCamera.SetAutoIris]]"))
+      (is (str/includes? md "[[proto/cmd.DayCamera.SetAutoIris]]"))
       (is (str/includes? md "### Preconditions"))
       (is (str/includes? md "Camera must be started"))
       (is (str/includes? md "### Implementation Notes"))

@@ -54,10 +54,21 @@
      (str/trim value)]))
 
 (defn- extract-wikilinks
-  "Extract wikilinks from text. [[target]] → 'target'"
+  "Extract wikilinks from text, stripping proto/ prefix and handling display links.
+   [[proto/ser.State]] → 'ser.State'
+   [[proto/cmd.Test|Test]] → 'cmd.Test'"
   [text]
   (->> (re-seq #"\[\[([^\]]+)\]\]" text)
-       (mapv second)))
+       (mapv second)
+       (mapv (fn [link]
+               ;; Handle display links (take part before |)
+               (let [target (if (str/includes? link "|")
+                              (first (str/split link #"\|"))
+                              link)]
+                 ;; Strip proto/ prefix if present
+                 (if (str/starts-with? target "proto/")
+                   (subs target 6)
+                   target))))))
 
 (defn- parse-keyword-value
   "Parse keyword from string like ':foo' or 'foo'."
