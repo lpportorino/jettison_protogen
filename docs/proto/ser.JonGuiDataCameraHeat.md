@@ -64,11 +64,13 @@ Thermal camera status, settings, and operational data
 Provides real-time thermal camera state including AGC mode, filter, zoom levels, and DDE settings
 
 
+
 ## Field Notes
 
 
 ### meteo (#15)
 
 Local environmental sensor data from the thermal camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
+
 
 

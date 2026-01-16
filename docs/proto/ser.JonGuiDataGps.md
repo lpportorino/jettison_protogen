@@ -127,3 +127,4 @@ Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
 Local environmental sensor data from the GPS module, providing temperature, humidity, and pressure readings for ballistics calculations and system diagnostics.
 
 
+

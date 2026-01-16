@@ -164,3 +164,4 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 Local environmental sensor data from the rotary platform, providing temperature, humidity, and pressure readings for system diagnostics.
 
 
+

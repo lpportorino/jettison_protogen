@@ -5,6 +5,7 @@
 
 /* eslint-disable */
 
+export * as can from "./index.jon.can";
 export * as logs from "./index.jon.logs";
 export * as video from "./index.jon.video";
 export * as archive from "./index.jon.archive";

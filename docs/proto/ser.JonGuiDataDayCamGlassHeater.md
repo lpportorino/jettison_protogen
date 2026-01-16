@@ -67,3 +67,4 @@ Toggle button in command palette with heater icon, 2 second pending timeout
 Local environmental sensor data from the glass heater module, providing temperature, humidity, and pressure readings for heater control decisions.
 
 
+

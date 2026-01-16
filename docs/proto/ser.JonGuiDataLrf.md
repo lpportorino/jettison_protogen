@@ -56,11 +56,13 @@ Laser rangefinder measurement data and status
 Displays distance measurements, scan status, and LRF operational state
 
 
+
 ## Field Notes
 
 
 ### meteo (#10)
 
 Local environmental sensor data from the LRF module, providing temperature, humidity, and pressure readings for ballistics calculations and range correction.
+
 
 

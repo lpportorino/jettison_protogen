@@ -160,3 +160,4 @@ Day camera state including zoom, focus, iris, and image processing settings
 Local environmental sensor data from the day camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
 
 
+

@@ -85,3 +85,4 @@ Compass sensor data and calibration state
 Local environmental sensor data from the compass module, providing temperature, humidity, and pressure readings for system diagnostics.
 
 
+
