@@ -35,6 +35,7 @@ Represents the real-time operational state of a rotary platform, tracking curren
 | 16 | sun_elevation | double | >= 0, < 360 |
 | 17 | current_scan_node | [[proto/ser.ScanNode]] | required |
 | 18 | is_started | bool | - |
+| 19 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -157,5 +158,9 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 - **Precision:** 2
 - **Display Format:** `{value}°`
 
+
+### meteo (#19)
+
+Local environmental sensor data from the rotary platform, providing temperature, humidity, and pressure readings for system diagnostics.
 
 

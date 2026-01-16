@@ -90,7 +90,9 @@
    Returns:
      Map with constraint keyword and parsed value (e.g., {:gte 0.5})"
   (fn [type-key constraint-key _value]
-    (keyword (str type-key "/" constraint-key))))
+    (if constraint-key
+      (keyword (str type-key "/" constraint-key))
+      (keyword type-key))))
 
 ;; Numeric constraint handlers (gt, gte, lt, lte, example)
 (defmethod parse-constraint :uint32/gt [_ _ v] {:gt (parse-number v)})

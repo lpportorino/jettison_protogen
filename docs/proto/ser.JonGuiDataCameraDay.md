@@ -32,6 +32,7 @@ Captures the complete operational state of the day camera, including normalized 
 | 12 | horizontal_fov_degrees | double | > 0, < 360 |
 | 13 | vertical_fov_degrees | double | > 0, < 360 |
 | 14 | is_started | bool | - |
+| 16 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -153,5 +154,9 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 - **Semantic Type:** :raw
 
+
+### meteo (#16)
+
+Local environmental sensor data from the day camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
 
 

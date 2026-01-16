@@ -25,6 +25,7 @@ Represents the real-time orientation and calibration state of a compass sensor, 
 | 6 | magneticDeclination | double | >= -180, < 180 |
 | 7 | calibrating | bool | - |
 | 8 | is_started | bool | - |
+| 9 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -78,5 +79,9 @@ Compass sensor data and calibration state
 
 - **Semantic Type:** :enum-label
 
+
+### meteo (#9)
+
+Local environmental sensor data from the compass module, providing temperature, humidity, and pressure readings for system diagnostics.
 
 

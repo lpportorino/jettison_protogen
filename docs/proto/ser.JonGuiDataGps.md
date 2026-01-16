@@ -27,6 +27,7 @@ Represents the complete GPS positioning state of the system, including both auto
 | 8 | use_manual | bool | - |
 | 9 | timestamp | int64 | - |
 | 10 | is_started | bool | - |
+| 11 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -120,5 +121,9 @@ Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
 - **Unit:** degrees
 - **Precision:** 6
 
+
+### meteo (#11)
+
+Local environmental sensor data from the GPS module, providing temperature, humidity, and pressure readings for ballistics calculations and system diagnostics.
 
 

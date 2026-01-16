@@ -20,6 +20,7 @@ Represents the operational state of the day camera's glass heater, which maintai
 | 1 | temperature | double | >= -273.15, <= 660.32 |
 | 2 | status | bool | - |
 | 3 | is_started | bool | - |
+| 4 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -60,5 +61,9 @@ Toggle button in command palette with heater icon, 2 second pending timeout
 - **Semantic Type:** :enum-label
 - **Display Format:** `Boolean status (on/off)`
 
+
+### meteo (#4)
+
+Local environmental sensor data from the glass heater module, providing temperature, humidity, and pressure readings for heater control decisions.
 
 

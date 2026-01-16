@@ -26,6 +26,7 @@ Encapsulates the operational state of a Laser Range Finder (LRF) device, trackin
 | 7 | is_refining | bool | - |
 | 8 | is_continuous_measuring | bool | - |
 | 9 | is_started | bool | - |
+| 10 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -54,5 +55,12 @@ Laser rangefinder measurement data and status
 
 Displays distance measurements, scan status, and LRF operational state
 
+
+## Field Notes
+
+
+### meteo (#10)
+
+Local environmental sensor data from the LRF module, providing temperature, humidity, and pressure readings for ballistics calculations and range correction.
 
 

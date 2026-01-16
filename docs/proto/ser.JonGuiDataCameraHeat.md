@@ -31,6 +31,7 @@ Represents the complete operational and configuration state of the thermal/infra
 | 12 | horizontal_fov_degrees | double | > 0, < 360 |
 | 13 | vertical_fov_degrees | double | > 0, < 360 |
 | 14 | is_started | bool | - |
+| 15 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -62,5 +63,12 @@ Thermal camera status, settings, and operational data
 
 Provides real-time thermal camera state including AGC mode, filter, zoom levels, and DDE settings
 
+
+## Field Notes
+
+
+### meteo (#15)
+
+Local environmental sensor data from the thermal camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
 
 
