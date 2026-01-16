@@ -27,6 +27,12 @@ export interface CANFrameBatch {
   frames: CANFrame[];
 }
 
+/** Connection confirmation message sent when WebSocket connects */
+export interface CANStreamConnected {
+  /** Discovered CAN stream IDs (e.g., "0x304", "0x510") */
+  streams: string[];
+}
+
 function createBaseCANFrame(): CANFrame {
   return { timestampUs: Long.UZERO, canId: 0, isRx: false, isFd: false, data: new Uint8Array(0) };
 }
@@ -225,6 +231,66 @@ export const CANFrameBatch: MessageFns<CANFrameBatch> = {
   fromPartial<I extends Exact<DeepPartial<CANFrameBatch>, I>>(object: I): CANFrameBatch {
     const message = createBaseCANFrameBatch();
     message.frames = object.frames?.map((e) => CANFrame.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseCANStreamConnected(): CANStreamConnected {
+  return { streams: [] };
+}
+
+export const CANStreamConnected: MessageFns<CANStreamConnected> = {
+  encode(message: CANStreamConnected, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.streams) {
+      writer.uint32(10).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): CANStreamConnected {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCANStreamConnected();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.streams.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CANStreamConnected {
+    return {
+      streams: globalThis.Array.isArray(object?.streams) ? object.streams.map((e: any) => globalThis.String(e)) : [],
+    };
+  },
+
+  toJSON(message: CANStreamConnected): unknown {
+    const obj: any = {};
+    if (message.streams?.length) {
+      obj.streams = message.streams;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<CANStreamConnected>, I>>(base?: I): CANStreamConnected {
+    return CANStreamConnected.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<CANStreamConnected>, I>>(object: I): CANStreamConnected {
+    const message = createBaseCANStreamConnected();
+    message.streams = object.streams?.map((e) => e) || [];
     return message;
   },
 };

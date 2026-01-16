@@ -24,3 +24,10 @@ pub struct CanFrameBatch {
     #[prost(message, repeated, tag = "1")]
     pub frames: ::prost::alloc::vec::Vec<CanFrame>,
 }
+/// Connection confirmation message sent when WebSocket connects
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CanStreamConnected {
+    /// Discovered CAN stream IDs (e.g., "0x304", "0x510")
+    #[prost(string, repeated, tag = "1")]
+    pub streams: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}

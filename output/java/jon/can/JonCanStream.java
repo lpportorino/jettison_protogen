@@ -1607,6 +1607,658 @@ public final class JonCanStream {
 
   }
 
+  public interface CANStreamConnectedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:jon.can.CANStreamConnected)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return A list containing the streams.
+     */
+    java.util.List<java.lang.String>
+        getStreamsList();
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return The count of streams.
+     */
+    int getStreamsCount();
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the element to return.
+     * @return The streams at the given index.
+     */
+    java.lang.String getStreams(int index);
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the streams at the given index.
+     */
+    com.google.protobuf.ByteString
+        getStreamsBytes(int index);
+  }
+  /**
+   * <pre>
+   * Connection confirmation message sent when WebSocket connects
+   * </pre>
+   *
+   * Protobuf type {@code jon.can.CANStreamConnected}
+   */
+  public static final class CANStreamConnected extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:jon.can.CANStreamConnected)
+      CANStreamConnectedOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        CANStreamConnected.class.getName());
+    }
+    // Use CANStreamConnected.newBuilder() to construct.
+    private CANStreamConnected(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private CANStreamConnected() {
+      streams_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return jon.can.JonCanStream.internal_static_jon_can_CANStreamConnected_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return jon.can.JonCanStream.internal_static_jon_can_CANStreamConnected_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              jon.can.JonCanStream.CANStreamConnected.class, jon.can.JonCanStream.CANStreamConnected.Builder.class);
+    }
+
+    public static final int STREAMS_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.LazyStringArrayList streams_ =
+        com.google.protobuf.LazyStringArrayList.emptyList();
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return A list containing the streams.
+     */
+    public com.google.protobuf.ProtocolStringList
+        getStreamsList() {
+      return streams_;
+    }
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @return The count of streams.
+     */
+    public int getStreamsCount() {
+      return streams_.size();
+    }
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the element to return.
+     * @return The streams at the given index.
+     */
+    public java.lang.String getStreams(int index) {
+      return streams_.get(index);
+    }
+    /**
+     * <pre>
+     * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+     * </pre>
+     *
+     * <code>repeated string streams = 1;</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the streams at the given index.
+     */
+    public com.google.protobuf.ByteString
+        getStreamsBytes(int index) {
+      return streams_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < streams_.size(); i++) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, streams_.getRaw(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < streams_.size(); i++) {
+          dataSize += computeStringSizeNoTag(streams_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getStreamsList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof jon.can.JonCanStream.CANStreamConnected)) {
+        return super.equals(obj);
+      }
+      jon.can.JonCanStream.CANStreamConnected other = (jon.can.JonCanStream.CANStreamConnected) obj;
+
+      if (!getStreamsList()
+          .equals(other.getStreamsList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getStreamsCount() > 0) {
+        hash = (37 * hash) + STREAMS_FIELD_NUMBER;
+        hash = (53 * hash) + getStreamsList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static jon.can.JonCanStream.CANStreamConnected parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static jon.can.JonCanStream.CANStreamConnected parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static jon.can.JonCanStream.CANStreamConnected parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(jon.can.JonCanStream.CANStreamConnected prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Connection confirmation message sent when WebSocket connects
+     * </pre>
+     *
+     * Protobuf type {@code jon.can.CANStreamConnected}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:jon.can.CANStreamConnected)
+        jon.can.JonCanStream.CANStreamConnectedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return jon.can.JonCanStream.internal_static_jon_can_CANStreamConnected_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return jon.can.JonCanStream.internal_static_jon_can_CANStreamConnected_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                jon.can.JonCanStream.CANStreamConnected.class, jon.can.JonCanStream.CANStreamConnected.Builder.class);
+      }
+
+      // Construct using jon.can.JonCanStream.CANStreamConnected.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        streams_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return jon.can.JonCanStream.internal_static_jon_can_CANStreamConnected_descriptor;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.CANStreamConnected getDefaultInstanceForType() {
+        return jon.can.JonCanStream.CANStreamConnected.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.CANStreamConnected build() {
+        jon.can.JonCanStream.CANStreamConnected result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public jon.can.JonCanStream.CANStreamConnected buildPartial() {
+        jon.can.JonCanStream.CANStreamConnected result = new jon.can.JonCanStream.CANStreamConnected(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(jon.can.JonCanStream.CANStreamConnected result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          streams_.makeImmutable();
+          result.streams_ = streams_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof jon.can.JonCanStream.CANStreamConnected) {
+          return mergeFrom((jon.can.JonCanStream.CANStreamConnected)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(jon.can.JonCanStream.CANStreamConnected other) {
+        if (other == jon.can.JonCanStream.CANStreamConnected.getDefaultInstance()) return this;
+        if (!other.streams_.isEmpty()) {
+          if (streams_.isEmpty()) {
+            streams_ = other.streams_;
+            bitField0_ |= 0x00000001;
+          } else {
+            ensureStreamsIsMutable();
+            streams_.addAll(other.streams_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                java.lang.String s = input.readStringRequireUtf8();
+                ensureStreamsIsMutable();
+                streams_.add(s);
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringArrayList streams_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+      private void ensureStreamsIsMutable() {
+        if (!streams_.isModifiable()) {
+          streams_ = new com.google.protobuf.LazyStringArrayList(streams_);
+        }
+        bitField0_ |= 0x00000001;
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @return A list containing the streams.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getStreamsList() {
+        streams_.makeImmutable();
+        return streams_;
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @return The count of streams.
+       */
+      public int getStreamsCount() {
+        return streams_.size();
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param index The index of the element to return.
+       * @return The streams at the given index.
+       */
+      public java.lang.String getStreams(int index) {
+        return streams_.get(index);
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the streams at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getStreamsBytes(int index) {
+        return streams_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The streams to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStreams(
+          int index, java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        ensureStreamsIsMutable();
+        streams_.set(index, value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param value The streams to add.
+       * @return This builder for chaining.
+       */
+      public Builder addStreams(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        ensureStreamsIsMutable();
+        streams_.add(value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param values The streams to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllStreams(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureStreamsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, streams_);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStreams() {
+        streams_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+       * </pre>
+       *
+       * <code>repeated string streams = 1;</code>
+       * @param value The bytes of the streams to add.
+       * @return This builder for chaining.
+       */
+      public Builder addStreamsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        ensureStreamsIsMutable();
+        streams_.add(value);
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:jon.can.CANStreamConnected)
+    }
+
+    // @@protoc_insertion_point(class_scope:jon.can.CANStreamConnected)
+    private static final jon.can.JonCanStream.CANStreamConnected DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new jon.can.JonCanStream.CANStreamConnected();
+    }
+
+    public static jon.can.JonCanStream.CANStreamConnected getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<CANStreamConnected>
+        PARSER = new com.google.protobuf.AbstractParser<CANStreamConnected>() {
+      @java.lang.Override
+      public CANStreamConnected parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<CANStreamConnected> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CANStreamConnected> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public jon.can.JonCanStream.CANStreamConnected getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_jon_can_CANFrame_descriptor;
   private static final 
@@ -1617,6 +2269,11 @@ public final class JonCanStream {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_jon_can_CANFrameBatch_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_jon_can_CANStreamConnected_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_jon_can_CANStreamConnected_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1631,9 +2288,10 @@ public final class JonCanStream {
       "stamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001(\r\022\r\n\005is_rx\030" +
       "\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030\005 \001(\014\"2\n\rCA" +
       "NFrameBatch\022!\n\006frames\030\001 \003(\0132\021.jon.can.CA" +
-      "NFrameBFZDgit-codecommit.eu-central-1.am" +
-      "azonaws.com/v1/repos/jettison/jonp/canb\006" +
-      "proto3"
+      "NFrame\"%\n\022CANStreamConnected\022\017\n\007streams\030" +
+      "\001 \003(\tBFZDgit-codecommit.eu-central-1.ama" +
+      "zonaws.com/v1/repos/jettison/jonp/canb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1652,6 +2310,12 @@ public final class JonCanStream {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_jon_can_CANFrameBatch_descriptor,
         new java.lang.String[] { "Frames", });
+    internal_static_jon_can_CANStreamConnected_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_jon_can_CANStreamConnected_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_jon_can_CANStreamConnected_descriptor,
+        new java.lang.String[] { "Streams", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
   }

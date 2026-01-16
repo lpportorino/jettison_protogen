@@ -24,3 +24,9 @@ class CANFrameBatch(_message.Message):
     FRAMES_FIELD_NUMBER: _ClassVar[int]
     frames: _containers.RepeatedCompositeFieldContainer[CANFrame]
     def __init__(self, frames: _Optional[_Iterable[_Union[CANFrame, _Mapping]]] = ...) -> None: ...
+
+class CANStreamConnected(_message.Message):
+    __slots__ = ("streams",)
+    STREAMS_FIELD_NUMBER: _ClassVar[int]
+    streams: _containers.RepeatedScalarFieldContainer[str]
+    def __init__(self, streams: _Optional[_Iterable[str]] = ...) -> None: ...

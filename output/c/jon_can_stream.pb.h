@@ -24,6 +24,11 @@ typedef struct _jon_can_CANFrameBatch {
     pb_callback_t frames;
 } jon_can_CANFrameBatch;
 
+/* Connection confirmation message sent when WebSocket connects */
+typedef struct _jon_can_CANStreamConnected {
+    pb_callback_t streams; /* Discovered CAN stream IDs (e.g., "0x304", "0x510") */
+} jon_can_CANStreamConnected;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,8 +37,10 @@ extern "C" {
 /* Initializer values for message structs */
 #define jon_can_CANFrame_init_default            {0, 0, 0, 0, {{NULL}, NULL}}
 #define jon_can_CANFrameBatch_init_default       {{{NULL}, NULL}}
+#define jon_can_CANStreamConnected_init_default  {{{NULL}, NULL}}
 #define jon_can_CANFrame_init_zero               {0, 0, 0, 0, {{NULL}, NULL}}
 #define jon_can_CANFrameBatch_init_zero          {{{NULL}, NULL}}
+#define jon_can_CANStreamConnected_init_zero     {{{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define jon_can_CANFrame_timestamp_us_tag        1
@@ -42,6 +49,7 @@ extern "C" {
 #define jon_can_CANFrame_is_fd_tag               4
 #define jon_can_CANFrame_data_tag                5
 #define jon_can_CANFrameBatch_frames_tag         1
+#define jon_can_CANStreamConnected_streams_tag   1
 
 /* Struct field encoding specification for nanopb */
 #define jon_can_CANFrame_FIELDLIST(X, a) \
@@ -59,16 +67,24 @@ X(a, CALLBACK, REPEATED, MESSAGE,  frames,            1)
 #define jon_can_CANFrameBatch_DEFAULT NULL
 #define jon_can_CANFrameBatch_frames_MSGTYPE jon_can_CANFrame
 
+#define jon_can_CANStreamConnected_FIELDLIST(X, a) \
+X(a, CALLBACK, REPEATED, STRING,   streams,           1)
+#define jon_can_CANStreamConnected_CALLBACK pb_default_field_callback
+#define jon_can_CANStreamConnected_DEFAULT NULL
+
 extern const pb_msgdesc_t jon_can_CANFrame_msg;
 extern const pb_msgdesc_t jon_can_CANFrameBatch_msg;
+extern const pb_msgdesc_t jon_can_CANStreamConnected_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define jon_can_CANFrame_fields &jon_can_CANFrame_msg
 #define jon_can_CANFrameBatch_fields &jon_can_CANFrameBatch_msg
+#define jon_can_CANStreamConnected_fields &jon_can_CANStreamConnected_msg
 
 /* Maximum encoded size of messages (where known) */
 /* jon_can_CANFrame_size depends on runtime parameters */
 /* jon_can_CANFrameBatch_size depends on runtime parameters */
+/* jon_can_CANStreamConnected_size depends on runtime parameters */
 
 #ifdef __cplusplus
 } /* extern "C" */

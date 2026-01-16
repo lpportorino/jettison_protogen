@@ -12,4 +12,7 @@ PB_BIND(jon_can_CANFrame, jon_can_CANFrame, AUTO)
 PB_BIND(jon_can_CANFrameBatch, jon_can_CANFrameBatch, AUTO)
 
 
+PB_BIND(jon_can_CANStreamConnected, jon_can_CANStreamConnected, AUTO)
+
+
 

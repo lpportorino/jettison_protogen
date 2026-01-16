@@ -60,6 +60,9 @@ extern CANFrameDefaultTypeInternal _CANFrame_default_instance_;
 class CANFrameBatch;
 struct CANFrameBatchDefaultTypeInternal;
 extern CANFrameBatchDefaultTypeInternal _CANFrameBatch_default_instance_;
+class CANStreamConnected;
+struct CANStreamConnectedDefaultTypeInternal;
+extern CANStreamConnectedDefaultTypeInternal _CANStreamConnected_default_instance_;
 }  // namespace can
 }  // namespace jon
 namespace google {
@@ -73,6 +76,208 @@ namespace can {
 // ===================================================================
 
 
+// -------------------------------------------------------------------
+
+class CANStreamConnected final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:jon.can.CANStreamConnected) */ {
+ public:
+  inline CANStreamConnected() : CANStreamConnected(nullptr) {}
+  ~CANStreamConnected() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CANStreamConnected* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CANStreamConnected));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CANStreamConnected(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline CANStreamConnected(const CANStreamConnected& from) : CANStreamConnected(nullptr, from) {}
+  inline CANStreamConnected(CANStreamConnected&& from) noexcept
+      : CANStreamConnected(nullptr, std::move(from)) {}
+  inline CANStreamConnected& operator=(const CANStreamConnected& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CANStreamConnected& operator=(CANStreamConnected&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CANStreamConnected& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CANStreamConnected* internal_default_instance() {
+    return reinterpret_cast<const CANStreamConnected*>(
+        &_CANStreamConnected_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(CANStreamConnected& a, CANStreamConnected& b) { a.Swap(&b); }
+  inline void Swap(CANStreamConnected* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CANStreamConnected* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CANStreamConnected* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CANStreamConnected>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CANStreamConnected& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const CANStreamConnected& from) { CANStreamConnected::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(CANStreamConnected* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "jon.can.CANStreamConnected"; }
+
+ protected:
+  explicit CANStreamConnected(::google::protobuf::Arena* arena);
+  CANStreamConnected(::google::protobuf::Arena* arena, const CANStreamConnected& from);
+  CANStreamConnected(::google::protobuf::Arena* arena, CANStreamConnected&& from) noexcept
+      : CANStreamConnected(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kStreamsFieldNumber = 1,
+  };
+  // repeated string streams = 1;
+  int streams_size() const;
+  private:
+  int _internal_streams_size() const;
+
+  public:
+  void clear_streams() ;
+  const std::string& streams(int index) const;
+  std::string* mutable_streams(int index);
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_streams(int index, Arg_&& value, Args_... args);
+  std::string* add_streams();
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void add_streams(Arg_&& value, Args_... args);
+  const ::google::protobuf::RepeatedPtrField<std::string>& streams() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* mutable_streams();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_streams() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* _internal_mutable_streams();
+
+  public:
+  // @@protoc_insertion_point(class_scope:jon.can.CANStreamConnected)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      42, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const CANStreamConnected& from_msg);
+    ::google::protobuf::RepeatedPtrField<std::string> streams_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
+};
 // -------------------------------------------------------------------
 
 class CANFrame final : public ::google::protobuf::Message
@@ -718,6 +923,74 @@ inline ::google::protobuf::RepeatedPtrField<::jon::can::CANFrame>*
 CANFrameBatch::_internal_mutable_frames() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.frames_;
+}
+
+// -------------------------------------------------------------------
+
+// CANStreamConnected
+
+// repeated string streams = 1;
+inline int CANStreamConnected::_internal_streams_size() const {
+  return _internal_streams().size();
+}
+inline int CANStreamConnected::streams_size() const {
+  return _internal_streams_size();
+}
+inline void CANStreamConnected::clear_streams() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.streams_.Clear();
+}
+inline std::string* CANStreamConnected::add_streams() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  std::string* _s = _internal_mutable_streams()->Add();
+  // @@protoc_insertion_point(field_add_mutable:jon.can.CANStreamConnected.streams)
+  return _s;
+}
+inline const std::string& CANStreamConnected::streams(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:jon.can.CANStreamConnected.streams)
+  return _internal_streams().Get(index);
+}
+inline std::string* CANStreamConnected::mutable_streams(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:jon.can.CANStreamConnected.streams)
+  return _internal_mutable_streams()->Mutable(index);
+}
+template <typename Arg_, typename... Args_>
+inline void CANStreamConnected::set_streams(int index, Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::AssignToString(
+      *_internal_mutable_streams()->Mutable(index),
+      std::forward<Arg_>(value), args... );
+  // @@protoc_insertion_point(field_set:jon.can.CANStreamConnected.streams)
+}
+template <typename Arg_, typename... Args_>
+inline void CANStreamConnected::add_streams(Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::google::protobuf::internal::AddToRepeatedPtrField(*_internal_mutable_streams(),
+                               std::forward<Arg_>(value),
+                               args... );
+  // @@protoc_insertion_point(field_add:jon.can.CANStreamConnected.streams)
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+CANStreamConnected::streams() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:jon.can.CANStreamConnected.streams)
+  return _internal_streams();
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>*
+CANStreamConnected::mutable_streams() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:jon.can.CANStreamConnected.streams)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_streams();
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+CANStreamConnected::_internal_streams() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.streams_;
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>*
+CANStreamConnected::_internal_mutable_streams() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.streams_;
 }
 
 #ifdef __GNUC__

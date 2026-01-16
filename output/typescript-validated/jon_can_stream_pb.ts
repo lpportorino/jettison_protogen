@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_can_stream.proto.
  */
 export const file_jon_can_stream: GenFile = /*@__PURE__*/
-  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiJcCghDQU5GcmFtZRIUCgx0aW1lc3RhbXBfdXMYASABKAQSDgoGY2FuX2lkGAIgASgNEg0KBWlzX3J4GAMgASgIEg0KBWlzX2ZkGAQgASgIEgwKBGRhdGEYBSABKAwiMgoNQ0FORnJhbWVCYXRjaBIhCgZmcmFtZXMYASADKAsyES5qb24uY2FuLkNBTkZyYW1lQkZaRGdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY2FuYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiJcCghDQU5GcmFtZRIUCgx0aW1lc3RhbXBfdXMYASABKAQSDgoGY2FuX2lkGAIgASgNEg0KBWlzX3J4GAMgASgIEg0KBWlzX2ZkGAQgASgIEgwKBGRhdGEYBSABKAwiMgoNQ0FORnJhbWVCYXRjaBIhCgZmcmFtZXMYASADKAsyES5qb24uY2FuLkNBTkZyYW1lIiUKEkNBTlN0cmVhbUNvbm5lY3RlZBIPCgdzdHJlYW1zGAEgAygJQkZaRGdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY2FuYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * Single CAN/CAN-FD frame
@@ -80,4 +80,25 @@ export type CANFrameBatch = Message<"jon.can.CANFrameBatch"> & {
  */
 export const CANFrameBatchSchema: GenMessage<CANFrameBatch> = /*@__PURE__*/
   messageDesc(file_jon_can_stream, 1);
+
+/**
+ * Connection confirmation message sent when WebSocket connects
+ *
+ * @generated from message jon.can.CANStreamConnected
+ */
+export type CANStreamConnected = Message<"jon.can.CANStreamConnected"> & {
+  /**
+   * Discovered CAN stream IDs (e.g., "0x304", "0x510")
+   *
+   * @generated from field: repeated string streams = 1;
+   */
+  streams: string[];
+};
+
+/**
+ * Describes the message jon.can.CANStreamConnected.
+ * Use `create(CANStreamConnectedSchema)` to create a new message.
+ */
+export const CANStreamConnectedSchema: GenMessage<CANStreamConnected> = /*@__PURE__*/
+  messageDesc(file_jon_can_stream, 2);
 

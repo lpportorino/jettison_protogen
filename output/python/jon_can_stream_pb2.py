@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_can_stream.proto\x12\x07jon.can\"\\\n\x08\x43\x41NFrame\x12\x14\n\x0ctimestamp_us\x18\x01 \x01(\x04\x12\x0e\n\x06\x63\x61n_id\x18\x02 \x01(\r\x12\r\n\x05is_rx\x18\x03 \x01(\x08\x12\r\n\x05is_fd\x18\x04 \x01(\x08\x12\x0c\n\x04\x64\x61ta\x18\x05 \x01(\x0c\"2\n\rCANFrameBatch\x12!\n\x06\x66rames\x18\x01 \x03(\x0b\x32\x11.jon.can.CANFrameBFZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/canb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14jon_can_stream.proto\x12\x07jon.can\"\\\n\x08\x43\x41NFrame\x12\x14\n\x0ctimestamp_us\x18\x01 \x01(\x04\x12\x0e\n\x06\x63\x61n_id\x18\x02 \x01(\r\x12\r\n\x05is_rx\x18\x03 \x01(\x08\x12\r\n\x05is_fd\x18\x04 \x01(\x08\x12\x0c\n\x04\x64\x61ta\x18\x05 \x01(\x0c\"2\n\rCANFrameBatch\x12!\n\x06\x66rames\x18\x01 \x03(\x0b\x32\x11.jon.can.CANFrame\"%\n\x12\x43\x41NStreamConnected\x12\x0f\n\x07streams\x18\x01 \x03(\tBFZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/canb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,4 +36,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CANFRAME']._serialized_end=125
   _globals['_CANFRAMEBATCH']._serialized_start=127
   _globals['_CANFRAMEBATCH']._serialized_end=177
+  _globals['_CANSTREAMCONNECTED']._serialized_start=179
+  _globals['_CANSTREAMCONNECTED']._serialized_end=216
 # @@protoc_insertion_point(module_scope)

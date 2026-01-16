@@ -144,6 +144,51 @@ func (x *CANFrameBatch) GetFrames() []*CANFrame {
 	return nil
 }
 
+// Connection confirmation message sent when WebSocket connects
+type CANStreamConnected struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Streams       []string               `protobuf:"bytes,1,rep,name=streams,proto3" json:"streams,omitempty"` // Discovered CAN stream IDs (e.g., "0x304", "0x510")
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CANStreamConnected) Reset() {
+	*x = CANStreamConnected{}
+	mi := &file_jon_can_stream_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CANStreamConnected) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CANStreamConnected) ProtoMessage() {}
+
+func (x *CANStreamConnected) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_can_stream_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CANStreamConnected.ProtoReflect.Descriptor instead.
+func (*CANStreamConnected) Descriptor() ([]byte, []int) {
+	return file_jon_can_stream_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CANStreamConnected) GetStreams() []string {
+	if x != nil {
+		return x.Streams
+	}
+	return nil
+}
+
 var File_jon_can_stream_proto protoreflect.FileDescriptor
 
 const file_jon_can_stream_proto_rawDesc = "" +
@@ -156,7 +201,9 @@ const file_jon_can_stream_proto_rawDesc = "" +
 	"\x05is_fd\x18\x04 \x01(\bR\x04isFd\x12\x12\n" +
 	"\x04data\x18\x05 \x01(\fR\x04data\":\n" +
 	"\rCANFrameBatch\x12)\n" +
-	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06framesB\xa3\x01\n" +
+	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\".\n" +
+	"\x12CANStreamConnected\x12\x18\n" +
+	"\astreams\x18\x01 \x03(\tR\astreamsB\xa3\x01\n" +
 	"\vcom.jon.canB\x11JonCanStreamProtoP\x01ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/can\xa2\x02\x03JCX\xaa\x02\aJon.Can\xca\x02\aJon\\Can\xe2\x02\x13Jon\\Can\\GPBMetadata\xea\x02\bJon::Canb\x06proto3"
 
 var (
@@ -171,10 +218,11 @@ func file_jon_can_stream_proto_rawDescGZIP() []byte {
 	return file_jon_can_stream_proto_rawDescData
 }
 
-var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_jon_can_stream_proto_goTypes = []any{
-	(*CANFrame)(nil),      // 0: jon.can.CANFrame
-	(*CANFrameBatch)(nil), // 1: jon.can.CANFrameBatch
+	(*CANFrame)(nil),           // 0: jon.can.CANFrame
+	(*CANFrameBatch)(nil),      // 1: jon.can.CANFrameBatch
+	(*CANStreamConnected)(nil), // 2: jon.can.CANStreamConnected
 }
 var file_jon_can_stream_proto_depIdxs = []int32{
 	0, // 0: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
@@ -196,7 +244,7 @@ func file_jon_can_stream_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_can_stream_proto_rawDesc), len(file_jon_can_stream_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
