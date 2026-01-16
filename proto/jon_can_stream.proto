@@ -4,56 +4,16 @@ option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison
 
 package jon.can;
 
-// CAN device groups (matching panopticon)
-// UNKNOWN used for CAN IDs not matching any known device
-enum CANDevice {
-  CAN_DEVICE_UNSPECIFIED = 0;
-  CAN_DEVICE_UNKNOWN = 1;              // Unknown device - display raw CAN ID
-  CAN_DEVICE_COMPASS = 2;              // Compass control (0x304/0x314)
-  CAN_DEVICE_COMPASS_DATA = 3;         // Compass data (0x305/0x315)
-  CAN_DEVICE_GPS_CTRL = 4;             // GPS control (0x202/0x212)
-  CAN_DEVICE_GPS_DATA = 5;             // GPS data (0x203/0x213)
-  CAN_DEVICE_LRF_CTRL = 6;             // LRF control (0x200/0x210)
-  CAN_DEVICE_LRF_DATA = 7;             // LRF data (0x201/0x211)
-  CAN_DEVICE_DAY_CAM = 8;              // Day camera (0x500/0x510)
-  CAN_DEVICE_DAY_GLASS_HEAT_CTRL = 9;  // Day glass heater control (0x205/0x215)
-  CAN_DEVICE_DAY_GLASS_HEAT_DATA = 10; // Day glass heater data (0x206/0x216)
-  CAN_DEVICE_THERM_CTRL = 11;          // Thermal control (0x300/0x310)
-  CAN_DEVICE_THERM_CAM = 12;           // Thermal camera (0x301/0x311)
-}
-
-// Message direction on CAN bus
-enum CANDirection {
-  CAN_DIRECTION_UNSPECIFIED = 0;
-  CAN_DIRECTION_TX = 1;  // Sent to device (command)
-  CAN_DIRECTION_RX = 2;  // Received from device (response)
-}
-
-// Single CAN frame
+// Single CAN/CAN-FD frame
 message CANFrame {
-  uint64 timestamp_ms = 1;       // Unix timestamp in milliseconds
-  uint32 can_id = 2;             // Raw CAN ID (e.g., 0x304)
-  CANDirection direction = 3;
-  CANDevice device = 4;
-  uint32 frame_type = 5;         // 0=CAN, 1=CAN-FD
-  uint32 dlc = 6 [(buf.validate.field).uint32 = { lte: 64 }];
-  bytes data = 7 [(buf.validate.field).bytes = { max_len: 64 }];
+  uint64 timestamp_us = 1;  // Timestamp in microseconds
+  uint32 can_id = 2;        // Raw CAN ID
+  bool is_rx = 3;           // true=received from device, false=sent to device
+  bool is_fd = 4;           // true=CAN-FD, false=classic CAN
+  bytes data = 5;           // Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
 }
 
-// Batch of CAN frames (for efficient streaming)
+// Batch of CAN frames for efficient streaming
 message CANFrameBatch {
   repeated CANFrame frames = 1;
-}
-
-// Stream filter configuration (sent in SSE connected event)
-message CANStreamFilter {
-  repeated CANDevice devices = 1;      // Empty = all devices
-  repeated CANDirection directions = 2; // Empty = both TX and RX
-  float interval_seconds = 3;           // Batching interval (0 = immediate)
-}
-
-// SSE connected event payload
-message CANStreamConnected {
-  string status = 1;
-  CANStreamFilter filters = 2;
 }

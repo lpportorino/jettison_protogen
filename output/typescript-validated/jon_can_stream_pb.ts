@@ -2,8 +2,8 @@
 // @generated from file jon_can_stream.proto (package jon.can, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -11,52 +11,46 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_can_stream.proto.
  */
 export const file_jon_can_stream: GenFile = /*@__PURE__*/
-  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiK/AQoIQ0FORnJhbWUSFAoMdGltZXN0YW1wX21zGAEgASgEEg4KBmNhbl9pZBgCIAEoDRIoCglkaXJlY3Rpb24YAyABKA4yFS5qb24uY2FuLkNBTkRpcmVjdGlvbhIiCgZkZXZpY2UYBCABKA4yEi5qb24uY2FuLkNBTkRldmljZRISCgpmcmFtZV90eXBlGAUgASgNEhQKA2RsYxgGIAEoDUIHukgEKgIYQBIVCgRkYXRhGAcgASgMQge6SAR6AhhAIjIKDUNBTkZyYW1lQmF0Y2gSIQoGZnJhbWVzGAEgAygLMhEuam9uLmNhbi5DQU5GcmFtZSJ7Cg9DQU5TdHJlYW1GaWx0ZXISIwoHZGV2aWNlcxgBIAMoDjISLmpvbi5jYW4uQ0FORGV2aWNlEikKCmRpcmVjdGlvbnMYAiADKA4yFS5qb24uY2FuLkNBTkRpcmVjdGlvbhIYChBpbnRlcnZhbF9zZWNvbmRzGAMgASgCIk8KEkNBTlN0cmVhbUNvbm5lY3RlZBIOCgZzdGF0dXMYASABKAkSKQoHZmlsdGVycxgCIAEoCzIYLmpvbi5jYW4uQ0FOU3RyZWFtRmlsdGVyKu0CCglDQU5EZXZpY2USGgoWQ0FOX0RFVklDRV9VTlNQRUNJRklFRBAAEhYKEkNBTl9ERVZJQ0VfVU5LTk9XThABEhYKEkNBTl9ERVZJQ0VfQ09NUEFTUxACEhsKF0NBTl9ERVZJQ0VfQ09NUEFTU19EQVRBEAMSFwoTQ0FOX0RFVklDRV9HUFNfQ1RSTBAEEhcKE0NBTl9ERVZJQ0VfR1BTX0RBVEEQBRIXChNDQU5fREVWSUNFX0xSRl9DVFJMEAYSFwoTQ0FOX0RFVklDRV9MUkZfREFUQRAHEhYKEkNBTl9ERVZJQ0VfREFZX0NBTRAIEiIKHkNBTl9ERVZJQ0VfREFZX0dMQVNTX0hFQVRfQ1RSTBAJEiIKHkNBTl9ERVZJQ0VfREFZX0dMQVNTX0hFQVRfREFUQRAKEhkKFUNBTl9ERVZJQ0VfVEhFUk1fQ1RSTBALEhgKFENBTl9ERVZJQ0VfVEhFUk1fQ0FNEAwqWQoMQ0FORGlyZWN0aW9uEh0KGUNBTl9ESVJFQ1RJT05fVU5TUEVDSUZJRUQQABIUChBDQU5fRElSRUNUSU9OX1RYEAESFAoQQ0FOX0RJUkVDVElPTl9SWBACQkZaRGdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY2FuYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiJcCghDQU5GcmFtZRIUCgx0aW1lc3RhbXBfdXMYASABKAQSDgoGY2FuX2lkGAIgASgNEg0KBWlzX3J4GAMgASgIEg0KBWlzX2ZkGAQgASgIEgwKBGRhdGEYBSABKAwiMgoNQ0FORnJhbWVCYXRjaBIhCgZmcmFtZXMYASADKAsyES5qb24uY2FuLkNBTkZyYW1lQkZaRGdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY2FuYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
- * Single CAN frame
+ * Single CAN/CAN-FD frame
  *
  * @generated from message jon.can.CANFrame
  */
 export type CANFrame = Message<"jon.can.CANFrame"> & {
   /**
-   * Unix timestamp in milliseconds
+   * Timestamp in microseconds
    *
-   * @generated from field: uint64 timestamp_ms = 1;
+   * @generated from field: uint64 timestamp_us = 1;
    */
-  timestampMs: bigint;
+  timestampUs: bigint;
 
   /**
-   * Raw CAN ID (e.g., 0x304)
+   * Raw CAN ID
    *
    * @generated from field: uint32 can_id = 2;
    */
   canId: number;
 
   /**
-   * @generated from field: jon.can.CANDirection direction = 3;
-   */
-  direction: CANDirection;
-
-  /**
-   * @generated from field: jon.can.CANDevice device = 4;
-   */
-  device: CANDevice;
-
-  /**
-   * 0=CAN, 1=CAN-FD
+   * true=received from device, false=sent to device
    *
-   * @generated from field: uint32 frame_type = 5;
+   * @generated from field: bool is_rx = 3;
    */
-  frameType: number;
+  isRx: boolean;
 
   /**
-   * @generated from field: uint32 dlc = 6;
+   * true=CAN-FD, false=classic CAN
+   *
+   * @generated from field: bool is_fd = 4;
    */
-  dlc: number;
+  isFd: boolean;
 
   /**
-   * @generated from field: bytes data = 7;
+   * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+   *
+   * @generated from field: bytes data = 5;
    */
   data: Uint8Array;
 };
@@ -69,7 +63,7 @@ export const CANFrameSchema: GenMessage<CANFrame> = /*@__PURE__*/
   messageDesc(file_jon_can_stream, 0);
 
 /**
- * Batch of CAN frames (for efficient streaming)
+ * Batch of CAN frames for efficient streaming
  *
  * @generated from message jon.can.CANFrameBatch
  */
@@ -86,198 +80,4 @@ export type CANFrameBatch = Message<"jon.can.CANFrameBatch"> & {
  */
 export const CANFrameBatchSchema: GenMessage<CANFrameBatch> = /*@__PURE__*/
   messageDesc(file_jon_can_stream, 1);
-
-/**
- * Stream filter configuration (sent in SSE connected event)
- *
- * @generated from message jon.can.CANStreamFilter
- */
-export type CANStreamFilter = Message<"jon.can.CANStreamFilter"> & {
-  /**
-   * Empty = all devices
-   *
-   * @generated from field: repeated jon.can.CANDevice devices = 1;
-   */
-  devices: CANDevice[];
-
-  /**
-   * Empty = both TX and RX
-   *
-   * @generated from field: repeated jon.can.CANDirection directions = 2;
-   */
-  directions: CANDirection[];
-
-  /**
-   * Batching interval (0 = immediate)
-   *
-   * @generated from field: float interval_seconds = 3;
-   */
-  intervalSeconds: number;
-};
-
-/**
- * Describes the message jon.can.CANStreamFilter.
- * Use `create(CANStreamFilterSchema)` to create a new message.
- */
-export const CANStreamFilterSchema: GenMessage<CANStreamFilter> = /*@__PURE__*/
-  messageDesc(file_jon_can_stream, 2);
-
-/**
- * SSE connected event payload
- *
- * @generated from message jon.can.CANStreamConnected
- */
-export type CANStreamConnected = Message<"jon.can.CANStreamConnected"> & {
-  /**
-   * @generated from field: string status = 1;
-   */
-  status: string;
-
-  /**
-   * @generated from field: jon.can.CANStreamFilter filters = 2;
-   */
-  filters?: CANStreamFilter;
-};
-
-/**
- * Describes the message jon.can.CANStreamConnected.
- * Use `create(CANStreamConnectedSchema)` to create a new message.
- */
-export const CANStreamConnectedSchema: GenMessage<CANStreamConnected> = /*@__PURE__*/
-  messageDesc(file_jon_can_stream, 3);
-
-/**
- * CAN device groups (matching panopticon)
- * UNKNOWN used for CAN IDs not matching any known device
- *
- * @generated from enum jon.can.CANDevice
- */
-export enum CANDevice {
-  /**
-   * @generated from enum value: CAN_DEVICE_UNSPECIFIED = 0;
-   */
-  CAN_DEVICE_UNSPECIFIED = 0,
-
-  /**
-   * Unknown device - display raw CAN ID
-   *
-   * @generated from enum value: CAN_DEVICE_UNKNOWN = 1;
-   */
-  CAN_DEVICE_UNKNOWN = 1,
-
-  /**
-   * Compass control (0x304/0x314)
-   *
-   * @generated from enum value: CAN_DEVICE_COMPASS = 2;
-   */
-  CAN_DEVICE_COMPASS = 2,
-
-  /**
-   * Compass data (0x305/0x315)
-   *
-   * @generated from enum value: CAN_DEVICE_COMPASS_DATA = 3;
-   */
-  CAN_DEVICE_COMPASS_DATA = 3,
-
-  /**
-   * GPS control (0x202/0x212)
-   *
-   * @generated from enum value: CAN_DEVICE_GPS_CTRL = 4;
-   */
-  CAN_DEVICE_GPS_CTRL = 4,
-
-  /**
-   * GPS data (0x203/0x213)
-   *
-   * @generated from enum value: CAN_DEVICE_GPS_DATA = 5;
-   */
-  CAN_DEVICE_GPS_DATA = 5,
-
-  /**
-   * LRF control (0x200/0x210)
-   *
-   * @generated from enum value: CAN_DEVICE_LRF_CTRL = 6;
-   */
-  CAN_DEVICE_LRF_CTRL = 6,
-
-  /**
-   * LRF data (0x201/0x211)
-   *
-   * @generated from enum value: CAN_DEVICE_LRF_DATA = 7;
-   */
-  CAN_DEVICE_LRF_DATA = 7,
-
-  /**
-   * Day camera (0x500/0x510)
-   *
-   * @generated from enum value: CAN_DEVICE_DAY_CAM = 8;
-   */
-  CAN_DEVICE_DAY_CAM = 8,
-
-  /**
-   * Day glass heater control (0x205/0x215)
-   *
-   * @generated from enum value: CAN_DEVICE_DAY_GLASS_HEAT_CTRL = 9;
-   */
-  CAN_DEVICE_DAY_GLASS_HEAT_CTRL = 9,
-
-  /**
-   * Day glass heater data (0x206/0x216)
-   *
-   * @generated from enum value: CAN_DEVICE_DAY_GLASS_HEAT_DATA = 10;
-   */
-  CAN_DEVICE_DAY_GLASS_HEAT_DATA = 10,
-
-  /**
-   * Thermal control (0x300/0x310)
-   *
-   * @generated from enum value: CAN_DEVICE_THERM_CTRL = 11;
-   */
-  CAN_DEVICE_THERM_CTRL = 11,
-
-  /**
-   * Thermal camera (0x301/0x311)
-   *
-   * @generated from enum value: CAN_DEVICE_THERM_CAM = 12;
-   */
-  CAN_DEVICE_THERM_CAM = 12,
-}
-
-/**
- * Describes the enum jon.can.CANDevice.
- */
-export const CANDeviceSchema: GenEnum<CANDevice> = /*@__PURE__*/
-  enumDesc(file_jon_can_stream, 0);
-
-/**
- * Message direction on CAN bus
- *
- * @generated from enum jon.can.CANDirection
- */
-export enum CANDirection {
-  /**
-   * @generated from enum value: CAN_DIRECTION_UNSPECIFIED = 0;
-   */
-  CAN_DIRECTION_UNSPECIFIED = 0,
-
-  /**
-   * Sent to device (command)
-   *
-   * @generated from enum value: CAN_DIRECTION_TX = 1;
-   */
-  CAN_DIRECTION_TX = 1,
-
-  /**
-   * Received from device (response)
-   *
-   * @generated from enum value: CAN_DIRECTION_RX = 2;
-   */
-  CAN_DIRECTION_RX = 2,
-}
-
-/**
- * Describes the enum jon.can.CANDirection.
- */
-export const CANDirectionSchema: GenEnum<CANDirection> = /*@__PURE__*/
-  enumDesc(file_jon_can_stream, 1);
 

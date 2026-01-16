@@ -8,224 +8,45 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 
-/**
- * CAN device groups (matching panopticon)
- * UNKNOWN used for CAN IDs not matching any known device
- */
-export enum CANDevice {
-  CAN_DEVICE_UNSPECIFIED = 0,
-  /** CAN_DEVICE_UNKNOWN - Unknown device - display raw CAN ID */
-  CAN_DEVICE_UNKNOWN = 1,
-  /** CAN_DEVICE_COMPASS - Compass control (0x304/0x314) */
-  CAN_DEVICE_COMPASS = 2,
-  /** CAN_DEVICE_COMPASS_DATA - Compass data (0x305/0x315) */
-  CAN_DEVICE_COMPASS_DATA = 3,
-  /** CAN_DEVICE_GPS_CTRL - GPS control (0x202/0x212) */
-  CAN_DEVICE_GPS_CTRL = 4,
-  /** CAN_DEVICE_GPS_DATA - GPS data (0x203/0x213) */
-  CAN_DEVICE_GPS_DATA = 5,
-  /** CAN_DEVICE_LRF_CTRL - LRF control (0x200/0x210) */
-  CAN_DEVICE_LRF_CTRL = 6,
-  /** CAN_DEVICE_LRF_DATA - LRF data (0x201/0x211) */
-  CAN_DEVICE_LRF_DATA = 7,
-  /** CAN_DEVICE_DAY_CAM - Day camera (0x500/0x510) */
-  CAN_DEVICE_DAY_CAM = 8,
-  /** CAN_DEVICE_DAY_GLASS_HEAT_CTRL - Day glass heater control (0x205/0x215) */
-  CAN_DEVICE_DAY_GLASS_HEAT_CTRL = 9,
-  /** CAN_DEVICE_DAY_GLASS_HEAT_DATA - Day glass heater data (0x206/0x216) */
-  CAN_DEVICE_DAY_GLASS_HEAT_DATA = 10,
-  /** CAN_DEVICE_THERM_CTRL - Thermal control (0x300/0x310) */
-  CAN_DEVICE_THERM_CTRL = 11,
-  /** CAN_DEVICE_THERM_CAM - Thermal camera (0x301/0x311) */
-  CAN_DEVICE_THERM_CAM = 12,
-  UNRECOGNIZED = -1,
-}
-
-export function cANDeviceFromJSON(object: any): CANDevice {
-  switch (object) {
-    case 0:
-    case "CAN_DEVICE_UNSPECIFIED":
-      return CANDevice.CAN_DEVICE_UNSPECIFIED;
-    case 1:
-    case "CAN_DEVICE_UNKNOWN":
-      return CANDevice.CAN_DEVICE_UNKNOWN;
-    case 2:
-    case "CAN_DEVICE_COMPASS":
-      return CANDevice.CAN_DEVICE_COMPASS;
-    case 3:
-    case "CAN_DEVICE_COMPASS_DATA":
-      return CANDevice.CAN_DEVICE_COMPASS_DATA;
-    case 4:
-    case "CAN_DEVICE_GPS_CTRL":
-      return CANDevice.CAN_DEVICE_GPS_CTRL;
-    case 5:
-    case "CAN_DEVICE_GPS_DATA":
-      return CANDevice.CAN_DEVICE_GPS_DATA;
-    case 6:
-    case "CAN_DEVICE_LRF_CTRL":
-      return CANDevice.CAN_DEVICE_LRF_CTRL;
-    case 7:
-    case "CAN_DEVICE_LRF_DATA":
-      return CANDevice.CAN_DEVICE_LRF_DATA;
-    case 8:
-    case "CAN_DEVICE_DAY_CAM":
-      return CANDevice.CAN_DEVICE_DAY_CAM;
-    case 9:
-    case "CAN_DEVICE_DAY_GLASS_HEAT_CTRL":
-      return CANDevice.CAN_DEVICE_DAY_GLASS_HEAT_CTRL;
-    case 10:
-    case "CAN_DEVICE_DAY_GLASS_HEAT_DATA":
-      return CANDevice.CAN_DEVICE_DAY_GLASS_HEAT_DATA;
-    case 11:
-    case "CAN_DEVICE_THERM_CTRL":
-      return CANDevice.CAN_DEVICE_THERM_CTRL;
-    case 12:
-    case "CAN_DEVICE_THERM_CAM":
-      return CANDevice.CAN_DEVICE_THERM_CAM;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return CANDevice.UNRECOGNIZED;
-  }
-}
-
-export function cANDeviceToJSON(object: CANDevice): string {
-  switch (object) {
-    case CANDevice.CAN_DEVICE_UNSPECIFIED:
-      return "CAN_DEVICE_UNSPECIFIED";
-    case CANDevice.CAN_DEVICE_UNKNOWN:
-      return "CAN_DEVICE_UNKNOWN";
-    case CANDevice.CAN_DEVICE_COMPASS:
-      return "CAN_DEVICE_COMPASS";
-    case CANDevice.CAN_DEVICE_COMPASS_DATA:
-      return "CAN_DEVICE_COMPASS_DATA";
-    case CANDevice.CAN_DEVICE_GPS_CTRL:
-      return "CAN_DEVICE_GPS_CTRL";
-    case CANDevice.CAN_DEVICE_GPS_DATA:
-      return "CAN_DEVICE_GPS_DATA";
-    case CANDevice.CAN_DEVICE_LRF_CTRL:
-      return "CAN_DEVICE_LRF_CTRL";
-    case CANDevice.CAN_DEVICE_LRF_DATA:
-      return "CAN_DEVICE_LRF_DATA";
-    case CANDevice.CAN_DEVICE_DAY_CAM:
-      return "CAN_DEVICE_DAY_CAM";
-    case CANDevice.CAN_DEVICE_DAY_GLASS_HEAT_CTRL:
-      return "CAN_DEVICE_DAY_GLASS_HEAT_CTRL";
-    case CANDevice.CAN_DEVICE_DAY_GLASS_HEAT_DATA:
-      return "CAN_DEVICE_DAY_GLASS_HEAT_DATA";
-    case CANDevice.CAN_DEVICE_THERM_CTRL:
-      return "CAN_DEVICE_THERM_CTRL";
-    case CANDevice.CAN_DEVICE_THERM_CAM:
-      return "CAN_DEVICE_THERM_CAM";
-    case CANDevice.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
-}
-
-/** Message direction on CAN bus */
-export enum CANDirection {
-  CAN_DIRECTION_UNSPECIFIED = 0,
-  /** CAN_DIRECTION_TX - Sent to device (command) */
-  CAN_DIRECTION_TX = 1,
-  /** CAN_DIRECTION_RX - Received from device (response) */
-  CAN_DIRECTION_RX = 2,
-  UNRECOGNIZED = -1,
-}
-
-export function cANDirectionFromJSON(object: any): CANDirection {
-  switch (object) {
-    case 0:
-    case "CAN_DIRECTION_UNSPECIFIED":
-      return CANDirection.CAN_DIRECTION_UNSPECIFIED;
-    case 1:
-    case "CAN_DIRECTION_TX":
-      return CANDirection.CAN_DIRECTION_TX;
-    case 2:
-    case "CAN_DIRECTION_RX":
-      return CANDirection.CAN_DIRECTION_RX;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return CANDirection.UNRECOGNIZED;
-  }
-}
-
-export function cANDirectionToJSON(object: CANDirection): string {
-  switch (object) {
-    case CANDirection.CAN_DIRECTION_UNSPECIFIED:
-      return "CAN_DIRECTION_UNSPECIFIED";
-    case CANDirection.CAN_DIRECTION_TX:
-      return "CAN_DIRECTION_TX";
-    case CANDirection.CAN_DIRECTION_RX:
-      return "CAN_DIRECTION_RX";
-    case CANDirection.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
-}
-
-/** Single CAN frame */
+/** Single CAN/CAN-FD frame */
 export interface CANFrame {
-  /** Unix timestamp in milliseconds */
-  timestampMs: Long;
-  /** Raw CAN ID (e.g., 0x304) */
+  /** Timestamp in microseconds */
+  timestampUs: Long;
+  /** Raw CAN ID */
   canId: number;
-  direction: CANDirection;
-  device: CANDevice;
-  /** 0=CAN, 1=CAN-FD */
-  frameType: number;
-  dlc: number;
+  /** true=received from device, false=sent to device */
+  isRx: boolean;
+  /** true=CAN-FD, false=classic CAN */
+  isFd: boolean;
+  /** Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD) */
   data: Uint8Array;
 }
 
-/** Batch of CAN frames (for efficient streaming) */
+/** Batch of CAN frames for efficient streaming */
 export interface CANFrameBatch {
   frames: CANFrame[];
 }
 
-/** Stream filter configuration (sent in SSE connected event) */
-export interface CANStreamFilter {
-  /** Empty = all devices */
-  devices: CANDevice[];
-  /** Empty = both TX and RX */
-  directions: CANDirection[];
-  /** Batching interval (0 = immediate) */
-  intervalSeconds: number;
-}
-
-/** SSE connected event payload */
-export interface CANStreamConnected {
-  status: string;
-  filters: CANStreamFilter | undefined;
-}
-
 function createBaseCANFrame(): CANFrame {
-  return { timestampMs: Long.UZERO, canId: 0, direction: 0, device: 0, frameType: 0, dlc: 0, data: new Uint8Array(0) };
+  return { timestampUs: Long.UZERO, canId: 0, isRx: false, isFd: false, data: new Uint8Array(0) };
 }
 
 export const CANFrame: MessageFns<CANFrame> = {
   encode(message: CANFrame, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (!message.timestampMs.equals(Long.UZERO)) {
-      writer.uint32(8).uint64(message.timestampMs.toString());
+    if (!message.timestampUs.equals(Long.UZERO)) {
+      writer.uint32(8).uint64(message.timestampUs.toString());
     }
     if (message.canId !== 0) {
       writer.uint32(16).uint32(message.canId);
     }
-    if (message.direction !== 0) {
-      writer.uint32(24).int32(message.direction);
+    if (message.isRx !== false) {
+      writer.uint32(24).bool(message.isRx);
     }
-    if (message.device !== 0) {
-      writer.uint32(32).int32(message.device);
-    }
-    if (message.frameType !== 0) {
-      writer.uint32(40).uint32(message.frameType);
-    }
-    if (message.dlc !== 0) {
-      writer.uint32(48).uint32(message.dlc);
+    if (message.isFd !== false) {
+      writer.uint32(32).bool(message.isFd);
     }
     if (message.data.length !== 0) {
-      writer.uint32(58).bytes(message.data);
+      writer.uint32(42).bytes(message.data);
     }
     return writer;
   },
@@ -242,7 +63,7 @@ export const CANFrame: MessageFns<CANFrame> = {
             break;
           }
 
-          message.timestampMs = Long.fromString(reader.uint64().toString(), true);
+          message.timestampUs = Long.fromString(reader.uint64().toString(), true);
           continue;
         }
         case 2: {
@@ -258,7 +79,7 @@ export const CANFrame: MessageFns<CANFrame> = {
             break;
           }
 
-          message.direction = reader.int32() as any;
+          message.isRx = reader.bool();
           continue;
         }
         case 4: {
@@ -266,27 +87,11 @@ export const CANFrame: MessageFns<CANFrame> = {
             break;
           }
 
-          message.device = reader.int32() as any;
+          message.isFd = reader.bool();
           continue;
         }
         case 5: {
-          if (tag !== 40) {
-            break;
-          }
-
-          message.frameType = reader.uint32();
-          continue;
-        }
-        case 6: {
-          if (tag !== 48) {
-            break;
-          }
-
-          message.dlc = reader.uint32();
-          continue;
-        }
-        case 7: {
-          if (tag !== 58) {
+          if (tag !== 42) {
             break;
           }
 
@@ -304,47 +109,43 @@ export const CANFrame: MessageFns<CANFrame> = {
 
   fromJSON(object: any): CANFrame {
     return {
-      timestampMs: isSet(object.timestampMs)
-        ? Long.fromValue(object.timestampMs)
-        : isSet(object.timestamp_ms)
-        ? Long.fromValue(object.timestamp_ms)
+      timestampUs: isSet(object.timestampUs)
+        ? Long.fromValue(object.timestampUs)
+        : isSet(object.timestamp_us)
+        ? Long.fromValue(object.timestamp_us)
         : Long.UZERO,
       canId: isSet(object.canId)
         ? globalThis.Number(object.canId)
         : isSet(object.can_id)
         ? globalThis.Number(object.can_id)
         : 0,
-      direction: isSet(object.direction) ? cANDirectionFromJSON(object.direction) : 0,
-      device: isSet(object.device) ? cANDeviceFromJSON(object.device) : 0,
-      frameType: isSet(object.frameType)
-        ? globalThis.Number(object.frameType)
-        : isSet(object.frame_type)
-        ? globalThis.Number(object.frame_type)
-        : 0,
-      dlc: isSet(object.dlc) ? globalThis.Number(object.dlc) : 0,
+      isRx: isSet(object.isRx)
+        ? globalThis.Boolean(object.isRx)
+        : isSet(object.is_rx)
+        ? globalThis.Boolean(object.is_rx)
+        : false,
+      isFd: isSet(object.isFd)
+        ? globalThis.Boolean(object.isFd)
+        : isSet(object.is_fd)
+        ? globalThis.Boolean(object.is_fd)
+        : false,
       data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
     };
   },
 
   toJSON(message: CANFrame): unknown {
     const obj: any = {};
-    if (!message.timestampMs.equals(Long.UZERO)) {
-      obj.timestampMs = (message.timestampMs || Long.UZERO).toString();
+    if (!message.timestampUs.equals(Long.UZERO)) {
+      obj.timestampUs = (message.timestampUs || Long.UZERO).toString();
     }
     if (message.canId !== 0) {
       obj.canId = Math.round(message.canId);
     }
-    if (message.direction !== 0) {
-      obj.direction = cANDirectionToJSON(message.direction);
+    if (message.isRx !== false) {
+      obj.isRx = message.isRx;
     }
-    if (message.device !== 0) {
-      obj.device = cANDeviceToJSON(message.device);
-    }
-    if (message.frameType !== 0) {
-      obj.frameType = Math.round(message.frameType);
-    }
-    if (message.dlc !== 0) {
-      obj.dlc = Math.round(message.dlc);
+    if (message.isFd !== false) {
+      obj.isFd = message.isFd;
     }
     if (message.data.length !== 0) {
       obj.data = base64FromBytes(message.data);
@@ -357,14 +158,12 @@ export const CANFrame: MessageFns<CANFrame> = {
   },
   fromPartial<I extends Exact<DeepPartial<CANFrame>, I>>(object: I): CANFrame {
     const message = createBaseCANFrame();
-    message.timestampMs = (object.timestampMs !== undefined && object.timestampMs !== null)
-      ? Long.fromValue(object.timestampMs)
+    message.timestampUs = (object.timestampUs !== undefined && object.timestampUs !== null)
+      ? Long.fromValue(object.timestampUs)
       : Long.UZERO;
     message.canId = object.canId ?? 0;
-    message.direction = object.direction ?? 0;
-    message.device = object.device ?? 0;
-    message.frameType = object.frameType ?? 0;
-    message.dlc = object.dlc ?? 0;
+    message.isRx = object.isRx ?? false;
+    message.isFd = object.isFd ?? false;
     message.data = object.data ?? new Uint8Array(0);
     return message;
   },
@@ -426,206 +225,6 @@ export const CANFrameBatch: MessageFns<CANFrameBatch> = {
   fromPartial<I extends Exact<DeepPartial<CANFrameBatch>, I>>(object: I): CANFrameBatch {
     const message = createBaseCANFrameBatch();
     message.frames = object.frames?.map((e) => CANFrame.fromPartial(e)) || [];
-    return message;
-  },
-};
-
-function createBaseCANStreamFilter(): CANStreamFilter {
-  return { devices: [], directions: [], intervalSeconds: 0 };
-}
-
-export const CANStreamFilter: MessageFns<CANStreamFilter> = {
-  encode(message: CANStreamFilter, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    writer.uint32(10).fork();
-    for (const v of message.devices) {
-      writer.int32(v);
-    }
-    writer.join();
-    writer.uint32(18).fork();
-    for (const v of message.directions) {
-      writer.int32(v);
-    }
-    writer.join();
-    if (message.intervalSeconds !== 0) {
-      writer.uint32(29).float(message.intervalSeconds);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): CANStreamFilter {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCANStreamFilter();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag === 8) {
-            message.devices.push(reader.int32() as any);
-
-            continue;
-          }
-
-          if (tag === 10) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.devices.push(reader.int32() as any);
-            }
-
-            continue;
-          }
-
-          break;
-        }
-        case 2: {
-          if (tag === 16) {
-            message.directions.push(reader.int32() as any);
-
-            continue;
-          }
-
-          if (tag === 18) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.directions.push(reader.int32() as any);
-            }
-
-            continue;
-          }
-
-          break;
-        }
-        case 3: {
-          if (tag !== 29) {
-            break;
-          }
-
-          message.intervalSeconds = reader.float();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): CANStreamFilter {
-    return {
-      devices: globalThis.Array.isArray(object?.devices) ? object.devices.map((e: any) => cANDeviceFromJSON(e)) : [],
-      directions: globalThis.Array.isArray(object?.directions)
-        ? object.directions.map((e: any) => cANDirectionFromJSON(e))
-        : [],
-      intervalSeconds: isSet(object.intervalSeconds)
-        ? globalThis.Number(object.intervalSeconds)
-        : isSet(object.interval_seconds)
-        ? globalThis.Number(object.interval_seconds)
-        : 0,
-    };
-  },
-
-  toJSON(message: CANStreamFilter): unknown {
-    const obj: any = {};
-    if (message.devices?.length) {
-      obj.devices = message.devices.map((e) => cANDeviceToJSON(e));
-    }
-    if (message.directions?.length) {
-      obj.directions = message.directions.map((e) => cANDirectionToJSON(e));
-    }
-    if (message.intervalSeconds !== 0) {
-      obj.intervalSeconds = message.intervalSeconds;
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<CANStreamFilter>, I>>(base?: I): CANStreamFilter {
-    return CANStreamFilter.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<CANStreamFilter>, I>>(object: I): CANStreamFilter {
-    const message = createBaseCANStreamFilter();
-    message.devices = object.devices?.map((e) => e) || [];
-    message.directions = object.directions?.map((e) => e) || [];
-    message.intervalSeconds = object.intervalSeconds ?? 0;
-    return message;
-  },
-};
-
-function createBaseCANStreamConnected(): CANStreamConnected {
-  return { status: "", filters: undefined };
-}
-
-export const CANStreamConnected: MessageFns<CANStreamConnected> = {
-  encode(message: CANStreamConnected, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.status !== "") {
-      writer.uint32(10).string(message.status);
-    }
-    if (message.filters !== undefined) {
-      CANStreamFilter.encode(message.filters, writer.uint32(18).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): CANStreamConnected {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCANStreamConnected();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.status = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.filters = CANStreamFilter.decode(reader, reader.uint32());
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): CANStreamConnected {
-    return {
-      status: isSet(object.status) ? globalThis.String(object.status) : "",
-      filters: isSet(object.filters) ? CANStreamFilter.fromJSON(object.filters) : undefined,
-    };
-  },
-
-  toJSON(message: CANStreamConnected): unknown {
-    const obj: any = {};
-    if (message.status !== "") {
-      obj.status = message.status;
-    }
-    if (message.filters !== undefined) {
-      obj.filters = CANStreamFilter.toJSON(message.filters);
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<CANStreamConnected>, I>>(base?: I): CANStreamConnected {
-    return CANStreamConnected.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<CANStreamConnected>, I>>(object: I): CANStreamConnected {
-    const message = createBaseCANStreamConnected();
-    message.status = object.status ?? "";
-    message.filters = (object.filters !== undefined && object.filters !== null)
-      ? CANStreamFilter.fromPartial(object.filters)
-      : undefined;
     return message;
   },
 };

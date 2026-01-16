@@ -9,120 +9,47 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-/* Enum definitions */
-/* CAN device groups (matching panopticon)
- UNKNOWN used for CAN IDs not matching any known device */
-typedef enum _jon_can_CANDevice {
-    jon_can_CANDevice_CAN_DEVICE_UNSPECIFIED = 0,
-    jon_can_CANDevice_CAN_DEVICE_UNKNOWN = 1, /* Unknown device - display raw CAN ID */
-    jon_can_CANDevice_CAN_DEVICE_COMPASS = 2, /* Compass control (0x304/0x314) */
-    jon_can_CANDevice_CAN_DEVICE_COMPASS_DATA = 3, /* Compass data (0x305/0x315) */
-    jon_can_CANDevice_CAN_DEVICE_GPS_CTRL = 4, /* GPS control (0x202/0x212) */
-    jon_can_CANDevice_CAN_DEVICE_GPS_DATA = 5, /* GPS data (0x203/0x213) */
-    jon_can_CANDevice_CAN_DEVICE_LRF_CTRL = 6, /* LRF control (0x200/0x210) */
-    jon_can_CANDevice_CAN_DEVICE_LRF_DATA = 7, /* LRF data (0x201/0x211) */
-    jon_can_CANDevice_CAN_DEVICE_DAY_CAM = 8, /* Day camera (0x500/0x510) */
-    jon_can_CANDevice_CAN_DEVICE_DAY_GLASS_HEAT_CTRL = 9, /* Day glass heater control (0x205/0x215) */
-    jon_can_CANDevice_CAN_DEVICE_DAY_GLASS_HEAT_DATA = 10, /* Day glass heater data (0x206/0x216) */
-    jon_can_CANDevice_CAN_DEVICE_THERM_CTRL = 11, /* Thermal control (0x300/0x310) */
-    jon_can_CANDevice_CAN_DEVICE_THERM_CAM = 12 /* Thermal camera (0x301/0x311) */
-} jon_can_CANDevice;
-
-/* Message direction on CAN bus */
-typedef enum _jon_can_CANDirection {
-    jon_can_CANDirection_CAN_DIRECTION_UNSPECIFIED = 0,
-    jon_can_CANDirection_CAN_DIRECTION_TX = 1, /* Sent to device (command) */
-    jon_can_CANDirection_CAN_DIRECTION_RX = 2 /* Received from device (response) */
-} jon_can_CANDirection;
-
 /* Struct definitions */
-/* Single CAN frame */
+/* Single CAN/CAN-FD frame */
 typedef struct _jon_can_CANFrame {
-    uint64_t timestamp_ms; /* Unix timestamp in milliseconds */
-    uint32_t can_id; /* Raw CAN ID (e.g., 0x304) */
-    jon_can_CANDirection direction;
-    jon_can_CANDevice device;
-    uint32_t frame_type; /* 0=CAN, 1=CAN-FD */
-    uint32_t dlc;
-    pb_callback_t data;
+    uint64_t timestamp_us; /* Timestamp in microseconds */
+    uint32_t can_id; /* Raw CAN ID */
+    bool is_rx; /* true=received from device, false=sent to device */
+    bool is_fd; /* true=CAN-FD, false=classic CAN */
+    pb_callback_t data; /* Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD) */
 } jon_can_CANFrame;
 
-/* Batch of CAN frames (for efficient streaming) */
+/* Batch of CAN frames for efficient streaming */
 typedef struct _jon_can_CANFrameBatch {
     pb_callback_t frames;
 } jon_can_CANFrameBatch;
-
-/* Stream filter configuration (sent in SSE connected event) */
-typedef struct _jon_can_CANStreamFilter {
-    pb_callback_t devices; /* Empty = all devices */
-    pb_callback_t directions; /* Empty = both TX and RX */
-    float interval_seconds; /* Batching interval (0 = immediate) */
-} jon_can_CANStreamFilter;
-
-/* SSE connected event payload */
-typedef struct _jon_can_CANStreamConnected {
-    pb_callback_t status;
-    bool has_filters;
-    jon_can_CANStreamFilter filters;
-} jon_can_CANStreamConnected;
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* Helper constants for enums */
-#define _jon_can_CANDevice_MIN jon_can_CANDevice_CAN_DEVICE_UNSPECIFIED
-#define _jon_can_CANDevice_MAX jon_can_CANDevice_CAN_DEVICE_THERM_CAM
-#define _jon_can_CANDevice_ARRAYSIZE ((jon_can_CANDevice)(jon_can_CANDevice_CAN_DEVICE_THERM_CAM+1))
-
-#define _jon_can_CANDirection_MIN jon_can_CANDirection_CAN_DIRECTION_UNSPECIFIED
-#define _jon_can_CANDirection_MAX jon_can_CANDirection_CAN_DIRECTION_RX
-#define _jon_can_CANDirection_ARRAYSIZE ((jon_can_CANDirection)(jon_can_CANDirection_CAN_DIRECTION_RX+1))
-
-#define jon_can_CANFrame_direction_ENUMTYPE jon_can_CANDirection
-#define jon_can_CANFrame_device_ENUMTYPE jon_can_CANDevice
-
-
-#define jon_can_CANStreamFilter_devices_ENUMTYPE jon_can_CANDevice
-#define jon_can_CANStreamFilter_directions_ENUMTYPE jon_can_CANDirection
-
-
-
 /* Initializer values for message structs */
-#define jon_can_CANFrame_init_default            {0, 0, _jon_can_CANDirection_MIN, _jon_can_CANDevice_MIN, 0, 0, {{NULL}, NULL}}
+#define jon_can_CANFrame_init_default            {0, 0, 0, 0, {{NULL}, NULL}}
 #define jon_can_CANFrameBatch_init_default       {{{NULL}, NULL}}
-#define jon_can_CANStreamFilter_init_default     {{{NULL}, NULL}, {{NULL}, NULL}, 0}
-#define jon_can_CANStreamConnected_init_default  {{{NULL}, NULL}, false, jon_can_CANStreamFilter_init_default}
-#define jon_can_CANFrame_init_zero               {0, 0, _jon_can_CANDirection_MIN, _jon_can_CANDevice_MIN, 0, 0, {{NULL}, NULL}}
+#define jon_can_CANFrame_init_zero               {0, 0, 0, 0, {{NULL}, NULL}}
 #define jon_can_CANFrameBatch_init_zero          {{{NULL}, NULL}}
-#define jon_can_CANStreamFilter_init_zero        {{{NULL}, NULL}, {{NULL}, NULL}, 0}
-#define jon_can_CANStreamConnected_init_zero     {{{NULL}, NULL}, false, jon_can_CANStreamFilter_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define jon_can_CANFrame_timestamp_ms_tag        1
+#define jon_can_CANFrame_timestamp_us_tag        1
 #define jon_can_CANFrame_can_id_tag              2
-#define jon_can_CANFrame_direction_tag           3
-#define jon_can_CANFrame_device_tag              4
-#define jon_can_CANFrame_frame_type_tag          5
-#define jon_can_CANFrame_dlc_tag                 6
-#define jon_can_CANFrame_data_tag                7
+#define jon_can_CANFrame_is_rx_tag               3
+#define jon_can_CANFrame_is_fd_tag               4
+#define jon_can_CANFrame_data_tag                5
 #define jon_can_CANFrameBatch_frames_tag         1
-#define jon_can_CANStreamFilter_devices_tag      1
-#define jon_can_CANStreamFilter_directions_tag   2
-#define jon_can_CANStreamFilter_interval_seconds_tag 3
-#define jon_can_CANStreamConnected_status_tag    1
-#define jon_can_CANStreamConnected_filters_tag   2
 
 /* Struct field encoding specification for nanopb */
 #define jon_can_CANFrame_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT64,   timestamp_ms,      1) \
+X(a, STATIC,   SINGULAR, UINT64,   timestamp_us,      1) \
 X(a, STATIC,   SINGULAR, UINT32,   can_id,            2) \
-X(a, STATIC,   SINGULAR, UENUM,    direction,         3) \
-X(a, STATIC,   SINGULAR, UENUM,    device,            4) \
-X(a, STATIC,   SINGULAR, UINT32,   frame_type,        5) \
-X(a, STATIC,   SINGULAR, UINT32,   dlc,               6) \
-X(a, CALLBACK, SINGULAR, BYTES,    data,              7)
+X(a, STATIC,   SINGULAR, BOOL,     is_rx,             3) \
+X(a, STATIC,   SINGULAR, BOOL,     is_fd,             4) \
+X(a, CALLBACK, SINGULAR, BYTES,    data,              5)
 #define jon_can_CANFrame_CALLBACK pb_default_field_callback
 #define jon_can_CANFrame_DEFAULT NULL
 
@@ -132,36 +59,16 @@ X(a, CALLBACK, REPEATED, MESSAGE,  frames,            1)
 #define jon_can_CANFrameBatch_DEFAULT NULL
 #define jon_can_CANFrameBatch_frames_MSGTYPE jon_can_CANFrame
 
-#define jon_can_CANStreamFilter_FIELDLIST(X, a) \
-X(a, CALLBACK, REPEATED, UENUM,    devices,           1) \
-X(a, CALLBACK, REPEATED, UENUM,    directions,        2) \
-X(a, STATIC,   SINGULAR, FLOAT,    interval_seconds,   3)
-#define jon_can_CANStreamFilter_CALLBACK pb_default_field_callback
-#define jon_can_CANStreamFilter_DEFAULT NULL
-
-#define jon_can_CANStreamConnected_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   status,            1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  filters,           2)
-#define jon_can_CANStreamConnected_CALLBACK pb_default_field_callback
-#define jon_can_CANStreamConnected_DEFAULT NULL
-#define jon_can_CANStreamConnected_filters_MSGTYPE jon_can_CANStreamFilter
-
 extern const pb_msgdesc_t jon_can_CANFrame_msg;
 extern const pb_msgdesc_t jon_can_CANFrameBatch_msg;
-extern const pb_msgdesc_t jon_can_CANStreamFilter_msg;
-extern const pb_msgdesc_t jon_can_CANStreamConnected_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define jon_can_CANFrame_fields &jon_can_CANFrame_msg
 #define jon_can_CANFrameBatch_fields &jon_can_CANFrameBatch_msg
-#define jon_can_CANStreamFilter_fields &jon_can_CANStreamFilter_msg
-#define jon_can_CANStreamConnected_fields &jon_can_CANStreamConnected_msg
 
 /* Maximum encoded size of messages (where known) */
 /* jon_can_CANFrame_size depends on runtime parameters */
 /* jon_can_CANFrameBatch_size depends on runtime parameters */
-/* jon_can_CANStreamFilter_size depends on runtime parameters */
-/* jon_can_CANStreamConnected_size depends on runtime parameters */
 
 #ifdef __cplusplus
 } /* extern "C" */

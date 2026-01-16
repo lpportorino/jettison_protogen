@@ -28,7 +28,6 @@
 #include "google/protobuf/message_lite.h"
 #include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
-#include "google/protobuf/generated_enum_reflection.h"
 #include "google/protobuf/unknown_field_set.h"
 #include "buf/validate/validate.pb.h"
 // @@protoc_insertion_point(includes)
@@ -61,12 +60,6 @@ extern CANFrameDefaultTypeInternal _CANFrame_default_instance_;
 class CANFrameBatch;
 struct CANFrameBatchDefaultTypeInternal;
 extern CANFrameBatchDefaultTypeInternal _CANFrameBatch_default_instance_;
-class CANStreamConnected;
-struct CANStreamConnectedDefaultTypeInternal;
-extern CANStreamConnectedDefaultTypeInternal _CANStreamConnected_default_instance_;
-class CANStreamFilter;
-struct CANStreamFilterDefaultTypeInternal;
-extern CANStreamFilterDefaultTypeInternal _CANStreamFilter_default_instance_;
 }  // namespace can
 }  // namespace jon
 namespace google {
@@ -76,322 +69,10 @@ namespace protobuf {
 
 namespace jon {
 namespace can {
-enum CANDevice : int {
-  CAN_DEVICE_UNSPECIFIED = 0,
-  CAN_DEVICE_UNKNOWN = 1,
-  CAN_DEVICE_COMPASS = 2,
-  CAN_DEVICE_COMPASS_DATA = 3,
-  CAN_DEVICE_GPS_CTRL = 4,
-  CAN_DEVICE_GPS_DATA = 5,
-  CAN_DEVICE_LRF_CTRL = 6,
-  CAN_DEVICE_LRF_DATA = 7,
-  CAN_DEVICE_DAY_CAM = 8,
-  CAN_DEVICE_DAY_GLASS_HEAT_CTRL = 9,
-  CAN_DEVICE_DAY_GLASS_HEAT_DATA = 10,
-  CAN_DEVICE_THERM_CTRL = 11,
-  CAN_DEVICE_THERM_CAM = 12,
-  CANDevice_INT_MIN_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::min(),
-  CANDevice_INT_MAX_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::max(),
-};
-
-bool CANDevice_IsValid(int value);
-extern const uint32_t CANDevice_internal_data_[];
-constexpr CANDevice CANDevice_MIN = static_cast<CANDevice>(0);
-constexpr CANDevice CANDevice_MAX = static_cast<CANDevice>(12);
-constexpr int CANDevice_ARRAYSIZE = 12 + 1;
-const ::google::protobuf::EnumDescriptor*
-CANDevice_descriptor();
-template <typename T>
-const std::string& CANDevice_Name(T value) {
-  static_assert(std::is_same<T, CANDevice>::value ||
-                    std::is_integral<T>::value,
-                "Incorrect type passed to CANDevice_Name().");
-  return CANDevice_Name(static_cast<CANDevice>(value));
-}
-template <>
-inline const std::string& CANDevice_Name(CANDevice value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<CANDevice_descriptor,
-                                                 0, 12>(
-      static_cast<int>(value));
-}
-inline bool CANDevice_Parse(absl::string_view name, CANDevice* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<CANDevice>(
-      CANDevice_descriptor(), name, value);
-}
-enum CANDirection : int {
-  CAN_DIRECTION_UNSPECIFIED = 0,
-  CAN_DIRECTION_TX = 1,
-  CAN_DIRECTION_RX = 2,
-  CANDirection_INT_MIN_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::min(),
-  CANDirection_INT_MAX_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::max(),
-};
-
-bool CANDirection_IsValid(int value);
-extern const uint32_t CANDirection_internal_data_[];
-constexpr CANDirection CANDirection_MIN = static_cast<CANDirection>(0);
-constexpr CANDirection CANDirection_MAX = static_cast<CANDirection>(2);
-constexpr int CANDirection_ARRAYSIZE = 2 + 1;
-const ::google::protobuf::EnumDescriptor*
-CANDirection_descriptor();
-template <typename T>
-const std::string& CANDirection_Name(T value) {
-  static_assert(std::is_same<T, CANDirection>::value ||
-                    std::is_integral<T>::value,
-                "Incorrect type passed to CANDirection_Name().");
-  return CANDirection_Name(static_cast<CANDirection>(value));
-}
-template <>
-inline const std::string& CANDirection_Name(CANDirection value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<CANDirection_descriptor,
-                                                 0, 2>(
-      static_cast<int>(value));
-}
-inline bool CANDirection_Parse(absl::string_view name, CANDirection* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<CANDirection>(
-      CANDirection_descriptor(), name, value);
-}
 
 // ===================================================================
 
 
-// -------------------------------------------------------------------
-
-class CANStreamFilter final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:jon.can.CANStreamFilter) */ {
- public:
-  inline CANStreamFilter() : CANStreamFilter(nullptr) {}
-  ~CANStreamFilter() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(CANStreamFilter* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(CANStreamFilter));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR CANStreamFilter(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline CANStreamFilter(const CANStreamFilter& from) : CANStreamFilter(nullptr, from) {}
-  inline CANStreamFilter(CANStreamFilter&& from) noexcept
-      : CANStreamFilter(nullptr, std::move(from)) {}
-  inline CANStreamFilter& operator=(const CANStreamFilter& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline CANStreamFilter& operator=(CANStreamFilter&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const CANStreamFilter& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const CANStreamFilter* internal_default_instance() {
-    return reinterpret_cast<const CANStreamFilter*>(
-        &_CANStreamFilter_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 2;
-  friend void swap(CANStreamFilter& a, CANStreamFilter& b) { a.Swap(&b); }
-  inline void Swap(CANStreamFilter* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(CANStreamFilter* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  CANStreamFilter* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<CANStreamFilter>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const CANStreamFilter& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const CANStreamFilter& from) { CANStreamFilter::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(CANStreamFilter* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "jon.can.CANStreamFilter"; }
-
- protected:
-  explicit CANStreamFilter(::google::protobuf::Arena* arena);
-  CANStreamFilter(::google::protobuf::Arena* arena, const CANStreamFilter& from);
-  CANStreamFilter(::google::protobuf::Arena* arena, CANStreamFilter&& from) noexcept
-      : CANStreamFilter(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kDevicesFieldNumber = 1,
-    kDirectionsFieldNumber = 2,
-    kIntervalSecondsFieldNumber = 3,
-  };
-  // repeated .jon.can.CANDevice devices = 1;
-  int devices_size() const;
-  private:
-  int _internal_devices_size() const;
-
-  public:
-  void clear_devices() ;
-  public:
-  ::jon::can::CANDevice devices(int index) const;
-  void set_devices(int index, ::jon::can::CANDevice value);
-  void add_devices(::jon::can::CANDevice value);
-  const ::google::protobuf::RepeatedField<int>& devices() const;
-  ::google::protobuf::RepeatedField<int>* mutable_devices();
-
-  private:
-  const ::google::protobuf::RepeatedField<int>& _internal_devices() const;
-  ::google::protobuf::RepeatedField<int>* _internal_mutable_devices();
-
-  public:
-  // repeated .jon.can.CANDirection directions = 2;
-  int directions_size() const;
-  private:
-  int _internal_directions_size() const;
-
-  public:
-  void clear_directions() ;
-  public:
-  ::jon::can::CANDirection directions(int index) const;
-  void set_directions(int index, ::jon::can::CANDirection value);
-  void add_directions(::jon::can::CANDirection value);
-  const ::google::protobuf::RepeatedField<int>& directions() const;
-  ::google::protobuf::RepeatedField<int>* mutable_directions();
-
-  private:
-  const ::google::protobuf::RepeatedField<int>& _internal_directions() const;
-  ::google::protobuf::RepeatedField<int>* _internal_mutable_directions();
-
-  public:
-  // float interval_seconds = 3;
-  void clear_interval_seconds() ;
-  float interval_seconds() const;
-  void set_interval_seconds(float value);
-
-  private:
-  float _internal_interval_seconds() const;
-  void _internal_set_interval_seconds(float value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:jon.can.CANStreamFilter)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 0,
-      0, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const CANStreamFilter& from_msg);
-    ::google::protobuf::RepeatedField<int> devices_;
-    ::google::protobuf::internal::CachedSize _devices_cached_byte_size_;
-    ::google::protobuf::RepeatedField<int> directions_;
-    ::google::protobuf::internal::CachedSize _directions_cached_byte_size_;
-    float interval_seconds_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
-};
 // -------------------------------------------------------------------
 
 class CANFrame final : public ::google::protobuf::Message
@@ -540,15 +221,13 @@ class CANFrame final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kDataFieldNumber = 7,
-    kTimestampMsFieldNumber = 1,
+    kDataFieldNumber = 5,
+    kTimestampUsFieldNumber = 1,
     kCanIdFieldNumber = 2,
-    kDirectionFieldNumber = 3,
-    kDeviceFieldNumber = 4,
-    kFrameTypeFieldNumber = 5,
-    kDlcFieldNumber = 6,
+    kIsRxFieldNumber = 3,
+    kIsFdFieldNumber = 4,
   };
-  // bytes data = 7 [(.buf.validate.field) = {
+  // bytes data = 5;
   void clear_data() ;
   const std::string& data() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -564,14 +243,14 @@ class CANFrame final : public ::google::protobuf::Message
   std::string* _internal_mutable_data();
 
   public:
-  // uint64 timestamp_ms = 1;
-  void clear_timestamp_ms() ;
-  ::uint64_t timestamp_ms() const;
-  void set_timestamp_ms(::uint64_t value);
+  // uint64 timestamp_us = 1;
+  void clear_timestamp_us() ;
+  ::uint64_t timestamp_us() const;
+  void set_timestamp_us(::uint64_t value);
 
   private:
-  ::uint64_t _internal_timestamp_ms() const;
-  void _internal_set_timestamp_ms(::uint64_t value);
+  ::uint64_t _internal_timestamp_us() const;
+  void _internal_set_timestamp_us(::uint64_t value);
 
   public:
   // uint32 can_id = 2;
@@ -584,44 +263,24 @@ class CANFrame final : public ::google::protobuf::Message
   void _internal_set_can_id(::uint32_t value);
 
   public:
-  // .jon.can.CANDirection direction = 3;
-  void clear_direction() ;
-  ::jon::can::CANDirection direction() const;
-  void set_direction(::jon::can::CANDirection value);
+  // bool is_rx = 3;
+  void clear_is_rx() ;
+  bool is_rx() const;
+  void set_is_rx(bool value);
 
   private:
-  ::jon::can::CANDirection _internal_direction() const;
-  void _internal_set_direction(::jon::can::CANDirection value);
+  bool _internal_is_rx() const;
+  void _internal_set_is_rx(bool value);
 
   public:
-  // .jon.can.CANDevice device = 4;
-  void clear_device() ;
-  ::jon::can::CANDevice device() const;
-  void set_device(::jon::can::CANDevice value);
+  // bool is_fd = 4;
+  void clear_is_fd() ;
+  bool is_fd() const;
+  void set_is_fd(bool value);
 
   private:
-  ::jon::can::CANDevice _internal_device() const;
-  void _internal_set_device(::jon::can::CANDevice value);
-
-  public:
-  // uint32 frame_type = 5;
-  void clear_frame_type() ;
-  ::uint32_t frame_type() const;
-  void set_frame_type(::uint32_t value);
-
-  private:
-  ::uint32_t _internal_frame_type() const;
-  void _internal_set_frame_type(::uint32_t value);
-
-  public:
-  // uint32 dlc = 6 [(.buf.validate.field) = {
-  void clear_dlc() ;
-  ::uint32_t dlc() const;
-  void set_dlc(::uint32_t value);
-
-  private:
-  ::uint32_t _internal_dlc() const;
-  void _internal_set_dlc(::uint32_t value);
+  bool _internal_is_fd() const;
+  void _internal_set_is_fd(bool value);
 
   public:
   // @@protoc_insertion_point(class_scope:jon.can.CANFrame)
@@ -629,7 +288,7 @@ class CANFrame final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 7, 0,
+      3, 5, 0,
       0, 2>
       _table_;
 
@@ -648,227 +307,11 @@ class CANFrame final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const CANFrame& from_msg);
     ::google::protobuf::internal::ArenaStringPtr data_;
-    ::uint64_t timestamp_ms_;
+    ::uint64_t timestamp_us_;
     ::uint32_t can_id_;
-    int direction_;
-    int device_;
-    ::uint32_t frame_type_;
-    ::uint32_t dlc_;
+    bool is_rx_;
+    bool is_fd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_jon_5fcan_5fstream_2eproto;
-};
-// -------------------------------------------------------------------
-
-class CANStreamConnected final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:jon.can.CANStreamConnected) */ {
- public:
-  inline CANStreamConnected() : CANStreamConnected(nullptr) {}
-  ~CANStreamConnected() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(CANStreamConnected* msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(CANStreamConnected));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR CANStreamConnected(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline CANStreamConnected(const CANStreamConnected& from) : CANStreamConnected(nullptr, from) {}
-  inline CANStreamConnected(CANStreamConnected&& from) noexcept
-      : CANStreamConnected(nullptr, std::move(from)) {}
-  inline CANStreamConnected& operator=(const CANStreamConnected& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline CANStreamConnected& operator=(CANStreamConnected&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const CANStreamConnected& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const CANStreamConnected* internal_default_instance() {
-    return reinterpret_cast<const CANStreamConnected*>(
-        &_CANStreamConnected_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 3;
-  friend void swap(CANStreamConnected& a, CANStreamConnected& b) { a.Swap(&b); }
-  inline void Swap(CANStreamConnected* other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(CANStreamConnected* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  CANStreamConnected* New(::google::protobuf::Arena* arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<CANStreamConnected>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const CANStreamConnected& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const CANStreamConnected& from) { CANStreamConnected::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(CANStreamConnected* other);
- private:
-  template <typename T>
-  friend ::absl::string_view(
-      ::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "jon.can.CANStreamConnected"; }
-
- protected:
-  explicit CANStreamConnected(::google::protobuf::Arena* arena);
-  CANStreamConnected(::google::protobuf::Arena* arena, const CANStreamConnected& from);
-  CANStreamConnected(::google::protobuf::Arena* arena, CANStreamConnected&& from) noexcept
-      : CANStreamConnected(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static void* PlacementNew_(const void*, void* mem,
-                             ::google::protobuf::Arena* arena);
-  static constexpr auto InternalNewImpl_();
-  static const ::google::protobuf::internal::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kStatusFieldNumber = 1,
-    kFiltersFieldNumber = 2,
-  };
-  // string status = 1;
-  void clear_status() ;
-  const std::string& status() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_status(Arg_&& arg, Args_... args);
-  std::string* mutable_status();
-  PROTOBUF_NODISCARD std::string* release_status();
-  void set_allocated_status(std::string* value);
-
-  private:
-  const std::string& _internal_status() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_status(
-      const std::string& value);
-  std::string* _internal_mutable_status();
-
-  public:
-  // .jon.can.CANStreamFilter filters = 2;
-  bool has_filters() const;
-  void clear_filters() ;
-  const ::jon::can::CANStreamFilter& filters() const;
-  PROTOBUF_NODISCARD ::jon::can::CANStreamFilter* release_filters();
-  ::jon::can::CANStreamFilter* mutable_filters();
-  void set_allocated_filters(::jon::can::CANStreamFilter* value);
-  void unsafe_arena_set_allocated_filters(::jon::can::CANStreamFilter* value);
-  ::jon::can::CANStreamFilter* unsafe_arena_release_filters();
-
-  private:
-  const ::jon::can::CANStreamFilter& _internal_filters() const;
-  ::jon::can::CANStreamFilter* _internal_mutable_filters();
-
-  public:
-  // @@protoc_insertion_point(class_scope:jon.can.CANStreamConnected)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
-      41, 2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const CANStreamConnected& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr status_;
-    ::jon::can::CANStreamFilter* filters_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1088,26 +531,26 @@ class CANFrameBatch final : public ::google::protobuf::Message
 
 // CANFrame
 
-// uint64 timestamp_ms = 1;
-inline void CANFrame::clear_timestamp_ms() {
+// uint64 timestamp_us = 1;
+inline void CANFrame::clear_timestamp_us() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.timestamp_ms_ = ::uint64_t{0u};
+  _impl_.timestamp_us_ = ::uint64_t{0u};
 }
-inline ::uint64_t CANFrame::timestamp_ms() const {
-  // @@protoc_insertion_point(field_get:jon.can.CANFrame.timestamp_ms)
-  return _internal_timestamp_ms();
+inline ::uint64_t CANFrame::timestamp_us() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.timestamp_us)
+  return _internal_timestamp_us();
 }
-inline void CANFrame::set_timestamp_ms(::uint64_t value) {
-  _internal_set_timestamp_ms(value);
-  // @@protoc_insertion_point(field_set:jon.can.CANFrame.timestamp_ms)
+inline void CANFrame::set_timestamp_us(::uint64_t value) {
+  _internal_set_timestamp_us(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.timestamp_us)
 }
-inline ::uint64_t CANFrame::_internal_timestamp_ms() const {
+inline ::uint64_t CANFrame::_internal_timestamp_us() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.timestamp_ms_;
+  return _impl_.timestamp_us_;
 }
-inline void CANFrame::_internal_set_timestamp_ms(::uint64_t value) {
+inline void CANFrame::_internal_set_timestamp_us(::uint64_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.timestamp_ms_ = value;
+  _impl_.timestamp_us_ = value;
 }
 
 // uint32 can_id = 2;
@@ -1132,95 +575,51 @@ inline void CANFrame::_internal_set_can_id(::uint32_t value) {
   _impl_.can_id_ = value;
 }
 
-// .jon.can.CANDirection direction = 3;
-inline void CANFrame::clear_direction() {
+// bool is_rx = 3;
+inline void CANFrame::clear_is_rx() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.direction_ = 0;
+  _impl_.is_rx_ = false;
 }
-inline ::jon::can::CANDirection CANFrame::direction() const {
-  // @@protoc_insertion_point(field_get:jon.can.CANFrame.direction)
-  return _internal_direction();
+inline bool CANFrame::is_rx() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.is_rx)
+  return _internal_is_rx();
 }
-inline void CANFrame::set_direction(::jon::can::CANDirection value) {
-  _internal_set_direction(value);
-  // @@protoc_insertion_point(field_set:jon.can.CANFrame.direction)
+inline void CANFrame::set_is_rx(bool value) {
+  _internal_set_is_rx(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.is_rx)
 }
-inline ::jon::can::CANDirection CANFrame::_internal_direction() const {
+inline bool CANFrame::_internal_is_rx() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return static_cast<::jon::can::CANDirection>(_impl_.direction_);
+  return _impl_.is_rx_;
 }
-inline void CANFrame::_internal_set_direction(::jon::can::CANDirection value) {
+inline void CANFrame::_internal_set_is_rx(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.direction_ = value;
+  _impl_.is_rx_ = value;
 }
 
-// .jon.can.CANDevice device = 4;
-inline void CANFrame::clear_device() {
+// bool is_fd = 4;
+inline void CANFrame::clear_is_fd() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.device_ = 0;
+  _impl_.is_fd_ = false;
 }
-inline ::jon::can::CANDevice CANFrame::device() const {
-  // @@protoc_insertion_point(field_get:jon.can.CANFrame.device)
-  return _internal_device();
+inline bool CANFrame::is_fd() const {
+  // @@protoc_insertion_point(field_get:jon.can.CANFrame.is_fd)
+  return _internal_is_fd();
 }
-inline void CANFrame::set_device(::jon::can::CANDevice value) {
-  _internal_set_device(value);
-  // @@protoc_insertion_point(field_set:jon.can.CANFrame.device)
+inline void CANFrame::set_is_fd(bool value) {
+  _internal_set_is_fd(value);
+  // @@protoc_insertion_point(field_set:jon.can.CANFrame.is_fd)
 }
-inline ::jon::can::CANDevice CANFrame::_internal_device() const {
+inline bool CANFrame::_internal_is_fd() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return static_cast<::jon::can::CANDevice>(_impl_.device_);
+  return _impl_.is_fd_;
 }
-inline void CANFrame::_internal_set_device(::jon::can::CANDevice value) {
+inline void CANFrame::_internal_set_is_fd(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.device_ = value;
+  _impl_.is_fd_ = value;
 }
 
-// uint32 frame_type = 5;
-inline void CANFrame::clear_frame_type() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.frame_type_ = 0u;
-}
-inline ::uint32_t CANFrame::frame_type() const {
-  // @@protoc_insertion_point(field_get:jon.can.CANFrame.frame_type)
-  return _internal_frame_type();
-}
-inline void CANFrame::set_frame_type(::uint32_t value) {
-  _internal_set_frame_type(value);
-  // @@protoc_insertion_point(field_set:jon.can.CANFrame.frame_type)
-}
-inline ::uint32_t CANFrame::_internal_frame_type() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.frame_type_;
-}
-inline void CANFrame::_internal_set_frame_type(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.frame_type_ = value;
-}
-
-// uint32 dlc = 6 [(.buf.validate.field) = {
-inline void CANFrame::clear_dlc() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.dlc_ = 0u;
-}
-inline ::uint32_t CANFrame::dlc() const {
-  // @@protoc_insertion_point(field_get:jon.can.CANFrame.dlc)
-  return _internal_dlc();
-}
-inline void CANFrame::set_dlc(::uint32_t value) {
-  _internal_set_dlc(value);
-  // @@protoc_insertion_point(field_set:jon.can.CANFrame.dlc)
-}
-inline ::uint32_t CANFrame::_internal_dlc() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.dlc_;
-}
-inline void CANFrame::_internal_set_dlc(::uint32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.dlc_ = value;
-}
-
-// bytes data = 7 [(.buf.validate.field) = {
+// bytes data = 5;
 inline void CANFrame::clear_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data_.ClearToEmpty();
@@ -1321,270 +720,6 @@ CANFrameBatch::_internal_mutable_frames() {
   return &_impl_.frames_;
 }
 
-// -------------------------------------------------------------------
-
-// CANStreamFilter
-
-// repeated .jon.can.CANDevice devices = 1;
-inline int CANStreamFilter::_internal_devices_size() const {
-  return _internal_devices().size();
-}
-inline int CANStreamFilter::devices_size() const {
-  return _internal_devices_size();
-}
-inline void CANStreamFilter::clear_devices() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.devices_.Clear();
-}
-inline ::jon::can::CANDevice CANStreamFilter::devices(int index) const {
-  // @@protoc_insertion_point(field_get:jon.can.CANStreamFilter.devices)
-  return static_cast<::jon::can::CANDevice>(_internal_devices().Get(index));
-}
-inline void CANStreamFilter::set_devices(int index, ::jon::can::CANDevice value) {
-  _internal_mutable_devices()->Set(index, value);
-  // @@protoc_insertion_point(field_set:jon.can.CANStreamFilter.devices)
-}
-inline void CANStreamFilter::add_devices(::jon::can::CANDevice value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_devices()->Add(value);
-  // @@protoc_insertion_point(field_add:jon.can.CANStreamFilter.devices)
-}
-inline const ::google::protobuf::RepeatedField<int>& CANStreamFilter::devices() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:jon.can.CANStreamFilter.devices)
-  return _internal_devices();
-}
-inline ::google::protobuf::RepeatedField<int>* CANStreamFilter::mutable_devices()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:jon.can.CANStreamFilter.devices)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_devices();
-}
-inline const ::google::protobuf::RepeatedField<int>& CANStreamFilter::_internal_devices()
-    const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.devices_;
-}
-inline ::google::protobuf::RepeatedField<int>* CANStreamFilter::_internal_mutable_devices() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.devices_;
-}
-
-// repeated .jon.can.CANDirection directions = 2;
-inline int CANStreamFilter::_internal_directions_size() const {
-  return _internal_directions().size();
-}
-inline int CANStreamFilter::directions_size() const {
-  return _internal_directions_size();
-}
-inline void CANStreamFilter::clear_directions() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.directions_.Clear();
-}
-inline ::jon::can::CANDirection CANStreamFilter::directions(int index) const {
-  // @@protoc_insertion_point(field_get:jon.can.CANStreamFilter.directions)
-  return static_cast<::jon::can::CANDirection>(_internal_directions().Get(index));
-}
-inline void CANStreamFilter::set_directions(int index, ::jon::can::CANDirection value) {
-  _internal_mutable_directions()->Set(index, value);
-  // @@protoc_insertion_point(field_set:jon.can.CANStreamFilter.directions)
-}
-inline void CANStreamFilter::add_directions(::jon::can::CANDirection value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_directions()->Add(value);
-  // @@protoc_insertion_point(field_add:jon.can.CANStreamFilter.directions)
-}
-inline const ::google::protobuf::RepeatedField<int>& CANStreamFilter::directions() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:jon.can.CANStreamFilter.directions)
-  return _internal_directions();
-}
-inline ::google::protobuf::RepeatedField<int>* CANStreamFilter::mutable_directions()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:jon.can.CANStreamFilter.directions)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_directions();
-}
-inline const ::google::protobuf::RepeatedField<int>& CANStreamFilter::_internal_directions()
-    const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.directions_;
-}
-inline ::google::protobuf::RepeatedField<int>* CANStreamFilter::_internal_mutable_directions() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.directions_;
-}
-
-// float interval_seconds = 3;
-inline void CANStreamFilter::clear_interval_seconds() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.interval_seconds_ = 0;
-}
-inline float CANStreamFilter::interval_seconds() const {
-  // @@protoc_insertion_point(field_get:jon.can.CANStreamFilter.interval_seconds)
-  return _internal_interval_seconds();
-}
-inline void CANStreamFilter::set_interval_seconds(float value) {
-  _internal_set_interval_seconds(value);
-  // @@protoc_insertion_point(field_set:jon.can.CANStreamFilter.interval_seconds)
-}
-inline float CANStreamFilter::_internal_interval_seconds() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.interval_seconds_;
-}
-inline void CANStreamFilter::_internal_set_interval_seconds(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.interval_seconds_ = value;
-}
-
-// -------------------------------------------------------------------
-
-// CANStreamConnected
-
-// string status = 1;
-inline void CANStreamConnected::clear_status() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.status_.ClearToEmpty();
-}
-inline const std::string& CANStreamConnected::status() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:jon.can.CANStreamConnected.status)
-  return _internal_status();
-}
-template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void CANStreamConnected::set_status(Arg_&& arg,
-                                                     Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.status_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:jon.can.CANStreamConnected.status)
-}
-inline std::string* CANStreamConnected::mutable_status() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_status();
-  // @@protoc_insertion_point(field_mutable:jon.can.CANStreamConnected.status)
-  return _s;
-}
-inline const std::string& CANStreamConnected::_internal_status() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.status_.Get();
-}
-inline void CANStreamConnected::_internal_set_status(const std::string& value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.status_.Set(value, GetArena());
-}
-inline std::string* CANStreamConnected::_internal_mutable_status() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _impl_.status_.Mutable( GetArena());
-}
-inline std::string* CANStreamConnected::release_status() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:jon.can.CANStreamConnected.status)
-  return _impl_.status_.Release();
-}
-inline void CANStreamConnected::set_allocated_status(std::string* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.status_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.status_.IsDefault()) {
-    _impl_.status_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:jon.can.CANStreamConnected.status)
-}
-
-// .jon.can.CANStreamFilter filters = 2;
-inline bool CANStreamConnected::has_filters() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.filters_ != nullptr);
-  return value;
-}
-inline void CANStreamConnected::clear_filters() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.filters_ != nullptr) _impl_.filters_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::jon::can::CANStreamFilter& CANStreamConnected::_internal_filters() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::jon::can::CANStreamFilter* p = _impl_.filters_;
-  return p != nullptr ? *p : reinterpret_cast<const ::jon::can::CANStreamFilter&>(::jon::can::_CANStreamFilter_default_instance_);
-}
-inline const ::jon::can::CANStreamFilter& CANStreamConnected::filters() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:jon.can.CANStreamConnected.filters)
-  return _internal_filters();
-}
-inline void CANStreamConnected::unsafe_arena_set_allocated_filters(::jon::can::CANStreamFilter* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.filters_);
-  }
-  _impl_.filters_ = reinterpret_cast<::jon::can::CANStreamFilter*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:jon.can.CANStreamConnected.filters)
-}
-inline ::jon::can::CANStreamFilter* CANStreamConnected::release_filters() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::jon::can::CANStreamFilter* released = _impl_.filters_;
-  _impl_.filters_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
-}
-inline ::jon::can::CANStreamFilter* CANStreamConnected::unsafe_arena_release_filters() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:jon.can.CANStreamConnected.filters)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::jon::can::CANStreamFilter* temp = _impl_.filters_;
-  _impl_.filters_ = nullptr;
-  return temp;
-}
-inline ::jon::can::CANStreamFilter* CANStreamConnected::_internal_mutable_filters() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.filters_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::jon::can::CANStreamFilter>(GetArena());
-    _impl_.filters_ = reinterpret_cast<::jon::can::CANStreamFilter*>(p);
-  }
-  return _impl_.filters_;
-}
-inline ::jon::can::CANStreamFilter* CANStreamConnected::mutable_filters() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::jon::can::CANStreamFilter* _msg = _internal_mutable_filters();
-  // @@protoc_insertion_point(field_mutable:jon.can.CANStreamConnected.filters)
-  return _msg;
-}
-inline void CANStreamConnected::set_allocated_filters(::jon::can::CANStreamFilter* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.filters_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-
-  _impl_.filters_ = reinterpret_cast<::jon::can::CANStreamFilter*>(value);
-  // @@protoc_insertion_point(field_set_allocated:jon.can.CANStreamConnected.filters)
-}
-
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -1593,25 +728,6 @@ inline void CANStreamConnected::set_allocated_filters(::jon::can::CANStreamFilte
 }  // namespace can
 }  // namespace jon
 
-
-namespace google {
-namespace protobuf {
-
-template <>
-struct is_proto_enum<::jon::can::CANDevice> : std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor<::jon::can::CANDevice>() {
-  return ::jon::can::CANDevice_descriptor();
-}
-template <>
-struct is_proto_enum<::jon::can::CANDirection> : std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor<::jon::can::CANDirection>() {
-  return ::jon::can::CANDirection_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 

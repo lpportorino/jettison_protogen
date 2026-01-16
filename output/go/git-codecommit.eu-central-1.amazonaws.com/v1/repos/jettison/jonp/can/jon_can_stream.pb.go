@@ -22,147 +22,14 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// CAN device groups (matching panopticon)
-// UNKNOWN used for CAN IDs not matching any known device
-type CANDevice int32
-
-const (
-	CANDevice_CAN_DEVICE_UNSPECIFIED         CANDevice = 0
-	CANDevice_CAN_DEVICE_UNKNOWN             CANDevice = 1  // Unknown device - display raw CAN ID
-	CANDevice_CAN_DEVICE_COMPASS             CANDevice = 2  // Compass control (0x304/0x314)
-	CANDevice_CAN_DEVICE_COMPASS_DATA        CANDevice = 3  // Compass data (0x305/0x315)
-	CANDevice_CAN_DEVICE_GPS_CTRL            CANDevice = 4  // GPS control (0x202/0x212)
-	CANDevice_CAN_DEVICE_GPS_DATA            CANDevice = 5  // GPS data (0x203/0x213)
-	CANDevice_CAN_DEVICE_LRF_CTRL            CANDevice = 6  // LRF control (0x200/0x210)
-	CANDevice_CAN_DEVICE_LRF_DATA            CANDevice = 7  // LRF data (0x201/0x211)
-	CANDevice_CAN_DEVICE_DAY_CAM             CANDevice = 8  // Day camera (0x500/0x510)
-	CANDevice_CAN_DEVICE_DAY_GLASS_HEAT_CTRL CANDevice = 9  // Day glass heater control (0x205/0x215)
-	CANDevice_CAN_DEVICE_DAY_GLASS_HEAT_DATA CANDevice = 10 // Day glass heater data (0x206/0x216)
-	CANDevice_CAN_DEVICE_THERM_CTRL          CANDevice = 11 // Thermal control (0x300/0x310)
-	CANDevice_CAN_DEVICE_THERM_CAM           CANDevice = 12 // Thermal camera (0x301/0x311)
-)
-
-// Enum value maps for CANDevice.
-var (
-	CANDevice_name = map[int32]string{
-		0:  "CAN_DEVICE_UNSPECIFIED",
-		1:  "CAN_DEVICE_UNKNOWN",
-		2:  "CAN_DEVICE_COMPASS",
-		3:  "CAN_DEVICE_COMPASS_DATA",
-		4:  "CAN_DEVICE_GPS_CTRL",
-		5:  "CAN_DEVICE_GPS_DATA",
-		6:  "CAN_DEVICE_LRF_CTRL",
-		7:  "CAN_DEVICE_LRF_DATA",
-		8:  "CAN_DEVICE_DAY_CAM",
-		9:  "CAN_DEVICE_DAY_GLASS_HEAT_CTRL",
-		10: "CAN_DEVICE_DAY_GLASS_HEAT_DATA",
-		11: "CAN_DEVICE_THERM_CTRL",
-		12: "CAN_DEVICE_THERM_CAM",
-	}
-	CANDevice_value = map[string]int32{
-		"CAN_DEVICE_UNSPECIFIED":         0,
-		"CAN_DEVICE_UNKNOWN":             1,
-		"CAN_DEVICE_COMPASS":             2,
-		"CAN_DEVICE_COMPASS_DATA":        3,
-		"CAN_DEVICE_GPS_CTRL":            4,
-		"CAN_DEVICE_GPS_DATA":            5,
-		"CAN_DEVICE_LRF_CTRL":            6,
-		"CAN_DEVICE_LRF_DATA":            7,
-		"CAN_DEVICE_DAY_CAM":             8,
-		"CAN_DEVICE_DAY_GLASS_HEAT_CTRL": 9,
-		"CAN_DEVICE_DAY_GLASS_HEAT_DATA": 10,
-		"CAN_DEVICE_THERM_CTRL":          11,
-		"CAN_DEVICE_THERM_CAM":           12,
-	}
-)
-
-func (x CANDevice) Enum() *CANDevice {
-	p := new(CANDevice)
-	*p = x
-	return p
-}
-
-func (x CANDevice) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (CANDevice) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_can_stream_proto_enumTypes[0].Descriptor()
-}
-
-func (CANDevice) Type() protoreflect.EnumType {
-	return &file_jon_can_stream_proto_enumTypes[0]
-}
-
-func (x CANDevice) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use CANDevice.Descriptor instead.
-func (CANDevice) EnumDescriptor() ([]byte, []int) {
-	return file_jon_can_stream_proto_rawDescGZIP(), []int{0}
-}
-
-// Message direction on CAN bus
-type CANDirection int32
-
-const (
-	CANDirection_CAN_DIRECTION_UNSPECIFIED CANDirection = 0
-	CANDirection_CAN_DIRECTION_TX          CANDirection = 1 // Sent to device (command)
-	CANDirection_CAN_DIRECTION_RX          CANDirection = 2 // Received from device (response)
-)
-
-// Enum value maps for CANDirection.
-var (
-	CANDirection_name = map[int32]string{
-		0: "CAN_DIRECTION_UNSPECIFIED",
-		1: "CAN_DIRECTION_TX",
-		2: "CAN_DIRECTION_RX",
-	}
-	CANDirection_value = map[string]int32{
-		"CAN_DIRECTION_UNSPECIFIED": 0,
-		"CAN_DIRECTION_TX":          1,
-		"CAN_DIRECTION_RX":          2,
-	}
-)
-
-func (x CANDirection) Enum() *CANDirection {
-	p := new(CANDirection)
-	*p = x
-	return p
-}
-
-func (x CANDirection) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (CANDirection) Descriptor() protoreflect.EnumDescriptor {
-	return file_jon_can_stream_proto_enumTypes[1].Descriptor()
-}
-
-func (CANDirection) Type() protoreflect.EnumType {
-	return &file_jon_can_stream_proto_enumTypes[1]
-}
-
-func (x CANDirection) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use CANDirection.Descriptor instead.
-func (CANDirection) EnumDescriptor() ([]byte, []int) {
-	return file_jon_can_stream_proto_rawDescGZIP(), []int{1}
-}
-
-// Single CAN frame
+// Single CAN/CAN-FD frame
 type CANFrame struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TimestampMs   uint64                 `protobuf:"varint,1,opt,name=timestamp_ms,json=timestampMs,proto3" json:"timestamp_ms,omitempty"` // Unix timestamp in milliseconds
-	CanId         uint32                 `protobuf:"varint,2,opt,name=can_id,json=canId,proto3" json:"can_id,omitempty"`                   // Raw CAN ID (e.g., 0x304)
-	Direction     CANDirection           `protobuf:"varint,3,opt,name=direction,proto3,enum=jon.can.CANDirection" json:"direction,omitempty"`
-	Device        CANDevice              `protobuf:"varint,4,opt,name=device,proto3,enum=jon.can.CANDevice" json:"device,omitempty"`
-	FrameType     uint32                 `protobuf:"varint,5,opt,name=frame_type,json=frameType,proto3" json:"frame_type,omitempty"` // 0=CAN, 1=CAN-FD
-	Dlc           uint32                 `protobuf:"varint,6,opt,name=dlc,proto3" json:"dlc,omitempty"`
-	Data          []byte                 `protobuf:"bytes,7,opt,name=data,proto3" json:"data,omitempty"`
+	TimestampUs   uint64                 `protobuf:"varint,1,opt,name=timestamp_us,json=timestampUs,proto3" json:"timestamp_us,omitempty"` // Timestamp in microseconds
+	CanId         uint32                 `protobuf:"varint,2,opt,name=can_id,json=canId,proto3" json:"can_id,omitempty"`                   // Raw CAN ID
+	IsRx          bool                   `protobuf:"varint,3,opt,name=is_rx,json=isRx,proto3" json:"is_rx,omitempty"`                      // true=received from device, false=sent to device
+	IsFd          bool                   `protobuf:"varint,4,opt,name=is_fd,json=isFd,proto3" json:"is_fd,omitempty"`                      // true=CAN-FD, false=classic CAN
+	Data          []byte                 `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"`                                   // Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -197,9 +64,9 @@ func (*CANFrame) Descriptor() ([]byte, []int) {
 	return file_jon_can_stream_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CANFrame) GetTimestampMs() uint64 {
+func (x *CANFrame) GetTimestampUs() uint64 {
 	if x != nil {
-		return x.TimestampMs
+		return x.TimestampUs
 	}
 	return 0
 }
@@ -211,32 +78,18 @@ func (x *CANFrame) GetCanId() uint32 {
 	return 0
 }
 
-func (x *CANFrame) GetDirection() CANDirection {
+func (x *CANFrame) GetIsRx() bool {
 	if x != nil {
-		return x.Direction
+		return x.IsRx
 	}
-	return CANDirection_CAN_DIRECTION_UNSPECIFIED
+	return false
 }
 
-func (x *CANFrame) GetDevice() CANDevice {
+func (x *CANFrame) GetIsFd() bool {
 	if x != nil {
-		return x.Device
+		return x.IsFd
 	}
-	return CANDevice_CAN_DEVICE_UNSPECIFIED
-}
-
-func (x *CANFrame) GetFrameType() uint32 {
-	if x != nil {
-		return x.FrameType
-	}
-	return 0
-}
-
-func (x *CANFrame) GetDlc() uint32 {
-	if x != nil {
-		return x.Dlc
-	}
-	return 0
+	return false
 }
 
 func (x *CANFrame) GetData() []byte {
@@ -246,7 +99,7 @@ func (x *CANFrame) GetData() []byte {
 	return nil
 }
 
-// Batch of CAN frames (for efficient streaming)
+// Batch of CAN frames for efficient streaming
 type CANFrameBatch struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Frames        []*CANFrame            `protobuf:"bytes,1,rep,name=frames,proto3" json:"frames,omitempty"`
@@ -291,164 +144,19 @@ func (x *CANFrameBatch) GetFrames() []*CANFrame {
 	return nil
 }
 
-// Stream filter configuration (sent in SSE connected event)
-type CANStreamFilter struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Devices         []CANDevice            `protobuf:"varint,1,rep,packed,name=devices,proto3,enum=jon.can.CANDevice" json:"devices,omitempty"`           // Empty = all devices
-	Directions      []CANDirection         `protobuf:"varint,2,rep,packed,name=directions,proto3,enum=jon.can.CANDirection" json:"directions,omitempty"`  // Empty = both TX and RX
-	IntervalSeconds float32                `protobuf:"fixed32,3,opt,name=interval_seconds,json=intervalSeconds,proto3" json:"interval_seconds,omitempty"` // Batching interval (0 = immediate)
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *CANStreamFilter) Reset() {
-	*x = CANStreamFilter{}
-	mi := &file_jon_can_stream_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CANStreamFilter) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CANStreamFilter) ProtoMessage() {}
-
-func (x *CANStreamFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_can_stream_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CANStreamFilter.ProtoReflect.Descriptor instead.
-func (*CANStreamFilter) Descriptor() ([]byte, []int) {
-	return file_jon_can_stream_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *CANStreamFilter) GetDevices() []CANDevice {
-	if x != nil {
-		return x.Devices
-	}
-	return nil
-}
-
-func (x *CANStreamFilter) GetDirections() []CANDirection {
-	if x != nil {
-		return x.Directions
-	}
-	return nil
-}
-
-func (x *CANStreamFilter) GetIntervalSeconds() float32 {
-	if x != nil {
-		return x.IntervalSeconds
-	}
-	return 0
-}
-
-// SSE connected event payload
-type CANStreamConnected struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Status        string                 `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	Filters       *CANStreamFilter       `protobuf:"bytes,2,opt,name=filters,proto3" json:"filters,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CANStreamConnected) Reset() {
-	*x = CANStreamConnected{}
-	mi := &file_jon_can_stream_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CANStreamConnected) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CANStreamConnected) ProtoMessage() {}
-
-func (x *CANStreamConnected) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_can_stream_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CANStreamConnected.ProtoReflect.Descriptor instead.
-func (*CANStreamConnected) Descriptor() ([]byte, []int) {
-	return file_jon_can_stream_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *CANStreamConnected) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *CANStreamConnected) GetFilters() *CANStreamFilter {
-	if x != nil {
-		return x.Filters
-	}
-	return nil
-}
-
 var File_jon_can_stream_proto protoreflect.FileDescriptor
 
 const file_jon_can_stream_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\xfc\x01\n" +
+	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\x82\x01\n" +
 	"\bCANFrame\x12!\n" +
-	"\ftimestamp_ms\x18\x01 \x01(\x04R\vtimestampMs\x12\x15\n" +
-	"\x06can_id\x18\x02 \x01(\rR\x05canId\x123\n" +
-	"\tdirection\x18\x03 \x01(\x0e2\x15.jon.can.CANDirectionR\tdirection\x12*\n" +
-	"\x06device\x18\x04 \x01(\x0e2\x12.jon.can.CANDeviceR\x06device\x12\x1d\n" +
-	"\n" +
-	"frame_type\x18\x05 \x01(\rR\tframeType\x12\x19\n" +
-	"\x03dlc\x18\x06 \x01(\rB\a\xbaH\x04*\x02\x18@R\x03dlc\x12\x1b\n" +
-	"\x04data\x18\a \x01(\fB\a\xbaH\x04z\x02\x18@R\x04data\":\n" +
+	"\ftimestamp_us\x18\x01 \x01(\x04R\vtimestampUs\x12\x15\n" +
+	"\x06can_id\x18\x02 \x01(\rR\x05canId\x12\x13\n" +
+	"\x05is_rx\x18\x03 \x01(\bR\x04isRx\x12\x13\n" +
+	"\x05is_fd\x18\x04 \x01(\bR\x04isFd\x12\x12\n" +
+	"\x04data\x18\x05 \x01(\fR\x04data\":\n" +
 	"\rCANFrameBatch\x12)\n" +
-	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\"\xa1\x01\n" +
-	"\x0fCANStreamFilter\x12,\n" +
-	"\adevices\x18\x01 \x03(\x0e2\x12.jon.can.CANDeviceR\adevices\x125\n" +
-	"\n" +
-	"directions\x18\x02 \x03(\x0e2\x15.jon.can.CANDirectionR\n" +
-	"directions\x12)\n" +
-	"\x10interval_seconds\x18\x03 \x01(\x02R\x0fintervalSeconds\"`\n" +
-	"\x12CANStreamConnected\x12\x16\n" +
-	"\x06status\x18\x01 \x01(\tR\x06status\x122\n" +
-	"\afilters\x18\x02 \x01(\v2\x18.jon.can.CANStreamFilterR\afilters*\xed\x02\n" +
-	"\tCANDevice\x12\x1a\n" +
-	"\x16CAN_DEVICE_UNSPECIFIED\x10\x00\x12\x16\n" +
-	"\x12CAN_DEVICE_UNKNOWN\x10\x01\x12\x16\n" +
-	"\x12CAN_DEVICE_COMPASS\x10\x02\x12\x1b\n" +
-	"\x17CAN_DEVICE_COMPASS_DATA\x10\x03\x12\x17\n" +
-	"\x13CAN_DEVICE_GPS_CTRL\x10\x04\x12\x17\n" +
-	"\x13CAN_DEVICE_GPS_DATA\x10\x05\x12\x17\n" +
-	"\x13CAN_DEVICE_LRF_CTRL\x10\x06\x12\x17\n" +
-	"\x13CAN_DEVICE_LRF_DATA\x10\a\x12\x16\n" +
-	"\x12CAN_DEVICE_DAY_CAM\x10\b\x12\"\n" +
-	"\x1eCAN_DEVICE_DAY_GLASS_HEAT_CTRL\x10\t\x12\"\n" +
-	"\x1eCAN_DEVICE_DAY_GLASS_HEAT_DATA\x10\n" +
-	"\x12\x19\n" +
-	"\x15CAN_DEVICE_THERM_CTRL\x10\v\x12\x18\n" +
-	"\x14CAN_DEVICE_THERM_CAM\x10\f*Y\n" +
-	"\fCANDirection\x12\x1d\n" +
-	"\x19CAN_DIRECTION_UNSPECIFIED\x10\x00\x12\x14\n" +
-	"\x10CAN_DIRECTION_TX\x10\x01\x12\x14\n" +
-	"\x10CAN_DIRECTION_RX\x10\x02B\xa3\x01\n" +
+	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06framesB\xa3\x01\n" +
 	"\vcom.jon.canB\x11JonCanStreamProtoP\x01ZDgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/can\xa2\x02\x03JCX\xaa\x02\aJon.Can\xca\x02\aJon\\Can\xe2\x02\x13Jon\\Can\\GPBMetadata\xea\x02\bJon::Canb\x06proto3"
 
 var (
@@ -463,28 +171,18 @@ func file_jon_can_stream_proto_rawDescGZIP() []byte {
 	return file_jon_can_stream_proto_rawDescData
 }
 
-var file_jon_can_stream_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_jon_can_stream_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_jon_can_stream_proto_goTypes = []any{
-	(CANDevice)(0),             // 0: jon.can.CANDevice
-	(CANDirection)(0),          // 1: jon.can.CANDirection
-	(*CANFrame)(nil),           // 2: jon.can.CANFrame
-	(*CANFrameBatch)(nil),      // 3: jon.can.CANFrameBatch
-	(*CANStreamFilter)(nil),    // 4: jon.can.CANStreamFilter
-	(*CANStreamConnected)(nil), // 5: jon.can.CANStreamConnected
+	(*CANFrame)(nil),      // 0: jon.can.CANFrame
+	(*CANFrameBatch)(nil), // 1: jon.can.CANFrameBatch
 }
 var file_jon_can_stream_proto_depIdxs = []int32{
-	1, // 0: jon.can.CANFrame.direction:type_name -> jon.can.CANDirection
-	0, // 1: jon.can.CANFrame.device:type_name -> jon.can.CANDevice
-	2, // 2: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
-	0, // 3: jon.can.CANStreamFilter.devices:type_name -> jon.can.CANDevice
-	1, // 4: jon.can.CANStreamFilter.directions:type_name -> jon.can.CANDirection
-	4, // 5: jon.can.CANStreamConnected.filters:type_name -> jon.can.CANStreamFilter
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	0, // 0: jon.can.CANFrameBatch.frames:type_name -> jon.can.CANFrame
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_jon_can_stream_proto_init() }
@@ -497,14 +195,13 @@ func file_jon_can_stream_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_can_stream_proto_rawDesc), len(file_jon_can_stream_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   4,
+			NumEnums:      0,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_jon_can_stream_proto_goTypes,
 		DependencyIndexes: file_jon_can_stream_proto_depIdxs,
-		EnumInfos:         file_jon_can_stream_proto_enumTypes,
 		MessageInfos:      file_jon_can_stream_proto_msgTypes,
 	}.Build()
 	File_jon_can_stream_proto = out.File
