@@ -102,6 +102,7 @@ inline constexpr JonGuiDataLrf::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         target_{nullptr},
+        meteo_{nullptr},
         measure_id_{0},
         is_scanning_{false},
         is_measuring_{false},
@@ -155,6 +156,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataLrf, _impl_.is_refining_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataLrf, _impl_.is_continuous_measuring_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataLrf, _impl_.is_started_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataLrf, _impl_.meteo_),
         ~0u,
         ~0u,
         ~0u,
@@ -164,6 +166,7 @@ const ::uint32_t
         ~0u,
         ~0u,
         ~0u,
+        1,
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataTarget, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -229,9 +232,9 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 17, -1, sizeof(::ser::JonGuiDataLrf)},
-        {26, 55, -1, sizeof(::ser::JonGuiDataTarget)},
-        {76, -1, -1, sizeof(::ser::RgbColor)},
+        {0, 18, -1, sizeof(::ser::JonGuiDataLrf)},
+        {28, 57, -1, sizeof(::ser::JonGuiDataTarget)},
+        {78, -1, -1, sizeof(::ser::RgbColor)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataLrf_default_instance_._instance,
@@ -242,39 +245,40 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_lrf.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\246\002\n\rJonGuiDataLrf\022\023\n\013is_scann"
+    "ypes.proto\"\313\002\n\rJonGuiDataLrf\022\023\n\013is_scann"
     "ing\030\001 \001(\010\022\024\n\014is_measuring\030\002 \001(\010\022\033\n\nmeasu"
     "re_id\030\003 \001(\005B\007\272H\004\032\002(\000\022%\n\006target\030\004 \001(\0132\025.s"
     "er.JonGuiDataTarget\022D\n\014pointer_mode\030\005 \001("
     "\0162$.ser.JonGuiDatatLrfLaserPointerModesB"
     "\010\272H\005\202\001\002\020\001\022\026\n\016fogModeEnabled\030\006 \001(\010\022\023\n\013is_"
     "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin"
-    "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\"\242\006\n\020JonGuiDa"
-    "taTarget\022\032\n\ttimestamp\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020"
-    "target_longitude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000"
-    "\000\000\000\000\200f\300\0220\n\017target_latitude\030\003 \001(\001B\027\272H\024\022\022\031"
-    "\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017target_altitude\030\004 \001"
-    "(\001\0223\n\022observer_longitude\030\005 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021observer_latitude\030\006 \001"
-    "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\031\n\021observer_"
-    "altitude\030\007 \001(\001\0221\n\020observer_azimuth\030\010 \001(\001"
-    "B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0223\n\022observer_el"
-    "evation\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022."
-    "\n\robserver_bank\030\n \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000"
-    "\000\000\000\200f\300\022,\n\013distance_2d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200"
-    "\204\036A)\000\000\000\000\000\000\000\000\022,\n\013distance_3b\030\014 \001(\001B\027\272H\024\022\022"
-    "\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@\n\021observer_fix_type\030"
-    "\r \001(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004"
-    "\020\001 \000\022\033\n\nsession_id\030\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttar"
-    "get_id\030\017 \001(\005B\007\272H\004\032\002(\000\022#\n\014target_color\030\020 "
-    "\001(\0132\r.ser.RgbColor\022\014\n\004type\030\021 \001(\r\022\022\n\nuuid"
-    "_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022\022\n\nuuid"
-    "_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\"X\n\010RgbC"
-    "olor\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002"
-    " \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001"
-    "(\000BKZIgit-codecommit.eu-central-1.amazon"
-    "aws.com/v1/repos/jettison/jonp/data/lrfb"
-    "\006proto3"
+    "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\022#\n\005meteo\030\n \001"
+    "(\0132\024.ser.JonGuiDataMeteo\"\242\006\n\020JonGuiDataT"
+    "arget\022\032\n\ttimestamp\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020tar"
+    "get_longitude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000"
+    "\000\200f\300\0220\n\017target_latitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000"
+    "\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017target_altitude\030\004 \001(\001\022"
+    "3\n\022observer_longitude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000"
+    "\200f@)\000\000\000\000\000\200f\300\0222\n\021observer_latitude\030\006 \001(\001B"
+    "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\031\n\021observer_alt"
+    "itude\030\007 \001(\001\0221\n\020observer_azimuth\030\010 \001(\001B\027\272"
+    "H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0223\n\022observer_eleva"
+    "tion\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\ro"
+    "bserver_bank\030\n \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000"
+    "\200f\300\022,\n\013distance_2d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A"
+    ")\000\000\000\000\000\000\000\000\022,\n\013distance_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000"
+    "\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@\n\021observer_fix_type\030\r \001"
+    "(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004\020\001 "
+    "\000\022\033\n\nsession_id\030\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget"
+    "_id\030\017 \001(\005B\007\272H\004\032\002(\000\022#\n\014target_color\030\020 \001(\013"
+    "2\r.ser.RgbColor\022\014\n\004type\030\021 \001(\r\022\022\n\nuuid_pa"
+    "rt1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022\022\n\nuuid_pa"
+    "rt3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\"X\n\010RgbColo"
+    "r\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001("
+    "\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000B"
+    "KZIgit-codecommit.eu-central-1.amazonaws"
+    ".com/v1/repos/jettison/jonp/data/lrfb\006pr"
+    "oto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_deps[2] =
     {
@@ -285,7 +289,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5flrf_2eproto = {
     false,
     false,
-    1367,
+    1404,
     descriptor_table_protodef_jon_5fshared_5fdata_5flrf_2eproto,
     "jon_shared_data_lrf.proto",
     &descriptor_table_jon_5fshared_5fdata_5flrf_2eproto_once,
@@ -309,6 +313,11 @@ class JonGuiDataLrf::_Internal {
       8 * PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_._has_bits_);
 };
 
+void JonGuiDataLrf::clear_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
 JonGuiDataLrf::JonGuiDataLrf(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -340,6 +349,9 @@ JonGuiDataLrf::JonGuiDataLrf(
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
   _impl_.target_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataTarget>(
                               arena, *from._impl_.target_)
+                        : nullptr;
+  _impl_.meteo_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
+                              arena, *from._impl_.meteo_)
                         : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, measure_id_),
@@ -374,6 +386,7 @@ inline void JonGuiDataLrf::SharedDtor(MessageLite& self) {
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.target_;
+  delete this_._impl_.meteo_;
   this_._impl_.~Impl_();
 }
 
@@ -413,16 +426,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataLrf::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataLrf::_table_ = {
+const ::_pbi::TcParseTable<4, 10, 2, 0, 2> JonGuiDataLrf::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_._has_bits_),
     0, // no _extensions_
-    9, 120,  // max_field_number, fast_idx_mask
+    10, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966784,  // skipmap
+    4294966272,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
-    1,  // num_aux_entries
+    10,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -459,7 +472,9 @@ const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataLrf::_table_ = {
     // bool is_started = 9;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataLrf, _impl_.is_started_), 63>(),
      {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.is_started_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataMeteo meteo = 10;
+    {::_pbi::TcParser::FastMtS1,
+     {82, 1, 1, PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.meteo_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -495,8 +510,12 @@ const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataLrf::_table_ = {
     // bool is_started = 9;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.is_started_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // .ser.JonGuiDataMeteo meteo = 10;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataLrf, _impl_.meteo_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataTarget>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
   }}, {{
   }},
 };
@@ -509,9 +528,15 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.target_ != nullptr);
-    _impl_.target_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.target_ != nullptr);
+      _impl_.target_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.meteo_ != nullptr);
+      _impl_.meteo_->Clear();
+    }
   }
   ::memset(&_impl_.measure_id_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.is_started_) -
@@ -599,6 +624,13 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
                 9, this_._internal_is_started(), target);
           }
 
+          // .ser.JonGuiDataMeteo meteo = 10;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                10, *this_._impl_.meteo_, this_._impl_.meteo_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -623,12 +655,17 @@ PROTOBUF_NOINLINE void JonGuiDataLrf::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
             // .ser.JonGuiDataTarget target = 4;
-            cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.target_);
+            }
+            // .ser.JonGuiDataMeteo meteo = 10;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
             }
           }
            {
@@ -681,13 +718,24 @@ void JonGuiDataLrf::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.target_ != nullptr);
-    if (_this->_impl_.target_ == nullptr) {
-      _this->_impl_.target_ =
-          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataTarget>(arena, *from._impl_.target_);
-    } else {
-      _this->_impl_.target_->MergeFrom(*from._impl_.target_);
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.target_ != nullptr);
+      if (_this->_impl_.target_ == nullptr) {
+        _this->_impl_.target_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataTarget>(arena, *from._impl_.target_);
+      } else {
+        _this->_impl_.target_->MergeFrom(*from._impl_.target_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+      if (_this->_impl_.meteo_ == nullptr) {
+        _this->_impl_.meteo_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+      } else {
+        _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
     }
   }
   if (from._internal_measure_id() != 0) {

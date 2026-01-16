@@ -34,6 +34,7 @@ type JonGuiDataLrf struct {
 	IsRefining            bool                                  `protobuf:"varint,7,opt,name=is_refining,json=isRefining,proto3" json:"is_refining,omitempty"`
 	IsContinuousMeasuring bool                                  `protobuf:"varint,8,opt,name=is_continuous_measuring,json=isContinuousMeasuring,proto3" json:"is_continuous_measuring,omitempty"`
 	IsStarted             bool                                  `protobuf:"varint,9,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo                 *types.JonGuiDataMeteo                `protobuf:"bytes,10,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -129,6 +130,13 @@ func (x *JonGuiDataLrf) GetIsStarted() bool {
 		return x.IsStarted
 	}
 	return false
+}
+
+func (x *JonGuiDataLrf) GetMeteo() *types.JonGuiDataMeteo {
+	if x != nil {
+		return x.Meteo
+	}
+	return nil
 }
 
 type JonGuiDataTarget struct {
@@ -400,7 +408,7 @@ var File_jon_shared_data_lrf_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9d\x03\n" +
+	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc9\x03\n" +
 	"\rJonGuiDataLrf\x12\x1f\n" +
 	"\vis_scanning\x18\x01 \x01(\bR\n" +
 	"isScanning\x12!\n" +
@@ -414,7 +422,9 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"isRefining\x126\n" +
 	"\x17is_continuous_measuring\x18\b \x01(\bR\x15isContinuousMeasuring\x12\x1d\n" +
 	"\n" +
-	"is_started\x18\t \x01(\bR\tisStarted\"\xc4\b\n" +
+	"is_started\x18\t \x01(\bR\tisStarted\x12*\n" +
+	"\x05meteo\x18\n" +
+	" \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\"\xc4\b\n" +
 	"\x10JonGuiDataTarget\x12%\n" +
 	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12B\n" +
 	"\x10target_longitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x0ftargetLongitude\x12@\n" +
@@ -473,18 +483,20 @@ var file_jon_shared_data_lrf_proto_goTypes = []any{
 	(*JonGuiDataTarget)(nil),                   // 1: ser.JonGuiDataTarget
 	(*RgbColor)(nil),                           // 2: ser.RgbColor
 	(types.JonGuiDatatLrfLaserPointerModes)(0), // 3: ser.JonGuiDatatLrfLaserPointerModes
-	(types.JonGuiDataGpsFixType)(0),            // 4: ser.JonGuiDataGpsFixType
+	(*types.JonGuiDataMeteo)(nil),              // 4: ser.JonGuiDataMeteo
+	(types.JonGuiDataGpsFixType)(0),            // 5: ser.JonGuiDataGpsFixType
 }
 var file_jon_shared_data_lrf_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataLrf.target:type_name -> ser.JonGuiDataTarget
 	3, // 1: ser.JonGuiDataLrf.pointer_mode:type_name -> ser.JonGuiDatatLrfLaserPointerModes
-	4, // 2: ser.JonGuiDataTarget.observer_fix_type:type_name -> ser.JonGuiDataGpsFixType
-	2, // 3: ser.JonGuiDataTarget.target_color:type_name -> ser.RgbColor
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 2: ser.JonGuiDataLrf.meteo:type_name -> ser.JonGuiDataMeteo
+	5, // 3: ser.JonGuiDataTarget.observer_fix_type:type_name -> ser.JonGuiDataGpsFixType
+	2, // 4: ser.JonGuiDataTarget.target_color:type_name -> ser.RgbColor
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_lrf_proto_init() }

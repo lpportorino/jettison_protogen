@@ -22,9 +22,10 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
+import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1djon_shared_data_compass.proto\x12\x03ser\"\xbb\x01\n\x11JonGuiDataCompass\x12\x0f\n\x07\x61zimuth\x18\x01 \x01(\x01\x12\x11\n\televation\x18\x02 \x01(\x01\x12\x0c\n\x04\x62\x61nk\x18\x03 \x01(\x01\x12\x15\n\roffsetAzimuth\x18\x04 \x01(\x01\x12\x17\n\x0foffsetElevation\x18\x05 \x01(\x01\x12\x1b\n\x13magneticDeclination\x18\x06 \x01(\x01\x12\x13\n\x0b\x63\x61librating\x18\x07 \x01(\x08\x12\x12\n\nis_started\x18\x08 \x01(\x08\x42OZMgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compassb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1djon_shared_data_compass.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xe0\x01\n\x11JonGuiDataCompass\x12\x0f\n\x07\x61zimuth\x18\x01 \x01(\x01\x12\x11\n\televation\x18\x02 \x01(\x01\x12\x0c\n\x04\x62\x61nk\x18\x03 \x01(\x01\x12\x15\n\roffsetAzimuth\x18\x04 \x01(\x01\x12\x17\n\x0foffsetElevation\x18\x05 \x01(\x01\x12\x1b\n\x13magneticDeclination\x18\x06 \x01(\x01\x12\x13\n\x0b\x63\x61librating\x18\x07 \x01(\x08\x12\x12\n\nis_started\x18\x08 \x01(\x08\x12#\n\x05meteo\x18\t \x01(\x0b\x32\x14.ser.JonGuiDataMeteoBOZMgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compassb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +33,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'jon_shared_data_compass_pb2
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZMgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compass'
-  _globals['_JONGUIDATACOMPASS']._serialized_start=39
-  _globals['_JONGUIDATACOMPASS']._serialized_end=226
+  _globals['_JONGUIDATACOMPASS']._serialized_start=68
+  _globals['_JONGUIDATACOMPASS']._serialized_end=292
 # @@protoc_insertion_point(module_scope)

@@ -39,6 +39,7 @@ type JonGuiDataCameraHeat struct {
 	HorizontalFovDegrees float64                                  `protobuf:"fixed64,12,opt,name=horizontal_fov_degrees,json=horizontalFovDegrees,proto3" json:"horizontal_fov_degrees,omitempty"`
 	VerticalFovDegrees   float64                                  `protobuf:"fixed64,13,opt,name=vertical_fov_degrees,json=verticalFovDegrees,proto3" json:"vertical_fov_degrees,omitempty"`
 	IsStarted            bool                                     `protobuf:"varint,14,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo                *types.JonGuiDataMeteo                   `protobuf:"bytes,15,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
 }
@@ -171,11 +172,18 @@ func (x *JonGuiDataCameraHeat) GetIsStarted() bool {
 	return false
 }
 
+func (x *JonGuiDataCameraHeat) GetMeteo() *types.JonGuiDataMeteo {
+	if x != nil {
+		return x.Meteo
+	}
+	return nil
+}
+
 var File_jon_shared_data_camera_heat_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\n" +
-	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xa3\x06\n" +
+	"!jon_shared_data_camera_heat.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xcf\x06\n" +
 	"\x14JonGuiDataCameraHeat\x122\n" +
 	"\bzoom_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x12N\n" +
 	"\bagc_mode\x18\x02 \x01(\x0e2'.ser.JonGuiDataVideoChannelHeatAGCModesB\n" +
@@ -198,7 +206,8 @@ const file_jon_shared_data_camera_heat_proto_rawDesc = "" +
 	"\x16horizontal_fov_degrees\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x14horizontalFovDegrees\x12I\n" +
 	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegrees\x12\x1d\n" +
 	"\n" +
-	"is_started\x18\x0e \x01(\bR\tisStartedB\xa6\x01\n" +
+	"is_started\x18\x0e \x01(\bR\tisStarted\x12*\n" +
+	"\x05meteo\x18\x0f \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\xa6\x01\n" +
 	"\acom.serB\x1cJonSharedDataCameraHeatProtoP\x01ZQgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_heat\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -219,16 +228,18 @@ var file_jon_shared_data_camera_heat_proto_goTypes = []any{
 	(types.JonGuiDataVideoChannelHeatAGCModes)(0), // 1: ser.JonGuiDataVideoChannelHeatAGCModes
 	(types.JonGuiDataVideoChannelHeatFilters)(0),  // 2: ser.JonGuiDataVideoChannelHeatFilters
 	(types.JonGuiDataFxModeHeat)(0),               // 3: ser.JonGuiDataFxModeHeat
+	(*types.JonGuiDataMeteo)(nil),                 // 4: ser.JonGuiDataMeteo
 }
 var file_jon_shared_data_camera_heat_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataCameraHeat.agc_mode:type_name -> ser.JonGuiDataVideoChannelHeatAGCModes
 	2, // 1: ser.JonGuiDataCameraHeat.filter:type_name -> ser.JonGuiDataVideoChannelHeatFilters
 	3, // 2: ser.JonGuiDataCameraHeat.fx_mode:type_name -> ser.JonGuiDataFxModeHeat
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	4, // 3: ser.JonGuiDataCameraHeat.meteo:type_name -> ser.JonGuiDataMeteo
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_camera_heat_proto_init() }

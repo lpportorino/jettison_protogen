@@ -61,6 +61,7 @@ inline constexpr JonGuiDataRotary::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         current_scan_node_{nullptr},
+        meteo_{nullptr},
         azimuth_{0},
         azimuth_speed_{0},
         elevation_{0},
@@ -132,6 +133,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.sun_elevation_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.current_scan_node_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.is_started_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataRotary, _impl_.meteo_),
         ~0u,
         ~0u,
         ~0u,
@@ -150,6 +152,7 @@ const ::uint32_t
         ~0u,
         0,
         ~0u,
+        1,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ser::ScanNode, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -169,8 +172,8 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 26, -1, sizeof(::ser::JonGuiDataRotary)},
-        {44, -1, -1, sizeof(::ser::ScanNode)},
+        {0, 27, -1, sizeof(::ser::JonGuiDataRotary)},
+        {46, -1, -1, sizeof(::ser::ScanNode)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataRotary_default_instance_._instance,
@@ -180,7 +183,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf"
     "/validate/validate.proto\032\033jon_shared_dat"
-    "a_types.proto\"\245\010\n\020JonGuiDataRotary\022L\n\007az"
+    "a_types.proto\"\312\010\n\020JonGuiDataRotary\022L\n\007az"
     "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000"
     "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim"
     "uth_speed\030\002 \001(\001BD\272HA\022\?\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
@@ -206,16 +209,17 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200"
     "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000"
     "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser"
-    ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\"\211\002"
-    "\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021Da"
-    "yZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZo"
-    "omTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004"
-    " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televati"
-    "on\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006lin"
-    "ger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001"
-    "B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000BNZLgit-codecom"
-    "mit.eu-central-1.amazonaws.com/v1/repos/"
-    "jettison/jonp/data/rotaryb\006proto3"
+    ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\022#\n"
+    "\005meteo\030\023 \001(\0132\024.ser.JonGuiDataMeteo\"\211\002\n\010S"
+    "canNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo"
+    "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT"
+    "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001("
+    "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030"
+    "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger"
+    "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272"
+    "H\024\022\022\031\000\000\000\000\000\000\360\?!\000\000\000\000\000\000\000\000BNZLgit-codecommit"
+    ".eu-central-1.amazonaws.com/v1/repos/jet"
+    "tison/jonp/data/rotaryb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps[2] =
     {
@@ -226,7 +230,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_o
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5frotary_2eproto = {
     false,
     false,
-    1513,
+    1550,
     descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto,
     "jon_shared_data_rotary.proto",
     &descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_once,
@@ -250,6 +254,11 @@ class JonGuiDataRotary::_Internal {
       8 * PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_._has_bits_);
 };
 
+void JonGuiDataRotary::clear_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
 JonGuiDataRotary::JonGuiDataRotary(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -281,6 +290,9 @@ JonGuiDataRotary::JonGuiDataRotary(
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
   _impl_.current_scan_node_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::ScanNode>(
                               arena, *from._impl_.current_scan_node_)
+                        : nullptr;
+  _impl_.meteo_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
+                              arena, *from._impl_.meteo_)
                         : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, azimuth_),
@@ -315,6 +327,7 @@ inline void JonGuiDataRotary::SharedDtor(MessageLite& self) {
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   delete this_._impl_.current_scan_node_;
+  delete this_._impl_.meteo_;
   this_._impl_.~Impl_();
 }
 
@@ -354,16 +367,16 @@ const ::google::protobuf::internal::ClassData* JonGuiDataRotary::GetClassData() 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataRotary::_table_ = {
+const ::_pbi::TcParseTable<5, 19, 2, 0, 2> JonGuiDataRotary::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_._has_bits_),
     0, // no _extensions_
-    18, 248,  // max_field_number, fast_idx_mask
+    19, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294705152,  // skipmap
+    4294443008,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    18,  // num_field_entries
-    1,  // num_aux_entries
+    19,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -427,7 +440,9 @@ const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // bool is_started = 18;
     {::_pbi::TcParser::FastV8S2,
      {400, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_started_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .ser.JonGuiDataMeteo meteo = 19;
+    {::_pbi::TcParser::FastMtS2,
+     {410, 1, 1, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.meteo_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -497,8 +512,12 @@ const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataRotary::_table_ = {
     // bool is_started = 18;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.is_started_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // .ser.JonGuiDataMeteo meteo = 19;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.meteo_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::ScanNode>()},
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
   }}, {{
   }},
 };
@@ -511,9 +530,15 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.current_scan_node_ != nullptr);
-    _impl_.current_scan_node_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.current_scan_node_ != nullptr);
+      _impl_.current_scan_node_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.meteo_ != nullptr);
+      _impl_.meteo_->Clear();
+    }
   }
   ::memset(&_impl_.azimuth_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.is_started_) -
@@ -664,6 +689,13 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
                 18, this_._internal_is_started(), target);
           }
 
+          // .ser.JonGuiDataMeteo meteo = 19;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                19, *this_._impl_.meteo_, this_._impl_.meteo_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -688,12 +720,17 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-           {
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
             // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
-            cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.current_scan_node_);
+            }
+            // .ser.JonGuiDataMeteo meteo = 19;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
             }
           }
            {
@@ -783,13 +820,24 @@ void JonGuiDataRotary::MergeImpl(::google::protobuf::MessageLite& to_msg, const 
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.current_scan_node_ != nullptr);
-    if (_this->_impl_.current_scan_node_ == nullptr) {
-      _this->_impl_.current_scan_node_ =
-          ::google::protobuf::Message::CopyConstruct<::ser::ScanNode>(arena, *from._impl_.current_scan_node_);
-    } else {
-      _this->_impl_.current_scan_node_->MergeFrom(*from._impl_.current_scan_node_);
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.current_scan_node_ != nullptr);
+      if (_this->_impl_.current_scan_node_ == nullptr) {
+        _this->_impl_.current_scan_node_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::ScanNode>(arena, *from._impl_.current_scan_node_);
+      } else {
+        _this->_impl_.current_scan_node_->MergeFrom(*from._impl_.current_scan_node_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+      if (_this->_impl_.meteo_ == nullptr) {
+        _this->_impl_.meteo_ =
+            ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+      } else {
+        _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+      }
     }
   }
   if (::absl::bit_cast<::uint64_t>(from._internal_azimuth()) != 0) {

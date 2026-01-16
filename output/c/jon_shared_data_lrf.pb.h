@@ -54,6 +54,8 @@ typedef struct _ser_JonGuiDataLrf {
     bool is_refining;
     bool is_continuous_measuring;
     bool is_started;
+    bool has_meteo;
+    ser_JonGuiDataMeteo meteo;
 } ser_JonGuiDataLrf;
 
 
@@ -62,10 +64,10 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataLrf_init_default           {0, 0, 0, false, ser_JonGuiDataTarget_init_default, _ser_JonGuiDatatLrfLaserPointerModes_MIN, 0, 0, 0, 0}
+#define ser_JonGuiDataLrf_init_default           {0, 0, 0, false, ser_JonGuiDataTarget_init_default, _ser_JonGuiDatatLrfLaserPointerModes_MIN, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
 #define ser_JonGuiDataTarget_init_default        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, false, ser_RgbColor_init_default, 0, 0, 0, 0, 0}
 #define ser_RgbColor_init_default                {0, 0, 0}
-#define ser_JonGuiDataLrf_init_zero              {0, 0, 0, false, ser_JonGuiDataTarget_init_zero, _ser_JonGuiDatatLrfLaserPointerModes_MIN, 0, 0, 0, 0}
+#define ser_JonGuiDataLrf_init_zero              {0, 0, 0, false, ser_JonGuiDataTarget_init_zero, _ser_JonGuiDatatLrfLaserPointerModes_MIN, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
 #define ser_JonGuiDataTarget_init_zero           {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, false, ser_RgbColor_init_zero, 0, 0, 0, 0, 0}
 #define ser_RgbColor_init_zero                   {0, 0, 0}
 
@@ -103,6 +105,7 @@ extern "C" {
 #define ser_JonGuiDataLrf_is_refining_tag        7
 #define ser_JonGuiDataLrf_is_continuous_measuring_tag 8
 #define ser_JonGuiDataLrf_is_started_tag         9
+#define ser_JonGuiDataLrf_meteo_tag              10
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataLrf_FIELDLIST(X, a) \
@@ -114,10 +117,12 @@ X(a, STATIC,   SINGULAR, UENUM,    pointer_mode,      5) \
 X(a, STATIC,   SINGULAR, BOOL,     fogModeEnabled,    6) \
 X(a, STATIC,   SINGULAR, BOOL,     is_refining,       7) \
 X(a, STATIC,   SINGULAR, BOOL,     is_continuous_measuring,   8) \
-X(a, STATIC,   SINGULAR, BOOL,     is_started,        9)
+X(a, STATIC,   SINGULAR, BOOL,     is_started,        9) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            10)
 #define ser_JonGuiDataLrf_CALLBACK NULL
 #define ser_JonGuiDataLrf_DEFAULT NULL
 #define ser_JonGuiDataLrf_target_MSGTYPE ser_JonGuiDataTarget
+#define ser_JonGuiDataLrf_meteo_MSGTYPE ser_JonGuiDataMeteo
 
 #define ser_JonGuiDataTarget_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT64,    timestamp,         1) \
@@ -163,7 +168,7 @@ extern const pb_msgdesc_t ser_RgbColor_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_LRF_PB_H_MAX_SIZE    ser_JonGuiDataLrf_size
-#define ser_JonGuiDataLrf_size                   238
+#define ser_JonGuiDataLrf_size                   267
 #define ser_JonGuiDataTarget_size                210
 #define ser_RgbColor_size                        18
 

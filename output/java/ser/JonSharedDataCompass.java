@@ -76,6 +76,21 @@ public final class JonSharedDataCompass {
      * @return The isStarted.
      */
     boolean getIsStarted();
+
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+     * @return Whether the meteo field is set.
+     */
+    boolean hasMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+     * @return The meteo.
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCompass}
@@ -114,6 +129,7 @@ public final class JonSharedDataCompass {
               ser.JonSharedDataCompass.JonGuiDataCompass.class, ser.JonSharedDataCompass.JonGuiDataCompass.Builder.class);
     }
 
+    private int bitField0_;
     public static final int AZIMUTH_FIELD_NUMBER = 1;
     private double azimuth_ = 0D;
     /**
@@ -202,6 +218,32 @@ public final class JonSharedDataCompass {
       return isStarted_;
     }
 
+    public static final int METEO_FIELD_NUMBER = 9;
+    private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+     * @return Whether the meteo field is set.
+     */
+    @java.lang.Override
+    public boolean hasMeteo() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+     * @return The meteo.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -239,6 +281,9 @@ public final class JonSharedDataCompass {
       }
       if (isStarted_ != false) {
         output.writeBool(8, isStarted_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(9, getMeteo());
       }
       getUnknownFields().writeTo(output);
     }
@@ -281,6 +326,10 @@ public final class JonSharedDataCompass {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(8, isStarted_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, getMeteo());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -318,6 +367,11 @@ public final class JonSharedDataCompass {
           != other.getCalibrating()) return false;
       if (getIsStarted()
           != other.getIsStarted()) return false;
+      if (hasMeteo() != other.hasMeteo()) return false;
+      if (hasMeteo()) {
+        if (!getMeteo()
+            .equals(other.getMeteo())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -353,6 +407,10 @@ public final class JonSharedDataCompass {
       hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsStarted());
+      if (hasMeteo()) {
+        hash = (37 * hash) + METEO_FIELD_NUMBER;
+        hash = (53 * hash) + getMeteo().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -472,13 +530,19 @@ public final class JonSharedDataCompass {
 
       // Construct using ser.JonSharedDataCompass.JonGuiDataCompass.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getMeteoFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -492,6 +556,11 @@ public final class JonSharedDataCompass {
         magneticDeclination_ = 0D;
         calibrating_ = false;
         isStarted_ = false;
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
         return this;
       }
 
@@ -549,6 +618,14 @@ public final class JonSharedDataCompass {
         if (((from_bitField0_ & 0x00000080) != 0)) {
           result.isStarted_ = isStarted_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.meteo_ = meteoBuilder_ == null
+              ? meteo_
+              : meteoBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -586,6 +663,9 @@ public final class JonSharedDataCompass {
         }
         if (other.getIsStarted() != false) {
           setIsStarted(other.getIsStarted());
+        }
+        if (other.hasMeteo()) {
+          mergeMeteo(other.getMeteo());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -653,6 +733,13 @@ public final class JonSharedDataCompass {
                 bitField0_ |= 0x00000080;
                 break;
               } // case 64
+              case 74: {
+                input.readMessage(
+                    getMeteoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 74
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -926,6 +1013,127 @@ public final class JonSharedDataCompass {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> meteoBuilder_;
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       * @return Whether the meteo field is set.
+       */
+      public boolean hasMeteo() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       * @return The meteo.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+        if (meteoBuilder_ == null) {
+          return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        } else {
+          return meteoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      public Builder setMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meteo_ = value;
+        } else {
+          meteoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      public Builder setMeteo(
+          ser.JonSharedDataTypes.JonGuiDataMeteo.Builder builderForValue) {
+        if (meteoBuilder_ == null) {
+          meteo_ = builderForValue.build();
+        } else {
+          meteoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      public Builder mergeMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) != 0) &&
+            meteo_ != null &&
+            meteo_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
+            getMeteoBuilder().mergeFrom(value);
+          } else {
+            meteo_ = value;
+          }
+        } else {
+          meteoBuilder_.mergeFrom(value);
+        }
+        if (meteo_ != null) {
+          bitField0_ |= 0x00000100;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      public Builder clearMeteo() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoBuilder() {
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return getMeteoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+        if (meteoBuilder_ != null) {
+          return meteoBuilder_.getMessageOrBuilder();
+        } else {
+          return meteo_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> 
+          getMeteoFieldBuilder() {
+        if (meteoBuilder_ == null) {
+          meteoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder>(
+                  getMeteo(),
+                  getParentForChildren(),
+                  isClean());
+          meteo_ = null;
+        }
+        return meteoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCompass)
     }
 
@@ -992,36 +1200,40 @@ public final class JonSharedDataCompass {
   static {
     java.lang.String[] descriptorData = {
       "\n\035jon_shared_data_compass.proto\022\003ser\032\033bu" +
-      "f/validate/validate.proto\"\374\003\n\021JonGuiData" +
-      "Compass\022L\n\007azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@" +
-      ")\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000" +
-      "\000\000\340p@\022E\n\televation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@" +
-      ")\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004" +
-      "bank\030\003 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000" +
-      "\000\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022I\n\roffsetAzimuth\030" +
-      "\004 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I" +
-      "\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022K\n\017offsetElevation\030\005 \001" +
-      "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000" +
-      "\000\000\000\000\000I\000\000\000\000\000\000>@\022O\n\023magneticDeclination\030\006 " +
-      "\001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000" +
-      "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010\022\022\n\n" +
-      "is_started\030\010 \001(\010BOZMgit-codecommit.eu-ce" +
-      "ntral-1.amazonaws.com/v1/repos/jettison/" +
-      "jonp/data/compassb\006proto3"
+      "f/validate/validate.proto\032\033jon_shared_da" +
+      "ta_types.proto\"\241\004\n\021JonGuiDataCompass\022L\n\007" +
+      "azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000" +
+      "\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022E\n\tel" +
+      "evation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000" +
+      "\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004bank\030\003 \001(\001B" +
+      "2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200V\300I\000\000\000\000\000\000" +
+      "\000\000I\000\000\000\000\000\200V@\022I\n\roffsetAzimuth\030\004 \001(\001B2\272H/\022" +
+      "-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000" +
+      "\000\000\000\200F@\022K\n\017offsetElevation\030\005 \001(\001B2\272H/\022-\031\000" +
+      "\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000" +
+      "\000>@\022O\n\023magneticDeclination\030\006 \001(\001B2\272H/\022-\021" +
+      "\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000\000\000\000\000\000\000I\000\000\000\000" +
+      "\000\000.@\022\023\n\013calibrating\030\007 \001(\010\022\022\n\nis_started\030" +
+      "\010 \001(\010\022#\n\005meteo\030\t \001(\0132\024.ser.JonGuiDataMet" +
+      "eoBOZMgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/data/comp" +
+      "assb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           build.buf.validate.ValidateProto.getDescriptor(),
+          ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_ser_JonGuiDataCompass_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_ser_JonGuiDataCompass_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCompass_descriptor,
-        new java.lang.String[] { "Azimuth", "Elevation", "Bank", "OffsetAzimuth", "OffsetElevation", "MagneticDeclination", "Calibrating", "IsStarted", });
+        new java.lang.String[] { "Azimuth", "Elevation", "Bank", "OffsetAzimuth", "OffsetElevation", "MagneticDeclination", "Calibrating", "IsStarted", "Meteo", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
+    ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

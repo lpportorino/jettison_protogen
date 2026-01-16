@@ -30,6 +30,7 @@
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
 #include "buf/validate/validate.pb.h"
+#include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -215,6 +216,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kMeteoFieldNumber = 9,
     kAzimuthFieldNumber = 1,
     kElevationFieldNumber = 2,
     kBankFieldNumber = 3,
@@ -224,6 +226,21 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     kCalibratingFieldNumber = 7,
     kIsStartedFieldNumber = 8,
   };
+  // .ser.JonGuiDataMeteo meteo = 9;
+  bool has_meteo() const;
+  void clear_meteo() ;
+  const ::ser::JonGuiDataMeteo& meteo() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataMeteo* release_meteo();
+  ::ser::JonGuiDataMeteo* mutable_meteo();
+  void set_allocated_meteo(::ser::JonGuiDataMeteo* value);
+  void unsafe_arena_set_allocated_meteo(::ser::JonGuiDataMeteo* value);
+  ::ser::JonGuiDataMeteo* unsafe_arena_release_meteo();
+
+  private:
+  const ::ser::JonGuiDataMeteo& _internal_meteo() const;
+  ::ser::JonGuiDataMeteo* _internal_mutable_meteo();
+
+  public:
   // double azimuth = 1 [(.buf.validate.field) = {
   void clear_azimuth() ;
   double azimuth() const;
@@ -309,7 +326,7 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 8, 0,
+      4, 9, 1,
       0, 2>
       _table_;
 
@@ -327,6 +344,9 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataCompass& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ser::JonGuiDataMeteo* meteo_;
     double azimuth_;
     double elevation_;
     double bank_;
@@ -335,7 +355,6 @@ class JonGuiDataCompass final : public ::google::protobuf::Message
     double magneticdeclination_;
     bool calibrating_;
     bool is_started_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -532,6 +551,97 @@ inline bool JonGuiDataCompass::_internal_is_started() const {
 inline void JonGuiDataCompass::_internal_set_is_started(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.is_started_ = value;
+}
+
+// .ser.JonGuiDataMeteo meteo = 9;
+inline bool JonGuiDataCompass::has_meteo() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.meteo_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataMeteo& JonGuiDataCompass::_internal_meteo() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataMeteo* p = _impl_.meteo_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataMeteo&>(::ser::_JonGuiDataMeteo_default_instance_);
+}
+inline const ::ser::JonGuiDataMeteo& JonGuiDataCompass::meteo() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCompass.meteo)
+  return _internal_meteo();
+}
+inline void JonGuiDataCompass::unsafe_arena_set_allocated_meteo(::ser::JonGuiDataMeteo* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.meteo_);
+  }
+  _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCompass.meteo)
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCompass::release_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataMeteo* released = _impl_.meteo_;
+  _impl_.meteo_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCompass::unsafe_arena_release_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCompass.meteo)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataMeteo* temp = _impl_.meteo_;
+  _impl_.meteo_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCompass::_internal_mutable_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meteo_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataMeteo>(GetArena());
+    _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(p);
+  }
+  return _impl_.meteo_;
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCompass::mutable_meteo() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonGuiDataMeteo* _msg = _internal_mutable_meteo();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCompass.meteo)
+  return _msg;
+}
+inline void JonGuiDataCompass::set_allocated_meteo(::ser::JonGuiDataMeteo* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.meteo_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCompass.meteo)
 }
 
 #ifdef __GNUC__

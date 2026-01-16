@@ -35,6 +35,7 @@ type JonGuiDataGps struct {
 	UseManual       bool                       `protobuf:"varint,8,opt,name=use_manual,json=useManual,proto3" json:"use_manual,omitempty"`
 	Timestamp       int64                      `protobuf:"varint,9,opt,name=timestamp,proto3" json:"timestamp,omitempty"` // GPS timestamp from satellite (Unix time in seconds)
 	IsStarted       bool                       `protobuf:"varint,10,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo           *types.JonGuiDataMeteo     `protobuf:"bytes,11,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -139,11 +140,18 @@ func (x *JonGuiDataGps) GetIsStarted() bool {
 	return false
 }
 
+func (x *JonGuiDataGps) GetMeteo() *types.JonGuiDataMeteo {
+	if x != nil {
+		return x.Meteo
+	}
+	return nil
+}
+
 var File_jon_shared_data_gps_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_gps_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_gps.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x96\x04\n" +
+	"\x19jon_shared_data_gps.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc2\x04\n" +
 	"\rJonGuiDataGps\x125\n" +
 	"\tlongitude\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\tlongitude\x123\n" +
 	"\blatitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80V@)\x00\x00\x00\x00\x00\x80V\xc0R\blatitude\x123\n" +
@@ -158,7 +166,8 @@ const file_jon_shared_data_gps_proto_rawDesc = "" +
 	"\ttimestamp\x18\t \x01(\x03R\ttimestamp\x12\x1d\n" +
 	"\n" +
 	"is_started\x18\n" +
-	" \x01(\bR\tisStartedB\x97\x01\n" +
+	" \x01(\bR\tisStarted\x12*\n" +
+	"\x05meteo\x18\v \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\x97\x01\n" +
 	"\acom.serB\x15JonSharedDataGpsProtoP\x01ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gps\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -177,14 +186,16 @@ var file_jon_shared_data_gps_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_gps_proto_goTypes = []any{
 	(*JonGuiDataGps)(nil),           // 0: ser.JonGuiDataGps
 	(types.JonGuiDataGpsFixType)(0), // 1: ser.JonGuiDataGpsFixType
+	(*types.JonGuiDataMeteo)(nil),   // 2: ser.JonGuiDataMeteo
 }
 var file_jon_shared_data_gps_proto_depIdxs = []int32{
 	1, // 0: ser.JonGuiDataGps.fix_type:type_name -> ser.JonGuiDataGpsFixType
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: ser.JonGuiDataGps.meteo:type_name -> ser.JonGuiDataMeteo
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_gps_proto_init() }

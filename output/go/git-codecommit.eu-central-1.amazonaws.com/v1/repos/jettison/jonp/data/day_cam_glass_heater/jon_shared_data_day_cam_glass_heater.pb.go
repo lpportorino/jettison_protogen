@@ -8,6 +8,7 @@ package day_cam_glass_heater
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	types "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -27,6 +28,7 @@ type JonGuiDataDayCamGlassHeater struct {
 	Temperature   float64                `protobuf:"fixed64,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
 	Status        bool                   `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
 	IsStarted     bool                   `protobuf:"varint,3,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo         *types.JonGuiDataMeteo `protobuf:"bytes,4,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -82,16 +84,24 @@ func (x *JonGuiDataDayCamGlassHeater) GetIsStarted() bool {
 	return false
 }
 
+func (x *JonGuiDataDayCamGlassHeater) GetMeteo() *types.JonGuiDataMeteo {
+	if x != nil {
+		return x.Meteo
+	}
+	return nil
+}
+
 var File_jon_shared_data_day_cam_glass_heater_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_day_cam_glass_heater_proto_rawDesc = "" +
 	"\n" +
-	"*jon_shared_data_day_cam_glass_heater.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xb3\x01\n" +
+	"*jon_shared_data_day_cam_glass_heater.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xdf\x01\n" +
 	"\x1bJonGuiDataDayCamGlassHeater\x12]\n" +
 	"\vtemperature\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x004\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x009@I\x00\x00\x00\x00\x00\x00Y@\x19\xc3\xf5(\\\x8f\xa2\x84@)fffff\x12q\xc0R\vtemperature\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\bR\x06status\x12\x1d\n" +
 	"\n" +
-	"is_started\x18\x03 \x01(\bR\tisStartedB\xb6\x01\n" +
+	"is_started\x18\x03 \x01(\bR\tisStarted\x12*\n" +
+	"\x05meteo\x18\x04 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\xb6\x01\n" +
 	"\acom.serB#JonSharedDataDayCamGlassHeaterProtoP\x01ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heater\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -109,13 +119,15 @@ func file_jon_shared_data_day_cam_glass_heater_proto_rawDescGZIP() []byte {
 var file_jon_shared_data_day_cam_glass_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_day_cam_glass_heater_proto_goTypes = []any{
 	(*JonGuiDataDayCamGlassHeater)(nil), // 0: ser.JonGuiDataDayCamGlassHeater
+	(*types.JonGuiDataMeteo)(nil),       // 1: ser.JonGuiDataMeteo
 }
 var file_jon_shared_data_day_cam_glass_heater_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: ser.JonGuiDataDayCamGlassHeater.meteo:type_name -> ser.JonGuiDataMeteo
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_day_cam_glass_heater_proto_init() }

@@ -71,6 +71,7 @@ message JonGuiDataRotary {
 
   ScanNode current_scan_node = 17 [(buf.validate.field).required = true];
   bool is_started = 18;
+  JonGuiDataMeteo meteo = 19;
 }
 
 message ScanNode {

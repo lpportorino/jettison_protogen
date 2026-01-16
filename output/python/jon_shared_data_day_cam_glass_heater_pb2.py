@@ -22,9 +22,10 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
+import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n*jon_shared_data_day_cam_glass_heater.proto\x12\x03ser\"V\n\x1bJonGuiDataDayCamGlassHeater\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12\x12\n\nis_started\x18\x03 \x01(\x08\x42\\ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heaterb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n*jon_shared_data_day_cam_glass_heater.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"{\n\x1bJonGuiDataDayCamGlassHeater\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x0e\n\x06status\x18\x02 \x01(\x08\x12\x12\n\nis_started\x18\x03 \x01(\x08\x12#\n\x05meteo\x18\x04 \x01(\x0b\x32\x14.ser.JonGuiDataMeteoB\\ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heaterb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,6 +33,6 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'jon_shared_data_day_cam_gla
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZZgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heater'
-  _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_start=51
-  _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_end=137
+  _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_start=80
+  _globals['_JONGUIDATADAYCAMGLASSHEATER']._serialized_end=203
 # @@protoc_insertion_point(module_scope)

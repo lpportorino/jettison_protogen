@@ -46,6 +46,21 @@ public final class JonSharedDataDayCamGlassHeater {
      * @return The isStarted.
      */
     boolean getIsStarted();
+
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+     * @return Whether the meteo field is set.
+     */
+    boolean hasMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+     * @return The meteo.
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataDayCamGlassHeater}
@@ -84,6 +99,7 @@ public final class JonSharedDataDayCamGlassHeater {
               ser.JonSharedDataDayCamGlassHeater.JonGuiDataDayCamGlassHeater.class, ser.JonSharedDataDayCamGlassHeater.JonGuiDataDayCamGlassHeater.Builder.class);
     }
 
+    private int bitField0_;
     public static final int TEMPERATURE_FIELD_NUMBER = 1;
     private double temperature_ = 0D;
     /**
@@ -117,6 +133,32 @@ public final class JonSharedDataDayCamGlassHeater {
       return isStarted_;
     }
 
+    public static final int METEO_FIELD_NUMBER = 4;
+    private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+     * @return Whether the meteo field is set.
+     */
+    @java.lang.Override
+    public boolean hasMeteo() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+     * @return The meteo.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -140,6 +182,9 @@ public final class JonSharedDataDayCamGlassHeater {
       if (isStarted_ != false) {
         output.writeBool(3, isStarted_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(4, getMeteo());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -160,6 +205,10 @@ public final class JonSharedDataDayCamGlassHeater {
       if (isStarted_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, isStarted_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getMeteo());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -183,6 +232,11 @@ public final class JonSharedDataDayCamGlassHeater {
           != other.getStatus()) return false;
       if (getIsStarted()
           != other.getIsStarted()) return false;
+      if (hasMeteo() != other.hasMeteo()) return false;
+      if (hasMeteo()) {
+        if (!getMeteo()
+            .equals(other.getMeteo())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -203,6 +257,10 @@ public final class JonSharedDataDayCamGlassHeater {
       hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsStarted());
+      if (hasMeteo()) {
+        hash = (37 * hash) + METEO_FIELD_NUMBER;
+        hash = (53 * hash) + getMeteo().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -322,13 +380,19 @@ public final class JonSharedDataDayCamGlassHeater {
 
       // Construct using ser.JonSharedDataDayCamGlassHeater.JonGuiDataDayCamGlassHeater.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getMeteoFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -337,6 +401,11 @@ public final class JonSharedDataDayCamGlassHeater {
         temperature_ = 0D;
         status_ = false;
         isStarted_ = false;
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
         return this;
       }
 
@@ -379,6 +448,14 @@ public final class JonSharedDataDayCamGlassHeater {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.isStarted_ = isStarted_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.meteo_ = meteoBuilder_ == null
+              ? meteo_
+              : meteoBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -401,6 +478,9 @@ public final class JonSharedDataDayCamGlassHeater {
         }
         if (other.getIsStarted() != false) {
           setIsStarted(other.getIsStarted());
+        }
+        if (other.hasMeteo()) {
+          mergeMeteo(other.getMeteo());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -443,6 +523,13 @@ public final class JonSharedDataDayCamGlassHeater {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 24
+              case 34: {
+                input.readMessage(
+                    getMeteoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -556,6 +643,127 @@ public final class JonSharedDataDayCamGlassHeater {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> meteoBuilder_;
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       * @return Whether the meteo field is set.
+       */
+      public boolean hasMeteo() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       * @return The meteo.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+        if (meteoBuilder_ == null) {
+          return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        } else {
+          return meteoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      public Builder setMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meteo_ = value;
+        } else {
+          meteoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      public Builder setMeteo(
+          ser.JonSharedDataTypes.JonGuiDataMeteo.Builder builderForValue) {
+        if (meteoBuilder_ == null) {
+          meteo_ = builderForValue.build();
+        } else {
+          meteoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      public Builder mergeMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            meteo_ != null &&
+            meteo_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
+            getMeteoBuilder().mergeFrom(value);
+          } else {
+            meteo_ = value;
+          }
+        } else {
+          meteoBuilder_.mergeFrom(value);
+        }
+        if (meteo_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      public Builder clearMeteo() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getMeteoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+        if (meteoBuilder_ != null) {
+          return meteoBuilder_.getMessageOrBuilder();
+        } else {
+          return meteo_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> 
+          getMeteoFieldBuilder() {
+        if (meteoBuilder_ == null) {
+          meteoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder>(
+                  getMeteo(),
+                  getParentForChildren(),
+                  isClean());
+          meteo_ = null;
+        }
+        return meteoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataDayCamGlassHeater)
     }
 
@@ -622,28 +830,31 @@ public final class JonSharedDataDayCamGlassHeater {
   static {
     java.lang.String[] descriptorData = {
       "\n*jon_shared_data_day_cam_glass_heater.p" +
-      "roto\022\003ser\032\033buf/validate/validate.proto\"\223" +
-      "\001\n\033JonGuiDataDayCamGlassHeater\022P\n\013temper" +
-      "ature\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000" +
-      "\000\000\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006stat" +
-      "us\030\002 \001(\010\022\022\n\nis_started\030\003 \001(\010B\\ZZgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/data/day_cam_glass_heat" +
-      "erb\006proto3"
+      "roto\022\003ser\032\033buf/validate/validate.proto\032\033" +
+      "jon_shared_data_types.proto\"\270\001\n\033JonGuiDa" +
+      "taDayCamGlassHeater\022P\n\013temperature\030\001 \001(\001" +
+      "B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000\0004\300I\000\000\000\000\000" +
+      "\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006status\030\002 \001(\010\022\022\n" +
+      "\nis_started\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.J" +
+      "onGuiDataMeteoB\\ZZgit-codecommit.eu-cent" +
+      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
+      "np/data/day_cam_glass_heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           build.buf.validate.ValidateProto.getDescriptor(),
+          ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_ser_JonGuiDataDayCamGlassHeater_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_ser_JonGuiDataDayCamGlassHeater_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataDayCamGlassHeater_descriptor,
-        new java.lang.String[] { "Temperature", "Status", "IsStarted", });
+        new java.lang.String[] { "Temperature", "Status", "IsStarted", "Meteo", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
+    ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

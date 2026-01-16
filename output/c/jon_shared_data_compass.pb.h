@@ -4,6 +4,7 @@
 #ifndef PB_SER_JON_SHARED_DATA_COMPASS_PB_H_INCLUDED
 #define PB_SER_JON_SHARED_DATA_COMPASS_PB_H_INCLUDED
 #include <pb.h>
+#include "jon_shared_data_types.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -19,6 +20,8 @@ typedef struct _ser_JonGuiDataCompass {
     double magneticDeclination;
     bool calibrating;
     bool is_started;
+    bool has_meteo;
+    ser_JonGuiDataMeteo meteo;
 } ser_JonGuiDataCompass;
 
 
@@ -27,8 +30,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCompass_init_default       {0, 0, 0, 0, 0, 0, 0, 0}
-#define ser_JonGuiDataCompass_init_zero          {0, 0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataCompass_init_default       {0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
+#define ser_JonGuiDataCompass_init_zero          {0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCompass_azimuth_tag        1
@@ -39,6 +42,7 @@ extern "C" {
 #define ser_JonGuiDataCompass_magneticDeclination_tag 6
 #define ser_JonGuiDataCompass_calibrating_tag    7
 #define ser_JonGuiDataCompass_is_started_tag     8
+#define ser_JonGuiDataCompass_meteo_tag          9
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCompass_FIELDLIST(X, a) \
@@ -49,9 +53,11 @@ X(a, STATIC,   SINGULAR, DOUBLE,   offsetAzimuth,     4) \
 X(a, STATIC,   SINGULAR, DOUBLE,   offsetElevation,   5) \
 X(a, STATIC,   SINGULAR, DOUBLE,   magneticDeclination,   6) \
 X(a, STATIC,   SINGULAR, BOOL,     calibrating,       7) \
-X(a, STATIC,   SINGULAR, BOOL,     is_started,        8)
+X(a, STATIC,   SINGULAR, BOOL,     is_started,        8) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,             9)
 #define ser_JonGuiDataCompass_CALLBACK NULL
 #define ser_JonGuiDataCompass_DEFAULT NULL
+#define ser_JonGuiDataCompass_meteo_MSGTYPE ser_JonGuiDataMeteo
 
 extern const pb_msgdesc_t ser_JonGuiDataCompass_msg;
 
@@ -60,7 +66,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCompass_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_COMPASS_PB_H_MAX_SIZE ser_JonGuiDataCompass_size
-#define ser_JonGuiDataCompass_size               58
+#define ser_JonGuiDataCompass_size               87
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -22,6 +22,8 @@ typedef struct _ser_JonGuiDataGps {
     bool use_manual;
     int64_t timestamp; /* GPS timestamp from satellite (Unix time in seconds) */
     bool is_started;
+    bool has_meteo;
+    ser_JonGuiDataMeteo meteo;
 } ser_JonGuiDataGps;
 
 
@@ -30,8 +32,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataGps_init_default           {0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, 0}
-#define ser_JonGuiDataGps_init_zero              {0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, 0}
+#define ser_JonGuiDataGps_init_default           {0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
+#define ser_JonGuiDataGps_init_zero              {0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataGps_longitude_tag          1
@@ -44,6 +46,7 @@ extern "C" {
 #define ser_JonGuiDataGps_use_manual_tag         8
 #define ser_JonGuiDataGps_timestamp_tag          9
 #define ser_JonGuiDataGps_is_started_tag         10
+#define ser_JonGuiDataGps_meteo_tag              11
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataGps_FIELDLIST(X, a) \
@@ -56,9 +59,11 @@ X(a, STATIC,   SINGULAR, DOUBLE,   manual_altitude,   6) \
 X(a, STATIC,   SINGULAR, UENUM,    fix_type,          7) \
 X(a, STATIC,   SINGULAR, BOOL,     use_manual,        8) \
 X(a, STATIC,   SINGULAR, INT64,    timestamp,         9) \
-X(a, STATIC,   SINGULAR, BOOL,     is_started,       10)
+X(a, STATIC,   SINGULAR, BOOL,     is_started,       10) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            11)
 #define ser_JonGuiDataGps_CALLBACK NULL
 #define ser_JonGuiDataGps_DEFAULT NULL
+#define ser_JonGuiDataGps_meteo_MSGTYPE ser_JonGuiDataMeteo
 
 extern const pb_msgdesc_t ser_JonGuiDataGps_msg;
 
@@ -67,7 +72,7 @@ extern const pb_msgdesc_t ser_JonGuiDataGps_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_GPS_PB_H_MAX_SIZE    ser_JonGuiDataGps_size
-#define ser_JonGuiDataGps_size                   71
+#define ser_JonGuiDataGps_size                   100
 
 #ifdef __cplusplus
 } /* extern "C" */

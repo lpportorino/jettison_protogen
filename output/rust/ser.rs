@@ -963,6 +963,8 @@ pub struct JonGuiDataCameraHeat {
     pub vertical_fov_degrees: f64,
     #[prost(bool, tag = "14")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "15")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTime {
@@ -1050,6 +1052,8 @@ pub struct JonGuiDataLrf {
     pub is_continuous_measuring: bool,
     #[prost(bool, tag = "9")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "10")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTarget {
@@ -1129,6 +1133,8 @@ pub struct JonGuiDataGps {
     pub timestamp: i64,
     #[prost(bool, tag = "10")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "11")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCompass {
@@ -1148,6 +1154,8 @@ pub struct JonGuiDataCompass {
     pub calibrating: bool,
     #[prost(bool, tag = "8")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "9")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCompassCalibration {
@@ -1202,6 +1210,8 @@ pub struct JonGuiDataRotary {
     pub current_scan_node: ::core::option::Option<ScanNode>,
     #[prost(bool, tag = "18")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "19")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ScanNode {
@@ -1252,6 +1262,8 @@ pub struct JonGuiDataCameraDay {
     pub vertical_fov_degrees: f64,
     #[prost(bool, tag = "14")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "16")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataRecOsd {
@@ -1278,6 +1290,8 @@ pub struct JonGuiDataDayCamGlassHeater {
     pub status: bool,
     #[prost(bool, tag = "3")]
     pub is_started: bool,
+    #[prost(message, optional, tag = "4")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataActualSpaceTime {

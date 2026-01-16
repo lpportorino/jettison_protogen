@@ -43,6 +43,7 @@ type JonGuiDataRotary struct {
 	SunElevation       float64                    `protobuf:"fixed64,16,opt,name=sun_elevation,json=sunElevation,proto3" json:"sun_elevation,omitempty"`
 	CurrentScanNode    *ScanNode                  `protobuf:"bytes,17,opt,name=current_scan_node,json=currentScanNode,proto3" json:"current_scan_node,omitempty"`
 	IsStarted          bool                       `protobuf:"varint,18,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo              *types.JonGuiDataMeteo     `protobuf:"bytes,19,opt,name=meteo,proto3" json:"meteo,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -203,6 +204,13 @@ func (x *JonGuiDataRotary) GetIsStarted() bool {
 	return false
 }
 
+func (x *JonGuiDataRotary) GetMeteo() *types.JonGuiDataMeteo {
+	if x != nil {
+		return x.Meteo
+	}
+	return nil
+}
+
 type ScanNode struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	Index              int32                  `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
@@ -299,7 +307,7 @@ var File_jon_shared_data_rotary_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\n" +
-	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9c\n" +
+	"\x1cjon_shared_data_rotary.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc8\n" +
 	"\n" +
 	"\x10JonGuiDataRotary\x12U\n" +
 	"\aazimuth\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\aazimuth\x12i\n" +
@@ -327,7 +335,8 @@ const file_jon_shared_data_rotary_proto_rawDesc = "" +
 	"\rsun_elevation\x18\x10 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x80V@I\x00\x00\x00\x00\x00\x80f@I\x00\x00\x00\x00\x00\xe0p@\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\fsunElevation\x12A\n" +
 	"\x11current_scan_node\x18\x11 \x01(\v2\r.ser.ScanNodeB\x06\xbaH\x03\xc8\x01\x01R\x0fcurrentScanNode\x12\x1d\n" +
 	"\n" +
-	"is_started\x18\x12 \x01(\bR\tisStarted\"\xda\x02\n" +
+	"is_started\x18\x12 \x01(\bR\tisStarted\x12*\n" +
+	"\x05meteo\x18\x13 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\"\xda\x02\n" +
 	"\bScanNode\x12\x1d\n" +
 	"\x05index\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x05index\x125\n" +
 	"\x11DayZoomTableValue\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11DayZoomTableValue\x127\n" +
@@ -355,15 +364,17 @@ var file_jon_shared_data_rotary_proto_goTypes = []any{
 	(*JonGuiDataRotary)(nil),        // 0: ser.JonGuiDataRotary
 	(*ScanNode)(nil),                // 1: ser.ScanNode
 	(types.JonGuiDataRotaryMode)(0), // 2: ser.JonGuiDataRotaryMode
+	(*types.JonGuiDataMeteo)(nil),   // 3: ser.JonGuiDataMeteo
 }
 var file_jon_shared_data_rotary_proto_depIdxs = []int32{
 	2, // 0: ser.JonGuiDataRotary.mode:type_name -> ser.JonGuiDataRotaryMode
 	1, // 1: ser.JonGuiDataRotary.current_scan_node:type_name -> ser.ScanNode
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 2: ser.JonGuiDataRotary.meteo:type_name -> ser.JonGuiDataMeteo
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_rotary_proto_init() }

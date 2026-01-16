@@ -18,6 +18,7 @@ message JonGuiDataLrf {
   bool is_refining = 7;
   bool is_continuous_measuring = 8;
   bool is_started = 9;
+  JonGuiDataMeteo meteo = 10;
 }
 
 message JonGuiDataTarget {

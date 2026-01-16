@@ -96,6 +96,21 @@ public final class JonSharedDataLrf {
      * @return The isStarted.
      */
     boolean getIsStarted();
+
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+     * @return Whether the meteo field is set.
+     */
+    boolean hasMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+     * @return The meteo.
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataLrf}
@@ -257,6 +272,32 @@ public final class JonSharedDataLrf {
       return isStarted_;
     }
 
+    public static final int METEO_FIELD_NUMBER = 10;
+    private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+     * @return Whether the meteo field is set.
+     */
+    @java.lang.Override
+    public boolean hasMeteo() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+     * @return The meteo.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -297,6 +338,9 @@ public final class JonSharedDataLrf {
       }
       if (isStarted_ != false) {
         output.writeBool(9, isStarted_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(10, getMeteo());
       }
       getUnknownFields().writeTo(output);
     }
@@ -343,6 +387,10 @@ public final class JonSharedDataLrf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(9, isStarted_);
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, getMeteo());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -378,6 +426,11 @@ public final class JonSharedDataLrf {
           != other.getIsContinuousMeasuring()) return false;
       if (getIsStarted()
           != other.getIsStarted()) return false;
+      if (hasMeteo() != other.hasMeteo()) return false;
+      if (hasMeteo()) {
+        if (!getMeteo()
+            .equals(other.getMeteo())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -415,6 +468,10 @@ public final class JonSharedDataLrf {
       hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsStarted());
+      if (hasMeteo()) {
+        hash = (37 * hash) + METEO_FIELD_NUMBER;
+        hash = (53 * hash) + getMeteo().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -546,6 +603,7 @@ public final class JonSharedDataLrf {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getTargetFieldBuilder();
+          getMeteoFieldBuilder();
         }
       }
       @java.lang.Override
@@ -565,6 +623,11 @@ public final class JonSharedDataLrf {
         isRefining_ = false;
         isContinuousMeasuring_ = false;
         isStarted_ = false;
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
         return this;
       }
 
@@ -629,6 +692,12 @@ public final class JonSharedDataLrf {
         if (((from_bitField0_ & 0x00000100) != 0)) {
           result.isStarted_ = isStarted_;
         }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.meteo_ = meteoBuilder_ == null
+              ? meteo_
+              : meteoBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -670,6 +739,9 @@ public final class JonSharedDataLrf {
         }
         if (other.getIsStarted() != false) {
           setIsStarted(other.getIsStarted());
+        }
+        if (other.hasMeteo()) {
+          mergeMeteo(other.getMeteo());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -744,6 +816,13 @@ public final class JonSharedDataLrf {
                 bitField0_ |= 0x00000100;
                 break;
               } // case 72
+              case 82: {
+                input.readMessage(
+                    getMeteoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 82
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1157,6 +1236,127 @@ public final class JonSharedDataLrf {
         isStarted_ = false;
         onChanged();
         return this;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> meteoBuilder_;
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       * @return Whether the meteo field is set.
+       */
+      public boolean hasMeteo() {
+        return ((bitField0_ & 0x00000200) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       * @return The meteo.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+        if (meteoBuilder_ == null) {
+          return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        } else {
+          return meteoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      public Builder setMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meteo_ = value;
+        } else {
+          meteoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      public Builder setMeteo(
+          ser.JonSharedDataTypes.JonGuiDataMeteo.Builder builderForValue) {
+        if (meteoBuilder_ == null) {
+          meteo_ = builderForValue.build();
+        } else {
+          meteoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      public Builder mergeMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) != 0) &&
+            meteo_ != null &&
+            meteo_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
+            getMeteoBuilder().mergeFrom(value);
+          } else {
+            meteo_ = value;
+          }
+        } else {
+          meteoBuilder_.mergeFrom(value);
+        }
+        if (meteo_ != null) {
+          bitField0_ |= 0x00000200;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      public Builder clearMeteo() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoBuilder() {
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return getMeteoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+        if (meteoBuilder_ != null) {
+          return meteoBuilder_.getMessageOrBuilder();
+        } else {
+          return meteo_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> 
+          getMeteoFieldBuilder() {
+        if (meteoBuilder_ == null) {
+          meteoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder>(
+                  getMeteo(),
+                  getParentForChildren(),
+                  isClean());
+          meteo_ = null;
+        }
+        return meteoBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataLrf)
@@ -3900,39 +4100,40 @@ public final class JonSharedDataLrf {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_lrf.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\246\002\n\rJonGuiDataLrf\022\023\n\013is_scann" +
+      "ypes.proto\"\313\002\n\rJonGuiDataLrf\022\023\n\013is_scann" +
       "ing\030\001 \001(\010\022\024\n\014is_measuring\030\002 \001(\010\022\033\n\nmeasu" +
       "re_id\030\003 \001(\005B\007\272H\004\032\002(\000\022%\n\006target\030\004 \001(\0132\025.s" +
       "er.JonGuiDataTarget\022D\n\014pointer_mode\030\005 \001(" +
       "\0162$.ser.JonGuiDatatLrfLaserPointerModesB" +
       "\010\272H\005\202\001\002\020\001\022\026\n\016fogModeEnabled\030\006 \001(\010\022\023\n\013is_" +
       "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin" +
-      "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\"\242\006\n\020JonGuiDa" +
-      "taTarget\022\032\n\ttimestamp\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020" +
-      "target_longitude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000" +
-      "\000\000\000\000\200f\300\0220\n\017target_latitude\030\003 \001(\001B\027\272H\024\022\022\031" +
-      "\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017target_altitude\030\004 \001" +
-      "(\001\0223\n\022observer_longitude\030\005 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000\200f@)\000\000\000\000\000\200f\300\0222\n\021observer_latitude\030\006 \001" +
-      "(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\031\n\021observer_" +
-      "altitude\030\007 \001(\001\0221\n\020observer_azimuth\030\010 \001(\001" +
-      "B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0223\n\022observer_el" +
-      "evation\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022." +
-      "\n\robserver_bank\030\n \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000" +
-      "\000\000\000\200f\300\022,\n\013distance_2d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200" +
-      "\204\036A)\000\000\000\000\000\000\000\000\022,\n\013distance_3b\030\014 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@\n\021observer_fix_type\030" +
-      "\r \001(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004" +
-      "\020\001 \000\022\033\n\nsession_id\030\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttar" +
-      "get_id\030\017 \001(\005B\007\272H\004\032\002(\000\022#\n\014target_color\030\020 " +
-      "\001(\0132\r.ser.RgbColor\022\014\n\004type\030\021 \001(\r\022\022\n\nuuid" +
-      "_part1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022\022\n\nuuid" +
-      "_part3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\"X\n\010RgbC" +
-      "olor\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002" +
-      " \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001" +
-      "(\000BKZIgit-codecommit.eu-central-1.amazon" +
-      "aws.com/v1/repos/jettison/jonp/data/lrfb" +
-      "\006proto3"
+      "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\022#\n\005meteo\030\n \001" +
+      "(\0132\024.ser.JonGuiDataMeteo\"\242\006\n\020JonGuiDataT" +
+      "arget\022\032\n\ttimestamp\030\001 \001(\003B\007\272H\004\"\002(\000\0221\n\020tar" +
+      "get_longitude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000" +
+      "\000\200f\300\0220\n\017target_latitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000" +
+      "\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017target_altitude\030\004 \001(\001\022" +
+      "3\n\022observer_longitude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000" +
+      "\200f@)\000\000\000\000\000\200f\300\0222\n\021observer_latitude\030\006 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\031\n\021observer_alt" +
+      "itude\030\007 \001(\001\0221\n\020observer_azimuth\030\010 \001(\001B\027\272" +
+      "H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\0223\n\022observer_eleva" +
+      "tion\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\ro" +
+      "bserver_bank\030\n \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000" +
+      "\200f\300\022,\n\013distance_2d\030\013 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A" +
+      ")\000\000\000\000\000\000\000\000\022,\n\013distance_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@\n\021observer_fix_type\030\r \001" +
+      "(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004\020\001 " +
+      "\000\022\033\n\nsession_id\030\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget" +
+      "_id\030\017 \001(\005B\007\272H\004\032\002(\000\022#\n\014target_color\030\020 \001(\013" +
+      "2\r.ser.RgbColor\022\014\n\004type\030\021 \001(\r\022\022\n\nuuid_pa" +
+      "rt1\030\022 \001(\005\022\022\n\nuuid_part2\030\023 \001(\005\022\022\n\nuuid_pa" +
+      "rt3\030\024 \001(\005\022\022\n\nuuid_part4\030\025 \001(\005\"X\n\010RgbColo" +
+      "r\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001(" +
+      "\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000B" +
+      "KZIgit-codecommit.eu-central-1.amazonaws" +
+      ".com/v1/repos/jettison/jonp/data/lrfb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3945,7 +4146,7 @@ public final class JonSharedDataLrf {
     internal_static_ser_JonGuiDataLrf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataLrf_descriptor,
-        new java.lang.String[] { "IsScanning", "IsMeasuring", "MeasureId", "Target", "PointerMode", "FogModeEnabled", "IsRefining", "IsContinuousMeasuring", "IsStarted", });
+        new java.lang.String[] { "IsScanning", "IsMeasuring", "MeasureId", "Target", "PointerMode", "FogModeEnabled", "IsRefining", "IsContinuousMeasuring", "IsStarted", "Meteo", });
     internal_static_ser_JonGuiDataTarget_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_JonGuiDataTarget_fieldAccessorTable = new

@@ -50,4 +50,5 @@ message JonGuiDataCameraHeat {
     lt: 360.0
   }];
   bool is_started = 14;
+  JonGuiDataMeteo meteo = 15;
 }

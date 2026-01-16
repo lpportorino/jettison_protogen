@@ -150,6 +150,21 @@ public final class JonSharedDataRotary {
      * @return The isStarted.
      */
     boolean getIsStarted();
+
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+     * @return Whether the meteo field is set.
+     */
+    boolean hasMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+     * @return The meteo.
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo();
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataRotary}
@@ -410,6 +425,32 @@ public final class JonSharedDataRotary {
       return isStarted_;
     }
 
+    public static final int METEO_FIELD_NUMBER = 19;
+    private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+     * @return Whether the meteo field is set.
+     */
+    @java.lang.Override
+    public boolean hasMeteo() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+     * @return The meteo.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+    /**
+     * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -477,6 +518,9 @@ public final class JonSharedDataRotary {
       }
       if (isStarted_ != false) {
         output.writeBool(18, isStarted_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(19, getMeteo());
       }
       getUnknownFields().writeTo(output);
     }
@@ -559,6 +603,10 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(18, isStarted_);
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(19, getMeteo());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -621,6 +669,11 @@ public final class JonSharedDataRotary {
       }
       if (getIsStarted()
           != other.getIsStarted()) return false;
+      if (hasMeteo() != other.hasMeteo()) return false;
+      if (hasMeteo()) {
+        if (!getMeteo()
+            .equals(other.getMeteo())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -684,6 +737,10 @@ public final class JonSharedDataRotary {
       hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsStarted());
+      if (hasMeteo()) {
+        hash = (37 * hash) + METEO_FIELD_NUMBER;
+        hash = (53 * hash) + getMeteo().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -815,6 +872,7 @@ public final class JonSharedDataRotary {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getCurrentScanNodeFieldBuilder();
+          getMeteoFieldBuilder();
         }
       }
       @java.lang.Override
@@ -843,6 +901,11 @@ public final class JonSharedDataRotary {
           currentScanNodeBuilder_ = null;
         }
         isStarted_ = false;
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
         return this;
       }
 
@@ -934,6 +997,12 @@ public final class JonSharedDataRotary {
         if (((from_bitField0_ & 0x00020000) != 0)) {
           result.isStarted_ = isStarted_;
         }
+        if (((from_bitField0_ & 0x00040000) != 0)) {
+          result.meteo_ = meteoBuilder_ == null
+              ? meteo_
+              : meteoBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1002,6 +1071,9 @@ public final class JonSharedDataRotary {
         }
         if (other.getIsStarted() != false) {
           setIsStarted(other.getIsStarted());
+        }
+        if (other.hasMeteo()) {
+          mergeMeteo(other.getMeteo());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1121,6 +1193,13 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00020000;
                 break;
               } // case 144
+              case 154: {
+                input.readMessage(
+                    getMeteoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00040000;
+                break;
+              } // case 154
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1822,6 +1901,127 @@ public final class JonSharedDataRotary {
         isStarted_ = false;
         onChanged();
         return this;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> meteoBuilder_;
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       * @return Whether the meteo field is set.
+       */
+      public boolean hasMeteo() {
+        return ((bitField0_ & 0x00040000) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       * @return The meteo.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+        if (meteoBuilder_ == null) {
+          return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        } else {
+          return meteoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      public Builder setMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meteo_ = value;
+        } else {
+          meteoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      public Builder setMeteo(
+          ser.JonSharedDataTypes.JonGuiDataMeteo.Builder builderForValue) {
+        if (meteoBuilder_ == null) {
+          meteo_ = builderForValue.build();
+        } else {
+          meteoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      public Builder mergeMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (((bitField0_ & 0x00040000) != 0) &&
+            meteo_ != null &&
+            meteo_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
+            getMeteoBuilder().mergeFrom(value);
+          } else {
+            meteo_ = value;
+          }
+        } else {
+          meteoBuilder_.mergeFrom(value);
+        }
+        if (meteo_ != null) {
+          bitField0_ |= 0x00040000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      public Builder clearMeteo() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoBuilder() {
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return getMeteoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+        if (meteoBuilder_ != null) {
+          return meteoBuilder_.getMessageOrBuilder();
+        } else {
+          return meteo_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> 
+          getMeteoFieldBuilder() {
+        if (meteoBuilder_ == null) {
+          meteoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder>(
+                  getMeteo(),
+                  getParentForChildren(),
+                  isClean());
+          meteo_ = null;
+        }
+        return meteoBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataRotary)
@@ -2770,7 +2970,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\245\010\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\312\010\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -2796,16 +2996,17 @@ public final class JonSharedDataRotary {
       "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200" +
       "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000" +
       "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser" +
-      ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\"\211\002" +
-      "\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021Da" +
-      "yZoomTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZo" +
-      "omTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004" +
-      " \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televati" +
-      "on\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006lin" +
-      "ger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001" +
-      "B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecom" +
-      "mit.eu-central-1.amazonaws.com/v1/repos/" +
-      "jettison/jonp/data/rotaryb\006proto3"
+      ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\022#\n" +
+      "\005meteo\030\023 \001(\0132\024.ser.JonGuiDataMeteo\"\211\002\n\010S" +
+      "canNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo" +
+      "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT" +
+      "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(" +
+      "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030" +
+      "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger" +
+      "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272" +
+      "H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/data/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2818,7 +3019,7 @@ public final class JonSharedDataRotary {
     internal_static_ser_JonGuiDataRotary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataRotary_descriptor,
-        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", });
+        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", });
     internal_static_ser_ScanNode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_ScanNode_fieldAccessorTable = new

@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataLrf(_message.Message):
-    __slots__ = ("is_scanning", "is_measuring", "measure_id", "target", "pointer_mode", "fogModeEnabled", "is_refining", "is_continuous_measuring", "is_started")
+    __slots__ = ("is_scanning", "is_measuring", "measure_id", "target", "pointer_mode", "fogModeEnabled", "is_refining", "is_continuous_measuring", "is_started", "meteo")
     IS_SCANNING_FIELD_NUMBER: _ClassVar[int]
     IS_MEASURING_FIELD_NUMBER: _ClassVar[int]
     MEASURE_ID_FIELD_NUMBER: _ClassVar[int]
@@ -16,6 +16,7 @@ class JonGuiDataLrf(_message.Message):
     IS_REFINING_FIELD_NUMBER: _ClassVar[int]
     IS_CONTINUOUS_MEASURING_FIELD_NUMBER: _ClassVar[int]
     IS_STARTED_FIELD_NUMBER: _ClassVar[int]
+    METEO_FIELD_NUMBER: _ClassVar[int]
     is_scanning: bool
     is_measuring: bool
     measure_id: int
@@ -25,7 +26,8 @@ class JonGuiDataLrf(_message.Message):
     is_refining: bool
     is_continuous_measuring: bool
     is_started: bool
-    def __init__(self, is_scanning: bool = ..., is_measuring: bool = ..., measure_id: _Optional[int] = ..., target: _Optional[_Union[JonGuiDataTarget, _Mapping]] = ..., pointer_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDatatLrfLaserPointerModes, str]] = ..., fogModeEnabled: bool = ..., is_refining: bool = ..., is_continuous_measuring: bool = ..., is_started: bool = ...) -> None: ...
+    meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
+    def __init__(self, is_scanning: bool = ..., is_measuring: bool = ..., measure_id: _Optional[int] = ..., target: _Optional[_Union[JonGuiDataTarget, _Mapping]] = ..., pointer_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDatatLrfLaserPointerModes, str]] = ..., fogModeEnabled: bool = ..., is_refining: bool = ..., is_continuous_measuring: bool = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ...) -> None: ...
 
 class JonGuiDataTarget(_message.Message):
     __slots__ = ("timestamp", "target_longitude", "target_latitude", "target_altitude", "observer_longitude", "observer_latitude", "observer_altitude", "observer_azimuth", "observer_elevation", "observer_bank", "distance_2d", "distance_3b", "observer_fix_type", "session_id", "target_id", "target_color", "type", "uuid_part1", "uuid_part2", "uuid_part3", "uuid_part4")

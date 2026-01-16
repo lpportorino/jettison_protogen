@@ -216,6 +216,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kMeteoFieldNumber = 16,
     kFocusPosFieldNumber = 1,
     kZoomPosFieldNumber = 2,
     kIrisPosFieldNumber = 3,
@@ -232,6 +233,21 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     kVerticalFovDegreesFieldNumber = 13,
     kIsStartedFieldNumber = 14,
   };
+  // .ser.JonGuiDataMeteo meteo = 16;
+  bool has_meteo() const;
+  void clear_meteo() ;
+  const ::ser::JonGuiDataMeteo& meteo() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataMeteo* release_meteo();
+  ::ser::JonGuiDataMeteo* mutable_meteo();
+  void set_allocated_meteo(::ser::JonGuiDataMeteo* value);
+  void unsafe_arena_set_allocated_meteo(::ser::JonGuiDataMeteo* value);
+  ::ser::JonGuiDataMeteo* unsafe_arena_release_meteo();
+
+  private:
+  const ::ser::JonGuiDataMeteo& _internal_meteo() const;
+  ::ser::JonGuiDataMeteo* _internal_mutable_meteo();
+
+  public:
   // double focus_pos = 1 [(.buf.validate.field) = {
   void clear_focus_pos() ;
   double focus_pos() const;
@@ -387,7 +403,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 15, 0,
+      4, 16, 1,
       0, 2>
       _table_;
 
@@ -405,6 +421,9 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataCameraDay& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ser::JonGuiDataMeteo* meteo_;
     double focus_pos_;
     double zoom_pos_;
     double iris_pos_;
@@ -420,7 +439,6 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     double horizontal_fov_degrees_;
     double vertical_fov_degrees_;
     bool is_started_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -771,6 +789,97 @@ inline bool JonGuiDataCameraDay::_internal_is_started() const {
 inline void JonGuiDataCameraDay::_internal_set_is_started(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.is_started_ = value;
+}
+
+// .ser.JonGuiDataMeteo meteo = 16;
+inline bool JonGuiDataCameraDay::has_meteo() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.meteo_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataMeteo& JonGuiDataCameraDay::_internal_meteo() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataMeteo* p = _impl_.meteo_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataMeteo&>(::ser::_JonGuiDataMeteo_default_instance_);
+}
+inline const ::ser::JonGuiDataMeteo& JonGuiDataCameraDay::meteo() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.meteo)
+  return _internal_meteo();
+}
+inline void JonGuiDataCameraDay::unsafe_arena_set_allocated_meteo(::ser::JonGuiDataMeteo* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.meteo_);
+  }
+  _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCameraDay.meteo)
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCameraDay::release_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataMeteo* released = _impl_.meteo_;
+  _impl_.meteo_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCameraDay::unsafe_arena_release_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCameraDay.meteo)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataMeteo* temp = _impl_.meteo_;
+  _impl_.meteo_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCameraDay::_internal_mutable_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meteo_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataMeteo>(GetArena());
+    _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(p);
+  }
+  return _impl_.meteo_;
+}
+inline ::ser::JonGuiDataMeteo* JonGuiDataCameraDay::mutable_meteo() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonGuiDataMeteo* _msg = _internal_mutable_meteo();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCameraDay.meteo)
+  return _msg;
+}
+inline void JonGuiDataCameraDay::set_allocated_meteo(::ser::JonGuiDataMeteo* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.meteo_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCameraDay.meteo)
 }
 
 #ifdef __GNUC__

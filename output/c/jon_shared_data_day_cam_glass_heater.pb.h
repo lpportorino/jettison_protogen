@@ -4,6 +4,7 @@
 #ifndef PB_SER_JON_SHARED_DATA_DAY_CAM_GLASS_HEATER_PB_H_INCLUDED
 #define PB_SER_JON_SHARED_DATA_DAY_CAM_GLASS_HEATER_PB_H_INCLUDED
 #include <pb.h>
+#include "jon_shared_data_types.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -14,6 +15,8 @@ typedef struct _ser_JonGuiDataDayCamGlassHeater {
     double temperature;
     bool status;
     bool is_started;
+    bool has_meteo;
+    ser_JonGuiDataMeteo meteo;
 } ser_JonGuiDataDayCamGlassHeater;
 
 
@@ -22,21 +25,24 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataDayCamGlassHeater_init_default {0, 0, 0}
-#define ser_JonGuiDataDayCamGlassHeater_init_zero {0, 0, 0}
+#define ser_JonGuiDataDayCamGlassHeater_init_default {0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
+#define ser_JonGuiDataDayCamGlassHeater_init_zero {0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataDayCamGlassHeater_temperature_tag 1
 #define ser_JonGuiDataDayCamGlassHeater_status_tag 2
 #define ser_JonGuiDataDayCamGlassHeater_is_started_tag 3
+#define ser_JonGuiDataDayCamGlassHeater_meteo_tag 4
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataDayCamGlassHeater_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, DOUBLE,   temperature,       1) \
 X(a, STATIC,   SINGULAR, BOOL,     status,            2) \
-X(a, STATIC,   SINGULAR, BOOL,     is_started,        3)
+X(a, STATIC,   SINGULAR, BOOL,     is_started,        3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,             4)
 #define ser_JonGuiDataDayCamGlassHeater_CALLBACK NULL
 #define ser_JonGuiDataDayCamGlassHeater_DEFAULT NULL
+#define ser_JonGuiDataDayCamGlassHeater_meteo_MSGTYPE ser_JonGuiDataMeteo
 
 extern const pb_msgdesc_t ser_JonGuiDataDayCamGlassHeater_msg;
 
@@ -45,7 +51,7 @@ extern const pb_msgdesc_t ser_JonGuiDataDayCamGlassHeater_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_DAY_CAM_GLASS_HEATER_PB_H_MAX_SIZE ser_JonGuiDataDayCamGlassHeater_size
-#define ser_JonGuiDataDayCamGlassHeater_size     13
+#define ser_JonGuiDataDayCamGlassHeater_size     42
 
 #ifdef __cplusplus
 } /* extern "C" */

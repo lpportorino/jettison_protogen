@@ -28,15 +28,16 @@ namespace ser {
 
 inline constexpr JonGuiDataCompass::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : azimuth_{0},
+      : _cached_size_{0},
+        meteo_{nullptr},
+        azimuth_{0},
         elevation_{0},
         bank_{0},
         offsetazimuth_{0},
         offsetelevation_{0},
         magneticdeclination_{0},
         calibrating_{false},
-        is_started_{false},
-        _cached_size_{0} {}
+        is_started_{false} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataCompass::JonGuiDataCompass(::_pbi::ConstantInitialized)
@@ -65,7 +66,7 @@ static constexpr const ::_pb::ServiceDescriptor**
 const ::uint32_t
     TableStruct_jon_5fshared_5fdata_5fcompass_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
-        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
@@ -81,11 +82,21 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.magneticdeclination_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.calibrating_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.is_started_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompass, _impl_.meteo_),
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        ~0u,
+        0,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, -1, -1, sizeof(::ser::JonGuiDataCompass)},
+        {0, 17, -1, sizeof(::ser::JonGuiDataCompass)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataCompass_default_instance_._instance,
@@ -93,37 +104,40 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\035jon_shared_data_compass.proto\022\003ser\032\033bu"
-    "f/validate/validate.proto\"\374\003\n\021JonGuiData"
-    "Compass\022L\n\007azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@"
-    ")\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000"
-    "\000\000\340p@\022E\n\televation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@"
-    ")\000\000\000\000\000\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004"
-    "bank\030\003 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000"
-    "\000\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022I\n\roffsetAzimuth\030"
-    "\004 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I"
-    "\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022K\n\017offsetElevation\030\005 \001"
-    "(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000"
-    "\000\000\000\000\000I\000\000\000\000\000\000>@\022O\n\023magneticDeclination\030\006 "
-    "\001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000"
-    "\000\000\000\000\000\000I\000\000\000\000\000\000.@\022\023\n\013calibrating\030\007 \001(\010\022\022\n\n"
-    "is_started\030\010 \001(\010BOZMgit-codecommit.eu-ce"
-    "ntral-1.amazonaws.com/v1/repos/jettison/"
-    "jonp/data/compassb\006proto3"
+    "f/validate/validate.proto\032\033jon_shared_da"
+    "ta_types.proto\"\241\004\n\021JonGuiDataCompass\022L\n\007"
+    "azimuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000"
+    "\000\000\000\000\000\000\000I\000\000\000\000\000\240V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022E\n\tel"
+    "evation\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000"
+    "\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022@\n\004bank\030\003 \001(\001B"
+    "2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200V\300I\000\000\000\000\000\000"
+    "\000\000I\000\000\000\000\000\200V@\022I\n\roffsetAzimuth\030\004 \001(\001B2\272H/\022"
+    "-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000"
+    "\000\000\000\200F@\022K\n\017offsetElevation\030\005 \001(\001B2\272H/\022-\031\000"
+    "\000\000\000\000\200V@)\000\000\000\000\000\200V\300I\000\000\000\000\000\000>\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000"
+    "\000>@\022O\n\023magneticDeclination\030\006 \001(\001B2\272H/\022-\021"
+    "\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000\000.\300I\000\000\000\000\000\000\000\000I\000\000\000\000"
+    "\000\000.@\022\023\n\013calibrating\030\007 \001(\010\022\022\n\nis_started\030"
+    "\010 \001(\010\022#\n\005meteo\030\t \001(\0132\024.ser.JonGuiDataMet"
+    "eoBOZMgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/data/comp"
+    "assb\006proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_deps[2] =
     {
         &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
+        &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto = {
     false,
     false,
-    665,
+    731,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_2eproto,
     "jon_shared_data_compass.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5fcompass_2eproto_deps,
-    1,
+    2,
     1,
     schemas,
     file_default_instances,
@@ -136,8 +150,17 @@ namespace ser {
 
 class JonGuiDataCompass::_Internal {
  public:
+  using HasBits =
+      decltype(std::declval<JonGuiDataCompass>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_._has_bits_);
 };
 
+void JonGuiDataCompass::clear_meteo() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.meteo_ != nullptr) _impl_.meteo_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
 JonGuiDataCompass::JonGuiDataCompass(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -147,10 +170,38 @@ JonGuiDataCompass::JonGuiDataCompass(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:ser.JonGuiDataCompass)
 }
+inline PROTOBUF_NDEBUG_INLINE JonGuiDataCompass::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ser::JonGuiDataCompass& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
 JonGuiDataCompass::JonGuiDataCompass(
-    ::google::protobuf::Arena* arena, const JonGuiDataCompass& from)
-    : JonGuiDataCompass(arena) {
-  MergeFrom(from);
+    ::google::protobuf::Arena* arena,
+    const JonGuiDataCompass& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  JonGuiDataCompass* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.meteo_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(
+                              arena, *from._impl_.meteo_)
+                        : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, azimuth_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, azimuth_),
+           offsetof(Impl_, is_started_) -
+               offsetof(Impl_, azimuth_) +
+               sizeof(Impl_::is_started_));
+
+  // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataCompass)
 }
 inline PROTOBUF_NDEBUG_INLINE JonGuiDataCompass::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -160,10 +211,10 @@ inline PROTOBUF_NDEBUG_INLINE JonGuiDataCompass::Impl_::Impl_(
 inline void JonGuiDataCompass::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, azimuth_),
+               offsetof(Impl_, meteo_),
            0,
            offsetof(Impl_, is_started_) -
-               offsetof(Impl_, azimuth_) +
+               offsetof(Impl_, meteo_) +
                sizeof(Impl_::is_started_));
 }
 JonGuiDataCompass::~JonGuiDataCompass() {
@@ -174,6 +225,7 @@ inline void JonGuiDataCompass::SharedDtor(MessageLite& self) {
   JonGuiDataCompass& this_ = static_cast<JonGuiDataCompass&>(self);
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.meteo_;
   this_._impl_.~Impl_();
 }
 
@@ -213,17 +265,17 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCompass::GetClassData()
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 8, 0, 0, 2> JonGuiDataCompass::_table_ = {
+const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataCompass::_table_ = {
   {
-    0,  // no _has_bits_
+    PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_._has_bits_),
     0, // no _extensions_
-    8, 56,  // max_field_number, fast_idx_mask
+    9, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967040,  // skipmap
+    4294966784,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    8,  // num_field_entries
-    0,  // num_aux_entries
-    offsetof(decltype(_table_), field_names),  // no aux_entries
+    9,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
@@ -231,9 +283,7 @@ const ::_pbi::TcParseTable<3, 8, 0, 0, 2> JonGuiDataCompass::_table_ = {
     ::_pbi::TcParser::GetTable<::ser::JonGuiDataCompass>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // bool is_started = 8;
-    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCompass, _impl_.is_started_), 63>(),
-     {64, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double azimuth = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_)}},
@@ -255,36 +305,51 @@ const ::_pbi::TcParseTable<3, 8, 0, 0, 2> JonGuiDataCompass::_table_ = {
     // bool calibrating = 7;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCompass, _impl_.calibrating_), 63>(),
      {56, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.calibrating_)}},
+    // bool is_started = 8;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataCompass, _impl_.is_started_), 63>(),
+     {64, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_)}},
+    // .ser.JonGuiDataMeteo meteo = 9;
+    {::_pbi::TcParser::FastMtS1,
+     {74, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.meteo_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // double azimuth = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double elevation = 2 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.elevation_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.elevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double bank = 3 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.bank_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.bank_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double offsetAzimuth = 4 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetazimuth_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetazimuth_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double offsetElevation = 5 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetelevation_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.offsetelevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double magneticDeclination = 6 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.magneticdeclination_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.magneticdeclination_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // bool calibrating = 7;
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.calibrating_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.calibrating_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
     // bool is_started = 8;
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_), 0, 0,
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-  }},
-  // no aux_entries
-  {{
+    // .ser.JonGuiDataMeteo meteo = 9;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.meteo_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
+  }}, {{
   }},
 };
 
@@ -295,9 +360,15 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.meteo_ != nullptr);
+    _impl_.meteo_->Clear();
+  }
   ::memset(&_impl_.azimuth_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.is_started_) -
       reinterpret_cast<char*>(&_impl_.azimuth_)) + sizeof(_impl_.is_started_));
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -372,6 +443,14 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
                 8, this_._internal_is_started(), target);
           }
 
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ser.JonGuiDataMeteo meteo = 9;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                9, *this_._impl_.meteo_, this_._impl_.meteo_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -396,6 +475,14 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
           (void)cached_has_bits;
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // .ser.JonGuiDataMeteo meteo = 9;
+            cached_has_bits = this_._impl_._has_bits_[0];
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.meteo_);
+            }
+          }
            {
             // double azimuth = 1 [(.buf.validate.field) = {
             if (::absl::bit_cast<::uint64_t>(this_._internal_azimuth()) != 0) {
@@ -437,11 +524,22 @@ PROTOBUF_NOINLINE void JonGuiDataCompass::Clear() {
 void JonGuiDataCompass::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
   auto* const _this = static_cast<JonGuiDataCompass*>(&to_msg);
   auto& from = static_cast<const JonGuiDataCompass&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
   // @@protoc_insertion_point(class_specific_merge_from_start:ser.JonGuiDataCompass)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(from._impl_.meteo_ != nullptr);
+    if (_this->_impl_.meteo_ == nullptr) {
+      _this->_impl_.meteo_ =
+          ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataMeteo>(arena, *from._impl_.meteo_);
+    } else {
+      _this->_impl_.meteo_->MergeFrom(*from._impl_.meteo_);
+    }
+  }
   if (::absl::bit_cast<::uint64_t>(from._internal_azimuth()) != 0) {
     _this->_impl_.azimuth_ = from._impl_.azimuth_;
   }
@@ -466,6 +564,7 @@ void JonGuiDataCompass::MergeImpl(::google::protobuf::MessageLite& to_msg, const
   if (from._internal_is_started() != 0) {
     _this->_impl_.is_started_ = from._impl_.is_started_;
   }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -480,12 +579,13 @@ void JonGuiDataCompass::CopyFrom(const JonGuiDataCompass& from) {
 void JonGuiDataCompass::InternalSwap(JonGuiDataCompass* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.is_started_)
       + sizeof(JonGuiDataCompass::_impl_.is_started_)
-      - PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.azimuth_)>(
-          reinterpret_cast<char*>(&_impl_.azimuth_),
-          reinterpret_cast<char*>(&other->_impl_.azimuth_));
+      - PROTOBUF_FIELD_OFFSET(JonGuiDataCompass, _impl_.meteo_)>(
+          reinterpret_cast<char*>(&_impl_.meteo_),
+          reinterpret_cast<char*>(&other->_impl_.meteo_));
 }
 
 ::google::protobuf::Metadata JonGuiDataCompass::GetMetadata() const {

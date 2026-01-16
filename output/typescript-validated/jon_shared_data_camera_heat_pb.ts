@@ -5,7 +5,7 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
-import type { JonGuiDataFxModeHeat, JonGuiDataVideoChannelHeatAGCModes, JonGuiDataVideoChannelHeatFilters } from "./jon_shared_data_types_pb";
+import type { JonGuiDataFxModeHeat, JonGuiDataMeteo, JonGuiDataVideoChannelHeatAGCModes, JonGuiDataVideoChannelHeatFilters } from "./jon_shared_data_types_pb";
 import { file_jon_shared_data_types } from "./jon_shared_data_types_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_camera_heat.proto.
  */
 export const file_jon_shared_data_camera_heat: GenFile = /*@__PURE__*/
-  fileDesc("CiFqb25fc2hhcmVkX2RhdGFfY2FtZXJhX2hlYXQucHJvdG8SA3NlciLuBAoUSm9uR3VpRGF0YUNhbWVyYUhlYXQSKQoIem9vbV9wb3MYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEkUKCGFnY19tb2RlGAIgASgOMicuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0QUdDTW9kZXNCCrpIB4IBBBABIAASQgoGZmlsdGVyGAMgASgOMiYuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0RmlsdGVyc0IKukgHggEEEAEgABISCgphdXRvX2ZvY3VzGAQgASgIEh8KDnpvb21fdGFibGVfcG9zGAUgASgFQge6SAQaAigAEiMKEnpvb21fdGFibGVfcG9zX21heBgGIAEoBUIHukgEGgIoABIdCglkZGVfbGV2ZWwYByABKAVCCrpIBxoFGIAEKAASEwoLZGRlX2VuYWJsZWQYCCABKAgSNAoHZnhfbW9kZRgJIAEoDjIZLnNlci5Kb25HdWlEYXRhRnhNb2RlSGVhdEIIukgFggECEAESKgoSZGlnaXRhbF96b29tX2xldmVsGAogASgBQg66SAsSCSkAAAAAAADwPxIsCgtjbGFoZV9sZXZlbBgLIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASNwoWaG9yaXpvbnRhbF9mb3ZfZGVncmVlcxgMIAEoAUIXukgUEhIRAAAAAACAdkAhAAAAAAAAAAASNQoUdmVydGljYWxfZm92X2RlZ3JlZXMYDSABKAFCF7pIFBISEQAAAAAAgHZAIQAAAAAAAAAAEhIKCmlzX3N0YXJ0ZWQYDiABKAhCU1pRZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9kYXRhL2NhbWVyYV9oZWF0YgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("CiFqb25fc2hhcmVkX2RhdGFfY2FtZXJhX2hlYXQucHJvdG8SA3NlciKTBQoUSm9uR3VpRGF0YUNhbWVyYUhlYXQSKQoIem9vbV9wb3MYASABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEkUKCGFnY19tb2RlGAIgASgOMicuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0QUdDTW9kZXNCCrpIB4IBBBABIAASQgoGZmlsdGVyGAMgASgOMiYuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxIZWF0RmlsdGVyc0IKukgHggEEEAEgABISCgphdXRvX2ZvY3VzGAQgASgIEh8KDnpvb21fdGFibGVfcG9zGAUgASgFQge6SAQaAigAEiMKEnpvb21fdGFibGVfcG9zX21heBgGIAEoBUIHukgEGgIoABIdCglkZGVfbGV2ZWwYByABKAVCCrpIBxoFGIAEKAASEwoLZGRlX2VuYWJsZWQYCCABKAgSNAoHZnhfbW9kZRgJIAEoDjIZLnNlci5Kb25HdWlEYXRhRnhNb2RlSGVhdEIIukgFggECEAESKgoSZGlnaXRhbF96b29tX2xldmVsGAogASgBQg66SAsSCSkAAAAAAADwPxIsCgtjbGFoZV9sZXZlbBgLIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASNwoWaG9yaXpvbnRhbF9mb3ZfZGVncmVlcxgMIAEoAUIXukgUEhIRAAAAAACAdkAhAAAAAAAAAAASNQoUdmVydGljYWxfZm92X2RlZ3JlZXMYDSABKAFCF7pIFBISEQAAAAAAgHZAIQAAAAAAAAAAEhIKCmlzX3N0YXJ0ZWQYDiABKAgSIwoFbWV0ZW8YDyABKAsyFC5zZXIuSm9uR3VpRGF0YU1ldGVvQlNaUWdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvZGF0YS9jYW1lcmFfaGVhdGIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataCameraHeat
@@ -88,6 +88,11 @@ export type JonGuiDataCameraHeat = Message<"ser.JonGuiDataCameraHeat"> & {
    * @generated from field: bool is_started = 14;
    */
   isStarted: boolean;
+
+  /**
+   * @generated from field: ser.JonGuiDataMeteo meteo = 15;
+   */
+  meteo?: JonGuiDataMeteo;
 };
 
 /**

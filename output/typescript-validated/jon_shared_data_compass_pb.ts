@@ -5,13 +5,15 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
+import type { JonGuiDataMeteo } from "./jon_shared_data_types_pb";
+import { file_jon_shared_data_types } from "./jon_shared_data_types_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file jon_shared_data_compass.proto.
  */
 export const file_jon_shared_data_compass: GenFile = /*@__PURE__*/
-  fileDesc("Ch1qb25fc2hhcmVkX2RhdGFfY29tcGFzcy5wcm90bxIDc2VyIvwDChFKb25HdWlEYXRhQ29tcGFzcxJMCgdhemltdXRoGAEgASgBQju6SDgSNhEAAAAAAIB2QCkAAAAAAAAAAEkAAAAAAAAAAEkAAAAAAKBWQEkAAAAAAIBmQEkAAAAAAOBwQBJFCgllbGV2YXRpb24YAiABKAFCMrpILxItGQAAAAAAgFZAKQAAAAAAgFbASQAAAAAAgEbASQAAAAAAAAAASQAAAAAAgEZAEkAKBGJhbmsYAyABKAFCMrpILxItEQAAAAAAgGZAKQAAAAAAgGbASQAAAAAAgFbASQAAAAAAAAAASQAAAAAAgFZAEkkKDW9mZnNldEF6aW11dGgYBCABKAFCMrpILxItEQAAAAAAgGZAKQAAAAAAgGbASQAAAAAAgEbASQAAAAAAAAAASQAAAAAAgEZAEksKD29mZnNldEVsZXZhdGlvbhgFIAEoAUIyukgvEi0ZAAAAAACAVkApAAAAAACAVsBJAAAAAAAAPsBJAAAAAAAAAABJAAAAAAAAPkASTwoTbWFnbmV0aWNEZWNsaW5hdGlvbhgGIAEoAUIyukgvEi0RAAAAAACAZkApAAAAAACAZsBJAAAAAAAALsBJAAAAAAAAAABJAAAAAAAALkASEwoLY2FsaWJyYXRpbmcYByABKAgSEgoKaXNfc3RhcnRlZBgIIAEoCEJPWk1naXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvY29tcGFzc2IGcHJvdG8z", [file_buf_validate_validate]);
+  fileDesc("Ch1qb25fc2hhcmVkX2RhdGFfY29tcGFzcy5wcm90bxIDc2VyIqEEChFKb25HdWlEYXRhQ29tcGFzcxJMCgdhemltdXRoGAEgASgBQju6SDgSNhEAAAAAAIB2QCkAAAAAAAAAAEkAAAAAAAAAAEkAAAAAAKBWQEkAAAAAAIBmQEkAAAAAAOBwQBJFCgllbGV2YXRpb24YAiABKAFCMrpILxItGQAAAAAAgFZAKQAAAAAAgFbASQAAAAAAgEbASQAAAAAAAAAASQAAAAAAgEZAEkAKBGJhbmsYAyABKAFCMrpILxItEQAAAAAAgGZAKQAAAAAAgGbASQAAAAAAgFbASQAAAAAAAAAASQAAAAAAgFZAEkkKDW9mZnNldEF6aW11dGgYBCABKAFCMrpILxItEQAAAAAAgGZAKQAAAAAAgGbASQAAAAAAgEbASQAAAAAAAAAASQAAAAAAgEZAEksKD29mZnNldEVsZXZhdGlvbhgFIAEoAUIyukgvEi0ZAAAAAACAVkApAAAAAACAVsBJAAAAAAAAPsBJAAAAAAAAAABJAAAAAAAAPkASTwoTbWFnbmV0aWNEZWNsaW5hdGlvbhgGIAEoAUIyukgvEi0RAAAAAACAZkApAAAAAACAZsBJAAAAAAAALsBJAAAAAAAAAABJAAAAAAAALkASEwoLY2FsaWJyYXRpbmcYByABKAgSEgoKaXNfc3RhcnRlZBgIIAEoCBIjCgVtZXRlbxgJIAEoCzIULnNlci5Kb25HdWlEYXRhTWV0ZW9CT1pNZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9kYXRhL2NvbXBhc3NiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataCompass
@@ -56,6 +58,11 @@ export type JonGuiDataCompass = Message<"ser.JonGuiDataCompass"> & {
    * @generated from field: bool is_started = 8;
    */
   isStarted: boolean;
+
+  /**
+   * @generated from field: ser.JonGuiDataMeteo meteo = 9;
+   */
+  meteo?: JonGuiDataMeteo;
 };
 
 /**

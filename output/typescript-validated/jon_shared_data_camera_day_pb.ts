@@ -5,7 +5,7 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
-import type { JonGuiDataFxModeDay } from "./jon_shared_data_types_pb";
+import type { JonGuiDataFxModeDay, JonGuiDataMeteo } from "./jon_shared_data_types_pb";
 import { file_jon_shared_data_types } from "./jon_shared_data_types_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_camera_day.proto.
  */
 export const file_jon_shared_data_camera_day: GenFile = /*@__PURE__*/
-  fileDesc("CiBqb25fc2hhcmVkX2RhdGFfY2FtZXJhX2RheS5wcm90bxIDc2VyIsMEChNKb25HdWlEYXRhQ2FtZXJhRGF5EioKCWZvY3VzX3BvcxgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASKQoIem9vbV9wb3MYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEikKCGlyaXNfcG9zGAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABIXCg9pbmZyYXJlZF9maWx0ZXIYBCABKAgSHwoOem9vbV90YWJsZV9wb3MYBSABKAVCB7pIBBoCKAASIwoSem9vbV90YWJsZV9wb3NfbWF4GAYgASgFQge6SAQaAigAEjMKB2Z4X21vZGUYByABKA4yGC5zZXIuSm9uR3VpRGF0YUZ4TW9kZURheUIIukgFggECEAESEgoKYXV0b19mb2N1cxgIIAEoCBIRCglhdXRvX2lyaXMYCSABKAgSEQoJYXV0b19nYWluGA8gASgIEioKEmRpZ2l0YWxfem9vbV9sZXZlbBgKIAEoAUIOukgLEgkpAAAAAAAA8D8SLAoLY2xhaGVfbGV2ZWwYCyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEjcKFmhvcml6b250YWxfZm92X2RlZ3JlZXMYDCABKAFCF7pIFBISEQAAAAAAgHZAIQAAAAAAAAAAEjUKFHZlcnRpY2FsX2Zvdl9kZWdyZWVzGA0gASgBQhe6SBQSEhEAAAAAAIB2QCEAAAAAAAAAABISCgppc19zdGFydGVkGA4gASgIQlJaUGdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvZGF0YS9jYW1lcmFfZGF5YgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("CiBqb25fc2hhcmVkX2RhdGFfY2FtZXJhX2RheS5wcm90bxIDc2VyIugEChNKb25HdWlEYXRhQ2FtZXJhRGF5EioKCWZvY3VzX3BvcxgBIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASKQoIem9vbV9wb3MYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEikKCGlyaXNfcG9zGAMgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAAAAABIXCg9pbmZyYXJlZF9maWx0ZXIYBCABKAgSHwoOem9vbV90YWJsZV9wb3MYBSABKAVCB7pIBBoCKAASIwoSem9vbV90YWJsZV9wb3NfbWF4GAYgASgFQge6SAQaAigAEjMKB2Z4X21vZGUYByABKA4yGC5zZXIuSm9uR3VpRGF0YUZ4TW9kZURheUIIukgFggECEAESEgoKYXV0b19mb2N1cxgIIAEoCBIRCglhdXRvX2lyaXMYCSABKAgSEQoJYXV0b19nYWluGA8gASgIEioKEmRpZ2l0YWxfem9vbV9sZXZlbBgKIAEoAUIOukgLEgkpAAAAAAAA8D8SLAoLY2xhaGVfbGV2ZWwYCyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEjcKFmhvcml6b250YWxfZm92X2RlZ3JlZXMYDCABKAFCF7pIFBISEQAAAAAAgHZAIQAAAAAAAAAAEjUKFHZlcnRpY2FsX2Zvdl9kZWdyZWVzGA0gASgBQhe6SBQSEhEAAAAAAIB2QCEAAAAAAAAAABISCgppc19zdGFydGVkGA4gASgIEiMKBW1ldGVvGBAgASgLMhQuc2VyLkpvbkd1aURhdGFNZXRlb0JSWlBnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvY2FtZXJhX2RheWIGcHJvdG8z", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataCameraDay
@@ -93,6 +93,11 @@ export type JonGuiDataCameraDay = Message<"ser.JonGuiDataCameraDay"> & {
    * @generated from field: bool is_started = 14;
    */
   isStarted: boolean;
+
+  /**
+   * @generated from field: ser.JonGuiDataMeteo meteo = 16;
+   */
+  meteo?: JonGuiDataMeteo;
 };
 
 /**
