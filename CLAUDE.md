@@ -95,6 +95,41 @@ For automated distribution, these deploy keys must be configured as repository s
 
 ## Common Operations
 
+### After Adding New Proto Messages
+
+When new messages or fields are added to proto files, you MUST regenerate the documentation:
+
+1. **Regenerate bindings** (creates updated JSON descriptors):
+   ```bash
+   make generate
+   ```
+
+2. **Regenerate documentation**:
+   ```bash
+   make docs-docker-generate
+   ```
+
+3. **Add descriptions** to new messages/fields in the generated markdown files in `docs/`
+
+4. **Commit all changes** including the updated docs
+
+### Understanding Message Context
+
+**Before implementing features involving proto messages, read the documentation in `docs/`.**
+
+The documentation provides:
+- Message purpose and description
+- Field constraints (validation rules like `gte`, `lte`, `required`)
+- Field notes explaining semantic meaning
+- Interaction metadata (UI patterns, semantic types, related commands)
+- Related state messages and commands
+
+**Quick ways to find message documentation:**
+- Use `/proto-search <query>` to find messages by name or field
+- Read `docs/proto/cmd.<Package>.<Message>.md` for command messages
+- Read `docs/proto/ser.<Package>.<Message>.md` for state/data messages
+- Check `docs/enums/` for enum definitions
+
 ### CI/CD Architecture
 
 The repository uses a sequential workflow in GitHub Actions:

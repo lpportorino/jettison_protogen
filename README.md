@@ -350,6 +350,26 @@ REBUILD_IMAGE=true ./generate-protos.sh
 
 The repository includes a documentation generator for the proto schema. See [`docs/.protodoc/tools/README.md`](./docs/.protodoc/tools/README.md) for full details.
 
+### Important: After Adding New Messages
+
+When new proto messages or fields are added, regenerate the documentation:
+
+```bash
+make generate              # Regenerate bindings (updates JSON descriptors)
+make docs-docker-generate  # Regenerate documentation
+```
+
+Then add descriptions to the new messages/fields in the generated markdown files in `docs/`.
+
+### Finding Message Context
+
+The `docs/` directory contains detailed documentation for all proto messages. Use this to understand:
+- Message purpose and field semantics
+- Validation constraints (ranges, required fields)
+- UI interaction patterns and related commands
+
+Search with `/proto-search <query>` or browse `docs/proto/` directly.
+
 ### Quick Start
 
 ```bash
