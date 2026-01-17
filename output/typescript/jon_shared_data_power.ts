@@ -7,6 +7,14 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
+import {
+  JonGuiDataAccumulatorStateIdx,
+  jonGuiDataAccumulatorStateIdxFromJSON,
+  jonGuiDataAccumulatorStateIdxToJSON,
+  JonGuiDataExtBatStatus,
+  jonGuiDataExtBatStatusFromJSON,
+  jonGuiDataExtBatStatusToJSON,
+} from "./jon_shared_data_types";
 
 /** Power module state for a single channel (S0-S7) */
 export interface JonGuiDataPowerModule {
@@ -53,7 +61,14 @@ export interface JonGuiDataPower {
     | JonGuiDataPowerModule
     | undefined;
   /** Heater / Spare */
-  s7: JonGuiDataPowerModule | undefined;
+  s7:
+    | JonGuiDataPowerModule
+    | undefined;
+  /** Battery state (moved from system for typed fragments) */
+  accumulatorState: JonGuiDataAccumulatorStateIdx;
+  /** External battery capacity percentage */
+  extBatCapacity: number;
+  extBatStatus: JonGuiDataExtBatStatus;
 }
 
 function createBaseJonGuiDataPowerModule(): JonGuiDataPowerModule {
@@ -198,6 +213,9 @@ function createBaseJonGuiDataPower(): JonGuiDataPower {
     s5: undefined,
     s6: undefined,
     s7: undefined,
+    accumulatorState: 0,
+    extBatCapacity: 0,
+    extBatStatus: 0,
   };
 }
 
@@ -226,6 +244,15 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
     }
     if (message.s7 !== undefined) {
       JonGuiDataPowerModule.encode(message.s7, writer.uint32(66).fork()).join();
+    }
+    if (message.accumulatorState !== 0) {
+      writer.uint32(72).int32(message.accumulatorState);
+    }
+    if (message.extBatCapacity !== 0) {
+      writer.uint32(80).int32(message.extBatCapacity);
+    }
+    if (message.extBatStatus !== 0) {
+      writer.uint32(88).int32(message.extBatStatus);
     }
     return writer;
   },
@@ -301,6 +328,30 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
           message.s7 = JonGuiDataPowerModule.decode(reader, reader.uint32());
           continue;
         }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.accumulatorState = reader.int32() as any;
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.extBatCapacity = reader.int32();
+          continue;
+        }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.extBatStatus = reader.int32() as any;
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -320,6 +371,21 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
       s5: isSet(object.s5) ? JonGuiDataPowerModule.fromJSON(object.s5) : undefined,
       s6: isSet(object.s6) ? JonGuiDataPowerModule.fromJSON(object.s6) : undefined,
       s7: isSet(object.s7) ? JonGuiDataPowerModule.fromJSON(object.s7) : undefined,
+      accumulatorState: isSet(object.accumulatorState)
+        ? jonGuiDataAccumulatorStateIdxFromJSON(object.accumulatorState)
+        : isSet(object.accumulator_state)
+        ? jonGuiDataAccumulatorStateIdxFromJSON(object.accumulator_state)
+        : 0,
+      extBatCapacity: isSet(object.extBatCapacity)
+        ? globalThis.Number(object.extBatCapacity)
+        : isSet(object.ext_bat_capacity)
+        ? globalThis.Number(object.ext_bat_capacity)
+        : 0,
+      extBatStatus: isSet(object.extBatStatus)
+        ? jonGuiDataExtBatStatusFromJSON(object.extBatStatus)
+        : isSet(object.ext_bat_status)
+        ? jonGuiDataExtBatStatusFromJSON(object.ext_bat_status)
+        : 0,
     };
   },
 
@@ -348,6 +414,15 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
     }
     if (message.s7 !== undefined) {
       obj.s7 = JonGuiDataPowerModule.toJSON(message.s7);
+    }
+    if (message.accumulatorState !== 0) {
+      obj.accumulatorState = jonGuiDataAccumulatorStateIdxToJSON(message.accumulatorState);
+    }
+    if (message.extBatCapacity !== 0) {
+      obj.extBatCapacity = Math.round(message.extBatCapacity);
+    }
+    if (message.extBatStatus !== 0) {
+      obj.extBatStatus = jonGuiDataExtBatStatusToJSON(message.extBatStatus);
     }
     return obj;
   },
@@ -381,6 +456,9 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
     message.s7 = (object.s7 !== undefined && object.s7 !== null)
       ? JonGuiDataPowerModule.fromPartial(object.s7)
       : undefined;
+    message.accumulatorState = object.accumulatorState ?? 0;
+    message.extBatCapacity = object.extBatCapacity ?? 0;
+    message.extBatStatus = object.extBatStatus ?? 0;
     return message;
   },
 };

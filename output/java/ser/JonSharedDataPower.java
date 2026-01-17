@@ -1082,6 +1082,46 @@ public final class JonSharedDataPower {
      * <code>.ser.JonGuiDataPowerModule s7 = 8;</code>
      */
     ser.JonSharedDataPower.JonGuiDataPowerModuleOrBuilder getS7OrBuilder();
+
+    /**
+     * <pre>
+     * Battery state (moved from system for typed fragments)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+     * @return The enum numeric value on the wire for accumulatorState.
+     */
+    int getAccumulatorStateValue();
+    /**
+     * <pre>
+     * Battery state (moved from system for typed fragments)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+     * @return The accumulatorState.
+     */
+    ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx getAccumulatorState();
+
+    /**
+     * <pre>
+     * External battery capacity percentage
+     * </pre>
+     *
+     * <code>int32 ext_bat_capacity = 10;</code>
+     * @return The extBatCapacity.
+     */
+    int getExtBatCapacity();
+
+    /**
+     * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+     * @return The enum numeric value on the wire for extBatStatus.
+     */
+    int getExtBatStatusValue();
+    /**
+     * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+     * @return The extBatStatus.
+     */
+    ser.JonSharedDataTypes.JonGuiDataExtBatStatus getExtBatStatus();
   }
   /**
    * <pre>
@@ -1109,6 +1149,8 @@ public final class JonSharedDataPower {
       super(builder);
     }
     private JonGuiDataPower() {
+      accumulatorState_ = 0;
+      extBatStatus_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -1429,6 +1471,65 @@ public final class JonSharedDataPower {
       return s7_ == null ? ser.JonSharedDataPower.JonGuiDataPowerModule.getDefaultInstance() : s7_;
     }
 
+    public static final int ACCUMULATOR_STATE_FIELD_NUMBER = 9;
+    private int accumulatorState_ = 0;
+    /**
+     * <pre>
+     * Battery state (moved from system for typed fragments)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+     * @return The enum numeric value on the wire for accumulatorState.
+     */
+    @java.lang.Override public int getAccumulatorStateValue() {
+      return accumulatorState_;
+    }
+    /**
+     * <pre>
+     * Battery state (moved from system for typed fragments)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+     * @return The accumulatorState.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx getAccumulatorState() {
+      ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx result = ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.forNumber(accumulatorState_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.UNRECOGNIZED : result;
+    }
+
+    public static final int EXT_BAT_CAPACITY_FIELD_NUMBER = 10;
+    private int extBatCapacity_ = 0;
+    /**
+     * <pre>
+     * External battery capacity percentage
+     * </pre>
+     *
+     * <code>int32 ext_bat_capacity = 10;</code>
+     * @return The extBatCapacity.
+     */
+    @java.lang.Override
+    public int getExtBatCapacity() {
+      return extBatCapacity_;
+    }
+
+    public static final int EXT_BAT_STATUS_FIELD_NUMBER = 11;
+    private int extBatStatus_ = 0;
+    /**
+     * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+     * @return The enum numeric value on the wire for extBatStatus.
+     */
+    @java.lang.Override public int getExtBatStatusValue() {
+      return extBatStatus_;
+    }
+    /**
+     * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+     * @return The extBatStatus.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataExtBatStatus getExtBatStatus() {
+      ser.JonSharedDataTypes.JonGuiDataExtBatStatus result = ser.JonSharedDataTypes.JonGuiDataExtBatStatus.forNumber(extBatStatus_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataExtBatStatus.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1466,6 +1567,15 @@ public final class JonSharedDataPower {
       }
       if (((bitField0_ & 0x00000080) != 0)) {
         output.writeMessage(8, getS7());
+      }
+      if (accumulatorState_ != ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(9, accumulatorState_);
+      }
+      if (extBatCapacity_ != 0) {
+        output.writeInt32(10, extBatCapacity_);
+      }
+      if (extBatStatus_ != ser.JonSharedDataTypes.JonGuiDataExtBatStatus.JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(11, extBatStatus_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1507,6 +1617,18 @@ public final class JonSharedDataPower {
       if (((bitField0_ & 0x00000080) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, getS7());
+      }
+      if (accumulatorState_ != ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(9, accumulatorState_);
+      }
+      if (extBatCapacity_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, extBatCapacity_);
+      }
+      if (extBatStatus_ != ser.JonSharedDataTypes.JonGuiDataExtBatStatus.JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(11, extBatStatus_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1563,6 +1685,10 @@ public final class JonSharedDataPower {
         if (!getS7()
             .equals(other.getS7())) return false;
       }
+      if (accumulatorState_ != other.accumulatorState_) return false;
+      if (getExtBatCapacity()
+          != other.getExtBatCapacity()) return false;
+      if (extBatStatus_ != other.extBatStatus_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1606,6 +1732,12 @@ public final class JonSharedDataPower {
         hash = (37 * hash) + S7_FIELD_NUMBER;
         hash = (53 * hash) + getS7().hashCode();
       }
+      hash = (37 * hash) + ACCUMULATOR_STATE_FIELD_NUMBER;
+      hash = (53 * hash) + accumulatorState_;
+      hash = (37 * hash) + EXT_BAT_CAPACITY_FIELD_NUMBER;
+      hash = (53 * hash) + getExtBatCapacity();
+      hash = (37 * hash) + EXT_BAT_STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + extBatStatus_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1794,6 +1926,9 @@ public final class JonSharedDataPower {
           s7Builder_.dispose();
           s7Builder_ = null;
         }
+        accumulatorState_ = 0;
+        extBatCapacity_ = 0;
+        extBatStatus_ = 0;
         return this;
       }
 
@@ -1876,6 +2011,15 @@ public final class JonSharedDataPower {
               : s7Builder_.build();
           to_bitField0_ |= 0x00000080;
         }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.accumulatorState_ = accumulatorState_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.extBatCapacity_ = extBatCapacity_;
+        }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.extBatStatus_ = extBatStatus_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1914,6 +2058,15 @@ public final class JonSharedDataPower {
         }
         if (other.hasS7()) {
           mergeS7(other.getS7());
+        }
+        if (other.accumulatorState_ != 0) {
+          setAccumulatorStateValue(other.getAccumulatorStateValue());
+        }
+        if (other.getExtBatCapacity() != 0) {
+          setExtBatCapacity(other.getExtBatCapacity());
+        }
+        if (other.extBatStatus_ != 0) {
+          setExtBatStatusValue(other.getExtBatStatusValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1997,6 +2150,21 @@ public final class JonSharedDataPower {
                 bitField0_ |= 0x00000080;
                 break;
               } // case 66
+              case 72: {
+                accumulatorState_ = input.readEnum();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
+              case 80: {
+                extBatCapacity_ = input.readInt32();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 80
+              case 88: {
+                extBatStatus_ = input.readEnum();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 88
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3270,6 +3438,176 @@ public final class JonSharedDataPower {
         return s7Builder_;
       }
 
+      private int accumulatorState_ = 0;
+      /**
+       * <pre>
+       * Battery state (moved from system for typed fragments)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+       * @return The enum numeric value on the wire for accumulatorState.
+       */
+      @java.lang.Override public int getAccumulatorStateValue() {
+        return accumulatorState_;
+      }
+      /**
+       * <pre>
+       * Battery state (moved from system for typed fragments)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+       * @param value The enum numeric value on the wire for accumulatorState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccumulatorStateValue(int value) {
+        accumulatorState_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Battery state (moved from system for typed fragments)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+       * @return The accumulatorState.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx getAccumulatorState() {
+        ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx result = ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.forNumber(accumulatorState_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * Battery state (moved from system for typed fragments)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+       * @param value The accumulatorState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAccumulatorState(ser.JonSharedDataTypes.JonGuiDataAccumulatorStateIdx value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000100;
+        accumulatorState_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Battery state (moved from system for typed fragments)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAccumulatorState() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        accumulatorState_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int extBatCapacity_ ;
+      /**
+       * <pre>
+       * External battery capacity percentage
+       * </pre>
+       *
+       * <code>int32 ext_bat_capacity = 10;</code>
+       * @return The extBatCapacity.
+       */
+      @java.lang.Override
+      public int getExtBatCapacity() {
+        return extBatCapacity_;
+      }
+      /**
+       * <pre>
+       * External battery capacity percentage
+       * </pre>
+       *
+       * <code>int32 ext_bat_capacity = 10;</code>
+       * @param value The extBatCapacity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExtBatCapacity(int value) {
+
+        extBatCapacity_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * External battery capacity percentage
+       * </pre>
+       *
+       * <code>int32 ext_bat_capacity = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExtBatCapacity() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        extBatCapacity_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int extBatStatus_ = 0;
+      /**
+       * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+       * @return The enum numeric value on the wire for extBatStatus.
+       */
+      @java.lang.Override public int getExtBatStatusValue() {
+        return extBatStatus_;
+      }
+      /**
+       * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+       * @param value The enum numeric value on the wire for extBatStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExtBatStatusValue(int value) {
+        extBatStatus_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+       * @return The extBatStatus.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataExtBatStatus getExtBatStatus() {
+        ser.JonSharedDataTypes.JonGuiDataExtBatStatus result = ser.JonSharedDataTypes.JonGuiDataExtBatStatus.forNumber(extBatStatus_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataExtBatStatus.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+       * @param value The extBatStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExtBatStatus(ser.JonSharedDataTypes.JonGuiDataExtBatStatus value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000400;
+        extBatStatus_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataExtBatStatus ext_bat_status = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExtBatStatus() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        extBatStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPower)
     }
 
@@ -3341,29 +3679,35 @@ public final class JonSharedDataPower {
   static {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_data_power.proto\022\003ser\032\033buf/" +
-      "validate/validate.proto\"\206\002\n\025JonGuiDataPo" +
-      "werModule\022C\n\007voltage\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\000" +
-      "Y@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000)@I\000\000\000\000\000\0008@\022C" +
-      "\n\007current\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000" +
-      "I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\340?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001" +
-      "(\001B2\272H/\022-\031\000\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000" +
-      "\000\000\000\030@I\000\000\000\000\000\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_ala" +
-      "rm\030\005 \001(\010\"\321\002\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s1\030\002 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s2\030\003 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s3\030\004 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s4\030\005 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s5\030\006 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s6\030\007 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModule\022&\n\002s7\030\010 \001(\013" +
-      "2\032.ser.JonGuiDataPowerModuleBMZKgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/data/powerb\006proto3"
+      "validate/validate.proto\032\033jon_shared_data" +
+      "_types.proto\"\206\002\n\025JonGuiDataPowerModule\022C" +
+      "\n\007voltage\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\000Y@)\000\000\000\000\000\000\000\000" +
+      "I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000)@I\000\000\000\000\000\0008@\022C\n\007current\030\002" +
+      " \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000" +
+      "\000\000\000\000\000\340?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001(\001B2\272H/\022-\031\000" +
+      "\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\030@I\000\000\000\000\000" +
+      "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\337\003" +
+      "\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s1\030\002 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s2\030\003 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s3\030\004 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s4\030\005 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s5\030\006 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s6\030\007 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022&\n\002s7\030\010 \001(\0132\032.ser.JonG" +
+      "uiDataPowerModule\022=\n\021accumulator_state\030\t" +
+      " \001(\0162\".ser.JonGuiDataAccumulatorStateIdx" +
+      "\022\030\n\020ext_bat_capacity\030\n \001(\005\0223\n\016ext_bat_st" +
+      "atus\030\013 \001(\0162\033.ser.JonGuiDataExtBatStatusB" +
+      "MZKgit-codecommit.eu-central-1.amazonaws" +
+      ".com/v1/repos/jettison/jonp/data/powerb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           build.buf.validate.ValidateProto.getDescriptor(),
+          ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_ser_JonGuiDataPowerModule_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -3376,9 +3720,10 @@ public final class JonSharedDataPower {
     internal_static_ser_JonGuiDataPower_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPower_descriptor,
-        new java.lang.String[] { "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", });
+        new java.lang.String[] { "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
+    ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

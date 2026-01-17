@@ -8,6 +8,7 @@ package power
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
+	types "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -101,17 +102,21 @@ func (x *JonGuiDataPowerModule) GetHasAlarm() bool {
 
 // Power state for all 8 channels
 type JonGuiDataPower struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	S0            *JonGuiDataPowerModule `protobuf:"bytes,1,opt,name=s0,proto3" json:"s0,omitempty"` // GPS
-	S1            *JonGuiDataPowerModule `protobuf:"bytes,2,opt,name=s1,proto3" json:"s1,omitempty"` // Compass
-	S2            *JonGuiDataPowerModule `protobuf:"bytes,3,opt,name=s2,proto3" json:"s2,omitempty"` // LRF (Laser Range Finder)
-	S3            *JonGuiDataPowerModule `protobuf:"bytes,4,opt,name=s3,proto3" json:"s3,omitempty"` // Day Camera Lens
-	S4            *JonGuiDataPowerModule `protobuf:"bytes,5,opt,name=s4,proto3" json:"s4,omitempty"` // Thermal Camera
-	S5            *JonGuiDataPowerModule `protobuf:"bytes,6,opt,name=s5,proto3" json:"s5,omitempty"` // ORIN NUC (Main compute)
-	S6            *JonGuiDataPowerModule `protobuf:"bytes,7,opt,name=s6,proto3" json:"s6,omitempty"` // Thermal Core
-	S7            *JonGuiDataPowerModule `protobuf:"bytes,8,opt,name=s7,proto3" json:"s7,omitempty"` // Heater / Spare
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	S0    *JonGuiDataPowerModule `protobuf:"bytes,1,opt,name=s0,proto3" json:"s0,omitempty"` // GPS
+	S1    *JonGuiDataPowerModule `protobuf:"bytes,2,opt,name=s1,proto3" json:"s1,omitempty"` // Compass
+	S2    *JonGuiDataPowerModule `protobuf:"bytes,3,opt,name=s2,proto3" json:"s2,omitempty"` // LRF (Laser Range Finder)
+	S3    *JonGuiDataPowerModule `protobuf:"bytes,4,opt,name=s3,proto3" json:"s3,omitempty"` // Day Camera Lens
+	S4    *JonGuiDataPowerModule `protobuf:"bytes,5,opt,name=s4,proto3" json:"s4,omitempty"` // Thermal Camera
+	S5    *JonGuiDataPowerModule `protobuf:"bytes,6,opt,name=s5,proto3" json:"s5,omitempty"` // ORIN NUC (Main compute)
+	S6    *JonGuiDataPowerModule `protobuf:"bytes,7,opt,name=s6,proto3" json:"s6,omitempty"` // Thermal Core
+	S7    *JonGuiDataPowerModule `protobuf:"bytes,8,opt,name=s7,proto3" json:"s7,omitempty"` // Heater / Spare
+	// Battery state (moved from system for typed fragments)
+	AccumulatorState types.JonGuiDataAccumulatorStateIdx `protobuf:"varint,9,opt,name=accumulator_state,json=accumulatorState,proto3,enum=ser.JonGuiDataAccumulatorStateIdx" json:"accumulator_state,omitempty"`
+	ExtBatCapacity   int32                               `protobuf:"varint,10,opt,name=ext_bat_capacity,json=extBatCapacity,proto3" json:"ext_bat_capacity,omitempty"` // External battery capacity percentage
+	ExtBatStatus     types.JonGuiDataExtBatStatus        `protobuf:"varint,11,opt,name=ext_bat_status,json=extBatStatus,proto3,enum=ser.JonGuiDataExtBatStatus" json:"ext_bat_status,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *JonGuiDataPower) Reset() {
@@ -200,17 +205,38 @@ func (x *JonGuiDataPower) GetS7() *JonGuiDataPowerModule {
 	return nil
 }
 
+func (x *JonGuiDataPower) GetAccumulatorState() types.JonGuiDataAccumulatorStateIdx {
+	if x != nil {
+		return x.AccumulatorState
+	}
+	return types.JonGuiDataAccumulatorStateIdx(0)
+}
+
+func (x *JonGuiDataPower) GetExtBatCapacity() int32 {
+	if x != nil {
+		return x.ExtBatCapacity
+	}
+	return 0
+}
+
+func (x *JonGuiDataPower) GetExtBatStatus() types.JonGuiDataExtBatStatus {
+	if x != nil {
+		return x.ExtBatStatus
+	}
+	return types.JonGuiDataExtBatStatus(0)
+}
+
 var File_jon_shared_data_power_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_power_proto_rawDesc = "" +
 	"\n" +
-	"\x1bjon_shared_data_power.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xaf\x02\n" +
+	"\x1bjon_shared_data_power.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xaf\x02\n" +
 	"\x15JonGuiDataPowerModule\x12L\n" +
 	"\avoltage\x18\x01 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00)@I\x00\x00\x00\x00\x00\x008@\x19\x00\x00\x00\x00\x00\x00Y@)\x00\x00\x00\x00\x00\x00\x00\x00R\avoltage\x12L\n" +
 	"\acurrent\x18\x02 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\xe0?I\x00\x00\x00\x00\x00\x00\x04@\x19\x00\x00\x00\x00\x00\x00I@)\x00\x00\x00\x00\x00\x00\x00\x00R\acurrent\x12H\n" +
 	"\x05power\x18\x03 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\x18@I\x00\x00\x00\x00\x00\x00>@\x19\x00\x00\x00\x00\x00@\x7f@)\x00\x00\x00\x00\x00\x00\x00\x00R\x05power\x12\x13\n" +
 	"\x05is_on\x18\x04 \x01(\bR\x04isOn\x12\x1b\n" +
-	"\thas_alarm\x18\x05 \x01(\bR\bhasAlarm\"\xf1\x02\n" +
+	"\thas_alarm\x18\x05 \x01(\bR\bhasAlarm\"\xaf\x04\n" +
 	"\x0fJonGuiDataPower\x12*\n" +
 	"\x02s0\x18\x01 \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s0\x12*\n" +
 	"\x02s1\x18\x02 \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s1\x12*\n" +
@@ -219,7 +245,11 @@ const file_jon_shared_data_power_proto_rawDesc = "" +
 	"\x02s4\x18\x05 \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s4\x12*\n" +
 	"\x02s5\x18\x06 \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s5\x12*\n" +
 	"\x02s6\x18\a \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s6\x12*\n" +
-	"\x02s7\x18\b \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s7B\x9b\x01\n" +
+	"\x02s7\x18\b \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s7\x12O\n" +
+	"\x11accumulator_state\x18\t \x01(\x0e2\".ser.JonGuiDataAccumulatorStateIdxR\x10accumulatorState\x12(\n" +
+	"\x10ext_bat_capacity\x18\n" +
+	" \x01(\x05R\x0eextBatCapacity\x12A\n" +
+	"\x0eext_bat_status\x18\v \x01(\x0e2\x1b.ser.JonGuiDataExtBatStatusR\fextBatStatusB\x9b\x01\n" +
 	"\acom.serB\x17JonSharedDataPowerProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -236,23 +266,27 @@ func file_jon_shared_data_power_proto_rawDescGZIP() []byte {
 
 var file_jon_shared_data_power_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_jon_shared_data_power_proto_goTypes = []any{
-	(*JonGuiDataPowerModule)(nil), // 0: ser.JonGuiDataPowerModule
-	(*JonGuiDataPower)(nil),       // 1: ser.JonGuiDataPower
+	(*JonGuiDataPowerModule)(nil),            // 0: ser.JonGuiDataPowerModule
+	(*JonGuiDataPower)(nil),                  // 1: ser.JonGuiDataPower
+	(types.JonGuiDataAccumulatorStateIdx)(0), // 2: ser.JonGuiDataAccumulatorStateIdx
+	(types.JonGuiDataExtBatStatus)(0),        // 3: ser.JonGuiDataExtBatStatus
 }
 var file_jon_shared_data_power_proto_depIdxs = []int32{
-	0, // 0: ser.JonGuiDataPower.s0:type_name -> ser.JonGuiDataPowerModule
-	0, // 1: ser.JonGuiDataPower.s1:type_name -> ser.JonGuiDataPowerModule
-	0, // 2: ser.JonGuiDataPower.s2:type_name -> ser.JonGuiDataPowerModule
-	0, // 3: ser.JonGuiDataPower.s3:type_name -> ser.JonGuiDataPowerModule
-	0, // 4: ser.JonGuiDataPower.s4:type_name -> ser.JonGuiDataPowerModule
-	0, // 5: ser.JonGuiDataPower.s5:type_name -> ser.JonGuiDataPowerModule
-	0, // 6: ser.JonGuiDataPower.s6:type_name -> ser.JonGuiDataPowerModule
-	0, // 7: ser.JonGuiDataPower.s7:type_name -> ser.JonGuiDataPowerModule
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	0,  // 0: ser.JonGuiDataPower.s0:type_name -> ser.JonGuiDataPowerModule
+	0,  // 1: ser.JonGuiDataPower.s1:type_name -> ser.JonGuiDataPowerModule
+	0,  // 2: ser.JonGuiDataPower.s2:type_name -> ser.JonGuiDataPowerModule
+	0,  // 3: ser.JonGuiDataPower.s3:type_name -> ser.JonGuiDataPowerModule
+	0,  // 4: ser.JonGuiDataPower.s4:type_name -> ser.JonGuiDataPowerModule
+	0,  // 5: ser.JonGuiDataPower.s5:type_name -> ser.JonGuiDataPowerModule
+	0,  // 6: ser.JonGuiDataPower.s6:type_name -> ser.JonGuiDataPowerModule
+	0,  // 7: ser.JonGuiDataPower.s7:type_name -> ser.JonGuiDataPowerModule
+	2,  // 8: ser.JonGuiDataPower.accumulator_state:type_name -> ser.JonGuiDataAccumulatorStateIdx
+	3,  // 9: ser.JonGuiDataPower.ext_bat_status:type_name -> ser.JonGuiDataExtBatStatus
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_power_proto_init() }

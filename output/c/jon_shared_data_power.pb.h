@@ -4,6 +4,7 @@
 #ifndef PB_SER_JON_SHARED_DATA_POWER_PB_H_INCLUDED
 #define PB_SER_JON_SHARED_DATA_POWER_PB_H_INCLUDED
 #include <pb.h>
+#include "jon_shared_data_types.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -37,6 +38,10 @@ typedef struct _ser_JonGuiDataPower {
     ser_JonGuiDataPowerModule s6; /* Thermal Core */
     bool has_s7;
     ser_JonGuiDataPowerModule s7; /* Heater / Spare */
+    /* Battery state (moved from system for typed fragments) */
+    ser_JonGuiDataAccumulatorStateIdx accumulator_state;
+    int32_t ext_bat_capacity; /* External battery capacity percentage */
+    ser_JonGuiDataExtBatStatus ext_bat_status;
 } ser_JonGuiDataPower;
 
 
@@ -46,9 +51,9 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define ser_JonGuiDataPowerModule_init_default   {0, 0, 0, 0, 0}
-#define ser_JonGuiDataPower_init_default         {false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default}
+#define ser_JonGuiDataPower_init_default         {false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, _ser_JonGuiDataAccumulatorStateIdx_MIN, 0, _ser_JonGuiDataExtBatStatus_MIN}
 #define ser_JonGuiDataPowerModule_init_zero      {0, 0, 0, 0, 0}
-#define ser_JonGuiDataPower_init_zero            {false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero}
+#define ser_JonGuiDataPower_init_zero            {false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, _ser_JonGuiDataAccumulatorStateIdx_MIN, 0, _ser_JonGuiDataExtBatStatus_MIN}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataPowerModule_voltage_tag    1
@@ -64,6 +69,9 @@ extern "C" {
 #define ser_JonGuiDataPower_s5_tag               6
 #define ser_JonGuiDataPower_s6_tag               7
 #define ser_JonGuiDataPower_s7_tag               8
+#define ser_JonGuiDataPower_accumulator_state_tag 9
+#define ser_JonGuiDataPower_ext_bat_capacity_tag 10
+#define ser_JonGuiDataPower_ext_bat_status_tag   11
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataPowerModule_FIELDLIST(X, a) \
@@ -83,7 +91,10 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  s3,                4) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  s4,                5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  s5,                6) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  s6,                7) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  s7,                8)
+X(a, STATIC,   OPTIONAL, MESSAGE,  s7,                8) \
+X(a, STATIC,   SINGULAR, UENUM,    accumulator_state,   9) \
+X(a, STATIC,   SINGULAR, INT32,    ext_bat_capacity,  10) \
+X(a, STATIC,   SINGULAR, UENUM,    ext_bat_status,   11)
 #define ser_JonGuiDataPower_CALLBACK NULL
 #define ser_JonGuiDataPower_DEFAULT NULL
 #define ser_JonGuiDataPower_s0_MSGTYPE ser_JonGuiDataPowerModule
@@ -105,7 +116,7 @@ extern const pb_msgdesc_t ser_JonGuiDataPower_msg;
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_POWER_PB_H_MAX_SIZE  ser_JonGuiDataPower_size
 #define ser_JonGuiDataPowerModule_size           31
-#define ser_JonGuiDataPower_size                 264
+#define ser_JonGuiDataPower_size                 279
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power";
 
+import "jon_shared_data_types.proto";
+
 package ser;
 
 // Power module state for a single channel (S0-S7)
@@ -35,4 +37,9 @@ message JonGuiDataPower {
   JonGuiDataPowerModule s5 = 6;  // ORIN NUC (Main compute)
   JonGuiDataPowerModule s6 = 7;  // Thermal Core
   JonGuiDataPowerModule s7 = 8;  // Heater / Spare
+
+  // Battery state (moved from system for typed fragments)
+  JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+  int32 ext_bat_capacity = 10;  // External battery capacity percentage
+  JonGuiDataExtBatStatus ext_bat_status = 11;
 }

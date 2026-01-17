@@ -30,6 +30,7 @@
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
 #include "buf/validate/validate.pb.h"
+#include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -464,6 +465,9 @@ class JonGuiDataPower final : public ::google::protobuf::Message
     kS5FieldNumber = 6,
     kS6FieldNumber = 7,
     kS7FieldNumber = 8,
+    kAccumulatorStateFieldNumber = 9,
+    kExtBatCapacityFieldNumber = 10,
+    kExtBatStatusFieldNumber = 11,
   };
   // .ser.JonGuiDataPowerModule s0 = 1;
   bool has_s0() const;
@@ -585,12 +589,42 @@ class JonGuiDataPower final : public ::google::protobuf::Message
   ::ser::JonGuiDataPowerModule* _internal_mutable_s7();
 
   public:
+  // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+  void clear_accumulator_state() ;
+  ::ser::JonGuiDataAccumulatorStateIdx accumulator_state() const;
+  void set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value);
+
+  private:
+  ::ser::JonGuiDataAccumulatorStateIdx _internal_accumulator_state() const;
+  void _internal_set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value);
+
+  public:
+  // int32 ext_bat_capacity = 10;
+  void clear_ext_bat_capacity() ;
+  ::int32_t ext_bat_capacity() const;
+  void set_ext_bat_capacity(::int32_t value);
+
+  private:
+  ::int32_t _internal_ext_bat_capacity() const;
+  void _internal_set_ext_bat_capacity(::int32_t value);
+
+  public:
+  // .ser.JonGuiDataExtBatStatus ext_bat_status = 11;
+  void clear_ext_bat_status() ;
+  ::ser::JonGuiDataExtBatStatus ext_bat_status() const;
+  void set_ext_bat_status(::ser::JonGuiDataExtBatStatus value);
+
+  private:
+  ::ser::JonGuiDataExtBatStatus _internal_ext_bat_status() const;
+  void _internal_set_ext_bat_status(::ser::JonGuiDataExtBatStatus value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataPower)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 8, 8,
+      4, 11, 8,
       0, 2>
       _table_;
 
@@ -618,6 +652,9 @@ class JonGuiDataPower final : public ::google::protobuf::Message
     ::ser::JonGuiDataPowerModule* s5_;
     ::ser::JonGuiDataPowerModule* s6_;
     ::ser::JonGuiDataPowerModule* s7_;
+    int accumulator_state_;
+    ::int32_t ext_bat_capacity_;
+    int ext_bat_status_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1520,6 +1557,72 @@ inline void JonGuiDataPower::set_allocated_s7(::ser::JonGuiDataPowerModule* valu
 
   _impl_.s7_ = reinterpret_cast<::ser::JonGuiDataPowerModule*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataPower.s7)
+}
+
+// .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+inline void JonGuiDataPower::clear_accumulator_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.accumulator_state_ = 0;
+}
+inline ::ser::JonGuiDataAccumulatorStateIdx JonGuiDataPower::accumulator_state() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPower.accumulator_state)
+  return _internal_accumulator_state();
+}
+inline void JonGuiDataPower::set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value) {
+  _internal_set_accumulator_state(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPower.accumulator_state)
+}
+inline ::ser::JonGuiDataAccumulatorStateIdx JonGuiDataPower::_internal_accumulator_state() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataAccumulatorStateIdx>(_impl_.accumulator_state_);
+}
+inline void JonGuiDataPower::_internal_set_accumulator_state(::ser::JonGuiDataAccumulatorStateIdx value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.accumulator_state_ = value;
+}
+
+// int32 ext_bat_capacity = 10;
+inline void JonGuiDataPower::clear_ext_bat_capacity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ext_bat_capacity_ = 0;
+}
+inline ::int32_t JonGuiDataPower::ext_bat_capacity() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPower.ext_bat_capacity)
+  return _internal_ext_bat_capacity();
+}
+inline void JonGuiDataPower::set_ext_bat_capacity(::int32_t value) {
+  _internal_set_ext_bat_capacity(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPower.ext_bat_capacity)
+}
+inline ::int32_t JonGuiDataPower::_internal_ext_bat_capacity() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ext_bat_capacity_;
+}
+inline void JonGuiDataPower::_internal_set_ext_bat_capacity(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ext_bat_capacity_ = value;
+}
+
+// .ser.JonGuiDataExtBatStatus ext_bat_status = 11;
+inline void JonGuiDataPower::clear_ext_bat_status() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ext_bat_status_ = 0;
+}
+inline ::ser::JonGuiDataExtBatStatus JonGuiDataPower::ext_bat_status() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPower.ext_bat_status)
+  return _internal_ext_bat_status();
+}
+inline void JonGuiDataPower::set_ext_bat_status(::ser::JonGuiDataExtBatStatus value) {
+  _internal_set_ext_bat_status(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPower.ext_bat_status)
+}
+inline ::ser::JonGuiDataExtBatStatus JonGuiDataPower::_internal_ext_bat_status() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataExtBatStatus>(_impl_.ext_bat_status_);
+}
+inline void JonGuiDataPower::_internal_set_ext_bat_status(::ser::JonGuiDataExtBatStatus value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ext_bat_status_ = value;
 }
 
 #ifdef __GNUC__

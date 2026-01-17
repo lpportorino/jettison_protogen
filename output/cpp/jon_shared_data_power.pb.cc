@@ -65,7 +65,10 @@ inline constexpr JonGuiDataPower::Impl_::Impl_(
         s4_{nullptr},
         s5_{nullptr},
         s6_{nullptr},
-        s7_{nullptr} {}
+        s7_{nullptr},
+        accumulator_state_{static_cast< ::ser::JonGuiDataAccumulatorStateIdx >(0)},
+        ext_bat_capacity_{0},
+        ext_bat_status_{static_cast< ::ser::JonGuiDataExtBatStatus >(0)} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataPower::JonGuiDataPower(::_pbi::ConstantInitialized)
@@ -123,6 +126,9 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.s5_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.s6_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.s7_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.accumulator_state_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.ext_bat_capacity_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPower, _impl_.ext_bat_status_),
         0,
         1,
         2,
@@ -131,12 +137,15 @@ const ::uint32_t
         5,
         6,
         7,
+        ~0u,
+        ~0u,
+        ~0u,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::ser::JonGuiDataPowerModule)},
-        {13, 29, -1, sizeof(::ser::JonGuiDataPower)},
+        {13, 32, -1, sizeof(::ser::JonGuiDataPower)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataPowerModule_default_instance_._instance,
@@ -145,39 +154,45 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fshared_5fdata_5fpower_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_data_power.proto\022\003ser\032\033buf/"
-    "validate/validate.proto\"\206\002\n\025JonGuiDataPo"
-    "werModule\022C\n\007voltage\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\000"
-    "Y@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000)@I\000\000\000\000\000\0008@\022C"
-    "\n\007current\030\002 \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000"
-    "I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\340\?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001"
-    "(\001B2\272H/\022-\031\000\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000"
-    "\000\000\000\030@I\000\000\000\000\000\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_ala"
-    "rm\030\005 \001(\010\"\321\002\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s1\030\002 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s2\030\003 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s3\030\004 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s4\030\005 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s5\030\006 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s6\030\007 \001(\013"
-    "2\032.ser.JonGuiDataPowerModule\022&\n\002s7\030\010 \001(\013"
-    "2\032.ser.JonGuiDataPowerModuleBMZKgit-code"
-    "commit.eu-central-1.amazonaws.com/v1/rep"
-    "os/jettison/jonp/data/powerb\006proto3"
+    "validate/validate.proto\032\033jon_shared_data"
+    "_types.proto\"\206\002\n\025JonGuiDataPowerModule\022C"
+    "\n\007voltage\030\001 \001(\001B2\272H/\022-\031\000\000\000\000\000\000Y@)\000\000\000\000\000\000\000\000"
+    "I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000)@I\000\000\000\000\000\0008@\022C\n\007current\030\002"
+    " \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000"
+    "\000\000\000\000\000\340\?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001(\001B2\272H/\022-\031\000"
+    "\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\030@I\000\000\000\000\000"
+    "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\337\003"
+    "\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s1\030\002 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s2\030\003 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s3\030\004 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s4\030\005 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s5\030\006 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s6\030\007 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022&\n\002s7\030\010 \001(\0132\032.ser.JonG"
+    "uiDataPowerModule\022=\n\021accumulator_state\030\t"
+    " \001(\0162\".ser.JonGuiDataAccumulatorStateIdx"
+    "\022\030\n\020ext_bat_capacity\030\n \001(\005\0223\n\016ext_bat_st"
+    "atus\030\013 \001(\0162\033.ser.JonGuiDataExtBatStatusB"
+    "MZKgit-codecommit.eu-central-1.amazonaws"
+    ".com/v1/repos/jettison/jonp/data/powerb\006"
+    "proto3"
 };
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_deps[1] =
+static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_deps[2] =
     {
         &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
+        &::descriptor_table_jon_5fshared_5fdata_5ftypes_2eproto,
 };
 static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fpower_2eproto = {
     false,
     false,
-    755,
+    926,
     descriptor_table_protodef_jon_5fshared_5fdata_5fpower_2eproto,
     "jon_shared_data_power.proto",
     &descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_once,
     descriptor_table_jon_5fshared_5fdata_5fpower_2eproto_deps,
-    1,
+    2,
     2,
     schemas,
     file_default_instances,
@@ -551,6 +566,13 @@ JonGuiDataPower::JonGuiDataPower(
   _impl_.s7_ = (cached_has_bits & 0x00000080u) ? ::google::protobuf::Message::CopyConstruct<::ser::JonGuiDataPowerModule>(
                               arena, *from._impl_.s7_)
                         : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, accumulator_state_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, accumulator_state_),
+           offsetof(Impl_, ext_bat_status_) -
+               offsetof(Impl_, accumulator_state_) +
+               sizeof(Impl_::ext_bat_status_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataPower)
 }
@@ -564,9 +586,9 @@ inline void JonGuiDataPower::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, s0_),
            0,
-           offsetof(Impl_, s7_) -
+           offsetof(Impl_, ext_bat_status_) -
                offsetof(Impl_, s0_) +
-               sizeof(Impl_::s7_));
+               sizeof(Impl_::ext_bat_status_));
 }
 JonGuiDataPower::~JonGuiDataPower() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataPower)
@@ -623,15 +645,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataPower::GetClassData() c
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 8, 8, 0, 2> JonGuiDataPower::_table_ = {
+const ::_pbi::TcParseTable<4, 11, 8, 0, 2> JonGuiDataPower::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_._has_bits_),
     0, // no _extensions_
-    8, 56,  // max_field_number, fast_idx_mask
+    11, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967040,  // skipmap
+    4294965248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    8,  // num_field_entries
+    11,  // num_field_entries
     8,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -641,9 +663,7 @@ const ::_pbi::TcParseTable<3, 8, 8, 0, 2> JonGuiDataPower::_table_ = {
     ::_pbi::TcParser::GetTable<::ser::JonGuiDataPower>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataPowerModule s7 = 8;
-    {::_pbi::TcParser::FastMtS1,
-     {66, 7, 7, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s7_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // .ser.JonGuiDataPowerModule s0 = 1;
     {::_pbi::TcParser::FastMtS1,
      {10, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s0_)}},
@@ -665,6 +685,22 @@ const ::_pbi::TcParseTable<3, 8, 8, 0, 2> JonGuiDataPower::_table_ = {
     // .ser.JonGuiDataPowerModule s6 = 7;
     {::_pbi::TcParser::FastMtS1,
      {58, 6, 6, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s6_)}},
+    // .ser.JonGuiDataPowerModule s7 = 8;
+    {::_pbi::TcParser::FastMtS1,
+     {66, 7, 7, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s7_)}},
+    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataPower, _impl_.accumulator_state_), 63>(),
+     {72, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.accumulator_state_)}},
+    // int32 ext_bat_capacity = 10;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataPower, _impl_.ext_bat_capacity_), 63>(),
+     {80, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.ext_bat_capacity_)}},
+    // .ser.JonGuiDataExtBatStatus ext_bat_status = 11;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataPower, _impl_.ext_bat_status_), 63>(),
+     {88, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.ext_bat_status_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -692,6 +728,15 @@ const ::_pbi::TcParseTable<3, 8, 8, 0, 2> JonGuiDataPower::_table_ = {
     // .ser.JonGuiDataPowerModule s7 = 8;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s7_), _Internal::kHasBitsOffset + 7, 7,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.accumulator_state_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // int32 ext_bat_capacity = 10;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.ext_bat_capacity_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // .ser.JonGuiDataExtBatStatus ext_bat_status = 11;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.ext_bat_status_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPowerModule>()},
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataPowerModule>()},
@@ -747,6 +792,9 @@ PROTOBUF_NOINLINE void JonGuiDataPower::Clear() {
       _impl_.s7_->Clear();
     }
   }
+  ::memset(&_impl_.accumulator_state_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.ext_bat_status_) -
+      reinterpret_cast<char*>(&_impl_.accumulator_state_)) + sizeof(_impl_.ext_bat_status_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -823,6 +871,27 @@ PROTOBUF_NOINLINE void JonGuiDataPower::Clear() {
                 stream);
           }
 
+          // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+          if (this_._internal_accumulator_state() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                9, this_._internal_accumulator_state(), target);
+          }
+
+          // int32 ext_bat_capacity = 10;
+          if (this_._internal_ext_bat_capacity() != 0) {
+            target = ::google::protobuf::internal::WireFormatLite::
+                WriteInt32ToArrayWithField<10>(
+                    stream, this_._internal_ext_bat_capacity(), target);
+          }
+
+          // .ser.JonGuiDataExtBatStatus ext_bat_status = 11;
+          if (this_._internal_ext_bat_status() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteEnumToArray(
+                11, this_._internal_ext_bat_status(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -888,6 +957,23 @@ PROTOBUF_NOINLINE void JonGuiDataPower::Clear() {
             if (cached_has_bits & 0x00000080u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.s7_);
+            }
+          }
+           {
+            // .ser.JonGuiDataAccumulatorStateIdx accumulator_state = 9;
+            if (this_._internal_accumulator_state() != 0) {
+              total_size += 1 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_accumulator_state());
+            }
+            // int32 ext_bat_capacity = 10;
+            if (this_._internal_ext_bat_capacity() != 0) {
+              total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+                  this_._internal_ext_bat_capacity());
+            }
+            // .ser.JonGuiDataExtBatStatus ext_bat_status = 11;
+            if (this_._internal_ext_bat_status() != 0) {
+              total_size += 1 +
+                            ::_pbi::WireFormatLite::EnumSize(this_._internal_ext_bat_status());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -978,6 +1064,15 @@ void JonGuiDataPower::MergeImpl(::google::protobuf::MessageLite& to_msg, const :
       }
     }
   }
+  if (from._internal_accumulator_state() != 0) {
+    _this->_impl_.accumulator_state_ = from._impl_.accumulator_state_;
+  }
+  if (from._internal_ext_bat_capacity() != 0) {
+    _this->_impl_.ext_bat_capacity_ = from._impl_.ext_bat_capacity_;
+  }
+  if (from._internal_ext_bat_status() != 0) {
+    _this->_impl_.ext_bat_status_ = from._impl_.ext_bat_status_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -995,8 +1090,8 @@ void JonGuiDataPower::InternalSwap(JonGuiDataPower* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s7_)
-      + sizeof(JonGuiDataPower::_impl_.s7_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.ext_bat_status_)
+      + sizeof(JonGuiDataPower::_impl_.ext_bat_status_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataPower, _impl_.s0_)>(
           reinterpret_cast<char*>(&_impl_.s0_),
           reinterpret_cast<char*>(&other->_impl_.s0_));
