@@ -27,7 +27,11 @@ export interface JonGuiDataLrf {
   isRefining: boolean;
   isContinuousMeasuring: boolean;
   isStarted: boolean;
-  meteo: JonGuiDataMeteo | undefined;
+  meteo:
+    | JonGuiDataMeteo
+    | undefined;
+  /** Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz) */
+  scanMode: number;
 }
 
 export interface JonGuiDataTarget {
@@ -73,6 +77,7 @@ function createBaseJonGuiDataLrf(): JonGuiDataLrf {
     isContinuousMeasuring: false,
     isStarted: false,
     meteo: undefined,
+    scanMode: 0,
   };
 }
 
@@ -107,6 +112,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     }
     if (message.meteo !== undefined) {
       JonGuiDataMeteo.encode(message.meteo, writer.uint32(82).fork()).join();
+    }
+    if (message.scanMode !== 0) {
+      writer.uint32(88).int32(message.scanMode);
     }
     return writer;
   },
@@ -198,6 +206,14 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
           message.meteo = JonGuiDataMeteo.decode(reader, reader.uint32());
           continue;
         }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.scanMode = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -247,6 +263,11 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
         ? globalThis.Boolean(object.is_started)
         : false,
       meteo: isSet(object.meteo) ? JonGuiDataMeteo.fromJSON(object.meteo) : undefined,
+      scanMode: isSet(object.scanMode)
+        ? globalThis.Number(object.scanMode)
+        : isSet(object.scan_mode)
+        ? globalThis.Number(object.scan_mode)
+        : 0,
     };
   },
 
@@ -282,6 +303,9 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     if (message.meteo !== undefined) {
       obj.meteo = JonGuiDataMeteo.toJSON(message.meteo);
     }
+    if (message.scanMode !== 0) {
+      obj.scanMode = Math.round(message.scanMode);
+    }
     return obj;
   },
 
@@ -304,6 +328,7 @@ export const JonGuiDataLrf: MessageFns<JonGuiDataLrf> = {
     message.meteo = (object.meteo !== undefined && object.meteo !== null)
       ? JonGuiDataMeteo.fromPartial(object.meteo)
       : undefined;
+    message.scanMode = object.scanMode ?? 0;
     return message;
   },
 };

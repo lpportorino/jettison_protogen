@@ -1122,6 +1122,33 @@ public final class JonSharedDataPower {
      * @return The extBatStatus.
      */
     ser.JonSharedDataTypes.JonGuiDataExtBatStatus getExtBatStatus();
+
+    /**
+     * <pre>
+     * Internal meteo sensor data (temperature, humidity, pressure)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+     * @return Whether the meteo field is set.
+     */
+    boolean hasMeteo();
+    /**
+     * <pre>
+     * Internal meteo sensor data (temperature, humidity, pressure)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+     * @return The meteo.
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo();
+    /**
+     * <pre>
+     * Internal meteo sensor data (temperature, humidity, pressure)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
   }
   /**
    * <pre>
@@ -1530,6 +1557,44 @@ public final class JonSharedDataPower {
       return result == null ? ser.JonSharedDataTypes.JonGuiDataExtBatStatus.UNRECOGNIZED : result;
     }
 
+    public static final int METEO_FIELD_NUMBER = 12;
+    private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+    /**
+     * <pre>
+     * Internal meteo sensor data (temperature, humidity, pressure)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+     * @return Whether the meteo field is set.
+     */
+    @java.lang.Override
+    public boolean hasMeteo() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <pre>
+     * Internal meteo sensor data (temperature, humidity, pressure)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+     * @return The meteo.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+    /**
+     * <pre>
+     * Internal meteo sensor data (temperature, humidity, pressure)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+      return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1576,6 +1641,9 @@ public final class JonSharedDataPower {
       }
       if (extBatStatus_ != ser.JonSharedDataTypes.JonGuiDataExtBatStatus.JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(11, extBatStatus_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        output.writeMessage(12, getMeteo());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1629,6 +1697,10 @@ public final class JonSharedDataPower {
       if (extBatStatus_ != ser.JonSharedDataTypes.JonGuiDataExtBatStatus.JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(11, extBatStatus_);
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, getMeteo());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1689,6 +1761,11 @@ public final class JonSharedDataPower {
       if (getExtBatCapacity()
           != other.getExtBatCapacity()) return false;
       if (extBatStatus_ != other.extBatStatus_) return false;
+      if (hasMeteo() != other.hasMeteo()) return false;
+      if (hasMeteo()) {
+        if (!getMeteo()
+            .equals(other.getMeteo())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1738,6 +1815,10 @@ public final class JonSharedDataPower {
       hash = (53 * hash) + getExtBatCapacity();
       hash = (37 * hash) + EXT_BAT_STATUS_FIELD_NUMBER;
       hash = (53 * hash) + extBatStatus_;
+      if (hasMeteo()) {
+        hash = (37 * hash) + METEO_FIELD_NUMBER;
+        hash = (53 * hash) + getMeteo().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1880,6 +1961,7 @@ public final class JonSharedDataPower {
           getS5FieldBuilder();
           getS6FieldBuilder();
           getS7FieldBuilder();
+          getMeteoFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1929,6 +2011,11 @@ public final class JonSharedDataPower {
         accumulatorState_ = 0;
         extBatCapacity_ = 0;
         extBatStatus_ = 0;
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
         return this;
       }
 
@@ -2020,6 +2107,12 @@ public final class JonSharedDataPower {
         if (((from_bitField0_ & 0x00000400) != 0)) {
           result.extBatStatus_ = extBatStatus_;
         }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.meteo_ = meteoBuilder_ == null
+              ? meteo_
+              : meteoBuilder_.build();
+          to_bitField0_ |= 0x00000100;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -2067,6 +2160,9 @@ public final class JonSharedDataPower {
         }
         if (other.extBatStatus_ != 0) {
           setExtBatStatusValue(other.getExtBatStatusValue());
+        }
+        if (other.hasMeteo()) {
+          mergeMeteo(other.getMeteo());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2165,6 +2261,13 @@ public final class JonSharedDataPower {
                 bitField0_ |= 0x00000400;
                 break;
               } // case 88
+              case 98: {
+                input.readMessage(
+                    getMeteoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 98
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3608,6 +3711,163 @@ public final class JonSharedDataPower {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataMeteo meteo_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> meteoBuilder_;
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       * @return Whether the meteo field is set.
+       */
+      public boolean hasMeteo() {
+        return ((bitField0_ & 0x00000800) != 0);
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       * @return The meteo.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo getMeteo() {
+        if (meteoBuilder_ == null) {
+          return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        } else {
+          return meteoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      public Builder setMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          meteo_ = value;
+        } else {
+          meteoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      public Builder setMeteo(
+          ser.JonSharedDataTypes.JonGuiDataMeteo.Builder builderForValue) {
+        if (meteoBuilder_ == null) {
+          meteo_ = builderForValue.build();
+        } else {
+          meteoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      public Builder mergeMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
+        if (meteoBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) != 0) &&
+            meteo_ != null &&
+            meteo_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
+            getMeteoBuilder().mergeFrom(value);
+          } else {
+            meteo_ = value;
+          }
+        } else {
+          meteoBuilder_.mergeFrom(value);
+        }
+        if (meteo_ != null) {
+          bitField0_ |= 0x00000800;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      public Builder clearMeteo() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        meteo_ = null;
+        if (meteoBuilder_ != null) {
+          meteoBuilder_.dispose();
+          meteoBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return getMeteoFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder() {
+        if (meteoBuilder_ != null) {
+          return meteoBuilder_.getMessageOrBuilder();
+        } else {
+          return meteo_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
+        }
+      }
+      /**
+       * <pre>
+       * Internal meteo sensor data (temperature, humidity, pressure)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataMeteo meteo = 12;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder> 
+          getMeteoFieldBuilder() {
+        if (meteoBuilder_ == null) {
+          meteoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataMeteo, ser.JonSharedDataTypes.JonGuiDataMeteo.Builder, ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder>(
+                  getMeteo(),
+                  getParentForChildren(),
+                  isClean());
+          meteo_ = null;
+        }
+        return meteoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPower)
     }
 
@@ -3686,7 +3946,7 @@ public final class JonSharedDataPower {
       " \001(\001B2\272H/\022-\031\000\000\000\000\000\000I@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000" +
       "\000\000\000\000\000\340?I\000\000\000\000\000\000\004@\022A\n\005power\030\003 \001(\001B2\272H/\022-\031\000" +
       "\000\000\000\000@\177@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\030@I\000\000\000\000\000" +
-      "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\337\003" +
+      "\000>@\022\r\n\005is_on\030\004 \001(\010\022\021\n\thas_alarm\030\005 \001(\010\"\204\004" +
       "\n\017JonGuiDataPower\022&\n\002s0\030\001 \001(\0132\032.ser.JonG" +
       "uiDataPowerModule\022&\n\002s1\030\002 \001(\0132\032.ser.JonG" +
       "uiDataPowerModule\022&\n\002s2\030\003 \001(\0132\032.ser.JonG" +
@@ -3698,10 +3958,11 @@ public final class JonSharedDataPower {
       "uiDataPowerModule\022=\n\021accumulator_state\030\t" +
       " \001(\0162\".ser.JonGuiDataAccumulatorStateIdx" +
       "\022\030\n\020ext_bat_capacity\030\n \001(\005\0223\n\016ext_bat_st" +
-      "atus\030\013 \001(\0162\033.ser.JonGuiDataExtBatStatusB" +
-      "MZKgit-codecommit.eu-central-1.amazonaws" +
-      ".com/v1/repos/jettison/jonp/data/powerb\006" +
-      "proto3"
+      "atus\030\013 \001(\0162\033.ser.JonGuiDataExtBatStatus\022" +
+      "#\n\005meteo\030\014 \001(\0132\024.ser.JonGuiDataMeteoBMZK" +
+      "git-codecommit.eu-central-1.amazonaws.co" +
+      "m/v1/repos/jettison/jonp/data/powerb\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3720,7 +3981,7 @@ public final class JonSharedDataPower {
     internal_static_ser_JonGuiDataPower_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPower_descriptor,
-        new java.lang.String[] { "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", });
+        new java.lang.String[] { "S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "AccumulatorState", "ExtBatCapacity", "ExtBatStatus", "Meteo", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

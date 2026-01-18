@@ -42,4 +42,7 @@ message JonGuiDataPower {
   JonGuiDataAccumulatorStateIdx accumulator_state = 9;
   int32 ext_bat_capacity = 10;  // External battery capacity percentage
   JonGuiDataExtBatStatus ext_bat_status = 11;
+
+  // Internal meteo sensor data (temperature, humidity, pressure)
+  JonGuiDataMeteo meteo = 12;
 }

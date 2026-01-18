@@ -19,6 +19,7 @@ message JonGuiDataLrf {
   bool is_continuous_measuring = 8;
   bool is_started = 9;
   JonGuiDataMeteo meteo = 10;
+  int32 scan_mode = 11;  // Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz)
 }
 
 message JonGuiDataTarget {

@@ -5,7 +5,7 @@
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "./buf/validate/validate_pb";
-import type { JonGuiDataAccumulatorStateIdx, JonGuiDataExtBatStatus } from "./jon_shared_data_types_pb";
+import type { JonGuiDataAccumulatorStateIdx, JonGuiDataExtBatStatus, JonGuiDataMeteo } from "./jon_shared_data_types_pb";
 import { file_jon_shared_data_types } from "./jon_shared_data_types_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_power.proto.
  */
 export const file_jon_shared_data_power: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2RhdGFfcG93ZXIucHJvdG8SA3NlciKGAgoVSm9uR3VpRGF0YVBvd2VyTW9kdWxlEkMKB3ZvbHRhZ2UYASABKAFCMrpILxItGQAAAAAAAFlAKQAAAAAAAAAASQAAAAAAAAAASQAAAAAAAClASQAAAAAAADhAEkMKB2N1cnJlbnQYAiABKAFCMrpILxItGQAAAAAAAElAKQAAAAAAAAAASQAAAAAAAAAASQAAAAAAAOA/SQAAAAAAAARAEkEKBXBvd2VyGAMgASgBQjK6SC8SLRkAAAAAAEB/QCkAAAAAAAAAAEkAAAAAAAAAAEkAAAAAAAAYQEkAAAAAAAA+QBINCgVpc19vbhgEIAEoCBIRCgloYXNfYWxhcm0YBSABKAgi3wMKD0pvbkd1aURhdGFQb3dlchImCgJzMBgBIAEoCzIaLnNlci5Kb25HdWlEYXRhUG93ZXJNb2R1bGUSJgoCczEYAiABKAsyGi5zZXIuSm9uR3VpRGF0YVBvd2VyTW9kdWxlEiYKAnMyGAMgASgLMhouc2VyLkpvbkd1aURhdGFQb3dlck1vZHVsZRImCgJzMxgEIAEoCzIaLnNlci5Kb25HdWlEYXRhUG93ZXJNb2R1bGUSJgoCczQYBSABKAsyGi5zZXIuSm9uR3VpRGF0YVBvd2VyTW9kdWxlEiYKAnM1GAYgASgLMhouc2VyLkpvbkd1aURhdGFQb3dlck1vZHVsZRImCgJzNhgHIAEoCzIaLnNlci5Kb25HdWlEYXRhUG93ZXJNb2R1bGUSJgoCczcYCCABKAsyGi5zZXIuSm9uR3VpRGF0YVBvd2VyTW9kdWxlEj0KEWFjY3VtdWxhdG9yX3N0YXRlGAkgASgOMiIuc2VyLkpvbkd1aURhdGFBY2N1bXVsYXRvclN0YXRlSWR4EhgKEGV4dF9iYXRfY2FwYWNpdHkYCiABKAUSMwoOZXh0X2JhdF9zdGF0dXMYCyABKA4yGy5zZXIuSm9uR3VpRGF0YUV4dEJhdFN0YXR1c0JNWktnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvcG93ZXJiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chtqb25fc2hhcmVkX2RhdGFfcG93ZXIucHJvdG8SA3NlciKGAgoVSm9uR3VpRGF0YVBvd2VyTW9kdWxlEkMKB3ZvbHRhZ2UYASABKAFCMrpILxItGQAAAAAAAFlAKQAAAAAAAAAASQAAAAAAAAAASQAAAAAAAClASQAAAAAAADhAEkMKB2N1cnJlbnQYAiABKAFCMrpILxItGQAAAAAAAElAKQAAAAAAAAAASQAAAAAAAAAASQAAAAAAAOA/SQAAAAAAAARAEkEKBXBvd2VyGAMgASgBQjK6SC8SLRkAAAAAAEB/QCkAAAAAAAAAAEkAAAAAAAAAAEkAAAAAAAAYQEkAAAAAAAA+QBINCgVpc19vbhgEIAEoCBIRCgloYXNfYWxhcm0YBSABKAgihAQKD0pvbkd1aURhdGFQb3dlchImCgJzMBgBIAEoCzIaLnNlci5Kb25HdWlEYXRhUG93ZXJNb2R1bGUSJgoCczEYAiABKAsyGi5zZXIuSm9uR3VpRGF0YVBvd2VyTW9kdWxlEiYKAnMyGAMgASgLMhouc2VyLkpvbkd1aURhdGFQb3dlck1vZHVsZRImCgJzMxgEIAEoCzIaLnNlci5Kb25HdWlEYXRhUG93ZXJNb2R1bGUSJgoCczQYBSABKAsyGi5zZXIuSm9uR3VpRGF0YVBvd2VyTW9kdWxlEiYKAnM1GAYgASgLMhouc2VyLkpvbkd1aURhdGFQb3dlck1vZHVsZRImCgJzNhgHIAEoCzIaLnNlci5Kb25HdWlEYXRhUG93ZXJNb2R1bGUSJgoCczcYCCABKAsyGi5zZXIuSm9uR3VpRGF0YVBvd2VyTW9kdWxlEj0KEWFjY3VtdWxhdG9yX3N0YXRlGAkgASgOMiIuc2VyLkpvbkd1aURhdGFBY2N1bXVsYXRvclN0YXRlSWR4EhgKEGV4dF9iYXRfY2FwYWNpdHkYCiABKAUSMwoOZXh0X2JhdF9zdGF0dXMYCyABKA4yGy5zZXIuSm9uR3VpRGF0YUV4dEJhdFN0YXR1cxIjCgVtZXRlbxgMIAEoCzIULnNlci5Kb25HdWlEYXRhTWV0ZW9CTVpLZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9kYXRhL3Bvd2VyYgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * Power module state for a single channel (S0-S7)
@@ -144,6 +144,13 @@ export type JonGuiDataPower = Message<"ser.JonGuiDataPower"> & {
    * @generated from field: ser.JonGuiDataExtBatStatus ext_bat_status = 11;
    */
   extBatStatus: JonGuiDataExtBatStatus;
+
+  /**
+   * Internal meteo sensor data (temperature, humidity, pressure)
+   *
+   * @generated from field: ser.JonGuiDataMeteo meteo = 12;
+   */
+  meteo?: JonGuiDataMeteo;
 };
 
 /**

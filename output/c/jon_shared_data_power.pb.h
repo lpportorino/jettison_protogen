@@ -42,6 +42,9 @@ typedef struct _ser_JonGuiDataPower {
     ser_JonGuiDataAccumulatorStateIdx accumulator_state;
     int32_t ext_bat_capacity; /* External battery capacity percentage */
     ser_JonGuiDataExtBatStatus ext_bat_status;
+    /* Internal meteo sensor data (temperature, humidity, pressure) */
+    bool has_meteo;
+    ser_JonGuiDataMeteo meteo;
 } ser_JonGuiDataPower;
 
 
@@ -51,9 +54,9 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define ser_JonGuiDataPowerModule_init_default   {0, 0, 0, 0, 0}
-#define ser_JonGuiDataPower_init_default         {false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, _ser_JonGuiDataAccumulatorStateIdx_MIN, 0, _ser_JonGuiDataExtBatStatus_MIN}
+#define ser_JonGuiDataPower_init_default         {false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, false, ser_JonGuiDataPowerModule_init_default, _ser_JonGuiDataAccumulatorStateIdx_MIN, 0, _ser_JonGuiDataExtBatStatus_MIN, false, ser_JonGuiDataMeteo_init_default}
 #define ser_JonGuiDataPowerModule_init_zero      {0, 0, 0, 0, 0}
-#define ser_JonGuiDataPower_init_zero            {false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, _ser_JonGuiDataAccumulatorStateIdx_MIN, 0, _ser_JonGuiDataExtBatStatus_MIN}
+#define ser_JonGuiDataPower_init_zero            {false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, false, ser_JonGuiDataPowerModule_init_zero, _ser_JonGuiDataAccumulatorStateIdx_MIN, 0, _ser_JonGuiDataExtBatStatus_MIN, false, ser_JonGuiDataMeteo_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataPowerModule_voltage_tag    1
@@ -72,6 +75,7 @@ extern "C" {
 #define ser_JonGuiDataPower_accumulator_state_tag 9
 #define ser_JonGuiDataPower_ext_bat_capacity_tag 10
 #define ser_JonGuiDataPower_ext_bat_status_tag   11
+#define ser_JonGuiDataPower_meteo_tag            12
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataPowerModule_FIELDLIST(X, a) \
@@ -94,7 +98,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  s6,                7) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  s7,                8) \
 X(a, STATIC,   SINGULAR, UENUM,    accumulator_state,   9) \
 X(a, STATIC,   SINGULAR, INT32,    ext_bat_capacity,  10) \
-X(a, STATIC,   SINGULAR, UENUM,    ext_bat_status,   11)
+X(a, STATIC,   SINGULAR, UENUM,    ext_bat_status,   11) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            12)
 #define ser_JonGuiDataPower_CALLBACK NULL
 #define ser_JonGuiDataPower_DEFAULT NULL
 #define ser_JonGuiDataPower_s0_MSGTYPE ser_JonGuiDataPowerModule
@@ -105,6 +110,7 @@ X(a, STATIC,   SINGULAR, UENUM,    ext_bat_status,   11)
 #define ser_JonGuiDataPower_s5_MSGTYPE ser_JonGuiDataPowerModule
 #define ser_JonGuiDataPower_s6_MSGTYPE ser_JonGuiDataPowerModule
 #define ser_JonGuiDataPower_s7_MSGTYPE ser_JonGuiDataPowerModule
+#define ser_JonGuiDataPower_meteo_MSGTYPE ser_JonGuiDataMeteo
 
 extern const pb_msgdesc_t ser_JonGuiDataPowerModule_msg;
 extern const pb_msgdesc_t ser_JonGuiDataPower_msg;
@@ -116,7 +122,7 @@ extern const pb_msgdesc_t ser_JonGuiDataPower_msg;
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_POWER_PB_H_MAX_SIZE  ser_JonGuiDataPower_size
 #define ser_JonGuiDataPowerModule_size           31
-#define ser_JonGuiDataPower_size                 279
+#define ser_JonGuiDataPower_size                 308
 
 #ifdef __cplusplus
 } /* extern "C" */

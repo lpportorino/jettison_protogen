@@ -25,6 +25,10 @@ Represents real-time power distribution state across all 8 system channels (GPS,
 | 6 | s5 | [[proto/ser.JonGuiDataPowerModule]] | - |
 | 7 | s6 | [[proto/ser.JonGuiDataPowerModule]] | - |
 | 8 | s7 | [[proto/ser.JonGuiDataPowerModule]] | - |
+| 9 | accumulator_state | [[proto/ser.JonGuiDataAccumulatorStateIdx]] | - |
+| 10 | ext_bat_capacity | int32 | - |
+| 11 | ext_bat_status | [[proto/ser.JonGuiDataExtBatStatus]] | - |
+| 12 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 
 
 
@@ -102,5 +106,9 @@ Contains 8 channel structures (s0-s7), each with voltage/current/power/state
 
 - **Semantic Type:** :raw
 
+
+### meteo (#12)
+
+Internal environmental sensor data from the power distribution board, providing temperature, humidity, and pressure readings for system monitoring and environmental diagnostics.
 
 

@@ -115,8 +115,10 @@ type JonGuiDataPower struct {
 	AccumulatorState types.JonGuiDataAccumulatorStateIdx `protobuf:"varint,9,opt,name=accumulator_state,json=accumulatorState,proto3,enum=ser.JonGuiDataAccumulatorStateIdx" json:"accumulator_state,omitempty"`
 	ExtBatCapacity   int32                               `protobuf:"varint,10,opt,name=ext_bat_capacity,json=extBatCapacity,proto3" json:"ext_bat_capacity,omitempty"` // External battery capacity percentage
 	ExtBatStatus     types.JonGuiDataExtBatStatus        `protobuf:"varint,11,opt,name=ext_bat_status,json=extBatStatus,proto3,enum=ser.JonGuiDataExtBatStatus" json:"ext_bat_status,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Internal meteo sensor data (temperature, humidity, pressure)
+	Meteo         *types.JonGuiDataMeteo `protobuf:"bytes,12,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *JonGuiDataPower) Reset() {
@@ -226,6 +228,13 @@ func (x *JonGuiDataPower) GetExtBatStatus() types.JonGuiDataExtBatStatus {
 	return types.JonGuiDataExtBatStatus(0)
 }
 
+func (x *JonGuiDataPower) GetMeteo() *types.JonGuiDataMeteo {
+	if x != nil {
+		return x.Meteo
+	}
+	return nil
+}
+
 var File_jon_shared_data_power_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_power_proto_rawDesc = "" +
@@ -236,7 +245,7 @@ const file_jon_shared_data_power_proto_rawDesc = "" +
 	"\acurrent\x18\x02 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\xe0?I\x00\x00\x00\x00\x00\x00\x04@\x19\x00\x00\x00\x00\x00\x00I@)\x00\x00\x00\x00\x00\x00\x00\x00R\acurrent\x12H\n" +
 	"\x05power\x18\x03 \x01(\x01B2\xbaH/\x12-I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x00\x18@I\x00\x00\x00\x00\x00\x00>@\x19\x00\x00\x00\x00\x00@\x7f@)\x00\x00\x00\x00\x00\x00\x00\x00R\x05power\x12\x13\n" +
 	"\x05is_on\x18\x04 \x01(\bR\x04isOn\x12\x1b\n" +
-	"\thas_alarm\x18\x05 \x01(\bR\bhasAlarm\"\xaf\x04\n" +
+	"\thas_alarm\x18\x05 \x01(\bR\bhasAlarm\"\xdb\x04\n" +
 	"\x0fJonGuiDataPower\x12*\n" +
 	"\x02s0\x18\x01 \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s0\x12*\n" +
 	"\x02s1\x18\x02 \x01(\v2\x1a.ser.JonGuiDataPowerModuleR\x02s1\x12*\n" +
@@ -249,7 +258,8 @@ const file_jon_shared_data_power_proto_rawDesc = "" +
 	"\x11accumulator_state\x18\t \x01(\x0e2\".ser.JonGuiDataAccumulatorStateIdxR\x10accumulatorState\x12(\n" +
 	"\x10ext_bat_capacity\x18\n" +
 	" \x01(\x05R\x0eextBatCapacity\x12A\n" +
-	"\x0eext_bat_status\x18\v \x01(\x0e2\x1b.ser.JonGuiDataExtBatStatusR\fextBatStatusB\x9b\x01\n" +
+	"\x0eext_bat_status\x18\v \x01(\x0e2\x1b.ser.JonGuiDataExtBatStatusR\fextBatStatus\x12*\n" +
+	"\x05meteo\x18\f \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\x9b\x01\n" +
 	"\acom.serB\x17JonSharedDataPowerProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -270,6 +280,7 @@ var file_jon_shared_data_power_proto_goTypes = []any{
 	(*JonGuiDataPower)(nil),                  // 1: ser.JonGuiDataPower
 	(types.JonGuiDataAccumulatorStateIdx)(0), // 2: ser.JonGuiDataAccumulatorStateIdx
 	(types.JonGuiDataExtBatStatus)(0),        // 3: ser.JonGuiDataExtBatStatus
+	(*types.JonGuiDataMeteo)(nil),            // 4: ser.JonGuiDataMeteo
 }
 var file_jon_shared_data_power_proto_depIdxs = []int32{
 	0,  // 0: ser.JonGuiDataPower.s0:type_name -> ser.JonGuiDataPowerModule
@@ -282,11 +293,12 @@ var file_jon_shared_data_power_proto_depIdxs = []int32{
 	0,  // 7: ser.JonGuiDataPower.s7:type_name -> ser.JonGuiDataPowerModule
 	2,  // 8: ser.JonGuiDataPower.accumulator_state:type_name -> ser.JonGuiDataAccumulatorStateIdx
 	3,  // 9: ser.JonGuiDataPower.ext_bat_status:type_name -> ser.JonGuiDataExtBatStatus
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	4,  // 10: ser.JonGuiDataPower.meteo:type_name -> ser.JonGuiDataMeteo
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_power_proto_init() }

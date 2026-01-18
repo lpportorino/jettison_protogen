@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1bjon_shared_data_power.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"j\n\x15JonGuiDataPowerModule\x12\x0f\n\x07voltage\x18\x01 \x01(\x01\x12\x0f\n\x07\x63urrent\x18\x02 \x01(\x01\x12\r\n\x05power\x18\x03 \x01(\x01\x12\r\n\x05is_on\x18\x04 \x01(\x08\x12\x11\n\thas_alarm\x18\x05 \x01(\x08\"\xdf\x03\n\x0fJonGuiDataPower\x12&\n\x02s0\x18\x01 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s1\x18\x02 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s2\x18\x03 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s3\x18\x04 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s4\x18\x05 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s5\x18\x06 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s6\x18\x07 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s7\x18\x08 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12=\n\x11\x61\x63\x63umulator_state\x18\t \x01(\x0e\x32\".ser.JonGuiDataAccumulatorStateIdx\x12\x18\n\x10\x65xt_bat_capacity\x18\n \x01(\x05\x12\x33\n\x0e\x65xt_bat_status\x18\x0b \x01(\x0e\x32\x1b.ser.JonGuiDataExtBatStatusBMZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/powerb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1bjon_shared_data_power.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"j\n\x15JonGuiDataPowerModule\x12\x0f\n\x07voltage\x18\x01 \x01(\x01\x12\x0f\n\x07\x63urrent\x18\x02 \x01(\x01\x12\r\n\x05power\x18\x03 \x01(\x01\x12\r\n\x05is_on\x18\x04 \x01(\x08\x12\x11\n\thas_alarm\x18\x05 \x01(\x08\"\x84\x04\n\x0fJonGuiDataPower\x12&\n\x02s0\x18\x01 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s1\x18\x02 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s2\x18\x03 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s3\x18\x04 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s4\x18\x05 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s5\x18\x06 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s6\x18\x07 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12&\n\x02s7\x18\x08 \x01(\x0b\x32\x1a.ser.JonGuiDataPowerModule\x12=\n\x11\x61\x63\x63umulator_state\x18\t \x01(\x0e\x32\".ser.JonGuiDataAccumulatorStateIdx\x12\x18\n\x10\x65xt_bat_capacity\x18\n \x01(\x05\x12\x33\n\x0e\x65xt_bat_status\x18\x0b \x01(\x0e\x32\x1b.ser.JonGuiDataExtBatStatus\x12#\n\x05meteo\x18\x0c \x01(\x0b\x32\x14.ser.JonGuiDataMeteoBMZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/powerb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,5 +36,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_JONGUIDATAPOWERMODULE']._serialized_start=65
   _globals['_JONGUIDATAPOWERMODULE']._serialized_end=171
   _globals['_JONGUIDATAPOWER']._serialized_start=174
-  _globals['_JONGUIDATAPOWER']._serialized_end=653
+  _globals['_JONGUIDATAPOWER']._serialized_end=690
 # @@protoc_insertion_point(module_scope)

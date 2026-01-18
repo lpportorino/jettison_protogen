@@ -14,6 +14,7 @@ import {
   JonGuiDataExtBatStatus,
   jonGuiDataExtBatStatusFromJSON,
   jonGuiDataExtBatStatusToJSON,
+  JonGuiDataMeteo,
 } from "./jon_shared_data_types";
 
 /** Power module state for a single channel (S0-S7) */
@@ -69,6 +70,8 @@ export interface JonGuiDataPower {
   /** External battery capacity percentage */
   extBatCapacity: number;
   extBatStatus: JonGuiDataExtBatStatus;
+  /** Internal meteo sensor data (temperature, humidity, pressure) */
+  meteo: JonGuiDataMeteo | undefined;
 }
 
 function createBaseJonGuiDataPowerModule(): JonGuiDataPowerModule {
@@ -216,6 +219,7 @@ function createBaseJonGuiDataPower(): JonGuiDataPower {
     accumulatorState: 0,
     extBatCapacity: 0,
     extBatStatus: 0,
+    meteo: undefined,
   };
 }
 
@@ -253,6 +257,9 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
     }
     if (message.extBatStatus !== 0) {
       writer.uint32(88).int32(message.extBatStatus);
+    }
+    if (message.meteo !== undefined) {
+      JonGuiDataMeteo.encode(message.meteo, writer.uint32(98).fork()).join();
     }
     return writer;
   },
@@ -352,6 +359,14 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
           message.extBatStatus = reader.int32() as any;
           continue;
         }
+        case 12: {
+          if (tag !== 98) {
+            break;
+          }
+
+          message.meteo = JonGuiDataMeteo.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -386,6 +401,7 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
         : isSet(object.ext_bat_status)
         ? jonGuiDataExtBatStatusFromJSON(object.ext_bat_status)
         : 0,
+      meteo: isSet(object.meteo) ? JonGuiDataMeteo.fromJSON(object.meteo) : undefined,
     };
   },
 
@@ -424,6 +440,9 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
     if (message.extBatStatus !== 0) {
       obj.extBatStatus = jonGuiDataExtBatStatusToJSON(message.extBatStatus);
     }
+    if (message.meteo !== undefined) {
+      obj.meteo = JonGuiDataMeteo.toJSON(message.meteo);
+    }
     return obj;
   },
 
@@ -459,6 +478,9 @@ export const JonGuiDataPower: MessageFns<JonGuiDataPower> = {
     message.accumulatorState = object.accumulatorState ?? 0;
     message.extBatCapacity = object.extBatCapacity ?? 0;
     message.extBatStatus = object.extBatStatus ?? 0;
+    message.meteo = (object.meteo !== undefined && object.meteo !== null)
+      ? JonGuiDataMeteo.fromPartial(object.meteo)
+      : undefined;
     return message;
   },
 };

@@ -27,6 +27,7 @@ Encapsulates the operational state of a Laser Range Finder (LRF) device, trackin
 | 8 | is_continuous_measuring | bool | - |
 | 9 | is_started | bool | - |
 | 10 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 11 | scan_mode | int32 | - |
 
 
 
@@ -64,5 +65,9 @@ Displays distance measurements, scan status, and LRF operational state
 
 Local environmental sensor data from the LRF module, providing temperature, humidity, and pressure readings for ballistics calculations and range correction.
 
+
+### scan_mode (#11)
+
+Scanning mode frequency setting for continuous rangefinding: 0=off, 1=1Hz, 2=2Hz, 3=4Hz. Controls how frequently the LRF takes distance measurements during scan operations.
 
 

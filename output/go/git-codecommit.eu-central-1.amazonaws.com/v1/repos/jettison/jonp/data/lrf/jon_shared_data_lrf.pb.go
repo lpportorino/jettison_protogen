@@ -35,6 +35,7 @@ type JonGuiDataLrf struct {
 	IsContinuousMeasuring bool                                  `protobuf:"varint,8,opt,name=is_continuous_measuring,json=isContinuousMeasuring,proto3" json:"is_continuous_measuring,omitempty"`
 	IsStarted             bool                                  `protobuf:"varint,9,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
 	Meteo                 *types.JonGuiDataMeteo                `protobuf:"bytes,10,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	ScanMode              int32                                 `protobuf:"varint,11,opt,name=scan_mode,json=scanMode,proto3" json:"scan_mode,omitempty"` // Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz)
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -137,6 +138,13 @@ func (x *JonGuiDataLrf) GetMeteo() *types.JonGuiDataMeteo {
 		return x.Meteo
 	}
 	return nil
+}
+
+func (x *JonGuiDataLrf) GetScanMode() int32 {
+	if x != nil {
+		return x.ScanMode
+	}
+	return 0
 }
 
 type JonGuiDataTarget struct {
@@ -408,7 +416,7 @@ var File_jon_shared_data_lrf_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xc9\x03\n" +
+	"\x19jon_shared_data_lrf.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xe6\x03\n" +
 	"\rJonGuiDataLrf\x12\x1f\n" +
 	"\vis_scanning\x18\x01 \x01(\bR\n" +
 	"isScanning\x12!\n" +
@@ -424,7 +432,8 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\n" +
 	"is_started\x18\t \x01(\bR\tisStarted\x12*\n" +
 	"\x05meteo\x18\n" +
-	" \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\"\xc4\b\n" +
+	" \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x12\x1b\n" +
+	"\tscan_mode\x18\v \x01(\x05R\bscanMode\"\xc4\b\n" +
 	"\x10JonGuiDataTarget\x12%\n" +
 	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12B\n" +
 	"\x10target_longitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x0ftargetLongitude\x12@\n" +

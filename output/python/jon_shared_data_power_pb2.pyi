@@ -20,7 +20,7 @@ class JonGuiDataPowerModule(_message.Message):
     def __init__(self, voltage: _Optional[float] = ..., current: _Optional[float] = ..., power: _Optional[float] = ..., is_on: bool = ..., has_alarm: bool = ...) -> None: ...
 
 class JonGuiDataPower(_message.Message):
-    __slots__ = ("s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "accumulator_state", "ext_bat_capacity", "ext_bat_status")
+    __slots__ = ("s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "accumulator_state", "ext_bat_capacity", "ext_bat_status", "meteo")
     S0_FIELD_NUMBER: _ClassVar[int]
     S1_FIELD_NUMBER: _ClassVar[int]
     S2_FIELD_NUMBER: _ClassVar[int]
@@ -32,6 +32,7 @@ class JonGuiDataPower(_message.Message):
     ACCUMULATOR_STATE_FIELD_NUMBER: _ClassVar[int]
     EXT_BAT_CAPACITY_FIELD_NUMBER: _ClassVar[int]
     EXT_BAT_STATUS_FIELD_NUMBER: _ClassVar[int]
+    METEO_FIELD_NUMBER: _ClassVar[int]
     s0: JonGuiDataPowerModule
     s1: JonGuiDataPowerModule
     s2: JonGuiDataPowerModule
@@ -43,4 +44,5 @@ class JonGuiDataPower(_message.Message):
     accumulator_state: _jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx
     ext_bat_capacity: int
     ext_bat_status: _jon_shared_data_types_pb2.JonGuiDataExtBatStatus
-    def __init__(self, s0: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s1: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s2: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s3: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s4: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s5: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s6: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s7: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., accumulator_state: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx, str]] = ..., ext_bat_capacity: _Optional[int] = ..., ext_bat_status: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataExtBatStatus, str]] = ...) -> None: ...
+    meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
+    def __init__(self, s0: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s1: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s2: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s3: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s4: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s5: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s6: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., s7: _Optional[_Union[JonGuiDataPowerModule, _Mapping]] = ..., accumulator_state: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataAccumulatorStateIdx, str]] = ..., ext_bat_capacity: _Optional[int] = ..., ext_bat_status: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataExtBatStatus, str]] = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ...) -> None: ...

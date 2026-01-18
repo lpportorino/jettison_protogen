@@ -882,6 +882,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
     kPointerModeFieldNumber = 5,
     kIsContinuousMeasuringFieldNumber = 8,
     kIsStartedFieldNumber = 9,
+    kScanModeFieldNumber = 11,
   };
   // .ser.JonGuiDataTarget target = 4;
   bool has_target() const;
@@ -993,12 +994,22 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
   void _internal_set_is_started(bool value);
 
   public:
+  // int32 scan_mode = 11;
+  void clear_scan_mode() ;
+  ::int32_t scan_mode() const;
+  void set_scan_mode(::int32_t value);
+
+  private:
+  ::int32_t _internal_scan_mode() const;
+  void _internal_set_scan_mode(::int32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataLrf)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 10, 2,
+      4, 11, 2,
       0, 2>
       _table_;
 
@@ -1028,6 +1039,7 @@ class JonGuiDataLrf final : public ::google::protobuf::Message
     int pointer_mode_;
     bool is_continuous_measuring_;
     bool is_started_;
+    ::int32_t scan_mode_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1411,6 +1423,28 @@ inline void JonGuiDataLrf::set_allocated_meteo(::ser::JonGuiDataMeteo* value) {
 
   _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataLrf.meteo)
+}
+
+// int32 scan_mode = 11;
+inline void JonGuiDataLrf::clear_scan_mode() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.scan_mode_ = 0;
+}
+inline ::int32_t JonGuiDataLrf::scan_mode() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataLrf.scan_mode)
+  return _internal_scan_mode();
+}
+inline void JonGuiDataLrf::set_scan_mode(::int32_t value) {
+  _internal_set_scan_mode(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataLrf.scan_mode)
+}
+inline ::int32_t JonGuiDataLrf::_internal_scan_mode() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.scan_mode_;
+}
+inline void JonGuiDataLrf::_internal_set_scan_mode(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.scan_mode_ = value;
 }
 
 // -------------------------------------------------------------------
