@@ -112,3 +112,4 @@ Contains 8 channel structures (s0-s7), each with voltage/current/power/state
 Internal environmental sensor data from the power distribution board, providing temperature, humidity, and pressure readings for system monitoring and environmental diagnostics.
 
 
+

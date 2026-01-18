@@ -71,3 +71,4 @@ Local environmental sensor data from the LRF module, providing temperature, humi
 Scanning mode frequency setting for continuous rangefinding: 0=off, 1=1Hz, 2=2Hz, 3=4Hz. Controls how frequently the LRF takes distance measurements during scan operations.
 
 
+

@@ -29,6 +29,7 @@ Encodes a single laser rangefinder (LRF) measurement with the geographic coordin
 | 10 | observer_bank | double | >= -180, < 180 |
 | 11 | distance_2d | double | >= 0, <= 500000 |
 | 12 | distance_3b | double | >= 0, <= 500000 |
+| 22 | distance_c | double | >= 0, <= 500000 |
 | 13 | observer_fix_type | [[proto/ser.JonGuiDataGpsFixType]] | defined enum value only, not in: 0 |
 | 14 | session_id | int32 | >= 0 |
 | 15 | target_id | int32 | >= 0 |

@@ -39,6 +39,7 @@ Root protocol buffer message that aggregates telemetry and state from 14 subsyst
 | 24 | day_cam_glass_heater | [[proto/ser.JonGuiDataDayCamGlassHeater]] | required |
 | 25 | actual_space_time | [[proto/ser.JonGuiDataActualSpaceTime]] | required |
 | 26 | power | [[proto/ser.JonGuiDataPower]] | required |
+| 27 | cv | [[proto/ser.JonGuiDataCV]] | - |
 
 
 

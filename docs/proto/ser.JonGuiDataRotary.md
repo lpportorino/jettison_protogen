@@ -36,6 +36,8 @@ Represents the real-time operational state of a rotary platform, tracking curren
 | 17 | current_scan_node | [[proto/ser.ScanNode]] | required |
 | 18 | is_started | bool | - |
 | 19 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 20 | pan_init_status | int32 | >= 0, <= 14 |
+| 21 | tilt_init_status | int32 | >= 0, <= 14 |
 
 
 
