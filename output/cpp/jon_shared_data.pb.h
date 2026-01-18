@@ -44,6 +44,7 @@
 #include "jon_shared_data_day_cam_glass_heater.pb.h"
 #include "jon_shared_data_actual_space_time.pb.h"
 #include "jon_shared_data_power.pb.h"
+#include "jon_shared_data_cv.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -244,6 +245,7 @@ class JonGUIState final : public ::google::protobuf::Message
     kDayCamGlassHeaterFieldNumber = 24,
     kActualSpaceTimeFieldNumber = 25,
     kPowerFieldNumber = 26,
+    kCvFieldNumber = 27,
     kSystemMonotonicTimeUsFieldNumber = 2,
     kProtocolVersionFieldNumber = 1,
     kStateSourceFieldNumber = 3,
@@ -479,6 +481,21 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataPower* _internal_mutable_power();
 
   public:
+  // .ser.JonGuiDataCV cv = 27;
+  bool has_cv() const;
+  void clear_cv() ;
+  const ::ser::JonGuiDataCV& cv() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataCV* release_cv();
+  ::ser::JonGuiDataCV* mutable_cv();
+  void set_allocated_cv(::ser::JonGuiDataCV* value);
+  void unsafe_arena_set_allocated_cv(::ser::JonGuiDataCV* value);
+  ::ser::JonGuiDataCV* unsafe_arena_release_cv();
+
+  private:
+  const ::ser::JonGuiDataCV& _internal_cv() const;
+  ::ser::JonGuiDataCV* _internal_mutable_cv();
+
+  public:
   // uint64 system_monotonic_time_us = 2 [(.buf.validate.field) = {
   void clear_system_monotonic_time_us() ;
   ::uint64_t system_monotonic_time_us() const;
@@ -554,7 +571,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 22, 15,
+      5, 23, 16,
       0, 2>
       _table_;
 
@@ -589,6 +606,7 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataDayCamGlassHeater* day_cam_glass_heater_;
     ::ser::JonGuiDataActualSpaceTime* actual_space_time_;
     ::ser::JonGuiDataPower* power_;
+    ::ser::JonGuiDataCV* cv_;
     ::uint64_t system_monotonic_time_us_;
     ::uint32_t protocol_version_;
     int state_source_;
@@ -2089,6 +2107,97 @@ inline void JonGUIState::set_allocated_power(::ser::JonGuiDataPower* value) {
 
   _impl_.power_ = reinterpret_cast<::ser::JonGuiDataPower*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.power)
+}
+
+// .ser.JonGuiDataCV cv = 27;
+inline bool JonGUIState::has_cv() const {
+  bool value = (_impl_._has_bits_[0] & 0x00004000u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.cv_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataCV& JonGUIState::_internal_cv() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataCV* p = _impl_.cv_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataCV&>(::ser::_JonGuiDataCV_default_instance_);
+}
+inline const ::ser::JonGuiDataCV& JonGUIState::cv() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.cv)
+  return _internal_cv();
+}
+inline void JonGUIState::unsafe_arena_set_allocated_cv(::ser::JonGuiDataCV* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cv_);
+  }
+  _impl_.cv_ = reinterpret_cast<::ser::JonGuiDataCV*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00004000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00004000u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.cv)
+}
+inline ::ser::JonGuiDataCV* JonGUIState::release_cv() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00004000u;
+  ::ser::JonGuiDataCV* released = _impl_.cv_;
+  _impl_.cv_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataCV* JonGUIState::unsafe_arena_release_cv() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGUIState.cv)
+
+  _impl_._has_bits_[0] &= ~0x00004000u;
+  ::ser::JonGuiDataCV* temp = _impl_.cv_;
+  _impl_.cv_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataCV* JonGUIState::_internal_mutable_cv() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.cv_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataCV>(GetArena());
+    _impl_.cv_ = reinterpret_cast<::ser::JonGuiDataCV*>(p);
+  }
+  return _impl_.cv_;
+}
+inline ::ser::JonGuiDataCV* JonGUIState::mutable_cv() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00004000u;
+  ::ser::JonGuiDataCV* _msg = _internal_mutable_cv();
+  // @@protoc_insertion_point(field_mutable:ser.JonGUIState.cv)
+  return _msg;
+}
+inline void JonGUIState::set_allocated_cv(::ser::JonGuiDataCV* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cv_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00004000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00004000u;
+  }
+
+  _impl_.cv_ = reinterpret_cast<::ser::JonGuiDataCV*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.cv)
 }
 
 #ifdef __GNUC__

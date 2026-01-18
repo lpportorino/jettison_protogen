@@ -19,4 +19,5 @@ export * from "./jon_shared_data_rec_osd";
 export * from "./jon_shared_data_day_cam_glass_heater";
 export * from "./jon_shared_data_actual_space_time";
 export * from "./jon_shared_data_power";
+export * from "./jon_shared_data_cv";
 export * from "./jon_shared_data";

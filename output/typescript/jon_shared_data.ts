@@ -12,6 +12,7 @@ import { JonGuiDataCameraDay } from "./jon_shared_data_camera_day";
 import { JonGuiDataCameraHeat } from "./jon_shared_data_camera_heat";
 import { JonGuiDataCompass } from "./jon_shared_data_compass";
 import { JonGuiDataCompassCalibration } from "./jon_shared_data_compass_calibration";
+import { JonGuiDataCV } from "./jon_shared_data_cv";
 import { JonGuiDataDayCamGlassHeater } from "./jon_shared_data_day_cam_glass_heater";
 import { JonGuiDataGps } from "./jon_shared_data_gps";
 import { JonGuiDataLrf } from "./jon_shared_data_lrf";
@@ -58,6 +59,7 @@ export interface JonGUIState {
   dayCamGlassHeater: JonGuiDataDayCamGlassHeater | undefined;
   actualSpaceTime: JonGuiDataActualSpaceTime | undefined;
   power: JonGuiDataPower | undefined;
+  cv: JonGuiDataCV | undefined;
 }
 
 function createBaseJonGUIState(): JonGUIState {
@@ -84,6 +86,7 @@ function createBaseJonGUIState(): JonGUIState {
     dayCamGlassHeater: undefined,
     actualSpaceTime: undefined,
     power: undefined,
+    cv: undefined,
   };
 }
 
@@ -154,6 +157,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (message.power !== undefined) {
       JonGuiDataPower.encode(message.power, writer.uint32(210).fork()).join();
+    }
+    if (message.cv !== undefined) {
+      JonGuiDataCV.encode(message.cv, writer.uint32(218).fork()).join();
     }
     return writer;
   },
@@ -341,6 +347,14 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           message.power = JonGuiDataPower.decode(reader, reader.uint32());
           continue;
         }
+        case 27: {
+          if (tag !== 218) {
+            break;
+          }
+
+          message.cv = JonGuiDataCV.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -434,6 +448,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
         ? JonGuiDataActualSpaceTime.fromJSON(object.actual_space_time)
         : undefined,
       power: isSet(object.power) ? JonGuiDataPower.fromJSON(object.power) : undefined,
+      cv: isSet(object.cv) ? JonGuiDataCV.fromJSON(object.cv) : undefined,
     };
   },
 
@@ -505,6 +520,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     if (message.power !== undefined) {
       obj.power = JonGuiDataPower.toJSON(message.power);
     }
+    if (message.cv !== undefined) {
+      obj.cv = JonGuiDataCV.toJSON(message.cv);
+    }
     return obj;
   },
 
@@ -570,6 +588,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     message.power = (object.power !== undefined && object.power !== null)
       ? JonGuiDataPower.fromPartial(object.power)
       : undefined;
+    message.cv = (object.cv !== undefined && object.cv !== null) ? JonGuiDataCV.fromPartial(object.cv) : undefined;
     return message;
   },
 };

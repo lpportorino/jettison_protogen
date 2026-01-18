@@ -349,6 +349,21 @@ public final class JonSharedData {
      * <code>.ser.JonGuiDataPower power = 26 [(.buf.validate.field) = { ... }</code>
      */
     ser.JonSharedDataPower.JonGuiDataPowerOrBuilder getPowerOrBuilder();
+
+    /**
+     * <code>.ser.JonGuiDataCV cv = 27;</code>
+     * @return Whether the cv field is set.
+     */
+    boolean hasCv();
+    /**
+     * <code>.ser.JonGuiDataCV cv = 27;</code>
+     * @return The cv.
+     */
+    ser.JonSharedDataCv.JonGuiDataCV getCv();
+    /**
+     * <code>.ser.JonGuiDataCV cv = 27;</code>
+     */
+    ser.JonSharedDataCv.JonGuiDataCVOrBuilder getCvOrBuilder();
   }
   /**
    * <pre>
@@ -923,6 +938,32 @@ public final class JonSharedData {
       return power_ == null ? ser.JonSharedDataPower.JonGuiDataPower.getDefaultInstance() : power_;
     }
 
+    public static final int CV_FIELD_NUMBER = 27;
+    private ser.JonSharedDataCv.JonGuiDataCV cv_;
+    /**
+     * <code>.ser.JonGuiDataCV cv = 27;</code>
+     * @return Whether the cv field is set.
+     */
+    @java.lang.Override
+    public boolean hasCv() {
+      return ((bitField0_ & 0x00004000) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataCV cv = 27;</code>
+     * @return The cv.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataCV getCv() {
+      return cv_ == null ? ser.JonSharedDataCv.JonGuiDataCV.getDefaultInstance() : cv_;
+    }
+    /**
+     * <code>.ser.JonGuiDataCV cv = 27;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataCv.JonGuiDataCVOrBuilder getCvOrBuilder() {
+      return cv_ == null ? ser.JonSharedDataCv.JonGuiDataCV.getDefaultInstance() : cv_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1002,6 +1043,9 @@ public final class JonSharedData {
       }
       if (((bitField0_ & 0x00002000) != 0)) {
         output.writeMessage(26, getPower());
+      }
+      if (((bitField0_ & 0x00004000) != 0)) {
+        output.writeMessage(27, getCv());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1099,6 +1143,10 @@ public final class JonSharedData {
       if (((bitField0_ & 0x00002000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(26, getPower());
+      }
+      if (((bitField0_ & 0x00004000) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(27, getCv());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1200,6 +1248,11 @@ public final class JonSharedData {
         if (!getPower()
             .equals(other.getPower())) return false;
       }
+      if (hasCv() != other.hasCv()) return false;
+      if (hasCv()) {
+        if (!getCv()
+            .equals(other.getCv())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1289,6 +1342,10 @@ public final class JonSharedData {
       if (hasPower()) {
         hash = (37 * hash) + POWER_FIELD_NUMBER;
         hash = (53 * hash) + getPower().hashCode();
+      }
+      if (hasCv()) {
+        hash = (37 * hash) + CV_FIELD_NUMBER;
+        hash = (53 * hash) + getCv().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1439,6 +1496,7 @@ public final class JonSharedData {
           getDayCamGlassHeaterFieldBuilder();
           getActualSpaceTimeFieldBuilder();
           getPowerFieldBuilder();
+          getCvFieldBuilder();
         }
       }
       @java.lang.Override
@@ -1528,6 +1586,11 @@ public final class JonSharedData {
         if (powerBuilder_ != null) {
           powerBuilder_.dispose();
           powerBuilder_ = null;
+        }
+        cv_ = null;
+        if (cvBuilder_ != null) {
+          cvBuilder_.dispose();
+          cvBuilder_ = null;
         }
         return this;
       }
@@ -1681,6 +1744,12 @@ public final class JonSharedData {
               : powerBuilder_.build();
           to_bitField0_ |= 0x00002000;
         }
+        if (((from_bitField0_ & 0x00400000) != 0)) {
+          result.cv_ = cvBuilder_ == null
+              ? cv_
+              : cvBuilder_.build();
+          to_bitField0_ |= 0x00004000;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1784,6 +1853,9 @@ public final class JonSharedData {
         }
         if (other.hasPower()) {
           mergePower(other.getPower());
+        }
+        if (other.hasCv()) {
+          mergeCv(other.getCv());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1957,6 +2029,13 @@ public final class JonSharedData {
                 bitField0_ |= 0x00200000;
                 break;
               } // case 210
+              case 218: {
+                input.readMessage(
+                    getCvFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00400000;
+                break;
+              } // case 218
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4285,6 +4364,127 @@ public final class JonSharedData {
         return powerBuilder_;
       }
 
+      private ser.JonSharedDataCv.JonGuiDataCV cv_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataCv.JonGuiDataCV, ser.JonSharedDataCv.JonGuiDataCV.Builder, ser.JonSharedDataCv.JonGuiDataCVOrBuilder> cvBuilder_;
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       * @return Whether the cv field is set.
+       */
+      public boolean hasCv() {
+        return ((bitField0_ & 0x00400000) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       * @return The cv.
+       */
+      public ser.JonSharedDataCv.JonGuiDataCV getCv() {
+        if (cvBuilder_ == null) {
+          return cv_ == null ? ser.JonSharedDataCv.JonGuiDataCV.getDefaultInstance() : cv_;
+        } else {
+          return cvBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      public Builder setCv(ser.JonSharedDataCv.JonGuiDataCV value) {
+        if (cvBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cv_ = value;
+        } else {
+          cvBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      public Builder setCv(
+          ser.JonSharedDataCv.JonGuiDataCV.Builder builderForValue) {
+        if (cvBuilder_ == null) {
+          cv_ = builderForValue.build();
+        } else {
+          cvBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      public Builder mergeCv(ser.JonSharedDataCv.JonGuiDataCV value) {
+        if (cvBuilder_ == null) {
+          if (((bitField0_ & 0x00400000) != 0) &&
+            cv_ != null &&
+            cv_ != ser.JonSharedDataCv.JonGuiDataCV.getDefaultInstance()) {
+            getCvBuilder().mergeFrom(value);
+          } else {
+            cv_ = value;
+          }
+        } else {
+          cvBuilder_.mergeFrom(value);
+        }
+        if (cv_ != null) {
+          bitField0_ |= 0x00400000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      public Builder clearCv() {
+        bitField0_ = (bitField0_ & ~0x00400000);
+        cv_ = null;
+        if (cvBuilder_ != null) {
+          cvBuilder_.dispose();
+          cvBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      public ser.JonSharedDataCv.JonGuiDataCV.Builder getCvBuilder() {
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return getCvFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      public ser.JonSharedDataCv.JonGuiDataCVOrBuilder getCvOrBuilder() {
+        if (cvBuilder_ != null) {
+          return cvBuilder_.getMessageOrBuilder();
+        } else {
+          return cv_ == null ?
+              ser.JonSharedDataCv.JonGuiDataCV.getDefaultInstance() : cv_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataCV cv = 27;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataCv.JonGuiDataCV, ser.JonSharedDataCv.JonGuiDataCV.Builder, ser.JonSharedDataCv.JonGuiDataCVOrBuilder> 
+          getCvFieldBuilder() {
+        if (cvBuilder_ == null) {
+          cvBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataCv.JonGuiDataCV, ser.JonSharedDataCv.JonGuiDataCV.Builder, ser.JonSharedDataCv.JonGuiDataCVOrBuilder>(
+                  getCv(),
+                  getParentForChildren(),
+                  isClean());
+          cv_ = null;
+        }
+        return cvBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGUIState)
     }
 
@@ -4362,38 +4562,39 @@ public final class JonSharedData {
       "_heat.proto\032\035jon_shared_data_rec_osd.pro" +
       "to\032*jon_shared_data_day_cam_glass_heater" +
       ".proto\032\'jon_shared_data_actual_space_tim" +
-      "e.proto\032\033jon_shared_data_power.proto\"\341\010\n" +
-      "\013JonGUIState\022\'\n\020protocol_version\030\001 \001(\rB\r" +
-      "\272H\n*\010\030\377\377\377\377\007 \000\022)\n\030system_monotonic_time_u" +
-      "s\030\002 \001(\004B\007\272H\0042\002(\000\022<\n\014state_source\030\003 \001(\0162\032" +
-      ".ser.JonGuiDataStateSourceB\n\272H\007\202\001\004\020\001 \000\022!" +
-      "\n\020frame_pts_day_ns\030\004 \001(\004B\007\272H\0042\002(\000\022\"\n\021fra" +
-      "me_pts_heat_ns\030\005 \001(\004B\007\272H\0042\002(\000\022\'\n\026frame_m" +
-      "onotonic_day_us\030\006 \001(\004B\007\272H\0042\002(\000\022(\n\027frame_" +
-      "monotonic_heat_us\030\007 \001(\004B\007\272H\0042\002(\000\022.\n\017opaq" +
-      "ue_payloads\030\010 \003(\0132\025.ser.JonOpaquePayload" +
-      "\022-\n\006system\030\r \001(\0132\025.ser.JonGuiDataSystemB" +
-      "\006\272H\003\310\001\001\0224\n\016meteo_internal\030\016 \001(\0132\024.ser.Jo" +
-      "nGuiDataMeteoB\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser" +
-      ".JonGuiDataLrfB\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.s" +
-      "er.JonGuiDataTimeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022" +
-      ".ser.JonGuiDataGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 " +
-      "\001(\0132\026.ser.JonGuiDataCompassB\006\272H\003\310\001\001\022-\n\006r" +
-      "otary\030\023 \001(\0132\025.ser.JonGuiDataRotaryB\006\272H\003\310" +
-      "\001\001\0224\n\ncamera_day\030\024 \001(\0132\030.ser.JonGuiDataC" +
-      "ameraDayB\006\272H\003\310\001\001\0226\n\013camera_heat\030\025 \001(\0132\031." +
-      "ser.JonGuiDataCameraHeatB\006\272H\003\310\001\001\022F\n\023comp" +
-      "ass_calibration\030\026 \001(\0132!.ser.JonGuiDataCo" +
-      "mpassCalibrationB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(" +
-      "\0132\025.ser.JonGuiDataRecOsdB\006\272H\003\310\001\001\022F\n\024day_" +
-      "cam_glass_heater\030\030 \001(\0132 .ser.JonGuiDataD" +
-      "ayCamGlassHeaterB\006\272H\003\310\001\001\022A\n\021actual_space" +
-      "_time\030\031 \001(\0132\036.ser.JonGuiDataActualSpaceT" +
-      "imeB\006\272H\003\310\001\001\022+\n\005power\030\032 \001(\0132\024.ser.JonGuiD" +
-      "ataPowerB\006\272H\003\310\001\001J\004\010\t\020\nJ\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\r" +
-      "BGZEgit-codecommit.eu-central-1.amazonaw" +
-      "s.com/v1/repos/jettison/jonp/datab\006proto" +
-      "3"
+      "e.proto\032\033jon_shared_data_power.proto\032\030jo" +
+      "n_shared_data_cv.proto\"\200\t\n\013JonGUIState\022\'" +
+      "\n\020protocol_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 \000\022" +
+      ")\n\030system_monotonic_time_us\030\002 \001(\004B\007\272H\0042\002" +
+      "(\000\022<\n\014state_source\030\003 \001(\0162\032.ser.JonGuiDat" +
+      "aStateSourceB\n\272H\007\202\001\004\020\001 \000\022!\n\020frame_pts_da" +
+      "y_ns\030\004 \001(\004B\007\272H\0042\002(\000\022\"\n\021frame_pts_heat_ns" +
+      "\030\005 \001(\004B\007\272H\0042\002(\000\022\'\n\026frame_monotonic_day_u" +
+      "s\030\006 \001(\004B\007\272H\0042\002(\000\022(\n\027frame_monotonic_heat" +
+      "_us\030\007 \001(\004B\007\272H\0042\002(\000\022.\n\017opaque_payloads\030\010 " +
+      "\003(\0132\025.ser.JonOpaquePayload\022-\n\006system\030\r \001" +
+      "(\0132\025.ser.JonGuiDataSystemB\006\272H\003\310\001\001\0224\n\016met" +
+      "eo_internal\030\016 \001(\0132\024.ser.JonGuiDataMeteoB" +
+      "\006\272H\003\310\001\001\022\'\n\003lrf\030\017 \001(\0132\022.ser.JonGuiDataLrf" +
+      "B\006\272H\003\310\001\001\022)\n\004time\030\020 \001(\0132\023.ser.JonGuiDataT" +
+      "imeB\006\272H\003\310\001\001\022\'\n\003gps\030\021 \001(\0132\022.ser.JonGuiDat" +
+      "aGpsB\006\272H\003\310\001\001\022/\n\007compass\030\022 \001(\0132\026.ser.JonG" +
+      "uiDataCompassB\006\272H\003\310\001\001\022-\n\006rotary\030\023 \001(\0132\025." +
+      "ser.JonGuiDataRotaryB\006\272H\003\310\001\001\0224\n\ncamera_d" +
+      "ay\030\024 \001(\0132\030.ser.JonGuiDataCameraDayB\006\272H\003\310" +
+      "\001\001\0226\n\013camera_heat\030\025 \001(\0132\031.ser.JonGuiData" +
+      "CameraHeatB\006\272H\003\310\001\001\022F\n\023compass_calibratio" +
+      "n\030\026 \001(\0132!.ser.JonGuiDataCompassCalibrati" +
+      "onB\006\272H\003\310\001\001\022.\n\007rec_osd\030\027 \001(\0132\025.ser.JonGui" +
+      "DataRecOsdB\006\272H\003\310\001\001\022F\n\024day_cam_glass_heat" +
+      "er\030\030 \001(\0132 .ser.JonGuiDataDayCamGlassHeat" +
+      "erB\006\272H\003\310\001\001\022A\n\021actual_space_time\030\031 \001(\0132\036." +
+      "ser.JonGuiDataActualSpaceTimeB\006\272H\003\310\001\001\022+\n" +
+      "\005power\030\032 \001(\0132\024.ser.JonGuiDataPowerB\006\272H\003\310" +
+      "\001\001\022\035\n\002cv\030\033 \001(\0132\021.ser.JonGuiDataCVJ\004\010\t\020\nJ" +
+      "\004\010\n\020\013J\004\010\013\020\014J\004\010\014\020\rBGZEgit-codecommit.eu-c" +
+      "entral-1.amazonaws.com/v1/repos/jettison" +
+      "/jonp/datab\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4413,13 +4614,14 @@ public final class JonSharedData {
           ser.JonSharedDataDayCamGlassHeater.getDescriptor(),
           ser.JonSharedDataActualSpaceTime.getDescriptor(),
           ser.JonSharedDataPower.getDescriptor(),
+          ser.JonSharedDataCv.getDescriptor(),
         });
     internal_static_ser_JonGUIState_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_ser_JonGUIState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGUIState_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "StateSource", "FramePtsDayNs", "FramePtsHeatNs", "FrameMonotonicDayUs", "FrameMonotonicHeatUs", "OpaquePayloads", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "DayCamGlassHeater", "ActualSpaceTime", "Power", });
+        new java.lang.String[] { "ProtocolVersion", "SystemMonotonicTimeUs", "StateSource", "FramePtsDayNs", "FramePtsHeatNs", "FrameMonotonicDayUs", "FrameMonotonicHeatUs", "OpaquePayloads", "System", "MeteoInternal", "Lrf", "Time", "Gps", "Compass", "Rotary", "CameraDay", "CameraHeat", "CompassCalibration", "RecOsd", "DayCamGlassHeater", "ActualSpaceTime", "Power", "Cv", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
@@ -4436,6 +4638,7 @@ public final class JonSharedData {
     ser.JonSharedDataDayCamGlassHeater.getDescriptor();
     ser.JonSharedDataActualSpaceTime.getDescriptor();
     ser.JonSharedDataPower.getDescriptor();
+    ser.JonSharedDataCv.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(build.buf.validate.ValidateProto.field);

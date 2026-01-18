@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/cv";
+
+package ser;
+
+import "jon_shared_data_types.proto";
+
+// CV Gateway state enrichment - autofocus metrics and sweep status
+message JonGuiDataCV {
+  // Autofocus sweep state
+  enum AutofocusState {
+    AUTOFOCUS_STATE_UNSPECIFIED = 0;
+    AUTOFOCUS_STATE_IDLE = 1;
+    AUTOFOCUS_STATE_COARSE_SWEEP = 2;
+    AUTOFOCUS_STATE_FINE_SWEEP = 3;
+    AUTOFOCUS_STATE_CONVERGED = 4;
+    AUTOFOCUS_STATE_FAILED = 5;
+  }
+
+  // Day channel autofocus
+  AutofocusState autofocus_state_day = 1 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  double sharpness_day = 2 [(buf.validate.field).double = {
+    gte: 0.0
+  }];
+  double best_sharpness_day = 3 [(buf.validate.field).double = {
+    gte: 0.0
+  }];
+  int32 sweep_progress_day = 4 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 100
+  }];
+  double best_focus_pos_day = 5 [(buf.validate.field).double = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+
+  // Heat channel autofocus
+  AutofocusState autofocus_state_heat = 10 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  double sharpness_heat = 11 [(buf.validate.field).double = {
+    gte: 0.0
+  }];
+  double best_sharpness_heat = 12 [(buf.validate.field).double = {
+    gte: 0.0
+  }];
+  int32 sweep_progress_heat = 13 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 100
+  }];
+  double best_focus_pos_heat = 14 [(buf.validate.field).double = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+
+  // ROI for sharpness calculation (NDC coords: -1 to 1)
+  double roi_x1 = 20 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double roi_y1 = 21 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double roi_x2 = 22 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+  double roi_y2 = 23 [(buf.validate.field).double = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+}
