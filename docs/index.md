@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 244 messages, 21 enums, 643 fields
+**Statistics:** 247 messages, 21 enums, 652 fields
 
 ## Messages by Package
 
@@ -20,6 +20,9 @@ type: index
 
 ### cmd.CV
 
+- [[proto/cmd.CV.BridgeRestart|BridgeRestart]]
+- [[proto/cmd.CV.BridgeStart|BridgeStart]]
+- [[proto/cmd.CV.BridgeStop|BridgeStop]]
 - [[proto/cmd.CV.DumpStart|DumpStart]] — Initiates recording of computer vision frame data to disk for debugging and analysis purposes. Only available in factory mode (URL parameter ui=factory). The state is tracked via data.System.cvDumping boolean field.
 - [[proto/cmd.CV.DumpStop|DumpStop]] — Stops the computer vision frame dumping process that was previously initiated with DumpStart, ceasing the export of CV data to disk. Sets the cvDumping state to false when processed.
 - [[proto/cmd.CV.RecognitionModeDisable|RecognitionModeDisable]] — Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. The backend sets cv.recognition_mode_enabled to false and state is reflected in system.recognitionMode.
@@ -292,7 +295,14 @@ type: index
 
 - [[proto/ser.JonGUIState|JonGUIState]] — Root protocol buffer message that aggregates telemetry and state from 14 subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, glass heater control, spatiotemporal data, and power management. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
 - [[proto/ser.JonGuiDataActualSpaceTime|JonGuiDataActualSpaceTime]] — Encapsulates real-time spatial position and temporal information of the system, containing three-dimensional attitude angles (azimuth, elevation, bank), geographic coordinates (latitude, longitude, altitude), and a timestamp. Displayed across multiple UI widgets including the azimuth compass, altitude scale, and time widget.
-- [[proto/ser.JonGuiDataCV|JonGuiDataCV]]
+- [[proto/ser.JonGuiDataCV|JonGuiDataCV]] — CV Gateway state enrichment message containing autofocus metrics and sweep status for both day and heat camera channels.
+
+This message is populated by the CV Gateway and embedded in `JonGUIState` before being written to shared memory. It provides real-time visibility into:
+- Autofocus sweep progress and state
+- Current and best sharpness measurements
+- Region of interest (ROI) used for sharpness calculation
+
+The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1, where (0,0) is the center of the frame.
 - [[proto/ser.JonGuiDataCameraDay|JonGuiDataCameraDay]] — Captures the complete operational state of the day camera, including normalized control positions (focus, zoom, iris), automatic control modes (auto-focus, auto-iris, auto-gain), field of view angles, and image processing parameters like CLAHE level and FX mode presets.
 - [[proto/ser.JonGuiDataCameraHeat|JonGuiDataCameraHeat]] — Represents the complete operational and configuration state of the thermal/infrared camera system, including optical parameters (zoom position, field-of-view, focus mode), image processing settings (AGC mode, filter selection, CLAHE enhancement, DDE dynamics enhancement), and operational status.
 - [[proto/ser.JonGuiDataCompass|JonGuiDataCompass]] — Represents the real-time orientation and calibration state of a compass sensor, containing directional measurements (azimuth, elevation, bank angles), calibration offsets, magnetic declination, and status flags for whether the compass is running and calibrating.

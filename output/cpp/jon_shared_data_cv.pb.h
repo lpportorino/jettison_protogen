@@ -102,6 +102,84 @@ inline bool JonGuiDataCV_AutofocusState_Parse(absl::string_view name, JonGuiData
   return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataCV_AutofocusState>(
       JonGuiDataCV_AutofocusState_descriptor(), name, value);
 }
+enum JonGuiDataCV_CvBridgeStatus : int {
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED = 0,
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPED = 1,
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STARTING = 2,
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RUNNING = 3,
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPING = 4,
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_CRASHED = 5,
+  JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RESTARTING = 6,
+  JonGuiDataCV_CvBridgeStatus_JonGuiDataCV_CvBridgeStatus_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataCV_CvBridgeStatus_JonGuiDataCV_CvBridgeStatus_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataCV_CvBridgeStatus_IsValid(int value);
+extern const uint32_t JonGuiDataCV_CvBridgeStatus_internal_data_[];
+constexpr JonGuiDataCV_CvBridgeStatus JonGuiDataCV_CvBridgeStatus_CvBridgeStatus_MIN = static_cast<JonGuiDataCV_CvBridgeStatus>(0);
+constexpr JonGuiDataCV_CvBridgeStatus JonGuiDataCV_CvBridgeStatus_CvBridgeStatus_MAX = static_cast<JonGuiDataCV_CvBridgeStatus>(6);
+constexpr int JonGuiDataCV_CvBridgeStatus_CvBridgeStatus_ARRAYSIZE = 6 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataCV_CvBridgeStatus_descriptor();
+template <typename T>
+const std::string& JonGuiDataCV_CvBridgeStatus_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataCV_CvBridgeStatus>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to CvBridgeStatus_Name().");
+  return JonGuiDataCV_CvBridgeStatus_Name(static_cast<JonGuiDataCV_CvBridgeStatus>(value));
+}
+template <>
+inline const std::string& JonGuiDataCV_CvBridgeStatus_Name(JonGuiDataCV_CvBridgeStatus value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataCV_CvBridgeStatus_descriptor,
+                                                 0, 6>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataCV_CvBridgeStatus_Parse(absl::string_view name, JonGuiDataCV_CvBridgeStatus* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataCV_CvBridgeStatus>(
+      JonGuiDataCV_CvBridgeStatus_descriptor(), name, value);
+}
+enum JonGuiDataCV_CvBridgeExitReason : int {
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_NORMAL = 2,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_ERROR = 3,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_OOM = 6,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_TIMEOUT = 7,
+  JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_SIGNAL = 8,
+  JonGuiDataCV_CvBridgeExitReason_JonGuiDataCV_CvBridgeExitReason_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataCV_CvBridgeExitReason_JonGuiDataCV_CvBridgeExitReason_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataCV_CvBridgeExitReason_IsValid(int value);
+extern const uint32_t JonGuiDataCV_CvBridgeExitReason_internal_data_[];
+constexpr JonGuiDataCV_CvBridgeExitReason JonGuiDataCV_CvBridgeExitReason_CvBridgeExitReason_MIN = static_cast<JonGuiDataCV_CvBridgeExitReason>(0);
+constexpr JonGuiDataCV_CvBridgeExitReason JonGuiDataCV_CvBridgeExitReason_CvBridgeExitReason_MAX = static_cast<JonGuiDataCV_CvBridgeExitReason>(8);
+constexpr int JonGuiDataCV_CvBridgeExitReason_CvBridgeExitReason_ARRAYSIZE = 8 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataCV_CvBridgeExitReason_descriptor();
+template <typename T>
+const std::string& JonGuiDataCV_CvBridgeExitReason_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataCV_CvBridgeExitReason>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to CvBridgeExitReason_Name().");
+  return JonGuiDataCV_CvBridgeExitReason_Name(static_cast<JonGuiDataCV_CvBridgeExitReason>(value));
+}
+template <>
+inline const std::string& JonGuiDataCV_CvBridgeExitReason_Name(JonGuiDataCV_CvBridgeExitReason value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataCV_CvBridgeExitReason_descriptor,
+                                                 0, 8>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataCV_CvBridgeExitReason_Parse(absl::string_view name, JonGuiDataCV_CvBridgeExitReason* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataCV_CvBridgeExitReason>(
+      JonGuiDataCV_CvBridgeExitReason_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -274,6 +352,56 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   static inline bool AutofocusState_Parse(absl::string_view name, AutofocusState* value) {
     return JonGuiDataCV_AutofocusState_Parse(name, value);
   }
+  using CvBridgeStatus = JonGuiDataCV_CvBridgeStatus;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_UNSPECIFIED = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_STOPPED = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPED;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_STARTING = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STARTING;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_RUNNING = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RUNNING;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_STOPPING = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPING;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_CRASHED = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_CRASHED;
+  static constexpr CvBridgeStatus CV_BRIDGE_STATUS_RESTARTING = JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RESTARTING;
+  static inline bool CvBridgeStatus_IsValid(int value) {
+    return JonGuiDataCV_CvBridgeStatus_IsValid(value);
+  }
+  static constexpr CvBridgeStatus CvBridgeStatus_MIN = JonGuiDataCV_CvBridgeStatus_CvBridgeStatus_MIN;
+  static constexpr CvBridgeStatus CvBridgeStatus_MAX = JonGuiDataCV_CvBridgeStatus_CvBridgeStatus_MAX;
+  static constexpr int CvBridgeStatus_ARRAYSIZE = JonGuiDataCV_CvBridgeStatus_CvBridgeStatus_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor* CvBridgeStatus_descriptor() {
+    return JonGuiDataCV_CvBridgeStatus_descriptor();
+  }
+  template <typename T>
+  static inline const std::string& CvBridgeStatus_Name(T value) {
+    return JonGuiDataCV_CvBridgeStatus_Name(value);
+  }
+  static inline bool CvBridgeStatus_Parse(absl::string_view name, CvBridgeStatus* value) {
+    return JonGuiDataCV_CvBridgeStatus_Parse(name, value);
+  }
+  using CvBridgeExitReason = JonGuiDataCV_CvBridgeExitReason;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_UNSPECIFIED = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_UNSPECIFIED;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_NOT_STARTED = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_NOT_STARTED;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_NORMAL = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_NORMAL;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_ERROR = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_ERROR;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_CUDA_ERROR = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_CUDA_ERROR;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_IPC_ERROR = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_IPC_ERROR;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_OOM = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_OOM;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_TIMEOUT = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_TIMEOUT;
+  static constexpr CvBridgeExitReason CV_BRIDGE_EXIT_REASON_SIGNAL = JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_SIGNAL;
+  static inline bool CvBridgeExitReason_IsValid(int value) {
+    return JonGuiDataCV_CvBridgeExitReason_IsValid(value);
+  }
+  static constexpr CvBridgeExitReason CvBridgeExitReason_MIN = JonGuiDataCV_CvBridgeExitReason_CvBridgeExitReason_MIN;
+  static constexpr CvBridgeExitReason CvBridgeExitReason_MAX = JonGuiDataCV_CvBridgeExitReason_CvBridgeExitReason_MAX;
+  static constexpr int CvBridgeExitReason_ARRAYSIZE = JonGuiDataCV_CvBridgeExitReason_CvBridgeExitReason_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor* CvBridgeExitReason_descriptor() {
+    return JonGuiDataCV_CvBridgeExitReason_descriptor();
+  }
+  template <typename T>
+  static inline const std::string& CvBridgeExitReason_Name(T value) {
+    return JonGuiDataCV_CvBridgeExitReason_Name(value);
+  }
+  static inline bool CvBridgeExitReason_Parse(absl::string_view name, CvBridgeExitReason* value) {
+    return JonGuiDataCV_CvBridgeExitReason_Parse(name, value);
+  }
 
   // accessors -------------------------------------------------------
   enum : int {
@@ -291,6 +419,10 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     kRoiY1FieldNumber = 21,
     kRoiX2FieldNumber = 22,
     kRoiY2FieldNumber = 23,
+    kBridgeStatusFieldNumber = 30,
+    kLastExitReasonFieldNumber = 31,
+    kBridgeUptimeMsFieldNumber = 32,
+    kRestartCountFieldNumber = 33,
   };
   // double sharpness_day = 2 [(.buf.validate.field) = {
   void clear_sharpness_day() ;
@@ -432,13 +564,53 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   void _internal_set_roi_y2(double value);
 
   public:
+  // .ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = {
+  void clear_bridge_status() ;
+  ::ser::JonGuiDataCV_CvBridgeStatus bridge_status() const;
+  void set_bridge_status(::ser::JonGuiDataCV_CvBridgeStatus value);
+
+  private:
+  ::ser::JonGuiDataCV_CvBridgeStatus _internal_bridge_status() const;
+  void _internal_set_bridge_status(::ser::JonGuiDataCV_CvBridgeStatus value);
+
+  public:
+  // .ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = {
+  void clear_last_exit_reason() ;
+  ::ser::JonGuiDataCV_CvBridgeExitReason last_exit_reason() const;
+  void set_last_exit_reason(::ser::JonGuiDataCV_CvBridgeExitReason value);
+
+  private:
+  ::ser::JonGuiDataCV_CvBridgeExitReason _internal_last_exit_reason() const;
+  void _internal_set_last_exit_reason(::ser::JonGuiDataCV_CvBridgeExitReason value);
+
+  public:
+  // int64 bridge_uptime_ms = 32 [(.buf.validate.field) = {
+  void clear_bridge_uptime_ms() ;
+  ::int64_t bridge_uptime_ms() const;
+  void set_bridge_uptime_ms(::int64_t value);
+
+  private:
+  ::int64_t _internal_bridge_uptime_ms() const;
+  void _internal_set_bridge_uptime_ms(::int64_t value);
+
+  public:
+  // int32 restart_count = 33 [(.buf.validate.field) = {
+  void clear_restart_count() ;
+  ::int32_t restart_count() const;
+  void set_restart_count(::int32_t value);
+
+  private:
+  ::int32_t _internal_restart_count() const;
+  void _internal_set_restart_count(::int32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCV)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 14, 0,
-      0, 2>
+      5, 18, 0,
+      0, 7>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -469,6 +641,10 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     double roi_y1_;
     double roi_x2_;
     double roi_y2_;
+    int bridge_status_;
+    int last_exit_reason_;
+    ::int64_t bridge_uptime_ms_;
+    ::int32_t restart_count_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -800,6 +976,94 @@ inline void JonGuiDataCV::_internal_set_roi_y2(double value) {
   _impl_.roi_y2_ = value;
 }
 
+// .ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = {
+inline void JonGuiDataCV::clear_bridge_status() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bridge_status_ = 0;
+}
+inline ::ser::JonGuiDataCV_CvBridgeStatus JonGuiDataCV::bridge_status() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.bridge_status)
+  return _internal_bridge_status();
+}
+inline void JonGuiDataCV::set_bridge_status(::ser::JonGuiDataCV_CvBridgeStatus value) {
+  _internal_set_bridge_status(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.bridge_status)
+}
+inline ::ser::JonGuiDataCV_CvBridgeStatus JonGuiDataCV::_internal_bridge_status() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataCV_CvBridgeStatus>(_impl_.bridge_status_);
+}
+inline void JonGuiDataCV::_internal_set_bridge_status(::ser::JonGuiDataCV_CvBridgeStatus value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bridge_status_ = value;
+}
+
+// .ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = {
+inline void JonGuiDataCV::clear_last_exit_reason() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.last_exit_reason_ = 0;
+}
+inline ::ser::JonGuiDataCV_CvBridgeExitReason JonGuiDataCV::last_exit_reason() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.last_exit_reason)
+  return _internal_last_exit_reason();
+}
+inline void JonGuiDataCV::set_last_exit_reason(::ser::JonGuiDataCV_CvBridgeExitReason value) {
+  _internal_set_last_exit_reason(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.last_exit_reason)
+}
+inline ::ser::JonGuiDataCV_CvBridgeExitReason JonGuiDataCV::_internal_last_exit_reason() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataCV_CvBridgeExitReason>(_impl_.last_exit_reason_);
+}
+inline void JonGuiDataCV::_internal_set_last_exit_reason(::ser::JonGuiDataCV_CvBridgeExitReason value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.last_exit_reason_ = value;
+}
+
+// int64 bridge_uptime_ms = 32 [(.buf.validate.field) = {
+inline void JonGuiDataCV::clear_bridge_uptime_ms() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bridge_uptime_ms_ = ::int64_t{0};
+}
+inline ::int64_t JonGuiDataCV::bridge_uptime_ms() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.bridge_uptime_ms)
+  return _internal_bridge_uptime_ms();
+}
+inline void JonGuiDataCV::set_bridge_uptime_ms(::int64_t value) {
+  _internal_set_bridge_uptime_ms(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.bridge_uptime_ms)
+}
+inline ::int64_t JonGuiDataCV::_internal_bridge_uptime_ms() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.bridge_uptime_ms_;
+}
+inline void JonGuiDataCV::_internal_set_bridge_uptime_ms(::int64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.bridge_uptime_ms_ = value;
+}
+
+// int32 restart_count = 33 [(.buf.validate.field) = {
+inline void JonGuiDataCV::clear_restart_count() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.restart_count_ = 0;
+}
+inline ::int32_t JonGuiDataCV::restart_count() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.restart_count)
+  return _internal_restart_count();
+}
+inline void JonGuiDataCV::set_restart_count(::int32_t value) {
+  _internal_set_restart_count(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCV.restart_count)
+}
+inline ::int32_t JonGuiDataCV::_internal_restart_count() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.restart_count_;
+}
+inline void JonGuiDataCV::_internal_set_restart_count(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.restart_count_ = value;
+}
+
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -816,6 +1080,18 @@ struct is_proto_enum<::ser::JonGuiDataCV_AutofocusState> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataCV_AutofocusState>() {
   return ::ser::JonGuiDataCV_AutofocusState_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataCV_CvBridgeStatus> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataCV_CvBridgeStatus>() {
+  return ::ser::JonGuiDataCV_CvBridgeStatus_descriptor();
+}
+template <>
+struct is_proto_enum<::ser::JonGuiDataCV_CvBridgeExitReason> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataCV_CvBridgeExitReason>() {
+  return ::ser::JonGuiDataCV_CvBridgeExitReason_descriptor();
 }
 
 }  // namespace protobuf

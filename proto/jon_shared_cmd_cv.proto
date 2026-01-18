@@ -20,6 +20,11 @@ message Root {
     DumpStop dump_stop = 9;
     RecognitionModeEnable recognition_mode_enable = 10;
     RecognitionModeDisable recognition_mode_disable = 11;
+
+    // CV Bridge container control
+    BridgeStart bridge_start = 20;
+    BridgeStop bridge_stop = 21;
+    BridgeRestart bridge_restart = 22;
   }
 }
 
@@ -74,3 +79,16 @@ message StartTrackNDC {
 }
 
 message StopTrack {}
+
+// CV Bridge container control commands
+message BridgeStart {
+  // Starts the CV bridge container
+}
+
+message BridgeStop {
+  bool force = 1;  // If true, SIGKILL instead of SIGTERM
+}
+
+message BridgeRestart {
+  bool force = 1;  // If true, force stop before restart
+}

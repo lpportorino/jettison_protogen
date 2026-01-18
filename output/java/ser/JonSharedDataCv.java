@@ -142,6 +142,48 @@ public final class JonSharedDataCv {
      * @return The roiY2.
      */
     double getRoiY2();
+
+    /**
+     * <pre>
+     * CV Bridge status
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for bridgeStatus.
+     */
+    int getBridgeStatusValue();
+    /**
+     * <pre>
+     * CV Bridge status
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+     * @return The bridgeStatus.
+     */
+    ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus getBridgeStatus();
+
+    /**
+     * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for lastExitReason.
+     */
+    int getLastExitReasonValue();
+    /**
+     * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+     * @return The lastExitReason.
+     */
+    ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason getLastExitReason();
+
+    /**
+     * <code>int64 bridge_uptime_ms = 32 [(.buf.validate.field) = { ... }</code>
+     * @return The bridgeUptimeMs.
+     */
+    long getBridgeUptimeMs();
+
+    /**
+     * <code>int32 restart_count = 33 [(.buf.validate.field) = { ... }</code>
+     * @return The restartCount.
+     */
+    int getRestartCount();
   }
   /**
    * <pre>
@@ -171,6 +213,8 @@ public final class JonSharedDataCv {
     private JonGuiDataCV() {
       autofocusStateDay_ = 0;
       autofocusStateHeat_ = 0;
+      bridgeStatus_ = 0;
+      lastExitReason_ = 0;
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -341,6 +385,468 @@ public final class JonSharedDataCv {
       }
 
       // @@protoc_insertion_point(enum_scope:ser.JonGuiDataCV.AutofocusState)
+    }
+
+    /**
+     * <pre>
+     * CV Bridge container status
+     * </pre>
+     *
+     * Protobuf enum {@code ser.JonGuiDataCV.CvBridgeStatus}
+     */
+    public enum CvBridgeStatus
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>CV_BRIDGE_STATUS_UNSPECIFIED = 0;</code>
+       */
+      CV_BRIDGE_STATUS_UNSPECIFIED(0),
+      /**
+       * <pre>
+       * Not running
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_STOPPED = 1;</code>
+       */
+      CV_BRIDGE_STATUS_STOPPED(1),
+      /**
+       * <pre>
+       * Container starting up
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_STARTING = 2;</code>
+       */
+      CV_BRIDGE_STATUS_STARTING(2),
+      /**
+       * <pre>
+       * Healthy and processing
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_RUNNING = 3;</code>
+       */
+      CV_BRIDGE_STATUS_RUNNING(3),
+      /**
+       * <pre>
+       * Graceful shutdown in progress
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_STOPPING = 4;</code>
+       */
+      CV_BRIDGE_STATUS_STOPPING(4),
+      /**
+       * <pre>
+       * Exited unexpectedly
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_CRASHED = 5;</code>
+       */
+      CV_BRIDGE_STATUS_CRASHED(5),
+      /**
+       * <pre>
+       * Auto-restart in progress
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_RESTARTING = 6;</code>
+       */
+      CV_BRIDGE_STATUS_RESTARTING(6),
+      UNRECOGNIZED(-1),
+      ;
+
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 29,
+          /* patch= */ 2,
+          /* suffix= */ "",
+          CvBridgeStatus.class.getName());
+      }
+      /**
+       * <code>CV_BRIDGE_STATUS_UNSPECIFIED = 0;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_UNSPECIFIED_VALUE = 0;
+      /**
+       * <pre>
+       * Not running
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_STOPPED = 1;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_STOPPED_VALUE = 1;
+      /**
+       * <pre>
+       * Container starting up
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_STARTING = 2;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_STARTING_VALUE = 2;
+      /**
+       * <pre>
+       * Healthy and processing
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_RUNNING = 3;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_RUNNING_VALUE = 3;
+      /**
+       * <pre>
+       * Graceful shutdown in progress
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_STOPPING = 4;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_STOPPING_VALUE = 4;
+      /**
+       * <pre>
+       * Exited unexpectedly
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_CRASHED = 5;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_CRASHED_VALUE = 5;
+      /**
+       * <pre>
+       * Auto-restart in progress
+       * </pre>
+       *
+       * <code>CV_BRIDGE_STATUS_RESTARTING = 6;</code>
+       */
+      public static final int CV_BRIDGE_STATUS_RESTARTING_VALUE = 6;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static CvBridgeStatus valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static CvBridgeStatus forNumber(int value) {
+        switch (value) {
+          case 0: return CV_BRIDGE_STATUS_UNSPECIFIED;
+          case 1: return CV_BRIDGE_STATUS_STOPPED;
+          case 2: return CV_BRIDGE_STATUS_STARTING;
+          case 3: return CV_BRIDGE_STATUS_RUNNING;
+          case 4: return CV_BRIDGE_STATUS_STOPPING;
+          case 5: return CV_BRIDGE_STATUS_CRASHED;
+          case 6: return CV_BRIDGE_STATUS_RESTARTING;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<CvBridgeStatus>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          CvBridgeStatus> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<CvBridgeStatus>() {
+              public CvBridgeStatus findValueByNumber(int number) {
+                return CvBridgeStatus.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final CvBridgeStatus[] VALUES = values();
+
+      public static CvBridgeStatus valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private CvBridgeStatus(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:ser.JonGuiDataCV.CvBridgeStatus)
+    }
+
+    /**
+     * <pre>
+     * CV Bridge exit/termination reason
+     * </pre>
+     *
+     * Protobuf enum {@code ser.JonGuiDataCV.CvBridgeExitReason}
+     */
+    public enum CvBridgeExitReason
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_UNSPECIFIED(0),
+      /**
+       * <pre>
+       * Never started since boot
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_NOT_STARTED(1),
+      /**
+       * <pre>
+       * Clean shutdown
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_NORMAL = 2;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_NORMAL(2),
+      /**
+       * <pre>
+       * Internal error
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_ERROR = 3;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_ERROR(3),
+      /**
+       * <pre>
+       * CUDA/GPU failure
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_CUDA_ERROR(4),
+      /**
+       * <pre>
+       * IPC connection lost
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_IPC_ERROR(5),
+      /**
+       * <pre>
+       * Out of memory
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_OOM = 6;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_OOM(6),
+      /**
+       * <pre>
+       * Watchdog timeout
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_TIMEOUT = 7;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_TIMEOUT(7),
+      /**
+       * <pre>
+       * Killed by signal
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_SIGNAL = 8;</code>
+       */
+      CV_BRIDGE_EXIT_REASON_SIGNAL(8),
+      UNRECOGNIZED(-1),
+      ;
+
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 29,
+          /* patch= */ 2,
+          /* suffix= */ "",
+          CvBridgeExitReason.class.getName());
+      }
+      /**
+       * <code>CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_UNSPECIFIED_VALUE = 0;
+      /**
+       * <pre>
+       * Never started since boot
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_NOT_STARTED_VALUE = 1;
+      /**
+       * <pre>
+       * Clean shutdown
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_NORMAL = 2;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_NORMAL_VALUE = 2;
+      /**
+       * <pre>
+       * Internal error
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_ERROR = 3;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_ERROR_VALUE = 3;
+      /**
+       * <pre>
+       * CUDA/GPU failure
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_CUDA_ERROR_VALUE = 4;
+      /**
+       * <pre>
+       * IPC connection lost
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_IPC_ERROR_VALUE = 5;
+      /**
+       * <pre>
+       * Out of memory
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_OOM = 6;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_OOM_VALUE = 6;
+      /**
+       * <pre>
+       * Watchdog timeout
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_TIMEOUT = 7;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_TIMEOUT_VALUE = 7;
+      /**
+       * <pre>
+       * Killed by signal
+       * </pre>
+       *
+       * <code>CV_BRIDGE_EXIT_REASON_SIGNAL = 8;</code>
+       */
+      public static final int CV_BRIDGE_EXIT_REASON_SIGNAL_VALUE = 8;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static CvBridgeExitReason valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static CvBridgeExitReason forNumber(int value) {
+        switch (value) {
+          case 0: return CV_BRIDGE_EXIT_REASON_UNSPECIFIED;
+          case 1: return CV_BRIDGE_EXIT_REASON_NOT_STARTED;
+          case 2: return CV_BRIDGE_EXIT_REASON_NORMAL;
+          case 3: return CV_BRIDGE_EXIT_REASON_ERROR;
+          case 4: return CV_BRIDGE_EXIT_REASON_CUDA_ERROR;
+          case 5: return CV_BRIDGE_EXIT_REASON_IPC_ERROR;
+          case 6: return CV_BRIDGE_EXIT_REASON_OOM;
+          case 7: return CV_BRIDGE_EXIT_REASON_TIMEOUT;
+          case 8: return CV_BRIDGE_EXIT_REASON_SIGNAL;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<CvBridgeExitReason>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          CvBridgeExitReason> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<CvBridgeExitReason>() {
+              public CvBridgeExitReason findValueByNumber(int number) {
+                return CvBridgeExitReason.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ser.JonSharedDataCv.JonGuiDataCV.getDescriptor().getEnumTypes().get(2);
+      }
+
+      private static final CvBridgeExitReason[] VALUES = values();
+
+      public static CvBridgeExitReason valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private CvBridgeExitReason(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:ser.JonGuiDataCV.CvBridgeExitReason)
     }
 
     public static final int AUTOFOCUS_STATE_DAY_FIELD_NUMBER = 1;
@@ -531,6 +1037,72 @@ public final class JonSharedDataCv {
       return roiY2_;
     }
 
+    public static final int BRIDGE_STATUS_FIELD_NUMBER = 30;
+    private int bridgeStatus_ = 0;
+    /**
+     * <pre>
+     * CV Bridge status
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for bridgeStatus.
+     */
+    @java.lang.Override public int getBridgeStatusValue() {
+      return bridgeStatus_;
+    }
+    /**
+     * <pre>
+     * CV Bridge status
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+     * @return The bridgeStatus.
+     */
+    @java.lang.Override public ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus getBridgeStatus() {
+      ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus result = ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus.forNumber(bridgeStatus_);
+      return result == null ? ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus.UNRECOGNIZED : result;
+    }
+
+    public static final int LAST_EXIT_REASON_FIELD_NUMBER = 31;
+    private int lastExitReason_ = 0;
+    /**
+     * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for lastExitReason.
+     */
+    @java.lang.Override public int getLastExitReasonValue() {
+      return lastExitReason_;
+    }
+    /**
+     * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+     * @return The lastExitReason.
+     */
+    @java.lang.Override public ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason getLastExitReason() {
+      ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason result = ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason.forNumber(lastExitReason_);
+      return result == null ? ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason.UNRECOGNIZED : result;
+    }
+
+    public static final int BRIDGE_UPTIME_MS_FIELD_NUMBER = 32;
+    private long bridgeUptimeMs_ = 0L;
+    /**
+     * <code>int64 bridge_uptime_ms = 32 [(.buf.validate.field) = { ... }</code>
+     * @return The bridgeUptimeMs.
+     */
+    @java.lang.Override
+    public long getBridgeUptimeMs() {
+      return bridgeUptimeMs_;
+    }
+
+    public static final int RESTART_COUNT_FIELD_NUMBER = 33;
+    private int restartCount_ = 0;
+    /**
+     * <code>int32 restart_count = 33 [(.buf.validate.field) = { ... }</code>
+     * @return The restartCount.
+     */
+    @java.lang.Override
+    public int getRestartCount() {
+      return restartCount_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -586,6 +1158,18 @@ public final class JonSharedDataCv {
       }
       if (java.lang.Double.doubleToRawLongBits(roiY2_) != 0) {
         output.writeDouble(23, roiY2_);
+      }
+      if (bridgeStatus_ != ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus.CV_BRIDGE_STATUS_UNSPECIFIED.getNumber()) {
+        output.writeEnum(30, bridgeStatus_);
+      }
+      if (lastExitReason_ != ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_UNSPECIFIED.getNumber()) {
+        output.writeEnum(31, lastExitReason_);
+      }
+      if (bridgeUptimeMs_ != 0L) {
+        output.writeInt64(32, bridgeUptimeMs_);
+      }
+      if (restartCount_ != 0) {
+        output.writeInt32(33, restartCount_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -652,6 +1236,22 @@ public final class JonSharedDataCv {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(23, roiY2_);
       }
+      if (bridgeStatus_ != ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus.CV_BRIDGE_STATUS_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(30, bridgeStatus_);
+      }
+      if (lastExitReason_ != ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(31, lastExitReason_);
+      }
+      if (bridgeUptimeMs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(32, bridgeUptimeMs_);
+      }
+      if (restartCount_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(33, restartCount_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -703,6 +1303,12 @@ public final class JonSharedDataCv {
       if (java.lang.Double.doubleToLongBits(getRoiY2())
           != java.lang.Double.doubleToLongBits(
               other.getRoiY2())) return false;
+      if (bridgeStatus_ != other.bridgeStatus_) return false;
+      if (lastExitReason_ != other.lastExitReason_) return false;
+      if (getBridgeUptimeMs()
+          != other.getBridgeUptimeMs()) return false;
+      if (getRestartCount()
+          != other.getRestartCount()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -752,6 +1358,15 @@ public final class JonSharedDataCv {
       hash = (37 * hash) + ROI_Y2_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getRoiY2()));
+      hash = (37 * hash) + BRIDGE_STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + bridgeStatus_;
+      hash = (37 * hash) + LAST_EXIT_REASON_FIELD_NUMBER;
+      hash = (53 * hash) + lastExitReason_;
+      hash = (37 * hash) + BRIDGE_UPTIME_MS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getBridgeUptimeMs());
+      hash = (37 * hash) + RESTART_COUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getRestartCount();
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -901,6 +1516,10 @@ public final class JonSharedDataCv {
         roiY1_ = 0D;
         roiX2_ = 0D;
         roiY2_ = 0D;
+        bridgeStatus_ = 0;
+        lastExitReason_ = 0;
+        bridgeUptimeMs_ = 0L;
+        restartCount_ = 0;
         return this;
       }
 
@@ -976,6 +1595,18 @@ public final class JonSharedDataCv {
         if (((from_bitField0_ & 0x00002000) != 0)) {
           result.roiY2_ = roiY2_;
         }
+        if (((from_bitField0_ & 0x00004000) != 0)) {
+          result.bridgeStatus_ = bridgeStatus_;
+        }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.lastExitReason_ = lastExitReason_;
+        }
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.bridgeUptimeMs_ = bridgeUptimeMs_;
+        }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.restartCount_ = restartCount_;
+        }
       }
 
       @java.lang.Override
@@ -1031,6 +1662,18 @@ public final class JonSharedDataCv {
         }
         if (other.getRoiY2() != 0D) {
           setRoiY2(other.getRoiY2());
+        }
+        if (other.bridgeStatus_ != 0) {
+          setBridgeStatusValue(other.getBridgeStatusValue());
+        }
+        if (other.lastExitReason_ != 0) {
+          setLastExitReasonValue(other.getLastExitReasonValue());
+        }
+        if (other.getBridgeUptimeMs() != 0L) {
+          setBridgeUptimeMs(other.getBridgeUptimeMs());
+        }
+        if (other.getRestartCount() != 0) {
+          setRestartCount(other.getRestartCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1128,6 +1771,26 @@ public final class JonSharedDataCv {
                 bitField0_ |= 0x00002000;
                 break;
               } // case 185
+              case 240: {
+                bridgeStatus_ = input.readEnum();
+                bitField0_ |= 0x00004000;
+                break;
+              } // case 240
+              case 248: {
+                lastExitReason_ = input.readEnum();
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 248
+              case 256: {
+                bridgeUptimeMs_ = input.readInt64();
+                bitField0_ |= 0x00010000;
+                break;
+              } // case 256
+              case 264: {
+                restartCount_ = input.readInt32();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 264
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1687,6 +2350,196 @@ public final class JonSharedDataCv {
         return this;
       }
 
+      private int bridgeStatus_ = 0;
+      /**
+       * <pre>
+       * CV Bridge status
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for bridgeStatus.
+       */
+      @java.lang.Override public int getBridgeStatusValue() {
+        return bridgeStatus_;
+      }
+      /**
+       * <pre>
+       * CV Bridge status
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for bridgeStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBridgeStatusValue(int value) {
+        bridgeStatus_ = value;
+        bitField0_ |= 0x00004000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * CV Bridge status
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+       * @return The bridgeStatus.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus getBridgeStatus() {
+        ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus result = ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus.forNumber(bridgeStatus_);
+        return result == null ? ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * CV Bridge status
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+       * @param value The bridgeStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBridgeStatus(ser.JonSharedDataCv.JonGuiDataCV.CvBridgeStatus value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00004000;
+        bridgeStatus_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * CV Bridge status
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBridgeStatus() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        bridgeStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int lastExitReason_ = 0;
+      /**
+       * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for lastExitReason.
+       */
+      @java.lang.Override public int getLastExitReasonValue() {
+        return lastExitReason_;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for lastExitReason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastExitReasonValue(int value) {
+        lastExitReason_ = value;
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+       * @return The lastExitReason.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason getLastExitReason() {
+        ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason result = ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason.forNumber(lastExitReason_);
+        return result == null ? ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+       * @param value The lastExitReason to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastExitReason(ser.JonSharedDataCv.JonGuiDataCV.CvBridgeExitReason value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00008000;
+        lastExitReason_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLastExitReason() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        lastExitReason_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long bridgeUptimeMs_ ;
+      /**
+       * <code>int64 bridge_uptime_ms = 32 [(.buf.validate.field) = { ... }</code>
+       * @return The bridgeUptimeMs.
+       */
+      @java.lang.Override
+      public long getBridgeUptimeMs() {
+        return bridgeUptimeMs_;
+      }
+      /**
+       * <code>int64 bridge_uptime_ms = 32 [(.buf.validate.field) = { ... }</code>
+       * @param value The bridgeUptimeMs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBridgeUptimeMs(long value) {
+
+        bridgeUptimeMs_ = value;
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 bridge_uptime_ms = 32 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBridgeUptimeMs() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        bridgeUptimeMs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int restartCount_ ;
+      /**
+       * <code>int32 restart_count = 33 [(.buf.validate.field) = { ... }</code>
+       * @return The restartCount.
+       */
+      @java.lang.Override
+      public int getRestartCount() {
+        return restartCount_;
+      }
+      /**
+       * <code>int32 restart_count = 33 [(.buf.validate.field) = { ... }</code>
+       * @param value The restartCount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRestartCount(int value) {
+
+        restartCount_ = value;
+        bitField0_ |= 0x00020000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 restart_count = 33 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRestartCount() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        restartCount_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCV)
     }
 
@@ -1754,7 +2607,7 @@ public final class JonSharedDataCv {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val" +
       "idate/validate.proto\032\033jon_shared_data_ty" +
-      "pes.proto\"\362\006\n\014JonGuiDataCV\022G\n\023autofocus_" +
+      "pes.proto\"\207\r\n\014JonGuiDataCV\022G\n\023autofocus_" +
       "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof" +
       "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001" +
       "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day" +
@@ -1771,14 +2624,34 @@ public final class JonSharedDataCv {
       "\000\000\000\000\000\000\360\277\022\'\n\006roi_y1\030\025 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?" +
       ")\000\000\000\000\000\000\360\277\022\'\n\006roi_x2\030\026 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360" +
       "?)\000\000\000\000\000\000\360\277\022\'\n\006roi_y2\030\027 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
-      "\360?)\000\000\000\000\000\000\360\277\"\310\001\n\016AutofocusState\022\037\n\033AUTOFO" +
-      "CUS_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOFOCUS_STA" +
-      "TE_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COARSE_SWEE" +
-      "P\020\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEEP\020\003\022\035\n\031A" +
-      "UTOFOCUS_STATE_CONVERGED\020\004\022\032\n\026AUTOFOCUS_" +
-      "STATE_FAILED\020\005BJZHgit-codecommit.eu-cent" +
-      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
-      "np/data/cvb\006proto3"
+      "\360?)\000\000\000\000\000\000\360\277\022A\n\rbridge_status\030\036 \001(\0162 .ser" +
+      ".JonGuiDataCV.CvBridgeStatusB\010\272H\005\202\001\002\020\001\022H" +
+      "\n\020last_exit_reason\030\037 \001(\0162$.ser.JonGuiDat" +
+      "aCV.CvBridgeExitReasonB\010\272H\005\202\001\002\020\001\022!\n\020brid" +
+      "ge_uptime_ms\030  \001(\003B\007\272H\004\"\002(\000\022\036\n\rrestart_c" +
+      "ount\030! \001(\005B\007\272H\004\032\002(\000\"\310\001\n\016AutofocusState\022\037" +
+      "\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOF" +
+      "OCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COA" +
+      "RSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEE" +
+      "P\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020\004\022\032\n\026AU" +
+      "TOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBridgeStatu" +
+      "s\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030C" +
+      "V_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_S" +
+      "TATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUN" +
+      "NING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n" +
+      "\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE" +
+      "_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridgeExitRea" +
+      "son\022%\n!CV_BRIDGE_EXIT_REASON_UNSPECIFIED" +
+      "\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_STARTED\020" +
+      "\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033C" +
+      "V_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n CV_BRIDG" +
+      "E_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_" +
+      "EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXI" +
+      "T_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_" +
+      "TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASON_SIGNA" +
+      "L\020\010BJZHgit-codecommit.eu-central-1.amazo" +
+      "naws.com/v1/repos/jettison/jonp/data/cvb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1791,7 +2664,7 @@ public final class JonSharedDataCv {
     internal_static_ser_JonGuiDataCV_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCV_descriptor,
-        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", });
+        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

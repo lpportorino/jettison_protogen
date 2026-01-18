@@ -38,6 +38,9 @@ type Root struct {
 	//	*Root_DumpStop
 	//	*Root_RecognitionModeEnable
 	//	*Root_RecognitionModeDisable
+	//	*Root_BridgeStart
+	//	*Root_BridgeStop
+	//	*Root_BridgeRestart
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -179,6 +182,33 @@ func (x *Root) GetRecognitionModeDisable() *RecognitionModeDisable {
 	return nil
 }
 
+func (x *Root) GetBridgeStart() *BridgeStart {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_BridgeStart); ok {
+			return x.BridgeStart
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetBridgeStop() *BridgeStop {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_BridgeStop); ok {
+			return x.BridgeStop
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetBridgeRestart() *BridgeRestart {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_BridgeRestart); ok {
+			return x.BridgeRestart
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -227,6 +257,19 @@ type Root_RecognitionModeDisable struct {
 	RecognitionModeDisable *RecognitionModeDisable `protobuf:"bytes,11,opt,name=recognition_mode_disable,json=recognitionModeDisable,proto3,oneof"`
 }
 
+type Root_BridgeStart struct {
+	// CV Bridge container control
+	BridgeStart *BridgeStart `protobuf:"bytes,20,opt,name=bridge_start,json=bridgeStart,proto3,oneof"`
+}
+
+type Root_BridgeStop struct {
+	BridgeStop *BridgeStop `protobuf:"bytes,21,opt,name=bridge_stop,json=bridgeStop,proto3,oneof"`
+}
+
+type Root_BridgeRestart struct {
+	BridgeRestart *BridgeRestart `protobuf:"bytes,22,opt,name=bridge_restart,json=bridgeRestart,proto3,oneof"`
+}
+
 func (*Root_SetAutoFocus) isRoot_Cmd() {}
 
 func (*Root_StartTrackNdc) isRoot_Cmd() {}
@@ -248,6 +291,12 @@ func (*Root_DumpStop) isRoot_Cmd() {}
 func (*Root_RecognitionModeEnable) isRoot_Cmd() {}
 
 func (*Root_RecognitionModeDisable) isRoot_Cmd() {}
+
+func (*Root_BridgeStart) isRoot_Cmd() {}
+
+func (*Root_BridgeStop) isRoot_Cmd() {}
+
+func (*Root_BridgeRestart) isRoot_Cmd() {}
 
 type VampireModeEnable struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -702,11 +751,136 @@ func (*StopTrack) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{11}
 }
 
+// CV Bridge container control commands
+type BridgeStart struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BridgeStart) Reset() {
+	*x = BridgeStart{}
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BridgeStart) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BridgeStart) ProtoMessage() {}
+
+func (x *BridgeStart) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BridgeStart.ProtoReflect.Descriptor instead.
+func (*BridgeStart) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{12}
+}
+
+type BridgeStop struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Force         bool                   `protobuf:"varint,1,opt,name=force,proto3" json:"force,omitempty"` // If true, SIGKILL instead of SIGTERM
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BridgeStop) Reset() {
+	*x = BridgeStop{}
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BridgeStop) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BridgeStop) ProtoMessage() {}
+
+func (x *BridgeStop) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BridgeStop.ProtoReflect.Descriptor instead.
+func (*BridgeStop) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *BridgeStop) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
+}
+
+type BridgeRestart struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Force         bool                   `protobuf:"varint,1,opt,name=force,proto3" json:"force,omitempty"` // If true, force stop before restart
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BridgeRestart) Reset() {
+	*x = BridgeRestart{}
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BridgeRestart) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BridgeRestart) ProtoMessage() {}
+
+func (x *BridgeRestart) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_cv_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BridgeRestart.ProtoReflect.Descriptor instead.
+func (*BridgeRestart) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_cv_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *BridgeRestart) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
+}
+
 var File_jon_shared_cmd_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x17jon_shared_cmd_cv.proto\x12\x06cmd.CV\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xbf\x06\n" +
+	"\x17jon_shared_cmd_cv.proto\x12\x06cmd.CV\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf0\a\n" +
 	"\x04Root\x12<\n" +
 	"\x0eset_auto_focus\x18\x01 \x01(\v2\x14.cmd.CV.SetAutoFocusH\x00R\fsetAutoFocus\x12?\n" +
 	"\x0fstart_track_ndc\x18\x02 \x01(\v2\x15.cmd.CV.StartTrackNDCH\x00R\rstartTrackNdc\x122\n" +
@@ -721,7 +895,11 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"\tdump_stop\x18\t \x01(\v2\x10.cmd.CV.DumpStopH\x00R\bdumpStop\x12W\n" +
 	"\x17recognition_mode_enable\x18\n" +
 	" \x01(\v2\x1d.cmd.CV.RecognitionModeEnableH\x00R\x15recognitionModeEnable\x12Z\n" +
-	"\x18recognition_mode_disable\x18\v \x01(\v2\x1e.cmd.CV.RecognitionModeDisableH\x00R\x16recognitionModeDisableB\f\n" +
+	"\x18recognition_mode_disable\x18\v \x01(\v2\x1e.cmd.CV.RecognitionModeDisableH\x00R\x16recognitionModeDisable\x128\n" +
+	"\fbridge_start\x18\x14 \x01(\v2\x13.cmd.CV.BridgeStartH\x00R\vbridgeStart\x125\n" +
+	"\vbridge_stop\x18\x15 \x01(\v2\x12.cmd.CV.BridgeStopH\x00R\n" +
+	"bridgeStop\x12>\n" +
+	"\x0ebridge_restart\x18\x16 \x01(\v2\x15.cmd.CV.BridgeRestartH\x00R\rbridgeRestartB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\x13\n" +
 	"\x11VampireModeEnable\"\v\n" +
 	"\tDumpStart\"\n" +
@@ -745,7 +923,13 @@ const file_jon_shared_cmd_cv_proto_rawDesc = "" +
 	"frame_time\x18\x04 \x01(\x04R\tframeTime\x12\x1d\n" +
 	"\n" +
 	"state_time\x18\x05 \x01(\x04R\tstateTime\"\v\n" +
-	"\tStopTrackB\xa3\x01\n" +
+	"\tStopTrack\"\r\n" +
+	"\vBridgeStart\"\"\n" +
+	"\n" +
+	"BridgeStop\x12\x14\n" +
+	"\x05force\x18\x01 \x01(\bR\x05force\"%\n" +
+	"\rBridgeRestart\x12\x14\n" +
+	"\x05force\x18\x01 \x01(\bR\x05forceB\xa3\x01\n" +
 	"\n" +
 	"com.cmd.CVB\x13JonSharedCmdCvProtoP\x01ZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/cv\xa2\x02\x03CCX\xaa\x02\x06Cmd.CV\xca\x02\x06Cmd\\CV\xe2\x02\x12Cmd\\CV\\GPBMetadata\xea\x02\aCmd::CVb\x06proto3"
 
@@ -761,7 +945,7 @@ func file_jon_shared_cmd_cv_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_cv_proto_rawDescData
 }
 
-var file_jon_shared_cmd_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_jon_shared_cmd_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_jon_shared_cmd_cv_proto_goTypes = []any{
 	(*Root)(nil),                      // 0: cmd.CV.Root
 	(*VampireModeEnable)(nil),         // 1: cmd.CV.VampireModeEnable
@@ -775,7 +959,10 @@ var file_jon_shared_cmd_cv_proto_goTypes = []any{
 	(*SetAutoFocus)(nil),              // 9: cmd.CV.SetAutoFocus
 	(*StartTrackNDC)(nil),             // 10: cmd.CV.StartTrackNDC
 	(*StopTrack)(nil),                 // 11: cmd.CV.StopTrack
-	(types.JonGuiDataVideoChannel)(0), // 12: ser.JonGuiDataVideoChannel
+	(*BridgeStart)(nil),               // 12: cmd.CV.BridgeStart
+	(*BridgeStop)(nil),                // 13: cmd.CV.BridgeStop
+	(*BridgeRestart)(nil),             // 14: cmd.CV.BridgeRestart
+	(types.JonGuiDataVideoChannel)(0), // 15: ser.JonGuiDataVideoChannel
 }
 var file_jon_shared_cmd_cv_proto_depIdxs = []int32{
 	9,  // 0: cmd.CV.Root.set_auto_focus:type_name -> cmd.CV.SetAutoFocus
@@ -789,13 +976,16 @@ var file_jon_shared_cmd_cv_proto_depIdxs = []int32{
 	3,  // 8: cmd.CV.Root.dump_stop:type_name -> cmd.CV.DumpStop
 	7,  // 9: cmd.CV.Root.recognition_mode_enable:type_name -> cmd.CV.RecognitionModeEnable
 	8,  // 10: cmd.CV.Root.recognition_mode_disable:type_name -> cmd.CV.RecognitionModeDisable
-	12, // 11: cmd.CV.SetAutoFocus.channel:type_name -> ser.JonGuiDataVideoChannel
-	12, // 12: cmd.CV.StartTrackNDC.channel:type_name -> ser.JonGuiDataVideoChannel
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	12, // 11: cmd.CV.Root.bridge_start:type_name -> cmd.CV.BridgeStart
+	13, // 12: cmd.CV.Root.bridge_stop:type_name -> cmd.CV.BridgeStop
+	14, // 13: cmd.CV.Root.bridge_restart:type_name -> cmd.CV.BridgeRestart
+	15, // 14: cmd.CV.SetAutoFocus.channel:type_name -> ser.JonGuiDataVideoChannel
+	15, // 15: cmd.CV.StartTrackNDC.channel:type_name -> ser.JonGuiDataVideoChannel
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_cv_proto_init() }
@@ -815,6 +1005,9 @@ func file_jon_shared_cmd_cv_proto_init() {
 		(*Root_DumpStop)(nil),
 		(*Root_RecognitionModeEnable)(nil),
 		(*Root_RecognitionModeDisable)(nil),
+		(*Root_BridgeStart)(nil),
+		(*Root_BridgeStop)(nil),
+		(*Root_BridgeRestart)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -822,7 +1015,7 @@ func file_jon_shared_cmd_cv_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_cv_proto_rawDesc), len(file_jon_shared_cmd_cv_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

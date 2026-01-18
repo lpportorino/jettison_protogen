@@ -27,6 +27,11 @@ export interface JonGuiDataCV {
   roiY1: number;
   roiX2: number;
   roiY2: number;
+  /** CV Bridge status */
+  bridgeStatus: JonGuiDataCV_CvBridgeStatus;
+  lastExitReason: JonGuiDataCV_CvBridgeExitReason;
+  bridgeUptimeMs: Long;
+  restartCount: number;
 }
 
 /** Autofocus sweep state */
@@ -87,6 +92,160 @@ export function jonGuiDataCV_AutofocusStateToJSON(object: JonGuiDataCV_Autofocus
   }
 }
 
+/** CV Bridge container status */
+export enum JonGuiDataCV_CvBridgeStatus {
+  CV_BRIDGE_STATUS_UNSPECIFIED = 0,
+  /** CV_BRIDGE_STATUS_STOPPED - Not running */
+  CV_BRIDGE_STATUS_STOPPED = 1,
+  /** CV_BRIDGE_STATUS_STARTING - Container starting up */
+  CV_BRIDGE_STATUS_STARTING = 2,
+  /** CV_BRIDGE_STATUS_RUNNING - Healthy and processing */
+  CV_BRIDGE_STATUS_RUNNING = 3,
+  /** CV_BRIDGE_STATUS_STOPPING - Graceful shutdown in progress */
+  CV_BRIDGE_STATUS_STOPPING = 4,
+  /** CV_BRIDGE_STATUS_CRASHED - Exited unexpectedly */
+  CV_BRIDGE_STATUS_CRASHED = 5,
+  /** CV_BRIDGE_STATUS_RESTARTING - Auto-restart in progress */
+  CV_BRIDGE_STATUS_RESTARTING = 6,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataCV_CvBridgeStatusFromJSON(object: any): JonGuiDataCV_CvBridgeStatus {
+  switch (object) {
+    case 0:
+    case "CV_BRIDGE_STATUS_UNSPECIFIED":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_UNSPECIFIED;
+    case 1:
+    case "CV_BRIDGE_STATUS_STOPPED":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_STOPPED;
+    case 2:
+    case "CV_BRIDGE_STATUS_STARTING":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_STARTING;
+    case 3:
+    case "CV_BRIDGE_STATUS_RUNNING":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_RUNNING;
+    case 4:
+    case "CV_BRIDGE_STATUS_STOPPING":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_STOPPING;
+    case 5:
+    case "CV_BRIDGE_STATUS_CRASHED":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_CRASHED;
+    case 6:
+    case "CV_BRIDGE_STATUS_RESTARTING":
+      return JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_RESTARTING;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataCV_CvBridgeStatus.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataCV_CvBridgeStatusToJSON(object: JonGuiDataCV_CvBridgeStatus): string {
+  switch (object) {
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_UNSPECIFIED:
+      return "CV_BRIDGE_STATUS_UNSPECIFIED";
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_STOPPED:
+      return "CV_BRIDGE_STATUS_STOPPED";
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_STARTING:
+      return "CV_BRIDGE_STATUS_STARTING";
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_RUNNING:
+      return "CV_BRIDGE_STATUS_RUNNING";
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_STOPPING:
+      return "CV_BRIDGE_STATUS_STOPPING";
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_CRASHED:
+      return "CV_BRIDGE_STATUS_CRASHED";
+    case JonGuiDataCV_CvBridgeStatus.CV_BRIDGE_STATUS_RESTARTING:
+      return "CV_BRIDGE_STATUS_RESTARTING";
+    case JonGuiDataCV_CvBridgeStatus.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/** CV Bridge exit/termination reason */
+export enum JonGuiDataCV_CvBridgeExitReason {
+  CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0,
+  /** CV_BRIDGE_EXIT_REASON_NOT_STARTED - Never started since boot */
+  CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1,
+  /** CV_BRIDGE_EXIT_REASON_NORMAL - Clean shutdown */
+  CV_BRIDGE_EXIT_REASON_NORMAL = 2,
+  /** CV_BRIDGE_EXIT_REASON_ERROR - Internal error */
+  CV_BRIDGE_EXIT_REASON_ERROR = 3,
+  /** CV_BRIDGE_EXIT_REASON_CUDA_ERROR - CUDA/GPU failure */
+  CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4,
+  /** CV_BRIDGE_EXIT_REASON_IPC_ERROR - IPC connection lost */
+  CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5,
+  /** CV_BRIDGE_EXIT_REASON_OOM - Out of memory */
+  CV_BRIDGE_EXIT_REASON_OOM = 6,
+  /** CV_BRIDGE_EXIT_REASON_TIMEOUT - Watchdog timeout */
+  CV_BRIDGE_EXIT_REASON_TIMEOUT = 7,
+  /** CV_BRIDGE_EXIT_REASON_SIGNAL - Killed by signal */
+  CV_BRIDGE_EXIT_REASON_SIGNAL = 8,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataCV_CvBridgeExitReasonFromJSON(object: any): JonGuiDataCV_CvBridgeExitReason {
+  switch (object) {
+    case 0:
+    case "CV_BRIDGE_EXIT_REASON_UNSPECIFIED":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_UNSPECIFIED;
+    case 1:
+    case "CV_BRIDGE_EXIT_REASON_NOT_STARTED":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_NOT_STARTED;
+    case 2:
+    case "CV_BRIDGE_EXIT_REASON_NORMAL":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_NORMAL;
+    case 3:
+    case "CV_BRIDGE_EXIT_REASON_ERROR":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_ERROR;
+    case 4:
+    case "CV_BRIDGE_EXIT_REASON_CUDA_ERROR":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_CUDA_ERROR;
+    case 5:
+    case "CV_BRIDGE_EXIT_REASON_IPC_ERROR":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_IPC_ERROR;
+    case 6:
+    case "CV_BRIDGE_EXIT_REASON_OOM":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_OOM;
+    case 7:
+    case "CV_BRIDGE_EXIT_REASON_TIMEOUT":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_TIMEOUT;
+    case 8:
+    case "CV_BRIDGE_EXIT_REASON_SIGNAL":
+      return JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_SIGNAL;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataCV_CvBridgeExitReason.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataCV_CvBridgeExitReasonToJSON(object: JonGuiDataCV_CvBridgeExitReason): string {
+  switch (object) {
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_UNSPECIFIED:
+      return "CV_BRIDGE_EXIT_REASON_UNSPECIFIED";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_NOT_STARTED:
+      return "CV_BRIDGE_EXIT_REASON_NOT_STARTED";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_NORMAL:
+      return "CV_BRIDGE_EXIT_REASON_NORMAL";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_ERROR:
+      return "CV_BRIDGE_EXIT_REASON_ERROR";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_CUDA_ERROR:
+      return "CV_BRIDGE_EXIT_REASON_CUDA_ERROR";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_IPC_ERROR:
+      return "CV_BRIDGE_EXIT_REASON_IPC_ERROR";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_OOM:
+      return "CV_BRIDGE_EXIT_REASON_OOM";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_TIMEOUT:
+      return "CV_BRIDGE_EXIT_REASON_TIMEOUT";
+    case JonGuiDataCV_CvBridgeExitReason.CV_BRIDGE_EXIT_REASON_SIGNAL:
+      return "CV_BRIDGE_EXIT_REASON_SIGNAL";
+    case JonGuiDataCV_CvBridgeExitReason.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 function createBaseJonGuiDataCV(): JonGuiDataCV {
   return {
     autofocusStateDay: 0,
@@ -103,6 +262,10 @@ function createBaseJonGuiDataCV(): JonGuiDataCV {
     roiY1: 0,
     roiX2: 0,
     roiY2: 0,
+    bridgeStatus: 0,
+    lastExitReason: 0,
+    bridgeUptimeMs: Long.ZERO,
+    restartCount: 0,
   };
 }
 
@@ -149,6 +312,18 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     }
     if (message.roiY2 !== 0) {
       writer.uint32(185).double(message.roiY2);
+    }
+    if (message.bridgeStatus !== 0) {
+      writer.uint32(240).int32(message.bridgeStatus);
+    }
+    if (message.lastExitReason !== 0) {
+      writer.uint32(248).int32(message.lastExitReason);
+    }
+    if (!message.bridgeUptimeMs.equals(Long.ZERO)) {
+      writer.uint32(256).int64(message.bridgeUptimeMs.toString());
+    }
+    if (message.restartCount !== 0) {
+      writer.uint32(264).int32(message.restartCount);
     }
     return writer;
   },
@@ -272,6 +447,38 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
           message.roiY2 = reader.double();
           continue;
         }
+        case 30: {
+          if (tag !== 240) {
+            break;
+          }
+
+          message.bridgeStatus = reader.int32() as any;
+          continue;
+        }
+        case 31: {
+          if (tag !== 248) {
+            break;
+          }
+
+          message.lastExitReason = reader.int32() as any;
+          continue;
+        }
+        case 32: {
+          if (tag !== 256) {
+            break;
+          }
+
+          message.bridgeUptimeMs = Long.fromString(reader.int64().toString());
+          continue;
+        }
+        case 33: {
+          if (tag !== 264) {
+            break;
+          }
+
+          message.restartCount = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -353,6 +560,26 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
         : isSet(object.roi_y2)
         ? globalThis.Number(object.roi_y2)
         : 0,
+      bridgeStatus: isSet(object.bridgeStatus)
+        ? jonGuiDataCV_CvBridgeStatusFromJSON(object.bridgeStatus)
+        : isSet(object.bridge_status)
+        ? jonGuiDataCV_CvBridgeStatusFromJSON(object.bridge_status)
+        : 0,
+      lastExitReason: isSet(object.lastExitReason)
+        ? jonGuiDataCV_CvBridgeExitReasonFromJSON(object.lastExitReason)
+        : isSet(object.last_exit_reason)
+        ? jonGuiDataCV_CvBridgeExitReasonFromJSON(object.last_exit_reason)
+        : 0,
+      bridgeUptimeMs: isSet(object.bridgeUptimeMs)
+        ? Long.fromValue(object.bridgeUptimeMs)
+        : isSet(object.bridge_uptime_ms)
+        ? Long.fromValue(object.bridge_uptime_ms)
+        : Long.ZERO,
+      restartCount: isSet(object.restartCount)
+        ? globalThis.Number(object.restartCount)
+        : isSet(object.restart_count)
+        ? globalThis.Number(object.restart_count)
+        : 0,
     };
   },
 
@@ -400,6 +627,18 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     if (message.roiY2 !== 0) {
       obj.roiY2 = message.roiY2;
     }
+    if (message.bridgeStatus !== 0) {
+      obj.bridgeStatus = jonGuiDataCV_CvBridgeStatusToJSON(message.bridgeStatus);
+    }
+    if (message.lastExitReason !== 0) {
+      obj.lastExitReason = jonGuiDataCV_CvBridgeExitReasonToJSON(message.lastExitReason);
+    }
+    if (!message.bridgeUptimeMs.equals(Long.ZERO)) {
+      obj.bridgeUptimeMs = (message.bridgeUptimeMs || Long.ZERO).toString();
+    }
+    if (message.restartCount !== 0) {
+      obj.restartCount = Math.round(message.restartCount);
+    }
     return obj;
   },
 
@@ -422,6 +661,12 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     message.roiY1 = object.roiY1 ?? 0;
     message.roiX2 = object.roiX2 ?? 0;
     message.roiY2 = object.roiY2 ?? 0;
+    message.bridgeStatus = object.bridgeStatus ?? 0;
+    message.lastExitReason = object.lastExitReason ?? 0;
+    message.bridgeUptimeMs = (object.bridgeUptimeMs !== undefined && object.bridgeUptimeMs !== null)
+      ? Long.fromValue(object.bridgeUptimeMs)
+      : Long.ZERO;
+    message.restartCount = object.restartCount ?? 0;
     return message;
   },
 };

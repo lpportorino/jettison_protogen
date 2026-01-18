@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_cv.proto.
  */
 export const file_jon_shared_cmd_cv: GenFile = /*@__PURE__*/
-  fileDesc("Chdqb25fc2hhcmVkX2NtZF9jdi5wcm90bxIGY21kLkNWIvkECgRSb290Ei4KDnNldF9hdXRvX2ZvY3VzGAEgASgLMhQuY21kLkNWLlNldEF1dG9Gb2N1c0gAEjAKD3N0YXJ0X3RyYWNrX25kYxgCIAEoCzIVLmNtZC5DVi5TdGFydFRyYWNrTkRDSAASJwoKc3RvcF90cmFjaxgDIAEoCzIRLmNtZC5DVi5TdG9wVHJhY2tIABI4ChN2YW1waXJlX21vZGVfZW5hYmxlGAQgASgLMhkuY21kLkNWLlZhbXBpcmVNb2RlRW5hYmxlSAASOgoUdmFtcGlyZV9tb2RlX2Rpc2FibGUYBSABKAsyGi5jbWQuQ1YuVmFtcGlyZU1vZGVEaXNhYmxlSAASRAoZc3RhYmlsaXphdGlvbl9tb2RlX2VuYWJsZRgGIAEoCzIfLmNtZC5DVi5TdGFiaWxpemF0aW9uTW9kZUVuYWJsZUgAEkYKGnN0YWJpbGl6YXRpb25fbW9kZV9kaXNhYmxlGAcgASgLMiAuY21kLkNWLlN0YWJpbGl6YXRpb25Nb2RlRGlzYWJsZUgAEicKCmR1bXBfc3RhcnQYCCABKAsyES5jbWQuQ1YuRHVtcFN0YXJ0SAASJQoJZHVtcF9zdG9wGAkgASgLMhAuY21kLkNWLkR1bXBTdG9wSAASQAoXcmVjb2duaXRpb25fbW9kZV9lbmFibGUYCiABKAsyHS5jbWQuQ1YuUmVjb2duaXRpb25Nb2RlRW5hYmxlSAASQgoYcmVjb2duaXRpb25fbW9kZV9kaXNhYmxlGAsgASgLMh4uY21kLkNWLlJlY29nbml0aW9uTW9kZURpc2FibGVIAEIMCgNjbWQSBbpIAggBIhMKEVZhbXBpcmVNb2RlRW5hYmxlIgsKCUR1bXBTdGFydCIKCghEdW1wU3RvcCIUChJWYW1waXJlTW9kZURpc2FibGUiGQoXU3RhYmlsaXphdGlvbk1vZGVFbmFibGUiGgoYU3RhYmlsaXphdGlvbk1vZGVEaXNhYmxlIhcKFVJlY29nbml0aW9uTW9kZUVuYWJsZSIYChZSZWNvZ25pdGlvbk1vZGVEaXNhYmxlIlcKDFNldEF1dG9Gb2N1cxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASDQoFdmFsdWUYAiABKAgiuQEKDVN0YXJ0VHJhY2tOREMSOAoHY2hhbm5lbBgBIAEoDjIbLnNlci5Kb25HdWlEYXRhVmlkZW9DaGFubmVsQgq6SAeCAQQQASAAEiIKAXgYAiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EiIKAXkYAyABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EhIKCmZyYW1lX3RpbWUYBCABKAQSEgoKc3RhdGVfdGltZRgFIAEoBCILCglTdG9wVHJhY2tCSVpHZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chdqb25fc2hhcmVkX2NtZF9jdi5wcm90bxIGY21kLkNWIoIGCgRSb290Ei4KDnNldF9hdXRvX2ZvY3VzGAEgASgLMhQuY21kLkNWLlNldEF1dG9Gb2N1c0gAEjAKD3N0YXJ0X3RyYWNrX25kYxgCIAEoCzIVLmNtZC5DVi5TdGFydFRyYWNrTkRDSAASJwoKc3RvcF90cmFjaxgDIAEoCzIRLmNtZC5DVi5TdG9wVHJhY2tIABI4ChN2YW1waXJlX21vZGVfZW5hYmxlGAQgASgLMhkuY21kLkNWLlZhbXBpcmVNb2RlRW5hYmxlSAASOgoUdmFtcGlyZV9tb2RlX2Rpc2FibGUYBSABKAsyGi5jbWQuQ1YuVmFtcGlyZU1vZGVEaXNhYmxlSAASRAoZc3RhYmlsaXphdGlvbl9tb2RlX2VuYWJsZRgGIAEoCzIfLmNtZC5DVi5TdGFiaWxpemF0aW9uTW9kZUVuYWJsZUgAEkYKGnN0YWJpbGl6YXRpb25fbW9kZV9kaXNhYmxlGAcgASgLMiAuY21kLkNWLlN0YWJpbGl6YXRpb25Nb2RlRGlzYWJsZUgAEicKCmR1bXBfc3RhcnQYCCABKAsyES5jbWQuQ1YuRHVtcFN0YXJ0SAASJQoJZHVtcF9zdG9wGAkgASgLMhAuY21kLkNWLkR1bXBTdG9wSAASQAoXcmVjb2duaXRpb25fbW9kZV9lbmFibGUYCiABKAsyHS5jbWQuQ1YuUmVjb2duaXRpb25Nb2RlRW5hYmxlSAASQgoYcmVjb2duaXRpb25fbW9kZV9kaXNhYmxlGAsgASgLMh4uY21kLkNWLlJlY29nbml0aW9uTW9kZURpc2FibGVIABIrCgxicmlkZ2Vfc3RhcnQYFCABKAsyEy5jbWQuQ1YuQnJpZGdlU3RhcnRIABIpCgticmlkZ2Vfc3RvcBgVIAEoCzISLmNtZC5DVi5CcmlkZ2VTdG9wSAASLwoOYnJpZGdlX3Jlc3RhcnQYFiABKAsyFS5jbWQuQ1YuQnJpZGdlUmVzdGFydEgAQgwKA2NtZBIFukgCCAEiEwoRVmFtcGlyZU1vZGVFbmFibGUiCwoJRHVtcFN0YXJ0IgoKCER1bXBTdG9wIhQKElZhbXBpcmVNb2RlRGlzYWJsZSIZChdTdGFiaWxpemF0aW9uTW9kZUVuYWJsZSIaChhTdGFiaWxpemF0aW9uTW9kZURpc2FibGUiFwoVUmVjb2duaXRpb25Nb2RlRW5hYmxlIhgKFlJlY29nbml0aW9uTW9kZURpc2FibGUiVwoMU2V0QXV0b0ZvY3VzEjgKB2NoYW5uZWwYASABKA4yGy5zZXIuSm9uR3VpRGF0YVZpZGVvQ2hhbm5lbEIKukgHggEEEAEgABINCgV2YWx1ZRgCIAEoCCK5AQoNU3RhcnRUcmFja05EQxI4CgdjaGFubmVsGAEgASgOMhsuc2VyLkpvbkd1aURhdGFWaWRlb0NoYW5uZWxCCrpIB4IBBBABIAASIgoBeBgCIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SIgoBeRgDIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SEgoKZnJhbWVfdGltZRgEIAEoBBISCgpzdGF0ZV90aW1lGAUgASgEIgsKCVN0b3BUcmFjayINCgtCcmlkZ2VTdGFydCIbCgpCcmlkZ2VTdG9wEg0KBWZvcmNlGAEgASgIIh4KDUJyaWRnZVJlc3RhcnQSDQoFZm9yY2UYASABKAhCSVpHZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message cmd.CV.Root
@@ -88,6 +88,26 @@ export type Root = Message<"cmd.CV.Root"> & {
      */
     value: RecognitionModeDisable;
     case: "recognitionModeDisable";
+  } | {
+    /**
+     * CV Bridge container control
+     *
+     * @generated from field: cmd.CV.BridgeStart bridge_start = 20;
+     */
+    value: BridgeStart;
+    case: "bridgeStart";
+  } | {
+    /**
+     * @generated from field: cmd.CV.BridgeStop bridge_stop = 21;
+     */
+    value: BridgeStop;
+    case: "bridgeStop";
+  } | {
+    /**
+     * @generated from field: cmd.CV.BridgeRestart bridge_restart = 22;
+     */
+    value: BridgeRestart;
+    case: "bridgeRestart";
   } | { case: undefined; value?: undefined };
 };
 
@@ -277,4 +297,59 @@ export type StopTrack = Message<"cmd.CV.StopTrack"> & {
  */
 export const StopTrackSchema: GenMessage<StopTrack> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_cv, 11);
+
+/**
+ * CV Bridge container control commands
+ *
+ * Starts the CV bridge container
+ *
+ * @generated from message cmd.CV.BridgeStart
+ */
+export type BridgeStart = Message<"cmd.CV.BridgeStart"> & {
+};
+
+/**
+ * Describes the message cmd.CV.BridgeStart.
+ * Use `create(BridgeStartSchema)` to create a new message.
+ */
+export const BridgeStartSchema: GenMessage<BridgeStart> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_cv, 12);
+
+/**
+ * @generated from message cmd.CV.BridgeStop
+ */
+export type BridgeStop = Message<"cmd.CV.BridgeStop"> & {
+  /**
+   * If true, SIGKILL instead of SIGTERM
+   *
+   * @generated from field: bool force = 1;
+   */
+  force: boolean;
+};
+
+/**
+ * Describes the message cmd.CV.BridgeStop.
+ * Use `create(BridgeStopSchema)` to create a new message.
+ */
+export const BridgeStopSchema: GenMessage<BridgeStop> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_cv, 13);
+
+/**
+ * @generated from message cmd.CV.BridgeRestart
+ */
+export type BridgeRestart = Message<"cmd.CV.BridgeRestart"> & {
+  /**
+   * If true, force stop before restart
+   *
+   * @generated from field: bool force = 1;
+   */
+  force: boolean;
+};
+
+/**
+ * Describes the message cmd.CV.BridgeRestart.
+ * Use `create(BridgeRestartSchema)` to create a new message.
+ */
+export const BridgeRestartSchema: GenMessage<BridgeRestart> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_cv, 14);
 

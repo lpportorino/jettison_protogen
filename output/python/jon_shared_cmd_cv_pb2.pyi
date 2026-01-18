@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("set_auto_focus", "start_track_ndc", "stop_track", "vampire_mode_enable", "vampire_mode_disable", "stabilization_mode_enable", "stabilization_mode_disable", "dump_start", "dump_stop", "recognition_mode_enable", "recognition_mode_disable")
+    __slots__ = ("set_auto_focus", "start_track_ndc", "stop_track", "vampire_mode_enable", "vampire_mode_disable", "stabilization_mode_enable", "stabilization_mode_disable", "dump_start", "dump_stop", "recognition_mode_enable", "recognition_mode_disable", "bridge_start", "bridge_stop", "bridge_restart")
     SET_AUTO_FOCUS_FIELD_NUMBER: _ClassVar[int]
     START_TRACK_NDC_FIELD_NUMBER: _ClassVar[int]
     STOP_TRACK_FIELD_NUMBER: _ClassVar[int]
@@ -18,6 +18,9 @@ class Root(_message.Message):
     DUMP_STOP_FIELD_NUMBER: _ClassVar[int]
     RECOGNITION_MODE_ENABLE_FIELD_NUMBER: _ClassVar[int]
     RECOGNITION_MODE_DISABLE_FIELD_NUMBER: _ClassVar[int]
+    BRIDGE_START_FIELD_NUMBER: _ClassVar[int]
+    BRIDGE_STOP_FIELD_NUMBER: _ClassVar[int]
+    BRIDGE_RESTART_FIELD_NUMBER: _ClassVar[int]
     set_auto_focus: SetAutoFocus
     start_track_ndc: StartTrackNDC
     stop_track: StopTrack
@@ -29,7 +32,10 @@ class Root(_message.Message):
     dump_stop: DumpStop
     recognition_mode_enable: RecognitionModeEnable
     recognition_mode_disable: RecognitionModeDisable
-    def __init__(self, set_auto_focus: _Optional[_Union[SetAutoFocus, _Mapping]] = ..., start_track_ndc: _Optional[_Union[StartTrackNDC, _Mapping]] = ..., stop_track: _Optional[_Union[StopTrack, _Mapping]] = ..., vampire_mode_enable: _Optional[_Union[VampireModeEnable, _Mapping]] = ..., vampire_mode_disable: _Optional[_Union[VampireModeDisable, _Mapping]] = ..., stabilization_mode_enable: _Optional[_Union[StabilizationModeEnable, _Mapping]] = ..., stabilization_mode_disable: _Optional[_Union[StabilizationModeDisable, _Mapping]] = ..., dump_start: _Optional[_Union[DumpStart, _Mapping]] = ..., dump_stop: _Optional[_Union[DumpStop, _Mapping]] = ..., recognition_mode_enable: _Optional[_Union[RecognitionModeEnable, _Mapping]] = ..., recognition_mode_disable: _Optional[_Union[RecognitionModeDisable, _Mapping]] = ...) -> None: ...
+    bridge_start: BridgeStart
+    bridge_stop: BridgeStop
+    bridge_restart: BridgeRestart
+    def __init__(self, set_auto_focus: _Optional[_Union[SetAutoFocus, _Mapping]] = ..., start_track_ndc: _Optional[_Union[StartTrackNDC, _Mapping]] = ..., stop_track: _Optional[_Union[StopTrack, _Mapping]] = ..., vampire_mode_enable: _Optional[_Union[VampireModeEnable, _Mapping]] = ..., vampire_mode_disable: _Optional[_Union[VampireModeDisable, _Mapping]] = ..., stabilization_mode_enable: _Optional[_Union[StabilizationModeEnable, _Mapping]] = ..., stabilization_mode_disable: _Optional[_Union[StabilizationModeDisable, _Mapping]] = ..., dump_start: _Optional[_Union[DumpStart, _Mapping]] = ..., dump_stop: _Optional[_Union[DumpStop, _Mapping]] = ..., recognition_mode_enable: _Optional[_Union[RecognitionModeEnable, _Mapping]] = ..., recognition_mode_disable: _Optional[_Union[RecognitionModeDisable, _Mapping]] = ..., bridge_start: _Optional[_Union[BridgeStart, _Mapping]] = ..., bridge_stop: _Optional[_Union[BridgeStop, _Mapping]] = ..., bridge_restart: _Optional[_Union[BridgeRestart, _Mapping]] = ...) -> None: ...
 
 class VampireModeEnable(_message.Message):
     __slots__ = ()
@@ -88,3 +94,19 @@ class StartTrackNDC(_message.Message):
 class StopTrack(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
+
+class BridgeStart(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class BridgeStop(_message.Message):
+    __slots__ = ("force",)
+    FORCE_FIELD_NUMBER: _ClassVar[int]
+    force: bool
+    def __init__(self, force: bool = ...) -> None: ...
+
+class BridgeRestart(_message.Message):
+    __slots__ = ("force",)
+    FORCE_FIELD_NUMBER: _ClassVar[int]
+    force: bool
+    def __init__(self, force: bool = ...) -> None: ...

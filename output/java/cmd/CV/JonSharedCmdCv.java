@@ -194,6 +194,63 @@ public final class JonSharedCmdCv {
      */
     cmd.CV.JonSharedCmdCv.RecognitionModeDisableOrBuilder getRecognitionModeDisableOrBuilder();
 
+    /**
+     * <pre>
+     * CV Bridge container control
+     * </pre>
+     *
+     * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+     * @return Whether the bridgeStart field is set.
+     */
+    boolean hasBridgeStart();
+    /**
+     * <pre>
+     * CV Bridge container control
+     * </pre>
+     *
+     * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+     * @return The bridgeStart.
+     */
+    cmd.CV.JonSharedCmdCv.BridgeStart getBridgeStart();
+    /**
+     * <pre>
+     * CV Bridge container control
+     * </pre>
+     *
+     * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+     */
+    cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder getBridgeStartOrBuilder();
+
+    /**
+     * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+     * @return Whether the bridgeStop field is set.
+     */
+    boolean hasBridgeStop();
+    /**
+     * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+     * @return The bridgeStop.
+     */
+    cmd.CV.JonSharedCmdCv.BridgeStop getBridgeStop();
+    /**
+     * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+     */
+    cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder getBridgeStopOrBuilder();
+
+    /**
+     * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+     * @return Whether the bridgeRestart field is set.
+     */
+    boolean hasBridgeRestart();
+    /**
+     * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+     * @return The bridgeRestart.
+     */
+    cmd.CV.JonSharedCmdCv.BridgeRestart getBridgeRestart();
+    /**
+     * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+     */
+    cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder getBridgeRestartOrBuilder();
+
     cmd.CV.JonSharedCmdCv.Root.CmdCase getCmdCase();
   }
   /**
@@ -250,6 +307,9 @@ public final class JonSharedCmdCv {
       DUMP_STOP(9),
       RECOGNITION_MODE_ENABLE(10),
       RECOGNITION_MODE_DISABLE(11),
+      BRIDGE_START(20),
+      BRIDGE_STOP(21),
+      BRIDGE_RESTART(22),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -278,6 +338,9 @@ public final class JonSharedCmdCv {
           case 9: return DUMP_STOP;
           case 10: return RECOGNITION_MODE_ENABLE;
           case 11: return RECOGNITION_MODE_DISABLE;
+          case 20: return BRIDGE_START;
+          case 21: return BRIDGE_STOP;
+          case 22: return BRIDGE_RESTART;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -634,6 +697,111 @@ public final class JonSharedCmdCv {
       return cmd.CV.JonSharedCmdCv.RecognitionModeDisable.getDefaultInstance();
     }
 
+    public static final int BRIDGE_START_FIELD_NUMBER = 20;
+    /**
+     * <pre>
+     * CV Bridge container control
+     * </pre>
+     *
+     * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+     * @return Whether the bridgeStart field is set.
+     */
+    @java.lang.Override
+    public boolean hasBridgeStart() {
+      return cmdCase_ == 20;
+    }
+    /**
+     * <pre>
+     * CV Bridge container control
+     * </pre>
+     *
+     * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+     * @return The bridgeStart.
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeStart getBridgeStart() {
+      if (cmdCase_ == 20) {
+         return (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+    }
+    /**
+     * <pre>
+     * CV Bridge container control
+     * </pre>
+     *
+     * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder getBridgeStartOrBuilder() {
+      if (cmdCase_ == 20) {
+         return (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+    }
+
+    public static final int BRIDGE_STOP_FIELD_NUMBER = 21;
+    /**
+     * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+     * @return Whether the bridgeStop field is set.
+     */
+    @java.lang.Override
+    public boolean hasBridgeStop() {
+      return cmdCase_ == 21;
+    }
+    /**
+     * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+     * @return The bridgeStop.
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeStop getBridgeStop() {
+      if (cmdCase_ == 21) {
+         return (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder getBridgeStopOrBuilder() {
+      if (cmdCase_ == 21) {
+         return (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+    }
+
+    public static final int BRIDGE_RESTART_FIELD_NUMBER = 22;
+    /**
+     * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+     * @return Whether the bridgeRestart field is set.
+     */
+    @java.lang.Override
+    public boolean hasBridgeRestart() {
+      return cmdCase_ == 22;
+    }
+    /**
+     * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+     * @return The bridgeRestart.
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeRestart getBridgeRestart() {
+      if (cmdCase_ == 22) {
+         return (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+     */
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder getBridgeRestartOrBuilder() {
+      if (cmdCase_ == 22) {
+         return (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_;
+      }
+      return cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -680,6 +848,15 @@ public final class JonSharedCmdCv {
       }
       if (cmdCase_ == 11) {
         output.writeMessage(11, (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_);
+      }
+      if (cmdCase_ == 20) {
+        output.writeMessage(20, (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_);
+      }
+      if (cmdCase_ == 21) {
+        output.writeMessage(21, (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_);
+      }
+      if (cmdCase_ == 22) {
+        output.writeMessage(22, (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -733,6 +910,18 @@ public final class JonSharedCmdCv {
       if (cmdCase_ == 11) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(11, (cmd.CV.JonSharedCmdCv.RecognitionModeDisable) cmd_);
+      }
+      if (cmdCase_ == 20) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(20, (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_);
+      }
+      if (cmdCase_ == 21) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_);
+      }
+      if (cmdCase_ == 22) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -795,6 +984,18 @@ public final class JonSharedCmdCv {
           if (!getRecognitionModeDisable()
               .equals(other.getRecognitionModeDisable())) return false;
           break;
+        case 20:
+          if (!getBridgeStart()
+              .equals(other.getBridgeStart())) return false;
+          break;
+        case 21:
+          if (!getBridgeStop()
+              .equals(other.getBridgeStop())) return false;
+          break;
+        case 22:
+          if (!getBridgeRestart()
+              .equals(other.getBridgeRestart())) return false;
+          break;
         case 0:
         default:
       }
@@ -853,6 +1054,18 @@ public final class JonSharedCmdCv {
         case 11:
           hash = (37 * hash) + RECOGNITION_MODE_DISABLE_FIELD_NUMBER;
           hash = (53 * hash) + getRecognitionModeDisable().hashCode();
+          break;
+        case 20:
+          hash = (37 * hash) + BRIDGE_START_FIELD_NUMBER;
+          hash = (53 * hash) + getBridgeStart().hashCode();
+          break;
+        case 21:
+          hash = (37 * hash) + BRIDGE_STOP_FIELD_NUMBER;
+          hash = (53 * hash) + getBridgeStop().hashCode();
+          break;
+        case 22:
+          hash = (37 * hash) + BRIDGE_RESTART_FIELD_NUMBER;
+          hash = (53 * hash) + getBridgeRestart().hashCode();
           break;
         case 0:
         default:
@@ -1021,6 +1234,15 @@ public final class JonSharedCmdCv {
         if (recognitionModeDisableBuilder_ != null) {
           recognitionModeDisableBuilder_.clear();
         }
+        if (bridgeStartBuilder_ != null) {
+          bridgeStartBuilder_.clear();
+        }
+        if (bridgeStopBuilder_ != null) {
+          bridgeStopBuilder_.clear();
+        }
+        if (bridgeRestartBuilder_ != null) {
+          bridgeRestartBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -1106,6 +1328,18 @@ public final class JonSharedCmdCv {
             recognitionModeDisableBuilder_ != null) {
           result.cmd_ = recognitionModeDisableBuilder_.build();
         }
+        if (cmdCase_ == 20 &&
+            bridgeStartBuilder_ != null) {
+          result.cmd_ = bridgeStartBuilder_.build();
+        }
+        if (cmdCase_ == 21 &&
+            bridgeStopBuilder_ != null) {
+          result.cmd_ = bridgeStopBuilder_.build();
+        }
+        if (cmdCase_ == 22 &&
+            bridgeRestartBuilder_ != null) {
+          result.cmd_ = bridgeRestartBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -1163,6 +1397,18 @@ public final class JonSharedCmdCv {
           }
           case RECOGNITION_MODE_DISABLE: {
             mergeRecognitionModeDisable(other.getRecognitionModeDisable());
+            break;
+          }
+          case BRIDGE_START: {
+            mergeBridgeStart(other.getBridgeStart());
+            break;
+          }
+          case BRIDGE_STOP: {
+            mergeBridgeStop(other.getBridgeStop());
+            break;
+          }
+          case BRIDGE_RESTART: {
+            mergeBridgeRestart(other.getBridgeRestart());
             break;
           }
           case CMD_NOT_SET: {
@@ -1272,6 +1518,27 @@ public final class JonSharedCmdCv {
                 cmdCase_ = 11;
                 break;
               } // case 90
+              case 162: {
+                input.readMessage(
+                    getBridgeStartFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 20;
+                break;
+              } // case 162
+              case 170: {
+                input.readMessage(
+                    getBridgeStopFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 21;
+                break;
+              } // case 170
+              case 178: {
+                input.readMessage(
+                    getBridgeRestartFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 22;
+                break;
+              } // case 178
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2864,6 +3131,468 @@ public final class JonSharedCmdCv {
         cmdCase_ = 11;
         onChanged();
         return recognitionModeDisableBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.BridgeStart, cmd.CV.JonSharedCmdCv.BridgeStart.Builder, cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder> bridgeStartBuilder_;
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       * @return Whether the bridgeStart field is set.
+       */
+      @java.lang.Override
+      public boolean hasBridgeStart() {
+        return cmdCase_ == 20;
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       * @return The bridgeStart.
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStart getBridgeStart() {
+        if (bridgeStartBuilder_ == null) {
+          if (cmdCase_ == 20) {
+            return (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 20) {
+            return bridgeStartBuilder_.getMessage();
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      public Builder setBridgeStart(cmd.CV.JonSharedCmdCv.BridgeStart value) {
+        if (bridgeStartBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          bridgeStartBuilder_.setMessage(value);
+        }
+        cmdCase_ = 20;
+        return this;
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      public Builder setBridgeStart(
+          cmd.CV.JonSharedCmdCv.BridgeStart.Builder builderForValue) {
+        if (bridgeStartBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          bridgeStartBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 20;
+        return this;
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      public Builder mergeBridgeStart(cmd.CV.JonSharedCmdCv.BridgeStart value) {
+        if (bridgeStartBuilder_ == null) {
+          if (cmdCase_ == 20 &&
+              cmd_ != cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance()) {
+            cmd_ = cmd.CV.JonSharedCmdCv.BridgeStart.newBuilder((cmd.CV.JonSharedCmdCv.BridgeStart) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 20) {
+            bridgeStartBuilder_.mergeFrom(value);
+          } else {
+            bridgeStartBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 20;
+        return this;
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      public Builder clearBridgeStart() {
+        if (bridgeStartBuilder_ == null) {
+          if (cmdCase_ == 20) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 20) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          bridgeStartBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      public cmd.CV.JonSharedCmdCv.BridgeStart.Builder getBridgeStartBuilder() {
+        return getBridgeStartFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder getBridgeStartOrBuilder() {
+        if ((cmdCase_ == 20) && (bridgeStartBuilder_ != null)) {
+          return bridgeStartBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 20) {
+            return (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+        }
+      }
+      /**
+       * <pre>
+       * CV Bridge container control
+       * </pre>
+       *
+       * <code>.cmd.CV.BridgeStart bridge_start = 20;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.BridgeStart, cmd.CV.JonSharedCmdCv.BridgeStart.Builder, cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder> 
+          getBridgeStartFieldBuilder() {
+        if (bridgeStartBuilder_ == null) {
+          if (!(cmdCase_ == 20)) {
+            cmd_ = cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+          }
+          bridgeStartBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.CV.JonSharedCmdCv.BridgeStart, cmd.CV.JonSharedCmdCv.BridgeStart.Builder, cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder>(
+                  (cmd.CV.JonSharedCmdCv.BridgeStart) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 20;
+        onChanged();
+        return bridgeStartBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.BridgeStop, cmd.CV.JonSharedCmdCv.BridgeStop.Builder, cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder> bridgeStopBuilder_;
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       * @return Whether the bridgeStop field is set.
+       */
+      @java.lang.Override
+      public boolean hasBridgeStop() {
+        return cmdCase_ == 21;
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       * @return The bridgeStop.
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStop getBridgeStop() {
+        if (bridgeStopBuilder_ == null) {
+          if (cmdCase_ == 21) {
+            return (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 21) {
+            return bridgeStopBuilder_.getMessage();
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      public Builder setBridgeStop(cmd.CV.JonSharedCmdCv.BridgeStop value) {
+        if (bridgeStopBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          bridgeStopBuilder_.setMessage(value);
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      public Builder setBridgeStop(
+          cmd.CV.JonSharedCmdCv.BridgeStop.Builder builderForValue) {
+        if (bridgeStopBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          bridgeStopBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      public Builder mergeBridgeStop(cmd.CV.JonSharedCmdCv.BridgeStop value) {
+        if (bridgeStopBuilder_ == null) {
+          if (cmdCase_ == 21 &&
+              cmd_ != cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance()) {
+            cmd_ = cmd.CV.JonSharedCmdCv.BridgeStop.newBuilder((cmd.CV.JonSharedCmdCv.BridgeStop) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 21) {
+            bridgeStopBuilder_.mergeFrom(value);
+          } else {
+            bridgeStopBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 21;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      public Builder clearBridgeStop() {
+        if (bridgeStopBuilder_ == null) {
+          if (cmdCase_ == 21) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 21) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          bridgeStopBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      public cmd.CV.JonSharedCmdCv.BridgeStop.Builder getBridgeStopBuilder() {
+        return getBridgeStopFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder getBridgeStopOrBuilder() {
+        if ((cmdCase_ == 21) && (bridgeStopBuilder_ != null)) {
+          return bridgeStopBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 21) {
+            return (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.CV.BridgeStop bridge_stop = 21;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.BridgeStop, cmd.CV.JonSharedCmdCv.BridgeStop.Builder, cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder> 
+          getBridgeStopFieldBuilder() {
+        if (bridgeStopBuilder_ == null) {
+          if (!(cmdCase_ == 21)) {
+            cmd_ = cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+          }
+          bridgeStopBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.CV.JonSharedCmdCv.BridgeStop, cmd.CV.JonSharedCmdCv.BridgeStop.Builder, cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder>(
+                  (cmd.CV.JonSharedCmdCv.BridgeStop) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 21;
+        onChanged();
+        return bridgeStopBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.BridgeRestart, cmd.CV.JonSharedCmdCv.BridgeRestart.Builder, cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder> bridgeRestartBuilder_;
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       * @return Whether the bridgeRestart field is set.
+       */
+      @java.lang.Override
+      public boolean hasBridgeRestart() {
+        return cmdCase_ == 22;
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       * @return The bridgeRestart.
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeRestart getBridgeRestart() {
+        if (bridgeRestartBuilder_ == null) {
+          if (cmdCase_ == 22) {
+            return (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 22) {
+            return bridgeRestartBuilder_.getMessage();
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      public Builder setBridgeRestart(cmd.CV.JonSharedCmdCv.BridgeRestart value) {
+        if (bridgeRestartBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          bridgeRestartBuilder_.setMessage(value);
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      public Builder setBridgeRestart(
+          cmd.CV.JonSharedCmdCv.BridgeRestart.Builder builderForValue) {
+        if (bridgeRestartBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          bridgeRestartBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      public Builder mergeBridgeRestart(cmd.CV.JonSharedCmdCv.BridgeRestart value) {
+        if (bridgeRestartBuilder_ == null) {
+          if (cmdCase_ == 22 &&
+              cmd_ != cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance()) {
+            cmd_ = cmd.CV.JonSharedCmdCv.BridgeRestart.newBuilder((cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 22) {
+            bridgeRestartBuilder_.mergeFrom(value);
+          } else {
+            bridgeRestartBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 22;
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      public Builder clearBridgeRestart() {
+        if (bridgeRestartBuilder_ == null) {
+          if (cmdCase_ == 22) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 22) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          bridgeRestartBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      public cmd.CV.JonSharedCmdCv.BridgeRestart.Builder getBridgeRestartBuilder() {
+        return getBridgeRestartFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder getBridgeRestartOrBuilder() {
+        if ((cmdCase_ == 22) && (bridgeRestartBuilder_ != null)) {
+          return bridgeRestartBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 22) {
+            return (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_;
+          }
+          return cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.CV.BridgeRestart bridge_restart = 22;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.CV.JonSharedCmdCv.BridgeRestart, cmd.CV.JonSharedCmdCv.BridgeRestart.Builder, cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder> 
+          getBridgeRestartFieldBuilder() {
+        if (bridgeRestartBuilder_ == null) {
+          if (!(cmdCase_ == 22)) {
+            cmd_ = cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+          }
+          bridgeRestartBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.CV.JonSharedCmdCv.BridgeRestart, cmd.CV.JonSharedCmdCv.BridgeRestart.Builder, cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder>(
+                  (cmd.CV.JonSharedCmdCv.BridgeRestart) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 22;
+        onChanged();
+        return bridgeRestartBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.CV.Root)
@@ -7453,6 +8182,1279 @@ public final class JonSharedCmdCv {
 
   }
 
+  public interface BridgeStartOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.CV.BridgeStart)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * <pre>
+   * CV Bridge container control commands
+   * </pre>
+   *
+   * Protobuf type {@code cmd.CV.BridgeStart}
+   */
+  public static final class BridgeStart extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.CV.BridgeStart)
+      BridgeStartOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        BridgeStart.class.getName());
+    }
+    // Use BridgeStart.newBuilder() to construct.
+    private BridgeStart(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BridgeStart() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStart_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStart_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.CV.JonSharedCmdCv.BridgeStart.class, cmd.CV.JonSharedCmdCv.BridgeStart.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.CV.JonSharedCmdCv.BridgeStart)) {
+        return super.equals(obj);
+      }
+      cmd.CV.JonSharedCmdCv.BridgeStart other = (cmd.CV.JonSharedCmdCv.BridgeStart) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStart parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.BridgeStart prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * CV Bridge container control commands
+     * </pre>
+     *
+     * Protobuf type {@code cmd.CV.BridgeStart}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.CV.BridgeStart)
+        cmd.CV.JonSharedCmdCv.BridgeStartOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStart_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStart_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.CV.JonSharedCmdCv.BridgeStart.class, cmd.CV.JonSharedCmdCv.BridgeStart.Builder.class);
+      }
+
+      // Construct using cmd.CV.JonSharedCmdCv.BridgeStart.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStart_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStart getDefaultInstanceForType() {
+        return cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStart build() {
+        cmd.CV.JonSharedCmdCv.BridgeStart result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStart buildPartial() {
+        cmd.CV.JonSharedCmdCv.BridgeStart result = new cmd.CV.JonSharedCmdCv.BridgeStart(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.CV.JonSharedCmdCv.BridgeStart) {
+          return mergeFrom((cmd.CV.JonSharedCmdCv.BridgeStart)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.BridgeStart other) {
+        if (other == cmd.CV.JonSharedCmdCv.BridgeStart.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.CV.BridgeStart)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.CV.BridgeStart)
+    private static final cmd.CV.JonSharedCmdCv.BridgeStart DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.BridgeStart();
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStart getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BridgeStart>
+        PARSER = new com.google.protobuf.AbstractParser<BridgeStart>() {
+      @java.lang.Override
+      public BridgeStart parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BridgeStart> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BridgeStart> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeStart getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BridgeStopOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.CV.BridgeStop)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * If true, SIGKILL instead of SIGTERM
+     * </pre>
+     *
+     * <code>bool force = 1;</code>
+     * @return The force.
+     */
+    boolean getForce();
+  }
+  /**
+   * Protobuf type {@code cmd.CV.BridgeStop}
+   */
+  public static final class BridgeStop extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.CV.BridgeStop)
+      BridgeStopOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        BridgeStop.class.getName());
+    }
+    // Use BridgeStop.newBuilder() to construct.
+    private BridgeStop(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BridgeStop() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStop_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStop_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.CV.JonSharedCmdCv.BridgeStop.class, cmd.CV.JonSharedCmdCv.BridgeStop.Builder.class);
+    }
+
+    public static final int FORCE_FIELD_NUMBER = 1;
+    private boolean force_ = false;
+    /**
+     * <pre>
+     * If true, SIGKILL instead of SIGTERM
+     * </pre>
+     *
+     * <code>bool force = 1;</code>
+     * @return The force.
+     */
+    @java.lang.Override
+    public boolean getForce() {
+      return force_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (force_ != false) {
+        output.writeBool(1, force_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (force_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, force_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.CV.JonSharedCmdCv.BridgeStop)) {
+        return super.equals(obj);
+      }
+      cmd.CV.JonSharedCmdCv.BridgeStop other = (cmd.CV.JonSharedCmdCv.BridgeStop) obj;
+
+      if (getForce()
+          != other.getForce()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FORCE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getForce());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeStop parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.BridgeStop prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.CV.BridgeStop}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.CV.BridgeStop)
+        cmd.CV.JonSharedCmdCv.BridgeStopOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStop_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStop_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.CV.JonSharedCmdCv.BridgeStop.class, cmd.CV.JonSharedCmdCv.BridgeStop.Builder.class);
+      }
+
+      // Construct using cmd.CV.JonSharedCmdCv.BridgeStop.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        force_ = false;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeStop_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStop getDefaultInstanceForType() {
+        return cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStop build() {
+        cmd.CV.JonSharedCmdCv.BridgeStop result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeStop buildPartial() {
+        cmd.CV.JonSharedCmdCv.BridgeStop result = new cmd.CV.JonSharedCmdCv.BridgeStop(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.CV.JonSharedCmdCv.BridgeStop result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.force_ = force_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.CV.JonSharedCmdCv.BridgeStop) {
+          return mergeFrom((cmd.CV.JonSharedCmdCv.BridgeStop)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.BridgeStop other) {
+        if (other == cmd.CV.JonSharedCmdCv.BridgeStop.getDefaultInstance()) return this;
+        if (other.getForce() != false) {
+          setForce(other.getForce());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                force_ = input.readBool();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private boolean force_ ;
+      /**
+       * <pre>
+       * If true, SIGKILL instead of SIGTERM
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @return The force.
+       */
+      @java.lang.Override
+      public boolean getForce() {
+        return force_;
+      }
+      /**
+       * <pre>
+       * If true, SIGKILL instead of SIGTERM
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @param value The force to set.
+       * @return This builder for chaining.
+       */
+      public Builder setForce(boolean value) {
+
+        force_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If true, SIGKILL instead of SIGTERM
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearForce() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        force_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.CV.BridgeStop)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.CV.BridgeStop)
+    private static final cmd.CV.JonSharedCmdCv.BridgeStop DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.BridgeStop();
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeStop getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BridgeStop>
+        PARSER = new com.google.protobuf.AbstractParser<BridgeStop>() {
+      @java.lang.Override
+      public BridgeStop parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BridgeStop> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BridgeStop> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeStop getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BridgeRestartOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.CV.BridgeRestart)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * If true, force stop before restart
+     * </pre>
+     *
+     * <code>bool force = 1;</code>
+     * @return The force.
+     */
+    boolean getForce();
+  }
+  /**
+   * Protobuf type {@code cmd.CV.BridgeRestart}
+   */
+  public static final class BridgeRestart extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.CV.BridgeRestart)
+      BridgeRestartOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        BridgeRestart.class.getName());
+    }
+    // Use BridgeRestart.newBuilder() to construct.
+    private BridgeRestart(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BridgeRestart() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeRestart_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeRestart_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.CV.JonSharedCmdCv.BridgeRestart.class, cmd.CV.JonSharedCmdCv.BridgeRestart.Builder.class);
+    }
+
+    public static final int FORCE_FIELD_NUMBER = 1;
+    private boolean force_ = false;
+    /**
+     * <pre>
+     * If true, force stop before restart
+     * </pre>
+     *
+     * <code>bool force = 1;</code>
+     * @return The force.
+     */
+    @java.lang.Override
+    public boolean getForce() {
+      return force_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (force_ != false) {
+        output.writeBool(1, force_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (force_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, force_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.CV.JonSharedCmdCv.BridgeRestart)) {
+        return super.equals(obj);
+      }
+      cmd.CV.JonSharedCmdCv.BridgeRestart other = (cmd.CV.JonSharedCmdCv.BridgeRestart) obj;
+
+      if (getForce()
+          != other.getForce()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FORCE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getForce());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.CV.JonSharedCmdCv.BridgeRestart prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.CV.BridgeRestart}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.CV.BridgeRestart)
+        cmd.CV.JonSharedCmdCv.BridgeRestartOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeRestart_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeRestart_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.CV.JonSharedCmdCv.BridgeRestart.class, cmd.CV.JonSharedCmdCv.BridgeRestart.Builder.class);
+      }
+
+      // Construct using cmd.CV.JonSharedCmdCv.BridgeRestart.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        force_ = false;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.CV.JonSharedCmdCv.internal_static_cmd_CV_BridgeRestart_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeRestart getDefaultInstanceForType() {
+        return cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeRestart build() {
+        cmd.CV.JonSharedCmdCv.BridgeRestart result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.CV.JonSharedCmdCv.BridgeRestart buildPartial() {
+        cmd.CV.JonSharedCmdCv.BridgeRestart result = new cmd.CV.JonSharedCmdCv.BridgeRestart(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.CV.JonSharedCmdCv.BridgeRestart result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.force_ = force_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.CV.JonSharedCmdCv.BridgeRestart) {
+          return mergeFrom((cmd.CV.JonSharedCmdCv.BridgeRestart)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.CV.JonSharedCmdCv.BridgeRestart other) {
+        if (other == cmd.CV.JonSharedCmdCv.BridgeRestart.getDefaultInstance()) return this;
+        if (other.getForce() != false) {
+          setForce(other.getForce());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                force_ = input.readBool();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private boolean force_ ;
+      /**
+       * <pre>
+       * If true, force stop before restart
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @return The force.
+       */
+      @java.lang.Override
+      public boolean getForce() {
+        return force_;
+      }
+      /**
+       * <pre>
+       * If true, force stop before restart
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @param value The force to set.
+       * @return This builder for chaining.
+       */
+      public Builder setForce(boolean value) {
+
+        force_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If true, force stop before restart
+       * </pre>
+       *
+       * <code>bool force = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearForce() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        force_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.CV.BridgeRestart)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.CV.BridgeRestart)
+    private static final cmd.CV.JonSharedCmdCv.BridgeRestart DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.CV.JonSharedCmdCv.BridgeRestart();
+    }
+
+    public static cmd.CV.JonSharedCmdCv.BridgeRestart getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BridgeRestart>
+        PARSER = new com.google.protobuf.AbstractParser<BridgeRestart>() {
+      @java.lang.Override
+      public BridgeRestart parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BridgeRestart> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BridgeRestart> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.CV.JonSharedCmdCv.BridgeRestart getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_CV_Root_descriptor;
   private static final 
@@ -7513,6 +9515,21 @@ public final class JonSharedCmdCv {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_CV_StopTrack_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_CV_BridgeStart_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_CV_BridgeStart_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_CV_BridgeStop_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_CV_BridgeStop_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_CV_BridgeRestart_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_CV_BridgeRestart_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7524,7 +9541,7 @@ public final class JonSharedCmdCv {
     java.lang.String[] descriptorData = {
       "\n\027jon_shared_cmd_cv.proto\022\006cmd.CV\032\033buf/v" +
       "alidate/validate.proto\032\033jon_shared_data_" +
-      "types.proto\"\371\004\n\004Root\022.\n\016set_auto_focus\030\001" +
+      "types.proto\"\202\006\n\004Root\022.\n\016set_auto_focus\030\001" +
       " \001(\0132\024.cmd.CV.SetAutoFocusH\000\0220\n\017start_tr" +
       "ack_ndc\030\002 \001(\0132\025.cmd.CV.StartTrackNDCH\000\022\'" +
       "\n\nstop_track\030\003 \001(\0132\021.cmd.CV.StopTrackH\000\022" +
@@ -7539,21 +9556,27 @@ public final class JonSharedCmdCv {
       "\020.cmd.CV.DumpStopH\000\022@\n\027recognition_mode_" +
       "enable\030\n \001(\0132\035.cmd.CV.RecognitionModeEna" +
       "bleH\000\022B\n\030recognition_mode_disable\030\013 \001(\0132" +
-      "\036.cmd.CV.RecognitionModeDisableH\000B\014\n\003cmd" +
-      "\022\005\272H\002\010\001\"\023\n\021VampireModeEnable\"\013\n\tDumpStar" +
-      "t\"\n\n\010DumpStop\"\024\n\022VampireModeDisable\"\031\n\027S" +
-      "tabilizationModeEnable\"\032\n\030StabilizationM" +
-      "odeDisable\"\027\n\025RecognitionModeEnable\"\030\n\026R" +
-      "ecognitionModeDisable\"W\n\014SetAutoFocus\0228\n" +
-      "\007channel\030\001 \001(\0162\033.ser.JonGuiDataVideoChan" +
-      "nelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005value\030\002 \001(\010\"\271\001\n\rStart" +
-      "TrackNDC\0228\n\007channel\030\001 \001(\0162\033.ser.JonGuiDa" +
-      "taVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\"\n\001x\030\002 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\"\n\001y\030\003 \001(\001B\027\272H\024\022\022" +
-      "\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nframe_time\030\004 \001(\004\022\022" +
-      "\n\nstate_time\030\005 \001(\004\"\013\n\tStopTrackBIZGgit-c" +
-      "odecommit.eu-central-1.amazonaws.com/v1/" +
-      "repos/jettison/jonp/cmd/cvb\006proto3"
+      "\036.cmd.CV.RecognitionModeDisableH\000\022+\n\014bri" +
+      "dge_start\030\024 \001(\0132\023.cmd.CV.BridgeStartH\000\022)" +
+      "\n\013bridge_stop\030\025 \001(\0132\022.cmd.CV.BridgeStopH" +
+      "\000\022/\n\016bridge_restart\030\026 \001(\0132\025.cmd.CV.Bridg" +
+      "eRestartH\000B\014\n\003cmd\022\005\272H\002\010\001\"\023\n\021VampireModeE" +
+      "nable\"\013\n\tDumpStart\"\n\n\010DumpStop\"\024\n\022Vampir" +
+      "eModeDisable\"\031\n\027StabilizationModeEnable\"" +
+      "\032\n\030StabilizationModeDisable\"\027\n\025Recogniti" +
+      "onModeEnable\"\030\n\026RecognitionModeDisable\"W" +
+      "\n\014SetAutoFocus\0228\n\007channel\030\001 \001(\0162\033.ser.Jo" +
+      "nGuiDataVideoChannelB\n\272H\007\202\001\004\020\001 \000\022\r\n\005valu" +
+      "e\030\002 \001(\010\"\271\001\n\rStartTrackNDC\0228\n\007channel\030\001 \001" +
+      "(\0162\033.ser.JonGuiDataVideoChannelB\n\272H\007\202\001\004\020" +
+      "\001 \000\022\"\n\001x\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022" +
+      "\"\n\001y\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022\022\n\nf" +
+      "rame_time\030\004 \001(\004\022\022\n\nstate_time\030\005 \001(\004\"\013\n\tS" +
+      "topTrack\"\r\n\013BridgeStart\"\033\n\nBridgeStop\022\r\n" +
+      "\005force\030\001 \001(\010\"\036\n\rBridgeRestart\022\r\n\005force\030\001" +
+      " \001(\010BIZGgit-codecommit.eu-central-1.amaz" +
+      "onaws.com/v1/repos/jettison/jonp/cmd/cvb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7566,7 +9589,7 @@ public final class JonSharedCmdCv {
     internal_static_cmd_CV_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_Root_descriptor,
-        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "Cmd", });
+        new java.lang.String[] { "SetAutoFocus", "StartTrackNdc", "StopTrack", "VampireModeEnable", "VampireModeDisable", "StabilizationModeEnable", "StabilizationModeDisable", "DumpStart", "DumpStop", "RecognitionModeEnable", "RecognitionModeDisable", "BridgeStart", "BridgeStop", "BridgeRestart", "Cmd", });
     internal_static_cmd_CV_VampireModeEnable_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_CV_VampireModeEnable_fieldAccessorTable = new
@@ -7633,6 +9656,24 @@ public final class JonSharedCmdCv {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_CV_StopTrack_descriptor,
         new java.lang.String[] { });
+    internal_static_cmd_CV_BridgeStart_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_cmd_CV_BridgeStart_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_CV_BridgeStart_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_CV_BridgeStop_descriptor =
+      getDescriptor().getMessageTypes().get(13);
+    internal_static_cmd_CV_BridgeStop_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_CV_BridgeStop_descriptor,
+        new java.lang.String[] { "Force", });
+    internal_static_cmd_CV_BridgeRestart_descriptor =
+      getDescriptor().getMessageTypes().get(14);
+    internal_static_cmd_CV_BridgeRestart_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_CV_BridgeRestart_descriptor,
+        new java.lang.String[] { "Force", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

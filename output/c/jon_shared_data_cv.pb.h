@@ -21,6 +21,30 @@ typedef enum _ser_JonGuiDataCV_AutofocusState {
     ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_FAILED = 5
 } ser_JonGuiDataCV_AutofocusState;
 
+/* CV Bridge container status */
+typedef enum _ser_JonGuiDataCV_CvBridgeStatus {
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED = 0,
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPED = 1, /* Not running */
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STARTING = 2, /* Container starting up */
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RUNNING = 3, /* Healthy and processing */
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_STOPPING = 4, /* Graceful shutdown in progress */
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_CRASHED = 5, /* Exited unexpectedly */
+    ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RESTARTING = 6 /* Auto-restart in progress */
+} ser_JonGuiDataCV_CvBridgeStatus;
+
+/* CV Bridge exit/termination reason */
+typedef enum _ser_JonGuiDataCV_CvBridgeExitReason {
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0,
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1, /* Never started since boot */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_NORMAL = 2, /* Clean shutdown */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_ERROR = 3, /* Internal error */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4, /* CUDA/GPU failure */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5, /* IPC connection lost */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_OOM = 6, /* Out of memory */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_TIMEOUT = 7, /* Watchdog timeout */
+    ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_SIGNAL = 8 /* Killed by signal */
+} ser_JonGuiDataCV_CvBridgeExitReason;
+
 /* Struct definitions */
 /* CV Gateway state enrichment - autofocus metrics and sweep status */
 typedef struct _ser_JonGuiDataCV {
@@ -41,6 +65,11 @@ typedef struct _ser_JonGuiDataCV {
     double roi_y1;
     double roi_x2;
     double roi_y2;
+    /* CV Bridge status */
+    ser_JonGuiDataCV_CvBridgeStatus bridge_status;
+    ser_JonGuiDataCV_CvBridgeExitReason last_exit_reason;
+    int64_t bridge_uptime_ms;
+    int32_t restart_count;
 } ser_JonGuiDataCV;
 
 
@@ -53,13 +82,23 @@ extern "C" {
 #define _ser_JonGuiDataCV_AutofocusState_MAX ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_FAILED
 #define _ser_JonGuiDataCV_AutofocusState_ARRAYSIZE ((ser_JonGuiDataCV_AutofocusState)(ser_JonGuiDataCV_AutofocusState_AUTOFOCUS_STATE_FAILED+1))
 
+#define _ser_JonGuiDataCV_CvBridgeStatus_MIN ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_UNSPECIFIED
+#define _ser_JonGuiDataCV_CvBridgeStatus_MAX ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RESTARTING
+#define _ser_JonGuiDataCV_CvBridgeStatus_ARRAYSIZE ((ser_JonGuiDataCV_CvBridgeStatus)(ser_JonGuiDataCV_CvBridgeStatus_CV_BRIDGE_STATUS_RESTARTING+1))
+
+#define _ser_JonGuiDataCV_CvBridgeExitReason_MIN ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_UNSPECIFIED
+#define _ser_JonGuiDataCV_CvBridgeExitReason_MAX ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_SIGNAL
+#define _ser_JonGuiDataCV_CvBridgeExitReason_ARRAYSIZE ((ser_JonGuiDataCV_CvBridgeExitReason)(ser_JonGuiDataCV_CvBridgeExitReason_CV_BRIDGE_EXIT_REASON_SIGNAL+1))
+
 #define ser_JonGuiDataCV_autofocus_state_day_ENUMTYPE ser_JonGuiDataCV_AutofocusState
 #define ser_JonGuiDataCV_autofocus_state_heat_ENUMTYPE ser_JonGuiDataCV_AutofocusState
+#define ser_JonGuiDataCV_bridge_status_ENUMTYPE ser_JonGuiDataCV_CvBridgeStatus
+#define ser_JonGuiDataCV_last_exit_reason_ENUMTYPE ser_JonGuiDataCV_CvBridgeExitReason
 
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0}
-#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0}
+#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCV_autofocus_state_day_tag 1
@@ -76,6 +115,10 @@ extern "C" {
 #define ser_JonGuiDataCV_roi_y1_tag              21
 #define ser_JonGuiDataCV_roi_x2_tag              22
 #define ser_JonGuiDataCV_roi_y2_tag              23
+#define ser_JonGuiDataCV_bridge_status_tag       30
+#define ser_JonGuiDataCV_last_exit_reason_tag    31
+#define ser_JonGuiDataCV_bridge_uptime_ms_tag    32
+#define ser_JonGuiDataCV_restart_count_tag       33
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCV_FIELDLIST(X, a) \
@@ -92,7 +135,11 @@ X(a, STATIC,   SINGULAR, DOUBLE,   best_focus_pos_heat,  14) \
 X(a, STATIC,   SINGULAR, DOUBLE,   roi_x1,           20) \
 X(a, STATIC,   SINGULAR, DOUBLE,   roi_y1,           21) \
 X(a, STATIC,   SINGULAR, DOUBLE,   roi_x2,           22) \
-X(a, STATIC,   SINGULAR, DOUBLE,   roi_y2,           23)
+X(a, STATIC,   SINGULAR, DOUBLE,   roi_y2,           23) \
+X(a, STATIC,   SINGULAR, UENUM,    bridge_status,    30) \
+X(a, STATIC,   SINGULAR, UENUM,    last_exit_reason,  31) \
+X(a, STATIC,   SINGULAR, INT64,    bridge_uptime_ms,  32) \
+X(a, STATIC,   SINGULAR, INT32,    restart_count,    33)
 #define ser_JonGuiDataCV_CALLBACK NULL
 #define ser_JonGuiDataCV_DEFAULT NULL
 
@@ -103,7 +150,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCV_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CV_PB_H_MAX_SIZE     ser_JonGuiDataCV_size
-#define ser_JonGuiDataCV_size                    120
+#define ser_JonGuiDataCV_size                    150
 
 #ifdef __cplusplus
 } /* extern "C" */

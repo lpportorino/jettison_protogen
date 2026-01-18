@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17jon_shared_cmd_cv.proto\x12\x06\x63md.CV\x1a\x1bjon_shared_data_types.proto\"\xf2\x04\n\x04Root\x12.\n\x0eset_auto_focus\x18\x01 \x01(\x0b\x32\x14.cmd.CV.SetAutoFocusH\x00\x12\x30\n\x0fstart_track_ndc\x18\x02 \x01(\x0b\x32\x15.cmd.CV.StartTrackNDCH\x00\x12\'\n\nstop_track\x18\x03 \x01(\x0b\x32\x11.cmd.CV.StopTrackH\x00\x12\x38\n\x13vampire_mode_enable\x18\x04 \x01(\x0b\x32\x19.cmd.CV.VampireModeEnableH\x00\x12:\n\x14vampire_mode_disable\x18\x05 \x01(\x0b\x32\x1a.cmd.CV.VampireModeDisableH\x00\x12\x44\n\x19stabilization_mode_enable\x18\x06 \x01(\x0b\x32\x1f.cmd.CV.StabilizationModeEnableH\x00\x12\x46\n\x1astabilization_mode_disable\x18\x07 \x01(\x0b\x32 .cmd.CV.StabilizationModeDisableH\x00\x12\'\n\ndump_start\x18\x08 \x01(\x0b\x32\x11.cmd.CV.DumpStartH\x00\x12%\n\tdump_stop\x18\t \x01(\x0b\x32\x10.cmd.CV.DumpStopH\x00\x12@\n\x17recognition_mode_enable\x18\n \x01(\x0b\x32\x1d.cmd.CV.RecognitionModeEnableH\x00\x12\x42\n\x18recognition_mode_disable\x18\x0b \x01(\x0b\x32\x1e.cmd.CV.RecognitionModeDisableH\x00\x42\x05\n\x03\x63md\"\x13\n\x11VampireModeEnable\"\x0b\n\tDumpStart\"\n\n\x08\x44umpStop\"\x14\n\x12VampireModeDisable\"\x19\n\x17StabilizationModeEnable\"\x1a\n\x18StabilizationModeDisable\"\x17\n\x15RecognitionModeEnable\"\x18\n\x16RecognitionModeDisable\"K\n\x0cSetAutoFocus\x12,\n\x07\x63hannel\x18\x01 \x01(\x0e\x32\x1b.ser.JonGuiDataVideoChannel\x12\r\n\x05value\x18\x02 \x01(\x08\"{\n\rStartTrackNDC\x12,\n\x07\x63hannel\x18\x01 \x01(\x0e\x32\x1b.ser.JonGuiDataVideoChannel\x12\t\n\x01x\x18\x02 \x01(\x01\x12\t\n\x01y\x18\x03 \x01(\x01\x12\x12\n\nframe_time\x18\x04 \x01(\x04\x12\x12\n\nstate_time\x18\x05 \x01(\x04\"\x0b\n\tStopTrackBIZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/cvb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x17jon_shared_cmd_cv.proto\x12\x06\x63md.CV\x1a\x1bjon_shared_data_types.proto\"\xfb\x05\n\x04Root\x12.\n\x0eset_auto_focus\x18\x01 \x01(\x0b\x32\x14.cmd.CV.SetAutoFocusH\x00\x12\x30\n\x0fstart_track_ndc\x18\x02 \x01(\x0b\x32\x15.cmd.CV.StartTrackNDCH\x00\x12\'\n\nstop_track\x18\x03 \x01(\x0b\x32\x11.cmd.CV.StopTrackH\x00\x12\x38\n\x13vampire_mode_enable\x18\x04 \x01(\x0b\x32\x19.cmd.CV.VampireModeEnableH\x00\x12:\n\x14vampire_mode_disable\x18\x05 \x01(\x0b\x32\x1a.cmd.CV.VampireModeDisableH\x00\x12\x44\n\x19stabilization_mode_enable\x18\x06 \x01(\x0b\x32\x1f.cmd.CV.StabilizationModeEnableH\x00\x12\x46\n\x1astabilization_mode_disable\x18\x07 \x01(\x0b\x32 .cmd.CV.StabilizationModeDisableH\x00\x12\'\n\ndump_start\x18\x08 \x01(\x0b\x32\x11.cmd.CV.DumpStartH\x00\x12%\n\tdump_stop\x18\t \x01(\x0b\x32\x10.cmd.CV.DumpStopH\x00\x12@\n\x17recognition_mode_enable\x18\n \x01(\x0b\x32\x1d.cmd.CV.RecognitionModeEnableH\x00\x12\x42\n\x18recognition_mode_disable\x18\x0b \x01(\x0b\x32\x1e.cmd.CV.RecognitionModeDisableH\x00\x12+\n\x0c\x62ridge_start\x18\x14 \x01(\x0b\x32\x13.cmd.CV.BridgeStartH\x00\x12)\n\x0b\x62ridge_stop\x18\x15 \x01(\x0b\x32\x12.cmd.CV.BridgeStopH\x00\x12/\n\x0e\x62ridge_restart\x18\x16 \x01(\x0b\x32\x15.cmd.CV.BridgeRestartH\x00\x42\x05\n\x03\x63md\"\x13\n\x11VampireModeEnable\"\x0b\n\tDumpStart\"\n\n\x08\x44umpStop\"\x14\n\x12VampireModeDisable\"\x19\n\x17StabilizationModeEnable\"\x1a\n\x18StabilizationModeDisable\"\x17\n\x15RecognitionModeEnable\"\x18\n\x16RecognitionModeDisable\"K\n\x0cSetAutoFocus\x12,\n\x07\x63hannel\x18\x01 \x01(\x0e\x32\x1b.ser.JonGuiDataVideoChannel\x12\r\n\x05value\x18\x02 \x01(\x08\"{\n\rStartTrackNDC\x12,\n\x07\x63hannel\x18\x01 \x01(\x0e\x32\x1b.ser.JonGuiDataVideoChannel\x12\t\n\x01x\x18\x02 \x01(\x01\x12\t\n\x01y\x18\x03 \x01(\x01\x12\x12\n\nframe_time\x18\x04 \x01(\x04\x12\x12\n\nstate_time\x18\x05 \x01(\x04\"\x0b\n\tStopTrack\"\r\n\x0b\x42ridgeStart\"\x1b\n\nBridgeStop\x12\r\n\x05\x66orce\x18\x01 \x01(\x08\"\x1e\n\rBridgeRestart\x12\r\n\x05\x66orce\x18\x01 \x01(\x08\x42IZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/cvb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,27 +34,33 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/cv'
   _globals['_ROOT']._serialized_start=65
-  _globals['_ROOT']._serialized_end=691
-  _globals['_VAMPIREMODEENABLE']._serialized_start=693
-  _globals['_VAMPIREMODEENABLE']._serialized_end=712
-  _globals['_DUMPSTART']._serialized_start=714
-  _globals['_DUMPSTART']._serialized_end=725
-  _globals['_DUMPSTOP']._serialized_start=727
-  _globals['_DUMPSTOP']._serialized_end=737
-  _globals['_VAMPIREMODEDISABLE']._serialized_start=739
-  _globals['_VAMPIREMODEDISABLE']._serialized_end=759
-  _globals['_STABILIZATIONMODEENABLE']._serialized_start=761
-  _globals['_STABILIZATIONMODEENABLE']._serialized_end=786
-  _globals['_STABILIZATIONMODEDISABLE']._serialized_start=788
-  _globals['_STABILIZATIONMODEDISABLE']._serialized_end=814
-  _globals['_RECOGNITIONMODEENABLE']._serialized_start=816
-  _globals['_RECOGNITIONMODEENABLE']._serialized_end=839
-  _globals['_RECOGNITIONMODEDISABLE']._serialized_start=841
-  _globals['_RECOGNITIONMODEDISABLE']._serialized_end=865
-  _globals['_SETAUTOFOCUS']._serialized_start=867
-  _globals['_SETAUTOFOCUS']._serialized_end=942
-  _globals['_STARTTRACKNDC']._serialized_start=944
-  _globals['_STARTTRACKNDC']._serialized_end=1067
-  _globals['_STOPTRACK']._serialized_start=1069
-  _globals['_STOPTRACK']._serialized_end=1080
+  _globals['_ROOT']._serialized_end=828
+  _globals['_VAMPIREMODEENABLE']._serialized_start=830
+  _globals['_VAMPIREMODEENABLE']._serialized_end=849
+  _globals['_DUMPSTART']._serialized_start=851
+  _globals['_DUMPSTART']._serialized_end=862
+  _globals['_DUMPSTOP']._serialized_start=864
+  _globals['_DUMPSTOP']._serialized_end=874
+  _globals['_VAMPIREMODEDISABLE']._serialized_start=876
+  _globals['_VAMPIREMODEDISABLE']._serialized_end=896
+  _globals['_STABILIZATIONMODEENABLE']._serialized_start=898
+  _globals['_STABILIZATIONMODEENABLE']._serialized_end=923
+  _globals['_STABILIZATIONMODEDISABLE']._serialized_start=925
+  _globals['_STABILIZATIONMODEDISABLE']._serialized_end=951
+  _globals['_RECOGNITIONMODEENABLE']._serialized_start=953
+  _globals['_RECOGNITIONMODEENABLE']._serialized_end=976
+  _globals['_RECOGNITIONMODEDISABLE']._serialized_start=978
+  _globals['_RECOGNITIONMODEDISABLE']._serialized_end=1002
+  _globals['_SETAUTOFOCUS']._serialized_start=1004
+  _globals['_SETAUTOFOCUS']._serialized_end=1079
+  _globals['_STARTTRACKNDC']._serialized_start=1081
+  _globals['_STARTTRACKNDC']._serialized_end=1204
+  _globals['_STOPTRACK']._serialized_start=1206
+  _globals['_STOPTRACK']._serialized_end=1217
+  _globals['_BRIDGESTART']._serialized_start=1219
+  _globals['_BRIDGESTART']._serialized_end=1232
+  _globals['_BRIDGESTOP']._serialized_start=1234
+  _globals['_BRIDGESTOP']._serialized_end=1261
+  _globals['_BRIDGERESTART']._serialized_start=1263
+  _globals['_BRIDGERESTART']._serialized_end=1293
 # @@protoc_insertion_point(module_scope)

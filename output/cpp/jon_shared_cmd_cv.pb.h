@@ -56,6 +56,15 @@ extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto;
 namespace cmd {
 namespace CV {
+class BridgeRestart;
+struct BridgeRestartDefaultTypeInternal;
+extern BridgeRestartDefaultTypeInternal _BridgeRestart_default_instance_;
+class BridgeStart;
+struct BridgeStartDefaultTypeInternal;
+extern BridgeStartDefaultTypeInternal _BridgeStart_default_instance_;
+class BridgeStop;
+struct BridgeStopDefaultTypeInternal;
+extern BridgeStopDefaultTypeInternal _BridgeStop_default_instance_;
 class DumpStart;
 struct DumpStartDefaultTypeInternal;
 extern DumpStartDefaultTypeInternal _DumpStart_default_instance_;
@@ -1852,6 +1861,531 @@ class DumpStart final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class BridgeStop final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.CV.BridgeStop) */ {
+ public:
+  inline BridgeStop() : BridgeStop(nullptr) {}
+  ~BridgeStop() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BridgeStop* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BridgeStop));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR BridgeStop(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline BridgeStop(const BridgeStop& from) : BridgeStop(nullptr, from) {}
+  inline BridgeStop(BridgeStop&& from) noexcept
+      : BridgeStop(nullptr, std::move(from)) {}
+  inline BridgeStop& operator=(const BridgeStop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BridgeStop& operator=(BridgeStop&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const BridgeStop& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const BridgeStop* internal_default_instance() {
+    return reinterpret_cast<const BridgeStop*>(
+        &_BridgeStop_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 13;
+  friend void swap(BridgeStop& a, BridgeStop& b) { a.Swap(&b); }
+  inline void Swap(BridgeStop* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BridgeStop* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  BridgeStop* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<BridgeStop>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const BridgeStop& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const BridgeStop& from) { BridgeStop::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BridgeStop* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.CV.BridgeStop"; }
+
+ protected:
+  explicit BridgeStop(::google::protobuf::Arena* arena);
+  BridgeStop(::google::protobuf::Arena* arena, const BridgeStop& from);
+  BridgeStop(::google::protobuf::Arena* arena, BridgeStop&& from) noexcept
+      : BridgeStop(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kForceFieldNumber = 1,
+  };
+  // bool force = 1;
+  void clear_force() ;
+  bool force() const;
+  void set_force(bool value);
+
+  private:
+  bool _internal_force() const;
+  void _internal_set_force(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.CV.BridgeStop)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const BridgeStop& from_msg);
+    bool force_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BridgeStart final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.CV.BridgeStart) */ {
+ public:
+  inline BridgeStart() : BridgeStart(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BridgeStart* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BridgeStart));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR BridgeStart(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline BridgeStart(const BridgeStart& from) : BridgeStart(nullptr, from) {}
+  inline BridgeStart(BridgeStart&& from) noexcept
+      : BridgeStart(nullptr, std::move(from)) {}
+  inline BridgeStart& operator=(const BridgeStart& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BridgeStart& operator=(BridgeStart&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const BridgeStart& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const BridgeStart* internal_default_instance() {
+    return reinterpret_cast<const BridgeStart*>(
+        &_BridgeStart_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 12;
+  friend void swap(BridgeStart& a, BridgeStart& b) { a.Swap(&b); }
+  inline void Swap(BridgeStart* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BridgeStart* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  BridgeStart* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<BridgeStart>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const BridgeStart& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const BridgeStart& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.CV.BridgeStart"; }
+
+ protected:
+  explicit BridgeStart(::google::protobuf::Arena* arena);
+  BridgeStart(::google::protobuf::Arena* arena, const BridgeStart& from);
+  BridgeStart(::google::protobuf::Arena* arena, BridgeStart&& from) noexcept
+      : BridgeStart(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.CV.BridgeStart)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const BridgeStart& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BridgeRestart final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:cmd.CV.BridgeRestart) */ {
+ public:
+  inline BridgeRestart() : BridgeRestart(nullptr) {}
+  ~BridgeRestart() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BridgeRestart* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BridgeRestart));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR BridgeRestart(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline BridgeRestart(const BridgeRestart& from) : BridgeRestart(nullptr, from) {}
+  inline BridgeRestart(BridgeRestart&& from) noexcept
+      : BridgeRestart(nullptr, std::move(from)) {}
+  inline BridgeRestart& operator=(const BridgeRestart& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BridgeRestart& operator=(BridgeRestart&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const BridgeRestart& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const BridgeRestart* internal_default_instance() {
+    return reinterpret_cast<const BridgeRestart*>(
+        &_BridgeRestart_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 14;
+  friend void swap(BridgeRestart& a, BridgeRestart& b) { a.Swap(&b); }
+  inline void Swap(BridgeRestart* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BridgeRestart* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  BridgeRestart* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<BridgeRestart>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const BridgeRestart& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const BridgeRestart& from) { BridgeRestart::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BridgeRestart* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.CV.BridgeRestart"; }
+
+ protected:
+  explicit BridgeRestart(::google::protobuf::Arena* arena);
+  BridgeRestart(::google::protobuf::Arena* arena, const BridgeRestart& from);
+  BridgeRestart(::google::protobuf::Arena* arena, BridgeRestart&& from) noexcept
+      : BridgeRestart(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kForceFieldNumber = 1,
+  };
+  // bool force = 1;
+  void clear_force() ;
+  bool force() const;
+  void set_force(bool value);
+
+  private:
+  bool _internal_force() const;
+  void _internal_set_force(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:cmd.CV.BridgeRestart)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const BridgeRestart& from_msg);
+    bool force_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fcv_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Root final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.CV.Root) */ {
  public:
@@ -1919,6 +2453,9 @@ class Root final : public ::google::protobuf::Message
     kDumpStop = 9,
     kRecognitionModeEnable = 10,
     kRecognitionModeDisable = 11,
+    kBridgeStart = 20,
+    kBridgeStop = 21,
+    kBridgeRestart = 22,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -2023,6 +2560,9 @@ class Root final : public ::google::protobuf::Message
     kDumpStopFieldNumber = 9,
     kRecognitionModeEnableFieldNumber = 10,
     kRecognitionModeDisableFieldNumber = 11,
+    kBridgeStartFieldNumber = 20,
+    kBridgeStopFieldNumber = 21,
+    kBridgeRestartFieldNumber = 22,
   };
   // .cmd.CV.SetAutoFocus set_auto_focus = 1;
   bool has_set_auto_focus() const;
@@ -2233,6 +2773,63 @@ class Root final : public ::google::protobuf::Message
   ::cmd::CV::RecognitionModeDisable* _internal_mutable_recognition_mode_disable();
 
   public:
+  // .cmd.CV.BridgeStart bridge_start = 20;
+  bool has_bridge_start() const;
+  private:
+  bool _internal_has_bridge_start() const;
+
+  public:
+  void clear_bridge_start() ;
+  const ::cmd::CV::BridgeStart& bridge_start() const;
+  PROTOBUF_NODISCARD ::cmd::CV::BridgeStart* release_bridge_start();
+  ::cmd::CV::BridgeStart* mutable_bridge_start();
+  void set_allocated_bridge_start(::cmd::CV::BridgeStart* value);
+  void unsafe_arena_set_allocated_bridge_start(::cmd::CV::BridgeStart* value);
+  ::cmd::CV::BridgeStart* unsafe_arena_release_bridge_start();
+
+  private:
+  const ::cmd::CV::BridgeStart& _internal_bridge_start() const;
+  ::cmd::CV::BridgeStart* _internal_mutable_bridge_start();
+
+  public:
+  // .cmd.CV.BridgeStop bridge_stop = 21;
+  bool has_bridge_stop() const;
+  private:
+  bool _internal_has_bridge_stop() const;
+
+  public:
+  void clear_bridge_stop() ;
+  const ::cmd::CV::BridgeStop& bridge_stop() const;
+  PROTOBUF_NODISCARD ::cmd::CV::BridgeStop* release_bridge_stop();
+  ::cmd::CV::BridgeStop* mutable_bridge_stop();
+  void set_allocated_bridge_stop(::cmd::CV::BridgeStop* value);
+  void unsafe_arena_set_allocated_bridge_stop(::cmd::CV::BridgeStop* value);
+  ::cmd::CV::BridgeStop* unsafe_arena_release_bridge_stop();
+
+  private:
+  const ::cmd::CV::BridgeStop& _internal_bridge_stop() const;
+  ::cmd::CV::BridgeStop* _internal_mutable_bridge_stop();
+
+  public:
+  // .cmd.CV.BridgeRestart bridge_restart = 22;
+  bool has_bridge_restart() const;
+  private:
+  bool _internal_has_bridge_restart() const;
+
+  public:
+  void clear_bridge_restart() ;
+  const ::cmd::CV::BridgeRestart& bridge_restart() const;
+  PROTOBUF_NODISCARD ::cmd::CV::BridgeRestart* release_bridge_restart();
+  ::cmd::CV::BridgeRestart* mutable_bridge_restart();
+  void set_allocated_bridge_restart(::cmd::CV::BridgeRestart* value);
+  void unsafe_arena_set_allocated_bridge_restart(::cmd::CV::BridgeRestart* value);
+  ::cmd::CV::BridgeRestart* unsafe_arena_release_bridge_restart();
+
+  private:
+  const ::cmd::CV::BridgeRestart& _internal_bridge_restart() const;
+  ::cmd::CV::BridgeRestart* _internal_mutable_bridge_restart();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.CV.Root)
@@ -2249,11 +2846,14 @@ class Root final : public ::google::protobuf::Message
   void set_has_dump_stop();
   void set_has_recognition_mode_enable();
   void set_has_recognition_mode_disable();
+  void set_has_bridge_start();
+  void set_has_bridge_stop();
+  void set_has_bridge_restart();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 11, 11,
+      0, 14, 14,
       0, 2>
       _table_;
 
@@ -2285,6 +2885,9 @@ class Root final : public ::google::protobuf::Message
       ::cmd::CV::DumpStop* dump_stop_;
       ::cmd::CV::RecognitionModeEnable* recognition_mode_enable_;
       ::cmd::CV::RecognitionModeDisable* recognition_mode_disable_;
+      ::cmd::CV::BridgeStart* bridge_start_;
+      ::cmd::CV::BridgeStop* bridge_stop_;
+      ::cmd::CV::BridgeRestart* bridge_restart_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -3179,6 +3782,243 @@ inline ::cmd::CV::RecognitionModeDisable* Root::mutable_recognition_mode_disable
   return _msg;
 }
 
+// .cmd.CV.BridgeStart bridge_start = 20;
+inline bool Root::has_bridge_start() const {
+  return cmd_case() == kBridgeStart;
+}
+inline bool Root::_internal_has_bridge_start() const {
+  return cmd_case() == kBridgeStart;
+}
+inline void Root::set_has_bridge_start() {
+  _impl_._oneof_case_[0] = kBridgeStart;
+}
+inline void Root::clear_bridge_start() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kBridgeStart) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.bridge_start_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.bridge_start_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::CV::BridgeStart* Root::release_bridge_start() {
+  // @@protoc_insertion_point(field_release:cmd.CV.Root.bridge_start)
+  if (cmd_case() == kBridgeStart) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.bridge_start_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.bridge_start_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::CV::BridgeStart& Root::_internal_bridge_start() const {
+  return cmd_case() == kBridgeStart ? *_impl_.cmd_.bridge_start_ : reinterpret_cast<::cmd::CV::BridgeStart&>(::cmd::CV::_BridgeStart_default_instance_);
+}
+inline const ::cmd::CV::BridgeStart& Root::bridge_start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.CV.Root.bridge_start)
+  return _internal_bridge_start();
+}
+inline ::cmd::CV::BridgeStart* Root::unsafe_arena_release_bridge_start() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.CV.Root.bridge_start)
+  if (cmd_case() == kBridgeStart) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.bridge_start_;
+    _impl_.cmd_.bridge_start_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_bridge_start(::cmd::CV::BridgeStart* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_bridge_start();
+    _impl_.cmd_.bridge_start_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.CV.Root.bridge_start)
+}
+inline ::cmd::CV::BridgeStart* Root::_internal_mutable_bridge_start() {
+  if (cmd_case() != kBridgeStart) {
+    clear_cmd();
+    set_has_bridge_start();
+    _impl_.cmd_.bridge_start_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::CV::BridgeStart>(GetArena());
+  }
+  return _impl_.cmd_.bridge_start_;
+}
+inline ::cmd::CV::BridgeStart* Root::mutable_bridge_start() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::CV::BridgeStart* _msg = _internal_mutable_bridge_start();
+  // @@protoc_insertion_point(field_mutable:cmd.CV.Root.bridge_start)
+  return _msg;
+}
+
+// .cmd.CV.BridgeStop bridge_stop = 21;
+inline bool Root::has_bridge_stop() const {
+  return cmd_case() == kBridgeStop;
+}
+inline bool Root::_internal_has_bridge_stop() const {
+  return cmd_case() == kBridgeStop;
+}
+inline void Root::set_has_bridge_stop() {
+  _impl_._oneof_case_[0] = kBridgeStop;
+}
+inline void Root::clear_bridge_stop() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kBridgeStop) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.bridge_stop_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.bridge_stop_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::CV::BridgeStop* Root::release_bridge_stop() {
+  // @@protoc_insertion_point(field_release:cmd.CV.Root.bridge_stop)
+  if (cmd_case() == kBridgeStop) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.bridge_stop_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.bridge_stop_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::CV::BridgeStop& Root::_internal_bridge_stop() const {
+  return cmd_case() == kBridgeStop ? *_impl_.cmd_.bridge_stop_ : reinterpret_cast<::cmd::CV::BridgeStop&>(::cmd::CV::_BridgeStop_default_instance_);
+}
+inline const ::cmd::CV::BridgeStop& Root::bridge_stop() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.CV.Root.bridge_stop)
+  return _internal_bridge_stop();
+}
+inline ::cmd::CV::BridgeStop* Root::unsafe_arena_release_bridge_stop() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.CV.Root.bridge_stop)
+  if (cmd_case() == kBridgeStop) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.bridge_stop_;
+    _impl_.cmd_.bridge_stop_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_bridge_stop(::cmd::CV::BridgeStop* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_bridge_stop();
+    _impl_.cmd_.bridge_stop_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.CV.Root.bridge_stop)
+}
+inline ::cmd::CV::BridgeStop* Root::_internal_mutable_bridge_stop() {
+  if (cmd_case() != kBridgeStop) {
+    clear_cmd();
+    set_has_bridge_stop();
+    _impl_.cmd_.bridge_stop_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::CV::BridgeStop>(GetArena());
+  }
+  return _impl_.cmd_.bridge_stop_;
+}
+inline ::cmd::CV::BridgeStop* Root::mutable_bridge_stop() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::CV::BridgeStop* _msg = _internal_mutable_bridge_stop();
+  // @@protoc_insertion_point(field_mutable:cmd.CV.Root.bridge_stop)
+  return _msg;
+}
+
+// .cmd.CV.BridgeRestart bridge_restart = 22;
+inline bool Root::has_bridge_restart() const {
+  return cmd_case() == kBridgeRestart;
+}
+inline bool Root::_internal_has_bridge_restart() const {
+  return cmd_case() == kBridgeRestart;
+}
+inline void Root::set_has_bridge_restart() {
+  _impl_._oneof_case_[0] = kBridgeRestart;
+}
+inline void Root::clear_bridge_restart() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kBridgeRestart) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.bridge_restart_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.bridge_restart_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::CV::BridgeRestart* Root::release_bridge_restart() {
+  // @@protoc_insertion_point(field_release:cmd.CV.Root.bridge_restart)
+  if (cmd_case() == kBridgeRestart) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.bridge_restart_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.bridge_restart_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::CV::BridgeRestart& Root::_internal_bridge_restart() const {
+  return cmd_case() == kBridgeRestart ? *_impl_.cmd_.bridge_restart_ : reinterpret_cast<::cmd::CV::BridgeRestart&>(::cmd::CV::_BridgeRestart_default_instance_);
+}
+inline const ::cmd::CV::BridgeRestart& Root::bridge_restart() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.CV.Root.bridge_restart)
+  return _internal_bridge_restart();
+}
+inline ::cmd::CV::BridgeRestart* Root::unsafe_arena_release_bridge_restart() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.CV.Root.bridge_restart)
+  if (cmd_case() == kBridgeRestart) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.bridge_restart_;
+    _impl_.cmd_.bridge_restart_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_bridge_restart(::cmd::CV::BridgeRestart* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_bridge_restart();
+    _impl_.cmd_.bridge_restart_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.CV.Root.bridge_restart)
+}
+inline ::cmd::CV::BridgeRestart* Root::_internal_mutable_bridge_restart() {
+  if (cmd_case() != kBridgeRestart) {
+    clear_cmd();
+    set_has_bridge_restart();
+    _impl_.cmd_.bridge_restart_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::CV::BridgeRestart>(GetArena());
+  }
+  return _impl_.cmd_.bridge_restart_;
+}
+inline ::cmd::CV::BridgeRestart* Root::mutable_bridge_restart() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::CV::BridgeRestart* _msg = _internal_mutable_bridge_restart();
+  // @@protoc_insertion_point(field_mutable:cmd.CV.Root.bridge_restart)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -3385,6 +4225,62 @@ inline void StartTrackNDC::_internal_set_state_time(::uint64_t value) {
 // -------------------------------------------------------------------
 
 // StopTrack
+
+// -------------------------------------------------------------------
+
+// BridgeStart
+
+// -------------------------------------------------------------------
+
+// BridgeStop
+
+// bool force = 1;
+inline void BridgeStop::clear_force() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.force_ = false;
+}
+inline bool BridgeStop::force() const {
+  // @@protoc_insertion_point(field_get:cmd.CV.BridgeStop.force)
+  return _internal_force();
+}
+inline void BridgeStop::set_force(bool value) {
+  _internal_set_force(value);
+  // @@protoc_insertion_point(field_set:cmd.CV.BridgeStop.force)
+}
+inline bool BridgeStop::_internal_force() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.force_;
+}
+inline void BridgeStop::_internal_set_force(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.force_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// BridgeRestart
+
+// bool force = 1;
+inline void BridgeRestart::clear_force() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.force_ = false;
+}
+inline bool BridgeRestart::force() const {
+  // @@protoc_insertion_point(field_get:cmd.CV.BridgeRestart.force)
+  return _internal_force();
+}
+inline void BridgeRestart::set_force(bool value) {
+  _internal_set_force(value);
+  // @@protoc_insertion_point(field_set:cmd.CV.BridgeRestart.force)
+}
+inline bool BridgeRestart::_internal_force() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.force_;
+}
+inline void BridgeRestart::_internal_set_force(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.force_ = value;
+}
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

@@ -61,6 +61,19 @@ typedef struct _cmd_CV_StopTrack {
     char dummy_field;
 } cmd_CV_StopTrack;
 
+/* CV Bridge container control commands */
+typedef struct _cmd_CV_BridgeStart { /* Starts the CV bridge container */
+    char dummy_field;
+} cmd_CV_BridgeStart;
+
+typedef struct _cmd_CV_BridgeStop {
+    bool force; /* If true, SIGKILL instead of SIGTERM */
+} cmd_CV_BridgeStop;
+
+typedef struct _cmd_CV_BridgeRestart {
+    bool force; /* If true, force stop before restart */
+} cmd_CV_BridgeRestart;
+
 typedef struct _cmd_CV_Root {
     pb_size_t which_cmd;
     union {
@@ -75,6 +88,10 @@ typedef struct _cmd_CV_Root {
         cmd_CV_DumpStop dump_stop;
         cmd_CV_RecognitionModeEnable recognition_mode_enable;
         cmd_CV_RecognitionModeDisable recognition_mode_disable;
+        /* CV Bridge container control */
+        cmd_CV_BridgeStart bridge_start;
+        cmd_CV_BridgeStop bridge_stop;
+        cmd_CV_BridgeRestart bridge_restart;
     } cmd;
 } cmd_CV_Root;
 
@@ -96,6 +113,9 @@ extern "C" {
 #define cmd_CV_SetAutoFocus_init_default         {_ser_JonGuiDataVideoChannel_MIN, 0}
 #define cmd_CV_StartTrackNDC_init_default        {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_CV_StopTrack_init_default            {0}
+#define cmd_CV_BridgeStart_init_default          {0}
+#define cmd_CV_BridgeStop_init_default           {0}
+#define cmd_CV_BridgeRestart_init_default        {0}
 #define cmd_CV_Root_init_zero                    {0, {cmd_CV_SetAutoFocus_init_zero}}
 #define cmd_CV_VampireModeEnable_init_zero       {0}
 #define cmd_CV_DumpStart_init_zero               {0}
@@ -108,6 +128,9 @@ extern "C" {
 #define cmd_CV_SetAutoFocus_init_zero            {_ser_JonGuiDataVideoChannel_MIN, 0}
 #define cmd_CV_StartTrackNDC_init_zero           {_ser_JonGuiDataVideoChannel_MIN, 0, 0, 0, 0}
 #define cmd_CV_StopTrack_init_zero               {0}
+#define cmd_CV_BridgeStart_init_zero             {0}
+#define cmd_CV_BridgeStop_init_zero              {0}
+#define cmd_CV_BridgeRestart_init_zero           {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_CV_SetAutoFocus_channel_tag          1
@@ -117,6 +140,8 @@ extern "C" {
 #define cmd_CV_StartTrackNDC_y_tag               3
 #define cmd_CV_StartTrackNDC_frame_time_tag      4
 #define cmd_CV_StartTrackNDC_state_time_tag      5
+#define cmd_CV_BridgeStop_force_tag              1
+#define cmd_CV_BridgeRestart_force_tag           1
 #define cmd_CV_Root_set_auto_focus_tag           1
 #define cmd_CV_Root_start_track_ndc_tag          2
 #define cmd_CV_Root_stop_track_tag               3
@@ -128,6 +153,9 @@ extern "C" {
 #define cmd_CV_Root_dump_stop_tag                9
 #define cmd_CV_Root_recognition_mode_enable_tag  10
 #define cmd_CV_Root_recognition_mode_disable_tag 11
+#define cmd_CV_Root_bridge_start_tag             20
+#define cmd_CV_Root_bridge_stop_tag              21
+#define cmd_CV_Root_bridge_restart_tag           22
 
 /* Struct field encoding specification for nanopb */
 #define cmd_CV_Root_FIELDLIST(X, a) \
@@ -141,7 +169,10 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stabilization_mode_disable,cmd.stabiliza
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_start,cmd.dump_start),   8) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,dump_stop,cmd.dump_stop),   9) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_enable,cmd.recognition_mode_enable),  10) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_disable,cmd.recognition_mode_disable),  11)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_disable,cmd.recognition_mode_disable),  11) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_start,cmd.bridge_start),  20) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_stop,cmd.bridge_stop),  21) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,bridge_restart,cmd.bridge_restart),  22)
 #define cmd_CV_Root_CALLBACK NULL
 #define cmd_CV_Root_DEFAULT NULL
 #define cmd_CV_Root_cmd_set_auto_focus_MSGTYPE cmd_CV_SetAutoFocus
@@ -155,6 +186,9 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,recognition_mode_disable,cmd.recognition
 #define cmd_CV_Root_cmd_dump_stop_MSGTYPE cmd_CV_DumpStop
 #define cmd_CV_Root_cmd_recognition_mode_enable_MSGTYPE cmd_CV_RecognitionModeEnable
 #define cmd_CV_Root_cmd_recognition_mode_disable_MSGTYPE cmd_CV_RecognitionModeDisable
+#define cmd_CV_Root_cmd_bridge_start_MSGTYPE cmd_CV_BridgeStart
+#define cmd_CV_Root_cmd_bridge_stop_MSGTYPE cmd_CV_BridgeStop
+#define cmd_CV_Root_cmd_bridge_restart_MSGTYPE cmd_CV_BridgeRestart
 
 #define cmd_CV_VampireModeEnable_FIELDLIST(X, a) \
 
@@ -216,6 +250,21 @@ X(a, STATIC,   SINGULAR, UINT64,   state_time,        5)
 #define cmd_CV_StopTrack_CALLBACK NULL
 #define cmd_CV_StopTrack_DEFAULT NULL
 
+#define cmd_CV_BridgeStart_FIELDLIST(X, a) \
+
+#define cmd_CV_BridgeStart_CALLBACK NULL
+#define cmd_CV_BridgeStart_DEFAULT NULL
+
+#define cmd_CV_BridgeStop_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     force,             1)
+#define cmd_CV_BridgeStop_CALLBACK NULL
+#define cmd_CV_BridgeStop_DEFAULT NULL
+
+#define cmd_CV_BridgeRestart_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     force,             1)
+#define cmd_CV_BridgeRestart_CALLBACK NULL
+#define cmd_CV_BridgeRestart_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_CV_Root_msg;
 extern const pb_msgdesc_t cmd_CV_VampireModeEnable_msg;
 extern const pb_msgdesc_t cmd_CV_DumpStart_msg;
@@ -228,6 +277,9 @@ extern const pb_msgdesc_t cmd_CV_RecognitionModeDisable_msg;
 extern const pb_msgdesc_t cmd_CV_SetAutoFocus_msg;
 extern const pb_msgdesc_t cmd_CV_StartTrackNDC_msg;
 extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
+extern const pb_msgdesc_t cmd_CV_BridgeStart_msg;
+extern const pb_msgdesc_t cmd_CV_BridgeStop_msg;
+extern const pb_msgdesc_t cmd_CV_BridgeRestart_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_CV_Root_fields &cmd_CV_Root_msg
@@ -242,9 +294,15 @@ extern const pb_msgdesc_t cmd_CV_StopTrack_msg;
 #define cmd_CV_SetAutoFocus_fields &cmd_CV_SetAutoFocus_msg
 #define cmd_CV_StartTrackNDC_fields &cmd_CV_StartTrackNDC_msg
 #define cmd_CV_StopTrack_fields &cmd_CV_StopTrack_msg
+#define cmd_CV_BridgeStart_fields &cmd_CV_BridgeStart_msg
+#define cmd_CV_BridgeStop_fields &cmd_CV_BridgeStop_msg
+#define cmd_CV_BridgeRestart_fields &cmd_CV_BridgeRestart_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_CV_JON_SHARED_CMD_CV_PB_H_MAX_SIZE   cmd_CV_Root_size
+#define cmd_CV_BridgeRestart_size                2
+#define cmd_CV_BridgeStart_size                  0
+#define cmd_CV_BridgeStop_size                   2
 #define cmd_CV_DumpStart_size                    0
 #define cmd_CV_DumpStop_size                     0
 #define cmd_CV_RecognitionModeDisable_size       0

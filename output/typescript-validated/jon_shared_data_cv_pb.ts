@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_cv.proto.
  */
 export const file_jon_shared_data_cv: GenFile = /*@__PURE__*/
-  fileDesc("Chhqb25fc2hhcmVkX2RhdGFfY3YucHJvdG8SA3NlciLyBgoMSm9uR3VpRGF0YUNWEkcKE2F1dG9mb2N1c19zdGF0ZV9kYXkYASABKA4yIC5zZXIuSm9uR3VpRGF0YUNWLkF1dG9mb2N1c1N0YXRlQgi6SAWCAQIQARIlCg1zaGFycG5lc3NfZGF5GAIgASgBQg66SAsSCSkAAAAAAAAAABIqChJiZXN0X3NoYXJwbmVzc19kYXkYAyABKAFCDrpICxIJKQAAAAAAAAAAEiUKEnN3ZWVwX3Byb2dyZXNzX2RheRgEIAEoBUIJukgGGgQYZCgAEjMKEmJlc3RfZm9jdXNfcG9zX2RheRgFIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASSAoUYXV0b2ZvY3VzX3N0YXRlX2hlYXQYCiABKA4yIC5zZXIuSm9uR3VpRGF0YUNWLkF1dG9mb2N1c1N0YXRlQgi6SAWCAQIQARImCg5zaGFycG5lc3NfaGVhdBgLIAEoAUIOukgLEgkpAAAAAAAAAAASKwoTYmVzdF9zaGFycG5lc3NfaGVhdBgMIAEoAUIOukgLEgkpAAAAAAAAAAASJgoTc3dlZXBfcHJvZ3Jlc3NfaGVhdBgNIAEoBUIJukgGGgQYZCgAEjQKE2Jlc3RfZm9jdXNfcG9zX2hlYXQYDiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEicKBnJvaV94MRgUIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SJwoGcm9pX3kxGBUgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxInCgZyb2lfeDIYFiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EicKBnJvaV95MhgXIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8iyAEKDkF1dG9mb2N1c1N0YXRlEh8KG0FVVE9GT0NVU19TVEFURV9VTlNQRUNJRklFRBAAEhgKFEFVVE9GT0NVU19TVEFURV9JRExFEAESIAocQVVUT0ZPQ1VTX1NUQVRFX0NPQVJTRV9TV0VFUBACEh4KGkFVVE9GT0NVU19TVEFURV9GSU5FX1NXRUVQEAMSHQoZQVVUT0ZPQ1VTX1NUQVRFX0NPTlZFUkdFRBAEEhoKFkFVVE9GT0NVU19TVEFURV9GQUlMRUQQBUJKWkhnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chhqb25fc2hhcmVkX2RhdGFfY3YucHJvdG8SA3NlciKHDQoMSm9uR3VpRGF0YUNWEkcKE2F1dG9mb2N1c19zdGF0ZV9kYXkYASABKA4yIC5zZXIuSm9uR3VpRGF0YUNWLkF1dG9mb2N1c1N0YXRlQgi6SAWCAQIQARIlCg1zaGFycG5lc3NfZGF5GAIgASgBQg66SAsSCSkAAAAAAAAAABIqChJiZXN0X3NoYXJwbmVzc19kYXkYAyABKAFCDrpICxIJKQAAAAAAAAAAEiUKEnN3ZWVwX3Byb2dyZXNzX2RheRgEIAEoBUIJukgGGgQYZCgAEjMKEmJlc3RfZm9jdXNfcG9zX2RheRgFIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAAAAASSAoUYXV0b2ZvY3VzX3N0YXRlX2hlYXQYCiABKA4yIC5zZXIuSm9uR3VpRGF0YUNWLkF1dG9mb2N1c1N0YXRlQgi6SAWCAQIQARImCg5zaGFycG5lc3NfaGVhdBgLIAEoAUIOukgLEgkpAAAAAAAAAAASKwoTYmVzdF9zaGFycG5lc3NfaGVhdBgMIAEoAUIOukgLEgkpAAAAAAAAAAASJgoTc3dlZXBfcHJvZ3Jlc3NfaGVhdBgNIAEoBUIJukgGGgQYZCgAEjQKE2Jlc3RfZm9jdXNfcG9zX2hlYXQYDiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAAAAEicKBnJvaV94MRgUIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SJwoGcm9pX3kxGBUgASgBQhe6SBQSEhkAAAAAAADwPykAAAAAAADwvxInCgZyb2lfeDIYFiABKAFCF7pIFBISGQAAAAAAAPA/KQAAAAAAAPC/EicKBnJvaV95MhgXIAEoAUIXukgUEhIZAAAAAAAA8D8pAAAAAAAA8L8SQQoNYnJpZGdlX3N0YXR1cxgeIAEoDjIgLnNlci5Kb25HdWlEYXRhQ1YuQ3ZCcmlkZ2VTdGF0dXNCCLpIBYIBAhABEkgKEGxhc3RfZXhpdF9yZWFzb24YHyABKA4yJC5zZXIuSm9uR3VpRGF0YUNWLkN2QnJpZGdlRXhpdFJlYXNvbkIIukgFggECEAESIQoQYnJpZGdlX3VwdGltZV9tcxggIAEoA0IHukgEIgIoABIeCg1yZXN0YXJ0X2NvdW50GCEgASgFQge6SAQaAigAIsgBCg5BdXRvZm9jdXNTdGF0ZRIfChtBVVRPRk9DVVNfU1RBVEVfVU5TUEVDSUZJRUQQABIYChRBVVRPRk9DVVNfU1RBVEVfSURMRRABEiAKHEFVVE9GT0NVU19TVEFURV9DT0FSU0VfU1dFRVAQAhIeChpBVVRPRk9DVVNfU1RBVEVfRklORV9TV0VFUBADEh0KGUFVVE9GT0NVU19TVEFURV9DT05WRVJHRUQQBBIaChZBVVRPRk9DVVNfU1RBVEVfRkFJTEVEEAUi6wEKDkN2QnJpZGdlU3RhdHVzEiAKHENWX0JSSURHRV9TVEFUVVNfVU5TUEVDSUZJRUQQABIcChhDVl9CUklER0VfU1RBVFVTX1NUT1BQRUQQARIdChlDVl9CUklER0VfU1RBVFVTX1NUQVJUSU5HEAISHAoYQ1ZfQlJJREdFX1NUQVRVU19SVU5OSU5HEAMSHQoZQ1ZfQlJJREdFX1NUQVRVU19TVE9QUElORxAEEhwKGENWX0JSSURHRV9TVEFUVVNfQ1JBU0hFRBAFEh8KG0NWX0JSSURHRV9TVEFUVVNfUkVTVEFSVElORxAGItQCChJDdkJyaWRnZUV4aXRSZWFzb24SJQohQ1ZfQlJJREdFX0VYSVRfUkVBU09OX1VOU1BFQ0lGSUVEEAASJQohQ1ZfQlJJREdFX0VYSVRfUkVBU09OX05PVF9TVEFSVEVEEAESIAocQ1ZfQlJJREdFX0VYSVRfUkVBU09OX05PUk1BTBACEh8KG0NWX0JSSURHRV9FWElUX1JFQVNPTl9FUlJPUhADEiQKIENWX0JSSURHRV9FWElUX1JFQVNPTl9DVURBX0VSUk9SEAQSIwofQ1ZfQlJJREdFX0VYSVRfUkVBU09OX0lQQ19FUlJPUhAFEh0KGUNWX0JSSURHRV9FWElUX1JFQVNPTl9PT00QBhIhCh1DVl9CUklER0VfRVhJVF9SRUFTT05fVElNRU9VVBAHEiAKHENWX0JSSURHRV9FWElUX1JFQVNPTl9TSUdOQUwQCEJKWkhnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvY3ZiBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * CV Gateway state enrichment - autofocus metrics and sweep status
@@ -95,6 +95,28 @@ export type JonGuiDataCV = Message<"ser.JonGuiDataCV"> & {
    * @generated from field: double roi_y2 = 23;
    */
   roiY2: number;
+
+  /**
+   * CV Bridge status
+   *
+   * @generated from field: ser.JonGuiDataCV.CvBridgeStatus bridge_status = 30;
+   */
+  bridgeStatus: JonGuiDataCV_CvBridgeStatus;
+
+  /**
+   * @generated from field: ser.JonGuiDataCV.CvBridgeExitReason last_exit_reason = 31;
+   */
+  lastExitReason: JonGuiDataCV_CvBridgeExitReason;
+
+  /**
+   * @generated from field: int64 bridge_uptime_ms = 32;
+   */
+  bridgeUptimeMs: bigint;
+
+  /**
+   * @generated from field: int32 restart_count = 33;
+   */
+  restartCount: number;
 };
 
 /**
@@ -146,4 +168,138 @@ export enum JonGuiDataCV_AutofocusState {
  */
 export const JonGuiDataCV_AutofocusStateSchema: GenEnum<JonGuiDataCV_AutofocusState> = /*@__PURE__*/
   enumDesc(file_jon_shared_data_cv, 0, 0);
+
+/**
+ * CV Bridge container status
+ *
+ * @generated from enum ser.JonGuiDataCV.CvBridgeStatus
+ */
+export enum JonGuiDataCV_CvBridgeStatus {
+  /**
+   * @generated from enum value: CV_BRIDGE_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Not running
+   *
+   * @generated from enum value: CV_BRIDGE_STATUS_STOPPED = 1;
+   */
+  STOPPED = 1,
+
+  /**
+   * Container starting up
+   *
+   * @generated from enum value: CV_BRIDGE_STATUS_STARTING = 2;
+   */
+  STARTING = 2,
+
+  /**
+   * Healthy and processing
+   *
+   * @generated from enum value: CV_BRIDGE_STATUS_RUNNING = 3;
+   */
+  RUNNING = 3,
+
+  /**
+   * Graceful shutdown in progress
+   *
+   * @generated from enum value: CV_BRIDGE_STATUS_STOPPING = 4;
+   */
+  STOPPING = 4,
+
+  /**
+   * Exited unexpectedly
+   *
+   * @generated from enum value: CV_BRIDGE_STATUS_CRASHED = 5;
+   */
+  CRASHED = 5,
+
+  /**
+   * Auto-restart in progress
+   *
+   * @generated from enum value: CV_BRIDGE_STATUS_RESTARTING = 6;
+   */
+  RESTARTING = 6,
+}
+
+/**
+ * Describes the enum ser.JonGuiDataCV.CvBridgeStatus.
+ */
+export const JonGuiDataCV_CvBridgeStatusSchema: GenEnum<JonGuiDataCV_CvBridgeStatus> = /*@__PURE__*/
+  enumDesc(file_jon_shared_data_cv, 0, 1);
+
+/**
+ * CV Bridge exit/termination reason
+ *
+ * @generated from enum ser.JonGuiDataCV.CvBridgeExitReason
+ */
+export enum JonGuiDataCV_CvBridgeExitReason {
+  /**
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Never started since boot
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1;
+   */
+  NOT_STARTED = 1,
+
+  /**
+   * Clean shutdown
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_NORMAL = 2;
+   */
+  NORMAL = 2,
+
+  /**
+   * Internal error
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_ERROR = 3;
+   */
+  ERROR = 3,
+
+  /**
+   * CUDA/GPU failure
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4;
+   */
+  CUDA_ERROR = 4,
+
+  /**
+   * IPC connection lost
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5;
+   */
+  IPC_ERROR = 5,
+
+  /**
+   * Out of memory
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_OOM = 6;
+   */
+  OOM = 6,
+
+  /**
+   * Watchdog timeout
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_TIMEOUT = 7;
+   */
+  TIMEOUT = 7,
+
+  /**
+   * Killed by signal
+   *
+   * @generated from enum value: CV_BRIDGE_EXIT_REASON_SIGNAL = 8;
+   */
+  SIGNAL = 8,
+}
+
+/**
+ * Describes the enum ser.JonGuiDataCV.CvBridgeExitReason.
+ */
+export const JonGuiDataCV_CvBridgeExitReasonSchema: GenEnum<JonGuiDataCV_CvBridgeExitReason> = /*@__PURE__*/
+  enumDesc(file_jon_shared_data_cv, 0, 2);
 

@@ -82,6 +82,136 @@ func (JonGuiDataCV_AutofocusState) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 0}
 }
 
+// CV Bridge container status
+type JonGuiDataCV_CvBridgeStatus int32
+
+const (
+	JonGuiDataCV_CV_BRIDGE_STATUS_UNSPECIFIED JonGuiDataCV_CvBridgeStatus = 0
+	JonGuiDataCV_CV_BRIDGE_STATUS_STOPPED     JonGuiDataCV_CvBridgeStatus = 1 // Not running
+	JonGuiDataCV_CV_BRIDGE_STATUS_STARTING    JonGuiDataCV_CvBridgeStatus = 2 // Container starting up
+	JonGuiDataCV_CV_BRIDGE_STATUS_RUNNING     JonGuiDataCV_CvBridgeStatus = 3 // Healthy and processing
+	JonGuiDataCV_CV_BRIDGE_STATUS_STOPPING    JonGuiDataCV_CvBridgeStatus = 4 // Graceful shutdown in progress
+	JonGuiDataCV_CV_BRIDGE_STATUS_CRASHED     JonGuiDataCV_CvBridgeStatus = 5 // Exited unexpectedly
+	JonGuiDataCV_CV_BRIDGE_STATUS_RESTARTING  JonGuiDataCV_CvBridgeStatus = 6 // Auto-restart in progress
+)
+
+// Enum value maps for JonGuiDataCV_CvBridgeStatus.
+var (
+	JonGuiDataCV_CvBridgeStatus_name = map[int32]string{
+		0: "CV_BRIDGE_STATUS_UNSPECIFIED",
+		1: "CV_BRIDGE_STATUS_STOPPED",
+		2: "CV_BRIDGE_STATUS_STARTING",
+		3: "CV_BRIDGE_STATUS_RUNNING",
+		4: "CV_BRIDGE_STATUS_STOPPING",
+		5: "CV_BRIDGE_STATUS_CRASHED",
+		6: "CV_BRIDGE_STATUS_RESTARTING",
+	}
+	JonGuiDataCV_CvBridgeStatus_value = map[string]int32{
+		"CV_BRIDGE_STATUS_UNSPECIFIED": 0,
+		"CV_BRIDGE_STATUS_STOPPED":     1,
+		"CV_BRIDGE_STATUS_STARTING":    2,
+		"CV_BRIDGE_STATUS_RUNNING":     3,
+		"CV_BRIDGE_STATUS_STOPPING":    4,
+		"CV_BRIDGE_STATUS_CRASHED":     5,
+		"CV_BRIDGE_STATUS_RESTARTING":  6,
+	}
+)
+
+func (x JonGuiDataCV_CvBridgeStatus) Enum() *JonGuiDataCV_CvBridgeStatus {
+	p := new(JonGuiDataCV_CvBridgeStatus)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataCV_CvBridgeStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataCV_CvBridgeStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_cv_proto_enumTypes[1].Descriptor()
+}
+
+func (JonGuiDataCV_CvBridgeStatus) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_cv_proto_enumTypes[1]
+}
+
+func (x JonGuiDataCV_CvBridgeStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataCV_CvBridgeStatus.Descriptor instead.
+func (JonGuiDataCV_CvBridgeStatus) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 1}
+}
+
+// CV Bridge exit/termination reason
+type JonGuiDataCV_CvBridgeExitReason int32
+
+const (
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_UNSPECIFIED JonGuiDataCV_CvBridgeExitReason = 0
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_NOT_STARTED JonGuiDataCV_CvBridgeExitReason = 1 // Never started since boot
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_NORMAL      JonGuiDataCV_CvBridgeExitReason = 2 // Clean shutdown
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_ERROR       JonGuiDataCV_CvBridgeExitReason = 3 // Internal error
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_CUDA_ERROR  JonGuiDataCV_CvBridgeExitReason = 4 // CUDA/GPU failure
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_IPC_ERROR   JonGuiDataCV_CvBridgeExitReason = 5 // IPC connection lost
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_OOM         JonGuiDataCV_CvBridgeExitReason = 6 // Out of memory
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_TIMEOUT     JonGuiDataCV_CvBridgeExitReason = 7 // Watchdog timeout
+	JonGuiDataCV_CV_BRIDGE_EXIT_REASON_SIGNAL      JonGuiDataCV_CvBridgeExitReason = 8 // Killed by signal
+)
+
+// Enum value maps for JonGuiDataCV_CvBridgeExitReason.
+var (
+	JonGuiDataCV_CvBridgeExitReason_name = map[int32]string{
+		0: "CV_BRIDGE_EXIT_REASON_UNSPECIFIED",
+		1: "CV_BRIDGE_EXIT_REASON_NOT_STARTED",
+		2: "CV_BRIDGE_EXIT_REASON_NORMAL",
+		3: "CV_BRIDGE_EXIT_REASON_ERROR",
+		4: "CV_BRIDGE_EXIT_REASON_CUDA_ERROR",
+		5: "CV_BRIDGE_EXIT_REASON_IPC_ERROR",
+		6: "CV_BRIDGE_EXIT_REASON_OOM",
+		7: "CV_BRIDGE_EXIT_REASON_TIMEOUT",
+		8: "CV_BRIDGE_EXIT_REASON_SIGNAL",
+	}
+	JonGuiDataCV_CvBridgeExitReason_value = map[string]int32{
+		"CV_BRIDGE_EXIT_REASON_UNSPECIFIED": 0,
+		"CV_BRIDGE_EXIT_REASON_NOT_STARTED": 1,
+		"CV_BRIDGE_EXIT_REASON_NORMAL":      2,
+		"CV_BRIDGE_EXIT_REASON_ERROR":       3,
+		"CV_BRIDGE_EXIT_REASON_CUDA_ERROR":  4,
+		"CV_BRIDGE_EXIT_REASON_IPC_ERROR":   5,
+		"CV_BRIDGE_EXIT_REASON_OOM":         6,
+		"CV_BRIDGE_EXIT_REASON_TIMEOUT":     7,
+		"CV_BRIDGE_EXIT_REASON_SIGNAL":      8,
+	}
+)
+
+func (x JonGuiDataCV_CvBridgeExitReason) Enum() *JonGuiDataCV_CvBridgeExitReason {
+	p := new(JonGuiDataCV_CvBridgeExitReason)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataCV_CvBridgeExitReason) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataCV_CvBridgeExitReason) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_cv_proto_enumTypes[2].Descriptor()
+}
+
+func (JonGuiDataCV_CvBridgeExitReason) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_cv_proto_enumTypes[2]
+}
+
+func (x JonGuiDataCV_CvBridgeExitReason) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataCV_CvBridgeExitReason.Descriptor instead.
+func (JonGuiDataCV_CvBridgeExitReason) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_cv_proto_rawDescGZIP(), []int{0, 2}
+}
+
 // CV Gateway state enrichment - autofocus metrics and sweep status
 type JonGuiDataCV struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -98,12 +228,17 @@ type JonGuiDataCV struct {
 	SweepProgressHeat  int32                       `protobuf:"varint,13,opt,name=sweep_progress_heat,json=sweepProgressHeat,proto3" json:"sweep_progress_heat,omitempty"`
 	BestFocusPosHeat   float64                     `protobuf:"fixed64,14,opt,name=best_focus_pos_heat,json=bestFocusPosHeat,proto3" json:"best_focus_pos_heat,omitempty"`
 	// ROI for sharpness calculation (NDC coords: -1 to 1)
-	RoiX1         float64 `protobuf:"fixed64,20,opt,name=roi_x1,json=roiX1,proto3" json:"roi_x1,omitempty"`
-	RoiY1         float64 `protobuf:"fixed64,21,opt,name=roi_y1,json=roiY1,proto3" json:"roi_y1,omitempty"`
-	RoiX2         float64 `protobuf:"fixed64,22,opt,name=roi_x2,json=roiX2,proto3" json:"roi_x2,omitempty"`
-	RoiY2         float64 `protobuf:"fixed64,23,opt,name=roi_y2,json=roiY2,proto3" json:"roi_y2,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RoiX1 float64 `protobuf:"fixed64,20,opt,name=roi_x1,json=roiX1,proto3" json:"roi_x1,omitempty"`
+	RoiY1 float64 `protobuf:"fixed64,21,opt,name=roi_y1,json=roiY1,proto3" json:"roi_y1,omitempty"`
+	RoiX2 float64 `protobuf:"fixed64,22,opt,name=roi_x2,json=roiX2,proto3" json:"roi_x2,omitempty"`
+	RoiY2 float64 `protobuf:"fixed64,23,opt,name=roi_y2,json=roiY2,proto3" json:"roi_y2,omitempty"`
+	// CV Bridge status
+	BridgeStatus   JonGuiDataCV_CvBridgeStatus     `protobuf:"varint,30,opt,name=bridge_status,json=bridgeStatus,proto3,enum=ser.JonGuiDataCV_CvBridgeStatus" json:"bridge_status,omitempty"`
+	LastExitReason JonGuiDataCV_CvBridgeExitReason `protobuf:"varint,31,opt,name=last_exit_reason,json=lastExitReason,proto3,enum=ser.JonGuiDataCV_CvBridgeExitReason" json:"last_exit_reason,omitempty"`
+	BridgeUptimeMs int64                           `protobuf:"varint,32,opt,name=bridge_uptime_ms,json=bridgeUptimeMs,proto3" json:"bridge_uptime_ms,omitempty"`
+	RestartCount   int32                           `protobuf:"varint,33,opt,name=restart_count,json=restartCount,proto3" json:"restart_count,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCV) Reset() {
@@ -234,11 +369,39 @@ func (x *JonGuiDataCV) GetRoiY2() float64 {
 	return 0
 }
 
+func (x *JonGuiDataCV) GetBridgeStatus() JonGuiDataCV_CvBridgeStatus {
+	if x != nil {
+		return x.BridgeStatus
+	}
+	return JonGuiDataCV_CV_BRIDGE_STATUS_UNSPECIFIED
+}
+
+func (x *JonGuiDataCV) GetLastExitReason() JonGuiDataCV_CvBridgeExitReason {
+	if x != nil {
+		return x.LastExitReason
+	}
+	return JonGuiDataCV_CV_BRIDGE_EXIT_REASON_UNSPECIFIED
+}
+
+func (x *JonGuiDataCV) GetBridgeUptimeMs() int64 {
+	if x != nil {
+		return x.BridgeUptimeMs
+	}
+	return 0
+}
+
+func (x *JonGuiDataCV) GetRestartCount() int32 {
+	if x != nil {
+		return x.RestartCount
+	}
+	return 0
+}
+
 var File_jon_shared_data_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xbf\b\n" +
+	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x90\x0f\n" +
 	"\fJonGuiDataCV\x12Z\n" +
 	"\x13autofocus_state_day\x18\x01 \x01(\x0e2 .ser.JonGuiDataCV.AutofocusStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\x11autofocusStateDay\x123\n" +
 	"\rsharpness_day\x18\x02 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\fsharpnessDay\x12<\n" +
@@ -254,14 +417,36 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\x06roi_x1\x18\x14 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05roiX1\x12.\n" +
 	"\x06roi_y1\x18\x15 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05roiY1\x12.\n" +
 	"\x06roi_x2\x18\x16 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05roiX2\x12.\n" +
-	"\x06roi_y2\x18\x17 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05roiY2\"\xc8\x01\n" +
+	"\x06roi_y2\x18\x17 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x05roiY2\x12O\n" +
+	"\rbridge_status\x18\x1e \x01(\x0e2 .ser.JonGuiDataCV.CvBridgeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\fbridgeStatus\x12X\n" +
+	"\x10last_exit_reason\x18\x1f \x01(\x0e2$.ser.JonGuiDataCV.CvBridgeExitReasonB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0elastExitReason\x121\n" +
+	"\x10bridge_uptime_ms\x18  \x01(\x03B\a\xbaH\x04\"\x02(\x00R\x0ebridgeUptimeMs\x12,\n" +
+	"\rrestart_count\x18! \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\frestartCount\"\xc8\x01\n" +
 	"\x0eAutofocusState\x12\x1f\n" +
 	"\x1bAUTOFOCUS_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14AUTOFOCUS_STATE_IDLE\x10\x01\x12 \n" +
 	"\x1cAUTOFOCUS_STATE_COARSE_SWEEP\x10\x02\x12\x1e\n" +
 	"\x1aAUTOFOCUS_STATE_FINE_SWEEP\x10\x03\x12\x1d\n" +
 	"\x19AUTOFOCUS_STATE_CONVERGED\x10\x04\x12\x1a\n" +
-	"\x16AUTOFOCUS_STATE_FAILED\x10\x05B\x95\x01\n" +
+	"\x16AUTOFOCUS_STATE_FAILED\x10\x05\"\xeb\x01\n" +
+	"\x0eCvBridgeStatus\x12 \n" +
+	"\x1cCV_BRIDGE_STATUS_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18CV_BRIDGE_STATUS_STOPPED\x10\x01\x12\x1d\n" +
+	"\x19CV_BRIDGE_STATUS_STARTING\x10\x02\x12\x1c\n" +
+	"\x18CV_BRIDGE_STATUS_RUNNING\x10\x03\x12\x1d\n" +
+	"\x19CV_BRIDGE_STATUS_STOPPING\x10\x04\x12\x1c\n" +
+	"\x18CV_BRIDGE_STATUS_CRASHED\x10\x05\x12\x1f\n" +
+	"\x1bCV_BRIDGE_STATUS_RESTARTING\x10\x06\"\xd4\x02\n" +
+	"\x12CvBridgeExitReason\x12%\n" +
+	"!CV_BRIDGE_EXIT_REASON_UNSPECIFIED\x10\x00\x12%\n" +
+	"!CV_BRIDGE_EXIT_REASON_NOT_STARTED\x10\x01\x12 \n" +
+	"\x1cCV_BRIDGE_EXIT_REASON_NORMAL\x10\x02\x12\x1f\n" +
+	"\x1bCV_BRIDGE_EXIT_REASON_ERROR\x10\x03\x12$\n" +
+	" CV_BRIDGE_EXIT_REASON_CUDA_ERROR\x10\x04\x12#\n" +
+	"\x1fCV_BRIDGE_EXIT_REASON_IPC_ERROR\x10\x05\x12\x1d\n" +
+	"\x19CV_BRIDGE_EXIT_REASON_OOM\x10\x06\x12!\n" +
+	"\x1dCV_BRIDGE_EXIT_REASON_TIMEOUT\x10\a\x12 \n" +
+	"\x1cCV_BRIDGE_EXIT_REASON_SIGNAL\x10\bB\x95\x01\n" +
 	"\acom.serB\x14JonSharedDataCvProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/cv\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -276,20 +461,24 @@ func file_jon_shared_data_cv_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_cv_proto_rawDescData
 }
 
-var file_jon_shared_data_cv_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_jon_shared_data_cv_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_jon_shared_data_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_cv_proto_goTypes = []any{
-	(JonGuiDataCV_AutofocusState)(0), // 0: ser.JonGuiDataCV.AutofocusState
-	(*JonGuiDataCV)(nil),             // 1: ser.JonGuiDataCV
+	(JonGuiDataCV_AutofocusState)(0),     // 0: ser.JonGuiDataCV.AutofocusState
+	(JonGuiDataCV_CvBridgeStatus)(0),     // 1: ser.JonGuiDataCV.CvBridgeStatus
+	(JonGuiDataCV_CvBridgeExitReason)(0), // 2: ser.JonGuiDataCV.CvBridgeExitReason
+	(*JonGuiDataCV)(nil),                 // 3: ser.JonGuiDataCV
 }
 var file_jon_shared_data_cv_proto_depIdxs = []int32{
 	0, // 0: ser.JonGuiDataCV.autofocus_state_day:type_name -> ser.JonGuiDataCV.AutofocusState
 	0, // 1: ser.JonGuiDataCV.autofocus_state_heat:type_name -> ser.JonGuiDataCV.AutofocusState
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // 2: ser.JonGuiDataCV.bridge_status:type_name -> ser.JonGuiDataCV.CvBridgeStatus
+	2, // 3: ser.JonGuiDataCV.last_exit_reason:type_name -> ser.JonGuiDataCV.CvBridgeExitReason
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_cv_proto_init() }
@@ -302,7 +491,7 @@ func file_jon_shared_data_cv_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_cv_proto_rawDesc), len(file_jon_shared_data_cv_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      3,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,

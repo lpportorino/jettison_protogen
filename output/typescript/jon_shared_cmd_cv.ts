@@ -24,7 +24,13 @@ export interface Root {
   dumpStart?: DumpStart | undefined;
   dumpStop?: DumpStop | undefined;
   recognitionModeEnable?: RecognitionModeEnable | undefined;
-  recognitionModeDisable?: RecognitionModeDisable | undefined;
+  recognitionModeDisable?:
+    | RecognitionModeDisable
+    | undefined;
+  /** CV Bridge container control */
+  bridgeStart?: BridgeStart | undefined;
+  bridgeStop?: BridgeStop | undefined;
+  bridgeRestart?: BridgeRestart | undefined;
 }
 
 export interface VampireModeEnable {
@@ -69,6 +75,20 @@ export interface StartTrackNDC {
 export interface StopTrack {
 }
 
+/** CV Bridge container control commands */
+export interface BridgeStart {
+}
+
+export interface BridgeStop {
+  /** If true, SIGKILL instead of SIGTERM */
+  force: boolean;
+}
+
+export interface BridgeRestart {
+  /** If true, force stop before restart */
+  force: boolean;
+}
+
 function createBaseRoot(): Root {
   return {
     setAutoFocus: undefined,
@@ -82,6 +102,9 @@ function createBaseRoot(): Root {
     dumpStop: undefined,
     recognitionModeEnable: undefined,
     recognitionModeDisable: undefined,
+    bridgeStart: undefined,
+    bridgeStop: undefined,
+    bridgeRestart: undefined,
   };
 }
 
@@ -119,6 +142,15 @@ export const Root: MessageFns<Root> = {
     }
     if (message.recognitionModeDisable !== undefined) {
       RecognitionModeDisable.encode(message.recognitionModeDisable, writer.uint32(90).fork()).join();
+    }
+    if (message.bridgeStart !== undefined) {
+      BridgeStart.encode(message.bridgeStart, writer.uint32(162).fork()).join();
+    }
+    if (message.bridgeStop !== undefined) {
+      BridgeStop.encode(message.bridgeStop, writer.uint32(170).fork()).join();
+    }
+    if (message.bridgeRestart !== undefined) {
+      BridgeRestart.encode(message.bridgeRestart, writer.uint32(178).fork()).join();
     }
     return writer;
   },
@@ -218,6 +250,30 @@ export const Root: MessageFns<Root> = {
           message.recognitionModeDisable = RecognitionModeDisable.decode(reader, reader.uint32());
           continue;
         }
+        case 20: {
+          if (tag !== 162) {
+            break;
+          }
+
+          message.bridgeStart = BridgeStart.decode(reader, reader.uint32());
+          continue;
+        }
+        case 21: {
+          if (tag !== 170) {
+            break;
+          }
+
+          message.bridgeStop = BridgeStop.decode(reader, reader.uint32());
+          continue;
+        }
+        case 22: {
+          if (tag !== 178) {
+            break;
+          }
+
+          message.bridgeRestart = BridgeRestart.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -284,6 +340,21 @@ export const Root: MessageFns<Root> = {
         : isSet(object.recognition_mode_disable)
         ? RecognitionModeDisable.fromJSON(object.recognition_mode_disable)
         : undefined,
+      bridgeStart: isSet(object.bridgeStart)
+        ? BridgeStart.fromJSON(object.bridgeStart)
+        : isSet(object.bridge_start)
+        ? BridgeStart.fromJSON(object.bridge_start)
+        : undefined,
+      bridgeStop: isSet(object.bridgeStop)
+        ? BridgeStop.fromJSON(object.bridgeStop)
+        : isSet(object.bridge_stop)
+        ? BridgeStop.fromJSON(object.bridge_stop)
+        : undefined,
+      bridgeRestart: isSet(object.bridgeRestart)
+        ? BridgeRestart.fromJSON(object.bridgeRestart)
+        : isSet(object.bridge_restart)
+        ? BridgeRestart.fromJSON(object.bridge_restart)
+        : undefined,
     };
   },
 
@@ -321,6 +392,15 @@ export const Root: MessageFns<Root> = {
     }
     if (message.recognitionModeDisable !== undefined) {
       obj.recognitionModeDisable = RecognitionModeDisable.toJSON(message.recognitionModeDisable);
+    }
+    if (message.bridgeStart !== undefined) {
+      obj.bridgeStart = BridgeStart.toJSON(message.bridgeStart);
+    }
+    if (message.bridgeStop !== undefined) {
+      obj.bridgeStop = BridgeStop.toJSON(message.bridgeStop);
+    }
+    if (message.bridgeRestart !== undefined) {
+      obj.bridgeRestart = BridgeRestart.toJSON(message.bridgeRestart);
     }
     return obj;
   },
@@ -367,6 +447,15 @@ export const Root: MessageFns<Root> = {
       (object.recognitionModeDisable !== undefined && object.recognitionModeDisable !== null)
         ? RecognitionModeDisable.fromPartial(object.recognitionModeDisable)
         : undefined;
+    message.bridgeStart = (object.bridgeStart !== undefined && object.bridgeStart !== null)
+      ? BridgeStart.fromPartial(object.bridgeStart)
+      : undefined;
+    message.bridgeStop = (object.bridgeStop !== undefined && object.bridgeStop !== null)
+      ? BridgeStop.fromPartial(object.bridgeStop)
+      : undefined;
+    message.bridgeRestart = (object.bridgeRestart !== undefined && object.bridgeRestart !== null)
+      ? BridgeRestart.fromPartial(object.bridgeRestart)
+      : undefined;
     return message;
   },
 };
@@ -966,6 +1055,165 @@ export const StopTrack: MessageFns<StopTrack> = {
   },
   fromPartial<I extends Exact<DeepPartial<StopTrack>, I>>(_: I): StopTrack {
     const message = createBaseStopTrack();
+    return message;
+  },
+};
+
+function createBaseBridgeStart(): BridgeStart {
+  return {};
+}
+
+export const BridgeStart: MessageFns<BridgeStart> = {
+  encode(_: BridgeStart, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BridgeStart {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBridgeStart();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): BridgeStart {
+    return {};
+  },
+
+  toJSON(_: BridgeStart): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BridgeStart>, I>>(base?: I): BridgeStart {
+    return BridgeStart.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BridgeStart>, I>>(_: I): BridgeStart {
+    const message = createBaseBridgeStart();
+    return message;
+  },
+};
+
+function createBaseBridgeStop(): BridgeStop {
+  return { force: false };
+}
+
+export const BridgeStop: MessageFns<BridgeStop> = {
+  encode(message: BridgeStop, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.force !== false) {
+      writer.uint32(8).bool(message.force);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BridgeStop {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBridgeStop();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.force = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BridgeStop {
+    return { force: isSet(object.force) ? globalThis.Boolean(object.force) : false };
+  },
+
+  toJSON(message: BridgeStop): unknown {
+    const obj: any = {};
+    if (message.force !== false) {
+      obj.force = message.force;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BridgeStop>, I>>(base?: I): BridgeStop {
+    return BridgeStop.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BridgeStop>, I>>(object: I): BridgeStop {
+    const message = createBaseBridgeStop();
+    message.force = object.force ?? false;
+    return message;
+  },
+};
+
+function createBaseBridgeRestart(): BridgeRestart {
+  return { force: false };
+}
+
+export const BridgeRestart: MessageFns<BridgeRestart> = {
+  encode(message: BridgeRestart, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.force !== false) {
+      writer.uint32(8).bool(message.force);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BridgeRestart {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBridgeRestart();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.force = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BridgeRestart {
+    return { force: isSet(object.force) ? globalThis.Boolean(object.force) : false };
+  },
+
+  toJSON(message: BridgeRestart): unknown {
+    const obj: any = {};
+    if (message.force !== false) {
+      obj.force = message.force;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BridgeRestart>, I>>(base?: I): BridgeRestart {
+    return BridgeRestart.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BridgeRestart>, I>>(object: I): BridgeRestart {
+    const message = createBaseBridgeRestart();
+    message.force = object.force ?? false;
     return message;
   },
 };

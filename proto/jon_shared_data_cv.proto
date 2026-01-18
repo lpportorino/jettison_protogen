@@ -18,6 +18,30 @@ message JonGuiDataCV {
     AUTOFOCUS_STATE_FAILED = 5;
   }
 
+  // CV Bridge container status
+  enum CvBridgeStatus {
+    CV_BRIDGE_STATUS_UNSPECIFIED = 0;
+    CV_BRIDGE_STATUS_STOPPED = 1;      // Not running
+    CV_BRIDGE_STATUS_STARTING = 2;     // Container starting up
+    CV_BRIDGE_STATUS_RUNNING = 3;      // Healthy and processing
+    CV_BRIDGE_STATUS_STOPPING = 4;     // Graceful shutdown in progress
+    CV_BRIDGE_STATUS_CRASHED = 5;      // Exited unexpectedly
+    CV_BRIDGE_STATUS_RESTARTING = 6;   // Auto-restart in progress
+  }
+
+  // CV Bridge exit/termination reason
+  enum CvBridgeExitReason {
+    CV_BRIDGE_EXIT_REASON_UNSPECIFIED = 0;
+    CV_BRIDGE_EXIT_REASON_NOT_STARTED = 1;  // Never started since boot
+    CV_BRIDGE_EXIT_REASON_NORMAL = 2;       // Clean shutdown
+    CV_BRIDGE_EXIT_REASON_ERROR = 3;        // Internal error
+    CV_BRIDGE_EXIT_REASON_CUDA_ERROR = 4;   // CUDA/GPU failure
+    CV_BRIDGE_EXIT_REASON_IPC_ERROR = 5;    // IPC connection lost
+    CV_BRIDGE_EXIT_REASON_OOM = 6;          // Out of memory
+    CV_BRIDGE_EXIT_REASON_TIMEOUT = 7;      // Watchdog timeout
+    CV_BRIDGE_EXIT_REASON_SIGNAL = 8;       // Killed by signal
+  }
+
   // Day channel autofocus
   AutofocusState autofocus_state_day = 1 [(buf.validate.field).enum = {
     defined_only: true
@@ -72,5 +96,19 @@ message JonGuiDataCV {
   double roi_y2 = 23 [(buf.validate.field).double = {
     gte: -1.0,
     lte: 1.0
+  }];
+
+  // CV Bridge status
+  CvBridgeStatus bridge_status = 30 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  CvBridgeExitReason last_exit_reason = 31 [(buf.validate.field).enum = {
+    defined_only: true
+  }];
+  int64 bridge_uptime_ms = 32 [(buf.validate.field).int64 = {
+    gte: 0
+  }];
+  int32 restart_count = 33 [(buf.validate.field).int32 = {
+    gte: 0
   }];
 }
