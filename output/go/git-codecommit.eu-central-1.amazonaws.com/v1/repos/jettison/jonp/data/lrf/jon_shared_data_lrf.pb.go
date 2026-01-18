@@ -161,6 +161,7 @@ type JonGuiDataTarget struct {
 	ObserverBank      float64                    `protobuf:"fixed64,10,opt,name=observer_bank,json=observerBank,proto3" json:"observer_bank,omitempty"`
 	Distance_2D       float64                    `protobuf:"fixed64,11,opt,name=distance_2d,json=distance2d,proto3" json:"distance_2d,omitempty"`
 	Distance_3B       float64                    `protobuf:"fixed64,12,opt,name=distance_3b,json=distance3b,proto3" json:"distance_3b,omitempty"`
+	DistanceC         float64                    `protobuf:"fixed64,22,opt,name=distance_c,json=distanceC,proto3" json:"distance_c,omitempty"`
 	ObserverFixType   types.JonGuiDataGpsFixType `protobuf:"varint,13,opt,name=observer_fix_type,json=observerFixType,proto3,enum=ser.JonGuiDataGpsFixType" json:"observer_fix_type,omitempty"`
 	SessionId         int32                      `protobuf:"varint,14,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	TargetId          int32                      `protobuf:"varint,15,opt,name=target_id,json=targetId,proto3" json:"target_id,omitempty"`
@@ -285,6 +286,13 @@ func (x *JonGuiDataTarget) GetDistance_2D() float64 {
 func (x *JonGuiDataTarget) GetDistance_3B() float64 {
 	if x != nil {
 		return x.Distance_3B
+	}
+	return 0
+}
+
+func (x *JonGuiDataTarget) GetDistanceC() float64 {
+	if x != nil {
+		return x.DistanceC
 	}
 	return 0
 }
@@ -433,7 +441,7 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"is_started\x18\t \x01(\bR\tisStarted\x12*\n" +
 	"\x05meteo\x18\n" +
 	" \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x12\x1b\n" +
-	"\tscan_mode\x18\v \x01(\x05R\bscanMode\"\xc4\b\n" +
+	"\tscan_mode\x18\v \x01(\x05R\bscanMode\"\xfc\b\n" +
 	"\x10JonGuiDataTarget\x12%\n" +
 	"\ttimestamp\x18\x01 \x01(\x03B\a\xbaH\x04\"\x02(\x00R\ttimestamp\x12B\n" +
 	"\x10target_longitude\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\x0ftargetLongitude\x12@\n" +
@@ -449,7 +457,9 @@ const file_jon_shared_data_lrf_proto_rawDesc = "" +
 	"\vdistance_2d\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x80\x84\x1eA)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
 	"distance2d\x128\n" +
 	"\vdistance_3b\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x80\x84\x1eA)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
-	"distance3b\x12Q\n" +
+	"distance3b\x126\n" +
+	"\n" +
+	"distance_c\x18\x16 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x80\x84\x1eA)\x00\x00\x00\x00\x00\x00\x00\x00R\tdistanceC\x12Q\n" +
 	"\x11observer_fix_type\x18\r \x01(\x0e2\x19.ser.JonGuiDataGpsFixTypeB\n" +
 	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x0fobserverFixType\x12&\n" +
 	"\n" +

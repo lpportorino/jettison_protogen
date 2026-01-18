@@ -41,6 +41,7 @@ typedef struct _ser_JonGuiDataTarget {
     int32_t uuid_part2;
     int32_t uuid_part3;
     int32_t uuid_part4;
+    double distance_c;
 } ser_JonGuiDataTarget;
 
 typedef struct _ser_JonGuiDataLrf {
@@ -66,10 +67,10 @@ extern "C" {
 
 /* Initializer values for message structs */
 #define ser_JonGuiDataLrf_init_default           {0, 0, 0, false, ser_JonGuiDataTarget_init_default, _ser_JonGuiDatatLrfLaserPointerModes_MIN, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, 0}
-#define ser_JonGuiDataTarget_init_default        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, false, ser_RgbColor_init_default, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataTarget_init_default        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, false, ser_RgbColor_init_default, 0, 0, 0, 0, 0, 0}
 #define ser_RgbColor_init_default                {0, 0, 0}
 #define ser_JonGuiDataLrf_init_zero              {0, 0, 0, false, ser_JonGuiDataTarget_init_zero, _ser_JonGuiDatatLrfLaserPointerModes_MIN, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, 0}
-#define ser_JonGuiDataTarget_init_zero           {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, false, ser_RgbColor_init_zero, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataTarget_init_zero           {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataGpsFixType_MIN, 0, 0, false, ser_RgbColor_init_zero, 0, 0, 0, 0, 0, 0}
 #define ser_RgbColor_init_zero                   {0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -97,6 +98,7 @@ extern "C" {
 #define ser_JonGuiDataTarget_uuid_part2_tag      19
 #define ser_JonGuiDataTarget_uuid_part3_tag      20
 #define ser_JonGuiDataTarget_uuid_part4_tag      21
+#define ser_JonGuiDataTarget_distance_c_tag      22
 #define ser_JonGuiDataLrf_is_scanning_tag        1
 #define ser_JonGuiDataLrf_is_measuring_tag       2
 #define ser_JonGuiDataLrf_measure_id_tag         3
@@ -148,7 +150,8 @@ X(a, STATIC,   SINGULAR, UINT32,   type,             17) \
 X(a, STATIC,   SINGULAR, INT32,    uuid_part1,       18) \
 X(a, STATIC,   SINGULAR, INT32,    uuid_part2,       19) \
 X(a, STATIC,   SINGULAR, INT32,    uuid_part3,       20) \
-X(a, STATIC,   SINGULAR, INT32,    uuid_part4,       21)
+X(a, STATIC,   SINGULAR, INT32,    uuid_part4,       21) \
+X(a, STATIC,   SINGULAR, DOUBLE,   distance_c,       22)
 #define ser_JonGuiDataTarget_CALLBACK NULL
 #define ser_JonGuiDataTarget_DEFAULT NULL
 #define ser_JonGuiDataTarget_target_color_MSGTYPE ser_RgbColor
@@ -171,8 +174,8 @@ extern const pb_msgdesc_t ser_RgbColor_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_LRF_PB_H_MAX_SIZE    ser_JonGuiDataLrf_size
-#define ser_JonGuiDataLrf_size                   278
-#define ser_JonGuiDataTarget_size                210
+#define ser_JonGuiDataLrf_size                   288
+#define ser_JonGuiDataTarget_size                220
 #define ser_RgbColor_size                        18
 
 #ifdef __cplusplus

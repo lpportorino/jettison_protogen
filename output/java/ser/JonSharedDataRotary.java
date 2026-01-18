@@ -165,6 +165,22 @@ public final class JonSharedDataRotary {
      * <code>.ser.JonGuiDataMeteo meteo = 19;</code>
      */
     ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
+
+    /**
+     * <pre>
+     * Axis initialization status (0=not init, 14=fully init)
+     * </pre>
+     *
+     * <code>int32 pan_init_status = 20 [(.buf.validate.field) = { ... }</code>
+     * @return The panInitStatus.
+     */
+    int getPanInitStatus();
+
+    /**
+     * <code>int32 tilt_init_status = 21 [(.buf.validate.field) = { ... }</code>
+     * @return The tiltInitStatus.
+     */
+    int getTiltInitStatus();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataRotary}
@@ -451,6 +467,32 @@ public final class JonSharedDataRotary {
       return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
     }
 
+    public static final int PAN_INIT_STATUS_FIELD_NUMBER = 20;
+    private int panInitStatus_ = 0;
+    /**
+     * <pre>
+     * Axis initialization status (0=not init, 14=fully init)
+     * </pre>
+     *
+     * <code>int32 pan_init_status = 20 [(.buf.validate.field) = { ... }</code>
+     * @return The panInitStatus.
+     */
+    @java.lang.Override
+    public int getPanInitStatus() {
+      return panInitStatus_;
+    }
+
+    public static final int TILT_INIT_STATUS_FIELD_NUMBER = 21;
+    private int tiltInitStatus_ = 0;
+    /**
+     * <code>int32 tilt_init_status = 21 [(.buf.validate.field) = { ... }</code>
+     * @return The tiltInitStatus.
+     */
+    @java.lang.Override
+    public int getTiltInitStatus() {
+      return tiltInitStatus_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -521,6 +563,12 @@ public final class JonSharedDataRotary {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(19, getMeteo());
+      }
+      if (panInitStatus_ != 0) {
+        output.writeInt32(20, panInitStatus_);
+      }
+      if (tiltInitStatus_ != 0) {
+        output.writeInt32(21, tiltInitStatus_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -607,6 +655,14 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(19, getMeteo());
       }
+      if (panInitStatus_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(20, panInitStatus_);
+      }
+      if (tiltInitStatus_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(21, tiltInitStatus_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -674,6 +730,10 @@ public final class JonSharedDataRotary {
         if (!getMeteo()
             .equals(other.getMeteo())) return false;
       }
+      if (getPanInitStatus()
+          != other.getPanInitStatus()) return false;
+      if (getTiltInitStatus()
+          != other.getTiltInitStatus()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -741,6 +801,10 @@ public final class JonSharedDataRotary {
         hash = (37 * hash) + METEO_FIELD_NUMBER;
         hash = (53 * hash) + getMeteo().hashCode();
       }
+      hash = (37 * hash) + PAN_INIT_STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + getPanInitStatus();
+      hash = (37 * hash) + TILT_INIT_STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + getTiltInitStatus();
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -906,6 +970,8 @@ public final class JonSharedDataRotary {
           meteoBuilder_.dispose();
           meteoBuilder_ = null;
         }
+        panInitStatus_ = 0;
+        tiltInitStatus_ = 0;
         return this;
       }
 
@@ -1003,6 +1069,12 @@ public final class JonSharedDataRotary {
               : meteoBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
+        if (((from_bitField0_ & 0x00080000) != 0)) {
+          result.panInitStatus_ = panInitStatus_;
+        }
+        if (((from_bitField0_ & 0x00100000) != 0)) {
+          result.tiltInitStatus_ = tiltInitStatus_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1074,6 +1146,12 @@ public final class JonSharedDataRotary {
         }
         if (other.hasMeteo()) {
           mergeMeteo(other.getMeteo());
+        }
+        if (other.getPanInitStatus() != 0) {
+          setPanInitStatus(other.getPanInitStatus());
+        }
+        if (other.getTiltInitStatus() != 0) {
+          setTiltInitStatus(other.getTiltInitStatus());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1200,6 +1278,16 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00040000;
                 break;
               } // case 154
+              case 160: {
+                panInitStatus_ = input.readInt32();
+                bitField0_ |= 0x00080000;
+                break;
+              } // case 160
+              case 168: {
+                tiltInitStatus_ = input.readInt32();
+                bitField0_ |= 0x00100000;
+                break;
+              } // case 168
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2022,6 +2110,82 @@ public final class JonSharedDataRotary {
           meteo_ = null;
         }
         return meteoBuilder_;
+      }
+
+      private int panInitStatus_ ;
+      /**
+       * <pre>
+       * Axis initialization status (0=not init, 14=fully init)
+       * </pre>
+       *
+       * <code>int32 pan_init_status = 20 [(.buf.validate.field) = { ... }</code>
+       * @return The panInitStatus.
+       */
+      @java.lang.Override
+      public int getPanInitStatus() {
+        return panInitStatus_;
+      }
+      /**
+       * <pre>
+       * Axis initialization status (0=not init, 14=fully init)
+       * </pre>
+       *
+       * <code>int32 pan_init_status = 20 [(.buf.validate.field) = { ... }</code>
+       * @param value The panInitStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPanInitStatus(int value) {
+
+        panInitStatus_ = value;
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Axis initialization status (0=not init, 14=fully init)
+       * </pre>
+       *
+       * <code>int32 pan_init_status = 20 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPanInitStatus() {
+        bitField0_ = (bitField0_ & ~0x00080000);
+        panInitStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int tiltInitStatus_ ;
+      /**
+       * <code>int32 tilt_init_status = 21 [(.buf.validate.field) = { ... }</code>
+       * @return The tiltInitStatus.
+       */
+      @java.lang.Override
+      public int getTiltInitStatus() {
+        return tiltInitStatus_;
+      }
+      /**
+       * <code>int32 tilt_init_status = 21 [(.buf.validate.field) = { ... }</code>
+       * @param value The tiltInitStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTiltInitStatus(int value) {
+
+        tiltInitStatus_ = value;
+        bitField0_ |= 0x00100000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 tilt_init_status = 21 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTiltInitStatus() {
+        bitField0_ = (bitField0_ & ~0x00100000);
+        tiltInitStatus_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataRotary)
@@ -2970,7 +3134,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\312\010\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\223\t\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -2997,16 +3161,18 @@ public final class JonSharedDataRotary {
       "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000" +
       "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser" +
       ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\022#\n" +
-      "\005meteo\030\023 \001(\0132\024.ser.JonGuiDataMeteo\"\211\002\n\010S" +
-      "canNode\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZo" +
-      "omTableValue\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomT" +
-      "ableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(" +
-      "\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030" +
-      "\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger" +
-      "\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272" +
-      "H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit" +
-      ".eu-central-1.amazonaws.com/v1/repos/jet" +
-      "tison/jonp/data/rotaryb\006proto3"
+      "\005meteo\030\023 \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pa" +
+      "n_init_status\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_i" +
+      "nit_status\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\"\211\002\n\010ScanNode" +
+      "\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTable" +
+      "Value\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVal" +
+      "ue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022" +
+      "\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B" +
+      "\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit.eu-cen" +
+      "tral-1.amazonaws.com/v1/repos/jettison/j" +
+      "onp/data/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3019,7 +3185,7 @@ public final class JonSharedDataRotary {
     internal_static_ser_JonGuiDataRotary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataRotary_descriptor,
-        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", });
+        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", });
     internal_static_ser_ScanNode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_ScanNode_fieldAccessorTable = new

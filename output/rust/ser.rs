@@ -973,6 +973,11 @@ pub struct JonGuiDataRotary {
     pub is_started: bool,
     #[prost(message, optional, tag = "19")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// Axis initialization status (0=not init, 14=fully init)
+    #[prost(int32, tag = "20")]
+    pub pan_init_status: i32,
+    #[prost(int32, tag = "21")]
+    pub tilt_init_status: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ScanNode {
@@ -1229,6 +1234,8 @@ pub struct JonGuiDataTarget {
     pub distance_2d: f64,
     #[prost(double, tag = "12")]
     pub distance_3b: f64,
+    #[prost(double, tag = "22")]
+    pub distance_c: f64,
     #[prost(enumeration = "JonGuiDataGpsFixType", tag = "13")]
     pub observer_fix_type: i32,
     #[prost(int32, tag = "14")]

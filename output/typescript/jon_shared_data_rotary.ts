@@ -33,7 +33,12 @@ export interface JonGuiDataRotary {
   sunElevation: number;
   currentScanNode: ScanNode | undefined;
   isStarted: boolean;
-  meteo: JonGuiDataMeteo | undefined;
+  meteo:
+    | JonGuiDataMeteo
+    | undefined;
+  /** Axis initialization status (0=not init, 14=fully init) */
+  panInitStatus: number;
+  tiltInitStatus: number;
 }
 
 export interface ScanNode {
@@ -67,6 +72,8 @@ function createBaseJonGuiDataRotary(): JonGuiDataRotary {
     currentScanNode: undefined,
     isStarted: false,
     meteo: undefined,
+    panInitStatus: 0,
+    tiltInitStatus: 0,
   };
 }
 
@@ -128,6 +135,12 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     }
     if (message.meteo !== undefined) {
       JonGuiDataMeteo.encode(message.meteo, writer.uint32(154).fork()).join();
+    }
+    if (message.panInitStatus !== 0) {
+      writer.uint32(160).int32(message.panInitStatus);
+    }
+    if (message.tiltInitStatus !== 0) {
+      writer.uint32(168).int32(message.tiltInitStatus);
     }
     return writer;
   },
@@ -291,6 +304,22 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
           message.meteo = JonGuiDataMeteo.decode(reader, reader.uint32());
           continue;
         }
+        case 20: {
+          if (tag !== 160) {
+            break;
+          }
+
+          message.panInitStatus = reader.int32();
+          continue;
+        }
+        case 21: {
+          if (tag !== 168) {
+            break;
+          }
+
+          message.tiltInitStatus = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -381,6 +410,16 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
         ? globalThis.Boolean(object.is_started)
         : false,
       meteo: isSet(object.meteo) ? JonGuiDataMeteo.fromJSON(object.meteo) : undefined,
+      panInitStatus: isSet(object.panInitStatus)
+        ? globalThis.Number(object.panInitStatus)
+        : isSet(object.pan_init_status)
+        ? globalThis.Number(object.pan_init_status)
+        : 0,
+      tiltInitStatus: isSet(object.tiltInitStatus)
+        ? globalThis.Number(object.tiltInitStatus)
+        : isSet(object.tilt_init_status)
+        ? globalThis.Number(object.tilt_init_status)
+        : 0,
     };
   },
 
@@ -443,6 +482,12 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     if (message.meteo !== undefined) {
       obj.meteo = JonGuiDataMeteo.toJSON(message.meteo);
     }
+    if (message.panInitStatus !== 0) {
+      obj.panInitStatus = Math.round(message.panInitStatus);
+    }
+    if (message.tiltInitStatus !== 0) {
+      obj.tiltInitStatus = Math.round(message.tiltInitStatus);
+    }
     return obj;
   },
 
@@ -474,6 +519,8 @@ export const JonGuiDataRotary: MessageFns<JonGuiDataRotary> = {
     message.meteo = (object.meteo !== undefined && object.meteo !== null)
       ? JonGuiDataMeteo.fromPartial(object.meteo)
       : undefined;
+    message.panInitStatus = object.panInitStatus ?? 0;
+    message.tiltInitStatus = object.tiltInitStatus ?? 0;
     return message;
   },
 };

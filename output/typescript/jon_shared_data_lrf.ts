@@ -47,6 +47,7 @@ export interface JonGuiDataTarget {
   observerBank: number;
   distance2d: number;
   distance3b: number;
+  distanceC: number;
   observerFixType: JonGuiDataGpsFixType;
   sessionId: number;
   targetId: number;
@@ -347,6 +348,7 @@ function createBaseJonGuiDataTarget(): JonGuiDataTarget {
     observerBank: 0,
     distance2d: 0,
     distance3b: 0,
+    distanceC: 0,
     observerFixType: 0,
     sessionId: 0,
     targetId: 0,
@@ -396,6 +398,9 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     }
     if (message.distance3b !== 0) {
       writer.uint32(97).double(message.distance3b);
+    }
+    if (message.distanceC !== 0) {
+      writer.uint32(177).double(message.distanceC);
     }
     if (message.observerFixType !== 0) {
       writer.uint32(104).int32(message.observerFixType);
@@ -528,6 +533,14 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
           }
 
           message.distance3b = reader.double();
+          continue;
+        }
+        case 22: {
+          if (tag !== 177) {
+            break;
+          }
+
+          message.distanceC = reader.double();
           continue;
         }
         case 13: {
@@ -669,6 +682,11 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
         : isSet(object.distance_3b)
         ? globalThis.Number(object.distance_3b)
         : 0,
+      distanceC: isSet(object.distanceC)
+        ? globalThis.Number(object.distanceC)
+        : isSet(object.distance_c)
+        ? globalThis.Number(object.distance_c)
+        : 0,
       observerFixType: isSet(object.observerFixType)
         ? jonGuiDataGpsFixTypeFromJSON(object.observerFixType)
         : isSet(object.observer_fix_type)
@@ -751,6 +769,9 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     if (message.distance3b !== 0) {
       obj.distance3b = message.distance3b;
     }
+    if (message.distanceC !== 0) {
+      obj.distanceC = message.distanceC;
+    }
     if (message.observerFixType !== 0) {
       obj.observerFixType = jonGuiDataGpsFixTypeToJSON(message.observerFixType);
     }
@@ -800,6 +821,7 @@ export const JonGuiDataTarget: MessageFns<JonGuiDataTarget> = {
     message.observerBank = object.observerBank ?? 0;
     message.distance2d = object.distance2d ?? 0;
     message.distance3b = object.distance3b ?? 0;
+    message.distanceC = object.distanceC ?? 0;
     message.observerFixType = object.observerFixType ?? 0;
     message.sessionId = object.sessionId ?? 0;
     message.targetId = object.targetId ?? 0;

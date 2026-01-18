@@ -32,7 +32,7 @@ class JonGuiDataLrf(_message.Message):
     def __init__(self, is_scanning: bool = ..., is_measuring: bool = ..., measure_id: _Optional[int] = ..., target: _Optional[_Union[JonGuiDataTarget, _Mapping]] = ..., pointer_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDatatLrfLaserPointerModes, str]] = ..., fogModeEnabled: bool = ..., is_refining: bool = ..., is_continuous_measuring: bool = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., scan_mode: _Optional[int] = ...) -> None: ...
 
 class JonGuiDataTarget(_message.Message):
-    __slots__ = ("timestamp", "target_longitude", "target_latitude", "target_altitude", "observer_longitude", "observer_latitude", "observer_altitude", "observer_azimuth", "observer_elevation", "observer_bank", "distance_2d", "distance_3b", "observer_fix_type", "session_id", "target_id", "target_color", "type", "uuid_part1", "uuid_part2", "uuid_part3", "uuid_part4")
+    __slots__ = ("timestamp", "target_longitude", "target_latitude", "target_altitude", "observer_longitude", "observer_latitude", "observer_altitude", "observer_azimuth", "observer_elevation", "observer_bank", "distance_2d", "distance_3b", "distance_c", "observer_fix_type", "session_id", "target_id", "target_color", "type", "uuid_part1", "uuid_part2", "uuid_part3", "uuid_part4")
     TIMESTAMP_FIELD_NUMBER: _ClassVar[int]
     TARGET_LONGITUDE_FIELD_NUMBER: _ClassVar[int]
     TARGET_LATITUDE_FIELD_NUMBER: _ClassVar[int]
@@ -45,6 +45,7 @@ class JonGuiDataTarget(_message.Message):
     OBSERVER_BANK_FIELD_NUMBER: _ClassVar[int]
     DISTANCE_2D_FIELD_NUMBER: _ClassVar[int]
     DISTANCE_3B_FIELD_NUMBER: _ClassVar[int]
+    DISTANCE_C_FIELD_NUMBER: _ClassVar[int]
     OBSERVER_FIX_TYPE_FIELD_NUMBER: _ClassVar[int]
     SESSION_ID_FIELD_NUMBER: _ClassVar[int]
     TARGET_ID_FIELD_NUMBER: _ClassVar[int]
@@ -66,6 +67,7 @@ class JonGuiDataTarget(_message.Message):
     observer_bank: float
     distance_2d: float
     distance_3b: float
+    distance_c: float
     observer_fix_type: _jon_shared_data_types_pb2.JonGuiDataGpsFixType
     session_id: int
     target_id: int
@@ -75,7 +77,7 @@ class JonGuiDataTarget(_message.Message):
     uuid_part2: int
     uuid_part3: int
     uuid_part4: int
-    def __init__(self, timestamp: _Optional[int] = ..., target_longitude: _Optional[float] = ..., target_latitude: _Optional[float] = ..., target_altitude: _Optional[float] = ..., observer_longitude: _Optional[float] = ..., observer_latitude: _Optional[float] = ..., observer_altitude: _Optional[float] = ..., observer_azimuth: _Optional[float] = ..., observer_elevation: _Optional[float] = ..., observer_bank: _Optional[float] = ..., distance_2d: _Optional[float] = ..., distance_3b: _Optional[float] = ..., observer_fix_type: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataGpsFixType, str]] = ..., session_id: _Optional[int] = ..., target_id: _Optional[int] = ..., target_color: _Optional[_Union[RgbColor, _Mapping]] = ..., type: _Optional[int] = ..., uuid_part1: _Optional[int] = ..., uuid_part2: _Optional[int] = ..., uuid_part3: _Optional[int] = ..., uuid_part4: _Optional[int] = ...) -> None: ...
+    def __init__(self, timestamp: _Optional[int] = ..., target_longitude: _Optional[float] = ..., target_latitude: _Optional[float] = ..., target_altitude: _Optional[float] = ..., observer_longitude: _Optional[float] = ..., observer_latitude: _Optional[float] = ..., observer_altitude: _Optional[float] = ..., observer_azimuth: _Optional[float] = ..., observer_elevation: _Optional[float] = ..., observer_bank: _Optional[float] = ..., distance_2d: _Optional[float] = ..., distance_3b: _Optional[float] = ..., distance_c: _Optional[float] = ..., observer_fix_type: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataGpsFixType, str]] = ..., session_id: _Optional[int] = ..., target_id: _Optional[int] = ..., target_color: _Optional[_Union[RgbColor, _Mapping]] = ..., type: _Optional[int] = ..., uuid_part1: _Optional[int] = ..., uuid_part2: _Optional[int] = ..., uuid_part3: _Optional[int] = ..., uuid_part4: _Optional[int] = ...) -> None: ...
 
 class RgbColor(_message.Message):
     __slots__ = ("red", "green", "blue")

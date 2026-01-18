@@ -457,6 +457,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
     kUuidPart2FieldNumber = 19,
     kUuidPart3FieldNumber = 20,
     kUuidPart4FieldNumber = 21,
+    kDistanceCFieldNumber = 22,
   };
   // .ser.RgbColor target_color = 16;
   bool has_target_color() const;
@@ -673,12 +674,22 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
   void _internal_set_uuid_part4(::int32_t value);
 
   public:
+  // double distance_c = 22 [(.buf.validate.field) = {
+  void clear_distance_c() ;
+  double distance_c() const;
+  void set_distance_c(double value);
+
+  private:
+  double _internal_distance_c() const;
+  void _internal_set_distance_c(double value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataTarget)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 21, 1,
+      5, 22, 1,
       0, 2>
       _table_;
 
@@ -719,6 +730,7 @@ class JonGuiDataTarget final : public ::google::protobuf::Message
     ::int32_t uuid_part2_;
     ::int32_t uuid_part3_;
     ::int32_t uuid_part4_;
+    double distance_c_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1713,6 +1725,28 @@ inline double JonGuiDataTarget::_internal_distance_3b() const {
 inline void JonGuiDataTarget::_internal_set_distance_3b(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.distance_3b_ = value;
+}
+
+// double distance_c = 22 [(.buf.validate.field) = {
+inline void JonGuiDataTarget::clear_distance_c() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.distance_c_ = 0;
+}
+inline double JonGuiDataTarget::distance_c() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTarget.distance_c)
+  return _internal_distance_c();
+}
+inline void JonGuiDataTarget::set_distance_c(double value) {
+  _internal_set_distance_c(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataTarget.distance_c)
+}
+inline double JonGuiDataTarget::_internal_distance_c() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.distance_c_;
+}
+inline void JonGuiDataTarget::_internal_set_distance_c(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.distance_c_ = value;
 }
 
 // .ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = {

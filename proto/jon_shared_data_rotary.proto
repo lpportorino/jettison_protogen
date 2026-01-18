@@ -72,6 +72,16 @@ message JonGuiDataRotary {
   ScanNode current_scan_node = 17 [(buf.validate.field).required = true];
   bool is_started = 18;
   JonGuiDataMeteo meteo = 19;
+
+  // Axis initialization status (0=not init, 14=fully init)
+  int32 pan_init_status = 20 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 14
+  }];
+  int32 tilt_init_status = 21 [(buf.validate.field).int32 = {
+    gte: 0,
+    lte: 14
+  }];
 }
 
 message ScanNode {

@@ -500,6 +500,8 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     kSunAzimuthFieldNumber = 15,
     kSunElevationFieldNumber = 16,
     kIsStartedFieldNumber = 18,
+    kPanInitStatusFieldNumber = 20,
+    kTiltInitStatusFieldNumber = 21,
   };
   // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
   bool has_current_scan_node() const;
@@ -701,12 +703,32 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_is_started(bool value);
 
   public:
+  // int32 pan_init_status = 20 [(.buf.validate.field) = {
+  void clear_pan_init_status() ;
+  ::int32_t pan_init_status() const;
+  void set_pan_init_status(::int32_t value);
+
+  private:
+  ::int32_t _internal_pan_init_status() const;
+  void _internal_set_pan_init_status(::int32_t value);
+
+  public:
+  // int32 tilt_init_status = 21 [(.buf.validate.field) = {
+  void clear_tilt_init_status() ;
+  ::int32_t tilt_init_status() const;
+  void set_tilt_init_status(::int32_t value);
+
+  private:
+  ::int32_t _internal_tilt_init_status() const;
+  void _internal_set_tilt_init_status(::int32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataRotary)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 19, 2,
+      5, 21, 2,
       0, 2>
       _table_;
 
@@ -745,6 +767,8 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     double sun_azimuth_;
     double sun_elevation_;
     bool is_started_;
+    ::int32_t pan_init_status_;
+    ::int32_t tilt_init_status_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1326,6 +1350,50 @@ inline void JonGuiDataRotary::set_allocated_meteo(::ser::JonGuiDataMeteo* value)
 
   _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataRotary.meteo)
+}
+
+// int32 pan_init_status = 20 [(.buf.validate.field) = {
+inline void JonGuiDataRotary::clear_pan_init_status() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.pan_init_status_ = 0;
+}
+inline ::int32_t JonGuiDataRotary::pan_init_status() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.pan_init_status)
+  return _internal_pan_init_status();
+}
+inline void JonGuiDataRotary::set_pan_init_status(::int32_t value) {
+  _internal_set_pan_init_status(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.pan_init_status)
+}
+inline ::int32_t JonGuiDataRotary::_internal_pan_init_status() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.pan_init_status_;
+}
+inline void JonGuiDataRotary::_internal_set_pan_init_status(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.pan_init_status_ = value;
+}
+
+// int32 tilt_init_status = 21 [(.buf.validate.field) = {
+inline void JonGuiDataRotary::clear_tilt_init_status() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.tilt_init_status_ = 0;
+}
+inline ::int32_t JonGuiDataRotary::tilt_init_status() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.tilt_init_status)
+  return _internal_tilt_init_status();
+}
+inline void JonGuiDataRotary::set_tilt_init_status(::int32_t value) {
+  _internal_set_tilt_init_status(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.tilt_init_status)
+}
+inline ::int32_t JonGuiDataRotary::_internal_tilt_init_status() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.tilt_init_status_;
+}
+inline void JonGuiDataRotary::_internal_set_tilt_init_status(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.tilt_init_status_ = value;
 }
 
 // -------------------------------------------------------------------

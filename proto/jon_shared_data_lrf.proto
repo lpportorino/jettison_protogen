@@ -62,6 +62,10 @@ message JonGuiDataTarget {
     gte: 0,
     lte: 500000  // 50km in decimeters
   }];
+  double distance_c = 22 [(buf.validate.field).double = {
+    gte: 0,
+    lte: 500000  // 50km in decimeters - third raw LRF distance reading
+  }];
   JonGuiDataGpsFixType observer_fix_type = 13 [(buf.validate.field).enum = {
     defined_only: true,
     not_in: [0]

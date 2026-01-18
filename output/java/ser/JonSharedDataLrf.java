@@ -1579,6 +1579,12 @@ public final class JonSharedDataLrf {
     double getDistance3B();
 
     /**
+     * <code>double distance_c = 22 [(.buf.validate.field) = { ... }</code>
+     * @return The distanceC.
+     */
+    double getDistanceC();
+
+    /**
      * <code>.ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = { ... }</code>
      * @return The enum numeric value on the wire for observerFixType.
      */
@@ -1821,6 +1827,17 @@ public final class JonSharedDataLrf {
       return distance3B_;
     }
 
+    public static final int DISTANCE_C_FIELD_NUMBER = 22;
+    private double distanceC_ = 0D;
+    /**
+     * <code>double distance_c = 22 [(.buf.validate.field) = { ... }</code>
+     * @return The distanceC.
+     */
+    @java.lang.Override
+    public double getDistanceC() {
+      return distanceC_;
+    }
+
     public static final int OBSERVER_FIX_TYPE_FIELD_NUMBER = 13;
     private int observerFixType_ = 0;
     /**
@@ -2023,6 +2040,9 @@ public final class JonSharedDataLrf {
       if (uuidPart4_ != 0) {
         output.writeInt32(21, uuidPart4_);
       }
+      if (java.lang.Double.doubleToRawLongBits(distanceC_) != 0) {
+        output.writeDouble(22, distanceC_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2116,6 +2136,10 @@ public final class JonSharedDataLrf {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(21, uuidPart4_);
       }
+      if (java.lang.Double.doubleToRawLongBits(distanceC_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(22, distanceC_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2166,6 +2190,9 @@ public final class JonSharedDataLrf {
       if (java.lang.Double.doubleToLongBits(getDistance3B())
           != java.lang.Double.doubleToLongBits(
               other.getDistance3B())) return false;
+      if (java.lang.Double.doubleToLongBits(getDistanceC())
+          != java.lang.Double.doubleToLongBits(
+              other.getDistanceC())) return false;
       if (observerFixType_ != other.observerFixType_) return false;
       if (getSessionId()
           != other.getSessionId()) return false;
@@ -2233,6 +2260,9 @@ public final class JonSharedDataLrf {
       hash = (37 * hash) + DISTANCE_3B_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getDistance3B()));
+      hash = (37 * hash) + DISTANCE_C_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getDistanceC()));
       hash = (37 * hash) + OBSERVER_FIX_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + observerFixType_;
       hash = (37 * hash) + SESSION_ID_FIELD_NUMBER;
@@ -2402,6 +2432,7 @@ public final class JonSharedDataLrf {
         observerBank_ = 0D;
         distance2D_ = 0D;
         distance3B_ = 0D;
+        distanceC_ = 0D;
         observerFixType_ = 0;
         sessionId_ = 0;
         targetId_ = 0;
@@ -2485,34 +2516,37 @@ public final class JonSharedDataLrf {
           result.distance3B_ = distance3B_;
         }
         if (((from_bitField0_ & 0x00001000) != 0)) {
-          result.observerFixType_ = observerFixType_;
+          result.distanceC_ = distanceC_;
         }
         if (((from_bitField0_ & 0x00002000) != 0)) {
-          result.sessionId_ = sessionId_;
+          result.observerFixType_ = observerFixType_;
         }
         if (((from_bitField0_ & 0x00004000) != 0)) {
+          result.sessionId_ = sessionId_;
+        }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
           result.targetId_ = targetId_;
         }
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00008000) != 0)) {
+        if (((from_bitField0_ & 0x00010000) != 0)) {
           result.targetColor_ = targetColorBuilder_ == null
               ? targetColor_
               : targetColorBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
-        if (((from_bitField0_ & 0x00010000) != 0)) {
+        if (((from_bitField0_ & 0x00020000) != 0)) {
           result.type_ = type_;
         }
-        if (((from_bitField0_ & 0x00020000) != 0)) {
+        if (((from_bitField0_ & 0x00040000) != 0)) {
           result.uuidPart1_ = uuidPart1_;
         }
-        if (((from_bitField0_ & 0x00040000) != 0)) {
+        if (((from_bitField0_ & 0x00080000) != 0)) {
           result.uuidPart2_ = uuidPart2_;
         }
-        if (((from_bitField0_ & 0x00080000) != 0)) {
+        if (((from_bitField0_ & 0x00100000) != 0)) {
           result.uuidPart3_ = uuidPart3_;
         }
-        if (((from_bitField0_ & 0x00100000) != 0)) {
+        if (((from_bitField0_ & 0x00200000) != 0)) {
           result.uuidPart4_ = uuidPart4_;
         }
         result.bitField0_ |= to_bitField0_;
@@ -2565,6 +2599,9 @@ public final class JonSharedDataLrf {
         }
         if (other.getDistance3B() != 0D) {
           setDistance3B(other.getDistance3B());
+        }
+        if (other.getDistanceC() != 0D) {
+          setDistanceC(other.getDistanceC());
         }
         if (other.observerFixType_ != 0) {
           setObserverFixTypeValue(other.getObserverFixTypeValue());
@@ -2681,51 +2718,56 @@ public final class JonSharedDataLrf {
               } // case 97
               case 104: {
                 observerFixType_ = input.readEnum();
-                bitField0_ |= 0x00001000;
+                bitField0_ |= 0x00002000;
                 break;
               } // case 104
               case 112: {
                 sessionId_ = input.readInt32();
-                bitField0_ |= 0x00002000;
+                bitField0_ |= 0x00004000;
                 break;
               } // case 112
               case 120: {
                 targetId_ = input.readInt32();
-                bitField0_ |= 0x00004000;
+                bitField0_ |= 0x00008000;
                 break;
               } // case 120
               case 130: {
                 input.readMessage(
                     getTargetColorFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00008000;
+                bitField0_ |= 0x00010000;
                 break;
               } // case 130
               case 136: {
                 type_ = input.readUInt32();
-                bitField0_ |= 0x00010000;
+                bitField0_ |= 0x00020000;
                 break;
               } // case 136
               case 144: {
                 uuidPart1_ = input.readInt32();
-                bitField0_ |= 0x00020000;
+                bitField0_ |= 0x00040000;
                 break;
               } // case 144
               case 152: {
                 uuidPart2_ = input.readInt32();
-                bitField0_ |= 0x00040000;
+                bitField0_ |= 0x00080000;
                 break;
               } // case 152
               case 160: {
                 uuidPart3_ = input.readInt32();
-                bitField0_ |= 0x00080000;
+                bitField0_ |= 0x00100000;
                 break;
               } // case 160
               case 168: {
                 uuidPart4_ = input.readInt32();
-                bitField0_ |= 0x00100000;
+                bitField0_ |= 0x00200000;
                 break;
               } // case 168
+              case 177: {
+                distanceC_ = input.readDouble();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 177
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -3127,6 +3169,38 @@ public final class JonSharedDataLrf {
         return this;
       }
 
+      private double distanceC_ ;
+      /**
+       * <code>double distance_c = 22 [(.buf.validate.field) = { ... }</code>
+       * @return The distanceC.
+       */
+      @java.lang.Override
+      public double getDistanceC() {
+        return distanceC_;
+      }
+      /**
+       * <code>double distance_c = 22 [(.buf.validate.field) = { ... }</code>
+       * @param value The distanceC to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDistanceC(double value) {
+
+        distanceC_ = value;
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double distance_c = 22 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDistanceC() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        distanceC_ = 0D;
+        onChanged();
+        return this;
+      }
+
       private int observerFixType_ = 0;
       /**
        * <code>.ser.JonGuiDataGpsFixType observer_fix_type = 13 [(.buf.validate.field) = { ... }</code>
@@ -3142,7 +3216,7 @@ public final class JonSharedDataLrf {
        */
       public Builder setObserverFixTypeValue(int value) {
         observerFixType_ = value;
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00002000;
         onChanged();
         return this;
       }
@@ -3164,7 +3238,7 @@ public final class JonSharedDataLrf {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00002000;
         observerFixType_ = value.getNumber();
         onChanged();
         return this;
@@ -3174,7 +3248,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearObserverFixType() {
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         observerFixType_ = 0;
         onChanged();
         return this;
@@ -3197,7 +3271,7 @@ public final class JonSharedDataLrf {
       public Builder setSessionId(int value) {
 
         sessionId_ = value;
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00004000;
         onChanged();
         return this;
       }
@@ -3206,7 +3280,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearSessionId() {
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         sessionId_ = 0;
         onChanged();
         return this;
@@ -3229,7 +3303,7 @@ public final class JonSharedDataLrf {
       public Builder setTargetId(int value) {
 
         targetId_ = value;
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00008000;
         onChanged();
         return this;
       }
@@ -3238,7 +3312,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearTargetId() {
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         targetId_ = 0;
         onChanged();
         return this;
@@ -3252,7 +3326,7 @@ public final class JonSharedDataLrf {
        * @return Whether the targetColor field is set.
        */
       public boolean hasTargetColor() {
-        return ((bitField0_ & 0x00008000) != 0);
+        return ((bitField0_ & 0x00010000) != 0);
       }
       /**
        * <code>.ser.RgbColor target_color = 16;</code>
@@ -3277,7 +3351,7 @@ public final class JonSharedDataLrf {
         } else {
           targetColorBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00010000;
         onChanged();
         return this;
       }
@@ -3291,7 +3365,7 @@ public final class JonSharedDataLrf {
         } else {
           targetColorBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00010000;
         onChanged();
         return this;
       }
@@ -3300,7 +3374,7 @@ public final class JonSharedDataLrf {
        */
       public Builder mergeTargetColor(ser.JonSharedDataLrf.RgbColor value) {
         if (targetColorBuilder_ == null) {
-          if (((bitField0_ & 0x00008000) != 0) &&
+          if (((bitField0_ & 0x00010000) != 0) &&
             targetColor_ != null &&
             targetColor_ != ser.JonSharedDataLrf.RgbColor.getDefaultInstance()) {
             getTargetColorBuilder().mergeFrom(value);
@@ -3311,7 +3385,7 @@ public final class JonSharedDataLrf {
           targetColorBuilder_.mergeFrom(value);
         }
         if (targetColor_ != null) {
-          bitField0_ |= 0x00008000;
+          bitField0_ |= 0x00010000;
           onChanged();
         }
         return this;
@@ -3320,7 +3394,7 @@ public final class JonSharedDataLrf {
        * <code>.ser.RgbColor target_color = 16;</code>
        */
       public Builder clearTargetColor() {
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         targetColor_ = null;
         if (targetColorBuilder_ != null) {
           targetColorBuilder_.dispose();
@@ -3333,7 +3407,7 @@ public final class JonSharedDataLrf {
        * <code>.ser.RgbColor target_color = 16;</code>
        */
       public ser.JonSharedDataLrf.RgbColor.Builder getTargetColorBuilder() {
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00010000;
         onChanged();
         return getTargetColorFieldBuilder().getBuilder();
       }
@@ -3382,7 +3456,7 @@ public final class JonSharedDataLrf {
       public Builder setType(int value) {
 
         type_ = value;
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00020000;
         onChanged();
         return this;
       }
@@ -3391,7 +3465,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         type_ = 0;
         onChanged();
         return this;
@@ -3422,7 +3496,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart1(int value) {
 
         uuidPart1_ = value;
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00040000;
         onChanged();
         return this;
       }
@@ -3435,7 +3509,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart1() {
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         uuidPart1_ = 0;
         onChanged();
         return this;
@@ -3458,7 +3532,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart2(int value) {
 
         uuidPart2_ = value;
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00080000;
         onChanged();
         return this;
       }
@@ -3467,7 +3541,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart2() {
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         uuidPart2_ = 0;
         onChanged();
         return this;
@@ -3490,7 +3564,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart3(int value) {
 
         uuidPart3_ = value;
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00100000;
         onChanged();
         return this;
       }
@@ -3499,7 +3573,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart3() {
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         uuidPart3_ = 0;
         onChanged();
         return this;
@@ -3522,7 +3596,7 @@ public final class JonSharedDataLrf {
       public Builder setUuidPart4(int value) {
 
         uuidPart4_ = value;
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00200000;
         onChanged();
         return this;
       }
@@ -3531,7 +3605,7 @@ public final class JonSharedDataLrf {
        * @return This builder for chaining.
        */
       public Builder clearUuidPart4() {
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00200000);
         uuidPart4_ = 0;
         onChanged();
         return this;
@@ -4201,7 +4275,7 @@ public final class JonSharedDataLrf {
       "refining\030\007 \001(\010\022\037\n\027is_continuous_measurin" +
       "g\030\010 \001(\010\022\022\n\nis_started\030\t \001(\010\022#\n\005meteo\030\n \001" +
       "(\0132\024.ser.JonGuiDataMeteo\022\021\n\tscan_mode\030\013 " +
-      "\001(\005\"\242\006\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 " +
+      "\001(\005\"\317\006\n\020JonGuiDataTarget\022\032\n\ttimestamp\030\001 " +
       "\001(\003B\007\272H\004\"\002(\000\0221\n\020target_longitude\030\002 \001(\001B\027" +
       "\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017target_latitu" +
       "de\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017tar" +
@@ -4214,18 +4288,19 @@ public final class JonSharedDataLrf {
       "\000\000\200V@)\000\000\000\000\000\200V\300\022.\n\robserver_bank\030\n \001(\001B\027\272" +
       "H\024\022\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022,\n\013distance_2d\030\013 " +
       "\001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022,\n\013distance" +
-      "_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022@\n\021ob" +
-      "server_fix_type\030\r \001(\0162\031.ser.JonGuiDataGp" +
-      "sFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030\016 \001(\005" +
-      "B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002(\000\022#\n" +
-      "\014target_color\030\020 \001(\0132\r.ser.RgbColor\022\014\n\004ty" +
-      "pe\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuuid_par" +
-      "t2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuuid_par" +
-      "t4\030\025 \001(\005\"X\n\010RgbColor\022\027\n\003red\030\001 \001(\rB\n\272H\007*\005" +
-      "\030\377\001(\000\022\031\n\005green\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n\004blue" +
-      "\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000BKZIgit-codecommit.eu-" +
-      "central-1.amazonaws.com/v1/repos/jettiso" +
-      "n/jonp/data/lrfb\006proto3"
+      "_3b\030\014 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022+\n\ndi" +
+      "stance_c\030\026 \001(\001B\027\272H\024\022\022\031\000\000\000\000\200\204\036A)\000\000\000\000\000\000\000\000\022" +
+      "@\n\021observer_fix_type\030\r \001(\0162\031.ser.JonGuiD" +
+      "ataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\033\n\nsession_id\030" +
+      "\016 \001(\005B\007\272H\004\032\002(\000\022\032\n\ttarget_id\030\017 \001(\005B\007\272H\004\032\002" +
+      "(\000\022#\n\014target_color\030\020 \001(\0132\r.ser.RgbColor\022" +
+      "\014\n\004type\030\021 \001(\r\022\022\n\nuuid_part1\030\022 \001(\005\022\022\n\nuui" +
+      "d_part2\030\023 \001(\005\022\022\n\nuuid_part3\030\024 \001(\005\022\022\n\nuui" +
+      "d_part4\030\025 \001(\005\"X\n\010RgbColor\022\027\n\003red\030\001 \001(\rB\n" +
+      "\272H\007*\005\030\377\001(\000\022\031\n\005green\030\002 \001(\rB\n\272H\007*\005\030\377\001(\000\022\030\n" +
+      "\004blue\030\003 \001(\rB\n\272H\007*\005\030\377\001(\000BKZIgit-codecommi" +
+      "t.eu-central-1.amazonaws.com/v1/repos/je" +
+      "ttison/jonp/data/lrfb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4244,7 +4319,7 @@ public final class JonSharedDataLrf {
     internal_static_ser_JonGuiDataTarget_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataTarget_descriptor,
-        new java.lang.String[] { "Timestamp", "TargetLongitude", "TargetLatitude", "TargetAltitude", "ObserverLongitude", "ObserverLatitude", "ObserverAltitude", "ObserverAzimuth", "ObserverElevation", "ObserverBank", "Distance2D", "Distance3B", "ObserverFixType", "SessionId", "TargetId", "TargetColor", "Type", "UuidPart1", "UuidPart2", "UuidPart3", "UuidPart4", });
+        new java.lang.String[] { "Timestamp", "TargetLongitude", "TargetLatitude", "TargetAltitude", "ObserverLongitude", "ObserverLatitude", "ObserverAltitude", "ObserverAzimuth", "ObserverElevation", "ObserverBank", "Distance2D", "Distance3B", "DistanceC", "ObserverFixType", "SessionId", "TargetId", "TargetColor", "Type", "UuidPart1", "UuidPart2", "UuidPart3", "UuidPart4", });
     internal_static_ser_RgbColor_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_ser_RgbColor_fieldAccessorTable = new
