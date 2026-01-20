@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_pmu.proto.
  */
 export const file_jon_shared_data_pmu: GenFile = /*@__PURE__*/
-  fileDesc("Chlqb25fc2hhcmVkX2RhdGFfcG11LnByb3RvEgNzZXIiqgEKDUpvbkd1aURhdGFQTVUSUAoLdGVtcGVyYXR1cmUYASABKAFCO7pIOBI2GcP1KFyPooRAKWZmZmZmEnHASQAAAAAAADTASQAAAAAAAAAASQAAAAAAADlASQAAAAAAAFlAEg4KBnN0YXR1cxgCIAEoCBISCgppc19zdGFydGVkGAMgASgIEiMKBW1ldGVvGAQgASgLMhQuc2VyLkpvbkd1aURhdGFNZXRlb0JLWklnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvcG11YgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chlqb25fc2hhcmVkX2RhdGFfcG11LnByb3RvEgNzZXIi5gEKDUpvbkd1aURhdGFQTVUSUAoLdGVtcGVyYXR1cmUYASABKAFCO7pIOBI2GcP1KFyPooRAKWZmZmZmEnHASQAAAAAAADTASQAAAAAAAAAASQAAAAAAADlASQAAAAAAAFlAEhIKCmlzX3N0YXJ0ZWQYAyABKAgSIwoFbWV0ZW8YBCABKAsyFC5zZXIuSm9uR3VpRGF0YU1ldGVvEigKB3ZvbHRhZ2UYBSABKAFCF7pIFBISGQAAAAAAAE5AKQAAAAAAAABAEhoKEmhlYXRlcl9wb3dlcl9zdGF0ZRgGIAEoCEoECAIQA0JLWklnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvcG11YgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataPMU
@@ -25,11 +25,6 @@ export type JonGuiDataPMU = Message<"ser.JonGuiDataPMU"> & {
   temperature: number;
 
   /**
-   * @generated from field: bool status = 2;
-   */
-  status: boolean;
-
-  /**
    * @generated from field: bool is_started = 3;
    */
   isStarted: boolean;
@@ -38,6 +33,16 @@ export type JonGuiDataPMU = Message<"ser.JonGuiDataPMU"> & {
    * @generated from field: ser.JonGuiDataMeteo meteo = 4;
    */
   meteo?: JonGuiDataMeteo;
+
+  /**
+   * @generated from field: double voltage = 5;
+   */
+  voltage: number;
+
+  /**
+   * @generated from field: bool heater_power_state = 6;
+   */
+  heaterPowerState: boolean;
 };
 
 /**

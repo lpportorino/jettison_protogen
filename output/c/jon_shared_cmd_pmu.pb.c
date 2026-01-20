@@ -24,4 +24,22 @@ PB_BIND(cmd_PMU_TurnOff, cmd_PMU_TurnOff, AUTO)
 PB_BIND(cmd_PMU_GetMeteo, cmd_PMU_GetMeteo, AUTO)
 
 
+PB_BIND(cmd_PMU_GetHeaterPowerState, cmd_PMU_GetHeaterPowerState, AUTO)
+
+
+PB_BIND(cmd_PMU_PowerOff, cmd_PMU_PowerOff, AUTO)
+
+
+PB_BIND(cmd_PMU_ChargeEnable, cmd_PMU_ChargeEnable, AUTO)
+
+
+PB_BIND(cmd_PMU_ChargeDisable, cmd_PMU_ChargeDisable, AUTO)
+
+
+PB_BIND(cmd_PMU_BootHeater, cmd_PMU_BootHeater, AUTO)
+
+
+PB_BIND(cmd_PMU_GetDataU1, cmd_PMU_GetDataU1, AUTO)
+
+
 

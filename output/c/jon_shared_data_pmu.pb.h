@@ -13,10 +13,11 @@
 /* Struct definitions */
 typedef struct _ser_JonGuiDataPMU {
     double temperature;
-    bool status;
     bool is_started;
     bool has_meteo;
     ser_JonGuiDataMeteo meteo;
+    double voltage;
+    bool heater_power_state;
 } ser_JonGuiDataPMU;
 
 
@@ -25,21 +26,23 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataPMU_init_default           {0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
-#define ser_JonGuiDataPMU_init_zero              {0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
+#define ser_JonGuiDataPMU_init_default           {0, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0}
+#define ser_JonGuiDataPMU_init_zero              {0, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataPMU_temperature_tag        1
-#define ser_JonGuiDataPMU_status_tag             2
 #define ser_JonGuiDataPMU_is_started_tag         3
 #define ser_JonGuiDataPMU_meteo_tag              4
+#define ser_JonGuiDataPMU_voltage_tag            5
+#define ser_JonGuiDataPMU_heater_power_state_tag 6
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataPMU_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, DOUBLE,   temperature,       1) \
-X(a, STATIC,   SINGULAR, BOOL,     status,            2) \
 X(a, STATIC,   SINGULAR, BOOL,     is_started,        3) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,             4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,             4) \
+X(a, STATIC,   SINGULAR, DOUBLE,   voltage,           5) \
+X(a, STATIC,   SINGULAR, BOOL,     heater_power_state,   6)
 #define ser_JonGuiDataPMU_CALLBACK NULL
 #define ser_JonGuiDataPMU_DEFAULT NULL
 #define ser_JonGuiDataPMU_meteo_MSGTYPE ser_JonGuiDataMeteo
@@ -51,7 +54,7 @@ extern const pb_msgdesc_t ser_JonGuiDataPMU_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_PMU_PB_H_MAX_SIZE    ser_JonGuiDataPMU_size
-#define ser_JonGuiDataPMU_size                   42
+#define ser_JonGuiDataPMU_size                   51
 
 #ifdef __cplusplus
 } /* extern "C" */

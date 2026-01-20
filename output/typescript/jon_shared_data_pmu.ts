@@ -11,13 +11,14 @@ import { JonGuiDataMeteo } from "./jon_shared_data_types";
 
 export interface JonGuiDataPMU {
   temperature: number;
-  status: boolean;
   isStarted: boolean;
   meteo: JonGuiDataMeteo | undefined;
+  voltage: number;
+  heaterPowerState: boolean;
 }
 
 function createBaseJonGuiDataPMU(): JonGuiDataPMU {
-  return { temperature: 0, status: false, isStarted: false, meteo: undefined };
+  return { temperature: 0, isStarted: false, meteo: undefined, voltage: 0, heaterPowerState: false };
 }
 
 export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
@@ -25,14 +26,17 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     if (message.temperature !== 0) {
       writer.uint32(9).double(message.temperature);
     }
-    if (message.status !== false) {
-      writer.uint32(16).bool(message.status);
-    }
     if (message.isStarted !== false) {
       writer.uint32(24).bool(message.isStarted);
     }
     if (message.meteo !== undefined) {
       JonGuiDataMeteo.encode(message.meteo, writer.uint32(34).fork()).join();
+    }
+    if (message.voltage !== 0) {
+      writer.uint32(41).double(message.voltage);
+    }
+    if (message.heaterPowerState !== false) {
+      writer.uint32(48).bool(message.heaterPowerState);
     }
     return writer;
   },
@@ -52,14 +56,6 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
           message.temperature = reader.double();
           continue;
         }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.status = reader.bool();
-          continue;
-        }
         case 3: {
           if (tag !== 24) {
             break;
@@ -76,6 +72,22 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
           message.meteo = JonGuiDataMeteo.decode(reader, reader.uint32());
           continue;
         }
+        case 5: {
+          if (tag !== 41) {
+            break;
+          }
+
+          message.voltage = reader.double();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.heaterPowerState = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -88,13 +100,18 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
   fromJSON(object: any): JonGuiDataPMU {
     return {
       temperature: isSet(object.temperature) ? globalThis.Number(object.temperature) : 0,
-      status: isSet(object.status) ? globalThis.Boolean(object.status) : false,
       isStarted: isSet(object.isStarted)
         ? globalThis.Boolean(object.isStarted)
         : isSet(object.is_started)
         ? globalThis.Boolean(object.is_started)
         : false,
       meteo: isSet(object.meteo) ? JonGuiDataMeteo.fromJSON(object.meteo) : undefined,
+      voltage: isSet(object.voltage) ? globalThis.Number(object.voltage) : 0,
+      heaterPowerState: isSet(object.heaterPowerState)
+        ? globalThis.Boolean(object.heaterPowerState)
+        : isSet(object.heater_power_state)
+        ? globalThis.Boolean(object.heater_power_state)
+        : false,
     };
   },
 
@@ -103,14 +120,17 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     if (message.temperature !== 0) {
       obj.temperature = message.temperature;
     }
-    if (message.status !== false) {
-      obj.status = message.status;
-    }
     if (message.isStarted !== false) {
       obj.isStarted = message.isStarted;
     }
     if (message.meteo !== undefined) {
       obj.meteo = JonGuiDataMeteo.toJSON(message.meteo);
+    }
+    if (message.voltage !== 0) {
+      obj.voltage = message.voltage;
+    }
+    if (message.heaterPowerState !== false) {
+      obj.heaterPowerState = message.heaterPowerState;
     }
     return obj;
   },
@@ -121,11 +141,12 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
   fromPartial<I extends Exact<DeepPartial<JonGuiDataPMU>, I>>(object: I): JonGuiDataPMU {
     const message = createBaseJonGuiDataPMU();
     message.temperature = object.temperature ?? 0;
-    message.status = object.status ?? false;
     message.isStarted = object.isStarted ?? false;
     message.meteo = (object.meteo !== undefined && object.meteo !== null)
       ? JonGuiDataMeteo.fromPartial(object.meteo)
       : undefined;
+    message.voltage = object.voltage ?? 0;
+    message.heaterPowerState = object.heaterPowerState ?? false;
     return message;
   },
 };

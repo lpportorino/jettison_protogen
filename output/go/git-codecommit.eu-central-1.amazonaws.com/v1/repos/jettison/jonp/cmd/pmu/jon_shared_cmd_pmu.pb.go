@@ -31,6 +31,12 @@ type Root struct {
 	//	*Root_TurnOn
 	//	*Root_TurnOff
 	//	*Root_GetMeteo
+	//	*Root_GetHeaterPowerState
+	//	*Root_PowerOff
+	//	*Root_ChargeEnable
+	//	*Root_ChargeDisable
+	//	*Root_BootHeater
+	//	*Root_GetDataU1
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -118,6 +124,60 @@ func (x *Root) GetGetMeteo() *GetMeteo {
 	return nil
 }
 
+func (x *Root) GetGetHeaterPowerState() *GetHeaterPowerState {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_GetHeaterPowerState); ok {
+			return x.GetHeaterPowerState
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetPowerOff() *PowerOff {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_PowerOff); ok {
+			return x.PowerOff
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetChargeEnable() *ChargeEnable {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_ChargeEnable); ok {
+			return x.ChargeEnable
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetChargeDisable() *ChargeDisable {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_ChargeDisable); ok {
+			return x.ChargeDisable
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetBootHeater() *BootHeater {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_BootHeater); ok {
+			return x.BootHeater
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetGetDataU1() *GetDataU1 {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_GetDataU1); ok {
+			return x.GetDataU1
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -142,6 +202,30 @@ type Root_GetMeteo struct {
 	GetMeteo *GetMeteo `protobuf:"bytes,5,opt,name=get_meteo,json=getMeteo,proto3,oneof"`
 }
 
+type Root_GetHeaterPowerState struct {
+	GetHeaterPowerState *GetHeaterPowerState `protobuf:"bytes,6,opt,name=get_heater_power_state,json=getHeaterPowerState,proto3,oneof"`
+}
+
+type Root_PowerOff struct {
+	PowerOff *PowerOff `protobuf:"bytes,7,opt,name=power_off,json=powerOff,proto3,oneof"`
+}
+
+type Root_ChargeEnable struct {
+	ChargeEnable *ChargeEnable `protobuf:"bytes,8,opt,name=charge_enable,json=chargeEnable,proto3,oneof"`
+}
+
+type Root_ChargeDisable struct {
+	ChargeDisable *ChargeDisable `protobuf:"bytes,9,opt,name=charge_disable,json=chargeDisable,proto3,oneof"`
+}
+
+type Root_BootHeater struct {
+	BootHeater *BootHeater `protobuf:"bytes,10,opt,name=boot_heater,json=bootHeater,proto3,oneof"`
+}
+
+type Root_GetDataU1 struct {
+	GetDataU1 *GetDataU1 `protobuf:"bytes,11,opt,name=get_data_u1,json=getDataU1,proto3,oneof"`
+}
+
 func (*Root_Start) isRoot_Cmd() {}
 
 func (*Root_Stop) isRoot_Cmd() {}
@@ -151,6 +235,18 @@ func (*Root_TurnOn) isRoot_Cmd() {}
 func (*Root_TurnOff) isRoot_Cmd() {}
 
 func (*Root_GetMeteo) isRoot_Cmd() {}
+
+func (*Root_GetHeaterPowerState) isRoot_Cmd() {}
+
+func (*Root_PowerOff) isRoot_Cmd() {}
+
+func (*Root_ChargeEnable) isRoot_Cmd() {}
+
+func (*Root_ChargeDisable) isRoot_Cmd() {}
+
+func (*Root_BootHeater) isRoot_Cmd() {}
+
+func (*Root_GetDataU1) isRoot_Cmd() {}
 
 type Start struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -332,24 +428,256 @@ func (*GetMeteo) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{5}
 }
 
+type GetHeaterPowerState struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetHeaterPowerState) Reset() {
+	*x = GetHeaterPowerState{}
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetHeaterPowerState) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetHeaterPowerState) ProtoMessage() {}
+
+func (x *GetHeaterPowerState) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetHeaterPowerState.ProtoReflect.Descriptor instead.
+func (*GetHeaterPowerState) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{6}
+}
+
+type PowerOff struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PowerOff) Reset() {
+	*x = PowerOff{}
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PowerOff) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PowerOff) ProtoMessage() {}
+
+func (x *PowerOff) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PowerOff.ProtoReflect.Descriptor instead.
+func (*PowerOff) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{7}
+}
+
+type ChargeEnable struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChargeEnable) Reset() {
+	*x = ChargeEnable{}
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChargeEnable) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChargeEnable) ProtoMessage() {}
+
+func (x *ChargeEnable) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChargeEnable.ProtoReflect.Descriptor instead.
+func (*ChargeEnable) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{8}
+}
+
+type ChargeDisable struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChargeDisable) Reset() {
+	*x = ChargeDisable{}
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChargeDisable) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChargeDisable) ProtoMessage() {}
+
+func (x *ChargeDisable) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChargeDisable.ProtoReflect.Descriptor instead.
+func (*ChargeDisable) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{9}
+}
+
+type BootHeater struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BootHeater) Reset() {
+	*x = BootHeater{}
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BootHeater) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BootHeater) ProtoMessage() {}
+
+func (x *BootHeater) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BootHeater.ProtoReflect.Descriptor instead.
+func (*BootHeater) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{10}
+}
+
+type GetDataU1 struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDataU1) Reset() {
+	*x = GetDataU1{}
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDataU1) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDataU1) ProtoMessage() {}
+
+func (x *GetDataU1) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_pmu_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDataU1.ProtoReflect.Descriptor instead.
+func (*GetDataU1) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_pmu_proto_rawDescGZIP(), []int{11}
+}
+
 var File_jon_shared_cmd_pmu_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_pmu_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_cmd_pmu.proto\x12\acmd.PMU\x1a\x1bbuf/validate/validate.proto\"\xee\x01\n" +
+	"\x18jon_shared_cmd_pmu.proto\x12\acmd.PMU\x1a\x1bbuf/validate/validate.proto\"\xe2\x04\n" +
 	"\x04Root\x12&\n" +
 	"\x05start\x18\x01 \x01(\v2\x0e.cmd.PMU.StartH\x00R\x05start\x12#\n" +
 	"\x04stop\x18\x02 \x01(\v2\r.cmd.PMU.StopH\x00R\x04stop\x12*\n" +
 	"\aturn_on\x18\x03 \x01(\v2\x0f.cmd.PMU.TurnOnH\x00R\x06turnOn\x12-\n" +
 	"\bturn_off\x18\x04 \x01(\v2\x10.cmd.PMU.TurnOffH\x00R\aturnOff\x120\n" +
-	"\tget_meteo\x18\x05 \x01(\v2\x11.cmd.PMU.GetMeteoH\x00R\bgetMeteoB\f\n" +
+	"\tget_meteo\x18\x05 \x01(\v2\x11.cmd.PMU.GetMeteoH\x00R\bgetMeteo\x12S\n" +
+	"\x16get_heater_power_state\x18\x06 \x01(\v2\x1c.cmd.PMU.GetHeaterPowerStateH\x00R\x13getHeaterPowerState\x120\n" +
+	"\tpower_off\x18\a \x01(\v2\x11.cmd.PMU.PowerOffH\x00R\bpowerOff\x12<\n" +
+	"\rcharge_enable\x18\b \x01(\v2\x15.cmd.PMU.ChargeEnableH\x00R\fchargeEnable\x12?\n" +
+	"\x0echarge_disable\x18\t \x01(\v2\x16.cmd.PMU.ChargeDisableH\x00R\rchargeDisable\x126\n" +
+	"\vboot_heater\x18\n" +
+	" \x01(\v2\x13.cmd.PMU.BootHeaterH\x00R\n" +
+	"bootHeater\x124\n" +
+	"\vget_data_u1\x18\v \x01(\v2\x12.cmd.PMU.GetDataU1H\x00R\tgetDataU1B\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
 	"\x05Start\"\x06\n" +
 	"\x04Stop\"\b\n" +
 	"\x06TurnOn\"\t\n" +
 	"\aTurnOff\"\n" +
 	"\n" +
-	"\bGetMeteoB\xaa\x01\n" +
+	"\bGetMeteo\"\x15\n" +
+	"\x13GetHeaterPowerState\"\n" +
+	"\n" +
+	"\bPowerOff\"\x0e\n" +
+	"\fChargeEnable\"\x0f\n" +
+	"\rChargeDisable\"\f\n" +
+	"\n" +
+	"BootHeater\"\v\n" +
+	"\tGetDataU1B\xaa\x01\n" +
 	"\vcom.cmd.PMUB\x14JonSharedCmdPmuProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/pmu\xa2\x02\x03CPX\xaa\x02\aCmd.PMU\xca\x02\aCmd\\PMU\xe2\x02\x13Cmd\\PMU\\GPBMetadata\xea\x02\bCmd::PMUb\x06proto3"
 
 var (
@@ -364,26 +692,38 @@ func file_jon_shared_cmd_pmu_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_pmu_proto_rawDescData
 }
 
-var file_jon_shared_cmd_pmu_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_jon_shared_cmd_pmu_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_jon_shared_cmd_pmu_proto_goTypes = []any{
-	(*Root)(nil),     // 0: cmd.PMU.Root
-	(*Start)(nil),    // 1: cmd.PMU.Start
-	(*Stop)(nil),     // 2: cmd.PMU.Stop
-	(*TurnOn)(nil),   // 3: cmd.PMU.TurnOn
-	(*TurnOff)(nil),  // 4: cmd.PMU.TurnOff
-	(*GetMeteo)(nil), // 5: cmd.PMU.GetMeteo
+	(*Root)(nil),                // 0: cmd.PMU.Root
+	(*Start)(nil),               // 1: cmd.PMU.Start
+	(*Stop)(nil),                // 2: cmd.PMU.Stop
+	(*TurnOn)(nil),              // 3: cmd.PMU.TurnOn
+	(*TurnOff)(nil),             // 4: cmd.PMU.TurnOff
+	(*GetMeteo)(nil),            // 5: cmd.PMU.GetMeteo
+	(*GetHeaterPowerState)(nil), // 6: cmd.PMU.GetHeaterPowerState
+	(*PowerOff)(nil),            // 7: cmd.PMU.PowerOff
+	(*ChargeEnable)(nil),        // 8: cmd.PMU.ChargeEnable
+	(*ChargeDisable)(nil),       // 9: cmd.PMU.ChargeDisable
+	(*BootHeater)(nil),          // 10: cmd.PMU.BootHeater
+	(*GetDataU1)(nil),           // 11: cmd.PMU.GetDataU1
 }
 var file_jon_shared_cmd_pmu_proto_depIdxs = []int32{
-	1, // 0: cmd.PMU.Root.start:type_name -> cmd.PMU.Start
-	2, // 1: cmd.PMU.Root.stop:type_name -> cmd.PMU.Stop
-	3, // 2: cmd.PMU.Root.turn_on:type_name -> cmd.PMU.TurnOn
-	4, // 3: cmd.PMU.Root.turn_off:type_name -> cmd.PMU.TurnOff
-	5, // 4: cmd.PMU.Root.get_meteo:type_name -> cmd.PMU.GetMeteo
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	1,  // 0: cmd.PMU.Root.start:type_name -> cmd.PMU.Start
+	2,  // 1: cmd.PMU.Root.stop:type_name -> cmd.PMU.Stop
+	3,  // 2: cmd.PMU.Root.turn_on:type_name -> cmd.PMU.TurnOn
+	4,  // 3: cmd.PMU.Root.turn_off:type_name -> cmd.PMU.TurnOff
+	5,  // 4: cmd.PMU.Root.get_meteo:type_name -> cmd.PMU.GetMeteo
+	6,  // 5: cmd.PMU.Root.get_heater_power_state:type_name -> cmd.PMU.GetHeaterPowerState
+	7,  // 6: cmd.PMU.Root.power_off:type_name -> cmd.PMU.PowerOff
+	8,  // 7: cmd.PMU.Root.charge_enable:type_name -> cmd.PMU.ChargeEnable
+	9,  // 8: cmd.PMU.Root.charge_disable:type_name -> cmd.PMU.ChargeDisable
+	10, // 9: cmd.PMU.Root.boot_heater:type_name -> cmd.PMU.BootHeater
+	11, // 10: cmd.PMU.Root.get_data_u1:type_name -> cmd.PMU.GetDataU1
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_pmu_proto_init() }
@@ -397,6 +737,12 @@ func file_jon_shared_cmd_pmu_proto_init() {
 		(*Root_TurnOn)(nil),
 		(*Root_TurnOff)(nil),
 		(*Root_GetMeteo)(nil),
+		(*Root_GetHeaterPowerState)(nil),
+		(*Root_PowerOff)(nil),
+		(*Root_ChargeEnable)(nil),
+		(*Root_ChargeDisable)(nil),
+		(*Root_BootHeater)(nil),
+		(*Root_GetDataU1)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -404,7 +750,7 @@ func file_jon_shared_cmd_pmu_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_pmu_proto_rawDesc), len(file_jon_shared_cmd_pmu_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -12,7 +12,12 @@ message JonGuiDataPMU {
     lte: 660.32,   // Melting point of aluminum in Celsius
     example: [-20, 0, 25, 100]
   }];
-  bool status = 2;
+  reserved 2;  // was: status
   bool is_started = 3;
   JonGuiDataMeteo meteo = 4;
+  double voltage = 5 [(buf.validate.field).double = {
+    gte: 2.0,
+    lte: 60.0
+  }];
+  bool heater_power_state = 6;
 }

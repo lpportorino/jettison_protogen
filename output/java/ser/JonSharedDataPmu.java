@@ -36,12 +36,6 @@ public final class JonSharedDataPmu {
     double getTemperature();
 
     /**
-     * <code>bool status = 2;</code>
-     * @return The status.
-     */
-    boolean getStatus();
-
-    /**
      * <code>bool is_started = 3;</code>
      * @return The isStarted.
      */
@@ -61,6 +55,18 @@ public final class JonSharedDataPmu {
      * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
      */
     ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
+
+    /**
+     * <code>double voltage = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The voltage.
+     */
+    double getVoltage();
+
+    /**
+     * <code>bool heater_power_state = 6;</code>
+     * @return The heaterPowerState.
+     */
+    boolean getHeaterPowerState();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataPMU}
@@ -111,17 +117,6 @@ public final class JonSharedDataPmu {
       return temperature_;
     }
 
-    public static final int STATUS_FIELD_NUMBER = 2;
-    private boolean status_ = false;
-    /**
-     * <code>bool status = 2;</code>
-     * @return The status.
-     */
-    @java.lang.Override
-    public boolean getStatus() {
-      return status_;
-    }
-
     public static final int IS_STARTED_FIELD_NUMBER = 3;
     private boolean isStarted_ = false;
     /**
@@ -159,6 +154,28 @@ public final class JonSharedDataPmu {
       return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
     }
 
+    public static final int VOLTAGE_FIELD_NUMBER = 5;
+    private double voltage_ = 0D;
+    /**
+     * <code>double voltage = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The voltage.
+     */
+    @java.lang.Override
+    public double getVoltage() {
+      return voltage_;
+    }
+
+    public static final int HEATER_POWER_STATE_FIELD_NUMBER = 6;
+    private boolean heaterPowerState_ = false;
+    /**
+     * <code>bool heater_power_state = 6;</code>
+     * @return The heaterPowerState.
+     */
+    @java.lang.Override
+    public boolean getHeaterPowerState() {
+      return heaterPowerState_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -176,14 +193,17 @@ public final class JonSharedDataPmu {
       if (java.lang.Double.doubleToRawLongBits(temperature_) != 0) {
         output.writeDouble(1, temperature_);
       }
-      if (status_ != false) {
-        output.writeBool(2, status_);
-      }
       if (isStarted_ != false) {
         output.writeBool(3, isStarted_);
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(4, getMeteo());
+      }
+      if (java.lang.Double.doubleToRawLongBits(voltage_) != 0) {
+        output.writeDouble(5, voltage_);
+      }
+      if (heaterPowerState_ != false) {
+        output.writeBool(6, heaterPowerState_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -198,10 +218,6 @@ public final class JonSharedDataPmu {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(1, temperature_);
       }
-      if (status_ != false) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, status_);
-      }
       if (isStarted_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, isStarted_);
@@ -209,6 +225,14 @@ public final class JonSharedDataPmu {
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getMeteo());
+      }
+      if (java.lang.Double.doubleToRawLongBits(voltage_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(5, voltage_);
+      }
+      if (heaterPowerState_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, heaterPowerState_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -228,8 +252,6 @@ public final class JonSharedDataPmu {
       if (java.lang.Double.doubleToLongBits(getTemperature())
           != java.lang.Double.doubleToLongBits(
               other.getTemperature())) return false;
-      if (getStatus()
-          != other.getStatus()) return false;
       if (getIsStarted()
           != other.getIsStarted()) return false;
       if (hasMeteo() != other.hasMeteo()) return false;
@@ -237,6 +259,11 @@ public final class JonSharedDataPmu {
         if (!getMeteo()
             .equals(other.getMeteo())) return false;
       }
+      if (java.lang.Double.doubleToLongBits(getVoltage())
+          != java.lang.Double.doubleToLongBits(
+              other.getVoltage())) return false;
+      if (getHeaterPowerState()
+          != other.getHeaterPowerState()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -251,9 +278,6 @@ public final class JonSharedDataPmu {
       hash = (37 * hash) + TEMPERATURE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getTemperature()));
-      hash = (37 * hash) + STATUS_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-          getStatus());
       hash = (37 * hash) + IS_STARTED_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getIsStarted());
@@ -261,6 +285,12 @@ public final class JonSharedDataPmu {
         hash = (37 * hash) + METEO_FIELD_NUMBER;
         hash = (53 * hash) + getMeteo().hashCode();
       }
+      hash = (37 * hash) + VOLTAGE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getVoltage()));
+      hash = (37 * hash) + HEATER_POWER_STATE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getHeaterPowerState());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -399,13 +429,14 @@ public final class JonSharedDataPmu {
         super.clear();
         bitField0_ = 0;
         temperature_ = 0D;
-        status_ = false;
         isStarted_ = false;
         meteo_ = null;
         if (meteoBuilder_ != null) {
           meteoBuilder_.dispose();
           meteoBuilder_ = null;
         }
+        voltage_ = 0D;
+        heaterPowerState_ = false;
         return this;
       }
 
@@ -443,17 +474,20 @@ public final class JonSharedDataPmu {
           result.temperature_ = temperature_;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.status_ = status_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
           result.isStarted_ = isStarted_;
         }
         int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000008) != 0)) {
+        if (((from_bitField0_ & 0x00000004) != 0)) {
           result.meteo_ = meteoBuilder_ == null
               ? meteo_
               : meteoBuilder_.build();
           to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.voltage_ = voltage_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.heaterPowerState_ = heaterPowerState_;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -473,14 +507,17 @@ public final class JonSharedDataPmu {
         if (other.getTemperature() != 0D) {
           setTemperature(other.getTemperature());
         }
-        if (other.getStatus() != false) {
-          setStatus(other.getStatus());
-        }
         if (other.getIsStarted() != false) {
           setIsStarted(other.getIsStarted());
         }
         if (other.hasMeteo()) {
           mergeMeteo(other.getMeteo());
+        }
+        if (other.getVoltage() != 0D) {
+          setVoltage(other.getVoltage());
+        }
+        if (other.getHeaterPowerState() != false) {
+          setHeaterPowerState(other.getHeaterPowerState());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -513,23 +550,28 @@ public final class JonSharedDataPmu {
                 bitField0_ |= 0x00000001;
                 break;
               } // case 9
-              case 16: {
-                status_ = input.readBool();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 16
               case 24: {
                 isStarted_ = input.readBool();
-                bitField0_ |= 0x00000004;
+                bitField0_ |= 0x00000002;
                 break;
               } // case 24
               case 34: {
                 input.readMessage(
                     getMeteoFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000008;
+                bitField0_ |= 0x00000004;
                 break;
               } // case 34
+              case 41: {
+                voltage_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 41
+              case 48: {
+                heaterPowerState_ = input.readBool();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -579,38 +621,6 @@ public final class JonSharedDataPmu {
         return this;
       }
 
-      private boolean status_ ;
-      /**
-       * <code>bool status = 2;</code>
-       * @return The status.
-       */
-      @java.lang.Override
-      public boolean getStatus() {
-        return status_;
-      }
-      /**
-       * <code>bool status = 2;</code>
-       * @param value The status to set.
-       * @return This builder for chaining.
-       */
-      public Builder setStatus(boolean value) {
-
-        status_ = value;
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bool status = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearStatus() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        status_ = false;
-        onChanged();
-        return this;
-      }
-
       private boolean isStarted_ ;
       /**
        * <code>bool is_started = 3;</code>
@@ -628,7 +638,7 @@ public final class JonSharedDataPmu {
       public Builder setIsStarted(boolean value) {
 
         isStarted_ = value;
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -637,7 +647,7 @@ public final class JonSharedDataPmu {
        * @return This builder for chaining.
        */
       public Builder clearIsStarted() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         isStarted_ = false;
         onChanged();
         return this;
@@ -651,7 +661,7 @@ public final class JonSharedDataPmu {
        * @return Whether the meteo field is set.
        */
       public boolean hasMeteo() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
@@ -676,7 +686,7 @@ public final class JonSharedDataPmu {
         } else {
           meteoBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -690,7 +700,7 @@ public final class JonSharedDataPmu {
         } else {
           meteoBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -699,7 +709,7 @@ public final class JonSharedDataPmu {
        */
       public Builder mergeMeteo(ser.JonSharedDataTypes.JonGuiDataMeteo value) {
         if (meteoBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0) &&
+          if (((bitField0_ & 0x00000004) != 0) &&
             meteo_ != null &&
             meteo_ != ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance()) {
             getMeteoBuilder().mergeFrom(value);
@@ -710,7 +720,7 @@ public final class JonSharedDataPmu {
           meteoBuilder_.mergeFrom(value);
         }
         if (meteo_ != null) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         return this;
@@ -719,7 +729,7 @@ public final class JonSharedDataPmu {
        * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
        */
       public Builder clearMeteo() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         meteo_ = null;
         if (meteoBuilder_ != null) {
           meteoBuilder_.dispose();
@@ -732,7 +742,7 @@ public final class JonSharedDataPmu {
        * <code>.ser.JonGuiDataMeteo meteo = 4;</code>
        */
       public ser.JonSharedDataTypes.JonGuiDataMeteo.Builder getMeteoBuilder() {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         onChanged();
         return getMeteoFieldBuilder().getBuilder();
       }
@@ -762,6 +772,70 @@ public final class JonSharedDataPmu {
           meteo_ = null;
         }
         return meteoBuilder_;
+      }
+
+      private double voltage_ ;
+      /**
+       * <code>double voltage = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The voltage.
+       */
+      @java.lang.Override
+      public double getVoltage() {
+        return voltage_;
+      }
+      /**
+       * <code>double voltage = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The voltage to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVoltage(double value) {
+
+        voltage_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double voltage = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVoltage() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        voltage_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private boolean heaterPowerState_ ;
+      /**
+       * <code>bool heater_power_state = 6;</code>
+       * @return The heaterPowerState.
+       */
+      @java.lang.Override
+      public boolean getHeaterPowerState() {
+        return heaterPowerState_;
+      }
+      /**
+       * <code>bool heater_power_state = 6;</code>
+       * @param value The heaterPowerState to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHeaterPowerState(boolean value) {
+
+        heaterPowerState_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool heater_power_state = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHeaterPowerState() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        heaterPowerState_ = false;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPMU)
@@ -831,13 +905,15 @@ public final class JonSharedDataPmu {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\252\001\n\rJonGuiDataPMU\022P\n\013temperat" +
+      "ypes.proto\"\346\001\n\rJonGuiDataPMU\022P\n\013temperat" +
       "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000" +
-      "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006status" +
-      "\030\002 \001(\010\022\022\n\nis_started\030\003 \001(\010\022#\n\005meteo\030\004 \001(" +
-      "\0132\024.ser.JonGuiDataMeteoBKZIgit-codecommi" +
-      "t.eu-central-1.amazonaws.com/v1/repos/je" +
-      "ttison/jonp/data/pmub\006proto3"
+      "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta" +
+      "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa" +
+      "taMeteo\022(\n\007voltage\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000N@" +
+      ")\000\000\000\000\000\000\000@\022\032\n\022heater_power_state\030\006 \001(\010J\004\010" +
+      "\002\020\003BKZIgit-codecommit.eu-central-1.amazo" +
+      "naws.com/v1/repos/jettison/jonp/data/pmu" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -850,7 +926,7 @@ public final class JonSharedDataPmu {
     internal_static_ser_JonGuiDataPMU_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPMU_descriptor,
-        new java.lang.String[] { "Temperature", "Status", "IsStarted", "Meteo", });
+        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

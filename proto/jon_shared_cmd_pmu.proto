@@ -12,6 +12,12 @@ message Root {
     TurnOn turn_on = 3;
     TurnOff turn_off = 4;
     GetMeteo get_meteo = 5;
+    GetHeaterPowerState get_heater_power_state = 6;
+    PowerOff power_off = 7;
+    ChargeEnable charge_enable = 8;
+    ChargeDisable charge_disable = 9;
+    BootHeater boot_heater = 10;
+    GetDataU1 get_data_u1 = 11;
   }
 }
 
@@ -24,3 +30,15 @@ message TurnOn {}
 message TurnOff {}
 
 message GetMeteo {}
+
+message GetHeaterPowerState {}
+
+message PowerOff {}
+
+message ChargeEnable {}
+
+message ChargeDisable {}
+
+message BootHeater {}
+
+message GetDataU1 {}

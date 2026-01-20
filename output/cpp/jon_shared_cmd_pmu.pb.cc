@@ -99,6 +99,24 @@ struct StartDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StartDefaultTypeInternal _Start_default_instance_;
               template <typename>
+PROTOBUF_CONSTEXPR PowerOff::PowerOff(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct PowerOffDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PowerOffDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PowerOffDefaultTypeInternal() {}
+  union {
+    PowerOff _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PowerOffDefaultTypeInternal _PowerOff_default_instance_;
+              template <typename>
 PROTOBUF_CONSTEXPR GetMeteo::GetMeteo(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
@@ -116,6 +134,96 @@ struct GetMeteoDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetMeteoDefaultTypeInternal _GetMeteo_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR GetHeaterPowerState::GetHeaterPowerState(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct GetHeaterPowerStateDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GetHeaterPowerStateDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GetHeaterPowerStateDefaultTypeInternal() {}
+  union {
+    GetHeaterPowerState _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetHeaterPowerStateDefaultTypeInternal _GetHeaterPowerState_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR GetDataU1::GetDataU1(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct GetDataU1DefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GetDataU1DefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GetDataU1DefaultTypeInternal() {}
+  union {
+    GetDataU1 _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetDataU1DefaultTypeInternal _GetDataU1_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR ChargeEnable::ChargeEnable(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct ChargeEnableDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ChargeEnableDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ChargeEnableDefaultTypeInternal() {}
+  union {
+    ChargeEnable _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ChargeEnableDefaultTypeInternal _ChargeEnable_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR ChargeDisable::ChargeDisable(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct ChargeDisableDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ChargeDisableDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ChargeDisableDefaultTypeInternal() {}
+  union {
+    ChargeDisable _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ChargeDisableDefaultTypeInternal _ChargeDisable_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR BootHeater::BootHeater(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct BootHeaterDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BootHeaterDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~BootHeaterDefaultTypeInternal() {}
+  union {
+    BootHeater _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BootHeaterDefaultTypeInternal _BootHeater_default_instance_;
 
 inline constexpr Root::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -164,6 +272,12 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::PMU::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::PMU::Start, _internal_metadata_),
@@ -205,16 +319,70 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::PMU::GetHeaterPowerState, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::PMU::PowerOff, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::PMU::ChargeEnable, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::PMU::ChargeDisable, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::PMU::BootHeater, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::PMU::GetDataU1, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::PMU::Root)},
-        {14, -1, -1, sizeof(::cmd::PMU::Start)},
-        {22, -1, -1, sizeof(::cmd::PMU::Stop)},
-        {30, -1, -1, sizeof(::cmd::PMU::TurnOn)},
-        {38, -1, -1, sizeof(::cmd::PMU::TurnOff)},
-        {46, -1, -1, sizeof(::cmd::PMU::GetMeteo)},
+        {20, -1, -1, sizeof(::cmd::PMU::Start)},
+        {28, -1, -1, sizeof(::cmd::PMU::Stop)},
+        {36, -1, -1, sizeof(::cmd::PMU::TurnOn)},
+        {44, -1, -1, sizeof(::cmd::PMU::TurnOff)},
+        {52, -1, -1, sizeof(::cmd::PMU::GetMeteo)},
+        {60, -1, -1, sizeof(::cmd::PMU::GetHeaterPowerState)},
+        {68, -1, -1, sizeof(::cmd::PMU::PowerOff)},
+        {76, -1, -1, sizeof(::cmd::PMU::ChargeEnable)},
+        {84, -1, -1, sizeof(::cmd::PMU::ChargeDisable)},
+        {92, -1, -1, sizeof(::cmd::PMU::BootHeater)},
+        {100, -1, -1, sizeof(::cmd::PMU::GetDataU1)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::PMU::_Root_default_instance_._instance,
@@ -223,19 +391,35 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::PMU::_TurnOn_default_instance_._instance,
     &::cmd::PMU::_TurnOff_default_instance_._instance,
     &::cmd::PMU::_GetMeteo_default_instance_._instance,
+    &::cmd::PMU::_GetHeaterPowerState_default_instance_._instance,
+    &::cmd::PMU::_PowerOff_default_instance_._instance,
+    &::cmd::PMU::_ChargeEnable_default_instance_._instance,
+    &::cmd::PMU::_ChargeDisable_default_instance_._instance,
+    &::cmd::PMU::_BootHeater_default_instance_._instance,
+    &::cmd::PMU::_GetDataU1_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fpmu_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\030jon_shared_cmd_pmu.proto\022\007cmd.PMU\032\033buf"
-    "/validate/validate.proto\"\306\001\n\004Root\022\037\n\005sta"
+    "/validate/validate.proto\"\347\003\n\004Root\022\037\n\005sta"
     "rt\030\001 \001(\0132\016.cmd.PMU.StartH\000\022\035\n\004stop\030\002 \001(\013"
     "2\r.cmd.PMU.StopH\000\022\"\n\007turn_on\030\003 \001(\0132\017.cmd"
     ".PMU.TurnOnH\000\022$\n\010turn_off\030\004 \001(\0132\020.cmd.PM"
     "U.TurnOffH\000\022&\n\tget_meteo\030\005 \001(\0132\021.cmd.PMU"
-    ".GetMeteoH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004St"
-    "op\"\010\n\006TurnOn\"\t\n\007TurnOff\"\n\n\010GetMeteoBJZHg"
-    "it-codecommit.eu-central-1.amazonaws.com"
-    "/v1/repos/jettison/jonp/cmd/pmub\006proto3"
+    ".GetMeteoH\000\022>\n\026get_heater_power_state\030\006 "
+    "\001(\0132\034.cmd.PMU.GetHeaterPowerStateH\000\022&\n\tp"
+    "ower_off\030\007 \001(\0132\021.cmd.PMU.PowerOffH\000\022.\n\rc"
+    "harge_enable\030\010 \001(\0132\025.cmd.PMU.ChargeEnabl"
+    "eH\000\0220\n\016charge_disable\030\t \001(\0132\026.cmd.PMU.Ch"
+    "argeDisableH\000\022*\n\013boot_heater\030\n \001(\0132\023.cmd"
+    ".PMU.BootHeaterH\000\022)\n\013get_data_u1\030\013 \001(\0132\022"
+    ".cmd.PMU.GetDataU1H\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005St"
+    "art\"\006\n\004Stop\"\010\n\006TurnOn\"\t\n\007TurnOff\"\n\n\010GetM"
+    "eteo\"\025\n\023GetHeaterPowerState\"\n\n\010PowerOff\""
+    "\016\n\014ChargeEnable\"\017\n\rChargeDisable\"\014\n\nBoot"
+    "Heater\"\013\n\tGetDataU1BJZHgit-codecommit.eu"
+    "-central-1.amazonaws.com/v1/repos/jettis"
+    "on/jonp/cmd/pmub\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto_deps[1] =
     {
@@ -245,13 +429,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto = {
     false,
     false,
-    399,
+    783,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fpmu_2eproto,
     "jon_shared_cmd_pmu.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto_deps,
     1,
-    6,
+    12,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto::offsets,
@@ -333,6 +517,84 @@ void Root::set_allocated_get_meteo(::cmd::PMU::GetMeteo* get_meteo) {
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.get_meteo)
 }
+void Root::set_allocated_get_heater_power_state(::cmd::PMU::GetHeaterPowerState* get_heater_power_state) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (get_heater_power_state) {
+    ::google::protobuf::Arena* submessage_arena = get_heater_power_state->GetArena();
+    if (message_arena != submessage_arena) {
+      get_heater_power_state = ::google::protobuf::internal::GetOwnedMessage(message_arena, get_heater_power_state, submessage_arena);
+    }
+    set_has_get_heater_power_state();
+    _impl_.cmd_.get_heater_power_state_ = get_heater_power_state;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.get_heater_power_state)
+}
+void Root::set_allocated_power_off(::cmd::PMU::PowerOff* power_off) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (power_off) {
+    ::google::protobuf::Arena* submessage_arena = power_off->GetArena();
+    if (message_arena != submessage_arena) {
+      power_off = ::google::protobuf::internal::GetOwnedMessage(message_arena, power_off, submessage_arena);
+    }
+    set_has_power_off();
+    _impl_.cmd_.power_off_ = power_off;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.power_off)
+}
+void Root::set_allocated_charge_enable(::cmd::PMU::ChargeEnable* charge_enable) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (charge_enable) {
+    ::google::protobuf::Arena* submessage_arena = charge_enable->GetArena();
+    if (message_arena != submessage_arena) {
+      charge_enable = ::google::protobuf::internal::GetOwnedMessage(message_arena, charge_enable, submessage_arena);
+    }
+    set_has_charge_enable();
+    _impl_.cmd_.charge_enable_ = charge_enable;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.charge_enable)
+}
+void Root::set_allocated_charge_disable(::cmd::PMU::ChargeDisable* charge_disable) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (charge_disable) {
+    ::google::protobuf::Arena* submessage_arena = charge_disable->GetArena();
+    if (message_arena != submessage_arena) {
+      charge_disable = ::google::protobuf::internal::GetOwnedMessage(message_arena, charge_disable, submessage_arena);
+    }
+    set_has_charge_disable();
+    _impl_.cmd_.charge_disable_ = charge_disable;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.charge_disable)
+}
+void Root::set_allocated_boot_heater(::cmd::PMU::BootHeater* boot_heater) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (boot_heater) {
+    ::google::protobuf::Arena* submessage_arena = boot_heater->GetArena();
+    if (message_arena != submessage_arena) {
+      boot_heater = ::google::protobuf::internal::GetOwnedMessage(message_arena, boot_heater, submessage_arena);
+    }
+    set_has_boot_heater();
+    _impl_.cmd_.boot_heater_ = boot_heater;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.boot_heater)
+}
+void Root::set_allocated_get_data_u1(::cmd::PMU::GetDataU1* get_data_u1) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (get_data_u1) {
+    ::google::protobuf::Arena* submessage_arena = get_data_u1->GetArena();
+    if (message_arena != submessage_arena) {
+      get_data_u1 = ::google::protobuf::internal::GetOwnedMessage(message_arena, get_data_u1, submessage_arena);
+    }
+    set_has_get_data_u1();
+    _impl_.cmd_.get_data_u1_ = get_data_u1;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.PMU.Root.get_data_u1)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -379,6 +641,24 @@ Root::Root(
         break;
       case kGetMeteo:
         _impl_.cmd_.get_meteo_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::GetMeteo>(arena, *from._impl_.cmd_.get_meteo_);
+        break;
+      case kGetHeaterPowerState:
+        _impl_.cmd_.get_heater_power_state_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::GetHeaterPowerState>(arena, *from._impl_.cmd_.get_heater_power_state_);
+        break;
+      case kPowerOff:
+        _impl_.cmd_.power_off_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::PowerOff>(arena, *from._impl_.cmd_.power_off_);
+        break;
+      case kChargeEnable:
+        _impl_.cmd_.charge_enable_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::ChargeEnable>(arena, *from._impl_.cmd_.charge_enable_);
+        break;
+      case kChargeDisable:
+        _impl_.cmd_.charge_disable_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::ChargeDisable>(arena, *from._impl_.cmd_.charge_disable_);
+        break;
+      case kBootHeater:
+        _impl_.cmd_.boot_heater_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::BootHeater>(arena, *from._impl_.cmd_.boot_heater_);
+        break;
+      case kGetDataU1:
+        _impl_.cmd_.get_data_u1_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::GetDataU1>(arena, *from._impl_.cmd_.get_data_u1_);
         break;
   }
 
@@ -452,6 +732,54 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kGetHeaterPowerState: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.get_heater_power_state_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.get_heater_power_state_);
+      }
+      break;
+    }
+    case kPowerOff: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.power_off_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.power_off_);
+      }
+      break;
+    }
+    case kChargeEnable: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.charge_enable_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.charge_enable_);
+      }
+      break;
+    }
+    case kChargeDisable: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.charge_disable_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.charge_disable_);
+      }
+      break;
+    }
+    case kBootHeater: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.boot_heater_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.boot_heater_);
+      }
+      break;
+    }
+    case kGetDataU1: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.get_data_u1_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.get_data_u1_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -496,16 +824,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 5, 5, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 11, 11, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    5, 0,  // max_field_number, fast_idx_mask
+    11, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967264,  // skipmap
+    4294965248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    5,  // num_field_entries
-    5,  // num_aux_entries
+    11,  // num_field_entries
+    11,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -533,12 +861,36 @@ const ::_pbi::TcParseTable<0, 5, 5, 0, 2> Root::_table_ = {
     // .cmd.PMU.GetMeteo get_meteo = 5;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.get_meteo_), _Internal::kOneofCaseOffset + 0, 4,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.get_heater_power_state_), _Internal::kOneofCaseOffset + 0, 5,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.PMU.PowerOff power_off = 7;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.power_off_), _Internal::kOneofCaseOffset + 0, 6,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.PMU.ChargeEnable charge_enable = 8;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.charge_enable_), _Internal::kOneofCaseOffset + 0, 7,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.PMU.ChargeDisable charge_disable = 9;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.charge_disable_), _Internal::kOneofCaseOffset + 0, 8,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.PMU.BootHeater boot_heater = 10;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.boot_heater_), _Internal::kOneofCaseOffset + 0, 9,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.PMU.GetDataU1 get_data_u1 = 11;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.get_data_u1_), _Internal::kOneofCaseOffset + 0, 10,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::PMU::Start>()},
     {::_pbi::TcParser::GetTable<::cmd::PMU::Stop>()},
     {::_pbi::TcParser::GetTable<::cmd::PMU::TurnOn>()},
     {::_pbi::TcParser::GetTable<::cmd::PMU::TurnOff>()},
     {::_pbi::TcParser::GetTable<::cmd::PMU::GetMeteo>()},
+    {::_pbi::TcParser::GetTable<::cmd::PMU::GetHeaterPowerState>()},
+    {::_pbi::TcParser::GetTable<::cmd::PMU::PowerOff>()},
+    {::_pbi::TcParser::GetTable<::cmd::PMU::ChargeEnable>()},
+    {::_pbi::TcParser::GetTable<::cmd::PMU::ChargeDisable>()},
+    {::_pbi::TcParser::GetTable<::cmd::PMU::BootHeater>()},
+    {::_pbi::TcParser::GetTable<::cmd::PMU::GetDataU1>()},
   }}, {{
   }},
 };
@@ -600,6 +952,42 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kGetHeaterPowerState: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  6, *this_._impl_.cmd_.get_heater_power_state_, this_._impl_.cmd_.get_heater_power_state_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kPowerOff: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  7, *this_._impl_.cmd_.power_off_, this_._impl_.cmd_.power_off_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kChargeEnable: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  8, *this_._impl_.cmd_.charge_enable_, this_._impl_.cmd_.charge_enable_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kChargeDisable: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  9, *this_._impl_.cmd_.charge_disable_, this_._impl_.cmd_.charge_disable_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kBootHeater: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  10, *this_._impl_.cmd_.boot_heater_, this_._impl_.cmd_.boot_heater_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kGetDataU1: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  11, *this_._impl_.cmd_.get_data_u1_, this_._impl_.cmd_.get_data_u1_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -655,6 +1043,42 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kGetMeteo: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.get_meteo_);
+              break;
+            }
+            // .cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;
+            case kGetHeaterPowerState: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.get_heater_power_state_);
+              break;
+            }
+            // .cmd.PMU.PowerOff power_off = 7;
+            case kPowerOff: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.power_off_);
+              break;
+            }
+            // .cmd.PMU.ChargeEnable charge_enable = 8;
+            case kChargeEnable: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.charge_enable_);
+              break;
+            }
+            // .cmd.PMU.ChargeDisable charge_disable = 9;
+            case kChargeDisable: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.charge_disable_);
+              break;
+            }
+            // .cmd.PMU.BootHeater boot_heater = 10;
+            case kBootHeater: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.boot_heater_);
+              break;
+            }
+            // .cmd.PMU.GetDataU1 get_data_u1 = 11;
+            case kGetDataU1: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.get_data_u1_);
               break;
             }
             case CMD_NOT_SET: {
@@ -727,6 +1151,60 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::PMU::GetMeteo>(arena, *from._impl_.cmd_.get_meteo_);
         } else {
           _this->_impl_.cmd_.get_meteo_->MergeFrom(from._internal_get_meteo());
+        }
+        break;
+      }
+      case kGetHeaterPowerState: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.get_heater_power_state_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::PMU::GetHeaterPowerState>(arena, *from._impl_.cmd_.get_heater_power_state_);
+        } else {
+          _this->_impl_.cmd_.get_heater_power_state_->MergeFrom(from._internal_get_heater_power_state());
+        }
+        break;
+      }
+      case kPowerOff: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.power_off_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::PMU::PowerOff>(arena, *from._impl_.cmd_.power_off_);
+        } else {
+          _this->_impl_.cmd_.power_off_->MergeFrom(from._internal_power_off());
+        }
+        break;
+      }
+      case kChargeEnable: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.charge_enable_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::PMU::ChargeEnable>(arena, *from._impl_.cmd_.charge_enable_);
+        } else {
+          _this->_impl_.cmd_.charge_enable_->MergeFrom(from._internal_charge_enable());
+        }
+        break;
+      }
+      case kChargeDisable: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.charge_disable_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::PMU::ChargeDisable>(arena, *from._impl_.cmd_.charge_disable_);
+        } else {
+          _this->_impl_.cmd_.charge_disable_->MergeFrom(from._internal_charge_disable());
+        }
+        break;
+      }
+      case kBootHeater: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.boot_heater_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::PMU::BootHeater>(arena, *from._impl_.cmd_.boot_heater_);
+        } else {
+          _this->_impl_.cmd_.boot_heater_->MergeFrom(from._internal_boot_heater());
+        }
+        break;
+      }
+      case kGetDataU1: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.get_data_u1_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::PMU::GetDataU1>(arena, *from._impl_.cmd_.get_data_u1_);
+        } else {
+          _this->_impl_.cmd_.get_data_u1_->MergeFrom(from._internal_get_data_u1());
         }
         break;
       }
@@ -1268,6 +1746,624 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> GetMeteo::_table_ = {
 
 
 ::google::protobuf::Metadata GetMeteo::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class GetHeaterPowerState::_Internal {
+ public:
+};
+
+GetHeaterPowerState::GetHeaterPowerState(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.PMU.GetHeaterPowerState)
+}
+GetHeaterPowerState::GetHeaterPowerState(
+    ::google::protobuf::Arena* arena,
+    const GetHeaterPowerState& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  GetHeaterPowerState* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.PMU.GetHeaterPowerState)
+}
+
+inline void* GetHeaterPowerState::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) GetHeaterPowerState(arena);
+}
+constexpr auto GetHeaterPowerState::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(GetHeaterPowerState),
+                                            alignof(GetHeaterPowerState));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull GetHeaterPowerState::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_GetHeaterPowerState_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &GetHeaterPowerState::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<GetHeaterPowerState>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &GetHeaterPowerState::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<GetHeaterPowerState>(), &GetHeaterPowerState::ByteSizeLong,
+            &GetHeaterPowerState::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(GetHeaterPowerState, _impl_._cached_size_),
+        false,
+    },
+    &GetHeaterPowerState::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* GetHeaterPowerState::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> GetHeaterPowerState::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::PMU::GetHeaterPowerState>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata GetHeaterPowerState::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class PowerOff::_Internal {
+ public:
+};
+
+PowerOff::PowerOff(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.PMU.PowerOff)
+}
+PowerOff::PowerOff(
+    ::google::protobuf::Arena* arena,
+    const PowerOff& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  PowerOff* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.PMU.PowerOff)
+}
+
+inline void* PowerOff::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) PowerOff(arena);
+}
+constexpr auto PowerOff::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(PowerOff),
+                                            alignof(PowerOff));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull PowerOff::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_PowerOff_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &PowerOff::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<PowerOff>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &PowerOff::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<PowerOff>(), &PowerOff::ByteSizeLong,
+            &PowerOff::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(PowerOff, _impl_._cached_size_),
+        false,
+    },
+    &PowerOff::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* PowerOff::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> PowerOff::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::PMU::PowerOff>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata PowerOff::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ChargeEnable::_Internal {
+ public:
+};
+
+ChargeEnable::ChargeEnable(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.PMU.ChargeEnable)
+}
+ChargeEnable::ChargeEnable(
+    ::google::protobuf::Arena* arena,
+    const ChargeEnable& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ChargeEnable* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.PMU.ChargeEnable)
+}
+
+inline void* ChargeEnable::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ChargeEnable(arena);
+}
+constexpr auto ChargeEnable::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ChargeEnable),
+                                            alignof(ChargeEnable));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ChargeEnable::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ChargeEnable_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ChargeEnable::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ChargeEnable>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ChargeEnable::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<ChargeEnable>(), &ChargeEnable::ByteSizeLong,
+            &ChargeEnable::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ChargeEnable, _impl_._cached_size_),
+        false,
+    },
+    &ChargeEnable::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ChargeEnable::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ChargeEnable::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::PMU::ChargeEnable>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata ChargeEnable::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ChargeDisable::_Internal {
+ public:
+};
+
+ChargeDisable::ChargeDisable(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.PMU.ChargeDisable)
+}
+ChargeDisable::ChargeDisable(
+    ::google::protobuf::Arena* arena,
+    const ChargeDisable& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ChargeDisable* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.PMU.ChargeDisable)
+}
+
+inline void* ChargeDisable::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ChargeDisable(arena);
+}
+constexpr auto ChargeDisable::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(ChargeDisable),
+                                            alignof(ChargeDisable));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ChargeDisable::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ChargeDisable_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ChargeDisable::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<ChargeDisable>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ChargeDisable::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<ChargeDisable>(), &ChargeDisable::ByteSizeLong,
+            &ChargeDisable::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ChargeDisable, _impl_._cached_size_),
+        false,
+    },
+    &ChargeDisable::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ChargeDisable::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> ChargeDisable::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::PMU::ChargeDisable>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata ChargeDisable::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class BootHeater::_Internal {
+ public:
+};
+
+BootHeater::BootHeater(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.PMU.BootHeater)
+}
+BootHeater::BootHeater(
+    ::google::protobuf::Arena* arena,
+    const BootHeater& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  BootHeater* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.PMU.BootHeater)
+}
+
+inline void* BootHeater::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) BootHeater(arena);
+}
+constexpr auto BootHeater::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(BootHeater),
+                                            alignof(BootHeater));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull BootHeater::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_BootHeater_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &BootHeater::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<BootHeater>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &BootHeater::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<BootHeater>(), &BootHeater::ByteSizeLong,
+            &BootHeater::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(BootHeater, _impl_._cached_size_),
+        false,
+    },
+    &BootHeater::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* BootHeater::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> BootHeater::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::PMU::BootHeater>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata BootHeater::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class GetDataU1::_Internal {
+ public:
+};
+
+GetDataU1::GetDataU1(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.PMU.GetDataU1)
+}
+GetDataU1::GetDataU1(
+    ::google::protobuf::Arena* arena,
+    const GetDataU1& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  GetDataU1* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.PMU.GetDataU1)
+}
+
+inline void* GetDataU1::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) GetDataU1(arena);
+}
+constexpr auto GetDataU1::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(GetDataU1),
+                                            alignof(GetDataU1));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull GetDataU1::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_GetDataU1_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &GetDataU1::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<GetDataU1>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &GetDataU1::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<GetDataU1>(), &GetDataU1::ByteSizeLong,
+            &GetDataU1::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(GetDataU1, _impl_._cached_size_),
+        false,
+    },
+    &GetDataU1::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* GetDataU1::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> GetDataU1::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::PMU::GetDataU1>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata GetDataU1::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

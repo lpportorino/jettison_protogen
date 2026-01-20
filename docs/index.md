@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 254 messages, 21 enums, 663 fields
+**Statistics:** 260 messages, 21 enums, 670 fields
 
 ## Messages by Package
 
@@ -226,12 +226,18 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### cmd.PMU
 
-- [[proto/cmd.PMU.GetMeteo|GetMeteo]]
-- [[proto/cmd.PMU.Root|Root]]
-- [[proto/cmd.PMU.Start|Start]]
-- [[proto/cmd.PMU.Stop|Stop]]
-- [[proto/cmd.PMU.TurnOff|TurnOff]]
-- [[proto/cmd.PMU.TurnOn|TurnOn]]
+- [[proto/cmd.PMU.BootHeater|BootHeater]]
+- [[proto/cmd.PMU.ChargeDisable|ChargeDisable]]
+- [[proto/cmd.PMU.ChargeEnable|ChargeEnable]]
+- [[proto/cmd.PMU.GetDataU1|GetDataU1]]
+- [[proto/cmd.PMU.GetHeaterPowerState|GetHeaterPowerState]]
+- [[proto/cmd.PMU.GetMeteo|GetMeteo]] — *No description yet.*
+- [[proto/cmd.PMU.PowerOff|PowerOff]]
+- [[proto/cmd.PMU.Root|Root]] — *No description yet.*
+- [[proto/cmd.PMU.Start|Start]] — *No description yet.*
+- [[proto/cmd.PMU.Stop|Stop]] — *No description yet.*
+- [[proto/cmd.PMU.TurnOff|TurnOff]] — *No description yet.*
+- [[proto/cmd.PMU.TurnOn|TurnOn]] — *No description yet.*
 
 
 ### cmd.Power
@@ -337,7 +343,7 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 - [[proto/ser.JonGuiDataGps|JonGuiDataGps]] — Represents the complete GPS positioning state of the system, including both automatic GPS fix coordinates and manually-entered fallback coordinates, along with the current fix quality type (none, 1D, 2D, 3D, or manual mode) and operational status.
 - [[proto/ser.JonGuiDataLrf|JonGuiDataLrf]] — Encapsulates the operational state of a Laser Range Finder (LRF) device, tracking scanning/measuring modes, measurement progress, laser pointer modes, fog mode, refinement status, and targeting data including precise georeferenced measurements with target/observer coordinates and distances.
 - [[proto/ser.JonGuiDataMeteo|JonGuiDataMeteo]] — Represents environmental sensor data containing atmospheric measurements: temperature (in degrees Celsius), humidity (as a percentage), and pressure (in Pascal units). Used for ballistics calculations and system monitoring across multiple subsystems.
-- [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]]
+- [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]] — *No description yet.*
 - [[proto/ser.JonGuiDataPower|JonGuiDataPower]] — Represents real-time power distribution state across all 8 system channels (GPS, Compass, LRF, Day Camera, Thermal Camera, ORIN NUC, Thermal Core, and Heater), with each channel tracking voltage, current, power consumption, on/off state, and fault alarm status.
 - [[proto/ser.JonGuiDataPowerModule|JonGuiDataPowerModule]] — Represents the real-time power state and telemetry for a single power distribution channel, tracking voltage, current, power consumption, on/off state, and alarm status. Used to monitor individual hardware subsystems for power management and diagnostics.
 - [[proto/ser.JonGuiDataRecOsd|JonGuiDataRecOsd]] — Represents the recording on-screen display (OSD) configuration state, tracking whether thermal and day camera overlays are enabled, along with their respective crosshair offset positions for proper alignment on recorded frames.

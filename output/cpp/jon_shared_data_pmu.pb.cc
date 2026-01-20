@@ -31,8 +31,9 @@ inline constexpr JonGuiDataPMU::Impl_::Impl_(
       : _cached_size_{0},
         meteo_{nullptr},
         temperature_{0},
-        status_{false},
-        is_started_{false} {}
+        voltage_{0},
+        is_started_{false},
+        heater_power_state_{false} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataPMU::JonGuiDataPMU(::_pbi::ConstantInitialized)
@@ -70,18 +71,20 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.temperature_),
-        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.status_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.is_started_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.meteo_),
-        ~0u,
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.voltage_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.heater_power_state_),
         ~0u,
         ~0u,
         0,
+        ~0u,
+        ~0u,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 12, -1, sizeof(::ser::JonGuiDataPMU)},
+        {0, 13, -1, sizeof(::ser::JonGuiDataPMU)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataPMU_default_instance_._instance,
@@ -90,13 +93,15 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\252\001\n\rJonGuiDataPMU\022P\n\013temperat"
+    "ypes.proto\"\346\001\n\rJonGuiDataPMU\022P\n\013temperat"
     "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000"
-    "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\016\n\006status"
-    "\030\002 \001(\010\022\022\n\nis_started\030\003 \001(\010\022#\n\005meteo\030\004 \001("
-    "\0132\024.ser.JonGuiDataMeteoBKZIgit-codecommi"
-    "t.eu-central-1.amazonaws.com/v1/repos/je"
-    "ttison/jonp/data/pmub\006proto3"
+    "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta"
+    "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa"
+    "taMeteo\022(\n\007voltage\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000N@"
+    ")\000\000\000\000\000\000\000@\022\032\n\022heater_power_state\030\006 \001(\010J\004\010"
+    "\002\020\003BKZIgit-codecommit.eu-central-1.amazo"
+    "naws.com/v1/repos/jettison/jonp/data/pmu"
+    "b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_deps[2] =
     {
@@ -107,7 +112,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto = {
     false,
     false,
-    348,
+    408,
     descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto,
     "jon_shared_data_pmu.proto",
     &descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_once,
@@ -172,9 +177,9 @@ JonGuiDataPMU::JonGuiDataPMU(
                offsetof(Impl_, temperature_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, temperature_),
-           offsetof(Impl_, is_started_) -
+           offsetof(Impl_, heater_power_state_) -
                offsetof(Impl_, temperature_) +
-               sizeof(Impl_::is_started_));
+               sizeof(Impl_::heater_power_state_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataPMU)
 }
@@ -188,9 +193,9 @@ inline void JonGuiDataPMU::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, meteo_),
            0,
-           offsetof(Impl_, is_started_) -
+           offsetof(Impl_, heater_power_state_) -
                offsetof(Impl_, meteo_) +
-               sizeof(Impl_::is_started_));
+               sizeof(Impl_::heater_power_state_));
 }
 JonGuiDataPMU::~JonGuiDataPMU() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataPMU)
@@ -240,15 +245,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataPMU::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 1, 0, 2> JonGuiDataPMU::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 1, 0, 2> JonGuiDataPMU::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_._has_bits_),
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967234,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    5,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -258,33 +263,42 @@ const ::_pbi::TcParseTable<2, 4, 1, 0, 2> JonGuiDataPMU::_table_ = {
     ::_pbi::TcParser::GetTable<::ser::JonGuiDataPMU>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // .ser.JonGuiDataMeteo meteo = 4;
-    {::_pbi::TcParser::FastMtS1,
-     {34, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.meteo_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // double temperature = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {9, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.temperature_)}},
-    // bool status = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataPMU, _impl_.status_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.status_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // bool is_started = 3;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataPMU, _impl_.is_started_), 63>(),
      {24, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.is_started_)}},
+    // .ser.JonGuiDataMeteo meteo = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.meteo_)}},
+    // double voltage = 5 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF64S1,
+     {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.voltage_)}},
+    // bool heater_power_state = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataPMU, _impl_.heater_power_state_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.heater_power_state_)}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // double temperature = 1 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.temperature_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // bool status = 2;
-    {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.status_), -1, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
     // bool is_started = 3;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.is_started_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
     // .ser.JonGuiDataMeteo meteo = 4;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.meteo_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // double voltage = 5 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.voltage_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
+    // bool heater_power_state = 6;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.heater_power_state_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
   }}, {{
@@ -304,8 +318,8 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
     _impl_.meteo_->Clear();
   }
   ::memset(&_impl_.temperature_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.is_started_) -
-      reinterpret_cast<char*>(&_impl_.temperature_)) + sizeof(_impl_.is_started_));
+      reinterpret_cast<char*>(&_impl_.heater_power_state_) -
+      reinterpret_cast<char*>(&_impl_.temperature_)) + sizeof(_impl_.heater_power_state_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -332,13 +346,6 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
                 1, this_._internal_temperature(), target);
           }
 
-          // bool status = 2;
-          if (this_._internal_status() != 0) {
-            target = stream->EnsureSpace(target);
-            target = ::_pbi::WireFormatLite::WriteBoolToArray(
-                2, this_._internal_status(), target);
-          }
-
           // bool is_started = 3;
           if (this_._internal_is_started() != 0) {
             target = stream->EnsureSpace(target);
@@ -352,6 +359,20 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 4, *this_._impl_.meteo_, this_._impl_.meteo_->GetCachedSize(), target,
                 stream);
+          }
+
+          // double voltage = 5 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint64_t>(this_._internal_voltage()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteDoubleToArray(
+                5, this_._internal_voltage(), target);
+          }
+
+          // bool heater_power_state = 6;
+          if (this_._internal_heater_power_state() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                6, this_._internal_heater_power_state(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -391,12 +412,16 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_temperature()) != 0) {
               total_size += 9;
             }
-            // bool status = 2;
-            if (this_._internal_status() != 0) {
-              total_size += 2;
+            // double voltage = 5 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint64_t>(this_._internal_voltage()) != 0) {
+              total_size += 9;
             }
             // bool is_started = 3;
             if (this_._internal_is_started() != 0) {
+              total_size += 2;
+            }
+            // bool heater_power_state = 6;
+            if (this_._internal_heater_power_state() != 0) {
               total_size += 2;
             }
           }
@@ -426,11 +451,14 @@ void JonGuiDataPMU::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   if (::absl::bit_cast<::uint64_t>(from._internal_temperature()) != 0) {
     _this->_impl_.temperature_ = from._impl_.temperature_;
   }
-  if (from._internal_status() != 0) {
-    _this->_impl_.status_ = from._impl_.status_;
+  if (::absl::bit_cast<::uint64_t>(from._internal_voltage()) != 0) {
+    _this->_impl_.voltage_ = from._impl_.voltage_;
   }
   if (from._internal_is_started() != 0) {
     _this->_impl_.is_started_ = from._impl_.is_started_;
+  }
+  if (from._internal_heater_power_state() != 0) {
+    _this->_impl_.heater_power_state_ = from._impl_.heater_power_state_;
   }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
@@ -449,8 +477,8 @@ void JonGuiDataPMU::InternalSwap(JonGuiDataPMU* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.is_started_)
-      + sizeof(JonGuiDataPMU::_impl_.is_started_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.heater_power_state_)
+      + sizeof(JonGuiDataPMU::_impl_.heater_power_state_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.meteo_)>(
           reinterpret_cast<char*>(&_impl_.meteo_),
           reinterpret_cast<char*>(&other->_impl_.meteo_));

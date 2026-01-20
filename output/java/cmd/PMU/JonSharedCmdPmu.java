@@ -104,6 +104,96 @@ public final class JonSharedCmdPmu {
      */
     cmd.PMU.JonSharedCmdPmu.GetMeteoOrBuilder getGetMeteoOrBuilder();
 
+    /**
+     * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+     * @return Whether the getHeaterPowerState field is set.
+     */
+    boolean hasGetHeaterPowerState();
+    /**
+     * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+     * @return The getHeaterPowerState.
+     */
+    cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState getGetHeaterPowerState();
+    /**
+     * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+     */
+    cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder getGetHeaterPowerStateOrBuilder();
+
+    /**
+     * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+     * @return Whether the powerOff field is set.
+     */
+    boolean hasPowerOff();
+    /**
+     * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+     * @return The powerOff.
+     */
+    cmd.PMU.JonSharedCmdPmu.PowerOff getPowerOff();
+    /**
+     * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+     */
+    cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder getPowerOffOrBuilder();
+
+    /**
+     * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+     * @return Whether the chargeEnable field is set.
+     */
+    boolean hasChargeEnable();
+    /**
+     * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+     * @return The chargeEnable.
+     */
+    cmd.PMU.JonSharedCmdPmu.ChargeEnable getChargeEnable();
+    /**
+     * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+     */
+    cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder getChargeEnableOrBuilder();
+
+    /**
+     * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+     * @return Whether the chargeDisable field is set.
+     */
+    boolean hasChargeDisable();
+    /**
+     * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+     * @return The chargeDisable.
+     */
+    cmd.PMU.JonSharedCmdPmu.ChargeDisable getChargeDisable();
+    /**
+     * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+     */
+    cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder getChargeDisableOrBuilder();
+
+    /**
+     * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+     * @return Whether the bootHeater field is set.
+     */
+    boolean hasBootHeater();
+    /**
+     * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+     * @return The bootHeater.
+     */
+    cmd.PMU.JonSharedCmdPmu.BootHeater getBootHeater();
+    /**
+     * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+     */
+    cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder getBootHeaterOrBuilder();
+
+    /**
+     * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+     * @return Whether the getDataU1 field is set.
+     */
+    boolean hasGetDataU1();
+    /**
+     * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+     * @return The getDataU1.
+     */
+    cmd.PMU.JonSharedCmdPmu.GetDataU1 getGetDataU1();
+    /**
+     * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+     */
+    cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder getGetDataU1OrBuilder();
+
     cmd.PMU.JonSharedCmdPmu.Root.CmdCase getCmdCase();
   }
   /**
@@ -154,6 +244,12 @@ public final class JonSharedCmdPmu {
       TURN_ON(3),
       TURN_OFF(4),
       GET_METEO(5),
+      GET_HEATER_POWER_STATE(6),
+      POWER_OFF(7),
+      CHARGE_ENABLE(8),
+      CHARGE_DISABLE(9),
+      BOOT_HEATER(10),
+      GET_DATA_U1(11),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -176,6 +272,12 @@ public final class JonSharedCmdPmu {
           case 3: return TURN_ON;
           case 4: return TURN_OFF;
           case 5: return GET_METEO;
+          case 6: return GET_HEATER_POWER_STATE;
+          case 7: return POWER_OFF;
+          case 8: return CHARGE_ENABLE;
+          case 9: return CHARGE_DISABLE;
+          case 10: return BOOT_HEATER;
+          case 11: return GET_DATA_U1;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -346,6 +448,192 @@ public final class JonSharedCmdPmu {
       return cmd.PMU.JonSharedCmdPmu.GetMeteo.getDefaultInstance();
     }
 
+    public static final int GET_HEATER_POWER_STATE_FIELD_NUMBER = 6;
+    /**
+     * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+     * @return Whether the getHeaterPowerState field is set.
+     */
+    @java.lang.Override
+    public boolean hasGetHeaterPowerState() {
+      return cmdCase_ == 6;
+    }
+    /**
+     * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+     * @return The getHeaterPowerState.
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState getGetHeaterPowerState() {
+      if (cmdCase_ == 6) {
+         return (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder getGetHeaterPowerStateOrBuilder() {
+      if (cmdCase_ == 6) {
+         return (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+    }
+
+    public static final int POWER_OFF_FIELD_NUMBER = 7;
+    /**
+     * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+     * @return Whether the powerOff field is set.
+     */
+    @java.lang.Override
+    public boolean hasPowerOff() {
+      return cmdCase_ == 7;
+    }
+    /**
+     * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+     * @return The powerOff.
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.PowerOff getPowerOff() {
+      if (cmdCase_ == 7) {
+         return (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder getPowerOffOrBuilder() {
+      if (cmdCase_ == 7) {
+         return (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+    }
+
+    public static final int CHARGE_ENABLE_FIELD_NUMBER = 8;
+    /**
+     * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+     * @return Whether the chargeEnable field is set.
+     */
+    @java.lang.Override
+    public boolean hasChargeEnable() {
+      return cmdCase_ == 8;
+    }
+    /**
+     * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+     * @return The chargeEnable.
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.ChargeEnable getChargeEnable() {
+      if (cmdCase_ == 8) {
+         return (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder getChargeEnableOrBuilder() {
+      if (cmdCase_ == 8) {
+         return (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+    }
+
+    public static final int CHARGE_DISABLE_FIELD_NUMBER = 9;
+    /**
+     * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+     * @return Whether the chargeDisable field is set.
+     */
+    @java.lang.Override
+    public boolean hasChargeDisable() {
+      return cmdCase_ == 9;
+    }
+    /**
+     * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+     * @return The chargeDisable.
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.ChargeDisable getChargeDisable() {
+      if (cmdCase_ == 9) {
+         return (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder getChargeDisableOrBuilder() {
+      if (cmdCase_ == 9) {
+         return (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+    }
+
+    public static final int BOOT_HEATER_FIELD_NUMBER = 10;
+    /**
+     * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+     * @return Whether the bootHeater field is set.
+     */
+    @java.lang.Override
+    public boolean hasBootHeater() {
+      return cmdCase_ == 10;
+    }
+    /**
+     * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+     * @return The bootHeater.
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.BootHeater getBootHeater() {
+      if (cmdCase_ == 10) {
+         return (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder getBootHeaterOrBuilder() {
+      if (cmdCase_ == 10) {
+         return (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+    }
+
+    public static final int GET_DATA_U1_FIELD_NUMBER = 11;
+    /**
+     * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+     * @return Whether the getDataU1 field is set.
+     */
+    @java.lang.Override
+    public boolean hasGetDataU1() {
+      return cmdCase_ == 11;
+    }
+    /**
+     * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+     * @return The getDataU1.
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.GetDataU1 getGetDataU1() {
+      if (cmdCase_ == 11) {
+         return (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+     */
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder getGetDataU1OrBuilder() {
+      if (cmdCase_ == 11) {
+         return (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_;
+      }
+      return cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -375,6 +663,24 @@ public final class JonSharedCmdPmu {
       if (cmdCase_ == 5) {
         output.writeMessage(5, (cmd.PMU.JonSharedCmdPmu.GetMeteo) cmd_);
       }
+      if (cmdCase_ == 6) {
+        output.writeMessage(6, (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_);
+      }
+      if (cmdCase_ == 7) {
+        output.writeMessage(7, (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_);
+      }
+      if (cmdCase_ == 8) {
+        output.writeMessage(8, (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_);
+      }
+      if (cmdCase_ == 9) {
+        output.writeMessage(9, (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_);
+      }
+      if (cmdCase_ == 10) {
+        output.writeMessage(10, (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_);
+      }
+      if (cmdCase_ == 11) {
+        output.writeMessage(11, (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -403,6 +709,30 @@ public final class JonSharedCmdPmu {
       if (cmdCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, (cmd.PMU.JonSharedCmdPmu.GetMeteo) cmd_);
+      }
+      if (cmdCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_);
+      }
+      if (cmdCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_);
+      }
+      if (cmdCase_ == 8) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_);
+      }
+      if (cmdCase_ == 9) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_);
+      }
+      if (cmdCase_ == 10) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_);
+      }
+      if (cmdCase_ == 11) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -441,6 +771,30 @@ public final class JonSharedCmdPmu {
           if (!getGetMeteo()
               .equals(other.getGetMeteo())) return false;
           break;
+        case 6:
+          if (!getGetHeaterPowerState()
+              .equals(other.getGetHeaterPowerState())) return false;
+          break;
+        case 7:
+          if (!getPowerOff()
+              .equals(other.getPowerOff())) return false;
+          break;
+        case 8:
+          if (!getChargeEnable()
+              .equals(other.getChargeEnable())) return false;
+          break;
+        case 9:
+          if (!getChargeDisable()
+              .equals(other.getChargeDisable())) return false;
+          break;
+        case 10:
+          if (!getBootHeater()
+              .equals(other.getBootHeater())) return false;
+          break;
+        case 11:
+          if (!getGetDataU1()
+              .equals(other.getGetDataU1())) return false;
+          break;
         case 0:
         default:
       }
@@ -475,6 +829,30 @@ public final class JonSharedCmdPmu {
         case 5:
           hash = (37 * hash) + GET_METEO_FIELD_NUMBER;
           hash = (53 * hash) + getGetMeteo().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + GET_HEATER_POWER_STATE_FIELD_NUMBER;
+          hash = (53 * hash) + getGetHeaterPowerState().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + POWER_OFF_FIELD_NUMBER;
+          hash = (53 * hash) + getPowerOff().hashCode();
+          break;
+        case 8:
+          hash = (37 * hash) + CHARGE_ENABLE_FIELD_NUMBER;
+          hash = (53 * hash) + getChargeEnable().hashCode();
+          break;
+        case 9:
+          hash = (37 * hash) + CHARGE_DISABLE_FIELD_NUMBER;
+          hash = (53 * hash) + getChargeDisable().hashCode();
+          break;
+        case 10:
+          hash = (37 * hash) + BOOT_HEATER_FIELD_NUMBER;
+          hash = (53 * hash) + getBootHeater().hashCode();
+          break;
+        case 11:
+          hash = (37 * hash) + GET_DATA_U1_FIELD_NUMBER;
+          hash = (53 * hash) + getGetDataU1().hashCode();
           break;
         case 0:
         default:
@@ -625,6 +1003,24 @@ public final class JonSharedCmdPmu {
         if (getMeteoBuilder_ != null) {
           getMeteoBuilder_.clear();
         }
+        if (getHeaterPowerStateBuilder_ != null) {
+          getHeaterPowerStateBuilder_.clear();
+        }
+        if (powerOffBuilder_ != null) {
+          powerOffBuilder_.clear();
+        }
+        if (chargeEnableBuilder_ != null) {
+          chargeEnableBuilder_.clear();
+        }
+        if (chargeDisableBuilder_ != null) {
+          chargeDisableBuilder_.clear();
+        }
+        if (bootHeaterBuilder_ != null) {
+          bootHeaterBuilder_.clear();
+        }
+        if (getDataU1Builder_ != null) {
+          getDataU1Builder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -686,6 +1082,30 @@ public final class JonSharedCmdPmu {
             getMeteoBuilder_ != null) {
           result.cmd_ = getMeteoBuilder_.build();
         }
+        if (cmdCase_ == 6 &&
+            getHeaterPowerStateBuilder_ != null) {
+          result.cmd_ = getHeaterPowerStateBuilder_.build();
+        }
+        if (cmdCase_ == 7 &&
+            powerOffBuilder_ != null) {
+          result.cmd_ = powerOffBuilder_.build();
+        }
+        if (cmdCase_ == 8 &&
+            chargeEnableBuilder_ != null) {
+          result.cmd_ = chargeEnableBuilder_.build();
+        }
+        if (cmdCase_ == 9 &&
+            chargeDisableBuilder_ != null) {
+          result.cmd_ = chargeDisableBuilder_.build();
+        }
+        if (cmdCase_ == 10 &&
+            bootHeaterBuilder_ != null) {
+          result.cmd_ = bootHeaterBuilder_.build();
+        }
+        if (cmdCase_ == 11 &&
+            getDataU1Builder_ != null) {
+          result.cmd_ = getDataU1Builder_.build();
+        }
       }
 
       @java.lang.Override
@@ -719,6 +1139,30 @@ public final class JonSharedCmdPmu {
           }
           case GET_METEO: {
             mergeGetMeteo(other.getGetMeteo());
+            break;
+          }
+          case GET_HEATER_POWER_STATE: {
+            mergeGetHeaterPowerState(other.getGetHeaterPowerState());
+            break;
+          }
+          case POWER_OFF: {
+            mergePowerOff(other.getPowerOff());
+            break;
+          }
+          case CHARGE_ENABLE: {
+            mergeChargeEnable(other.getChargeEnable());
+            break;
+          }
+          case CHARGE_DISABLE: {
+            mergeChargeDisable(other.getChargeDisable());
+            break;
+          }
+          case BOOT_HEATER: {
+            mergeBootHeater(other.getBootHeater());
+            break;
+          }
+          case GET_DATA_U1: {
+            mergeGetDataU1(other.getGetDataU1());
             break;
           }
           case CMD_NOT_SET: {
@@ -786,6 +1230,48 @@ public final class JonSharedCmdPmu {
                 cmdCase_ = 5;
                 break;
               } // case 42
+              case 50: {
+                input.readMessage(
+                    getGetHeaterPowerStateFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 6;
+                break;
+              } // case 50
+              case 58: {
+                input.readMessage(
+                    getPowerOffFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 7;
+                break;
+              } // case 58
+              case 66: {
+                input.readMessage(
+                    getChargeEnableFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 8;
+                break;
+              } // case 66
+              case 74: {
+                input.readMessage(
+                    getChargeDisableFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 9;
+                break;
+              } // case 74
+              case 82: {
+                input.readMessage(
+                    getBootHeaterFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 10;
+                break;
+              } // case 82
+              case 90: {
+                input.readMessage(
+                    getGetDataU1FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 11;
+                break;
+              } // case 90
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1526,6 +2012,858 @@ public final class JonSharedCmdPmu {
         cmdCase_ = 5;
         onChanged();
         return getMeteoBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder> getHeaterPowerStateBuilder_;
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       * @return Whether the getHeaterPowerState field is set.
+       */
+      @java.lang.Override
+      public boolean hasGetHeaterPowerState() {
+        return cmdCase_ == 6;
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       * @return The getHeaterPowerState.
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState getGetHeaterPowerState() {
+        if (getHeaterPowerStateBuilder_ == null) {
+          if (cmdCase_ == 6) {
+            return (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 6) {
+            return getHeaterPowerStateBuilder_.getMessage();
+          }
+          return cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      public Builder setGetHeaterPowerState(cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState value) {
+        if (getHeaterPowerStateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          getHeaterPowerStateBuilder_.setMessage(value);
+        }
+        cmdCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      public Builder setGetHeaterPowerState(
+          cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder builderForValue) {
+        if (getHeaterPowerStateBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          getHeaterPowerStateBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      public Builder mergeGetHeaterPowerState(cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState value) {
+        if (getHeaterPowerStateBuilder_ == null) {
+          if (cmdCase_ == 6 &&
+              cmd_ != cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance()) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.newBuilder((cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 6) {
+            getHeaterPowerStateBuilder_.mergeFrom(value);
+          } else {
+            getHeaterPowerStateBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      public Builder clearGetHeaterPowerState() {
+        if (getHeaterPowerStateBuilder_ == null) {
+          if (cmdCase_ == 6) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 6) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          getHeaterPowerStateBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder getGetHeaterPowerStateBuilder() {
+        return getGetHeaterPowerStateFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder getGetHeaterPowerStateOrBuilder() {
+        if ((cmdCase_ == 6) && (getHeaterPowerStateBuilder_ != null)) {
+          return getHeaterPowerStateBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 6) {
+            return (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder> 
+          getGetHeaterPowerStateFieldBuilder() {
+        if (getHeaterPowerStateBuilder_ == null) {
+          if (!(cmdCase_ == 6)) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+          }
+          getHeaterPowerStateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder>(
+                  (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 6;
+        onChanged();
+        return getHeaterPowerStateBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.PowerOff, cmd.PMU.JonSharedCmdPmu.PowerOff.Builder, cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder> powerOffBuilder_;
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       * @return Whether the powerOff field is set.
+       */
+      @java.lang.Override
+      public boolean hasPowerOff() {
+        return cmdCase_ == 7;
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       * @return The powerOff.
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.PowerOff getPowerOff() {
+        if (powerOffBuilder_ == null) {
+          if (cmdCase_ == 7) {
+            return (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 7) {
+            return powerOffBuilder_.getMessage();
+          }
+          return cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      public Builder setPowerOff(cmd.PMU.JonSharedCmdPmu.PowerOff value) {
+        if (powerOffBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          powerOffBuilder_.setMessage(value);
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      public Builder setPowerOff(
+          cmd.PMU.JonSharedCmdPmu.PowerOff.Builder builderForValue) {
+        if (powerOffBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          powerOffBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      public Builder mergePowerOff(cmd.PMU.JonSharedCmdPmu.PowerOff value) {
+        if (powerOffBuilder_ == null) {
+          if (cmdCase_ == 7 &&
+              cmd_ != cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance()) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.PowerOff.newBuilder((cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 7) {
+            powerOffBuilder_.mergeFrom(value);
+          } else {
+            powerOffBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      public Builder clearPowerOff() {
+        if (powerOffBuilder_ == null) {
+          if (cmdCase_ == 7) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 7) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          powerOffBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      public cmd.PMU.JonSharedCmdPmu.PowerOff.Builder getPowerOffBuilder() {
+        return getPowerOffFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder getPowerOffOrBuilder() {
+        if ((cmdCase_ == 7) && (powerOffBuilder_ != null)) {
+          return powerOffBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 7) {
+            return (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.PowerOff power_off = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.PowerOff, cmd.PMU.JonSharedCmdPmu.PowerOff.Builder, cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder> 
+          getPowerOffFieldBuilder() {
+        if (powerOffBuilder_ == null) {
+          if (!(cmdCase_ == 7)) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+          }
+          powerOffBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.PMU.JonSharedCmdPmu.PowerOff, cmd.PMU.JonSharedCmdPmu.PowerOff.Builder, cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder>(
+                  (cmd.PMU.JonSharedCmdPmu.PowerOff) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 7;
+        onChanged();
+        return powerOffBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.ChargeEnable, cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder, cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder> chargeEnableBuilder_;
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       * @return Whether the chargeEnable field is set.
+       */
+      @java.lang.Override
+      public boolean hasChargeEnable() {
+        return cmdCase_ == 8;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       * @return The chargeEnable.
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeEnable getChargeEnable() {
+        if (chargeEnableBuilder_ == null) {
+          if (cmdCase_ == 8) {
+            return (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 8) {
+            return chargeEnableBuilder_.getMessage();
+          }
+          return cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      public Builder setChargeEnable(cmd.PMU.JonSharedCmdPmu.ChargeEnable value) {
+        if (chargeEnableBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          chargeEnableBuilder_.setMessage(value);
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      public Builder setChargeEnable(
+          cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder builderForValue) {
+        if (chargeEnableBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          chargeEnableBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      public Builder mergeChargeEnable(cmd.PMU.JonSharedCmdPmu.ChargeEnable value) {
+        if (chargeEnableBuilder_ == null) {
+          if (cmdCase_ == 8 &&
+              cmd_ != cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance()) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.ChargeEnable.newBuilder((cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 8) {
+            chargeEnableBuilder_.mergeFrom(value);
+          } else {
+            chargeEnableBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 8;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      public Builder clearChargeEnable() {
+        if (chargeEnableBuilder_ == null) {
+          if (cmdCase_ == 8) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 8) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          chargeEnableBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      public cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder getChargeEnableBuilder() {
+        return getChargeEnableFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder getChargeEnableOrBuilder() {
+        if ((cmdCase_ == 8) && (chargeEnableBuilder_ != null)) {
+          return chargeEnableBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 8) {
+            return (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.ChargeEnable charge_enable = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.ChargeEnable, cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder, cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder> 
+          getChargeEnableFieldBuilder() {
+        if (chargeEnableBuilder_ == null) {
+          if (!(cmdCase_ == 8)) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+          }
+          chargeEnableBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.PMU.JonSharedCmdPmu.ChargeEnable, cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder, cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder>(
+                  (cmd.PMU.JonSharedCmdPmu.ChargeEnable) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 8;
+        onChanged();
+        return chargeEnableBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.ChargeDisable, cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder, cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder> chargeDisableBuilder_;
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       * @return Whether the chargeDisable field is set.
+       */
+      @java.lang.Override
+      public boolean hasChargeDisable() {
+        return cmdCase_ == 9;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       * @return The chargeDisable.
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeDisable getChargeDisable() {
+        if (chargeDisableBuilder_ == null) {
+          if (cmdCase_ == 9) {
+            return (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 9) {
+            return chargeDisableBuilder_.getMessage();
+          }
+          return cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      public Builder setChargeDisable(cmd.PMU.JonSharedCmdPmu.ChargeDisable value) {
+        if (chargeDisableBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          chargeDisableBuilder_.setMessage(value);
+        }
+        cmdCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      public Builder setChargeDisable(
+          cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder builderForValue) {
+        if (chargeDisableBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          chargeDisableBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      public Builder mergeChargeDisable(cmd.PMU.JonSharedCmdPmu.ChargeDisable value) {
+        if (chargeDisableBuilder_ == null) {
+          if (cmdCase_ == 9 &&
+              cmd_ != cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance()) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.ChargeDisable.newBuilder((cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 9) {
+            chargeDisableBuilder_.mergeFrom(value);
+          } else {
+            chargeDisableBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 9;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      public Builder clearChargeDisable() {
+        if (chargeDisableBuilder_ == null) {
+          if (cmdCase_ == 9) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 9) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          chargeDisableBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      public cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder getChargeDisableBuilder() {
+        return getChargeDisableFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder getChargeDisableOrBuilder() {
+        if ((cmdCase_ == 9) && (chargeDisableBuilder_ != null)) {
+          return chargeDisableBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 9) {
+            return (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.ChargeDisable charge_disable = 9;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.ChargeDisable, cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder, cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder> 
+          getChargeDisableFieldBuilder() {
+        if (chargeDisableBuilder_ == null) {
+          if (!(cmdCase_ == 9)) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+          }
+          chargeDisableBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.PMU.JonSharedCmdPmu.ChargeDisable, cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder, cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder>(
+                  (cmd.PMU.JonSharedCmdPmu.ChargeDisable) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 9;
+        onChanged();
+        return chargeDisableBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.BootHeater, cmd.PMU.JonSharedCmdPmu.BootHeater.Builder, cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder> bootHeaterBuilder_;
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       * @return Whether the bootHeater field is set.
+       */
+      @java.lang.Override
+      public boolean hasBootHeater() {
+        return cmdCase_ == 10;
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       * @return The bootHeater.
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.BootHeater getBootHeater() {
+        if (bootHeaterBuilder_ == null) {
+          if (cmdCase_ == 10) {
+            return (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 10) {
+            return bootHeaterBuilder_.getMessage();
+          }
+          return cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      public Builder setBootHeater(cmd.PMU.JonSharedCmdPmu.BootHeater value) {
+        if (bootHeaterBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          bootHeaterBuilder_.setMessage(value);
+        }
+        cmdCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      public Builder setBootHeater(
+          cmd.PMU.JonSharedCmdPmu.BootHeater.Builder builderForValue) {
+        if (bootHeaterBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          bootHeaterBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      public Builder mergeBootHeater(cmd.PMU.JonSharedCmdPmu.BootHeater value) {
+        if (bootHeaterBuilder_ == null) {
+          if (cmdCase_ == 10 &&
+              cmd_ != cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance()) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.BootHeater.newBuilder((cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 10) {
+            bootHeaterBuilder_.mergeFrom(value);
+          } else {
+            bootHeaterBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 10;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      public Builder clearBootHeater() {
+        if (bootHeaterBuilder_ == null) {
+          if (cmdCase_ == 10) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 10) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          bootHeaterBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      public cmd.PMU.JonSharedCmdPmu.BootHeater.Builder getBootHeaterBuilder() {
+        return getBootHeaterFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder getBootHeaterOrBuilder() {
+        if ((cmdCase_ == 10) && (bootHeaterBuilder_ != null)) {
+          return bootHeaterBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 10) {
+            return (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.BootHeater boot_heater = 10;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.BootHeater, cmd.PMU.JonSharedCmdPmu.BootHeater.Builder, cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder> 
+          getBootHeaterFieldBuilder() {
+        if (bootHeaterBuilder_ == null) {
+          if (!(cmdCase_ == 10)) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+          }
+          bootHeaterBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.PMU.JonSharedCmdPmu.BootHeater, cmd.PMU.JonSharedCmdPmu.BootHeater.Builder, cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder>(
+                  (cmd.PMU.JonSharedCmdPmu.BootHeater) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 10;
+        onChanged();
+        return bootHeaterBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.GetDataU1, cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder, cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder> getDataU1Builder_;
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       * @return Whether the getDataU1 field is set.
+       */
+      @java.lang.Override
+      public boolean hasGetDataU1() {
+        return cmdCase_ == 11;
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       * @return The getDataU1.
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetDataU1 getGetDataU1() {
+        if (getDataU1Builder_ == null) {
+          if (cmdCase_ == 11) {
+            return (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 11) {
+            return getDataU1Builder_.getMessage();
+          }
+          return cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      public Builder setGetDataU1(cmd.PMU.JonSharedCmdPmu.GetDataU1 value) {
+        if (getDataU1Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          getDataU1Builder_.setMessage(value);
+        }
+        cmdCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      public Builder setGetDataU1(
+          cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder builderForValue) {
+        if (getDataU1Builder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          getDataU1Builder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      public Builder mergeGetDataU1(cmd.PMU.JonSharedCmdPmu.GetDataU1 value) {
+        if (getDataU1Builder_ == null) {
+          if (cmdCase_ == 11 &&
+              cmd_ != cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance()) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.GetDataU1.newBuilder((cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 11) {
+            getDataU1Builder_.mergeFrom(value);
+          } else {
+            getDataU1Builder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 11;
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      public Builder clearGetDataU1() {
+        if (getDataU1Builder_ == null) {
+          if (cmdCase_ == 11) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 11) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          getDataU1Builder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      public cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder getGetDataU1Builder() {
+        return getGetDataU1FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder getGetDataU1OrBuilder() {
+        if ((cmdCase_ == 11) && (getDataU1Builder_ != null)) {
+          return getDataU1Builder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 11) {
+            return (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_;
+          }
+          return cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.PMU.GetDataU1 get_data_u1 = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.PMU.JonSharedCmdPmu.GetDataU1, cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder, cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder> 
+          getGetDataU1FieldBuilder() {
+        if (getDataU1Builder_ == null) {
+          if (!(cmdCase_ == 11)) {
+            cmd_ = cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+          }
+          getDataU1Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.PMU.JonSharedCmdPmu.GetDataU1, cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder, cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder>(
+                  (cmd.PMU.JonSharedCmdPmu.GetDataU1) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 11;
+        onChanged();
+        return getDataU1Builder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.PMU.Root)
@@ -3354,6 +4692,2136 @@ public final class JonSharedCmdPmu {
 
   }
 
+  public interface GetHeaterPowerStateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.PMU.GetHeaterPowerState)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.PMU.GetHeaterPowerState}
+   */
+  public static final class GetHeaterPowerState extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.PMU.GetHeaterPowerState)
+      GetHeaterPowerStateOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        GetHeaterPowerState.class.getName());
+    }
+    // Use GetHeaterPowerState.newBuilder() to construct.
+    private GetHeaterPowerState(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private GetHeaterPowerState() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetHeaterPowerState_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetHeaterPowerState_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.class, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState)) {
+        return super.equals(obj);
+      }
+      cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState other = (cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.PMU.GetHeaterPowerState}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.PMU.GetHeaterPowerState)
+        cmd.PMU.JonSharedCmdPmu.GetHeaterPowerStateOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetHeaterPowerState_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetHeaterPowerState_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.class, cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.Builder.class);
+      }
+
+      // Construct using cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetHeaterPowerState_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState getDefaultInstanceForType() {
+        return cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState build() {
+        cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState buildPartial() {
+        cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState result = new cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState) {
+          return mergeFrom((cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState other) {
+        if (other == cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.PMU.GetHeaterPowerState)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.PMU.GetHeaterPowerState)
+    private static final cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState();
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetHeaterPowerState>
+        PARSER = new com.google.protobuf.AbstractParser<GetHeaterPowerState>() {
+      @java.lang.Override
+      public GetHeaterPowerState parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetHeaterPowerState> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetHeaterPowerState> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.GetHeaterPowerState getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PowerOffOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.PMU.PowerOff)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.PMU.PowerOff}
+   */
+  public static final class PowerOff extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.PMU.PowerOff)
+      PowerOffOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        PowerOff.class.getName());
+    }
+    // Use PowerOff.newBuilder() to construct.
+    private PowerOff(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private PowerOff() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_PowerOff_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_PowerOff_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.PMU.JonSharedCmdPmu.PowerOff.class, cmd.PMU.JonSharedCmdPmu.PowerOff.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.PMU.JonSharedCmdPmu.PowerOff)) {
+        return super.equals(obj);
+      }
+      cmd.PMU.JonSharedCmdPmu.PowerOff other = (cmd.PMU.JonSharedCmdPmu.PowerOff) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.PMU.JonSharedCmdPmu.PowerOff prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.PMU.PowerOff}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.PMU.PowerOff)
+        cmd.PMU.JonSharedCmdPmu.PowerOffOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_PowerOff_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_PowerOff_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.PMU.JonSharedCmdPmu.PowerOff.class, cmd.PMU.JonSharedCmdPmu.PowerOff.Builder.class);
+      }
+
+      // Construct using cmd.PMU.JonSharedCmdPmu.PowerOff.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_PowerOff_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.PowerOff getDefaultInstanceForType() {
+        return cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.PowerOff build() {
+        cmd.PMU.JonSharedCmdPmu.PowerOff result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.PowerOff buildPartial() {
+        cmd.PMU.JonSharedCmdPmu.PowerOff result = new cmd.PMU.JonSharedCmdPmu.PowerOff(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.PMU.JonSharedCmdPmu.PowerOff) {
+          return mergeFrom((cmd.PMU.JonSharedCmdPmu.PowerOff)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.PMU.JonSharedCmdPmu.PowerOff other) {
+        if (other == cmd.PMU.JonSharedCmdPmu.PowerOff.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.PMU.PowerOff)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.PMU.PowerOff)
+    private static final cmd.PMU.JonSharedCmdPmu.PowerOff DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.PMU.JonSharedCmdPmu.PowerOff();
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.PowerOff getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<PowerOff>
+        PARSER = new com.google.protobuf.AbstractParser<PowerOff>() {
+      @java.lang.Override
+      public PowerOff parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<PowerOff> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PowerOff> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.PowerOff getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ChargeEnableOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.PMU.ChargeEnable)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.PMU.ChargeEnable}
+   */
+  public static final class ChargeEnable extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.PMU.ChargeEnable)
+      ChargeEnableOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ChargeEnable.class.getName());
+    }
+    // Use ChargeEnable.newBuilder() to construct.
+    private ChargeEnable(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ChargeEnable() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeEnable_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeEnable_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.PMU.JonSharedCmdPmu.ChargeEnable.class, cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.PMU.JonSharedCmdPmu.ChargeEnable)) {
+        return super.equals(obj);
+      }
+      cmd.PMU.JonSharedCmdPmu.ChargeEnable other = (cmd.PMU.JonSharedCmdPmu.ChargeEnable) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.PMU.JonSharedCmdPmu.ChargeEnable prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.PMU.ChargeEnable}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.PMU.ChargeEnable)
+        cmd.PMU.JonSharedCmdPmu.ChargeEnableOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeEnable_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeEnable_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.PMU.JonSharedCmdPmu.ChargeEnable.class, cmd.PMU.JonSharedCmdPmu.ChargeEnable.Builder.class);
+      }
+
+      // Construct using cmd.PMU.JonSharedCmdPmu.ChargeEnable.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeEnable_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeEnable getDefaultInstanceForType() {
+        return cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeEnable build() {
+        cmd.PMU.JonSharedCmdPmu.ChargeEnable result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeEnable buildPartial() {
+        cmd.PMU.JonSharedCmdPmu.ChargeEnable result = new cmd.PMU.JonSharedCmdPmu.ChargeEnable(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.PMU.JonSharedCmdPmu.ChargeEnable) {
+          return mergeFrom((cmd.PMU.JonSharedCmdPmu.ChargeEnable)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.PMU.JonSharedCmdPmu.ChargeEnable other) {
+        if (other == cmd.PMU.JonSharedCmdPmu.ChargeEnable.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.PMU.ChargeEnable)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.PMU.ChargeEnable)
+    private static final cmd.PMU.JonSharedCmdPmu.ChargeEnable DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.PMU.JonSharedCmdPmu.ChargeEnable();
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeEnable getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ChargeEnable>
+        PARSER = new com.google.protobuf.AbstractParser<ChargeEnable>() {
+      @java.lang.Override
+      public ChargeEnable parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ChargeEnable> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChargeEnable> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.ChargeEnable getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ChargeDisableOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.PMU.ChargeDisable)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.PMU.ChargeDisable}
+   */
+  public static final class ChargeDisable extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.PMU.ChargeDisable)
+      ChargeDisableOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ChargeDisable.class.getName());
+    }
+    // Use ChargeDisable.newBuilder() to construct.
+    private ChargeDisable(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ChargeDisable() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeDisable_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeDisable_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.PMU.JonSharedCmdPmu.ChargeDisable.class, cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.PMU.JonSharedCmdPmu.ChargeDisable)) {
+        return super.equals(obj);
+      }
+      cmd.PMU.JonSharedCmdPmu.ChargeDisable other = (cmd.PMU.JonSharedCmdPmu.ChargeDisable) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.PMU.JonSharedCmdPmu.ChargeDisable prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.PMU.ChargeDisable}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.PMU.ChargeDisable)
+        cmd.PMU.JonSharedCmdPmu.ChargeDisableOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeDisable_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeDisable_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.PMU.JonSharedCmdPmu.ChargeDisable.class, cmd.PMU.JonSharedCmdPmu.ChargeDisable.Builder.class);
+      }
+
+      // Construct using cmd.PMU.JonSharedCmdPmu.ChargeDisable.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_ChargeDisable_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeDisable getDefaultInstanceForType() {
+        return cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeDisable build() {
+        cmd.PMU.JonSharedCmdPmu.ChargeDisable result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.ChargeDisable buildPartial() {
+        cmd.PMU.JonSharedCmdPmu.ChargeDisable result = new cmd.PMU.JonSharedCmdPmu.ChargeDisable(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.PMU.JonSharedCmdPmu.ChargeDisable) {
+          return mergeFrom((cmd.PMU.JonSharedCmdPmu.ChargeDisable)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.PMU.JonSharedCmdPmu.ChargeDisable other) {
+        if (other == cmd.PMU.JonSharedCmdPmu.ChargeDisable.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.PMU.ChargeDisable)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.PMU.ChargeDisable)
+    private static final cmd.PMU.JonSharedCmdPmu.ChargeDisable DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.PMU.JonSharedCmdPmu.ChargeDisable();
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.ChargeDisable getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ChargeDisable>
+        PARSER = new com.google.protobuf.AbstractParser<ChargeDisable>() {
+      @java.lang.Override
+      public ChargeDisable parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ChargeDisable> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChargeDisable> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.ChargeDisable getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BootHeaterOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.PMU.BootHeater)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.PMU.BootHeater}
+   */
+  public static final class BootHeater extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.PMU.BootHeater)
+      BootHeaterOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        BootHeater.class.getName());
+    }
+    // Use BootHeater.newBuilder() to construct.
+    private BootHeater(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private BootHeater() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_BootHeater_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_BootHeater_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.PMU.JonSharedCmdPmu.BootHeater.class, cmd.PMU.JonSharedCmdPmu.BootHeater.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.PMU.JonSharedCmdPmu.BootHeater)) {
+        return super.equals(obj);
+      }
+      cmd.PMU.JonSharedCmdPmu.BootHeater other = (cmd.PMU.JonSharedCmdPmu.BootHeater) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.PMU.JonSharedCmdPmu.BootHeater prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.PMU.BootHeater}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.PMU.BootHeater)
+        cmd.PMU.JonSharedCmdPmu.BootHeaterOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_BootHeater_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_BootHeater_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.PMU.JonSharedCmdPmu.BootHeater.class, cmd.PMU.JonSharedCmdPmu.BootHeater.Builder.class);
+      }
+
+      // Construct using cmd.PMU.JonSharedCmdPmu.BootHeater.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_BootHeater_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.BootHeater getDefaultInstanceForType() {
+        return cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.BootHeater build() {
+        cmd.PMU.JonSharedCmdPmu.BootHeater result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.BootHeater buildPartial() {
+        cmd.PMU.JonSharedCmdPmu.BootHeater result = new cmd.PMU.JonSharedCmdPmu.BootHeater(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.PMU.JonSharedCmdPmu.BootHeater) {
+          return mergeFrom((cmd.PMU.JonSharedCmdPmu.BootHeater)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.PMU.JonSharedCmdPmu.BootHeater other) {
+        if (other == cmd.PMU.JonSharedCmdPmu.BootHeater.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.PMU.BootHeater)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.PMU.BootHeater)
+    private static final cmd.PMU.JonSharedCmdPmu.BootHeater DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.PMU.JonSharedCmdPmu.BootHeater();
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.BootHeater getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<BootHeater>
+        PARSER = new com.google.protobuf.AbstractParser<BootHeater>() {
+      @java.lang.Override
+      public BootHeater parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<BootHeater> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BootHeater> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.BootHeater getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface GetDataU1OrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.PMU.GetDataU1)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * Protobuf type {@code cmd.PMU.GetDataU1}
+   */
+  public static final class GetDataU1 extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.PMU.GetDataU1)
+      GetDataU1OrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        GetDataU1.class.getName());
+    }
+    // Use GetDataU1.newBuilder() to construct.
+    private GetDataU1(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private GetDataU1() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetDataU1_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetDataU1_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.PMU.JonSharedCmdPmu.GetDataU1.class, cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.PMU.JonSharedCmdPmu.GetDataU1)) {
+        return super.equals(obj);
+      }
+      cmd.PMU.JonSharedCmdPmu.GetDataU1 other = (cmd.PMU.JonSharedCmdPmu.GetDataU1) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.PMU.JonSharedCmdPmu.GetDataU1 prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code cmd.PMU.GetDataU1}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.PMU.GetDataU1)
+        cmd.PMU.JonSharedCmdPmu.GetDataU1OrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetDataU1_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetDataU1_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.PMU.JonSharedCmdPmu.GetDataU1.class, cmd.PMU.JonSharedCmdPmu.GetDataU1.Builder.class);
+      }
+
+      // Construct using cmd.PMU.JonSharedCmdPmu.GetDataU1.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.PMU.JonSharedCmdPmu.internal_static_cmd_PMU_GetDataU1_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetDataU1 getDefaultInstanceForType() {
+        return cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetDataU1 build() {
+        cmd.PMU.JonSharedCmdPmu.GetDataU1 result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.PMU.JonSharedCmdPmu.GetDataU1 buildPartial() {
+        cmd.PMU.JonSharedCmdPmu.GetDataU1 result = new cmd.PMU.JonSharedCmdPmu.GetDataU1(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.PMU.JonSharedCmdPmu.GetDataU1) {
+          return mergeFrom((cmd.PMU.JonSharedCmdPmu.GetDataU1)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.PMU.JonSharedCmdPmu.GetDataU1 other) {
+        if (other == cmd.PMU.JonSharedCmdPmu.GetDataU1.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.PMU.GetDataU1)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.PMU.GetDataU1)
+    private static final cmd.PMU.JonSharedCmdPmu.GetDataU1 DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.PMU.JonSharedCmdPmu.GetDataU1();
+    }
+
+    public static cmd.PMU.JonSharedCmdPmu.GetDataU1 getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<GetDataU1>
+        PARSER = new com.google.protobuf.AbstractParser<GetDataU1>() {
+      @java.lang.Override
+      public GetDataU1 parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<GetDataU1> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetDataU1> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.PMU.JonSharedCmdPmu.GetDataU1 getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_PMU_Root_descriptor;
   private static final 
@@ -3384,6 +6852,36 @@ public final class JonSharedCmdPmu {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_PMU_GetMeteo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_PMU_GetHeaterPowerState_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_PMU_GetHeaterPowerState_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_PMU_PowerOff_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_PMU_PowerOff_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_PMU_ChargeEnable_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_PMU_ChargeEnable_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_PMU_ChargeDisable_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_PMU_ChargeDisable_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_PMU_BootHeater_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_PMU_BootHeater_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_PMU_GetDataU1_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_PMU_GetDataU1_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3394,15 +6892,25 @@ public final class JonSharedCmdPmu {
   static {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_cmd_pmu.proto\022\007cmd.PMU\032\033buf" +
-      "/validate/validate.proto\"\306\001\n\004Root\022\037\n\005sta" +
+      "/validate/validate.proto\"\347\003\n\004Root\022\037\n\005sta" +
       "rt\030\001 \001(\0132\016.cmd.PMU.StartH\000\022\035\n\004stop\030\002 \001(\013" +
       "2\r.cmd.PMU.StopH\000\022\"\n\007turn_on\030\003 \001(\0132\017.cmd" +
       ".PMU.TurnOnH\000\022$\n\010turn_off\030\004 \001(\0132\020.cmd.PM" +
       "U.TurnOffH\000\022&\n\tget_meteo\030\005 \001(\0132\021.cmd.PMU" +
-      ".GetMeteoH\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004St" +
-      "op\"\010\n\006TurnOn\"\t\n\007TurnOff\"\n\n\010GetMeteoBJZHg" +
-      "it-codecommit.eu-central-1.amazonaws.com" +
-      "/v1/repos/jettison/jonp/cmd/pmub\006proto3"
+      ".GetMeteoH\000\022>\n\026get_heater_power_state\030\006 " +
+      "\001(\0132\034.cmd.PMU.GetHeaterPowerStateH\000\022&\n\tp" +
+      "ower_off\030\007 \001(\0132\021.cmd.PMU.PowerOffH\000\022.\n\rc" +
+      "harge_enable\030\010 \001(\0132\025.cmd.PMU.ChargeEnabl" +
+      "eH\000\0220\n\016charge_disable\030\t \001(\0132\026.cmd.PMU.Ch" +
+      "argeDisableH\000\022*\n\013boot_heater\030\n \001(\0132\023.cmd" +
+      ".PMU.BootHeaterH\000\022)\n\013get_data_u1\030\013 \001(\0132\022" +
+      ".cmd.PMU.GetDataU1H\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005St" +
+      "art\"\006\n\004Stop\"\010\n\006TurnOn\"\t\n\007TurnOff\"\n\n\010GetM" +
+      "eteo\"\025\n\023GetHeaterPowerState\"\n\n\010PowerOff\"" +
+      "\016\n\014ChargeEnable\"\017\n\rChargeDisable\"\014\n\nBoot" +
+      "Heater\"\013\n\tGetDataU1BJZHgit-codecommit.eu" +
+      "-central-1.amazonaws.com/v1/repos/jettis" +
+      "on/jonp/cmd/pmub\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3414,7 +6922,7 @@ public final class JonSharedCmdPmu {
     internal_static_cmd_PMU_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_PMU_Root_descriptor,
-        new java.lang.String[] { "Start", "Stop", "TurnOn", "TurnOff", "GetMeteo", "Cmd", });
+        new java.lang.String[] { "Start", "Stop", "TurnOn", "TurnOff", "GetMeteo", "GetHeaterPowerState", "PowerOff", "ChargeEnable", "ChargeDisable", "BootHeater", "GetDataU1", "Cmd", });
     internal_static_cmd_PMU_Start_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_PMU_Start_fieldAccessorTable = new
@@ -3444,6 +6952,42 @@ public final class JonSharedCmdPmu {
     internal_static_cmd_PMU_GetMeteo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_PMU_GetMeteo_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_PMU_GetHeaterPowerState_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_cmd_PMU_GetHeaterPowerState_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_PMU_GetHeaterPowerState_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_PMU_PowerOff_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_cmd_PMU_PowerOff_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_PMU_PowerOff_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_PMU_ChargeEnable_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_cmd_PMU_ChargeEnable_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_PMU_ChargeEnable_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_PMU_ChargeDisable_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_cmd_PMU_ChargeDisable_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_PMU_ChargeDisable_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_PMU_BootHeater_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_cmd_PMU_BootHeater_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_PMU_BootHeater_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_PMU_GetDataU1_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_cmd_PMU_GetDataU1_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_PMU_GetDataU1_descriptor,
         new java.lang.String[] { });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();

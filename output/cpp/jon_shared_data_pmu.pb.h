@@ -218,8 +218,9 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
   enum : int {
     kMeteoFieldNumber = 4,
     kTemperatureFieldNumber = 1,
-    kStatusFieldNumber = 2,
+    kVoltageFieldNumber = 5,
     kIsStartedFieldNumber = 3,
+    kHeaterPowerStateFieldNumber = 6,
   };
   // .ser.JonGuiDataMeteo meteo = 4;
   bool has_meteo() const;
@@ -246,14 +247,14 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
   void _internal_set_temperature(double value);
 
   public:
-  // bool status = 2;
-  void clear_status() ;
-  bool status() const;
-  void set_status(bool value);
+  // double voltage = 5 [(.buf.validate.field) = {
+  void clear_voltage() ;
+  double voltage() const;
+  void set_voltage(double value);
 
   private:
-  bool _internal_status() const;
-  void _internal_set_status(bool value);
+  double _internal_voltage() const;
+  void _internal_set_voltage(double value);
 
   public:
   // bool is_started = 3;
@@ -266,12 +267,22 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
   void _internal_set_is_started(bool value);
 
   public:
+  // bool heater_power_state = 6;
+  void clear_heater_power_state() ;
+  bool heater_power_state() const;
+  void set_heater_power_state(bool value);
+
+  private:
+  bool _internal_heater_power_state() const;
+  void _internal_set_heater_power_state(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataPMU)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 1,
+      3, 5, 1,
       0, 2>
       _table_;
 
@@ -293,8 +304,9 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::ser::JonGuiDataMeteo* meteo_;
     double temperature_;
-    bool status_;
+    double voltage_;
     bool is_started_;
+    bool heater_power_state_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -337,28 +349,6 @@ inline double JonGuiDataPMU::_internal_temperature() const {
 inline void JonGuiDataPMU::_internal_set_temperature(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.temperature_ = value;
-}
-
-// bool status = 2;
-inline void JonGuiDataPMU::clear_status() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.status_ = false;
-}
-inline bool JonGuiDataPMU::status() const {
-  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.status)
-  return _internal_status();
-}
-inline void JonGuiDataPMU::set_status(bool value) {
-  _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.status)
-}
-inline bool JonGuiDataPMU::_internal_status() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.status_;
-}
-inline void JonGuiDataPMU::_internal_set_status(bool value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.status_ = value;
 }
 
 // bool is_started = 3;
@@ -472,6 +462,50 @@ inline void JonGuiDataPMU::set_allocated_meteo(::ser::JonGuiDataMeteo* value) {
 
   _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataPMU.meteo)
+}
+
+// double voltage = 5 [(.buf.validate.field) = {
+inline void JonGuiDataPMU::clear_voltage() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.voltage_ = 0;
+}
+inline double JonGuiDataPMU::voltage() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.voltage)
+  return _internal_voltage();
+}
+inline void JonGuiDataPMU::set_voltage(double value) {
+  _internal_set_voltage(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.voltage)
+}
+inline double JonGuiDataPMU::_internal_voltage() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.voltage_;
+}
+inline void JonGuiDataPMU::_internal_set_voltage(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.voltage_ = value;
+}
+
+// bool heater_power_state = 6;
+inline void JonGuiDataPMU::clear_heater_power_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.heater_power_state_ = false;
+}
+inline bool JonGuiDataPMU::heater_power_state() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.heater_power_state)
+  return _internal_heater_power_state();
+}
+inline void JonGuiDataPMU::set_heater_power_state(bool value) {
+  _internal_set_heater_power_state(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.heater_power_state)
+}
+inline bool JonGuiDataPMU::_internal_heater_power_state() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.heater_power_state_;
+}
+inline void JonGuiDataPMU::_internal_set_heater_power_state(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.heater_power_state_ = value;
 }
 
 #ifdef __GNUC__

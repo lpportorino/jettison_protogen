@@ -55,9 +55,27 @@ extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_jon_5fshared_5fcmd_5fpmu_2eproto;
 namespace cmd {
 namespace PMU {
+class BootHeater;
+struct BootHeaterDefaultTypeInternal;
+extern BootHeaterDefaultTypeInternal _BootHeater_default_instance_;
+class ChargeDisable;
+struct ChargeDisableDefaultTypeInternal;
+extern ChargeDisableDefaultTypeInternal _ChargeDisable_default_instance_;
+class ChargeEnable;
+struct ChargeEnableDefaultTypeInternal;
+extern ChargeEnableDefaultTypeInternal _ChargeEnable_default_instance_;
+class GetDataU1;
+struct GetDataU1DefaultTypeInternal;
+extern GetDataU1DefaultTypeInternal _GetDataU1_default_instance_;
+class GetHeaterPowerState;
+struct GetHeaterPowerStateDefaultTypeInternal;
+extern GetHeaterPowerStateDefaultTypeInternal _GetHeaterPowerState_default_instance_;
 class GetMeteo;
 struct GetMeteoDefaultTypeInternal;
 extern GetMeteoDefaultTypeInternal _GetMeteo_default_instance_;
+class PowerOff;
+struct PowerOffDefaultTypeInternal;
+extern PowerOffDefaultTypeInternal _PowerOff_default_instance_;
 class Root;
 struct RootDefaultTypeInternal;
 extern RootDefaultTypeInternal _Root_default_instance_;
@@ -668,6 +686,151 @@ class Start final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class PowerOff final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.PMU.PowerOff) */ {
+ public:
+  inline PowerOff() : PowerOff(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PowerOff* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PowerOff));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PowerOff(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline PowerOff(const PowerOff& from) : PowerOff(nullptr, from) {}
+  inline PowerOff(PowerOff&& from) noexcept
+      : PowerOff(nullptr, std::move(from)) {}
+  inline PowerOff& operator=(const PowerOff& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PowerOff& operator=(PowerOff&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PowerOff& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PowerOff* internal_default_instance() {
+    return reinterpret_cast<const PowerOff*>(
+        &_PowerOff_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(PowerOff& a, PowerOff& b) { a.Swap(&b); }
+  inline void Swap(PowerOff* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PowerOff* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PowerOff* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<PowerOff>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const PowerOff& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const PowerOff& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.PMU.PowerOff"; }
+
+ protected:
+  explicit PowerOff(::google::protobuf::Arena* arena);
+  PowerOff(::google::protobuf::Arena* arena, const PowerOff& from);
+  PowerOff(::google::protobuf::Arena* arena, PowerOff&& from) noexcept
+      : PowerOff(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.PMU.PowerOff)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const PowerOff& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto;
+};
+// -------------------------------------------------------------------
+
 class GetMeteo final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:cmd.PMU.GetMeteo) */ {
  public:
@@ -813,6 +976,731 @@ class GetMeteo final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class GetHeaterPowerState final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.PMU.GetHeaterPowerState) */ {
+ public:
+  inline GetHeaterPowerState() : GetHeaterPowerState(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(GetHeaterPowerState* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(GetHeaterPowerState));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR GetHeaterPowerState(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline GetHeaterPowerState(const GetHeaterPowerState& from) : GetHeaterPowerState(nullptr, from) {}
+  inline GetHeaterPowerState(GetHeaterPowerState&& from) noexcept
+      : GetHeaterPowerState(nullptr, std::move(from)) {}
+  inline GetHeaterPowerState& operator=(const GetHeaterPowerState& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetHeaterPowerState& operator=(GetHeaterPowerState&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetHeaterPowerState& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GetHeaterPowerState* internal_default_instance() {
+    return reinterpret_cast<const GetHeaterPowerState*>(
+        &_GetHeaterPowerState_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 6;
+  friend void swap(GetHeaterPowerState& a, GetHeaterPowerState& b) { a.Swap(&b); }
+  inline void Swap(GetHeaterPowerState* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetHeaterPowerState* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetHeaterPowerState* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<GetHeaterPowerState>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const GetHeaterPowerState& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const GetHeaterPowerState& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.PMU.GetHeaterPowerState"; }
+
+ protected:
+  explicit GetHeaterPowerState(::google::protobuf::Arena* arena);
+  GetHeaterPowerState(::google::protobuf::Arena* arena, const GetHeaterPowerState& from);
+  GetHeaterPowerState(::google::protobuf::Arena* arena, GetHeaterPowerState&& from) noexcept
+      : GetHeaterPowerState(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.PMU.GetHeaterPowerState)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const GetHeaterPowerState& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GetDataU1 final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.PMU.GetDataU1) */ {
+ public:
+  inline GetDataU1() : GetDataU1(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(GetDataU1* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(GetDataU1));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR GetDataU1(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline GetDataU1(const GetDataU1& from) : GetDataU1(nullptr, from) {}
+  inline GetDataU1(GetDataU1&& from) noexcept
+      : GetDataU1(nullptr, std::move(from)) {}
+  inline GetDataU1& operator=(const GetDataU1& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetDataU1& operator=(GetDataU1&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetDataU1& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GetDataU1* internal_default_instance() {
+    return reinterpret_cast<const GetDataU1*>(
+        &_GetDataU1_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 11;
+  friend void swap(GetDataU1& a, GetDataU1& b) { a.Swap(&b); }
+  inline void Swap(GetDataU1* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetDataU1* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetDataU1* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<GetDataU1>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const GetDataU1& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const GetDataU1& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.PMU.GetDataU1"; }
+
+ protected:
+  explicit GetDataU1(::google::protobuf::Arena* arena);
+  GetDataU1(::google::protobuf::Arena* arena, const GetDataU1& from);
+  GetDataU1(::google::protobuf::Arena* arena, GetDataU1&& from) noexcept
+      : GetDataU1(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.PMU.GetDataU1)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const GetDataU1& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ChargeEnable final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.PMU.ChargeEnable) */ {
+ public:
+  inline ChargeEnable() : ChargeEnable(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ChargeEnable* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ChargeEnable));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ChargeEnable(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ChargeEnable(const ChargeEnable& from) : ChargeEnable(nullptr, from) {}
+  inline ChargeEnable(ChargeEnable&& from) noexcept
+      : ChargeEnable(nullptr, std::move(from)) {}
+  inline ChargeEnable& operator=(const ChargeEnable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ChargeEnable& operator=(ChargeEnable&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ChargeEnable& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ChargeEnable* internal_default_instance() {
+    return reinterpret_cast<const ChargeEnable*>(
+        &_ChargeEnable_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 8;
+  friend void swap(ChargeEnable& a, ChargeEnable& b) { a.Swap(&b); }
+  inline void Swap(ChargeEnable* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ChargeEnable* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ChargeEnable* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<ChargeEnable>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const ChargeEnable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const ChargeEnable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.PMU.ChargeEnable"; }
+
+ protected:
+  explicit ChargeEnable(::google::protobuf::Arena* arena);
+  ChargeEnable(::google::protobuf::Arena* arena, const ChargeEnable& from);
+  ChargeEnable(::google::protobuf::Arena* arena, ChargeEnable&& from) noexcept
+      : ChargeEnable(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.PMU.ChargeEnable)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ChargeEnable& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ChargeDisable final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.PMU.ChargeDisable) */ {
+ public:
+  inline ChargeDisable() : ChargeDisable(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ChargeDisable* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ChargeDisable));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ChargeDisable(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ChargeDisable(const ChargeDisable& from) : ChargeDisable(nullptr, from) {}
+  inline ChargeDisable(ChargeDisable&& from) noexcept
+      : ChargeDisable(nullptr, std::move(from)) {}
+  inline ChargeDisable& operator=(const ChargeDisable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ChargeDisable& operator=(ChargeDisable&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ChargeDisable& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ChargeDisable* internal_default_instance() {
+    return reinterpret_cast<const ChargeDisable*>(
+        &_ChargeDisable_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 9;
+  friend void swap(ChargeDisable& a, ChargeDisable& b) { a.Swap(&b); }
+  inline void Swap(ChargeDisable* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ChargeDisable* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ChargeDisable* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<ChargeDisable>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const ChargeDisable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const ChargeDisable& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.PMU.ChargeDisable"; }
+
+ protected:
+  explicit ChargeDisable(::google::protobuf::Arena* arena);
+  ChargeDisable(::google::protobuf::Arena* arena, const ChargeDisable& from);
+  ChargeDisable(::google::protobuf::Arena* arena, ChargeDisable&& from) noexcept
+      : ChargeDisable(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.PMU.ChargeDisable)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ChargeDisable& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BootHeater final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.PMU.BootHeater) */ {
+ public:
+  inline BootHeater() : BootHeater(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BootHeater* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BootHeater));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR BootHeater(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline BootHeater(const BootHeater& from) : BootHeater(nullptr, from) {}
+  inline BootHeater(BootHeater&& from) noexcept
+      : BootHeater(nullptr, std::move(from)) {}
+  inline BootHeater& operator=(const BootHeater& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BootHeater& operator=(BootHeater&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const BootHeater& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const BootHeater* internal_default_instance() {
+    return reinterpret_cast<const BootHeater*>(
+        &_BootHeater_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 10;
+  friend void swap(BootHeater& a, BootHeater& b) { a.Swap(&b); }
+  inline void Swap(BootHeater* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BootHeater* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  BootHeater* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<BootHeater>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const BootHeater& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const BootHeater& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.PMU.BootHeater"; }
+
+ protected:
+  explicit BootHeater(::google::protobuf::Arena* arena);
+  BootHeater(::google::protobuf::Arena* arena, const BootHeater& from);
+  BootHeater(::google::protobuf::Arena* arena, BootHeater&& from) noexcept
+      : BootHeater(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.PMU.BootHeater)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const BootHeater& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fpmu_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Root final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.PMU.Root) */ {
  public:
@@ -874,6 +1762,12 @@ class Root final : public ::google::protobuf::Message
     kTurnOn = 3,
     kTurnOff = 4,
     kGetMeteo = 5,
+    kGetHeaterPowerState = 6,
+    kPowerOff = 7,
+    kChargeEnable = 8,
+    kChargeDisable = 9,
+    kBootHeater = 10,
+    kGetDataU1 = 11,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -972,6 +1866,12 @@ class Root final : public ::google::protobuf::Message
     kTurnOnFieldNumber = 3,
     kTurnOffFieldNumber = 4,
     kGetMeteoFieldNumber = 5,
+    kGetHeaterPowerStateFieldNumber = 6,
+    kPowerOffFieldNumber = 7,
+    kChargeEnableFieldNumber = 8,
+    kChargeDisableFieldNumber = 9,
+    kBootHeaterFieldNumber = 10,
+    kGetDataU1FieldNumber = 11,
   };
   // .cmd.PMU.Start start = 1;
   bool has_start() const;
@@ -1068,6 +1968,120 @@ class Root final : public ::google::protobuf::Message
   ::cmd::PMU::GetMeteo* _internal_mutable_get_meteo();
 
   public:
+  // .cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;
+  bool has_get_heater_power_state() const;
+  private:
+  bool _internal_has_get_heater_power_state() const;
+
+  public:
+  void clear_get_heater_power_state() ;
+  const ::cmd::PMU::GetHeaterPowerState& get_heater_power_state() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::GetHeaterPowerState* release_get_heater_power_state();
+  ::cmd::PMU::GetHeaterPowerState* mutable_get_heater_power_state();
+  void set_allocated_get_heater_power_state(::cmd::PMU::GetHeaterPowerState* value);
+  void unsafe_arena_set_allocated_get_heater_power_state(::cmd::PMU::GetHeaterPowerState* value);
+  ::cmd::PMU::GetHeaterPowerState* unsafe_arena_release_get_heater_power_state();
+
+  private:
+  const ::cmd::PMU::GetHeaterPowerState& _internal_get_heater_power_state() const;
+  ::cmd::PMU::GetHeaterPowerState* _internal_mutable_get_heater_power_state();
+
+  public:
+  // .cmd.PMU.PowerOff power_off = 7;
+  bool has_power_off() const;
+  private:
+  bool _internal_has_power_off() const;
+
+  public:
+  void clear_power_off() ;
+  const ::cmd::PMU::PowerOff& power_off() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::PowerOff* release_power_off();
+  ::cmd::PMU::PowerOff* mutable_power_off();
+  void set_allocated_power_off(::cmd::PMU::PowerOff* value);
+  void unsafe_arena_set_allocated_power_off(::cmd::PMU::PowerOff* value);
+  ::cmd::PMU::PowerOff* unsafe_arena_release_power_off();
+
+  private:
+  const ::cmd::PMU::PowerOff& _internal_power_off() const;
+  ::cmd::PMU::PowerOff* _internal_mutable_power_off();
+
+  public:
+  // .cmd.PMU.ChargeEnable charge_enable = 8;
+  bool has_charge_enable() const;
+  private:
+  bool _internal_has_charge_enable() const;
+
+  public:
+  void clear_charge_enable() ;
+  const ::cmd::PMU::ChargeEnable& charge_enable() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::ChargeEnable* release_charge_enable();
+  ::cmd::PMU::ChargeEnable* mutable_charge_enable();
+  void set_allocated_charge_enable(::cmd::PMU::ChargeEnable* value);
+  void unsafe_arena_set_allocated_charge_enable(::cmd::PMU::ChargeEnable* value);
+  ::cmd::PMU::ChargeEnable* unsafe_arena_release_charge_enable();
+
+  private:
+  const ::cmd::PMU::ChargeEnable& _internal_charge_enable() const;
+  ::cmd::PMU::ChargeEnable* _internal_mutable_charge_enable();
+
+  public:
+  // .cmd.PMU.ChargeDisable charge_disable = 9;
+  bool has_charge_disable() const;
+  private:
+  bool _internal_has_charge_disable() const;
+
+  public:
+  void clear_charge_disable() ;
+  const ::cmd::PMU::ChargeDisable& charge_disable() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::ChargeDisable* release_charge_disable();
+  ::cmd::PMU::ChargeDisable* mutable_charge_disable();
+  void set_allocated_charge_disable(::cmd::PMU::ChargeDisable* value);
+  void unsafe_arena_set_allocated_charge_disable(::cmd::PMU::ChargeDisable* value);
+  ::cmd::PMU::ChargeDisable* unsafe_arena_release_charge_disable();
+
+  private:
+  const ::cmd::PMU::ChargeDisable& _internal_charge_disable() const;
+  ::cmd::PMU::ChargeDisable* _internal_mutable_charge_disable();
+
+  public:
+  // .cmd.PMU.BootHeater boot_heater = 10;
+  bool has_boot_heater() const;
+  private:
+  bool _internal_has_boot_heater() const;
+
+  public:
+  void clear_boot_heater() ;
+  const ::cmd::PMU::BootHeater& boot_heater() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::BootHeater* release_boot_heater();
+  ::cmd::PMU::BootHeater* mutable_boot_heater();
+  void set_allocated_boot_heater(::cmd::PMU::BootHeater* value);
+  void unsafe_arena_set_allocated_boot_heater(::cmd::PMU::BootHeater* value);
+  ::cmd::PMU::BootHeater* unsafe_arena_release_boot_heater();
+
+  private:
+  const ::cmd::PMU::BootHeater& _internal_boot_heater() const;
+  ::cmd::PMU::BootHeater* _internal_mutable_boot_heater();
+
+  public:
+  // .cmd.PMU.GetDataU1 get_data_u1 = 11;
+  bool has_get_data_u1() const;
+  private:
+  bool _internal_has_get_data_u1() const;
+
+  public:
+  void clear_get_data_u1() ;
+  const ::cmd::PMU::GetDataU1& get_data_u1() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::GetDataU1* release_get_data_u1();
+  ::cmd::PMU::GetDataU1* mutable_get_data_u1();
+  void set_allocated_get_data_u1(::cmd::PMU::GetDataU1* value);
+  void unsafe_arena_set_allocated_get_data_u1(::cmd::PMU::GetDataU1* value);
+  ::cmd::PMU::GetDataU1* unsafe_arena_release_get_data_u1();
+
+  private:
+  const ::cmd::PMU::GetDataU1& _internal_get_data_u1() const;
+  ::cmd::PMU::GetDataU1* _internal_mutable_get_data_u1();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.PMU.Root)
@@ -1078,11 +2092,17 @@ class Root final : public ::google::protobuf::Message
   void set_has_turn_on();
   void set_has_turn_off();
   void set_has_get_meteo();
+  void set_has_get_heater_power_state();
+  void set_has_power_off();
+  void set_has_charge_enable();
+  void set_has_charge_disable();
+  void set_has_boot_heater();
+  void set_has_get_data_u1();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 5, 5,
+      0, 11, 11,
       0, 2>
       _table_;
 
@@ -1108,6 +2128,12 @@ class Root final : public ::google::protobuf::Message
       ::cmd::PMU::TurnOn* turn_on_;
       ::cmd::PMU::TurnOff* turn_off_;
       ::cmd::PMU::GetMeteo* get_meteo_;
+      ::cmd::PMU::GetHeaterPowerState* get_heater_power_state_;
+      ::cmd::PMU::PowerOff* power_off_;
+      ::cmd::PMU::ChargeEnable* charge_enable_;
+      ::cmd::PMU::ChargeDisable* charge_disable_;
+      ::cmd::PMU::BootHeater* boot_heater_;
+      ::cmd::PMU::GetDataU1* get_data_u1_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -1528,6 +2554,480 @@ inline ::cmd::PMU::GetMeteo* Root::mutable_get_meteo() ABSL_ATTRIBUTE_LIFETIME_B
   return _msg;
 }
 
+// .cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;
+inline bool Root::has_get_heater_power_state() const {
+  return cmd_case() == kGetHeaterPowerState;
+}
+inline bool Root::_internal_has_get_heater_power_state() const {
+  return cmd_case() == kGetHeaterPowerState;
+}
+inline void Root::set_has_get_heater_power_state() {
+  _impl_._oneof_case_[0] = kGetHeaterPowerState;
+}
+inline void Root::clear_get_heater_power_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kGetHeaterPowerState) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.get_heater_power_state_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.get_heater_power_state_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::PMU::GetHeaterPowerState* Root::release_get_heater_power_state() {
+  // @@protoc_insertion_point(field_release:cmd.PMU.Root.get_heater_power_state)
+  if (cmd_case() == kGetHeaterPowerState) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.get_heater_power_state_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.get_heater_power_state_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::GetHeaterPowerState& Root::_internal_get_heater_power_state() const {
+  return cmd_case() == kGetHeaterPowerState ? *_impl_.cmd_.get_heater_power_state_ : reinterpret_cast<::cmd::PMU::GetHeaterPowerState&>(::cmd::PMU::_GetHeaterPowerState_default_instance_);
+}
+inline const ::cmd::PMU::GetHeaterPowerState& Root::get_heater_power_state() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.PMU.Root.get_heater_power_state)
+  return _internal_get_heater_power_state();
+}
+inline ::cmd::PMU::GetHeaterPowerState* Root::unsafe_arena_release_get_heater_power_state() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.PMU.Root.get_heater_power_state)
+  if (cmd_case() == kGetHeaterPowerState) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.get_heater_power_state_;
+    _impl_.cmd_.get_heater_power_state_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_get_heater_power_state(::cmd::PMU::GetHeaterPowerState* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_get_heater_power_state();
+    _impl_.cmd_.get_heater_power_state_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.PMU.Root.get_heater_power_state)
+}
+inline ::cmd::PMU::GetHeaterPowerState* Root::_internal_mutable_get_heater_power_state() {
+  if (cmd_case() != kGetHeaterPowerState) {
+    clear_cmd();
+    set_has_get_heater_power_state();
+    _impl_.cmd_.get_heater_power_state_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::GetHeaterPowerState>(GetArena());
+  }
+  return _impl_.cmd_.get_heater_power_state_;
+}
+inline ::cmd::PMU::GetHeaterPowerState* Root::mutable_get_heater_power_state() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::GetHeaterPowerState* _msg = _internal_mutable_get_heater_power_state();
+  // @@protoc_insertion_point(field_mutable:cmd.PMU.Root.get_heater_power_state)
+  return _msg;
+}
+
+// .cmd.PMU.PowerOff power_off = 7;
+inline bool Root::has_power_off() const {
+  return cmd_case() == kPowerOff;
+}
+inline bool Root::_internal_has_power_off() const {
+  return cmd_case() == kPowerOff;
+}
+inline void Root::set_has_power_off() {
+  _impl_._oneof_case_[0] = kPowerOff;
+}
+inline void Root::clear_power_off() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kPowerOff) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.power_off_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.power_off_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::PMU::PowerOff* Root::release_power_off() {
+  // @@protoc_insertion_point(field_release:cmd.PMU.Root.power_off)
+  if (cmd_case() == kPowerOff) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.power_off_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.power_off_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::PowerOff& Root::_internal_power_off() const {
+  return cmd_case() == kPowerOff ? *_impl_.cmd_.power_off_ : reinterpret_cast<::cmd::PMU::PowerOff&>(::cmd::PMU::_PowerOff_default_instance_);
+}
+inline const ::cmd::PMU::PowerOff& Root::power_off() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.PMU.Root.power_off)
+  return _internal_power_off();
+}
+inline ::cmd::PMU::PowerOff* Root::unsafe_arena_release_power_off() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.PMU.Root.power_off)
+  if (cmd_case() == kPowerOff) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.power_off_;
+    _impl_.cmd_.power_off_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_power_off(::cmd::PMU::PowerOff* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_power_off();
+    _impl_.cmd_.power_off_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.PMU.Root.power_off)
+}
+inline ::cmd::PMU::PowerOff* Root::_internal_mutable_power_off() {
+  if (cmd_case() != kPowerOff) {
+    clear_cmd();
+    set_has_power_off();
+    _impl_.cmd_.power_off_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::PowerOff>(GetArena());
+  }
+  return _impl_.cmd_.power_off_;
+}
+inline ::cmd::PMU::PowerOff* Root::mutable_power_off() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::PowerOff* _msg = _internal_mutable_power_off();
+  // @@protoc_insertion_point(field_mutable:cmd.PMU.Root.power_off)
+  return _msg;
+}
+
+// .cmd.PMU.ChargeEnable charge_enable = 8;
+inline bool Root::has_charge_enable() const {
+  return cmd_case() == kChargeEnable;
+}
+inline bool Root::_internal_has_charge_enable() const {
+  return cmd_case() == kChargeEnable;
+}
+inline void Root::set_has_charge_enable() {
+  _impl_._oneof_case_[0] = kChargeEnable;
+}
+inline void Root::clear_charge_enable() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kChargeEnable) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.charge_enable_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.charge_enable_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::PMU::ChargeEnable* Root::release_charge_enable() {
+  // @@protoc_insertion_point(field_release:cmd.PMU.Root.charge_enable)
+  if (cmd_case() == kChargeEnable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.charge_enable_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.charge_enable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::ChargeEnable& Root::_internal_charge_enable() const {
+  return cmd_case() == kChargeEnable ? *_impl_.cmd_.charge_enable_ : reinterpret_cast<::cmd::PMU::ChargeEnable&>(::cmd::PMU::_ChargeEnable_default_instance_);
+}
+inline const ::cmd::PMU::ChargeEnable& Root::charge_enable() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.PMU.Root.charge_enable)
+  return _internal_charge_enable();
+}
+inline ::cmd::PMU::ChargeEnable* Root::unsafe_arena_release_charge_enable() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.PMU.Root.charge_enable)
+  if (cmd_case() == kChargeEnable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.charge_enable_;
+    _impl_.cmd_.charge_enable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_charge_enable(::cmd::PMU::ChargeEnable* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_charge_enable();
+    _impl_.cmd_.charge_enable_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.PMU.Root.charge_enable)
+}
+inline ::cmd::PMU::ChargeEnable* Root::_internal_mutable_charge_enable() {
+  if (cmd_case() != kChargeEnable) {
+    clear_cmd();
+    set_has_charge_enable();
+    _impl_.cmd_.charge_enable_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::ChargeEnable>(GetArena());
+  }
+  return _impl_.cmd_.charge_enable_;
+}
+inline ::cmd::PMU::ChargeEnable* Root::mutable_charge_enable() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::ChargeEnable* _msg = _internal_mutable_charge_enable();
+  // @@protoc_insertion_point(field_mutable:cmd.PMU.Root.charge_enable)
+  return _msg;
+}
+
+// .cmd.PMU.ChargeDisable charge_disable = 9;
+inline bool Root::has_charge_disable() const {
+  return cmd_case() == kChargeDisable;
+}
+inline bool Root::_internal_has_charge_disable() const {
+  return cmd_case() == kChargeDisable;
+}
+inline void Root::set_has_charge_disable() {
+  _impl_._oneof_case_[0] = kChargeDisable;
+}
+inline void Root::clear_charge_disable() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kChargeDisable) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.charge_disable_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.charge_disable_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::PMU::ChargeDisable* Root::release_charge_disable() {
+  // @@protoc_insertion_point(field_release:cmd.PMU.Root.charge_disable)
+  if (cmd_case() == kChargeDisable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.charge_disable_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.charge_disable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::ChargeDisable& Root::_internal_charge_disable() const {
+  return cmd_case() == kChargeDisable ? *_impl_.cmd_.charge_disable_ : reinterpret_cast<::cmd::PMU::ChargeDisable&>(::cmd::PMU::_ChargeDisable_default_instance_);
+}
+inline const ::cmd::PMU::ChargeDisable& Root::charge_disable() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.PMU.Root.charge_disable)
+  return _internal_charge_disable();
+}
+inline ::cmd::PMU::ChargeDisable* Root::unsafe_arena_release_charge_disable() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.PMU.Root.charge_disable)
+  if (cmd_case() == kChargeDisable) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.charge_disable_;
+    _impl_.cmd_.charge_disable_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_charge_disable(::cmd::PMU::ChargeDisable* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_charge_disable();
+    _impl_.cmd_.charge_disable_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.PMU.Root.charge_disable)
+}
+inline ::cmd::PMU::ChargeDisable* Root::_internal_mutable_charge_disable() {
+  if (cmd_case() != kChargeDisable) {
+    clear_cmd();
+    set_has_charge_disable();
+    _impl_.cmd_.charge_disable_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::ChargeDisable>(GetArena());
+  }
+  return _impl_.cmd_.charge_disable_;
+}
+inline ::cmd::PMU::ChargeDisable* Root::mutable_charge_disable() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::ChargeDisable* _msg = _internal_mutable_charge_disable();
+  // @@protoc_insertion_point(field_mutable:cmd.PMU.Root.charge_disable)
+  return _msg;
+}
+
+// .cmd.PMU.BootHeater boot_heater = 10;
+inline bool Root::has_boot_heater() const {
+  return cmd_case() == kBootHeater;
+}
+inline bool Root::_internal_has_boot_heater() const {
+  return cmd_case() == kBootHeater;
+}
+inline void Root::set_has_boot_heater() {
+  _impl_._oneof_case_[0] = kBootHeater;
+}
+inline void Root::clear_boot_heater() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kBootHeater) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.boot_heater_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.boot_heater_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::PMU::BootHeater* Root::release_boot_heater() {
+  // @@protoc_insertion_point(field_release:cmd.PMU.Root.boot_heater)
+  if (cmd_case() == kBootHeater) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.boot_heater_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.boot_heater_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::BootHeater& Root::_internal_boot_heater() const {
+  return cmd_case() == kBootHeater ? *_impl_.cmd_.boot_heater_ : reinterpret_cast<::cmd::PMU::BootHeater&>(::cmd::PMU::_BootHeater_default_instance_);
+}
+inline const ::cmd::PMU::BootHeater& Root::boot_heater() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.PMU.Root.boot_heater)
+  return _internal_boot_heater();
+}
+inline ::cmd::PMU::BootHeater* Root::unsafe_arena_release_boot_heater() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.PMU.Root.boot_heater)
+  if (cmd_case() == kBootHeater) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.boot_heater_;
+    _impl_.cmd_.boot_heater_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_boot_heater(::cmd::PMU::BootHeater* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_boot_heater();
+    _impl_.cmd_.boot_heater_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.PMU.Root.boot_heater)
+}
+inline ::cmd::PMU::BootHeater* Root::_internal_mutable_boot_heater() {
+  if (cmd_case() != kBootHeater) {
+    clear_cmd();
+    set_has_boot_heater();
+    _impl_.cmd_.boot_heater_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::BootHeater>(GetArena());
+  }
+  return _impl_.cmd_.boot_heater_;
+}
+inline ::cmd::PMU::BootHeater* Root::mutable_boot_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::BootHeater* _msg = _internal_mutable_boot_heater();
+  // @@protoc_insertion_point(field_mutable:cmd.PMU.Root.boot_heater)
+  return _msg;
+}
+
+// .cmd.PMU.GetDataU1 get_data_u1 = 11;
+inline bool Root::has_get_data_u1() const {
+  return cmd_case() == kGetDataU1;
+}
+inline bool Root::_internal_has_get_data_u1() const {
+  return cmd_case() == kGetDataU1;
+}
+inline void Root::set_has_get_data_u1() {
+  _impl_._oneof_case_[0] = kGetDataU1;
+}
+inline void Root::clear_get_data_u1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kGetDataU1) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.get_data_u1_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.get_data_u1_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::PMU::GetDataU1* Root::release_get_data_u1() {
+  // @@protoc_insertion_point(field_release:cmd.PMU.Root.get_data_u1)
+  if (cmd_case() == kGetDataU1) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.get_data_u1_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.get_data_u1_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::GetDataU1& Root::_internal_get_data_u1() const {
+  return cmd_case() == kGetDataU1 ? *_impl_.cmd_.get_data_u1_ : reinterpret_cast<::cmd::PMU::GetDataU1&>(::cmd::PMU::_GetDataU1_default_instance_);
+}
+inline const ::cmd::PMU::GetDataU1& Root::get_data_u1() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.PMU.Root.get_data_u1)
+  return _internal_get_data_u1();
+}
+inline ::cmd::PMU::GetDataU1* Root::unsafe_arena_release_get_data_u1() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.PMU.Root.get_data_u1)
+  if (cmd_case() == kGetDataU1) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.get_data_u1_;
+    _impl_.cmd_.get_data_u1_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_get_data_u1(::cmd::PMU::GetDataU1* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_get_data_u1();
+    _impl_.cmd_.get_data_u1_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.PMU.Root.get_data_u1)
+}
+inline ::cmd::PMU::GetDataU1* Root::_internal_mutable_get_data_u1() {
+  if (cmd_case() != kGetDataU1) {
+    clear_cmd();
+    set_has_get_data_u1();
+    _impl_.cmd_.get_data_u1_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::GetDataU1>(GetArena());
+  }
+  return _impl_.cmd_.get_data_u1_;
+}
+inline ::cmd::PMU::GetDataU1* Root::mutable_get_data_u1() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::GetDataU1* _msg = _internal_mutable_get_data_u1();
+  // @@protoc_insertion_point(field_mutable:cmd.PMU.Root.get_data_u1)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -1556,6 +3056,30 @@ inline Root::CmdCase Root::cmd_case() const {
 // -------------------------------------------------------------------
 
 // GetMeteo
+
+// -------------------------------------------------------------------
+
+// GetHeaterPowerState
+
+// -------------------------------------------------------------------
+
+// PowerOff
+
+// -------------------------------------------------------------------
+
+// ChargeEnable
+
+// -------------------------------------------------------------------
+
+// ChargeDisable
+
+// -------------------------------------------------------------------
+
+// BootHeater
+
+// -------------------------------------------------------------------
+
+// GetDataU1
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

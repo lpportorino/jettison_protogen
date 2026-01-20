@@ -1602,12 +1602,14 @@ pub struct JonGuiDataActualSpaceTime {
 pub struct JonGuiDataPmu {
     #[prost(double, tag = "1")]
     pub temperature: f64,
-    #[prost(bool, tag = "2")]
-    pub status: bool,
     #[prost(bool, tag = "3")]
     pub is_started: bool,
     #[prost(message, optional, tag = "4")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    #[prost(double, tag = "5")]
+    pub voltage: f64,
+    #[prost(bool, tag = "6")]
+    pub heater_power_state: bool,
 }
 /// Root message
 #[derive(Clone, PartialEq, ::prost::Message)]

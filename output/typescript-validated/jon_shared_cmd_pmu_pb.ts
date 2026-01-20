@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_pmu.proto.
  */
 export const file_jon_shared_cmd_pmu: GenFile = /*@__PURE__*/
-  fileDesc("Chhqb25fc2hhcmVkX2NtZF9wbXUucHJvdG8SB2NtZC5QTVUixgEKBFJvb3QSHwoFc3RhcnQYASABKAsyDi5jbWQuUE1VLlN0YXJ0SAASHQoEc3RvcBgCIAEoCzINLmNtZC5QTVUuU3RvcEgAEiIKB3R1cm5fb24YAyABKAsyDy5jbWQuUE1VLlR1cm5PbkgAEiQKCHR1cm5fb2ZmGAQgASgLMhAuY21kLlBNVS5UdXJuT2ZmSAASJgoJZ2V0X21ldGVvGAUgASgLMhEuY21kLlBNVS5HZXRNZXRlb0gAQgwKA2NtZBIFukgCCAEiBwoFU3RhcnQiBgoEU3RvcCIICgZUdXJuT24iCQoHVHVybk9mZiIKCghHZXRNZXRlb0JKWkhnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NtZC9wbXViBnByb3RvMw", [file_buf_validate_validate]);
+  fileDesc("Chhqb25fc2hhcmVkX2NtZF9wbXUucHJvdG8SB2NtZC5QTVUi5wMKBFJvb3QSHwoFc3RhcnQYASABKAsyDi5jbWQuUE1VLlN0YXJ0SAASHQoEc3RvcBgCIAEoCzINLmNtZC5QTVUuU3RvcEgAEiIKB3R1cm5fb24YAyABKAsyDy5jbWQuUE1VLlR1cm5PbkgAEiQKCHR1cm5fb2ZmGAQgASgLMhAuY21kLlBNVS5UdXJuT2ZmSAASJgoJZ2V0X21ldGVvGAUgASgLMhEuY21kLlBNVS5HZXRNZXRlb0gAEj4KFmdldF9oZWF0ZXJfcG93ZXJfc3RhdGUYBiABKAsyHC5jbWQuUE1VLkdldEhlYXRlclBvd2VyU3RhdGVIABImCglwb3dlcl9vZmYYByABKAsyES5jbWQuUE1VLlBvd2VyT2ZmSAASLgoNY2hhcmdlX2VuYWJsZRgIIAEoCzIVLmNtZC5QTVUuQ2hhcmdlRW5hYmxlSAASMAoOY2hhcmdlX2Rpc2FibGUYCSABKAsyFi5jbWQuUE1VLkNoYXJnZURpc2FibGVIABIqCgtib290X2hlYXRlchgKIAEoCzITLmNtZC5QTVUuQm9vdEhlYXRlckgAEikKC2dldF9kYXRhX3UxGAsgASgLMhIuY21kLlBNVS5HZXREYXRhVTFIAEIMCgNjbWQSBbpIAggBIgcKBVN0YXJ0IgYKBFN0b3AiCAoGVHVybk9uIgkKB1R1cm5PZmYiCgoIR2V0TWV0ZW8iFQoTR2V0SGVhdGVyUG93ZXJTdGF0ZSIKCghQb3dlck9mZiIOCgxDaGFyZ2VFbmFibGUiDwoNQ2hhcmdlRGlzYWJsZSIMCgpCb290SGVhdGVyIgsKCUdldERhdGFVMUJKWkhnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NtZC9wbXViBnByb3RvMw", [file_buf_validate_validate]);
 
 /**
  * @generated from message cmd.PMU.Root
@@ -50,6 +50,42 @@ export type Root = Message<"cmd.PMU.Root"> & {
      */
     value: GetMeteo;
     case: "getMeteo";
+  } | {
+    /**
+     * @generated from field: cmd.PMU.GetHeaterPowerState get_heater_power_state = 6;
+     */
+    value: GetHeaterPowerState;
+    case: "getHeaterPowerState";
+  } | {
+    /**
+     * @generated from field: cmd.PMU.PowerOff power_off = 7;
+     */
+    value: PowerOff;
+    case: "powerOff";
+  } | {
+    /**
+     * @generated from field: cmd.PMU.ChargeEnable charge_enable = 8;
+     */
+    value: ChargeEnable;
+    case: "chargeEnable";
+  } | {
+    /**
+     * @generated from field: cmd.PMU.ChargeDisable charge_disable = 9;
+     */
+    value: ChargeDisable;
+    case: "chargeDisable";
+  } | {
+    /**
+     * @generated from field: cmd.PMU.BootHeater boot_heater = 10;
+     */
+    value: BootHeater;
+    case: "bootHeater";
+  } | {
+    /**
+     * @generated from field: cmd.PMU.GetDataU1 get_data_u1 = 11;
+     */
+    value: GetDataU1;
+    case: "getDataU1";
   } | { case: undefined; value?: undefined };
 };
 
@@ -124,4 +160,82 @@ export type GetMeteo = Message<"cmd.PMU.GetMeteo"> & {
  */
 export const GetMeteoSchema: GenMessage<GetMeteo> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_pmu, 5);
+
+/**
+ * @generated from message cmd.PMU.GetHeaterPowerState
+ */
+export type GetHeaterPowerState = Message<"cmd.PMU.GetHeaterPowerState"> & {
+};
+
+/**
+ * Describes the message cmd.PMU.GetHeaterPowerState.
+ * Use `create(GetHeaterPowerStateSchema)` to create a new message.
+ */
+export const GetHeaterPowerStateSchema: GenMessage<GetHeaterPowerState> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_pmu, 6);
+
+/**
+ * @generated from message cmd.PMU.PowerOff
+ */
+export type PowerOff = Message<"cmd.PMU.PowerOff"> & {
+};
+
+/**
+ * Describes the message cmd.PMU.PowerOff.
+ * Use `create(PowerOffSchema)` to create a new message.
+ */
+export const PowerOffSchema: GenMessage<PowerOff> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_pmu, 7);
+
+/**
+ * @generated from message cmd.PMU.ChargeEnable
+ */
+export type ChargeEnable = Message<"cmd.PMU.ChargeEnable"> & {
+};
+
+/**
+ * Describes the message cmd.PMU.ChargeEnable.
+ * Use `create(ChargeEnableSchema)` to create a new message.
+ */
+export const ChargeEnableSchema: GenMessage<ChargeEnable> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_pmu, 8);
+
+/**
+ * @generated from message cmd.PMU.ChargeDisable
+ */
+export type ChargeDisable = Message<"cmd.PMU.ChargeDisable"> & {
+};
+
+/**
+ * Describes the message cmd.PMU.ChargeDisable.
+ * Use `create(ChargeDisableSchema)` to create a new message.
+ */
+export const ChargeDisableSchema: GenMessage<ChargeDisable> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_pmu, 9);
+
+/**
+ * @generated from message cmd.PMU.BootHeater
+ */
+export type BootHeater = Message<"cmd.PMU.BootHeater"> & {
+};
+
+/**
+ * Describes the message cmd.PMU.BootHeater.
+ * Use `create(BootHeaterSchema)` to create a new message.
+ */
+export const BootHeaterSchema: GenMessage<BootHeater> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_pmu, 10);
+
+/**
+ * @generated from message cmd.PMU.GetDataU1
+ */
+export type GetDataU1 = Message<"cmd.PMU.GetDataU1"> & {
+};
+
+/**
+ * Describes the message cmd.PMU.GetDataU1.
+ * Use `create(GetDataU1Schema)` to create a new message.
+ */
+export const GetDataU1Schema: GenMessage<GetDataU1> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_pmu, 11);
 

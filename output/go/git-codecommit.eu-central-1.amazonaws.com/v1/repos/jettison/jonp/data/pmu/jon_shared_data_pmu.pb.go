@@ -24,13 +24,14 @@ const (
 )
 
 type JonGuiDataPMU struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Temperature   float64                `protobuf:"fixed64,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
-	Status        bool                   `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
-	IsStarted     bool                   `protobuf:"varint,3,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
-	Meteo         *types.JonGuiDataMeteo `protobuf:"bytes,4,opt,name=meteo,proto3" json:"meteo,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Temperature      float64                `protobuf:"fixed64,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	IsStarted        bool                   `protobuf:"varint,3,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
+	Meteo            *types.JonGuiDataMeteo `protobuf:"bytes,4,opt,name=meteo,proto3" json:"meteo,omitempty"`
+	Voltage          float64                `protobuf:"fixed64,5,opt,name=voltage,proto3" json:"voltage,omitempty"`
+	HeaterPowerState bool                   `protobuf:"varint,6,opt,name=heater_power_state,json=heaterPowerState,proto3" json:"heater_power_state,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *JonGuiDataPMU) Reset() {
@@ -70,13 +71,6 @@ func (x *JonGuiDataPMU) GetTemperature() float64 {
 	return 0
 }
 
-func (x *JonGuiDataPMU) GetStatus() bool {
-	if x != nil {
-		return x.Status
-	}
-	return false
-}
-
 func (x *JonGuiDataPMU) GetIsStarted() bool {
 	if x != nil {
 		return x.IsStarted
@@ -91,17 +85,32 @@ func (x *JonGuiDataPMU) GetMeteo() *types.JonGuiDataMeteo {
 	return nil
 }
 
+func (x *JonGuiDataPMU) GetVoltage() float64 {
+	if x != nil {
+		return x.Voltage
+	}
+	return 0
+}
+
+func (x *JonGuiDataPMU) GetHeaterPowerState() bool {
+	if x != nil {
+		return x.HeaterPowerState
+	}
+	return false
+}
+
 var File_jon_shared_data_pmu_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_pmu_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xd1\x01\n" +
+	"\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xa0\x02\n" +
 	"\rJonGuiDataPMU\x12]\n" +
-	"\vtemperature\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x004\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x009@I\x00\x00\x00\x00\x00\x00Y@\x19\xc3\xf5(\\\x8f\xa2\x84@)fffff\x12q\xc0R\vtemperature\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\bR\x06status\x12\x1d\n" +
+	"\vtemperature\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x004\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x009@I\x00\x00\x00\x00\x00\x00Y@\x19\xc3\xf5(\\\x8f\xa2\x84@)fffff\x12q\xc0R\vtemperature\x12\x1d\n" +
 	"\n" +
 	"is_started\x18\x03 \x01(\bR\tisStarted\x12*\n" +
-	"\x05meteo\x18\x04 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\x97\x01\n" +
+	"\x05meteo\x18\x04 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x121\n" +
+	"\avoltage\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00N@)\x00\x00\x00\x00\x00\x00\x00@R\avoltage\x12,\n" +
+	"\x12heater_power_state\x18\x06 \x01(\bR\x10heaterPowerStateJ\x04\b\x02\x10\x03B\x97\x01\n" +
 	"\acom.serB\x15JonSharedDataPmuProtoP\x01ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmu\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

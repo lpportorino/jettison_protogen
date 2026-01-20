@@ -14,6 +14,12 @@ export interface Root {
   turnOn?: TurnOn | undefined;
   turnOff?: TurnOff | undefined;
   getMeteo?: GetMeteo | undefined;
+  getHeaterPowerState?: GetHeaterPowerState | undefined;
+  powerOff?: PowerOff | undefined;
+  chargeEnable?: ChargeEnable | undefined;
+  chargeDisable?: ChargeDisable | undefined;
+  bootHeater?: BootHeater | undefined;
+  getDataU1?: GetDataU1 | undefined;
 }
 
 export interface Start {
@@ -31,8 +37,38 @@ export interface TurnOff {
 export interface GetMeteo {
 }
 
+export interface GetHeaterPowerState {
+}
+
+export interface PowerOff {
+}
+
+export interface ChargeEnable {
+}
+
+export interface ChargeDisable {
+}
+
+export interface BootHeater {
+}
+
+export interface GetDataU1 {
+}
+
 function createBaseRoot(): Root {
-  return { start: undefined, stop: undefined, turnOn: undefined, turnOff: undefined, getMeteo: undefined };
+  return {
+    start: undefined,
+    stop: undefined,
+    turnOn: undefined,
+    turnOff: undefined,
+    getMeteo: undefined,
+    getHeaterPowerState: undefined,
+    powerOff: undefined,
+    chargeEnable: undefined,
+    chargeDisable: undefined,
+    bootHeater: undefined,
+    getDataU1: undefined,
+  };
 }
 
 export const Root: MessageFns<Root> = {
@@ -51,6 +87,24 @@ export const Root: MessageFns<Root> = {
     }
     if (message.getMeteo !== undefined) {
       GetMeteo.encode(message.getMeteo, writer.uint32(42).fork()).join();
+    }
+    if (message.getHeaterPowerState !== undefined) {
+      GetHeaterPowerState.encode(message.getHeaterPowerState, writer.uint32(50).fork()).join();
+    }
+    if (message.powerOff !== undefined) {
+      PowerOff.encode(message.powerOff, writer.uint32(58).fork()).join();
+    }
+    if (message.chargeEnable !== undefined) {
+      ChargeEnable.encode(message.chargeEnable, writer.uint32(66).fork()).join();
+    }
+    if (message.chargeDisable !== undefined) {
+      ChargeDisable.encode(message.chargeDisable, writer.uint32(74).fork()).join();
+    }
+    if (message.bootHeater !== undefined) {
+      BootHeater.encode(message.bootHeater, writer.uint32(82).fork()).join();
+    }
+    if (message.getDataU1 !== undefined) {
+      GetDataU1.encode(message.getDataU1, writer.uint32(90).fork()).join();
     }
     return writer;
   },
@@ -102,6 +156,54 @@ export const Root: MessageFns<Root> = {
           message.getMeteo = GetMeteo.decode(reader, reader.uint32());
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.getHeaterPowerState = GetHeaterPowerState.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.powerOff = PowerOff.decode(reader, reader.uint32());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.chargeEnable = ChargeEnable.decode(reader, reader.uint32());
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.chargeDisable = ChargeDisable.decode(reader, reader.uint32());
+          continue;
+        }
+        case 10: {
+          if (tag !== 82) {
+            break;
+          }
+
+          message.bootHeater = BootHeater.decode(reader, reader.uint32());
+          continue;
+        }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.getDataU1 = GetDataU1.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -130,6 +232,36 @@ export const Root: MessageFns<Root> = {
         : isSet(object.get_meteo)
         ? GetMeteo.fromJSON(object.get_meteo)
         : undefined,
+      getHeaterPowerState: isSet(object.getHeaterPowerState)
+        ? GetHeaterPowerState.fromJSON(object.getHeaterPowerState)
+        : isSet(object.get_heater_power_state)
+        ? GetHeaterPowerState.fromJSON(object.get_heater_power_state)
+        : undefined,
+      powerOff: isSet(object.powerOff)
+        ? PowerOff.fromJSON(object.powerOff)
+        : isSet(object.power_off)
+        ? PowerOff.fromJSON(object.power_off)
+        : undefined,
+      chargeEnable: isSet(object.chargeEnable)
+        ? ChargeEnable.fromJSON(object.chargeEnable)
+        : isSet(object.charge_enable)
+        ? ChargeEnable.fromJSON(object.charge_enable)
+        : undefined,
+      chargeDisable: isSet(object.chargeDisable)
+        ? ChargeDisable.fromJSON(object.chargeDisable)
+        : isSet(object.charge_disable)
+        ? ChargeDisable.fromJSON(object.charge_disable)
+        : undefined,
+      bootHeater: isSet(object.bootHeater)
+        ? BootHeater.fromJSON(object.bootHeater)
+        : isSet(object.boot_heater)
+        ? BootHeater.fromJSON(object.boot_heater)
+        : undefined,
+      getDataU1: isSet(object.getDataU1)
+        ? GetDataU1.fromJSON(object.getDataU1)
+        : isSet(object.get_data_u1)
+        ? GetDataU1.fromJSON(object.get_data_u1)
+        : undefined,
     };
   },
 
@@ -150,6 +282,24 @@ export const Root: MessageFns<Root> = {
     if (message.getMeteo !== undefined) {
       obj.getMeteo = GetMeteo.toJSON(message.getMeteo);
     }
+    if (message.getHeaterPowerState !== undefined) {
+      obj.getHeaterPowerState = GetHeaterPowerState.toJSON(message.getHeaterPowerState);
+    }
+    if (message.powerOff !== undefined) {
+      obj.powerOff = PowerOff.toJSON(message.powerOff);
+    }
+    if (message.chargeEnable !== undefined) {
+      obj.chargeEnable = ChargeEnable.toJSON(message.chargeEnable);
+    }
+    if (message.chargeDisable !== undefined) {
+      obj.chargeDisable = ChargeDisable.toJSON(message.chargeDisable);
+    }
+    if (message.bootHeater !== undefined) {
+      obj.bootHeater = BootHeater.toJSON(message.bootHeater);
+    }
+    if (message.getDataU1 !== undefined) {
+      obj.getDataU1 = GetDataU1.toJSON(message.getDataU1);
+    }
     return obj;
   },
 
@@ -168,6 +318,24 @@ export const Root: MessageFns<Root> = {
       : undefined;
     message.getMeteo = (object.getMeteo !== undefined && object.getMeteo !== null)
       ? GetMeteo.fromPartial(object.getMeteo)
+      : undefined;
+    message.getHeaterPowerState = (object.getHeaterPowerState !== undefined && object.getHeaterPowerState !== null)
+      ? GetHeaterPowerState.fromPartial(object.getHeaterPowerState)
+      : undefined;
+    message.powerOff = (object.powerOff !== undefined && object.powerOff !== null)
+      ? PowerOff.fromPartial(object.powerOff)
+      : undefined;
+    message.chargeEnable = (object.chargeEnable !== undefined && object.chargeEnable !== null)
+      ? ChargeEnable.fromPartial(object.chargeEnable)
+      : undefined;
+    message.chargeDisable = (object.chargeDisable !== undefined && object.chargeDisable !== null)
+      ? ChargeDisable.fromPartial(object.chargeDisable)
+      : undefined;
+    message.bootHeater = (object.bootHeater !== undefined && object.bootHeater !== null)
+      ? BootHeater.fromPartial(object.bootHeater)
+      : undefined;
+    message.getDataU1 = (object.getDataU1 !== undefined && object.getDataU1 !== null)
+      ? GetDataU1.fromPartial(object.getDataU1)
       : undefined;
     return message;
   },
@@ -384,6 +552,264 @@ export const GetMeteo: MessageFns<GetMeteo> = {
   },
   fromPartial<I extends Exact<DeepPartial<GetMeteo>, I>>(_: I): GetMeteo {
     const message = createBaseGetMeteo();
+    return message;
+  },
+};
+
+function createBaseGetHeaterPowerState(): GetHeaterPowerState {
+  return {};
+}
+
+export const GetHeaterPowerState: MessageFns<GetHeaterPowerState> = {
+  encode(_: GetHeaterPowerState, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetHeaterPowerState {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetHeaterPowerState();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): GetHeaterPowerState {
+    return {};
+  },
+
+  toJSON(_: GetHeaterPowerState): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetHeaterPowerState>, I>>(base?: I): GetHeaterPowerState {
+    return GetHeaterPowerState.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GetHeaterPowerState>, I>>(_: I): GetHeaterPowerState {
+    const message = createBaseGetHeaterPowerState();
+    return message;
+  },
+};
+
+function createBasePowerOff(): PowerOff {
+  return {};
+}
+
+export const PowerOff: MessageFns<PowerOff> = {
+  encode(_: PowerOff, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PowerOff {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePowerOff();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): PowerOff {
+    return {};
+  },
+
+  toJSON(_: PowerOff): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PowerOff>, I>>(base?: I): PowerOff {
+    return PowerOff.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PowerOff>, I>>(_: I): PowerOff {
+    const message = createBasePowerOff();
+    return message;
+  },
+};
+
+function createBaseChargeEnable(): ChargeEnable {
+  return {};
+}
+
+export const ChargeEnable: MessageFns<ChargeEnable> = {
+  encode(_: ChargeEnable, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ChargeEnable {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseChargeEnable();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): ChargeEnable {
+    return {};
+  },
+
+  toJSON(_: ChargeEnable): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ChargeEnable>, I>>(base?: I): ChargeEnable {
+    return ChargeEnable.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ChargeEnable>, I>>(_: I): ChargeEnable {
+    const message = createBaseChargeEnable();
+    return message;
+  },
+};
+
+function createBaseChargeDisable(): ChargeDisable {
+  return {};
+}
+
+export const ChargeDisable: MessageFns<ChargeDisable> = {
+  encode(_: ChargeDisable, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ChargeDisable {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseChargeDisable();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): ChargeDisable {
+    return {};
+  },
+
+  toJSON(_: ChargeDisable): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ChargeDisable>, I>>(base?: I): ChargeDisable {
+    return ChargeDisable.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ChargeDisable>, I>>(_: I): ChargeDisable {
+    const message = createBaseChargeDisable();
+    return message;
+  },
+};
+
+function createBaseBootHeater(): BootHeater {
+  return {};
+}
+
+export const BootHeater: MessageFns<BootHeater> = {
+  encode(_: BootHeater, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BootHeater {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBootHeater();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): BootHeater {
+    return {};
+  },
+
+  toJSON(_: BootHeater): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BootHeater>, I>>(base?: I): BootHeater {
+    return BootHeater.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BootHeater>, I>>(_: I): BootHeater {
+    const message = createBaseBootHeater();
+    return message;
+  },
+};
+
+function createBaseGetDataU1(): GetDataU1 {
+  return {};
+}
+
+export const GetDataU1: MessageFns<GetDataU1> = {
+  encode(_: GetDataU1, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetDataU1 {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetDataU1();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): GetDataU1 {
+    return {};
+  },
+
+  toJSON(_: GetDataU1): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetDataU1>, I>>(base?: I): GetDataU1 {
+    return GetDataU1.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GetDataU1>, I>>(_: I): GetDataU1 {
+    const message = createBaseGetDataU1();
     return message;
   },
 };
