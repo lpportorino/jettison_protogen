@@ -23,10 +23,6 @@ Use this command to recover from errors or apply configuration changes that requ
 |---|-------|------|-------------|
 | 1 | force | bool | - |
 
-### force (field 1)
-
-If `true`, uses SIGKILL to immediately terminate the container before restarting. Use when the container is unresponsive. If `false`, waits for graceful shutdown before starting a new instance.
-
 
 
 

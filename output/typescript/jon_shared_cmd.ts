@@ -17,6 +17,7 @@ import { Root as Root12 } from "./jon_shared_cmd_lira";
 import { Root as Root5 } from "./jon_shared_cmd_lrf";
 import { Root as Root6 } from "./jon_shared_cmd_lrf_align";
 import { Root as Root8 } from "./jon_shared_cmd_osd";
+import { Root as Root14 } from "./jon_shared_cmd_pmu";
 import { Root as Root13 } from "./jon_shared_cmd_power";
 import { Root as Root7 } from "./jon_shared_cmd_rotary";
 import { Root as Root9 } from "./jon_shared_cmd_system";
@@ -63,6 +64,7 @@ export interface Root {
   dayCamGlassHeater?: Root11 | undefined;
   lira?: Root12 | undefined;
   power?: Root13 | undefined;
+  pmu?: Root14 | undefined;
 }
 
 export interface Ping {
@@ -103,6 +105,7 @@ function createBaseRoot(): Root {
     dayCamGlassHeater: undefined,
     lira: undefined,
     power: undefined,
+    pmu: undefined,
   };
 }
 
@@ -188,6 +191,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.power !== undefined) {
       Root13.encode(message.power, writer.uint32(282).fork()).join();
+    }
+    if (message.pmu !== undefined) {
+      Root14.encode(message.pmu, writer.uint32(290).fork()).join();
     }
     return writer;
   },
@@ -415,6 +421,14 @@ export const Root: MessageFns<Root> = {
           message.power = Root13.decode(reader, reader.uint32());
           continue;
         }
+        case 36: {
+          if (tag !== 290) {
+            break;
+          }
+
+          message.pmu = Root14.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -509,6 +523,7 @@ export const Root: MessageFns<Root> = {
         : undefined,
       lira: isSet(object.lira) ? Root12.fromJSON(object.lira) : undefined,
       power: isSet(object.power) ? Root13.fromJSON(object.power) : undefined,
+      pmu: isSet(object.pmu) ? Root14.fromJSON(object.pmu) : undefined,
     };
   },
 
@@ -595,6 +610,9 @@ export const Root: MessageFns<Root> = {
     if (message.power !== undefined) {
       obj.power = Root13.toJSON(message.power);
     }
+    if (message.pmu !== undefined) {
+      obj.pmu = Root14.toJSON(message.pmu);
+    }
     return obj;
   },
 
@@ -656,6 +674,7 @@ export const Root: MessageFns<Root> = {
     message.power = (object.power !== undefined && object.power !== null)
       ? Root13.fromPartial(object.power)
       : undefined;
+    message.pmu = (object.pmu !== undefined && object.pmu !== null) ? Root14.fromPartial(object.pmu) : undefined;
     return message;
   },
 };

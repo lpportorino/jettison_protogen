@@ -36,7 +36,7 @@ pub struct Root {
     pub opaque_payloads: ::prost::alloc::vec::Vec<super::ser::JonOpaquePayload>,
     #[prost(
         oneof = "root::Payload",
-        tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35"
+        tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36"
     )]
     pub payload: ::core::option::Option<root::Payload>,
 }
@@ -76,6 +76,8 @@ pub mod root {
         Lira(super::lira::Root),
         #[prost(message, tag = "35")]
         Power(super::power::Root),
+        #[prost(message, tag = "36")]
+        Pmu(super::pmu::Root),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

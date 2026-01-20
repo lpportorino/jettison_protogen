@@ -17,6 +17,7 @@
 #include "jon_shared_cmd_day_cam_glass_heater.pb.h"
 #include "jon_shared_cmd_lira.pb.h"
 #include "jon_shared_cmd_power.pb.h"
+#include "jon_shared_cmd_pmu.pb.h"
 #include "jon_shared_data_types.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
@@ -70,6 +71,7 @@ typedef struct _cmd_Root {
         cmd_DayCamGlassHeater_Root day_cam_glass_heater;
         cmd_Lira_Root lira;
         cmd_Power_Root power;
+        cmd_PMU_Root pmu;
     } payload;
 } cmd_Root;
 
@@ -116,6 +118,7 @@ extern "C" {
 #define cmd_Root_day_cam_glass_heater_tag        33
 #define cmd_Root_lira_tag                        34
 #define cmd_Root_power_tag                       35
+#define cmd_Root_pmu_tag                         36
 
 /* Struct field encoding specification for nanopb */
 #define cmd_Root_FIELDLIST(X, a) \
@@ -145,7 +148,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,system,payload.system),  31) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,cv,payload.cv),  32) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,day_cam_glass_heater,payload.day_cam_glass_heater),  33) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,lira,payload.lira),  34) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (payload,power,payload.power),  35)
+X(a, STATIC,   ONEOF,    MESSAGE,  (payload,power,payload.power),  35) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (payload,pmu,payload.pmu),  36)
 #define cmd_Root_CALLBACK pb_default_field_callback
 #define cmd_Root_DEFAULT NULL
 #define cmd_Root_opaque_payloads_MSGTYPE ser_JonOpaquePayload
@@ -165,6 +169,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,power,payload.power),  35)
 #define cmd_Root_payload_day_cam_glass_heater_MSGTYPE cmd_DayCamGlassHeater_Root
 #define cmd_Root_payload_lira_MSGTYPE cmd_Lira_Root
 #define cmd_Root_payload_power_MSGTYPE cmd_Power_Root
+#define cmd_Root_payload_pmu_MSGTYPE cmd_PMU_Root
 
 #define cmd_Ping_FIELDLIST(X, a) \
 

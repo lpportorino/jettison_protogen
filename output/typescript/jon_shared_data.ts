@@ -16,6 +16,7 @@ import { JonGuiDataCV } from "./jon_shared_data_cv";
 import { JonGuiDataDayCamGlassHeater } from "./jon_shared_data_day_cam_glass_heater";
 import { JonGuiDataGps } from "./jon_shared_data_gps";
 import { JonGuiDataLrf } from "./jon_shared_data_lrf";
+import { JonGuiDataPMU } from "./jon_shared_data_pmu";
 import { JonGuiDataPower } from "./jon_shared_data_power";
 import { JonGuiDataRecOsd } from "./jon_shared_data_rec_osd";
 import { JonGuiDataRotary } from "./jon_shared_data_rotary";
@@ -60,6 +61,7 @@ export interface JonGUIState {
   actualSpaceTime: JonGuiDataActualSpaceTime | undefined;
   power: JonGuiDataPower | undefined;
   cv: JonGuiDataCV | undefined;
+  pmu: JonGuiDataPMU | undefined;
 }
 
 function createBaseJonGUIState(): JonGUIState {
@@ -87,6 +89,7 @@ function createBaseJonGUIState(): JonGUIState {
     actualSpaceTime: undefined,
     power: undefined,
     cv: undefined,
+    pmu: undefined,
   };
 }
 
@@ -160,6 +163,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (message.cv !== undefined) {
       JonGuiDataCV.encode(message.cv, writer.uint32(218).fork()).join();
+    }
+    if (message.pmu !== undefined) {
+      JonGuiDataPMU.encode(message.pmu, writer.uint32(226).fork()).join();
     }
     return writer;
   },
@@ -355,6 +361,14 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           message.cv = JonGuiDataCV.decode(reader, reader.uint32());
           continue;
         }
+        case 28: {
+          if (tag !== 226) {
+            break;
+          }
+
+          message.pmu = JonGuiDataPMU.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -449,6 +463,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
         : undefined,
       power: isSet(object.power) ? JonGuiDataPower.fromJSON(object.power) : undefined,
       cv: isSet(object.cv) ? JonGuiDataCV.fromJSON(object.cv) : undefined,
+      pmu: isSet(object.pmu) ? JonGuiDataPMU.fromJSON(object.pmu) : undefined,
     };
   },
 
@@ -523,6 +538,9 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     if (message.cv !== undefined) {
       obj.cv = JonGuiDataCV.toJSON(message.cv);
     }
+    if (message.pmu !== undefined) {
+      obj.pmu = JonGuiDataPMU.toJSON(message.pmu);
+    }
     return obj;
   },
 
@@ -589,6 +607,7 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       ? JonGuiDataPower.fromPartial(object.power)
       : undefined;
     message.cv = (object.cv !== undefined && object.cv !== null) ? JonGuiDataCV.fromPartial(object.cv) : undefined;
+    message.pmu = (object.pmu !== undefined && object.pmu !== null) ? JonGuiDataPMU.fromPartial(object.pmu) : undefined;
     return message;
   },
 };

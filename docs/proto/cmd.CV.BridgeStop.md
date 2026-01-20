@@ -23,10 +23,6 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 |---|-------|------|-------------|
 | 1 | force | bool | - |
 
-### force (field 1)
-
-If `true`, sends SIGKILL to immediately terminate the container instead of SIGTERM for graceful shutdown. Use when the container is unresponsive or stuck. When force-stopped, last_exit_reason will be set to SIGNAL.
-
 
 
 

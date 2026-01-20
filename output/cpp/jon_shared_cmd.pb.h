@@ -44,6 +44,7 @@
 #include "jon_shared_cmd_day_cam_glass_heater.pb.h"
 #include "jon_shared_cmd_lira.pb.h"
 #include "jon_shared_cmd_power.pb.h"
+#include "jon_shared_cmd_pmu.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -600,6 +601,7 @@ class Root final : public ::google::protobuf::Message
     kDayCamGlassHeater = 33,
     kLira = 34,
     kPower = 35,
+    kPmu = 36,
     PAYLOAD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -720,6 +722,7 @@ class Root final : public ::google::protobuf::Message
     kDayCamGlassHeaterFieldNumber = 33,
     kLiraFieldNumber = 34,
     kPowerFieldNumber = 35,
+    kPmuFieldNumber = 36,
   };
   // repeated .ser.JonOpaquePayload opaque_payloads = 11;
   int opaque_payloads_size() const;
@@ -1142,6 +1145,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::Power::Root* _internal_mutable_power();
 
   public:
+  // .cmd.PMU.Root pmu = 36;
+  bool has_pmu() const;
+  private:
+  bool _internal_has_pmu() const;
+
+  public:
+  void clear_pmu() ;
+  const ::cmd::PMU::Root& pmu() const;
+  PROTOBUF_NODISCARD ::cmd::PMU::Root* release_pmu();
+  ::cmd::PMU::Root* mutable_pmu();
+  void set_allocated_pmu(::cmd::PMU::Root* value);
+  void unsafe_arena_set_allocated_pmu(::cmd::PMU::Root* value);
+  ::cmd::PMU::Root* unsafe_arena_release_pmu();
+
+  private:
+  const ::cmd::PMU::Root& _internal_pmu() const;
+  ::cmd::PMU::Root* _internal_mutable_pmu();
+
+  public:
   void clear_payload();
   PayloadCase payload_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Root)
@@ -1163,11 +1185,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_day_cam_glass_heater();
   void set_has_lira();
   void set_has_power();
+  void set_has_pmu();
   inline bool has_payload() const;
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 27, 17,
+      4, 28, 18,
       0, 7>
       _table_;
 
@@ -1215,6 +1238,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::DayCamGlassHeater::Root* day_cam_glass_heater_;
       ::cmd::Lira::Root* lira_;
       ::cmd::Power::Root* power_;
+      ::cmd::PMU::Root* pmu_;
     } payload_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2623,6 +2647,74 @@ inline ::cmd::Power::Root* Root::_internal_mutable_power() {
 inline ::cmd::Power::Root* Root::mutable_power() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::Power::Root* _msg = _internal_mutable_power();
   // @@protoc_insertion_point(field_mutable:cmd.Root.power)
+  return _msg;
+}
+
+// .cmd.PMU.Root pmu = 36;
+inline bool Root::has_pmu() const {
+  return payload_case() == kPmu;
+}
+inline bool Root::_internal_has_pmu() const {
+  return payload_case() == kPmu;
+}
+inline void Root::set_has_pmu() {
+  _impl_._oneof_case_[0] = kPmu;
+}
+inline ::cmd::PMU::Root* Root::release_pmu() {
+  // @@protoc_insertion_point(field_release:cmd.Root.pmu)
+  if (payload_case() == kPmu) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.pmu_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.pmu_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::PMU::Root& Root::_internal_pmu() const {
+  return payload_case() == kPmu ? *_impl_.payload_.pmu_ : reinterpret_cast<::cmd::PMU::Root&>(::cmd::PMU::_Root_default_instance_);
+}
+inline const ::cmd::PMU::Root& Root::pmu() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Root.pmu)
+  return _internal_pmu();
+}
+inline ::cmd::PMU::Root* Root::unsafe_arena_release_pmu() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Root.pmu)
+  if (payload_case() == kPmu) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.pmu_;
+    _impl_.payload_.pmu_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_pmu(::cmd::PMU::Root* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_pmu();
+    _impl_.payload_.pmu_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Root.pmu)
+}
+inline ::cmd::PMU::Root* Root::_internal_mutable_pmu() {
+  if (payload_case() != kPmu) {
+    clear_payload();
+    set_has_pmu();
+    _impl_.payload_.pmu_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::PMU::Root>(GetArena());
+  }
+  return _impl_.payload_.pmu_;
+}
+inline ::cmd::PMU::Root* Root::mutable_pmu() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::PMU::Root* _msg = _internal_mutable_pmu();
+  // @@protoc_insertion_point(field_mutable:cmd.Root.pmu)
   return _msg;
 }
 

@@ -40,6 +40,7 @@ Root protocol buffer message that aggregates telemetry and state from 14 subsyst
 | 25 | actual_space_time | [[proto/ser.JonGuiDataActualSpaceTime]] | required |
 | 26 | power | [[proto/ser.JonGuiDataPower]] | required |
 | 27 | cv | [[proto/ser.JonGuiDataCV]] | - |
+| 28 | pmu | [[proto/ser.JonGuiDataPMU]] | required |
 
 
 

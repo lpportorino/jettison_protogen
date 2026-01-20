@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 247 messages, 21 enums, 652 fields
+**Statistics:** 254 messages, 21 enums, 663 fields
 
 ## Messages by Package
 
@@ -20,9 +20,25 @@ type: index
 
 ### cmd.CV
 
-- [[proto/cmd.CV.BridgeRestart|BridgeRestart]]
-- [[proto/cmd.CV.BridgeStart|BridgeStart]]
-- [[proto/cmd.CV.BridgeStop|BridgeStop]]
+- [[proto/cmd.CV.BridgeRestart|BridgeRestart]] — Restarts the CV Bridge Docker container.
+
+Performs a stop followed by start of the CV Bridge container. The bridge_status will transition through STOPPING → STOPPED → STARTING → RUNNING. The restart_count will be incremented.
+
+Use this command to recover from errors or apply configuration changes that require a full restart.
+- [[proto/cmd.CV.BridgeStart|BridgeStart]] — Starts the CV Bridge Docker container.
+
+The CV Bridge is an isolated Docker container running the CV Gateway application that:
+- Consumes CUDA IPC frames from pipeline_day and pipeline_heat
+- Computes autofocus sharpness metrics using CUDA kernels
+- Controls camera lens focus via CAN bus
+- Reports status back to fanout for state enrichment
+
+If the container is already running, this command has no effect. The bridge_status field in JonGuiDataCV will transition from STOPPED to STARTING, then to RUNNING once initialized.
+- [[proto/cmd.CV.BridgeStop|BridgeStop]] — Stops the CV Bridge Docker container.
+
+Gracefully shuts down the CV Bridge container. The bridge_status field will transition to STOPPING, then to STOPPED once the container exits. The last_exit_reason will be set to NORMAL.
+
+When the CV Bridge is stopped, fanout operates in bypass mode - state continues to flow but without CV enrichment (autofocus metrics will be stale/default).
 - [[proto/cmd.CV.DumpStart|DumpStart]] — Initiates recording of computer vision frame data to disk for debugging and analysis purposes. Only available in factory mode (URL parameter ui=factory). The state is tracked via data.System.cvDumping boolean field.
 - [[proto/cmd.CV.DumpStop|DumpStop]] — Stops the computer vision frame dumping process that was previously initiated with DumpStart, ceasing the export of CV data to disk. Sets the cvDumping state to false when processed.
 - [[proto/cmd.CV.RecognitionModeDisable|RecognitionModeDisable]] — Disables the AI-powered computer vision recognition mode, stopping automatic object detection and classification in the video feed. The backend sets cv.recognition_mode_enabled to false and state is reflected in system.recognitionMode.
@@ -208,6 +224,16 @@ type: index
 - [[proto/cmd.OSD.ShowLRFResultSimplifiedScreen|ShowLRFResultSimplifiedScreen]] — Displays a simplified laser rangefinder result screen for continuous scanning mode, triggered after a long press of the measure button to show results in a compact overlay format during active LRF scanning.
 
 
+### cmd.PMU
+
+- [[proto/cmd.PMU.GetMeteo|GetMeteo]]
+- [[proto/cmd.PMU.Root|Root]]
+- [[proto/cmd.PMU.Start|Start]]
+- [[proto/cmd.PMU.Stop|Stop]]
+- [[proto/cmd.PMU.TurnOff|TurnOff]]
+- [[proto/cmd.PMU.TurnOn|TurnOn]]
+
+
 ### cmd.Power
 
 - [[proto/cmd.Power.Root|Root]] — Routes power management commands to control individual power channels (0-7) or all channels simultaneously, supporting operations like setting power state per channel, powering all channels on/off, and configuring overcurrent alert thresholds in milliamps.
@@ -311,6 +337,7 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 - [[proto/ser.JonGuiDataGps|JonGuiDataGps]] — Represents the complete GPS positioning state of the system, including both automatic GPS fix coordinates and manually-entered fallback coordinates, along with the current fix quality type (none, 1D, 2D, 3D, or manual mode) and operational status.
 - [[proto/ser.JonGuiDataLrf|JonGuiDataLrf]] — Encapsulates the operational state of a Laser Range Finder (LRF) device, tracking scanning/measuring modes, measurement progress, laser pointer modes, fog mode, refinement status, and targeting data including precise georeferenced measurements with target/observer coordinates and distances.
 - [[proto/ser.JonGuiDataMeteo|JonGuiDataMeteo]] — Represents environmental sensor data containing atmospheric measurements: temperature (in degrees Celsius), humidity (as a percentage), and pressure (in Pascal units). Used for ballistics calculations and system monitoring across multiple subsystems.
+- [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]]
 - [[proto/ser.JonGuiDataPower|JonGuiDataPower]] — Represents real-time power distribution state across all 8 system channels (GPS, Compass, LRF, Day Camera, Thermal Camera, ORIN NUC, Thermal Core, and Heater), with each channel tracking voltage, current, power consumption, on/off state, and fault alarm status.
 - [[proto/ser.JonGuiDataPowerModule|JonGuiDataPowerModule]] — Represents the real-time power state and telemetry for a single power distribution channel, tracking voltage, current, power consumption, on/off state, and alarm status. Used to monitor individual hardware subsystems for power management and diagnostics.
 - [[proto/ser.JonGuiDataRecOsd|JonGuiDataRecOsd]] — Represents the recording on-screen display (OSD) configuration state, tracking whether thermal and day camera overlays are enabled, along with their respective crosshair offset positions for proper alignment on recorded frames.
