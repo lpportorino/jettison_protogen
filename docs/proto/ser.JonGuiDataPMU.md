@@ -26,6 +26,7 @@ type: message
 | 8 | ina_current | double | >= -20, <= 20 |
 | 9 | ina_power | double | >= 0, <= 720 |
 | 10 | ina_power_fault | bool | - |
+| 11 | charge_disabled | bool | - |
 
 
 

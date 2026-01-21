@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xe6\x01\n\rJonGuiDataPMU\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x12\n\nis_started\x18\x03 \x01(\x08\x12#\n\x05meteo\x18\x04 \x01(\x0b\x32\x14.ser.JonGuiDataMeteo\x12\x0f\n\x07voltage\x18\x05 \x01(\x01\x12\x1a\n\x12heater_power_state\x18\x06 \x01(\x08\x12\x13\n\x0bina_voltage\x18\x07 \x01(\x01\x12\x13\n\x0bina_current\x18\x08 \x01(\x01\x12\x11\n\tina_power\x18\t \x01(\x01\x12\x17\n\x0fina_power_fault\x18\n \x01(\x08J\x04\x08\x02\x10\x03\x42KZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmub\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xff\x01\n\rJonGuiDataPMU\x12\x13\n\x0btemperature\x18\x01 \x01(\x01\x12\x12\n\nis_started\x18\x03 \x01(\x08\x12#\n\x05meteo\x18\x04 \x01(\x0b\x32\x14.ser.JonGuiDataMeteo\x12\x0f\n\x07voltage\x18\x05 \x01(\x01\x12\x1a\n\x12heater_power_state\x18\x06 \x01(\x08\x12\x13\n\x0bina_voltage\x18\x07 \x01(\x01\x12\x13\n\x0bina_current\x18\x08 \x01(\x01\x12\x11\n\tina_power\x18\t \x01(\x01\x12\x17\n\x0fina_power_fault\x18\n \x01(\x08\x12\x17\n\x0f\x63harge_disabled\x18\x0b \x01(\x08J\x04\x08\x02\x10\x03\x42KZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmub\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,5 +34,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmu'
   _globals['_JONGUIDATAPMU']._serialized_start=64
-  _globals['_JONGUIDATAPMU']._serialized_end=294
+  _globals['_JONGUIDATAPMU']._serialized_end=319
 # @@protoc_insertion_point(module_scope)

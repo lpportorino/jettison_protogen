@@ -35,8 +35,10 @@ type JonGuiDataPMU struct {
 	InaCurrent    float64 `protobuf:"fixed64,8,opt,name=ina_current,json=inaCurrent,proto3" json:"ina_current,omitempty"`
 	InaPower      float64 `protobuf:"fixed64,9,opt,name=ina_power,json=inaPower,proto3" json:"ina_power,omitempty"`
 	InaPowerFault bool    `protobuf:"varint,10,opt,name=ina_power_fault,json=inaPowerFault,proto3" json:"ina_power_fault,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// Battery charging status (false = charging enabled by default)
+	ChargeDisabled bool `protobuf:"varint,11,opt,name=charge_disabled,json=chargeDisabled,proto3" json:"charge_disabled,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *JonGuiDataPMU) Reset() {
@@ -132,11 +134,18 @@ func (x *JonGuiDataPMU) GetInaPowerFault() bool {
 	return false
 }
 
+func (x *JonGuiDataPMU) GetChargeDisabled() bool {
+	if x != nil {
+		return x.ChargeDisabled
+	}
+	return false
+}
+
 var File_jon_shared_data_pmu_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_pmu_proto_rawDesc = "" +
 	"\n" +
-	"\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf2\x03\n" +
+	"\x19jon_shared_data_pmu.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x9b\x04\n" +
 	"\rJonGuiDataPMU\x12]\n" +
 	"\vtemperature\x18\x01 \x01(\x01B;\xbaH8\x126I\x00\x00\x00\x00\x00\x004\xc0I\x00\x00\x00\x00\x00\x00\x00\x00I\x00\x00\x00\x00\x00\x009@I\x00\x00\x00\x00\x00\x00Y@\x19\xc3\xf5(\\\x8f\xa2\x84@)fffff\x12q\xc0R\vtemperature\x12\x1d\n" +
 	"\n" +
@@ -150,7 +159,8 @@ const file_jon_shared_data_pmu_proto_rawDesc = "" +
 	"inaCurrent\x124\n" +
 	"\tina_power\x18\t \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x80\x86@)\x00\x00\x00\x00\x00\x00\x00\x00R\binaPower\x12&\n" +
 	"\x0fina_power_fault\x18\n" +
-	" \x01(\bR\rinaPowerFaultJ\x04\b\x02\x10\x03B\x97\x01\n" +
+	" \x01(\bR\rinaPowerFault\x12'\n" +
+	"\x0fcharge_disabled\x18\v \x01(\bR\x0echargeDisabledJ\x04\b\x02\x10\x03B\x97\x01\n" +
 	"\acom.serB\x15JonSharedDataPmuProtoP\x01ZIgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmu\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

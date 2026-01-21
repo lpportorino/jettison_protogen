@@ -37,7 +37,8 @@ inline constexpr JonGuiDataPMU::Impl_::Impl_(
         ina_power_{0},
         is_started_{false},
         heater_power_state_{false},
-        ina_power_fault_{false} {}
+        ina_power_fault_{false},
+        charge_disabled_{false} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR JonGuiDataPMU::JonGuiDataPMU(::_pbi::ConstantInitialized)
@@ -83,9 +84,11 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.ina_current_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.ina_power_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.ina_power_fault_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataPMU, _impl_.charge_disabled_),
         ~0u,
         ~0u,
         0,
+        ~0u,
         ~0u,
         ~0u,
         ~0u,
@@ -96,7 +99,7 @@ const ::uint32_t
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 17, -1, sizeof(::ser::JonGuiDataPMU)},
+        {0, 18, -1, sizeof(::ser::JonGuiDataPMU)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataPMU_default_instance_._instance,
@@ -105,7 +108,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\207\003\n\rJonGuiDataPMU\022P\n\013temperat"
+    "ypes.proto\"\240\003\n\rJonGuiDataPMU\022P\n\013temperat"
     "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000"
     "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta"
     "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa"
@@ -114,10 +117,10 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto[] ABSL_AT
     "\013ina_voltage\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000B@)\000\000\000\000\000"
     "\000\000\000\022,\n\013ina_current\030\010 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\0004@"
     ")\000\000\000\000\000\0004\300\022*\n\tina_power\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000"
-    "\000\200\206@)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010J\004"
-    "\010\002\020\003BKZIgit-codecommit.eu-central-1.amaz"
-    "onaws.com/v1/repos/jettison/jonp/data/pm"
-    "ub\006proto3"
+    "\000\200\206@)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010\022\027"
+    "\n\017charge_disabled\030\013 \001(\010J\004\010\002\020\003BKZIgit-cod"
+    "ecommit.eu-central-1.amazonaws.com/v1/re"
+    "pos/jettison/jonp/data/pmub\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_deps[2] =
     {
@@ -128,7 +131,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto = {
     false,
     false,
-    569,
+    594,
     descriptor_table_protodef_jon_5fshared_5fdata_5fpmu_2eproto,
     "jon_shared_data_pmu.proto",
     &descriptor_table_jon_5fshared_5fdata_5fpmu_2eproto_once,
@@ -193,9 +196,9 @@ JonGuiDataPMU::JonGuiDataPMU(
                offsetof(Impl_, temperature_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, temperature_),
-           offsetof(Impl_, ina_power_fault_) -
+           offsetof(Impl_, charge_disabled_) -
                offsetof(Impl_, temperature_) +
-               sizeof(Impl_::ina_power_fault_));
+               sizeof(Impl_::charge_disabled_));
 
   // @@protoc_insertion_point(copy_constructor:ser.JonGuiDataPMU)
 }
@@ -209,9 +212,9 @@ inline void JonGuiDataPMU::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, meteo_),
            0,
-           offsetof(Impl_, ina_power_fault_) -
+           offsetof(Impl_, charge_disabled_) -
                offsetof(Impl_, meteo_) +
-               sizeof(Impl_::ina_power_fault_));
+               sizeof(Impl_::charge_disabled_));
 }
 JonGuiDataPMU::~JonGuiDataPMU() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataPMU)
@@ -261,15 +264,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataPMU::GetClassData() con
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataPMU::_table_ = {
+const ::_pbi::TcParseTable<4, 10, 1, 0, 2> JonGuiDataPMU::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_._has_bits_),
     0, // no _extensions_
-    10, 120,  // max_field_number, fast_idx_mask
+    11, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966274,  // skipmap
+    4294965250,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
+    10,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -308,7 +311,9 @@ const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataPMU::_table_ = {
     // bool ina_power_fault = 10;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataPMU, _impl_.ina_power_fault_), 63>(),
      {80, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.ina_power_fault_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // bool charge_disabled = 11;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(JonGuiDataPMU, _impl_.charge_disabled_), 63>(),
+     {88, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.charge_disabled_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -343,6 +348,9 @@ const ::_pbi::TcParseTable<4, 9, 1, 0, 2> JonGuiDataPMU::_table_ = {
     // bool ina_power_fault = 10;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.ina_power_fault_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // bool charge_disabled = 11;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.charge_disabled_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
   }}, {{
@@ -362,8 +370,8 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
     _impl_.meteo_->Clear();
   }
   ::memset(&_impl_.temperature_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.ina_power_fault_) -
-      reinterpret_cast<char*>(&_impl_.temperature_)) + sizeof(_impl_.ina_power_fault_));
+      reinterpret_cast<char*>(&_impl_.charge_disabled_) -
+      reinterpret_cast<char*>(&_impl_.temperature_)) + sizeof(_impl_.charge_disabled_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -447,6 +455,13 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
                 10, this_._internal_ina_power_fault(), target);
           }
 
+          // bool charge_disabled = 11;
+          if (this_._internal_charge_disabled() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteBoolToArray(
+                11, this_._internal_charge_disabled(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -512,6 +527,10 @@ PROTOBUF_NOINLINE void JonGuiDataPMU::Clear() {
             if (this_._internal_ina_power_fault() != 0) {
               total_size += 2;
             }
+            // bool charge_disabled = 11;
+            if (this_._internal_charge_disabled() != 0) {
+              total_size += 2;
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -560,6 +579,9 @@ void JonGuiDataPMU::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   if (from._internal_ina_power_fault() != 0) {
     _this->_impl_.ina_power_fault_ = from._impl_.ina_power_fault_;
   }
+  if (from._internal_charge_disabled() != 0) {
+    _this->_impl_.charge_disabled_ = from._impl_.charge_disabled_;
+  }
   _this->_impl_._has_bits_[0] |= cached_has_bits;
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -577,8 +599,8 @@ void JonGuiDataPMU::InternalSwap(JonGuiDataPMU* PROTOBUF_RESTRICT other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.ina_power_fault_)
-      + sizeof(JonGuiDataPMU::_impl_.ina_power_fault_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.charge_disabled_)
+      + sizeof(JonGuiDataPMU::_impl_.charge_disabled_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataPMU, _impl_.meteo_)>(
           reinterpret_cast<char*>(&_impl_.meteo_),
           reinterpret_cast<char*>(&other->_impl_.meteo_));

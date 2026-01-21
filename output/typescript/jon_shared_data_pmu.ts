@@ -20,6 +20,8 @@ export interface JonGuiDataPMU {
   inaCurrent: number;
   inaPower: number;
   inaPowerFault: boolean;
+  /** Battery charging status (false = charging enabled by default) */
+  chargeDisabled: boolean;
 }
 
 function createBaseJonGuiDataPMU(): JonGuiDataPMU {
@@ -33,6 +35,7 @@ function createBaseJonGuiDataPMU(): JonGuiDataPMU {
     inaCurrent: 0,
     inaPower: 0,
     inaPowerFault: false,
+    chargeDisabled: false,
   };
 }
 
@@ -64,6 +67,9 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     }
     if (message.inaPowerFault !== false) {
       writer.uint32(80).bool(message.inaPowerFault);
+    }
+    if (message.chargeDisabled !== false) {
+      writer.uint32(88).bool(message.chargeDisabled);
     }
     return writer;
   },
@@ -147,6 +153,14 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
           message.inaPowerFault = reader.bool();
           continue;
         }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.chargeDisabled = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -191,6 +205,11 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
         : isSet(object.ina_power_fault)
         ? globalThis.Boolean(object.ina_power_fault)
         : false,
+      chargeDisabled: isSet(object.chargeDisabled)
+        ? globalThis.Boolean(object.chargeDisabled)
+        : isSet(object.charge_disabled)
+        ? globalThis.Boolean(object.charge_disabled)
+        : false,
     };
   },
 
@@ -223,6 +242,9 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     if (message.inaPowerFault !== false) {
       obj.inaPowerFault = message.inaPowerFault;
     }
+    if (message.chargeDisabled !== false) {
+      obj.chargeDisabled = message.chargeDisabled;
+    }
     return obj;
   },
 
@@ -242,6 +264,7 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     message.inaCurrent = object.inaCurrent ?? 0;
     message.inaPower = object.inaPower ?? 0;
     message.inaPowerFault = object.inaPowerFault ?? false;
+    message.chargeDisabled = object.chargeDisabled ?? false;
     return message;
   },
 };

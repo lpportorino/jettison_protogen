@@ -95,6 +95,16 @@ public final class JonSharedDataPmu {
      * @return The inaPowerFault.
      */
     boolean getInaPowerFault();
+
+    /**
+     * <pre>
+     * Battery charging status (false = charging enabled by default)
+     * </pre>
+     *
+     * <code>bool charge_disabled = 11;</code>
+     * @return The chargeDisabled.
+     */
+    boolean getChargeDisabled();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataPMU}
@@ -252,6 +262,21 @@ public final class JonSharedDataPmu {
       return inaPowerFault_;
     }
 
+    public static final int CHARGE_DISABLED_FIELD_NUMBER = 11;
+    private boolean chargeDisabled_ = false;
+    /**
+     * <pre>
+     * Battery charging status (false = charging enabled by default)
+     * </pre>
+     *
+     * <code>bool charge_disabled = 11;</code>
+     * @return The chargeDisabled.
+     */
+    @java.lang.Override
+    public boolean getChargeDisabled() {
+      return chargeDisabled_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -292,6 +317,9 @@ public final class JonSharedDataPmu {
       }
       if (inaPowerFault_ != false) {
         output.writeBool(10, inaPowerFault_);
+      }
+      if (chargeDisabled_ != false) {
+        output.writeBool(11, chargeDisabled_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -338,6 +366,10 @@ public final class JonSharedDataPmu {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(10, inaPowerFault_);
       }
+      if (chargeDisabled_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, chargeDisabled_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -379,6 +411,8 @@ public final class JonSharedDataPmu {
               other.getInaPower())) return false;
       if (getInaPowerFault()
           != other.getInaPowerFault()) return false;
+      if (getChargeDisabled()
+          != other.getChargeDisabled()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -418,6 +452,9 @@ public final class JonSharedDataPmu {
       hash = (37 * hash) + INA_POWER_FAULT_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getInaPowerFault());
+      hash = (37 * hash) + CHARGE_DISABLED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getChargeDisabled());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -568,6 +605,7 @@ public final class JonSharedDataPmu {
         inaCurrent_ = 0D;
         inaPower_ = 0D;
         inaPowerFault_ = false;
+        chargeDisabled_ = false;
         return this;
       }
 
@@ -632,6 +670,9 @@ public final class JonSharedDataPmu {
         if (((from_bitField0_ & 0x00000100) != 0)) {
           result.inaPowerFault_ = inaPowerFault_;
         }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.chargeDisabled_ = chargeDisabled_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -673,6 +714,9 @@ public final class JonSharedDataPmu {
         }
         if (other.getInaPowerFault() != false) {
           setInaPowerFault(other.getInaPowerFault());
+        }
+        if (other.getChargeDisabled() != false) {
+          setChargeDisabled(other.getChargeDisabled());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -747,6 +791,11 @@ public final class JonSharedDataPmu {
                 bitField0_ |= 0x00000100;
                 break;
               } // case 80
+              case 88: {
+                chargeDisabled_ = input.readBool();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 88
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1153,6 +1202,50 @@ public final class JonSharedDataPmu {
         return this;
       }
 
+      private boolean chargeDisabled_ ;
+      /**
+       * <pre>
+       * Battery charging status (false = charging enabled by default)
+       * </pre>
+       *
+       * <code>bool charge_disabled = 11;</code>
+       * @return The chargeDisabled.
+       */
+      @java.lang.Override
+      public boolean getChargeDisabled() {
+        return chargeDisabled_;
+      }
+      /**
+       * <pre>
+       * Battery charging status (false = charging enabled by default)
+       * </pre>
+       *
+       * <code>bool charge_disabled = 11;</code>
+       * @param value The chargeDisabled to set.
+       * @return This builder for chaining.
+       */
+      public Builder setChargeDisabled(boolean value) {
+
+        chargeDisabled_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Battery charging status (false = charging enabled by default)
+       * </pre>
+       *
+       * <code>bool charge_disabled = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearChargeDisabled() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        chargeDisabled_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPMU)
     }
 
@@ -1220,7 +1313,7 @@ public final class JonSharedDataPmu {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\207\003\n\rJonGuiDataPMU\022P\n\013temperat" +
+      "ypes.proto\"\240\003\n\rJonGuiDataPMU\022P\n\013temperat" +
       "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000" +
       "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta" +
       "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa" +
@@ -1229,10 +1322,10 @@ public final class JonSharedDataPmu {
       "\013ina_voltage\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000B@)\000\000\000\000\000" +
       "\000\000\000\022,\n\013ina_current\030\010 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\0004@" +
       ")\000\000\000\000\000\0004\300\022*\n\tina_power\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
-      "\000\200\206@)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010J\004" +
-      "\010\002\020\003BKZIgit-codecommit.eu-central-1.amaz" +
-      "onaws.com/v1/repos/jettison/jonp/data/pm" +
-      "ub\006proto3"
+      "\000\200\206@)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010\022\027" +
+      "\n\017charge_disabled\030\013 \001(\010J\004\010\002\020\003BKZIgit-cod" +
+      "ecommit.eu-central-1.amazonaws.com/v1/re" +
+      "pos/jettison/jonp/data/pmub\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1245,7 +1338,7 @@ public final class JonSharedDataPmu {
     internal_static_ser_JonGuiDataPMU_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPMU_descriptor,
-        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", "InaVoltage", "InaCurrent", "InaPower", "InaPowerFault", });
+        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", "InaVoltage", "InaCurrent", "InaPower", "InaPowerFault", "ChargeDisabled", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

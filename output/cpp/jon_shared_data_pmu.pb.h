@@ -225,6 +225,7 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
     kIsStartedFieldNumber = 3,
     kHeaterPowerStateFieldNumber = 6,
     kInaPowerFaultFieldNumber = 10,
+    kChargeDisabledFieldNumber = 11,
   };
   // .ser.JonGuiDataMeteo meteo = 4;
   bool has_meteo() const;
@@ -321,12 +322,22 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
   void _internal_set_ina_power_fault(bool value);
 
   public:
+  // bool charge_disabled = 11;
+  void clear_charge_disabled() ;
+  bool charge_disabled() const;
+  void set_charge_disabled(bool value);
+
+  private:
+  bool _internal_charge_disabled() const;
+  void _internal_set_charge_disabled(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataPMU)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 9, 1,
+      4, 10, 1,
       0, 2>
       _table_;
 
@@ -355,6 +366,7 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
     bool is_started_;
     bool heater_power_state_;
     bool ina_power_fault_;
+    bool charge_disabled_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -642,6 +654,28 @@ inline bool JonGuiDataPMU::_internal_ina_power_fault() const {
 inline void JonGuiDataPMU::_internal_set_ina_power_fault(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.ina_power_fault_ = value;
+}
+
+// bool charge_disabled = 11;
+inline void JonGuiDataPMU::clear_charge_disabled() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.charge_disabled_ = false;
+}
+inline bool JonGuiDataPMU::charge_disabled() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.charge_disabled)
+  return _internal_charge_disabled();
+}
+inline void JonGuiDataPMU::set_charge_disabled(bool value) {
+  _internal_set_charge_disabled(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.charge_disabled)
+}
+inline bool JonGuiDataPMU::_internal_charge_disabled() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.charge_disabled_;
+}
+inline void JonGuiDataPMU::_internal_set_charge_disabled(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.charge_disabled_ = value;
 }
 
 #ifdef __GNUC__

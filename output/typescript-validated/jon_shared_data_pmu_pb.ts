@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_data_pmu.proto.
  */
 export const file_jon_shared_data_pmu: GenFile = /*@__PURE__*/
-  fileDesc("Chlqb25fc2hhcmVkX2RhdGFfcG11LnByb3RvEgNzZXIihwMKDUpvbkd1aURhdGFQTVUSUAoLdGVtcGVyYXR1cmUYASABKAFCO7pIOBI2GcP1KFyPooRAKWZmZmZmEnHASQAAAAAAADTASQAAAAAAAAAASQAAAAAAADlASQAAAAAAAFlAEhIKCmlzX3N0YXJ0ZWQYAyABKAgSIwoFbWV0ZW8YBCABKAsyFC5zZXIuSm9uR3VpRGF0YU1ldGVvEigKB3ZvbHRhZ2UYBSABKAFCF7pIFBISGQAAAAAAAE5AKQAAAAAAAABAEhoKEmhlYXRlcl9wb3dlcl9zdGF0ZRgGIAEoCBIsCgtpbmFfdm9sdGFnZRgHIAEoAUIXukgUEhIZAAAAAAAAQkApAAAAAAAAAAASLAoLaW5hX2N1cnJlbnQYCCABKAFCF7pIFBISGQAAAAAAADRAKQAAAAAAADTAEioKCWluYV9wb3dlchgJIAEoAUIXukgUEhIZAAAAAACAhkApAAAAAAAAAAASFwoPaW5hX3Bvd2VyX2ZhdWx0GAogASgISgQIAhADQktaSWdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvZGF0YS9wbXViBnByb3RvMw", [file_buf_validate_validate, file_jon_shared_data_types]);
+  fileDesc("Chlqb25fc2hhcmVkX2RhdGFfcG11LnByb3RvEgNzZXIioAMKDUpvbkd1aURhdGFQTVUSUAoLdGVtcGVyYXR1cmUYASABKAFCO7pIOBI2GcP1KFyPooRAKWZmZmZmEnHASQAAAAAAADTASQAAAAAAAAAASQAAAAAAADlASQAAAAAAAFlAEhIKCmlzX3N0YXJ0ZWQYAyABKAgSIwoFbWV0ZW8YBCABKAsyFC5zZXIuSm9uR3VpRGF0YU1ldGVvEigKB3ZvbHRhZ2UYBSABKAFCF7pIFBISGQAAAAAAAE5AKQAAAAAAAABAEhoKEmhlYXRlcl9wb3dlcl9zdGF0ZRgGIAEoCBIsCgtpbmFfdm9sdGFnZRgHIAEoAUIXukgUEhIZAAAAAAAAQkApAAAAAAAAAAASLAoLaW5hX2N1cnJlbnQYCCABKAFCF7pIFBISGQAAAAAAADRAKQAAAAAAADTAEioKCWluYV9wb3dlchgJIAEoAUIXukgUEhIZAAAAAACAhkApAAAAAAAAAAASFwoPaW5hX3Bvd2VyX2ZhdWx0GAogASgIEhcKD2NoYXJnZV9kaXNhYmxlZBgLIAEoCEoECAIQA0JLWklnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2RhdGEvcG11YgZwcm90bzM", [file_buf_validate_validate, file_jon_shared_data_types]);
 
 /**
  * @generated from message ser.JonGuiDataPMU
@@ -65,6 +65,13 @@ export type JonGuiDataPMU = Message<"ser.JonGuiDataPMU"> & {
    * @generated from field: bool ina_power_fault = 10;
    */
   inaPowerFault: boolean;
+
+  /**
+   * Battery charging status (false = charging enabled by default)
+   *
+   * @generated from field: bool charge_disabled = 11;
+   */
+  chargeDisabled: boolean;
 };
 
 /**

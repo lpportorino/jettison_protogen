@@ -35,4 +35,7 @@ message JonGuiDataPMU {
     lte: 720.0  // Max power = 36V * 20A
   }];
   bool ina_power_fault = 10;
+
+  // Battery charging status (false = charging enabled by default)
+  bool charge_disabled = 11;
 }
