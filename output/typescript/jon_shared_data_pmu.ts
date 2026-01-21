@@ -15,10 +15,25 @@ export interface JonGuiDataPMU {
   meteo: JonGuiDataMeteo | undefined;
   voltage: number;
   heaterPowerState: boolean;
+  /** INA236 power monitor */
+  inaVoltage: number;
+  inaCurrent: number;
+  inaPower: number;
+  inaPowerFault: boolean;
 }
 
 function createBaseJonGuiDataPMU(): JonGuiDataPMU {
-  return { temperature: 0, isStarted: false, meteo: undefined, voltage: 0, heaterPowerState: false };
+  return {
+    temperature: 0,
+    isStarted: false,
+    meteo: undefined,
+    voltage: 0,
+    heaterPowerState: false,
+    inaVoltage: 0,
+    inaCurrent: 0,
+    inaPower: 0,
+    inaPowerFault: false,
+  };
 }
 
 export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
@@ -37,6 +52,18 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     }
     if (message.heaterPowerState !== false) {
       writer.uint32(48).bool(message.heaterPowerState);
+    }
+    if (message.inaVoltage !== 0) {
+      writer.uint32(57).double(message.inaVoltage);
+    }
+    if (message.inaCurrent !== 0) {
+      writer.uint32(65).double(message.inaCurrent);
+    }
+    if (message.inaPower !== 0) {
+      writer.uint32(73).double(message.inaPower);
+    }
+    if (message.inaPowerFault !== false) {
+      writer.uint32(80).bool(message.inaPowerFault);
     }
     return writer;
   },
@@ -88,6 +115,38 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
           message.heaterPowerState = reader.bool();
           continue;
         }
+        case 7: {
+          if (tag !== 57) {
+            break;
+          }
+
+          message.inaVoltage = reader.double();
+          continue;
+        }
+        case 8: {
+          if (tag !== 65) {
+            break;
+          }
+
+          message.inaCurrent = reader.double();
+          continue;
+        }
+        case 9: {
+          if (tag !== 73) {
+            break;
+          }
+
+          message.inaPower = reader.double();
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.inaPowerFault = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -112,6 +171,26 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
         : isSet(object.heater_power_state)
         ? globalThis.Boolean(object.heater_power_state)
         : false,
+      inaVoltage: isSet(object.inaVoltage)
+        ? globalThis.Number(object.inaVoltage)
+        : isSet(object.ina_voltage)
+        ? globalThis.Number(object.ina_voltage)
+        : 0,
+      inaCurrent: isSet(object.inaCurrent)
+        ? globalThis.Number(object.inaCurrent)
+        : isSet(object.ina_current)
+        ? globalThis.Number(object.ina_current)
+        : 0,
+      inaPower: isSet(object.inaPower)
+        ? globalThis.Number(object.inaPower)
+        : isSet(object.ina_power)
+        ? globalThis.Number(object.ina_power)
+        : 0,
+      inaPowerFault: isSet(object.inaPowerFault)
+        ? globalThis.Boolean(object.inaPowerFault)
+        : isSet(object.ina_power_fault)
+        ? globalThis.Boolean(object.ina_power_fault)
+        : false,
     };
   },
 
@@ -132,6 +211,18 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
     if (message.heaterPowerState !== false) {
       obj.heaterPowerState = message.heaterPowerState;
     }
+    if (message.inaVoltage !== 0) {
+      obj.inaVoltage = message.inaVoltage;
+    }
+    if (message.inaCurrent !== 0) {
+      obj.inaCurrent = message.inaCurrent;
+    }
+    if (message.inaPower !== 0) {
+      obj.inaPower = message.inaPower;
+    }
+    if (message.inaPowerFault !== false) {
+      obj.inaPowerFault = message.inaPowerFault;
+    }
     return obj;
   },
 
@@ -147,6 +238,10 @@ export const JonGuiDataPMU: MessageFns<JonGuiDataPMU> = {
       : undefined;
     message.voltage = object.voltage ?? 0;
     message.heaterPowerState = object.heaterPowerState ?? false;
+    message.inaVoltage = object.inaVoltage ?? 0;
+    message.inaCurrent = object.inaCurrent ?? 0;
+    message.inaPower = object.inaPower ?? 0;
+    message.inaPowerFault = object.inaPowerFault ?? false;
     return message;
   },
 };

@@ -67,6 +67,34 @@ public final class JonSharedDataPmu {
      * @return The heaterPowerState.
      */
     boolean getHeaterPowerState();
+
+    /**
+     * <pre>
+     * INA236 power monitor
+     * </pre>
+     *
+     * <code>double ina_voltage = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The inaVoltage.
+     */
+    double getInaVoltage();
+
+    /**
+     * <code>double ina_current = 8 [(.buf.validate.field) = { ... }</code>
+     * @return The inaCurrent.
+     */
+    double getInaCurrent();
+
+    /**
+     * <code>double ina_power = 9 [(.buf.validate.field) = { ... }</code>
+     * @return The inaPower.
+     */
+    double getInaPower();
+
+    /**
+     * <code>bool ina_power_fault = 10;</code>
+     * @return The inaPowerFault.
+     */
+    boolean getInaPowerFault();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataPMU}
@@ -176,6 +204,54 @@ public final class JonSharedDataPmu {
       return heaterPowerState_;
     }
 
+    public static final int INA_VOLTAGE_FIELD_NUMBER = 7;
+    private double inaVoltage_ = 0D;
+    /**
+     * <pre>
+     * INA236 power monitor
+     * </pre>
+     *
+     * <code>double ina_voltage = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The inaVoltage.
+     */
+    @java.lang.Override
+    public double getInaVoltage() {
+      return inaVoltage_;
+    }
+
+    public static final int INA_CURRENT_FIELD_NUMBER = 8;
+    private double inaCurrent_ = 0D;
+    /**
+     * <code>double ina_current = 8 [(.buf.validate.field) = { ... }</code>
+     * @return The inaCurrent.
+     */
+    @java.lang.Override
+    public double getInaCurrent() {
+      return inaCurrent_;
+    }
+
+    public static final int INA_POWER_FIELD_NUMBER = 9;
+    private double inaPower_ = 0D;
+    /**
+     * <code>double ina_power = 9 [(.buf.validate.field) = { ... }</code>
+     * @return The inaPower.
+     */
+    @java.lang.Override
+    public double getInaPower() {
+      return inaPower_;
+    }
+
+    public static final int INA_POWER_FAULT_FIELD_NUMBER = 10;
+    private boolean inaPowerFault_ = false;
+    /**
+     * <code>bool ina_power_fault = 10;</code>
+     * @return The inaPowerFault.
+     */
+    @java.lang.Override
+    public boolean getInaPowerFault() {
+      return inaPowerFault_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -205,6 +281,18 @@ public final class JonSharedDataPmu {
       if (heaterPowerState_ != false) {
         output.writeBool(6, heaterPowerState_);
       }
+      if (java.lang.Double.doubleToRawLongBits(inaVoltage_) != 0) {
+        output.writeDouble(7, inaVoltage_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(inaCurrent_) != 0) {
+        output.writeDouble(8, inaCurrent_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(inaPower_) != 0) {
+        output.writeDouble(9, inaPower_);
+      }
+      if (inaPowerFault_ != false) {
+        output.writeBool(10, inaPowerFault_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -233,6 +321,22 @@ public final class JonSharedDataPmu {
       if (heaterPowerState_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(6, heaterPowerState_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(inaVoltage_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(7, inaVoltage_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(inaCurrent_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(8, inaCurrent_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(inaPower_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(9, inaPower_);
+      }
+      if (inaPowerFault_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(10, inaPowerFault_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -264,6 +368,17 @@ public final class JonSharedDataPmu {
               other.getVoltage())) return false;
       if (getHeaterPowerState()
           != other.getHeaterPowerState()) return false;
+      if (java.lang.Double.doubleToLongBits(getInaVoltage())
+          != java.lang.Double.doubleToLongBits(
+              other.getInaVoltage())) return false;
+      if (java.lang.Double.doubleToLongBits(getInaCurrent())
+          != java.lang.Double.doubleToLongBits(
+              other.getInaCurrent())) return false;
+      if (java.lang.Double.doubleToLongBits(getInaPower())
+          != java.lang.Double.doubleToLongBits(
+              other.getInaPower())) return false;
+      if (getInaPowerFault()
+          != other.getInaPowerFault()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -291,6 +406,18 @@ public final class JonSharedDataPmu {
       hash = (37 * hash) + HEATER_POWER_STATE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getHeaterPowerState());
+      hash = (37 * hash) + INA_VOLTAGE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getInaVoltage()));
+      hash = (37 * hash) + INA_CURRENT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getInaCurrent()));
+      hash = (37 * hash) + INA_POWER_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getInaPower()));
+      hash = (37 * hash) + INA_POWER_FAULT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getInaPowerFault());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -437,6 +564,10 @@ public final class JonSharedDataPmu {
         }
         voltage_ = 0D;
         heaterPowerState_ = false;
+        inaVoltage_ = 0D;
+        inaCurrent_ = 0D;
+        inaPower_ = 0D;
+        inaPowerFault_ = false;
         return this;
       }
 
@@ -489,6 +620,18 @@ public final class JonSharedDataPmu {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.heaterPowerState_ = heaterPowerState_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.inaVoltage_ = inaVoltage_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.inaCurrent_ = inaCurrent_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.inaPower_ = inaPower_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.inaPowerFault_ = inaPowerFault_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -518,6 +661,18 @@ public final class JonSharedDataPmu {
         }
         if (other.getHeaterPowerState() != false) {
           setHeaterPowerState(other.getHeaterPowerState());
+        }
+        if (other.getInaVoltage() != 0D) {
+          setInaVoltage(other.getInaVoltage());
+        }
+        if (other.getInaCurrent() != 0D) {
+          setInaCurrent(other.getInaCurrent());
+        }
+        if (other.getInaPower() != 0D) {
+          setInaPower(other.getInaPower());
+        }
+        if (other.getInaPowerFault() != false) {
+          setInaPowerFault(other.getInaPowerFault());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -572,6 +727,26 @@ public final class JonSharedDataPmu {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 48
+              case 57: {
+                inaVoltage_ = input.readDouble();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 57
+              case 65: {
+                inaCurrent_ = input.readDouble();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 65
+              case 73: {
+                inaPower_ = input.readDouble();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 73
+              case 80: {
+                inaPowerFault_ = input.readBool();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 80
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -838,6 +1013,146 @@ public final class JonSharedDataPmu {
         return this;
       }
 
+      private double inaVoltage_ ;
+      /**
+       * <pre>
+       * INA236 power monitor
+       * </pre>
+       *
+       * <code>double ina_voltage = 7 [(.buf.validate.field) = { ... }</code>
+       * @return The inaVoltage.
+       */
+      @java.lang.Override
+      public double getInaVoltage() {
+        return inaVoltage_;
+      }
+      /**
+       * <pre>
+       * INA236 power monitor
+       * </pre>
+       *
+       * <code>double ina_voltage = 7 [(.buf.validate.field) = { ... }</code>
+       * @param value The inaVoltage to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInaVoltage(double value) {
+
+        inaVoltage_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * INA236 power monitor
+       * </pre>
+       *
+       * <code>double ina_voltage = 7 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInaVoltage() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        inaVoltage_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double inaCurrent_ ;
+      /**
+       * <code>double ina_current = 8 [(.buf.validate.field) = { ... }</code>
+       * @return The inaCurrent.
+       */
+      @java.lang.Override
+      public double getInaCurrent() {
+        return inaCurrent_;
+      }
+      /**
+       * <code>double ina_current = 8 [(.buf.validate.field) = { ... }</code>
+       * @param value The inaCurrent to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInaCurrent(double value) {
+
+        inaCurrent_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double ina_current = 8 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInaCurrent() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        inaCurrent_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double inaPower_ ;
+      /**
+       * <code>double ina_power = 9 [(.buf.validate.field) = { ... }</code>
+       * @return The inaPower.
+       */
+      @java.lang.Override
+      public double getInaPower() {
+        return inaPower_;
+      }
+      /**
+       * <code>double ina_power = 9 [(.buf.validate.field) = { ... }</code>
+       * @param value The inaPower to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInaPower(double value) {
+
+        inaPower_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double ina_power = 9 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInaPower() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        inaPower_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private boolean inaPowerFault_ ;
+      /**
+       * <code>bool ina_power_fault = 10;</code>
+       * @return The inaPowerFault.
+       */
+      @java.lang.Override
+      public boolean getInaPowerFault() {
+        return inaPowerFault_;
+      }
+      /**
+       * <code>bool ina_power_fault = 10;</code>
+       * @param value The inaPowerFault to set.
+       * @return This builder for chaining.
+       */
+      public Builder setInaPowerFault(boolean value) {
+
+        inaPowerFault_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool ina_power_fault = 10;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearInaPowerFault() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        inaPowerFault_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataPMU)
     }
 
@@ -905,15 +1220,19 @@ public final class JonSharedDataPmu {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_pmu.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\346\001\n\rJonGuiDataPMU\022P\n\013temperat" +
+      "ypes.proto\"\207\003\n\rJonGuiDataPMU\022P\n\013temperat" +
       "ure\030\001 \001(\001B;\272H8\0226\031\303\365(\\\217\242\204@)fffff\022q\300I\000\000\000\000\000" +
       "\0004\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\0009@I\000\000\000\000\000\000Y@\022\022\n\nis_sta" +
       "rted\030\003 \001(\010\022#\n\005meteo\030\004 \001(\0132\024.ser.JonGuiDa" +
       "taMeteo\022(\n\007voltage\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000N@" +
-      ")\000\000\000\000\000\000\000@\022\032\n\022heater_power_state\030\006 \001(\010J\004\010" +
-      "\002\020\003BKZIgit-codecommit.eu-central-1.amazo" +
-      "naws.com/v1/repos/jettison/jonp/data/pmu" +
-      "b\006proto3"
+      ")\000\000\000\000\000\000\000@\022\032\n\022heater_power_state\030\006 \001(\010\022,\n" +
+      "\013ina_voltage\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000B@)\000\000\000\000\000" +
+      "\000\000\000\022,\n\013ina_current\030\010 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\0004@" +
+      ")\000\000\000\000\000\0004\300\022*\n\tina_power\030\t \001(\001B\027\272H\024\022\022\031\000\000\000\000" +
+      "\000\200\206@)\000\000\000\000\000\000\000\000\022\027\n\017ina_power_fault\030\n \001(\010J\004" +
+      "\010\002\020\003BKZIgit-codecommit.eu-central-1.amaz" +
+      "onaws.com/v1/repos/jettison/jonp/data/pm" +
+      "ub\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -926,7 +1245,7 @@ public final class JonSharedDataPmu {
     internal_static_ser_JonGuiDataPMU_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataPMU_descriptor,
-        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", });
+        new java.lang.String[] { "Temperature", "IsStarted", "Meteo", "Voltage", "HeaterPowerState", "InaVoltage", "InaCurrent", "InaPower", "InaPowerFault", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

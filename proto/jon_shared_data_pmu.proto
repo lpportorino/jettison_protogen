@@ -20,4 +20,19 @@ message JonGuiDataPMU {
     lte: 60.0
   }];
   bool heater_power_state = 6;
+
+  // INA236 power monitor
+  double ina_voltage = 7 [(buf.validate.field).double = {
+    gte: 0.0,
+    lte: 36.0  // INA236 max bus voltage
+  }];
+  double ina_current = 8 [(buf.validate.field).double = {
+    gte: -20.0,
+    lte: 20.0  // Bidirectional current measurement
+  }];
+  double ina_power = 9 [(buf.validate.field).double = {
+    gte: 0.0,
+    lte: 720.0  // Max power = 36V * 20A
+  }];
+  bool ina_power_fault = 10;
 }

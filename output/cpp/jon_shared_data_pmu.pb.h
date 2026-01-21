@@ -219,8 +219,12 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
     kMeteoFieldNumber = 4,
     kTemperatureFieldNumber = 1,
     kVoltageFieldNumber = 5,
+    kInaVoltageFieldNumber = 7,
+    kInaCurrentFieldNumber = 8,
+    kInaPowerFieldNumber = 9,
     kIsStartedFieldNumber = 3,
     kHeaterPowerStateFieldNumber = 6,
+    kInaPowerFaultFieldNumber = 10,
   };
   // .ser.JonGuiDataMeteo meteo = 4;
   bool has_meteo() const;
@@ -257,6 +261,36 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
   void _internal_set_voltage(double value);
 
   public:
+  // double ina_voltage = 7 [(.buf.validate.field) = {
+  void clear_ina_voltage() ;
+  double ina_voltage() const;
+  void set_ina_voltage(double value);
+
+  private:
+  double _internal_ina_voltage() const;
+  void _internal_set_ina_voltage(double value);
+
+  public:
+  // double ina_current = 8 [(.buf.validate.field) = {
+  void clear_ina_current() ;
+  double ina_current() const;
+  void set_ina_current(double value);
+
+  private:
+  double _internal_ina_current() const;
+  void _internal_set_ina_current(double value);
+
+  public:
+  // double ina_power = 9 [(.buf.validate.field) = {
+  void clear_ina_power() ;
+  double ina_power() const;
+  void set_ina_power(double value);
+
+  private:
+  double _internal_ina_power() const;
+  void _internal_set_ina_power(double value);
+
+  public:
   // bool is_started = 3;
   void clear_is_started() ;
   bool is_started() const;
@@ -277,12 +311,22 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
   void _internal_set_heater_power_state(bool value);
 
   public:
+  // bool ina_power_fault = 10;
+  void clear_ina_power_fault() ;
+  bool ina_power_fault() const;
+  void set_ina_power_fault(bool value);
+
+  private:
+  bool _internal_ina_power_fault() const;
+  void _internal_set_ina_power_fault(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataPMU)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 5, 1,
+      4, 9, 1,
       0, 2>
       _table_;
 
@@ -305,8 +349,12 @@ class JonGuiDataPMU final : public ::google::protobuf::Message
     ::ser::JonGuiDataMeteo* meteo_;
     double temperature_;
     double voltage_;
+    double ina_voltage_;
+    double ina_current_;
+    double ina_power_;
     bool is_started_;
     bool heater_power_state_;
+    bool ina_power_fault_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -506,6 +554,94 @@ inline bool JonGuiDataPMU::_internal_heater_power_state() const {
 inline void JonGuiDataPMU::_internal_set_heater_power_state(bool value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.heater_power_state_ = value;
+}
+
+// double ina_voltage = 7 [(.buf.validate.field) = {
+inline void JonGuiDataPMU::clear_ina_voltage() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_voltage_ = 0;
+}
+inline double JonGuiDataPMU::ina_voltage() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.ina_voltage)
+  return _internal_ina_voltage();
+}
+inline void JonGuiDataPMU::set_ina_voltage(double value) {
+  _internal_set_ina_voltage(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.ina_voltage)
+}
+inline double JonGuiDataPMU::_internal_ina_voltage() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ina_voltage_;
+}
+inline void JonGuiDataPMU::_internal_set_ina_voltage(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_voltage_ = value;
+}
+
+// double ina_current = 8 [(.buf.validate.field) = {
+inline void JonGuiDataPMU::clear_ina_current() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_current_ = 0;
+}
+inline double JonGuiDataPMU::ina_current() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.ina_current)
+  return _internal_ina_current();
+}
+inline void JonGuiDataPMU::set_ina_current(double value) {
+  _internal_set_ina_current(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.ina_current)
+}
+inline double JonGuiDataPMU::_internal_ina_current() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ina_current_;
+}
+inline void JonGuiDataPMU::_internal_set_ina_current(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_current_ = value;
+}
+
+// double ina_power = 9 [(.buf.validate.field) = {
+inline void JonGuiDataPMU::clear_ina_power() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_power_ = 0;
+}
+inline double JonGuiDataPMU::ina_power() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.ina_power)
+  return _internal_ina_power();
+}
+inline void JonGuiDataPMU::set_ina_power(double value) {
+  _internal_set_ina_power(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.ina_power)
+}
+inline double JonGuiDataPMU::_internal_ina_power() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ina_power_;
+}
+inline void JonGuiDataPMU::_internal_set_ina_power(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_power_ = value;
+}
+
+// bool ina_power_fault = 10;
+inline void JonGuiDataPMU::clear_ina_power_fault() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_power_fault_ = false;
+}
+inline bool JonGuiDataPMU::ina_power_fault() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataPMU.ina_power_fault)
+  return _internal_ina_power_fault();
+}
+inline void JonGuiDataPMU::set_ina_power_fault(bool value) {
+  _internal_set_ina_power_fault(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataPMU.ina_power_fault)
+}
+inline bool JonGuiDataPMU::_internal_ina_power_fault() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ina_power_fault_;
+}
+inline void JonGuiDataPMU::_internal_set_ina_power_fault(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ina_power_fault_ = value;
 }
 
 #ifdef __GNUC__

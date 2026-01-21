@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 260 messages, 21 enums, 670 fields
+**Statistics:** 260 messages, 21 enums, 674 fields
 
 ## Messages by Package
 
@@ -226,13 +226,13 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### cmd.PMU
 
-- [[proto/cmd.PMU.BootHeater|BootHeater]]
-- [[proto/cmd.PMU.ChargeDisable|ChargeDisable]]
-- [[proto/cmd.PMU.ChargeEnable|ChargeEnable]]
-- [[proto/cmd.PMU.GetDataU1|GetDataU1]]
-- [[proto/cmd.PMU.GetHeaterPowerState|GetHeaterPowerState]]
+- [[proto/cmd.PMU.BootHeater|BootHeater]] — *No description yet.*
+- [[proto/cmd.PMU.ChargeDisable|ChargeDisable]] — *No description yet.*
+- [[proto/cmd.PMU.ChargeEnable|ChargeEnable]] — *No description yet.*
+- [[proto/cmd.PMU.GetDataU1|GetDataU1]] — *No description yet.*
+- [[proto/cmd.PMU.GetHeaterPowerState|GetHeaterPowerState]] — *No description yet.*
 - [[proto/cmd.PMU.GetMeteo|GetMeteo]] — *No description yet.*
-- [[proto/cmd.PMU.PowerOff|PowerOff]]
+- [[proto/cmd.PMU.PowerOff|PowerOff]] — *No description yet.*
 - [[proto/cmd.PMU.Root|Root]] — *No description yet.*
 - [[proto/cmd.PMU.Start|Start]] — *No description yet.*
 - [[proto/cmd.PMU.Stop|Stop]] — *No description yet.*

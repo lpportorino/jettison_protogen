@@ -18,6 +18,11 @@ typedef struct _ser_JonGuiDataPMU {
     ser_JonGuiDataMeteo meteo;
     double voltage;
     bool heater_power_state;
+    /* INA236 power monitor */
+    double ina_voltage;
+    double ina_current;
+    double ina_power;
+    bool ina_power_fault;
 } ser_JonGuiDataPMU;
 
 
@@ -26,8 +31,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataPMU_init_default           {0, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0}
-#define ser_JonGuiDataPMU_init_zero              {0, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0}
+#define ser_JonGuiDataPMU_init_default           {0, 0, false, ser_JonGuiDataMeteo_init_default, 0, 0, 0, 0, 0, 0}
+#define ser_JonGuiDataPMU_init_zero              {0, 0, false, ser_JonGuiDataMeteo_init_zero, 0, 0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataPMU_temperature_tag        1
@@ -35,6 +40,10 @@ extern "C" {
 #define ser_JonGuiDataPMU_meteo_tag              4
 #define ser_JonGuiDataPMU_voltage_tag            5
 #define ser_JonGuiDataPMU_heater_power_state_tag 6
+#define ser_JonGuiDataPMU_ina_voltage_tag        7
+#define ser_JonGuiDataPMU_ina_current_tag        8
+#define ser_JonGuiDataPMU_ina_power_tag          9
+#define ser_JonGuiDataPMU_ina_power_fault_tag    10
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataPMU_FIELDLIST(X, a) \
@@ -42,7 +51,11 @@ X(a, STATIC,   SINGULAR, DOUBLE,   temperature,       1) \
 X(a, STATIC,   SINGULAR, BOOL,     is_started,        3) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,             4) \
 X(a, STATIC,   SINGULAR, DOUBLE,   voltage,           5) \
-X(a, STATIC,   SINGULAR, BOOL,     heater_power_state,   6)
+X(a, STATIC,   SINGULAR, BOOL,     heater_power_state,   6) \
+X(a, STATIC,   SINGULAR, DOUBLE,   ina_voltage,       7) \
+X(a, STATIC,   SINGULAR, DOUBLE,   ina_current,       8) \
+X(a, STATIC,   SINGULAR, DOUBLE,   ina_power,         9) \
+X(a, STATIC,   SINGULAR, BOOL,     ina_power_fault,  10)
 #define ser_JonGuiDataPMU_CALLBACK NULL
 #define ser_JonGuiDataPMU_DEFAULT NULL
 #define ser_JonGuiDataPMU_meteo_MSGTYPE ser_JonGuiDataMeteo
@@ -54,7 +67,7 @@ extern const pb_msgdesc_t ser_JonGuiDataPMU_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_PMU_PB_H_MAX_SIZE    ser_JonGuiDataPMU_size
-#define ser_JonGuiDataPMU_size                   51
+#define ser_JonGuiDataPMU_size                   80
 
 #ifdef __cplusplus
 } /* extern "C" */
