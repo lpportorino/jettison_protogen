@@ -945,6 +945,15 @@ pub struct JonGuiDataPmu {
     pub voltage: f64,
     #[prost(bool, tag = "6")]
     pub heater_power_state: bool,
+    /// INA236 power monitor
+    #[prost(double, tag = "7")]
+    pub ina_voltage: f64,
+    #[prost(double, tag = "8")]
+    pub ina_current: f64,
+    #[prost(double, tag = "9")]
+    pub ina_power: f64,
+    #[prost(bool, tag = "10")]
+    pub ina_power_fault: bool,
 }
 /// CV Gateway state enrichment - autofocus metrics and sweep status
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
@@ -1610,45 +1619,6 @@ pub struct JonGuiDataRecOsd {
     pub day_crosshair_offset_horizontal: i32,
     #[prost(int32, tag = "7")]
     pub day_crosshair_offset_vertical: i32,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataActualSpaceTime {
-    #[prost(double, tag = "1")]
-    pub azimuth: f64,
-    #[prost(double, tag = "2")]
-    pub elevation: f64,
-    #[prost(double, tag = "3")]
-    pub bank: f64,
-    #[prost(double, tag = "4")]
-    pub latitude: f64,
-    #[prost(double, tag = "5")]
-    pub longitude: f64,
-    #[prost(double, tag = "6")]
-    pub altitude: f64,
-    #[prost(int64, tag = "7")]
-    pub timestamp: i64,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataPmu {
-    #[prost(double, tag = "1")]
-    pub temperature: f64,
-    #[prost(bool, tag = "3")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "4")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-    #[prost(double, tag = "5")]
-    pub voltage: f64,
-    #[prost(bool, tag = "6")]
-    pub heater_power_state: bool,
-    /// INA236 power monitor
-    #[prost(double, tag = "7")]
-    pub ina_voltage: f64,
-    #[prost(double, tag = "8")]
-    pub ina_current: f64,
-    #[prost(double, tag = "9")]
-    pub ina_power: f64,
-    #[prost(bool, tag = "10")]
-    pub ina_power_fault: bool,
 }
 /// Root message
 #[derive(Clone, PartialEq, ::prost::Message)]
