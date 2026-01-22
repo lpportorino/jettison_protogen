@@ -23,8 +23,8 @@ type: message
 | 5 | voltage | double | >= 2, <= 60 |
 | 6 | heater_power_state | bool | - |
 | 7 | ina_voltage | double | >= 0, <= 36 |
-| 8 | ina_current | double | >= -20, <= 20 |
-| 9 | ina_power | double | >= 0, <= 720 |
+| 8 | ina_current | double | >= -10000, <= 10000 |
+| 9 | ina_power | double | >= 0, <= 100000 |
 | 10 | ina_power_fault | bool | - |
 | 11 | charge_disabled | bool | - |
 
