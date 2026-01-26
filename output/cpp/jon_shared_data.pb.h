@@ -46,6 +46,7 @@
 #include "jon_shared_data_power.pb.h"
 #include "jon_shared_data_cv.pb.h"
 #include "jon_shared_data_pmu.pb.h"
+#include "jon_shared_data_heater.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -248,6 +249,7 @@ class JonGUIState final : public ::google::protobuf::Message
     kPowerFieldNumber = 26,
     kCvFieldNumber = 27,
     kPmuFieldNumber = 28,
+    kHeaterFieldNumber = 29,
     kSystemMonotonicTimeUsFieldNumber = 2,
     kProtocolVersionFieldNumber = 1,
     kStateSourceFieldNumber = 3,
@@ -513,6 +515,21 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataPMU* _internal_mutable_pmu();
 
   public:
+  // .ser.JonGuiDataHeater heater = 29;
+  bool has_heater() const;
+  void clear_heater() ;
+  const ::ser::JonGuiDataHeater& heater() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataHeater* release_heater();
+  ::ser::JonGuiDataHeater* mutable_heater();
+  void set_allocated_heater(::ser::JonGuiDataHeater* value);
+  void unsafe_arena_set_allocated_heater(::ser::JonGuiDataHeater* value);
+  ::ser::JonGuiDataHeater* unsafe_arena_release_heater();
+
+  private:
+  const ::ser::JonGuiDataHeater& _internal_heater() const;
+  ::ser::JonGuiDataHeater* _internal_mutable_heater();
+
+  public:
   // uint64 system_monotonic_time_us = 2 [(.buf.validate.field) = {
   void clear_system_monotonic_time_us() ;
   ::uint64_t system_monotonic_time_us() const;
@@ -588,7 +605,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 24, 17,
+      5, 25, 18,
       0, 2>
       _table_;
 
@@ -625,6 +642,7 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataPower* power_;
     ::ser::JonGuiDataCV* cv_;
     ::ser::JonGuiDataPMU* pmu_;
+    ::ser::JonGuiDataHeater* heater_;
     ::uint64_t system_monotonic_time_us_;
     ::uint32_t protocol_version_;
     int state_source_;
@@ -2307,6 +2325,97 @@ inline void JonGUIState::set_allocated_pmu(::ser::JonGuiDataPMU* value) {
 
   _impl_.pmu_ = reinterpret_cast<::ser::JonGuiDataPMU*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.pmu)
+}
+
+// .ser.JonGuiDataHeater heater = 29;
+inline bool JonGUIState::has_heater() const {
+  bool value = (_impl_._has_bits_[0] & 0x00010000u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.heater_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataHeater& JonGUIState::_internal_heater() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataHeater* p = _impl_.heater_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataHeater&>(::ser::_JonGuiDataHeater_default_instance_);
+}
+inline const ::ser::JonGuiDataHeater& JonGUIState::heater() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGUIState.heater)
+  return _internal_heater();
+}
+inline void JonGUIState::unsafe_arena_set_allocated_heater(::ser::JonGuiDataHeater* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.heater_);
+  }
+  _impl_.heater_ = reinterpret_cast<::ser::JonGuiDataHeater*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00010000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00010000u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.heater)
+}
+inline ::ser::JonGuiDataHeater* JonGUIState::release_heater() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00010000u;
+  ::ser::JonGuiDataHeater* released = _impl_.heater_;
+  _impl_.heater_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataHeater* JonGUIState::unsafe_arena_release_heater() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGUIState.heater)
+
+  _impl_._has_bits_[0] &= ~0x00010000u;
+  ::ser::JonGuiDataHeater* temp = _impl_.heater_;
+  _impl_.heater_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataHeater* JonGUIState::_internal_mutable_heater() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.heater_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataHeater>(GetArena());
+    _impl_.heater_ = reinterpret_cast<::ser::JonGuiDataHeater*>(p);
+  }
+  return _impl_.heater_;
+}
+inline ::ser::JonGuiDataHeater* JonGUIState::mutable_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00010000u;
+  ::ser::JonGuiDataHeater* _msg = _internal_mutable_heater();
+  // @@protoc_insertion_point(field_mutable:ser.JonGUIState.heater)
+  return _msg;
+}
+inline void JonGUIState::set_allocated_heater(::ser::JonGuiDataHeater* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.heater_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00010000u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00010000u;
+  }
+
+  _impl_.heater_ = reinterpret_cast<::ser::JonGuiDataHeater*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.heater)
 }
 
 #ifdef __GNUC__

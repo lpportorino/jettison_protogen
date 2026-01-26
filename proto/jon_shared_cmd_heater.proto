@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater";
+
+package cmd.Heater;
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    SetHeating set_heating = 1;
+    GetStatus get_status = 2;
+  }
+}
+
+// SetHeating configures heating targets for all channels
+message SetHeating {
+  // Target values per channel (3 channels)
+  repeated float targets = 1 [(buf.validate.field).repeated = {
+    min_items: 3,
+    max_items: 3
+  }];
+  // Temperature error/tolerance per channel (3 channels)
+  repeated float temp_error = 2 [(buf.validate.field).repeated = {
+    min_items: 3,
+    max_items: 3
+  }];
+}
+
+// GetStatus requests current heater status
+message GetStatus {}

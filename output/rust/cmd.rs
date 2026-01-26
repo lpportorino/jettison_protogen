@@ -36,13 +36,13 @@ pub struct Root {
     pub opaque_payloads: ::prost::alloc::vec::Vec<super::ser::JonOpaquePayload>,
     #[prost(
         oneof = "root::Payload",
-        tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36"
+        tags = "20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37"
     )]
     pub payload: ::core::option::Option<root::Payload>,
 }
 /// Nested message and enum types in `Root`.
 pub mod root {
-    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         #[prost(message, tag = "20")]
         DayCamera(super::day_camera::Root),
@@ -78,6 +78,8 @@ pub mod root {
         Power(super::power::Root),
         #[prost(message, tag = "36")]
         Pmu(super::pmu::Root),
+        #[prost(message, tag = "37")]
+        Heater(super::heater::Root),
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]

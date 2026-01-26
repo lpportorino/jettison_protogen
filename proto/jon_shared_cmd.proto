@@ -18,6 +18,7 @@ import "jon_shared_cmd_day_cam_glass_heater.proto";
 import "jon_shared_cmd_lira.proto";
 import "jon_shared_cmd_power.proto";
 import "jon_shared_cmd_pmu.proto";
+import "jon_shared_cmd_heater.proto";
 
 import "jon_shared_data_types.proto";
 
@@ -73,6 +74,7 @@ message Root {
     Lira.Root lira = 34;
     Power.Root power = 35;
     PMU.Root pmu = 36;
+    Heater.Root heater = 37;
   }
 }
 

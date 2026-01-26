@@ -20,6 +20,7 @@
 #include "jon_shared_data_power.pb.h"
 #include "jon_shared_data_cv.pb.h"
 #include "jon_shared_data_pmu.pb.h"
+#include "jon_shared_data_heater.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
 #error Regenerate this file with the current version of nanopb generator.
@@ -69,6 +70,8 @@ typedef struct _ser_JonGUIState {
     ser_JonGuiDataCV cv;
     bool has_pmu;
     ser_JonGuiDataPMU pmu;
+    bool has_heater;
+    ser_JonGuiDataHeater heater;
 } ser_JonGUIState;
 
 
@@ -77,8 +80,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGUIState_init_default             {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, 0, 0, {{NULL}, NULL}, false, ser_JonGuiDataSystem_init_default, false, ser_JonGuiDataMeteo_init_default, false, ser_JonGuiDataLrf_init_default, false, ser_JonGuiDataTime_init_default, false, ser_JonGuiDataGps_init_default, false, ser_JonGuiDataCompass_init_default, false, ser_JonGuiDataRotary_init_default, false, ser_JonGuiDataCameraDay_init_default, false, ser_JonGuiDataCameraHeat_init_default, false, ser_JonGuiDataCompassCalibration_init_default, false, ser_JonGuiDataRecOsd_init_default, false, ser_JonGuiDataDayCamGlassHeater_init_default, false, ser_JonGuiDataActualSpaceTime_init_default, false, ser_JonGuiDataPower_init_default, false, ser_JonGuiDataCV_init_default, false, ser_JonGuiDataPMU_init_default}
-#define ser_JonGUIState_init_zero                {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, 0, 0, {{NULL}, NULL}, false, ser_JonGuiDataSystem_init_zero, false, ser_JonGuiDataMeteo_init_zero, false, ser_JonGuiDataLrf_init_zero, false, ser_JonGuiDataTime_init_zero, false, ser_JonGuiDataGps_init_zero, false, ser_JonGuiDataCompass_init_zero, false, ser_JonGuiDataRotary_init_zero, false, ser_JonGuiDataCameraDay_init_zero, false, ser_JonGuiDataCameraHeat_init_zero, false, ser_JonGuiDataCompassCalibration_init_zero, false, ser_JonGuiDataRecOsd_init_zero, false, ser_JonGuiDataDayCamGlassHeater_init_zero, false, ser_JonGuiDataActualSpaceTime_init_zero, false, ser_JonGuiDataPower_init_zero, false, ser_JonGuiDataCV_init_zero, false, ser_JonGuiDataPMU_init_zero}
+#define ser_JonGUIState_init_default             {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, 0, 0, {{NULL}, NULL}, false, ser_JonGuiDataSystem_init_default, false, ser_JonGuiDataMeteo_init_default, false, ser_JonGuiDataLrf_init_default, false, ser_JonGuiDataTime_init_default, false, ser_JonGuiDataGps_init_default, false, ser_JonGuiDataCompass_init_default, false, ser_JonGuiDataRotary_init_default, false, ser_JonGuiDataCameraDay_init_default, false, ser_JonGuiDataCameraHeat_init_default, false, ser_JonGuiDataCompassCalibration_init_default, false, ser_JonGuiDataRecOsd_init_default, false, ser_JonGuiDataDayCamGlassHeater_init_default, false, ser_JonGuiDataActualSpaceTime_init_default, false, ser_JonGuiDataPower_init_default, false, ser_JonGuiDataCV_init_default, false, ser_JonGuiDataPMU_init_default, false, ser_JonGuiDataHeater_init_default}
+#define ser_JonGUIState_init_zero                {0, 0, _ser_JonGuiDataStateSource_MIN, 0, 0, 0, 0, {{NULL}, NULL}, false, ser_JonGuiDataSystem_init_zero, false, ser_JonGuiDataMeteo_init_zero, false, ser_JonGuiDataLrf_init_zero, false, ser_JonGuiDataTime_init_zero, false, ser_JonGuiDataGps_init_zero, false, ser_JonGuiDataCompass_init_zero, false, ser_JonGuiDataRotary_init_zero, false, ser_JonGuiDataCameraDay_init_zero, false, ser_JonGuiDataCameraHeat_init_zero, false, ser_JonGuiDataCompassCalibration_init_zero, false, ser_JonGuiDataRecOsd_init_zero, false, ser_JonGuiDataDayCamGlassHeater_init_zero, false, ser_JonGuiDataActualSpaceTime_init_zero, false, ser_JonGuiDataPower_init_zero, false, ser_JonGuiDataCV_init_zero, false, ser_JonGuiDataPMU_init_zero, false, ser_JonGuiDataHeater_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGUIState_protocol_version_tag     1
@@ -105,6 +108,7 @@ extern "C" {
 #define ser_JonGUIState_power_tag                26
 #define ser_JonGUIState_cv_tag                   27
 #define ser_JonGUIState_pmu_tag                  28
+#define ser_JonGUIState_heater_tag               29
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGUIState_FIELDLIST(X, a) \
@@ -131,7 +135,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  day_cam_glass_heater,  24) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  actual_space_time,  25) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  power,            26) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  cv,               27) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  pmu,              28)
+X(a, STATIC,   OPTIONAL, MESSAGE,  pmu,              28) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  heater,           29)
 #define ser_JonGUIState_CALLBACK pb_default_field_callback
 #define ser_JonGUIState_DEFAULT NULL
 #define ser_JonGUIState_opaque_payloads_MSGTYPE ser_JonOpaquePayload
@@ -151,6 +156,7 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  pmu,              28)
 #define ser_JonGUIState_power_MSGTYPE ser_JonGuiDataPower
 #define ser_JonGUIState_cv_MSGTYPE ser_JonGuiDataCV
 #define ser_JonGUIState_pmu_MSGTYPE ser_JonGuiDataPMU
+#define ser_JonGUIState_heater_MSGTYPE ser_JonGuiDataHeater
 
 extern const pb_msgdesc_t ser_JonGUIState_msg;
 

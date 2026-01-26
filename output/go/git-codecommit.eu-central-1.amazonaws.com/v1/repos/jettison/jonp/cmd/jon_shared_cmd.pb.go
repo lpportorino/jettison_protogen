@@ -14,6 +14,7 @@ import (
 	day_camera "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/day_camera"
 	gps "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/gps"
 	heat_camera "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heat_camera"
+	heater "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater"
 	lira "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/lira"
 	lrf "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/lrf"
 	lrf_align "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/lrf_align"
@@ -73,6 +74,7 @@ type Root struct {
 	//	*Root_Lira
 	//	*Root_Power
 	//	*Root_Pmu
+	//	*Root_Heater
 	Payload       isRoot_Payload `protobuf_oneof:"payload"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -345,6 +347,15 @@ func (x *Root) GetPmu() *pmu.Root {
 	return nil
 }
 
+func (x *Root) GetHeater() *heater.Root {
+	if x != nil {
+		if x, ok := x.Payload.(*Root_Heater); ok {
+			return x.Heater
+		}
+	}
+	return nil
+}
+
 type isRoot_Payload interface {
 	isRoot_Payload()
 }
@@ -417,6 +428,10 @@ type Root_Pmu struct {
 	Pmu *pmu.Root `protobuf:"bytes,36,opt,name=pmu,proto3,oneof"`
 }
 
+type Root_Heater struct {
+	Heater *heater.Root `protobuf:"bytes,37,opt,name=heater,proto3,oneof"`
+}
+
 func (*Root_DayCamera) isRoot_Payload() {}
 
 func (*Root_HeatCamera) isRoot_Payload() {}
@@ -450,6 +465,8 @@ func (*Root_Lira) isRoot_Payload() {}
 func (*Root_Power) isRoot_Payload() {}
 
 func (*Root_Pmu) isRoot_Payload() {}
+
+func (*Root_Heater) isRoot_Payload() {}
 
 type Ping struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -563,7 +580,7 @@ var File_jon_shared_cmd_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1ajon_shared_cmd_power.proto\x1a\x18jon_shared_cmd_pmu.proto\x1a\x1bjon_shared_data_types.proto\"\x87\n" +
+	"\x14jon_shared_cmd.proto\x12\x03cmd\x1a\x1bbuf/validate/validate.proto\x1a\x1cjon_shared_cmd_compass.proto\x1a\x18jon_shared_cmd_gps.proto\x1a\x18jon_shared_cmd_lrf.proto\x1a\x1fjon_shared_cmd_day_camera.proto\x1a jon_shared_cmd_heat_camera.proto\x1a\x1bjon_shared_cmd_rotary.proto\x1a\x18jon_shared_cmd_osd.proto\x1a\x1ejon_shared_cmd_lrf_align.proto\x1a\x1bjon_shared_cmd_system.proto\x1a\x17jon_shared_cmd_cv.proto\x1a)jon_shared_cmd_day_cam_glass_heater.proto\x1a\x19jon_shared_cmd_lira.proto\x1a\x1ajon_shared_cmd_power.proto\x1a\x18jon_shared_cmd_pmu.proto\x1a\x1bjon_shared_cmd_heater.proto\x1a\x1bjon_shared_data_types.proto\"\xb3\n" +
 	"\n" +
 	"\x04Root\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
@@ -603,7 +620,8 @@ const file_jon_shared_cmd_proto_rawDesc = "" +
 	"\x14day_cam_glass_heater\x18! \x01(\v2\x1b.cmd.DayCamGlassHeater.RootH\x00R\x11dayCamGlassHeater\x12$\n" +
 	"\x04lira\x18\" \x01(\v2\x0e.cmd.Lira.RootH\x00R\x04lira\x12'\n" +
 	"\x05power\x18# \x01(\v2\x0f.cmd.Power.RootH\x00R\x05power\x12!\n" +
-	"\x03pmu\x18$ \x01(\v2\r.cmd.PMU.RootH\x00R\x03pmuB\x10\n" +
+	"\x03pmu\x18$ \x01(\v2\r.cmd.PMU.RootH\x00R\x03pmu\x12*\n" +
+	"\x06heater\x18% \x01(\v2\x10.cmd.Heater.RootH\x00R\x06heaterB\x10\n" +
 	"\apayload\x12\x05\xbaH\x02\b\x01J\x04\b\f\x10\x14\"\x06\n" +
 	"\x04Ping\"\x06\n" +
 	"\x04Noop\"\b\n" +
@@ -645,6 +663,7 @@ var file_jon_shared_cmd_proto_goTypes = []any{
 	(*lira.Root)(nil),                 // 18: cmd.Lira.Root
 	(*power.Root)(nil),                // 19: cmd.Power.Root
 	(*pmu.Root)(nil),                  // 20: cmd.PMU.Root
+	(*heater.Root)(nil),               // 21: cmd.Heater.Root
 }
 var file_jon_shared_cmd_proto_depIdxs = []int32{
 	4,  // 0: cmd.Root.client_type:type_name -> ser.JonGuiDataClientType
@@ -667,11 +686,12 @@ var file_jon_shared_cmd_proto_depIdxs = []int32{
 	18, // 17: cmd.Root.lira:type_name -> cmd.Lira.Root
 	19, // 18: cmd.Root.power:type_name -> cmd.Power.Root
 	20, // 19: cmd.Root.pmu:type_name -> cmd.PMU.Root
-	20, // [20:20] is the sub-list for method output_type
-	20, // [20:20] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	21, // 20: cmd.Root.heater:type_name -> cmd.Heater.Root
+	21, // [21:21] is the sub-list for method output_type
+	21, // [21:21] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_proto_init() }
@@ -697,6 +717,7 @@ func file_jon_shared_cmd_proto_init() {
 		(*Root_Lira)(nil),
 		(*Root_Power)(nil),
 		(*Root_Pmu)(nil),
+		(*Root_Heater)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

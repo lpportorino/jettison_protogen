@@ -18,6 +18,7 @@
 #include "jon_shared_cmd_lira.pb.h"
 #include "jon_shared_cmd_power.pb.h"
 #include "jon_shared_cmd_pmu.pb.h"
+#include "jon_shared_cmd_heater.pb.h"
 #include "jon_shared_data_types.pb.h"
 
 #if PB_PROTO_HEADER_VERSION != 40
@@ -72,6 +73,7 @@ typedef struct _cmd_Root {
         cmd_Lira_Root lira;
         cmd_Power_Root power;
         cmd_PMU_Root pmu;
+        cmd_Heater_Root heater;
     } payload;
 } cmd_Root;
 
@@ -119,6 +121,7 @@ extern "C" {
 #define cmd_Root_lira_tag                        34
 #define cmd_Root_power_tag                       35
 #define cmd_Root_pmu_tag                         36
+#define cmd_Root_heater_tag                      37
 
 /* Struct field encoding specification for nanopb */
 #define cmd_Root_FIELDLIST(X, a) \
@@ -149,7 +152,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,cv,payload.cv),  32) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,day_cam_glass_heater,payload.day_cam_glass_heater),  33) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,lira,payload.lira),  34) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,power,payload.power),  35) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (payload,pmu,payload.pmu),  36)
+X(a, STATIC,   ONEOF,    MESSAGE,  (payload,pmu,payload.pmu),  36) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (payload,heater,payload.heater),  37)
 #define cmd_Root_CALLBACK pb_default_field_callback
 #define cmd_Root_DEFAULT NULL
 #define cmd_Root_opaque_payloads_MSGTYPE ser_JonOpaquePayload
@@ -170,6 +174,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,pmu,payload.pmu),  36)
 #define cmd_Root_payload_lira_MSGTYPE cmd_Lira_Root
 #define cmd_Root_payload_power_MSGTYPE cmd_Power_Root
 #define cmd_Root_payload_pmu_MSGTYPE cmd_PMU_Root
+#define cmd_Root_payload_heater_MSGTYPE cmd_Heater_Root
 
 #define cmd_Ping_FIELDLIST(X, a) \
 
@@ -198,6 +203,9 @@ extern const pb_msgdesc_t cmd_Frozen_msg;
 #define cmd_Frozen_fields &cmd_Frozen_msg
 
 /* Maximum encoded size of messages (where known) */
+#if defined(cmd_Heater_Root_size)
+union cmd_Root_payload_size_union {char f37[(7 + cmd_Heater_Root_size)]; char f0[116];};
+#endif
 /* cmd_Root_size depends on runtime parameters */
 #define cmd_Frozen_size                          0
 #define cmd_Noop_size                            0

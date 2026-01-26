@@ -18,6 +18,7 @@ import "jon_shared_data_actual_space_time.proto";
 import "jon_shared_data_power.proto";
 import "jon_shared_data_cv.proto";
 import "jon_shared_data_pmu.proto";
+import "jon_shared_data_heater.proto";
 
 package ser;
 
@@ -59,4 +60,5 @@ message JonGUIState {
   JonGuiDataPower power = 26 [(buf.validate.field).required = true];
   JonGuiDataCV cv = 27;
   JonGuiDataPMU pmu = 28 [(buf.validate.field).required = true];
+  JonGuiDataHeater heater = 29;
 }

@@ -45,6 +45,7 @@
 #include "jon_shared_cmd_lira.pb.h"
 #include "jon_shared_cmd_power.pb.h"
 #include "jon_shared_cmd_pmu.pb.h"
+#include "jon_shared_cmd_heater.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -602,6 +603,7 @@ class Root final : public ::google::protobuf::Message
     kLira = 34,
     kPower = 35,
     kPmu = 36,
+    kHeater = 37,
     PAYLOAD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -723,6 +725,7 @@ class Root final : public ::google::protobuf::Message
     kLiraFieldNumber = 34,
     kPowerFieldNumber = 35,
     kPmuFieldNumber = 36,
+    kHeaterFieldNumber = 37,
   };
   // repeated .ser.JonOpaquePayload opaque_payloads = 11;
   int opaque_payloads_size() const;
@@ -1164,6 +1167,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::PMU::Root* _internal_mutable_pmu();
 
   public:
+  // .cmd.Heater.Root heater = 37;
+  bool has_heater() const;
+  private:
+  bool _internal_has_heater() const;
+
+  public:
+  void clear_heater() ;
+  const ::cmd::Heater::Root& heater() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::Root* release_heater();
+  ::cmd::Heater::Root* mutable_heater();
+  void set_allocated_heater(::cmd::Heater::Root* value);
+  void unsafe_arena_set_allocated_heater(::cmd::Heater::Root* value);
+  ::cmd::Heater::Root* unsafe_arena_release_heater();
+
+  private:
+  const ::cmd::Heater::Root& _internal_heater() const;
+  ::cmd::Heater::Root* _internal_mutable_heater();
+
+  public:
   void clear_payload();
   PayloadCase payload_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Root)
@@ -1186,11 +1208,12 @@ class Root final : public ::google::protobuf::Message
   void set_has_lira();
   void set_has_power();
   void set_has_pmu();
+  void set_has_heater();
   inline bool has_payload() const;
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 28, 18,
+      4, 29, 19,
       0, 7>
       _table_;
 
@@ -1239,6 +1262,7 @@ class Root final : public ::google::protobuf::Message
       ::cmd::Lira::Root* lira_;
       ::cmd::Power::Root* power_;
       ::cmd::PMU::Root* pmu_;
+      ::cmd::Heater::Root* heater_;
     } payload_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2715,6 +2739,74 @@ inline ::cmd::PMU::Root* Root::_internal_mutable_pmu() {
 inline ::cmd::PMU::Root* Root::mutable_pmu() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::PMU::Root* _msg = _internal_mutable_pmu();
   // @@protoc_insertion_point(field_mutable:cmd.Root.pmu)
+  return _msg;
+}
+
+// .cmd.Heater.Root heater = 37;
+inline bool Root::has_heater() const {
+  return payload_case() == kHeater;
+}
+inline bool Root::_internal_has_heater() const {
+  return payload_case() == kHeater;
+}
+inline void Root::set_has_heater() {
+  _impl_._oneof_case_[0] = kHeater;
+}
+inline ::cmd::Heater::Root* Root::release_heater() {
+  // @@protoc_insertion_point(field_release:cmd.Root.heater)
+  if (payload_case() == kHeater) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.heater_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.heater_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::Root& Root::_internal_heater() const {
+  return payload_case() == kHeater ? *_impl_.payload_.heater_ : reinterpret_cast<::cmd::Heater::Root&>(::cmd::Heater::_Root_default_instance_);
+}
+inline const ::cmd::Heater::Root& Root::heater() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Root.heater)
+  return _internal_heater();
+}
+inline ::cmd::Heater::Root* Root::unsafe_arena_release_heater() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Root.heater)
+  if (payload_case() == kHeater) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.heater_;
+    _impl_.payload_.heater_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_heater(::cmd::Heater::Root* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_heater();
+    _impl_.payload_.heater_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Root.heater)
+}
+inline ::cmd::Heater::Root* Root::_internal_mutable_heater() {
+  if (payload_case() != kHeater) {
+    clear_payload();
+    set_has_heater();
+    _impl_.payload_.heater_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::Root>(GetArena());
+  }
+  return _impl_.payload_.heater_;
+}
+inline ::cmd::Heater::Root* Root::mutable_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::Root* _msg = _internal_mutable_heater();
+  // @@protoc_insertion_point(field_mutable:cmd.Root.heater)
   return _msg;
 }
 

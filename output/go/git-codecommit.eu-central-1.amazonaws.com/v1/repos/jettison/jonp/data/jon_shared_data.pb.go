@@ -16,6 +16,7 @@ import (
 	cv "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/cv"
 	day_cam_glass_heater "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/day_cam_glass_heater"
 	gps "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/gps"
+	heater "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heater"
 	lrf "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/lrf"
 	pmu "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/pmu"
 	power "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/power"
@@ -66,6 +67,7 @@ type JonGUIState struct {
 	Power              *power.JonGuiDataPower                            `protobuf:"bytes,26,opt,name=power,proto3" json:"power,omitempty"`
 	Cv                 *cv.JonGuiDataCV                                  `protobuf:"bytes,27,opt,name=cv,proto3" json:"cv,omitempty"`
 	Pmu                *pmu.JonGuiDataPMU                                `protobuf:"bytes,28,opt,name=pmu,proto3" json:"pmu,omitempty"`
+	Heater             *heater.JonGuiDataHeater                          `protobuf:"bytes,29,opt,name=heater,proto3" json:"heater,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -268,11 +270,18 @@ func (x *JonGUIState) GetPmu() *pmu.JonGuiDataPMU {
 	return nil
 }
 
+func (x *JonGUIState) GetHeater() *heater.JonGuiDataHeater {
+	if x != nil {
+		return x.Heater
+	}
+	return nil
+}
+
 var File_jon_shared_data_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_proto_rawDesc = "" +
 	"\n" +
-	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\x1a\x18jon_shared_data_cv.proto\x1a\x19jon_shared_data_pmu.proto\"\xd7\v\n" +
+	"\x15jon_shared_data.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\x1a\x1ajon_shared_data_time.proto\x1a\x1cjon_shared_data_system.proto\x1a\x19jon_shared_data_lrf.proto\x1a\x19jon_shared_data_gps.proto\x1a\x1djon_shared_data_compass.proto\x1a)jon_shared_data_compass_calibration.proto\x1a\x1cjon_shared_data_rotary.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1djon_shared_data_rec_osd.proto\x1a*jon_shared_data_day_cam_glass_heater.proto\x1a'jon_shared_data_actual_space_time.proto\x1a\x1bjon_shared_data_power.proto\x1a\x18jon_shared_data_cv.proto\x1a\x19jon_shared_data_pmu.proto\x1a\x1cjon_shared_data_heater.proto\"\x86\f\n" +
 	"\vJonGUIState\x128\n" +
 	"\x10protocol_version\x18\x01 \x01(\rB\r\xbaH\n" +
 	"*\b\x18\xff\xff\xff\xff\a \x00R\x0fprotocolVersion\x12@\n" +
@@ -301,7 +310,8 @@ const file_jon_shared_data_proto_rawDesc = "" +
 	"\x11actual_space_time\x18\x19 \x01(\v2\x1e.ser.JonGuiDataActualSpaceTimeB\x06\xbaH\x03\xc8\x01\x01R\x0factualSpaceTime\x122\n" +
 	"\x05power\x18\x1a \x01(\v2\x14.ser.JonGuiDataPowerB\x06\xbaH\x03\xc8\x01\x01R\x05power\x12!\n" +
 	"\x02cv\x18\x1b \x01(\v2\x11.ser.JonGuiDataCVR\x02cv\x12,\n" +
-	"\x03pmu\x18\x1c \x01(\v2\x12.ser.JonGuiDataPMUB\x06\xbaH\x03\xc8\x01\x01R\x03pmuJ\x04\b\t\x10\n" +
+	"\x03pmu\x18\x1c \x01(\v2\x12.ser.JonGuiDataPMUB\x06\xbaH\x03\xc8\x01\x01R\x03pmu\x12-\n" +
+	"\x06heater\x18\x1d \x01(\v2\x15.ser.JonGuiDataHeaterR\x06heaterJ\x04\b\t\x10\n" +
 	"J\x04\b\n" +
 	"\x10\vJ\x04\b\v\x10\fJ\x04\b\f\x10\rB\x90\x01\n" +
 	"\acom.serB\x12JonSharedDataProtoP\x01ZEgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
@@ -339,6 +349,7 @@ var file_jon_shared_data_proto_goTypes = []any{
 	(*power.JonGuiDataPower)(nil),                            // 16: ser.JonGuiDataPower
 	(*cv.JonGuiDataCV)(nil),                                  // 17: ser.JonGuiDataCV
 	(*pmu.JonGuiDataPMU)(nil),                                // 18: ser.JonGuiDataPMU
+	(*heater.JonGuiDataHeater)(nil),                          // 19: ser.JonGuiDataHeater
 }
 var file_jon_shared_data_proto_depIdxs = []int32{
 	1,  // 0: ser.JonGUIState.state_source:type_name -> ser.JonGuiDataStateSource
@@ -359,11 +370,12 @@ var file_jon_shared_data_proto_depIdxs = []int32{
 	16, // 15: ser.JonGUIState.power:type_name -> ser.JonGuiDataPower
 	17, // 16: ser.JonGUIState.cv:type_name -> ser.JonGuiDataCV
 	18, // 17: ser.JonGUIState.pmu:type_name -> ser.JonGuiDataPMU
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	19, // 18: ser.JonGUIState.heater:type_name -> ser.JonGuiDataHeater
+	19, // [19:19] is the sub-list for method output_type
+	19, // [19:19] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_proto_init() }
