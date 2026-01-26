@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_heater.proto.
  */
 export const file_jon_shared_cmd_heater: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2NtZF9oZWF0ZXIucHJvdG8SCmNtZC5IZWF0ZXIicAoEUm9vdBItCgtzZXRfaGVhdGluZxgBIAEoCzIWLmNtZC5IZWF0ZXIuU2V0SGVhdGluZ0gAEisKCmdldF9zdGF0dXMYAiABKAsyFS5jbWQuSGVhdGVyLkdldFN0YXR1c0gAQgwKA2NtZBIFukgCCAEiSQoKU2V0SGVhdGluZxIbCgd0YXJnZXRzGAEgAygCQgq6SAeSAQQIAxADEh4KCnRlbXBfZXJyb3IYAiADKAJCCrpIB5IBBAgDEAMiCwoJR2V0U3RhdHVzQk1aS2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY21kL2hlYXRlcmIGcHJvdG8z", [file_buf_validate_validate]);
+  fileDesc("Chtqb25fc2hhcmVkX2NtZF9oZWF0ZXIucHJvdG8SCmNtZC5IZWF0ZXIitgEKBFJvb3QSIgoFc3RhcnQYASABKAsyES5jbWQuSGVhdGVyLlN0YXJ0SAASIAoEc3RvcBgCIAEoCzIQLmNtZC5IZWF0ZXIuU3RvcEgAEi0KC3NldF9oZWF0aW5nGAMgASgLMhYuY21kLkhlYXRlci5TZXRIZWF0aW5nSAASKwoKZ2V0X3N0YXR1cxgEIAEoCzIVLmNtZC5IZWF0ZXIuR2V0U3RhdHVzSABCDAoDY21kEgW6SAIIASIHCgVTdGFydCIGCgRTdG9wImUKClNldEhlYXRpbmcSKQoHdGFyZ2V0cxgBIAMoAkIYukgVkgESCAMQAyIMCgodAABwQi0AAAAAEiwKCnRlbXBfZXJyb3IYAiADKAJCGLpIFZIBEggDEAMiDAoKHQAAIEItAAAAACILCglHZXRTdGF0dXNCTVpLZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvaGVhdGVyYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * @generated from message cmd.Heater.Root
@@ -22,13 +22,25 @@ export type Root = Message<"cmd.Heater.Root"> & {
    */
   cmd: {
     /**
-     * @generated from field: cmd.Heater.SetHeating set_heating = 1;
+     * @generated from field: cmd.Heater.Start start = 1;
+     */
+    value: Start;
+    case: "start";
+  } | {
+    /**
+     * @generated from field: cmd.Heater.Stop stop = 2;
+     */
+    value: Stop;
+    case: "stop";
+  } | {
+    /**
+     * @generated from field: cmd.Heater.SetHeating set_heating = 3;
      */
     value: SetHeating;
     case: "setHeating";
   } | {
     /**
-     * @generated from field: cmd.Heater.GetStatus get_status = 2;
+     * @generated from field: cmd.Heater.GetStatus get_status = 4;
      */
     value: GetStatus;
     case: "getStatus";
@@ -43,20 +55,50 @@ export const RootSchema: GenMessage<Root> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_heater, 0);
 
 /**
+ * Start initiates communication with the heater controller
+ *
+ * @generated from message cmd.Heater.Start
+ */
+export type Start = Message<"cmd.Heater.Start"> & {
+};
+
+/**
+ * Describes the message cmd.Heater.Start.
+ * Use `create(StartSchema)` to create a new message.
+ */
+export const StartSchema: GenMessage<Start> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_heater, 1);
+
+/**
+ * Stop terminates communication with the heater controller
+ *
+ * @generated from message cmd.Heater.Stop
+ */
+export type Stop = Message<"cmd.Heater.Stop"> & {
+};
+
+/**
+ * Describes the message cmd.Heater.Stop.
+ * Use `create(StopSchema)` to create a new message.
+ */
+export const StopSchema: GenMessage<Stop> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_heater, 2);
+
+/**
  * SetHeating configures heating targets for all channels
  *
  * @generated from message cmd.Heater.SetHeating
  */
 export type SetHeating = Message<"cmd.Heater.SetHeating"> & {
   /**
-   * Target values per channel (3 channels)
+   * Target power values per channel in watts (3 channels)
    *
    * @generated from field: repeated float targets = 1;
    */
   targets: number[];
 
   /**
-   * Temperature error/tolerance per channel (3 channels)
+   * Temperature error/tolerance per channel in Celsius (3 channels)
    *
    * @generated from field: repeated float temp_error = 2;
    */
@@ -68,7 +110,7 @@ export type SetHeating = Message<"cmd.Heater.SetHeating"> & {
  * Use `create(SetHeatingSchema)` to create a new message.
  */
 export const SetHeatingSchema: GenMessage<SetHeating> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_heater, 1);
+  messageDesc(file_jon_shared_cmd_heater, 3);
 
 /**
  * GetStatus requests current heater status
@@ -83,5 +125,5 @@ export type GetStatus = Message<"cmd.Heater.GetStatus"> & {
  * Use `create(GetStatusSchema)` to create a new message.
  */
 export const GetStatusSchema: GenMessage<GetStatus> = /*@__PURE__*/
-  messageDesc(file_jon_shared_cmd_heater, 2);
+  messageDesc(file_jon_shared_cmd_heater, 4);
 

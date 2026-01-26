@@ -64,6 +64,12 @@ extern RootDefaultTypeInternal _Root_default_instance_;
 class SetHeating;
 struct SetHeatingDefaultTypeInternal;
 extern SetHeatingDefaultTypeInternal _SetHeating_default_instance_;
+class Start;
+struct StartDefaultTypeInternal;
+extern StartDefaultTypeInternal _Start_default_instance_;
+class Stop;
+struct StopDefaultTypeInternal;
+extern StopDefaultTypeInternal _Stop_default_instance_;
 }  // namespace Heater
 }  // namespace cmd
 namespace google {
@@ -77,6 +83,296 @@ namespace Heater {
 // ===================================================================
 
 
+// -------------------------------------------------------------------
+
+class Stop final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.Heater.Stop) */ {
+ public:
+  inline Stop() : Stop(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(Stop* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Stop));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Stop(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Stop(const Stop& from) : Stop(nullptr, from) {}
+  inline Stop(Stop&& from) noexcept
+      : Stop(nullptr, std::move(from)) {}
+  inline Stop& operator=(const Stop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Stop& operator=(Stop&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Stop& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Stop* internal_default_instance() {
+    return reinterpret_cast<const Stop*>(
+        &_Stop_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(Stop& a, Stop& b) { a.Swap(&b); }
+  inline void Swap(Stop* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Stop* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Stop* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<Stop>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const Stop& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const Stop& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.Heater.Stop"; }
+
+ protected:
+  explicit Stop(::google::protobuf::Arena* arena);
+  Stop(::google::protobuf::Arena* arena, const Stop& from);
+  Stop(::google::protobuf::Arena* arena, Stop&& from) noexcept
+      : Stop(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.Heater.Stop)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Stop& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheater_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Start final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.Heater.Start) */ {
+ public:
+  inline Start() : Start(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(Start* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Start));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Start(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Start(const Start& from) : Start(nullptr, from) {}
+  inline Start(Start&& from) noexcept
+      : Start(nullptr, std::move(from)) {}
+  inline Start& operator=(const Start& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Start& operator=(Start&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Start& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Start* internal_default_instance() {
+    return reinterpret_cast<const Start*>(
+        &_Start_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(Start& a, Start& b) { a.Swap(&b); }
+  inline void Swap(Start* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Start* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Start* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<Start>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const Start& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const Start& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.Heater.Start"; }
+
+ protected:
+  explicit Start(::google::protobuf::Arena* arena);
+  Start(::google::protobuf::Arena* arena, const Start& from);
+  Start(::google::protobuf::Arena* arena, Start&& from) noexcept
+      : Start(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.Heater.Start)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Start& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheater_2eproto;
+};
 // -------------------------------------------------------------------
 
 class SetHeating final : public ::google::protobuf::Message
@@ -138,7 +434,7 @@ class SetHeating final : public ::google::protobuf::Message
     return reinterpret_cast<const SetHeating*>(
         &_SetHeating_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(SetHeating& a, SetHeating& b) { a.Swap(&b); }
   inline void Swap(SetHeating* other) {
     if (other == this) return;
@@ -355,7 +651,7 @@ class GetStatus final : public ::google::protobuf::internal::ZeroFieldsBase
     return reinterpret_cast<const GetStatus*>(
         &_GetStatus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(GetStatus& a, GetStatus& b) { a.Swap(&b); }
   inline void Swap(GetStatus* other) {
     if (other == this) return;
@@ -498,8 +794,10 @@ class Root final : public ::google::protobuf::Message
     return *internal_default_instance();
   }
   enum CmdCase {
-    kSetHeating = 1,
-    kGetStatus = 2,
+    kStart = 1,
+    kStop = 2,
+    kSetHeating = 3,
+    kGetStatus = 4,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -593,10 +891,50 @@ class Root final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kSetHeatingFieldNumber = 1,
-    kGetStatusFieldNumber = 2,
+    kStartFieldNumber = 1,
+    kStopFieldNumber = 2,
+    kSetHeatingFieldNumber = 3,
+    kGetStatusFieldNumber = 4,
   };
-  // .cmd.Heater.SetHeating set_heating = 1;
+  // .cmd.Heater.Start start = 1;
+  bool has_start() const;
+  private:
+  bool _internal_has_start() const;
+
+  public:
+  void clear_start() ;
+  const ::cmd::Heater::Start& start() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::Start* release_start();
+  ::cmd::Heater::Start* mutable_start();
+  void set_allocated_start(::cmd::Heater::Start* value);
+  void unsafe_arena_set_allocated_start(::cmd::Heater::Start* value);
+  ::cmd::Heater::Start* unsafe_arena_release_start();
+
+  private:
+  const ::cmd::Heater::Start& _internal_start() const;
+  ::cmd::Heater::Start* _internal_mutable_start();
+
+  public:
+  // .cmd.Heater.Stop stop = 2;
+  bool has_stop() const;
+  private:
+  bool _internal_has_stop() const;
+
+  public:
+  void clear_stop() ;
+  const ::cmd::Heater::Stop& stop() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::Stop* release_stop();
+  ::cmd::Heater::Stop* mutable_stop();
+  void set_allocated_stop(::cmd::Heater::Stop* value);
+  void unsafe_arena_set_allocated_stop(::cmd::Heater::Stop* value);
+  ::cmd::Heater::Stop* unsafe_arena_release_stop();
+
+  private:
+  const ::cmd::Heater::Stop& _internal_stop() const;
+  ::cmd::Heater::Stop* _internal_mutable_stop();
+
+  public:
+  // .cmd.Heater.SetHeating set_heating = 3;
   bool has_set_heating() const;
   private:
   bool _internal_has_set_heating() const;
@@ -615,7 +953,7 @@ class Root final : public ::google::protobuf::Message
   ::cmd::Heater::SetHeating* _internal_mutable_set_heating();
 
   public:
-  // .cmd.Heater.GetStatus get_status = 2;
+  // .cmd.Heater.GetStatus get_status = 4;
   bool has_get_status() const;
   private:
   bool _internal_has_get_status() const;
@@ -639,13 +977,15 @@ class Root final : public ::google::protobuf::Message
   // @@protoc_insertion_point(class_scope:cmd.Heater.Root)
  private:
   class _Internal;
+  void set_has_start();
+  void set_has_stop();
   void set_has_set_heating();
   void set_has_get_status();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 2, 2,
+      0, 4, 4,
       0, 2>
       _table_;
 
@@ -666,6 +1006,8 @@ class Root final : public ::google::protobuf::Message
     union CmdUnion {
       constexpr CmdUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::cmd::Heater::Start* start_;
+      ::cmd::Heater::Stop* stop_;
       ::cmd::Heater::SetHeating* set_heating_;
       ::cmd::Heater::GetStatus* get_status_;
     } cmd_;
@@ -693,7 +1035,165 @@ class Root final : public ::google::protobuf::Message
 
 // Root
 
-// .cmd.Heater.SetHeating set_heating = 1;
+// .cmd.Heater.Start start = 1;
+inline bool Root::has_start() const {
+  return cmd_case() == kStart;
+}
+inline bool Root::_internal_has_start() const {
+  return cmd_case() == kStart;
+}
+inline void Root::set_has_start() {
+  _impl_._oneof_case_[0] = kStart;
+}
+inline void Root::clear_start() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStart) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.start_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.start_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::Heater::Start* Root::release_start() {
+  // @@protoc_insertion_point(field_release:cmd.Heater.Root.start)
+  if (cmd_case() == kStart) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.start_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.start_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::Start& Root::_internal_start() const {
+  return cmd_case() == kStart ? *_impl_.cmd_.start_ : reinterpret_cast<::cmd::Heater::Start&>(::cmd::Heater::_Start_default_instance_);
+}
+inline const ::cmd::Heater::Start& Root::start() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Heater.Root.start)
+  return _internal_start();
+}
+inline ::cmd::Heater::Start* Root::unsafe_arena_release_start() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Heater.Root.start)
+  if (cmd_case() == kStart) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.start_;
+    _impl_.cmd_.start_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_start(::cmd::Heater::Start* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_start();
+    _impl_.cmd_.start_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Heater.Root.start)
+}
+inline ::cmd::Heater::Start* Root::_internal_mutable_start() {
+  if (cmd_case() != kStart) {
+    clear_cmd();
+    set_has_start();
+    _impl_.cmd_.start_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::Start>(GetArena());
+  }
+  return _impl_.cmd_.start_;
+}
+inline ::cmd::Heater::Start* Root::mutable_start() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::Start* _msg = _internal_mutable_start();
+  // @@protoc_insertion_point(field_mutable:cmd.Heater.Root.start)
+  return _msg;
+}
+
+// .cmd.Heater.Stop stop = 2;
+inline bool Root::has_stop() const {
+  return cmd_case() == kStop;
+}
+inline bool Root::_internal_has_stop() const {
+  return cmd_case() == kStop;
+}
+inline void Root::set_has_stop() {
+  _impl_._oneof_case_[0] = kStop;
+}
+inline void Root::clear_stop() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kStop) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.stop_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.stop_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::Heater::Stop* Root::release_stop() {
+  // @@protoc_insertion_point(field_release:cmd.Heater.Root.stop)
+  if (cmd_case() == kStop) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.stop_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.stop_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::Stop& Root::_internal_stop() const {
+  return cmd_case() == kStop ? *_impl_.cmd_.stop_ : reinterpret_cast<::cmd::Heater::Stop&>(::cmd::Heater::_Stop_default_instance_);
+}
+inline const ::cmd::Heater::Stop& Root::stop() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Heater.Root.stop)
+  return _internal_stop();
+}
+inline ::cmd::Heater::Stop* Root::unsafe_arena_release_stop() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Heater.Root.stop)
+  if (cmd_case() == kStop) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.stop_;
+    _impl_.cmd_.stop_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_stop(::cmd::Heater::Stop* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_stop();
+    _impl_.cmd_.stop_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Heater.Root.stop)
+}
+inline ::cmd::Heater::Stop* Root::_internal_mutable_stop() {
+  if (cmd_case() != kStop) {
+    clear_cmd();
+    set_has_stop();
+    _impl_.cmd_.stop_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::Stop>(GetArena());
+  }
+  return _impl_.cmd_.stop_;
+}
+inline ::cmd::Heater::Stop* Root::mutable_stop() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::Stop* _msg = _internal_mutable_stop();
+  // @@protoc_insertion_point(field_mutable:cmd.Heater.Root.stop)
+  return _msg;
+}
+
+// .cmd.Heater.SetHeating set_heating = 3;
 inline bool Root::has_set_heating() const {
   return cmd_case() == kSetHeating;
 }
@@ -772,7 +1272,7 @@ inline ::cmd::Heater::SetHeating* Root::mutable_set_heating() ABSL_ATTRIBUTE_LIF
   return _msg;
 }
 
-// .cmd.Heater.GetStatus get_status = 2;
+// .cmd.Heater.GetStatus get_status = 4;
 inline bool Root::has_get_status() const {
   return cmd_case() == kGetStatus;
 }
@@ -860,6 +1360,14 @@ inline void Root::clear_has_cmd() {
 inline Root::CmdCase Root::cmd_case() const {
   return Root::CmdCase(_impl_._oneof_case_[0]);
 }
+// -------------------------------------------------------------------
+
+// Start
+
+// -------------------------------------------------------------------
+
+// Stop
+
 // -------------------------------------------------------------------
 
 // SetHeating

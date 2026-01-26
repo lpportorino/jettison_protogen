@@ -26,6 +26,8 @@ type Root struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Cmd:
 	//
+	//	*Root_Start
+	//	*Root_Stop
 	//	*Root_SetHeating
 	//	*Root_GetStatus
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
@@ -70,6 +72,24 @@ func (x *Root) GetCmd() isRoot_Cmd {
 	return nil
 }
 
+func (x *Root) GetStart() *Start {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_Start); ok {
+			return x.Start
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetStop() *Stop {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_Stop); ok {
+			return x.Stop
+		}
+	}
+	return nil
+}
+
 func (x *Root) GetSetHeating() *SetHeating {
 	if x != nil {
 		if x, ok := x.Cmd.(*Root_SetHeating); ok {
@@ -92,24 +112,110 @@ type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
 
+type Root_Start struct {
+	Start *Start `protobuf:"bytes,1,opt,name=start,proto3,oneof"`
+}
+
+type Root_Stop struct {
+	Stop *Stop `protobuf:"bytes,2,opt,name=stop,proto3,oneof"`
+}
+
 type Root_SetHeating struct {
-	SetHeating *SetHeating `protobuf:"bytes,1,opt,name=set_heating,json=setHeating,proto3,oneof"`
+	SetHeating *SetHeating `protobuf:"bytes,3,opt,name=set_heating,json=setHeating,proto3,oneof"`
 }
 
 type Root_GetStatus struct {
-	GetStatus *GetStatus `protobuf:"bytes,2,opt,name=get_status,json=getStatus,proto3,oneof"`
+	GetStatus *GetStatus `protobuf:"bytes,4,opt,name=get_status,json=getStatus,proto3,oneof"`
 }
+
+func (*Root_Start) isRoot_Cmd() {}
+
+func (*Root_Stop) isRoot_Cmd() {}
 
 func (*Root_SetHeating) isRoot_Cmd() {}
 
 func (*Root_GetStatus) isRoot_Cmd() {}
 
+// Start initiates communication with the heater controller
+type Start struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Start) Reset() {
+	*x = Start{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Start) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Start) ProtoMessage() {}
+
+func (x *Start) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Start.ProtoReflect.Descriptor instead.
+func (*Start) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{1}
+}
+
+// Stop terminates communication with the heater controller
+type Stop struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Stop) Reset() {
+	*x = Stop{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Stop) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Stop) ProtoMessage() {}
+
+func (x *Stop) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Stop.ProtoReflect.Descriptor instead.
+func (*Stop) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{2}
+}
+
 // SetHeating configures heating targets for all channels
 type SetHeating struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Target values per channel (3 channels)
+	// Target power values per channel in watts (3 channels)
 	Targets []float32 `protobuf:"fixed32,1,rep,packed,name=targets,proto3" json:"targets,omitempty"`
-	// Temperature error/tolerance per channel (3 channels)
+	// Temperature error/tolerance per channel in Celsius (3 channels)
 	TempError     []float32 `protobuf:"fixed32,2,rep,packed,name=temp_error,json=tempError,proto3" json:"temp_error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -117,7 +223,7 @@ type SetHeating struct {
 
 func (x *SetHeating) Reset() {
 	*x = SetHeating{}
-	mi := &file_jon_shared_cmd_heater_proto_msgTypes[1]
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -129,7 +235,7 @@ func (x *SetHeating) String() string {
 func (*SetHeating) ProtoMessage() {}
 
 func (x *SetHeating) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_heater_proto_msgTypes[1]
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -142,7 +248,7 @@ func (x *SetHeating) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetHeating.ProtoReflect.Descriptor instead.
 func (*SetHeating) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{1}
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SetHeating) GetTargets() []float32 {
@@ -168,7 +274,7 @@ type GetStatus struct {
 
 func (x *GetStatus) Reset() {
 	*x = GetStatus{}
-	mi := &file_jon_shared_cmd_heater_proto_msgTypes[2]
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -180,7 +286,7 @@ func (x *GetStatus) String() string {
 func (*GetStatus) ProtoMessage() {}
 
 func (x *GetStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_jon_shared_cmd_heater_proto_msgTypes[2]
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -193,7 +299,7 @@ func (x *GetStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetStatus.ProtoReflect.Descriptor instead.
 func (*GetStatus) Descriptor() ([]byte, []int) {
-	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{2}
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{4}
 }
 
 var File_jon_shared_cmd_heater_proto protoreflect.FileDescriptor
@@ -201,20 +307,26 @@ var File_jon_shared_cmd_heater_proto protoreflect.FileDescriptor
 const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_heater.proto\x12\n" +
-	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\x87\x01\n" +
-	"\x04Root\x129\n" +
-	"\vset_heating\x18\x01 \x01(\v2\x16.cmd.Heater.SetHeatingH\x00R\n" +
+	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\xda\x01\n" +
+	"\x04Root\x12)\n" +
+	"\x05start\x18\x01 \x01(\v2\x11.cmd.Heater.StartH\x00R\x05start\x12&\n" +
+	"\x04stop\x18\x02 \x01(\v2\x10.cmd.Heater.StopH\x00R\x04stop\x129\n" +
+	"\vset_heating\x18\x03 \x01(\v2\x16.cmd.Heater.SetHeatingH\x00R\n" +
 	"setHeating\x126\n" +
 	"\n" +
-	"get_status\x18\x02 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatusB\f\n" +
-	"\x03cmd\x12\x05\xbaH\x02\b\x01\"]\n" +
+	"get_status\x18\x04 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatusB\f\n" +
+	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
+	"\x05Start\"\x06\n" +
+	"\x04Stop\"y\n" +
 	"\n" +
-	"SetHeating\x12$\n" +
-	"\atargets\x18\x01 \x03(\x02B\n" +
-	"\xbaH\a\x92\x01\x04\b\x03\x10\x03R\atargets\x12)\n" +
+	"SetHeating\x122\n" +
+	"\atargets\x18\x01 \x03(\x02B\x18\xbaH\x15\x92\x01\x12\b\x03\x10\x03\"\f\n" +
 	"\n" +
-	"temp_error\x18\x02 \x03(\x02B\n" +
-	"\xbaH\a\x92\x01\x04\b\x03\x10\x03R\ttempError\"\v\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\atargets\x127\n" +
+	"\n" +
+	"temp_error\x18\x02 \x03(\x02B\x18\xbaH\x15\x92\x01\x12\b\x03\x10\x03\"\f\n" +
+	"\n" +
+	"\x1d\x00\x00 B-\x00\x00\x00\x00R\ttempError\"\v\n" +
 	"\tGetStatusB\xbf\x01\n" +
 	"\x0ecom.cmd.HeaterB\x17JonSharedCmdHeaterProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater\xa2\x02\x03CHX\xaa\x02\n" +
 	"Cmd.Heater\xca\x02\n" +
@@ -232,20 +344,24 @@ func file_jon_shared_cmd_heater_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_heater_proto_rawDescData
 }
 
-var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_jon_shared_cmd_heater_proto_goTypes = []any{
 	(*Root)(nil),       // 0: cmd.Heater.Root
-	(*SetHeating)(nil), // 1: cmd.Heater.SetHeating
-	(*GetStatus)(nil),  // 2: cmd.Heater.GetStatus
+	(*Start)(nil),      // 1: cmd.Heater.Start
+	(*Stop)(nil),       // 2: cmd.Heater.Stop
+	(*SetHeating)(nil), // 3: cmd.Heater.SetHeating
+	(*GetStatus)(nil),  // 4: cmd.Heater.GetStatus
 }
 var file_jon_shared_cmd_heater_proto_depIdxs = []int32{
-	1, // 0: cmd.Heater.Root.set_heating:type_name -> cmd.Heater.SetHeating
-	2, // 1: cmd.Heater.Root.get_status:type_name -> cmd.Heater.GetStatus
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	1, // 0: cmd.Heater.Root.start:type_name -> cmd.Heater.Start
+	2, // 1: cmd.Heater.Root.stop:type_name -> cmd.Heater.Stop
+	3, // 2: cmd.Heater.Root.set_heating:type_name -> cmd.Heater.SetHeating
+	4, // 3: cmd.Heater.Root.get_status:type_name -> cmd.Heater.GetStatus
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_heater_proto_init() }
@@ -254,6 +370,8 @@ func file_jon_shared_cmd_heater_proto_init() {
 		return
 	}
 	file_jon_shared_cmd_heater_proto_msgTypes[0].OneofWrappers = []any{
+		(*Root_Start)(nil),
+		(*Root_Stop)(nil),
 		(*Root_SetHeating)(nil),
 		(*Root_GetStatus)(nil),
 	}
@@ -263,7 +381,7 @@ func file_jon_shared_cmd_heater_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_heater_proto_rawDesc), len(file_jon_shared_cmd_heater_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

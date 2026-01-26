@@ -7,22 +7,42 @@ package cmd.Heater;
 message Root {
   oneof cmd {
     option (buf.validate.oneof).required = true;
-    SetHeating set_heating = 1;
-    GetStatus get_status = 2;
+    Start start = 1;
+    Stop stop = 2;
+    SetHeating set_heating = 3;
+    GetStatus get_status = 4;
   }
 }
 
+// Start initiates communication with the heater controller
+message Start {}
+
+// Stop terminates communication with the heater controller
+message Stop {}
+
 // SetHeating configures heating targets for all channels
 message SetHeating {
-  // Target values per channel (3 channels)
+  // Target power values per channel in watts (3 channels)
   repeated float targets = 1 [(buf.validate.field).repeated = {
     min_items: 3,
-    max_items: 3
+    max_items: 3,
+    items: {
+      float: {
+        gte: 0,
+        lte: 60
+      }
+    }
   }];
-  // Temperature error/tolerance per channel (3 channels)
+  // Temperature error/tolerance per channel in Celsius (3 channels)
   repeated float temp_error = 2 [(buf.validate.field).repeated = {
     min_items: 3,
-    max_items: 3
+    max_items: 3,
+    items: {
+      float: {
+        gte: 0,
+        lte: 40
+      }
+    }
   }];
 }
 

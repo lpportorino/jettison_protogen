@@ -9,6 +9,12 @@
 PB_BIND(cmd_Heater_Root, cmd_Heater_Root, AUTO)
 
 
+PB_BIND(cmd_Heater_Start, cmd_Heater_Start, AUTO)
+
+
+PB_BIND(cmd_Heater_Stop, cmd_Heater_Stop, AUTO)
+
+
 PB_BIND(cmd_Heater_SetHeating, cmd_Heater_SetHeating, AUTO)
 
 

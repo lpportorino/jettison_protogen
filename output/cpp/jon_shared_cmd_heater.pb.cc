@@ -26,6 +26,42 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace cmd {
 namespace Heater {
+              template <typename>
+PROTOBUF_CONSTEXPR Stop::Stop(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct StopDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StopDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StopDefaultTypeInternal() {}
+  union {
+    Stop _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StopDefaultTypeInternal _Stop_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR Start::Start(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct StartDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StartDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StartDefaultTypeInternal() {}
+  union {
+    Start _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StartDefaultTypeInternal _Start_default_instance_;
 
 inline constexpr SetHeating::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -115,7 +151,25 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::Heater::Root, _impl_.cmd_),
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::Start, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::Stop, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -139,25 +193,32 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::Heater::Root)},
-        {11, -1, -1, sizeof(::cmd::Heater::SetHeating)},
-        {21, -1, -1, sizeof(::cmd::Heater::GetStatus)},
+        {13, -1, -1, sizeof(::cmd::Heater::Start)},
+        {21, -1, -1, sizeof(::cmd::Heater::Stop)},
+        {29, -1, -1, sizeof(::cmd::Heater::SetHeating)},
+        {39, -1, -1, sizeof(::cmd::Heater::GetStatus)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Heater::_Root_default_instance_._instance,
+    &::cmd::Heater::_Start_default_instance_._instance,
+    &::cmd::Heater::_Stop_default_instance_._instance,
     &::cmd::Heater::_SetHeating_default_instance_._instance,
     &::cmd::Heater::_GetStatus_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_heater.proto\022\ncmd.Heate"
-    "r\032\033buf/validate/validate.proto\"p\n\004Root\022-"
-    "\n\013set_heating\030\001 \001(\0132\026.cmd.Heater.SetHeat"
-    "ingH\000\022+\n\nget_status\030\002 \001(\0132\025.cmd.Heater.G"
-    "etStatusH\000B\014\n\003cmd\022\005\272H\002\010\001\"I\n\nSetHeating\022\033"
-    "\n\007targets\030\001 \003(\002B\n\272H\007\222\001\004\010\003\020\003\022\036\n\ntemp_erro"
-    "r\030\002 \003(\002B\n\272H\007\222\001\004\010\003\020\003\"\013\n\tGetStatusBMZKgit-"
-    "codecommit.eu-central-1.amazonaws.com/v1"
-    "/repos/jettison/jonp/cmd/heaterb\006proto3"
+    "r\032\033buf/validate/validate.proto\"\266\001\n\004Root\022"
+    "\"\n\005start\030\001 \001(\0132\021.cmd.Heater.StartH\000\022 \n\004s"
+    "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea"
+    "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n"
+    "get_status\030\004 \001(\0132\025.cmd.Heater.GetStatusH"
+    "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"e\n\nSetH"
+    "eating\022)\n\007targets\030\001 \003(\002B\030\272H\025\222\001\022\010\003\020\003\"\014\n\n\035"
+    "\000\000pB-\000\000\000\000\022,\n\ntemp_error\030\002 \003(\002B\030\272H\025\222\001\022\010\003\020"
+    "\003\"\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatusBMZKgit-code"
+    "commit.eu-central-1.amazonaws.com/v1/rep"
+    "os/jettison/jonp/cmd/heaterb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps[1] =
     {
@@ -167,13 +228,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto = {
     false,
     false,
-    359,
+    475,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto,
     "jon_shared_cmd_heater.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps,
     1,
-    3,
+    5,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fheater_2eproto::offsets,
@@ -190,6 +251,32 @@ class Root::_Internal {
       PROTOBUF_FIELD_OFFSET(::cmd::Heater::Root, _impl_._oneof_case_);
 };
 
+void Root::set_allocated_start(::cmd::Heater::Start* start) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (start) {
+    ::google::protobuf::Arena* submessage_arena = start->GetArena();
+    if (message_arena != submessage_arena) {
+      start = ::google::protobuf::internal::GetOwnedMessage(message_arena, start, submessage_arena);
+    }
+    set_has_start();
+    _impl_.cmd_.start_ = start;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.start)
+}
+void Root::set_allocated_stop(::cmd::Heater::Stop* stop) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (stop) {
+    ::google::protobuf::Arena* submessage_arena = stop->GetArena();
+    if (message_arena != submessage_arena) {
+      stop = ::google::protobuf::internal::GetOwnedMessage(message_arena, stop, submessage_arena);
+    }
+    set_has_stop();
+    _impl_.cmd_.stop_ = stop;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.stop)
+}
 void Root::set_allocated_set_heating(::cmd::Heater::SetHeating* set_heating) {
   ::google::protobuf::Arena* message_arena = GetArena();
   clear_cmd();
@@ -248,6 +335,12 @@ Root::Root(
   switch (cmd_case()) {
     case CMD_NOT_SET:
       break;
+      case kStart:
+        _impl_.cmd_.start_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::Start>(arena, *from._impl_.cmd_.start_);
+        break;
+      case kStop:
+        _impl_.cmd_.stop_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::Stop>(arena, *from._impl_.cmd_.stop_);
+        break;
       case kSetHeating:
         _impl_.cmd_.set_heating_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::SetHeating>(arena, *from._impl_.cmd_.set_heating_);
         break;
@@ -286,6 +379,22 @@ void Root::clear_cmd() {
 // @@protoc_insertion_point(one_of_clear_start:cmd.Heater.Root)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   switch (cmd_case()) {
+    case kStart: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.start_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.start_);
+      }
+      break;
+    }
+    case kStop: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.stop_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.stop_);
+      }
+      break;
+    }
     case kSetHeating: {
       if (GetArena() == nullptr) {
         delete _impl_.cmd_.set_heating_;
@@ -346,16 +455,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 2, 2, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 4, 4, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 0,  // max_field_number, fast_idx_mask
+    4, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967280,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
-    2,  // num_aux_entries
+    4,  // num_field_entries
+    4,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -368,13 +477,21 @@ const ::_pbi::TcParseTable<0, 2, 2, 0, 2> Root::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .cmd.Heater.SetHeating set_heating = 1;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.set_heating_), _Internal::kOneofCaseOffset + 0, 0,
+    // .cmd.Heater.Start start = 1;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.start_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .cmd.Heater.GetStatus get_status = 2;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.get_status_), _Internal::kOneofCaseOffset + 0, 1,
+    // .cmd.Heater.Stop stop = 2;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.stop_), _Internal::kOneofCaseOffset + 0, 1,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.SetHeating set_heating = 3;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.set_heating_), _Internal::kOneofCaseOffset + 0, 2,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.GetStatus get_status = 4;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.get_status_), _Internal::kOneofCaseOffset + 0, 3,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
+    {::_pbi::TcParser::GetTable<::cmd::Heater::Start>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::Stop>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::SetHeating>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::GetStatus>()},
   }}, {{
@@ -408,15 +525,27 @@ PROTOBUF_NOINLINE void Root::Clear() {
           (void)cached_has_bits;
 
           switch (this_.cmd_case()) {
+            case kStart: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  1, *this_._impl_.cmd_.start_, this_._impl_.cmd_.start_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kStop: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  2, *this_._impl_.cmd_.stop_, this_._impl_.cmd_.stop_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             case kSetHeating: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  1, *this_._impl_.cmd_.set_heating_, this_._impl_.cmd_.set_heating_->GetCachedSize(), target,
+                  3, *this_._impl_.cmd_.set_heating_, this_._impl_.cmd_.set_heating_->GetCachedSize(), target,
                   stream);
               break;
             }
             case kGetStatus: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  2, *this_._impl_.cmd_.get_status_, this_._impl_.cmd_.get_status_->GetCachedSize(), target,
+                  4, *this_._impl_.cmd_.get_status_, this_._impl_.cmd_.get_status_->GetCachedSize(), target,
                   stream);
               break;
             }
@@ -447,13 +576,25 @@ PROTOBUF_NOINLINE void Root::Clear() {
           (void)cached_has_bits;
 
           switch (this_.cmd_case()) {
-            // .cmd.Heater.SetHeating set_heating = 1;
+            // .cmd.Heater.Start start = 1;
+            case kStart: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.start_);
+              break;
+            }
+            // .cmd.Heater.Stop stop = 2;
+            case kStop: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.stop_);
+              break;
+            }
+            // .cmd.Heater.SetHeating set_heating = 3;
             case kSetHeating: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.set_heating_);
               break;
             }
-            // .cmd.Heater.GetStatus get_status = 2;
+            // .cmd.Heater.GetStatus get_status = 4;
             case kGetStatus: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.get_status_);
@@ -487,6 +628,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
     }
 
     switch (oneof_from_case) {
+      case kStart: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.start_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Heater::Start>(arena, *from._impl_.cmd_.start_);
+        } else {
+          _this->_impl_.cmd_.start_->MergeFrom(from._internal_start());
+        }
+        break;
+      }
+      case kStop: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.stop_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Heater::Stop>(arena, *from._impl_.cmd_.stop_);
+        } else {
+          _this->_impl_.cmd_.stop_->MergeFrom(from._internal_stop());
+        }
+        break;
+      }
       case kSetHeating: {
         if (oneof_needs_init) {
           _this->_impl_.cmd_.set_heating_ =
@@ -529,6 +688,212 @@ void Root::InternalSwap(Root* PROTOBUF_RESTRICT other) {
 
 ::google::protobuf::Metadata Root::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class Start::_Internal {
+ public:
+};
+
+Start::Start(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.Heater.Start)
+}
+Start::Start(
+    ::google::protobuf::Arena* arena,
+    const Start& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Start* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Heater.Start)
+}
+
+inline void* Start::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) Start(arena);
+}
+constexpr auto Start::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Start),
+                                            alignof(Start));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull Start::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_Start_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &Start::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<Start>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &Start::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<Start>(), &Start::ByteSizeLong,
+            &Start::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(Start, _impl_._cached_size_),
+        false,
+    },
+    &Start::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* Start::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> Start::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Heater::Start>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata Start::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class Stop::_Internal {
+ public:
+};
+
+Stop::Stop(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.Heater.Stop)
+}
+Stop::Stop(
+    ::google::protobuf::Arena* arena,
+    const Stop& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Stop* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Heater.Stop)
+}
+
+inline void* Stop::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) Stop(arena);
+}
+constexpr auto Stop::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Stop),
+                                            alignof(Stop));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull Stop::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_Stop_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &Stop::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<Stop>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &Stop::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<Stop>(), &Stop::ByteSizeLong,
+            &Stop::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(Stop, _impl_._cached_size_),
+        false,
+    },
+    &Stop::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* Stop::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> Stop::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Heater::Stop>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata Stop::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 

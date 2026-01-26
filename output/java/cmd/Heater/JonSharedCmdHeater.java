@@ -30,32 +30,62 @@ public final class JonSharedCmdHeater {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+     * <code>.cmd.Heater.Start start = 1;</code>
+     * @return Whether the start field is set.
+     */
+    boolean hasStart();
+    /**
+     * <code>.cmd.Heater.Start start = 1;</code>
+     * @return The start.
+     */
+    cmd.Heater.JonSharedCmdHeater.Start getStart();
+    /**
+     * <code>.cmd.Heater.Start start = 1;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.StartOrBuilder getStartOrBuilder();
+
+    /**
+     * <code>.cmd.Heater.Stop stop = 2;</code>
+     * @return Whether the stop field is set.
+     */
+    boolean hasStop();
+    /**
+     * <code>.cmd.Heater.Stop stop = 2;</code>
+     * @return The stop.
+     */
+    cmd.Heater.JonSharedCmdHeater.Stop getStop();
+    /**
+     * <code>.cmd.Heater.Stop stop = 2;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.StopOrBuilder getStopOrBuilder();
+
+    /**
+     * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
      * @return Whether the setHeating field is set.
      */
     boolean hasSetHeating();
     /**
-     * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+     * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
      * @return The setHeating.
      */
     cmd.Heater.JonSharedCmdHeater.SetHeating getSetHeating();
     /**
-     * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+     * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
      */
     cmd.Heater.JonSharedCmdHeater.SetHeatingOrBuilder getSetHeatingOrBuilder();
 
     /**
-     * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+     * <code>.cmd.Heater.GetStatus get_status = 4;</code>
      * @return Whether the getStatus field is set.
      */
     boolean hasGetStatus();
     /**
-     * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+     * <code>.cmd.Heater.GetStatus get_status = 4;</code>
      * @return The getStatus.
      */
     cmd.Heater.JonSharedCmdHeater.GetStatus getGetStatus();
     /**
-     * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+     * <code>.cmd.Heater.GetStatus get_status = 4;</code>
      */
     cmd.Heater.JonSharedCmdHeater.GetStatusOrBuilder getGetStatusOrBuilder();
 
@@ -104,8 +134,10 @@ public final class JonSharedCmdHeater {
     public enum CmdCase
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
-      SET_HEATING(1),
-      GET_STATUS(2),
+      START(1),
+      STOP(2),
+      SET_HEATING(3),
+      GET_STATUS(4),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -123,8 +155,10 @@ public final class JonSharedCmdHeater {
 
       public static CmdCase forNumber(int value) {
         switch (value) {
-          case 1: return SET_HEATING;
-          case 2: return GET_STATUS;
+          case 1: return START;
+          case 2: return STOP;
+          case 3: return SET_HEATING;
+          case 4: return GET_STATUS;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -140,63 +174,125 @@ public final class JonSharedCmdHeater {
           cmdCase_);
     }
 
-    public static final int SET_HEATING_FIELD_NUMBER = 1;
+    public static final int START_FIELD_NUMBER = 1;
     /**
-     * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+     * <code>.cmd.Heater.Start start = 1;</code>
+     * @return Whether the start field is set.
+     */
+    @java.lang.Override
+    public boolean hasStart() {
+      return cmdCase_ == 1;
+    }
+    /**
+     * <code>.cmd.Heater.Start start = 1;</code>
+     * @return The start.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.Start getStart() {
+      if (cmdCase_ == 1) {
+         return (cmd.Heater.JonSharedCmdHeater.Start) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Heater.Start start = 1;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.StartOrBuilder getStartOrBuilder() {
+      if (cmdCase_ == 1) {
+         return (cmd.Heater.JonSharedCmdHeater.Start) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+    }
+
+    public static final int STOP_FIELD_NUMBER = 2;
+    /**
+     * <code>.cmd.Heater.Stop stop = 2;</code>
+     * @return Whether the stop field is set.
+     */
+    @java.lang.Override
+    public boolean hasStop() {
+      return cmdCase_ == 2;
+    }
+    /**
+     * <code>.cmd.Heater.Stop stop = 2;</code>
+     * @return The stop.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.Stop getStop() {
+      if (cmdCase_ == 2) {
+         return (cmd.Heater.JonSharedCmdHeater.Stop) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Heater.Stop stop = 2;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.StopOrBuilder getStopOrBuilder() {
+      if (cmdCase_ == 2) {
+         return (cmd.Heater.JonSharedCmdHeater.Stop) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+    }
+
+    public static final int SET_HEATING_FIELD_NUMBER = 3;
+    /**
+     * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
      * @return Whether the setHeating field is set.
      */
     @java.lang.Override
     public boolean hasSetHeating() {
-      return cmdCase_ == 1;
+      return cmdCase_ == 3;
     }
     /**
-     * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+     * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
      * @return The setHeating.
      */
     @java.lang.Override
     public cmd.Heater.JonSharedCmdHeater.SetHeating getSetHeating() {
-      if (cmdCase_ == 1) {
+      if (cmdCase_ == 3) {
          return (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_;
       }
       return cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance();
     }
     /**
-     * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+     * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
      */
     @java.lang.Override
     public cmd.Heater.JonSharedCmdHeater.SetHeatingOrBuilder getSetHeatingOrBuilder() {
-      if (cmdCase_ == 1) {
+      if (cmdCase_ == 3) {
          return (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_;
       }
       return cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance();
     }
 
-    public static final int GET_STATUS_FIELD_NUMBER = 2;
+    public static final int GET_STATUS_FIELD_NUMBER = 4;
     /**
-     * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+     * <code>.cmd.Heater.GetStatus get_status = 4;</code>
      * @return Whether the getStatus field is set.
      */
     @java.lang.Override
     public boolean hasGetStatus() {
-      return cmdCase_ == 2;
+      return cmdCase_ == 4;
     }
     /**
-     * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+     * <code>.cmd.Heater.GetStatus get_status = 4;</code>
      * @return The getStatus.
      */
     @java.lang.Override
     public cmd.Heater.JonSharedCmdHeater.GetStatus getGetStatus() {
-      if (cmdCase_ == 2) {
+      if (cmdCase_ == 4) {
          return (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_;
       }
       return cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance();
     }
     /**
-     * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+     * <code>.cmd.Heater.GetStatus get_status = 4;</code>
      */
     @java.lang.Override
     public cmd.Heater.JonSharedCmdHeater.GetStatusOrBuilder getGetStatusOrBuilder() {
-      if (cmdCase_ == 2) {
+      if (cmdCase_ == 4) {
          return (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_;
       }
       return cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance();
@@ -217,10 +313,16 @@ public final class JonSharedCmdHeater {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (cmdCase_ == 1) {
-        output.writeMessage(1, (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_);
+        output.writeMessage(1, (cmd.Heater.JonSharedCmdHeater.Start) cmd_);
       }
       if (cmdCase_ == 2) {
-        output.writeMessage(2, (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_);
+        output.writeMessage(2, (cmd.Heater.JonSharedCmdHeater.Stop) cmd_);
+      }
+      if (cmdCase_ == 3) {
+        output.writeMessage(3, (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_);
+      }
+      if (cmdCase_ == 4) {
+        output.writeMessage(4, (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -233,11 +335,19 @@ public final class JonSharedCmdHeater {
       size = 0;
       if (cmdCase_ == 1) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_);
+          .computeMessageSize(1, (cmd.Heater.JonSharedCmdHeater.Start) cmd_);
       }
       if (cmdCase_ == 2) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_);
+          .computeMessageSize(2, (cmd.Heater.JonSharedCmdHeater.Stop) cmd_);
+      }
+      if (cmdCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_);
+      }
+      if (cmdCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -257,10 +367,18 @@ public final class JonSharedCmdHeater {
       if (!getCmdCase().equals(other.getCmdCase())) return false;
       switch (cmdCase_) {
         case 1:
+          if (!getStart()
+              .equals(other.getStart())) return false;
+          break;
+        case 2:
+          if (!getStop()
+              .equals(other.getStop())) return false;
+          break;
+        case 3:
           if (!getSetHeating()
               .equals(other.getSetHeating())) return false;
           break;
-        case 2:
+        case 4:
           if (!getGetStatus()
               .equals(other.getGetStatus())) return false;
           break;
@@ -280,10 +398,18 @@ public final class JonSharedCmdHeater {
       hash = (19 * hash) + getDescriptor().hashCode();
       switch (cmdCase_) {
         case 1:
+          hash = (37 * hash) + START_FIELD_NUMBER;
+          hash = (53 * hash) + getStart().hashCode();
+          break;
+        case 2:
+          hash = (37 * hash) + STOP_FIELD_NUMBER;
+          hash = (53 * hash) + getStop().hashCode();
+          break;
+        case 3:
           hash = (37 * hash) + SET_HEATING_FIELD_NUMBER;
           hash = (53 * hash) + getSetHeating().hashCode();
           break;
-        case 2:
+        case 4:
           hash = (37 * hash) + GET_STATUS_FIELD_NUMBER;
           hash = (53 * hash) + getGetStatus().hashCode();
           break;
@@ -421,6 +547,12 @@ public final class JonSharedCmdHeater {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
+        if (startBuilder_ != null) {
+          startBuilder_.clear();
+        }
+        if (stopBuilder_ != null) {
+          stopBuilder_.clear();
+        }
         if (setHeatingBuilder_ != null) {
           setHeatingBuilder_.clear();
         }
@@ -469,10 +601,18 @@ public final class JonSharedCmdHeater {
         result.cmdCase_ = cmdCase_;
         result.cmd_ = this.cmd_;
         if (cmdCase_ == 1 &&
+            startBuilder_ != null) {
+          result.cmd_ = startBuilder_.build();
+        }
+        if (cmdCase_ == 2 &&
+            stopBuilder_ != null) {
+          result.cmd_ = stopBuilder_.build();
+        }
+        if (cmdCase_ == 3 &&
             setHeatingBuilder_ != null) {
           result.cmd_ = setHeatingBuilder_.build();
         }
-        if (cmdCase_ == 2 &&
+        if (cmdCase_ == 4 &&
             getStatusBuilder_ != null) {
           result.cmd_ = getStatusBuilder_.build();
         }
@@ -491,6 +631,14 @@ public final class JonSharedCmdHeater {
       public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.Root other) {
         if (other == cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance()) return this;
         switch (other.getCmdCase()) {
+          case START: {
+            mergeStart(other.getStart());
+            break;
+          }
+          case STOP: {
+            mergeStop(other.getStop());
+            break;
+          }
           case SET_HEATING: {
             mergeSetHeating(other.getSetHeating());
             break;
@@ -531,18 +679,32 @@ public final class JonSharedCmdHeater {
                 break;
               case 10: {
                 input.readMessage(
-                    getSetHeatingFieldBuilder().getBuilder(),
+                    getStartFieldBuilder().getBuilder(),
                     extensionRegistry);
                 cmdCase_ = 1;
                 break;
               } // case 10
               case 18: {
                 input.readMessage(
-                    getGetStatusFieldBuilder().getBuilder(),
+                    getStopFieldBuilder().getBuilder(),
                     extensionRegistry);
                 cmdCase_ = 2;
                 break;
               } // case 18
+              case 26: {
+                input.readMessage(
+                    getSetHeatingFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 3;
+                break;
+              } // case 26
+              case 34: {
+                input.readMessage(
+                    getGetStatusFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 4;
+                break;
+              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -576,35 +738,319 @@ public final class JonSharedCmdHeater {
       private int bitField0_;
 
       private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.Start, cmd.Heater.JonSharedCmdHeater.Start.Builder, cmd.Heater.JonSharedCmdHeater.StartOrBuilder> startBuilder_;
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       * @return Whether the start field is set.
+       */
+      @java.lang.Override
+      public boolean hasStart() {
+        return cmdCase_ == 1;
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       * @return The start.
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Start getStart() {
+        if (startBuilder_ == null) {
+          if (cmdCase_ == 1) {
+            return (cmd.Heater.JonSharedCmdHeater.Start) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 1) {
+            return startBuilder_.getMessage();
+          }
+          return cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      public Builder setStart(cmd.Heater.JonSharedCmdHeater.Start value) {
+        if (startBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          startBuilder_.setMessage(value);
+        }
+        cmdCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      public Builder setStart(
+          cmd.Heater.JonSharedCmdHeater.Start.Builder builderForValue) {
+        if (startBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          startBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      public Builder mergeStart(cmd.Heater.JonSharedCmdHeater.Start value) {
+        if (startBuilder_ == null) {
+          if (cmdCase_ == 1 &&
+              cmd_ != cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance()) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.Start.newBuilder((cmd.Heater.JonSharedCmdHeater.Start) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 1) {
+            startBuilder_.mergeFrom(value);
+          } else {
+            startBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 1;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      public Builder clearStart() {
+        if (startBuilder_ == null) {
+          if (cmdCase_ == 1) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 1) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          startBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.Start.Builder getStartBuilder() {
+        return getStartFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.StartOrBuilder getStartOrBuilder() {
+        if ((cmdCase_ == 1) && (startBuilder_ != null)) {
+          return startBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 1) {
+            return (cmd.Heater.JonSharedCmdHeater.Start) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.Start start = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.Start, cmd.Heater.JonSharedCmdHeater.Start.Builder, cmd.Heater.JonSharedCmdHeater.StartOrBuilder> 
+          getStartFieldBuilder() {
+        if (startBuilder_ == null) {
+          if (!(cmdCase_ == 1)) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+          }
+          startBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.Start, cmd.Heater.JonSharedCmdHeater.Start.Builder, cmd.Heater.JonSharedCmdHeater.StartOrBuilder>(
+                  (cmd.Heater.JonSharedCmdHeater.Start) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 1;
+        onChanged();
+        return startBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.Stop, cmd.Heater.JonSharedCmdHeater.Stop.Builder, cmd.Heater.JonSharedCmdHeater.StopOrBuilder> stopBuilder_;
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       * @return Whether the stop field is set.
+       */
+      @java.lang.Override
+      public boolean hasStop() {
+        return cmdCase_ == 2;
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       * @return The stop.
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Stop getStop() {
+        if (stopBuilder_ == null) {
+          if (cmdCase_ == 2) {
+            return (cmd.Heater.JonSharedCmdHeater.Stop) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 2) {
+            return stopBuilder_.getMessage();
+          }
+          return cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      public Builder setStop(cmd.Heater.JonSharedCmdHeater.Stop value) {
+        if (stopBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          stopBuilder_.setMessage(value);
+        }
+        cmdCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      public Builder setStop(
+          cmd.Heater.JonSharedCmdHeater.Stop.Builder builderForValue) {
+        if (stopBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          stopBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      public Builder mergeStop(cmd.Heater.JonSharedCmdHeater.Stop value) {
+        if (stopBuilder_ == null) {
+          if (cmdCase_ == 2 &&
+              cmd_ != cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance()) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.Stop.newBuilder((cmd.Heater.JonSharedCmdHeater.Stop) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 2) {
+            stopBuilder_.mergeFrom(value);
+          } else {
+            stopBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 2;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      public Builder clearStop() {
+        if (stopBuilder_ == null) {
+          if (cmdCase_ == 2) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 2) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          stopBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.Stop.Builder getStopBuilder() {
+        return getStopFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.StopOrBuilder getStopOrBuilder() {
+        if ((cmdCase_ == 2) && (stopBuilder_ != null)) {
+          return stopBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 2) {
+            return (cmd.Heater.JonSharedCmdHeater.Stop) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.Stop stop = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.Stop, cmd.Heater.JonSharedCmdHeater.Stop.Builder, cmd.Heater.JonSharedCmdHeater.StopOrBuilder> 
+          getStopFieldBuilder() {
+        if (stopBuilder_ == null) {
+          if (!(cmdCase_ == 2)) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+          }
+          stopBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.Stop, cmd.Heater.JonSharedCmdHeater.Stop.Builder, cmd.Heater.JonSharedCmdHeater.StopOrBuilder>(
+                  (cmd.Heater.JonSharedCmdHeater.Stop) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 2;
+        onChanged();
+        return stopBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
           cmd.Heater.JonSharedCmdHeater.SetHeating, cmd.Heater.JonSharedCmdHeater.SetHeating.Builder, cmd.Heater.JonSharedCmdHeater.SetHeatingOrBuilder> setHeatingBuilder_;
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        * @return Whether the setHeating field is set.
        */
       @java.lang.Override
       public boolean hasSetHeating() {
-        return cmdCase_ == 1;
+        return cmdCase_ == 3;
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        * @return The setHeating.
        */
       @java.lang.Override
       public cmd.Heater.JonSharedCmdHeater.SetHeating getSetHeating() {
         if (setHeatingBuilder_ == null) {
-          if (cmdCase_ == 1) {
+          if (cmdCase_ == 3) {
             return (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_;
           }
           return cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance();
         } else {
-          if (cmdCase_ == 1) {
+          if (cmdCase_ == 3) {
             return setHeatingBuilder_.getMessage();
           }
           return cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance();
         }
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       public Builder setSetHeating(cmd.Heater.JonSharedCmdHeater.SetHeating value) {
         if (setHeatingBuilder_ == null) {
@@ -616,11 +1062,11 @@ public final class JonSharedCmdHeater {
         } else {
           setHeatingBuilder_.setMessage(value);
         }
-        cmdCase_ = 1;
+        cmdCase_ = 3;
         return this;
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       public Builder setSetHeating(
           cmd.Heater.JonSharedCmdHeater.SetHeating.Builder builderForValue) {
@@ -630,15 +1076,15 @@ public final class JonSharedCmdHeater {
         } else {
           setHeatingBuilder_.setMessage(builderForValue.build());
         }
-        cmdCase_ = 1;
+        cmdCase_ = 3;
         return this;
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       public Builder mergeSetHeating(cmd.Heater.JonSharedCmdHeater.SetHeating value) {
         if (setHeatingBuilder_ == null) {
-          if (cmdCase_ == 1 &&
+          if (cmdCase_ == 3 &&
               cmd_ != cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance()) {
             cmd_ = cmd.Heater.JonSharedCmdHeater.SetHeating.newBuilder((cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_)
                 .mergeFrom(value).buildPartial();
@@ -647,27 +1093,27 @@ public final class JonSharedCmdHeater {
           }
           onChanged();
         } else {
-          if (cmdCase_ == 1) {
+          if (cmdCase_ == 3) {
             setHeatingBuilder_.mergeFrom(value);
           } else {
             setHeatingBuilder_.setMessage(value);
           }
         }
-        cmdCase_ = 1;
+        cmdCase_ = 3;
         return this;
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       public Builder clearSetHeating() {
         if (setHeatingBuilder_ == null) {
-          if (cmdCase_ == 1) {
+          if (cmdCase_ == 3) {
             cmdCase_ = 0;
             cmd_ = null;
             onChanged();
           }
         } else {
-          if (cmdCase_ == 1) {
+          if (cmdCase_ == 3) {
             cmdCase_ = 0;
             cmd_ = null;
           }
@@ -676,33 +1122,33 @@ public final class JonSharedCmdHeater {
         return this;
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       public cmd.Heater.JonSharedCmdHeater.SetHeating.Builder getSetHeatingBuilder() {
         return getSetHeatingFieldBuilder().getBuilder();
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       @java.lang.Override
       public cmd.Heater.JonSharedCmdHeater.SetHeatingOrBuilder getSetHeatingOrBuilder() {
-        if ((cmdCase_ == 1) && (setHeatingBuilder_ != null)) {
+        if ((cmdCase_ == 3) && (setHeatingBuilder_ != null)) {
           return setHeatingBuilder_.getMessageOrBuilder();
         } else {
-          if (cmdCase_ == 1) {
+          if (cmdCase_ == 3) {
             return (cmd.Heater.JonSharedCmdHeater.SetHeating) cmd_;
           }
           return cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance();
         }
       }
       /**
-       * <code>.cmd.Heater.SetHeating set_heating = 1;</code>
+       * <code>.cmd.Heater.SetHeating set_heating = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           cmd.Heater.JonSharedCmdHeater.SetHeating, cmd.Heater.JonSharedCmdHeater.SetHeating.Builder, cmd.Heater.JonSharedCmdHeater.SetHeatingOrBuilder> 
           getSetHeatingFieldBuilder() {
         if (setHeatingBuilder_ == null) {
-          if (!(cmdCase_ == 1)) {
+          if (!(cmdCase_ == 3)) {
             cmd_ = cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance();
           }
           setHeatingBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -712,7 +1158,7 @@ public final class JonSharedCmdHeater {
                   isClean());
           cmd_ = null;
         }
-        cmdCase_ = 1;
+        cmdCase_ = 3;
         onChanged();
         return setHeatingBuilder_;
       }
@@ -720,33 +1166,33 @@ public final class JonSharedCmdHeater {
       private com.google.protobuf.SingleFieldBuilder<
           cmd.Heater.JonSharedCmdHeater.GetStatus, cmd.Heater.JonSharedCmdHeater.GetStatus.Builder, cmd.Heater.JonSharedCmdHeater.GetStatusOrBuilder> getStatusBuilder_;
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        * @return Whether the getStatus field is set.
        */
       @java.lang.Override
       public boolean hasGetStatus() {
-        return cmdCase_ == 2;
+        return cmdCase_ == 4;
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        * @return The getStatus.
        */
       @java.lang.Override
       public cmd.Heater.JonSharedCmdHeater.GetStatus getGetStatus() {
         if (getStatusBuilder_ == null) {
-          if (cmdCase_ == 2) {
+          if (cmdCase_ == 4) {
             return (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_;
           }
           return cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance();
         } else {
-          if (cmdCase_ == 2) {
+          if (cmdCase_ == 4) {
             return getStatusBuilder_.getMessage();
           }
           return cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance();
         }
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       public Builder setGetStatus(cmd.Heater.JonSharedCmdHeater.GetStatus value) {
         if (getStatusBuilder_ == null) {
@@ -758,11 +1204,11 @@ public final class JonSharedCmdHeater {
         } else {
           getStatusBuilder_.setMessage(value);
         }
-        cmdCase_ = 2;
+        cmdCase_ = 4;
         return this;
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       public Builder setGetStatus(
           cmd.Heater.JonSharedCmdHeater.GetStatus.Builder builderForValue) {
@@ -772,15 +1218,15 @@ public final class JonSharedCmdHeater {
         } else {
           getStatusBuilder_.setMessage(builderForValue.build());
         }
-        cmdCase_ = 2;
+        cmdCase_ = 4;
         return this;
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       public Builder mergeGetStatus(cmd.Heater.JonSharedCmdHeater.GetStatus value) {
         if (getStatusBuilder_ == null) {
-          if (cmdCase_ == 2 &&
+          if (cmdCase_ == 4 &&
               cmd_ != cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance()) {
             cmd_ = cmd.Heater.JonSharedCmdHeater.GetStatus.newBuilder((cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_)
                 .mergeFrom(value).buildPartial();
@@ -789,27 +1235,27 @@ public final class JonSharedCmdHeater {
           }
           onChanged();
         } else {
-          if (cmdCase_ == 2) {
+          if (cmdCase_ == 4) {
             getStatusBuilder_.mergeFrom(value);
           } else {
             getStatusBuilder_.setMessage(value);
           }
         }
-        cmdCase_ = 2;
+        cmdCase_ = 4;
         return this;
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       public Builder clearGetStatus() {
         if (getStatusBuilder_ == null) {
-          if (cmdCase_ == 2) {
+          if (cmdCase_ == 4) {
             cmdCase_ = 0;
             cmd_ = null;
             onChanged();
           }
         } else {
-          if (cmdCase_ == 2) {
+          if (cmdCase_ == 4) {
             cmdCase_ = 0;
             cmd_ = null;
           }
@@ -818,33 +1264,33 @@ public final class JonSharedCmdHeater {
         return this;
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       public cmd.Heater.JonSharedCmdHeater.GetStatus.Builder getGetStatusBuilder() {
         return getGetStatusFieldBuilder().getBuilder();
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       @java.lang.Override
       public cmd.Heater.JonSharedCmdHeater.GetStatusOrBuilder getGetStatusOrBuilder() {
-        if ((cmdCase_ == 2) && (getStatusBuilder_ != null)) {
+        if ((cmdCase_ == 4) && (getStatusBuilder_ != null)) {
           return getStatusBuilder_.getMessageOrBuilder();
         } else {
-          if (cmdCase_ == 2) {
+          if (cmdCase_ == 4) {
             return (cmd.Heater.JonSharedCmdHeater.GetStatus) cmd_;
           }
           return cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance();
         }
       }
       /**
-       * <code>.cmd.Heater.GetStatus get_status = 2;</code>
+       * <code>.cmd.Heater.GetStatus get_status = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           cmd.Heater.JonSharedCmdHeater.GetStatus, cmd.Heater.JonSharedCmdHeater.GetStatus.Builder, cmd.Heater.JonSharedCmdHeater.GetStatusOrBuilder> 
           getGetStatusFieldBuilder() {
         if (getStatusBuilder_ == null) {
-          if (!(cmdCase_ == 2)) {
+          if (!(cmdCase_ == 4)) {
             cmd_ = cmd.Heater.JonSharedCmdHeater.GetStatus.getDefaultInstance();
           }
           getStatusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
@@ -854,7 +1300,7 @@ public final class JonSharedCmdHeater {
                   isClean());
           cmd_ = null;
         }
-        cmdCase_ = 2;
+        cmdCase_ = 4;
         onChanged();
         return getStatusBuilder_;
       }
@@ -910,13 +1356,739 @@ public final class JonSharedCmdHeater {
 
   }
 
+  public interface StartOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Heater.Start)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * <pre>
+   * Start initiates communication with the heater controller
+   * </pre>
+   *
+   * Protobuf type {@code cmd.Heater.Start}
+   */
+  public static final class Start extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Heater.Start)
+      StartOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        Start.class.getName());
+    }
+    // Use Start.newBuilder() to construct.
+    private Start(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private Start() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Start_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Start_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Heater.JonSharedCmdHeater.Start.class, cmd.Heater.JonSharedCmdHeater.Start.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Heater.JonSharedCmdHeater.Start)) {
+        return super.equals(obj);
+      }
+      cmd.Heater.JonSharedCmdHeater.Start other = (cmd.Heater.JonSharedCmdHeater.Start) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Start parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Start parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Start parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Heater.JonSharedCmdHeater.Start prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Start initiates communication with the heater controller
+     * </pre>
+     *
+     * Protobuf type {@code cmd.Heater.Start}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Heater.Start)
+        cmd.Heater.JonSharedCmdHeater.StartOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Start_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Start_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Heater.JonSharedCmdHeater.Start.class, cmd.Heater.JonSharedCmdHeater.Start.Builder.class);
+      }
+
+      // Construct using cmd.Heater.JonSharedCmdHeater.Start.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Start_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Start getDefaultInstanceForType() {
+        return cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Start build() {
+        cmd.Heater.JonSharedCmdHeater.Start result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Start buildPartial() {
+        cmd.Heater.JonSharedCmdHeater.Start result = new cmd.Heater.JonSharedCmdHeater.Start(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Heater.JonSharedCmdHeater.Start) {
+          return mergeFrom((cmd.Heater.JonSharedCmdHeater.Start)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.Start other) {
+        if (other == cmd.Heater.JonSharedCmdHeater.Start.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Heater.Start)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Heater.Start)
+    private static final cmd.Heater.JonSharedCmdHeater.Start DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Heater.JonSharedCmdHeater.Start();
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Start getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Start>
+        PARSER = new com.google.protobuf.AbstractParser<Start>() {
+      @java.lang.Override
+      public Start parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<Start> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Start> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.Start getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StopOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Heater.Stop)
+      com.google.protobuf.MessageOrBuilder {
+  }
+  /**
+   * <pre>
+   * Stop terminates communication with the heater controller
+   * </pre>
+   *
+   * Protobuf type {@code cmd.Heater.Stop}
+   */
+  public static final class Stop extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Heater.Stop)
+      StopOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        Stop.class.getName());
+    }
+    // Use Stop.newBuilder() to construct.
+    private Stop(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private Stop() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Stop_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Stop_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Heater.JonSharedCmdHeater.Stop.class, cmd.Heater.JonSharedCmdHeater.Stop.Builder.class);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Heater.JonSharedCmdHeater.Stop)) {
+        return super.equals(obj);
+      }
+      cmd.Heater.JonSharedCmdHeater.Stop other = (cmd.Heater.JonSharedCmdHeater.Stop) obj;
+
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.Stop parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Heater.JonSharedCmdHeater.Stop prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Stop terminates communication with the heater controller
+     * </pre>
+     *
+     * Protobuf type {@code cmd.Heater.Stop}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Heater.Stop)
+        cmd.Heater.JonSharedCmdHeater.StopOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Stop_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Stop_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Heater.JonSharedCmdHeater.Stop.class, cmd.Heater.JonSharedCmdHeater.Stop.Builder.class);
+      }
+
+      // Construct using cmd.Heater.JonSharedCmdHeater.Stop.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_Stop_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Stop getDefaultInstanceForType() {
+        return cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Stop build() {
+        cmd.Heater.JonSharedCmdHeater.Stop result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Stop buildPartial() {
+        cmd.Heater.JonSharedCmdHeater.Stop result = new cmd.Heater.JonSharedCmdHeater.Stop(this);
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Heater.JonSharedCmdHeater.Stop) {
+          return mergeFrom((cmd.Heater.JonSharedCmdHeater.Stop)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.Stop other) {
+        if (other == cmd.Heater.JonSharedCmdHeater.Stop.getDefaultInstance()) return this;
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Heater.Stop)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Heater.Stop)
+    private static final cmd.Heater.JonSharedCmdHeater.Stop DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Heater.JonSharedCmdHeater.Stop();
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.Stop getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Stop>
+        PARSER = new com.google.protobuf.AbstractParser<Stop>() {
+      @java.lang.Override
+      public Stop parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<Stop> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Stop> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.Stop getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface SetHeatingOrBuilder extends
       // @@protoc_insertion_point(interface_extends:cmd.Heater.SetHeating)
       com.google.protobuf.MessageOrBuilder {
 
     /**
      * <pre>
-     * Target values per channel (3 channels)
+     * Target power values per channel in watts (3 channels)
      * </pre>
      *
      * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -925,7 +2097,7 @@ public final class JonSharedCmdHeater {
     java.util.List<java.lang.Float> getTargetsList();
     /**
      * <pre>
-     * Target values per channel (3 channels)
+     * Target power values per channel in watts (3 channels)
      * </pre>
      *
      * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -934,7 +2106,7 @@ public final class JonSharedCmdHeater {
     int getTargetsCount();
     /**
      * <pre>
-     * Target values per channel (3 channels)
+     * Target power values per channel in watts (3 channels)
      * </pre>
      *
      * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -945,7 +2117,7 @@ public final class JonSharedCmdHeater {
 
     /**
      * <pre>
-     * Temperature error/tolerance per channel (3 channels)
+     * Temperature error/tolerance per channel in Celsius (3 channels)
      * </pre>
      *
      * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -954,7 +2126,7 @@ public final class JonSharedCmdHeater {
     java.util.List<java.lang.Float> getTempErrorList();
     /**
      * <pre>
-     * Temperature error/tolerance per channel (3 channels)
+     * Temperature error/tolerance per channel in Celsius (3 channels)
      * </pre>
      *
      * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -963,7 +2135,7 @@ public final class JonSharedCmdHeater {
     int getTempErrorCount();
     /**
      * <pre>
-     * Temperature error/tolerance per channel (3 channels)
+     * Temperature error/tolerance per channel in Celsius (3 channels)
      * </pre>
      *
      * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1021,7 +2193,7 @@ public final class JonSharedCmdHeater {
         emptyFloatList();
     /**
      * <pre>
-     * Target values per channel (3 channels)
+     * Target power values per channel in watts (3 channels)
      * </pre>
      *
      * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1034,7 +2206,7 @@ public final class JonSharedCmdHeater {
     }
     /**
      * <pre>
-     * Target values per channel (3 channels)
+     * Target power values per channel in watts (3 channels)
      * </pre>
      *
      * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1045,7 +2217,7 @@ public final class JonSharedCmdHeater {
     }
     /**
      * <pre>
-     * Target values per channel (3 channels)
+     * Target power values per channel in watts (3 channels)
      * </pre>
      *
      * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1063,7 +2235,7 @@ public final class JonSharedCmdHeater {
         emptyFloatList();
     /**
      * <pre>
-     * Temperature error/tolerance per channel (3 channels)
+     * Temperature error/tolerance per channel in Celsius (3 channels)
      * </pre>
      *
      * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1076,7 +2248,7 @@ public final class JonSharedCmdHeater {
     }
     /**
      * <pre>
-     * Temperature error/tolerance per channel (3 channels)
+     * Temperature error/tolerance per channel in Celsius (3 channels)
      * </pre>
      *
      * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1087,7 +2259,7 @@ public final class JonSharedCmdHeater {
     }
     /**
      * <pre>
-     * Temperature error/tolerance per channel (3 channels)
+     * Temperature error/tolerance per channel in Celsius (3 channels)
      * </pre>
      *
      * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1503,7 +2675,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1516,7 +2688,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1527,7 +2699,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1539,7 +2711,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1558,7 +2730,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1575,7 +2747,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1593,7 +2765,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Target values per channel (3 channels)
+       * Target power values per channel in watts (3 channels)
        * </pre>
        *
        * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
@@ -1621,7 +2793,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1634,7 +2806,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1645,7 +2817,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1657,7 +2829,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1676,7 +2848,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1693,7 +2865,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -1711,7 +2883,7 @@ public final class JonSharedCmdHeater {
       }
       /**
        * <pre>
-       * Temperature error/tolerance per channel (3 channels)
+       * Temperature error/tolerance per channel in Celsius (3 channels)
        * </pre>
        *
        * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
@@ -2144,6 +3316,16 @@ public final class JonSharedCmdHeater {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_Heater_Root_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Heater_Start_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Heater_Start_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Heater_Stop_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Heater_Stop_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_Heater_SetHeating_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2163,14 +3345,17 @@ public final class JonSharedCmdHeater {
   static {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_heater.proto\022\ncmd.Heate" +
-      "r\032\033buf/validate/validate.proto\"p\n\004Root\022-" +
-      "\n\013set_heating\030\001 \001(\0132\026.cmd.Heater.SetHeat" +
-      "ingH\000\022+\n\nget_status\030\002 \001(\0132\025.cmd.Heater.G" +
-      "etStatusH\000B\014\n\003cmd\022\005\272H\002\010\001\"I\n\nSetHeating\022\033" +
-      "\n\007targets\030\001 \003(\002B\n\272H\007\222\001\004\010\003\020\003\022\036\n\ntemp_erro" +
-      "r\030\002 \003(\002B\n\272H\007\222\001\004\010\003\020\003\"\013\n\tGetStatusBMZKgit-" +
-      "codecommit.eu-central-1.amazonaws.com/v1" +
-      "/repos/jettison/jonp/cmd/heaterb\006proto3"
+      "r\032\033buf/validate/validate.proto\"\266\001\n\004Root\022" +
+      "\"\n\005start\030\001 \001(\0132\021.cmd.Heater.StartH\000\022 \n\004s" +
+      "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea" +
+      "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n" +
+      "get_status\030\004 \001(\0132\025.cmd.Heater.GetStatusH" +
+      "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"e\n\nSetH" +
+      "eating\022)\n\007targets\030\001 \003(\002B\030\272H\025\222\001\022\010\003\020\003\"\014\n\n\035" +
+      "\000\000pB-\000\000\000\000\022,\n\ntemp_error\030\002 \003(\002B\030\272H\025\222\001\022\010\003\020" +
+      "\003\"\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatusBMZKgit-code" +
+      "commit.eu-central-1.amazonaws.com/v1/rep" +
+      "os/jettison/jonp/cmd/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2182,15 +3367,27 @@ public final class JonSharedCmdHeater {
     internal_static_cmd_Heater_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_Root_descriptor,
-        new java.lang.String[] { "SetHeating", "GetStatus", "Cmd", });
-    internal_static_cmd_Heater_SetHeating_descriptor =
+        new java.lang.String[] { "Start", "Stop", "SetHeating", "GetStatus", "Cmd", });
+    internal_static_cmd_Heater_Start_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_cmd_Heater_Start_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Heater_Start_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_Heater_Stop_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_cmd_Heater_Stop_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Heater_Stop_descriptor,
+        new java.lang.String[] { });
+    internal_static_cmd_Heater_SetHeating_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_cmd_Heater_SetHeating_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_SetHeating_descriptor,
         new java.lang.String[] { "Targets", "TempError", });
     internal_static_cmd_Heater_GetStatus_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_cmd_Heater_GetStatus_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_GetStatus_descriptor,

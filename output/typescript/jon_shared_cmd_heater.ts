@@ -9,15 +9,25 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 
 export interface Root {
+  start?: Start | undefined;
+  stop?: Stop | undefined;
   setHeating?: SetHeating | undefined;
   getStatus?: GetStatus | undefined;
 }
 
+/** Start initiates communication with the heater controller */
+export interface Start {
+}
+
+/** Stop terminates communication with the heater controller */
+export interface Stop {
+}
+
 /** SetHeating configures heating targets for all channels */
 export interface SetHeating {
-  /** Target values per channel (3 channels) */
+  /** Target power values per channel in watts (3 channels) */
   targets: number[];
-  /** Temperature error/tolerance per channel (3 channels) */
+  /** Temperature error/tolerance per channel in Celsius (3 channels) */
   tempError: number[];
 }
 
@@ -26,16 +36,22 @@ export interface GetStatus {
 }
 
 function createBaseRoot(): Root {
-  return { setHeating: undefined, getStatus: undefined };
+  return { start: undefined, stop: undefined, setHeating: undefined, getStatus: undefined };
 }
 
 export const Root: MessageFns<Root> = {
   encode(message: Root, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.start !== undefined) {
+      Start.encode(message.start, writer.uint32(10).fork()).join();
+    }
+    if (message.stop !== undefined) {
+      Stop.encode(message.stop, writer.uint32(18).fork()).join();
+    }
     if (message.setHeating !== undefined) {
-      SetHeating.encode(message.setHeating, writer.uint32(10).fork()).join();
+      SetHeating.encode(message.setHeating, writer.uint32(26).fork()).join();
     }
     if (message.getStatus !== undefined) {
-      GetStatus.encode(message.getStatus, writer.uint32(18).fork()).join();
+      GetStatus.encode(message.getStatus, writer.uint32(34).fork()).join();
     }
     return writer;
   },
@@ -52,11 +68,27 @@ export const Root: MessageFns<Root> = {
             break;
           }
 
-          message.setHeating = SetHeating.decode(reader, reader.uint32());
+          message.start = Start.decode(reader, reader.uint32());
           continue;
         }
         case 2: {
           if (tag !== 18) {
+            break;
+          }
+
+          message.stop = Stop.decode(reader, reader.uint32());
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.setHeating = SetHeating.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
             break;
           }
 
@@ -74,6 +106,8 @@ export const Root: MessageFns<Root> = {
 
   fromJSON(object: any): Root {
     return {
+      start: isSet(object.start) ? Start.fromJSON(object.start) : undefined,
+      stop: isSet(object.stop) ? Stop.fromJSON(object.stop) : undefined,
       setHeating: isSet(object.setHeating)
         ? SetHeating.fromJSON(object.setHeating)
         : isSet(object.set_heating)
@@ -89,6 +123,12 @@ export const Root: MessageFns<Root> = {
 
   toJSON(message: Root): unknown {
     const obj: any = {};
+    if (message.start !== undefined) {
+      obj.start = Start.toJSON(message.start);
+    }
+    if (message.stop !== undefined) {
+      obj.stop = Stop.toJSON(message.stop);
+    }
     if (message.setHeating !== undefined) {
       obj.setHeating = SetHeating.toJSON(message.setHeating);
     }
@@ -103,12 +143,100 @@ export const Root: MessageFns<Root> = {
   },
   fromPartial<I extends Exact<DeepPartial<Root>, I>>(object: I): Root {
     const message = createBaseRoot();
+    message.start = (object.start !== undefined && object.start !== null) ? Start.fromPartial(object.start) : undefined;
+    message.stop = (object.stop !== undefined && object.stop !== null) ? Stop.fromPartial(object.stop) : undefined;
     message.setHeating = (object.setHeating !== undefined && object.setHeating !== null)
       ? SetHeating.fromPartial(object.setHeating)
       : undefined;
     message.getStatus = (object.getStatus !== undefined && object.getStatus !== null)
       ? GetStatus.fromPartial(object.getStatus)
       : undefined;
+    return message;
+  },
+};
+
+function createBaseStart(): Start {
+  return {};
+}
+
+export const Start: MessageFns<Start> = {
+  encode(_: Start, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Start {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStart();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): Start {
+    return {};
+  },
+
+  toJSON(_: Start): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Start>, I>>(base?: I): Start {
+    return Start.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Start>, I>>(_: I): Start {
+    const message = createBaseStart();
+    return message;
+  },
+};
+
+function createBaseStop(): Stop {
+  return {};
+}
+
+export const Stop: MessageFns<Stop> = {
+  encode(_: Stop, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Stop {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStop();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): Stop {
+    return {};
+  },
+
+  toJSON(_: Stop): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Stop>, I>>(base?: I): Stop {
+    return Stop.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Stop>, I>>(_: I): Stop {
+    const message = createBaseStop();
     return message;
   },
 };
