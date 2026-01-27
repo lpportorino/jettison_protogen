@@ -5,7 +5,7 @@ pub struct CanFrame {
     /// Timestamp in microseconds
     #[prost(uint64, tag = "1")]
     pub timestamp_us: u64,
-    /// Raw CAN ID
+    /// Standard 11-bit CAN ID (0x000-0x7FF)
     #[prost(uint32, tag = "2")]
     pub can_id: u32,
     /// true=received from device, false=sent to device
@@ -14,7 +14,7 @@ pub struct CanFrame {
     /// true=CAN-FD, false=classic CAN
     #[prost(bool, tag = "4")]
     pub is_fd: bool,
-    /// Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+    /// Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
     #[prost(bytes = "vec", tag = "5")]
     pub data: ::prost::alloc::vec::Vec<u8>,
 }

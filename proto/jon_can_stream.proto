@@ -7,10 +7,15 @@ package jon.can;
 // Single CAN/CAN-FD frame
 message CANFrame {
   uint64 timestamp_us = 1;  // Timestamp in microseconds
-  uint32 can_id = 2;        // Raw CAN ID
+
+  // Standard 11-bit CAN ID (0x000-0x7FF)
+  uint32 can_id = 2 [(buf.validate.field).uint32.lte = 2047];
+
   bool is_rx = 3;           // true=received from device, false=sent to device
   bool is_fd = 4;           // true=CAN-FD, false=classic CAN
-  bytes data = 5;           // Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+
+  // Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
+  bytes data = 5 [(buf.validate.field).bytes.max_len = 64];
 }
 
 // Batch of CAN frames for efficient streaming
