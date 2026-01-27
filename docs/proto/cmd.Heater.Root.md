@@ -11,7 +11,20 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command container for the heater subsystem. Contains all heater-related commands as a required oneof.
+
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+
+### Purpose
+
+Container message that wraps all heater commands. Exactly one command must be set.
+
+### Related State
+
+- [[proto/ser.JonGuiDataHeater]]
 
 ## Fields
 

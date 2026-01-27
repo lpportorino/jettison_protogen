@@ -11,12 +11,30 @@ type: message
 
 ## Description
 
-*No description yet.*
+Requests sensor data from Unit 1. Retrieves readings from the U1 sensor module.
 
 ## Fields
 
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
+
+## Interaction
+
+- **Category:** :sensor
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+### Purpose
+
+Requests data from the U1 sensor unit. Response is delivered via ser.JonGuiDataPMU.
+
+### Related State
+
+- [[proto/ser.JonGuiDataPMU]]
+
+### Preconditions
+
+- PMU must be started
 
 
 

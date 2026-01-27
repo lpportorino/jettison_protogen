@@ -11,12 +11,35 @@ type: message
 
 ## Description
 
-*No description yet.*
+Enables battery charging. Allows the battery pack to charge from the external power source.
 
 ## Fields
 
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
+
+## Interaction
+
+- **Category:** :actuator
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+
+### Purpose
+
+Enables battery charging. The charge_disabled field in ser.JonGuiDataPMU will become false.
+
+### Related State
+
+- [[proto/ser.JonGuiDataPMU]]
+
+### Related Commands
+
+- [[proto/cmd.PMU.ChargeDisable]]
+
+### Preconditions
+
+- PMU must be started
+- External power source must be connected
 
 
 
