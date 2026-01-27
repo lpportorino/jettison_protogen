@@ -18,23 +18,29 @@ Powers on the PMU's onboard heater. Used for cold-weather operation to maintain 
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Activates the PMU heater for cold-weather operation. The heater_power_state field in ser.JonGuiDataPMU will reflect the state.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 
+
 ### Related Commands
 
 - [[proto/cmd.PMU.GetHeaterPowerState]]
+
 
 ### Preconditions
 

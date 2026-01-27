@@ -18,23 +18,29 @@ Disables battery charging. Prevents the battery pack from charging even when ext
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Disables battery charging. The charge_disabled field in ser.JonGuiDataPMU will become true.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 
+
 ### Related Commands
 
 - [[proto/cmd.PMU.ChargeEnable]]
+
 
 ### Preconditions
 

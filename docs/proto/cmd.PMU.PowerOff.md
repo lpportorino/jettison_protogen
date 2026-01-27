@@ -18,19 +18,25 @@ Initiates a complete system power off. This will shut down the entire system inc
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
+
 ### Purpose
 
 Triggers a full system power off. This is a one-way operation - the system will not respond after this command.
 
+
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
+
+
 
 ### Preconditions
 

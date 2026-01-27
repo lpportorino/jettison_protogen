@@ -18,24 +18,30 @@ Starts PMU monitoring and control. Enables power monitoring, current sensing, an
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Begins PMU monitoring operations. The PMU hardware must be powered on (TurnOn) before monitoring can start.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 
+
 ### Related Commands
 
 - [[proto/cmd.PMU.Stop]]
 - [[proto/cmd.PMU.TurnOn]]
+
 
 ### Preconditions
 

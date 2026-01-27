@@ -18,23 +18,29 @@ Stops the heater subsystem, disabling all heating zones and temperature control.
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Shuts down the heater subsystem. All heating zones will be disabled.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataHeater]]
 
+
 ### Related Commands
 
 - [[proto/cmd.Heater.Start]]
+
 
 
 

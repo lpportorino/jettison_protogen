@@ -18,23 +18,29 @@ Stops PMU monitoring and control. Disables power monitoring while keeping hardwa
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Stops PMU monitoring operations. The PMU hardware remains powered but monitoring is disabled.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 
+
 ### Related Commands
 
 - [[proto/cmd.PMU.Start]]
+
 
 
 

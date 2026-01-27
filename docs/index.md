@@ -176,11 +176,11 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### cmd.Heater
 
-- [[proto/cmd.Heater.GetStatus|GetStatus]]
-- [[proto/cmd.Heater.Root|Root]]
-- [[proto/cmd.Heater.SetHeating|SetHeating]]
-- [[proto/cmd.Heater.Start|Start]]
-- [[proto/cmd.Heater.Stop|Stop]]
+- [[proto/cmd.Heater.GetStatus|GetStatus]] — Requests the heater subsystem to report its current status including bus voltage, current, power consumption, and temperature status for all three heating zones.
+- [[proto/cmd.Heater.Root|Root]] — Root command container for the heater subsystem. Contains all heater-related commands as a required oneof.
+- [[proto/cmd.Heater.SetHeating|SetHeating]] — Sets target temperatures and acceptable error margins for each of the three independent heating zones. The heater controller will attempt to maintain each zone at its target temperature within the specified error threshold.
+- [[proto/cmd.Heater.Start|Start]] — Starts the heater subsystem, enabling temperature monitoring and heating control for all zones.
+- [[proto/cmd.Heater.Stop|Stop]] — Stops the heater subsystem, disabling all heating zones and temperature control.
 
 
 ### cmd.Lira
@@ -235,18 +235,18 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### cmd.PMU
 
-- [[proto/cmd.PMU.BootHeater|BootHeater]] — *No description yet.*
-- [[proto/cmd.PMU.ChargeDisable|ChargeDisable]] — *No description yet.*
-- [[proto/cmd.PMU.ChargeEnable|ChargeEnable]] — *No description yet.*
-- [[proto/cmd.PMU.GetDataU1|GetDataU1]] — *No description yet.*
-- [[proto/cmd.PMU.GetHeaterPowerState|GetHeaterPowerState]] — *No description yet.*
-- [[proto/cmd.PMU.GetMeteo|GetMeteo]] — *No description yet.*
-- [[proto/cmd.PMU.PowerOff|PowerOff]] — *No description yet.*
-- [[proto/cmd.PMU.Root|Root]] — *No description yet.*
-- [[proto/cmd.PMU.Start|Start]] — *No description yet.*
-- [[proto/cmd.PMU.Stop|Stop]] — *No description yet.*
-- [[proto/cmd.PMU.TurnOff|TurnOff]] — *No description yet.*
-- [[proto/cmd.PMU.TurnOn|TurnOn]] — *No description yet.*
+- [[proto/cmd.PMU.BootHeater|BootHeater]] — Powers on the PMU&#39;s onboard heater. Used for cold-weather operation to maintain safe operating temperatures.
+- [[proto/cmd.PMU.ChargeDisable|ChargeDisable]] — Disables battery charging. Prevents the battery pack from charging even when external power is connected.
+- [[proto/cmd.PMU.ChargeEnable|ChargeEnable]] — Enables battery charging. Allows the battery pack to charge from the external power source.
+- [[proto/cmd.PMU.GetDataU1|GetDataU1]] — Requests sensor data from Unit 1. Retrieves readings from the U1 sensor module.
+- [[proto/cmd.PMU.GetHeaterPowerState|GetHeaterPowerState]] — Requests the current power state of the PMU&#39;s heater. Returns whether the heater is powered on or off.
+- [[proto/cmd.PMU.GetMeteo|GetMeteo]] — Requests environmental/meteorological data from the PMU. Returns temperature, humidity, and pressure readings.
+- [[proto/cmd.PMU.PowerOff|PowerOff]] — Initiates a complete system power off. This will shut down the entire system including the compute module.
+- [[proto/cmd.PMU.Root|Root]] — Root command container for the Power Management Unit. Contains all PMU-related commands as a required oneof including lifecycle control, charging, heater, and sensor queries.
+- [[proto/cmd.PMU.Start|Start]] — Starts PMU monitoring and control. Enables power monitoring, current sensing, and temperature reporting.
+- [[proto/cmd.PMU.Stop|Stop]] — Stops PMU monitoring and control. Disables power monitoring while keeping hardware powered.
+- [[proto/cmd.PMU.TurnOff|TurnOff]] — Powers off the PMU hardware. This disables the physical power management circuitry.
+- [[proto/cmd.PMU.TurnOn|TurnOn]] — Powers on the PMU hardware. This enables the physical power management circuitry.
 
 
 ### cmd.Power
@@ -350,24 +350,24 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 - [[proto/ser.JonGuiDataCompassCalibration|JonGuiDataCompassCalibration]] — Represents the current state and progress of a compass calibration process, tracking the current step (stage), total steps required (final_stage), target orientation angles the user should point toward, and the overall calibration status.
 - [[proto/ser.JonGuiDataDayCamGlassHeater|JonGuiDataDayCamGlassHeater]] — Represents the operational state of the day camera&#39;s glass heater, which maintains camera lens temperature to prevent fogging and ice formation. Contains a temperature reading, on/off status, and activation state flag.
 - [[proto/ser.JonGuiDataGps|JonGuiDataGps]] — Represents the complete GPS positioning state of the system, including both automatic GPS fix coordinates and manually-entered fallback coordinates, along with the current fix quality type (none, 1D, 2D, 3D, or manual mode) and operational status.
-- [[proto/ser.JonGuiDataHeater|JonGuiDataHeater]]
-- [[proto/ser.JonGuiDataHeaterChannelStatus|JonGuiDataHeaterChannelStatus]]
+- [[proto/ser.JonGuiDataHeater|JonGuiDataHeater]] — Heater subsystem status. Reports overall bus power consumption (voltage, current, power) and per-channel status for up to 3 heating channels (e.g., camera housing, lens, enclosure).
+- [[proto/ser.JonGuiDataHeaterChannelStatus|JonGuiDataHeaterChannelStatus]] — Status of an individual heater channel. Reports current temperature (°C), applied and target voltages for PWM control, and enabled state.
 - [[proto/ser.JonGuiDataLrf|JonGuiDataLrf]] — Encapsulates the operational state of a Laser Range Finder (LRF) device, tracking scanning/measuring modes, measurement progress, laser pointer modes, fog mode, refinement status, and targeting data including precise georeferenced measurements with target/observer coordinates and distances.
 - [[proto/ser.JonGuiDataMeteo|JonGuiDataMeteo]] — Represents environmental sensor data containing atmospheric measurements: temperature (in degrees Celsius), humidity (as a percentage), and pressure (in Pascal units). Used for ballistics calculations and system monitoring across multiple subsystems.
-- [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]] — *No description yet.*
+- [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]] — Power Management Unit status. Reports battery/power system state including temperature, voltage, current sensor (INA) readings, heater state, charging status, and environmental data.
 - [[proto/ser.JonGuiDataPower|JonGuiDataPower]] — Represents real-time power distribution state across all 8 system channels (GPS, Compass, LRF, Day Camera, Thermal Camera, ORIN NUC, Thermal Core, and Heater), with each channel tracking voltage, current, power consumption, on/off state, and fault alarm status.
 - [[proto/ser.JonGuiDataPowerModule|JonGuiDataPowerModule]] — Represents the real-time power state and telemetry for a single power distribution channel, tracking voltage, current, power consumption, on/off state, and alarm status. Used to monitor individual hardware subsystems for power management and diagnostics.
-- [[proto/ser.JonGuiDataQuaternion|JonGuiDataQuaternion]]
-- [[proto/ser.JonGuiDataROI|JonGuiDataROI]]
+- [[proto/ser.JonGuiDataQuaternion|JonGuiDataQuaternion]] — Unit quaternion representing 3D orientation (w + xi + yj + zk). Should be normalized (w² + x² + y² + z² = 1). Used for tracked object orientation in the world coordinate frame.
+- [[proto/ser.JonGuiDataROI|JonGuiDataROI]] — Region of Interest (ROI) for CV tracking. Defines a rectangular area in normalized coordinates where -1,-1 is top-left and 1,1 is bottom-right of the frame. Used to specify the initial tracking target or search area for computer vision algorithms.
 - [[proto/ser.JonGuiDataRecOsd|JonGuiDataRecOsd]] — Represents the recording on-screen display (OSD) configuration state, tracking whether thermal and day camera overlays are enabled, along with their respective crosshair offset positions for proper alignment on recorded frames.
 - [[proto/ser.JonGuiDataRotary|JonGuiDataRotary]] — Represents the real-time operational state of a rotary platform, tracking current position (azimuth, elevation, platform angles), motion characteristics (speeds and movement flags), scanning mode and progression, and auxiliary features (sun position data and compass integration mode).
-- [[proto/ser.JonGuiDataSharpness|JonGuiDataSharpness]]
+- [[proto/ser.JonGuiDataSharpness|JonGuiDataSharpness]] — Image sharpness metric for autofocus. Contains the normalized sharpness value (0-1) along with first and second derivatives for tracking focus trend. Used by CV algorithms to determine optimal focus position by maximizing sharpness.
 - [[proto/ser.JonGuiDataSystem|JonGuiDataSystem]] — Captures comprehensive device telemetry including hardware metrics (CPU/GPU temperature and load), recording state with timestamped directories, storage status with warning indicators, operational modes (tracking, stabilization, recognition, geodesic, vampire, CV dumping), and battery status, enabling real-time monitoring of system health and operational state in the frontend UI.
 - [[proto/ser.JonGuiDataTarget|JonGuiDataTarget]] — Encodes a single laser rangefinder (LRF) measurement with the geographic coordinates of the detected target and the observer&#39;s position, orientation, and GPS fix quality, along with computed 2D and 3D distances and visual properties for UI display. Serves as the core data structure for target tracking in the GUI, enabling real-time visualization of LRF measurements on maps with color-coded targets.
 - [[proto/ser.JonGuiDataTime|JonGuiDataTime]] — Manages the device&#39;s current time state with support for both system and manually-set timestamps, allowing time zone context via zone_id while a boolean flag determines whether to use the manual override or system timestamp. Used throughout the frontend and backend to synchronize time-based operations across the device state distribution system.
-- [[proto/ser.JonGuiDataTrackedObject|JonGuiDataTrackedObject]]
-- [[proto/ser.JonGuiDataTransform3D|JonGuiDataTransform3D]]
-- [[proto/ser.JonGuiDataVector3|JonGuiDataVector3]]
+- [[proto/ser.JonGuiDataTrackedObject|JonGuiDataTrackedObject]] — A tracked object in the CV tracking system. Contains a unique UUID for object identity across frames, the object&#39;s 3D transform (position, orientation, velocities), the 2D bounding box in the current frame, and the tracking state (initializing, tracking, lost, etc.).
+- [[proto/ser.JonGuiDataTransform3D|JonGuiDataTransform3D]] — Complete 3D transform including position, orientation, and motion state. Represents a tracked object&#39;s pose and velocity in the world coordinate frame. Position is in meters, orientation is a unit quaternion, velocities are in m/s and rad/s respectively.
+- [[proto/ser.JonGuiDataVector3|JonGuiDataVector3]] — 3D vector with x, y, z components. Used for positions (in meters) and velocities (in m/s) in the tracking system&#39;s coordinate frame.
 - [[proto/ser.JonOpaquePayload|JonOpaquePayload]] — Extensibility container that carries subsystem-specific binary payloads identified by UUIDv7 type markers and semantic versioning, allowing handlers to match payload types and verify version compatibility without the transport layer interpreting the binary data. Appears in both state and command messages as a repeated field to support multiple concurrent subsystem extensions.
 - [[proto/ser.JonOpaquePayloadVersion|JonOpaquePayloadVersion]] — Structured version triplet (major, minor, build) that enables version-aware handling of opaque subsystem-specific payloads, supporting both build numbers and millisecond-precision timestamps for the build field. Allows handlers to perform version compatibility checks through simple numeric comparisons without string parsing.
 - [[proto/ser.RgbColor|RgbColor]] — Represents an RGB color value with red, green, and blue components each constrained to 0-255, used in the UI to specify and display target marker colors for laser rangefinder measurements and on-screen display (OSD) configuration.

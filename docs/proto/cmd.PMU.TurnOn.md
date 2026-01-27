@@ -18,24 +18,30 @@ Powers on the PMU hardware. This enables the physical power management circuitry
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Powers on the PMU hardware. After powering on, call Start to begin monitoring.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 
+
 ### Related Commands
 
 - [[proto/cmd.PMU.TurnOff]]
 - [[proto/cmd.PMU.Start]]
+
 
 
 

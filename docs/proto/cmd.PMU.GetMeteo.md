@@ -18,20 +18,26 @@ Requests environmental/meteorological data from the PMU. Returns temperature, hu
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :sensor
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Requests current environmental sensor readings. Response is delivered via the meteo field in ser.JonGuiDataPMU.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 - [[proto/ser.JonGuiDataMeteo]]
+
+
 
 ### Preconditions
 

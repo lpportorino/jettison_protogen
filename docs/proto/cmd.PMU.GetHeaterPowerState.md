@@ -18,23 +18,29 @@ Requests the current power state of the PMU's heater. Returns whether the heater
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
+
+
 ## Interaction
 
 - **Category:** :sensor
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
 
+
 ### Purpose
 
 Queries the heater power state. Response is delivered via the heater_power_state field in ser.JonGuiDataPMU.
+
 
 ### Related State
 
 - [[proto/ser.JonGuiDataPMU]]
 
+
 ### Related Commands
 
 - [[proto/cmd.PMU.BootHeater]]
+
 
 ### Preconditions
 
