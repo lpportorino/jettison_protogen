@@ -33,6 +33,22 @@ Captures the complete operational state of the day camera, including normalized 
 | 13 | vertical_fov_degrees | double | > 0, < 360 |
 | 14 | is_started | bool | - |
 | 16 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 17 | sensor_gain | double | >= 0, <= 1 |
+| 18 | exposure | double | >= 0, <= 1 |
+
+
+## Oneofs
+
+
+### _sensor_gain
+
+Fields: #17
+
+
+### _exposure
+
+Fields: #18
+
 
 
 

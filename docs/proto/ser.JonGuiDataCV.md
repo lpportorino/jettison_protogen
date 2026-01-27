@@ -42,6 +42,83 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 | 31 | last_exit_reason | [[proto/ser.JonGuiDataCV.CvBridgeExitReason]] | defined enum value only |
 | 32 | bridge_uptime_ms | int64 | >= 0 |
 | 33 | restart_count | int32 | >= 0 |
+| 40 | roi_focus_day | [[proto/ser.JonGuiDataROI]] | - |
+| 41 | roi_track_day | [[proto/ser.JonGuiDataROI]] | - |
+| 42 | roi_zoom_day | [[proto/ser.JonGuiDataROI]] | - |
+| 43 | roi_fx_day | [[proto/ser.JonGuiDataROI]] | - |
+| 50 | roi_focus_heat | [[proto/ser.JonGuiDataROI]] | - |
+| 51 | roi_track_heat | [[proto/ser.JonGuiDataROI]] | - |
+| 52 | roi_zoom_heat | [[proto/ser.JonGuiDataROI]] | - |
+| 53 | roi_fx_heat | [[proto/ser.JonGuiDataROI]] | - |
+| 60 | sharpness_metrics_day | [[proto/ser.JonGuiDataSharpness]] | - |
+| 61 | sharpness_metrics_heat | [[proto/ser.JonGuiDataSharpness]] | - |
+| 70 | camera_transform_day | [[proto/ser.JonGuiDataTransform3D]] | - |
+| 71 | camera_transform_heat | [[proto/ser.JonGuiDataTransform3D]] | - |
+| 80 | tracked_objects | repeated [[proto/ser.JonGuiDataTrackedObject]] | - |
+
+
+## Oneofs
+
+
+### _roi_focus_day
+
+Fields: #40
+
+
+### _roi_track_day
+
+Fields: #41
+
+
+### _roi_zoom_day
+
+Fields: #42
+
+
+### _roi_fx_day
+
+Fields: #43
+
+
+### _roi_focus_heat
+
+Fields: #50
+
+
+### _roi_track_heat
+
+Fields: #51
+
+
+### _roi_zoom_heat
+
+Fields: #52
+
+
+### _roi_fx_heat
+
+Fields: #53
+
+
+### _sharpness_metrics_day
+
+Fields: #60
+
+
+### _sharpness_metrics_heat
+
+Fields: #61
+
+
+### _camera_transform_day
+
+Fields: #70
+
+
+### _camera_transform_heat
+
+Fields: #71
+
 
 
 

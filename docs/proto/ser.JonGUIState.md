@@ -41,6 +41,7 @@ Root protocol buffer message that aggregates telemetry and state from 14 subsyst
 | 26 | power | [[proto/ser.JonGuiDataPower]] | required |
 | 27 | cv | [[proto/ser.JonGuiDataCV]] | - |
 | 28 | pmu | [[proto/ser.JonGuiDataPMU]] | required |
+| 29 | heater | [[proto/ser.JonGuiDataHeater]] | - |
 
 
 

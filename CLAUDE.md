@@ -19,9 +19,11 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 
 ### Directories
 - `proto/` - Input directory containing .proto files to process (contains jon_shared_*.proto files)
-- `output/` - Standard generated bindings without validation (created at runtime)
-- `output-validated/` - Generated bindings with validation support (Go and Java only, created at runtime)
-- `scripts/` - Contains helper scripts like proto_cleanup.awk
+  - Supports subdirectories (e.g., `proto/opaque/` for opaque payload types)
+  - Generation scripts recursively find all `.proto` files, excluding `test/` directory
+- `output/` - All generated bindings organized by language (created at runtime)
+  - Preserves subdirectory structure (e.g., `output/typescript/opaque/`)
+- `scripts/` - Contains helper scripts like proto_cleanup.awk and add-validate-import.sh
 
 ### Generated Output Structure
 ```
@@ -212,13 +214,14 @@ make versions
 - Applications must link against protovalidate-cc for runtime validation
 
 **Go**
-- Standard generation uses official protoc-gen-go
-- Validation uses envoyproxy/protoc-gen-validate
+- Uses `buf generate` with remote BSR plugins (buf.build/protocolbuffers/go, buf.build/grpc/go)
+- buf.validate annotations preserved for runtime validation with protovalidate-go
 - Package paths preserved from proto files
+- **Note:** Subject to BSR rate limits (see rate limits section below)
 
 **Java**
-- Standard generation uses built-in Java support
-- Validation uses protoc-gen-validate
+- Standard protoc generation with buf.validate annotations preserved
+- Runtime validation requires protovalidate Java library
 - Package structure follows proto package declarations
 
 **TypeScript (Standard)**
@@ -309,6 +312,39 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution
+6. Buf Schema Registry (BSR) rate limits apply to Go generation (see below)
+
+## Buf Schema Registry (BSR) Rate Limits
+
+Go generation uses `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
+
+### Limits
+| Service | Unauthenticated | Authenticated |
+|---------|-----------------|---------------|
+| Code Generation | 10 req/hour (10 burst) | 960 req/hour (120 burst) |
+| General API | 30 req/sec (60 burst) | 30 req/sec (60 burst) |
+| FileDescriptorSetService | 1 req/sec (2 burst) | 1 req/sec (2 burst) |
+
+**Note:** Each `buf generate` command counts as one request (max 20 plugins per request).
+
+### Detecting Rate Limits
+- HTTP 429 response indicates rate limit exceeded
+- Response headers: `X-RateLimit-Remaining`, `X-RateLimit-Reset`, `Retry-After`
+
+### Avoiding Rate Limits
+1. **Authenticate requests**: Run `buf registry login` to increase code generation limit from 10/hour to 960/hour
+2. **Batch generation**: Run `make generate` once rather than regenerating frequently
+3. **Local plugins**: Consider using local plugins instead of remote BSR plugins for high-frequency development
+
+### Troubleshooting
+If Go generation fails with rate limit errors:
+```bash
+# Check if authenticated
+buf registry whoami
+
+# Login to BSR (increases limits significantly)
+buf registry login
+```
 
 ## Proto Documentation System
 

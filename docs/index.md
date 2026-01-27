@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 260 messages, 21 enums, 675 fields
+**Statistics:** 273 messages, 21 enums, 734 fields
 
 ## Messages by Package
 
@@ -172,6 +172,15 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 - [[proto/cmd.HeatCamera.ZoomOut|ZoomOut]] — Instructs the thermal camera to decrease its zoom level, typically triggered by gamepad button presses or UI controls to zoom out and view a wider field of view from the thermal imaging sensor.
 - [[proto/cmd.HeatCamera.ZoomROI|ZoomROI]] — Zooms the thermal camera to a user-selected rectangular region of interest using normalized device coordinates (NDC), with frame synchronization via timestamps.
 - [[proto/cmd.HeatCamera.ZoomStop|ZoomStop]] — Stops the thermal camera zoom motion in progress, sent when the zoom button is released after a zoom in or out command. Used in press-release input patterns for analog zoom control.
+
+
+### cmd.Heater
+
+- [[proto/cmd.Heater.GetStatus|GetStatus]]
+- [[proto/cmd.Heater.Root|Root]]
+- [[proto/cmd.Heater.SetHeating|SetHeating]]
+- [[proto/cmd.Heater.Start|Start]]
+- [[proto/cmd.Heater.Stop|Stop]]
 
 
 ### cmd.Lira
@@ -341,16 +350,24 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 - [[proto/ser.JonGuiDataCompassCalibration|JonGuiDataCompassCalibration]] — Represents the current state and progress of a compass calibration process, tracking the current step (stage), total steps required (final_stage), target orientation angles the user should point toward, and the overall calibration status.
 - [[proto/ser.JonGuiDataDayCamGlassHeater|JonGuiDataDayCamGlassHeater]] — Represents the operational state of the day camera&#39;s glass heater, which maintains camera lens temperature to prevent fogging and ice formation. Contains a temperature reading, on/off status, and activation state flag.
 - [[proto/ser.JonGuiDataGps|JonGuiDataGps]] — Represents the complete GPS positioning state of the system, including both automatic GPS fix coordinates and manually-entered fallback coordinates, along with the current fix quality type (none, 1D, 2D, 3D, or manual mode) and operational status.
+- [[proto/ser.JonGuiDataHeater|JonGuiDataHeater]]
+- [[proto/ser.JonGuiDataHeaterChannelStatus|JonGuiDataHeaterChannelStatus]]
 - [[proto/ser.JonGuiDataLrf|JonGuiDataLrf]] — Encapsulates the operational state of a Laser Range Finder (LRF) device, tracking scanning/measuring modes, measurement progress, laser pointer modes, fog mode, refinement status, and targeting data including precise georeferenced measurements with target/observer coordinates and distances.
 - [[proto/ser.JonGuiDataMeteo|JonGuiDataMeteo]] — Represents environmental sensor data containing atmospheric measurements: temperature (in degrees Celsius), humidity (as a percentage), and pressure (in Pascal units). Used for ballistics calculations and system monitoring across multiple subsystems.
 - [[proto/ser.JonGuiDataPMU|JonGuiDataPMU]] — *No description yet.*
 - [[proto/ser.JonGuiDataPower|JonGuiDataPower]] — Represents real-time power distribution state across all 8 system channels (GPS, Compass, LRF, Day Camera, Thermal Camera, ORIN NUC, Thermal Core, and Heater), with each channel tracking voltage, current, power consumption, on/off state, and fault alarm status.
 - [[proto/ser.JonGuiDataPowerModule|JonGuiDataPowerModule]] — Represents the real-time power state and telemetry for a single power distribution channel, tracking voltage, current, power consumption, on/off state, and alarm status. Used to monitor individual hardware subsystems for power management and diagnostics.
+- [[proto/ser.JonGuiDataQuaternion|JonGuiDataQuaternion]]
+- [[proto/ser.JonGuiDataROI|JonGuiDataROI]]
 - [[proto/ser.JonGuiDataRecOsd|JonGuiDataRecOsd]] — Represents the recording on-screen display (OSD) configuration state, tracking whether thermal and day camera overlays are enabled, along with their respective crosshair offset positions for proper alignment on recorded frames.
 - [[proto/ser.JonGuiDataRotary|JonGuiDataRotary]] — Represents the real-time operational state of a rotary platform, tracking current position (azimuth, elevation, platform angles), motion characteristics (speeds and movement flags), scanning mode and progression, and auxiliary features (sun position data and compass integration mode).
+- [[proto/ser.JonGuiDataSharpness|JonGuiDataSharpness]]
 - [[proto/ser.JonGuiDataSystem|JonGuiDataSystem]] — Captures comprehensive device telemetry including hardware metrics (CPU/GPU temperature and load), recording state with timestamped directories, storage status with warning indicators, operational modes (tracking, stabilization, recognition, geodesic, vampire, CV dumping), and battery status, enabling real-time monitoring of system health and operational state in the frontend UI.
 - [[proto/ser.JonGuiDataTarget|JonGuiDataTarget]] — Encodes a single laser rangefinder (LRF) measurement with the geographic coordinates of the detected target and the observer&#39;s position, orientation, and GPS fix quality, along with computed 2D and 3D distances and visual properties for UI display. Serves as the core data structure for target tracking in the GUI, enabling real-time visualization of LRF measurements on maps with color-coded targets.
 - [[proto/ser.JonGuiDataTime|JonGuiDataTime]] — Manages the device&#39;s current time state with support for both system and manually-set timestamps, allowing time zone context via zone_id while a boolean flag determines whether to use the manual override or system timestamp. Used throughout the frontend and backend to synchronize time-based operations across the device state distribution system.
+- [[proto/ser.JonGuiDataTrackedObject|JonGuiDataTrackedObject]]
+- [[proto/ser.JonGuiDataTransform3D|JonGuiDataTransform3D]]
+- [[proto/ser.JonGuiDataVector3|JonGuiDataVector3]]
 - [[proto/ser.JonOpaquePayload|JonOpaquePayload]] — Extensibility container that carries subsystem-specific binary payloads identified by UUIDv7 type markers and semantic versioning, allowing handlers to match payload types and verify version compatibility without the transport layer interpreting the binary data. Appears in both state and command messages as a repeated field to support multiple concurrent subsystem extensions.
 - [[proto/ser.JonOpaquePayloadVersion|JonOpaquePayloadVersion]] — Structured version triplet (major, minor, build) that enables version-aware handling of opaque subsystem-specific payloads, supporting both build numbers and millisecond-precision timestamps for the build field. Allows handlers to perform version compatibility checks through simple numeric comparisons without string parsing.
 - [[proto/ser.RgbColor|RgbColor]] — Represents an RGB color value with red, green, and blue components each constrained to 0-255, used in the UI to specify and display target marker colors for laser rangefinder measurements and on-screen display (OSD) configuration.
