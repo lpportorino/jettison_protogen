@@ -215,3 +215,83 @@ message JonOpaquePayload {
   // Opaque binary payload
   bytes payload = 3 [(buf.validate.field).bytes.min_len = 1];
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CV and Tracking Types
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Region of Interest for camera operations (focus, track, zoom, fx).
+// Coordinates are normalized: -1.0 (left/top) to 1.0 (right/bottom).
+// Center is (0, 0).
+message JonGuiDataROI {
+  double x1 = 1 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double y1 = 2 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double x2 = 3 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double y2 = 4 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+}
+
+// Image sharpness metrics with temporal derivatives.
+// All values normalized 0.0-1.0 where 1.0 is maximum sharpness.
+message JonGuiDataSharpness {
+  double value = 1 [(buf.validate.field).double = { gte: 0.0, lte: 1.0 }];
+  double derivative_1 = 2;  // First derivative (rate of change)
+  double derivative_2 = 3;  // Second derivative (acceleration)
+}
+
+// 3D vector (position or velocity)
+message JonGuiDataVector3 {
+  double x = 1 [(buf.validate.field).required = true];
+  double y = 2 [(buf.validate.field).required = true];
+  double z = 3 [(buf.validate.field).required = true];
+}
+
+// Unit quaternion for 3D rotation (w + xi + yj + zk)
+// Must be normalized: w² + x² + y² + z² = 1
+message JonGuiDataQuaternion {
+  double w = 1 [(buf.validate.field).required = true];  // scalar (cos(θ/2))
+  double x = 2 [(buf.validate.field).required = true];  // vector i
+  double y = 3 [(buf.validate.field).required = true];  // vector j
+  double z = 4 [(buf.validate.field).required = true];  // vector k
+}
+
+// 3D rigid body transform with velocity.
+// When present, all fields are required.
+message JonGuiDataTransform3D {
+  JonGuiDataVector3 position = 1 [(buf.validate.field).required = true];         // meters
+  JonGuiDataQuaternion orientation = 2 [(buf.validate.field).required = true];   // unit quaternion
+  JonGuiDataVector3 linear_velocity = 3 [(buf.validate.field).required = true];  // m/s
+  JonGuiDataVector3 angular_velocity = 4 [(buf.validate.field).required = true]; // rad/s
+}
+
+// Tracked object - all fields required.
+// If object is in the list, we have complete tracking data for it.
+// UUID allows joining with external data sources (labels, classifications, etc.)
+message JonGuiDataTrackedObject {
+  // Tracking state
+  enum TrackingState {
+    TRACKING_STATE_UNSPECIFIED = 0;
+    TRACKING_STATE_ACQUIRING = 1;   // Initial lock attempt
+    TRACKING_STATE_TRACKING = 2;    // Actively tracking
+    TRACKING_STATE_PREDICTED = 3;   // Temporarily lost, using prediction
+    TRACKING_STATE_LOST = 4;        // Lost track
+  }
+
+  // UUIDv7 identifier - stable across frames for the same object
+  string uuid = 1 [(buf.validate.field).string = {
+    min_len: 36,
+    max_len: 36,
+    pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+  }];
+
+  // 3D pose (position, orientation, velocities)
+  JonGuiDataTransform3D transform = 2 [(buf.validate.field).required = true];
+
+  // 2D bounding box in image space (NDC coords -1 to 1)
+  JonGuiDataROI bounding_box = 3 [(buf.validate.field).required = true];
+
+  // Current tracking state
+  TrackingState state = 4 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+}

@@ -184,6 +184,307 @@ public final class JonSharedDataCv {
      * @return The restartCount.
      */
     int getRestartCount();
+
+    /**
+     * <pre>
+     * Day channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+     * @return Whether the roiFocusDay field is set.
+     */
+    boolean hasRoiFocusDay();
+    /**
+     * <pre>
+     * Day channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+     * @return The roiFocusDay.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiFocusDay();
+    /**
+     * <pre>
+     * Day channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFocusDayOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+     * @return Whether the roiTrackDay field is set.
+     */
+    boolean hasRoiTrackDay();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+     * @return The roiTrackDay.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiTrackDay();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiTrackDayOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+     * @return Whether the roiZoomDay field is set.
+     */
+    boolean hasRoiZoomDay();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+     * @return The roiZoomDay.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiZoomDay();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiZoomDayOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+     * @return Whether the roiFxDay field is set.
+     */
+    boolean hasRoiFxDay();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+     * @return The roiFxDay.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiFxDay();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFxDayOrBuilder();
+
+    /**
+     * <pre>
+     * Heat channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+     * @return Whether the roiFocusHeat field is set.
+     */
+    boolean hasRoiFocusHeat();
+    /**
+     * <pre>
+     * Heat channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+     * @return The roiFocusHeat.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiFocusHeat();
+    /**
+     * <pre>
+     * Heat channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFocusHeatOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+     * @return Whether the roiTrackHeat field is set.
+     */
+    boolean hasRoiTrackHeat();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+     * @return The roiTrackHeat.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiTrackHeat();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiTrackHeatOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+     * @return Whether the roiZoomHeat field is set.
+     */
+    boolean hasRoiZoomHeat();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+     * @return The roiZoomHeat.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiZoomHeat();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiZoomHeatOrBuilder();
+
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+     * @return Whether the roiFxHeat field is set.
+     */
+    boolean hasRoiFxHeat();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+     * @return The roiFxHeat.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getRoiFxHeat();
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFxHeatOrBuilder();
+
+    /**
+     * <pre>
+     * Day channel sharpness (within roi_focus_day)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+     * @return Whether the sharpnessMetricsDay field is set.
+     */
+    boolean hasSharpnessMetricsDay();
+    /**
+     * <pre>
+     * Day channel sharpness (within roi_focus_day)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+     * @return The sharpnessMetricsDay.
+     */
+    ser.JonSharedDataTypes.JonGuiDataSharpness getSharpnessMetricsDay();
+    /**
+     * <pre>
+     * Day channel sharpness (within roi_focus_day)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder getSharpnessMetricsDayOrBuilder();
+
+    /**
+     * <pre>
+     * Heat channel sharpness (within roi_focus_heat)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+     * @return Whether the sharpnessMetricsHeat field is set.
+     */
+    boolean hasSharpnessMetricsHeat();
+    /**
+     * <pre>
+     * Heat channel sharpness (within roi_focus_heat)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+     * @return The sharpnessMetricsHeat.
+     */
+    ser.JonSharedDataTypes.JonGuiDataSharpness getSharpnessMetricsHeat();
+    /**
+     * <pre>
+     * Heat channel sharpness (within roi_focus_heat)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder getSharpnessMetricsHeatOrBuilder();
+
+    /**
+     * <pre>
+     * Day camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+     * @return Whether the cameraTransformDay field is set.
+     */
+    boolean hasCameraTransformDay();
+    /**
+     * <pre>
+     * Day camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+     * @return The cameraTransformDay.
+     */
+    ser.JonSharedDataTypes.JonGuiDataTransform3D getCameraTransformDay();
+    /**
+     * <pre>
+     * Day camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getCameraTransformDayOrBuilder();
+
+    /**
+     * <pre>
+     * Heat camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+     * @return Whether the cameraTransformHeat field is set.
+     */
+    boolean hasCameraTransformHeat();
+    /**
+     * <pre>
+     * Heat camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+     * @return The cameraTransformHeat.
+     */
+    ser.JonSharedDataTypes.JonGuiDataTransform3D getCameraTransformHeat();
+    /**
+     * <pre>
+     * Heat camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getCameraTransformHeatOrBuilder();
+
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    java.util.List<ser.JonSharedDataTypes.JonGuiDataTrackedObject> 
+        getTrackedObjectsList();
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataTrackedObject getTrackedObjects(int index);
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    int getTrackedObjectsCount();
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    java.util.List<? extends ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder> 
+        getTrackedObjectsOrBuilderList();
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder getTrackedObjectsOrBuilder(
+        int index);
   }
   /**
    * <pre>
@@ -215,6 +516,7 @@ public final class JonSharedDataCv {
       autofocusStateHeat_ = 0;
       bridgeStatus_ = 0;
       lastExitReason_ = 0;
+      trackedObjects_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -849,6 +1151,7 @@ public final class JonSharedDataCv {
       // @@protoc_insertion_point(enum_scope:ser.JonGuiDataCV.CvBridgeExitReason)
     }
 
+    private int bitField0_;
     public static final int AUTOFOCUS_STATE_DAY_FIELD_NUMBER = 1;
     private int autofocusStateDay_ = 0;
     /**
@@ -1103,6 +1406,456 @@ public final class JonSharedDataCv {
       return restartCount_;
     }
 
+    public static final int ROI_FOCUS_DAY_FIELD_NUMBER = 40;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiFocusDay_;
+    /**
+     * <pre>
+     * Day channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+     * @return Whether the roiFocusDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiFocusDay() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Day channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+     * @return The roiFocusDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiFocusDay() {
+      return roiFocusDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusDay_;
+    }
+    /**
+     * <pre>
+     * Day channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFocusDayOrBuilder() {
+      return roiFocusDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusDay_;
+    }
+
+    public static final int ROI_TRACK_DAY_FIELD_NUMBER = 41;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiTrackDay_;
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+     * @return Whether the roiTrackDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiTrackDay() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+     * @return The roiTrackDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiTrackDay() {
+      return roiTrackDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackDay_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiTrackDayOrBuilder() {
+      return roiTrackDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackDay_;
+    }
+
+    public static final int ROI_ZOOM_DAY_FIELD_NUMBER = 42;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiZoomDay_;
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+     * @return Whether the roiZoomDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiZoomDay() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+     * @return The roiZoomDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiZoomDay() {
+      return roiZoomDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomDay_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiZoomDayOrBuilder() {
+      return roiZoomDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomDay_;
+    }
+
+    public static final int ROI_FX_DAY_FIELD_NUMBER = 43;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiFxDay_;
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+     * @return Whether the roiFxDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiFxDay() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+     * @return The roiFxDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiFxDay() {
+      return roiFxDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxDay_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFxDayOrBuilder() {
+      return roiFxDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxDay_;
+    }
+
+    public static final int ROI_FOCUS_HEAT_FIELD_NUMBER = 50;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiFocusHeat_;
+    /**
+     * <pre>
+     * Heat channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+     * @return Whether the roiFocusHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiFocusHeat() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <pre>
+     * Heat channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+     * @return The roiFocusHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiFocusHeat() {
+      return roiFocusHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusHeat_;
+    }
+    /**
+     * <pre>
+     * Heat channel ROIs
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFocusHeatOrBuilder() {
+      return roiFocusHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusHeat_;
+    }
+
+    public static final int ROI_TRACK_HEAT_FIELD_NUMBER = 51;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiTrackHeat_;
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+     * @return Whether the roiTrackHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiTrackHeat() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+     * @return The roiTrackHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiTrackHeat() {
+      return roiTrackHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackHeat_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiTrackHeatOrBuilder() {
+      return roiTrackHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackHeat_;
+    }
+
+    public static final int ROI_ZOOM_HEAT_FIELD_NUMBER = 52;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiZoomHeat_;
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+     * @return Whether the roiZoomHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiZoomHeat() {
+      return ((bitField0_ & 0x00000040) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+     * @return The roiZoomHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiZoomHeat() {
+      return roiZoomHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomHeat_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiZoomHeatOrBuilder() {
+      return roiZoomHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomHeat_;
+    }
+
+    public static final int ROI_FX_HEAT_FIELD_NUMBER = 53;
+    private ser.JonSharedDataTypes.JonGuiDataROI roiFxHeat_;
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+     * @return Whether the roiFxHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasRoiFxHeat() {
+      return ((bitField0_ & 0x00000080) != 0);
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+     * @return The roiFxHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getRoiFxHeat() {
+      return roiFxHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxHeat_;
+    }
+    /**
+     * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFxHeatOrBuilder() {
+      return roiFxHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxHeat_;
+    }
+
+    public static final int SHARPNESS_METRICS_DAY_FIELD_NUMBER = 60;
+    private ser.JonSharedDataTypes.JonGuiDataSharpness sharpnessMetricsDay_;
+    /**
+     * <pre>
+     * Day channel sharpness (within roi_focus_day)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+     * @return Whether the sharpnessMetricsDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasSharpnessMetricsDay() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <pre>
+     * Day channel sharpness (within roi_focus_day)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+     * @return The sharpnessMetricsDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataSharpness getSharpnessMetricsDay() {
+      return sharpnessMetricsDay_ == null ? ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsDay_;
+    }
+    /**
+     * <pre>
+     * Day channel sharpness (within roi_focus_day)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder getSharpnessMetricsDayOrBuilder() {
+      return sharpnessMetricsDay_ == null ? ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsDay_;
+    }
+
+    public static final int SHARPNESS_METRICS_HEAT_FIELD_NUMBER = 61;
+    private ser.JonSharedDataTypes.JonGuiDataSharpness sharpnessMetricsHeat_;
+    /**
+     * <pre>
+     * Heat channel sharpness (within roi_focus_heat)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+     * @return Whether the sharpnessMetricsHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasSharpnessMetricsHeat() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <pre>
+     * Heat channel sharpness (within roi_focus_heat)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+     * @return The sharpnessMetricsHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataSharpness getSharpnessMetricsHeat() {
+      return sharpnessMetricsHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsHeat_;
+    }
+    /**
+     * <pre>
+     * Heat channel sharpness (within roi_focus_heat)
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder getSharpnessMetricsHeatOrBuilder() {
+      return sharpnessMetricsHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsHeat_;
+    }
+
+    public static final int CAMERA_TRANSFORM_DAY_FIELD_NUMBER = 70;
+    private ser.JonSharedDataTypes.JonGuiDataTransform3D cameraTransformDay_;
+    /**
+     * <pre>
+     * Day camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+     * @return Whether the cameraTransformDay field is set.
+     */
+    @java.lang.Override
+    public boolean hasCameraTransformDay() {
+      return ((bitField0_ & 0x00000400) != 0);
+    }
+    /**
+     * <pre>
+     * Day camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+     * @return The cameraTransformDay.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3D getCameraTransformDay() {
+      return cameraTransformDay_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformDay_;
+    }
+    /**
+     * <pre>
+     * Day camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getCameraTransformDayOrBuilder() {
+      return cameraTransformDay_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformDay_;
+    }
+
+    public static final int CAMERA_TRANSFORM_HEAT_FIELD_NUMBER = 71;
+    private ser.JonSharedDataTypes.JonGuiDataTransform3D cameraTransformHeat_;
+    /**
+     * <pre>
+     * Heat camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+     * @return Whether the cameraTransformHeat field is set.
+     */
+    @java.lang.Override
+    public boolean hasCameraTransformHeat() {
+      return ((bitField0_ & 0x00000800) != 0);
+    }
+    /**
+     * <pre>
+     * Heat camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+     * @return The cameraTransformHeat.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3D getCameraTransformHeat() {
+      return cameraTransformHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformHeat_;
+    }
+    /**
+     * <pre>
+     * Heat camera 3D pose and velocity
+     * </pre>
+     *
+     * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getCameraTransformHeatOrBuilder() {
+      return cameraTransformHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformHeat_;
+    }
+
+    public static final int TRACKED_OBJECTS_FIELD_NUMBER = 80;
+    @SuppressWarnings("serial")
+    private java.util.List<ser.JonSharedDataTypes.JonGuiDataTrackedObject> trackedObjects_;
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ser.JonSharedDataTypes.JonGuiDataTrackedObject> getTrackedObjectsList() {
+      return trackedObjects_;
+    }
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder> 
+        getTrackedObjectsOrBuilderList() {
+      return trackedObjects_;
+    }
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    @java.lang.Override
+    public int getTrackedObjectsCount() {
+      return trackedObjects_.size();
+    }
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTrackedObject getTrackedObjects(int index) {
+      return trackedObjects_.get(index);
+    }
+    /**
+     * <pre>
+     * Tracked objects (0 or more). Each object has UUID for joining with
+     * external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder getTrackedObjectsOrBuilder(
+        int index) {
+      return trackedObjects_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1170,6 +1923,45 @@ public final class JonSharedDataCv {
       }
       if (restartCount_ != 0) {
         output.writeInt32(33, restartCount_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(40, getRoiFocusDay());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(41, getRoiTrackDay());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(42, getRoiZoomDay());
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeMessage(43, getRoiFxDay());
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeMessage(50, getRoiFocusHeat());
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        output.writeMessage(51, getRoiTrackHeat());
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        output.writeMessage(52, getRoiZoomHeat());
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        output.writeMessage(53, getRoiFxHeat());
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        output.writeMessage(60, getSharpnessMetricsDay());
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        output.writeMessage(61, getSharpnessMetricsHeat());
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        output.writeMessage(70, getCameraTransformDay());
+      }
+      if (((bitField0_ & 0x00000800) != 0)) {
+        output.writeMessage(71, getCameraTransformHeat());
+      }
+      for (int i = 0; i < trackedObjects_.size(); i++) {
+        output.writeMessage(80, trackedObjects_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1252,6 +2044,58 @@ public final class JonSharedDataCv {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(33, restartCount_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(40, getRoiFocusDay());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(41, getRoiTrackDay());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(42, getRoiZoomDay());
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(43, getRoiFxDay());
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(50, getRoiFocusHeat());
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(51, getRoiTrackHeat());
+      }
+      if (((bitField0_ & 0x00000040) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(52, getRoiZoomHeat());
+      }
+      if (((bitField0_ & 0x00000080) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(53, getRoiFxHeat());
+      }
+      if (((bitField0_ & 0x00000100) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(60, getSharpnessMetricsDay());
+      }
+      if (((bitField0_ & 0x00000200) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(61, getSharpnessMetricsHeat());
+      }
+      if (((bitField0_ & 0x00000400) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(70, getCameraTransformDay());
+      }
+      if (((bitField0_ & 0x00000800) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(71, getCameraTransformHeat());
+      }
+      for (int i = 0; i < trackedObjects_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(80, trackedObjects_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -1309,6 +2153,68 @@ public final class JonSharedDataCv {
           != other.getBridgeUptimeMs()) return false;
       if (getRestartCount()
           != other.getRestartCount()) return false;
+      if (hasRoiFocusDay() != other.hasRoiFocusDay()) return false;
+      if (hasRoiFocusDay()) {
+        if (!getRoiFocusDay()
+            .equals(other.getRoiFocusDay())) return false;
+      }
+      if (hasRoiTrackDay() != other.hasRoiTrackDay()) return false;
+      if (hasRoiTrackDay()) {
+        if (!getRoiTrackDay()
+            .equals(other.getRoiTrackDay())) return false;
+      }
+      if (hasRoiZoomDay() != other.hasRoiZoomDay()) return false;
+      if (hasRoiZoomDay()) {
+        if (!getRoiZoomDay()
+            .equals(other.getRoiZoomDay())) return false;
+      }
+      if (hasRoiFxDay() != other.hasRoiFxDay()) return false;
+      if (hasRoiFxDay()) {
+        if (!getRoiFxDay()
+            .equals(other.getRoiFxDay())) return false;
+      }
+      if (hasRoiFocusHeat() != other.hasRoiFocusHeat()) return false;
+      if (hasRoiFocusHeat()) {
+        if (!getRoiFocusHeat()
+            .equals(other.getRoiFocusHeat())) return false;
+      }
+      if (hasRoiTrackHeat() != other.hasRoiTrackHeat()) return false;
+      if (hasRoiTrackHeat()) {
+        if (!getRoiTrackHeat()
+            .equals(other.getRoiTrackHeat())) return false;
+      }
+      if (hasRoiZoomHeat() != other.hasRoiZoomHeat()) return false;
+      if (hasRoiZoomHeat()) {
+        if (!getRoiZoomHeat()
+            .equals(other.getRoiZoomHeat())) return false;
+      }
+      if (hasRoiFxHeat() != other.hasRoiFxHeat()) return false;
+      if (hasRoiFxHeat()) {
+        if (!getRoiFxHeat()
+            .equals(other.getRoiFxHeat())) return false;
+      }
+      if (hasSharpnessMetricsDay() != other.hasSharpnessMetricsDay()) return false;
+      if (hasSharpnessMetricsDay()) {
+        if (!getSharpnessMetricsDay()
+            .equals(other.getSharpnessMetricsDay())) return false;
+      }
+      if (hasSharpnessMetricsHeat() != other.hasSharpnessMetricsHeat()) return false;
+      if (hasSharpnessMetricsHeat()) {
+        if (!getSharpnessMetricsHeat()
+            .equals(other.getSharpnessMetricsHeat())) return false;
+      }
+      if (hasCameraTransformDay() != other.hasCameraTransformDay()) return false;
+      if (hasCameraTransformDay()) {
+        if (!getCameraTransformDay()
+            .equals(other.getCameraTransformDay())) return false;
+      }
+      if (hasCameraTransformHeat() != other.hasCameraTransformHeat()) return false;
+      if (hasCameraTransformHeat()) {
+        if (!getCameraTransformHeat()
+            .equals(other.getCameraTransformHeat())) return false;
+      }
+      if (!getTrackedObjectsList()
+          .equals(other.getTrackedObjectsList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1367,6 +2273,58 @@ public final class JonSharedDataCv {
           getBridgeUptimeMs());
       hash = (37 * hash) + RESTART_COUNT_FIELD_NUMBER;
       hash = (53 * hash) + getRestartCount();
+      if (hasRoiFocusDay()) {
+        hash = (37 * hash) + ROI_FOCUS_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiFocusDay().hashCode();
+      }
+      if (hasRoiTrackDay()) {
+        hash = (37 * hash) + ROI_TRACK_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiTrackDay().hashCode();
+      }
+      if (hasRoiZoomDay()) {
+        hash = (37 * hash) + ROI_ZOOM_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiZoomDay().hashCode();
+      }
+      if (hasRoiFxDay()) {
+        hash = (37 * hash) + ROI_FX_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiFxDay().hashCode();
+      }
+      if (hasRoiFocusHeat()) {
+        hash = (37 * hash) + ROI_FOCUS_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiFocusHeat().hashCode();
+      }
+      if (hasRoiTrackHeat()) {
+        hash = (37 * hash) + ROI_TRACK_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiTrackHeat().hashCode();
+      }
+      if (hasRoiZoomHeat()) {
+        hash = (37 * hash) + ROI_ZOOM_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiZoomHeat().hashCode();
+      }
+      if (hasRoiFxHeat()) {
+        hash = (37 * hash) + ROI_FX_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getRoiFxHeat().hashCode();
+      }
+      if (hasSharpnessMetricsDay()) {
+        hash = (37 * hash) + SHARPNESS_METRICS_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getSharpnessMetricsDay().hashCode();
+      }
+      if (hasSharpnessMetricsHeat()) {
+        hash = (37 * hash) + SHARPNESS_METRICS_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getSharpnessMetricsHeat().hashCode();
+      }
+      if (hasCameraTransformDay()) {
+        hash = (37 * hash) + CAMERA_TRANSFORM_DAY_FIELD_NUMBER;
+        hash = (53 * hash) + getCameraTransformDay().hashCode();
+      }
+      if (hasCameraTransformHeat()) {
+        hash = (37 * hash) + CAMERA_TRANSFORM_HEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getCameraTransformHeat().hashCode();
+      }
+      if (getTrackedObjectsCount() > 0) {
+        hash = (37 * hash) + TRACKED_OBJECTS_FIELD_NUMBER;
+        hash = (53 * hash) + getTrackedObjectsList().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1490,13 +2448,31 @@ public final class JonSharedDataCv {
 
       // Construct using ser.JonSharedDataCv.JonGuiDataCV.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getRoiFocusDayFieldBuilder();
+          getRoiTrackDayFieldBuilder();
+          getRoiZoomDayFieldBuilder();
+          getRoiFxDayFieldBuilder();
+          getRoiFocusHeatFieldBuilder();
+          getRoiTrackHeatFieldBuilder();
+          getRoiZoomHeatFieldBuilder();
+          getRoiFxHeatFieldBuilder();
+          getSharpnessMetricsDayFieldBuilder();
+          getSharpnessMetricsHeatFieldBuilder();
+          getCameraTransformDayFieldBuilder();
+          getCameraTransformHeatFieldBuilder();
+          getTrackedObjectsFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -1520,6 +2496,73 @@ public final class JonSharedDataCv {
         lastExitReason_ = 0;
         bridgeUptimeMs_ = 0L;
         restartCount_ = 0;
+        roiFocusDay_ = null;
+        if (roiFocusDayBuilder_ != null) {
+          roiFocusDayBuilder_.dispose();
+          roiFocusDayBuilder_ = null;
+        }
+        roiTrackDay_ = null;
+        if (roiTrackDayBuilder_ != null) {
+          roiTrackDayBuilder_.dispose();
+          roiTrackDayBuilder_ = null;
+        }
+        roiZoomDay_ = null;
+        if (roiZoomDayBuilder_ != null) {
+          roiZoomDayBuilder_.dispose();
+          roiZoomDayBuilder_ = null;
+        }
+        roiFxDay_ = null;
+        if (roiFxDayBuilder_ != null) {
+          roiFxDayBuilder_.dispose();
+          roiFxDayBuilder_ = null;
+        }
+        roiFocusHeat_ = null;
+        if (roiFocusHeatBuilder_ != null) {
+          roiFocusHeatBuilder_.dispose();
+          roiFocusHeatBuilder_ = null;
+        }
+        roiTrackHeat_ = null;
+        if (roiTrackHeatBuilder_ != null) {
+          roiTrackHeatBuilder_.dispose();
+          roiTrackHeatBuilder_ = null;
+        }
+        roiZoomHeat_ = null;
+        if (roiZoomHeatBuilder_ != null) {
+          roiZoomHeatBuilder_.dispose();
+          roiZoomHeatBuilder_ = null;
+        }
+        roiFxHeat_ = null;
+        if (roiFxHeatBuilder_ != null) {
+          roiFxHeatBuilder_.dispose();
+          roiFxHeatBuilder_ = null;
+        }
+        sharpnessMetricsDay_ = null;
+        if (sharpnessMetricsDayBuilder_ != null) {
+          sharpnessMetricsDayBuilder_.dispose();
+          sharpnessMetricsDayBuilder_ = null;
+        }
+        sharpnessMetricsHeat_ = null;
+        if (sharpnessMetricsHeatBuilder_ != null) {
+          sharpnessMetricsHeatBuilder_.dispose();
+          sharpnessMetricsHeatBuilder_ = null;
+        }
+        cameraTransformDay_ = null;
+        if (cameraTransformDayBuilder_ != null) {
+          cameraTransformDayBuilder_.dispose();
+          cameraTransformDayBuilder_ = null;
+        }
+        cameraTransformHeat_ = null;
+        if (cameraTransformHeatBuilder_ != null) {
+          cameraTransformHeatBuilder_.dispose();
+          cameraTransformHeatBuilder_ = null;
+        }
+        if (trackedObjectsBuilder_ == null) {
+          trackedObjects_ = java.util.Collections.emptyList();
+        } else {
+          trackedObjects_ = null;
+          trackedObjectsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x40000000);
         return this;
       }
 
@@ -1546,9 +2589,22 @@ public final class JonSharedDataCv {
       @java.lang.Override
       public ser.JonSharedDataCv.JonGuiDataCV buildPartial() {
         ser.JonSharedDataCv.JonGuiDataCV result = new ser.JonSharedDataCv.JonGuiDataCV(this);
+        buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartialRepeatedFields(ser.JonSharedDataCv.JonGuiDataCV result) {
+        if (trackedObjectsBuilder_ == null) {
+          if (((bitField0_ & 0x40000000) != 0)) {
+            trackedObjects_ = java.util.Collections.unmodifiableList(trackedObjects_);
+            bitField0_ = (bitField0_ & ~0x40000000);
+          }
+          result.trackedObjects_ = trackedObjects_;
+        } else {
+          result.trackedObjects_ = trackedObjectsBuilder_.build();
+        }
       }
 
       private void buildPartial0(ser.JonSharedDataCv.JonGuiDataCV result) {
@@ -1607,6 +2663,80 @@ public final class JonSharedDataCv {
         if (((from_bitField0_ & 0x00020000) != 0)) {
           result.restartCount_ = restartCount_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00040000) != 0)) {
+          result.roiFocusDay_ = roiFocusDayBuilder_ == null
+              ? roiFocusDay_
+              : roiFocusDayBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00080000) != 0)) {
+          result.roiTrackDay_ = roiTrackDayBuilder_ == null
+              ? roiTrackDay_
+              : roiTrackDayBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00100000) != 0)) {
+          result.roiZoomDay_ = roiZoomDayBuilder_ == null
+              ? roiZoomDay_
+              : roiZoomDayBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00200000) != 0)) {
+          result.roiFxDay_ = roiFxDayBuilder_ == null
+              ? roiFxDay_
+              : roiFxDayBuilder_.build();
+          to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00400000) != 0)) {
+          result.roiFocusHeat_ = roiFocusHeatBuilder_ == null
+              ? roiFocusHeat_
+              : roiFocusHeatBuilder_.build();
+          to_bitField0_ |= 0x00000010;
+        }
+        if (((from_bitField0_ & 0x00800000) != 0)) {
+          result.roiTrackHeat_ = roiTrackHeatBuilder_ == null
+              ? roiTrackHeat_
+              : roiTrackHeatBuilder_.build();
+          to_bitField0_ |= 0x00000020;
+        }
+        if (((from_bitField0_ & 0x01000000) != 0)) {
+          result.roiZoomHeat_ = roiZoomHeatBuilder_ == null
+              ? roiZoomHeat_
+              : roiZoomHeatBuilder_.build();
+          to_bitField0_ |= 0x00000040;
+        }
+        if (((from_bitField0_ & 0x02000000) != 0)) {
+          result.roiFxHeat_ = roiFxHeatBuilder_ == null
+              ? roiFxHeat_
+              : roiFxHeatBuilder_.build();
+          to_bitField0_ |= 0x00000080;
+        }
+        if (((from_bitField0_ & 0x04000000) != 0)) {
+          result.sharpnessMetricsDay_ = sharpnessMetricsDayBuilder_ == null
+              ? sharpnessMetricsDay_
+              : sharpnessMetricsDayBuilder_.build();
+          to_bitField0_ |= 0x00000100;
+        }
+        if (((from_bitField0_ & 0x08000000) != 0)) {
+          result.sharpnessMetricsHeat_ = sharpnessMetricsHeatBuilder_ == null
+              ? sharpnessMetricsHeat_
+              : sharpnessMetricsHeatBuilder_.build();
+          to_bitField0_ |= 0x00000200;
+        }
+        if (((from_bitField0_ & 0x10000000) != 0)) {
+          result.cameraTransformDay_ = cameraTransformDayBuilder_ == null
+              ? cameraTransformDay_
+              : cameraTransformDayBuilder_.build();
+          to_bitField0_ |= 0x00000400;
+        }
+        if (((from_bitField0_ & 0x20000000) != 0)) {
+          result.cameraTransformHeat_ = cameraTransformHeatBuilder_ == null
+              ? cameraTransformHeat_
+              : cameraTransformHeatBuilder_.build();
+          to_bitField0_ |= 0x00000800;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -1674,6 +2804,68 @@ public final class JonSharedDataCv {
         }
         if (other.getRestartCount() != 0) {
           setRestartCount(other.getRestartCount());
+        }
+        if (other.hasRoiFocusDay()) {
+          mergeRoiFocusDay(other.getRoiFocusDay());
+        }
+        if (other.hasRoiTrackDay()) {
+          mergeRoiTrackDay(other.getRoiTrackDay());
+        }
+        if (other.hasRoiZoomDay()) {
+          mergeRoiZoomDay(other.getRoiZoomDay());
+        }
+        if (other.hasRoiFxDay()) {
+          mergeRoiFxDay(other.getRoiFxDay());
+        }
+        if (other.hasRoiFocusHeat()) {
+          mergeRoiFocusHeat(other.getRoiFocusHeat());
+        }
+        if (other.hasRoiTrackHeat()) {
+          mergeRoiTrackHeat(other.getRoiTrackHeat());
+        }
+        if (other.hasRoiZoomHeat()) {
+          mergeRoiZoomHeat(other.getRoiZoomHeat());
+        }
+        if (other.hasRoiFxHeat()) {
+          mergeRoiFxHeat(other.getRoiFxHeat());
+        }
+        if (other.hasSharpnessMetricsDay()) {
+          mergeSharpnessMetricsDay(other.getSharpnessMetricsDay());
+        }
+        if (other.hasSharpnessMetricsHeat()) {
+          mergeSharpnessMetricsHeat(other.getSharpnessMetricsHeat());
+        }
+        if (other.hasCameraTransformDay()) {
+          mergeCameraTransformDay(other.getCameraTransformDay());
+        }
+        if (other.hasCameraTransformHeat()) {
+          mergeCameraTransformHeat(other.getCameraTransformHeat());
+        }
+        if (trackedObjectsBuilder_ == null) {
+          if (!other.trackedObjects_.isEmpty()) {
+            if (trackedObjects_.isEmpty()) {
+              trackedObjects_ = other.trackedObjects_;
+              bitField0_ = (bitField0_ & ~0x40000000);
+            } else {
+              ensureTrackedObjectsIsMutable();
+              trackedObjects_.addAll(other.trackedObjects_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.trackedObjects_.isEmpty()) {
+            if (trackedObjectsBuilder_.isEmpty()) {
+              trackedObjectsBuilder_.dispose();
+              trackedObjectsBuilder_ = null;
+              trackedObjects_ = other.trackedObjects_;
+              bitField0_ = (bitField0_ & ~0x40000000);
+              trackedObjectsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getTrackedObjectsFieldBuilder() : null;
+            } else {
+              trackedObjectsBuilder_.addAllMessages(other.trackedObjects_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1791,6 +2983,103 @@ public final class JonSharedDataCv {
                 bitField0_ |= 0x00020000;
                 break;
               } // case 264
+              case 322: {
+                input.readMessage(
+                    getRoiFocusDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00040000;
+                break;
+              } // case 322
+              case 330: {
+                input.readMessage(
+                    getRoiTrackDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00080000;
+                break;
+              } // case 330
+              case 338: {
+                input.readMessage(
+                    getRoiZoomDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00100000;
+                break;
+              } // case 338
+              case 346: {
+                input.readMessage(
+                    getRoiFxDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00200000;
+                break;
+              } // case 346
+              case 402: {
+                input.readMessage(
+                    getRoiFocusHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00400000;
+                break;
+              } // case 402
+              case 410: {
+                input.readMessage(
+                    getRoiTrackHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00800000;
+                break;
+              } // case 410
+              case 418: {
+                input.readMessage(
+                    getRoiZoomHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x01000000;
+                break;
+              } // case 418
+              case 426: {
+                input.readMessage(
+                    getRoiFxHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x02000000;
+                break;
+              } // case 426
+              case 482: {
+                input.readMessage(
+                    getSharpnessMetricsDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x04000000;
+                break;
+              } // case 482
+              case 490: {
+                input.readMessage(
+                    getSharpnessMetricsHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x08000000;
+                break;
+              } // case 490
+              case 562: {
+                input.readMessage(
+                    getCameraTransformDayFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x10000000;
+                break;
+              } // case 562
+              case 570: {
+                input.readMessage(
+                    getCameraTransformHeatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x20000000;
+                break;
+              } // case 570
+              case 642: {
+                ser.JonSharedDataTypes.JonGuiDataTrackedObject m =
+                    input.readMessage(
+                        ser.JonSharedDataTypes.JonGuiDataTrackedObject.parser(),
+                        extensionRegistry);
+                if (trackedObjectsBuilder_ == null) {
+                  ensureTrackedObjectsIsMutable();
+                  trackedObjects_.add(m);
+                } else {
+                  trackedObjectsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 642
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2540,6 +3829,2004 @@ public final class JonSharedDataCv {
         return this;
       }
 
+      private ser.JonSharedDataTypes.JonGuiDataROI roiFocusDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiFocusDayBuilder_;
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       * @return Whether the roiFocusDay field is set.
+       */
+      public boolean hasRoiFocusDay() {
+        return ((bitField0_ & 0x00040000) != 0);
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       * @return The roiFocusDay.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiFocusDay() {
+        if (roiFocusDayBuilder_ == null) {
+          return roiFocusDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusDay_;
+        } else {
+          return roiFocusDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      public Builder setRoiFocusDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFocusDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiFocusDay_ = value;
+        } else {
+          roiFocusDayBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      public Builder setRoiFocusDay(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiFocusDayBuilder_ == null) {
+          roiFocusDay_ = builderForValue.build();
+        } else {
+          roiFocusDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      public Builder mergeRoiFocusDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFocusDayBuilder_ == null) {
+          if (((bitField0_ & 0x00040000) != 0) &&
+            roiFocusDay_ != null &&
+            roiFocusDay_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiFocusDayBuilder().mergeFrom(value);
+          } else {
+            roiFocusDay_ = value;
+          }
+        } else {
+          roiFocusDayBuilder_.mergeFrom(value);
+        }
+        if (roiFocusDay_ != null) {
+          bitField0_ |= 0x00040000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      public Builder clearRoiFocusDay() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        roiFocusDay_ = null;
+        if (roiFocusDayBuilder_ != null) {
+          roiFocusDayBuilder_.dispose();
+          roiFocusDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiFocusDayBuilder() {
+        bitField0_ |= 0x00040000;
+        onChanged();
+        return getRoiFocusDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFocusDayOrBuilder() {
+        if (roiFocusDayBuilder_ != null) {
+          return roiFocusDayBuilder_.getMessageOrBuilder();
+        } else {
+          return roiFocusDay_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusDay_;
+        }
+      }
+      /**
+       * <pre>
+       * Day channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_day = 40;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiFocusDayFieldBuilder() {
+        if (roiFocusDayBuilder_ == null) {
+          roiFocusDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiFocusDay(),
+                  getParentForChildren(),
+                  isClean());
+          roiFocusDay_ = null;
+        }
+        return roiFocusDayBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiTrackDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiTrackDayBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       * @return Whether the roiTrackDay field is set.
+       */
+      public boolean hasRoiTrackDay() {
+        return ((bitField0_ & 0x00080000) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       * @return The roiTrackDay.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiTrackDay() {
+        if (roiTrackDayBuilder_ == null) {
+          return roiTrackDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackDay_;
+        } else {
+          return roiTrackDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      public Builder setRoiTrackDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiTrackDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiTrackDay_ = value;
+        } else {
+          roiTrackDayBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      public Builder setRoiTrackDay(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiTrackDayBuilder_ == null) {
+          roiTrackDay_ = builderForValue.build();
+        } else {
+          roiTrackDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      public Builder mergeRoiTrackDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiTrackDayBuilder_ == null) {
+          if (((bitField0_ & 0x00080000) != 0) &&
+            roiTrackDay_ != null &&
+            roiTrackDay_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiTrackDayBuilder().mergeFrom(value);
+          } else {
+            roiTrackDay_ = value;
+          }
+        } else {
+          roiTrackDayBuilder_.mergeFrom(value);
+        }
+        if (roiTrackDay_ != null) {
+          bitField0_ |= 0x00080000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      public Builder clearRoiTrackDay() {
+        bitField0_ = (bitField0_ & ~0x00080000);
+        roiTrackDay_ = null;
+        if (roiTrackDayBuilder_ != null) {
+          roiTrackDayBuilder_.dispose();
+          roiTrackDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiTrackDayBuilder() {
+        bitField0_ |= 0x00080000;
+        onChanged();
+        return getRoiTrackDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiTrackDayOrBuilder() {
+        if (roiTrackDayBuilder_ != null) {
+          return roiTrackDayBuilder_.getMessageOrBuilder();
+        } else {
+          return roiTrackDay_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackDay_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_day = 41;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiTrackDayFieldBuilder() {
+        if (roiTrackDayBuilder_ == null) {
+          roiTrackDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiTrackDay(),
+                  getParentForChildren(),
+                  isClean());
+          roiTrackDay_ = null;
+        }
+        return roiTrackDayBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiZoomDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiZoomDayBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       * @return Whether the roiZoomDay field is set.
+       */
+      public boolean hasRoiZoomDay() {
+        return ((bitField0_ & 0x00100000) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       * @return The roiZoomDay.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiZoomDay() {
+        if (roiZoomDayBuilder_ == null) {
+          return roiZoomDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomDay_;
+        } else {
+          return roiZoomDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      public Builder setRoiZoomDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiZoomDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiZoomDay_ = value;
+        } else {
+          roiZoomDayBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00100000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      public Builder setRoiZoomDay(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiZoomDayBuilder_ == null) {
+          roiZoomDay_ = builderForValue.build();
+        } else {
+          roiZoomDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00100000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      public Builder mergeRoiZoomDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiZoomDayBuilder_ == null) {
+          if (((bitField0_ & 0x00100000) != 0) &&
+            roiZoomDay_ != null &&
+            roiZoomDay_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiZoomDayBuilder().mergeFrom(value);
+          } else {
+            roiZoomDay_ = value;
+          }
+        } else {
+          roiZoomDayBuilder_.mergeFrom(value);
+        }
+        if (roiZoomDay_ != null) {
+          bitField0_ |= 0x00100000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      public Builder clearRoiZoomDay() {
+        bitField0_ = (bitField0_ & ~0x00100000);
+        roiZoomDay_ = null;
+        if (roiZoomDayBuilder_ != null) {
+          roiZoomDayBuilder_.dispose();
+          roiZoomDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiZoomDayBuilder() {
+        bitField0_ |= 0x00100000;
+        onChanged();
+        return getRoiZoomDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiZoomDayOrBuilder() {
+        if (roiZoomDayBuilder_ != null) {
+          return roiZoomDayBuilder_.getMessageOrBuilder();
+        } else {
+          return roiZoomDay_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomDay_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_day = 42;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiZoomDayFieldBuilder() {
+        if (roiZoomDayBuilder_ == null) {
+          roiZoomDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiZoomDay(),
+                  getParentForChildren(),
+                  isClean());
+          roiZoomDay_ = null;
+        }
+        return roiZoomDayBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiFxDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiFxDayBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       * @return Whether the roiFxDay field is set.
+       */
+      public boolean hasRoiFxDay() {
+        return ((bitField0_ & 0x00200000) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       * @return The roiFxDay.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiFxDay() {
+        if (roiFxDayBuilder_ == null) {
+          return roiFxDay_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxDay_;
+        } else {
+          return roiFxDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      public Builder setRoiFxDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFxDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiFxDay_ = value;
+        } else {
+          roiFxDayBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      public Builder setRoiFxDay(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiFxDayBuilder_ == null) {
+          roiFxDay_ = builderForValue.build();
+        } else {
+          roiFxDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      public Builder mergeRoiFxDay(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFxDayBuilder_ == null) {
+          if (((bitField0_ & 0x00200000) != 0) &&
+            roiFxDay_ != null &&
+            roiFxDay_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiFxDayBuilder().mergeFrom(value);
+          } else {
+            roiFxDay_ = value;
+          }
+        } else {
+          roiFxDayBuilder_.mergeFrom(value);
+        }
+        if (roiFxDay_ != null) {
+          bitField0_ |= 0x00200000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      public Builder clearRoiFxDay() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        roiFxDay_ = null;
+        if (roiFxDayBuilder_ != null) {
+          roiFxDayBuilder_.dispose();
+          roiFxDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiFxDayBuilder() {
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return getRoiFxDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFxDayOrBuilder() {
+        if (roiFxDayBuilder_ != null) {
+          return roiFxDayBuilder_.getMessageOrBuilder();
+        } else {
+          return roiFxDay_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxDay_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_day = 43;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiFxDayFieldBuilder() {
+        if (roiFxDayBuilder_ == null) {
+          roiFxDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiFxDay(),
+                  getParentForChildren(),
+                  isClean());
+          roiFxDay_ = null;
+        }
+        return roiFxDayBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiFocusHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiFocusHeatBuilder_;
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       * @return Whether the roiFocusHeat field is set.
+       */
+      public boolean hasRoiFocusHeat() {
+        return ((bitField0_ & 0x00400000) != 0);
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       * @return The roiFocusHeat.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiFocusHeat() {
+        if (roiFocusHeatBuilder_ == null) {
+          return roiFocusHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusHeat_;
+        } else {
+          return roiFocusHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      public Builder setRoiFocusHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFocusHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiFocusHeat_ = value;
+        } else {
+          roiFocusHeatBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      public Builder setRoiFocusHeat(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiFocusHeatBuilder_ == null) {
+          roiFocusHeat_ = builderForValue.build();
+        } else {
+          roiFocusHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      public Builder mergeRoiFocusHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFocusHeatBuilder_ == null) {
+          if (((bitField0_ & 0x00400000) != 0) &&
+            roiFocusHeat_ != null &&
+            roiFocusHeat_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiFocusHeatBuilder().mergeFrom(value);
+          } else {
+            roiFocusHeat_ = value;
+          }
+        } else {
+          roiFocusHeatBuilder_.mergeFrom(value);
+        }
+        if (roiFocusHeat_ != null) {
+          bitField0_ |= 0x00400000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      public Builder clearRoiFocusHeat() {
+        bitField0_ = (bitField0_ & ~0x00400000);
+        roiFocusHeat_ = null;
+        if (roiFocusHeatBuilder_ != null) {
+          roiFocusHeatBuilder_.dispose();
+          roiFocusHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiFocusHeatBuilder() {
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return getRoiFocusHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFocusHeatOrBuilder() {
+        if (roiFocusHeatBuilder_ != null) {
+          return roiFocusHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return roiFocusHeat_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFocusHeat_;
+        }
+      }
+      /**
+       * <pre>
+       * Heat channel ROIs
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataROI roi_focus_heat = 50;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiFocusHeatFieldBuilder() {
+        if (roiFocusHeatBuilder_ == null) {
+          roiFocusHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiFocusHeat(),
+                  getParentForChildren(),
+                  isClean());
+          roiFocusHeat_ = null;
+        }
+        return roiFocusHeatBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiTrackHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiTrackHeatBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       * @return Whether the roiTrackHeat field is set.
+       */
+      public boolean hasRoiTrackHeat() {
+        return ((bitField0_ & 0x00800000) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       * @return The roiTrackHeat.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiTrackHeat() {
+        if (roiTrackHeatBuilder_ == null) {
+          return roiTrackHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackHeat_;
+        } else {
+          return roiTrackHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      public Builder setRoiTrackHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiTrackHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiTrackHeat_ = value;
+        } else {
+          roiTrackHeatBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      public Builder setRoiTrackHeat(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiTrackHeatBuilder_ == null) {
+          roiTrackHeat_ = builderForValue.build();
+        } else {
+          roiTrackHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      public Builder mergeRoiTrackHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiTrackHeatBuilder_ == null) {
+          if (((bitField0_ & 0x00800000) != 0) &&
+            roiTrackHeat_ != null &&
+            roiTrackHeat_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiTrackHeatBuilder().mergeFrom(value);
+          } else {
+            roiTrackHeat_ = value;
+          }
+        } else {
+          roiTrackHeatBuilder_.mergeFrom(value);
+        }
+        if (roiTrackHeat_ != null) {
+          bitField0_ |= 0x00800000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      public Builder clearRoiTrackHeat() {
+        bitField0_ = (bitField0_ & ~0x00800000);
+        roiTrackHeat_ = null;
+        if (roiTrackHeatBuilder_ != null) {
+          roiTrackHeatBuilder_.dispose();
+          roiTrackHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiTrackHeatBuilder() {
+        bitField0_ |= 0x00800000;
+        onChanged();
+        return getRoiTrackHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiTrackHeatOrBuilder() {
+        if (roiTrackHeatBuilder_ != null) {
+          return roiTrackHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return roiTrackHeat_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiTrackHeat_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_track_heat = 51;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiTrackHeatFieldBuilder() {
+        if (roiTrackHeatBuilder_ == null) {
+          roiTrackHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiTrackHeat(),
+                  getParentForChildren(),
+                  isClean());
+          roiTrackHeat_ = null;
+        }
+        return roiTrackHeatBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiZoomHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiZoomHeatBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       * @return Whether the roiZoomHeat field is set.
+       */
+      public boolean hasRoiZoomHeat() {
+        return ((bitField0_ & 0x01000000) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       * @return The roiZoomHeat.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiZoomHeat() {
+        if (roiZoomHeatBuilder_ == null) {
+          return roiZoomHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomHeat_;
+        } else {
+          return roiZoomHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      public Builder setRoiZoomHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiZoomHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiZoomHeat_ = value;
+        } else {
+          roiZoomHeatBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x01000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      public Builder setRoiZoomHeat(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiZoomHeatBuilder_ == null) {
+          roiZoomHeat_ = builderForValue.build();
+        } else {
+          roiZoomHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x01000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      public Builder mergeRoiZoomHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiZoomHeatBuilder_ == null) {
+          if (((bitField0_ & 0x01000000) != 0) &&
+            roiZoomHeat_ != null &&
+            roiZoomHeat_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiZoomHeatBuilder().mergeFrom(value);
+          } else {
+            roiZoomHeat_ = value;
+          }
+        } else {
+          roiZoomHeatBuilder_.mergeFrom(value);
+        }
+        if (roiZoomHeat_ != null) {
+          bitField0_ |= 0x01000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      public Builder clearRoiZoomHeat() {
+        bitField0_ = (bitField0_ & ~0x01000000);
+        roiZoomHeat_ = null;
+        if (roiZoomHeatBuilder_ != null) {
+          roiZoomHeatBuilder_.dispose();
+          roiZoomHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiZoomHeatBuilder() {
+        bitField0_ |= 0x01000000;
+        onChanged();
+        return getRoiZoomHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiZoomHeatOrBuilder() {
+        if (roiZoomHeatBuilder_ != null) {
+          return roiZoomHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return roiZoomHeat_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiZoomHeat_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_zoom_heat = 52;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiZoomHeatFieldBuilder() {
+        if (roiZoomHeatBuilder_ == null) {
+          roiZoomHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiZoomHeat(),
+                  getParentForChildren(),
+                  isClean());
+          roiZoomHeat_ = null;
+        }
+        return roiZoomHeatBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI roiFxHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> roiFxHeatBuilder_;
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       * @return Whether the roiFxHeat field is set.
+       */
+      public boolean hasRoiFxHeat() {
+        return ((bitField0_ & 0x02000000) != 0);
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       * @return The roiFxHeat.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getRoiFxHeat() {
+        if (roiFxHeatBuilder_ == null) {
+          return roiFxHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxHeat_;
+        } else {
+          return roiFxHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      public Builder setRoiFxHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFxHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          roiFxHeat_ = value;
+        } else {
+          roiFxHeatBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      public Builder setRoiFxHeat(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (roiFxHeatBuilder_ == null) {
+          roiFxHeat_ = builderForValue.build();
+        } else {
+          roiFxHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      public Builder mergeRoiFxHeat(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (roiFxHeatBuilder_ == null) {
+          if (((bitField0_ & 0x02000000) != 0) &&
+            roiFxHeat_ != null &&
+            roiFxHeat_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getRoiFxHeatBuilder().mergeFrom(value);
+          } else {
+            roiFxHeat_ = value;
+          }
+        } else {
+          roiFxHeatBuilder_.mergeFrom(value);
+        }
+        if (roiFxHeat_ != null) {
+          bitField0_ |= 0x02000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      public Builder clearRoiFxHeat() {
+        bitField0_ = (bitField0_ & ~0x02000000);
+        roiFxHeat_ = null;
+        if (roiFxHeatBuilder_ != null) {
+          roiFxHeatBuilder_.dispose();
+          roiFxHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getRoiFxHeatBuilder() {
+        bitField0_ |= 0x02000000;
+        onChanged();
+        return getRoiFxHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getRoiFxHeatOrBuilder() {
+        if (roiFxHeatBuilder_ != null) {
+          return roiFxHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return roiFxHeat_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : roiFxHeat_;
+        }
+      }
+      /**
+       * <code>optional .ser.JonGuiDataROI roi_fx_heat = 53;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getRoiFxHeatFieldBuilder() {
+        if (roiFxHeatBuilder_ == null) {
+          roiFxHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getRoiFxHeat(),
+                  getParentForChildren(),
+                  isClean());
+          roiFxHeat_ = null;
+        }
+        return roiFxHeatBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataSharpness sharpnessMetricsDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataSharpness, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder, ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder> sharpnessMetricsDayBuilder_;
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       * @return Whether the sharpnessMetricsDay field is set.
+       */
+      public boolean hasSharpnessMetricsDay() {
+        return ((bitField0_ & 0x04000000) != 0);
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       * @return The sharpnessMetricsDay.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataSharpness getSharpnessMetricsDay() {
+        if (sharpnessMetricsDayBuilder_ == null) {
+          return sharpnessMetricsDay_ == null ? ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsDay_;
+        } else {
+          return sharpnessMetricsDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      public Builder setSharpnessMetricsDay(ser.JonSharedDataTypes.JonGuiDataSharpness value) {
+        if (sharpnessMetricsDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          sharpnessMetricsDay_ = value;
+        } else {
+          sharpnessMetricsDayBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x04000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      public Builder setSharpnessMetricsDay(
+          ser.JonSharedDataTypes.JonGuiDataSharpness.Builder builderForValue) {
+        if (sharpnessMetricsDayBuilder_ == null) {
+          sharpnessMetricsDay_ = builderForValue.build();
+        } else {
+          sharpnessMetricsDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x04000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      public Builder mergeSharpnessMetricsDay(ser.JonSharedDataTypes.JonGuiDataSharpness value) {
+        if (sharpnessMetricsDayBuilder_ == null) {
+          if (((bitField0_ & 0x04000000) != 0) &&
+            sharpnessMetricsDay_ != null &&
+            sharpnessMetricsDay_ != ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance()) {
+            getSharpnessMetricsDayBuilder().mergeFrom(value);
+          } else {
+            sharpnessMetricsDay_ = value;
+          }
+        } else {
+          sharpnessMetricsDayBuilder_.mergeFrom(value);
+        }
+        if (sharpnessMetricsDay_ != null) {
+          bitField0_ |= 0x04000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      public Builder clearSharpnessMetricsDay() {
+        bitField0_ = (bitField0_ & ~0x04000000);
+        sharpnessMetricsDay_ = null;
+        if (sharpnessMetricsDayBuilder_ != null) {
+          sharpnessMetricsDayBuilder_.dispose();
+          sharpnessMetricsDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataSharpness.Builder getSharpnessMetricsDayBuilder() {
+        bitField0_ |= 0x04000000;
+        onChanged();
+        return getSharpnessMetricsDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder getSharpnessMetricsDayOrBuilder() {
+        if (sharpnessMetricsDayBuilder_ != null) {
+          return sharpnessMetricsDayBuilder_.getMessageOrBuilder();
+        } else {
+          return sharpnessMetricsDay_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsDay_;
+        }
+      }
+      /**
+       * <pre>
+       * Day channel sharpness (within roi_focus_day)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataSharpness, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder, ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder> 
+          getSharpnessMetricsDayFieldBuilder() {
+        if (sharpnessMetricsDayBuilder_ == null) {
+          sharpnessMetricsDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataSharpness, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder, ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder>(
+                  getSharpnessMetricsDay(),
+                  getParentForChildren(),
+                  isClean());
+          sharpnessMetricsDay_ = null;
+        }
+        return sharpnessMetricsDayBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataSharpness sharpnessMetricsHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataSharpness, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder, ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder> sharpnessMetricsHeatBuilder_;
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       * @return Whether the sharpnessMetricsHeat field is set.
+       */
+      public boolean hasSharpnessMetricsHeat() {
+        return ((bitField0_ & 0x08000000) != 0);
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       * @return The sharpnessMetricsHeat.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataSharpness getSharpnessMetricsHeat() {
+        if (sharpnessMetricsHeatBuilder_ == null) {
+          return sharpnessMetricsHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsHeat_;
+        } else {
+          return sharpnessMetricsHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      public Builder setSharpnessMetricsHeat(ser.JonSharedDataTypes.JonGuiDataSharpness value) {
+        if (sharpnessMetricsHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          sharpnessMetricsHeat_ = value;
+        } else {
+          sharpnessMetricsHeatBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x08000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      public Builder setSharpnessMetricsHeat(
+          ser.JonSharedDataTypes.JonGuiDataSharpness.Builder builderForValue) {
+        if (sharpnessMetricsHeatBuilder_ == null) {
+          sharpnessMetricsHeat_ = builderForValue.build();
+        } else {
+          sharpnessMetricsHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x08000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      public Builder mergeSharpnessMetricsHeat(ser.JonSharedDataTypes.JonGuiDataSharpness value) {
+        if (sharpnessMetricsHeatBuilder_ == null) {
+          if (((bitField0_ & 0x08000000) != 0) &&
+            sharpnessMetricsHeat_ != null &&
+            sharpnessMetricsHeat_ != ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance()) {
+            getSharpnessMetricsHeatBuilder().mergeFrom(value);
+          } else {
+            sharpnessMetricsHeat_ = value;
+          }
+        } else {
+          sharpnessMetricsHeatBuilder_.mergeFrom(value);
+        }
+        if (sharpnessMetricsHeat_ != null) {
+          bitField0_ |= 0x08000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      public Builder clearSharpnessMetricsHeat() {
+        bitField0_ = (bitField0_ & ~0x08000000);
+        sharpnessMetricsHeat_ = null;
+        if (sharpnessMetricsHeatBuilder_ != null) {
+          sharpnessMetricsHeatBuilder_.dispose();
+          sharpnessMetricsHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataSharpness.Builder getSharpnessMetricsHeatBuilder() {
+        bitField0_ |= 0x08000000;
+        onChanged();
+        return getSharpnessMetricsHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder getSharpnessMetricsHeatOrBuilder() {
+        if (sharpnessMetricsHeatBuilder_ != null) {
+          return sharpnessMetricsHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return sharpnessMetricsHeat_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance() : sharpnessMetricsHeat_;
+        }
+      }
+      /**
+       * <pre>
+       * Heat channel sharpness (within roi_focus_heat)
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataSharpness, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder, ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder> 
+          getSharpnessMetricsHeatFieldBuilder() {
+        if (sharpnessMetricsHeatBuilder_ == null) {
+          sharpnessMetricsHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataSharpness, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder, ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder>(
+                  getSharpnessMetricsHeat(),
+                  getParentForChildren(),
+                  isClean());
+          sharpnessMetricsHeat_ = null;
+        }
+        return sharpnessMetricsHeatBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataTransform3D cameraTransformDay_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder> cameraTransformDayBuilder_;
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       * @return Whether the cameraTransformDay field is set.
+       */
+      public boolean hasCameraTransformDay() {
+        return ((bitField0_ & 0x10000000) != 0);
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       * @return The cameraTransformDay.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D getCameraTransformDay() {
+        if (cameraTransformDayBuilder_ == null) {
+          return cameraTransformDay_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformDay_;
+        } else {
+          return cameraTransformDayBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      public Builder setCameraTransformDay(ser.JonSharedDataTypes.JonGuiDataTransform3D value) {
+        if (cameraTransformDayBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cameraTransformDay_ = value;
+        } else {
+          cameraTransformDayBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      public Builder setCameraTransformDay(
+          ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder builderForValue) {
+        if (cameraTransformDayBuilder_ == null) {
+          cameraTransformDay_ = builderForValue.build();
+        } else {
+          cameraTransformDayBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      public Builder mergeCameraTransformDay(ser.JonSharedDataTypes.JonGuiDataTransform3D value) {
+        if (cameraTransformDayBuilder_ == null) {
+          if (((bitField0_ & 0x10000000) != 0) &&
+            cameraTransformDay_ != null &&
+            cameraTransformDay_ != ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance()) {
+            getCameraTransformDayBuilder().mergeFrom(value);
+          } else {
+            cameraTransformDay_ = value;
+          }
+        } else {
+          cameraTransformDayBuilder_.mergeFrom(value);
+        }
+        if (cameraTransformDay_ != null) {
+          bitField0_ |= 0x10000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      public Builder clearCameraTransformDay() {
+        bitField0_ = (bitField0_ & ~0x10000000);
+        cameraTransformDay_ = null;
+        if (cameraTransformDayBuilder_ != null) {
+          cameraTransformDayBuilder_.dispose();
+          cameraTransformDayBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder getCameraTransformDayBuilder() {
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return getCameraTransformDayFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getCameraTransformDayOrBuilder() {
+        if (cameraTransformDayBuilder_ != null) {
+          return cameraTransformDayBuilder_.getMessageOrBuilder();
+        } else {
+          return cameraTransformDay_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformDay_;
+        }
+      }
+      /**
+       * <pre>
+       * Day camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_day = 70;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder> 
+          getCameraTransformDayFieldBuilder() {
+        if (cameraTransformDayBuilder_ == null) {
+          cameraTransformDayBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder>(
+                  getCameraTransformDay(),
+                  getParentForChildren(),
+                  isClean());
+          cameraTransformDay_ = null;
+        }
+        return cameraTransformDayBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataTransform3D cameraTransformHeat_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder> cameraTransformHeatBuilder_;
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       * @return Whether the cameraTransformHeat field is set.
+       */
+      public boolean hasCameraTransformHeat() {
+        return ((bitField0_ & 0x20000000) != 0);
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       * @return The cameraTransformHeat.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D getCameraTransformHeat() {
+        if (cameraTransformHeatBuilder_ == null) {
+          return cameraTransformHeat_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformHeat_;
+        } else {
+          return cameraTransformHeatBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      public Builder setCameraTransformHeat(ser.JonSharedDataTypes.JonGuiDataTransform3D value) {
+        if (cameraTransformHeatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cameraTransformHeat_ = value;
+        } else {
+          cameraTransformHeatBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x20000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      public Builder setCameraTransformHeat(
+          ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder builderForValue) {
+        if (cameraTransformHeatBuilder_ == null) {
+          cameraTransformHeat_ = builderForValue.build();
+        } else {
+          cameraTransformHeatBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x20000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      public Builder mergeCameraTransformHeat(ser.JonSharedDataTypes.JonGuiDataTransform3D value) {
+        if (cameraTransformHeatBuilder_ == null) {
+          if (((bitField0_ & 0x20000000) != 0) &&
+            cameraTransformHeat_ != null &&
+            cameraTransformHeat_ != ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance()) {
+            getCameraTransformHeatBuilder().mergeFrom(value);
+          } else {
+            cameraTransformHeat_ = value;
+          }
+        } else {
+          cameraTransformHeatBuilder_.mergeFrom(value);
+        }
+        if (cameraTransformHeat_ != null) {
+          bitField0_ |= 0x20000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      public Builder clearCameraTransformHeat() {
+        bitField0_ = (bitField0_ & ~0x20000000);
+        cameraTransformHeat_ = null;
+        if (cameraTransformHeatBuilder_ != null) {
+          cameraTransformHeatBuilder_.dispose();
+          cameraTransformHeatBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder getCameraTransformHeatBuilder() {
+        bitField0_ |= 0x20000000;
+        onChanged();
+        return getCameraTransformHeatFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getCameraTransformHeatOrBuilder() {
+        if (cameraTransformHeatBuilder_ != null) {
+          return cameraTransformHeatBuilder_.getMessageOrBuilder();
+        } else {
+          return cameraTransformHeat_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : cameraTransformHeat_;
+        }
+      }
+      /**
+       * <pre>
+       * Heat camera 3D pose and velocity
+       * </pre>
+       *
+       * <code>optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder> 
+          getCameraTransformHeatFieldBuilder() {
+        if (cameraTransformHeatBuilder_ == null) {
+          cameraTransformHeatBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder>(
+                  getCameraTransformHeat(),
+                  getParentForChildren(),
+                  isClean());
+          cameraTransformHeat_ = null;
+        }
+        return cameraTransformHeatBuilder_;
+      }
+
+      private java.util.List<ser.JonSharedDataTypes.JonGuiDataTrackedObject> trackedObjects_ =
+        java.util.Collections.emptyList();
+      private void ensureTrackedObjectsIsMutable() {
+        if (!((bitField0_ & 0x40000000) != 0)) {
+          trackedObjects_ = new java.util.ArrayList<ser.JonSharedDataTypes.JonGuiDataTrackedObject>(trackedObjects_);
+          bitField0_ |= 0x40000000;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTrackedObject, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder, ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder> trackedObjectsBuilder_;
+
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public java.util.List<ser.JonSharedDataTypes.JonGuiDataTrackedObject> getTrackedObjectsList() {
+        if (trackedObjectsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(trackedObjects_);
+        } else {
+          return trackedObjectsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public int getTrackedObjectsCount() {
+        if (trackedObjectsBuilder_ == null) {
+          return trackedObjects_.size();
+        } else {
+          return trackedObjectsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject getTrackedObjects(int index) {
+        if (trackedObjectsBuilder_ == null) {
+          return trackedObjects_.get(index);
+        } else {
+          return trackedObjectsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder setTrackedObjects(
+          int index, ser.JonSharedDataTypes.JonGuiDataTrackedObject value) {
+        if (trackedObjectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.set(index, value);
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder setTrackedObjects(
+          int index, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder builderForValue) {
+        if (trackedObjectsBuilder_ == null) {
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder addTrackedObjects(ser.JonSharedDataTypes.JonGuiDataTrackedObject value) {
+        if (trackedObjectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.add(value);
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder addTrackedObjects(
+          int index, ser.JonSharedDataTypes.JonGuiDataTrackedObject value) {
+        if (trackedObjectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.add(index, value);
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder addTrackedObjects(
+          ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder builderForValue) {
+        if (trackedObjectsBuilder_ == null) {
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.add(builderForValue.build());
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder addTrackedObjects(
+          int index, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder builderForValue) {
+        if (trackedObjectsBuilder_ == null) {
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder addAllTrackedObjects(
+          java.lang.Iterable<? extends ser.JonSharedDataTypes.JonGuiDataTrackedObject> values) {
+        if (trackedObjectsBuilder_ == null) {
+          ensureTrackedObjectsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, trackedObjects_);
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder clearTrackedObjects() {
+        if (trackedObjectsBuilder_ == null) {
+          trackedObjects_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x40000000);
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public Builder removeTrackedObjects(int index) {
+        if (trackedObjectsBuilder_ == null) {
+          ensureTrackedObjectsIsMutable();
+          trackedObjects_.remove(index);
+          onChanged();
+        } else {
+          trackedObjectsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder getTrackedObjectsBuilder(
+          int index) {
+        return getTrackedObjectsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder getTrackedObjectsOrBuilder(
+          int index) {
+        if (trackedObjectsBuilder_ == null) {
+          return trackedObjects_.get(index);  } else {
+          return trackedObjectsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public java.util.List<? extends ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder> 
+           getTrackedObjectsOrBuilderList() {
+        if (trackedObjectsBuilder_ != null) {
+          return trackedObjectsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(trackedObjects_);
+        }
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder addTrackedObjectsBuilder() {
+        return getTrackedObjectsFieldBuilder().addBuilder(
+            ser.JonSharedDataTypes.JonGuiDataTrackedObject.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder addTrackedObjectsBuilder(
+          int index) {
+        return getTrackedObjectsFieldBuilder().addBuilder(
+            index, ser.JonSharedDataTypes.JonGuiDataTrackedObject.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Tracked objects (0 or more). Each object has UUID for joining with
+       * external data sources (labels, classifications, etc.)
+       * </pre>
+       *
+       * <code>repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;</code>
+       */
+      public java.util.List<ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder> 
+           getTrackedObjectsBuilderList() {
+        return getTrackedObjectsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTrackedObject, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder, ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder> 
+          getTrackedObjectsFieldBuilder() {
+        if (trackedObjectsBuilder_ == null) {
+          trackedObjectsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataTrackedObject, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder, ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder>(
+                  trackedObjects_,
+                  ((bitField0_ & 0x40000000) != 0),
+                  getParentForChildren(),
+                  isClean());
+          trackedObjects_ = null;
+        }
+        return trackedObjectsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCV)
     }
 
@@ -2607,7 +5894,7 @@ public final class JonSharedDataCv {
     java.lang.String[] descriptorData = {
       "\n\030jon_shared_data_cv.proto\022\003ser\032\033buf/val" +
       "idate/validate.proto\032\033jon_shared_data_ty" +
-      "pes.proto\"\207\r\n\014JonGuiDataCV\022G\n\023autofocus_" +
+      "pes.proto\"\252\024\n\014JonGuiDataCV\022G\n\023autofocus_" +
       "state_day\030\001 \001(\0162 .ser.JonGuiDataCV.Autof" +
       "ocusStateB\010\272H\005\202\001\002\020\001\022%\n\rsharpness_day\030\002 \001" +
       "(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022*\n\022best_sharpness_day" +
@@ -2629,29 +5916,52 @@ public final class JonSharedDataCv {
       "\n\020last_exit_reason\030\037 \001(\0162$.ser.JonGuiDat" +
       "aCV.CvBridgeExitReasonB\010\272H\005\202\001\002\020\001\022!\n\020brid" +
       "ge_uptime_ms\030  \001(\003B\007\272H\004\"\002(\000\022\036\n\rrestart_c" +
-      "ount\030! \001(\005B\007\272H\004\032\002(\000\"\310\001\n\016AutofocusState\022\037" +
-      "\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030\n\024AUTOF" +
-      "OCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_STATE_COA" +
-      "RSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FINE_SWEE" +
-      "P\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020\004\022\032\n\026AU" +
-      "TOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBridgeStatu" +
-      "s\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED\020\000\022\034\n\030C" +
-      "V_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_BRIDGE_S" +
-      "TATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STATUS_RUN" +
-      "NING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPING\020\004\022\034\n" +
-      "\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV_BRIDGE" +
-      "_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridgeExitRea" +
-      "son\022%\n!CV_BRIDGE_EXIT_REASON_UNSPECIFIED" +
-      "\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_STARTED\020" +
-      "\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL\020\002\022\037\n\033C" +
-      "V_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n CV_BRIDG" +
-      "E_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_BRIDGE_" +
-      "EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRIDGE_EXI" +
-      "T_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_REASON_" +
-      "TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASON_SIGNA" +
-      "L\020\010BJZHgit-codecommit.eu-central-1.amazo" +
-      "naws.com/v1/repos/jettison/jonp/data/cvb" +
-      "\006proto3"
+      "ount\030! \001(\005B\007\272H\004\032\002(\000\022.\n\rroi_focus_day\030( \001" +
+      "(\0132\022.ser.JonGuiDataROIH\000\210\001\001\022.\n\rroi_track" +
+      "_day\030) \001(\0132\022.ser.JonGuiDataROIH\001\210\001\001\022-\n\014r" +
+      "oi_zoom_day\030* \001(\0132\022.ser.JonGuiDataROIH\002\210" +
+      "\001\001\022+\n\nroi_fx_day\030+ \001(\0132\022.ser.JonGuiDataR" +
+      "OIH\003\210\001\001\022/\n\016roi_focus_heat\0302 \001(\0132\022.ser.Jo" +
+      "nGuiDataROIH\004\210\001\001\022/\n\016roi_track_heat\0303 \001(\013" +
+      "2\022.ser.JonGuiDataROIH\005\210\001\001\022.\n\rroi_zoom_he" +
+      "at\0304 \001(\0132\022.ser.JonGuiDataROIH\006\210\001\001\022,\n\013roi" +
+      "_fx_heat\0305 \001(\0132\022.ser.JonGuiDataROIH\007\210\001\001\022" +
+      "<\n\025sharpness_metrics_day\030< \001(\0132\030.ser.Jon" +
+      "GuiDataSharpnessH\010\210\001\001\022=\n\026sharpness_metri" +
+      "cs_heat\030= \001(\0132\030.ser.JonGuiDataSharpnessH" +
+      "\t\210\001\001\022=\n\024camera_transform_day\030F \001(\0132\032.ser" +
+      ".JonGuiDataTransform3DH\n\210\001\001\022>\n\025camera_tr" +
+      "ansform_heat\030G \001(\0132\032.ser.JonGuiDataTrans" +
+      "form3DH\013\210\001\001\0225\n\017tracked_objects\030P \003(\0132\034.s" +
+      "er.JonGuiDataTrackedObject\"\310\001\n\016Autofocus" +
+      "State\022\037\n\033AUTOFOCUS_STATE_UNSPECIFIED\020\000\022\030" +
+      "\n\024AUTOFOCUS_STATE_IDLE\020\001\022 \n\034AUTOFOCUS_ST" +
+      "ATE_COARSE_SWEEP\020\002\022\036\n\032AUTOFOCUS_STATE_FI" +
+      "NE_SWEEP\020\003\022\035\n\031AUTOFOCUS_STATE_CONVERGED\020" +
+      "\004\022\032\n\026AUTOFOCUS_STATE_FAILED\020\005\"\353\001\n\016CvBrid" +
+      "geStatus\022 \n\034CV_BRIDGE_STATUS_UNSPECIFIED" +
+      "\020\000\022\034\n\030CV_BRIDGE_STATUS_STOPPED\020\001\022\035\n\031CV_B" +
+      "RIDGE_STATUS_STARTING\020\002\022\034\n\030CV_BRIDGE_STA" +
+      "TUS_RUNNING\020\003\022\035\n\031CV_BRIDGE_STATUS_STOPPI" +
+      "NG\020\004\022\034\n\030CV_BRIDGE_STATUS_CRASHED\020\005\022\037\n\033CV" +
+      "_BRIDGE_STATUS_RESTARTING\020\006\"\324\002\n\022CvBridge" +
+      "ExitReason\022%\n!CV_BRIDGE_EXIT_REASON_UNSP" +
+      "ECIFIED\020\000\022%\n!CV_BRIDGE_EXIT_REASON_NOT_S" +
+      "TARTED\020\001\022 \n\034CV_BRIDGE_EXIT_REASON_NORMAL" +
+      "\020\002\022\037\n\033CV_BRIDGE_EXIT_REASON_ERROR\020\003\022$\n C" +
+      "V_BRIDGE_EXIT_REASON_CUDA_ERROR\020\004\022#\n\037CV_" +
+      "BRIDGE_EXIT_REASON_IPC_ERROR\020\005\022\035\n\031CV_BRI" +
+      "DGE_EXIT_REASON_OOM\020\006\022!\n\035CV_BRIDGE_EXIT_" +
+      "REASON_TIMEOUT\020\007\022 \n\034CV_BRIDGE_EXIT_REASO" +
+      "N_SIGNAL\020\010B\020\n\016_roi_focus_dayB\020\n\016_roi_tra" +
+      "ck_dayB\017\n\r_roi_zoom_dayB\r\n\013_roi_fx_dayB\021" +
+      "\n\017_roi_focus_heatB\021\n\017_roi_track_heatB\020\n\016" +
+      "_roi_zoom_heatB\016\n\014_roi_fx_heatB\030\n\026_sharp" +
+      "ness_metrics_dayB\031\n\027_sharpness_metrics_h" +
+      "eatB\027\n\025_camera_transform_dayB\030\n\026_camera_" +
+      "transform_heatBJZHgit-codecommit.eu-cent" +
+      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
+      "np/data/cvb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2664,7 +5974,7 @@ public final class JonSharedDataCv {
     internal_static_ser_JonGuiDataCV_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCV_descriptor,
-        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", });
+        new java.lang.String[] { "AutofocusStateDay", "SharpnessDay", "BestSharpnessDay", "SweepProgressDay", "BestFocusPosDay", "AutofocusStateHeat", "SharpnessHeat", "BestSharpnessHeat", "SweepProgressHeat", "BestFocusPosHeat", "RoiX1", "RoiY1", "RoiX2", "RoiY2", "BridgeStatus", "LastExitReason", "BridgeUptimeMs", "RestartCount", "RoiFocusDay", "RoiTrackDay", "RoiZoomDay", "RoiFxDay", "RoiFocusHeat", "RoiTrackHeat", "RoiZoomHeat", "RoiFxHeat", "SharpnessMetricsDay", "SharpnessMetricsHeat", "CameraTransformDay", "CameraTransformHeat", "TrackedObjects", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

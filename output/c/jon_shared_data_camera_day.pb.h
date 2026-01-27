@@ -29,6 +29,11 @@ typedef struct _ser_JonGuiDataCameraDay {
     bool auto_gain;
     bool has_meteo;
     ser_JonGuiDataMeteo meteo;
+    /* Sensor parameters (normalized 0.0-1.0, set by camera or CV) */
+    bool has_sensor_gain;
+    double sensor_gain;
+    bool has_exposure;
+    double exposure;
 } ser_JonGuiDataCameraDay;
 
 
@@ -37,8 +42,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
-#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
+#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, false, 0, false, 0}
+#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, false, 0, false, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCameraDay_focus_pos_tag    1
@@ -57,6 +62,8 @@ extern "C" {
 #define ser_JonGuiDataCameraDay_is_started_tag   14
 #define ser_JonGuiDataCameraDay_auto_gain_tag    15
 #define ser_JonGuiDataCameraDay_meteo_tag        16
+#define ser_JonGuiDataCameraDay_sensor_gain_tag  17
+#define ser_JonGuiDataCameraDay_exposure_tag     18
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraDay_FIELDLIST(X, a) \
@@ -75,7 +82,9 @@ X(a, STATIC,   SINGULAR, DOUBLE,   horizontal_fov_degrees,  12) \
 X(a, STATIC,   SINGULAR, DOUBLE,   vertical_fov_degrees,  13) \
 X(a, STATIC,   SINGULAR, BOOL,     is_started,       14) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_gain,        15) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            16)
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            16) \
+X(a, STATIC,   OPTIONAL, DOUBLE,   sensor_gain,      17) \
+X(a, STATIC,   OPTIONAL, DOUBLE,   exposure,         18)
 #define ser_JonGuiDataCameraDay_CALLBACK NULL
 #define ser_JonGuiDataCameraDay_DEFAULT NULL
 #define ser_JonGuiDataCameraDay_meteo_MSGTYPE ser_JonGuiDataMeteo
@@ -87,7 +96,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraDay_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_DAY_PB_H_MAX_SIZE ser_JonGuiDataCameraDay_size
-#define ser_JonGuiDataCameraDay_size             127
+#define ser_JonGuiDataCameraDay_size             147
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -1,5 +1,6 @@
 #!/bin/bash
 # Script to add buf/validate/validate.proto import to a proto file if not already present
+# Only adds the import if the file actually uses buf.validate annotations
 
 set -e
 
@@ -12,6 +13,12 @@ fi
 # Check if import already exists
 if grep -q 'import "buf/validate/validate.proto"' "$proto_file"; then
     # Import already exists, nothing to do
+    exit 0
+fi
+
+# Check if file actually uses buf.validate annotations
+if ! grep -q 'buf\.validate' "$proto_file"; then
+    # File doesn't use validation, skip adding import
     exit 0
 fi
 

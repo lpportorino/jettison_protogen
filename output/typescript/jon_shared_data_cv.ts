@@ -7,6 +7,12 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
+import {
+  JonGuiDataROI,
+  JonGuiDataSharpness,
+  JonGuiDataTrackedObject,
+  JonGuiDataTransform3D,
+} from "./jon_shared_data_types";
 
 /** CV Gateway state enrichment - autofocus metrics and sweep status */
 export interface JonGuiDataCV {
@@ -32,6 +38,41 @@ export interface JonGuiDataCV {
   lastExitReason: JonGuiDataCV_CvBridgeExitReason;
   bridgeUptimeMs: Long;
   restartCount: number;
+  /** Day channel ROIs */
+  roiFocusDay?: JonGuiDataROI | undefined;
+  roiTrackDay?: JonGuiDataROI | undefined;
+  roiZoomDay?: JonGuiDataROI | undefined;
+  roiFxDay?:
+    | JonGuiDataROI
+    | undefined;
+  /** Heat channel ROIs */
+  roiFocusHeat?: JonGuiDataROI | undefined;
+  roiTrackHeat?: JonGuiDataROI | undefined;
+  roiZoomHeat?: JonGuiDataROI | undefined;
+  roiFxHeat?:
+    | JonGuiDataROI
+    | undefined;
+  /** Day channel sharpness (within roi_focus_day) */
+  sharpnessMetricsDay?:
+    | JonGuiDataSharpness
+    | undefined;
+  /** Heat channel sharpness (within roi_focus_heat) */
+  sharpnessMetricsHeat?:
+    | JonGuiDataSharpness
+    | undefined;
+  /** Day camera 3D pose and velocity */
+  cameraTransformDay?:
+    | JonGuiDataTransform3D
+    | undefined;
+  /** Heat camera 3D pose and velocity */
+  cameraTransformHeat?:
+    | JonGuiDataTransform3D
+    | undefined;
+  /**
+   * Tracked objects (0 or more). Each object has UUID for joining with
+   * external data sources (labels, classifications, etc.)
+   */
+  trackedObjects: JonGuiDataTrackedObject[];
 }
 
 /** Autofocus sweep state */
@@ -266,6 +307,19 @@ function createBaseJonGuiDataCV(): JonGuiDataCV {
     lastExitReason: 0,
     bridgeUptimeMs: Long.ZERO,
     restartCount: 0,
+    roiFocusDay: undefined,
+    roiTrackDay: undefined,
+    roiZoomDay: undefined,
+    roiFxDay: undefined,
+    roiFocusHeat: undefined,
+    roiTrackHeat: undefined,
+    roiZoomHeat: undefined,
+    roiFxHeat: undefined,
+    sharpnessMetricsDay: undefined,
+    sharpnessMetricsHeat: undefined,
+    cameraTransformDay: undefined,
+    cameraTransformHeat: undefined,
+    trackedObjects: [],
   };
 }
 
@@ -324,6 +378,45 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     }
     if (message.restartCount !== 0) {
       writer.uint32(264).int32(message.restartCount);
+    }
+    if (message.roiFocusDay !== undefined) {
+      JonGuiDataROI.encode(message.roiFocusDay, writer.uint32(322).fork()).join();
+    }
+    if (message.roiTrackDay !== undefined) {
+      JonGuiDataROI.encode(message.roiTrackDay, writer.uint32(330).fork()).join();
+    }
+    if (message.roiZoomDay !== undefined) {
+      JonGuiDataROI.encode(message.roiZoomDay, writer.uint32(338).fork()).join();
+    }
+    if (message.roiFxDay !== undefined) {
+      JonGuiDataROI.encode(message.roiFxDay, writer.uint32(346).fork()).join();
+    }
+    if (message.roiFocusHeat !== undefined) {
+      JonGuiDataROI.encode(message.roiFocusHeat, writer.uint32(402).fork()).join();
+    }
+    if (message.roiTrackHeat !== undefined) {
+      JonGuiDataROI.encode(message.roiTrackHeat, writer.uint32(410).fork()).join();
+    }
+    if (message.roiZoomHeat !== undefined) {
+      JonGuiDataROI.encode(message.roiZoomHeat, writer.uint32(418).fork()).join();
+    }
+    if (message.roiFxHeat !== undefined) {
+      JonGuiDataROI.encode(message.roiFxHeat, writer.uint32(426).fork()).join();
+    }
+    if (message.sharpnessMetricsDay !== undefined) {
+      JonGuiDataSharpness.encode(message.sharpnessMetricsDay, writer.uint32(482).fork()).join();
+    }
+    if (message.sharpnessMetricsHeat !== undefined) {
+      JonGuiDataSharpness.encode(message.sharpnessMetricsHeat, writer.uint32(490).fork()).join();
+    }
+    if (message.cameraTransformDay !== undefined) {
+      JonGuiDataTransform3D.encode(message.cameraTransformDay, writer.uint32(562).fork()).join();
+    }
+    if (message.cameraTransformHeat !== undefined) {
+      JonGuiDataTransform3D.encode(message.cameraTransformHeat, writer.uint32(570).fork()).join();
+    }
+    for (const v of message.trackedObjects) {
+      JonGuiDataTrackedObject.encode(v!, writer.uint32(642).fork()).join();
     }
     return writer;
   },
@@ -479,6 +572,110 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
           message.restartCount = reader.int32();
           continue;
         }
+        case 40: {
+          if (tag !== 322) {
+            break;
+          }
+
+          message.roiFocusDay = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 41: {
+          if (tag !== 330) {
+            break;
+          }
+
+          message.roiTrackDay = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 42: {
+          if (tag !== 338) {
+            break;
+          }
+
+          message.roiZoomDay = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 43: {
+          if (tag !== 346) {
+            break;
+          }
+
+          message.roiFxDay = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 50: {
+          if (tag !== 402) {
+            break;
+          }
+
+          message.roiFocusHeat = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 51: {
+          if (tag !== 410) {
+            break;
+          }
+
+          message.roiTrackHeat = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 52: {
+          if (tag !== 418) {
+            break;
+          }
+
+          message.roiZoomHeat = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 53: {
+          if (tag !== 426) {
+            break;
+          }
+
+          message.roiFxHeat = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 60: {
+          if (tag !== 482) {
+            break;
+          }
+
+          message.sharpnessMetricsDay = JonGuiDataSharpness.decode(reader, reader.uint32());
+          continue;
+        }
+        case 61: {
+          if (tag !== 490) {
+            break;
+          }
+
+          message.sharpnessMetricsHeat = JonGuiDataSharpness.decode(reader, reader.uint32());
+          continue;
+        }
+        case 70: {
+          if (tag !== 562) {
+            break;
+          }
+
+          message.cameraTransformDay = JonGuiDataTransform3D.decode(reader, reader.uint32());
+          continue;
+        }
+        case 71: {
+          if (tag !== 570) {
+            break;
+          }
+
+          message.cameraTransformHeat = JonGuiDataTransform3D.decode(reader, reader.uint32());
+          continue;
+        }
+        case 80: {
+          if (tag !== 642) {
+            break;
+          }
+
+          message.trackedObjects.push(JonGuiDataTrackedObject.decode(reader, reader.uint32()));
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -580,6 +777,71 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
         : isSet(object.restart_count)
         ? globalThis.Number(object.restart_count)
         : 0,
+      roiFocusDay: isSet(object.roiFocusDay)
+        ? JonGuiDataROI.fromJSON(object.roiFocusDay)
+        : isSet(object.roi_focus_day)
+        ? JonGuiDataROI.fromJSON(object.roi_focus_day)
+        : undefined,
+      roiTrackDay: isSet(object.roiTrackDay)
+        ? JonGuiDataROI.fromJSON(object.roiTrackDay)
+        : isSet(object.roi_track_day)
+        ? JonGuiDataROI.fromJSON(object.roi_track_day)
+        : undefined,
+      roiZoomDay: isSet(object.roiZoomDay)
+        ? JonGuiDataROI.fromJSON(object.roiZoomDay)
+        : isSet(object.roi_zoom_day)
+        ? JonGuiDataROI.fromJSON(object.roi_zoom_day)
+        : undefined,
+      roiFxDay: isSet(object.roiFxDay)
+        ? JonGuiDataROI.fromJSON(object.roiFxDay)
+        : isSet(object.roi_fx_day)
+        ? JonGuiDataROI.fromJSON(object.roi_fx_day)
+        : undefined,
+      roiFocusHeat: isSet(object.roiFocusHeat)
+        ? JonGuiDataROI.fromJSON(object.roiFocusHeat)
+        : isSet(object.roi_focus_heat)
+        ? JonGuiDataROI.fromJSON(object.roi_focus_heat)
+        : undefined,
+      roiTrackHeat: isSet(object.roiTrackHeat)
+        ? JonGuiDataROI.fromJSON(object.roiTrackHeat)
+        : isSet(object.roi_track_heat)
+        ? JonGuiDataROI.fromJSON(object.roi_track_heat)
+        : undefined,
+      roiZoomHeat: isSet(object.roiZoomHeat)
+        ? JonGuiDataROI.fromJSON(object.roiZoomHeat)
+        : isSet(object.roi_zoom_heat)
+        ? JonGuiDataROI.fromJSON(object.roi_zoom_heat)
+        : undefined,
+      roiFxHeat: isSet(object.roiFxHeat)
+        ? JonGuiDataROI.fromJSON(object.roiFxHeat)
+        : isSet(object.roi_fx_heat)
+        ? JonGuiDataROI.fromJSON(object.roi_fx_heat)
+        : undefined,
+      sharpnessMetricsDay: isSet(object.sharpnessMetricsDay)
+        ? JonGuiDataSharpness.fromJSON(object.sharpnessMetricsDay)
+        : isSet(object.sharpness_metrics_day)
+        ? JonGuiDataSharpness.fromJSON(object.sharpness_metrics_day)
+        : undefined,
+      sharpnessMetricsHeat: isSet(object.sharpnessMetricsHeat)
+        ? JonGuiDataSharpness.fromJSON(object.sharpnessMetricsHeat)
+        : isSet(object.sharpness_metrics_heat)
+        ? JonGuiDataSharpness.fromJSON(object.sharpness_metrics_heat)
+        : undefined,
+      cameraTransformDay: isSet(object.cameraTransformDay)
+        ? JonGuiDataTransform3D.fromJSON(object.cameraTransformDay)
+        : isSet(object.camera_transform_day)
+        ? JonGuiDataTransform3D.fromJSON(object.camera_transform_day)
+        : undefined,
+      cameraTransformHeat: isSet(object.cameraTransformHeat)
+        ? JonGuiDataTransform3D.fromJSON(object.cameraTransformHeat)
+        : isSet(object.camera_transform_heat)
+        ? JonGuiDataTransform3D.fromJSON(object.camera_transform_heat)
+        : undefined,
+      trackedObjects: globalThis.Array.isArray(object?.trackedObjects)
+        ? object.trackedObjects.map((e: any) => JonGuiDataTrackedObject.fromJSON(e))
+        : globalThis.Array.isArray(object?.tracked_objects)
+        ? object.tracked_objects.map((e: any) => JonGuiDataTrackedObject.fromJSON(e))
+        : [],
     };
   },
 
@@ -639,6 +901,45 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
     if (message.restartCount !== 0) {
       obj.restartCount = Math.round(message.restartCount);
     }
+    if (message.roiFocusDay !== undefined) {
+      obj.roiFocusDay = JonGuiDataROI.toJSON(message.roiFocusDay);
+    }
+    if (message.roiTrackDay !== undefined) {
+      obj.roiTrackDay = JonGuiDataROI.toJSON(message.roiTrackDay);
+    }
+    if (message.roiZoomDay !== undefined) {
+      obj.roiZoomDay = JonGuiDataROI.toJSON(message.roiZoomDay);
+    }
+    if (message.roiFxDay !== undefined) {
+      obj.roiFxDay = JonGuiDataROI.toJSON(message.roiFxDay);
+    }
+    if (message.roiFocusHeat !== undefined) {
+      obj.roiFocusHeat = JonGuiDataROI.toJSON(message.roiFocusHeat);
+    }
+    if (message.roiTrackHeat !== undefined) {
+      obj.roiTrackHeat = JonGuiDataROI.toJSON(message.roiTrackHeat);
+    }
+    if (message.roiZoomHeat !== undefined) {
+      obj.roiZoomHeat = JonGuiDataROI.toJSON(message.roiZoomHeat);
+    }
+    if (message.roiFxHeat !== undefined) {
+      obj.roiFxHeat = JonGuiDataROI.toJSON(message.roiFxHeat);
+    }
+    if (message.sharpnessMetricsDay !== undefined) {
+      obj.sharpnessMetricsDay = JonGuiDataSharpness.toJSON(message.sharpnessMetricsDay);
+    }
+    if (message.sharpnessMetricsHeat !== undefined) {
+      obj.sharpnessMetricsHeat = JonGuiDataSharpness.toJSON(message.sharpnessMetricsHeat);
+    }
+    if (message.cameraTransformDay !== undefined) {
+      obj.cameraTransformDay = JonGuiDataTransform3D.toJSON(message.cameraTransformDay);
+    }
+    if (message.cameraTransformHeat !== undefined) {
+      obj.cameraTransformHeat = JonGuiDataTransform3D.toJSON(message.cameraTransformHeat);
+    }
+    if (message.trackedObjects?.length) {
+      obj.trackedObjects = message.trackedObjects.map((e) => JonGuiDataTrackedObject.toJSON(e));
+    }
     return obj;
   },
 
@@ -667,6 +968,43 @@ export const JonGuiDataCV: MessageFns<JonGuiDataCV> = {
       ? Long.fromValue(object.bridgeUptimeMs)
       : Long.ZERO;
     message.restartCount = object.restartCount ?? 0;
+    message.roiFocusDay = (object.roiFocusDay !== undefined && object.roiFocusDay !== null)
+      ? JonGuiDataROI.fromPartial(object.roiFocusDay)
+      : undefined;
+    message.roiTrackDay = (object.roiTrackDay !== undefined && object.roiTrackDay !== null)
+      ? JonGuiDataROI.fromPartial(object.roiTrackDay)
+      : undefined;
+    message.roiZoomDay = (object.roiZoomDay !== undefined && object.roiZoomDay !== null)
+      ? JonGuiDataROI.fromPartial(object.roiZoomDay)
+      : undefined;
+    message.roiFxDay = (object.roiFxDay !== undefined && object.roiFxDay !== null)
+      ? JonGuiDataROI.fromPartial(object.roiFxDay)
+      : undefined;
+    message.roiFocusHeat = (object.roiFocusHeat !== undefined && object.roiFocusHeat !== null)
+      ? JonGuiDataROI.fromPartial(object.roiFocusHeat)
+      : undefined;
+    message.roiTrackHeat = (object.roiTrackHeat !== undefined && object.roiTrackHeat !== null)
+      ? JonGuiDataROI.fromPartial(object.roiTrackHeat)
+      : undefined;
+    message.roiZoomHeat = (object.roiZoomHeat !== undefined && object.roiZoomHeat !== null)
+      ? JonGuiDataROI.fromPartial(object.roiZoomHeat)
+      : undefined;
+    message.roiFxHeat = (object.roiFxHeat !== undefined && object.roiFxHeat !== null)
+      ? JonGuiDataROI.fromPartial(object.roiFxHeat)
+      : undefined;
+    message.sharpnessMetricsDay = (object.sharpnessMetricsDay !== undefined && object.sharpnessMetricsDay !== null)
+      ? JonGuiDataSharpness.fromPartial(object.sharpnessMetricsDay)
+      : undefined;
+    message.sharpnessMetricsHeat = (object.sharpnessMetricsHeat !== undefined && object.sharpnessMetricsHeat !== null)
+      ? JonGuiDataSharpness.fromPartial(object.sharpnessMetricsHeat)
+      : undefined;
+    message.cameraTransformDay = (object.cameraTransformDay !== undefined && object.cameraTransformDay !== null)
+      ? JonGuiDataTransform3D.fromPartial(object.cameraTransformDay)
+      : undefined;
+    message.cameraTransformHeat = (object.cameraTransformHeat !== undefined && object.cameraTransformHeat !== null)
+      ? JonGuiDataTransform3D.fromPartial(object.cameraTransformHeat)
+      : undefined;
+    message.trackedObjects = object.trackedObjects?.map((e) => JonGuiDataTrackedObject.fromPartial(e)) || [];
     return message;
   },
 };

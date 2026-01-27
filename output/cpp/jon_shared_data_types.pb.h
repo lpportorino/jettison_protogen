@@ -57,6 +57,24 @@ namespace ser {
 class JonGuiDataMeteo;
 struct JonGuiDataMeteoDefaultTypeInternal;
 extern JonGuiDataMeteoDefaultTypeInternal _JonGuiDataMeteo_default_instance_;
+class JonGuiDataQuaternion;
+struct JonGuiDataQuaternionDefaultTypeInternal;
+extern JonGuiDataQuaternionDefaultTypeInternal _JonGuiDataQuaternion_default_instance_;
+class JonGuiDataROI;
+struct JonGuiDataROIDefaultTypeInternal;
+extern JonGuiDataROIDefaultTypeInternal _JonGuiDataROI_default_instance_;
+class JonGuiDataSharpness;
+struct JonGuiDataSharpnessDefaultTypeInternal;
+extern JonGuiDataSharpnessDefaultTypeInternal _JonGuiDataSharpness_default_instance_;
+class JonGuiDataTrackedObject;
+struct JonGuiDataTrackedObjectDefaultTypeInternal;
+extern JonGuiDataTrackedObjectDefaultTypeInternal _JonGuiDataTrackedObject_default_instance_;
+class JonGuiDataTransform3D;
+struct JonGuiDataTransform3DDefaultTypeInternal;
+extern JonGuiDataTransform3DDefaultTypeInternal _JonGuiDataTransform3D_default_instance_;
+class JonGuiDataVector3;
+struct JonGuiDataVector3DefaultTypeInternal;
+extern JonGuiDataVector3DefaultTypeInternal _JonGuiDataVector3_default_instance_;
 class JonOpaquePayload;
 struct JonOpaquePayloadDefaultTypeInternal;
 extern JonOpaquePayloadDefaultTypeInternal _JonOpaquePayload_default_instance_;
@@ -70,6 +88,42 @@ namespace protobuf {
 }  // namespace google
 
 namespace ser {
+enum JonGuiDataTrackedObject_TrackingState : int {
+  JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_UNSPECIFIED = 0,
+  JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_ACQUIRING = 1,
+  JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_TRACKING = 2,
+  JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_PREDICTED = 3,
+  JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_LOST = 4,
+  JonGuiDataTrackedObject_TrackingState_JonGuiDataTrackedObject_TrackingState_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  JonGuiDataTrackedObject_TrackingState_JonGuiDataTrackedObject_TrackingState_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool JonGuiDataTrackedObject_TrackingState_IsValid(int value);
+extern const uint32_t JonGuiDataTrackedObject_TrackingState_internal_data_[];
+constexpr JonGuiDataTrackedObject_TrackingState JonGuiDataTrackedObject_TrackingState_TrackingState_MIN = static_cast<JonGuiDataTrackedObject_TrackingState>(0);
+constexpr JonGuiDataTrackedObject_TrackingState JonGuiDataTrackedObject_TrackingState_TrackingState_MAX = static_cast<JonGuiDataTrackedObject_TrackingState>(4);
+constexpr int JonGuiDataTrackedObject_TrackingState_TrackingState_ARRAYSIZE = 4 + 1;
+const ::google::protobuf::EnumDescriptor*
+JonGuiDataTrackedObject_TrackingState_descriptor();
+template <typename T>
+const std::string& JonGuiDataTrackedObject_TrackingState_Name(T value) {
+  static_assert(std::is_same<T, JonGuiDataTrackedObject_TrackingState>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to TrackingState_Name().");
+  return JonGuiDataTrackedObject_TrackingState_Name(static_cast<JonGuiDataTrackedObject_TrackingState>(value));
+}
+template <>
+inline const std::string& JonGuiDataTrackedObject_TrackingState_Name(JonGuiDataTrackedObject_TrackingState value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<JonGuiDataTrackedObject_TrackingState_descriptor,
+                                                 0, 4>(
+      static_cast<int>(value));
+}
+inline bool JonGuiDataTrackedObject_TrackingState_Parse(absl::string_view name, JonGuiDataTrackedObject_TrackingState* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<JonGuiDataTrackedObject_TrackingState>(
+      JonGuiDataTrackedObject_TrackingState_descriptor(), name, value);
+}
 enum JonGuiDataVideoChannelHeatFilters : int {
   JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED = 0,
   JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE = 1,
@@ -1051,6 +1105,886 @@ class JonOpaquePayloadVersion final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class JonGuiDataVector3 final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataVector3) */ {
+ public:
+  inline JonGuiDataVector3() : JonGuiDataVector3(nullptr) {}
+  ~JonGuiDataVector3() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataVector3* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataVector3));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataVector3(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataVector3(const JonGuiDataVector3& from) : JonGuiDataVector3(nullptr, from) {}
+  inline JonGuiDataVector3(JonGuiDataVector3&& from) noexcept
+      : JonGuiDataVector3(nullptr, std::move(from)) {}
+  inline JonGuiDataVector3& operator=(const JonGuiDataVector3& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataVector3& operator=(JonGuiDataVector3&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataVector3& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataVector3* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataVector3*>(
+        &_JonGuiDataVector3_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 5;
+  friend void swap(JonGuiDataVector3& a, JonGuiDataVector3& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataVector3* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataVector3* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataVector3* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataVector3>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataVector3& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataVector3& from) { JonGuiDataVector3::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataVector3* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataVector3"; }
+
+ protected:
+  explicit JonGuiDataVector3(::google::protobuf::Arena* arena);
+  JonGuiDataVector3(::google::protobuf::Arena* arena, const JonGuiDataVector3& from);
+  JonGuiDataVector3(::google::protobuf::Arena* arena, JonGuiDataVector3&& from) noexcept
+      : JonGuiDataVector3(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kXFieldNumber = 1,
+    kYFieldNumber = 2,
+    kZFieldNumber = 3,
+  };
+  // double x = 1 [(.buf.validate.field) = {
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 2 [(.buf.validate.field) = {
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
+  // double z = 3 [(.buf.validate.field) = {
+  void clear_z() ;
+  double z() const;
+  void set_z(double value);
+
+  private:
+  double _internal_z() const;
+  void _internal_set_z(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataVector3)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataVector3& from_msg);
+    double x_;
+    double y_;
+    double z_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class JonGuiDataSharpness final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataSharpness) */ {
+ public:
+  inline JonGuiDataSharpness() : JonGuiDataSharpness(nullptr) {}
+  ~JonGuiDataSharpness() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataSharpness* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataSharpness));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataSharpness(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataSharpness(const JonGuiDataSharpness& from) : JonGuiDataSharpness(nullptr, from) {}
+  inline JonGuiDataSharpness(JonGuiDataSharpness&& from) noexcept
+      : JonGuiDataSharpness(nullptr, std::move(from)) {}
+  inline JonGuiDataSharpness& operator=(const JonGuiDataSharpness& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataSharpness& operator=(JonGuiDataSharpness&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataSharpness& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataSharpness* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataSharpness*>(
+        &_JonGuiDataSharpness_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(JonGuiDataSharpness& a, JonGuiDataSharpness& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataSharpness* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataSharpness* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataSharpness* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataSharpness>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataSharpness& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataSharpness& from) { JonGuiDataSharpness::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataSharpness* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataSharpness"; }
+
+ protected:
+  explicit JonGuiDataSharpness(::google::protobuf::Arena* arena);
+  JonGuiDataSharpness(::google::protobuf::Arena* arena, const JonGuiDataSharpness& from);
+  JonGuiDataSharpness(::google::protobuf::Arena* arena, JonGuiDataSharpness&& from) noexcept
+      : JonGuiDataSharpness(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kValueFieldNumber = 1,
+    kDerivative1FieldNumber = 2,
+    kDerivative2FieldNumber = 3,
+  };
+  // double value = 1 [(.buf.validate.field) = {
+  void clear_value() ;
+  double value() const;
+  void set_value(double value);
+
+  private:
+  double _internal_value() const;
+  void _internal_set_value(double value);
+
+  public:
+  // double derivative_1 = 2;
+  void clear_derivative_1() ;
+  double derivative_1() const;
+  void set_derivative_1(double value);
+
+  private:
+  double _internal_derivative_1() const;
+  void _internal_set_derivative_1(double value);
+
+  public:
+  // double derivative_2 = 3;
+  void clear_derivative_2() ;
+  double derivative_2() const;
+  void set_derivative_2(double value);
+
+  private:
+  double _internal_derivative_2() const;
+  void _internal_set_derivative_2(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataSharpness)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataSharpness& from_msg);
+    double value_;
+    double derivative_1_;
+    double derivative_2_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class JonGuiDataROI final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataROI) */ {
+ public:
+  inline JonGuiDataROI() : JonGuiDataROI(nullptr) {}
+  ~JonGuiDataROI() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataROI* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataROI));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataROI(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataROI(const JonGuiDataROI& from) : JonGuiDataROI(nullptr, from) {}
+  inline JonGuiDataROI(JonGuiDataROI&& from) noexcept
+      : JonGuiDataROI(nullptr, std::move(from)) {}
+  inline JonGuiDataROI& operator=(const JonGuiDataROI& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataROI& operator=(JonGuiDataROI&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataROI& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataROI* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataROI*>(
+        &_JonGuiDataROI_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(JonGuiDataROI& a, JonGuiDataROI& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataROI* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataROI* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataROI* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataROI>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataROI& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataROI& from) { JonGuiDataROI::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataROI* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataROI"; }
+
+ protected:
+  explicit JonGuiDataROI(::google::protobuf::Arena* arena);
+  JonGuiDataROI(::google::protobuf::Arena* arena, const JonGuiDataROI& from);
+  JonGuiDataROI(::google::protobuf::Arena* arena, JonGuiDataROI&& from) noexcept
+      : JonGuiDataROI(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kX1FieldNumber = 1,
+    kY1FieldNumber = 2,
+    kX2FieldNumber = 3,
+    kY2FieldNumber = 4,
+  };
+  // double x1 = 1 [(.buf.validate.field) = {
+  void clear_x1() ;
+  double x1() const;
+  void set_x1(double value);
+
+  private:
+  double _internal_x1() const;
+  void _internal_set_x1(double value);
+
+  public:
+  // double y1 = 2 [(.buf.validate.field) = {
+  void clear_y1() ;
+  double y1() const;
+  void set_y1(double value);
+
+  private:
+  double _internal_y1() const;
+  void _internal_set_y1(double value);
+
+  public:
+  // double x2 = 3 [(.buf.validate.field) = {
+  void clear_x2() ;
+  double x2() const;
+  void set_x2(double value);
+
+  private:
+  double _internal_x2() const;
+  void _internal_set_x2(double value);
+
+  public:
+  // double y2 = 4 [(.buf.validate.field) = {
+  void clear_y2() ;
+  double y2() const;
+  void set_y2(double value);
+
+  private:
+  double _internal_y2() const;
+  void _internal_set_y2(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataROI)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataROI& from_msg);
+    double x1_;
+    double y1_;
+    double x2_;
+    double y2_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class JonGuiDataQuaternion final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataQuaternion) */ {
+ public:
+  inline JonGuiDataQuaternion() : JonGuiDataQuaternion(nullptr) {}
+  ~JonGuiDataQuaternion() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataQuaternion* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataQuaternion));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataQuaternion(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataQuaternion(const JonGuiDataQuaternion& from) : JonGuiDataQuaternion(nullptr, from) {}
+  inline JonGuiDataQuaternion(JonGuiDataQuaternion&& from) noexcept
+      : JonGuiDataQuaternion(nullptr, std::move(from)) {}
+  inline JonGuiDataQuaternion& operator=(const JonGuiDataQuaternion& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataQuaternion& operator=(JonGuiDataQuaternion&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataQuaternion& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataQuaternion* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataQuaternion*>(
+        &_JonGuiDataQuaternion_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 6;
+  friend void swap(JonGuiDataQuaternion& a, JonGuiDataQuaternion& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataQuaternion* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataQuaternion* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataQuaternion* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataQuaternion>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataQuaternion& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataQuaternion& from) { JonGuiDataQuaternion::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataQuaternion* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataQuaternion"; }
+
+ protected:
+  explicit JonGuiDataQuaternion(::google::protobuf::Arena* arena);
+  JonGuiDataQuaternion(::google::protobuf::Arena* arena, const JonGuiDataQuaternion& from);
+  JonGuiDataQuaternion(::google::protobuf::Arena* arena, JonGuiDataQuaternion&& from) noexcept
+      : JonGuiDataQuaternion(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kWFieldNumber = 1,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+    kZFieldNumber = 4,
+  };
+  // double w = 1 [(.buf.validate.field) = {
+  void clear_w() ;
+  double w() const;
+  void set_w(double value);
+
+  private:
+  double _internal_w() const;
+  void _internal_set_w(double value);
+
+  public:
+  // double x = 2 [(.buf.validate.field) = {
+  void clear_x() ;
+  double x() const;
+  void set_x(double value);
+
+  private:
+  double _internal_x() const;
+  void _internal_set_x(double value);
+
+  public:
+  // double y = 3 [(.buf.validate.field) = {
+  void clear_y() ;
+  double y() const;
+  void set_y(double value);
+
+  private:
+  double _internal_y() const;
+  void _internal_set_y(double value);
+
+  public:
+  // double z = 4 [(.buf.validate.field) = {
+  void clear_z() ;
+  double z() const;
+  void set_z(double value);
+
+  private:
+  double _internal_z() const;
+  void _internal_set_z(double value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataQuaternion)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataQuaternion& from_msg);
+    double w_;
+    double x_;
+    double y_;
+    double z_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
+// -------------------------------------------------------------------
+
 class JonGuiDataMeteo final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ser.JonGuiDataMeteo) */ {
  public:
@@ -1495,6 +2429,518 @@ class JonOpaquePayload final : public ::google::protobuf::Message
   union { Impl_ _impl_; };
   friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
 };
+// -------------------------------------------------------------------
+
+class JonGuiDataTransform3D final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataTransform3D) */ {
+ public:
+  inline JonGuiDataTransform3D() : JonGuiDataTransform3D(nullptr) {}
+  ~JonGuiDataTransform3D() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataTransform3D* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataTransform3D));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataTransform3D(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataTransform3D(const JonGuiDataTransform3D& from) : JonGuiDataTransform3D(nullptr, from) {}
+  inline JonGuiDataTransform3D(JonGuiDataTransform3D&& from) noexcept
+      : JonGuiDataTransform3D(nullptr, std::move(from)) {}
+  inline JonGuiDataTransform3D& operator=(const JonGuiDataTransform3D& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataTransform3D& operator=(JonGuiDataTransform3D&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataTransform3D& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataTransform3D* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataTransform3D*>(
+        &_JonGuiDataTransform3D_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(JonGuiDataTransform3D& a, JonGuiDataTransform3D& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataTransform3D* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataTransform3D* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataTransform3D* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataTransform3D>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataTransform3D& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataTransform3D& from) { JonGuiDataTransform3D::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataTransform3D* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataTransform3D"; }
+
+ protected:
+  explicit JonGuiDataTransform3D(::google::protobuf::Arena* arena);
+  JonGuiDataTransform3D(::google::protobuf::Arena* arena, const JonGuiDataTransform3D& from);
+  JonGuiDataTransform3D(::google::protobuf::Arena* arena, JonGuiDataTransform3D&& from) noexcept
+      : JonGuiDataTransform3D(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kPositionFieldNumber = 1,
+    kOrientationFieldNumber = 2,
+    kLinearVelocityFieldNumber = 3,
+    kAngularVelocityFieldNumber = 4,
+  };
+  // .ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = {
+  bool has_position() const;
+  void clear_position() ;
+  const ::ser::JonGuiDataVector3& position() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataVector3* release_position();
+  ::ser::JonGuiDataVector3* mutable_position();
+  void set_allocated_position(::ser::JonGuiDataVector3* value);
+  void unsafe_arena_set_allocated_position(::ser::JonGuiDataVector3* value);
+  ::ser::JonGuiDataVector3* unsafe_arena_release_position();
+
+  private:
+  const ::ser::JonGuiDataVector3& _internal_position() const;
+  ::ser::JonGuiDataVector3* _internal_mutable_position();
+
+  public:
+  // .ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = {
+  bool has_orientation() const;
+  void clear_orientation() ;
+  const ::ser::JonGuiDataQuaternion& orientation() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataQuaternion* release_orientation();
+  ::ser::JonGuiDataQuaternion* mutable_orientation();
+  void set_allocated_orientation(::ser::JonGuiDataQuaternion* value);
+  void unsafe_arena_set_allocated_orientation(::ser::JonGuiDataQuaternion* value);
+  ::ser::JonGuiDataQuaternion* unsafe_arena_release_orientation();
+
+  private:
+  const ::ser::JonGuiDataQuaternion& _internal_orientation() const;
+  ::ser::JonGuiDataQuaternion* _internal_mutable_orientation();
+
+  public:
+  // .ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = {
+  bool has_linear_velocity() const;
+  void clear_linear_velocity() ;
+  const ::ser::JonGuiDataVector3& linear_velocity() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataVector3* release_linear_velocity();
+  ::ser::JonGuiDataVector3* mutable_linear_velocity();
+  void set_allocated_linear_velocity(::ser::JonGuiDataVector3* value);
+  void unsafe_arena_set_allocated_linear_velocity(::ser::JonGuiDataVector3* value);
+  ::ser::JonGuiDataVector3* unsafe_arena_release_linear_velocity();
+
+  private:
+  const ::ser::JonGuiDataVector3& _internal_linear_velocity() const;
+  ::ser::JonGuiDataVector3* _internal_mutable_linear_velocity();
+
+  public:
+  // .ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = {
+  bool has_angular_velocity() const;
+  void clear_angular_velocity() ;
+  const ::ser::JonGuiDataVector3& angular_velocity() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataVector3* release_angular_velocity();
+  ::ser::JonGuiDataVector3* mutable_angular_velocity();
+  void set_allocated_angular_velocity(::ser::JonGuiDataVector3* value);
+  void unsafe_arena_set_allocated_angular_velocity(::ser::JonGuiDataVector3* value);
+  ::ser::JonGuiDataVector3* unsafe_arena_release_angular_velocity();
+
+  private:
+  const ::ser::JonGuiDataVector3& _internal_angular_velocity() const;
+  ::ser::JonGuiDataVector3* _internal_mutable_angular_velocity();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataTransform3D)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 4,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataTransform3D& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ser::JonGuiDataVector3* position_;
+    ::ser::JonGuiDataQuaternion* orientation_;
+    ::ser::JonGuiDataVector3* linear_velocity_;
+    ::ser::JonGuiDataVector3* angular_velocity_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class JonGuiDataTrackedObject final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ser.JonGuiDataTrackedObject) */ {
+ public:
+  inline JonGuiDataTrackedObject() : JonGuiDataTrackedObject(nullptr) {}
+  ~JonGuiDataTrackedObject() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JonGuiDataTrackedObject* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JonGuiDataTrackedObject));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JonGuiDataTrackedObject(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline JonGuiDataTrackedObject(const JonGuiDataTrackedObject& from) : JonGuiDataTrackedObject(nullptr, from) {}
+  inline JonGuiDataTrackedObject(JonGuiDataTrackedObject&& from) noexcept
+      : JonGuiDataTrackedObject(nullptr, std::move(from)) {}
+  inline JonGuiDataTrackedObject& operator=(const JonGuiDataTrackedObject& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JonGuiDataTrackedObject& operator=(JonGuiDataTrackedObject&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JonGuiDataTrackedObject& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const JonGuiDataTrackedObject* internal_default_instance() {
+    return reinterpret_cast<const JonGuiDataTrackedObject*>(
+        &_JonGuiDataTrackedObject_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 8;
+  friend void swap(JonGuiDataTrackedObject& a, JonGuiDataTrackedObject& b) { a.Swap(&b); }
+  inline void Swap(JonGuiDataTrackedObject* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JonGuiDataTrackedObject* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JonGuiDataTrackedObject* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<JonGuiDataTrackedObject>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const JonGuiDataTrackedObject& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const JonGuiDataTrackedObject& from) { JonGuiDataTrackedObject::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(JonGuiDataTrackedObject* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ser.JonGuiDataTrackedObject"; }
+
+ protected:
+  explicit JonGuiDataTrackedObject(::google::protobuf::Arena* arena);
+  JonGuiDataTrackedObject(::google::protobuf::Arena* arena, const JonGuiDataTrackedObject& from);
+  JonGuiDataTrackedObject(::google::protobuf::Arena* arena, JonGuiDataTrackedObject&& from) noexcept
+      : JonGuiDataTrackedObject(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+  using TrackingState = JonGuiDataTrackedObject_TrackingState;
+  static constexpr TrackingState TRACKING_STATE_UNSPECIFIED = JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_UNSPECIFIED;
+  static constexpr TrackingState TRACKING_STATE_ACQUIRING = JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_ACQUIRING;
+  static constexpr TrackingState TRACKING_STATE_TRACKING = JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_TRACKING;
+  static constexpr TrackingState TRACKING_STATE_PREDICTED = JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_PREDICTED;
+  static constexpr TrackingState TRACKING_STATE_LOST = JonGuiDataTrackedObject_TrackingState_TRACKING_STATE_LOST;
+  static inline bool TrackingState_IsValid(int value) {
+    return JonGuiDataTrackedObject_TrackingState_IsValid(value);
+  }
+  static constexpr TrackingState TrackingState_MIN = JonGuiDataTrackedObject_TrackingState_TrackingState_MIN;
+  static constexpr TrackingState TrackingState_MAX = JonGuiDataTrackedObject_TrackingState_TrackingState_MAX;
+  static constexpr int TrackingState_ARRAYSIZE = JonGuiDataTrackedObject_TrackingState_TrackingState_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor* TrackingState_descriptor() {
+    return JonGuiDataTrackedObject_TrackingState_descriptor();
+  }
+  template <typename T>
+  static inline const std::string& TrackingState_Name(T value) {
+    return JonGuiDataTrackedObject_TrackingState_Name(value);
+  }
+  static inline bool TrackingState_Parse(absl::string_view name, TrackingState* value) {
+    return JonGuiDataTrackedObject_TrackingState_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kUuidFieldNumber = 1,
+    kTransformFieldNumber = 2,
+    kBoundingBoxFieldNumber = 3,
+    kStateFieldNumber = 4,
+  };
+  // string uuid = 1 [(.buf.validate.field) = {
+  void clear_uuid() ;
+  const std::string& uuid() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_uuid(Arg_&& arg, Args_... args);
+  std::string* mutable_uuid();
+  PROTOBUF_NODISCARD std::string* release_uuid();
+  void set_allocated_uuid(std::string* value);
+
+  private:
+  const std::string& _internal_uuid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_uuid(
+      const std::string& value);
+  std::string* _internal_mutable_uuid();
+
+  public:
+  // .ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = {
+  bool has_transform() const;
+  void clear_transform() ;
+  const ::ser::JonGuiDataTransform3D& transform() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataTransform3D* release_transform();
+  ::ser::JonGuiDataTransform3D* mutable_transform();
+  void set_allocated_transform(::ser::JonGuiDataTransform3D* value);
+  void unsafe_arena_set_allocated_transform(::ser::JonGuiDataTransform3D* value);
+  ::ser::JonGuiDataTransform3D* unsafe_arena_release_transform();
+
+  private:
+  const ::ser::JonGuiDataTransform3D& _internal_transform() const;
+  ::ser::JonGuiDataTransform3D* _internal_mutable_transform();
+
+  public:
+  // .ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = {
+  bool has_bounding_box() const;
+  void clear_bounding_box() ;
+  const ::ser::JonGuiDataROI& bounding_box() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_bounding_box();
+  ::ser::JonGuiDataROI* mutable_bounding_box();
+  void set_allocated_bounding_box(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_bounding_box(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_bounding_box();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_bounding_box() const;
+  ::ser::JonGuiDataROI* _internal_mutable_bounding_box();
+
+  public:
+  // .ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = {
+  void clear_state() ;
+  ::ser::JonGuiDataTrackedObject_TrackingState state() const;
+  void set_state(::ser::JonGuiDataTrackedObject_TrackingState value);
+
+  private:
+  ::ser::JonGuiDataTrackedObject_TrackingState _internal_state() const;
+  void _internal_set_state(::ser::JonGuiDataTrackedObject_TrackingState value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ser.JonGuiDataTrackedObject)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 2,
+      40, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const JonGuiDataTrackedObject& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr uuid_;
+    ::ser::JonGuiDataTransform3D* transform_;
+    ::ser::JonGuiDataROI* bounding_box_;
+    int state_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_jon_5fshared_5fdata_5ftypes_2eproto;
+};
 
 // ===================================================================
 
@@ -1844,6 +3290,984 @@ inline void JonOpaquePayload::set_allocated_payload(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonOpaquePayload.payload)
 }
 
+// -------------------------------------------------------------------
+
+// JonGuiDataROI
+
+// double x1 = 1 [(.buf.validate.field) = {
+inline void JonGuiDataROI::clear_x1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = 0;
+}
+inline double JonGuiDataROI::x1() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataROI.x1)
+  return _internal_x1();
+}
+inline void JonGuiDataROI::set_x1(double value) {
+  _internal_set_x1(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataROI.x1)
+}
+inline double JonGuiDataROI::_internal_x1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x1_;
+}
+inline void JonGuiDataROI::_internal_set_x1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x1_ = value;
+}
+
+// double y1 = 2 [(.buf.validate.field) = {
+inline void JonGuiDataROI::clear_y1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = 0;
+}
+inline double JonGuiDataROI::y1() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataROI.y1)
+  return _internal_y1();
+}
+inline void JonGuiDataROI::set_y1(double value) {
+  _internal_set_y1(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataROI.y1)
+}
+inline double JonGuiDataROI::_internal_y1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y1_;
+}
+inline void JonGuiDataROI::_internal_set_y1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y1_ = value;
+}
+
+// double x2 = 3 [(.buf.validate.field) = {
+inline void JonGuiDataROI::clear_x2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = 0;
+}
+inline double JonGuiDataROI::x2() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataROI.x2)
+  return _internal_x2();
+}
+inline void JonGuiDataROI::set_x2(double value) {
+  _internal_set_x2(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataROI.x2)
+}
+inline double JonGuiDataROI::_internal_x2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x2_;
+}
+inline void JonGuiDataROI::_internal_set_x2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x2_ = value;
+}
+
+// double y2 = 4 [(.buf.validate.field) = {
+inline void JonGuiDataROI::clear_y2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = 0;
+}
+inline double JonGuiDataROI::y2() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataROI.y2)
+  return _internal_y2();
+}
+inline void JonGuiDataROI::set_y2(double value) {
+  _internal_set_y2(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataROI.y2)
+}
+inline double JonGuiDataROI::_internal_y2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y2_;
+}
+inline void JonGuiDataROI::_internal_set_y2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y2_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JonGuiDataSharpness
+
+// double value = 1 [(.buf.validate.field) = {
+inline void JonGuiDataSharpness::clear_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_ = 0;
+}
+inline double JonGuiDataSharpness::value() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataSharpness.value)
+  return _internal_value();
+}
+inline void JonGuiDataSharpness::set_value(double value) {
+  _internal_set_value(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataSharpness.value)
+}
+inline double JonGuiDataSharpness::_internal_value() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.value_;
+}
+inline void JonGuiDataSharpness::_internal_set_value(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_ = value;
+}
+
+// double derivative_1 = 2;
+inline void JonGuiDataSharpness::clear_derivative_1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.derivative_1_ = 0;
+}
+inline double JonGuiDataSharpness::derivative_1() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataSharpness.derivative_1)
+  return _internal_derivative_1();
+}
+inline void JonGuiDataSharpness::set_derivative_1(double value) {
+  _internal_set_derivative_1(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataSharpness.derivative_1)
+}
+inline double JonGuiDataSharpness::_internal_derivative_1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.derivative_1_;
+}
+inline void JonGuiDataSharpness::_internal_set_derivative_1(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.derivative_1_ = value;
+}
+
+// double derivative_2 = 3;
+inline void JonGuiDataSharpness::clear_derivative_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.derivative_2_ = 0;
+}
+inline double JonGuiDataSharpness::derivative_2() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataSharpness.derivative_2)
+  return _internal_derivative_2();
+}
+inline void JonGuiDataSharpness::set_derivative_2(double value) {
+  _internal_set_derivative_2(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataSharpness.derivative_2)
+}
+inline double JonGuiDataSharpness::_internal_derivative_2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.derivative_2_;
+}
+inline void JonGuiDataSharpness::_internal_set_derivative_2(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.derivative_2_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JonGuiDataVector3
+
+// double x = 1 [(.buf.validate.field) = {
+inline void JonGuiDataVector3::clear_x() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = 0;
+}
+inline double JonGuiDataVector3::x() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataVector3.x)
+  return _internal_x();
+}
+inline void JonGuiDataVector3::set_x(double value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataVector3.x)
+}
+inline double JonGuiDataVector3::_internal_x() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_;
+}
+inline void JonGuiDataVector3::_internal_set_x(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = value;
+}
+
+// double y = 2 [(.buf.validate.field) = {
+inline void JonGuiDataVector3::clear_y() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = 0;
+}
+inline double JonGuiDataVector3::y() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataVector3.y)
+  return _internal_y();
+}
+inline void JonGuiDataVector3::set_y(double value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataVector3.y)
+}
+inline double JonGuiDataVector3::_internal_y() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_;
+}
+inline void JonGuiDataVector3::_internal_set_y(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = value;
+}
+
+// double z = 3 [(.buf.validate.field) = {
+inline void JonGuiDataVector3::clear_z() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.z_ = 0;
+}
+inline double JonGuiDataVector3::z() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataVector3.z)
+  return _internal_z();
+}
+inline void JonGuiDataVector3::set_z(double value) {
+  _internal_set_z(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataVector3.z)
+}
+inline double JonGuiDataVector3::_internal_z() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.z_;
+}
+inline void JonGuiDataVector3::_internal_set_z(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.z_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JonGuiDataQuaternion
+
+// double w = 1 [(.buf.validate.field) = {
+inline void JonGuiDataQuaternion::clear_w() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.w_ = 0;
+}
+inline double JonGuiDataQuaternion::w() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataQuaternion.w)
+  return _internal_w();
+}
+inline void JonGuiDataQuaternion::set_w(double value) {
+  _internal_set_w(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataQuaternion.w)
+}
+inline double JonGuiDataQuaternion::_internal_w() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.w_;
+}
+inline void JonGuiDataQuaternion::_internal_set_w(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.w_ = value;
+}
+
+// double x = 2 [(.buf.validate.field) = {
+inline void JonGuiDataQuaternion::clear_x() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = 0;
+}
+inline double JonGuiDataQuaternion::x() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataQuaternion.x)
+  return _internal_x();
+}
+inline void JonGuiDataQuaternion::set_x(double value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataQuaternion.x)
+}
+inline double JonGuiDataQuaternion::_internal_x() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.x_;
+}
+inline void JonGuiDataQuaternion::_internal_set_x(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.x_ = value;
+}
+
+// double y = 3 [(.buf.validate.field) = {
+inline void JonGuiDataQuaternion::clear_y() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = 0;
+}
+inline double JonGuiDataQuaternion::y() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataQuaternion.y)
+  return _internal_y();
+}
+inline void JonGuiDataQuaternion::set_y(double value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataQuaternion.y)
+}
+inline double JonGuiDataQuaternion::_internal_y() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.y_;
+}
+inline void JonGuiDataQuaternion::_internal_set_y(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.y_ = value;
+}
+
+// double z = 4 [(.buf.validate.field) = {
+inline void JonGuiDataQuaternion::clear_z() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.z_ = 0;
+}
+inline double JonGuiDataQuaternion::z() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataQuaternion.z)
+  return _internal_z();
+}
+inline void JonGuiDataQuaternion::set_z(double value) {
+  _internal_set_z(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataQuaternion.z)
+}
+inline double JonGuiDataQuaternion::_internal_z() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.z_;
+}
+inline void JonGuiDataQuaternion::_internal_set_z(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.z_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JonGuiDataTransform3D
+
+// .ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = {
+inline bool JonGuiDataTransform3D::has_position() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.position_ != nullptr);
+  return value;
+}
+inline void JonGuiDataTransform3D::clear_position() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.position_ != nullptr) _impl_.position_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ser::JonGuiDataVector3& JonGuiDataTransform3D::_internal_position() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataVector3* p = _impl_.position_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataVector3&>(::ser::_JonGuiDataVector3_default_instance_);
+}
+inline const ::ser::JonGuiDataVector3& JonGuiDataTransform3D::position() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTransform3D.position)
+  return _internal_position();
+}
+inline void JonGuiDataTransform3D::unsafe_arena_set_allocated_position(::ser::JonGuiDataVector3* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.position_);
+  }
+  _impl_.position_ = reinterpret_cast<::ser::JonGuiDataVector3*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataTransform3D.position)
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::release_position() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataVector3* released = _impl_.position_;
+  _impl_.position_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::unsafe_arena_release_position() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTransform3D.position)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataVector3* temp = _impl_.position_;
+  _impl_.position_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::_internal_mutable_position() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.position_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataVector3>(GetArena());
+    _impl_.position_ = reinterpret_cast<::ser::JonGuiDataVector3*>(p);
+  }
+  return _impl_.position_;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::mutable_position() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonGuiDataVector3* _msg = _internal_mutable_position();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTransform3D.position)
+  return _msg;
+}
+inline void JonGuiDataTransform3D::set_allocated_position(::ser::JonGuiDataVector3* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.position_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.position_ = reinterpret_cast<::ser::JonGuiDataVector3*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTransform3D.position)
+}
+
+// .ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = {
+inline bool JonGuiDataTransform3D::has_orientation() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.orientation_ != nullptr);
+  return value;
+}
+inline void JonGuiDataTransform3D::clear_orientation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.orientation_ != nullptr) _impl_.orientation_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ser::JonGuiDataQuaternion& JonGuiDataTransform3D::_internal_orientation() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataQuaternion* p = _impl_.orientation_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataQuaternion&>(::ser::_JonGuiDataQuaternion_default_instance_);
+}
+inline const ::ser::JonGuiDataQuaternion& JonGuiDataTransform3D::orientation() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTransform3D.orientation)
+  return _internal_orientation();
+}
+inline void JonGuiDataTransform3D::unsafe_arena_set_allocated_orientation(::ser::JonGuiDataQuaternion* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.orientation_);
+  }
+  _impl_.orientation_ = reinterpret_cast<::ser::JonGuiDataQuaternion*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataTransform3D.orientation)
+}
+inline ::ser::JonGuiDataQuaternion* JonGuiDataTransform3D::release_orientation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataQuaternion* released = _impl_.orientation_;
+  _impl_.orientation_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataQuaternion* JonGuiDataTransform3D::unsafe_arena_release_orientation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTransform3D.orientation)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataQuaternion* temp = _impl_.orientation_;
+  _impl_.orientation_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataQuaternion* JonGuiDataTransform3D::_internal_mutable_orientation() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.orientation_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataQuaternion>(GetArena());
+    _impl_.orientation_ = reinterpret_cast<::ser::JonGuiDataQuaternion*>(p);
+  }
+  return _impl_.orientation_;
+}
+inline ::ser::JonGuiDataQuaternion* JonGuiDataTransform3D::mutable_orientation() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ser::JonGuiDataQuaternion* _msg = _internal_mutable_orientation();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTransform3D.orientation)
+  return _msg;
+}
+inline void JonGuiDataTransform3D::set_allocated_orientation(::ser::JonGuiDataQuaternion* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.orientation_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.orientation_ = reinterpret_cast<::ser::JonGuiDataQuaternion*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTransform3D.orientation)
+}
+
+// .ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = {
+inline bool JonGuiDataTransform3D::has_linear_velocity() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.linear_velocity_ != nullptr);
+  return value;
+}
+inline void JonGuiDataTransform3D::clear_linear_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.linear_velocity_ != nullptr) _impl_.linear_velocity_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const ::ser::JonGuiDataVector3& JonGuiDataTransform3D::_internal_linear_velocity() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataVector3* p = _impl_.linear_velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataVector3&>(::ser::_JonGuiDataVector3_default_instance_);
+}
+inline const ::ser::JonGuiDataVector3& JonGuiDataTransform3D::linear_velocity() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTransform3D.linear_velocity)
+  return _internal_linear_velocity();
+}
+inline void JonGuiDataTransform3D::unsafe_arena_set_allocated_linear_velocity(::ser::JonGuiDataVector3* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.linear_velocity_);
+  }
+  _impl_.linear_velocity_ = reinterpret_cast<::ser::JonGuiDataVector3*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataTransform3D.linear_velocity)
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::release_linear_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataVector3* released = _impl_.linear_velocity_;
+  _impl_.linear_velocity_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::unsafe_arena_release_linear_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTransform3D.linear_velocity)
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataVector3* temp = _impl_.linear_velocity_;
+  _impl_.linear_velocity_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::_internal_mutable_linear_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.linear_velocity_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataVector3>(GetArena());
+    _impl_.linear_velocity_ = reinterpret_cast<::ser::JonGuiDataVector3*>(p);
+  }
+  return _impl_.linear_velocity_;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::mutable_linear_velocity() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  ::ser::JonGuiDataVector3* _msg = _internal_mutable_linear_velocity();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTransform3D.linear_velocity)
+  return _msg;
+}
+inline void JonGuiDataTransform3D::set_allocated_linear_velocity(::ser::JonGuiDataVector3* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.linear_velocity_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+
+  _impl_.linear_velocity_ = reinterpret_cast<::ser::JonGuiDataVector3*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTransform3D.linear_velocity)
+}
+
+// .ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = {
+inline bool JonGuiDataTransform3D::has_angular_velocity() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.angular_velocity_ != nullptr);
+  return value;
+}
+inline void JonGuiDataTransform3D::clear_angular_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.angular_velocity_ != nullptr) _impl_.angular_velocity_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline const ::ser::JonGuiDataVector3& JonGuiDataTransform3D::_internal_angular_velocity() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataVector3* p = _impl_.angular_velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataVector3&>(::ser::_JonGuiDataVector3_default_instance_);
+}
+inline const ::ser::JonGuiDataVector3& JonGuiDataTransform3D::angular_velocity() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTransform3D.angular_velocity)
+  return _internal_angular_velocity();
+}
+inline void JonGuiDataTransform3D::unsafe_arena_set_allocated_angular_velocity(::ser::JonGuiDataVector3* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.angular_velocity_);
+  }
+  _impl_.angular_velocity_ = reinterpret_cast<::ser::JonGuiDataVector3*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataTransform3D.angular_velocity)
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::release_angular_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ser::JonGuiDataVector3* released = _impl_.angular_velocity_;
+  _impl_.angular_velocity_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::unsafe_arena_release_angular_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTransform3D.angular_velocity)
+
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ser::JonGuiDataVector3* temp = _impl_.angular_velocity_;
+  _impl_.angular_velocity_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::_internal_mutable_angular_velocity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.angular_velocity_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataVector3>(GetArena());
+    _impl_.angular_velocity_ = reinterpret_cast<::ser::JonGuiDataVector3*>(p);
+  }
+  return _impl_.angular_velocity_;
+}
+inline ::ser::JonGuiDataVector3* JonGuiDataTransform3D::mutable_angular_velocity() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  ::ser::JonGuiDataVector3* _msg = _internal_mutable_angular_velocity();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTransform3D.angular_velocity)
+  return _msg;
+}
+inline void JonGuiDataTransform3D::set_allocated_angular_velocity(::ser::JonGuiDataVector3* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.angular_velocity_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+
+  _impl_.angular_velocity_ = reinterpret_cast<::ser::JonGuiDataVector3*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTransform3D.angular_velocity)
+}
+
+// -------------------------------------------------------------------
+
+// JonGuiDataTrackedObject
+
+// string uuid = 1 [(.buf.validate.field) = {
+inline void JonGuiDataTrackedObject::clear_uuid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.uuid_.ClearToEmpty();
+}
+inline const std::string& JonGuiDataTrackedObject::uuid() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTrackedObject.uuid)
+  return _internal_uuid();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void JonGuiDataTrackedObject::set_uuid(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.uuid_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataTrackedObject.uuid)
+}
+inline std::string* JonGuiDataTrackedObject::mutable_uuid() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_uuid();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTrackedObject.uuid)
+  return _s;
+}
+inline const std::string& JonGuiDataTrackedObject::_internal_uuid() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.uuid_.Get();
+}
+inline void JonGuiDataTrackedObject::_internal_set_uuid(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.uuid_.Set(value, GetArena());
+}
+inline std::string* JonGuiDataTrackedObject::_internal_mutable_uuid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.uuid_.Mutable( GetArena());
+}
+inline std::string* JonGuiDataTrackedObject::release_uuid() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTrackedObject.uuid)
+  return _impl_.uuid_.Release();
+}
+inline void JonGuiDataTrackedObject::set_allocated_uuid(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.uuid_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.uuid_.IsDefault()) {
+    _impl_.uuid_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTrackedObject.uuid)
+}
+
+// .ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = {
+inline bool JonGuiDataTrackedObject::has_transform() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.transform_ != nullptr);
+  return value;
+}
+inline void JonGuiDataTrackedObject::clear_transform() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.transform_ != nullptr) _impl_.transform_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ser::JonGuiDataTransform3D& JonGuiDataTrackedObject::_internal_transform() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataTransform3D* p = _impl_.transform_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataTransform3D&>(::ser::_JonGuiDataTransform3D_default_instance_);
+}
+inline const ::ser::JonGuiDataTransform3D& JonGuiDataTrackedObject::transform() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTrackedObject.transform)
+  return _internal_transform();
+}
+inline void JonGuiDataTrackedObject::unsafe_arena_set_allocated_transform(::ser::JonGuiDataTransform3D* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.transform_);
+  }
+  _impl_.transform_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataTrackedObject.transform)
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataTrackedObject::release_transform() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataTransform3D* released = _impl_.transform_;
+  _impl_.transform_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataTrackedObject::unsafe_arena_release_transform() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTrackedObject.transform)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataTransform3D* temp = _impl_.transform_;
+  _impl_.transform_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataTrackedObject::_internal_mutable_transform() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.transform_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataTransform3D>(GetArena());
+    _impl_.transform_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(p);
+  }
+  return _impl_.transform_;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataTrackedObject::mutable_transform() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonGuiDataTransform3D* _msg = _internal_mutable_transform();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTrackedObject.transform)
+  return _msg;
+}
+inline void JonGuiDataTrackedObject::set_allocated_transform(::ser::JonGuiDataTransform3D* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.transform_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.transform_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTrackedObject.transform)
+}
+
+// .ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = {
+inline bool JonGuiDataTrackedObject::has_bounding_box() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.bounding_box_ != nullptr);
+  return value;
+}
+inline void JonGuiDataTrackedObject::clear_bounding_box() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.bounding_box_ != nullptr) _impl_.bounding_box_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataTrackedObject::_internal_bounding_box() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.bounding_box_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataTrackedObject::bounding_box() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTrackedObject.bounding_box)
+  return _internal_bounding_box();
+}
+inline void JonGuiDataTrackedObject::unsafe_arena_set_allocated_bounding_box(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.bounding_box_);
+  }
+  _impl_.bounding_box_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataTrackedObject.bounding_box)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataTrackedObject::release_bounding_box() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataROI* released = _impl_.bounding_box_;
+  _impl_.bounding_box_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataTrackedObject::unsafe_arena_release_bounding_box() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataTrackedObject.bounding_box)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataROI* temp = _impl_.bounding_box_;
+  _impl_.bounding_box_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataTrackedObject::_internal_mutable_bounding_box() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.bounding_box_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.bounding_box_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.bounding_box_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataTrackedObject::mutable_bounding_box() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_bounding_box();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataTrackedObject.bounding_box)
+  return _msg;
+}
+inline void JonGuiDataTrackedObject::set_allocated_bounding_box(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.bounding_box_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.bounding_box_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataTrackedObject.bounding_box)
+}
+
+// .ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = {
+inline void JonGuiDataTrackedObject::clear_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_ = 0;
+}
+inline ::ser::JonGuiDataTrackedObject_TrackingState JonGuiDataTrackedObject::state() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataTrackedObject.state)
+  return _internal_state();
+}
+inline void JonGuiDataTrackedObject::set_state(::ser::JonGuiDataTrackedObject_TrackingState value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataTrackedObject.state)
+}
+inline ::ser::JonGuiDataTrackedObject_TrackingState JonGuiDataTrackedObject::_internal_state() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::ser::JonGuiDataTrackedObject_TrackingState>(_impl_.state_);
+}
+inline void JonGuiDataTrackedObject::_internal_set_state(::ser::JonGuiDataTrackedObject_TrackingState value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.state_ = value;
+}
+
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif  // __GNUC__
@@ -1855,6 +4279,12 @@ inline void JonOpaquePayload::set_allocated_payload(std::string* value) {
 namespace google {
 namespace protobuf {
 
+template <>
+struct is_proto_enum<::ser::JonGuiDataTrackedObject_TrackingState> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::ser::JonGuiDataTrackedObject_TrackingState>() {
+  return ::ser::JonGuiDataTrackedObject_TrackingState_descriptor();
+}
 template <>
 struct is_proto_enum<::ser::JonGuiDataVideoChannelHeatFilters> : std::true_type {};
 template <>

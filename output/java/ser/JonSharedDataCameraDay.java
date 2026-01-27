@@ -138,6 +138,36 @@ public final class JonSharedDataCameraDay {
      * <code>.ser.JonGuiDataMeteo meteo = 16;</code>
      */
     ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
+
+    /**
+     * <pre>
+     * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+     * </pre>
+     *
+     * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the sensorGain field is set.
+     */
+    boolean hasSensorGain();
+    /**
+     * <pre>
+     * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+     * </pre>
+     *
+     * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+     * @return The sensorGain.
+     */
+    double getSensorGain();
+
+    /**
+     * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the exposure field is set.
+     */
+    boolean hasExposure();
+    /**
+     * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+     * @return The exposure.
+     */
+    double getExposure();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraDay}
@@ -376,6 +406,52 @@ public final class JonSharedDataCameraDay {
       return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
     }
 
+    public static final int SENSOR_GAIN_FIELD_NUMBER = 17;
+    private double sensorGain_ = 0D;
+    /**
+     * <pre>
+     * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+     * </pre>
+     *
+     * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the sensorGain field is set.
+     */
+    @java.lang.Override
+    public boolean hasSensorGain() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+     * </pre>
+     *
+     * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+     * @return The sensorGain.
+     */
+    @java.lang.Override
+    public double getSensorGain() {
+      return sensorGain_;
+    }
+
+    public static final int EXPOSURE_FIELD_NUMBER = 18;
+    private double exposure_ = 0D;
+    /**
+     * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the exposure field is set.
+     */
+    @java.lang.Override
+    public boolean hasExposure() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+     * @return The exposure.
+     */
+    @java.lang.Override
+    public double getExposure() {
+      return exposure_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -437,6 +513,12 @@ public final class JonSharedDataCameraDay {
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(16, getMeteo());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeDouble(17, sensorGain_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeDouble(18, exposure_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -511,6 +593,14 @@ public final class JonSharedDataCameraDay {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(16, getMeteo());
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(17, sensorGain_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(18, exposure_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -566,6 +656,18 @@ public final class JonSharedDataCameraDay {
       if (hasMeteo()) {
         if (!getMeteo()
             .equals(other.getMeteo())) return false;
+      }
+      if (hasSensorGain() != other.hasSensorGain()) return false;
+      if (hasSensorGain()) {
+        if (java.lang.Double.doubleToLongBits(getSensorGain())
+            != java.lang.Double.doubleToLongBits(
+                other.getSensorGain())) return false;
+      }
+      if (hasExposure() != other.hasExposure()) return false;
+      if (hasExposure()) {
+        if (java.lang.Double.doubleToLongBits(getExposure())
+            != java.lang.Double.doubleToLongBits(
+                other.getExposure())) return false;
       }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -623,6 +725,16 @@ public final class JonSharedDataCameraDay {
       if (hasMeteo()) {
         hash = (37 * hash) + METEO_FIELD_NUMBER;
         hash = (53 * hash) + getMeteo().hashCode();
+      }
+      if (hasSensorGain()) {
+        hash = (37 * hash) + SENSOR_GAIN_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getSensorGain()));
+      }
+      if (hasExposure()) {
+        hash = (37 * hash) + EXPOSURE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            java.lang.Double.doubleToLongBits(getExposure()));
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -781,6 +893,8 @@ public final class JonSharedDataCameraDay {
           meteoBuilder_.dispose();
           meteoBuilder_ = null;
         }
+        sensorGain_ = 0D;
+        exposure_ = 0D;
         return this;
       }
 
@@ -866,6 +980,14 @@ public final class JonSharedDataCameraDay {
               : meteoBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
+        if (((from_bitField0_ & 0x00010000) != 0)) {
+          result.sensorGain_ = sensorGain_;
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00020000) != 0)) {
+          result.exposure_ = exposure_;
+          to_bitField0_ |= 0x00000004;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -928,6 +1050,12 @@ public final class JonSharedDataCameraDay {
         }
         if (other.hasMeteo()) {
           mergeMeteo(other.getMeteo());
+        }
+        if (other.hasSensorGain()) {
+          setSensorGain(other.getSensorGain());
+        }
+        if (other.hasExposure()) {
+          setExposure(other.getExposure());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1037,6 +1165,16 @@ public final class JonSharedDataCameraDay {
                 bitField0_ |= 0x00008000;
                 break;
               } // case 130
+              case 137: {
+                sensorGain_ = input.readDouble();
+                bitField0_ |= 0x00010000;
+                break;
+              } // case 137
+              case 145: {
+                exposure_ = input.readDouble();
+                bitField0_ |= 0x00020000;
+                break;
+              } // case 145
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1676,6 +1814,102 @@ public final class JonSharedDataCameraDay {
         return meteoBuilder_;
       }
 
+      private double sensorGain_ ;
+      /**
+       * <pre>
+       * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+       * </pre>
+       *
+       * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the sensorGain field is set.
+       */
+      @java.lang.Override
+      public boolean hasSensorGain() {
+        return ((bitField0_ & 0x00010000) != 0);
+      }
+      /**
+       * <pre>
+       * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+       * </pre>
+       *
+       * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+       * @return The sensorGain.
+       */
+      @java.lang.Override
+      public double getSensorGain() {
+        return sensorGain_;
+      }
+      /**
+       * <pre>
+       * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+       * </pre>
+       *
+       * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+       * @param value The sensorGain to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSensorGain(double value) {
+
+        sensorGain_ = value;
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+       * </pre>
+       *
+       * <code>optional double sensor_gain = 17 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSensorGain() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        sensorGain_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double exposure_ ;
+      /**
+       * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the exposure field is set.
+       */
+      @java.lang.Override
+      public boolean hasExposure() {
+        return ((bitField0_ & 0x00020000) != 0);
+      }
+      /**
+       * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+       * @return The exposure.
+       */
+      @java.lang.Override
+      public double getExposure() {
+        return exposure_;
+      }
+      /**
+       * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+       * @param value The exposure to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExposure(double value) {
+
+        exposure_ = value;
+        bitField0_ |= 0x00020000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional double exposure = 18 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExposure() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        exposure_ = 0D;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraDay)
     }
 
@@ -1743,7 +1977,7 @@ public final class JonSharedDataCameraDay {
     java.lang.String[] descriptorData = {
       "\n jon_shared_data_camera_day.proto\022\003ser\032" +
       "\033buf/validate/validate.proto\032\033jon_shared" +
-      "_data_types.proto\"\350\004\n\023JonGuiDataCameraDa" +
+      "_data_types.proto\"\350\005\n\023JonGuiDataCameraDa" +
       "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000" +
       "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)" +
       "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000" +
@@ -1758,10 +1992,13 @@ public final class JonSharedDataCameraDay {
       "l_fov_degrees\030\014 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@!\000\000\000\000" +
       "\000\000\000\000\0225\n\024vertical_fov_degrees\030\r \001(\001B\027\272H\024\022" +
       "\022\021\000\000\000\000\000\200v@!\000\000\000\000\000\000\000\000\022\022\n\nis_started\030\016 \001(\010\022" +
-      "#\n\005meteo\030\020 \001(\0132\024.ser.JonGuiDataMeteoBRZP" +
-      "git-codecommit.eu-central-1.amazonaws.co" +
-      "m/v1/repos/jettison/jonp/data/camera_day" +
-      "b\006proto3"
+      "#\n\005meteo\030\020 \001(\0132\024.ser.JonGuiDataMeteo\0221\n\013" +
+      "sensor_gain\030\021 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000" +
+      "\000\000H\000\210\001\001\022.\n\010exposure\030\022 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360" +
+      "?)\000\000\000\000\000\000\000\000H\001\210\001\001B\016\n\014_sensor_gainB\013\n\t_expo" +
+      "sureBRZPgit-codecommit.eu-central-1.amaz" +
+      "onaws.com/v1/repos/jettison/jonp/data/ca" +
+      "mera_dayb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1774,7 +2011,7 @@ public final class JonSharedDataCameraDay {
     internal_static_ser_JonGuiDataCameraDay_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraDay_descriptor,
-        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "AutoGain", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", });
+        new java.lang.String[] { "FocusPos", "ZoomPos", "IrisPos", "InfraredFilter", "ZoomTablePos", "ZoomTablePosMax", "FxMode", "AutoFocus", "AutoIris", "AutoGain", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "SensorGain", "Exposure", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

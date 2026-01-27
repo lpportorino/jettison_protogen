@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// Client-side canvas metadata for OSD resolution-aware rendering.
+// Injected by frontend into JonGUIState.opaque_payloads.
+//
+// UUID: 01941b00-0000-7000-8000-000000000001
+message OsdClientMetadata {
+  // Physical canvas width in pixels (CSS width × devicePixelRatio)
+  // Valid range: 1-40960 (supports up to 8K × 5)
+  uint32 canvas_width_px = 1 [(buf.validate.field).uint32 = {
+    gt: 0,
+    lte: 40960
+  }];
+
+  // Physical canvas height in pixels (CSS height × devicePixelRatio)
+  uint32 canvas_height_px = 2 [(buf.validate.field).uint32 = {
+    gt: 0,
+    lte: 40960
+  }];
+
+  // Device pixel ratio (window.devicePixelRatio)
+  // Typical values: 1.0 (standard), 1.5, 2.0 (Retina), 3.0 (mobile)
+  float device_pixel_ratio = 3 [(buf.validate.field).float = {
+    gte: 0.1,
+    lte: 10.0
+  }];
+
+  // OSD framebuffer width (1920 for day, 900 for heat)
+  uint32 osd_buffer_width = 4 [(buf.validate.field).uint32 = {
+    gt: 0,
+    lte: 8192
+  }];
+
+  // OSD framebuffer height (1080 for day, 720 for heat)
+  uint32 osd_buffer_height = 5 [(buf.validate.field).uint32 = {
+    gt: 0,
+    lte: 8192
+  }];
+}

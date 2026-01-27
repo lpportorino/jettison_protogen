@@ -6,7 +6,7 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class JonGuiDataCameraDay(_message.Message):
-    __slots__ = ("focus_pos", "zoom_pos", "iris_pos", "infrared_filter", "zoom_table_pos", "zoom_table_pos_max", "fx_mode", "auto_focus", "auto_iris", "auto_gain", "digital_zoom_level", "clahe_level", "horizontal_fov_degrees", "vertical_fov_degrees", "is_started", "meteo")
+    __slots__ = ("focus_pos", "zoom_pos", "iris_pos", "infrared_filter", "zoom_table_pos", "zoom_table_pos_max", "fx_mode", "auto_focus", "auto_iris", "auto_gain", "digital_zoom_level", "clahe_level", "horizontal_fov_degrees", "vertical_fov_degrees", "is_started", "meteo", "sensor_gain", "exposure")
     FOCUS_POS_FIELD_NUMBER: _ClassVar[int]
     ZOOM_POS_FIELD_NUMBER: _ClassVar[int]
     IRIS_POS_FIELD_NUMBER: _ClassVar[int]
@@ -23,6 +23,8 @@ class JonGuiDataCameraDay(_message.Message):
     VERTICAL_FOV_DEGREES_FIELD_NUMBER: _ClassVar[int]
     IS_STARTED_FIELD_NUMBER: _ClassVar[int]
     METEO_FIELD_NUMBER: _ClassVar[int]
+    SENSOR_GAIN_FIELD_NUMBER: _ClassVar[int]
+    EXPOSURE_FIELD_NUMBER: _ClassVar[int]
     focus_pos: float
     zoom_pos: float
     iris_pos: float
@@ -39,4 +41,6 @@ class JonGuiDataCameraDay(_message.Message):
     vertical_fov_degrees: float
     is_started: bool
     meteo: _jon_shared_data_types_pb2.JonGuiDataMeteo
-    def __init__(self, focus_pos: _Optional[float] = ..., zoom_pos: _Optional[float] = ..., iris_pos: _Optional[float] = ..., infrared_filter: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., auto_focus: bool = ..., auto_iris: bool = ..., auto_gain: bool = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ...) -> None: ...
+    sensor_gain: float
+    exposure: float
+    def __init__(self, focus_pos: _Optional[float] = ..., zoom_pos: _Optional[float] = ..., iris_pos: _Optional[float] = ..., infrared_filter: bool = ..., zoom_table_pos: _Optional[int] = ..., zoom_table_pos_max: _Optional[int] = ..., fx_mode: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataFxModeDay, str]] = ..., auto_focus: bool = ..., auto_iris: bool = ..., auto_gain: bool = ..., digital_zoom_level: _Optional[float] = ..., clahe_level: _Optional[float] = ..., horizontal_fov_degrees: _Optional[float] = ..., vertical_fov_degrees: _Optional[float] = ..., is_started: bool = ..., meteo: _Optional[_Union[_jon_shared_data_types_pb2.JonGuiDataMeteo, _Mapping]] = ..., sensor_gain: _Optional[float] = ..., exposure: _Optional[float] = ...) -> None: ...

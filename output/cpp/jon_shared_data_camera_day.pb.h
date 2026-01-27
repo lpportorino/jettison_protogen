@@ -231,6 +231,8 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     kClaheLevelFieldNumber = 11,
     kHorizontalFovDegreesFieldNumber = 12,
     kVerticalFovDegreesFieldNumber = 13,
+    kSensorGainFieldNumber = 17,
+    kExposureFieldNumber = 18,
     kIsStartedFieldNumber = 14,
   };
   // .ser.JonGuiDataMeteo meteo = 16;
@@ -388,6 +390,28 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   void _internal_set_vertical_fov_degrees(double value);
 
   public:
+  // optional double sensor_gain = 17 [(.buf.validate.field) = {
+  bool has_sensor_gain() const;
+  void clear_sensor_gain() ;
+  double sensor_gain() const;
+  void set_sensor_gain(double value);
+
+  private:
+  double _internal_sensor_gain() const;
+  void _internal_set_sensor_gain(double value);
+
+  public:
+  // optional double exposure = 18 [(.buf.validate.field) = {
+  bool has_exposure() const;
+  void clear_exposure() ;
+  double exposure() const;
+  void set_exposure(double value);
+
+  private:
+  double _internal_exposure() const;
+  void _internal_set_exposure(double value);
+
+  public:
   // bool is_started = 14;
   void clear_is_started() ;
   bool is_started() const;
@@ -403,7 +427,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 16, 1,
+      5, 18, 1,
       0, 2>
       _table_;
 
@@ -438,6 +462,8 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     double clahe_level_;
     double horizontal_fov_degrees_;
     double vertical_fov_degrees_;
+    double sensor_gain_;
+    double exposure_;
     bool is_started_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -880,6 +906,62 @@ inline void JonGuiDataCameraDay::set_allocated_meteo(::ser::JonGuiDataMeteo* val
 
   _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCameraDay.meteo)
+}
+
+// optional double sensor_gain = 17 [(.buf.validate.field) = {
+inline bool JonGuiDataCameraDay::has_sensor_gain() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline void JonGuiDataCameraDay::clear_sensor_gain() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sensor_gain_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline double JonGuiDataCameraDay::sensor_gain() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.sensor_gain)
+  return _internal_sensor_gain();
+}
+inline void JonGuiDataCameraDay::set_sensor_gain(double value) {
+  _internal_set_sensor_gain(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.sensor_gain)
+}
+inline double JonGuiDataCameraDay::_internal_sensor_gain() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.sensor_gain_;
+}
+inline void JonGuiDataCameraDay::_internal_set_sensor_gain(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sensor_gain_ = value;
+}
+
+// optional double exposure = 18 [(.buf.validate.field) = {
+inline bool JonGuiDataCameraDay::has_exposure() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline void JonGuiDataCameraDay::clear_exposure() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.exposure_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline double JonGuiDataCameraDay::exposure() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.exposure)
+  return _internal_exposure();
+}
+inline void JonGuiDataCameraDay::set_exposure(double value) {
+  _internal_set_exposure(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.exposure)
+}
+inline double JonGuiDataCameraDay::_internal_exposure() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.exposure_;
+}
+inline void JonGuiDataCameraDay::_internal_set_exposure(double value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.exposure_ = value;
 }
 
 #ifdef __GNUC__

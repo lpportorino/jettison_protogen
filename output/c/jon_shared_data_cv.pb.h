@@ -70,6 +70,39 @@ typedef struct _ser_JonGuiDataCV {
     ser_JonGuiDataCV_CvBridgeExitReason last_exit_reason;
     int64_t bridge_uptime_ms;
     int32_t restart_count;
+    /* Day channel ROIs */
+    bool has_roi_focus_day;
+    ser_JonGuiDataROI roi_focus_day;
+    bool has_roi_track_day;
+    ser_JonGuiDataROI roi_track_day;
+    bool has_roi_zoom_day;
+    ser_JonGuiDataROI roi_zoom_day;
+    bool has_roi_fx_day;
+    ser_JonGuiDataROI roi_fx_day;
+    /* Heat channel ROIs */
+    bool has_roi_focus_heat;
+    ser_JonGuiDataROI roi_focus_heat;
+    bool has_roi_track_heat;
+    ser_JonGuiDataROI roi_track_heat;
+    bool has_roi_zoom_heat;
+    ser_JonGuiDataROI roi_zoom_heat;
+    bool has_roi_fx_heat;
+    ser_JonGuiDataROI roi_fx_heat;
+    /* Day channel sharpness (within roi_focus_day) */
+    bool has_sharpness_metrics_day;
+    ser_JonGuiDataSharpness sharpness_metrics_day;
+    /* Heat channel sharpness (within roi_focus_heat) */
+    bool has_sharpness_metrics_heat;
+    ser_JonGuiDataSharpness sharpness_metrics_heat;
+    /* Day camera 3D pose and velocity */
+    bool has_camera_transform_day;
+    ser_JonGuiDataTransform3D camera_transform_day;
+    /* Heat camera 3D pose and velocity */
+    bool has_camera_transform_heat;
+    ser_JonGuiDataTransform3D camera_transform_heat;
+    /* Tracked objects (0 or more). Each object has UUID for joining with
+ external data sources (labels, classifications, etc.) */
+    pb_callback_t tracked_objects;
 } ser_JonGuiDataCV;
 
 
@@ -97,8 +130,8 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0}
-#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0}
+#define ser_JonGuiDataCV_init_default            {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataROI_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataSharpness_init_default, false, ser_JonGuiDataTransform3D_init_default, false, ser_JonGuiDataTransform3D_init_default, {{NULL}, NULL}}
+#define ser_JonGuiDataCV_init_zero               {_ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, _ser_JonGuiDataCV_AutofocusState_MIN, 0, 0, 0, 0, 0, 0, 0, 0, _ser_JonGuiDataCV_CvBridgeStatus_MIN, _ser_JonGuiDataCV_CvBridgeExitReason_MIN, 0, 0, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataROI_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataSharpness_init_zero, false, ser_JonGuiDataTransform3D_init_zero, false, ser_JonGuiDataTransform3D_init_zero, {{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCV_autofocus_state_day_tag 1
@@ -119,6 +152,19 @@ extern "C" {
 #define ser_JonGuiDataCV_last_exit_reason_tag    31
 #define ser_JonGuiDataCV_bridge_uptime_ms_tag    32
 #define ser_JonGuiDataCV_restart_count_tag       33
+#define ser_JonGuiDataCV_roi_focus_day_tag       40
+#define ser_JonGuiDataCV_roi_track_day_tag       41
+#define ser_JonGuiDataCV_roi_zoom_day_tag        42
+#define ser_JonGuiDataCV_roi_fx_day_tag          43
+#define ser_JonGuiDataCV_roi_focus_heat_tag      50
+#define ser_JonGuiDataCV_roi_track_heat_tag      51
+#define ser_JonGuiDataCV_roi_zoom_heat_tag       52
+#define ser_JonGuiDataCV_roi_fx_heat_tag         53
+#define ser_JonGuiDataCV_sharpness_metrics_day_tag 60
+#define ser_JonGuiDataCV_sharpness_metrics_heat_tag 61
+#define ser_JonGuiDataCV_camera_transform_day_tag 70
+#define ser_JonGuiDataCV_camera_transform_heat_tag 71
+#define ser_JonGuiDataCV_tracked_objects_tag     80
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCV_FIELDLIST(X, a) \
@@ -139,9 +185,35 @@ X(a, STATIC,   SINGULAR, DOUBLE,   roi_y2,           23) \
 X(a, STATIC,   SINGULAR, UENUM,    bridge_status,    30) \
 X(a, STATIC,   SINGULAR, UENUM,    last_exit_reason,  31) \
 X(a, STATIC,   SINGULAR, INT64,    bridge_uptime_ms,  32) \
-X(a, STATIC,   SINGULAR, INT32,    restart_count,    33)
-#define ser_JonGuiDataCV_CALLBACK NULL
+X(a, STATIC,   SINGULAR, INT32,    restart_count,    33) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_focus_day,    40) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_track_day,    41) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_zoom_day,     42) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_fx_day,       43) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_focus_heat,   50) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_track_heat,   51) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_zoom_heat,    52) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  roi_fx_heat,      53) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  sharpness_metrics_day,  60) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  sharpness_metrics_heat,  61) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_day,  70) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  camera_transform_heat,  71) \
+X(a, CALLBACK, REPEATED, MESSAGE,  tracked_objects,  80)
+#define ser_JonGuiDataCV_CALLBACK pb_default_field_callback
 #define ser_JonGuiDataCV_DEFAULT NULL
+#define ser_JonGuiDataCV_roi_focus_day_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_track_day_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_zoom_day_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_fx_day_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_focus_heat_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_track_heat_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_zoom_heat_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_roi_fx_heat_MSGTYPE ser_JonGuiDataROI
+#define ser_JonGuiDataCV_sharpness_metrics_day_MSGTYPE ser_JonGuiDataSharpness
+#define ser_JonGuiDataCV_sharpness_metrics_heat_MSGTYPE ser_JonGuiDataSharpness
+#define ser_JonGuiDataCV_camera_transform_day_MSGTYPE ser_JonGuiDataTransform3D
+#define ser_JonGuiDataCV_camera_transform_heat_MSGTYPE ser_JonGuiDataTransform3D
+#define ser_JonGuiDataCV_tracked_objects_MSGTYPE ser_JonGuiDataTrackedObject
 
 extern const pb_msgdesc_t ser_JonGuiDataCV_msg;
 
@@ -149,8 +221,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCV_msg;
 #define ser_JonGuiDataCV_fields &ser_JonGuiDataCV_msg
 
 /* Maximum encoded size of messages (where known) */
-#define SER_JON_SHARED_DATA_CV_PB_H_MAX_SIZE     ser_JonGuiDataCV_size
-#define ser_JonGuiDataCV_size                    150
+/* ser_JonGuiDataCV_size depends on runtime parameters */
 
 #ifdef __cplusplus
 } /* extern "C" */

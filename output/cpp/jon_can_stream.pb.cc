@@ -162,30 +162,25 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_jon_5fcan_5fstream_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\024jon_can_stream.proto\022\007jon.can\032\033buf/val"
-    "idate/validate.proto\"\\\n\010CANFrame\022\024\n\014time"
-    "stamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001(\r\022\r\n\005is_rx\030"
-    "\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030\005 \001(\014\"2\n\rCA"
-    "NFrameBatch\022!\n\006frames\030\001 \003(\0132\021.jon.can.CA"
-    "NFrame\"%\n\022CANStreamConnected\022\017\n\007streams\030"
-    "\001 \003(\tBFZDgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/canb\006p"
-    "roto3"
-};
-static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fcan_5fstream_2eproto_deps[1] =
-    {
-        &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
+    "\n\024jon_can_stream.proto\022\007jon.can\"\\\n\010CANFr"
+    "ame\022\024\n\014timestamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001("
+    "\r\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030"
+    "\005 \001(\014\"2\n\rCANFrameBatch\022!\n\006frames\030\001 \003(\0132\021"
+    ".jon.can.CANFrame\"%\n\022CANStreamConnected\022"
+    "\017\n\007streams\030\001 \003(\tBFZDgit-codecommit.eu-ce"
+    "ntral-1.amazonaws.com/v1/repos/jettison/"
+    "jonp/canb\006proto3"
 };
 static ::absl::once_flag descriptor_table_jon_5fcan_5fstream_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcan_5fstream_2eproto = {
     false,
     false,
-    325,
+    296,
     descriptor_table_protodef_jon_5fcan_5fstream_2eproto,
     "jon_can_stream.proto",
     &descriptor_table_jon_5fcan_5fstream_2eproto_once,
-    descriptor_table_jon_5fcan_5fstream_2eproto_deps,
-    1,
+    nullptr,
+    0,
     3,
     schemas,
     file_default_instances,

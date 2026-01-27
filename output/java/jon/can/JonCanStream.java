@@ -2283,20 +2283,18 @@ public final class JonCanStream {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024jon_can_stream.proto\022\007jon.can\032\033buf/val" +
-      "idate/validate.proto\"\\\n\010CANFrame\022\024\n\014time" +
-      "stamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001(\r\022\r\n\005is_rx\030" +
-      "\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030\005 \001(\014\"2\n\rCA" +
-      "NFrameBatch\022!\n\006frames\030\001 \003(\0132\021.jon.can.CA" +
-      "NFrame\"%\n\022CANStreamConnected\022\017\n\007streams\030" +
-      "\001 \003(\tBFZDgit-codecommit.eu-central-1.ama" +
-      "zonaws.com/v1/repos/jettison/jonp/canb\006p" +
-      "roto3"
+      "\n\024jon_can_stream.proto\022\007jon.can\"\\\n\010CANFr" +
+      "ame\022\024\n\014timestamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001(" +
+      "\r\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030" +
+      "\005 \001(\014\"2\n\rCANFrameBatch\022!\n\006frames\030\001 \003(\0132\021" +
+      ".jon.can.CANFrame\"%\n\022CANStreamConnected\022" +
+      "\017\n\007streams\030\001 \003(\tBFZDgit-codecommit.eu-ce" +
+      "ntral-1.amazonaws.com/v1/repos/jettison/" +
+      "jonp/canb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          build.buf.validate.ValidateProto.getDescriptor(),
         });
     internal_static_jon_can_CANFrame_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -2317,7 +2315,6 @@ public final class JonCanStream {
         internal_static_jon_can_CANStreamConnected_descriptor,
         new java.lang.String[] { "Streams", });
     descriptor.resolveAllFeaturesImmutable();
-    build.buf.validate.ValidateProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

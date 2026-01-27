@@ -30,7 +30,12 @@ export interface JonGuiDataCameraDay {
   horizontalFovDegrees: number;
   verticalFovDegrees: number;
   isStarted: boolean;
-  meteo: JonGuiDataMeteo | undefined;
+  meteo:
+    | JonGuiDataMeteo
+    | undefined;
+  /** Sensor parameters (normalized 0.0-1.0, set by camera or CV) */
+  sensorGain?: number | undefined;
+  exposure?: number | undefined;
 }
 
 function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
@@ -51,6 +56,8 @@ function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
     verticalFovDegrees: 0,
     isStarted: false,
     meteo: undefined,
+    sensorGain: undefined,
+    exposure: undefined,
   };
 }
 
@@ -103,6 +110,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     }
     if (message.meteo !== undefined) {
       JonGuiDataMeteo.encode(message.meteo, writer.uint32(130).fork()).join();
+    }
+    if (message.sensorGain !== undefined) {
+      writer.uint32(137).double(message.sensorGain);
+    }
+    if (message.exposure !== undefined) {
+      writer.uint32(145).double(message.exposure);
     }
     return writer;
   },
@@ -242,6 +255,22 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
           message.meteo = JonGuiDataMeteo.decode(reader, reader.uint32());
           continue;
         }
+        case 17: {
+          if (tag !== 137) {
+            break;
+          }
+
+          message.sensorGain = reader.double();
+          continue;
+        }
+        case 18: {
+          if (tag !== 145) {
+            break;
+          }
+
+          message.exposure = reader.double();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -329,6 +358,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
         ? globalThis.Boolean(object.is_started)
         : false,
       meteo: isSet(object.meteo) ? JonGuiDataMeteo.fromJSON(object.meteo) : undefined,
+      sensorGain: isSet(object.sensorGain)
+        ? globalThis.Number(object.sensorGain)
+        : isSet(object.sensor_gain)
+        ? globalThis.Number(object.sensor_gain)
+        : undefined,
+      exposure: isSet(object.exposure) ? globalThis.Number(object.exposure) : undefined,
     };
   },
 
@@ -382,6 +417,12 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     if (message.meteo !== undefined) {
       obj.meteo = JonGuiDataMeteo.toJSON(message.meteo);
     }
+    if (message.sensorGain !== undefined) {
+      obj.sensorGain = message.sensorGain;
+    }
+    if (message.exposure !== undefined) {
+      obj.exposure = message.exposure;
+    }
     return obj;
   },
 
@@ -408,6 +449,8 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     message.meteo = (object.meteo !== undefined && object.meteo !== null)
       ? JonGuiDataMeteo.fromPartial(object.meteo)
       : undefined;
+    message.sensorGain = object.sensorGain ?? undefined;
+    message.exposure = object.exposure ?? undefined;
     return message;
   },
 };

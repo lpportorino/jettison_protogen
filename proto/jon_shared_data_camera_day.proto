@@ -49,4 +49,14 @@ message JonGuiDataCameraDay {
   }];
   bool is_started = 14;
   JonGuiDataMeteo meteo = 16;
+
+  // Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+  optional double sensor_gain = 17 [(buf.validate.field).double = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+  optional double exposure = 18 [(buf.validate.field).double = {
+    gte: 0.0,
+    lte: 1.0
+  }];
 }

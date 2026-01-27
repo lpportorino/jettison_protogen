@@ -7,7 +7,6 @@
 package can
 
 import (
-	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -193,7 +192,7 @@ var File_jon_can_stream_proto protoreflect.FileDescriptor
 
 const file_jon_can_stream_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\x82\x01\n" +
+	"\x14jon_can_stream.proto\x12\ajon.can\"\x82\x01\n" +
 	"\bCANFrame\x12!\n" +
 	"\ftimestamp_us\x18\x01 \x01(\x04R\vtimestampUs\x12\x15\n" +
 	"\x06can_id\x18\x02 \x01(\rR\x05canId\x12\x13\n" +
