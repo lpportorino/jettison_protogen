@@ -445,12 +445,49 @@ make docs-docker-coverage  # In Docker
 
 ### Claude Slash Commands
 
-Two slash commands are available for proto schema exploration:
+Slash commands available for proto documentation:
 
 - `/proto-search <query>` - Fuzzy search messages, fields, enums
 - `/proto-coverage` - Show documentation coverage report
+- `/doc-next` - Show next undocumented message with context
 
 These use Babashka scripts that read directly from `.protodoc/proto-db.edn`.
+
+### Interactive Documentation Filling
+
+The `doc-fill` skill provides an interactive workflow for filling in missing documentation:
+
+1. **Find what's missing**: Run `/doc-next` to see undocumented items grouped by module
+2. **Review context**: See field types, constraints, and suggested questions
+3. **Answer questions**: Claude asks about purpose, category, UI pattern, etc.
+4. **Documentation written**: Claude edits the markdown file with collected info
+
+**Workflow example:**
+```
+User: /doc-next
+Claude: [Shows cmd.PMU.Start needs documentation]
+
+User: Let's document it
+Claude: [Invokes doc-fill skill, asks questions interactively]
+- What does PMU.Start do?
+- What category? (suggesting :lifecycle)
+- UI pattern? (suggesting :action-button)
+...
+
+User: [Answers each question]
+Claude: [Writes documentation to docs/proto/cmd.PMU.Start.md]
+```
+
+**Questions asked for each message:**
+1. Purpose - What does this message do?
+2. Category - :sensor :actuator :settings :status :lifecycle :diagnostic
+3. UI Pattern - :toggle :action-button :slider :slider-with-presets etc.
+4. Feedback - :fire-and-forget :pending-timeout :poll-confirm :optimistic-visual
+5. Related state messages (ser.*)
+6. Related commands
+7. For each field: semantic type, unit, precision, display format
+
+The skill suggests answers based on field constraints and naming patterns.
 
 ### Workflow
 
