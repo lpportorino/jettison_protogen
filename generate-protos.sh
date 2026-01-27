@@ -119,9 +119,15 @@ find /workspace/output -type d -exec chmod 777 {} + 2>/dev/null || true"
 C_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
+
 find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
     protoc --plugin=protoc-gen-nanopb=/opt/nanopb/generator/protoc-gen-nanopb \
     -I/tmp/cleaned_proto \
@@ -142,10 +148,13 @@ CPP_SCRIPT='
 set -e
 mkdir -p /tmp/cpp_proto_val
 
-# Copy proto files WITH validate imports (do NOT clean/strip annotations)
-for proto in proto/*.proto; do
-    cp "$proto" "/tmp/cpp_proto_val/$(basename "$proto")"
-    /usr/local/bin/add-validate-import.sh "/tmp/cpp_proto_val/$(basename "$proto")"
+# Copy proto files WITH validate imports including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cpp_proto_val/$dirname"
+    cp "$proto" "/tmp/cpp_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/cpp_proto_val/$relpath"
 done
 
 # Copy validate.proto from protovalidate
@@ -164,10 +173,13 @@ GO_SCRIPT='
 set -e
 mkdir -p /tmp/go_proto_val
 
-# Copy proto files and add validate import
-for proto in proto/*.proto; do
-    cp "$proto" "/tmp/go_proto_val/$(basename "$proto")"
-    /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$(basename "$proto")"
+# Copy proto files and add validate import including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/go_proto_val/$dirname"
+    cp "$proto" "/tmp/go_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$relpath"
 done
 
 # Copy validate.proto from protovalidate
@@ -216,21 +228,33 @@ echo "Go generation successful, found $(find /workspace/output -name "*.pb.go" -
 PYTHON_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
+
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
 protoc -I/tmp/cleaned_proto \
     --python_out=/workspace/output \
     --pyi_out=/workspace/output \
-    /tmp/cleaned_proto/*.proto
+    $PROTO_FILES
 '
 
 # TypeScript generation script
 TYPESCRIPT_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories (exclude test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
 # Create temporary node project for ts-proto
@@ -238,21 +262,28 @@ cd /tmp
 npm init -y
 npm install ts-proto
 
+# Find all proto files for protoc
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
 protoc -I/tmp/cleaned_proto \
     --plugin=protoc-gen-ts_proto=/tmp/node_modules/.bin/protoc-gen-ts_proto \
     --ts_proto_opt=outputIndex=true \
     --ts_proto_opt=esModuleInterop=true \
     --ts_proto_opt=forceLong=long \
     --ts_proto_out=/workspace/output \
-    /tmp/cleaned_proto/*.proto
+    $PROTO_FILES
 '
 
 # Rust generation script
 RUST_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto /tmp/rust_gen
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
 # Ensure the output directory exists
@@ -364,17 +395,12 @@ cp -r /workspace/proto/* /tmp/java_proto_buf/
 mkdir -p /tmp/java_proto_buf/buf/validate
 cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/java_proto_buf/buf/validate/
 
-# First, ensure all proto files have proper imports
+# First, ensure all proto files have proper imports including subdirectories
 cd /tmp/java_proto_buf
 echo "Adding validate imports to proto files..."
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        echo "Processing: $proto"
-        /usr/local/bin/add-validate-import.sh "$proto"
-        # Show first few lines to verify import was added
-        head -5 "$proto"
-        echo "---"
-    fi
+find . -name "*.proto" -type f | while read -r proto; do
+    echo "Processing: $proto"
+    /usr/local/bin/add-validate-import.sh "$proto"
 done
 
 # List all files to ensure validate.proto is present
@@ -384,9 +410,11 @@ find /tmp/java_proto_buf -name "*.proto" | sort
 # Generate using standard protoc with the validate.proto available
 # This is simpler and more reliable than using buf generate for our use case
 echo "Running protoc..."
+# Find all proto files excluding buf/validate (just for imports) and test
+PROTO_FILES=$(find /tmp/java_proto_buf -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/java_proto_buf \
     --java_out=/workspace/output \
-    /tmp/java_proto_buf/*.proto
+    $PROTO_FILES
 
 # Verify files were generated
 if [ -z "$(find /workspace/output -name "*.java" -type f 2>/dev/null)" ]; then
