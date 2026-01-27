@@ -213,10 +213,14 @@ func (*Stop) Descriptor() ([]byte, []int) {
 // SetHeating configures heating targets for all channels
 type SetHeating struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Target power values per channel in watts (3 channels)
-	Targets []float32 `protobuf:"fixed32,1,rep,packed,name=targets,proto3" json:"targets,omitempty"`
-	// Temperature error/tolerance per channel in Celsius (3 channels)
-	TempError     []float32 `protobuf:"fixed32,2,rep,packed,name=temp_error,json=tempError,proto3" json:"temp_error,omitempty"`
+	// Target power values per channel in watts
+	Target_0 float32 `protobuf:"fixed32,1,opt,name=target_0,json=target0,proto3" json:"target_0,omitempty"`
+	Target_1 float32 `protobuf:"fixed32,2,opt,name=target_1,json=target1,proto3" json:"target_1,omitempty"`
+	Target_2 float32 `protobuf:"fixed32,3,opt,name=target_2,json=target2,proto3" json:"target_2,omitempty"`
+	// Temperature error/tolerance per channel in Celsius
+	TempError_0   float32 `protobuf:"fixed32,4,opt,name=temp_error_0,json=tempError0,proto3" json:"temp_error_0,omitempty"`
+	TempError_1   float32 `protobuf:"fixed32,5,opt,name=temp_error_1,json=tempError1,proto3" json:"temp_error_1,omitempty"`
+	TempError_2   float32 `protobuf:"fixed32,6,opt,name=temp_error_2,json=tempError2,proto3" json:"temp_error_2,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -251,18 +255,46 @@ func (*SetHeating) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *SetHeating) GetTargets() []float32 {
+func (x *SetHeating) GetTarget_0() float32 {
 	if x != nil {
-		return x.Targets
+		return x.Target_0
 	}
-	return nil
+	return 0
 }
 
-func (x *SetHeating) GetTempError() []float32 {
+func (x *SetHeating) GetTarget_1() float32 {
 	if x != nil {
-		return x.TempError
+		return x.Target_1
 	}
-	return nil
+	return 0
+}
+
+func (x *SetHeating) GetTarget_2() float32 {
+	if x != nil {
+		return x.Target_2
+	}
+	return 0
+}
+
+func (x *SetHeating) GetTempError_0() float32 {
+	if x != nil {
+		return x.TempError_0
+	}
+	return 0
+}
+
+func (x *SetHeating) GetTempError_1() float32 {
+	if x != nil {
+		return x.TempError_1
+	}
+	return 0
+}
+
+func (x *SetHeating) GetTempError_2() float32 {
+	if x != nil {
+		return x.TempError_2
+	}
+	return 0
 }
 
 // GetStatus requests current heater status
@@ -317,16 +349,30 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"get_status\x18\x04 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatusB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
 	"\x05Start\"\x06\n" +
-	"\x04Stop\"y\n" +
+	"\x04Stop\"\xa9\x02\n" +
 	"\n" +
-	"SetHeating\x122\n" +
-	"\atargets\x18\x01 \x03(\x02B\x18\xbaH\x15\x92\x01\x12\b\x03\x10\x03\"\f\n" +
+	"SetHeating\x12*\n" +
+	"\btarget_0\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00\x00pB-\x00\x00\x00\x00R\atargets\x127\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\atarget0\x12*\n" +
+	"\btarget_1\x18\x02 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"temp_error\x18\x02 \x03(\x02B\x18\xbaH\x15\x92\x01\x12\b\x03\x10\x03\"\f\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\atarget1\x12*\n" +
+	"\btarget_2\x18\x03 \x01(\x02B\x0f\xbaH\f\n" +
 	"\n" +
-	"\x1d\x00\x00 B-\x00\x00\x00\x00R\ttempError\"\v\n" +
+	"\x1d\x00\x00pB-\x00\x00\x00\x00R\atarget2\x121\n" +
+	"\ftemp_error_0\x18\x04 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00 B-\x00\x00\x00\x00R\n" +
+	"tempError0\x121\n" +
+	"\ftemp_error_1\x18\x05 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00 B-\x00\x00\x00\x00R\n" +
+	"tempError1\x121\n" +
+	"\ftemp_error_2\x18\x06 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00 B-\x00\x00\x00\x00R\n" +
+	"tempError2\"\v\n" +
 	"\tGetStatusB\xbf\x01\n" +
 	"\x0ecom.cmd.HeaterB\x17JonSharedCmdHeaterProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater\xa2\x02\x03CHX\xaa\x02\n" +
 	"Cmd.Heater\xca\x02\n" +

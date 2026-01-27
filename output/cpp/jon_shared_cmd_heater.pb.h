@@ -521,43 +521,71 @@ class SetHeating final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kTargetsFieldNumber = 1,
-    kTempErrorFieldNumber = 2,
+    kTarget0FieldNumber = 1,
+    kTarget1FieldNumber = 2,
+    kTarget2FieldNumber = 3,
+    kTempError0FieldNumber = 4,
+    kTempError1FieldNumber = 5,
+    kTempError2FieldNumber = 6,
   };
-  // repeated float targets = 1 [(.buf.validate.field) = {
-  int targets_size() const;
+  // float target_0 = 1 [(.buf.validate.field) = {
+  void clear_target_0() ;
+  float target_0() const;
+  void set_target_0(float value);
+
   private:
-  int _internal_targets_size() const;
+  float _internal_target_0() const;
+  void _internal_set_target_0(float value);
 
   public:
-  void clear_targets() ;
-  float targets(int index) const;
-  void set_targets(int index, float value);
-  void add_targets(float value);
-  const ::google::protobuf::RepeatedField<float>& targets() const;
-  ::google::protobuf::RepeatedField<float>* mutable_targets();
+  // float target_1 = 2 [(.buf.validate.field) = {
+  void clear_target_1() ;
+  float target_1() const;
+  void set_target_1(float value);
 
   private:
-  const ::google::protobuf::RepeatedField<float>& _internal_targets() const;
-  ::google::protobuf::RepeatedField<float>* _internal_mutable_targets();
+  float _internal_target_1() const;
+  void _internal_set_target_1(float value);
 
   public:
-  // repeated float temp_error = 2 [(.buf.validate.field) = {
-  int temp_error_size() const;
+  // float target_2 = 3 [(.buf.validate.field) = {
+  void clear_target_2() ;
+  float target_2() const;
+  void set_target_2(float value);
+
   private:
-  int _internal_temp_error_size() const;
+  float _internal_target_2() const;
+  void _internal_set_target_2(float value);
 
   public:
-  void clear_temp_error() ;
-  float temp_error(int index) const;
-  void set_temp_error(int index, float value);
-  void add_temp_error(float value);
-  const ::google::protobuf::RepeatedField<float>& temp_error() const;
-  ::google::protobuf::RepeatedField<float>* mutable_temp_error();
+  // float temp_error_0 = 4 [(.buf.validate.field) = {
+  void clear_temp_error_0() ;
+  float temp_error_0() const;
+  void set_temp_error_0(float value);
 
   private:
-  const ::google::protobuf::RepeatedField<float>& _internal_temp_error() const;
-  ::google::protobuf::RepeatedField<float>* _internal_mutable_temp_error();
+  float _internal_temp_error_0() const;
+  void _internal_set_temp_error_0(float value);
+
+  public:
+  // float temp_error_1 = 5 [(.buf.validate.field) = {
+  void clear_temp_error_1() ;
+  float temp_error_1() const;
+  void set_temp_error_1(float value);
+
+  private:
+  float _internal_temp_error_1() const;
+  void _internal_set_temp_error_1(float value);
+
+  public:
+  // float temp_error_2 = 6 [(.buf.validate.field) = {
+  void clear_temp_error_2() ;
+  float temp_error_2() const;
+  void set_temp_error_2(float value);
+
+  private:
+  float _internal_temp_error_2() const;
+  void _internal_set_temp_error_2(float value);
 
   public:
   // @@protoc_insertion_point(class_scope:cmd.Heater.SetHeating)
@@ -565,7 +593,7 @@ class SetHeating final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 0,
+      3, 6, 0,
       0, 2>
       _table_;
 
@@ -583,8 +611,12 @@ class SetHeating final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const SetHeating& from_msg);
-    ::google::protobuf::RepeatedField<float> targets_;
-    ::google::protobuf::RepeatedField<float> temp_error_;
+    float target_0_;
+    float target_1_;
+    float target_2_;
+    float temp_error_0_;
+    float temp_error_1_;
+    float temp_error_2_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1372,94 +1404,136 @@ inline Root::CmdCase Root::cmd_case() const {
 
 // SetHeating
 
-// repeated float targets = 1 [(.buf.validate.field) = {
-inline int SetHeating::_internal_targets_size() const {
-  return _internal_targets().size();
-}
-inline int SetHeating::targets_size() const {
-  return _internal_targets_size();
-}
-inline void SetHeating::clear_targets() {
+// float target_0 = 1 [(.buf.validate.field) = {
+inline void SetHeating::clear_target_0() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.targets_.Clear();
+  _impl_.target_0_ = 0;
 }
-inline float SetHeating::targets(int index) const {
-  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.targets)
-  return _internal_targets().Get(index);
+inline float SetHeating::target_0() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.target_0)
+  return _internal_target_0();
 }
-inline void SetHeating::set_targets(int index, float value) {
-  _internal_mutable_targets()->Set(index, value);
-  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.targets)
+inline void SetHeating::set_target_0(float value) {
+  _internal_set_target_0(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.target_0)
 }
-inline void SetHeating::add_targets(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_targets()->Add(value);
-  // @@protoc_insertion_point(field_add:cmd.Heater.SetHeating.targets)
-}
-inline const ::google::protobuf::RepeatedField<float>& SetHeating::targets() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:cmd.Heater.SetHeating.targets)
-  return _internal_targets();
-}
-inline ::google::protobuf::RepeatedField<float>* SetHeating::mutable_targets()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:cmd.Heater.SetHeating.targets)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_targets();
-}
-inline const ::google::protobuf::RepeatedField<float>&
-SetHeating::_internal_targets() const {
+inline float SetHeating::_internal_target_0() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.targets_;
+  return _impl_.target_0_;
 }
-inline ::google::protobuf::RepeatedField<float>* SetHeating::_internal_mutable_targets() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.targets_;
+inline void SetHeating::_internal_set_target_0(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.target_0_ = value;
 }
 
-// repeated float temp_error = 2 [(.buf.validate.field) = {
-inline int SetHeating::_internal_temp_error_size() const {
-  return _internal_temp_error().size();
-}
-inline int SetHeating::temp_error_size() const {
-  return _internal_temp_error_size();
-}
-inline void SetHeating::clear_temp_error() {
+// float target_1 = 2 [(.buf.validate.field) = {
+inline void SetHeating::clear_target_1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.temp_error_.Clear();
+  _impl_.target_1_ = 0;
 }
-inline float SetHeating::temp_error(int index) const {
-  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.temp_error)
-  return _internal_temp_error().Get(index);
+inline float SetHeating::target_1() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.target_1)
+  return _internal_target_1();
 }
-inline void SetHeating::set_temp_error(int index, float value) {
-  _internal_mutable_temp_error()->Set(index, value);
-  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.temp_error)
+inline void SetHeating::set_target_1(float value) {
+  _internal_set_target_1(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.target_1)
 }
-inline void SetHeating::add_temp_error(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_temp_error()->Add(value);
-  // @@protoc_insertion_point(field_add:cmd.Heater.SetHeating.temp_error)
-}
-inline const ::google::protobuf::RepeatedField<float>& SetHeating::temp_error() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:cmd.Heater.SetHeating.temp_error)
-  return _internal_temp_error();
-}
-inline ::google::protobuf::RepeatedField<float>* SetHeating::mutable_temp_error()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:cmd.Heater.SetHeating.temp_error)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_temp_error();
-}
-inline const ::google::protobuf::RepeatedField<float>&
-SetHeating::_internal_temp_error() const {
+inline float SetHeating::_internal_target_1() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.temp_error_;
+  return _impl_.target_1_;
 }
-inline ::google::protobuf::RepeatedField<float>* SetHeating::_internal_mutable_temp_error() {
+inline void SetHeating::_internal_set_target_1(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.target_1_ = value;
+}
+
+// float target_2 = 3 [(.buf.validate.field) = {
+inline void SetHeating::clear_target_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.target_2_ = 0;
+}
+inline float SetHeating::target_2() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.target_2)
+  return _internal_target_2();
+}
+inline void SetHeating::set_target_2(float value) {
+  _internal_set_target_2(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.target_2)
+}
+inline float SetHeating::_internal_target_2() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.temp_error_;
+  return _impl_.target_2_;
+}
+inline void SetHeating::_internal_set_target_2(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.target_2_ = value;
+}
+
+// float temp_error_0 = 4 [(.buf.validate.field) = {
+inline void SetHeating::clear_temp_error_0() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.temp_error_0_ = 0;
+}
+inline float SetHeating::temp_error_0() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.temp_error_0)
+  return _internal_temp_error_0();
+}
+inline void SetHeating::set_temp_error_0(float value) {
+  _internal_set_temp_error_0(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.temp_error_0)
+}
+inline float SetHeating::_internal_temp_error_0() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.temp_error_0_;
+}
+inline void SetHeating::_internal_set_temp_error_0(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.temp_error_0_ = value;
+}
+
+// float temp_error_1 = 5 [(.buf.validate.field) = {
+inline void SetHeating::clear_temp_error_1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.temp_error_1_ = 0;
+}
+inline float SetHeating::temp_error_1() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.temp_error_1)
+  return _internal_temp_error_1();
+}
+inline void SetHeating::set_temp_error_1(float value) {
+  _internal_set_temp_error_1(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.temp_error_1)
+}
+inline float SetHeating::_internal_temp_error_1() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.temp_error_1_;
+}
+inline void SetHeating::_internal_set_temp_error_1(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.temp_error_1_ = value;
+}
+
+// float temp_error_2 = 6 [(.buf.validate.field) = {
+inline void SetHeating::clear_temp_error_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.temp_error_2_ = 0;
+}
+inline float SetHeating::temp_error_2() const {
+  // @@protoc_insertion_point(field_get:cmd.Heater.SetHeating.temp_error_2)
+  return _internal_temp_error_2();
+}
+inline void SetHeating::set_temp_error_2(float value) {
+  _internal_set_temp_error_2(value);
+  // @@protoc_insertion_point(field_set:cmd.Heater.SetHeating.temp_error_2)
+}
+inline float SetHeating::_internal_temp_error_2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.temp_error_2_;
+}
+inline void SetHeating::_internal_set_temp_error_2(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.temp_error_2_ = value;
 }
 
 // -------------------------------------------------------------------

@@ -22,10 +22,14 @@ typedef struct _cmd_Heater_Stop {
 
 /* SetHeating configures heating targets for all channels */
 typedef struct _cmd_Heater_SetHeating {
-    /* Target power values per channel in watts (3 channels) */
-    pb_callback_t targets;
-    /* Temperature error/tolerance per channel in Celsius (3 channels) */
-    pb_callback_t temp_error;
+    /* Target power values per channel in watts */
+    float target_0;
+    float target_1;
+    float target_2;
+    /* Temperature error/tolerance per channel in Celsius */
+    float temp_error_0;
+    float temp_error_1;
+    float temp_error_2;
 } cmd_Heater_SetHeating;
 
 /* GetStatus requests current heater status */
@@ -52,17 +56,21 @@ extern "C" {
 #define cmd_Heater_Root_init_default             {0, {cmd_Heater_Start_init_default}}
 #define cmd_Heater_Start_init_default            {0}
 #define cmd_Heater_Stop_init_default             {0}
-#define cmd_Heater_SetHeating_init_default       {{{NULL}, NULL}, {{NULL}, NULL}}
+#define cmd_Heater_SetHeating_init_default       {0, 0, 0, 0, 0, 0}
 #define cmd_Heater_GetStatus_init_default        {0}
 #define cmd_Heater_Root_init_zero                {0, {cmd_Heater_Start_init_zero}}
 #define cmd_Heater_Start_init_zero               {0}
 #define cmd_Heater_Stop_init_zero                {0}
-#define cmd_Heater_SetHeating_init_zero          {{{NULL}, NULL}, {{NULL}, NULL}}
+#define cmd_Heater_SetHeating_init_zero          {0, 0, 0, 0, 0, 0}
 #define cmd_Heater_GetStatus_init_zero           {0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define cmd_Heater_SetHeating_targets_tag        1
-#define cmd_Heater_SetHeating_temp_error_tag     2
+#define cmd_Heater_SetHeating_target_0_tag       1
+#define cmd_Heater_SetHeating_target_1_tag       2
+#define cmd_Heater_SetHeating_target_2_tag       3
+#define cmd_Heater_SetHeating_temp_error_0_tag   4
+#define cmd_Heater_SetHeating_temp_error_1_tag   5
+#define cmd_Heater_SetHeating_temp_error_2_tag   6
 #define cmd_Heater_Root_start_tag                1
 #define cmd_Heater_Root_stop_tag                 2
 #define cmd_Heater_Root_set_heating_tag          3
@@ -92,9 +100,13 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_status,cmd.get_status),   4)
 #define cmd_Heater_Stop_DEFAULT NULL
 
 #define cmd_Heater_SetHeating_FIELDLIST(X, a) \
-X(a, CALLBACK, REPEATED, FLOAT,    targets,           1) \
-X(a, CALLBACK, REPEATED, FLOAT,    temp_error,        2)
-#define cmd_Heater_SetHeating_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, FLOAT,    target_0,          1) \
+X(a, STATIC,   SINGULAR, FLOAT,    target_1,          2) \
+X(a, STATIC,   SINGULAR, FLOAT,    target_2,          3) \
+X(a, STATIC,   SINGULAR, FLOAT,    temp_error_0,      4) \
+X(a, STATIC,   SINGULAR, FLOAT,    temp_error_1,      5) \
+X(a, STATIC,   SINGULAR, FLOAT,    temp_error_2,      6)
+#define cmd_Heater_SetHeating_CALLBACK NULL
 #define cmd_Heater_SetHeating_DEFAULT NULL
 
 #define cmd_Heater_GetStatus_FIELDLIST(X, a) \
@@ -116,9 +128,10 @@ extern const pb_msgdesc_t cmd_Heater_GetStatus_msg;
 #define cmd_Heater_GetStatus_fields &cmd_Heater_GetStatus_msg
 
 /* Maximum encoded size of messages (where known) */
-/* cmd_Heater_Root_size depends on runtime parameters */
-/* cmd_Heater_SetHeating_size depends on runtime parameters */
+#define CMD_HEATER_JON_SHARED_CMD_HEATER_PB_H_MAX_SIZE cmd_Heater_Root_size
 #define cmd_Heater_GetStatus_size                0
+#define cmd_Heater_Root_size                     32
+#define cmd_Heater_SetHeating_size               30
 #define cmd_Heater_Start_size                    0
 #define cmd_Heater_Stop_size                     0
 

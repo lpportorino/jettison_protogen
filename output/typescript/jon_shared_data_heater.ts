@@ -21,7 +21,9 @@ export interface JonGuiDataHeater {
   busVoltageV: number;
   currentA: number;
   powerW: number;
-  channels: JonGuiDataHeaterChannelStatus[];
+  channel0: JonGuiDataHeaterChannelStatus | undefined;
+  channel1: JonGuiDataHeaterChannelStatus | undefined;
+  channel2: JonGuiDataHeaterChannelStatus | undefined;
 }
 
 function createBaseJonGuiDataHeaterChannelStatus(): JonGuiDataHeaterChannelStatus {
@@ -143,7 +145,7 @@ export const JonGuiDataHeaterChannelStatus: MessageFns<JonGuiDataHeaterChannelSt
 };
 
 function createBaseJonGuiDataHeater(): JonGuiDataHeater {
-  return { busVoltageV: 0, currentA: 0, powerW: 0, channels: [] };
+  return { busVoltageV: 0, currentA: 0, powerW: 0, channel0: undefined, channel1: undefined, channel2: undefined };
 }
 
 export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
@@ -157,8 +159,14 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
     if (message.powerW !== 0) {
       writer.uint32(29).float(message.powerW);
     }
-    for (const v of message.channels) {
-      JonGuiDataHeaterChannelStatus.encode(v!, writer.uint32(34).fork()).join();
+    if (message.channel0 !== undefined) {
+      JonGuiDataHeaterChannelStatus.encode(message.channel0, writer.uint32(34).fork()).join();
+    }
+    if (message.channel1 !== undefined) {
+      JonGuiDataHeaterChannelStatus.encode(message.channel1, writer.uint32(42).fork()).join();
+    }
+    if (message.channel2 !== undefined) {
+      JonGuiDataHeaterChannelStatus.encode(message.channel2, writer.uint32(50).fork()).join();
     }
     return writer;
   },
@@ -199,7 +207,23 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
             break;
           }
 
-          message.channels.push(JonGuiDataHeaterChannelStatus.decode(reader, reader.uint32()));
+          message.channel0 = JonGuiDataHeaterChannelStatus.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.channel1 = JonGuiDataHeaterChannelStatus.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.channel2 = JonGuiDataHeaterChannelStatus.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -228,9 +252,21 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
         : isSet(object.power_W)
         ? globalThis.Number(object.power_W)
         : 0,
-      channels: globalThis.Array.isArray(object?.channels)
-        ? object.channels.map((e: any) => JonGuiDataHeaterChannelStatus.fromJSON(e))
-        : [],
+      channel0: isSet(object.channel0)
+        ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel0)
+        : isSet(object.channel_0)
+        ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel_0)
+        : undefined,
+      channel1: isSet(object.channel1)
+        ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel1)
+        : isSet(object.channel_1)
+        ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel_1)
+        : undefined,
+      channel2: isSet(object.channel2)
+        ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel2)
+        : isSet(object.channel_2)
+        ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel_2)
+        : undefined,
     };
   },
 
@@ -245,8 +281,14 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
     if (message.powerW !== 0) {
       obj.powerW = message.powerW;
     }
-    if (message.channels?.length) {
-      obj.channels = message.channels.map((e) => JonGuiDataHeaterChannelStatus.toJSON(e));
+    if (message.channel0 !== undefined) {
+      obj.channel0 = JonGuiDataHeaterChannelStatus.toJSON(message.channel0);
+    }
+    if (message.channel1 !== undefined) {
+      obj.channel1 = JonGuiDataHeaterChannelStatus.toJSON(message.channel1);
+    }
+    if (message.channel2 !== undefined) {
+      obj.channel2 = JonGuiDataHeaterChannelStatus.toJSON(message.channel2);
     }
     return obj;
   },
@@ -259,7 +301,15 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
     message.busVoltageV = object.busVoltageV ?? 0;
     message.currentA = object.currentA ?? 0;
     message.powerW = object.powerW ?? 0;
-    message.channels = object.channels?.map((e) => JonGuiDataHeaterChannelStatus.fromPartial(e)) || [];
+    message.channel0 = (object.channel0 !== undefined && object.channel0 !== null)
+      ? JonGuiDataHeaterChannelStatus.fromPartial(object.channel0)
+      : undefined;
+    message.channel1 = (object.channel1 !== undefined && object.channel1 !== null)
+      ? JonGuiDataHeaterChannelStatus.fromPartial(object.channel1)
+      : undefined;
+    message.channel2 = (object.channel2 !== undefined && object.channel2 !== null)
+      ? JonGuiDataHeaterChannelStatus.fromPartial(object.channel2)
+      : undefined;
     return message;
   },
 };

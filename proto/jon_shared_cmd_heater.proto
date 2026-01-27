@@ -22,28 +22,14 @@ message Stop {}
 
 // SetHeating configures heating targets for all channels
 message SetHeating {
-  // Target power values per channel in watts (3 channels)
-  repeated float targets = 1 [(buf.validate.field).repeated = {
-    min_items: 3,
-    max_items: 3,
-    items: {
-      float: {
-        gte: 0,
-        lte: 60
-      }
-    }
-  }];
-  // Temperature error/tolerance per channel in Celsius (3 channels)
-  repeated float temp_error = 2 [(buf.validate.field).repeated = {
-    min_items: 3,
-    max_items: 3,
-    items: {
-      float: {
-        gte: 0,
-        lte: 40
-      }
-    }
-  }];
+  // Target power values per channel in watts
+  float target_0 = 1 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  float target_1 = 2 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  float target_2 = 3 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  // Temperature error/tolerance per channel in Celsius
+  float temp_error_0 = 4 [(buf.validate.field).float = {gte: 0, lte: 40}];
+  float temp_error_1 = 5 [(buf.validate.field).float = {gte: 0, lte: 40}];
+  float temp_error_2 = 6 [(buf.validate.field).float = {gte: 0, lte: 40}];
 }
 
 // GetStatus requests current heater status

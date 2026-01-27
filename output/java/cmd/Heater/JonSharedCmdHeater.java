@@ -2088,61 +2088,47 @@ public final class JonSharedCmdHeater {
 
     /**
      * <pre>
-     * Target power values per channel in watts (3 channels)
+     * Target power values per channel in watts
      * </pre>
      *
-     * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-     * @return A list containing the targets.
+     * <code>float target_0 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The target0.
      */
-    java.util.List<java.lang.Float> getTargetsList();
+    float getTarget0();
+
     /**
-     * <pre>
-     * Target power values per channel in watts (3 channels)
-     * </pre>
-     *
-     * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The count of targets.
+     * <code>float target_1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The target1.
      */
-    int getTargetsCount();
+    float getTarget1();
+
     /**
-     * <pre>
-     * Target power values per channel in watts (3 channels)
-     * </pre>
-     *
-     * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-     * @param index The index of the element to return.
-     * @return The targets at the given index.
+     * <code>float target_2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The target2.
      */
-    float getTargets(int index);
+    float getTarget2();
 
     /**
      * <pre>
-     * Temperature error/tolerance per channel in Celsius (3 channels)
+     * Temperature error/tolerance per channel in Celsius
      * </pre>
      *
-     * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-     * @return A list containing the tempError.
+     * <code>float temp_error_0 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The tempError0.
      */
-    java.util.List<java.lang.Float> getTempErrorList();
+    float getTempError0();
+
     /**
-     * <pre>
-     * Temperature error/tolerance per channel in Celsius (3 channels)
-     * </pre>
-     *
-     * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The count of tempError.
+     * <code>float temp_error_1 = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The tempError1.
      */
-    int getTempErrorCount();
+    float getTempError1();
+
     /**
-     * <pre>
-     * Temperature error/tolerance per channel in Celsius (3 channels)
-     * </pre>
-     *
-     * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-     * @param index The index of the element to return.
-     * @return The tempError at the given index.
+     * <code>float temp_error_2 = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The tempError2.
      */
-    float getTempError(int index);
+    float getTempError2();
   }
   /**
    * <pre>
@@ -2170,8 +2156,6 @@ public final class JonSharedCmdHeater {
       super(builder);
     }
     private SetHeating() {
-      targets_ = emptyFloatList();
-      tempError_ = emptyFloatList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -2187,89 +2171,79 @@ public final class JonSharedCmdHeater {
               cmd.Heater.JonSharedCmdHeater.SetHeating.class, cmd.Heater.JonSharedCmdHeater.SetHeating.Builder.class);
     }
 
-    public static final int TARGETS_FIELD_NUMBER = 1;
-    @SuppressWarnings("serial")
-    private com.google.protobuf.Internal.FloatList targets_ =
-        emptyFloatList();
+    public static final int TARGET_0_FIELD_NUMBER = 1;
+    private float target0_ = 0F;
     /**
      * <pre>
-     * Target power values per channel in watts (3 channels)
+     * Target power values per channel in watts
      * </pre>
      *
-     * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-     * @return A list containing the targets.
+     * <code>float target_0 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The target0.
      */
     @java.lang.Override
-    public java.util.List<java.lang.Float>
-        getTargetsList() {
-      return targets_;
+    public float getTarget0() {
+      return target0_;
     }
-    /**
-     * <pre>
-     * Target power values per channel in watts (3 channels)
-     * </pre>
-     *
-     * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-     * @return The count of targets.
-     */
-    public int getTargetsCount() {
-      return targets_.size();
-    }
-    /**
-     * <pre>
-     * Target power values per channel in watts (3 channels)
-     * </pre>
-     *
-     * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-     * @param index The index of the element to return.
-     * @return The targets at the given index.
-     */
-    public float getTargets(int index) {
-      return targets_.getFloat(index);
-    }
-    private int targetsMemoizedSerializedSize = -1;
 
-    public static final int TEMP_ERROR_FIELD_NUMBER = 2;
-    @SuppressWarnings("serial")
-    private com.google.protobuf.Internal.FloatList tempError_ =
-        emptyFloatList();
+    public static final int TARGET_1_FIELD_NUMBER = 2;
+    private float target1_ = 0F;
     /**
-     * <pre>
-     * Temperature error/tolerance per channel in Celsius (3 channels)
-     * </pre>
-     *
-     * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-     * @return A list containing the tempError.
+     * <code>float target_1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The target1.
      */
     @java.lang.Override
-    public java.util.List<java.lang.Float>
-        getTempErrorList() {
-      return tempError_;
+    public float getTarget1() {
+      return target1_;
     }
+
+    public static final int TARGET_2_FIELD_NUMBER = 3;
+    private float target2_ = 0F;
+    /**
+     * <code>float target_2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The target2.
+     */
+    @java.lang.Override
+    public float getTarget2() {
+      return target2_;
+    }
+
+    public static final int TEMP_ERROR_0_FIELD_NUMBER = 4;
+    private float tempError0_ = 0F;
     /**
      * <pre>
-     * Temperature error/tolerance per channel in Celsius (3 channels)
+     * Temperature error/tolerance per channel in Celsius
      * </pre>
      *
-     * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-     * @return The count of tempError.
+     * <code>float temp_error_0 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The tempError0.
      */
-    public int getTempErrorCount() {
-      return tempError_.size();
+    @java.lang.Override
+    public float getTempError0() {
+      return tempError0_;
     }
+
+    public static final int TEMP_ERROR_1_FIELD_NUMBER = 5;
+    private float tempError1_ = 0F;
     /**
-     * <pre>
-     * Temperature error/tolerance per channel in Celsius (3 channels)
-     * </pre>
-     *
-     * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-     * @param index The index of the element to return.
-     * @return The tempError at the given index.
+     * <code>float temp_error_1 = 5 [(.buf.validate.field) = { ... }</code>
+     * @return The tempError1.
      */
-    public float getTempError(int index) {
-      return tempError_.getFloat(index);
+    @java.lang.Override
+    public float getTempError1() {
+      return tempError1_;
     }
-    private int tempErrorMemoizedSerializedSize = -1;
+
+    public static final int TEMP_ERROR_2_FIELD_NUMBER = 6;
+    private float tempError2_ = 0F;
+    /**
+     * <code>float temp_error_2 = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The tempError2.
+     */
+    @java.lang.Override
+    public float getTempError2() {
+      return tempError2_;
+    }
 
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
@@ -2285,20 +2259,23 @@ public final class JonSharedCmdHeater {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
-      if (getTargetsList().size() > 0) {
-        output.writeUInt32NoTag(10);
-        output.writeUInt32NoTag(targetsMemoizedSerializedSize);
+      if (java.lang.Float.floatToRawIntBits(target0_) != 0) {
+        output.writeFloat(1, target0_);
       }
-      for (int i = 0; i < targets_.size(); i++) {
-        output.writeFloatNoTag(targets_.getFloat(i));
+      if (java.lang.Float.floatToRawIntBits(target1_) != 0) {
+        output.writeFloat(2, target1_);
       }
-      if (getTempErrorList().size() > 0) {
-        output.writeUInt32NoTag(18);
-        output.writeUInt32NoTag(tempErrorMemoizedSerializedSize);
+      if (java.lang.Float.floatToRawIntBits(target2_) != 0) {
+        output.writeFloat(3, target2_);
       }
-      for (int i = 0; i < tempError_.size(); i++) {
-        output.writeFloatNoTag(tempError_.getFloat(i));
+      if (java.lang.Float.floatToRawIntBits(tempError0_) != 0) {
+        output.writeFloat(4, tempError0_);
+      }
+      if (java.lang.Float.floatToRawIntBits(tempError1_) != 0) {
+        output.writeFloat(5, tempError1_);
+      }
+      if (java.lang.Float.floatToRawIntBits(tempError2_) != 0) {
+        output.writeFloat(6, tempError2_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2309,27 +2286,29 @@ public final class JonSharedCmdHeater {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        dataSize = 4 * getTargetsList().size();
-        size += dataSize;
-        if (!getTargetsList().isEmpty()) {
-          size += 1;
-          size += com.google.protobuf.CodedOutputStream
-              .computeInt32SizeNoTag(dataSize);
-        }
-        targetsMemoizedSerializedSize = dataSize;
+      if (java.lang.Float.floatToRawIntBits(target0_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, target0_);
       }
-      {
-        int dataSize = 0;
-        dataSize = 4 * getTempErrorList().size();
-        size += dataSize;
-        if (!getTempErrorList().isEmpty()) {
-          size += 1;
-          size += com.google.protobuf.CodedOutputStream
-              .computeInt32SizeNoTag(dataSize);
-        }
-        tempErrorMemoizedSerializedSize = dataSize;
+      if (java.lang.Float.floatToRawIntBits(target1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, target1_);
+      }
+      if (java.lang.Float.floatToRawIntBits(target2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(3, target2_);
+      }
+      if (java.lang.Float.floatToRawIntBits(tempError0_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, tempError0_);
+      }
+      if (java.lang.Float.floatToRawIntBits(tempError1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, tempError1_);
+      }
+      if (java.lang.Float.floatToRawIntBits(tempError2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(6, tempError2_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -2346,10 +2325,24 @@ public final class JonSharedCmdHeater {
       }
       cmd.Heater.JonSharedCmdHeater.SetHeating other = (cmd.Heater.JonSharedCmdHeater.SetHeating) obj;
 
-      if (!getTargetsList()
-          .equals(other.getTargetsList())) return false;
-      if (!getTempErrorList()
-          .equals(other.getTempErrorList())) return false;
+      if (java.lang.Float.floatToIntBits(getTarget0())
+          != java.lang.Float.floatToIntBits(
+              other.getTarget0())) return false;
+      if (java.lang.Float.floatToIntBits(getTarget1())
+          != java.lang.Float.floatToIntBits(
+              other.getTarget1())) return false;
+      if (java.lang.Float.floatToIntBits(getTarget2())
+          != java.lang.Float.floatToIntBits(
+              other.getTarget2())) return false;
+      if (java.lang.Float.floatToIntBits(getTempError0())
+          != java.lang.Float.floatToIntBits(
+              other.getTempError0())) return false;
+      if (java.lang.Float.floatToIntBits(getTempError1())
+          != java.lang.Float.floatToIntBits(
+              other.getTempError1())) return false;
+      if (java.lang.Float.floatToIntBits(getTempError2())
+          != java.lang.Float.floatToIntBits(
+              other.getTempError2())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -2361,14 +2354,24 @@ public final class JonSharedCmdHeater {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (getTargetsCount() > 0) {
-        hash = (37 * hash) + TARGETS_FIELD_NUMBER;
-        hash = (53 * hash) + getTargetsList().hashCode();
-      }
-      if (getTempErrorCount() > 0) {
-        hash = (37 * hash) + TEMP_ERROR_FIELD_NUMBER;
-        hash = (53 * hash) + getTempErrorList().hashCode();
-      }
+      hash = (37 * hash) + TARGET_0_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTarget0());
+      hash = (37 * hash) + TARGET_1_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTarget1());
+      hash = (37 * hash) + TARGET_2_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTarget2());
+      hash = (37 * hash) + TEMP_ERROR_0_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTempError0());
+      hash = (37 * hash) + TEMP_ERROR_1_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTempError1());
+      hash = (37 * hash) + TEMP_ERROR_2_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTempError2());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2504,8 +2507,12 @@ public final class JonSharedCmdHeater {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        targets_ = emptyFloatList();
-        tempError_ = emptyFloatList();
+        target0_ = 0F;
+        target1_ = 0F;
+        target2_ = 0F;
+        tempError0_ = 0F;
+        tempError1_ = 0F;
+        tempError2_ = 0F;
         return this;
       }
 
@@ -2540,12 +2547,22 @@ public final class JonSharedCmdHeater {
       private void buildPartial0(cmd.Heater.JonSharedCmdHeater.SetHeating result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          targets_.makeImmutable();
-          result.targets_ = targets_;
+          result.target0_ = target0_;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          tempError_.makeImmutable();
-          result.tempError_ = tempError_;
+          result.target1_ = target1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.target2_ = target2_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.tempError0_ = tempError0_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.tempError1_ = tempError1_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.tempError2_ = tempError2_;
         }
       }
 
@@ -2561,27 +2578,23 @@ public final class JonSharedCmdHeater {
 
       public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.SetHeating other) {
         if (other == cmd.Heater.JonSharedCmdHeater.SetHeating.getDefaultInstance()) return this;
-        if (!other.targets_.isEmpty()) {
-          if (targets_.isEmpty()) {
-            targets_ = other.targets_;
-            targets_.makeImmutable();
-            bitField0_ |= 0x00000001;
-          } else {
-            ensureTargetsIsMutable();
-            targets_.addAll(other.targets_);
-          }
-          onChanged();
+        if (other.getTarget0() != 0F) {
+          setTarget0(other.getTarget0());
         }
-        if (!other.tempError_.isEmpty()) {
-          if (tempError_.isEmpty()) {
-            tempError_ = other.tempError_;
-            tempError_.makeImmutable();
-            bitField0_ |= 0x00000002;
-          } else {
-            ensureTempErrorIsMutable();
-            tempError_.addAll(other.tempError_);
-          }
-          onChanged();
+        if (other.getTarget1() != 0F) {
+          setTarget1(other.getTarget1());
+        }
+        if (other.getTarget2() != 0F) {
+          setTarget2(other.getTarget2());
+        }
+        if (other.getTempError0() != 0F) {
+          setTempError0(other.getTempError0());
+        }
+        if (other.getTempError1() != 0F) {
+          setTempError1(other.getTempError1());
+        }
+        if (other.getTempError2() != 0F) {
+          setTempError2(other.getTempError2());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -2610,39 +2623,35 @@ public final class JonSharedCmdHeater {
                 done = true;
                 break;
               case 13: {
-                float v = input.readFloat();
-                ensureTargetsIsMutable();
-                targets_.addFloat(v);
+                target0_ = input.readFloat();
+                bitField0_ |= 0x00000001;
                 break;
               } // case 13
-              case 10: {
-                int length = input.readRawVarint32();
-                int limit = input.pushLimit(length);
-                int alloc = length > 4096 ? 4096 : length;
-                ensureTargetsIsMutable(alloc / 4);
-                while (input.getBytesUntilLimit() > 0) {
-                  targets_.addFloat(input.readFloat());
-                }
-                input.popLimit(limit);
-                break;
-              } // case 10
               case 21: {
-                float v = input.readFloat();
-                ensureTempErrorIsMutable();
-                tempError_.addFloat(v);
+                target1_ = input.readFloat();
+                bitField0_ |= 0x00000002;
                 break;
               } // case 21
-              case 18: {
-                int length = input.readRawVarint32();
-                int limit = input.pushLimit(length);
-                int alloc = length > 4096 ? 4096 : length;
-                ensureTempErrorIsMutable(alloc / 4);
-                while (input.getBytesUntilLimit() > 0) {
-                  tempError_.addFloat(input.readFloat());
-                }
-                input.popLimit(limit);
+              case 29: {
+                target2_ = input.readFloat();
+                bitField0_ |= 0x00000004;
                 break;
-              } // case 18
+              } // case 29
+              case 37: {
+                tempError0_ = input.readFloat();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 37
+              case 45: {
+                tempError1_ = input.readFloat();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 45
+              case 53: {
+                tempError2_ = input.readFloat();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 53
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2660,238 +2669,218 @@ public final class JonSharedCmdHeater {
       }
       private int bitField0_;
 
-      private com.google.protobuf.Internal.FloatList targets_ = emptyFloatList();
-      private void ensureTargetsIsMutable() {
-        if (!targets_.isModifiable()) {
-          targets_ = makeMutableCopy(targets_);
-        }
-        bitField0_ |= 0x00000001;
-      }
-      private void ensureTargetsIsMutable(int capacity) {
-        if (!targets_.isModifiable()) {
-          targets_ = makeMutableCopy(targets_, capacity);
-        }
-        bitField0_ |= 0x00000001;
-      }
+      private float target0_ ;
       /**
        * <pre>
-       * Target power values per channel in watts (3 channels)
+       * Target power values per channel in watts
        * </pre>
        *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @return A list containing the targets.
+       * <code>float target_0 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The target0.
        */
-      public java.util.List<java.lang.Float>
-          getTargetsList() {
-        targets_.makeImmutable();
-        return targets_;
+      @java.lang.Override
+      public float getTarget0() {
+        return target0_;
       }
       /**
        * <pre>
-       * Target power values per channel in watts (3 channels)
+       * Target power values per channel in watts
        * </pre>
        *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @return The count of targets.
-       */
-      public int getTargetsCount() {
-        return targets_.size();
-      }
-      /**
-       * <pre>
-       * Target power values per channel in watts (3 channels)
-       * </pre>
-       *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @param index The index of the element to return.
-       * @return The targets at the given index.
-       */
-      public float getTargets(int index) {
-        return targets_.getFloat(index);
-      }
-      /**
-       * <pre>
-       * Target power values per channel in watts (3 channels)
-       * </pre>
-       *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @param index The index to set the value at.
-       * @param value The targets to set.
+       * <code>float target_0 = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The target0 to set.
        * @return This builder for chaining.
        */
-      public Builder setTargets(
-          int index, float value) {
+      public Builder setTarget0(float value) {
 
-        ensureTargetsIsMutable();
-        targets_.setFloat(index, value);
+        target0_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * Target power values per channel in watts (3 channels)
+       * Target power values per channel in watts
        * </pre>
        *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @param value The targets to add.
+       * <code>float target_0 = 1 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
-      public Builder addTargets(float value) {
-
-        ensureTargetsIsMutable();
-        targets_.addFloat(value);
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Target power values per channel in watts (3 channels)
-       * </pre>
-       *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @param values The targets to add.
-       * @return This builder for chaining.
-       */
-      public Builder addAllTargets(
-          java.lang.Iterable<? extends java.lang.Float> values) {
-        ensureTargetsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, targets_);
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Target power values per channel in watts (3 channels)
-       * </pre>
-       *
-       * <code>repeated float targets = 1 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearTargets() {
-        targets_ = emptyFloatList();
+      public Builder clearTarget0() {
         bitField0_ = (bitField0_ & ~0x00000001);
+        target0_ = 0F;
         onChanged();
         return this;
       }
 
-      private com.google.protobuf.Internal.FloatList tempError_ = emptyFloatList();
-      private void ensureTempErrorIsMutable() {
-        if (!tempError_.isModifiable()) {
-          tempError_ = makeMutableCopy(tempError_);
-        }
-        bitField0_ |= 0x00000002;
-      }
-      private void ensureTempErrorIsMutable(int capacity) {
-        if (!tempError_.isModifiable()) {
-          tempError_ = makeMutableCopy(tempError_, capacity);
-        }
-        bitField0_ |= 0x00000002;
-      }
+      private float target1_ ;
       /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @return A list containing the tempError.
+       * <code>float target_1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The target1.
        */
-      public java.util.List<java.lang.Float>
-          getTempErrorList() {
-        tempError_.makeImmutable();
-        return tempError_;
+      @java.lang.Override
+      public float getTarget1() {
+        return target1_;
       }
       /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @return The count of tempError.
-       */
-      public int getTempErrorCount() {
-        return tempError_.size();
-      }
-      /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @param index The index of the element to return.
-       * @return The tempError at the given index.
-       */
-      public float getTempError(int index) {
-        return tempError_.getFloat(index);
-      }
-      /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @param index The index to set the value at.
-       * @param value The tempError to set.
+       * <code>float target_1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The target1 to set.
        * @return This builder for chaining.
        */
-      public Builder setTempError(
-          int index, float value) {
+      public Builder setTarget1(float value) {
 
-        ensureTempErrorIsMutable();
-        tempError_.setFloat(index, value);
+        target1_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @param value The tempError to add.
+       * <code>float target_1 = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
-      public Builder addTempError(float value) {
-
-        ensureTempErrorIsMutable();
-        tempError_.addFloat(value);
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @param values The tempError to add.
-       * @return This builder for chaining.
-       */
-      public Builder addAllTempError(
-          java.lang.Iterable<? extends java.lang.Float> values) {
-        ensureTempErrorIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, tempError_);
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Temperature error/tolerance per channel in Celsius (3 channels)
-       * </pre>
-       *
-       * <code>repeated float temp_error = 2 [(.buf.validate.field) = { ... }</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearTempError() {
-        tempError_ = emptyFloatList();
+      public Builder clearTarget1() {
         bitField0_ = (bitField0_ & ~0x00000002);
+        target1_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float target2_ ;
+      /**
+       * <code>float target_2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The target2.
+       */
+      @java.lang.Override
+      public float getTarget2() {
+        return target2_;
+      }
+      /**
+       * <code>float target_2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The target2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTarget2(float value) {
+
+        target2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float target_2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTarget2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        target2_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float tempError0_ ;
+      /**
+       * <pre>
+       * Temperature error/tolerance per channel in Celsius
+       * </pre>
+       *
+       * <code>float temp_error_0 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The tempError0.
+       */
+      @java.lang.Override
+      public float getTempError0() {
+        return tempError0_;
+      }
+      /**
+       * <pre>
+       * Temperature error/tolerance per channel in Celsius
+       * </pre>
+       *
+       * <code>float temp_error_0 = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The tempError0 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTempError0(float value) {
+
+        tempError0_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Temperature error/tolerance per channel in Celsius
+       * </pre>
+       *
+       * <code>float temp_error_0 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTempError0() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tempError0_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float tempError1_ ;
+      /**
+       * <code>float temp_error_1 = 5 [(.buf.validate.field) = { ... }</code>
+       * @return The tempError1.
+       */
+      @java.lang.Override
+      public float getTempError1() {
+        return tempError1_;
+      }
+      /**
+       * <code>float temp_error_1 = 5 [(.buf.validate.field) = { ... }</code>
+       * @param value The tempError1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTempError1(float value) {
+
+        tempError1_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float temp_error_1 = 5 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTempError1() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        tempError1_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float tempError2_ ;
+      /**
+       * <code>float temp_error_2 = 6 [(.buf.validate.field) = { ... }</code>
+       * @return The tempError2.
+       */
+      @java.lang.Override
+      public float getTempError2() {
+        return tempError2_;
+      }
+      /**
+       * <code>float temp_error_2 = 6 [(.buf.validate.field) = { ... }</code>
+       * @param value The tempError2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTempError2(float value) {
+
+        tempError2_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float temp_error_2 = 6 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTempError2() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        tempError2_ = 0F;
         onChanged();
         return this;
       }
@@ -3350,12 +3339,16 @@ public final class JonSharedCmdHeater {
       "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea" +
       "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n" +
       "get_status\030\004 \001(\0132\025.cmd.Heater.GetStatusH" +
-      "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"e\n\nSetH" +
-      "eating\022)\n\007targets\030\001 \003(\002B\030\272H\025\222\001\022\010\003\020\003\"\014\n\n\035" +
-      "\000\000pB-\000\000\000\000\022,\n\ntemp_error\030\002 \003(\002B\030\272H\025\222\001\022\010\003\020" +
-      "\003\"\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatusBMZKgit-code" +
-      "commit.eu-central-1.amazonaws.com/v1/rep" +
-      "os/jettison/jonp/cmd/heaterb\006proto3"
+      "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSet" +
+      "Heating\022!\n\010target_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000" +
+      "\000\000\022!\n\010target_1\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n" +
+      "\010target_2\030\003 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp" +
+      "_error_0\030\004 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_" +
+      "error_1\030\005 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_e" +
+      "rror_2\030\006 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStat" +
+      "usBMZKgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/cmd/heate" +
+      "rb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3385,7 +3378,7 @@ public final class JonSharedCmdHeater {
     internal_static_cmd_Heater_SetHeating_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_SetHeating_descriptor,
-        new java.lang.String[] { "Targets", "TempError", });
+        new java.lang.String[] { "Target0", "Target1", "Target2", "TempError0", "TempError1", "TempError2", });
     internal_static_cmd_Heater_GetStatus_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_cmd_Heater_GetStatus_fieldAccessorTable = new

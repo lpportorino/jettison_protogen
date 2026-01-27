@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1bjon_shared_cmd_heater.proto\x12\ncmd.Heater\"\xaf\x01\n\x04Root\x12\"\n\x05start\x18\x01 \x01(\x0b\x32\x11.cmd.Heater.StartH\x00\x12 \n\x04stop\x18\x02 \x01(\x0b\x32\x10.cmd.Heater.StopH\x00\x12-\n\x0bset_heating\x18\x03 \x01(\x0b\x32\x16.cmd.Heater.SetHeatingH\x00\x12+\n\nget_status\x18\x04 \x01(\x0b\x32\x15.cmd.Heater.GetStatusH\x00\x42\x05\n\x03\x63md\"\x07\n\x05Start\"\x06\n\x04Stop\"1\n\nSetHeating\x12\x0f\n\x07targets\x18\x01 \x03(\x02\x12\x12\n\ntemp_error\x18\x02 \x03(\x02\"\x0b\n\tGetStatusBMZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heaterb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1bjon_shared_cmd_heater.proto\x12\ncmd.Heater\"\xaf\x01\n\x04Root\x12\"\n\x05start\x18\x01 \x01(\x0b\x32\x11.cmd.Heater.StartH\x00\x12 \n\x04stop\x18\x02 \x01(\x0b\x32\x10.cmd.Heater.StopH\x00\x12-\n\x0bset_heating\x18\x03 \x01(\x0b\x32\x16.cmd.Heater.SetHeatingH\x00\x12+\n\nget_status\x18\x04 \x01(\x0b\x32\x15.cmd.Heater.GetStatusH\x00\x42\x05\n\x03\x63md\"\x07\n\x05Start\"\x06\n\x04Stop\"\x84\x01\n\nSetHeating\x12\x10\n\x08target_0\x18\x01 \x01(\x02\x12\x10\n\x08target_1\x18\x02 \x01(\x02\x12\x10\n\x08target_2\x18\x03 \x01(\x02\x12\x14\n\x0ctemp_error_0\x18\x04 \x01(\x02\x12\x14\n\x0ctemp_error_1\x18\x05 \x01(\x02\x12\x14\n\x0ctemp_error_2\x18\x06 \x01(\x02\"\x0b\n\tGetStatusBMZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heaterb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -38,8 +38,8 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_START']._serialized_end=228
   _globals['_STOP']._serialized_start=230
   _globals['_STOP']._serialized_end=236
-  _globals['_SETHEATING']._serialized_start=238
-  _globals['_SETHEATING']._serialized_end=287
-  _globals['_GETSTATUS']._serialized_start=289
-  _globals['_GETSTATUS']._serialized_end=300
+  _globals['_SETHEATING']._serialized_start=239
+  _globals['_SETHEATING']._serialized_end=371
+  _globals['_GETSTATUS']._serialized_start=373
+  _globals['_GETSTATUS']._serialized_end=384
 # @@protoc_insertion_point(module_scope)

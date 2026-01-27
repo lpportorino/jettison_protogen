@@ -25,10 +25,14 @@ export interface Stop {
 
 /** SetHeating configures heating targets for all channels */
 export interface SetHeating {
-  /** Target power values per channel in watts (3 channels) */
-  targets: number[];
-  /** Temperature error/tolerance per channel in Celsius (3 channels) */
-  tempError: number[];
+  /** Target power values per channel in watts */
+  target0: number;
+  target1: number;
+  target2: number;
+  /** Temperature error/tolerance per channel in Celsius */
+  tempError0: number;
+  tempError1: number;
+  tempError2: number;
 }
 
 /** GetStatus requests current heater status */
@@ -242,21 +246,29 @@ export const Stop: MessageFns<Stop> = {
 };
 
 function createBaseSetHeating(): SetHeating {
-  return { targets: [], tempError: [] };
+  return { target0: 0, target1: 0, target2: 0, tempError0: 0, tempError1: 0, tempError2: 0 };
 }
 
 export const SetHeating: MessageFns<SetHeating> = {
   encode(message: SetHeating, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    writer.uint32(10).fork();
-    for (const v of message.targets) {
-      writer.float(v);
+    if (message.target0 !== 0) {
+      writer.uint32(13).float(message.target0);
     }
-    writer.join();
-    writer.uint32(18).fork();
-    for (const v of message.tempError) {
-      writer.float(v);
+    if (message.target1 !== 0) {
+      writer.uint32(21).float(message.target1);
     }
-    writer.join();
+    if (message.target2 !== 0) {
+      writer.uint32(29).float(message.target2);
+    }
+    if (message.tempError0 !== 0) {
+      writer.uint32(37).float(message.tempError0);
+    }
+    if (message.tempError1 !== 0) {
+      writer.uint32(45).float(message.tempError1);
+    }
+    if (message.tempError2 !== 0) {
+      writer.uint32(53).float(message.tempError2);
+    }
     return writer;
   },
 
@@ -268,40 +280,52 @@ export const SetHeating: MessageFns<SetHeating> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag === 13) {
-            message.targets.push(reader.float());
-
-            continue;
+          if (tag !== 13) {
+            break;
           }
 
-          if (tag === 10) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.targets.push(reader.float());
-            }
-
-            continue;
-          }
-
-          break;
+          message.target0 = reader.float();
+          continue;
         }
         case 2: {
-          if (tag === 21) {
-            message.tempError.push(reader.float());
-
-            continue;
+          if (tag !== 21) {
+            break;
           }
 
-          if (tag === 18) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.tempError.push(reader.float());
-            }
-
-            continue;
+          message.target1 = reader.float();
+          continue;
+        }
+        case 3: {
+          if (tag !== 29) {
+            break;
           }
 
-          break;
+          message.target2 = reader.float();
+          continue;
+        }
+        case 4: {
+          if (tag !== 37) {
+            break;
+          }
+
+          message.tempError0 = reader.float();
+          continue;
+        }
+        case 5: {
+          if (tag !== 45) {
+            break;
+          }
+
+          message.tempError1 = reader.float();
+          continue;
+        }
+        case 6: {
+          if (tag !== 53) {
+            break;
+          }
+
+          message.tempError2 = reader.float();
+          continue;
         }
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -314,22 +338,58 @@ export const SetHeating: MessageFns<SetHeating> = {
 
   fromJSON(object: any): SetHeating {
     return {
-      targets: globalThis.Array.isArray(object?.targets) ? object.targets.map((e: any) => globalThis.Number(e)) : [],
-      tempError: globalThis.Array.isArray(object?.tempError)
-        ? object.tempError.map((e: any) => globalThis.Number(e))
-        : globalThis.Array.isArray(object?.temp_error)
-        ? object.temp_error.map((e: any) => globalThis.Number(e))
-        : [],
+      target0: isSet(object.target0)
+        ? globalThis.Number(object.target0)
+        : isSet(object.target_0)
+        ? globalThis.Number(object.target_0)
+        : 0,
+      target1: isSet(object.target1)
+        ? globalThis.Number(object.target1)
+        : isSet(object.target_1)
+        ? globalThis.Number(object.target_1)
+        : 0,
+      target2: isSet(object.target2)
+        ? globalThis.Number(object.target2)
+        : isSet(object.target_2)
+        ? globalThis.Number(object.target_2)
+        : 0,
+      tempError0: isSet(object.tempError0)
+        ? globalThis.Number(object.tempError0)
+        : isSet(object.temp_error_0)
+        ? globalThis.Number(object.temp_error_0)
+        : 0,
+      tempError1: isSet(object.tempError1)
+        ? globalThis.Number(object.tempError1)
+        : isSet(object.temp_error_1)
+        ? globalThis.Number(object.temp_error_1)
+        : 0,
+      tempError2: isSet(object.tempError2)
+        ? globalThis.Number(object.tempError2)
+        : isSet(object.temp_error_2)
+        ? globalThis.Number(object.temp_error_2)
+        : 0,
     };
   },
 
   toJSON(message: SetHeating): unknown {
     const obj: any = {};
-    if (message.targets?.length) {
-      obj.targets = message.targets;
+    if (message.target0 !== 0) {
+      obj.target0 = message.target0;
     }
-    if (message.tempError?.length) {
-      obj.tempError = message.tempError;
+    if (message.target1 !== 0) {
+      obj.target1 = message.target1;
+    }
+    if (message.target2 !== 0) {
+      obj.target2 = message.target2;
+    }
+    if (message.tempError0 !== 0) {
+      obj.tempError0 = message.tempError0;
+    }
+    if (message.tempError1 !== 0) {
+      obj.tempError1 = message.tempError1;
+    }
+    if (message.tempError2 !== 0) {
+      obj.tempError2 = message.tempError2;
     }
     return obj;
   },
@@ -339,8 +399,12 @@ export const SetHeating: MessageFns<SetHeating> = {
   },
   fromPartial<I extends Exact<DeepPartial<SetHeating>, I>>(object: I): SetHeating {
     const message = createBaseSetHeating();
-    message.targets = object.targets?.map((e) => e) || [];
-    message.tempError = object.tempError?.map((e) => e) || [];
+    message.target0 = object.target0 ?? 0;
+    message.target1 = object.target1 ?? 0;
+    message.target2 = object.target2 ?? 0;
+    message.tempError0 = object.tempError0 ?? 0;
+    message.tempError1 = object.tempError1 ?? 0;
+    message.tempError2 = object.tempError2 ?? 0;
     return message;
   },
 };

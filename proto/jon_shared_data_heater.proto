@@ -27,8 +27,7 @@ message JonGuiDataHeater {
   float power_W = 3 [(buf.validate.field).float = {
     gte: 0.0
   }];
-  repeated JonGuiDataHeaterChannelStatus channels = 4 [(buf.validate.field).repeated = {
-    min_items: 3,
-    max_items: 3
-  }];
+  JonGuiDataHeaterChannelStatus channel_0 = 4;
+  JonGuiDataHeaterChannelStatus channel_1 = 5;
+  JonGuiDataHeaterChannelStatus channel_2 = 6;
 }

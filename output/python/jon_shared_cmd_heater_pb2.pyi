@@ -1,7 +1,6 @@
-from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -26,12 +25,20 @@ class Stop(_message.Message):
     def __init__(self) -> None: ...
 
 class SetHeating(_message.Message):
-    __slots__ = ("targets", "temp_error")
-    TARGETS_FIELD_NUMBER: _ClassVar[int]
-    TEMP_ERROR_FIELD_NUMBER: _ClassVar[int]
-    targets: _containers.RepeatedScalarFieldContainer[float]
-    temp_error: _containers.RepeatedScalarFieldContainer[float]
-    def __init__(self, targets: _Optional[_Iterable[float]] = ..., temp_error: _Optional[_Iterable[float]] = ...) -> None: ...
+    __slots__ = ("target_0", "target_1", "target_2", "temp_error_0", "temp_error_1", "temp_error_2")
+    TARGET_0_FIELD_NUMBER: _ClassVar[int]
+    TARGET_1_FIELD_NUMBER: _ClassVar[int]
+    TARGET_2_FIELD_NUMBER: _ClassVar[int]
+    TEMP_ERROR_0_FIELD_NUMBER: _ClassVar[int]
+    TEMP_ERROR_1_FIELD_NUMBER: _ClassVar[int]
+    TEMP_ERROR_2_FIELD_NUMBER: _ClassVar[int]
+    target_0: float
+    target_1: float
+    target_2: float
+    temp_error_0: float
+    temp_error_1: float
+    temp_error_2: float
+    def __init__(self, target_0: _Optional[float] = ..., target_1: _Optional[float] = ..., target_2: _Optional[float] = ..., temp_error_0: _Optional[float] = ..., temp_error_1: _Optional[float] = ..., temp_error_2: _Optional[float] = ...) -> None: ...
 
 class GetStatus(_message.Message):
     __slots__ = ()

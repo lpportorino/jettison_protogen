@@ -203,9 +203,6 @@ extern const pb_msgdesc_t cmd_Frozen_msg;
 #define cmd_Frozen_fields &cmd_Frozen_msg
 
 /* Maximum encoded size of messages (where known) */
-#if defined(cmd_Heater_Root_size)
-union cmd_Root_payload_size_union {char f37[(7 + cmd_Heater_Root_size)]; char f0[116];};
-#endif
 /* cmd_Root_size depends on runtime parameters */
 #define cmd_Frozen_size                          0
 #define cmd_Noop_size                            0

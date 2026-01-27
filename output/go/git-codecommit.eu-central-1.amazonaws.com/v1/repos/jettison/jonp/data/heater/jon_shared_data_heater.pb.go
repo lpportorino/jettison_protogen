@@ -93,11 +93,13 @@ func (x *JonGuiDataHeaterChannelStatus) GetEnabled() bool {
 
 // JonGuiDataHeater contains the complete heater subsystem status
 type JonGuiDataHeater struct {
-	state         protoimpl.MessageState           `protogen:"open.v1"`
-	BusVoltage_V  float32                          `protobuf:"fixed32,1,opt,name=bus_voltage_V,json=busVoltageV,proto3" json:"bus_voltage_V,omitempty"`
-	Current_A     float32                          `protobuf:"fixed32,2,opt,name=current_A,json=currentA,proto3" json:"current_A,omitempty"`
-	Power_W       float32                          `protobuf:"fixed32,3,opt,name=power_W,json=powerW,proto3" json:"power_W,omitempty"`
-	Channels      []*JonGuiDataHeaterChannelStatus `protobuf:"bytes,4,rep,name=channels,proto3" json:"channels,omitempty"`
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	BusVoltage_V  float32                        `protobuf:"fixed32,1,opt,name=bus_voltage_V,json=busVoltageV,proto3" json:"bus_voltage_V,omitempty"`
+	Current_A     float32                        `protobuf:"fixed32,2,opt,name=current_A,json=currentA,proto3" json:"current_A,omitempty"`
+	Power_W       float32                        `protobuf:"fixed32,3,opt,name=power_W,json=powerW,proto3" json:"power_W,omitempty"`
+	Channel_0     *JonGuiDataHeaterChannelStatus `protobuf:"bytes,4,opt,name=channel_0,json=channel0,proto3" json:"channel_0,omitempty"`
+	Channel_1     *JonGuiDataHeaterChannelStatus `protobuf:"bytes,5,opt,name=channel_1,json=channel1,proto3" json:"channel_1,omitempty"`
+	Channel_2     *JonGuiDataHeaterChannelStatus `protobuf:"bytes,6,opt,name=channel_2,json=channel2,proto3" json:"channel_2,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -153,9 +155,23 @@ func (x *JonGuiDataHeater) GetPower_W() float32 {
 	return 0
 }
 
-func (x *JonGuiDataHeater) GetChannels() []*JonGuiDataHeaterChannelStatus {
+func (x *JonGuiDataHeater) GetChannel_0() *JonGuiDataHeaterChannelStatus {
 	if x != nil {
-		return x.Channels
+		return x.Channel_0
+	}
+	return nil
+}
+
+func (x *JonGuiDataHeater) GetChannel_1() *JonGuiDataHeaterChannelStatus {
+	if x != nil {
+		return x.Channel_1
+	}
+	return nil
+}
+
+func (x *JonGuiDataHeater) GetChannel_2() *JonGuiDataHeaterChannelStatus {
+	if x != nil {
+		return x.Channel_2
 	}
 	return nil
 }
@@ -173,7 +189,7 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x10target_voltage_V\x18\x03 \x01(\x02B\n" +
 	"\xbaH\a\n" +
 	"\x05-\x00\x00\x00\x00R\x0etargetVoltageV\x12\x18\n" +
-	"\aenabled\x18\x04 \x01(\bR\aenabled\"\xdc\x01\n" +
+	"\aenabled\x18\x04 \x01(\bR\aenabled\"\xd3\x02\n" +
 	"\x10JonGuiDataHeater\x12.\n" +
 	"\rbus_voltage_V\x18\x01 \x01(\x02B\n" +
 	"\xbaH\a\n" +
@@ -183,9 +199,10 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x05-\x00\x00\x00\x00R\bcurrentA\x12#\n" +
 	"\apower_W\x18\x03 \x01(\x02B\n" +
 	"\xbaH\a\n" +
-	"\x05-\x00\x00\x00\x00R\x06powerW\x12J\n" +
-	"\bchannels\x18\x04 \x03(\v2\".ser.JonGuiDataHeaterChannelStatusB\n" +
-	"\xbaH\a\x92\x01\x04\b\x03\x10\x03R\bchannelsB\x9d\x01\n" +
+	"\x05-\x00\x00\x00\x00R\x06powerW\x12?\n" +
+	"\tchannel_0\x18\x04 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel0\x12?\n" +
+	"\tchannel_1\x18\x05 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel1\x12?\n" +
+	"\tchannel_2\x18\x06 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel2B\x9d\x01\n" +
 	"\acom.serB\x18JonSharedDataHeaterProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heater\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -206,12 +223,14 @@ var file_jon_shared_data_heater_proto_goTypes = []any{
 	(*JonGuiDataHeater)(nil),              // 1: ser.JonGuiDataHeater
 }
 var file_jon_shared_data_heater_proto_depIdxs = []int32{
-	0, // 0: ser.JonGuiDataHeater.channels:type_name -> ser.JonGuiDataHeaterChannelStatus
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: ser.JonGuiDataHeater.channel_0:type_name -> ser.JonGuiDataHeaterChannelStatus
+	0, // 1: ser.JonGuiDataHeater.channel_1:type_name -> ser.JonGuiDataHeaterChannelStatus
+	0, // 2: ser.JonGuiDataHeater.channel_2:type_name -> ser.JonGuiDataHeaterChannelStatus
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_heater_proto_init() }

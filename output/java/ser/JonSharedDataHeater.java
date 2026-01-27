@@ -713,28 +713,49 @@ public final class JonSharedDataHeater {
     float getPowerW();
 
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+     * @return Whether the channel0 field is set.
      */
-    java.util.List<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus> 
-        getChannelsList();
+    boolean hasChannel0();
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+     * @return The channel0.
      */
-    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannels(int index);
+    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel0();
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
      */
-    int getChannelsCount();
+    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel0OrBuilder();
+
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+     * @return Whether the channel1 field is set.
      */
-    java.util.List<? extends ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> 
-        getChannelsOrBuilderList();
+    boolean hasChannel1();
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+     * @return The channel1.
      */
-    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannelsOrBuilder(
-        int index);
+    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel1();
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+     */
+    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel1OrBuilder();
+
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+     * @return Whether the channel2 field is set.
+     */
+    boolean hasChannel2();
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+     * @return The channel2.
+     */
+    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel2();
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+     */
+    ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel2OrBuilder();
   }
   /**
    * <pre>
@@ -762,7 +783,6 @@ public final class JonSharedDataHeater {
       super(builder);
     }
     private JonGuiDataHeater() {
-      channels_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -778,6 +798,7 @@ public final class JonSharedDataHeater {
               ser.JonSharedDataHeater.JonGuiDataHeater.class, ser.JonSharedDataHeater.JonGuiDataHeater.Builder.class);
     }
 
+    private int bitField0_;
     public static final int BUS_VOLTAGE_V_FIELD_NUMBER = 1;
     private float busVoltageV_ = 0F;
     /**
@@ -811,45 +832,82 @@ public final class JonSharedDataHeater {
       return powerW_;
     }
 
-    public static final int CHANNELS_FIELD_NUMBER = 4;
-    @SuppressWarnings("serial")
-    private java.util.List<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus> channels_;
+    public static final int CHANNEL_0_FIELD_NUMBER = 4;
+    private ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus channel0_;
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+     * @return Whether the channel0 field is set.
      */
     @java.lang.Override
-    public java.util.List<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus> getChannelsList() {
-      return channels_;
+    public boolean hasChannel0() {
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+     * @return The channel0.
      */
     @java.lang.Override
-    public java.util.List<? extends ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> 
-        getChannelsOrBuilderList() {
-      return channels_;
+    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel0() {
+      return channel0_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel0_;
     }
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
      */
     @java.lang.Override
-    public int getChannelsCount() {
-      return channels_.size();
+    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel0OrBuilder() {
+      return channel0_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel0_;
+    }
+
+    public static final int CHANNEL_1_FIELD_NUMBER = 5;
+    private ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus channel1_;
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+     * @return Whether the channel1 field is set.
+     */
+    @java.lang.Override
+    public boolean hasChannel1() {
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+     * @return The channel1.
      */
     @java.lang.Override
-    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannels(int index) {
-      return channels_.get(index);
+    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel1() {
+      return channel1_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel1_;
     }
     /**
-     * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
      */
     @java.lang.Override
-    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannelsOrBuilder(
-        int index) {
-      return channels_.get(index);
+    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel1OrBuilder() {
+      return channel1_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel1_;
+    }
+
+    public static final int CHANNEL_2_FIELD_NUMBER = 6;
+    private ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus channel2_;
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+     * @return Whether the channel2 field is set.
+     */
+    @java.lang.Override
+    public boolean hasChannel2() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+     * @return The channel2.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel2() {
+      return channel2_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel2_;
+    }
+    /**
+     * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel2OrBuilder() {
+      return channel2_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel2_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -875,8 +933,14 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToRawIntBits(powerW_) != 0) {
         output.writeFloat(3, powerW_);
       }
-      for (int i = 0; i < channels_.size(); i++) {
-        output.writeMessage(4, channels_.get(i));
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(4, getChannel0());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(5, getChannel1());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(6, getChannel2());
       }
       getUnknownFields().writeTo(output);
     }
@@ -899,9 +963,17 @@ public final class JonSharedDataHeater {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(3, powerW_);
       }
-      for (int i = 0; i < channels_.size(); i++) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, channels_.get(i));
+          .computeMessageSize(4, getChannel0());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getChannel1());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, getChannel2());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -927,8 +999,21 @@ public final class JonSharedDataHeater {
       if (java.lang.Float.floatToIntBits(getPowerW())
           != java.lang.Float.floatToIntBits(
               other.getPowerW())) return false;
-      if (!getChannelsList()
-          .equals(other.getChannelsList())) return false;
+      if (hasChannel0() != other.hasChannel0()) return false;
+      if (hasChannel0()) {
+        if (!getChannel0()
+            .equals(other.getChannel0())) return false;
+      }
+      if (hasChannel1() != other.hasChannel1()) return false;
+      if (hasChannel1()) {
+        if (!getChannel1()
+            .equals(other.getChannel1())) return false;
+      }
+      if (hasChannel2() != other.hasChannel2()) return false;
+      if (hasChannel2()) {
+        if (!getChannel2()
+            .equals(other.getChannel2())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -949,9 +1034,17 @@ public final class JonSharedDataHeater {
       hash = (37 * hash) + POWER_W_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getPowerW());
-      if (getChannelsCount() > 0) {
-        hash = (37 * hash) + CHANNELS_FIELD_NUMBER;
-        hash = (53 * hash) + getChannelsList().hashCode();
+      if (hasChannel0()) {
+        hash = (37 * hash) + CHANNEL_0_FIELD_NUMBER;
+        hash = (53 * hash) + getChannel0().hashCode();
+      }
+      if (hasChannel1()) {
+        hash = (37 * hash) + CHANNEL_1_FIELD_NUMBER;
+        hash = (53 * hash) + getChannel1().hashCode();
+      }
+      if (hasChannel2()) {
+        hash = (37 * hash) + CHANNEL_2_FIELD_NUMBER;
+        hash = (53 * hash) + getChannel2().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1076,13 +1169,21 @@ public final class JonSharedDataHeater {
 
       // Construct using ser.JonSharedDataHeater.JonGuiDataHeater.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessage.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getChannel0FieldBuilder();
+          getChannel1FieldBuilder();
+          getChannel2FieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -1091,13 +1192,21 @@ public final class JonSharedDataHeater {
         busVoltageV_ = 0F;
         currentA_ = 0F;
         powerW_ = 0F;
-        if (channelsBuilder_ == null) {
-          channels_ = java.util.Collections.emptyList();
-        } else {
-          channels_ = null;
-          channelsBuilder_.clear();
+        channel0_ = null;
+        if (channel0Builder_ != null) {
+          channel0Builder_.dispose();
+          channel0Builder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        channel1_ = null;
+        if (channel1Builder_ != null) {
+          channel1Builder_.dispose();
+          channel1Builder_ = null;
+        }
+        channel2_ = null;
+        if (channel2Builder_ != null) {
+          channel2Builder_.dispose();
+          channel2Builder_ = null;
+        }
         return this;
       }
 
@@ -1124,22 +1233,9 @@ public final class JonSharedDataHeater {
       @java.lang.Override
       public ser.JonSharedDataHeater.JonGuiDataHeater buildPartial() {
         ser.JonSharedDataHeater.JonGuiDataHeater result = new ser.JonSharedDataHeater.JonGuiDataHeater(this);
-        buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
-      }
-
-      private void buildPartialRepeatedFields(ser.JonSharedDataHeater.JonGuiDataHeater result) {
-        if (channelsBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0)) {
-            channels_ = java.util.Collections.unmodifiableList(channels_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.channels_ = channels_;
-        } else {
-          result.channels_ = channelsBuilder_.build();
-        }
       }
 
       private void buildPartial0(ser.JonSharedDataHeater.JonGuiDataHeater result) {
@@ -1153,6 +1249,26 @@ public final class JonSharedDataHeater {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.powerW_ = powerW_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.channel0_ = channel0Builder_ == null
+              ? channel0_
+              : channel0Builder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.channel1_ = channel1Builder_ == null
+              ? channel1_
+              : channel1Builder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.channel2_ = channel2Builder_ == null
+              ? channel2_
+              : channel2Builder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -1176,31 +1292,14 @@ public final class JonSharedDataHeater {
         if (other.getPowerW() != 0F) {
           setPowerW(other.getPowerW());
         }
-        if (channelsBuilder_ == null) {
-          if (!other.channels_.isEmpty()) {
-            if (channels_.isEmpty()) {
-              channels_ = other.channels_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureChannelsIsMutable();
-              channels_.addAll(other.channels_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.channels_.isEmpty()) {
-            if (channelsBuilder_.isEmpty()) {
-              channelsBuilder_.dispose();
-              channelsBuilder_ = null;
-              channels_ = other.channels_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              channelsBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getChannelsFieldBuilder() : null;
-            } else {
-              channelsBuilder_.addAllMessages(other.channels_);
-            }
-          }
+        if (other.hasChannel0()) {
+          mergeChannel0(other.getChannel0());
+        }
+        if (other.hasChannel1()) {
+          mergeChannel1(other.getChannel1());
+        }
+        if (other.hasChannel2()) {
+          mergeChannel2(other.getChannel2());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1244,18 +1343,26 @@ public final class JonSharedDataHeater {
                 break;
               } // case 29
               case 34: {
-                ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus m =
-                    input.readMessage(
-                        ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.parser(),
-                        extensionRegistry);
-                if (channelsBuilder_ == null) {
-                  ensureChannelsIsMutable();
-                  channels_.add(m);
-                } else {
-                  channelsBuilder_.addMessage(m);
-                }
+                input.readMessage(
+                    getChannel0FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
                 break;
               } // case 34
+              case 42: {
+                input.readMessage(
+                    getChannel1FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 50: {
+                input.readMessage(
+                    getChannel2FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 50
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1369,244 +1476,367 @@ public final class JonSharedDataHeater {
         return this;
       }
 
-      private java.util.List<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus> channels_ =
-        java.util.Collections.emptyList();
-      private void ensureChannelsIsMutable() {
-        if (!((bitField0_ & 0x00000008) != 0)) {
-          channels_ = new java.util.ArrayList<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus>(channels_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> channelsBuilder_;
-
+      private ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus channel0_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> channel0Builder_;
       /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+       * @return Whether the channel0 field is set.
        */
-      public java.util.List<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus> getChannelsList() {
-        if (channelsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(channels_);
+      public boolean hasChannel0() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+       * @return The channel0.
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel0() {
+        if (channel0Builder_ == null) {
+          return channel0_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel0_;
         } else {
-          return channelsBuilder_.getMessageList();
+          return channel0Builder_.getMessage();
         }
       }
       /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
        */
-      public int getChannelsCount() {
-        if (channelsBuilder_ == null) {
-          return channels_.size();
-        } else {
-          return channelsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannels(int index) {
-        if (channelsBuilder_ == null) {
-          return channels_.get(index);
-        } else {
-          return channelsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public Builder setChannels(
-          int index, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
-        if (channelsBuilder_ == null) {
+      public Builder setChannel0(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
+        if (channel0Builder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureChannelsIsMutable();
-          channels_.set(index, value);
-          onChanged();
+          channel0_ = value;
         } else {
-          channelsBuilder_.setMessage(index, value);
+          channel0Builder_.setMessage(value);
         }
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
        */
-      public Builder setChannels(
-          int index, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder builderForValue) {
-        if (channelsBuilder_ == null) {
-          ensureChannelsIsMutable();
-          channels_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          channelsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public Builder addChannels(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
-        if (channelsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChannelsIsMutable();
-          channels_.add(value);
-          onChanged();
-        } else {
-          channelsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public Builder addChannels(
-          int index, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
-        if (channelsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureChannelsIsMutable();
-          channels_.add(index, value);
-          onChanged();
-        } else {
-          channelsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public Builder addChannels(
+      public Builder setChannel0(
           ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder builderForValue) {
-        if (channelsBuilder_ == null) {
-          ensureChannelsIsMutable();
-          channels_.add(builderForValue.build());
-          onChanged();
+        if (channel0Builder_ == null) {
+          channel0_ = builderForValue.build();
         } else {
-          channelsBuilder_.addMessage(builderForValue.build());
+          channel0Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+       */
+      public Builder mergeChannel0(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
+        if (channel0Builder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            channel0_ != null &&
+            channel0_ != ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance()) {
+            getChannel0Builder().mergeFrom(value);
+          } else {
+            channel0_ = value;
+          }
+        } else {
+          channel0Builder_.mergeFrom(value);
+        }
+        if (channel0_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
         }
         return this;
       }
       /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
        */
-      public Builder addChannels(
-          int index, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder builderForValue) {
-        if (channelsBuilder_ == null) {
-          ensureChannelsIsMutable();
-          channels_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          channelsBuilder_.addMessage(index, builderForValue.build());
+      public Builder clearChannel0() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        channel0_ = null;
+        if (channel0Builder_ != null) {
+          channel0Builder_.dispose();
+          channel0Builder_ = null;
         }
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
        */
-      public Builder addAllChannels(
-          java.lang.Iterable<? extends ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus> values) {
-        if (channelsBuilder_ == null) {
-          ensureChannelsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, channels_);
-          onChanged();
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder getChannel0Builder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getChannel0FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel0OrBuilder() {
+        if (channel0Builder_ != null) {
+          return channel0Builder_.getMessageOrBuilder();
         } else {
-          channelsBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public Builder clearChannels() {
-        if (channelsBuilder_ == null) {
-          channels_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          channelsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public Builder removeChannels(int index) {
-        if (channelsBuilder_ == null) {
-          ensureChannelsIsMutable();
-          channels_.remove(index);
-          onChanged();
-        } else {
-          channelsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder getChannelsBuilder(
-          int index) {
-        return getChannelsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannelsOrBuilder(
-          int index) {
-        if (channelsBuilder_ == null) {
-          return channels_.get(index);  } else {
-          return channelsBuilder_.getMessageOrBuilder(index);
+          return channel0_ == null ?
+              ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel0_;
         }
       }
       /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_0 = 4;</code>
        */
-      public java.util.List<? extends ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> 
-           getChannelsOrBuilderList() {
-        if (channelsBuilder_ != null) {
-          return channelsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(channels_);
-        }
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder addChannelsBuilder() {
-        return getChannelsFieldBuilder().addBuilder(
-            ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder addChannelsBuilder(
-          int index) {
-        return getChannelsFieldBuilder().addBuilder(
-            index, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = { ... }</code>
-       */
-      public java.util.List<ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder> 
-           getChannelsBuilderList() {
-        return getChannelsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.SingleFieldBuilder<
           ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> 
-          getChannelsFieldBuilder() {
-        if (channelsBuilder_ == null) {
-          channelsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          getChannel0FieldBuilder() {
+        if (channel0Builder_ == null) {
+          channel0Builder_ = new com.google.protobuf.SingleFieldBuilder<
               ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder>(
-                  channels_,
-                  ((bitField0_ & 0x00000008) != 0),
+                  getChannel0(),
                   getParentForChildren(),
                   isClean());
-          channels_ = null;
+          channel0_ = null;
         }
-        return channelsBuilder_;
+        return channel0Builder_;
+      }
+
+      private ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus channel1_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> channel1Builder_;
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       * @return Whether the channel1 field is set.
+       */
+      public boolean hasChannel1() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       * @return The channel1.
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel1() {
+        if (channel1Builder_ == null) {
+          return channel1_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel1_;
+        } else {
+          return channel1Builder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      public Builder setChannel1(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
+        if (channel1Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          channel1_ = value;
+        } else {
+          channel1Builder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      public Builder setChannel1(
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder builderForValue) {
+        if (channel1Builder_ == null) {
+          channel1_ = builderForValue.build();
+        } else {
+          channel1Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      public Builder mergeChannel1(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
+        if (channel1Builder_ == null) {
+          if (((bitField0_ & 0x00000010) != 0) &&
+            channel1_ != null &&
+            channel1_ != ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance()) {
+            getChannel1Builder().mergeFrom(value);
+          } else {
+            channel1_ = value;
+          }
+        } else {
+          channel1Builder_.mergeFrom(value);
+        }
+        if (channel1_ != null) {
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      public Builder clearChannel1() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        channel1_ = null;
+        if (channel1Builder_ != null) {
+          channel1Builder_.dispose();
+          channel1Builder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder getChannel1Builder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getChannel1FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel1OrBuilder() {
+        if (channel1Builder_ != null) {
+          return channel1Builder_.getMessageOrBuilder();
+        } else {
+          return channel1_ == null ?
+              ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel1_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_1 = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> 
+          getChannel1FieldBuilder() {
+        if (channel1Builder_ == null) {
+          channel1Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder>(
+                  getChannel1(),
+                  getParentForChildren(),
+                  isClean());
+          channel1_ = null;
+        }
+        return channel1Builder_;
+      }
+
+      private ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus channel2_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> channel2Builder_;
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       * @return Whether the channel2 field is set.
+       */
+      public boolean hasChannel2() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       * @return The channel2.
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus getChannel2() {
+        if (channel2Builder_ == null) {
+          return channel2_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel2_;
+        } else {
+          return channel2Builder_.getMessage();
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      public Builder setChannel2(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
+        if (channel2Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          channel2_ = value;
+        } else {
+          channel2Builder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      public Builder setChannel2(
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder builderForValue) {
+        if (channel2Builder_ == null) {
+          channel2_ = builderForValue.build();
+        } else {
+          channel2Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      public Builder mergeChannel2(ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus value) {
+        if (channel2Builder_ == null) {
+          if (((bitField0_ & 0x00000020) != 0) &&
+            channel2_ != null &&
+            channel2_ != ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance()) {
+            getChannel2Builder().mergeFrom(value);
+          } else {
+            channel2_ = value;
+          }
+        } else {
+          channel2Builder_.mergeFrom(value);
+        }
+        if (channel2_ != null) {
+          bitField0_ |= 0x00000020;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      public Builder clearChannel2() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        channel2_ = null;
+        if (channel2Builder_ != null) {
+          channel2Builder_.dispose();
+          channel2Builder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder getChannel2Builder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getChannel2FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      public ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel2OrBuilder() {
+        if (channel2Builder_ != null) {
+          return channel2Builder_.getMessageOrBuilder();
+        } else {
+          return channel2_ == null ?
+              ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel2_;
+        }
+      }
+      /**
+       * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder> 
+          getChannel2FieldBuilder() {
+        if (channel2Builder_ == null) {
+          channel2Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.Builder, ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder>(
+                  getChannel2(),
+                  getParentForChildren(),
+                  isClean());
+          channel2_ = null;
+        }
+        return channel2Builder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataHeater)
@@ -1684,14 +1914,16 @@ public final class JonSharedDataHeater {
       "eaterChannelStatus\022\023\n\013temperature\030\001 \001(\002\022" +
       "%\n\021applied_voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$" +
       "\n\020target_voltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007" +
-      "enabled\030\004 \001(\010\"\263\001\n\020JonGuiDataHeater\022!\n\rbu" +
+      "enabled\030\004 \001(\010\"\226\002\n\020JonGuiDataHeater\022!\n\rbu" +
       "s_voltage_V\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent" +
       "_A\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272" +
-      "H\007\n\005-\000\000\000\000\022@\n\010channels\030\004 \003(\0132\".ser.JonGui" +
-      "DataHeaterChannelStatusB\n\272H\007\222\001\004\010\003\020\003BNZLg" +
-      "it-codecommit.eu-central-1.amazonaws.com" +
-      "/v1/repos/jettison/jonp/data/heaterb\006pro" +
-      "to3"
+      "H\007\n\005-\000\000\000\000\0225\n\tchannel_0\030\004 \001(\0132\".ser.JonGu" +
+      "iDataHeaterChannelStatus\0225\n\tchannel_1\030\005 " +
+      "\001(\0132\".ser.JonGuiDataHeaterChannelStatus\022" +
+      "5\n\tchannel_2\030\006 \001(\0132\".ser.JonGuiDataHeate" +
+      "rChannelStatusBNZLgit-codecommit.eu-cent" +
+      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
+      "np/data/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1709,7 +1941,7 @@ public final class JonSharedDataHeater {
     internal_static_ser_JonGuiDataHeater_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataHeater_descriptor,
-        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channels", });
+        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

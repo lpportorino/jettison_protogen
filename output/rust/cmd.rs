@@ -42,7 +42,7 @@ pub struct Root {
 }
 /// Nested message and enum types in `Root`.
 pub mod root {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     pub enum Payload {
         #[prost(message, tag = "20")]
         DayCamera(super::day_camera::Root),

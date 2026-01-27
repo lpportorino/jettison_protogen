@@ -65,8 +65,12 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr SetHeating::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : targets_{},
-        temp_error_{},
+      : target_0_{0},
+        target_1_{0},
+        target_2_{0},
+        temp_error_0_{0},
+        temp_error_1_{0},
+        temp_error_2_{0},
         _cached_size_{0} {}
 
 template <typename>
@@ -178,8 +182,12 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.targets_),
-        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.temp_error_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.target_0_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.target_1_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.target_2_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.temp_error_0_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.temp_error_1_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetHeating, _impl_.temp_error_2_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::Heater::GetStatus, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -196,7 +204,7 @@ static const ::_pbi::MigrationSchema
         {13, -1, -1, sizeof(::cmd::Heater::Start)},
         {21, -1, -1, sizeof(::cmd::Heater::Stop)},
         {29, -1, -1, sizeof(::cmd::Heater::SetHeating)},
-        {39, -1, -1, sizeof(::cmd::Heater::GetStatus)},
+        {43, -1, -1, sizeof(::cmd::Heater::GetStatus)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Heater::_Root_default_instance_._instance,
@@ -213,12 +221,16 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto[] ABSL_
     "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea"
     "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n"
     "get_status\030\004 \001(\0132\025.cmd.Heater.GetStatusH"
-    "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"e\n\nSetH"
-    "eating\022)\n\007targets\030\001 \003(\002B\030\272H\025\222\001\022\010\003\020\003\"\014\n\n\035"
-    "\000\000pB-\000\000\000\000\022,\n\ntemp_error\030\002 \003(\002B\030\272H\025\222\001\022\010\003\020"
-    "\003\"\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatusBMZKgit-code"
-    "commit.eu-central-1.amazonaws.com/v1/rep"
-    "os/jettison/jonp/cmd/heaterb\006proto3"
+    "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSet"
+    "Heating\022!\n\010target_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000"
+    "\000\000\022!\n\010target_1\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n"
+    "\010target_2\030\003 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp"
+    "_error_0\030\004 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_"
+    "error_1\030\005 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_e"
+    "rror_2\030\006 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStat"
+    "usBMZKgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/cmd/heate"
+    "rb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps[1] =
     {
@@ -228,7 +240,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto = {
     false,
     false,
-    475,
+    609,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto,
     "jon_shared_cmd_heater.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_once,
@@ -910,38 +922,24 @@ SetHeating::SetHeating(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:cmd.Heater.SetHeating)
 }
-inline PROTOBUF_NDEBUG_INLINE SetHeating::Impl_::Impl_(
-    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::cmd::Heater::SetHeating& from_msg)
-      : targets_{visibility, arena, from.targets_},
-        temp_error_{visibility, arena, from.temp_error_},
-        _cached_size_{0} {}
-
 SetHeating::SetHeating(
-    ::google::protobuf::Arena* arena,
-    const SetHeating& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, _class_data_.base()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SetHeating* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-
-  // @@protoc_insertion_point(copy_constructor:cmd.Heater.SetHeating)
+    ::google::protobuf::Arena* arena, const SetHeating& from)
+    : SetHeating(arena) {
+  MergeFrom(from);
 }
 inline PROTOBUF_NDEBUG_INLINE SetHeating::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : targets_{visibility, arena},
-        temp_error_{visibility, arena},
-        _cached_size_{0} {}
+      : _cached_size_{0} {}
 
 inline void SetHeating::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, target_0_),
+           0,
+           offsetof(Impl_, temp_error_2_) -
+               offsetof(Impl_, target_0_) +
+               sizeof(Impl_::temp_error_2_));
 }
 SetHeating::~SetHeating() {
   // @@protoc_insertion_point(destructor:cmd.Heater.SetHeating)
@@ -959,24 +957,8 @@ inline void* SetHeating::PlacementNew_(const void*, void* mem,
   return ::new (mem) SetHeating(arena);
 }
 constexpr auto SetHeating::InternalNewImpl_() {
-  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
-      PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.targets_) +
-          decltype(SetHeating::_impl_.targets_)::
-              InternalGetArenaOffset(
-                  ::google::protobuf::Message::internal_visibility()),
-      PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_) +
-          decltype(SetHeating::_impl_.temp_error_)::
-              InternalGetArenaOffset(
-                  ::google::protobuf::Message::internal_visibility()),
-  });
-  if (arena_bits.has_value()) {
-    return ::google::protobuf::internal::MessageCreator::ZeroInit(
-        sizeof(SetHeating), alignof(SetHeating), *arena_bits);
-  } else {
-    return ::google::protobuf::internal::MessageCreator(&SetHeating::PlacementNew_,
-                                 sizeof(SetHeating),
-                                 alignof(SetHeating));
-  }
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SetHeating),
+                                            alignof(SetHeating));
 }
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
@@ -1006,15 +988,15 @@ const ::google::protobuf::internal::ClassData* SetHeating::GetClassData() const 
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SetHeating::_table_ = {
+const ::_pbi::TcParseTable<3, 6, 0, 0, 2> SetHeating::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967232,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    6,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -1024,21 +1006,47 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> SetHeating::_table_ = {
     ::_pbi::TcParser::GetTable<::cmd::Heater::SetHeating>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated float temp_error = 2 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF32P1,
-     {18, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_)}},
-    // repeated float targets = 1 [(.buf.validate.field) = {
-    {::_pbi::TcParser::FastF32P1,
-     {10, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.targets_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    // float target_0 = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {13, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_0_)}},
+    // float target_1 = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {21, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_1_)}},
+    // float target_2 = 3 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {29, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_2_)}},
+    // float temp_error_0 = 4 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {37, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_0_)}},
+    // float temp_error_1 = 5 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {45, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_1_)}},
+    // float temp_error_2 = 6 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {53, 63, 0, PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_2_)}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
-    // repeated float targets = 1 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.targets_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kPackedFloat)},
-    // repeated float temp_error = 2 [(.buf.validate.field) = {
-    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_), 0, 0,
-    (0 | ::_fl::kFcRepeated | ::_fl::kPackedFloat)},
+    // float target_0 = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_0_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float target_1 = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_1_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float target_2 = 3 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_2_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float temp_error_0 = 4 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_0_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float temp_error_1 = 5 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_1_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float temp_error_2 = 6 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_2_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
   }},
   // no aux_entries
   {{
@@ -1052,8 +1060,9 @@ PROTOBUF_NOINLINE void SetHeating::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.targets_.Clear();
-  _impl_.temp_error_.Clear();
+  ::memset(&_impl_.target_0_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.temp_error_2_) -
+      reinterpret_cast<char*>(&_impl_.target_0_)) + sizeof(_impl_.temp_error_2_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -1072,14 +1081,46 @@ PROTOBUF_NOINLINE void SetHeating::Clear() {
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
-          // repeated float targets = 1 [(.buf.validate.field) = {
-          if (this_._internal_targets_size() > 0) {
-            target = stream->WriteFixedPacked(1, this_._internal_targets(), target);
+          // float target_0 = 1 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_target_0()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                1, this_._internal_target_0(), target);
           }
 
-          // repeated float temp_error = 2 [(.buf.validate.field) = {
-          if (this_._internal_temp_error_size() > 0) {
-            target = stream->WriteFixedPacked(2, this_._internal_temp_error(), target);
+          // float target_1 = 2 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_target_1()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                2, this_._internal_target_1(), target);
+          }
+
+          // float target_2 = 3 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_target_2()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                3, this_._internal_target_2(), target);
+          }
+
+          // float temp_error_0 = 4 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_temp_error_0()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                4, this_._internal_temp_error_0(), target);
+          }
+
+          // float temp_error_1 = 5 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_temp_error_1()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                5, this_._internal_temp_error_1(), target);
+          }
+
+          // float temp_error_2 = 6 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_temp_error_2()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                6, this_._internal_temp_error_2(), target);
           }
 
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -1107,25 +1148,29 @@ PROTOBUF_NOINLINE void SetHeating::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated float targets = 1 [(.buf.validate.field) = {
-            {
-              std::size_t data_size = std::size_t{4} *
-                  ::_pbi::FromIntSize(this_._internal_targets_size());
-              std::size_t tag_size = data_size == 0
-                  ? 0
-                  : 1 + ::_pbi::WireFormatLite::Int32Size(
-                                      static_cast<int32_t>(data_size));
-              total_size += tag_size + data_size;
+            // float target_0 = 1 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_target_0()) != 0) {
+              total_size += 5;
             }
-            // repeated float temp_error = 2 [(.buf.validate.field) = {
-            {
-              std::size_t data_size = std::size_t{4} *
-                  ::_pbi::FromIntSize(this_._internal_temp_error_size());
-              std::size_t tag_size = data_size == 0
-                  ? 0
-                  : 1 + ::_pbi::WireFormatLite::Int32Size(
-                                      static_cast<int32_t>(data_size));
-              total_size += tag_size + data_size;
+            // float target_1 = 2 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_target_1()) != 0) {
+              total_size += 5;
+            }
+            // float target_2 = 3 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_target_2()) != 0) {
+              total_size += 5;
+            }
+            // float temp_error_0 = 4 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_temp_error_0()) != 0) {
+              total_size += 5;
+            }
+            // float temp_error_1 = 5 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_temp_error_1()) != 0) {
+              total_size += 5;
+            }
+            // float temp_error_2 = 6 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_temp_error_2()) != 0) {
+              total_size += 5;
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -1140,8 +1185,24 @@ void SetHeating::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_targets()->MergeFrom(from._internal_targets());
-  _this->_internal_mutable_temp_error()->MergeFrom(from._internal_temp_error());
+  if (::absl::bit_cast<::uint32_t>(from._internal_target_0()) != 0) {
+    _this->_impl_.target_0_ = from._impl_.target_0_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_target_1()) != 0) {
+    _this->_impl_.target_1_ = from._impl_.target_1_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_target_2()) != 0) {
+    _this->_impl_.target_2_ = from._impl_.target_2_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_temp_error_0()) != 0) {
+    _this->_impl_.temp_error_0_ = from._impl_.temp_error_0_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_temp_error_1()) != 0) {
+    _this->_impl_.temp_error_1_ = from._impl_.temp_error_1_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_temp_error_2()) != 0) {
+    _this->_impl_.temp_error_2_ = from._impl_.temp_error_2_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1156,8 +1217,12 @@ void SetHeating::CopyFrom(const SetHeating& from) {
 void SetHeating::InternalSwap(SetHeating* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.targets_.InternalSwap(&other->_impl_.targets_);
-  _impl_.temp_error_.InternalSwap(&other->_impl_.temp_error_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.temp_error_2_)
+      + sizeof(SetHeating::_impl_.temp_error_2_)
+      - PROTOBUF_FIELD_OFFSET(SetHeating, _impl_.target_0_)>(
+          reinterpret_cast<char*>(&_impl_.target_0_),
+          reinterpret_cast<char*>(&other->_impl_.target_0_));
 }
 
 ::google::protobuf::Metadata SetHeating::GetMetadata() const {

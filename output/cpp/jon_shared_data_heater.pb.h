@@ -444,28 +444,58 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kChannelsFieldNumber = 4,
+    kChannel0FieldNumber = 4,
+    kChannel1FieldNumber = 5,
+    kChannel2FieldNumber = 6,
     kBusVoltageVFieldNumber = 1,
     kCurrentAFieldNumber = 2,
     kPowerWFieldNumber = 3,
   };
-  // repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = {
-  int channels_size() const;
+  // .ser.JonGuiDataHeaterChannelStatus channel_0 = 4;
+  bool has_channel_0() const;
+  void clear_channel_0() ;
+  const ::ser::JonGuiDataHeaterChannelStatus& channel_0() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataHeaterChannelStatus* release_channel_0();
+  ::ser::JonGuiDataHeaterChannelStatus* mutable_channel_0();
+  void set_allocated_channel_0(::ser::JonGuiDataHeaterChannelStatus* value);
+  void unsafe_arena_set_allocated_channel_0(::ser::JonGuiDataHeaterChannelStatus* value);
+  ::ser::JonGuiDataHeaterChannelStatus* unsafe_arena_release_channel_0();
+
   private:
-  int _internal_channels_size() const;
+  const ::ser::JonGuiDataHeaterChannelStatus& _internal_channel_0() const;
+  ::ser::JonGuiDataHeaterChannelStatus* _internal_mutable_channel_0();
 
   public:
-  void clear_channels() ;
-  ::ser::JonGuiDataHeaterChannelStatus* mutable_channels(int index);
-  ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>* mutable_channels();
+  // .ser.JonGuiDataHeaterChannelStatus channel_1 = 5;
+  bool has_channel_1() const;
+  void clear_channel_1() ;
+  const ::ser::JonGuiDataHeaterChannelStatus& channel_1() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataHeaterChannelStatus* release_channel_1();
+  ::ser::JonGuiDataHeaterChannelStatus* mutable_channel_1();
+  void set_allocated_channel_1(::ser::JonGuiDataHeaterChannelStatus* value);
+  void unsafe_arena_set_allocated_channel_1(::ser::JonGuiDataHeaterChannelStatus* value);
+  ::ser::JonGuiDataHeaterChannelStatus* unsafe_arena_release_channel_1();
 
   private:
-  const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>& _internal_channels() const;
-  ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>* _internal_mutable_channels();
+  const ::ser::JonGuiDataHeaterChannelStatus& _internal_channel_1() const;
+  ::ser::JonGuiDataHeaterChannelStatus* _internal_mutable_channel_1();
+
   public:
-  const ::ser::JonGuiDataHeaterChannelStatus& channels(int index) const;
-  ::ser::JonGuiDataHeaterChannelStatus* add_channels();
-  const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>& channels() const;
+  // .ser.JonGuiDataHeaterChannelStatus channel_2 = 6;
+  bool has_channel_2() const;
+  void clear_channel_2() ;
+  const ::ser::JonGuiDataHeaterChannelStatus& channel_2() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataHeaterChannelStatus* release_channel_2();
+  ::ser::JonGuiDataHeaterChannelStatus* mutable_channel_2();
+  void set_allocated_channel_2(::ser::JonGuiDataHeaterChannelStatus* value);
+  void unsafe_arena_set_allocated_channel_2(::ser::JonGuiDataHeaterChannelStatus* value);
+  ::ser::JonGuiDataHeaterChannelStatus* unsafe_arena_release_channel_2();
+
+  private:
+  const ::ser::JonGuiDataHeaterChannelStatus& _internal_channel_2() const;
+  ::ser::JonGuiDataHeaterChannelStatus* _internal_mutable_channel_2();
+
+  public:
   // float bus_voltage_V = 1 [(.buf.validate.field) = {
   void clear_bus_voltage_v() ;
   float bus_voltage_v() const;
@@ -501,7 +531,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 1,
+      3, 6, 3,
       0, 2>
       _table_;
 
@@ -519,11 +549,14 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataHeater& from_msg);
-    ::google::protobuf::RepeatedPtrField< ::ser::JonGuiDataHeaterChannelStatus > channels_;
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ser::JonGuiDataHeaterChannelStatus* channel_0_;
+    ::ser::JonGuiDataHeaterChannelStatus* channel_1_;
+    ::ser::JonGuiDataHeaterChannelStatus* channel_2_;
     float bus_voltage_v_;
     float current_a_;
     float power_w_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -704,53 +737,292 @@ inline void JonGuiDataHeater::_internal_set_power_w(float value) {
   _impl_.power_w_ = value;
 }
 
-// repeated .ser.JonGuiDataHeaterChannelStatus channels = 4 [(.buf.validate.field) = {
-inline int JonGuiDataHeater::_internal_channels_size() const {
-  return _internal_channels().size();
+// .ser.JonGuiDataHeaterChannelStatus channel_0 = 4;
+inline bool JonGuiDataHeater::has_channel_0() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.channel_0_ != nullptr);
+  return value;
 }
-inline int JonGuiDataHeater::channels_size() const {
-  return _internal_channels_size();
-}
-inline void JonGuiDataHeater::clear_channels() {
+inline void JonGuiDataHeater::clear_channel_0() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.channels_.Clear();
+  if (_impl_.channel_0_ != nullptr) _impl_.channel_0_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::mutable_channels(int index)
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataHeater.channels)
-  return _internal_mutable_channels()->Mutable(index);
-}
-inline ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>* JonGuiDataHeater::mutable_channels()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:ser.JonGuiDataHeater.channels)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_channels();
-}
-inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::channels(int index) const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.channels)
-  return _internal_channels().Get(index);
-}
-inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::add_channels() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::ser::JonGuiDataHeaterChannelStatus* _add = _internal_mutable_channels()->Add();
-  // @@protoc_insertion_point(field_add:ser.JonGuiDataHeater.channels)
-  return _add;
-}
-inline const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>& JonGuiDataHeater::channels() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:ser.JonGuiDataHeater.channels)
-  return _internal_channels();
-}
-inline const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>&
-JonGuiDataHeater::_internal_channels() const {
+inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::_internal_channel_0() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.channels_;
+  const ::ser::JonGuiDataHeaterChannelStatus* p = _impl_.channel_0_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataHeaterChannelStatus&>(::ser::_JonGuiDataHeaterChannelStatus_default_instance_);
 }
-inline ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataHeaterChannelStatus>*
-JonGuiDataHeater::_internal_mutable_channels() {
+inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::channel_0() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.channel_0)
+  return _internal_channel_0();
+}
+inline void JonGuiDataHeater::unsafe_arena_set_allocated_channel_0(::ser::JonGuiDataHeaterChannelStatus* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.channel_0_);
+  }
+  _impl_.channel_0_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataHeater.channel_0)
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::release_channel_0() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataHeaterChannelStatus* released = _impl_.channel_0_;
+  _impl_.channel_0_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::unsafe_arena_release_channel_0() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataHeater.channel_0)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataHeaterChannelStatus* temp = _impl_.channel_0_;
+  _impl_.channel_0_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::_internal_mutable_channel_0() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.channel_0_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataHeaterChannelStatus>(GetArena());
+    _impl_.channel_0_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(p);
+  }
+  return _impl_.channel_0_;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::mutable_channel_0() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonGuiDataHeaterChannelStatus* _msg = _internal_mutable_channel_0();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataHeater.channel_0)
+  return _msg;
+}
+inline void JonGuiDataHeater::set_allocated_channel_0(::ser::JonGuiDataHeaterChannelStatus* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.channel_0_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.channel_0_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataHeater.channel_0)
+}
+
+// .ser.JonGuiDataHeaterChannelStatus channel_1 = 5;
+inline bool JonGuiDataHeater::has_channel_1() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.channel_1_ != nullptr);
+  return value;
+}
+inline void JonGuiDataHeater::clear_channel_1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.channel_1_ != nullptr) _impl_.channel_1_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::_internal_channel_1() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.channels_;
+  const ::ser::JonGuiDataHeaterChannelStatus* p = _impl_.channel_1_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataHeaterChannelStatus&>(::ser::_JonGuiDataHeaterChannelStatus_default_instance_);
+}
+inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::channel_1() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.channel_1)
+  return _internal_channel_1();
+}
+inline void JonGuiDataHeater::unsafe_arena_set_allocated_channel_1(::ser::JonGuiDataHeaterChannelStatus* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.channel_1_);
+  }
+  _impl_.channel_1_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataHeater.channel_1)
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::release_channel_1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataHeaterChannelStatus* released = _impl_.channel_1_;
+  _impl_.channel_1_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::unsafe_arena_release_channel_1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataHeater.channel_1)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataHeaterChannelStatus* temp = _impl_.channel_1_;
+  _impl_.channel_1_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::_internal_mutable_channel_1() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.channel_1_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataHeaterChannelStatus>(GetArena());
+    _impl_.channel_1_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(p);
+  }
+  return _impl_.channel_1_;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::mutable_channel_1() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ser::JonGuiDataHeaterChannelStatus* _msg = _internal_mutable_channel_1();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataHeater.channel_1)
+  return _msg;
+}
+inline void JonGuiDataHeater::set_allocated_channel_1(::ser::JonGuiDataHeaterChannelStatus* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.channel_1_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.channel_1_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataHeater.channel_1)
+}
+
+// .ser.JonGuiDataHeaterChannelStatus channel_2 = 6;
+inline bool JonGuiDataHeater::has_channel_2() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.channel_2_ != nullptr);
+  return value;
+}
+inline void JonGuiDataHeater::clear_channel_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.channel_2_ != nullptr) _impl_.channel_2_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::_internal_channel_2() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataHeaterChannelStatus* p = _impl_.channel_2_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataHeaterChannelStatus&>(::ser::_JonGuiDataHeaterChannelStatus_default_instance_);
+}
+inline const ::ser::JonGuiDataHeaterChannelStatus& JonGuiDataHeater::channel_2() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.channel_2)
+  return _internal_channel_2();
+}
+inline void JonGuiDataHeater::unsafe_arena_set_allocated_channel_2(::ser::JonGuiDataHeaterChannelStatus* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.channel_2_);
+  }
+  _impl_.channel_2_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataHeater.channel_2)
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::release_channel_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataHeaterChannelStatus* released = _impl_.channel_2_;
+  _impl_.channel_2_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::unsafe_arena_release_channel_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataHeater.channel_2)
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataHeaterChannelStatus* temp = _impl_.channel_2_;
+  _impl_.channel_2_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::_internal_mutable_channel_2() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.channel_2_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataHeaterChannelStatus>(GetArena());
+    _impl_.channel_2_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(p);
+  }
+  return _impl_.channel_2_;
+}
+inline ::ser::JonGuiDataHeaterChannelStatus* JonGuiDataHeater::mutable_channel_2() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  ::ser::JonGuiDataHeaterChannelStatus* _msg = _internal_mutable_channel_2();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataHeater.channel_2)
+  return _msg;
+}
+inline void JonGuiDataHeater::set_allocated_channel_2(::ser::JonGuiDataHeaterChannelStatus* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.channel_2_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+
+  _impl_.channel_2_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataHeater.channel_2)
 }
 
 #ifdef __GNUC__
