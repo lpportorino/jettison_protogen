@@ -292,34 +292,21 @@ mkdir -p /workspace/output
 # Set PATH to include cargo - try multiple locations
 export PATH="/opt/rust/bin:/root/.cargo/bin:/usr/local/bin:$PATH"
 
-# Debug output
-echo "PATH: $PATH"
-echo "Checking cargo availability..."
+# Check cargo availability
 
 # If cargo is not accessible, try to find it
 if ! command -v cargo &> /dev/null; then
-    echo "cargo not found in PATH"
-    # Try to find cargo in common locations
     if [ -f "/root/.cargo/bin/cargo" ]; then
-        echo "cargo found at /root/.cargo/bin/cargo"
-        # Check if we can execute it
         if /root/.cargo/bin/cargo --version &> /dev/null; then
-            echo "cargo is executable, adding to PATH"
             export PATH="/root/.cargo/bin:$PATH"
         else
-            echo "cargo not executable, trying to copy to accessible location"
-            # If cargo exists but not accessible due to permissions, skip Rust generation
             echo "WARNING: Skipping Rust generation due to permission issues with cargo"
-            echo "To fix this, rebuild the base image with proper Rust installation"
             exit 0
         fi
     else
-        echo "cargo not found at /root/.cargo/bin/cargo"
         echo "WARNING: Skipping Rust generation - cargo not installed"
         exit 0
     fi
-else
-    echo "cargo found in PATH: $(which cargo)"
 fi
 
 # Create a Rust project for generation
@@ -330,8 +317,7 @@ export CARGO_HOME="/tmp/.cargo"
 mkdir -p "$CARGO_HOME"
 
 # Verify cargo is working
-echo "Testing cargo version..."
-cargo --version || { echo "ERROR: cargo not working"; exit 1; }
+cargo --version &> /dev/null || { echo "ERROR: cargo not working"; exit 1; }
 
 cat > Cargo.toml << EOF
 [package]
@@ -378,39 +364,27 @@ cat > src/main.rs << "EOF"
 fn main() {}
 EOF
 
-echo "Building Rust proto generation..."
-cargo build
+cargo build 2>&1 | tail -5
 '
 
 # Java generation script with buf.validate support
 JAVA_SCRIPT='
-set -ex  # Add -x for debugging
-# Create a temporary directory for proto files
+set -e
 mkdir -p /tmp/java_proto_buf
 
-# Copy proto files to temporary directory
-cp -r /workspace/proto/* /tmp/java_proto_buf/
-
-# Copy buf validate proto definitions to the expected location
-mkdir -p /tmp/java_proto_buf/buf/validate
-cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/java_proto_buf/buf/validate/
-
-# First, ensure all proto files have proper imports including subdirectories
-cd /tmp/java_proto_buf
-echo "Adding validate imports to proto files..."
-find . -name "*.proto" -type f | while read -r proto; do
-    echo "Processing: $proto"
-    /usr/local/bin/add-validate-import.sh "$proto"
+# Copy proto files and add validate import (excluding test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/java_proto_buf/$dirname"
+    cp "$proto" "/tmp/java_proto_buf/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/java_proto_buf/$relpath"
 done
 
-# List all files to ensure validate.proto is present
-echo "Files in /tmp/java_proto_buf:"
-find /tmp/java_proto_buf -name "*.proto" | sort
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/java_proto_buf/
 
 # Generate using standard protoc with the validate.proto available
-# This is simpler and more reliable than using buf generate for our use case
-echo "Running protoc..."
-# Find all proto files excluding buf/validate (just for imports) and test
 PROTO_FILES=$(find /tmp/java_proto_buf -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/java_proto_buf \
     --java_out=/workspace/output \
@@ -421,7 +395,7 @@ if [ -z "$(find /workspace/output -name "*.java" -type f 2>/dev/null)" ]; then
     echo "ERROR: No Java files were generated!"
     exit 1
 fi
-echo "Java generation successful, found $(find /workspace/output -name "*.java" -type f | wc -l) .java files"
+echo "Generated $(find /workspace/output -name "*.java" -type f | wc -l) .java files"
 '
 
 # REMOVED - Go validation is now in main GO_SCRIPT
@@ -432,24 +406,22 @@ echo "Java generation successful, found $(find /workspace/output -name "*.java" 
 
 # JSON descriptor generation script
 JSON_DESCRIPTOR_SCRIPT='
-set -ex
-# Create a temporary directory for proto files with validate imports
+set -e
 mkdir -p /tmp/json_proto
 
-# Copy proto files to temporary directory
-cp -r /workspace/proto/* /tmp/json_proto/
-
-# Copy buf validate proto definitions
-mkdir -p /tmp/json_proto/buf/validate
-cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/json_proto/buf/validate/
-
-# Add validate imports to proto files
-cd /tmp/json_proto
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        /usr/local/bin/add-validate-import.sh "$proto"
-    fi
+# Copy proto files and add validate import (excluding test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/json_proto/$dirname"
+    cp "$proto" "/tmp/json_proto/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/json_proto/$relpath"
 done
+
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/json_proto/
+
+cd /tmp/json_proto
 
 # Check if buf is available, otherwise fall back to protoc
 if command -v buf &> /dev/null; then
@@ -539,43 +511,31 @@ for file_descriptor in descriptor_dict.get("file", []):
         with open(output_path, "w") as f:
             json.dump(individual_desc, f, indent=2)
 
-print("JSON conversion complete!")
-print("Note: buf.validate annotations may not be fully preserved without buf CLI")
+print("Generated JSON descriptors")
 PYTHON_EOF
 fi
 
-echo "Descriptors generated successfully!"
-echo "Generated files:"
-ls -la /workspace/output/
+echo "Generated $(find /workspace/output -name "*.json" -type f | wc -l) JSON files"
 '
 
 # TypeScript validated generation script with protovalidate-es
 TYPESCRIPT_VALIDATED_SCRIPT='
-set -ex
-# Create a temporary directory for proto files with validate imports
+set -e
 mkdir -p /tmp/ts_proto_val
 
-# Copy proto files to temporary directory
-cp -r /workspace/proto/* /tmp/ts_proto_val/
-
-# Copy buf validate proto definitions
-mkdir -p /tmp/ts_proto_val/buf/validate
-cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/ts_proto_val/buf/validate/
-
-# Add validate imports to proto files
-cd /tmp/ts_proto_val
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        /usr/local/bin/add-validate-import.sh "$proto"
-    fi
+# Copy proto files and add validate import (excluding test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/ts_proto_val/$dirname"
+    cp "$proto" "/tmp/ts_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/ts_proto_val/$relpath"
 done
 
-# List all files to verify
-echo "Proto files in /tmp/ts_proto_val:"
-find /tmp/ts_proto_val -name "*.proto" | sort
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/ts_proto_val/
 
 # Generate TypeScript using @bufbuild/protoc-gen-es with validation
-echo "Generating TypeScript with protovalidate-es..."
 protoc -I/tmp/ts_proto_val \
     --plugin=/usr/local/lib/node_modules/@bufbuild/protoc-gen-es/bin/protoc-gen-es \
     --es_out=/workspace/output \
@@ -611,9 +571,7 @@ if [ -z "$(find /workspace/output -name "*_pb.js" -o -name "*_pb.ts" -type f 2>/
     echo "ERROR: No TypeScript files were generated!"
     exit 1
 fi
-echo "TypeScript validated generation successful!"
-echo "Generated files:"
-ls -la /workspace/output/
+echo "Generated $(find /workspace/output -name "*_pb.ts" -type f | wc -l) TypeScript files"
 '
 
 # Run all generations
