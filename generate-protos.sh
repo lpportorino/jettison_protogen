@@ -615,7 +615,7 @@ for lang in c cpp go python typescript rust java json-descriptors typescript-val
 done
 
 print_info ""
-print_info "Note: Go, Java, and TypeScript-validated bindings include buf.validate support"
+print_info "Note: C++, Go, Java, and TypeScript-validated bindings include buf.validate support"
 
 if [ ${#FAILED_LANGS[@]} -gt 0 ]; then
     print_error "Failed languages: ${FAILED_LANGS[*]}"
