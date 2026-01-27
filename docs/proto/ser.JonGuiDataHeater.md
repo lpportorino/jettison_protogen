@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Heater subsystem status. Reports overall bus power consumption (voltage, current, power) and per-channel status for up to 3 heating channels (e.g., camera housing, lens, enclosure).
 
 ## Fields
 

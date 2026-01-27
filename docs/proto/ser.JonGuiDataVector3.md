@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+3D vector with x, y, z components. Used for positions (in meters) and velocities (in m/s) in the tracking system's coordinate frame.
 
 ## Fields
 

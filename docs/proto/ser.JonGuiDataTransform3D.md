@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Complete 3D transform including position, orientation, and motion state. Represents a tracked object's pose and velocity in the world coordinate frame. Position is in meters, orientation is a unit quaternion, velocities are in m/s and rad/s respectively.
 
 ## Fields
 

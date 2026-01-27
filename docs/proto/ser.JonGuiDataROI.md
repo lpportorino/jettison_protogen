@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Region of Interest (ROI) for CV tracking. Defines a rectangular area in normalized coordinates where -1,-1 is top-left and 1,1 is bottom-right of the frame. Used to specify the initial tracking target or search area for computer vision algorithms.
 
 ## Fields
 

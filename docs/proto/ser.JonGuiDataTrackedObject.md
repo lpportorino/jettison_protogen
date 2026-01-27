@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+A tracked object in the CV tracking system. Contains a unique UUID for object identity across frames, the object's 3D transform (position, orientation, velocities), the 2D bounding box in the current frame, and the tracking state (initializing, tracking, lost, etc.).
 
 ## Fields
 

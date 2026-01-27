@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Unit quaternion representing 3D orientation (w + xi + yj + zk). Should be normalized (w² + x² + y² + z² = 1). Used for tracked object orientation in the world coordinate frame.
 
 ## Fields
 

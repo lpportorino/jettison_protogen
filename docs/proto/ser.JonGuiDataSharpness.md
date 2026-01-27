@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Image sharpness metric for autofocus. Contains the normalized sharpness value (0-1) along with first and second derivatives for tracking focus trend. Used by CV algorithms to determine optimal focus position by maximizing sharpness.
 
 ## Fields
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Status of an individual heater channel. Reports current temperature (°C), applied and target voltages for PWM control, and enabled state.
 
 ## Fields
 
