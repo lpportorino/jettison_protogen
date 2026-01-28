@@ -40,8 +40,29 @@ type OsdClientMetadata struct {
 	OsdBufferWidth uint32 `protobuf:"varint,4,opt,name=osd_buffer_width,json=osdBufferWidth,proto3" json:"osd_buffer_width,omitempty"`
 	// OSD framebuffer height (1080 for day, 720 for heat)
 	OsdBufferHeight uint32 `protobuf:"varint,5,opt,name=osd_buffer_height,json=osdBufferHeight,proto3" json:"osd_buffer_height,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+	// Frontend: actual quad where video renders on canvas
+	// Gallery: hardcode (0,0,1,1) for full canvas
+	VideoProxyNdcX      float32 `protobuf:"fixed32,6,opt,name=video_proxy_ndc_x,json=videoProxyNdcX,proto3" json:"video_proxy_ndc_x,omitempty"`
+	VideoProxyNdcY      float32 `protobuf:"fixed32,7,opt,name=video_proxy_ndc_y,json=videoProxyNdcY,proto3" json:"video_proxy_ndc_y,omitempty"`
+	VideoProxyNdcWidth  float32 `protobuf:"fixed32,8,opt,name=video_proxy_ndc_width,json=videoProxyNdcWidth,proto3" json:"video_proxy_ndc_width,omitempty"`
+	VideoProxyNdcHeight float32 `protobuf:"fixed32,9,opt,name=video_proxy_ndc_height,json=videoProxyNdcHeight,proto3" json:"video_proxy_ndc_height,omitempty"`
+	// === Scale Factor ===
+	// Ratio: osd_buffer_pixels / proxy_physical_pixels
+	ScaleFactor float32 `protobuf:"fixed32,10,opt,name=scale_factor,json=scaleFactor,proto3" json:"scale_factor,omitempty"`
+	// === Theme Info ===
+	// From ThemeManager singleton (window.themeManager)
+	// true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+	IsSharpMode bool `protobuf:"varint,11,opt,name=is_sharp_mode,json=isSharpMode,proto3" json:"is_sharp_mode,omitempty"`
+	// OKLCH base colors (only meaningful when !is_sharp_mode)
+	// Hue: 0-360 degrees (default: 120 green)
+	ThemeHue float32 `protobuf:"fixed32,12,opt,name=theme_hue,json=themeHue,proto3" json:"theme_hue,omitempty"`
+	// Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+	ThemeChroma float32 `protobuf:"fixed32,13,opt,name=theme_chroma,json=themeChroma,proto3" json:"theme_chroma,omitempty"`
+	// Lightness: 0-200 with HDR support (default: 50)
+	ThemeLightness float32 `protobuf:"fixed32,14,opt,name=theme_lightness,json=themeLightness,proto3" json:"theme_lightness,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *OsdClientMetadata) Reset() {
@@ -109,11 +130,74 @@ func (x *OsdClientMetadata) GetOsdBufferHeight() uint32 {
 	return 0
 }
 
+func (x *OsdClientMetadata) GetVideoProxyNdcX() float32 {
+	if x != nil {
+		return x.VideoProxyNdcX
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetVideoProxyNdcY() float32 {
+	if x != nil {
+		return x.VideoProxyNdcY
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetVideoProxyNdcWidth() float32 {
+	if x != nil {
+		return x.VideoProxyNdcWidth
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetVideoProxyNdcHeight() float32 {
+	if x != nil {
+		return x.VideoProxyNdcHeight
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetScaleFactor() float32 {
+	if x != nil {
+		return x.ScaleFactor
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetIsSharpMode() bool {
+	if x != nil {
+		return x.IsSharpMode
+	}
+	return false
+}
+
+func (x *OsdClientMetadata) GetThemeHue() float32 {
+	if x != nil {
+		return x.ThemeHue
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetThemeChroma() float32 {
+	if x != nil {
+		return x.ThemeChroma
+	}
+	return 0
+}
+
+func (x *OsdClientMetadata) GetThemeLightness() float32 {
+	if x != nil {
+		return x.ThemeLightness
+	}
+	return 0
+}
+
 var File_opaque_osd_client_metadata_proto protoreflect.FileDescriptor
 
 const file_opaque_osd_client_metadata_proto_rawDesc = "" +
 	"\n" +
-	" opaque/osd_client_metadata.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xac\x02\n" +
+	" opaque/osd_client_metadata.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\"\xa2\x06\n" +
 	"\x11OsdClientMetadata\x123\n" +
 	"\x0fcanvas_width_px\x18\x01 \x01(\rB\v\xbaH\b*\x06\x18\x80\xc0\x02 \x00R\rcanvasWidthPx\x125\n" +
 	"\x10canvas_height_px\x18\x02 \x01(\rB\v\xbaH\b*\x06\x18\x80\xc0\x02 \x00R\x0ecanvasHeightPx\x12=\n" +
@@ -123,7 +207,34 @@ const file_opaque_osd_client_metadata_proto_rawDesc = "" +
 	"\x10osd_buffer_width\x18\x04 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\x80@ \x00R\x0eosdBufferWidth\x126\n" +
 	"\x11osd_buffer_height\x18\x05 \x01(\rB\n" +
-	"\xbaH\a*\x05\x18\x80@ \x00R\x0fosdBufferHeightB\x96\x01\n" +
+	"\xbaH\a*\x05\x18\x80@ \x00R\x0fosdBufferHeight\x12:\n" +
+	"\x11video_proxy_ndc_x\x18\x06 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x0evideoProxyNdcX\x12:\n" +
+	"\x11video_proxy_ndc_y\x18\a \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x80?-\x00\x00\x80\xbfR\x0evideoProxyNdcY\x12B\n" +
+	"\x15video_proxy_ndc_width\x18\b \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x00@-\x00\x00\x00\x00R\x12videoProxyNdcWidth\x12D\n" +
+	"\x16video_proxy_ndc_height\x18\t \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x00@-\x00\x00\x00\x00R\x13videoProxyNdcHeight\x122\n" +
+	"\fscale_factor\x18\n" +
+	" \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\xc8B-\n" +
+	"\xd7#<R\vscaleFactor\x12\"\n" +
+	"\ris_sharp_mode\x18\v \x01(\bR\visSharpMode\x12,\n" +
+	"\ttheme_hue\x18\f \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\xb4C-\x00\x00\x00\x00R\bthemeHue\x122\n" +
+	"\ftheme_chroma\x18\r \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x80?-\x00\x00\x00\x00R\vthemeChroma\x128\n" +
+	"\x0ftheme_lightness\x18\x0e \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00HC-\x00\x00\x00\x00R\x0ethemeLightnessB\x96\x01\n" +
 	"\acom.serB\x16OsdClientMetadataProtoP\x01ZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

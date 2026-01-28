@@ -80,6 +80,90 @@ public final class OsdClientMetadataOuterClass {
      * @return The osdBufferHeight.
      */
     int getOsdBufferHeight();
+
+    /**
+     * <pre>
+     * === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+     * Frontend: actual quad where video renders on canvas
+     * Gallery: hardcode (0,0,1,1) for full canvas
+     * </pre>
+     *
+     * <code>float video_proxy_ndc_x = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcX.
+     */
+    float getVideoProxyNdcX();
+
+    /**
+     * <code>float video_proxy_ndc_y = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcY.
+     */
+    float getVideoProxyNdcY();
+
+    /**
+     * <code>float video_proxy_ndc_width = 8 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcWidth.
+     */
+    float getVideoProxyNdcWidth();
+
+    /**
+     * <code>float video_proxy_ndc_height = 9 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcHeight.
+     */
+    float getVideoProxyNdcHeight();
+
+    /**
+     * <pre>
+     * === Scale Factor ===
+     * Ratio: osd_buffer_pixels / proxy_physical_pixels
+     * </pre>
+     *
+     * <code>float scale_factor = 10 [(.buf.validate.field) = { ... }</code>
+     * @return The scaleFactor.
+     */
+    float getScaleFactor();
+
+    /**
+     * <pre>
+     * === Theme Info ===
+     * From ThemeManager singleton (window.themeManager)
+     * true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+     * </pre>
+     *
+     * <code>bool is_sharp_mode = 11;</code>
+     * @return The isSharpMode.
+     */
+    boolean getIsSharpMode();
+
+    /**
+     * <pre>
+     * OKLCH base colors (only meaningful when !is_sharp_mode)
+     * Hue: 0-360 degrees (default: 120 green)
+     * </pre>
+     *
+     * <code>float theme_hue = 12 [(.buf.validate.field) = { ... }</code>
+     * @return The themeHue.
+     */
+    float getThemeHue();
+
+    /**
+     * <pre>
+     * Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+     * </pre>
+     *
+     * <code>float theme_chroma = 13 [(.buf.validate.field) = { ... }</code>
+     * @return The themeChroma.
+     */
+    float getThemeChroma();
+
+    /**
+     * <pre>
+     * Lightness: 0-200 with HDR support (default: 50)
+     * </pre>
+     *
+     * <code>float theme_lightness = 14 [(.buf.validate.field) = { ... }</code>
+     * @return The themeLightness.
+     */
+    float getThemeLightness();
   }
   /**
    * <pre>
@@ -202,6 +286,135 @@ public final class OsdClientMetadataOuterClass {
       return osdBufferHeight_;
     }
 
+    public static final int VIDEO_PROXY_NDC_X_FIELD_NUMBER = 6;
+    private float videoProxyNdcX_ = 0F;
+    /**
+     * <pre>
+     * === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+     * Frontend: actual quad where video renders on canvas
+     * Gallery: hardcode (0,0,1,1) for full canvas
+     * </pre>
+     *
+     * <code>float video_proxy_ndc_x = 6 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcX.
+     */
+    @java.lang.Override
+    public float getVideoProxyNdcX() {
+      return videoProxyNdcX_;
+    }
+
+    public static final int VIDEO_PROXY_NDC_Y_FIELD_NUMBER = 7;
+    private float videoProxyNdcY_ = 0F;
+    /**
+     * <code>float video_proxy_ndc_y = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcY.
+     */
+    @java.lang.Override
+    public float getVideoProxyNdcY() {
+      return videoProxyNdcY_;
+    }
+
+    public static final int VIDEO_PROXY_NDC_WIDTH_FIELD_NUMBER = 8;
+    private float videoProxyNdcWidth_ = 0F;
+    /**
+     * <code>float video_proxy_ndc_width = 8 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcWidth.
+     */
+    @java.lang.Override
+    public float getVideoProxyNdcWidth() {
+      return videoProxyNdcWidth_;
+    }
+
+    public static final int VIDEO_PROXY_NDC_HEIGHT_FIELD_NUMBER = 9;
+    private float videoProxyNdcHeight_ = 0F;
+    /**
+     * <code>float video_proxy_ndc_height = 9 [(.buf.validate.field) = { ... }</code>
+     * @return The videoProxyNdcHeight.
+     */
+    @java.lang.Override
+    public float getVideoProxyNdcHeight() {
+      return videoProxyNdcHeight_;
+    }
+
+    public static final int SCALE_FACTOR_FIELD_NUMBER = 10;
+    private float scaleFactor_ = 0F;
+    /**
+     * <pre>
+     * === Scale Factor ===
+     * Ratio: osd_buffer_pixels / proxy_physical_pixels
+     * </pre>
+     *
+     * <code>float scale_factor = 10 [(.buf.validate.field) = { ... }</code>
+     * @return The scaleFactor.
+     */
+    @java.lang.Override
+    public float getScaleFactor() {
+      return scaleFactor_;
+    }
+
+    public static final int IS_SHARP_MODE_FIELD_NUMBER = 11;
+    private boolean isSharpMode_ = false;
+    /**
+     * <pre>
+     * === Theme Info ===
+     * From ThemeManager singleton (window.themeManager)
+     * true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+     * </pre>
+     *
+     * <code>bool is_sharp_mode = 11;</code>
+     * @return The isSharpMode.
+     */
+    @java.lang.Override
+    public boolean getIsSharpMode() {
+      return isSharpMode_;
+    }
+
+    public static final int THEME_HUE_FIELD_NUMBER = 12;
+    private float themeHue_ = 0F;
+    /**
+     * <pre>
+     * OKLCH base colors (only meaningful when !is_sharp_mode)
+     * Hue: 0-360 degrees (default: 120 green)
+     * </pre>
+     *
+     * <code>float theme_hue = 12 [(.buf.validate.field) = { ... }</code>
+     * @return The themeHue.
+     */
+    @java.lang.Override
+    public float getThemeHue() {
+      return themeHue_;
+    }
+
+    public static final int THEME_CHROMA_FIELD_NUMBER = 13;
+    private float themeChroma_ = 0F;
+    /**
+     * <pre>
+     * Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+     * </pre>
+     *
+     * <code>float theme_chroma = 13 [(.buf.validate.field) = { ... }</code>
+     * @return The themeChroma.
+     */
+    @java.lang.Override
+    public float getThemeChroma() {
+      return themeChroma_;
+    }
+
+    public static final int THEME_LIGHTNESS_FIELD_NUMBER = 14;
+    private float themeLightness_ = 0F;
+    /**
+     * <pre>
+     * Lightness: 0-200 with HDR support (default: 50)
+     * </pre>
+     *
+     * <code>float theme_lightness = 14 [(.buf.validate.field) = { ... }</code>
+     * @return The themeLightness.
+     */
+    @java.lang.Override
+    public float getThemeLightness() {
+      return themeLightness_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -230,6 +443,33 @@ public final class OsdClientMetadataOuterClass {
       }
       if (osdBufferHeight_ != 0) {
         output.writeUInt32(5, osdBufferHeight_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcX_) != 0) {
+        output.writeFloat(6, videoProxyNdcX_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcY_) != 0) {
+        output.writeFloat(7, videoProxyNdcY_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcWidth_) != 0) {
+        output.writeFloat(8, videoProxyNdcWidth_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcHeight_) != 0) {
+        output.writeFloat(9, videoProxyNdcHeight_);
+      }
+      if (java.lang.Float.floatToRawIntBits(scaleFactor_) != 0) {
+        output.writeFloat(10, scaleFactor_);
+      }
+      if (isSharpMode_ != false) {
+        output.writeBool(11, isSharpMode_);
+      }
+      if (java.lang.Float.floatToRawIntBits(themeHue_) != 0) {
+        output.writeFloat(12, themeHue_);
+      }
+      if (java.lang.Float.floatToRawIntBits(themeChroma_) != 0) {
+        output.writeFloat(13, themeChroma_);
+      }
+      if (java.lang.Float.floatToRawIntBits(themeLightness_) != 0) {
+        output.writeFloat(14, themeLightness_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -260,6 +500,42 @@ public final class OsdClientMetadataOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(5, osdBufferHeight_);
       }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcX_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(6, videoProxyNdcX_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcY_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(7, videoProxyNdcY_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcWidth_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(8, videoProxyNdcWidth_);
+      }
+      if (java.lang.Float.floatToRawIntBits(videoProxyNdcHeight_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(9, videoProxyNdcHeight_);
+      }
+      if (java.lang.Float.floatToRawIntBits(scaleFactor_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(10, scaleFactor_);
+      }
+      if (isSharpMode_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(11, isSharpMode_);
+      }
+      if (java.lang.Float.floatToRawIntBits(themeHue_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(12, themeHue_);
+      }
+      if (java.lang.Float.floatToRawIntBits(themeChroma_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(13, themeChroma_);
+      }
+      if (java.lang.Float.floatToRawIntBits(themeLightness_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(14, themeLightness_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -286,6 +562,32 @@ public final class OsdClientMetadataOuterClass {
           != other.getOsdBufferWidth()) return false;
       if (getOsdBufferHeight()
           != other.getOsdBufferHeight()) return false;
+      if (java.lang.Float.floatToIntBits(getVideoProxyNdcX())
+          != java.lang.Float.floatToIntBits(
+              other.getVideoProxyNdcX())) return false;
+      if (java.lang.Float.floatToIntBits(getVideoProxyNdcY())
+          != java.lang.Float.floatToIntBits(
+              other.getVideoProxyNdcY())) return false;
+      if (java.lang.Float.floatToIntBits(getVideoProxyNdcWidth())
+          != java.lang.Float.floatToIntBits(
+              other.getVideoProxyNdcWidth())) return false;
+      if (java.lang.Float.floatToIntBits(getVideoProxyNdcHeight())
+          != java.lang.Float.floatToIntBits(
+              other.getVideoProxyNdcHeight())) return false;
+      if (java.lang.Float.floatToIntBits(getScaleFactor())
+          != java.lang.Float.floatToIntBits(
+              other.getScaleFactor())) return false;
+      if (getIsSharpMode()
+          != other.getIsSharpMode()) return false;
+      if (java.lang.Float.floatToIntBits(getThemeHue())
+          != java.lang.Float.floatToIntBits(
+              other.getThemeHue())) return false;
+      if (java.lang.Float.floatToIntBits(getThemeChroma())
+          != java.lang.Float.floatToIntBits(
+              other.getThemeChroma())) return false;
+      if (java.lang.Float.floatToIntBits(getThemeLightness())
+          != java.lang.Float.floatToIntBits(
+              other.getThemeLightness())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -308,6 +610,33 @@ public final class OsdClientMetadataOuterClass {
       hash = (53 * hash) + getOsdBufferWidth();
       hash = (37 * hash) + OSD_BUFFER_HEIGHT_FIELD_NUMBER;
       hash = (53 * hash) + getOsdBufferHeight();
+      hash = (37 * hash) + VIDEO_PROXY_NDC_X_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getVideoProxyNdcX());
+      hash = (37 * hash) + VIDEO_PROXY_NDC_Y_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getVideoProxyNdcY());
+      hash = (37 * hash) + VIDEO_PROXY_NDC_WIDTH_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getVideoProxyNdcWidth());
+      hash = (37 * hash) + VIDEO_PROXY_NDC_HEIGHT_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getVideoProxyNdcHeight());
+      hash = (37 * hash) + SCALE_FACTOR_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getScaleFactor());
+      hash = (37 * hash) + IS_SHARP_MODE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsSharpMode());
+      hash = (37 * hash) + THEME_HUE_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getThemeHue());
+      hash = (37 * hash) + THEME_CHROMA_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getThemeChroma());
+      hash = (37 * hash) + THEME_LIGHTNESS_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getThemeLightness());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -451,6 +780,15 @@ public final class OsdClientMetadataOuterClass {
         devicePixelRatio_ = 0F;
         osdBufferWidth_ = 0;
         osdBufferHeight_ = 0;
+        videoProxyNdcX_ = 0F;
+        videoProxyNdcY_ = 0F;
+        videoProxyNdcWidth_ = 0F;
+        videoProxyNdcHeight_ = 0F;
+        scaleFactor_ = 0F;
+        isSharpMode_ = false;
+        themeHue_ = 0F;
+        themeChroma_ = 0F;
+        themeLightness_ = 0F;
         return this;
       }
 
@@ -499,6 +837,33 @@ public final class OsdClientMetadataOuterClass {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.osdBufferHeight_ = osdBufferHeight_;
         }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.videoProxyNdcX_ = videoProxyNdcX_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.videoProxyNdcY_ = videoProxyNdcY_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.videoProxyNdcWidth_ = videoProxyNdcWidth_;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.videoProxyNdcHeight_ = videoProxyNdcHeight_;
+        }
+        if (((from_bitField0_ & 0x00000200) != 0)) {
+          result.scaleFactor_ = scaleFactor_;
+        }
+        if (((from_bitField0_ & 0x00000400) != 0)) {
+          result.isSharpMode_ = isSharpMode_;
+        }
+        if (((from_bitField0_ & 0x00000800) != 0)) {
+          result.themeHue_ = themeHue_;
+        }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.themeChroma_ = themeChroma_;
+        }
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.themeLightness_ = themeLightness_;
+        }
       }
 
       @java.lang.Override
@@ -527,6 +892,33 @@ public final class OsdClientMetadataOuterClass {
         }
         if (other.getOsdBufferHeight() != 0) {
           setOsdBufferHeight(other.getOsdBufferHeight());
+        }
+        if (other.getVideoProxyNdcX() != 0F) {
+          setVideoProxyNdcX(other.getVideoProxyNdcX());
+        }
+        if (other.getVideoProxyNdcY() != 0F) {
+          setVideoProxyNdcY(other.getVideoProxyNdcY());
+        }
+        if (other.getVideoProxyNdcWidth() != 0F) {
+          setVideoProxyNdcWidth(other.getVideoProxyNdcWidth());
+        }
+        if (other.getVideoProxyNdcHeight() != 0F) {
+          setVideoProxyNdcHeight(other.getVideoProxyNdcHeight());
+        }
+        if (other.getScaleFactor() != 0F) {
+          setScaleFactor(other.getScaleFactor());
+        }
+        if (other.getIsSharpMode() != false) {
+          setIsSharpMode(other.getIsSharpMode());
+        }
+        if (other.getThemeHue() != 0F) {
+          setThemeHue(other.getThemeHue());
+        }
+        if (other.getThemeChroma() != 0F) {
+          setThemeChroma(other.getThemeChroma());
+        }
+        if (other.getThemeLightness() != 0F) {
+          setThemeLightness(other.getThemeLightness());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -579,6 +971,51 @@ public final class OsdClientMetadataOuterClass {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 40
+              case 53: {
+                videoProxyNdcX_ = input.readFloat();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 53
+              case 61: {
+                videoProxyNdcY_ = input.readFloat();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 61
+              case 69: {
+                videoProxyNdcWidth_ = input.readFloat();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 69
+              case 77: {
+                videoProxyNdcHeight_ = input.readFloat();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 77
+              case 85: {
+                scaleFactor_ = input.readFloat();
+                bitField0_ |= 0x00000200;
+                break;
+              } // case 85
+              case 88: {
+                isSharpMode_ = input.readBool();
+                bitField0_ |= 0x00000400;
+                break;
+              } // case 88
+              case 101: {
+                themeHue_ = input.readFloat();
+                bitField0_ |= 0x00000800;
+                break;
+              } // case 101
+              case 109: {
+                themeChroma_ = input.readFloat();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 109
+              case 117: {
+                themeLightness_ = input.readFloat();
+                bitField0_ |= 0x00002000;
+                break;
+              } // case 117
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -822,6 +1259,384 @@ public final class OsdClientMetadataOuterClass {
         return this;
       }
 
+      private float videoProxyNdcX_ ;
+      /**
+       * <pre>
+       * === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+       * Frontend: actual quad where video renders on canvas
+       * Gallery: hardcode (0,0,1,1) for full canvas
+       * </pre>
+       *
+       * <code>float video_proxy_ndc_x = 6 [(.buf.validate.field) = { ... }</code>
+       * @return The videoProxyNdcX.
+       */
+      @java.lang.Override
+      public float getVideoProxyNdcX() {
+        return videoProxyNdcX_;
+      }
+      /**
+       * <pre>
+       * === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+       * Frontend: actual quad where video renders on canvas
+       * Gallery: hardcode (0,0,1,1) for full canvas
+       * </pre>
+       *
+       * <code>float video_proxy_ndc_x = 6 [(.buf.validate.field) = { ... }</code>
+       * @param value The videoProxyNdcX to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideoProxyNdcX(float value) {
+
+        videoProxyNdcX_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+       * Frontend: actual quad where video renders on canvas
+       * Gallery: hardcode (0,0,1,1) for full canvas
+       * </pre>
+       *
+       * <code>float video_proxy_ndc_x = 6 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideoProxyNdcX() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        videoProxyNdcX_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float videoProxyNdcY_ ;
+      /**
+       * <code>float video_proxy_ndc_y = 7 [(.buf.validate.field) = { ... }</code>
+       * @return The videoProxyNdcY.
+       */
+      @java.lang.Override
+      public float getVideoProxyNdcY() {
+        return videoProxyNdcY_;
+      }
+      /**
+       * <code>float video_proxy_ndc_y = 7 [(.buf.validate.field) = { ... }</code>
+       * @param value The videoProxyNdcY to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideoProxyNdcY(float value) {
+
+        videoProxyNdcY_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float video_proxy_ndc_y = 7 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideoProxyNdcY() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        videoProxyNdcY_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float videoProxyNdcWidth_ ;
+      /**
+       * <code>float video_proxy_ndc_width = 8 [(.buf.validate.field) = { ... }</code>
+       * @return The videoProxyNdcWidth.
+       */
+      @java.lang.Override
+      public float getVideoProxyNdcWidth() {
+        return videoProxyNdcWidth_;
+      }
+      /**
+       * <code>float video_proxy_ndc_width = 8 [(.buf.validate.field) = { ... }</code>
+       * @param value The videoProxyNdcWidth to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideoProxyNdcWidth(float value) {
+
+        videoProxyNdcWidth_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float video_proxy_ndc_width = 8 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideoProxyNdcWidth() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        videoProxyNdcWidth_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float videoProxyNdcHeight_ ;
+      /**
+       * <code>float video_proxy_ndc_height = 9 [(.buf.validate.field) = { ... }</code>
+       * @return The videoProxyNdcHeight.
+       */
+      @java.lang.Override
+      public float getVideoProxyNdcHeight() {
+        return videoProxyNdcHeight_;
+      }
+      /**
+       * <code>float video_proxy_ndc_height = 9 [(.buf.validate.field) = { ... }</code>
+       * @param value The videoProxyNdcHeight to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVideoProxyNdcHeight(float value) {
+
+        videoProxyNdcHeight_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>float video_proxy_ndc_height = 9 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVideoProxyNdcHeight() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        videoProxyNdcHeight_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float scaleFactor_ ;
+      /**
+       * <pre>
+       * === Scale Factor ===
+       * Ratio: osd_buffer_pixels / proxy_physical_pixels
+       * </pre>
+       *
+       * <code>float scale_factor = 10 [(.buf.validate.field) = { ... }</code>
+       * @return The scaleFactor.
+       */
+      @java.lang.Override
+      public float getScaleFactor() {
+        return scaleFactor_;
+      }
+      /**
+       * <pre>
+       * === Scale Factor ===
+       * Ratio: osd_buffer_pixels / proxy_physical_pixels
+       * </pre>
+       *
+       * <code>float scale_factor = 10 [(.buf.validate.field) = { ... }</code>
+       * @param value The scaleFactor to set.
+       * @return This builder for chaining.
+       */
+      public Builder setScaleFactor(float value) {
+
+        scaleFactor_ = value;
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * === Scale Factor ===
+       * Ratio: osd_buffer_pixels / proxy_physical_pixels
+       * </pre>
+       *
+       * <code>float scale_factor = 10 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearScaleFactor() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        scaleFactor_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private boolean isSharpMode_ ;
+      /**
+       * <pre>
+       * === Theme Info ===
+       * From ThemeManager singleton (window.themeManager)
+       * true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+       * </pre>
+       *
+       * <code>bool is_sharp_mode = 11;</code>
+       * @return The isSharpMode.
+       */
+      @java.lang.Override
+      public boolean getIsSharpMode() {
+        return isSharpMode_;
+      }
+      /**
+       * <pre>
+       * === Theme Info ===
+       * From ThemeManager singleton (window.themeManager)
+       * true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+       * </pre>
+       *
+       * <code>bool is_sharp_mode = 11;</code>
+       * @param value The isSharpMode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsSharpMode(boolean value) {
+
+        isSharpMode_ = value;
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * === Theme Info ===
+       * From ThemeManager singleton (window.themeManager)
+       * true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+       * </pre>
+       *
+       * <code>bool is_sharp_mode = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsSharpMode() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        isSharpMode_ = false;
+        onChanged();
+        return this;
+      }
+
+      private float themeHue_ ;
+      /**
+       * <pre>
+       * OKLCH base colors (only meaningful when !is_sharp_mode)
+       * Hue: 0-360 degrees (default: 120 green)
+       * </pre>
+       *
+       * <code>float theme_hue = 12 [(.buf.validate.field) = { ... }</code>
+       * @return The themeHue.
+       */
+      @java.lang.Override
+      public float getThemeHue() {
+        return themeHue_;
+      }
+      /**
+       * <pre>
+       * OKLCH base colors (only meaningful when !is_sharp_mode)
+       * Hue: 0-360 degrees (default: 120 green)
+       * </pre>
+       *
+       * <code>float theme_hue = 12 [(.buf.validate.field) = { ... }</code>
+       * @param value The themeHue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setThemeHue(float value) {
+
+        themeHue_ = value;
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * OKLCH base colors (only meaningful when !is_sharp_mode)
+       * Hue: 0-360 degrees (default: 120 green)
+       * </pre>
+       *
+       * <code>float theme_hue = 12 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearThemeHue() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        themeHue_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float themeChroma_ ;
+      /**
+       * <pre>
+       * Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+       * </pre>
+       *
+       * <code>float theme_chroma = 13 [(.buf.validate.field) = { ... }</code>
+       * @return The themeChroma.
+       */
+      @java.lang.Override
+      public float getThemeChroma() {
+        return themeChroma_;
+      }
+      /**
+       * <pre>
+       * Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+       * </pre>
+       *
+       * <code>float theme_chroma = 13 [(.buf.validate.field) = { ... }</code>
+       * @param value The themeChroma to set.
+       * @return This builder for chaining.
+       */
+      public Builder setThemeChroma(float value) {
+
+        themeChroma_ = value;
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+       * </pre>
+       *
+       * <code>float theme_chroma = 13 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearThemeChroma() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        themeChroma_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float themeLightness_ ;
+      /**
+       * <pre>
+       * Lightness: 0-200 with HDR support (default: 50)
+       * </pre>
+       *
+       * <code>float theme_lightness = 14 [(.buf.validate.field) = { ... }</code>
+       * @return The themeLightness.
+       */
+      @java.lang.Override
+      public float getThemeLightness() {
+        return themeLightness_;
+      }
+      /**
+       * <pre>
+       * Lightness: 0-200 with HDR support (default: 50)
+       * </pre>
+       *
+       * <code>float theme_lightness = 14 [(.buf.validate.field) = { ... }</code>
+       * @param value The themeLightness to set.
+       * @return This builder for chaining.
+       */
+      public Builder setThemeLightness(float value) {
+
+        themeLightness_ = value;
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Lightness: 0-200 with HDR support (default: 50)
+       * </pre>
+       *
+       * <code>float theme_lightness = 14 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearThemeLightness() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        themeLightness_ = 0F;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.OsdClientMetadata)
     }
 
@@ -888,15 +1703,24 @@ public final class OsdClientMetadataOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n opaque/osd_client_metadata.proto\022\003ser\032" +
-      "\033buf/validate/validate.proto\"\332\001\n\021OsdClie" +
+      "\033buf/validate/validate.proto\"\306\004\n\021OsdClie" +
       "ntMetadata\022$\n\017canvas_width_px\030\001 \001(\rB\013\272H\010" +
       "*\006\030\200\300\002 \000\022%\n\020canvas_height_px\030\002 \001(\rB\013\272H\010*" +
       "\006\030\200\300\002 \000\022+\n\022device_pixel_ratio\030\003 \001(\002B\017\272H\014" +
       "\n\n\035\000\000 A-\315\314\314=\022$\n\020osd_buffer_width\030\004 \001(\rB\n" +
       "\272H\007*\005\030\200@ \000\022%\n\021osd_buffer_height\030\005 \001(\rB\n\272" +
-      "H\007*\005\030\200@ \000BIZGgit-codecommit.eu-central-1" +
-      ".amazonaws.com/v1/repos/jettison/jonp/op" +
-      "aqueb\006proto3"
+      "H\007*\005\030\200@ \000\022*\n\021video_proxy_ndc_x\030\006 \001(\002B\017\272H" +
+      "\014\n\n\035\000\000\200?-\000\000\200\277\022*\n\021video_proxy_ndc_y\030\007 \001(\002" +
+      "B\017\272H\014\n\n\035\000\000\200?-\000\000\200\277\022.\n\025video_proxy_ndc_wid" +
+      "th\030\010 \001(\002B\017\272H\014\n\n\035\000\000\000@-\000\000\000\000\022/\n\026video_proxy" +
+      "_ndc_height\030\t \001(\002B\017\272H\014\n\n\035\000\000\000@-\000\000\000\000\022%\n\014sc" +
+      "ale_factor\030\n \001(\002B\017\272H\014\n\n\035\000\000\310B-\n\327#<\022\025\n\ris_" +
+      "sharp_mode\030\013 \001(\010\022\"\n\ttheme_hue\030\014 \001(\002B\017\272H\014" +
+      "\n\n\035\000\000\264C-\000\000\000\000\022%\n\014theme_chroma\030\r \001(\002B\017\272H\014\n" +
+      "\n\035\000\000\200?-\000\000\000\000\022(\n\017theme_lightness\030\016 \001(\002B\017\272H" +
+      "\014\n\n\035\000\000HC-\000\000\000\000BIZGgit-codecommit.eu-centr" +
+      "al-1.amazonaws.com/v1/repos/jettison/jon" +
+      "p/opaqueb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -908,7 +1732,7 @@ public final class OsdClientMetadataOuterClass {
     internal_static_ser_OsdClientMetadata_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_OsdClientMetadata_descriptor,
-        new java.lang.String[] { "CanvasWidthPx", "CanvasHeightPx", "DevicePixelRatio", "OsdBufferWidth", "OsdBufferHeight", });
+        new java.lang.String[] { "CanvasWidthPx", "CanvasHeightPx", "DevicePixelRatio", "OsdBufferWidth", "OsdBufferHeight", "VideoProxyNdcX", "VideoProxyNdcY", "VideoProxyNdcWidth", "VideoProxyNdcHeight", "ScaleFactor", "IsSharpMode", "ThemeHue", "ThemeChroma", "ThemeLightness", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

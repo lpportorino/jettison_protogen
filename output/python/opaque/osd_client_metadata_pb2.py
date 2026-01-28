@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n opaque/osd_client_metadata.proto\x12\x03ser\"\x97\x01\n\x11OsdClientMetadata\x12\x17\n\x0f\x63\x61nvas_width_px\x18\x01 \x01(\r\x12\x18\n\x10\x63\x61nvas_height_px\x18\x02 \x01(\r\x12\x1a\n\x12\x64\x65vice_pixel_ratio\x18\x03 \x01(\x02\x12\x18\n\x10osd_buffer_width\x18\x04 \x01(\r\x12\x19\n\x11osd_buffer_height\x18\x05 \x01(\rBIZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaqueb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n opaque/osd_client_metadata.proto\x12\x03ser\"\xfb\x02\n\x11OsdClientMetadata\x12\x17\n\x0f\x63\x61nvas_width_px\x18\x01 \x01(\r\x12\x18\n\x10\x63\x61nvas_height_px\x18\x02 \x01(\r\x12\x1a\n\x12\x64\x65vice_pixel_ratio\x18\x03 \x01(\x02\x12\x18\n\x10osd_buffer_width\x18\x04 \x01(\r\x12\x19\n\x11osd_buffer_height\x18\x05 \x01(\r\x12\x19\n\x11video_proxy_ndc_x\x18\x06 \x01(\x02\x12\x19\n\x11video_proxy_ndc_y\x18\x07 \x01(\x02\x12\x1d\n\x15video_proxy_ndc_width\x18\x08 \x01(\x02\x12\x1e\n\x16video_proxy_ndc_height\x18\t \x01(\x02\x12\x14\n\x0cscale_factor\x18\n \x01(\x02\x12\x15\n\ris_sharp_mode\x18\x0b \x01(\x08\x12\x11\n\ttheme_hue\x18\x0c \x01(\x02\x12\x14\n\x0ctheme_chroma\x18\r \x01(\x02\x12\x17\n\x0ftheme_lightness\x18\x0e \x01(\x02\x42IZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaqueb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,5 +33,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZGgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque'
   _globals['_OSDCLIENTMETADATA']._serialized_start=42
-  _globals['_OSDCLIENTMETADATA']._serialized_end=193
+  _globals['_OSDCLIENTMETADATA']._serialized_end=421
 # @@protoc_insertion_point(module_scope)

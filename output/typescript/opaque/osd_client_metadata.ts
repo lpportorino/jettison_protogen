@@ -31,10 +31,54 @@ export interface OsdClientMetadata {
   osdBufferWidth: number;
   /** OSD framebuffer height (1080 for day, 720 for heat) */
   osdBufferHeight: number;
+  /**
+   * === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+   * Frontend: actual quad where video renders on canvas
+   * Gallery: hardcode (0,0,1,1) for full canvas
+   */
+  videoProxyNdcX: number;
+  videoProxyNdcY: number;
+  videoProxyNdcWidth: number;
+  videoProxyNdcHeight: number;
+  /**
+   * === Scale Factor ===
+   * Ratio: osd_buffer_pixels / proxy_physical_pixels
+   */
+  scaleFactor: number;
+  /**
+   * === Theme Info ===
+   * From ThemeManager singleton (window.themeManager)
+   * true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+   */
+  isSharpMode: boolean;
+  /**
+   * OKLCH base colors (only meaningful when !is_sharp_mode)
+   * Hue: 0-360 degrees (default: 120 green)
+   */
+  themeHue: number;
+  /** Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8) */
+  themeChroma: number;
+  /** Lightness: 0-200 with HDR support (default: 50) */
+  themeLightness: number;
 }
 
 function createBaseOsdClientMetadata(): OsdClientMetadata {
-  return { canvasWidthPx: 0, canvasHeightPx: 0, devicePixelRatio: 0, osdBufferWidth: 0, osdBufferHeight: 0 };
+  return {
+    canvasWidthPx: 0,
+    canvasHeightPx: 0,
+    devicePixelRatio: 0,
+    osdBufferWidth: 0,
+    osdBufferHeight: 0,
+    videoProxyNdcX: 0,
+    videoProxyNdcY: 0,
+    videoProxyNdcWidth: 0,
+    videoProxyNdcHeight: 0,
+    scaleFactor: 0,
+    isSharpMode: false,
+    themeHue: 0,
+    themeChroma: 0,
+    themeLightness: 0,
+  };
 }
 
 export const OsdClientMetadata: MessageFns<OsdClientMetadata> = {
@@ -53,6 +97,33 @@ export const OsdClientMetadata: MessageFns<OsdClientMetadata> = {
     }
     if (message.osdBufferHeight !== 0) {
       writer.uint32(40).uint32(message.osdBufferHeight);
+    }
+    if (message.videoProxyNdcX !== 0) {
+      writer.uint32(53).float(message.videoProxyNdcX);
+    }
+    if (message.videoProxyNdcY !== 0) {
+      writer.uint32(61).float(message.videoProxyNdcY);
+    }
+    if (message.videoProxyNdcWidth !== 0) {
+      writer.uint32(69).float(message.videoProxyNdcWidth);
+    }
+    if (message.videoProxyNdcHeight !== 0) {
+      writer.uint32(77).float(message.videoProxyNdcHeight);
+    }
+    if (message.scaleFactor !== 0) {
+      writer.uint32(85).float(message.scaleFactor);
+    }
+    if (message.isSharpMode !== false) {
+      writer.uint32(88).bool(message.isSharpMode);
+    }
+    if (message.themeHue !== 0) {
+      writer.uint32(101).float(message.themeHue);
+    }
+    if (message.themeChroma !== 0) {
+      writer.uint32(109).float(message.themeChroma);
+    }
+    if (message.themeLightness !== 0) {
+      writer.uint32(117).float(message.themeLightness);
     }
     return writer;
   },
@@ -104,6 +175,78 @@ export const OsdClientMetadata: MessageFns<OsdClientMetadata> = {
           message.osdBufferHeight = reader.uint32();
           continue;
         }
+        case 6: {
+          if (tag !== 53) {
+            break;
+          }
+
+          message.videoProxyNdcX = reader.float();
+          continue;
+        }
+        case 7: {
+          if (tag !== 61) {
+            break;
+          }
+
+          message.videoProxyNdcY = reader.float();
+          continue;
+        }
+        case 8: {
+          if (tag !== 69) {
+            break;
+          }
+
+          message.videoProxyNdcWidth = reader.float();
+          continue;
+        }
+        case 9: {
+          if (tag !== 77) {
+            break;
+          }
+
+          message.videoProxyNdcHeight = reader.float();
+          continue;
+        }
+        case 10: {
+          if (tag !== 85) {
+            break;
+          }
+
+          message.scaleFactor = reader.float();
+          continue;
+        }
+        case 11: {
+          if (tag !== 88) {
+            break;
+          }
+
+          message.isSharpMode = reader.bool();
+          continue;
+        }
+        case 12: {
+          if (tag !== 101) {
+            break;
+          }
+
+          message.themeHue = reader.float();
+          continue;
+        }
+        case 13: {
+          if (tag !== 109) {
+            break;
+          }
+
+          message.themeChroma = reader.float();
+          continue;
+        }
+        case 14: {
+          if (tag !== 117) {
+            break;
+          }
+
+          message.themeLightness = reader.float();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -140,6 +283,51 @@ export const OsdClientMetadata: MessageFns<OsdClientMetadata> = {
         : isSet(object.osd_buffer_height)
         ? globalThis.Number(object.osd_buffer_height)
         : 0,
+      videoProxyNdcX: isSet(object.videoProxyNdcX)
+        ? globalThis.Number(object.videoProxyNdcX)
+        : isSet(object.video_proxy_ndc_x)
+        ? globalThis.Number(object.video_proxy_ndc_x)
+        : 0,
+      videoProxyNdcY: isSet(object.videoProxyNdcY)
+        ? globalThis.Number(object.videoProxyNdcY)
+        : isSet(object.video_proxy_ndc_y)
+        ? globalThis.Number(object.video_proxy_ndc_y)
+        : 0,
+      videoProxyNdcWidth: isSet(object.videoProxyNdcWidth)
+        ? globalThis.Number(object.videoProxyNdcWidth)
+        : isSet(object.video_proxy_ndc_width)
+        ? globalThis.Number(object.video_proxy_ndc_width)
+        : 0,
+      videoProxyNdcHeight: isSet(object.videoProxyNdcHeight)
+        ? globalThis.Number(object.videoProxyNdcHeight)
+        : isSet(object.video_proxy_ndc_height)
+        ? globalThis.Number(object.video_proxy_ndc_height)
+        : 0,
+      scaleFactor: isSet(object.scaleFactor)
+        ? globalThis.Number(object.scaleFactor)
+        : isSet(object.scale_factor)
+        ? globalThis.Number(object.scale_factor)
+        : 0,
+      isSharpMode: isSet(object.isSharpMode)
+        ? globalThis.Boolean(object.isSharpMode)
+        : isSet(object.is_sharp_mode)
+        ? globalThis.Boolean(object.is_sharp_mode)
+        : false,
+      themeHue: isSet(object.themeHue)
+        ? globalThis.Number(object.themeHue)
+        : isSet(object.theme_hue)
+        ? globalThis.Number(object.theme_hue)
+        : 0,
+      themeChroma: isSet(object.themeChroma)
+        ? globalThis.Number(object.themeChroma)
+        : isSet(object.theme_chroma)
+        ? globalThis.Number(object.theme_chroma)
+        : 0,
+      themeLightness: isSet(object.themeLightness)
+        ? globalThis.Number(object.themeLightness)
+        : isSet(object.theme_lightness)
+        ? globalThis.Number(object.theme_lightness)
+        : 0,
     };
   },
 
@@ -160,6 +348,33 @@ export const OsdClientMetadata: MessageFns<OsdClientMetadata> = {
     if (message.osdBufferHeight !== 0) {
       obj.osdBufferHeight = Math.round(message.osdBufferHeight);
     }
+    if (message.videoProxyNdcX !== 0) {
+      obj.videoProxyNdcX = message.videoProxyNdcX;
+    }
+    if (message.videoProxyNdcY !== 0) {
+      obj.videoProxyNdcY = message.videoProxyNdcY;
+    }
+    if (message.videoProxyNdcWidth !== 0) {
+      obj.videoProxyNdcWidth = message.videoProxyNdcWidth;
+    }
+    if (message.videoProxyNdcHeight !== 0) {
+      obj.videoProxyNdcHeight = message.videoProxyNdcHeight;
+    }
+    if (message.scaleFactor !== 0) {
+      obj.scaleFactor = message.scaleFactor;
+    }
+    if (message.isSharpMode !== false) {
+      obj.isSharpMode = message.isSharpMode;
+    }
+    if (message.themeHue !== 0) {
+      obj.themeHue = message.themeHue;
+    }
+    if (message.themeChroma !== 0) {
+      obj.themeChroma = message.themeChroma;
+    }
+    if (message.themeLightness !== 0) {
+      obj.themeLightness = message.themeLightness;
+    }
     return obj;
   },
 
@@ -173,6 +388,15 @@ export const OsdClientMetadata: MessageFns<OsdClientMetadata> = {
     message.devicePixelRatio = object.devicePixelRatio ?? 0;
     message.osdBufferWidth = object.osdBufferWidth ?? 0;
     message.osdBufferHeight = object.osdBufferHeight ?? 0;
+    message.videoProxyNdcX = object.videoProxyNdcX ?? 0;
+    message.videoProxyNdcY = object.videoProxyNdcY ?? 0;
+    message.videoProxyNdcWidth = object.videoProxyNdcWidth ?? 0;
+    message.videoProxyNdcHeight = object.videoProxyNdcHeight ?? 0;
+    message.scaleFactor = object.scaleFactor ?? 0;
+    message.isSharpMode = object.isSharpMode ?? false;
+    message.themeHue = object.themeHue ?? 0;
+    message.themeChroma = object.themeChroma ?? 0;
+    message.themeLightness = object.themeLightness ?? 0;
     return message;
   },
 };

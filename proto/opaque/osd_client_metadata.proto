@@ -42,4 +42,58 @@ message OsdClientMetadata {
     gt: 0,
     lte: 8192
   }];
+
+  // === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+  // Frontend: actual quad where video renders on canvas
+  // Gallery: hardcode (0,0,1,1) for full canvas
+  float video_proxy_ndc_x = 6 [(buf.validate.field).float = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+
+  float video_proxy_ndc_y = 7 [(buf.validate.field).float = {
+    gte: -1.0,
+    lte: 1.0
+  }];
+
+  float video_proxy_ndc_width = 8 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 2.0
+  }];
+
+  float video_proxy_ndc_height = 9 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 2.0
+  }];
+
+  // === Scale Factor ===
+  // Ratio: osd_buffer_pixels / proxy_physical_pixels
+  float scale_factor = 10 [(buf.validate.field).float = {
+    gte: 0.01,
+    lte: 100.0
+  }];
+
+  // === Theme Info ===
+  // From ThemeManager singleton (window.themeManager)
+  // true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+  bool is_sharp_mode = 11;
+
+  // OKLCH base colors (only meaningful when !is_sharp_mode)
+  // Hue: 0-360 degrees (default: 120 green)
+  float theme_hue = 12 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 360.0
+  }];
+
+  // Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+  float theme_chroma = 13 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+
+  // Lightness: 0-200 with HDR support (default: 50)
+  float theme_lightness = 14 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 200.0
+  }];
 }
