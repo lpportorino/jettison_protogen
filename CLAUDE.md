@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with the Protogen module
 
 ## Module Overview
 
-Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go and Java) using buf.validate annotations.
+Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go, Kotlin, and Java) using buf.validate annotations.
 
 ## Module Structure
 
@@ -31,6 +31,7 @@ output/
 ├── c/                    # nanopb C bindings
 ├── cpp/                  # C++ bindings
 ├── go/                   # Go bindings with buf.validate support
+├── kotlin/               # Kotlin bindings with buf.validate support
 ├── java/                 # Java bindings with buf.validate support
 ├── python/               # Python bindings with type stubs
 ├── rust/                 # Rust bindings using prost
@@ -73,6 +74,7 @@ Generated bindings are automatically distributed to dedicated repositories:
 | C (nanopb) | [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c) |
 | C++ | [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp) |
 | Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) |
+| Kotlin | [jettison_proto_kotlin](https://github.com/lpportorino/jettison_proto_kotlin) |
 | Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) |
 | TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) |
 | TypeScript (validated) | [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es) |
@@ -87,6 +89,7 @@ For automated distribution, these deploy keys must be configured as repository s
 - `C_PUSH` - Deploy key for jettison_proto_c
 - `CPP_PUSH` - Deploy key for jettison_proto_cpp
 - `GO_PUSH` - Deploy key for jettison_proto_go
+- `KOTLIN_PUSH` - Deploy key for jettison_proto_kotlin
 - `PYTHON_PUSH` - Deploy key for jettison_proto_python
 - `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
 - `PUSH_TO_PROTOVALIDATE_ES` - Deploy key for jettison_protovalidate_es
@@ -219,6 +222,13 @@ make versions
 - Package paths preserved from proto files
 - **Note:** Subject to BSR rate limits (see rate limits section below)
 
+**Kotlin**
+- Uses `buf generate` with remote BSR plugin (buf.build/protocolbuffers/kotlin:v33.5)
+- buf.validate annotations preserved for runtime validation
+- Generates Kotlin-specific protobuf classes with DSL builders
+- Runtime validation requires protovalidate Kotlin library
+- **Note:** Subject to BSR rate limits (see rate limits section below)
+
 **Java**
 - Standard protoc generation with buf.validate annotations preserved
 - Runtime validation requires protovalidate Java library
@@ -252,11 +262,13 @@ make versions
 Proto files use buf.validate annotations for validation constraints. The validated outputs include these annotations in the generated code:
 - **C++**: Standard protobuf generation with buf.validate annotations preserved as field options/extensions
 - **Go**: Standard protobuf generation with buf.validate annotations preserved
+- **Kotlin**: Standard protobuf generation with buf.validate annotations preserved
 - **Java**: Standard protobuf generation with buf.validate annotations preserved
 
 Runtime validation requires the protovalidate libraries:
 - **C++**: https://github.com/bufbuild/protovalidate-cc (requires CEL-C++ 0.11.0+)
 - **Go**: github.com/bufbuild/protovalidate-go
+- **Kotlin**: build.buf:protovalidate-kotlin
 - **Java**: build.buf.protovalidate
 
 **Important Notes**:
@@ -312,11 +324,11 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution
-6. Buf Schema Registry (BSR) rate limits apply to Go generation (see below)
+6. Buf Schema Registry (BSR) rate limits apply to Go and Kotlin generation (see below)
 
 ## Buf Schema Registry (BSR) Rate Limits
 
-Go generation uses `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
+Go and Kotlin generation use `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
 
 ### Limits
 | Service | Unauthenticated | Authenticated |
@@ -337,7 +349,7 @@ Go generation uses `buf generate` with remote plugins, which connects to the Buf
 3. **Local plugins**: Consider using local plugins instead of remote BSR plugins for high-frequency development
 
 ### Troubleshooting
-If Go generation fails with rate limit errors:
+If Go or Kotlin generation fails with rate limit errors:
 ```bash
 # Check if authenticated
 buf registry whoami

@@ -74,7 +74,7 @@ fi
 
 # Create output directories with full permissions
 print_info "Creating output directories..."
-mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors,typescript-validated}
+mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,kotlin,python,typescript,rust,java,json-descriptors,typescript-validated}
 # Set directory permissions to 777
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
 
@@ -222,6 +222,57 @@ if [ -z "$(find /workspace/output -name "*.pb.go" -type f 2>/dev/null)" ]; then
     exit 1
 fi
 echo "Go generation successful, found $(find /workspace/output -name "*.pb.go" -type f | wc -l) .pb.go files"
+'
+
+# Kotlin generation script with validation support (uses buf remote plugin like Go)
+KOTLIN_SCRIPT='
+set -e
+mkdir -p /tmp/kotlin_proto_val
+
+# Copy proto files and add validate import including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/kotlin_proto_val/$dirname"
+    cp "$proto" "/tmp/kotlin_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/kotlin_proto_val/$relpath"
+done
+
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/kotlin_proto_val/
+
+# Create buf.yaml for the generation
+cd /tmp/kotlin_proto_val
+cat > buf.yaml << "BUF_EOF"
+version: v2
+modules:
+  - path: .
+    name: buf.build/jettison/jonp
+BUF_EOF
+
+# Create buf.gen.yaml for Kotlin generation with validation
+cat > buf.gen.yaml << "BUF_EOF"
+version: v2
+managed:
+  enabled: true
+plugins:
+  - remote: buf.build/protocolbuffers/kotlin:v33.5
+    out: /workspace/output
+BUF_EOF
+
+# Ensure output directory exists
+mkdir -p /workspace/output
+
+# Generate using buf
+echo "Generating Kotlin bindings with buf.validate support using buf generate..."
+buf generate
+
+# Verify files were generated
+if [ -z "$(find /workspace/output -name "*.kt" -type f 2>/dev/null)" ]; then
+    echo "ERROR: No Kotlin files were generated!"
+    exit 1
+fi
+echo "Kotlin generation successful, found $(find /workspace/output -name "*.kt" -type f | wc -l) .kt files"
 '
 
 # Python generation script
@@ -577,11 +628,12 @@ echo "Generated $(find /workspace/output -name "*_pb.ts" -type f | wc -l) TypeSc
 # Run all generations
 FAILED_LANGS=()
 
-for lang in c cpp go python typescript rust java json-descriptors typescript-validated; do
+for lang in c cpp go kotlin python typescript rust java json-descriptors typescript-validated; do
     case $lang in
         c) script="$C_SCRIPT" ;;
         cpp) script="$CPP_SCRIPT" ;;
         go) script="$GO_SCRIPT" ;;
+        kotlin) script="$KOTLIN_SCRIPT" ;;
         python) script="$PYTHON_SCRIPT" ;;
         typescript) script="$TYPESCRIPT_SCRIPT" ;;
         rust) script="$RUST_SCRIPT" ;;
@@ -605,7 +657,7 @@ print_info "========== Generation Summary =========="
 print_info "Output directory: $OUTPUT_BASE_DIR"
 
 # Check what was generated
-for lang in c cpp go python typescript rust java json-descriptors typescript-validated; do
+for lang in c cpp go kotlin python typescript rust java json-descriptors typescript-validated; do
     count=$(find "$OUTPUT_BASE_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "$lang: $count files generated"
@@ -615,7 +667,7 @@ for lang in c cpp go python typescript rust java json-descriptors typescript-val
 done
 
 print_info ""
-print_info "Note: C++, Go, Java, and TypeScript-validated bindings include buf.validate support"
+print_info "Note: C++, Go, Kotlin, Java, and TypeScript-validated bindings include buf.validate support"
 
 if [ ${#FAILED_LANGS[@]} -gt 0 ]; then
     print_error "Failed languages: ${FAILED_LANGS[*]}"
