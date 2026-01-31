@@ -28,8 +28,8 @@ Represents the complete operational and configuration state of the thermal/infra
 | 9 | fx_mode | [[proto/ser.JonGuiDataFxModeHeat]] | defined enum value only |
 | 10 | digital_zoom_level | double | >= 1 |
 | 11 | clahe_level | double | >= 0, <= 1 |
-| 12 | horizontal_fov_degrees | double | > 0, < 360 |
-| 13 | vertical_fov_degrees | double | > 0, < 360 |
+| 12 | horizontal_fov_degrees | double | >= 0, < 360 |
+| 13 | vertical_fov_degrees | double | >= 0, < 360 |
 | 14 | is_started | bool | - |
 | 15 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 

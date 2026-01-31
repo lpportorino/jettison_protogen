@@ -189,7 +189,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     protodesc_cold) = {
     "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf"
     "/validate/validate.proto\032\033jon_shared_dat"
-    "a_types.proto\"\223\t\n\020JonGuiDataRotary\022L\n\007az"
+    "a_types.proto\"\213\t\n\020JonGuiDataRotary\022L\n\007az"
     "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000"
     "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim"
     "uth_speed\030\002 \001(\001BD\272HA\022\?\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000\360\277"
@@ -214,20 +214,20 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto[] ABSL
     "\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000"
     "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200"
     "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000"
-    "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser"
-    ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\022#\n"
-    "\005meteo\030\023 \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pa"
-    "n_init_status\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_i"
-    "nit_status\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\"\211\002\n\010ScanNode"
-    "\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTable"
-    "Value\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVal"
-    "ue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022"
-    "\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027"
-    "\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B"
-    "\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000"
-    "\000\000\000\000\360\?!\000\000\000\000\000\000\000\000BNZLgit-codecommit.eu-cen"
-    "tral-1.amazonaws.com/v1/repos/jettison/j"
-    "onp/data/rotaryb\006proto3"
+    "\000\000\000\000\340p@\022(\n\021current_scan_node\030\021 \001(\0132\r.ser"
+    ".ScanNode\022\022\n\nis_started\030\022 \001(\010\022#\n\005meteo\030\023"
+    " \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pan_init_s"
+    "tatus\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_init_stat"
+    "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\"\211\002\n\010ScanNode\022\026\n\005inde"
+    "x\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 "
+    "\001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005"
+    "B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200"
+    "v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000"
+    "\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000"
+    "\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?!\000"
+    "\000\000\000\000\000\000\000BNZLgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/data"
+    "/rotaryb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_deps[2] =
     {
@@ -238,7 +238,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_o
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5frotary_2eproto = {
     false,
     false,
-    1623,
+    1615,
     descriptor_table_protodef_jon_5fshared_5fdata_5frotary_2eproto,
     "jon_shared_data_rotary.proto",
     &descriptor_table_jon_5fshared_5fdata_5frotary_2eproto_once,
@@ -442,7 +442,7 @@ const ::_pbi::TcParseTable<5, 21, 2, 0, 2> JonGuiDataRotary::_table_ = {
     // double sun_elevation = 16 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
      {385, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_)}},
-    // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
+    // .ser.ScanNode current_scan_node = 17;
     {::_pbi::TcParser::FastMtS2,
      {394, 0, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_)}},
     // bool is_started = 18;
@@ -518,7 +518,7 @@ const ::_pbi::TcParseTable<5, 21, 2, 0, 2> JonGuiDataRotary::_table_ = {
     // double sun_elevation = 16 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.sun_elevation_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
+    // .ser.ScanNode current_scan_node = 17;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataRotary, _impl_.current_scan_node_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // bool is_started = 18;
@@ -693,7 +693,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
           }
 
           cached_has_bits = this_._impl_._has_bits_[0];
-          // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
+          // .ser.ScanNode current_scan_node = 17;
           if (cached_has_bits & 0x00000001u) {
             target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                 17, *this_._impl_.current_scan_node_, this_._impl_.current_scan_node_->GetCachedSize(), target,
@@ -754,7 +754,7 @@ PROTOBUF_NOINLINE void JonGuiDataRotary::Clear() {
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
           cached_has_bits = this_._impl_._has_bits_[0];
           if (cached_has_bits & 0x00000003u) {
-            // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
+            // .ser.ScanNode current_scan_node = 17;
             if (cached_has_bits & 0x00000001u) {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.current_scan_node_);

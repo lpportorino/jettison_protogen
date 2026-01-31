@@ -33,7 +33,7 @@ Represents the real-time operational state of a rotary platform, tracking curren
 | 14 | scan_target_max | int32 | >= 0 |
 | 15 | sun_azimuth | double | >= 0, < 360 |
 | 16 | sun_elevation | double | >= 0, < 360 |
-| 17 | current_scan_node | [[proto/ser.ScanNode]] | required |
+| 17 | current_scan_node | [[proto/ser.ScanNode]] | - |
 | 18 | is_started | bool | - |
 | 19 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 | 20 | pan_init_status | int32 | >= 0, <= 14 |

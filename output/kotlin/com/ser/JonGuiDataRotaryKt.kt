@@ -309,7 +309,7 @@ public object JonGuiDataRotaryKt {
     }
 
     /**
-     * `.ser.ScanNode current_scan_node = 17 [json_name = "currentScanNode", (.buf.validate.field) = { ... }`
+     * `.ser.ScanNode current_scan_node = 17 [json_name = "currentScanNode"];`
      */
     public var currentScanNode: com.ser.ScanNode
       @kotlin.jvm.JvmName("getCurrentScanNode")
@@ -319,13 +319,13 @@ public object JonGuiDataRotaryKt {
         _builder.currentScanNode = value
       }
     /**
-     * `.ser.ScanNode current_scan_node = 17 [json_name = "currentScanNode", (.buf.validate.field) = { ... }`
+     * `.ser.ScanNode current_scan_node = 17 [json_name = "currentScanNode"];`
      */
     public fun clearCurrentScanNode() {
       _builder.clearCurrentScanNode()
     }
     /**
-     * `.ser.ScanNode current_scan_node = 17 [json_name = "currentScanNode", (.buf.validate.field) = { ... }`
+     * `.ser.ScanNode current_scan_node = 17 [json_name = "currentScanNode"];`
      * @return Whether the currentScanNode field is set.
      */
     public fun hasCurrentScanNode(): kotlin.Boolean {

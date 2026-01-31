@@ -503,7 +503,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     kPanInitStatusFieldNumber = 20,
     kTiltInitStatusFieldNumber = 21,
   };
-  // .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
+  // .ser.ScanNode current_scan_node = 17;
   bool has_current_scan_node() const;
   void clear_current_scan_node() ;
   const ::ser::ScanNode& current_scan_node() const;
@@ -1143,7 +1143,7 @@ inline void JonGuiDataRotary::_internal_set_sun_elevation(double value) {
   _impl_.sun_elevation_ = value;
 }
 
-// .ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = {
+// .ser.ScanNode current_scan_node = 17;
 inline bool JonGuiDataRotary::has_current_scan_node() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.current_scan_node_ != nullptr);

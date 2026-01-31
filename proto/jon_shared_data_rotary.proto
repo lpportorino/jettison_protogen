@@ -69,7 +69,7 @@ message JonGuiDataRotary {
     example: [0, 90, 180, 270]
   }];
 
-  ScanNode current_scan_node = 17 [(buf.validate.field).required = true];
+  ScanNode current_scan_node = 17;
   bool is_started = 18;
   JonGuiDataMeteo meteo = 19;
 

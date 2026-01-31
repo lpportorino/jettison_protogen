@@ -131,17 +131,17 @@ public final class JonSharedDataRotary {
     double getSunElevation();
 
     /**
-     * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.ScanNode current_scan_node = 17;</code>
      * @return Whether the currentScanNode field is set.
      */
     boolean hasCurrentScanNode();
     /**
-     * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.ScanNode current_scan_node = 17;</code>
      * @return The currentScanNode.
      */
     ser.JonSharedDataRotary.ScanNode getCurrentScanNode();
     /**
-     * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.ScanNode current_scan_node = 17;</code>
      */
     ser.JonSharedDataRotary.ScanNodeOrBuilder getCurrentScanNodeOrBuilder();
 
@@ -407,7 +407,7 @@ public final class JonSharedDataRotary {
     public static final int CURRENT_SCAN_NODE_FIELD_NUMBER = 17;
     private ser.JonSharedDataRotary.ScanNode currentScanNode_;
     /**
-     * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.ScanNode current_scan_node = 17;</code>
      * @return Whether the currentScanNode field is set.
      */
     @java.lang.Override
@@ -415,7 +415,7 @@ public final class JonSharedDataRotary {
       return ((bitField0_ & 0x00000001) != 0);
     }
     /**
-     * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.ScanNode current_scan_node = 17;</code>
      * @return The currentScanNode.
      */
     @java.lang.Override
@@ -423,7 +423,7 @@ public final class JonSharedDataRotary {
       return currentScanNode_ == null ? ser.JonSharedDataRotary.ScanNode.getDefaultInstance() : currentScanNode_;
     }
     /**
-     * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+     * <code>.ser.ScanNode current_scan_node = 17;</code>
      */
     @java.lang.Override
     public ser.JonSharedDataRotary.ScanNodeOrBuilder getCurrentScanNodeOrBuilder() {
@@ -1842,14 +1842,14 @@ public final class JonSharedDataRotary {
       private com.google.protobuf.SingleFieldBuilder<
           ser.JonSharedDataRotary.ScanNode, ser.JonSharedDataRotary.ScanNode.Builder, ser.JonSharedDataRotary.ScanNodeOrBuilder> currentScanNodeBuilder_;
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        * @return Whether the currentScanNode field is set.
        */
       public boolean hasCurrentScanNode() {
         return ((bitField0_ & 0x00010000) != 0);
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        * @return The currentScanNode.
        */
       public ser.JonSharedDataRotary.ScanNode getCurrentScanNode() {
@@ -1860,7 +1860,7 @@ public final class JonSharedDataRotary {
         }
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       public Builder setCurrentScanNode(ser.JonSharedDataRotary.ScanNode value) {
         if (currentScanNodeBuilder_ == null) {
@@ -1876,7 +1876,7 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       public Builder setCurrentScanNode(
           ser.JonSharedDataRotary.ScanNode.Builder builderForValue) {
@@ -1890,7 +1890,7 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       public Builder mergeCurrentScanNode(ser.JonSharedDataRotary.ScanNode value) {
         if (currentScanNodeBuilder_ == null) {
@@ -1911,7 +1911,7 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       public Builder clearCurrentScanNode() {
         bitField0_ = (bitField0_ & ~0x00010000);
@@ -1924,7 +1924,7 @@ public final class JonSharedDataRotary {
         return this;
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       public ser.JonSharedDataRotary.ScanNode.Builder getCurrentScanNodeBuilder() {
         bitField0_ |= 0x00010000;
@@ -1932,7 +1932,7 @@ public final class JonSharedDataRotary {
         return getCurrentScanNodeFieldBuilder().getBuilder();
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       public ser.JonSharedDataRotary.ScanNodeOrBuilder getCurrentScanNodeOrBuilder() {
         if (currentScanNodeBuilder_ != null) {
@@ -1943,7 +1943,7 @@ public final class JonSharedDataRotary {
         }
       }
       /**
-       * <code>.ser.ScanNode current_scan_node = 17 [(.buf.validate.field) = { ... }</code>
+       * <code>.ser.ScanNode current_scan_node = 17;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           ser.JonSharedDataRotary.ScanNode, ser.JonSharedDataRotary.ScanNode.Builder, ser.JonSharedDataRotary.ScanNodeOrBuilder> 
@@ -3134,7 +3134,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\223\t\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\213\t\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -3159,20 +3159,20 @@ public final class JonSharedDataRotary {
       "\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000" +
       "\340p@\022R\n\rsun_elevation\030\020 \001(\001B;\272H8\0226\021\000\000\000\000\000\200" +
       "v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000" +
-      "\000\000\000\000\340p@\0220\n\021current_scan_node\030\021 \001(\0132\r.ser" +
-      ".ScanNodeB\006\272H\003\310\001\001\022\022\n\nis_started\030\022 \001(\010\022#\n" +
-      "\005meteo\030\023 \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pa" +
-      "n_init_status\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_i" +
-      "nit_status\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\"\211\002\n\010ScanNode" +
-      "\022\026\n\005index\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTable" +
-      "Value\030\002 \001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableVal" +
-      "ue\030\003 \001(\005B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022" +
-      "\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027" +
-      "\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B" +
-      "\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZLgit-codecommit.eu-cen" +
-      "tral-1.amazonaws.com/v1/repos/jettison/j" +
-      "onp/data/rotaryb\006proto3"
+      "\000\000\000\000\340p@\022(\n\021current_scan_node\030\021 \001(\0132\r.ser" +
+      ".ScanNode\022\022\n\nis_started\030\022 \001(\010\022#\n\005meteo\030\023" +
+      " \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pan_init_s" +
+      "tatus\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_init_stat" +
+      "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\"\211\002\n\010ScanNode\022\026\n\005inde" +
+      "x\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 " +
+      "\001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005" +
+      "B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200" +
+      "v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000" +
+      "\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000" +
+      "\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000" +
+      "\000\000\000\000\000\000\000BNZLgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/data" +
+      "/rotaryb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

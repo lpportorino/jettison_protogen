@@ -29,8 +29,8 @@ Captures the complete operational state of the day camera, including normalized 
 | 15 | auto_gain | bool | - |
 | 10 | digital_zoom_level | double | >= 1 |
 | 11 | clahe_level | double | >= 0, <= 1 |
-| 12 | horizontal_fov_degrees | double | > 0, < 360 |
-| 13 | vertical_fov_degrees | double | > 0, < 360 |
+| 12 | horizontal_fov_degrees | double | >= 0, < 360 |
+| 13 | vertical_fov_degrees | double | >= 0, < 360 |
 | 14 | is_started | bool | - |
 | 16 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 | 17 | sensor_gain | double | >= 0, <= 1 |
