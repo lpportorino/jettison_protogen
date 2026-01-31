@@ -109,8 +109,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update C bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -161,8 +161,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update C++ bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -217,8 +217,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Go bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -270,8 +270,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Python bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -326,8 +326,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update TypeScript bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -444,8 +444,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Rust bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -494,8 +494,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Java bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -544,8 +544,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Kotlin bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -594,8 +594,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update JSON descriptors from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -641,8 +641,8 @@ jobs:
         Commit: ${{ github.sha }}"
 
           if [ -n "${{ secrets.SELF_PUSH }}" ]; then
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git push
           else
             echo "Warning: SELF_PUSH not configured, cannot push to main repo"
