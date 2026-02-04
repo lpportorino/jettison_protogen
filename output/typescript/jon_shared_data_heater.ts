@@ -24,6 +24,7 @@ export interface JonGuiDataHeater {
   channel0: JonGuiDataHeaterChannelStatus | undefined;
   channel1: JonGuiDataHeaterChannelStatus | undefined;
   channel2: JonGuiDataHeaterChannelStatus | undefined;
+  automaticControlEnabled: boolean;
 }
 
 function createBaseJonGuiDataHeaterChannelStatus(): JonGuiDataHeaterChannelStatus {
@@ -145,7 +146,15 @@ export const JonGuiDataHeaterChannelStatus: MessageFns<JonGuiDataHeaterChannelSt
 };
 
 function createBaseJonGuiDataHeater(): JonGuiDataHeater {
-  return { busVoltageV: 0, currentA: 0, powerW: 0, channel0: undefined, channel1: undefined, channel2: undefined };
+  return {
+    busVoltageV: 0,
+    currentA: 0,
+    powerW: 0,
+    channel0: undefined,
+    channel1: undefined,
+    channel2: undefined,
+    automaticControlEnabled: false,
+  };
 }
 
 export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
@@ -167,6 +176,9 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
     }
     if (message.channel2 !== undefined) {
       JonGuiDataHeaterChannelStatus.encode(message.channel2, writer.uint32(50).fork()).join();
+    }
+    if (message.automaticControlEnabled !== false) {
+      writer.uint32(56).bool(message.automaticControlEnabled);
     }
     return writer;
   },
@@ -226,6 +238,14 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
           message.channel2 = JonGuiDataHeaterChannelStatus.decode(reader, reader.uint32());
           continue;
         }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.automaticControlEnabled = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -267,6 +287,11 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
         : isSet(object.channel_2)
         ? JonGuiDataHeaterChannelStatus.fromJSON(object.channel_2)
         : undefined,
+      automaticControlEnabled: isSet(object.automaticControlEnabled)
+        ? globalThis.Boolean(object.automaticControlEnabled)
+        : isSet(object.automatic_control_enabled)
+        ? globalThis.Boolean(object.automatic_control_enabled)
+        : false,
     };
   },
 
@@ -290,6 +315,9 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
     if (message.channel2 !== undefined) {
       obj.channel2 = JonGuiDataHeaterChannelStatus.toJSON(message.channel2);
     }
+    if (message.automaticControlEnabled !== false) {
+      obj.automaticControlEnabled = message.automaticControlEnabled;
+    }
     return obj;
   },
 
@@ -310,6 +338,7 @@ export const JonGuiDataHeater: MessageFns<JonGuiDataHeater> = {
     message.channel2 = (object.channel2 !== undefined && object.channel2 !== null)
       ? JonGuiDataHeaterChannelStatus.fromPartial(object.channel2)
       : undefined;
+    message.automaticControlEnabled = object.automaticControlEnabled ?? false;
     return message;
   },
 };

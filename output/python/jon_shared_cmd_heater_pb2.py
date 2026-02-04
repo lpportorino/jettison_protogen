@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1bjon_shared_cmd_heater.proto\x12\ncmd.Heater\"\xaf\x01\n\x04Root\x12\"\n\x05start\x18\x01 \x01(\x0b\x32\x11.cmd.Heater.StartH\x00\x12 \n\x04stop\x18\x02 \x01(\x0b\x32\x10.cmd.Heater.StopH\x00\x12-\n\x0bset_heating\x18\x03 \x01(\x0b\x32\x16.cmd.Heater.SetHeatingH\x00\x12+\n\nget_status\x18\x04 \x01(\x0b\x32\x15.cmd.Heater.GetStatusH\x00\x42\x05\n\x03\x63md\"\x07\n\x05Start\"\x06\n\x04Stop\"\x84\x01\n\nSetHeating\x12\x10\n\x08target_0\x18\x01 \x01(\x02\x12\x10\n\x08target_1\x18\x02 \x01(\x02\x12\x10\n\x08target_2\x18\x03 \x01(\x02\x12\x14\n\x0ctemp_error_0\x18\x04 \x01(\x02\x12\x14\n\x0ctemp_error_1\x18\x05 \x01(\x02\x12\x14\n\x0ctemp_error_2\x18\x06 \x01(\x02\"\x0b\n\tGetStatusBMZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heaterb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1bjon_shared_cmd_heater.proto\x12\ncmd.Heater\"\xc1\x02\n\x04Root\x12\"\n\x05start\x18\x01 \x01(\x0b\x32\x11.cmd.Heater.StartH\x00\x12 \n\x04stop\x18\x02 \x01(\x0b\x32\x10.cmd.Heater.StopH\x00\x12-\n\x0bset_heating\x18\x03 \x01(\x0b\x32\x16.cmd.Heater.SetHeatingH\x00\x12+\n\nget_status\x18\x04 \x01(\x0b\x32\x15.cmd.Heater.GetStatusH\x00\x12\x46\n\x18\x65nable_automatic_control\x18\x05 \x01(\x0b\x32\".cmd.Heater.EnableAutomaticControlH\x00\x12H\n\x19\x64isable_automatic_control\x18\x06 \x01(\x0b\x32#.cmd.Heater.DisableAutomaticControlH\x00\x42\x05\n\x03\x63md\"\x07\n\x05Start\"\x06\n\x04Stop\"\x84\x01\n\nSetHeating\x12\x10\n\x08target_0\x18\x01 \x01(\x02\x12\x10\n\x08target_1\x18\x02 \x01(\x02\x12\x10\n\x08target_2\x18\x03 \x01(\x02\x12\x14\n\x0ctemp_error_0\x18\x04 \x01(\x02\x12\x14\n\x0ctemp_error_1\x18\x05 \x01(\x02\x12\x14\n\x0ctemp_error_2\x18\x06 \x01(\x02\"\x0b\n\tGetStatus\"\x18\n\x16\x45nableAutomaticControl\"\x19\n\x17\x44isableAutomaticControlBMZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heaterb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,13 +33,17 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater'
   _globals['_ROOT']._serialized_start=44
-  _globals['_ROOT']._serialized_end=219
-  _globals['_START']._serialized_start=221
-  _globals['_START']._serialized_end=228
-  _globals['_STOP']._serialized_start=230
-  _globals['_STOP']._serialized_end=236
-  _globals['_SETHEATING']._serialized_start=239
-  _globals['_SETHEATING']._serialized_end=371
-  _globals['_GETSTATUS']._serialized_start=373
-  _globals['_GETSTATUS']._serialized_end=384
+  _globals['_ROOT']._serialized_end=365
+  _globals['_START']._serialized_start=367
+  _globals['_START']._serialized_end=374
+  _globals['_STOP']._serialized_start=376
+  _globals['_STOP']._serialized_end=382
+  _globals['_SETHEATING']._serialized_start=385
+  _globals['_SETHEATING']._serialized_end=517
+  _globals['_GETSTATUS']._serialized_start=519
+  _globals['_GETSTATUS']._serialized_end=530
+  _globals['_ENABLEAUTOMATICCONTROL']._serialized_start=532
+  _globals['_ENABLEAUTOMATICCONTROL']._serialized_end=556
+  _globals['_DISABLEAUTOMATICCONTROL']._serialized_start=558
+  _globals['_DISABLEAUTOMATICCONTROL']._serialized_end=583
 # @@protoc_insertion_point(module_scope)

@@ -110,6 +110,42 @@ struct GetStatusDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetStatusDefaultTypeInternal _GetStatus_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR EnableAutomaticControl::EnableAutomaticControl(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct EnableAutomaticControlDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EnableAutomaticControlDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EnableAutomaticControlDefaultTypeInternal() {}
+  union {
+    EnableAutomaticControl _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EnableAutomaticControlDefaultTypeInternal _EnableAutomaticControl_default_instance_;
+              template <typename>
+PROTOBUF_CONSTEXPR DisableAutomaticControl::DisableAutomaticControl(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct DisableAutomaticControlDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DisableAutomaticControlDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DisableAutomaticControlDefaultTypeInternal() {}
+  union {
+    DisableAutomaticControl _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DisableAutomaticControlDefaultTypeInternal _DisableAutomaticControl_default_instance_;
 
 inline constexpr Root::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -157,6 +193,8 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::cmd::Heater::Root, _impl_.cmd_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::cmd::Heater::Start, _internal_metadata_),
@@ -196,15 +234,33 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::EnableAutomaticControl, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::DisableAutomaticControl, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::Heater::Root)},
-        {13, -1, -1, sizeof(::cmd::Heater::Start)},
-        {21, -1, -1, sizeof(::cmd::Heater::Stop)},
-        {29, -1, -1, sizeof(::cmd::Heater::SetHeating)},
-        {43, -1, -1, sizeof(::cmd::Heater::GetStatus)},
+        {15, -1, -1, sizeof(::cmd::Heater::Start)},
+        {23, -1, -1, sizeof(::cmd::Heater::Stop)},
+        {31, -1, -1, sizeof(::cmd::Heater::SetHeating)},
+        {45, -1, -1, sizeof(::cmd::Heater::GetStatus)},
+        {53, -1, -1, sizeof(::cmd::Heater::EnableAutomaticControl)},
+        {61, -1, -1, sizeof(::cmd::Heater::DisableAutomaticControl)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Heater::_Root_default_instance_._instance,
@@ -212,25 +268,32 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Heater::_Stop_default_instance_._instance,
     &::cmd::Heater::_SetHeating_default_instance_._instance,
     &::cmd::Heater::_GetStatus_default_instance_._instance,
+    &::cmd::Heater::_EnableAutomaticControl_default_instance_._instance,
+    &::cmd::Heater::_DisableAutomaticControl_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_heater.proto\022\ncmd.Heate"
-    "r\032\033buf/validate/validate.proto\"\266\001\n\004Root\022"
+    "r\032\033buf/validate/validate.proto\"\310\002\n\004Root\022"
     "\"\n\005start\030\001 \001(\0132\021.cmd.Heater.StartH\000\022 \n\004s"
     "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea"
     "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n"
     "get_status\030\004 \001(\0132\025.cmd.Heater.GetStatusH"
-    "\000B\014\n\003cmd\022\005\272H\002\010\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSet"
-    "Heating\022!\n\010target_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000"
-    "\000\000\022!\n\010target_1\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n"
-    "\010target_2\030\003 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp"
-    "_error_0\030\004 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_"
-    "error_1\030\005 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_e"
-    "rror_2\030\006 \001(\002B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStat"
-    "usBMZKgit-codecommit.eu-central-1.amazon"
-    "aws.com/v1/repos/jettison/jonp/cmd/heate"
-    "rb\006proto3"
+    "\000\022F\n\030enable_automatic_control\030\005 \001(\0132\".cm"
+    "d.Heater.EnableAutomaticControlH\000\022H\n\031dis"
+    "able_automatic_control\030\006 \001(\0132#.cmd.Heate"
+    "r.DisableAutomaticControlH\000B\014\n\003cmd\022\005\272H\002\010"
+    "\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSetHeating\022!\n\010tar"
+    "get_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_1"
+    "\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_2\030\003 \001("
+    "\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp_error_0\030\004 \001(\002"
+    "B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_1\030\005 \001(\002B"
+    "\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017"
+    "\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAu"
+    "tomaticControl\"\031\n\027DisableAutomaticContro"
+    "lBMZKgit-codecommit.eu-central-1.amazona"
+    "ws.com/v1/repos/jettison/jonp/cmd/heater"
+    "b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps[1] =
     {
@@ -240,13 +303,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto = {
     false,
     false,
-    609,
+    808,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto,
     "jon_shared_cmd_heater.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps,
     1,
-    5,
+    7,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fheater_2eproto::offsets,
@@ -315,6 +378,32 @@ void Root::set_allocated_get_status(::cmd::Heater::GetStatus* get_status) {
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.get_status)
 }
+void Root::set_allocated_enable_automatic_control(::cmd::Heater::EnableAutomaticControl* enable_automatic_control) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (enable_automatic_control) {
+    ::google::protobuf::Arena* submessage_arena = enable_automatic_control->GetArena();
+    if (message_arena != submessage_arena) {
+      enable_automatic_control = ::google::protobuf::internal::GetOwnedMessage(message_arena, enable_automatic_control, submessage_arena);
+    }
+    set_has_enable_automatic_control();
+    _impl_.cmd_.enable_automatic_control_ = enable_automatic_control;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.enable_automatic_control)
+}
+void Root::set_allocated_disable_automatic_control(::cmd::Heater::DisableAutomaticControl* disable_automatic_control) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (disable_automatic_control) {
+    ::google::protobuf::Arena* submessage_arena = disable_automatic_control->GetArena();
+    if (message_arena != submessage_arena) {
+      disable_automatic_control = ::google::protobuf::internal::GetOwnedMessage(message_arena, disable_automatic_control, submessage_arena);
+    }
+    set_has_disable_automatic_control();
+    _impl_.cmd_.disable_automatic_control_ = disable_automatic_control;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.disable_automatic_control)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -358,6 +447,12 @@ Root::Root(
         break;
       case kGetStatus:
         _impl_.cmd_.get_status_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::GetStatus>(arena, *from._impl_.cmd_.get_status_);
+        break;
+      case kEnableAutomaticControl:
+        _impl_.cmd_.enable_automatic_control_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::EnableAutomaticControl>(arena, *from._impl_.cmd_.enable_automatic_control_);
+        break;
+      case kDisableAutomaticControl:
+        _impl_.cmd_.disable_automatic_control_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::DisableAutomaticControl>(arena, *from._impl_.cmd_.disable_automatic_control_);
         break;
   }
 
@@ -423,6 +518,22 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kEnableAutomaticControl: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.enable_automatic_control_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.enable_automatic_control_);
+      }
+      break;
+    }
+    case kDisableAutomaticControl: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.disable_automatic_control_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.disable_automatic_control_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -467,16 +578,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 4, 4, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 0,  // max_field_number, fast_idx_mask
+    6, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967232,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
-    4,  // num_aux_entries
+    6,  // num_field_entries
+    6,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -501,11 +612,19 @@ const ::_pbi::TcParseTable<0, 4, 4, 0, 2> Root::_table_ = {
     // .cmd.Heater.GetStatus get_status = 4;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.get_status_), _Internal::kOneofCaseOffset + 0, 3,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.EnableAutomaticControl enable_automatic_control = 5;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.enable_automatic_control_), _Internal::kOneofCaseOffset + 0, 4,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.disable_automatic_control_), _Internal::kOneofCaseOffset + 0, 5,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::Heater::Start>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::Stop>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::SetHeating>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::GetStatus>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::EnableAutomaticControl>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::DisableAutomaticControl>()},
   }}, {{
   }},
 };
@@ -561,6 +680,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kEnableAutomaticControl: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  5, *this_._impl_.cmd_.enable_automatic_control_, this_._impl_.cmd_.enable_automatic_control_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kDisableAutomaticControl: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  6, *this_._impl_.cmd_.disable_automatic_control_, this_._impl_.cmd_.disable_automatic_control_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -610,6 +741,18 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kGetStatus: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.get_status_);
+              break;
+            }
+            // .cmd.Heater.EnableAutomaticControl enable_automatic_control = 5;
+            case kEnableAutomaticControl: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.enable_automatic_control_);
+              break;
+            }
+            // .cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;
+            case kDisableAutomaticControl: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.disable_automatic_control_);
               break;
             }
             case CMD_NOT_SET: {
@@ -673,6 +816,24 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::Heater::GetStatus>(arena, *from._impl_.cmd_.get_status_);
         } else {
           _this->_impl_.cmd_.get_status_->MergeFrom(from._internal_get_status());
+        }
+        break;
+      }
+      case kEnableAutomaticControl: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.enable_automatic_control_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Heater::EnableAutomaticControl>(arena, *from._impl_.cmd_.enable_automatic_control_);
+        } else {
+          _this->_impl_.cmd_.enable_automatic_control_->MergeFrom(from._internal_enable_automatic_control());
+        }
+        break;
+      }
+      case kDisableAutomaticControl: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.disable_automatic_control_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Heater::DisableAutomaticControl>(arena, *from._impl_.cmd_.disable_automatic_control_);
+        } else {
+          _this->_impl_.cmd_.disable_automatic_control_->MergeFrom(from._internal_disable_automatic_control());
         }
         break;
       }
@@ -1329,6 +1490,212 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> GetStatus::_table_ = {
 
 
 ::google::protobuf::Metadata GetStatus::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class EnableAutomaticControl::_Internal {
+ public:
+};
+
+EnableAutomaticControl::EnableAutomaticControl(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.Heater.EnableAutomaticControl)
+}
+EnableAutomaticControl::EnableAutomaticControl(
+    ::google::protobuf::Arena* arena,
+    const EnableAutomaticControl& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  EnableAutomaticControl* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Heater.EnableAutomaticControl)
+}
+
+inline void* EnableAutomaticControl::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) EnableAutomaticControl(arena);
+}
+constexpr auto EnableAutomaticControl::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(EnableAutomaticControl),
+                                            alignof(EnableAutomaticControl));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull EnableAutomaticControl::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_EnableAutomaticControl_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &EnableAutomaticControl::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<EnableAutomaticControl>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &EnableAutomaticControl::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<EnableAutomaticControl>(), &EnableAutomaticControl::ByteSizeLong,
+            &EnableAutomaticControl::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(EnableAutomaticControl, _impl_._cached_size_),
+        false,
+    },
+    &EnableAutomaticControl::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* EnableAutomaticControl::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> EnableAutomaticControl::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Heater::EnableAutomaticControl>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata EnableAutomaticControl::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class DisableAutomaticControl::_Internal {
+ public:
+};
+
+DisableAutomaticControl::DisableAutomaticControl(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:cmd.Heater.DisableAutomaticControl)
+}
+DisableAutomaticControl::DisableAutomaticControl(
+    ::google::protobuf::Arena* arena,
+    const DisableAutomaticControl& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  DisableAutomaticControl* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Heater.DisableAutomaticControl)
+}
+
+inline void* DisableAutomaticControl::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) DisableAutomaticControl(arena);
+}
+constexpr auto DisableAutomaticControl::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(DisableAutomaticControl),
+                                            alignof(DisableAutomaticControl));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull DisableAutomaticControl::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_DisableAutomaticControl_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &DisableAutomaticControl::MergeImpl,
+        ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<DisableAutomaticControl>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &DisableAutomaticControl::SharedDtor,
+        ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<DisableAutomaticControl>(), &DisableAutomaticControl::ByteSizeLong,
+            &DisableAutomaticControl::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(DisableAutomaticControl, _impl_._cached_size_),
+        false,
+    },
+    &DisableAutomaticControl::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* DisableAutomaticControl::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2> DisableAutomaticControl::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Heater::DisableAutomaticControl>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }},
+  // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata DisableAutomaticControl::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

@@ -5,16 +5,20 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("start", "stop", "set_heating", "get_status")
+    __slots__ = ("start", "stop", "set_heating", "get_status", "enable_automatic_control", "disable_automatic_control")
     START_FIELD_NUMBER: _ClassVar[int]
     STOP_FIELD_NUMBER: _ClassVar[int]
     SET_HEATING_FIELD_NUMBER: _ClassVar[int]
     GET_STATUS_FIELD_NUMBER: _ClassVar[int]
+    ENABLE_AUTOMATIC_CONTROL_FIELD_NUMBER: _ClassVar[int]
+    DISABLE_AUTOMATIC_CONTROL_FIELD_NUMBER: _ClassVar[int]
     start: Start
     stop: Stop
     set_heating: SetHeating
     get_status: GetStatus
-    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., set_heating: _Optional[_Union[SetHeating, _Mapping]] = ..., get_status: _Optional[_Union[GetStatus, _Mapping]] = ...) -> None: ...
+    enable_automatic_control: EnableAutomaticControl
+    disable_automatic_control: DisableAutomaticControl
+    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., set_heating: _Optional[_Union[SetHeating, _Mapping]] = ..., get_status: _Optional[_Union[GetStatus, _Mapping]] = ..., enable_automatic_control: _Optional[_Union[EnableAutomaticControl, _Mapping]] = ..., disable_automatic_control: _Optional[_Union[DisableAutomaticControl, _Mapping]] = ...) -> None: ...
 
 class Start(_message.Message):
     __slots__ = ()
@@ -41,5 +45,13 @@ class SetHeating(_message.Message):
     def __init__(self, target_0: _Optional[float] = ..., target_1: _Optional[float] = ..., target_2: _Optional[float] = ..., temp_error_0: _Optional[float] = ..., temp_error_1: _Optional[float] = ..., temp_error_2: _Optional[float] = ...) -> None: ...
 
 class GetStatus(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class EnableAutomaticControl(_message.Message):
+    __slots__ = ()
+    def __init__(self) -> None: ...
+
+class DisableAutomaticControl(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...

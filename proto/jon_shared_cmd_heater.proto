@@ -11,6 +11,8 @@ message Root {
     Stop stop = 2;
     SetHeating set_heating = 3;
     GetStatus get_status = 4;
+    EnableAutomaticControl enable_automatic_control = 5;
+    DisableAutomaticControl disable_automatic_control = 6;
   }
 }
 
@@ -34,3 +36,9 @@ message SetHeating {
 
 // GetStatus requests current heater status
 message GetStatus {}
+
+// EnableAutomaticControl enables automatic heater control
+message EnableAutomaticControl {}
+
+// DisableAutomaticControl disables automatic heater control
+message DisableAutomaticControl {}

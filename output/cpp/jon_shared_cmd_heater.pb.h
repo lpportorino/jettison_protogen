@@ -55,6 +55,12 @@ extern const ::google::protobuf::internal::DescriptorTable
     descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto;
 namespace cmd {
 namespace Heater {
+class DisableAutomaticControl;
+struct DisableAutomaticControlDefaultTypeInternal;
+extern DisableAutomaticControlDefaultTypeInternal _DisableAutomaticControl_default_instance_;
+class EnableAutomaticControl;
+struct EnableAutomaticControlDefaultTypeInternal;
+extern EnableAutomaticControlDefaultTypeInternal _EnableAutomaticControl_default_instance_;
 class GetStatus;
 struct GetStatusDefaultTypeInternal;
 extern GetStatusDefaultTypeInternal _GetStatus_default_instance_;
@@ -770,6 +776,296 @@ class GetStatus final : public ::google::protobuf::internal::ZeroFieldsBase
 };
 // -------------------------------------------------------------------
 
+class EnableAutomaticControl final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.Heater.EnableAutomaticControl) */ {
+ public:
+  inline EnableAutomaticControl() : EnableAutomaticControl(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(EnableAutomaticControl* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(EnableAutomaticControl));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR EnableAutomaticControl(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline EnableAutomaticControl(const EnableAutomaticControl& from) : EnableAutomaticControl(nullptr, from) {}
+  inline EnableAutomaticControl(EnableAutomaticControl&& from) noexcept
+      : EnableAutomaticControl(nullptr, std::move(from)) {}
+  inline EnableAutomaticControl& operator=(const EnableAutomaticControl& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EnableAutomaticControl& operator=(EnableAutomaticControl&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EnableAutomaticControl& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EnableAutomaticControl* internal_default_instance() {
+    return reinterpret_cast<const EnableAutomaticControl*>(
+        &_EnableAutomaticControl_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 5;
+  friend void swap(EnableAutomaticControl& a, EnableAutomaticControl& b) { a.Swap(&b); }
+  inline void Swap(EnableAutomaticControl* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EnableAutomaticControl* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EnableAutomaticControl* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<EnableAutomaticControl>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const EnableAutomaticControl& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const EnableAutomaticControl& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.Heater.EnableAutomaticControl"; }
+
+ protected:
+  explicit EnableAutomaticControl(::google::protobuf::Arena* arena);
+  EnableAutomaticControl(::google::protobuf::Arena* arena, const EnableAutomaticControl& from);
+  EnableAutomaticControl(::google::protobuf::Arena* arena, EnableAutomaticControl&& from) noexcept
+      : EnableAutomaticControl(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.Heater.EnableAutomaticControl)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const EnableAutomaticControl& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheater_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DisableAutomaticControl final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:cmd.Heater.DisableAutomaticControl) */ {
+ public:
+  inline DisableAutomaticControl() : DisableAutomaticControl(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(DisableAutomaticControl* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(DisableAutomaticControl));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR DisableAutomaticControl(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline DisableAutomaticControl(const DisableAutomaticControl& from) : DisableAutomaticControl(nullptr, from) {}
+  inline DisableAutomaticControl(DisableAutomaticControl&& from) noexcept
+      : DisableAutomaticControl(nullptr, std::move(from)) {}
+  inline DisableAutomaticControl& operator=(const DisableAutomaticControl& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DisableAutomaticControl& operator=(DisableAutomaticControl&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DisableAutomaticControl& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DisableAutomaticControl* internal_default_instance() {
+    return reinterpret_cast<const DisableAutomaticControl*>(
+        &_DisableAutomaticControl_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 6;
+  friend void swap(DisableAutomaticControl& a, DisableAutomaticControl& b) { a.Swap(&b); }
+  inline void Swap(DisableAutomaticControl* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DisableAutomaticControl* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DisableAutomaticControl* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<DisableAutomaticControl>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const DisableAutomaticControl& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const DisableAutomaticControl& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "cmd.Heater.DisableAutomaticControl"; }
+
+ protected:
+  explicit DisableAutomaticControl(::google::protobuf::Arena* arena);
+  DisableAutomaticControl(::google::protobuf::Arena* arena, const DisableAutomaticControl& from);
+  DisableAutomaticControl(::google::protobuf::Arena* arena, DisableAutomaticControl&& from) noexcept
+      : DisableAutomaticControl(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:cmd.Heater.DisableAutomaticControl)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 0, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const DisableAutomaticControl& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_jon_5fshared_5fcmd_5fheater_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Root final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:cmd.Heater.Root) */ {
  public:
@@ -830,6 +1126,8 @@ class Root final : public ::google::protobuf::Message
     kStop = 2,
     kSetHeating = 3,
     kGetStatus = 4,
+    kEnableAutomaticControl = 5,
+    kDisableAutomaticControl = 6,
     CMD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -927,6 +1225,8 @@ class Root final : public ::google::protobuf::Message
     kStopFieldNumber = 2,
     kSetHeatingFieldNumber = 3,
     kGetStatusFieldNumber = 4,
+    kEnableAutomaticControlFieldNumber = 5,
+    kDisableAutomaticControlFieldNumber = 6,
   };
   // .cmd.Heater.Start start = 1;
   bool has_start() const;
@@ -1004,6 +1304,44 @@ class Root final : public ::google::protobuf::Message
   ::cmd::Heater::GetStatus* _internal_mutable_get_status();
 
   public:
+  // .cmd.Heater.EnableAutomaticControl enable_automatic_control = 5;
+  bool has_enable_automatic_control() const;
+  private:
+  bool _internal_has_enable_automatic_control() const;
+
+  public:
+  void clear_enable_automatic_control() ;
+  const ::cmd::Heater::EnableAutomaticControl& enable_automatic_control() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::EnableAutomaticControl* release_enable_automatic_control();
+  ::cmd::Heater::EnableAutomaticControl* mutable_enable_automatic_control();
+  void set_allocated_enable_automatic_control(::cmd::Heater::EnableAutomaticControl* value);
+  void unsafe_arena_set_allocated_enable_automatic_control(::cmd::Heater::EnableAutomaticControl* value);
+  ::cmd::Heater::EnableAutomaticControl* unsafe_arena_release_enable_automatic_control();
+
+  private:
+  const ::cmd::Heater::EnableAutomaticControl& _internal_enable_automatic_control() const;
+  ::cmd::Heater::EnableAutomaticControl* _internal_mutable_enable_automatic_control();
+
+  public:
+  // .cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;
+  bool has_disable_automatic_control() const;
+  private:
+  bool _internal_has_disable_automatic_control() const;
+
+  public:
+  void clear_disable_automatic_control() ;
+  const ::cmd::Heater::DisableAutomaticControl& disable_automatic_control() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::DisableAutomaticControl* release_disable_automatic_control();
+  ::cmd::Heater::DisableAutomaticControl* mutable_disable_automatic_control();
+  void set_allocated_disable_automatic_control(::cmd::Heater::DisableAutomaticControl* value);
+  void unsafe_arena_set_allocated_disable_automatic_control(::cmd::Heater::DisableAutomaticControl* value);
+  ::cmd::Heater::DisableAutomaticControl* unsafe_arena_release_disable_automatic_control();
+
+  private:
+  const ::cmd::Heater::DisableAutomaticControl& _internal_disable_automatic_control() const;
+  ::cmd::Heater::DisableAutomaticControl* _internal_mutable_disable_automatic_control();
+
+  public:
   void clear_cmd();
   CmdCase cmd_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Heater.Root)
@@ -1013,11 +1351,13 @@ class Root final : public ::google::protobuf::Message
   void set_has_stop();
   void set_has_set_heating();
   void set_has_get_status();
+  void set_has_enable_automatic_control();
+  void set_has_disable_automatic_control();
   inline bool has_cmd() const;
   inline void clear_has_cmd();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 4, 4,
+      0, 6, 6,
       0, 2>
       _table_;
 
@@ -1042,6 +1382,8 @@ class Root final : public ::google::protobuf::Message
       ::cmd::Heater::Stop* stop_;
       ::cmd::Heater::SetHeating* set_heating_;
       ::cmd::Heater::GetStatus* get_status_;
+      ::cmd::Heater::EnableAutomaticControl* enable_automatic_control_;
+      ::cmd::Heater::DisableAutomaticControl* disable_automatic_control_;
     } cmd_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -1383,6 +1725,164 @@ inline ::cmd::Heater::GetStatus* Root::mutable_get_status() ABSL_ATTRIBUTE_LIFET
   return _msg;
 }
 
+// .cmd.Heater.EnableAutomaticControl enable_automatic_control = 5;
+inline bool Root::has_enable_automatic_control() const {
+  return cmd_case() == kEnableAutomaticControl;
+}
+inline bool Root::_internal_has_enable_automatic_control() const {
+  return cmd_case() == kEnableAutomaticControl;
+}
+inline void Root::set_has_enable_automatic_control() {
+  _impl_._oneof_case_[0] = kEnableAutomaticControl;
+}
+inline void Root::clear_enable_automatic_control() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kEnableAutomaticControl) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.enable_automatic_control_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.enable_automatic_control_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::Heater::EnableAutomaticControl* Root::release_enable_automatic_control() {
+  // @@protoc_insertion_point(field_release:cmd.Heater.Root.enable_automatic_control)
+  if (cmd_case() == kEnableAutomaticControl) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.enable_automatic_control_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.enable_automatic_control_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::EnableAutomaticControl& Root::_internal_enable_automatic_control() const {
+  return cmd_case() == kEnableAutomaticControl ? *_impl_.cmd_.enable_automatic_control_ : reinterpret_cast<::cmd::Heater::EnableAutomaticControl&>(::cmd::Heater::_EnableAutomaticControl_default_instance_);
+}
+inline const ::cmd::Heater::EnableAutomaticControl& Root::enable_automatic_control() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Heater.Root.enable_automatic_control)
+  return _internal_enable_automatic_control();
+}
+inline ::cmd::Heater::EnableAutomaticControl* Root::unsafe_arena_release_enable_automatic_control() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Heater.Root.enable_automatic_control)
+  if (cmd_case() == kEnableAutomaticControl) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.enable_automatic_control_;
+    _impl_.cmd_.enable_automatic_control_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_enable_automatic_control(::cmd::Heater::EnableAutomaticControl* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_enable_automatic_control();
+    _impl_.cmd_.enable_automatic_control_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Heater.Root.enable_automatic_control)
+}
+inline ::cmd::Heater::EnableAutomaticControl* Root::_internal_mutable_enable_automatic_control() {
+  if (cmd_case() != kEnableAutomaticControl) {
+    clear_cmd();
+    set_has_enable_automatic_control();
+    _impl_.cmd_.enable_automatic_control_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::EnableAutomaticControl>(GetArena());
+  }
+  return _impl_.cmd_.enable_automatic_control_;
+}
+inline ::cmd::Heater::EnableAutomaticControl* Root::mutable_enable_automatic_control() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::EnableAutomaticControl* _msg = _internal_mutable_enable_automatic_control();
+  // @@protoc_insertion_point(field_mutable:cmd.Heater.Root.enable_automatic_control)
+  return _msg;
+}
+
+// .cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;
+inline bool Root::has_disable_automatic_control() const {
+  return cmd_case() == kDisableAutomaticControl;
+}
+inline bool Root::_internal_has_disable_automatic_control() const {
+  return cmd_case() == kDisableAutomaticControl;
+}
+inline void Root::set_has_disable_automatic_control() {
+  _impl_._oneof_case_[0] = kDisableAutomaticControl;
+}
+inline void Root::clear_disable_automatic_control() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (cmd_case() == kDisableAutomaticControl) {
+    if (GetArena() == nullptr) {
+      delete _impl_.cmd_.disable_automatic_control_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.disable_automatic_control_);
+    }
+    clear_has_cmd();
+  }
+}
+inline ::cmd::Heater::DisableAutomaticControl* Root::release_disable_automatic_control() {
+  // @@protoc_insertion_point(field_release:cmd.Heater.Root.disable_automatic_control)
+  if (cmd_case() == kDisableAutomaticControl) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.disable_automatic_control_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.cmd_.disable_automatic_control_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::DisableAutomaticControl& Root::_internal_disable_automatic_control() const {
+  return cmd_case() == kDisableAutomaticControl ? *_impl_.cmd_.disable_automatic_control_ : reinterpret_cast<::cmd::Heater::DisableAutomaticControl&>(::cmd::Heater::_DisableAutomaticControl_default_instance_);
+}
+inline const ::cmd::Heater::DisableAutomaticControl& Root::disable_automatic_control() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Heater.Root.disable_automatic_control)
+  return _internal_disable_automatic_control();
+}
+inline ::cmd::Heater::DisableAutomaticControl* Root::unsafe_arena_release_disable_automatic_control() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Heater.Root.disable_automatic_control)
+  if (cmd_case() == kDisableAutomaticControl) {
+    clear_has_cmd();
+    auto* temp = _impl_.cmd_.disable_automatic_control_;
+    _impl_.cmd_.disable_automatic_control_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_disable_automatic_control(::cmd::Heater::DisableAutomaticControl* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_cmd();
+  if (value) {
+    set_has_disable_automatic_control();
+    _impl_.cmd_.disable_automatic_control_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Heater.Root.disable_automatic_control)
+}
+inline ::cmd::Heater::DisableAutomaticControl* Root::_internal_mutable_disable_automatic_control() {
+  if (cmd_case() != kDisableAutomaticControl) {
+    clear_cmd();
+    set_has_disable_automatic_control();
+    _impl_.cmd_.disable_automatic_control_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::DisableAutomaticControl>(GetArena());
+  }
+  return _impl_.cmd_.disable_automatic_control_;
+}
+inline ::cmd::Heater::DisableAutomaticControl* Root::mutable_disable_automatic_control() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::DisableAutomaticControl* _msg = _internal_mutable_disable_automatic_control();
+  // @@protoc_insertion_point(field_mutable:cmd.Heater.Root.disable_automatic_control)
+  return _msg;
+}
+
 inline bool Root::has_cmd() const {
   return cmd_case() != CMD_NOT_SET;
 }
@@ -1539,6 +2039,14 @@ inline void SetHeating::_internal_set_temp_error_2(float value) {
 // -------------------------------------------------------------------
 
 // GetStatus
+
+// -------------------------------------------------------------------
+
+// EnableAutomaticControl
+
+// -------------------------------------------------------------------
+
+// DisableAutomaticControl
 
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

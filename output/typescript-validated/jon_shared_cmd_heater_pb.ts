@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_shared_cmd_heater.proto.
  */
 export const file_jon_shared_cmd_heater: GenFile = /*@__PURE__*/
-  fileDesc("Chtqb25fc2hhcmVkX2NtZF9oZWF0ZXIucHJvdG8SCmNtZC5IZWF0ZXIitgEKBFJvb3QSIgoFc3RhcnQYASABKAsyES5jbWQuSGVhdGVyLlN0YXJ0SAASIAoEc3RvcBgCIAEoCzIQLmNtZC5IZWF0ZXIuU3RvcEgAEi0KC3NldF9oZWF0aW5nGAMgASgLMhYuY21kLkhlYXRlci5TZXRIZWF0aW5nSAASKwoKZ2V0X3N0YXR1cxgEIAEoCzIVLmNtZC5IZWF0ZXIuR2V0U3RhdHVzSABCDAoDY21kEgW6SAIIASIHCgVTdGFydCIGCgRTdG9wIuoBCgpTZXRIZWF0aW5nEiEKCHRhcmdldF8wGAEgASgCQg+6SAwKCh0AAHBCLQAAAAASIQoIdGFyZ2V0XzEYAiABKAJCD7pIDAoKHQAAcEItAAAAABIhCgh0YXJnZXRfMhgDIAEoAkIPukgMCgodAABwQi0AAAAAEiUKDHRlbXBfZXJyb3JfMBgEIAEoAkIPukgMCgodAAAgQi0AAAAAEiUKDHRlbXBfZXJyb3JfMRgFIAEoAkIPukgMCgodAAAgQi0AAAAAEiUKDHRlbXBfZXJyb3JfMhgGIAEoAkIPukgMCgodAAAgQi0AAAAAIgsKCUdldFN0YXR1c0JNWktnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NtZC9oZWF0ZXJiBnByb3RvMw", [file_buf_validate_validate]);
+  fileDesc("Chtqb25fc2hhcmVkX2NtZF9oZWF0ZXIucHJvdG8SCmNtZC5IZWF0ZXIiyAIKBFJvb3QSIgoFc3RhcnQYASABKAsyES5jbWQuSGVhdGVyLlN0YXJ0SAASIAoEc3RvcBgCIAEoCzIQLmNtZC5IZWF0ZXIuU3RvcEgAEi0KC3NldF9oZWF0aW5nGAMgASgLMhYuY21kLkhlYXRlci5TZXRIZWF0aW5nSAASKwoKZ2V0X3N0YXR1cxgEIAEoCzIVLmNtZC5IZWF0ZXIuR2V0U3RhdHVzSAASRgoYZW5hYmxlX2F1dG9tYXRpY19jb250cm9sGAUgASgLMiIuY21kLkhlYXRlci5FbmFibGVBdXRvbWF0aWNDb250cm9sSAASSAoZZGlzYWJsZV9hdXRvbWF0aWNfY29udHJvbBgGIAEoCzIjLmNtZC5IZWF0ZXIuRGlzYWJsZUF1dG9tYXRpY0NvbnRyb2xIAEIMCgNjbWQSBbpIAggBIgcKBVN0YXJ0IgYKBFN0b3Ai6gEKClNldEhlYXRpbmcSIQoIdGFyZ2V0XzAYASABKAJCD7pIDAoKHQAAcEItAAAAABIhCgh0YXJnZXRfMRgCIAEoAkIPukgMCgodAABwQi0AAAAAEiEKCHRhcmdldF8yGAMgASgCQg+6SAwKCh0AAHBCLQAAAAASJQoMdGVtcF9lcnJvcl8wGAQgASgCQg+6SAwKCh0AACBCLQAAAAASJQoMdGVtcF9lcnJvcl8xGAUgASgCQg+6SAwKCh0AACBCLQAAAAASJQoMdGVtcF9lcnJvcl8yGAYgASgCQg+6SAwKCh0AACBCLQAAAAAiCwoJR2V0U3RhdHVzIhgKFkVuYWJsZUF1dG9tYXRpY0NvbnRyb2wiGQoXRGlzYWJsZUF1dG9tYXRpY0NvbnRyb2xCTVpLZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC9jbWQvaGVhdGVyYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * @generated from message cmd.Heater.Root
@@ -44,6 +44,18 @@ export type Root = Message<"cmd.Heater.Root"> & {
      */
     value: GetStatus;
     case: "getStatus";
+  } | {
+    /**
+     * @generated from field: cmd.Heater.EnableAutomaticControl enable_automatic_control = 5;
+     */
+    value: EnableAutomaticControl;
+    case: "enableAutomaticControl";
+  } | {
+    /**
+     * @generated from field: cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;
+     */
+    value: DisableAutomaticControl;
+    case: "disableAutomaticControl";
   } | { case: undefined; value?: undefined };
 };
 
@@ -146,4 +158,34 @@ export type GetStatus = Message<"cmd.Heater.GetStatus"> & {
  */
 export const GetStatusSchema: GenMessage<GetStatus> = /*@__PURE__*/
   messageDesc(file_jon_shared_cmd_heater, 4);
+
+/**
+ * EnableAutomaticControl enables automatic heater control
+ *
+ * @generated from message cmd.Heater.EnableAutomaticControl
+ */
+export type EnableAutomaticControl = Message<"cmd.Heater.EnableAutomaticControl"> & {
+};
+
+/**
+ * Describes the message cmd.Heater.EnableAutomaticControl.
+ * Use `create(EnableAutomaticControlSchema)` to create a new message.
+ */
+export const EnableAutomaticControlSchema: GenMessage<EnableAutomaticControl> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_heater, 5);
+
+/**
+ * DisableAutomaticControl disables automatic heater control
+ *
+ * @generated from message cmd.Heater.DisableAutomaticControl
+ */
+export type DisableAutomaticControl = Message<"cmd.Heater.DisableAutomaticControl"> & {
+};
+
+/**
+ * Describes the message cmd.Heater.DisableAutomaticControl.
+ * Use `create(DisableAutomaticControlSchema)` to create a new message.
+ */
+export const DisableAutomaticControlSchema: GenMessage<DisableAutomaticControl> = /*@__PURE__*/
+  messageDesc(file_jon_shared_cmd_heater, 6);
 

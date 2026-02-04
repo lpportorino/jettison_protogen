@@ -450,6 +450,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     kBusVoltageVFieldNumber = 1,
     kCurrentAFieldNumber = 2,
     kPowerWFieldNumber = 3,
+    kAutomaticControlEnabledFieldNumber = 7,
   };
   // .ser.JonGuiDataHeaterChannelStatus channel_0 = 4;
   bool has_channel_0() const;
@@ -526,12 +527,22 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
   void _internal_set_power_w(float value);
 
   public:
+  // bool automatic_control_enabled = 7;
+  void clear_automatic_control_enabled() ;
+  bool automatic_control_enabled() const;
+  void set_automatic_control_enabled(bool value);
+
+  private:
+  bool _internal_automatic_control_enabled() const;
+  void _internal_set_automatic_control_enabled(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataHeater)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 3,
+      3, 7, 3,
       0, 2>
       _table_;
 
@@ -557,6 +568,7 @@ class JonGuiDataHeater final : public ::google::protobuf::Message
     float bus_voltage_v_;
     float current_a_;
     float power_w_;
+    bool automatic_control_enabled_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1023,6 +1035,28 @@ inline void JonGuiDataHeater::set_allocated_channel_2(::ser::JonGuiDataHeaterCha
 
   _impl_.channel_2_ = reinterpret_cast<::ser::JonGuiDataHeaterChannelStatus*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataHeater.channel_2)
+}
+
+// bool automatic_control_enabled = 7;
+inline void JonGuiDataHeater::clear_automatic_control_enabled() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.automatic_control_enabled_ = false;
+}
+inline bool JonGuiDataHeater::automatic_control_enabled() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataHeater.automatic_control_enabled)
+  return _internal_automatic_control_enabled();
+}
+inline void JonGuiDataHeater::set_automatic_control_enabled(bool value) {
+  _internal_set_automatic_control_enabled(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataHeater.automatic_control_enabled)
+}
+inline bool JonGuiDataHeater::_internal_automatic_control_enabled() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.automatic_control_enabled_;
+}
+inline void JonGuiDataHeater::_internal_set_automatic_control_enabled(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.automatic_control_enabled_ = value;
 }
 
 #ifdef __GNUC__

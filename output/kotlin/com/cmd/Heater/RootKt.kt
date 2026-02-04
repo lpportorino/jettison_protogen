@@ -124,6 +124,54 @@ public object RootKt {
     public fun hasGetStatus(): kotlin.Boolean {
       return _builder.hasGetStatus()
     }
+
+    /**
+     * `.cmd.Heater.EnableAutomaticControl enable_automatic_control = 5 [json_name = "enableAutomaticControl"];`
+     */
+    public var enableAutomaticControl: com.cmd.Heater.EnableAutomaticControl
+      @kotlin.jvm.JvmName("getEnableAutomaticControl")
+        get() = _builder.enableAutomaticControl
+      @kotlin.jvm.JvmName("setEnableAutomaticControl")
+        set(value) {
+        _builder.enableAutomaticControl = value
+      }
+    /**
+     * `.cmd.Heater.EnableAutomaticControl enable_automatic_control = 5 [json_name = "enableAutomaticControl"];`
+     */
+    public fun clearEnableAutomaticControl() {
+      _builder.clearEnableAutomaticControl()
+    }
+    /**
+     * `.cmd.Heater.EnableAutomaticControl enable_automatic_control = 5 [json_name = "enableAutomaticControl"];`
+     * @return Whether the enableAutomaticControl field is set.
+     */
+    public fun hasEnableAutomaticControl(): kotlin.Boolean {
+      return _builder.hasEnableAutomaticControl()
+    }
+
+    /**
+     * `.cmd.Heater.DisableAutomaticControl disable_automatic_control = 6 [json_name = "disableAutomaticControl"];`
+     */
+    public var disableAutomaticControl: com.cmd.Heater.DisableAutomaticControl
+      @kotlin.jvm.JvmName("getDisableAutomaticControl")
+        get() = _builder.disableAutomaticControl
+      @kotlin.jvm.JvmName("setDisableAutomaticControl")
+        set(value) {
+        _builder.disableAutomaticControl = value
+      }
+    /**
+     * `.cmd.Heater.DisableAutomaticControl disable_automatic_control = 6 [json_name = "disableAutomaticControl"];`
+     */
+    public fun clearDisableAutomaticControl() {
+      _builder.clearDisableAutomaticControl()
+    }
+    /**
+     * `.cmd.Heater.DisableAutomaticControl disable_automatic_control = 6 [json_name = "disableAutomaticControl"];`
+     * @return Whether the disableAutomaticControl field is set.
+     */
+    public fun hasDisableAutomaticControl(): kotlin.Boolean {
+      return _builder.hasDisableAutomaticControl()
+    }
     public val cmdCase: com.cmd.Heater.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -148,4 +196,10 @@ public val com.cmd.Heater.RootOrBuilder.setHeatingOrNull: com.cmd.Heater.SetHeat
 
 public val com.cmd.Heater.RootOrBuilder.getStatusOrNull: com.cmd.Heater.GetStatus?
   get() = if (hasGetStatus()) getGetStatus() else null
+
+public val com.cmd.Heater.RootOrBuilder.enableAutomaticControlOrNull: com.cmd.Heater.EnableAutomaticControl?
+  get() = if (hasEnableAutomaticControl()) getEnableAutomaticControl() else null
+
+public val com.cmd.Heater.RootOrBuilder.disableAutomaticControlOrNull: com.cmd.Heater.DisableAutomaticControl?
+  get() = if (hasDisableAutomaticControl()) getDisableAutomaticControl() else null
 

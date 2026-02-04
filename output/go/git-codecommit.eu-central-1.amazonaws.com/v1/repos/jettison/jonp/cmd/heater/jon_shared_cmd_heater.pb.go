@@ -30,6 +30,8 @@ type Root struct {
 	//	*Root_Stop
 	//	*Root_SetHeating
 	//	*Root_GetStatus
+	//	*Root_EnableAutomaticControl
+	//	*Root_DisableAutomaticControl
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -108,6 +110,24 @@ func (x *Root) GetGetStatus() *GetStatus {
 	return nil
 }
 
+func (x *Root) GetEnableAutomaticControl() *EnableAutomaticControl {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_EnableAutomaticControl); ok {
+			return x.EnableAutomaticControl
+		}
+	}
+	return nil
+}
+
+func (x *Root) GetDisableAutomaticControl() *DisableAutomaticControl {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_DisableAutomaticControl); ok {
+			return x.DisableAutomaticControl
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -128,6 +148,14 @@ type Root_GetStatus struct {
 	GetStatus *GetStatus `protobuf:"bytes,4,opt,name=get_status,json=getStatus,proto3,oneof"`
 }
 
+type Root_EnableAutomaticControl struct {
+	EnableAutomaticControl *EnableAutomaticControl `protobuf:"bytes,5,opt,name=enable_automatic_control,json=enableAutomaticControl,proto3,oneof"`
+}
+
+type Root_DisableAutomaticControl struct {
+	DisableAutomaticControl *DisableAutomaticControl `protobuf:"bytes,6,opt,name=disable_automatic_control,json=disableAutomaticControl,proto3,oneof"`
+}
+
 func (*Root_Start) isRoot_Cmd() {}
 
 func (*Root_Stop) isRoot_Cmd() {}
@@ -135,6 +163,10 @@ func (*Root_Stop) isRoot_Cmd() {}
 func (*Root_SetHeating) isRoot_Cmd() {}
 
 func (*Root_GetStatus) isRoot_Cmd() {}
+
+func (*Root_EnableAutomaticControl) isRoot_Cmd() {}
+
+func (*Root_DisableAutomaticControl) isRoot_Cmd() {}
 
 // Start initiates communication with the heater controller
 type Start struct {
@@ -334,19 +366,95 @@ func (*GetStatus) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{4}
 }
 
+// EnableAutomaticControl enables automatic heater control
+type EnableAutomaticControl struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnableAutomaticControl) Reset() {
+	*x = EnableAutomaticControl{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnableAutomaticControl) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnableAutomaticControl) ProtoMessage() {}
+
+func (x *EnableAutomaticControl) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnableAutomaticControl.ProtoReflect.Descriptor instead.
+func (*EnableAutomaticControl) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{5}
+}
+
+// DisableAutomaticControl disables automatic heater control
+type DisableAutomaticControl struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DisableAutomaticControl) Reset() {
+	*x = DisableAutomaticControl{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DisableAutomaticControl) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DisableAutomaticControl) ProtoMessage() {}
+
+func (x *DisableAutomaticControl) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DisableAutomaticControl.ProtoReflect.Descriptor instead.
+func (*DisableAutomaticControl) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{6}
+}
+
 var File_jon_shared_cmd_heater_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_heater.proto\x12\n" +
-	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\xda\x01\n" +
+	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\x9d\x03\n" +
 	"\x04Root\x12)\n" +
 	"\x05start\x18\x01 \x01(\v2\x11.cmd.Heater.StartH\x00R\x05start\x12&\n" +
 	"\x04stop\x18\x02 \x01(\v2\x10.cmd.Heater.StopH\x00R\x04stop\x129\n" +
 	"\vset_heating\x18\x03 \x01(\v2\x16.cmd.Heater.SetHeatingH\x00R\n" +
 	"setHeating\x126\n" +
 	"\n" +
-	"get_status\x18\x04 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatusB\f\n" +
+	"get_status\x18\x04 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatus\x12^\n" +
+	"\x18enable_automatic_control\x18\x05 \x01(\v2\".cmd.Heater.EnableAutomaticControlH\x00R\x16enableAutomaticControl\x12a\n" +
+	"\x19disable_automatic_control\x18\x06 \x01(\v2#.cmd.Heater.DisableAutomaticControlH\x00R\x17disableAutomaticControlB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
 	"\x05Start\"\x06\n" +
 	"\x04Stop\"\xa9\x02\n" +
@@ -373,7 +481,9 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\n" +
 	"\x1d\x00\x00 B-\x00\x00\x00\x00R\n" +
 	"tempError2\"\v\n" +
-	"\tGetStatusB\xbf\x01\n" +
+	"\tGetStatus\"\x18\n" +
+	"\x16EnableAutomaticControl\"\x19\n" +
+	"\x17DisableAutomaticControlB\xbf\x01\n" +
 	"\x0ecom.cmd.HeaterB\x17JonSharedCmdHeaterProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater\xa2\x02\x03CHX\xaa\x02\n" +
 	"Cmd.Heater\xca\x02\n" +
 	"Cmd\\Heater\xe2\x02\x16Cmd\\Heater\\GPBMetadata\xea\x02\vCmd::Heaterb\x06proto3"
@@ -390,24 +500,28 @@ func file_jon_shared_cmd_heater_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_heater_proto_rawDescData
 }
 
-var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_jon_shared_cmd_heater_proto_goTypes = []any{
-	(*Root)(nil),       // 0: cmd.Heater.Root
-	(*Start)(nil),      // 1: cmd.Heater.Start
-	(*Stop)(nil),       // 2: cmd.Heater.Stop
-	(*SetHeating)(nil), // 3: cmd.Heater.SetHeating
-	(*GetStatus)(nil),  // 4: cmd.Heater.GetStatus
+	(*Root)(nil),                    // 0: cmd.Heater.Root
+	(*Start)(nil),                   // 1: cmd.Heater.Start
+	(*Stop)(nil),                    // 2: cmd.Heater.Stop
+	(*SetHeating)(nil),              // 3: cmd.Heater.SetHeating
+	(*GetStatus)(nil),               // 4: cmd.Heater.GetStatus
+	(*EnableAutomaticControl)(nil),  // 5: cmd.Heater.EnableAutomaticControl
+	(*DisableAutomaticControl)(nil), // 6: cmd.Heater.DisableAutomaticControl
 }
 var file_jon_shared_cmd_heater_proto_depIdxs = []int32{
 	1, // 0: cmd.Heater.Root.start:type_name -> cmd.Heater.Start
 	2, // 1: cmd.Heater.Root.stop:type_name -> cmd.Heater.Stop
 	3, // 2: cmd.Heater.Root.set_heating:type_name -> cmd.Heater.SetHeating
 	4, // 3: cmd.Heater.Root.get_status:type_name -> cmd.Heater.GetStatus
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 4: cmd.Heater.Root.enable_automatic_control:type_name -> cmd.Heater.EnableAutomaticControl
+	6, // 5: cmd.Heater.Root.disable_automatic_control:type_name -> cmd.Heater.DisableAutomaticControl
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_heater_proto_init() }
@@ -420,6 +534,8 @@ func file_jon_shared_cmd_heater_proto_init() {
 		(*Root_Stop)(nil),
 		(*Root_SetHeating)(nil),
 		(*Root_GetStatus)(nil),
+		(*Root_EnableAutomaticControl)(nil),
+		(*Root_DisableAutomaticControl)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -427,7 +543,7 @@ func file_jon_shared_cmd_heater_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_heater_proto_rawDesc), len(file_jon_shared_cmd_heater_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -756,6 +756,12 @@ public final class JonSharedDataHeater {
      * <code>.ser.JonGuiDataHeaterChannelStatus channel_2 = 6;</code>
      */
     ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatusOrBuilder getChannel2OrBuilder();
+
+    /**
+     * <code>bool automatic_control_enabled = 7;</code>
+     * @return The automaticControlEnabled.
+     */
+    boolean getAutomaticControlEnabled();
   }
   /**
    * <pre>
@@ -910,6 +916,17 @@ public final class JonSharedDataHeater {
       return channel2_ == null ? ser.JonSharedDataHeater.JonGuiDataHeaterChannelStatus.getDefaultInstance() : channel2_;
     }
 
+    public static final int AUTOMATIC_CONTROL_ENABLED_FIELD_NUMBER = 7;
+    private boolean automaticControlEnabled_ = false;
+    /**
+     * <code>bool automatic_control_enabled = 7;</code>
+     * @return The automaticControlEnabled.
+     */
+    @java.lang.Override
+    public boolean getAutomaticControlEnabled() {
+      return automaticControlEnabled_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -941,6 +958,9 @@ public final class JonSharedDataHeater {
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeMessage(6, getChannel2());
+      }
+      if (automaticControlEnabled_ != false) {
+        output.writeBool(7, automaticControlEnabled_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -974,6 +994,10 @@ public final class JonSharedDataHeater {
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getChannel2());
+      }
+      if (automaticControlEnabled_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, automaticControlEnabled_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1014,6 +1038,8 @@ public final class JonSharedDataHeater {
         if (!getChannel2()
             .equals(other.getChannel2())) return false;
       }
+      if (getAutomaticControlEnabled()
+          != other.getAutomaticControlEnabled()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -1046,6 +1072,9 @@ public final class JonSharedDataHeater {
         hash = (37 * hash) + CHANNEL_2_FIELD_NUMBER;
         hash = (53 * hash) + getChannel2().hashCode();
       }
+      hash = (37 * hash) + AUTOMATIC_CONTROL_ENABLED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAutomaticControlEnabled());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1207,6 +1236,7 @@ public final class JonSharedDataHeater {
           channel2Builder_.dispose();
           channel2Builder_ = null;
         }
+        automaticControlEnabled_ = false;
         return this;
       }
 
@@ -1268,6 +1298,9 @@ public final class JonSharedDataHeater {
               : channel2Builder_.build();
           to_bitField0_ |= 0x00000004;
         }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.automaticControlEnabled_ = automaticControlEnabled_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1300,6 +1333,9 @@ public final class JonSharedDataHeater {
         }
         if (other.hasChannel2()) {
           mergeChannel2(other.getChannel2());
+        }
+        if (other.getAutomaticControlEnabled() != false) {
+          setAutomaticControlEnabled(other.getAutomaticControlEnabled());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1363,6 +1399,11 @@ public final class JonSharedDataHeater {
                 bitField0_ |= 0x00000020;
                 break;
               } // case 50
+              case 56: {
+                automaticControlEnabled_ = input.readBool();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1839,6 +1880,38 @@ public final class JonSharedDataHeater {
         return channel2Builder_;
       }
 
+      private boolean automaticControlEnabled_ ;
+      /**
+       * <code>bool automatic_control_enabled = 7;</code>
+       * @return The automaticControlEnabled.
+       */
+      @java.lang.Override
+      public boolean getAutomaticControlEnabled() {
+        return automaticControlEnabled_;
+      }
+      /**
+       * <code>bool automatic_control_enabled = 7;</code>
+       * @param value The automaticControlEnabled to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAutomaticControlEnabled(boolean value) {
+
+        automaticControlEnabled_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool automatic_control_enabled = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAutomaticControlEnabled() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        automaticControlEnabled_ = false;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataHeater)
     }
 
@@ -1914,16 +1987,17 @@ public final class JonSharedDataHeater {
       "eaterChannelStatus\022\023\n\013temperature\030\001 \001(\002\022" +
       "%\n\021applied_voltage_V\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022$" +
       "\n\020target_voltage_V\030\003 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\017\n\007" +
-      "enabled\030\004 \001(\010\"\226\002\n\020JonGuiDataHeater\022!\n\rbu" +
+      "enabled\030\004 \001(\010\"\271\002\n\020JonGuiDataHeater\022!\n\rbu" +
       "s_voltage_V\030\001 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\035\n\tcurrent" +
       "_A\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\033\n\007power_W\030\003 \001(\002B\n\272" +
       "H\007\n\005-\000\000\000\000\0225\n\tchannel_0\030\004 \001(\0132\".ser.JonGu" +
       "iDataHeaterChannelStatus\0225\n\tchannel_1\030\005 " +
       "\001(\0132\".ser.JonGuiDataHeaterChannelStatus\022" +
       "5\n\tchannel_2\030\006 \001(\0132\".ser.JonGuiDataHeate" +
-      "rChannelStatusBNZLgit-codecommit.eu-cent" +
-      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
-      "np/data/heaterb\006proto3"
+      "rChannelStatus\022!\n\031automatic_control_enab" +
+      "led\030\007 \001(\010BNZLgit-codecommit.eu-central-1" +
+      ".amazonaws.com/v1/repos/jettison/jonp/da" +
+      "ta/heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1941,7 +2015,7 @@ public final class JonSharedDataHeater {
     internal_static_ser_JonGuiDataHeater_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataHeater_descriptor,
-        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", });
+        new java.lang.String[] { "BusVoltageV", "CurrentA", "PowerW", "Channel0", "Channel1", "Channel2", "AutomaticControlEnabled", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

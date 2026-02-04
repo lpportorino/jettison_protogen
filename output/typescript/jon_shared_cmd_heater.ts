@@ -13,6 +13,8 @@ export interface Root {
   stop?: Stop | undefined;
   setHeating?: SetHeating | undefined;
   getStatus?: GetStatus | undefined;
+  enableAutomaticControl?: EnableAutomaticControl | undefined;
+  disableAutomaticControl?: DisableAutomaticControl | undefined;
 }
 
 /** Start initiates communication with the heater controller */
@@ -39,8 +41,23 @@ export interface SetHeating {
 export interface GetStatus {
 }
 
+/** EnableAutomaticControl enables automatic heater control */
+export interface EnableAutomaticControl {
+}
+
+/** DisableAutomaticControl disables automatic heater control */
+export interface DisableAutomaticControl {
+}
+
 function createBaseRoot(): Root {
-  return { start: undefined, stop: undefined, setHeating: undefined, getStatus: undefined };
+  return {
+    start: undefined,
+    stop: undefined,
+    setHeating: undefined,
+    getStatus: undefined,
+    enableAutomaticControl: undefined,
+    disableAutomaticControl: undefined,
+  };
 }
 
 export const Root: MessageFns<Root> = {
@@ -56,6 +73,12 @@ export const Root: MessageFns<Root> = {
     }
     if (message.getStatus !== undefined) {
       GetStatus.encode(message.getStatus, writer.uint32(34).fork()).join();
+    }
+    if (message.enableAutomaticControl !== undefined) {
+      EnableAutomaticControl.encode(message.enableAutomaticControl, writer.uint32(42).fork()).join();
+    }
+    if (message.disableAutomaticControl !== undefined) {
+      DisableAutomaticControl.encode(message.disableAutomaticControl, writer.uint32(50).fork()).join();
     }
     return writer;
   },
@@ -99,6 +122,22 @@ export const Root: MessageFns<Root> = {
           message.getStatus = GetStatus.decode(reader, reader.uint32());
           continue;
         }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.enableAutomaticControl = EnableAutomaticControl.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.disableAutomaticControl = DisableAutomaticControl.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -122,6 +161,16 @@ export const Root: MessageFns<Root> = {
         : isSet(object.get_status)
         ? GetStatus.fromJSON(object.get_status)
         : undefined,
+      enableAutomaticControl: isSet(object.enableAutomaticControl)
+        ? EnableAutomaticControl.fromJSON(object.enableAutomaticControl)
+        : isSet(object.enable_automatic_control)
+        ? EnableAutomaticControl.fromJSON(object.enable_automatic_control)
+        : undefined,
+      disableAutomaticControl: isSet(object.disableAutomaticControl)
+        ? DisableAutomaticControl.fromJSON(object.disableAutomaticControl)
+        : isSet(object.disable_automatic_control)
+        ? DisableAutomaticControl.fromJSON(object.disable_automatic_control)
+        : undefined,
     };
   },
 
@@ -139,6 +188,12 @@ export const Root: MessageFns<Root> = {
     if (message.getStatus !== undefined) {
       obj.getStatus = GetStatus.toJSON(message.getStatus);
     }
+    if (message.enableAutomaticControl !== undefined) {
+      obj.enableAutomaticControl = EnableAutomaticControl.toJSON(message.enableAutomaticControl);
+    }
+    if (message.disableAutomaticControl !== undefined) {
+      obj.disableAutomaticControl = DisableAutomaticControl.toJSON(message.disableAutomaticControl);
+    }
     return obj;
   },
 
@@ -155,6 +210,14 @@ export const Root: MessageFns<Root> = {
     message.getStatus = (object.getStatus !== undefined && object.getStatus !== null)
       ? GetStatus.fromPartial(object.getStatus)
       : undefined;
+    message.enableAutomaticControl =
+      (object.enableAutomaticControl !== undefined && object.enableAutomaticControl !== null)
+        ? EnableAutomaticControl.fromPartial(object.enableAutomaticControl)
+        : undefined;
+    message.disableAutomaticControl =
+      (object.disableAutomaticControl !== undefined && object.disableAutomaticControl !== null)
+        ? DisableAutomaticControl.fromPartial(object.disableAutomaticControl)
+        : undefined;
     return message;
   },
 };
@@ -448,6 +511,92 @@ export const GetStatus: MessageFns<GetStatus> = {
   },
   fromPartial<I extends Exact<DeepPartial<GetStatus>, I>>(_: I): GetStatus {
     const message = createBaseGetStatus();
+    return message;
+  },
+};
+
+function createBaseEnableAutomaticControl(): EnableAutomaticControl {
+  return {};
+}
+
+export const EnableAutomaticControl: MessageFns<EnableAutomaticControl> = {
+  encode(_: EnableAutomaticControl, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EnableAutomaticControl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEnableAutomaticControl();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): EnableAutomaticControl {
+    return {};
+  },
+
+  toJSON(_: EnableAutomaticControl): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EnableAutomaticControl>, I>>(base?: I): EnableAutomaticControl {
+    return EnableAutomaticControl.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EnableAutomaticControl>, I>>(_: I): EnableAutomaticControl {
+    const message = createBaseEnableAutomaticControl();
+    return message;
+  },
+};
+
+function createBaseDisableAutomaticControl(): DisableAutomaticControl {
+  return {};
+}
+
+export const DisableAutomaticControl: MessageFns<DisableAutomaticControl> = {
+  encode(_: DisableAutomaticControl, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): DisableAutomaticControl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseDisableAutomaticControl();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(_: any): DisableAutomaticControl {
+    return {};
+  },
+
+  toJSON(_: DisableAutomaticControl): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<DisableAutomaticControl>, I>>(base?: I): DisableAutomaticControl {
+    return DisableAutomaticControl.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<DisableAutomaticControl>, I>>(_: I): DisableAutomaticControl {
+    const message = createBaseDisableAutomaticControl();
     return message;
   },
 };

@@ -30,4 +30,5 @@ message JonGuiDataHeater {
   JonGuiDataHeaterChannelStatus channel_0 = 4;
   JonGuiDataHeaterChannelStatus channel_1 = 5;
   JonGuiDataHeaterChannelStatus channel_2 = 6;
+  bool automatic_control_enabled = 7;
 }

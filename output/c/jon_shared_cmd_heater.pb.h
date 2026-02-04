@@ -37,6 +37,16 @@ typedef struct _cmd_Heater_GetStatus {
     char dummy_field;
 } cmd_Heater_GetStatus;
 
+/* EnableAutomaticControl enables automatic heater control */
+typedef struct _cmd_Heater_EnableAutomaticControl {
+    char dummy_field;
+} cmd_Heater_EnableAutomaticControl;
+
+/* DisableAutomaticControl disables automatic heater control */
+typedef struct _cmd_Heater_DisableAutomaticControl {
+    char dummy_field;
+} cmd_Heater_DisableAutomaticControl;
+
 typedef struct _cmd_Heater_Root {
     pb_size_t which_cmd;
     union {
@@ -44,6 +54,8 @@ typedef struct _cmd_Heater_Root {
         cmd_Heater_Stop stop;
         cmd_Heater_SetHeating set_heating;
         cmd_Heater_GetStatus get_status;
+        cmd_Heater_EnableAutomaticControl enable_automatic_control;
+        cmd_Heater_DisableAutomaticControl disable_automatic_control;
     } cmd;
 } cmd_Heater_Root;
 
@@ -58,11 +70,15 @@ extern "C" {
 #define cmd_Heater_Stop_init_default             {0}
 #define cmd_Heater_SetHeating_init_default       {0, 0, 0, 0, 0, 0}
 #define cmd_Heater_GetStatus_init_default        {0}
+#define cmd_Heater_EnableAutomaticControl_init_default {0}
+#define cmd_Heater_DisableAutomaticControl_init_default {0}
 #define cmd_Heater_Root_init_zero                {0, {cmd_Heater_Start_init_zero}}
 #define cmd_Heater_Start_init_zero               {0}
 #define cmd_Heater_Stop_init_zero                {0}
 #define cmd_Heater_SetHeating_init_zero          {0, 0, 0, 0, 0, 0}
 #define cmd_Heater_GetStatus_init_zero           {0}
+#define cmd_Heater_EnableAutomaticControl_init_zero {0}
+#define cmd_Heater_DisableAutomaticControl_init_zero {0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_Heater_SetHeating_target_0_tag       1
@@ -75,19 +91,25 @@ extern "C" {
 #define cmd_Heater_Root_stop_tag                 2
 #define cmd_Heater_Root_set_heating_tag          3
 #define cmd_Heater_Root_get_status_tag           4
+#define cmd_Heater_Root_enable_automatic_control_tag 5
+#define cmd_Heater_Root_disable_automatic_control_tag 6
 
 /* Struct field encoding specification for nanopb */
 #define cmd_Heater_Root_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,start,cmd.start),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stop,cmd.stop),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_heating,cmd.set_heating),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_status,cmd.get_status),   4)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_status,cmd.get_status),   4) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,enable_automatic_control,cmd.enable_automatic_control),   5) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,disable_automatic_control,cmd.disable_automatic_control),   6)
 #define cmd_Heater_Root_CALLBACK NULL
 #define cmd_Heater_Root_DEFAULT NULL
 #define cmd_Heater_Root_cmd_start_MSGTYPE cmd_Heater_Start
 #define cmd_Heater_Root_cmd_stop_MSGTYPE cmd_Heater_Stop
 #define cmd_Heater_Root_cmd_set_heating_MSGTYPE cmd_Heater_SetHeating
 #define cmd_Heater_Root_cmd_get_status_MSGTYPE cmd_Heater_GetStatus
+#define cmd_Heater_Root_cmd_enable_automatic_control_MSGTYPE cmd_Heater_EnableAutomaticControl
+#define cmd_Heater_Root_cmd_disable_automatic_control_MSGTYPE cmd_Heater_DisableAutomaticControl
 
 #define cmd_Heater_Start_FIELDLIST(X, a) \
 
@@ -114,11 +136,23 @@ X(a, STATIC,   SINGULAR, FLOAT,    temp_error_2,      6)
 #define cmd_Heater_GetStatus_CALLBACK NULL
 #define cmd_Heater_GetStatus_DEFAULT NULL
 
+#define cmd_Heater_EnableAutomaticControl_FIELDLIST(X, a) \
+
+#define cmd_Heater_EnableAutomaticControl_CALLBACK NULL
+#define cmd_Heater_EnableAutomaticControl_DEFAULT NULL
+
+#define cmd_Heater_DisableAutomaticControl_FIELDLIST(X, a) \
+
+#define cmd_Heater_DisableAutomaticControl_CALLBACK NULL
+#define cmd_Heater_DisableAutomaticControl_DEFAULT NULL
+
 extern const pb_msgdesc_t cmd_Heater_Root_msg;
 extern const pb_msgdesc_t cmd_Heater_Start_msg;
 extern const pb_msgdesc_t cmd_Heater_Stop_msg;
 extern const pb_msgdesc_t cmd_Heater_SetHeating_msg;
 extern const pb_msgdesc_t cmd_Heater_GetStatus_msg;
+extern const pb_msgdesc_t cmd_Heater_EnableAutomaticControl_msg;
+extern const pb_msgdesc_t cmd_Heater_DisableAutomaticControl_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_Heater_Root_fields &cmd_Heater_Root_msg
@@ -126,9 +160,13 @@ extern const pb_msgdesc_t cmd_Heater_GetStatus_msg;
 #define cmd_Heater_Stop_fields &cmd_Heater_Stop_msg
 #define cmd_Heater_SetHeating_fields &cmd_Heater_SetHeating_msg
 #define cmd_Heater_GetStatus_fields &cmd_Heater_GetStatus_msg
+#define cmd_Heater_EnableAutomaticControl_fields &cmd_Heater_EnableAutomaticControl_msg
+#define cmd_Heater_DisableAutomaticControl_fields &cmd_Heater_DisableAutomaticControl_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_HEATER_JON_SHARED_CMD_HEATER_PB_H_MAX_SIZE cmd_Heater_Root_size
+#define cmd_Heater_DisableAutomaticControl_size  0
+#define cmd_Heater_EnableAutomaticControl_size   0
 #define cmd_Heater_GetStatus_size                0
 #define cmd_Heater_Root_size                     32
 #define cmd_Heater_SetHeating_size               30

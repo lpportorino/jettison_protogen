@@ -93,15 +93,16 @@ func (x *JonGuiDataHeaterChannelStatus) GetEnabled() bool {
 
 // JonGuiDataHeater contains the complete heater subsystem status
 type JonGuiDataHeater struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	BusVoltage_V  float32                        `protobuf:"fixed32,1,opt,name=bus_voltage_V,json=busVoltageV,proto3" json:"bus_voltage_V,omitempty"`
-	Current_A     float32                        `protobuf:"fixed32,2,opt,name=current_A,json=currentA,proto3" json:"current_A,omitempty"`
-	Power_W       float32                        `protobuf:"fixed32,3,opt,name=power_W,json=powerW,proto3" json:"power_W,omitempty"`
-	Channel_0     *JonGuiDataHeaterChannelStatus `protobuf:"bytes,4,opt,name=channel_0,json=channel0,proto3" json:"channel_0,omitempty"`
-	Channel_1     *JonGuiDataHeaterChannelStatus `protobuf:"bytes,5,opt,name=channel_1,json=channel1,proto3" json:"channel_1,omitempty"`
-	Channel_2     *JonGuiDataHeaterChannelStatus `protobuf:"bytes,6,opt,name=channel_2,json=channel2,proto3" json:"channel_2,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                   protoimpl.MessageState         `protogen:"open.v1"`
+	BusVoltage_V            float32                        `protobuf:"fixed32,1,opt,name=bus_voltage_V,json=busVoltageV,proto3" json:"bus_voltage_V,omitempty"`
+	Current_A               float32                        `protobuf:"fixed32,2,opt,name=current_A,json=currentA,proto3" json:"current_A,omitempty"`
+	Power_W                 float32                        `protobuf:"fixed32,3,opt,name=power_W,json=powerW,proto3" json:"power_W,omitempty"`
+	Channel_0               *JonGuiDataHeaterChannelStatus `protobuf:"bytes,4,opt,name=channel_0,json=channel0,proto3" json:"channel_0,omitempty"`
+	Channel_1               *JonGuiDataHeaterChannelStatus `protobuf:"bytes,5,opt,name=channel_1,json=channel1,proto3" json:"channel_1,omitempty"`
+	Channel_2               *JonGuiDataHeaterChannelStatus `protobuf:"bytes,6,opt,name=channel_2,json=channel2,proto3" json:"channel_2,omitempty"`
+	AutomaticControlEnabled bool                           `protobuf:"varint,7,opt,name=automatic_control_enabled,json=automaticControlEnabled,proto3" json:"automatic_control_enabled,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *JonGuiDataHeater) Reset() {
@@ -176,6 +177,13 @@ func (x *JonGuiDataHeater) GetChannel_2() *JonGuiDataHeaterChannelStatus {
 	return nil
 }
 
+func (x *JonGuiDataHeater) GetAutomaticControlEnabled() bool {
+	if x != nil {
+		return x.AutomaticControlEnabled
+	}
+	return false
+}
+
 var File_jon_shared_data_heater_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_heater_proto_rawDesc = "" +
@@ -189,7 +197,7 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x10target_voltage_V\x18\x03 \x01(\x02B\n" +
 	"\xbaH\a\n" +
 	"\x05-\x00\x00\x00\x00R\x0etargetVoltageV\x12\x18\n" +
-	"\aenabled\x18\x04 \x01(\bR\aenabled\"\xd3\x02\n" +
+	"\aenabled\x18\x04 \x01(\bR\aenabled\"\x8f\x03\n" +
 	"\x10JonGuiDataHeater\x12.\n" +
 	"\rbus_voltage_V\x18\x01 \x01(\x02B\n" +
 	"\xbaH\a\n" +
@@ -202,7 +210,8 @@ const file_jon_shared_data_heater_proto_rawDesc = "" +
 	"\x05-\x00\x00\x00\x00R\x06powerW\x12?\n" +
 	"\tchannel_0\x18\x04 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel0\x12?\n" +
 	"\tchannel_1\x18\x05 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel1\x12?\n" +
-	"\tchannel_2\x18\x06 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel2B\x9d\x01\n" +
+	"\tchannel_2\x18\x06 \x01(\v2\".ser.JonGuiDataHeaterChannelStatusR\bchannel2\x12:\n" +
+	"\x19automatic_control_enabled\x18\a \x01(\bR\x17automaticControlEnabledB\x9d\x01\n" +
 	"\acom.serB\x18JonSharedDataHeaterProtoP\x01ZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heater\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

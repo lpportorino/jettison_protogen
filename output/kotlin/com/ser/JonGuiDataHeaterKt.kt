@@ -164,6 +164,23 @@ public object JonGuiDataHeaterKt {
 
     public val JonGuiDataHeaterKt.Dsl.channel2OrNull: com.ser.JonGuiDataHeaterChannelStatus?
       get() = _builder.channel2OrNull
+
+    /**
+     * `bool automatic_control_enabled = 7 [json_name = "automaticControlEnabled"];`
+     */
+    public var automaticControlEnabled: kotlin.Boolean
+      @kotlin.jvm.JvmName("getAutomaticControlEnabled")
+        get() = _builder.automaticControlEnabled
+      @kotlin.jvm.JvmName("setAutomaticControlEnabled")
+        set(value) {
+        _builder.automaticControlEnabled = value
+      }
+    /**
+     * `bool automatic_control_enabled = 7 [json_name = "automaticControlEnabled"];`
+     */
+    public fun clearAutomaticControlEnabled() {
+      _builder.clearAutomaticControlEnabled()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

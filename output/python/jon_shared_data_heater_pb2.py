@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cjon_shared_data_heater.proto\x12\x03ser\"z\n\x1dJonGuiDataHeaterChannelStatus\x12\x13\n\x0btemperature\x18\x01 \x01(\x02\x12\x19\n\x11\x61pplied_voltage_V\x18\x02 \x01(\x02\x12\x18\n\x10target_voltage_V\x18\x03 \x01(\x02\x12\x0f\n\x07\x65nabled\x18\x04 \x01(\x08\"\xf2\x01\n\x10JonGuiDataHeater\x12\x15\n\rbus_voltage_V\x18\x01 \x01(\x02\x12\x11\n\tcurrent_A\x18\x02 \x01(\x02\x12\x0f\n\x07power_W\x18\x03 \x01(\x02\x12\x35\n\tchannel_0\x18\x04 \x01(\x0b\x32\".ser.JonGuiDataHeaterChannelStatus\x12\x35\n\tchannel_1\x18\x05 \x01(\x0b\x32\".ser.JonGuiDataHeaterChannelStatus\x12\x35\n\tchannel_2\x18\x06 \x01(\x0b\x32\".ser.JonGuiDataHeaterChannelStatusBNZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heaterb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1cjon_shared_data_heater.proto\x12\x03ser\"z\n\x1dJonGuiDataHeaterChannelStatus\x12\x13\n\x0btemperature\x18\x01 \x01(\x02\x12\x19\n\x11\x61pplied_voltage_V\x18\x02 \x01(\x02\x12\x18\n\x10target_voltage_V\x18\x03 \x01(\x02\x12\x0f\n\x07\x65nabled\x18\x04 \x01(\x08\"\x95\x02\n\x10JonGuiDataHeater\x12\x15\n\rbus_voltage_V\x18\x01 \x01(\x02\x12\x11\n\tcurrent_A\x18\x02 \x01(\x02\x12\x0f\n\x07power_W\x18\x03 \x01(\x02\x12\x35\n\tchannel_0\x18\x04 \x01(\x0b\x32\".ser.JonGuiDataHeaterChannelStatus\x12\x35\n\tchannel_1\x18\x05 \x01(\x0b\x32\".ser.JonGuiDataHeaterChannelStatus\x12\x35\n\tchannel_2\x18\x06 \x01(\x0b\x32\".ser.JonGuiDataHeaterChannelStatus\x12!\n\x19\x61utomatic_control_enabled\x18\x07 \x01(\x08\x42NZLgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heaterb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -35,5 +35,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_JONGUIDATAHEATERCHANNELSTATUS']._serialized_start=37
   _globals['_JONGUIDATAHEATERCHANNELSTATUS']._serialized_end=159
   _globals['_JONGUIDATAHEATER']._serialized_start=162
-  _globals['_JONGUIDATAHEATER']._serialized_end=404
+  _globals['_JONGUIDATAHEATER']._serialized_end=439
 # @@protoc_insertion_point(module_scope)
