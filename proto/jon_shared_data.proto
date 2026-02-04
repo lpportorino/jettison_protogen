@@ -13,7 +13,6 @@ import "jon_shared_data_rotary.proto";
 import "jon_shared_data_camera_day.proto";
 import "jon_shared_data_camera_heat.proto";
 import "jon_shared_data_rec_osd.proto";
-import "jon_shared_data_day_cam_glass_heater.proto";
 import "jon_shared_data_actual_space_time.proto";
 import "jon_shared_data_power.proto";
 import "jon_shared_data_cv.proto";
@@ -55,7 +54,6 @@ message JonGUIState {
   JonGuiDataCameraHeat camera_heat = 21 [(buf.validate.field).required = true];
   JonGuiDataCompassCalibration compass_calibration = 22 [(buf.validate.field).required = true];
   JonGuiDataRecOsd rec_osd = 23 [(buf.validate.field).required = true];
-  JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(buf.validate.field).required = true];
   JonGuiDataActualSpaceTime actual_space_time = 25 [(buf.validate.field).required = true];
   JonGuiDataPower power = 26 [(buf.validate.field).required = true];
   JonGuiDataCV cv = 27;

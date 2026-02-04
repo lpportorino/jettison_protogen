@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 273 messages, 21 enums, 737 fields
+**Statistics:** 266 messages, 21 enums, 726 fields
 
 ## Messages by Package
 
@@ -15,7 +15,7 @@ type: index
 - [[proto/cmd.Frozen|Frozen]] — A diagnostic command message used for debug/test purposes to trigger or test the frozen state of the system. This parameterless command is allowed in readonly mode and is sent without buffering alongside ping messages for system testing.
 - [[proto/cmd.Noop|Noop]] — A no-operation command used as a placeholder in the command protocol payload; allows clients to send a valid command message without triggering any action on the device or system.
 - [[proto/cmd.Ping|Ping]] — A lightweight keepalive command that allows clients to update their session heartbeat timestamp, enabling the server to detect disconnected sessions and automatically halt ongoing operations like camera movements or scanning.
-- [[proto/cmd.Root|Root]] — Top-level command message that routes client commands to various subsystems (day camera, thermal camera, GPS, compass, LRF, rotary platform, OSD, system, CV, glass heater, LIRA, power) with protocol versioning, session tracking, timestamps, and validation support.
+- [[proto/cmd.Root|Root]] — Top-level command message that routes client commands to various subsystems (day camera, thermal camera, GPS, compass, LRF, rotary platform, OSD, system, CV, LIRA, power, PMU, heater) with protocol versioning, session tracking, timestamps, and validation support.
 
 
 ### cmd.CV
@@ -68,16 +68,6 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 - [[proto/cmd.Compass.SetUseRotaryPosition|SetUseRotaryPosition]] — Configures whether to use the rotary platform&#39;s encoded position as the primary compass/orientation source instead of the physical compass sensor. When enabled, the system derives azimuth readings from the rotary platform&#39;s positional encoders rather than the magnetometer.
 - [[proto/cmd.Compass.Start|Start]] — Initializes and powers on the compass/IMU sensor subsystem, transitioning it from stopped to started state and enabling azimuth, elevation, and bank angle readings. Sets device_status to STARTED in the manifold global state.
 - [[proto/cmd.Compass.Stop|Stop]] — Stops the compass/IMU sensor subsystem and powers down the device, preventing heading and orientation readings until restarted. Stopping the compass also prevents calibration operations from being initiated.
-
-
-### cmd.DayCamGlassHeater
-
-- [[proto/cmd.DayCamGlassHeater.GetMeteo|GetMeteo]] — Requests meteorological sensor data from the day camera glass heater system. This parameterless diagnostic command triggers the system to query and return weather-related sensor readings such as temperature and humidity for monitoring heater conditions.
-- [[proto/cmd.DayCamGlassHeater.Root|Root]] — Root command container for the day camera glass heater device using a required oneof pattern. Dispatches between start, stop, turn on, turn off, and get meteorological data commands to control the heater that prevents lens fogging and ice formation.
-- [[proto/cmd.DayCamGlassHeater.Start|Start]] — Initiates the day camera glass heater subsystem startup sequence. This parameterless lifecycle command initializes the heater control module, enabling subsequent TurnOn/TurnOff commands to activate the heating element for anti-fog and ice protection.
-- [[proto/cmd.DayCamGlassHeater.Stop|Stop]] — Stops the day camera glass heater control module and disables its heating timer. This lifecycle command shuts down the heater subsystem entirely, which is different from TurnOff which only deactivates the heating element while keeping the module running.
-- [[proto/cmd.DayCamGlassHeater.TurnOff|TurnOff]] — Turns off the day camera glass heater element, disabling its anti-fog and ice protection functionality. This actuator command deactivates heating while keeping the heater subsystem running, allowing quick reactivation via TurnOn without restarting the module.
-- [[proto/cmd.DayCamGlassHeater.TurnOn|TurnOn]] — Activates the day camera glass heater element to provide anti-fog and ice protection. This parameterless actuator command triggers the heating mechanism on the camera lens to prevent condensation and ice buildup in cold or humid conditions.
 
 
 ### cmd.DayCamera
@@ -334,7 +324,7 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### ser
 
-- [[proto/ser.JonGUIState|JonGUIState]] — Root protocol buffer message that aggregates telemetry and state from 14 subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, glass heater control, spatiotemporal data, and power management. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
+- [[proto/ser.JonGUIState|JonGUIState]] — Root protocol buffer message that aggregates telemetry and state from multiple subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, spatiotemporal data, power management, PMU, and heater. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
 - [[proto/ser.JonGuiDataActualSpaceTime|JonGuiDataActualSpaceTime]] — Encapsulates real-time spatial position and temporal information of the system, containing three-dimensional attitude angles (azimuth, elevation, bank), geographic coordinates (latitude, longitude, altitude), and a timestamp. Displayed across multiple UI widgets including the azimuth compass, altitude scale, and time widget.
 - [[proto/ser.JonGuiDataCV|JonGuiDataCV]] — CV Gateway state enrichment message containing autofocus metrics and sweep status for both day and heat camera channels.
 
@@ -348,7 +338,6 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 - [[proto/ser.JonGuiDataCameraHeat|JonGuiDataCameraHeat]] — Represents the complete operational and configuration state of the thermal/infrared camera system, including optical parameters (zoom position, field-of-view, focus mode), image processing settings (AGC mode, filter selection, CLAHE enhancement, DDE dynamics enhancement), and operational status.
 - [[proto/ser.JonGuiDataCompass|JonGuiDataCompass]] — Represents the real-time orientation and calibration state of a compass sensor, containing directional measurements (azimuth, elevation, bank angles), calibration offsets, magnetic declination, and status flags for whether the compass is running and calibrating.
 - [[proto/ser.JonGuiDataCompassCalibration|JonGuiDataCompassCalibration]] — Represents the current state and progress of a compass calibration process, tracking the current step (stage), total steps required (final_stage), target orientation angles the user should point toward, and the overall calibration status.
-- [[proto/ser.JonGuiDataDayCamGlassHeater|JonGuiDataDayCamGlassHeater]] — Represents the operational state of the day camera&#39;s glass heater, which maintains camera lens temperature to prevent fogging and ice formation. Contains a temperature reading, on/off status, and activation state flag.
 - [[proto/ser.JonGuiDataGps|JonGuiDataGps]] — Represents the complete GPS positioning state of the system, including both automatic GPS fix coordinates and manually-entered fallback coordinates, along with the current fix quality type (none, 1D, 2D, 3D, or manual mode) and operational status.
 - [[proto/ser.JonGuiDataHeater|JonGuiDataHeater]] — Heater subsystem status. Reports overall bus power consumption (voltage, current, power) and per-channel status for up to 3 heating channels (e.g., camera housing, lens, enclosure).
 - [[proto/ser.JonGuiDataHeaterChannelStatus|JonGuiDataHeaterChannelStatus]] — Status of an individual heater channel. Reports current temperature (°C), applied and target voltages for PWM control, and enabled state.

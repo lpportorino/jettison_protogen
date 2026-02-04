@@ -14,7 +14,6 @@
 #include "jon_shared_cmd_lrf_align.pb.h"
 #include "jon_shared_cmd_system.pb.h"
 #include "jon_shared_cmd_cv.pb.h"
-#include "jon_shared_cmd_day_cam_glass_heater.pb.h"
 #include "jon_shared_cmd_lira.pb.h"
 #include "jon_shared_cmd_power.pb.h"
 #include "jon_shared_cmd_pmu.pb.h"
@@ -69,7 +68,6 @@ typedef struct _cmd_Root {
         cmd_Frozen frozen;
         cmd_System_Root system;
         cmd_CV_Root cv;
-        cmd_DayCamGlassHeater_Root day_cam_glass_heater;
         cmd_Lira_Root lira;
         cmd_Power_Root power;
         cmd_PMU_Root pmu;
@@ -117,7 +115,6 @@ extern "C" {
 #define cmd_Root_frozen_tag                      30
 #define cmd_Root_system_tag                      31
 #define cmd_Root_cv_tag                          32
-#define cmd_Root_day_cam_glass_heater_tag        33
 #define cmd_Root_lira_tag                        34
 #define cmd_Root_power_tag                       35
 #define cmd_Root_pmu_tag                         36
@@ -149,7 +146,6 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,noop,payload.noop),  29) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,frozen,payload.frozen),  30) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,system,payload.system),  31) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,cv,payload.cv),  32) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (payload,day_cam_glass_heater,payload.day_cam_glass_heater),  33) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,lira,payload.lira),  34) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,power,payload.power),  35) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (payload,pmu,payload.pmu),  36) \
@@ -170,7 +166,6 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (payload,heater,payload.heater),  37)
 #define cmd_Root_payload_frozen_MSGTYPE cmd_Frozen
 #define cmd_Root_payload_system_MSGTYPE cmd_System_Root
 #define cmd_Root_payload_cv_MSGTYPE cmd_CV_Root
-#define cmd_Root_payload_day_cam_glass_heater_MSGTYPE cmd_DayCamGlassHeater_Root
 #define cmd_Root_payload_lira_MSGTYPE cmd_Lira_Root
 #define cmd_Root_payload_power_MSGTYPE cmd_Power_Root
 #define cmd_Root_payload_pmu_MSGTYPE cmd_PMU_Root

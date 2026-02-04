@@ -657,30 +657,6 @@ public object RootKt {
     }
 
     /**
-     * `.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33 [json_name = "dayCamGlassHeater"];`
-     */
-    public var dayCamGlassHeater: com.cmd.DayCamGlassHeater.Root
-      @kotlin.jvm.JvmName("getDayCamGlassHeater")
-        get() = _builder.dayCamGlassHeater
-      @kotlin.jvm.JvmName("setDayCamGlassHeater")
-        set(value) {
-        _builder.dayCamGlassHeater = value
-      }
-    /**
-     * `.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33 [json_name = "dayCamGlassHeater"];`
-     */
-    public fun clearDayCamGlassHeater() {
-      _builder.clearDayCamGlassHeater()
-    }
-    /**
-     * `.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33 [json_name = "dayCamGlassHeater"];`
-     * @return Whether the dayCamGlassHeater field is set.
-     */
-    public fun hasDayCamGlassHeater(): kotlin.Boolean {
-      return _builder.hasDayCamGlassHeater()
-    }
-
-    /**
      * `.cmd.Lira.Root lira = 34 [json_name = "lira"];`
      */
     public var lira: com.cmd.Lira.Root
@@ -826,9 +802,6 @@ public val com.cmd.RootOrBuilder.systemOrNull: com.cmd.System.Root?
 
 public val com.cmd.RootOrBuilder.cvOrNull: com.cmd.CV.Root?
   get() = if (hasCv()) getCv() else null
-
-public val com.cmd.RootOrBuilder.dayCamGlassHeaterOrNull: com.cmd.DayCamGlassHeater.Root?
-  get() = if (hasDayCamGlassHeater()) getDayCamGlassHeater() else null
 
 public val com.cmd.RootOrBuilder.liraOrNull: com.cmd.Lira.Root?
   get() = if (hasLira()) getLira() else null

@@ -13,7 +13,6 @@ import { JonGuiDataCameraHeat } from "./jon_shared_data_camera_heat";
 import { JonGuiDataCompass } from "./jon_shared_data_compass";
 import { JonGuiDataCompassCalibration } from "./jon_shared_data_compass_calibration";
 import { JonGuiDataCV } from "./jon_shared_data_cv";
-import { JonGuiDataDayCamGlassHeater } from "./jon_shared_data_day_cam_glass_heater";
 import { JonGuiDataGps } from "./jon_shared_data_gps";
 import { JonGuiDataHeater } from "./jon_shared_data_heater";
 import { JonGuiDataLrf } from "./jon_shared_data_lrf";
@@ -58,7 +57,6 @@ export interface JonGUIState {
   cameraHeat: JonGuiDataCameraHeat | undefined;
   compassCalibration: JonGuiDataCompassCalibration | undefined;
   recOsd: JonGuiDataRecOsd | undefined;
-  dayCamGlassHeater: JonGuiDataDayCamGlassHeater | undefined;
   actualSpaceTime: JonGuiDataActualSpaceTime | undefined;
   power: JonGuiDataPower | undefined;
   cv: JonGuiDataCV | undefined;
@@ -87,7 +85,6 @@ function createBaseJonGUIState(): JonGUIState {
     cameraHeat: undefined,
     compassCalibration: undefined,
     recOsd: undefined,
-    dayCamGlassHeater: undefined,
     actualSpaceTime: undefined,
     power: undefined,
     cv: undefined,
@@ -154,9 +151,6 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     }
     if (message.recOsd !== undefined) {
       JonGuiDataRecOsd.encode(message.recOsd, writer.uint32(186).fork()).join();
-    }
-    if (message.dayCamGlassHeater !== undefined) {
-      JonGuiDataDayCamGlassHeater.encode(message.dayCamGlassHeater, writer.uint32(194).fork()).join();
     }
     if (message.actualSpaceTime !== undefined) {
       JonGuiDataActualSpaceTime.encode(message.actualSpaceTime, writer.uint32(202).fork()).join();
@@ -335,14 +329,6 @@ export const JonGUIState: MessageFns<JonGUIState> = {
           message.recOsd = JonGuiDataRecOsd.decode(reader, reader.uint32());
           continue;
         }
-        case 24: {
-          if (tag !== 194) {
-            break;
-          }
-
-          message.dayCamGlassHeater = JonGuiDataDayCamGlassHeater.decode(reader, reader.uint32());
-          continue;
-        }
         case 25: {
           if (tag !== 202) {
             break;
@@ -465,11 +451,6 @@ export const JonGUIState: MessageFns<JonGUIState> = {
         : isSet(object.rec_osd)
         ? JonGuiDataRecOsd.fromJSON(object.rec_osd)
         : undefined,
-      dayCamGlassHeater: isSet(object.dayCamGlassHeater)
-        ? JonGuiDataDayCamGlassHeater.fromJSON(object.dayCamGlassHeater)
-        : isSet(object.day_cam_glass_heater)
-        ? JonGuiDataDayCamGlassHeater.fromJSON(object.day_cam_glass_heater)
-        : undefined,
       actualSpaceTime: isSet(object.actualSpaceTime)
         ? JonGuiDataActualSpaceTime.fromJSON(object.actualSpaceTime)
         : isSet(object.actual_space_time)
@@ -541,9 +522,6 @@ export const JonGUIState: MessageFns<JonGUIState> = {
     if (message.recOsd !== undefined) {
       obj.recOsd = JonGuiDataRecOsd.toJSON(message.recOsd);
     }
-    if (message.dayCamGlassHeater !== undefined) {
-      obj.dayCamGlassHeater = JonGuiDataDayCamGlassHeater.toJSON(message.dayCamGlassHeater);
-    }
     if (message.actualSpaceTime !== undefined) {
       obj.actualSpaceTime = JonGuiDataActualSpaceTime.toJSON(message.actualSpaceTime);
     }
@@ -614,9 +592,6 @@ export const JonGUIState: MessageFns<JonGUIState> = {
       : undefined;
     message.recOsd = (object.recOsd !== undefined && object.recOsd !== null)
       ? JonGuiDataRecOsd.fromPartial(object.recOsd)
-      : undefined;
-    message.dayCamGlassHeater = (object.dayCamGlassHeater !== undefined && object.dayCamGlassHeater !== null)
-      ? JonGuiDataDayCamGlassHeater.fromPartial(object.dayCamGlassHeater)
       : undefined;
     message.actualSpaceTime = (object.actualSpaceTime !== undefined && object.actualSpaceTime !== null)
       ? JonGuiDataActualSpaceTime.fromPartial(object.actualSpaceTime)

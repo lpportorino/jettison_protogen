@@ -9,17 +9,16 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 import { Root as Root4 } from "./jon_shared_cmd_compass";
 import { Root as Root10 } from "./jon_shared_cmd_cv";
-import { Root as Root11 } from "./jon_shared_cmd_day_cam_glass_heater";
 import { Root as Root1 } from "./jon_shared_cmd_day_camera";
 import { Root as Root3 } from "./jon_shared_cmd_gps";
 import { Root as Root2 } from "./jon_shared_cmd_heat_camera";
-import { Root as Root15 } from "./jon_shared_cmd_heater";
-import { Root as Root12 } from "./jon_shared_cmd_lira";
+import { Root as Root14 } from "./jon_shared_cmd_heater";
+import { Root as Root11 } from "./jon_shared_cmd_lira";
 import { Root as Root5 } from "./jon_shared_cmd_lrf";
 import { Root as Root6 } from "./jon_shared_cmd_lrf_align";
 import { Root as Root8 } from "./jon_shared_cmd_osd";
-import { Root as Root14 } from "./jon_shared_cmd_pmu";
-import { Root as Root13 } from "./jon_shared_cmd_power";
+import { Root as Root13 } from "./jon_shared_cmd_pmu";
+import { Root as Root12 } from "./jon_shared_cmd_power";
 import { Root as Root7 } from "./jon_shared_cmd_rotary";
 import { Root as Root9 } from "./jon_shared_cmd_system";
 import {
@@ -62,11 +61,10 @@ export interface Root {
   frozen?: Frozen | undefined;
   system?: Root9 | undefined;
   cv?: Root10 | undefined;
-  dayCamGlassHeater?: Root11 | undefined;
-  lira?: Root12 | undefined;
-  power?: Root13 | undefined;
-  pmu?: Root14 | undefined;
-  heater?: Root15 | undefined;
+  lira?: Root11 | undefined;
+  power?: Root12 | undefined;
+  pmu?: Root13 | undefined;
+  heater?: Root14 | undefined;
 }
 
 export interface Ping {
@@ -104,7 +102,6 @@ function createBaseRoot(): Root {
     frozen: undefined,
     system: undefined,
     cv: undefined,
-    dayCamGlassHeater: undefined,
     lira: undefined,
     power: undefined,
     pmu: undefined,
@@ -186,20 +183,17 @@ export const Root: MessageFns<Root> = {
     if (message.cv !== undefined) {
       Root10.encode(message.cv, writer.uint32(258).fork()).join();
     }
-    if (message.dayCamGlassHeater !== undefined) {
-      Root11.encode(message.dayCamGlassHeater, writer.uint32(266).fork()).join();
-    }
     if (message.lira !== undefined) {
-      Root12.encode(message.lira, writer.uint32(274).fork()).join();
+      Root11.encode(message.lira, writer.uint32(274).fork()).join();
     }
     if (message.power !== undefined) {
-      Root13.encode(message.power, writer.uint32(282).fork()).join();
+      Root12.encode(message.power, writer.uint32(282).fork()).join();
     }
     if (message.pmu !== undefined) {
-      Root14.encode(message.pmu, writer.uint32(290).fork()).join();
+      Root13.encode(message.pmu, writer.uint32(290).fork()).join();
     }
     if (message.heater !== undefined) {
-      Root15.encode(message.heater, writer.uint32(298).fork()).join();
+      Root14.encode(message.heater, writer.uint32(298).fork()).join();
     }
     return writer;
   },
@@ -403,20 +397,12 @@ export const Root: MessageFns<Root> = {
           message.cv = Root10.decode(reader, reader.uint32());
           continue;
         }
-        case 33: {
-          if (tag !== 266) {
-            break;
-          }
-
-          message.dayCamGlassHeater = Root11.decode(reader, reader.uint32());
-          continue;
-        }
         case 34: {
           if (tag !== 274) {
             break;
           }
 
-          message.lira = Root12.decode(reader, reader.uint32());
+          message.lira = Root11.decode(reader, reader.uint32());
           continue;
         }
         case 35: {
@@ -424,7 +410,7 @@ export const Root: MessageFns<Root> = {
             break;
           }
 
-          message.power = Root13.decode(reader, reader.uint32());
+          message.power = Root12.decode(reader, reader.uint32());
           continue;
         }
         case 36: {
@@ -432,7 +418,7 @@ export const Root: MessageFns<Root> = {
             break;
           }
 
-          message.pmu = Root14.decode(reader, reader.uint32());
+          message.pmu = Root13.decode(reader, reader.uint32());
           continue;
         }
         case 37: {
@@ -440,7 +426,7 @@ export const Root: MessageFns<Root> = {
             break;
           }
 
-          message.heater = Root15.decode(reader, reader.uint32());
+          message.heater = Root14.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -530,15 +516,10 @@ export const Root: MessageFns<Root> = {
       frozen: isSet(object.frozen) ? Frozen.fromJSON(object.frozen) : undefined,
       system: isSet(object.system) ? Root9.fromJSON(object.system) : undefined,
       cv: isSet(object.cv) ? Root10.fromJSON(object.cv) : undefined,
-      dayCamGlassHeater: isSet(object.dayCamGlassHeater)
-        ? Root11.fromJSON(object.dayCamGlassHeater)
-        : isSet(object.day_cam_glass_heater)
-        ? Root11.fromJSON(object.day_cam_glass_heater)
-        : undefined,
-      lira: isSet(object.lira) ? Root12.fromJSON(object.lira) : undefined,
-      power: isSet(object.power) ? Root13.fromJSON(object.power) : undefined,
-      pmu: isSet(object.pmu) ? Root14.fromJSON(object.pmu) : undefined,
-      heater: isSet(object.heater) ? Root15.fromJSON(object.heater) : undefined,
+      lira: isSet(object.lira) ? Root11.fromJSON(object.lira) : undefined,
+      power: isSet(object.power) ? Root12.fromJSON(object.power) : undefined,
+      pmu: isSet(object.pmu) ? Root13.fromJSON(object.pmu) : undefined,
+      heater: isSet(object.heater) ? Root14.fromJSON(object.heater) : undefined,
     };
   },
 
@@ -616,20 +597,17 @@ export const Root: MessageFns<Root> = {
     if (message.cv !== undefined) {
       obj.cv = Root10.toJSON(message.cv);
     }
-    if (message.dayCamGlassHeater !== undefined) {
-      obj.dayCamGlassHeater = Root11.toJSON(message.dayCamGlassHeater);
-    }
     if (message.lira !== undefined) {
-      obj.lira = Root12.toJSON(message.lira);
+      obj.lira = Root11.toJSON(message.lira);
     }
     if (message.power !== undefined) {
-      obj.power = Root13.toJSON(message.power);
+      obj.power = Root12.toJSON(message.power);
     }
     if (message.pmu !== undefined) {
-      obj.pmu = Root14.toJSON(message.pmu);
+      obj.pmu = Root13.toJSON(message.pmu);
     }
     if (message.heater !== undefined) {
-      obj.heater = Root15.toJSON(message.heater);
+      obj.heater = Root14.toJSON(message.heater);
     }
     return obj;
   },
@@ -685,16 +663,13 @@ export const Root: MessageFns<Root> = {
       ? Root9.fromPartial(object.system)
       : undefined;
     message.cv = (object.cv !== undefined && object.cv !== null) ? Root10.fromPartial(object.cv) : undefined;
-    message.dayCamGlassHeater = (object.dayCamGlassHeater !== undefined && object.dayCamGlassHeater !== null)
-      ? Root11.fromPartial(object.dayCamGlassHeater)
-      : undefined;
-    message.lira = (object.lira !== undefined && object.lira !== null) ? Root12.fromPartial(object.lira) : undefined;
+    message.lira = (object.lira !== undefined && object.lira !== null) ? Root11.fromPartial(object.lira) : undefined;
     message.power = (object.power !== undefined && object.power !== null)
-      ? Root13.fromPartial(object.power)
+      ? Root12.fromPartial(object.power)
       : undefined;
-    message.pmu = (object.pmu !== undefined && object.pmu !== null) ? Root14.fromPartial(object.pmu) : undefined;
+    message.pmu = (object.pmu !== undefined && object.pmu !== null) ? Root13.fromPartial(object.pmu) : undefined;
     message.heater = (object.heater !== undefined && object.heater !== null)
-      ? Root15.fromPartial(object.heater)
+      ? Root14.fromPartial(object.heater)
       : undefined;
     return message;
   },

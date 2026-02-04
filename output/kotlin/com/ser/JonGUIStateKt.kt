@@ -596,33 +596,6 @@ public object JonGUIStateKt {
       get() = _builder.recOsdOrNull
 
     /**
-     * `.ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [json_name = "dayCamGlassHeater", (.buf.validate.field) = { ... }`
-     */
-    public var dayCamGlassHeater: com.ser.JonGuiDataDayCamGlassHeater
-      @kotlin.jvm.JvmName("getDayCamGlassHeater")
-        get() = _builder.dayCamGlassHeater
-      @kotlin.jvm.JvmName("setDayCamGlassHeater")
-        set(value) {
-        _builder.dayCamGlassHeater = value
-      }
-    /**
-     * `.ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [json_name = "dayCamGlassHeater", (.buf.validate.field) = { ... }`
-     */
-    public fun clearDayCamGlassHeater() {
-      _builder.clearDayCamGlassHeater()
-    }
-    /**
-     * `.ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [json_name = "dayCamGlassHeater", (.buf.validate.field) = { ... }`
-     * @return Whether the dayCamGlassHeater field is set.
-     */
-    public fun hasDayCamGlassHeater(): kotlin.Boolean {
-      return _builder.hasDayCamGlassHeater()
-    }
-
-    public val JonGUIStateKt.Dsl.dayCamGlassHeaterOrNull: com.ser.JonGuiDataDayCamGlassHeater?
-      get() = _builder.dayCamGlassHeaterOrNull
-
-    /**
      * `.ser.JonGuiDataActualSpaceTime actual_space_time = 25 [json_name = "actualSpaceTime", (.buf.validate.field) = { ... }`
      */
     public var actualSpaceTime: com.ser.JonGuiDataActualSpaceTime
@@ -794,9 +767,6 @@ public val com.ser.JonGUIStateOrBuilder.compassCalibrationOrNull: com.ser.JonGui
 
 public val com.ser.JonGUIStateOrBuilder.recOsdOrNull: com.ser.JonGuiDataRecOsd?
   get() = if (hasRecOsd()) getRecOsd() else null
-
-public val com.ser.JonGUIStateOrBuilder.dayCamGlassHeaterOrNull: com.ser.JonGuiDataDayCamGlassHeater?
-  get() = if (hasDayCamGlassHeater()) getDayCamGlassHeater() else null
 
 public val com.ser.JonGUIStateOrBuilder.actualSpaceTimeOrNull: com.ser.JonGuiDataActualSpaceTime?
   get() = if (hasActualSpaceTime()) getActualSpaceTime() else null

@@ -41,7 +41,6 @@
 #include "jon_shared_data_camera_day.pb.h"
 #include "jon_shared_data_camera_heat.pb.h"
 #include "jon_shared_data_rec_osd.pb.h"
-#include "jon_shared_data_day_cam_glass_heater.pb.h"
 #include "jon_shared_data_actual_space_time.pb.h"
 #include "jon_shared_data_power.pb.h"
 #include "jon_shared_data_cv.pb.h"
@@ -244,7 +243,6 @@ class JonGUIState final : public ::google::protobuf::Message
     kCameraHeatFieldNumber = 21,
     kCompassCalibrationFieldNumber = 22,
     kRecOsdFieldNumber = 23,
-    kDayCamGlassHeaterFieldNumber = 24,
     kActualSpaceTimeFieldNumber = 25,
     kPowerFieldNumber = 26,
     kCvFieldNumber = 27,
@@ -440,21 +438,6 @@ class JonGUIState final : public ::google::protobuf::Message
   ::ser::JonGuiDataRecOsd* _internal_mutable_rec_osd();
 
   public:
-  // .ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(.buf.validate.field) = {
-  bool has_day_cam_glass_heater() const;
-  void clear_day_cam_glass_heater() ;
-  const ::ser::JonGuiDataDayCamGlassHeater& day_cam_glass_heater() const;
-  PROTOBUF_NODISCARD ::ser::JonGuiDataDayCamGlassHeater* release_day_cam_glass_heater();
-  ::ser::JonGuiDataDayCamGlassHeater* mutable_day_cam_glass_heater();
-  void set_allocated_day_cam_glass_heater(::ser::JonGuiDataDayCamGlassHeater* value);
-  void unsafe_arena_set_allocated_day_cam_glass_heater(::ser::JonGuiDataDayCamGlassHeater* value);
-  ::ser::JonGuiDataDayCamGlassHeater* unsafe_arena_release_day_cam_glass_heater();
-
-  private:
-  const ::ser::JonGuiDataDayCamGlassHeater& _internal_day_cam_glass_heater() const;
-  ::ser::JonGuiDataDayCamGlassHeater* _internal_mutable_day_cam_glass_heater();
-
-  public:
   // .ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = {
   bool has_actual_space_time() const;
   void clear_actual_space_time() ;
@@ -605,7 +588,7 @@ class JonGUIState final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 25, 18,
+      5, 24, 17,
       0, 2>
       _table_;
 
@@ -637,7 +620,6 @@ class JonGUIState final : public ::google::protobuf::Message
     ::ser::JonGuiDataCameraHeat* camera_heat_;
     ::ser::JonGuiDataCompassCalibration* compass_calibration_;
     ::ser::JonGuiDataRecOsd* rec_osd_;
-    ::ser::JonGuiDataDayCamGlassHeater* day_cam_glass_heater_;
     ::ser::JonGuiDataActualSpaceTime* actual_space_time_;
     ::ser::JonGuiDataPower* power_;
     ::ser::JonGuiDataCV* cv_;
@@ -1872,100 +1854,9 @@ inline void JonGUIState::set_allocated_rec_osd(::ser::JonGuiDataRecOsd* value) {
   // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.rec_osd)
 }
 
-// .ser.JonGuiDataDayCamGlassHeater day_cam_glass_heater = 24 [(.buf.validate.field) = {
-inline bool JonGUIState::has_day_cam_glass_heater() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000800u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.day_cam_glass_heater_ != nullptr);
-  return value;
-}
-inline const ::ser::JonGuiDataDayCamGlassHeater& JonGUIState::_internal_day_cam_glass_heater() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::ser::JonGuiDataDayCamGlassHeater* p = _impl_.day_cam_glass_heater_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataDayCamGlassHeater&>(::ser::_JonGuiDataDayCamGlassHeater_default_instance_);
-}
-inline const ::ser::JonGuiDataDayCamGlassHeater& JonGUIState::day_cam_glass_heater() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ser.JonGUIState.day_cam_glass_heater)
-  return _internal_day_cam_glass_heater();
-}
-inline void JonGUIState::unsafe_arena_set_allocated_day_cam_glass_heater(::ser::JonGuiDataDayCamGlassHeater* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.day_cam_glass_heater_);
-  }
-  _impl_.day_cam_glass_heater_ = reinterpret_cast<::ser::JonGuiDataDayCamGlassHeater*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000800u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000800u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.day_cam_glass_heater)
-}
-inline ::ser::JonGuiDataDayCamGlassHeater* JonGUIState::release_day_cam_glass_heater() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000800u;
-  ::ser::JonGuiDataDayCamGlassHeater* released = _impl_.day_cam_glass_heater_;
-  _impl_.day_cam_glass_heater_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
-}
-inline ::ser::JonGuiDataDayCamGlassHeater* JonGUIState::unsafe_arena_release_day_cam_glass_heater() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ser.JonGUIState.day_cam_glass_heater)
-
-  _impl_._has_bits_[0] &= ~0x00000800u;
-  ::ser::JonGuiDataDayCamGlassHeater* temp = _impl_.day_cam_glass_heater_;
-  _impl_.day_cam_glass_heater_ = nullptr;
-  return temp;
-}
-inline ::ser::JonGuiDataDayCamGlassHeater* JonGUIState::_internal_mutable_day_cam_glass_heater() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.day_cam_glass_heater_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataDayCamGlassHeater>(GetArena());
-    _impl_.day_cam_glass_heater_ = reinterpret_cast<::ser::JonGuiDataDayCamGlassHeater*>(p);
-  }
-  return _impl_.day_cam_glass_heater_;
-}
-inline ::ser::JonGuiDataDayCamGlassHeater* JonGUIState::mutable_day_cam_glass_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000800u;
-  ::ser::JonGuiDataDayCamGlassHeater* _msg = _internal_mutable_day_cam_glass_heater();
-  // @@protoc_insertion_point(field_mutable:ser.JonGUIState.day_cam_glass_heater)
-  return _msg;
-}
-inline void JonGUIState::set_allocated_day_cam_glass_heater(::ser::JonGuiDataDayCamGlassHeater* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.day_cam_glass_heater_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000800u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000800u;
-  }
-
-  _impl_.day_cam_glass_heater_ = reinterpret_cast<::ser::JonGuiDataDayCamGlassHeater*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ser.JonGUIState.day_cam_glass_heater)
-}
-
 // .ser.JonGuiDataActualSpaceTime actual_space_time = 25 [(.buf.validate.field) = {
 inline bool JonGUIState::has_actual_space_time() const {
-  bool value = (_impl_._has_bits_[0] & 0x00001000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000800u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.actual_space_time_ != nullptr);
   return value;
 }
@@ -1985,16 +1876,16 @@ inline void JonGUIState::unsafe_arena_set_allocated_actual_space_time(::ser::Jon
   }
   _impl_.actual_space_time_ = reinterpret_cast<::ser::JonGuiDataActualSpaceTime*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00001000u;
+    _impl_._has_bits_[0] |= 0x00000800u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00001000u;
+    _impl_._has_bits_[0] &= ~0x00000800u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.actual_space_time)
 }
 inline ::ser::JonGuiDataActualSpaceTime* JonGUIState::release_actual_space_time() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00001000u;
+  _impl_._has_bits_[0] &= ~0x00000800u;
   ::ser::JonGuiDataActualSpaceTime* released = _impl_.actual_space_time_;
   _impl_.actual_space_time_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
@@ -2014,7 +1905,7 @@ inline ::ser::JonGuiDataActualSpaceTime* JonGUIState::unsafe_arena_release_actua
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:ser.JonGUIState.actual_space_time)
 
-  _impl_._has_bits_[0] &= ~0x00001000u;
+  _impl_._has_bits_[0] &= ~0x00000800u;
   ::ser::JonGuiDataActualSpaceTime* temp = _impl_.actual_space_time_;
   _impl_.actual_space_time_ = nullptr;
   return temp;
@@ -2028,7 +1919,7 @@ inline ::ser::JonGuiDataActualSpaceTime* JonGUIState::_internal_mutable_actual_s
   return _impl_.actual_space_time_;
 }
 inline ::ser::JonGuiDataActualSpaceTime* JonGUIState::mutable_actual_space_time() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00001000u;
+  _impl_._has_bits_[0] |= 0x00000800u;
   ::ser::JonGuiDataActualSpaceTime* _msg = _internal_mutable_actual_space_time();
   // @@protoc_insertion_point(field_mutable:ser.JonGUIState.actual_space_time)
   return _msg;
@@ -2045,9 +1936,9 @@ inline void JonGUIState::set_allocated_actual_space_time(::ser::JonGuiDataActual
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00001000u;
+    _impl_._has_bits_[0] |= 0x00000800u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00001000u;
+    _impl_._has_bits_[0] &= ~0x00000800u;
   }
 
   _impl_.actual_space_time_ = reinterpret_cast<::ser::JonGuiDataActualSpaceTime*>(value);
@@ -2056,7 +1947,7 @@ inline void JonGUIState::set_allocated_actual_space_time(::ser::JonGuiDataActual
 
 // .ser.JonGuiDataPower power = 26 [(.buf.validate.field) = {
 inline bool JonGUIState::has_power() const {
-  bool value = (_impl_._has_bits_[0] & 0x00002000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00001000u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.power_ != nullptr);
   return value;
 }
@@ -2076,16 +1967,16 @@ inline void JonGUIState::unsafe_arena_set_allocated_power(::ser::JonGuiDataPower
   }
   _impl_.power_ = reinterpret_cast<::ser::JonGuiDataPower*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00002000u;
+    _impl_._has_bits_[0] |= 0x00001000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00002000u;
+    _impl_._has_bits_[0] &= ~0x00001000u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.power)
 }
 inline ::ser::JonGuiDataPower* JonGUIState::release_power() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00002000u;
+  _impl_._has_bits_[0] &= ~0x00001000u;
   ::ser::JonGuiDataPower* released = _impl_.power_;
   _impl_.power_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
@@ -2105,7 +1996,7 @@ inline ::ser::JonGuiDataPower* JonGUIState::unsafe_arena_release_power() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:ser.JonGUIState.power)
 
-  _impl_._has_bits_[0] &= ~0x00002000u;
+  _impl_._has_bits_[0] &= ~0x00001000u;
   ::ser::JonGuiDataPower* temp = _impl_.power_;
   _impl_.power_ = nullptr;
   return temp;
@@ -2119,7 +2010,7 @@ inline ::ser::JonGuiDataPower* JonGUIState::_internal_mutable_power() {
   return _impl_.power_;
 }
 inline ::ser::JonGuiDataPower* JonGUIState::mutable_power() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00002000u;
+  _impl_._has_bits_[0] |= 0x00001000u;
   ::ser::JonGuiDataPower* _msg = _internal_mutable_power();
   // @@protoc_insertion_point(field_mutable:ser.JonGUIState.power)
   return _msg;
@@ -2136,9 +2027,9 @@ inline void JonGUIState::set_allocated_power(::ser::JonGuiDataPower* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00002000u;
+    _impl_._has_bits_[0] |= 0x00001000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00002000u;
+    _impl_._has_bits_[0] &= ~0x00001000u;
   }
 
   _impl_.power_ = reinterpret_cast<::ser::JonGuiDataPower*>(value);
@@ -2147,7 +2038,7 @@ inline void JonGUIState::set_allocated_power(::ser::JonGuiDataPower* value) {
 
 // .ser.JonGuiDataCV cv = 27;
 inline bool JonGUIState::has_cv() const {
-  bool value = (_impl_._has_bits_[0] & 0x00004000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00002000u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.cv_ != nullptr);
   return value;
 }
@@ -2167,16 +2058,16 @@ inline void JonGUIState::unsafe_arena_set_allocated_cv(::ser::JonGuiDataCV* valu
   }
   _impl_.cv_ = reinterpret_cast<::ser::JonGuiDataCV*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00004000u;
+    _impl_._has_bits_[0] |= 0x00002000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00004000u;
+    _impl_._has_bits_[0] &= ~0x00002000u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.cv)
 }
 inline ::ser::JonGuiDataCV* JonGUIState::release_cv() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00004000u;
+  _impl_._has_bits_[0] &= ~0x00002000u;
   ::ser::JonGuiDataCV* released = _impl_.cv_;
   _impl_.cv_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
@@ -2196,7 +2087,7 @@ inline ::ser::JonGuiDataCV* JonGUIState::unsafe_arena_release_cv() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:ser.JonGUIState.cv)
 
-  _impl_._has_bits_[0] &= ~0x00004000u;
+  _impl_._has_bits_[0] &= ~0x00002000u;
   ::ser::JonGuiDataCV* temp = _impl_.cv_;
   _impl_.cv_ = nullptr;
   return temp;
@@ -2210,7 +2101,7 @@ inline ::ser::JonGuiDataCV* JonGUIState::_internal_mutable_cv() {
   return _impl_.cv_;
 }
 inline ::ser::JonGuiDataCV* JonGUIState::mutable_cv() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00004000u;
+  _impl_._has_bits_[0] |= 0x00002000u;
   ::ser::JonGuiDataCV* _msg = _internal_mutable_cv();
   // @@protoc_insertion_point(field_mutable:ser.JonGUIState.cv)
   return _msg;
@@ -2227,9 +2118,9 @@ inline void JonGUIState::set_allocated_cv(::ser::JonGuiDataCV* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00004000u;
+    _impl_._has_bits_[0] |= 0x00002000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00004000u;
+    _impl_._has_bits_[0] &= ~0x00002000u;
   }
 
   _impl_.cv_ = reinterpret_cast<::ser::JonGuiDataCV*>(value);
@@ -2238,7 +2129,7 @@ inline void JonGUIState::set_allocated_cv(::ser::JonGuiDataCV* value) {
 
 // .ser.JonGuiDataPMU pmu = 28 [(.buf.validate.field) = {
 inline bool JonGUIState::has_pmu() const {
-  bool value = (_impl_._has_bits_[0] & 0x00008000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00004000u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.pmu_ != nullptr);
   return value;
 }
@@ -2258,16 +2149,16 @@ inline void JonGUIState::unsafe_arena_set_allocated_pmu(::ser::JonGuiDataPMU* va
   }
   _impl_.pmu_ = reinterpret_cast<::ser::JonGuiDataPMU*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00008000u;
+    _impl_._has_bits_[0] |= 0x00004000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00008000u;
+    _impl_._has_bits_[0] &= ~0x00004000u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.pmu)
 }
 inline ::ser::JonGuiDataPMU* JonGUIState::release_pmu() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00008000u;
+  _impl_._has_bits_[0] &= ~0x00004000u;
   ::ser::JonGuiDataPMU* released = _impl_.pmu_;
   _impl_.pmu_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
@@ -2287,7 +2178,7 @@ inline ::ser::JonGuiDataPMU* JonGUIState::unsafe_arena_release_pmu() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:ser.JonGUIState.pmu)
 
-  _impl_._has_bits_[0] &= ~0x00008000u;
+  _impl_._has_bits_[0] &= ~0x00004000u;
   ::ser::JonGuiDataPMU* temp = _impl_.pmu_;
   _impl_.pmu_ = nullptr;
   return temp;
@@ -2301,7 +2192,7 @@ inline ::ser::JonGuiDataPMU* JonGUIState::_internal_mutable_pmu() {
   return _impl_.pmu_;
 }
 inline ::ser::JonGuiDataPMU* JonGUIState::mutable_pmu() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00008000u;
+  _impl_._has_bits_[0] |= 0x00004000u;
   ::ser::JonGuiDataPMU* _msg = _internal_mutable_pmu();
   // @@protoc_insertion_point(field_mutable:ser.JonGUIState.pmu)
   return _msg;
@@ -2318,9 +2209,9 @@ inline void JonGUIState::set_allocated_pmu(::ser::JonGuiDataPMU* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00008000u;
+    _impl_._has_bits_[0] |= 0x00004000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00008000u;
+    _impl_._has_bits_[0] &= ~0x00004000u;
   }
 
   _impl_.pmu_ = reinterpret_cast<::ser::JonGuiDataPMU*>(value);
@@ -2329,7 +2220,7 @@ inline void JonGUIState::set_allocated_pmu(::ser::JonGuiDataPMU* value) {
 
 // .ser.JonGuiDataHeater heater = 29;
 inline bool JonGUIState::has_heater() const {
-  bool value = (_impl_._has_bits_[0] & 0x00010000u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00008000u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.heater_ != nullptr);
   return value;
 }
@@ -2349,16 +2240,16 @@ inline void JonGUIState::unsafe_arena_set_allocated_heater(::ser::JonGuiDataHeat
   }
   _impl_.heater_ = reinterpret_cast<::ser::JonGuiDataHeater*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00010000u;
+    _impl_._has_bits_[0] |= 0x00008000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00010000u;
+    _impl_._has_bits_[0] &= ~0x00008000u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGUIState.heater)
 }
 inline ::ser::JonGuiDataHeater* JonGUIState::release_heater() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00010000u;
+  _impl_._has_bits_[0] &= ~0x00008000u;
   ::ser::JonGuiDataHeater* released = _impl_.heater_;
   _impl_.heater_ = nullptr;
   if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
@@ -2378,7 +2269,7 @@ inline ::ser::JonGuiDataHeater* JonGUIState::unsafe_arena_release_heater() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:ser.JonGUIState.heater)
 
-  _impl_._has_bits_[0] &= ~0x00010000u;
+  _impl_._has_bits_[0] &= ~0x00008000u;
   ::ser::JonGuiDataHeater* temp = _impl_.heater_;
   _impl_.heater_ = nullptr;
   return temp;
@@ -2392,7 +2283,7 @@ inline ::ser::JonGuiDataHeater* JonGUIState::_internal_mutable_heater() {
   return _impl_.heater_;
 }
 inline ::ser::JonGuiDataHeater* JonGUIState::mutable_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00010000u;
+  _impl_._has_bits_[0] |= 0x00008000u;
   ::ser::JonGuiDataHeater* _msg = _internal_mutable_heater();
   // @@protoc_insertion_point(field_mutable:ser.JonGUIState.heater)
   return _msg;
@@ -2409,9 +2300,9 @@ inline void JonGUIState::set_allocated_heater(::ser::JonGuiDataHeater* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00010000u;
+    _impl_._has_bits_[0] |= 0x00008000u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00010000u;
+    _impl_._has_bits_[0] &= ~0x00008000u;
   }
 
   _impl_.heater_ = reinterpret_cast<::ser::JonGuiDataHeater*>(value);
