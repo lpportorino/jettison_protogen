@@ -28,6 +28,8 @@ typedef struct _ser_JonGuiDataCameraHeat {
     bool is_started;
     bool has_meteo;
     ser_JonGuiDataMeteo meteo;
+    /* CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM */
+    uint64_t capture_monotonic_us;
 } ser_JonGuiDataCameraHeat;
 
 
@@ -36,8 +38,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCameraHeat_init_default    {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default}
-#define ser_JonGuiDataCameraHeat_init_zero       {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero}
+#define ser_JonGuiDataCameraHeat_init_default    {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, 0}
+#define ser_JonGuiDataCameraHeat_init_zero       {0, _ser_JonGuiDataVideoChannelHeatAGCModes_MIN, _ser_JonGuiDataVideoChannelHeatFilters_MIN, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeHeat_MIN, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCameraHeat_zoom_pos_tag    1
@@ -55,6 +57,7 @@ extern "C" {
 #define ser_JonGuiDataCameraHeat_vertical_fov_degrees_tag 13
 #define ser_JonGuiDataCameraHeat_is_started_tag  14
 #define ser_JonGuiDataCameraHeat_meteo_tag       15
+#define ser_JonGuiDataCameraHeat_capture_monotonic_us_tag 16
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraHeat_FIELDLIST(X, a) \
@@ -72,7 +75,8 @@ X(a, STATIC,   SINGULAR, DOUBLE,   clahe_level,      11) \
 X(a, STATIC,   SINGULAR, DOUBLE,   horizontal_fov_degrees,  12) \
 X(a, STATIC,   SINGULAR, DOUBLE,   vertical_fov_degrees,  13) \
 X(a, STATIC,   SINGULAR, BOOL,     is_started,       14) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            15)
+X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            15) \
+X(a, STATIC,   SINGULAR, UINT64,   capture_monotonic_us,  16)
 #define ser_JonGuiDataCameraHeat_CALLBACK NULL
 #define ser_JonGuiDataCameraHeat_DEFAULT NULL
 #define ser_JonGuiDataCameraHeat_meteo_MSGTYPE ser_JonGuiDataMeteo
@@ -84,7 +88,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraHeat_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_HEAT_PB_H_MAX_SIZE ser_JonGuiDataCameraHeat_size
-#define ser_JonGuiDataCameraHeat_size            119
+#define ser_JonGuiDataCameraHeat_size            131
 
 #ifdef __cplusplus
 } /* extern "C" */

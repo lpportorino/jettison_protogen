@@ -51,4 +51,7 @@ message JonGuiDataCameraHeat {
   }];
   bool is_started = 14;
   JonGuiDataMeteo meteo = 15;
+
+  // CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+  uint64 capture_monotonic_us = 16;
 }

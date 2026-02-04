@@ -34,6 +34,8 @@ typedef struct _ser_JonGuiDataCameraDay {
     double sensor_gain;
     bool has_exposure;
     double exposure;
+    /* CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM */
+    uint64_t capture_monotonic_us;
 } ser_JonGuiDataCameraDay;
 
 
@@ -42,8 +44,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, false, 0, false, 0}
-#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, false, 0, false, 0}
+#define ser_JonGuiDataCameraDay_init_default     {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_default, false, 0, false, 0, 0}
+#define ser_JonGuiDataCameraDay_init_zero        {0, 0, 0, 0, 0, 0, _ser_JonGuiDataFxModeDay_MIN, 0, 0, 0, 0, 0, 0, 0, 0, false, ser_JonGuiDataMeteo_init_zero, false, 0, false, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCameraDay_focus_pos_tag    1
@@ -64,6 +66,7 @@ extern "C" {
 #define ser_JonGuiDataCameraDay_meteo_tag        16
 #define ser_JonGuiDataCameraDay_sensor_gain_tag  17
 #define ser_JonGuiDataCameraDay_exposure_tag     18
+#define ser_JonGuiDataCameraDay_capture_monotonic_us_tag 19
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCameraDay_FIELDLIST(X, a) \
@@ -84,7 +87,8 @@ X(a, STATIC,   SINGULAR, BOOL,     is_started,       14) \
 X(a, STATIC,   SINGULAR, BOOL,     auto_gain,        15) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  meteo,            16) \
 X(a, STATIC,   OPTIONAL, DOUBLE,   sensor_gain,      17) \
-X(a, STATIC,   OPTIONAL, DOUBLE,   exposure,         18)
+X(a, STATIC,   OPTIONAL, DOUBLE,   exposure,         18) \
+X(a, STATIC,   SINGULAR, UINT64,   capture_monotonic_us,  19)
 #define ser_JonGuiDataCameraDay_CALLBACK NULL
 #define ser_JonGuiDataCameraDay_DEFAULT NULL
 #define ser_JonGuiDataCameraDay_meteo_MSGTYPE ser_JonGuiDataMeteo
@@ -96,7 +100,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCameraDay_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_CAMERA_DAY_PB_H_MAX_SIZE ser_JonGuiDataCameraDay_size
-#define ser_JonGuiDataCameraDay_size             147
+#define ser_JonGuiDataCameraDay_size             159
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -230,6 +230,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     kClaheLevelFieldNumber = 11,
     kHorizontalFovDegreesFieldNumber = 12,
     kVerticalFovDegreesFieldNumber = 13,
+    kCaptureMonotonicUsFieldNumber = 16,
     kFxModeFieldNumber = 9,
   };
   // .ser.JonGuiDataMeteo meteo = 15;
@@ -377,6 +378,16 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   void _internal_set_vertical_fov_degrees(double value);
 
   public:
+  // uint64 capture_monotonic_us = 16;
+  void clear_capture_monotonic_us() ;
+  ::uint64_t capture_monotonic_us() const;
+  void set_capture_monotonic_us(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_capture_monotonic_us() const;
+  void _internal_set_capture_monotonic_us(::uint64_t value);
+
+  public:
   // .ser.JonGuiDataFxModeHeat fx_mode = 9 [(.buf.validate.field) = {
   void clear_fx_mode() ;
   ::ser::JonGuiDataFxModeHeat fx_mode() const;
@@ -392,7 +403,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 15, 1,
+      4, 16, 1,
       0, 2>
       _table_;
 
@@ -426,6 +437,7 @@ class JonGuiDataCameraHeat final : public ::google::protobuf::Message
     double clahe_level_;
     double horizontal_fov_degrees_;
     double vertical_fov_degrees_;
+    ::uint64_t capture_monotonic_us_;
     int fx_mode_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -846,6 +858,28 @@ inline void JonGuiDataCameraHeat::set_allocated_meteo(::ser::JonGuiDataMeteo* va
 
   _impl_.meteo_ = reinterpret_cast<::ser::JonGuiDataMeteo*>(value);
   // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCameraHeat.meteo)
+}
+
+// uint64 capture_monotonic_us = 16;
+inline void JonGuiDataCameraHeat::clear_capture_monotonic_us() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_monotonic_us_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGuiDataCameraHeat::capture_monotonic_us() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraHeat.capture_monotonic_us)
+  return _internal_capture_monotonic_us();
+}
+inline void JonGuiDataCameraHeat::set_capture_monotonic_us(::uint64_t value) {
+  _internal_set_capture_monotonic_us(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraHeat.capture_monotonic_us)
+}
+inline ::uint64_t JonGuiDataCameraHeat::_internal_capture_monotonic_us() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.capture_monotonic_us_;
+}
+inline void JonGuiDataCameraHeat::_internal_set_capture_monotonic_us(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_monotonic_us_ = value;
 }
 
 #ifdef __GNUC__

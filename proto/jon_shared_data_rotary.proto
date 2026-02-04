@@ -82,6 +82,9 @@ message JonGuiDataRotary {
     gte: 0,
     lte: 14
   }];
+
+  // CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+  uint64 capture_monotonic_us = 22;
 }
 
 message ScanNode {

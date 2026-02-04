@@ -181,6 +181,16 @@ public final class JonSharedDataRotary {
      * @return The tiltInitStatus.
      */
     int getTiltInitStatus();
+
+    /**
+     * <pre>
+     * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+     * </pre>
+     *
+     * <code>uint64 capture_monotonic_us = 22;</code>
+     * @return The captureMonotonicUs.
+     */
+    long getCaptureMonotonicUs();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataRotary}
@@ -493,6 +503,21 @@ public final class JonSharedDataRotary {
       return tiltInitStatus_;
     }
 
+    public static final int CAPTURE_MONOTONIC_US_FIELD_NUMBER = 22;
+    private long captureMonotonicUs_ = 0L;
+    /**
+     * <pre>
+     * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+     * </pre>
+     *
+     * <code>uint64 capture_monotonic_us = 22;</code>
+     * @return The captureMonotonicUs.
+     */
+    @java.lang.Override
+    public long getCaptureMonotonicUs() {
+      return captureMonotonicUs_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -569,6 +594,9 @@ public final class JonSharedDataRotary {
       }
       if (tiltInitStatus_ != 0) {
         output.writeInt32(21, tiltInitStatus_);
+      }
+      if (captureMonotonicUs_ != 0L) {
+        output.writeUInt64(22, captureMonotonicUs_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -663,6 +691,10 @@ public final class JonSharedDataRotary {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(21, tiltInitStatus_);
       }
+      if (captureMonotonicUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(22, captureMonotonicUs_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -734,6 +766,8 @@ public final class JonSharedDataRotary {
           != other.getPanInitStatus()) return false;
       if (getTiltInitStatus()
           != other.getTiltInitStatus()) return false;
+      if (getCaptureMonotonicUs()
+          != other.getCaptureMonotonicUs()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -805,6 +839,9 @@ public final class JonSharedDataRotary {
       hash = (53 * hash) + getPanInitStatus();
       hash = (37 * hash) + TILT_INIT_STATUS_FIELD_NUMBER;
       hash = (53 * hash) + getTiltInitStatus();
+      hash = (37 * hash) + CAPTURE_MONOTONIC_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCaptureMonotonicUs());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -972,6 +1009,7 @@ public final class JonSharedDataRotary {
         }
         panInitStatus_ = 0;
         tiltInitStatus_ = 0;
+        captureMonotonicUs_ = 0L;
         return this;
       }
 
@@ -1075,6 +1113,9 @@ public final class JonSharedDataRotary {
         if (((from_bitField0_ & 0x00100000) != 0)) {
           result.tiltInitStatus_ = tiltInitStatus_;
         }
+        if (((from_bitField0_ & 0x00200000) != 0)) {
+          result.captureMonotonicUs_ = captureMonotonicUs_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -1152,6 +1193,9 @@ public final class JonSharedDataRotary {
         }
         if (other.getTiltInitStatus() != 0) {
           setTiltInitStatus(other.getTiltInitStatus());
+        }
+        if (other.getCaptureMonotonicUs() != 0L) {
+          setCaptureMonotonicUs(other.getCaptureMonotonicUs());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1288,6 +1332,11 @@ public final class JonSharedDataRotary {
                 bitField0_ |= 0x00100000;
                 break;
               } // case 168
+              case 176: {
+                captureMonotonicUs_ = input.readUInt64();
+                bitField0_ |= 0x00200000;
+                break;
+              } // case 176
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -2184,6 +2233,50 @@ public final class JonSharedDataRotary {
       public Builder clearTiltInitStatus() {
         bitField0_ = (bitField0_ & ~0x00100000);
         tiltInitStatus_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long captureMonotonicUs_ ;
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+       * </pre>
+       *
+       * <code>uint64 capture_monotonic_us = 22;</code>
+       * @return The captureMonotonicUs.
+       */
+      @java.lang.Override
+      public long getCaptureMonotonicUs() {
+        return captureMonotonicUs_;
+      }
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+       * </pre>
+       *
+       * <code>uint64 capture_monotonic_us = 22;</code>
+       * @param value The captureMonotonicUs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCaptureMonotonicUs(long value) {
+
+        captureMonotonicUs_ = value;
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+       * </pre>
+       *
+       * <code>uint64 capture_monotonic_us = 22;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCaptureMonotonicUs() {
+        bitField0_ = (bitField0_ & ~0x00200000);
+        captureMonotonicUs_ = 0L;
         onChanged();
         return this;
       }
@@ -3134,7 +3227,7 @@ public final class JonSharedDataRotary {
     java.lang.String[] descriptorData = {
       "\n\034jon_shared_data_rotary.proto\022\003ser\032\033buf" +
       "/validate/validate.proto\032\033jon_shared_dat" +
-      "a_types.proto\"\213\t\n\020JonGuiDataRotary\022L\n\007az" +
+      "a_types.proto\"\251\t\n\020JonGuiDataRotary\022L\n\007az" +
       "imuth\030\001 \001(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\000\000\000I\000\000\000\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022[\n\razim" +
       "uth_speed\030\002 \001(\001BD\272HA\022?\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277" +
@@ -3163,16 +3256,17 @@ public final class JonSharedDataRotary {
       ".ScanNode\022\022\n\nis_started\030\022 \001(\010\022#\n\005meteo\030\023" +
       " \001(\0132\024.ser.JonGuiDataMeteo\022\"\n\017pan_init_s" +
       "tatus\030\024 \001(\005B\t\272H\006\032\004\030\016(\000\022#\n\020tilt_init_stat" +
-      "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\"\211\002\n\010ScanNode\022\026\n\005inde" +
-      "x\030\001 \001(\005B\007\272H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 " +
-      "\001(\005B\007\272H\004\032\002(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005" +
-      "B\007\272H\004\032\002(\000\022(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200" +
-      "v@)\000\000\000\000\000\000\000\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000" +
-      "\000\000\000\200V@)\000\000\000\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000" +
-      "\000\000\000\000\000\000\000\022&\n\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000" +
-      "\000\000\000\000\000\000\000BNZLgit-codecommit.eu-central-1.a" +
-      "mazonaws.com/v1/repos/jettison/jonp/data" +
-      "/rotaryb\006proto3"
+      "us\030\025 \001(\005B\t\272H\006\032\004\030\016(\000\022\034\n\024capture_monotonic" +
+      "_us\030\026 \001(\004\"\211\002\n\010ScanNode\022\026\n\005index\030\001 \001(\005B\007\272" +
+      "H\004\032\002(\000\022\"\n\021DayZoomTableValue\030\002 \001(\005B\007\272H\004\032\002" +
+      "(\000\022#\n\022HeatZoomTableValue\030\003 \001(\005B\007\272H\004\032\002(\000\022" +
+      "(\n\007azimuth\030\004 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000" +
+      "\000\022*\n\televation\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000" +
+      "\000\000\200V\300\022\036\n\006linger\030\006 \001(\001B\016\272H\013\022\t)\000\000\000\000\000\000\000\000\022&\n" +
+      "\005speed\030\007 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?!\000\000\000\000\000\000\000\000BNZ" +
+      "Lgit-codecommit.eu-central-1.amazonaws.c" +
+      "om/v1/repos/jettison/jonp/data/rotaryb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3185,7 +3279,7 @@ public final class JonSharedDataRotary {
     internal_static_ser_JonGuiDataRotary_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataRotary_descriptor,
-        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", });
+        new java.lang.String[] { "Azimuth", "AzimuthSpeed", "Elevation", "ElevationSpeed", "PlatformAzimuth", "PlatformElevation", "PlatformBank", "IsMoving", "Mode", "IsScanning", "IsScanningPaused", "UseRotaryAsCompass", "ScanTarget", "ScanTargetMax", "SunAzimuth", "SunElevation", "CurrentScanNode", "IsStarted", "Meteo", "PanInitStatus", "TiltInitStatus", "CaptureMonotonicUs", });
     internal_static_ser_ScanNode_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_ScanNode_fieldAccessorTable = new

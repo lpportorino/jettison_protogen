@@ -233,6 +233,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     kVerticalFovDegreesFieldNumber = 13,
     kSensorGainFieldNumber = 17,
     kExposureFieldNumber = 18,
+    kCaptureMonotonicUsFieldNumber = 19,
     kIsStartedFieldNumber = 14,
   };
   // .ser.JonGuiDataMeteo meteo = 16;
@@ -412,6 +413,16 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   void _internal_set_exposure(double value);
 
   public:
+  // uint64 capture_monotonic_us = 19;
+  void clear_capture_monotonic_us() ;
+  ::uint64_t capture_monotonic_us() const;
+  void set_capture_monotonic_us(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_capture_monotonic_us() const;
+  void _internal_set_capture_monotonic_us(::uint64_t value);
+
+  public:
   // bool is_started = 14;
   void clear_is_started() ;
   bool is_started() const;
@@ -427,7 +438,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 18, 1,
+      5, 19, 1,
       0, 2>
       _table_;
 
@@ -464,6 +475,7 @@ class JonGuiDataCameraDay final : public ::google::protobuf::Message
     double vertical_fov_degrees_;
     double sensor_gain_;
     double exposure_;
+    ::uint64_t capture_monotonic_us_;
     bool is_started_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -962,6 +974,28 @@ inline double JonGuiDataCameraDay::_internal_exposure() const {
 inline void JonGuiDataCameraDay::_internal_set_exposure(double value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.exposure_ = value;
+}
+
+// uint64 capture_monotonic_us = 19;
+inline void JonGuiDataCameraDay::clear_capture_monotonic_us() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_monotonic_us_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGuiDataCameraDay::capture_monotonic_us() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCameraDay.capture_monotonic_us)
+  return _internal_capture_monotonic_us();
+}
+inline void JonGuiDataCameraDay::set_capture_monotonic_us(::uint64_t value) {
+  _internal_set_capture_monotonic_us(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCameraDay.capture_monotonic_us)
+}
+inline ::uint64_t JonGuiDataCameraDay::_internal_capture_monotonic_us() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.capture_monotonic_us_;
+}
+inline void JonGuiDataCameraDay::_internal_set_capture_monotonic_us(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_monotonic_us_ = value;
 }
 
 #ifdef __GNUC__

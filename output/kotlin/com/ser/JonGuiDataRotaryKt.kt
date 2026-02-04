@@ -420,6 +420,31 @@ public object JonGuiDataRotaryKt {
     public fun clearTiltInitStatus() {
       _builder.clearTiltInitStatus()
     }
+
+    /**
+     * ```
+     * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+     * ```
+     *
+     * `uint64 capture_monotonic_us = 22 [json_name = "captureMonotonicUs"];`
+     */
+    public var captureMonotonicUs: kotlin.Long
+      @kotlin.jvm.JvmName("getCaptureMonotonicUs")
+        get() = _builder.captureMonotonicUs
+      @kotlin.jvm.JvmName("setCaptureMonotonicUs")
+        set(value) {
+        _builder.captureMonotonicUs = value
+      }
+    /**
+     * ```
+     * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+     * ```
+     *
+     * `uint64 capture_monotonic_us = 22 [json_name = "captureMonotonicUs"];`
+     */
+    public fun clearCaptureMonotonicUs() {
+      _builder.clearCaptureMonotonicUs()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

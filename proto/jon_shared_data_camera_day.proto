@@ -59,4 +59,7 @@ message JonGuiDataCameraDay {
     gte: 0.0,
     lte: 1.0
   }];
+
+  // CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+  uint64 capture_monotonic_us = 19;
 }

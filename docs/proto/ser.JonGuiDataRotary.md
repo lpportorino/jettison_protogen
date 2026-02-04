@@ -38,6 +38,7 @@ Represents the real-time operational state of a rotary platform, tracking curren
 | 19 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 | 20 | pan_init_status | int32 | >= 0, <= 14 |
 | 21 | tilt_init_status | int32 | >= 0, <= 14 |
+| 22 | capture_monotonic_us | uint64 | - |
 
 
 
@@ -164,6 +165,17 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 ### meteo (#19)
 
 Local environmental sensor data from the rotary platform, providing temperature, humidity, and pressure readings for system diagnostics.
+
+
+### capture_monotonic_us (#22)
+
+CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM in the sync timer. Approximates when the data was last captured.
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** us
 
 
 

@@ -142,6 +142,16 @@ public final class JonSharedDataCameraHeat {
      * <code>.ser.JonGuiDataMeteo meteo = 15;</code>
      */
     ser.JonSharedDataTypes.JonGuiDataMeteoOrBuilder getMeteoOrBuilder();
+
+    /**
+     * <pre>
+     * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+     * </pre>
+     *
+     * <code>uint64 capture_monotonic_us = 16;</code>
+     * @return The captureMonotonicUs.
+     */
+    long getCaptureMonotonicUs();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCameraHeat}
@@ -385,6 +395,21 @@ public final class JonSharedDataCameraHeat {
       return meteo_ == null ? ser.JonSharedDataTypes.JonGuiDataMeteo.getDefaultInstance() : meteo_;
     }
 
+    public static final int CAPTURE_MONOTONIC_US_FIELD_NUMBER = 16;
+    private long captureMonotonicUs_ = 0L;
+    /**
+     * <pre>
+     * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+     * </pre>
+     *
+     * <code>uint64 capture_monotonic_us = 16;</code>
+     * @return The captureMonotonicUs.
+     */
+    @java.lang.Override
+    public long getCaptureMonotonicUs() {
+      return captureMonotonicUs_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -443,6 +468,9 @@ public final class JonSharedDataCameraHeat {
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(15, getMeteo());
+      }
+      if (captureMonotonicUs_ != 0L) {
+        output.writeUInt64(16, captureMonotonicUs_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -513,6 +541,10 @@ public final class JonSharedDataCameraHeat {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, getMeteo());
       }
+      if (captureMonotonicUs_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(16, captureMonotonicUs_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -563,6 +595,8 @@ public final class JonSharedDataCameraHeat {
         if (!getMeteo()
             .equals(other.getMeteo())) return false;
       }
+      if (getCaptureMonotonicUs()
+          != other.getCaptureMonotonicUs()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -614,6 +648,9 @@ public final class JonSharedDataCameraHeat {
         hash = (37 * hash) + METEO_FIELD_NUMBER;
         hash = (53 * hash) + getMeteo().hashCode();
       }
+      hash = (37 * hash) + CAPTURE_MONOTONIC_US_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCaptureMonotonicUs());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -770,6 +807,7 @@ public final class JonSharedDataCameraHeat {
           meteoBuilder_.dispose();
           meteoBuilder_ = null;
         }
+        captureMonotonicUs_ = 0L;
         return this;
       }
 
@@ -852,6 +890,9 @@ public final class JonSharedDataCameraHeat {
               : meteoBuilder_.build();
           to_bitField0_ |= 0x00000001;
         }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.captureMonotonicUs_ = captureMonotonicUs_;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -911,6 +952,9 @@ public final class JonSharedDataCameraHeat {
         }
         if (other.hasMeteo()) {
           mergeMeteo(other.getMeteo());
+        }
+        if (other.getCaptureMonotonicUs() != 0L) {
+          setCaptureMonotonicUs(other.getCaptureMonotonicUs());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1015,6 +1059,11 @@ public final class JonSharedDataCameraHeat {
                 bitField0_ |= 0x00004000;
                 break;
               } // case 122
+              case 128: {
+                captureMonotonicUs_ = input.readUInt64();
+                bitField0_ |= 0x00008000;
+                break;
+              } // case 128
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1664,6 +1713,50 @@ public final class JonSharedDataCameraHeat {
         return meteoBuilder_;
       }
 
+      private long captureMonotonicUs_ ;
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+       * </pre>
+       *
+       * <code>uint64 capture_monotonic_us = 16;</code>
+       * @return The captureMonotonicUs.
+       */
+      @java.lang.Override
+      public long getCaptureMonotonicUs() {
+        return captureMonotonicUs_;
+      }
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+       * </pre>
+       *
+       * <code>uint64 capture_monotonic_us = 16;</code>
+       * @param value The captureMonotonicUs to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCaptureMonotonicUs(long value) {
+
+        captureMonotonicUs_ = value;
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+       * </pre>
+       *
+       * <code>uint64 capture_monotonic_us = 16;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCaptureMonotonicUs() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        captureMonotonicUs_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCameraHeat)
     }
 
@@ -1731,7 +1824,7 @@ public final class JonSharedDataCameraHeat {
     java.lang.String[] descriptorData = {
       "\n!jon_shared_data_camera_heat.proto\022\003ser" +
       "\032\033buf/validate/validate.proto\032\033jon_share" +
-      "d_data_types.proto\"\223\005\n\024JonGuiDataCameraH" +
+      "d_data_types.proto\"\261\005\n\024JonGuiDataCameraH" +
       "eat\022)\n\010zoom_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000" +
       "\000\000\000\000\000\000\022E\n\010agc_mode\030\002 \001(\0162\'.ser.JonGuiDat" +
       "aVideoChannelHeatAGCModesB\n\272H\007\202\001\004\020\001 \000\022B\n" +
@@ -1748,9 +1841,10 @@ public final class JonSharedDataCameraHeat {
       "\000\000\000\000\000\000\000\000\0225\n\024vertical_fov_degrees\030\r \001(\001B\027" +
       "\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000\022\022\n\nis_started\030\016 " +
       "\001(\010\022#\n\005meteo\030\017 \001(\0132\024.ser.JonGuiDataMeteo" +
-      "BSZQgit-codecommit.eu-central-1.amazonaw" +
-      "s.com/v1/repos/jettison/jonp/data/camera" +
-      "_heatb\006proto3"
+      "\022\034\n\024capture_monotonic_us\030\020 \001(\004BSZQgit-co" +
+      "decommit.eu-central-1.amazonaws.com/v1/r" +
+      "epos/jettison/jonp/data/camera_heatb\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1763,7 +1857,7 @@ public final class JonSharedDataCameraHeat {
     internal_static_ser_JonGuiDataCameraHeat_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCameraHeat_descriptor,
-        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", });
+        new java.lang.String[] { "ZoomPos", "AgcMode", "Filter", "AutoFocus", "ZoomTablePos", "ZoomTablePosMax", "DdeLevel", "DdeEnabled", "FxMode", "DigitalZoomLevel", "ClaheLevel", "HorizontalFovDegrees", "VerticalFovDegrees", "IsStarted", "Meteo", "CaptureMonotonicUs", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

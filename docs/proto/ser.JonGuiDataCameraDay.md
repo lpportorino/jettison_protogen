@@ -35,6 +35,7 @@ Captures the complete operational state of the day camera, including normalized 
 | 16 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
 | 17 | sensor_gain | double | >= 0, <= 1 |
 | 18 | exposure | double | >= 0, <= 1 |
+| 19 | capture_monotonic_us | uint64 | - |
 
 
 ## Oneofs
@@ -174,6 +175,17 @@ Day camera state including zoom, focus, iris, and image processing settings
 ### meteo (#16)
 
 Local environmental sensor data from the day camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
+
+
+### capture_monotonic_us (#19)
+
+CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM in the sync timer. Approximates when the data was last captured.
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** us
 
 
 

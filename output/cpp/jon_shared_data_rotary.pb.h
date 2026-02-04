@@ -501,6 +501,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     kSunElevationFieldNumber = 16,
     kIsStartedFieldNumber = 18,
     kPanInitStatusFieldNumber = 20,
+    kCaptureMonotonicUsFieldNumber = 22,
     kTiltInitStatusFieldNumber = 21,
   };
   // .ser.ScanNode current_scan_node = 17;
@@ -713,6 +714,16 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   void _internal_set_pan_init_status(::int32_t value);
 
   public:
+  // uint64 capture_monotonic_us = 22;
+  void clear_capture_monotonic_us() ;
+  ::uint64_t capture_monotonic_us() const;
+  void set_capture_monotonic_us(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_capture_monotonic_us() const;
+  void _internal_set_capture_monotonic_us(::uint64_t value);
+
+  public:
   // int32 tilt_init_status = 21 [(.buf.validate.field) = {
   void clear_tilt_init_status() ;
   ::int32_t tilt_init_status() const;
@@ -728,7 +739,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 21, 2,
+      5, 22, 2,
       0, 2>
       _table_;
 
@@ -768,6 +779,7 @@ class JonGuiDataRotary final : public ::google::protobuf::Message
     double sun_elevation_;
     bool is_started_;
     ::int32_t pan_init_status_;
+    ::uint64_t capture_monotonic_us_;
     ::int32_t tilt_init_status_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1394,6 +1406,28 @@ inline ::int32_t JonGuiDataRotary::_internal_tilt_init_status() const {
 inline void JonGuiDataRotary::_internal_set_tilt_init_status(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.tilt_init_status_ = value;
+}
+
+// uint64 capture_monotonic_us = 22;
+inline void JonGuiDataRotary::clear_capture_monotonic_us() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_monotonic_us_ = ::uint64_t{0u};
+}
+inline ::uint64_t JonGuiDataRotary::capture_monotonic_us() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataRotary.capture_monotonic_us)
+  return _internal_capture_monotonic_us();
+}
+inline void JonGuiDataRotary::set_capture_monotonic_us(::uint64_t value) {
+  _internal_set_capture_monotonic_us(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataRotary.capture_monotonic_us)
+}
+inline ::uint64_t JonGuiDataRotary::_internal_capture_monotonic_us() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.capture_monotonic_us_;
+}
+inline void JonGuiDataRotary::_internal_set_capture_monotonic_us(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.capture_monotonic_us_ = value;
 }
 
 // -------------------------------------------------------------------

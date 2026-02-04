@@ -46,6 +46,7 @@ inline constexpr JonGuiDataCameraDay::Impl_::Impl_(
         vertical_fov_degrees_{0},
         sensor_gain_{0},
         exposure_{0},
+        capture_monotonic_us_{::uint64_t{0u}},
         is_started_{false} {}
 
 template <typename>
@@ -101,6 +102,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.meteo_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.sensor_gain_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.exposure_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCameraDay, _impl_.capture_monotonic_us_),
         ~0u,
         ~0u,
         ~0u,
@@ -119,11 +121,12 @@ const ::uint32_t
         0,
         1,
         2,
+        ~0u,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, 26, -1, sizeof(::ser::JonGuiDataCameraDay)},
+        {0, 27, -1, sizeof(::ser::JonGuiDataCameraDay)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ser::_JonGuiDataCameraDay_default_instance_._instance,
@@ -132,7 +135,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[
     protodesc_cold) = {
     "\n jon_shared_data_camera_day.proto\022\003ser\032"
     "\033buf/validate/validate.proto\032\033jon_shared"
-    "_data_types.proto\"\350\005\n\023JonGuiDataCameraDa"
+    "_data_types.proto\"\206\006\n\023JonGuiDataCameraDa"
     "y\022*\n\tfocus_pos\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000"
     "\000\000\000\000\000\022)\n\010zoom_pos\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)"
     "\000\000\000\000\000\000\000\000\022)\n\010iris_pos\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000"
@@ -150,10 +153,11 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto[
     "#\n\005meteo\030\020 \001(\0132\024.ser.JonGuiDataMeteo\0221\n\013"
     "sensor_gain\030\021 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360\?)\000\000\000\000\000\000"
     "\000\000H\000\210\001\001\022.\n\010exposure\030\022 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360"
-    "\?)\000\000\000\000\000\000\000\000H\001\210\001\001B\016\n\014_sensor_gainB\013\n\t_expo"
-    "sureBRZPgit-codecommit.eu-central-1.amaz"
-    "onaws.com/v1/repos/jettison/jonp/data/ca"
-    "mera_dayb\006proto3"
+    "\?)\000\000\000\000\000\000\000\000H\001\210\001\001\022\034\n\024capture_monotonic_us\030"
+    "\023 \001(\004B\016\n\014_sensor_gainB\013\n\t_exposureBRZPgi"
+    "t-codecommit.eu-central-1.amazonaws.com/"
+    "v1/repos/jettison/jonp/data/camera_dayb\006"
+    "proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_deps[2] =
     {
@@ -164,7 +168,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2ep
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto = {
     false,
     false,
-    936,
+    966,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcamera_5fday_2eproto,
     "jon_shared_data_camera_day.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcamera_5fday_2eproto_once,
@@ -297,15 +301,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCameraDay::GetClassData
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
+const ::_pbi::TcParseTable<5, 19, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_._has_bits_),
     0, // no _extensions_
-    18, 248,  // max_field_number, fast_idx_mask
+    19, 248,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294705152,  // skipmap
+    4294443008,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    18,  // num_field_entries
+    19,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
@@ -370,7 +374,9 @@ const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
     // optional double exposure = 18 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S2,
      {401, 2, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.exposure_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 capture_monotonic_us = 19;
+    {::_pbi::TcParser::FastV64S2,
+     {408, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.capture_monotonic_us_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -440,6 +446,9 @@ const ::_pbi::TcParseTable<5, 18, 1, 0, 2> JonGuiDataCameraDay::_table_ = {
     // optional double exposure = 18 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.exposure_), _Internal::kHasBitsOffset + 2, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kDouble)},
+    // uint64 capture_monotonic_us = 19;
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCameraDay, _impl_.capture_monotonic_us_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonGuiDataMeteo>()},
   }}, {{
@@ -466,7 +475,9 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
         reinterpret_cast<char*>(&_impl_.exposure_) -
         reinterpret_cast<char*>(&_impl_.sensor_gain_)) + sizeof(_impl_.exposure_));
   }
-  _impl_.is_started_ = false;
+  ::memset(&_impl_.capture_monotonic_us_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.is_started_) -
+      reinterpret_cast<char*>(&_impl_.capture_monotonic_us_)) + sizeof(_impl_.is_started_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -613,6 +624,13 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
                 18, this_._internal_exposure(), target);
           }
 
+          // uint64 capture_monotonic_us = 19;
+          if (this_._internal_capture_monotonic_us() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+                19, this_._internal_capture_monotonic_us(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -717,6 +735,11 @@ PROTOBUF_NOINLINE void JonGuiDataCameraDay::Clear() {
             }
           }
            {
+            // uint64 capture_monotonic_us = 19;
+            if (this_._internal_capture_monotonic_us() != 0) {
+              total_size += 2 + ::_pbi::WireFormatLite::UInt64Size(
+                                              this_._internal_capture_monotonic_us());
+            }
             // bool is_started = 14;
             if (this_._internal_is_started() != 0) {
               total_size += 2;
@@ -794,6 +817,9 @@ void JonGuiDataCameraDay::MergeImpl(::google::protobuf::MessageLite& to_msg, con
     if (cached_has_bits & 0x00000004u) {
       _this->_impl_.exposure_ = from._impl_.exposure_;
     }
+  }
+  if (from._internal_capture_monotonic_us() != 0) {
+    _this->_impl_.capture_monotonic_us_ = from._impl_.capture_monotonic_us_;
   }
   if (from._internal_is_started() != 0) {
     _this->_impl_.is_started_ = from._impl_.is_started_;
