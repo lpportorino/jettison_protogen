@@ -5,6 +5,7 @@
 
 /* eslint-disable */
 
+export * as Lrf_calib from "./index.cmd.Lrf_calib";
 export * as Compass from "./index.cmd.Compass";
 export * as Gps from "./index.cmd.Gps";
 export * as Lrf from "./index.cmd.Lrf";
@@ -12,7 +13,6 @@ export * as DayCamera from "./index.cmd.DayCamera";
 export * as HeatCamera from "./index.cmd.HeatCamera";
 export * as RotaryPlatform from "./index.cmd.RotaryPlatform";
 export * as OSD from "./index.cmd.OSD";
-export * as Lrf_calib from "./index.cmd.Lrf_calib";
 export * as System from "./index.cmd.System";
 export * as CV from "./index.cmd.CV";
 export * as Lira from "./index.cmd.Lira";

@@ -1106,139 +1106,186 @@ impl JonGuiDataStateSource {
     }
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataRotary {
+pub struct JonGuiDataPmu {
     #[prost(double, tag = "1")]
-    pub azimuth: f64,
-    #[prost(double, tag = "2")]
-    pub azimuth_speed: f64,
-    #[prost(double, tag = "3")]
-    pub elevation: f64,
-    #[prost(double, tag = "4")]
-    pub elevation_speed: f64,
-    #[prost(double, tag = "5")]
-    pub platform_azimuth: f64,
-    #[prost(double, tag = "6")]
-    pub platform_elevation: f64,
-    #[prost(double, tag = "7")]
-    pub platform_bank: f64,
-    #[prost(bool, tag = "8")]
-    pub is_moving: bool,
-    #[prost(enumeration = "JonGuiDataRotaryMode", tag = "9")]
-    pub mode: i32,
-    #[prost(bool, tag = "10")]
-    pub is_scanning: bool,
-    #[prost(bool, tag = "11")]
-    pub is_scanning_paused: bool,
-    #[prost(bool, tag = "12")]
-    pub use_rotary_as_compass: bool,
-    #[prost(int32, tag = "13")]
-    pub scan_target: i32,
-    #[prost(int32, tag = "14")]
-    pub scan_target_max: i32,
-    #[prost(double, tag = "15")]
-    pub sun_azimuth: f64,
-    #[prost(double, tag = "16")]
-    pub sun_elevation: f64,
-    #[prost(message, optional, tag = "17")]
-    pub current_scan_node: ::core::option::Option<ScanNode>,
-    #[prost(bool, tag = "18")]
+    pub temperature: f64,
+    #[prost(bool, tag = "3")]
     pub is_started: bool,
-    #[prost(message, optional, tag = "19")]
+    #[prost(message, optional, tag = "4")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-    /// Axis initialization status (0=not init, 14=fully init)
-    #[prost(int32, tag = "20")]
-    pub pan_init_status: i32,
-    #[prost(int32, tag = "21")]
-    pub tilt_init_status: i32,
+    #[prost(double, tag = "5")]
+    pub voltage: f64,
+    #[prost(bool, tag = "6")]
+    pub heater_power_state: bool,
+    /// INA236 power monitor
+    #[prost(double, tag = "7")]
+    pub ina_voltage: f64,
+    #[prost(double, tag = "8")]
+    pub ina_current: f64,
+    #[prost(double, tag = "9")]
+    pub ina_power: f64,
+    #[prost(bool, tag = "10")]
+    pub ina_power_fault: bool,
+    /// Battery charging status (false = charging enabled by default)
+    #[prost(bool, tag = "11")]
+    pub charge_disabled: bool,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataCameraHeat {
+    #[prost(double, tag = "1")]
+    pub zoom_pos: f64,
+    #[prost(enumeration = "JonGuiDataVideoChannelHeatAgcModes", tag = "2")]
+    pub agc_mode: i32,
+    #[prost(enumeration = "JonGuiDataVideoChannelHeatFilters", tag = "3")]
+    pub filter: i32,
+    #[prost(bool, tag = "4")]
+    pub auto_focus: bool,
+    #[prost(int32, tag = "5")]
+    pub zoom_table_pos: i32,
+    #[prost(int32, tag = "6")]
+    pub zoom_table_pos_max: i32,
+    #[prost(int32, tag = "7")]
+    pub dde_level: i32,
+    #[prost(bool, tag = "8")]
+    pub dde_enabled: bool,
+    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "9")]
+    pub fx_mode: i32,
+    #[prost(double, tag = "10")]
+    pub digital_zoom_level: f64,
+    #[prost(double, tag = "11")]
+    pub clahe_level: f64,
+    #[prost(double, tag = "12")]
+    pub horizontal_fov_degrees: f64,
+    #[prost(double, tag = "13")]
+    pub vertical_fov_degrees: f64,
+    #[prost(bool, tag = "14")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "15")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
     /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
-    #[prost(uint64, tag = "22")]
+    #[prost(uint64, tag = "16")]
     pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct ScanNode {
-    #[prost(int32, tag = "1")]
-    pub index: i32,
-    #[prost(int32, tag = "2")]
-    pub day_zoom_table_value: i32,
+pub struct JonGuiDataLrf {
+    #[prost(bool, tag = "1")]
+    pub is_scanning: bool,
+    #[prost(bool, tag = "2")]
+    pub is_measuring: bool,
     #[prost(int32, tag = "3")]
-    pub heat_zoom_table_value: i32,
-    #[prost(double, tag = "4")]
-    pub azimuth: f64,
-    #[prost(double, tag = "5")]
-    pub elevation: f64,
-    #[prost(double, tag = "6")]
-    pub linger: f64,
-    #[prost(double, tag = "7")]
-    pub speed: f64,
-}
-/// Power module state for a single channel (S0-S7)
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataPowerModule {
-    /// Volts
-    #[prost(double, tag = "1")]
-    pub voltage: f64,
-    /// Amps
-    #[prost(double, tag = "2")]
-    pub current: f64,
-    /// Watts
-    #[prost(double, tag = "3")]
-    pub power: f64,
-    /// Channel power state
-    #[prost(bool, tag = "4")]
-    pub is_on: bool,
-    /// Overcurrent/fault alarm
-    #[prost(bool, tag = "5")]
-    pub has_alarm: bool,
-}
-/// Power state for all 8 channels
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataPower {
-    /// GPS
-    #[prost(message, optional, tag = "1")]
-    pub s0: ::core::option::Option<JonGuiDataPowerModule>,
-    /// Compass
-    #[prost(message, optional, tag = "2")]
-    pub s1: ::core::option::Option<JonGuiDataPowerModule>,
-    /// LRF (Laser Range Finder)
-    #[prost(message, optional, tag = "3")]
-    pub s2: ::core::option::Option<JonGuiDataPowerModule>,
-    /// Day Camera Lens
+    pub measure_id: i32,
     #[prost(message, optional, tag = "4")]
-    pub s3: ::core::option::Option<JonGuiDataPowerModule>,
-    /// Thermal Camera
-    #[prost(message, optional, tag = "5")]
-    pub s4: ::core::option::Option<JonGuiDataPowerModule>,
-    /// ORIN NUC (Main compute)
-    #[prost(message, optional, tag = "6")]
-    pub s5: ::core::option::Option<JonGuiDataPowerModule>,
-    /// Thermal Core
-    #[prost(message, optional, tag = "7")]
-    pub s6: ::core::option::Option<JonGuiDataPowerModule>,
-    /// Heater / Spare
-    #[prost(message, optional, tag = "8")]
-    pub s7: ::core::option::Option<JonGuiDataPowerModule>,
-    /// Battery state (moved from system for typed fragments)
-    #[prost(enumeration = "JonGuiDataAccumulatorStateIdx", tag = "9")]
-    pub accumulator_state: i32,
-    /// External battery capacity percentage
-    #[prost(int32, tag = "10")]
-    pub ext_bat_capacity: i32,
-    #[prost(enumeration = "JonGuiDataExtBatStatus", tag = "11")]
-    pub ext_bat_status: i32,
-    /// Internal meteo sensor data (temperature, humidity, pressure)
-    #[prost(message, optional, tag = "12")]
+    pub target: ::core::option::Option<JonGuiDataTarget>,
+    #[prost(enumeration = "JonGuiDatatLrfLaserPointerModes", tag = "5")]
+    pub pointer_mode: i32,
+    #[prost(bool, tag = "6")]
+    pub fog_mode_enabled: bool,
+    #[prost(bool, tag = "7")]
+    pub is_refining: bool,
+    #[prost(bool, tag = "8")]
+    pub is_continuous_measuring: bool,
+    #[prost(bool, tag = "9")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "10")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz)
+    #[prost(int32, tag = "11")]
+    pub scan_mode: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataTarget {
+    #[prost(int64, tag = "1")]
+    pub timestamp: i64,
+    #[prost(double, tag = "2")]
+    pub target_longitude: f64,
+    #[prost(double, tag = "3")]
+    pub target_latitude: f64,
+    #[prost(double, tag = "4")]
+    pub target_altitude: f64,
+    #[prost(double, tag = "5")]
+    pub observer_longitude: f64,
+    #[prost(double, tag = "6")]
+    pub observer_latitude: f64,
+    #[prost(double, tag = "7")]
+    pub observer_altitude: f64,
+    #[prost(double, tag = "8")]
+    pub observer_azimuth: f64,
+    #[prost(double, tag = "9")]
+    pub observer_elevation: f64,
+    #[prost(double, tag = "10")]
+    pub observer_bank: f64,
+    #[prost(double, tag = "11")]
+    pub distance_2d: f64,
+    #[prost(double, tag = "12")]
+    pub distance_3b: f64,
+    #[prost(double, tag = "22")]
+    pub distance_c: f64,
+    #[prost(enumeration = "JonGuiDataGpsFixType", tag = "13")]
+    pub observer_fix_type: i32,
+    #[prost(int32, tag = "14")]
+    pub session_id: i32,
+    #[prost(int32, tag = "15")]
+    pub target_id: i32,
+    #[prost(message, optional, tag = "16")]
+    pub target_color: ::core::option::Option<RgbColor>,
+    #[prost(uint32, tag = "17")]
+    pub r#type: u32,
+    /// UUID as four fixed32 values (128 bits total)
+    #[prost(int32, tag = "18")]
+    pub uuid_part1: i32,
+    #[prost(int32, tag = "19")]
+    pub uuid_part2: i32,
+    #[prost(int32, tag = "20")]
+    pub uuid_part3: i32,
+    #[prost(int32, tag = "21")]
+    pub uuid_part4: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct RgbColor {
+    #[prost(uint32, tag = "1")]
+    pub red: u32,
+    #[prost(uint32, tag = "2")]
+    pub green: u32,
+    #[prost(uint32, tag = "3")]
+    pub blue: u32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataCompass {
+    #[prost(double, tag = "1")]
+    pub azimuth: f64,
+    #[prost(double, tag = "2")]
+    pub elevation: f64,
+    #[prost(double, tag = "3")]
+    pub bank: f64,
+    #[prost(double, tag = "4")]
+    pub offset_azimuth: f64,
+    #[prost(double, tag = "5")]
+    pub offset_elevation: f64,
+    #[prost(double, tag = "6")]
+    pub magnetic_declination: f64,
+    #[prost(bool, tag = "7")]
+    pub calibrating: bool,
+    #[prost(bool, tag = "8")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "9")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataTime {
-    #[prost(int64, tag = "1")]
+pub struct JonGuiDataActualSpaceTime {
+    #[prost(double, tag = "1")]
+    pub azimuth: f64,
+    #[prost(double, tag = "2")]
+    pub elevation: f64,
+    #[prost(double, tag = "3")]
+    pub bank: f64,
+    #[prost(double, tag = "4")]
+    pub latitude: f64,
+    #[prost(double, tag = "5")]
+    pub longitude: f64,
+    #[prost(double, tag = "6")]
+    pub altitude: f64,
+    #[prost(int64, tag = "7")]
     pub timestamp: i64,
-    #[prost(int64, tag = "2")]
-    pub manual_timestamp: i64,
-    #[prost(int32, tag = "3")]
-    pub zone_id: i32,
-    #[prost(bool, tag = "4")]
-    pub use_manual_time: bool,
 }
 /// CV Gateway state enrichment - autofocus metrics and sweep status
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1494,171 +1541,155 @@ pub mod jon_gui_data_cv {
         }
     }
 }
+/// Power module state for a single channel (S0-S7)
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataLrf {
-    #[prost(bool, tag = "1")]
-    pub is_scanning: bool,
-    #[prost(bool, tag = "2")]
-    pub is_measuring: bool,
-    #[prost(int32, tag = "3")]
-    pub measure_id: i32,
+pub struct JonGuiDataPowerModule {
+    /// Volts
+    #[prost(double, tag = "1")]
+    pub voltage: f64,
+    /// Amps
+    #[prost(double, tag = "2")]
+    pub current: f64,
+    /// Watts
+    #[prost(double, tag = "3")]
+    pub power: f64,
+    /// Channel power state
+    #[prost(bool, tag = "4")]
+    pub is_on: bool,
+    /// Overcurrent/fault alarm
+    #[prost(bool, tag = "5")]
+    pub has_alarm: bool,
+}
+/// Power state for all 8 channels
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataPower {
+    /// GPS
+    #[prost(message, optional, tag = "1")]
+    pub s0: ::core::option::Option<JonGuiDataPowerModule>,
+    /// Compass
+    #[prost(message, optional, tag = "2")]
+    pub s1: ::core::option::Option<JonGuiDataPowerModule>,
+    /// LRF (Laser Range Finder)
+    #[prost(message, optional, tag = "3")]
+    pub s2: ::core::option::Option<JonGuiDataPowerModule>,
+    /// Day Camera Lens
     #[prost(message, optional, tag = "4")]
-    pub target: ::core::option::Option<JonGuiDataTarget>,
-    #[prost(enumeration = "JonGuiDatatLrfLaserPointerModes", tag = "5")]
-    pub pointer_mode: i32,
-    #[prost(bool, tag = "6")]
-    pub fog_mode_enabled: bool,
-    #[prost(bool, tag = "7")]
-    pub is_refining: bool,
-    #[prost(bool, tag = "8")]
-    pub is_continuous_measuring: bool,
-    #[prost(bool, tag = "9")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "10")]
+    pub s3: ::core::option::Option<JonGuiDataPowerModule>,
+    /// Thermal Camera
+    #[prost(message, optional, tag = "5")]
+    pub s4: ::core::option::Option<JonGuiDataPowerModule>,
+    /// ORIN NUC (Main compute)
+    #[prost(message, optional, tag = "6")]
+    pub s5: ::core::option::Option<JonGuiDataPowerModule>,
+    /// Thermal Core
+    #[prost(message, optional, tag = "7")]
+    pub s6: ::core::option::Option<JonGuiDataPowerModule>,
+    /// Heater / Spare
+    #[prost(message, optional, tag = "8")]
+    pub s7: ::core::option::Option<JonGuiDataPowerModule>,
+    /// Battery state (moved from system for typed fragments)
+    #[prost(enumeration = "JonGuiDataAccumulatorStateIdx", tag = "9")]
+    pub accumulator_state: i32,
+    /// External battery capacity percentage
+    #[prost(int32, tag = "10")]
+    pub ext_bat_capacity: i32,
+    #[prost(enumeration = "JonGuiDataExtBatStatus", tag = "11")]
+    pub ext_bat_status: i32,
+    /// Internal meteo sensor data (temperature, humidity, pressure)
+    #[prost(message, optional, tag = "12")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-    /// Scanning mode frequency (0=off, 1=1Hz, 2=2Hz, 3=4Hz)
-    #[prost(int32, tag = "11")]
-    pub scan_mode: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataTarget {
+pub struct JonGuiDataTime {
     #[prost(int64, tag = "1")]
     pub timestamp: i64,
-    #[prost(double, tag = "2")]
-    pub target_longitude: f64,
-    #[prost(double, tag = "3")]
-    pub target_latitude: f64,
-    #[prost(double, tag = "4")]
-    pub target_altitude: f64,
-    #[prost(double, tag = "5")]
-    pub observer_longitude: f64,
-    #[prost(double, tag = "6")]
-    pub observer_latitude: f64,
-    #[prost(double, tag = "7")]
-    pub observer_altitude: f64,
-    #[prost(double, tag = "8")]
-    pub observer_azimuth: f64,
-    #[prost(double, tag = "9")]
-    pub observer_elevation: f64,
-    #[prost(double, tag = "10")]
-    pub observer_bank: f64,
-    #[prost(double, tag = "11")]
-    pub distance_2d: f64,
-    #[prost(double, tag = "12")]
-    pub distance_3b: f64,
-    #[prost(double, tag = "22")]
-    pub distance_c: f64,
-    #[prost(enumeration = "JonGuiDataGpsFixType", tag = "13")]
-    pub observer_fix_type: i32,
-    #[prost(int32, tag = "14")]
-    pub session_id: i32,
-    #[prost(int32, tag = "15")]
-    pub target_id: i32,
-    #[prost(message, optional, tag = "16")]
-    pub target_color: ::core::option::Option<RgbColor>,
-    #[prost(uint32, tag = "17")]
-    pub r#type: u32,
-    /// UUID as four fixed32 values (128 bits total)
-    #[prost(int32, tag = "18")]
-    pub uuid_part1: i32,
-    #[prost(int32, tag = "19")]
-    pub uuid_part2: i32,
-    #[prost(int32, tag = "20")]
-    pub uuid_part3: i32,
-    #[prost(int32, tag = "21")]
-    pub uuid_part4: i32,
+    #[prost(int64, tag = "2")]
+    pub manual_timestamp: i64,
+    #[prost(int32, tag = "3")]
+    pub zone_id: i32,
+    #[prost(bool, tag = "4")]
+    pub use_manual_time: bool,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct RgbColor {
+pub struct JonGuiDataCompassCalibration {
     #[prost(uint32, tag = "1")]
-    pub red: u32,
+    pub stage: u32,
     #[prost(uint32, tag = "2")]
-    pub green: u32,
-    #[prost(uint32, tag = "3")]
-    pub blue: u32,
+    pub final_stage: u32,
+    #[prost(double, tag = "3")]
+    pub target_azimuth: f64,
+    #[prost(double, tag = "4")]
+    pub target_elevation: f64,
+    #[prost(double, tag = "5")]
+    pub target_bank: f64,
+    #[prost(enumeration = "JonGuiDataCompassCalibrateStatus", tag = "6")]
+    pub status: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCompass {
+pub struct JonGuiDataRotary {
     #[prost(double, tag = "1")]
     pub azimuth: f64,
     #[prost(double, tag = "2")]
-    pub elevation: f64,
+    pub azimuth_speed: f64,
     #[prost(double, tag = "3")]
-    pub bank: f64,
+    pub elevation: f64,
     #[prost(double, tag = "4")]
-    pub offset_azimuth: f64,
+    pub elevation_speed: f64,
     #[prost(double, tag = "5")]
-    pub offset_elevation: f64,
+    pub platform_azimuth: f64,
     #[prost(double, tag = "6")]
-    pub magnetic_declination: f64,
-    #[prost(bool, tag = "7")]
-    pub calibrating: bool,
+    pub platform_elevation: f64,
+    #[prost(double, tag = "7")]
+    pub platform_bank: f64,
     #[prost(bool, tag = "8")]
+    pub is_moving: bool,
+    #[prost(enumeration = "JonGuiDataRotaryMode", tag = "9")]
+    pub mode: i32,
+    #[prost(bool, tag = "10")]
+    pub is_scanning: bool,
+    #[prost(bool, tag = "11")]
+    pub is_scanning_paused: bool,
+    #[prost(bool, tag = "12")]
+    pub use_rotary_as_compass: bool,
+    #[prost(int32, tag = "13")]
+    pub scan_target: i32,
+    #[prost(int32, tag = "14")]
+    pub scan_target_max: i32,
+    #[prost(double, tag = "15")]
+    pub sun_azimuth: f64,
+    #[prost(double, tag = "16")]
+    pub sun_elevation: f64,
+    #[prost(message, optional, tag = "17")]
+    pub current_scan_node: ::core::option::Option<ScanNode>,
+    #[prost(bool, tag = "18")]
     pub is_started: bool,
-    #[prost(message, optional, tag = "9")]
+    #[prost(message, optional, tag = "19")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCameraHeat {
-    #[prost(double, tag = "1")]
-    pub zoom_pos: f64,
-    #[prost(enumeration = "JonGuiDataVideoChannelHeatAgcModes", tag = "2")]
-    pub agc_mode: i32,
-    #[prost(enumeration = "JonGuiDataVideoChannelHeatFilters", tag = "3")]
-    pub filter: i32,
-    #[prost(bool, tag = "4")]
-    pub auto_focus: bool,
-    #[prost(int32, tag = "5")]
-    pub zoom_table_pos: i32,
-    #[prost(int32, tag = "6")]
-    pub zoom_table_pos_max: i32,
-    #[prost(int32, tag = "7")]
-    pub dde_level: i32,
-    #[prost(bool, tag = "8")]
-    pub dde_enabled: bool,
-    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "9")]
-    pub fx_mode: i32,
-    #[prost(double, tag = "10")]
-    pub digital_zoom_level: f64,
-    #[prost(double, tag = "11")]
-    pub clahe_level: f64,
-    #[prost(double, tag = "12")]
-    pub horizontal_fov_degrees: f64,
-    #[prost(double, tag = "13")]
-    pub vertical_fov_degrees: f64,
-    #[prost(bool, tag = "14")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "15")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// Axis initialization status (0=not init, 14=fully init)
+    #[prost(int32, tag = "20")]
+    pub pan_init_status: i32,
+    #[prost(int32, tag = "21")]
+    pub tilt_init_status: i32,
     /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
-    #[prost(uint64, tag = "16")]
+    #[prost(uint64, tag = "22")]
     pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataGps {
-    #[prost(double, tag = "1")]
-    pub longitude: f64,
-    #[prost(double, tag = "2")]
-    pub latitude: f64,
-    #[prost(double, tag = "3")]
-    pub altitude: f64,
+pub struct ScanNode {
+    #[prost(int32, tag = "1")]
+    pub index: i32,
+    #[prost(int32, tag = "2")]
+    pub day_zoom_table_value: i32,
+    #[prost(int32, tag = "3")]
+    pub heat_zoom_table_value: i32,
     #[prost(double, tag = "4")]
-    pub manual_longitude: f64,
+    pub azimuth: f64,
     #[prost(double, tag = "5")]
-    pub manual_latitude: f64,
+    pub elevation: f64,
     #[prost(double, tag = "6")]
-    pub manual_altitude: f64,
-    #[prost(enumeration = "JonGuiDataGpsFixType", tag = "7")]
-    pub fix_type: i32,
-    #[prost(bool, tag = "8")]
-    pub use_manual: bool,
-    /// GPS timestamp from satellite (Unix time in seconds)
-    #[prost(int64, tag = "9")]
-    pub timestamp: i64,
-    #[prost(bool, tag = "10")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "11")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    pub linger: f64,
+    #[prost(double, tag = "7")]
+    pub speed: f64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataSystem {
@@ -1716,19 +1747,30 @@ pub struct JonGuiDataSystem {
     pub ext_bat_status: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCompassCalibration {
-    #[prost(uint32, tag = "1")]
-    pub stage: u32,
-    #[prost(uint32, tag = "2")]
-    pub final_stage: u32,
+pub struct JonGuiDataGps {
+    #[prost(double, tag = "1")]
+    pub longitude: f64,
+    #[prost(double, tag = "2")]
+    pub latitude: f64,
     #[prost(double, tag = "3")]
-    pub target_azimuth: f64,
+    pub altitude: f64,
     #[prost(double, tag = "4")]
-    pub target_elevation: f64,
+    pub manual_longitude: f64,
     #[prost(double, tag = "5")]
-    pub target_bank: f64,
-    #[prost(enumeration = "JonGuiDataCompassCalibrateStatus", tag = "6")]
-    pub status: i32,
+    pub manual_latitude: f64,
+    #[prost(double, tag = "6")]
+    pub manual_altitude: f64,
+    #[prost(enumeration = "JonGuiDataGpsFixType", tag = "7")]
+    pub fix_type: i32,
+    #[prost(bool, tag = "8")]
+    pub use_manual: bool,
+    /// GPS timestamp from satellite (Unix time in seconds)
+    #[prost(int64, tag = "9")]
+    pub timestamp: i64,
+    #[prost(bool, tag = "10")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "11")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCameraDay {
@@ -1789,48 +1831,6 @@ pub struct JonGuiDataRecOsd {
     pub day_crosshair_offset_horizontal: i32,
     #[prost(int32, tag = "7")]
     pub day_crosshair_offset_vertical: i32,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataActualSpaceTime {
-    #[prost(double, tag = "1")]
-    pub azimuth: f64,
-    #[prost(double, tag = "2")]
-    pub elevation: f64,
-    #[prost(double, tag = "3")]
-    pub bank: f64,
-    #[prost(double, tag = "4")]
-    pub latitude: f64,
-    #[prost(double, tag = "5")]
-    pub longitude: f64,
-    #[prost(double, tag = "6")]
-    pub altitude: f64,
-    #[prost(int64, tag = "7")]
-    pub timestamp: i64,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataPmu {
-    #[prost(double, tag = "1")]
-    pub temperature: f64,
-    #[prost(bool, tag = "3")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "4")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-    #[prost(double, tag = "5")]
-    pub voltage: f64,
-    #[prost(bool, tag = "6")]
-    pub heater_power_state: bool,
-    /// INA236 power monitor
-    #[prost(double, tag = "7")]
-    pub ina_voltage: f64,
-    #[prost(double, tag = "8")]
-    pub ina_current: f64,
-    #[prost(double, tag = "9")]
-    pub ina_power: f64,
-    #[prost(bool, tag = "10")]
-    pub ina_power_fault: bool,
-    /// Battery charging status (false = charging enabled by default)
-    #[prost(bool, tag = "11")]
-    pub charge_disabled: bool,
 }
 /// Root message
 #[derive(Clone, PartialEq, ::prost::Message)]
