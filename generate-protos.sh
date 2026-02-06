@@ -224,7 +224,9 @@ fi
 echo "Go generation successful, found $(find /workspace/output -name "*.pb.go" -type f | wc -l) .pb.go files"
 '
 
-# Kotlin generation script with validation support (uses buf remote plugin like Go)
+# Kotlin generation script with validation support (uses protoc alongside Java for package consistency)
+# NOTE: Kotlin codegen depends on Java classes, so packages MUST match.
+# We use protoc directly (not buf) to ensure the proto package is respected without prefix.
 KOTLIN_SCRIPT='
 set -e
 mkdir -p /tmp/kotlin_proto_val
@@ -241,31 +243,15 @@ done
 # Copy validate.proto from protovalidate
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/kotlin_proto_val/
 
-# Create buf.yaml for the generation
-cd /tmp/kotlin_proto_val
-cat > buf.yaml << "BUF_EOF"
-version: v2
-modules:
-  - path: .
-    name: buf.build/jettison/jonp
-BUF_EOF
-
-# Create buf.gen.yaml for Kotlin generation with validation
-cat > buf.gen.yaml << "BUF_EOF"
-version: v2
-managed:
-  enabled: true
-plugins:
-  - remote: buf.build/protocolbuffers/kotlin:v33.5
-    out: /workspace/output
-BUF_EOF
-
 # Ensure output directory exists
 mkdir -p /workspace/output
 
-# Generate using buf
-echo "Generating Kotlin bindings with buf.validate support using buf generate..."
-buf generate
+# Generate Kotlin using protoc (must match Java package structure)
+# Kotlin DSL wrappers require Java classes, so package must be identical
+PROTO_FILES=$(find /tmp/kotlin_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
+protoc -I/tmp/kotlin_proto_val \
+    --kotlin_out=/workspace/output \
+    $PROTO_FILES
 
 # Verify files were generated
 if [ -z "$(find /workspace/output -name "*.kt" -type f 2>/dev/null)" ]; then
