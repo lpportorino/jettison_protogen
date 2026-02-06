@@ -119,6 +119,21 @@ public final class JonSharedCmdHeater {
      */
     cmd.Heater.JonSharedCmdHeater.DisableAutomaticControlOrBuilder getDisableAutomaticControlOrBuilder();
 
+    /**
+     * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+     * @return Whether the setAutomaticControlParams field is set.
+     */
+    boolean hasSetAutomaticControlParams();
+    /**
+     * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+     * @return The setAutomaticControlParams.
+     */
+    cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams getSetAutomaticControlParams();
+    /**
+     * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder getSetAutomaticControlParamsOrBuilder();
+
     cmd.Heater.JonSharedCmdHeater.Root.CmdCase getCmdCase();
   }
   /**
@@ -170,6 +185,7 @@ public final class JonSharedCmdHeater {
       GET_STATUS(4),
       ENABLE_AUTOMATIC_CONTROL(5),
       DISABLE_AUTOMATIC_CONTROL(6),
+      SET_AUTOMATIC_CONTROL_PARAMS(7),
       CMD_NOT_SET(0);
       private final int value;
       private CmdCase(int value) {
@@ -193,6 +209,7 @@ public final class JonSharedCmdHeater {
           case 4: return GET_STATUS;
           case 5: return ENABLE_AUTOMATIC_CONTROL;
           case 6: return DISABLE_AUTOMATIC_CONTROL;
+          case 7: return SET_AUTOMATIC_CONTROL_PARAMS;
           case 0: return CMD_NOT_SET;
           default: return null;
         }
@@ -394,6 +411,37 @@ public final class JonSharedCmdHeater {
       return cmd.Heater.JonSharedCmdHeater.DisableAutomaticControl.getDefaultInstance();
     }
 
+    public static final int SET_AUTOMATIC_CONTROL_PARAMS_FIELD_NUMBER = 7;
+    /**
+     * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+     * @return Whether the setAutomaticControlParams field is set.
+     */
+    @java.lang.Override
+    public boolean hasSetAutomaticControlParams() {
+      return cmdCase_ == 7;
+    }
+    /**
+     * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+     * @return The setAutomaticControlParams.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams getSetAutomaticControlParams() {
+      if (cmdCase_ == 7) {
+         return (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder getSetAutomaticControlParamsOrBuilder() {
+      if (cmdCase_ == 7) {
+         return (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -425,6 +473,9 @@ public final class JonSharedCmdHeater {
       }
       if (cmdCase_ == 6) {
         output.writeMessage(6, (cmd.Heater.JonSharedCmdHeater.DisableAutomaticControl) cmd_);
+      }
+      if (cmdCase_ == 7) {
+        output.writeMessage(7, (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -458,6 +509,10 @@ public final class JonSharedCmdHeater {
       if (cmdCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, (cmd.Heater.JonSharedCmdHeater.DisableAutomaticControl) cmd_);
+      }
+      if (cmdCase_ == 7) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -500,6 +555,10 @@ public final class JonSharedCmdHeater {
           if (!getDisableAutomaticControl()
               .equals(other.getDisableAutomaticControl())) return false;
           break;
+        case 7:
+          if (!getSetAutomaticControlParams()
+              .equals(other.getSetAutomaticControlParams())) return false;
+          break;
         case 0:
         default:
       }
@@ -538,6 +597,10 @@ public final class JonSharedCmdHeater {
         case 6:
           hash = (37 * hash) + DISABLE_AUTOMATIC_CONTROL_FIELD_NUMBER;
           hash = (53 * hash) + getDisableAutomaticControl().hashCode();
+          break;
+        case 7:
+          hash = (37 * hash) + SET_AUTOMATIC_CONTROL_PARAMS_FIELD_NUMBER;
+          hash = (53 * hash) + getSetAutomaticControlParams().hashCode();
           break;
         case 0:
         default:
@@ -691,6 +754,9 @@ public final class JonSharedCmdHeater {
         if (disableAutomaticControlBuilder_ != null) {
           disableAutomaticControlBuilder_.clear();
         }
+        if (setAutomaticControlParamsBuilder_ != null) {
+          setAutomaticControlParamsBuilder_.clear();
+        }
         cmdCase_ = 0;
         cmd_ = null;
         return this;
@@ -756,6 +822,10 @@ public final class JonSharedCmdHeater {
             disableAutomaticControlBuilder_ != null) {
           result.cmd_ = disableAutomaticControlBuilder_.build();
         }
+        if (cmdCase_ == 7 &&
+            setAutomaticControlParamsBuilder_ != null) {
+          result.cmd_ = setAutomaticControlParamsBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -793,6 +863,10 @@ public final class JonSharedCmdHeater {
           }
           case DISABLE_AUTOMATIC_CONTROL: {
             mergeDisableAutomaticControl(other.getDisableAutomaticControl());
+            break;
+          }
+          case SET_AUTOMATIC_CONTROL_PARAMS: {
+            mergeSetAutomaticControlParams(other.getSetAutomaticControlParams());
             break;
           }
           case CMD_NOT_SET: {
@@ -867,6 +941,13 @@ public final class JonSharedCmdHeater {
                 cmdCase_ = 6;
                 break;
               } // case 50
+              case 58: {
+                input.readMessage(
+                    getSetAutomaticControlParamsFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                cmdCase_ = 7;
+                break;
+              } // case 58
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1749,6 +1830,148 @@ public final class JonSharedCmdHeater {
         cmdCase_ = 6;
         onChanged();
         return disableAutomaticControlBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder> setAutomaticControlParamsBuilder_;
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       * @return Whether the setAutomaticControlParams field is set.
+       */
+      @java.lang.Override
+      public boolean hasSetAutomaticControlParams() {
+        return cmdCase_ == 7;
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       * @return The setAutomaticControlParams.
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams getSetAutomaticControlParams() {
+        if (setAutomaticControlParamsBuilder_ == null) {
+          if (cmdCase_ == 7) {
+            return (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+        } else {
+          if (cmdCase_ == 7) {
+            return setAutomaticControlParamsBuilder_.getMessage();
+          }
+          return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      public Builder setSetAutomaticControlParams(cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams value) {
+        if (setAutomaticControlParamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cmd_ = value;
+          onChanged();
+        } else {
+          setAutomaticControlParamsBuilder_.setMessage(value);
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      public Builder setSetAutomaticControlParams(
+          cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder builderForValue) {
+        if (setAutomaticControlParamsBuilder_ == null) {
+          cmd_ = builderForValue.build();
+          onChanged();
+        } else {
+          setAutomaticControlParamsBuilder_.setMessage(builderForValue.build());
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      public Builder mergeSetAutomaticControlParams(cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams value) {
+        if (setAutomaticControlParamsBuilder_ == null) {
+          if (cmdCase_ == 7 &&
+              cmd_ != cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance()) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.newBuilder((cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            cmd_ = value;
+          }
+          onChanged();
+        } else {
+          if (cmdCase_ == 7) {
+            setAutomaticControlParamsBuilder_.mergeFrom(value);
+          } else {
+            setAutomaticControlParamsBuilder_.setMessage(value);
+          }
+        }
+        cmdCase_ = 7;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      public Builder clearSetAutomaticControlParams() {
+        if (setAutomaticControlParamsBuilder_ == null) {
+          if (cmdCase_ == 7) {
+            cmdCase_ = 0;
+            cmd_ = null;
+            onChanged();
+          }
+        } else {
+          if (cmdCase_ == 7) {
+            cmdCase_ = 0;
+            cmd_ = null;
+          }
+          setAutomaticControlParamsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder getSetAutomaticControlParamsBuilder() {
+        return getSetAutomaticControlParamsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder getSetAutomaticControlParamsOrBuilder() {
+        if ((cmdCase_ == 7) && (setAutomaticControlParamsBuilder_ != null)) {
+          return setAutomaticControlParamsBuilder_.getMessageOrBuilder();
+        } else {
+          if (cmdCase_ == 7) {
+            return (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder> 
+          getSetAutomaticControlParamsFieldBuilder() {
+        if (setAutomaticControlParamsBuilder_ == null) {
+          if (!(cmdCase_ == 7)) {
+            cmd_ = cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+          }
+          setAutomaticControlParamsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder>(
+                  (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) cmd_,
+                  getParentForChildren(),
+                  isClean());
+          cmd_ = null;
+        }
+        cmdCase_ = 7;
+        onChanged();
+        return setAutomaticControlParamsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.Heater.Root)
@@ -4471,6 +4694,1730 @@ public final class JonSharedCmdHeater {
 
   }
 
+  public interface AutomaticControlChannelParamsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Heater.AutomaticControlChannelParams)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Target temperature in Celsius
+     * </pre>
+     *
+     * <code>float target_temperature = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The targetTemperature.
+     */
+    float getTargetTemperature();
+
+    /**
+     * <pre>
+     * Proportional gain
+     * </pre>
+     *
+     * <code>float kp = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The kp.
+     */
+    float getKp();
+
+    /**
+     * <pre>
+     * Integral gain
+     * </pre>
+     *
+     * <code>float ki = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The ki.
+     */
+    float getKi();
+
+    /**
+     * <pre>
+     * Derivative gain
+     * </pre>
+     *
+     * <code>float kd = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The kd.
+     */
+    float getKd();
+  }
+  /**
+   * <pre>
+   * AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel
+   * </pre>
+   *
+   * Protobuf type {@code cmd.Heater.AutomaticControlChannelParams}
+   */
+  public static final class AutomaticControlChannelParams extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Heater.AutomaticControlChannelParams)
+      AutomaticControlChannelParamsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        AutomaticControlChannelParams.class.getName());
+    }
+    // Use AutomaticControlChannelParams.newBuilder() to construct.
+    private AutomaticControlChannelParams(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private AutomaticControlChannelParams() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_AutomaticControlChannelParams_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_AutomaticControlChannelParams_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.class, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder.class);
+    }
+
+    public static final int TARGET_TEMPERATURE_FIELD_NUMBER = 1;
+    private float targetTemperature_ = 0F;
+    /**
+     * <pre>
+     * Target temperature in Celsius
+     * </pre>
+     *
+     * <code>float target_temperature = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The targetTemperature.
+     */
+    @java.lang.Override
+    public float getTargetTemperature() {
+      return targetTemperature_;
+    }
+
+    public static final int KP_FIELD_NUMBER = 2;
+    private float kp_ = 0F;
+    /**
+     * <pre>
+     * Proportional gain
+     * </pre>
+     *
+     * <code>float kp = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The kp.
+     */
+    @java.lang.Override
+    public float getKp() {
+      return kp_;
+    }
+
+    public static final int KI_FIELD_NUMBER = 3;
+    private float ki_ = 0F;
+    /**
+     * <pre>
+     * Integral gain
+     * </pre>
+     *
+     * <code>float ki = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The ki.
+     */
+    @java.lang.Override
+    public float getKi() {
+      return ki_;
+    }
+
+    public static final int KD_FIELD_NUMBER = 4;
+    private float kd_ = 0F;
+    /**
+     * <pre>
+     * Derivative gain
+     * </pre>
+     *
+     * <code>float kd = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The kd.
+     */
+    @java.lang.Override
+    public float getKd() {
+      return kd_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Float.floatToRawIntBits(targetTemperature_) != 0) {
+        output.writeFloat(1, targetTemperature_);
+      }
+      if (java.lang.Float.floatToRawIntBits(kp_) != 0) {
+        output.writeFloat(2, kp_);
+      }
+      if (java.lang.Float.floatToRawIntBits(ki_) != 0) {
+        output.writeFloat(3, ki_);
+      }
+      if (java.lang.Float.floatToRawIntBits(kd_) != 0) {
+        output.writeFloat(4, kd_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Float.floatToRawIntBits(targetTemperature_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(1, targetTemperature_);
+      }
+      if (java.lang.Float.floatToRawIntBits(kp_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(2, kp_);
+      }
+      if (java.lang.Float.floatToRawIntBits(ki_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(3, ki_);
+      }
+      if (java.lang.Float.floatToRawIntBits(kd_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(4, kd_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams)) {
+        return super.equals(obj);
+      }
+      cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams other = (cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams) obj;
+
+      if (java.lang.Float.floatToIntBits(getTargetTemperature())
+          != java.lang.Float.floatToIntBits(
+              other.getTargetTemperature())) return false;
+      if (java.lang.Float.floatToIntBits(getKp())
+          != java.lang.Float.floatToIntBits(
+              other.getKp())) return false;
+      if (java.lang.Float.floatToIntBits(getKi())
+          != java.lang.Float.floatToIntBits(
+              other.getKi())) return false;
+      if (java.lang.Float.floatToIntBits(getKd())
+          != java.lang.Float.floatToIntBits(
+              other.getKd())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + TARGET_TEMPERATURE_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getTargetTemperature());
+      hash = (37 * hash) + KP_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getKp());
+      hash = (37 * hash) + KI_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getKi());
+      hash = (37 * hash) + KD_FIELD_NUMBER;
+      hash = (53 * hash) + java.lang.Float.floatToIntBits(
+          getKd());
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel
+     * </pre>
+     *
+     * Protobuf type {@code cmd.Heater.AutomaticControlChannelParams}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Heater.AutomaticControlChannelParams)
+        cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_AutomaticControlChannelParams_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_AutomaticControlChannelParams_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.class, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder.class);
+      }
+
+      // Construct using cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        targetTemperature_ = 0F;
+        kp_ = 0F;
+        ki_ = 0F;
+        kd_ = 0F;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_AutomaticControlChannelParams_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getDefaultInstanceForType() {
+        return cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams build() {
+        cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams buildPartial() {
+        cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams result = new cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.targetTemperature_ = targetTemperature_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.kp_ = kp_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.ki_ = ki_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.kd_ = kd_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams) {
+          return mergeFrom((cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams other) {
+        if (other == cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance()) return this;
+        if (other.getTargetTemperature() != 0F) {
+          setTargetTemperature(other.getTargetTemperature());
+        }
+        if (other.getKp() != 0F) {
+          setKp(other.getKp());
+        }
+        if (other.getKi() != 0F) {
+          setKi(other.getKi());
+        }
+        if (other.getKd() != 0F) {
+          setKd(other.getKd());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 13: {
+                targetTemperature_ = input.readFloat();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 13
+              case 21: {
+                kp_ = input.readFloat();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 21
+              case 29: {
+                ki_ = input.readFloat();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 29
+              case 37: {
+                kd_ = input.readFloat();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 37
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private float targetTemperature_ ;
+      /**
+       * <pre>
+       * Target temperature in Celsius
+       * </pre>
+       *
+       * <code>float target_temperature = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The targetTemperature.
+       */
+      @java.lang.Override
+      public float getTargetTemperature() {
+        return targetTemperature_;
+      }
+      /**
+       * <pre>
+       * Target temperature in Celsius
+       * </pre>
+       *
+       * <code>float target_temperature = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The targetTemperature to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTargetTemperature(float value) {
+
+        targetTemperature_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Target temperature in Celsius
+       * </pre>
+       *
+       * <code>float target_temperature = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTargetTemperature() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        targetTemperature_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float kp_ ;
+      /**
+       * <pre>
+       * Proportional gain
+       * </pre>
+       *
+       * <code>float kp = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The kp.
+       */
+      @java.lang.Override
+      public float getKp() {
+        return kp_;
+      }
+      /**
+       * <pre>
+       * Proportional gain
+       * </pre>
+       *
+       * <code>float kp = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The kp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKp(float value) {
+
+        kp_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Proportional gain
+       * </pre>
+       *
+       * <code>float kp = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKp() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        kp_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float ki_ ;
+      /**
+       * <pre>
+       * Integral gain
+       * </pre>
+       *
+       * <code>float ki = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The ki.
+       */
+      @java.lang.Override
+      public float getKi() {
+        return ki_;
+      }
+      /**
+       * <pre>
+       * Integral gain
+       * </pre>
+       *
+       * <code>float ki = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The ki to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKi(float value) {
+
+        ki_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Integral gain
+       * </pre>
+       *
+       * <code>float ki = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKi() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        ki_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      private float kd_ ;
+      /**
+       * <pre>
+       * Derivative gain
+       * </pre>
+       *
+       * <code>float kd = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The kd.
+       */
+      @java.lang.Override
+      public float getKd() {
+        return kd_;
+      }
+      /**
+       * <pre>
+       * Derivative gain
+       * </pre>
+       *
+       * <code>float kd = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The kd to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKd(float value) {
+
+        kd_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Derivative gain
+       * </pre>
+       *
+       * <code>float kd = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKd() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        kd_ = 0F;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Heater.AutomaticControlChannelParams)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Heater.AutomaticControlChannelParams)
+    private static final cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams();
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<AutomaticControlChannelParams>
+        PARSER = new com.google.protobuf.AbstractParser<AutomaticControlChannelParams>() {
+      @java.lang.Override
+      public AutomaticControlChannelParams parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<AutomaticControlChannelParams> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AutomaticControlChannelParams> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SetAutomaticControlParamsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:cmd.Heater.SetAutomaticControlParams)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+     * @return Whether the channel0 field is set.
+     */
+    boolean hasChannel0();
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+     * @return The channel0.
+     */
+    cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel0();
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel0OrBuilder();
+
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+     * @return Whether the channel1 field is set.
+     */
+    boolean hasChannel1();
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+     * @return The channel1.
+     */
+    cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel1();
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel1OrBuilder();
+
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+     * @return Whether the channel2 field is set.
+     */
+    boolean hasChannel2();
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+     * @return The channel2.
+     */
+    cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel2();
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel2OrBuilder();
+  }
+  /**
+   * <pre>
+   * SetAutomaticControlParams configures automatic regulation parameters for all channels
+   * </pre>
+   *
+   * Protobuf type {@code cmd.Heater.SetAutomaticControlParams}
+   */
+  public static final class SetAutomaticControlParams extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:cmd.Heater.SetAutomaticControlParams)
+      SetAutomaticControlParamsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SetAutomaticControlParams.class.getName());
+    }
+    // Use SetAutomaticControlParams.newBuilder() to construct.
+    private SetAutomaticControlParams(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SetAutomaticControlParams() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetAutomaticControlParams_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetAutomaticControlParams_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.class, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int CHANNEL_0_FIELD_NUMBER = 1;
+    private cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams channel0_;
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+     * @return Whether the channel0 field is set.
+     */
+    @java.lang.Override
+    public boolean hasChannel0() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+     * @return The channel0.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel0() {
+      return channel0_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel0_;
+    }
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel0OrBuilder() {
+      return channel0_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel0_;
+    }
+
+    public static final int CHANNEL_1_FIELD_NUMBER = 2;
+    private cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams channel1_;
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+     * @return Whether the channel1 field is set.
+     */
+    @java.lang.Override
+    public boolean hasChannel1() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+     * @return The channel1.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel1() {
+      return channel1_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel1_;
+    }
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel1OrBuilder() {
+      return channel1_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel1_;
+    }
+
+    public static final int CHANNEL_2_FIELD_NUMBER = 3;
+    private cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams channel2_;
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+     * @return Whether the channel2 field is set.
+     */
+    @java.lang.Override
+    public boolean hasChannel2() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+     * @return The channel2.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel2() {
+      return channel2_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel2_;
+    }
+    /**
+     * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel2OrBuilder() {
+      return channel2_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel2_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(1, getChannel0());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(2, getChannel1());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(3, getChannel2());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getChannel0());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getChannel1());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getChannel2());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams)) {
+        return super.equals(obj);
+      }
+      cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams other = (cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) obj;
+
+      if (hasChannel0() != other.hasChannel0()) return false;
+      if (hasChannel0()) {
+        if (!getChannel0()
+            .equals(other.getChannel0())) return false;
+      }
+      if (hasChannel1() != other.hasChannel1()) return false;
+      if (hasChannel1()) {
+        if (!getChannel1()
+            .equals(other.getChannel1())) return false;
+      }
+      if (hasChannel2() != other.hasChannel2()) return false;
+      if (hasChannel2()) {
+        if (!getChannel2()
+            .equals(other.getChannel2())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasChannel0()) {
+        hash = (37 * hash) + CHANNEL_0_FIELD_NUMBER;
+        hash = (53 * hash) + getChannel0().hashCode();
+      }
+      if (hasChannel1()) {
+        hash = (37 * hash) + CHANNEL_1_FIELD_NUMBER;
+        hash = (53 * hash) + getChannel1().hashCode();
+      }
+      if (hasChannel2()) {
+        hash = (37 * hash) + CHANNEL_2_FIELD_NUMBER;
+        hash = (53 * hash) + getChannel2().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * SetAutomaticControlParams configures automatic regulation parameters for all channels
+     * </pre>
+     *
+     * Protobuf type {@code cmd.Heater.SetAutomaticControlParams}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:cmd.Heater.SetAutomaticControlParams)
+        cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParamsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetAutomaticControlParams_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetAutomaticControlParams_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.class, cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.Builder.class);
+      }
+
+      // Construct using cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getChannel0FieldBuilder();
+          getChannel1FieldBuilder();
+          getChannel2FieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        channel0_ = null;
+        if (channel0Builder_ != null) {
+          channel0Builder_.dispose();
+          channel0Builder_ = null;
+        }
+        channel1_ = null;
+        if (channel1Builder_ != null) {
+          channel1Builder_.dispose();
+          channel1Builder_ = null;
+        }
+        channel2_ = null;
+        if (channel2Builder_ != null) {
+          channel2Builder_.dispose();
+          channel2Builder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return cmd.Heater.JonSharedCmdHeater.internal_static_cmd_Heater_SetAutomaticControlParams_descriptor;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams getDefaultInstanceForType() {
+        return cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams build() {
+        cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams buildPartial() {
+        cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams result = new cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams result) {
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.channel0_ = channel0Builder_ == null
+              ? channel0_
+              : channel0Builder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.channel1_ = channel1Builder_ == null
+              ? channel1_
+              : channel1Builder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.channel2_ = channel2Builder_ == null
+              ? channel2_
+              : channel2Builder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams) {
+          return mergeFrom((cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams other) {
+        if (other == cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams.getDefaultInstance()) return this;
+        if (other.hasChannel0()) {
+          mergeChannel0(other.getChannel0());
+        }
+        if (other.hasChannel1()) {
+          mergeChannel1(other.getChannel1());
+        }
+        if (other.hasChannel2()) {
+          mergeChannel2(other.getChannel2());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                input.readMessage(
+                    getChannel0FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    getChannel1FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getChannel2FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams channel0_;
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder> channel0Builder_;
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       * @return Whether the channel0 field is set.
+       */
+      public boolean hasChannel0() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       * @return The channel0.
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel0() {
+        if (channel0Builder_ == null) {
+          return channel0_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel0_;
+        } else {
+          return channel0Builder_.getMessage();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      public Builder setChannel0(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams value) {
+        if (channel0Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          channel0_ = value;
+        } else {
+          channel0Builder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      public Builder setChannel0(
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder builderForValue) {
+        if (channel0Builder_ == null) {
+          channel0_ = builderForValue.build();
+        } else {
+          channel0Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      public Builder mergeChannel0(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams value) {
+        if (channel0Builder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+            channel0_ != null &&
+            channel0_ != cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance()) {
+            getChannel0Builder().mergeFrom(value);
+          } else {
+            channel0_ = value;
+          }
+        } else {
+          channel0Builder_.mergeFrom(value);
+        }
+        if (channel0_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      public Builder clearChannel0() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        channel0_ = null;
+        if (channel0Builder_ != null) {
+          channel0Builder_.dispose();
+          channel0Builder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder getChannel0Builder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getChannel0FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel0OrBuilder() {
+        if (channel0Builder_ != null) {
+          return channel0Builder_.getMessageOrBuilder();
+        } else {
+          return channel0_ == null ?
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel0_;
+        }
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_0 = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder> 
+          getChannel0FieldBuilder() {
+        if (channel0Builder_ == null) {
+          channel0Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder>(
+                  getChannel0(),
+                  getParentForChildren(),
+                  isClean());
+          channel0_ = null;
+        }
+        return channel0Builder_;
+      }
+
+      private cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams channel1_;
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder> channel1Builder_;
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       * @return Whether the channel1 field is set.
+       */
+      public boolean hasChannel1() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       * @return The channel1.
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel1() {
+        if (channel1Builder_ == null) {
+          return channel1_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel1_;
+        } else {
+          return channel1Builder_.getMessage();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      public Builder setChannel1(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams value) {
+        if (channel1Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          channel1_ = value;
+        } else {
+          channel1Builder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      public Builder setChannel1(
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder builderForValue) {
+        if (channel1Builder_ == null) {
+          channel1_ = builderForValue.build();
+        } else {
+          channel1Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      public Builder mergeChannel1(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams value) {
+        if (channel1Builder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            channel1_ != null &&
+            channel1_ != cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance()) {
+            getChannel1Builder().mergeFrom(value);
+          } else {
+            channel1_ = value;
+          }
+        } else {
+          channel1Builder_.mergeFrom(value);
+        }
+        if (channel1_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      public Builder clearChannel1() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        channel1_ = null;
+        if (channel1Builder_ != null) {
+          channel1Builder_.dispose();
+          channel1Builder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder getChannel1Builder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getChannel1FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel1OrBuilder() {
+        if (channel1Builder_ != null) {
+          return channel1Builder_.getMessageOrBuilder();
+        } else {
+          return channel1_ == null ?
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel1_;
+        }
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_1 = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder> 
+          getChannel1FieldBuilder() {
+        if (channel1Builder_ == null) {
+          channel1Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder>(
+                  getChannel1(),
+                  getParentForChildren(),
+                  isClean());
+          channel1_ = null;
+        }
+        return channel1Builder_;
+      }
+
+      private cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams channel2_;
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder> channel2Builder_;
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       * @return Whether the channel2 field is set.
+       */
+      public boolean hasChannel2() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       * @return The channel2.
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams getChannel2() {
+        if (channel2Builder_ == null) {
+          return channel2_ == null ? cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel2_;
+        } else {
+          return channel2Builder_.getMessage();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      public Builder setChannel2(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams value) {
+        if (channel2Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          channel2_ = value;
+        } else {
+          channel2Builder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      public Builder setChannel2(
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder builderForValue) {
+        if (channel2Builder_ == null) {
+          channel2_ = builderForValue.build();
+        } else {
+          channel2Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      public Builder mergeChannel2(cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams value) {
+        if (channel2Builder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            channel2_ != null &&
+            channel2_ != cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance()) {
+            getChannel2Builder().mergeFrom(value);
+          } else {
+            channel2_ = value;
+          }
+        } else {
+          channel2Builder_.mergeFrom(value);
+        }
+        if (channel2_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      public Builder clearChannel2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        channel2_ = null;
+        if (channel2Builder_ != null) {
+          channel2Builder_.dispose();
+          channel2Builder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder getChannel2Builder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getChannel2FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder getChannel2OrBuilder() {
+        if (channel2Builder_ != null) {
+          return channel2Builder_.getMessageOrBuilder();
+        } else {
+          return channel2_ == null ?
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.getDefaultInstance() : channel2_;
+        }
+      }
+      /**
+       * <code>.cmd.Heater.AutomaticControlChannelParams channel_2 = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder> 
+          getChannel2FieldBuilder() {
+        if (channel2Builder_ == null) {
+          channel2Builder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParams.Builder, cmd.Heater.JonSharedCmdHeater.AutomaticControlChannelParamsOrBuilder>(
+                  getChannel2(),
+                  getParentForChildren(),
+                  isClean());
+          channel2_ = null;
+        }
+        return channel2Builder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:cmd.Heater.SetAutomaticControlParams)
+    }
+
+    // @@protoc_insertion_point(class_scope:cmd.Heater.SetAutomaticControlParams)
+    private static final cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams();
+    }
+
+    public static cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SetAutomaticControlParams>
+        PARSER = new com.google.protobuf.AbstractParser<SetAutomaticControlParams>() {
+      @java.lang.Override
+      public SetAutomaticControlParams parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SetAutomaticControlParams> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SetAutomaticControlParams> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.SetAutomaticControlParams getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_cmd_Heater_Root_descriptor;
   private static final 
@@ -4506,6 +6453,16 @@ public final class JonSharedCmdHeater {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_cmd_Heater_DisableAutomaticControl_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Heater_AutomaticControlChannelParams_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Heater_AutomaticControlChannelParams_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_cmd_Heater_SetAutomaticControlParams_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_cmd_Heater_SetAutomaticControlParams_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4516,7 +6473,7 @@ public final class JonSharedCmdHeater {
   static {
     java.lang.String[] descriptorData = {
       "\n\033jon_shared_cmd_heater.proto\022\ncmd.Heate" +
-      "r\032\033buf/validate/validate.proto\"\310\002\n\004Root\022" +
+      "r\032\033buf/validate/validate.proto\"\227\003\n\004Root\022" +
       "\"\n\005start\030\001 \001(\0132\021.cmd.Heater.StartH\000\022 \n\004s" +
       "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea" +
       "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n" +
@@ -4524,18 +6481,29 @@ public final class JonSharedCmdHeater {
       "\000\022F\n\030enable_automatic_control\030\005 \001(\0132\".cm" +
       "d.Heater.EnableAutomaticControlH\000\022H\n\031dis" +
       "able_automatic_control\030\006 \001(\0132#.cmd.Heate" +
-      "r.DisableAutomaticControlH\000B\014\n\003cmd\022\005\272H\002\010" +
-      "\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSetHeating\022!\n\010tar" +
-      "get_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_1" +
-      "\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_2\030\003 \001(" +
-      "\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp_error_0\030\004 \001(\002" +
-      "B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_1\030\005 \001(\002B" +
-      "\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017" +
-      "\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAu" +
-      "tomaticControl\"\031\n\027DisableAutomaticContro" +
-      "lBMZKgit-codecommit.eu-central-1.amazona" +
-      "ws.com/v1/repos/jettison/jonp/cmd/heater" +
-      "b\006proto3"
+      "r.DisableAutomaticControlH\000\022M\n\034set_autom" +
+      "atic_control_params\030\007 \001(\0132%.cmd.Heater.S" +
+      "etAutomaticControlParamsH\000B\014\n\003cmd\022\005\272H\002\010\001" +
+      "\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSetHeating\022!\n\010targ" +
+      "et_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_1\030" +
+      "\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_2\030\003 \001(\002" +
+      "B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp_error_0\030\004 \001(\002B" +
+      "\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_1\030\005 \001(\002B\017" +
+      "\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017\272" +
+      "H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAut" +
+      "omaticControl\"\031\n\027DisableAutomaticControl" +
+      "\"\224\001\n\035AutomaticControlChannelParams\022+\n\022ta" +
+      "rget_temperature\030\001 \001(\002B\017\272H\014\n\n\035\000\000\310B-\000\000\000\000\022" +
+      "\026\n\002kp\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\026\n\002ki\030\003 \001(\002B\n\272H\007" +
+      "\n\005-\000\000\000\000\022\026\n\002kd\030\004 \001(\002B\n\272H\007\n\005-\000\000\000\000\"\325\001\n\031SetA" +
+      "utomaticControlParams\022<\n\tchannel_0\030\001 \001(\013" +
+      "2).cmd.Heater.AutomaticControlChannelPar" +
+      "ams\022<\n\tchannel_1\030\002 \001(\0132).cmd.Heater.Auto" +
+      "maticControlChannelParams\022<\n\tchannel_2\030\003" +
+      " \001(\0132).cmd.Heater.AutomaticControlChanne" +
+      "lParamsBMZKgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/cmd/" +
+      "heaterb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4547,7 +6515,7 @@ public final class JonSharedCmdHeater {
     internal_static_cmd_Heater_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_Root_descriptor,
-        new java.lang.String[] { "Start", "Stop", "SetHeating", "GetStatus", "EnableAutomaticControl", "DisableAutomaticControl", "Cmd", });
+        new java.lang.String[] { "Start", "Stop", "SetHeating", "GetStatus", "EnableAutomaticControl", "DisableAutomaticControl", "SetAutomaticControlParams", "Cmd", });
     internal_static_cmd_Heater_Start_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Heater_Start_fieldAccessorTable = new
@@ -4584,6 +6552,18 @@ public final class JonSharedCmdHeater {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Heater_DisableAutomaticControl_descriptor,
         new java.lang.String[] { });
+    internal_static_cmd_Heater_AutomaticControlChannelParams_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_cmd_Heater_AutomaticControlChannelParams_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Heater_AutomaticControlChannelParams_descriptor,
+        new java.lang.String[] { "TargetTemperature", "Kp", "Ki", "Kd", });
+    internal_static_cmd_Heater_SetAutomaticControlParams_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_cmd_Heater_SetAutomaticControlParams_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_cmd_Heater_SetAutomaticControlParams_descriptor,
+        new java.lang.String[] { "Channel0", "Channel1", "Channel2", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

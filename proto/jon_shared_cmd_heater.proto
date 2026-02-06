@@ -13,6 +13,7 @@ message Root {
     GetStatus get_status = 4;
     EnableAutomaticControl enable_automatic_control = 5;
     DisableAutomaticControl disable_automatic_control = 6;
+    SetAutomaticControlParams set_automatic_control_params = 7;
   }
 }
 
@@ -42,3 +43,22 @@ message EnableAutomaticControl {}
 
 // DisableAutomaticControl disables automatic heater control
 message DisableAutomaticControl {}
+
+// AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel
+message AutomaticControlChannelParams {
+  // Target temperature in Celsius
+  float target_temperature = 1 [(buf.validate.field).float = {gte: 0, lte: 100}];
+  // Proportional gain
+  float kp = 2 [(buf.validate.field).float = {gte: 0}];
+  // Integral gain
+  float ki = 3 [(buf.validate.field).float = {gte: 0}];
+  // Derivative gain
+  float kd = 4 [(buf.validate.field).float = {gte: 0}];
+}
+
+// SetAutomaticControlParams configures automatic regulation parameters for all channels
+message SetAutomaticControlParams {
+  AutomaticControlChannelParams channel_0 = 1;
+  AutomaticControlChannelParams channel_1 = 2;
+  AutomaticControlChannelParams channel_2 = 3;
+}

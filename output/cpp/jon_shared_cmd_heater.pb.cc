@@ -147,6 +147,61 @@ struct DisableAutomaticControlDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DisableAutomaticControlDefaultTypeInternal _DisableAutomaticControl_default_instance_;
 
+inline constexpr AutomaticControlChannelParams::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : target_temperature_{0},
+        kp_{0},
+        ki_{0},
+        kd_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR AutomaticControlChannelParams::AutomaticControlChannelParams(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct AutomaticControlChannelParamsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AutomaticControlChannelParamsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AutomaticControlChannelParamsDefaultTypeInternal() {}
+  union {
+    AutomaticControlChannelParams _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AutomaticControlChannelParamsDefaultTypeInternal _AutomaticControlChannelParams_default_instance_;
+
+inline constexpr SetAutomaticControlParams::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        channel_0_{nullptr},
+        channel_1_{nullptr},
+        channel_2_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SetAutomaticControlParams::SetAutomaticControlParams(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct SetAutomaticControlParamsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SetAutomaticControlParamsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SetAutomaticControlParamsDefaultTypeInternal() {}
+  union {
+    SetAutomaticControlParams _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetAutomaticControlParamsDefaultTypeInternal _SetAutomaticControlParams_default_instance_;
+
 inline constexpr Root::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : cmd_{},
@@ -189,6 +244,7 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
@@ -250,17 +306,45 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::AutomaticControlChannelParams, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::AutomaticControlChannelParams, _impl_.target_temperature_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::AutomaticControlChannelParams, _impl_.kp_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::AutomaticControlChannelParams, _impl_.ki_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::AutomaticControlChannelParams, _impl_.kd_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetAutomaticControlParams, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetAutomaticControlParams, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetAutomaticControlParams, _impl_.channel_0_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetAutomaticControlParams, _impl_.channel_1_),
+        PROTOBUF_FIELD_OFFSET(::cmd::Heater::SetAutomaticControlParams, _impl_.channel_2_),
+        0,
+        1,
+        2,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::cmd::Heater::Root)},
-        {15, -1, -1, sizeof(::cmd::Heater::Start)},
-        {23, -1, -1, sizeof(::cmd::Heater::Stop)},
-        {31, -1, -1, sizeof(::cmd::Heater::SetHeating)},
-        {45, -1, -1, sizeof(::cmd::Heater::GetStatus)},
-        {53, -1, -1, sizeof(::cmd::Heater::EnableAutomaticControl)},
-        {61, -1, -1, sizeof(::cmd::Heater::DisableAutomaticControl)},
+        {16, -1, -1, sizeof(::cmd::Heater::Start)},
+        {24, -1, -1, sizeof(::cmd::Heater::Stop)},
+        {32, -1, -1, sizeof(::cmd::Heater::SetHeating)},
+        {46, -1, -1, sizeof(::cmd::Heater::GetStatus)},
+        {54, -1, -1, sizeof(::cmd::Heater::EnableAutomaticControl)},
+        {62, -1, -1, sizeof(::cmd::Heater::DisableAutomaticControl)},
+        {70, -1, -1, sizeof(::cmd::Heater::AutomaticControlChannelParams)},
+        {82, 93, -1, sizeof(::cmd::Heater::SetAutomaticControlParams)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Heater::_Root_default_instance_._instance,
@@ -270,11 +354,13 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::cmd::Heater::_GetStatus_default_instance_._instance,
     &::cmd::Heater::_EnableAutomaticControl_default_instance_._instance,
     &::cmd::Heater::_DisableAutomaticControl_default_instance_._instance,
+    &::cmd::Heater::_AutomaticControlChannelParams_default_instance_._instance,
+    &::cmd::Heater::_SetAutomaticControlParams_default_instance_._instance,
 };
 const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\033jon_shared_cmd_heater.proto\022\ncmd.Heate"
-    "r\032\033buf/validate/validate.proto\"\310\002\n\004Root\022"
+    "r\032\033buf/validate/validate.proto\"\227\003\n\004Root\022"
     "\"\n\005start\030\001 \001(\0132\021.cmd.Heater.StartH\000\022 \n\004s"
     "top\030\002 \001(\0132\020.cmd.Heater.StopH\000\022-\n\013set_hea"
     "ting\030\003 \001(\0132\026.cmd.Heater.SetHeatingH\000\022+\n\n"
@@ -282,18 +368,29 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto[] ABSL_
     "\000\022F\n\030enable_automatic_control\030\005 \001(\0132\".cm"
     "d.Heater.EnableAutomaticControlH\000\022H\n\031dis"
     "able_automatic_control\030\006 \001(\0132#.cmd.Heate"
-    "r.DisableAutomaticControlH\000B\014\n\003cmd\022\005\272H\002\010"
-    "\001\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSetHeating\022!\n\010tar"
-    "get_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_1"
-    "\030\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_2\030\003 \001("
-    "\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp_error_0\030\004 \001(\002"
-    "B\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_1\030\005 \001(\002B"
-    "\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017"
-    "\272H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAu"
-    "tomaticControl\"\031\n\027DisableAutomaticContro"
-    "lBMZKgit-codecommit.eu-central-1.amazona"
-    "ws.com/v1/repos/jettison/jonp/cmd/heater"
-    "b\006proto3"
+    "r.DisableAutomaticControlH\000\022M\n\034set_autom"
+    "atic_control_params\030\007 \001(\0132%.cmd.Heater.S"
+    "etAutomaticControlParamsH\000B\014\n\003cmd\022\005\272H\002\010\001"
+    "\"\007\n\005Start\"\006\n\004Stop\"\352\001\n\nSetHeating\022!\n\010targ"
+    "et_0\030\001 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_1\030"
+    "\002 \001(\002B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022!\n\010target_2\030\003 \001(\002"
+    "B\017\272H\014\n\n\035\000\000pB-\000\000\000\000\022%\n\014temp_error_0\030\004 \001(\002B"
+    "\017\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_1\030\005 \001(\002B\017"
+    "\272H\014\n\n\035\000\000 B-\000\000\000\000\022%\n\014temp_error_2\030\006 \001(\002B\017\272"
+    "H\014\n\n\035\000\000 B-\000\000\000\000\"\013\n\tGetStatus\"\030\n\026EnableAut"
+    "omaticControl\"\031\n\027DisableAutomaticControl"
+    "\"\224\001\n\035AutomaticControlChannelParams\022+\n\022ta"
+    "rget_temperature\030\001 \001(\002B\017\272H\014\n\n\035\000\000\310B-\000\000\000\000\022"
+    "\026\n\002kp\030\002 \001(\002B\n\272H\007\n\005-\000\000\000\000\022\026\n\002ki\030\003 \001(\002B\n\272H\007"
+    "\n\005-\000\000\000\000\022\026\n\002kd\030\004 \001(\002B\n\272H\007\n\005-\000\000\000\000\"\325\001\n\031SetA"
+    "utomaticControlParams\022<\n\tchannel_0\030\001 \001(\013"
+    "2).cmd.Heater.AutomaticControlChannelPar"
+    "ams\022<\n\tchannel_1\030\002 \001(\0132).cmd.Heater.Auto"
+    "maticControlChannelParams\022<\n\tchannel_2\030\003"
+    " \001(\0132).cmd.Heater.AutomaticControlChanne"
+    "lParamsBMZKgit-codecommit.eu-central-1.a"
+    "mazonaws.com/v1/repos/jettison/jonp/cmd/"
+    "heaterb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps[1] =
     {
@@ -303,13 +400,13 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_on
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto = {
     false,
     false,
-    808,
+    1254,
     descriptor_table_protodef_jon_5fshared_5fcmd_5fheater_2eproto,
     "jon_shared_cmd_heater.proto",
     &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_once,
     descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto_deps,
     1,
-    7,
+    9,
     schemas,
     file_default_instances,
     TableStruct_jon_5fshared_5fcmd_5fheater_2eproto::offsets,
@@ -404,6 +501,19 @@ void Root::set_allocated_disable_automatic_control(::cmd::Heater::DisableAutomat
   }
   // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.disable_automatic_control)
 }
+void Root::set_allocated_set_automatic_control_params(::cmd::Heater::SetAutomaticControlParams* set_automatic_control_params) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_cmd();
+  if (set_automatic_control_params) {
+    ::google::protobuf::Arena* submessage_arena = set_automatic_control_params->GetArena();
+    if (message_arena != submessage_arena) {
+      set_automatic_control_params = ::google::protobuf::internal::GetOwnedMessage(message_arena, set_automatic_control_params, submessage_arena);
+    }
+    set_has_set_automatic_control_params();
+    _impl_.cmd_.set_automatic_control_params_ = set_automatic_control_params;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Heater.Root.set_automatic_control_params)
+}
 Root::Root(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
@@ -453,6 +563,9 @@ Root::Root(
         break;
       case kDisableAutomaticControl:
         _impl_.cmd_.disable_automatic_control_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::DisableAutomaticControl>(arena, *from._impl_.cmd_.disable_automatic_control_);
+        break;
+      case kSetAutomaticControlParams:
+        _impl_.cmd_.set_automatic_control_params_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::SetAutomaticControlParams>(arena, *from._impl_.cmd_.set_automatic_control_params_);
         break;
   }
 
@@ -534,6 +647,14 @@ void Root::clear_cmd() {
       }
       break;
     }
+    case kSetAutomaticControlParams: {
+      if (GetArena() == nullptr) {
+        delete _impl_.cmd_.set_automatic_control_params_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.cmd_.set_automatic_control_params_);
+      }
+      break;
+    }
     case CMD_NOT_SET: {
       break;
     }
@@ -578,16 +699,16 @@ const ::google::protobuf::internal::ClassData* Root::GetClassData() const {
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Root::_table_ = {
+const ::_pbi::TcParseTable<0, 7, 7, 0, 2> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    6, 0,  // max_field_number, fast_idx_mask
+    7, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294967168,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
-    6,  // num_aux_entries
+    7,  // num_field_entries
+    7,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -618,6 +739,9 @@ const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Root::_table_ = {
     // .cmd.Heater.DisableAutomaticControl disable_automatic_control = 6;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.disable_automatic_control_), _Internal::kOneofCaseOffset + 0, 5,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.cmd_.set_automatic_control_params_), _Internal::kOneofCaseOffset + 0, 6,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::cmd::Heater::Start>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::Stop>()},
@@ -625,6 +749,7 @@ const ::_pbi::TcParseTable<0, 6, 6, 0, 2> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::Heater::GetStatus>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::EnableAutomaticControl>()},
     {::_pbi::TcParser::GetTable<::cmd::Heater::DisableAutomaticControl>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::SetAutomaticControlParams>()},
   }}, {{
   }},
 };
@@ -692,6 +817,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
+            case kSetAutomaticControlParams: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  7, *this_._impl_.cmd_.set_automatic_control_params_, this_._impl_.cmd_.set_automatic_control_params_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
             default:
               break;
           }
@@ -753,6 +884,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kDisableAutomaticControl: {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.disable_automatic_control_);
+              break;
+            }
+            // .cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7;
+            case kSetAutomaticControlParams: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.cmd_.set_automatic_control_params_);
               break;
             }
             case CMD_NOT_SET: {
@@ -834,6 +971,15 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::Heater::DisableAutomaticControl>(arena, *from._impl_.cmd_.disable_automatic_control_);
         } else {
           _this->_impl_.cmd_.disable_automatic_control_->MergeFrom(from._internal_disable_automatic_control());
+        }
+        break;
+      }
+      case kSetAutomaticControlParams: {
+        if (oneof_needs_init) {
+          _this->_impl_.cmd_.set_automatic_control_params_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Heater::SetAutomaticControlParams>(arena, *from._impl_.cmd_.set_automatic_control_params_);
+        } else {
+          _this->_impl_.cmd_.set_automatic_control_params_->MergeFrom(from._internal_set_automatic_control_params());
         }
         break;
       }
@@ -1697,6 +1843,623 @@ const ::_pbi::TcParseTable<0, 0, 0, 0, 2> DisableAutomaticControl::_table_ = {
 
 ::google::protobuf::Metadata DisableAutomaticControl::GetMetadata() const {
   return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class AutomaticControlChannelParams::_Internal {
+ public:
+};
+
+AutomaticControlChannelParams::AutomaticControlChannelParams(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.Heater.AutomaticControlChannelParams)
+}
+AutomaticControlChannelParams::AutomaticControlChannelParams(
+    ::google::protobuf::Arena* arena, const AutomaticControlChannelParams& from)
+    : AutomaticControlChannelParams(arena) {
+  MergeFrom(from);
+}
+inline PROTOBUF_NDEBUG_INLINE AutomaticControlChannelParams::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void AutomaticControlChannelParams::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, target_temperature_),
+           0,
+           offsetof(Impl_, kd_) -
+               offsetof(Impl_, target_temperature_) +
+               sizeof(Impl_::kd_));
+}
+AutomaticControlChannelParams::~AutomaticControlChannelParams() {
+  // @@protoc_insertion_point(destructor:cmd.Heater.AutomaticControlChannelParams)
+  SharedDtor(*this);
+}
+inline void AutomaticControlChannelParams::SharedDtor(MessageLite& self) {
+  AutomaticControlChannelParams& this_ = static_cast<AutomaticControlChannelParams&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* AutomaticControlChannelParams::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) AutomaticControlChannelParams(arena);
+}
+constexpr auto AutomaticControlChannelParams::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(AutomaticControlChannelParams),
+                                            alignof(AutomaticControlChannelParams));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull AutomaticControlChannelParams::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_AutomaticControlChannelParams_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &AutomaticControlChannelParams::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<AutomaticControlChannelParams>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &AutomaticControlChannelParams::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<AutomaticControlChannelParams>(), &AutomaticControlChannelParams::ByteSizeLong,
+            &AutomaticControlChannelParams::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_._cached_size_),
+        false,
+    },
+    &AutomaticControlChannelParams::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* AutomaticControlChannelParams::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 4, 0, 0, 2> AutomaticControlChannelParams::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    4, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967280,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    4,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Heater::AutomaticControlChannelParams>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // float kd = 4 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {37, 63, 0, PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.kd_)}},
+    // float target_temperature = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {13, 63, 0, PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.target_temperature_)}},
+    // float kp = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {21, 63, 0, PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.kp_)}},
+    // float ki = 3 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastF32S1,
+     {29, 63, 0, PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.ki_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // float target_temperature = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.target_temperature_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float kp = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.kp_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float ki = 3 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.ki_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+    // float kd = 4 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.kd_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kFloat)},
+  }},
+  // no aux_entries
+  {{
+  }},
+};
+
+PROTOBUF_NOINLINE void AutomaticControlChannelParams::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.Heater.AutomaticControlChannelParams)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.target_temperature_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.kd_) -
+      reinterpret_cast<char*>(&_impl_.target_temperature_)) + sizeof(_impl_.kd_));
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* AutomaticControlChannelParams::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const AutomaticControlChannelParams& this_ = static_cast<const AutomaticControlChannelParams&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* AutomaticControlChannelParams::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const AutomaticControlChannelParams& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.Heater.AutomaticControlChannelParams)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // float target_temperature = 1 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_target_temperature()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                1, this_._internal_target_temperature(), target);
+          }
+
+          // float kp = 2 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_kp()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                2, this_._internal_kp(), target);
+          }
+
+          // float ki = 3 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_ki()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                3, this_._internal_ki(), target);
+          }
+
+          // float kd = 4 [(.buf.validate.field) = {
+          if (::absl::bit_cast<::uint32_t>(this_._internal_kd()) != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteFloatToArray(
+                4, this_._internal_kd(), target);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.Heater.AutomaticControlChannelParams)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t AutomaticControlChannelParams::ByteSizeLong(const MessageLite& base) {
+          const AutomaticControlChannelParams& this_ = static_cast<const AutomaticControlChannelParams&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t AutomaticControlChannelParams::ByteSizeLong() const {
+          const AutomaticControlChannelParams& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.Heater.AutomaticControlChannelParams)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // float target_temperature = 1 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_target_temperature()) != 0) {
+              total_size += 5;
+            }
+            // float kp = 2 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_kp()) != 0) {
+              total_size += 5;
+            }
+            // float ki = 3 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_ki()) != 0) {
+              total_size += 5;
+            }
+            // float kd = 4 [(.buf.validate.field) = {
+            if (::absl::bit_cast<::uint32_t>(this_._internal_kd()) != 0) {
+              total_size += 5;
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void AutomaticControlChannelParams::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<AutomaticControlChannelParams*>(&to_msg);
+  auto& from = static_cast<const AutomaticControlChannelParams&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.Heater.AutomaticControlChannelParams)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (::absl::bit_cast<::uint32_t>(from._internal_target_temperature()) != 0) {
+    _this->_impl_.target_temperature_ = from._impl_.target_temperature_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_kp()) != 0) {
+    _this->_impl_.kp_ = from._impl_.kp_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_ki()) != 0) {
+    _this->_impl_.ki_ = from._impl_.ki_;
+  }
+  if (::absl::bit_cast<::uint32_t>(from._internal_kd()) != 0) {
+    _this->_impl_.kd_ = from._impl_.kd_;
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AutomaticControlChannelParams::CopyFrom(const AutomaticControlChannelParams& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.Heater.AutomaticControlChannelParams)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void AutomaticControlChannelParams::InternalSwap(AutomaticControlChannelParams* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.kd_)
+      + sizeof(AutomaticControlChannelParams::_impl_.kd_)
+      - PROTOBUF_FIELD_OFFSET(AutomaticControlChannelParams, _impl_.target_temperature_)>(
+          reinterpret_cast<char*>(&_impl_.target_temperature_),
+          reinterpret_cast<char*>(&other->_impl_.target_temperature_));
+}
+
+::google::protobuf::Metadata AutomaticControlChannelParams::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class SetAutomaticControlParams::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<SetAutomaticControlParams>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_._has_bits_);
+};
+
+SetAutomaticControlParams::SetAutomaticControlParams(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:cmd.Heater.SetAutomaticControlParams)
+}
+inline PROTOBUF_NDEBUG_INLINE SetAutomaticControlParams::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::cmd::Heater::SetAutomaticControlParams& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+SetAutomaticControlParams::SetAutomaticControlParams(
+    ::google::protobuf::Arena* arena,
+    const SetAutomaticControlParams& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SetAutomaticControlParams* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.channel_0_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::cmd::Heater::AutomaticControlChannelParams>(
+                              arena, *from._impl_.channel_0_)
+                        : nullptr;
+  _impl_.channel_1_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::cmd::Heater::AutomaticControlChannelParams>(
+                              arena, *from._impl_.channel_1_)
+                        : nullptr;
+  _impl_.channel_2_ = (cached_has_bits & 0x00000004u) ? ::google::protobuf::Message::CopyConstruct<::cmd::Heater::AutomaticControlChannelParams>(
+                              arena, *from._impl_.channel_2_)
+                        : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:cmd.Heater.SetAutomaticControlParams)
+}
+inline PROTOBUF_NDEBUG_INLINE SetAutomaticControlParams::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
+inline void SetAutomaticControlParams::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, channel_0_),
+           0,
+           offsetof(Impl_, channel_2_) -
+               offsetof(Impl_, channel_0_) +
+               sizeof(Impl_::channel_2_));
+}
+SetAutomaticControlParams::~SetAutomaticControlParams() {
+  // @@protoc_insertion_point(destructor:cmd.Heater.SetAutomaticControlParams)
+  SharedDtor(*this);
+}
+inline void SetAutomaticControlParams::SharedDtor(MessageLite& self) {
+  SetAutomaticControlParams& this_ = static_cast<SetAutomaticControlParams&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  delete this_._impl_.channel_0_;
+  delete this_._impl_.channel_1_;
+  delete this_._impl_.channel_2_;
+  this_._impl_.~Impl_();
+}
+
+inline void* SetAutomaticControlParams::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) SetAutomaticControlParams(arena);
+}
+constexpr auto SetAutomaticControlParams::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(SetAutomaticControlParams),
+                                            alignof(SetAutomaticControlParams));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull SetAutomaticControlParams::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_SetAutomaticControlParams_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &SetAutomaticControlParams::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<SetAutomaticControlParams>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &SetAutomaticControlParams::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<SetAutomaticControlParams>(), &SetAutomaticControlParams::ByteSizeLong,
+            &SetAutomaticControlParams::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_._cached_size_),
+        false,
+    },
+    &SetAutomaticControlParams::kDescriptorMethods,
+    &descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* SetAutomaticControlParams::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 3, 0, 2> SetAutomaticControlParams::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_._has_bits_),
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    3,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::cmd::Heater::SetAutomaticControlParams>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // .cmd.Heater.AutomaticControlChannelParams channel_0 = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_0_)}},
+    // .cmd.Heater.AutomaticControlChannelParams channel_1 = 2;
+    {::_pbi::TcParser::FastMtS1,
+     {18, 1, 1, PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_1_)}},
+    // .cmd.Heater.AutomaticControlChannelParams channel_2 = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 2, 2, PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_2_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .cmd.Heater.AutomaticControlChannelParams channel_0 = 1;
+    {PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_0_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.AutomaticControlChannelParams channel_1 = 2;
+    {PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_1_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.AutomaticControlChannelParams channel_2 = 3;
+    {PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_2_), _Internal::kHasBitsOffset + 2, 2,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::cmd::Heater::AutomaticControlChannelParams>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::AutomaticControlChannelParams>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::AutomaticControlChannelParams>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void SetAutomaticControlParams::Clear() {
+// @@protoc_insertion_point(message_clear_start:cmd.Heater.SetAutomaticControlParams)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.channel_0_ != nullptr);
+      _impl_.channel_0_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.channel_1_ != nullptr);
+      _impl_.channel_1_->Clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      ABSL_DCHECK(_impl_.channel_2_ != nullptr);
+      _impl_.channel_2_->Clear();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* SetAutomaticControlParams::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const SetAutomaticControlParams& this_ = static_cast<const SetAutomaticControlParams&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* SetAutomaticControlParams::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const SetAutomaticControlParams& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:cmd.Heater.SetAutomaticControlParams)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .cmd.Heater.AutomaticControlChannelParams channel_0 = 1;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                1, *this_._impl_.channel_0_, this_._impl_.channel_0_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .cmd.Heater.AutomaticControlChannelParams channel_1 = 2;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                2, *this_._impl_.channel_1_, this_._impl_.channel_1_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .cmd.Heater.AutomaticControlChannelParams channel_2 = 3;
+          if (cached_has_bits & 0x00000004u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                3, *this_._impl_.channel_2_, this_._impl_.channel_2_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:cmd.Heater.SetAutomaticControlParams)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t SetAutomaticControlParams::ByteSizeLong(const MessageLite& base) {
+          const SetAutomaticControlParams& this_ = static_cast<const SetAutomaticControlParams&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t SetAutomaticControlParams::ByteSizeLong() const {
+          const SetAutomaticControlParams& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:cmd.Heater.SetAutomaticControlParams)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000007u) {
+            // .cmd.Heater.AutomaticControlChannelParams channel_0 = 1;
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.channel_0_);
+            }
+            // .cmd.Heater.AutomaticControlChannelParams channel_1 = 2;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.channel_1_);
+            }
+            // .cmd.Heater.AutomaticControlChannelParams channel_2 = 3;
+            if (cached_has_bits & 0x00000004u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.channel_2_);
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void SetAutomaticControlParams::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<SetAutomaticControlParams*>(&to_msg);
+  auto& from = static_cast<const SetAutomaticControlParams&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:cmd.Heater.SetAutomaticControlParams)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.channel_0_ != nullptr);
+      if (_this->_impl_.channel_0_ == nullptr) {
+        _this->_impl_.channel_0_ =
+            ::google::protobuf::Message::CopyConstruct<::cmd::Heater::AutomaticControlChannelParams>(arena, *from._impl_.channel_0_);
+      } else {
+        _this->_impl_.channel_0_->MergeFrom(*from._impl_.channel_0_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.channel_1_ != nullptr);
+      if (_this->_impl_.channel_1_ == nullptr) {
+        _this->_impl_.channel_1_ =
+            ::google::protobuf::Message::CopyConstruct<::cmd::Heater::AutomaticControlChannelParams>(arena, *from._impl_.channel_1_);
+      } else {
+        _this->_impl_.channel_1_->MergeFrom(*from._impl_.channel_1_);
+      }
+    }
+    if (cached_has_bits & 0x00000004u) {
+      ABSL_DCHECK(from._impl_.channel_2_ != nullptr);
+      if (_this->_impl_.channel_2_ == nullptr) {
+        _this->_impl_.channel_2_ =
+            ::google::protobuf::Message::CopyConstruct<::cmd::Heater::AutomaticControlChannelParams>(arena, *from._impl_.channel_2_);
+      } else {
+        _this->_impl_.channel_2_->MergeFrom(*from._impl_.channel_2_);
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SetAutomaticControlParams::CopyFrom(const SetAutomaticControlParams& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:cmd.Heater.SetAutomaticControlParams)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void SetAutomaticControlParams::InternalSwap(SetAutomaticControlParams* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_2_)
+      + sizeof(SetAutomaticControlParams::_impl_.channel_2_)
+      - PROTOBUF_FIELD_OFFSET(SetAutomaticControlParams, _impl_.channel_0_)>(
+          reinterpret_cast<char*>(&_impl_.channel_0_),
+          reinterpret_cast<char*>(&other->_impl_.channel_0_));
+}
+
+::google::protobuf::Metadata SetAutomaticControlParams::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace Heater

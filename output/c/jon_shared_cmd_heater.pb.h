@@ -47,6 +47,28 @@ typedef struct _cmd_Heater_DisableAutomaticControl {
     char dummy_field;
 } cmd_Heater_DisableAutomaticControl;
 
+/* AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel */
+typedef struct _cmd_Heater_AutomaticControlChannelParams {
+    /* Target temperature in Celsius */
+    float target_temperature;
+    /* Proportional gain */
+    float kp;
+    /* Integral gain */
+    float ki;
+    /* Derivative gain */
+    float kd;
+} cmd_Heater_AutomaticControlChannelParams;
+
+/* SetAutomaticControlParams configures automatic regulation parameters for all channels */
+typedef struct _cmd_Heater_SetAutomaticControlParams {
+    bool has_channel_0;
+    cmd_Heater_AutomaticControlChannelParams channel_0;
+    bool has_channel_1;
+    cmd_Heater_AutomaticControlChannelParams channel_1;
+    bool has_channel_2;
+    cmd_Heater_AutomaticControlChannelParams channel_2;
+} cmd_Heater_SetAutomaticControlParams;
+
 typedef struct _cmd_Heater_Root {
     pb_size_t which_cmd;
     union {
@@ -56,6 +78,7 @@ typedef struct _cmd_Heater_Root {
         cmd_Heater_GetStatus get_status;
         cmd_Heater_EnableAutomaticControl enable_automatic_control;
         cmd_Heater_DisableAutomaticControl disable_automatic_control;
+        cmd_Heater_SetAutomaticControlParams set_automatic_control_params;
     } cmd;
 } cmd_Heater_Root;
 
@@ -72,6 +95,8 @@ extern "C" {
 #define cmd_Heater_GetStatus_init_default        {0}
 #define cmd_Heater_EnableAutomaticControl_init_default {0}
 #define cmd_Heater_DisableAutomaticControl_init_default {0}
+#define cmd_Heater_AutomaticControlChannelParams_init_default {0, 0, 0, 0}
+#define cmd_Heater_SetAutomaticControlParams_init_default {false, cmd_Heater_AutomaticControlChannelParams_init_default, false, cmd_Heater_AutomaticControlChannelParams_init_default, false, cmd_Heater_AutomaticControlChannelParams_init_default}
 #define cmd_Heater_Root_init_zero                {0, {cmd_Heater_Start_init_zero}}
 #define cmd_Heater_Start_init_zero               {0}
 #define cmd_Heater_Stop_init_zero                {0}
@@ -79,6 +104,8 @@ extern "C" {
 #define cmd_Heater_GetStatus_init_zero           {0}
 #define cmd_Heater_EnableAutomaticControl_init_zero {0}
 #define cmd_Heater_DisableAutomaticControl_init_zero {0}
+#define cmd_Heater_AutomaticControlChannelParams_init_zero {0, 0, 0, 0}
+#define cmd_Heater_SetAutomaticControlParams_init_zero {false, cmd_Heater_AutomaticControlChannelParams_init_zero, false, cmd_Heater_AutomaticControlChannelParams_init_zero, false, cmd_Heater_AutomaticControlChannelParams_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define cmd_Heater_SetHeating_target_0_tag       1
@@ -87,12 +114,20 @@ extern "C" {
 #define cmd_Heater_SetHeating_temp_error_0_tag   4
 #define cmd_Heater_SetHeating_temp_error_1_tag   5
 #define cmd_Heater_SetHeating_temp_error_2_tag   6
+#define cmd_Heater_AutomaticControlChannelParams_target_temperature_tag 1
+#define cmd_Heater_AutomaticControlChannelParams_kp_tag 2
+#define cmd_Heater_AutomaticControlChannelParams_ki_tag 3
+#define cmd_Heater_AutomaticControlChannelParams_kd_tag 4
+#define cmd_Heater_SetAutomaticControlParams_channel_0_tag 1
+#define cmd_Heater_SetAutomaticControlParams_channel_1_tag 2
+#define cmd_Heater_SetAutomaticControlParams_channel_2_tag 3
 #define cmd_Heater_Root_start_tag                1
 #define cmd_Heater_Root_stop_tag                 2
 #define cmd_Heater_Root_set_heating_tag          3
 #define cmd_Heater_Root_get_status_tag           4
 #define cmd_Heater_Root_enable_automatic_control_tag 5
 #define cmd_Heater_Root_disable_automatic_control_tag 6
+#define cmd_Heater_Root_set_automatic_control_params_tag 7
 
 /* Struct field encoding specification for nanopb */
 #define cmd_Heater_Root_FIELDLIST(X, a) \
@@ -101,7 +136,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,stop,cmd.stop),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_heating,cmd.set_heating),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,get_status,cmd.get_status),   4) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,enable_automatic_control,cmd.enable_automatic_control),   5) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,disable_automatic_control,cmd.disable_automatic_control),   6)
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,disable_automatic_control,cmd.disable_automatic_control),   6) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,set_automatic_control_params,cmd.set_automatic_control_params),   7)
 #define cmd_Heater_Root_CALLBACK NULL
 #define cmd_Heater_Root_DEFAULT NULL
 #define cmd_Heater_Root_cmd_start_MSGTYPE cmd_Heater_Start
@@ -110,6 +146,7 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (cmd,disable_automatic_control,cmd.disable_au
 #define cmd_Heater_Root_cmd_get_status_MSGTYPE cmd_Heater_GetStatus
 #define cmd_Heater_Root_cmd_enable_automatic_control_MSGTYPE cmd_Heater_EnableAutomaticControl
 #define cmd_Heater_Root_cmd_disable_automatic_control_MSGTYPE cmd_Heater_DisableAutomaticControl
+#define cmd_Heater_Root_cmd_set_automatic_control_params_MSGTYPE cmd_Heater_SetAutomaticControlParams
 
 #define cmd_Heater_Start_FIELDLIST(X, a) \
 
@@ -146,6 +183,24 @@ X(a, STATIC,   SINGULAR, FLOAT,    temp_error_2,      6)
 #define cmd_Heater_DisableAutomaticControl_CALLBACK NULL
 #define cmd_Heater_DisableAutomaticControl_DEFAULT NULL
 
+#define cmd_Heater_AutomaticControlChannelParams_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, FLOAT,    target_temperature,   1) \
+X(a, STATIC,   SINGULAR, FLOAT,    kp,                2) \
+X(a, STATIC,   SINGULAR, FLOAT,    ki,                3) \
+X(a, STATIC,   SINGULAR, FLOAT,    kd,                4)
+#define cmd_Heater_AutomaticControlChannelParams_CALLBACK NULL
+#define cmd_Heater_AutomaticControlChannelParams_DEFAULT NULL
+
+#define cmd_Heater_SetAutomaticControlParams_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  channel_0,         1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  channel_1,         2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  channel_2,         3)
+#define cmd_Heater_SetAutomaticControlParams_CALLBACK NULL
+#define cmd_Heater_SetAutomaticControlParams_DEFAULT NULL
+#define cmd_Heater_SetAutomaticControlParams_channel_0_MSGTYPE cmd_Heater_AutomaticControlChannelParams
+#define cmd_Heater_SetAutomaticControlParams_channel_1_MSGTYPE cmd_Heater_AutomaticControlChannelParams
+#define cmd_Heater_SetAutomaticControlParams_channel_2_MSGTYPE cmd_Heater_AutomaticControlChannelParams
+
 extern const pb_msgdesc_t cmd_Heater_Root_msg;
 extern const pb_msgdesc_t cmd_Heater_Start_msg;
 extern const pb_msgdesc_t cmd_Heater_Stop_msg;
@@ -153,6 +208,8 @@ extern const pb_msgdesc_t cmd_Heater_SetHeating_msg;
 extern const pb_msgdesc_t cmd_Heater_GetStatus_msg;
 extern const pb_msgdesc_t cmd_Heater_EnableAutomaticControl_msg;
 extern const pb_msgdesc_t cmd_Heater_DisableAutomaticControl_msg;
+extern const pb_msgdesc_t cmd_Heater_AutomaticControlChannelParams_msg;
+extern const pb_msgdesc_t cmd_Heater_SetAutomaticControlParams_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define cmd_Heater_Root_fields &cmd_Heater_Root_msg
@@ -162,13 +219,17 @@ extern const pb_msgdesc_t cmd_Heater_DisableAutomaticControl_msg;
 #define cmd_Heater_GetStatus_fields &cmd_Heater_GetStatus_msg
 #define cmd_Heater_EnableAutomaticControl_fields &cmd_Heater_EnableAutomaticControl_msg
 #define cmd_Heater_DisableAutomaticControl_fields &cmd_Heater_DisableAutomaticControl_msg
+#define cmd_Heater_AutomaticControlChannelParams_fields &cmd_Heater_AutomaticControlChannelParams_msg
+#define cmd_Heater_SetAutomaticControlParams_fields &cmd_Heater_SetAutomaticControlParams_msg
 
 /* Maximum encoded size of messages (where known) */
 #define CMD_HEATER_JON_SHARED_CMD_HEATER_PB_H_MAX_SIZE cmd_Heater_Root_size
+#define cmd_Heater_AutomaticControlChannelParams_size 20
 #define cmd_Heater_DisableAutomaticControl_size  0
 #define cmd_Heater_EnableAutomaticControl_size   0
 #define cmd_Heater_GetStatus_size                0
-#define cmd_Heater_Root_size                     32
+#define cmd_Heater_Root_size                     68
+#define cmd_Heater_SetAutomaticControlParams_size 66
 #define cmd_Heater_SetHeating_size               30
 #define cmd_Heater_Start_size                    0
 #define cmd_Heater_Stop_size                     0

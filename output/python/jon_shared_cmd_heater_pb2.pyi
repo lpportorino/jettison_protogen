@@ -5,20 +5,22 @@ from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Opti
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Root(_message.Message):
-    __slots__ = ("start", "stop", "set_heating", "get_status", "enable_automatic_control", "disable_automatic_control")
+    __slots__ = ("start", "stop", "set_heating", "get_status", "enable_automatic_control", "disable_automatic_control", "set_automatic_control_params")
     START_FIELD_NUMBER: _ClassVar[int]
     STOP_FIELD_NUMBER: _ClassVar[int]
     SET_HEATING_FIELD_NUMBER: _ClassVar[int]
     GET_STATUS_FIELD_NUMBER: _ClassVar[int]
     ENABLE_AUTOMATIC_CONTROL_FIELD_NUMBER: _ClassVar[int]
     DISABLE_AUTOMATIC_CONTROL_FIELD_NUMBER: _ClassVar[int]
+    SET_AUTOMATIC_CONTROL_PARAMS_FIELD_NUMBER: _ClassVar[int]
     start: Start
     stop: Stop
     set_heating: SetHeating
     get_status: GetStatus
     enable_automatic_control: EnableAutomaticControl
     disable_automatic_control: DisableAutomaticControl
-    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., set_heating: _Optional[_Union[SetHeating, _Mapping]] = ..., get_status: _Optional[_Union[GetStatus, _Mapping]] = ..., enable_automatic_control: _Optional[_Union[EnableAutomaticControl, _Mapping]] = ..., disable_automatic_control: _Optional[_Union[DisableAutomaticControl, _Mapping]] = ...) -> None: ...
+    set_automatic_control_params: SetAutomaticControlParams
+    def __init__(self, start: _Optional[_Union[Start, _Mapping]] = ..., stop: _Optional[_Union[Stop, _Mapping]] = ..., set_heating: _Optional[_Union[SetHeating, _Mapping]] = ..., get_status: _Optional[_Union[GetStatus, _Mapping]] = ..., enable_automatic_control: _Optional[_Union[EnableAutomaticControl, _Mapping]] = ..., disable_automatic_control: _Optional[_Union[DisableAutomaticControl, _Mapping]] = ..., set_automatic_control_params: _Optional[_Union[SetAutomaticControlParams, _Mapping]] = ...) -> None: ...
 
 class Start(_message.Message):
     __slots__ = ()
@@ -55,3 +57,25 @@ class EnableAutomaticControl(_message.Message):
 class DisableAutomaticControl(_message.Message):
     __slots__ = ()
     def __init__(self) -> None: ...
+
+class AutomaticControlChannelParams(_message.Message):
+    __slots__ = ("target_temperature", "kp", "ki", "kd")
+    TARGET_TEMPERATURE_FIELD_NUMBER: _ClassVar[int]
+    KP_FIELD_NUMBER: _ClassVar[int]
+    KI_FIELD_NUMBER: _ClassVar[int]
+    KD_FIELD_NUMBER: _ClassVar[int]
+    target_temperature: float
+    kp: float
+    ki: float
+    kd: float
+    def __init__(self, target_temperature: _Optional[float] = ..., kp: _Optional[float] = ..., ki: _Optional[float] = ..., kd: _Optional[float] = ...) -> None: ...
+
+class SetAutomaticControlParams(_message.Message):
+    __slots__ = ("channel_0", "channel_1", "channel_2")
+    CHANNEL_0_FIELD_NUMBER: _ClassVar[int]
+    CHANNEL_1_FIELD_NUMBER: _ClassVar[int]
+    CHANNEL_2_FIELD_NUMBER: _ClassVar[int]
+    channel_0: AutomaticControlChannelParams
+    channel_1: AutomaticControlChannelParams
+    channel_2: AutomaticControlChannelParams
+    def __init__(self, channel_0: _Optional[_Union[AutomaticControlChannelParams, _Mapping]] = ..., channel_1: _Optional[_Union[AutomaticControlChannelParams, _Mapping]] = ..., channel_2: _Optional[_Union[AutomaticControlChannelParams, _Mapping]] = ...) -> None: ...

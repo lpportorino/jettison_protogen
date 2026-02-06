@@ -15,6 +15,7 @@ export interface Root {
   getStatus?: GetStatus | undefined;
   enableAutomaticControl?: EnableAutomaticControl | undefined;
   disableAutomaticControl?: DisableAutomaticControl | undefined;
+  setAutomaticControlParams?: SetAutomaticControlParams | undefined;
 }
 
 /** Start initiates communication with the heater controller */
@@ -49,6 +50,25 @@ export interface EnableAutomaticControl {
 export interface DisableAutomaticControl {
 }
 
+/** AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel */
+export interface AutomaticControlChannelParams {
+  /** Target temperature in Celsius */
+  targetTemperature: number;
+  /** Proportional gain */
+  kp: number;
+  /** Integral gain */
+  ki: number;
+  /** Derivative gain */
+  kd: number;
+}
+
+/** SetAutomaticControlParams configures automatic regulation parameters for all channels */
+export interface SetAutomaticControlParams {
+  channel0: AutomaticControlChannelParams | undefined;
+  channel1: AutomaticControlChannelParams | undefined;
+  channel2: AutomaticControlChannelParams | undefined;
+}
+
 function createBaseRoot(): Root {
   return {
     start: undefined,
@@ -57,6 +77,7 @@ function createBaseRoot(): Root {
     getStatus: undefined,
     enableAutomaticControl: undefined,
     disableAutomaticControl: undefined,
+    setAutomaticControlParams: undefined,
   };
 }
 
@@ -79,6 +100,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.disableAutomaticControl !== undefined) {
       DisableAutomaticControl.encode(message.disableAutomaticControl, writer.uint32(50).fork()).join();
+    }
+    if (message.setAutomaticControlParams !== undefined) {
+      SetAutomaticControlParams.encode(message.setAutomaticControlParams, writer.uint32(58).fork()).join();
     }
     return writer;
   },
@@ -138,6 +162,14 @@ export const Root: MessageFns<Root> = {
           message.disableAutomaticControl = DisableAutomaticControl.decode(reader, reader.uint32());
           continue;
         }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.setAutomaticControlParams = SetAutomaticControlParams.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -171,6 +203,11 @@ export const Root: MessageFns<Root> = {
         : isSet(object.disable_automatic_control)
         ? DisableAutomaticControl.fromJSON(object.disable_automatic_control)
         : undefined,
+      setAutomaticControlParams: isSet(object.setAutomaticControlParams)
+        ? SetAutomaticControlParams.fromJSON(object.setAutomaticControlParams)
+        : isSet(object.set_automatic_control_params)
+        ? SetAutomaticControlParams.fromJSON(object.set_automatic_control_params)
+        : undefined,
     };
   },
 
@@ -193,6 +230,9 @@ export const Root: MessageFns<Root> = {
     }
     if (message.disableAutomaticControl !== undefined) {
       obj.disableAutomaticControl = DisableAutomaticControl.toJSON(message.disableAutomaticControl);
+    }
+    if (message.setAutomaticControlParams !== undefined) {
+      obj.setAutomaticControlParams = SetAutomaticControlParams.toJSON(message.setAutomaticControlParams);
     }
     return obj;
   },
@@ -217,6 +257,10 @@ export const Root: MessageFns<Root> = {
     message.disableAutomaticControl =
       (object.disableAutomaticControl !== undefined && object.disableAutomaticControl !== null)
         ? DisableAutomaticControl.fromPartial(object.disableAutomaticControl)
+        : undefined;
+    message.setAutomaticControlParams =
+      (object.setAutomaticControlParams !== undefined && object.setAutomaticControlParams !== null)
+        ? SetAutomaticControlParams.fromPartial(object.setAutomaticControlParams)
         : undefined;
     return message;
   },
@@ -597,6 +641,230 @@ export const DisableAutomaticControl: MessageFns<DisableAutomaticControl> = {
   },
   fromPartial<I extends Exact<DeepPartial<DisableAutomaticControl>, I>>(_: I): DisableAutomaticControl {
     const message = createBaseDisableAutomaticControl();
+    return message;
+  },
+};
+
+function createBaseAutomaticControlChannelParams(): AutomaticControlChannelParams {
+  return { targetTemperature: 0, kp: 0, ki: 0, kd: 0 };
+}
+
+export const AutomaticControlChannelParams: MessageFns<AutomaticControlChannelParams> = {
+  encode(message: AutomaticControlChannelParams, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.targetTemperature !== 0) {
+      writer.uint32(13).float(message.targetTemperature);
+    }
+    if (message.kp !== 0) {
+      writer.uint32(21).float(message.kp);
+    }
+    if (message.ki !== 0) {
+      writer.uint32(29).float(message.ki);
+    }
+    if (message.kd !== 0) {
+      writer.uint32(37).float(message.kd);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): AutomaticControlChannelParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseAutomaticControlChannelParams();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 13) {
+            break;
+          }
+
+          message.targetTemperature = reader.float();
+          continue;
+        }
+        case 2: {
+          if (tag !== 21) {
+            break;
+          }
+
+          message.kp = reader.float();
+          continue;
+        }
+        case 3: {
+          if (tag !== 29) {
+            break;
+          }
+
+          message.ki = reader.float();
+          continue;
+        }
+        case 4: {
+          if (tag !== 37) {
+            break;
+          }
+
+          message.kd = reader.float();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): AutomaticControlChannelParams {
+    return {
+      targetTemperature: isSet(object.targetTemperature)
+        ? globalThis.Number(object.targetTemperature)
+        : isSet(object.target_temperature)
+        ? globalThis.Number(object.target_temperature)
+        : 0,
+      kp: isSet(object.kp) ? globalThis.Number(object.kp) : 0,
+      ki: isSet(object.ki) ? globalThis.Number(object.ki) : 0,
+      kd: isSet(object.kd) ? globalThis.Number(object.kd) : 0,
+    };
+  },
+
+  toJSON(message: AutomaticControlChannelParams): unknown {
+    const obj: any = {};
+    if (message.targetTemperature !== 0) {
+      obj.targetTemperature = message.targetTemperature;
+    }
+    if (message.kp !== 0) {
+      obj.kp = message.kp;
+    }
+    if (message.ki !== 0) {
+      obj.ki = message.ki;
+    }
+    if (message.kd !== 0) {
+      obj.kd = message.kd;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<AutomaticControlChannelParams>, I>>(base?: I): AutomaticControlChannelParams {
+    return AutomaticControlChannelParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<AutomaticControlChannelParams>, I>>(
+    object: I,
+  ): AutomaticControlChannelParams {
+    const message = createBaseAutomaticControlChannelParams();
+    message.targetTemperature = object.targetTemperature ?? 0;
+    message.kp = object.kp ?? 0;
+    message.ki = object.ki ?? 0;
+    message.kd = object.kd ?? 0;
+    return message;
+  },
+};
+
+function createBaseSetAutomaticControlParams(): SetAutomaticControlParams {
+  return { channel0: undefined, channel1: undefined, channel2: undefined };
+}
+
+export const SetAutomaticControlParams: MessageFns<SetAutomaticControlParams> = {
+  encode(message: SetAutomaticControlParams, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.channel0 !== undefined) {
+      AutomaticControlChannelParams.encode(message.channel0, writer.uint32(10).fork()).join();
+    }
+    if (message.channel1 !== undefined) {
+      AutomaticControlChannelParams.encode(message.channel1, writer.uint32(18).fork()).join();
+    }
+    if (message.channel2 !== undefined) {
+      AutomaticControlChannelParams.encode(message.channel2, writer.uint32(26).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SetAutomaticControlParams {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSetAutomaticControlParams();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.channel0 = AutomaticControlChannelParams.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.channel1 = AutomaticControlChannelParams.decode(reader, reader.uint32());
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.channel2 = AutomaticControlChannelParams.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SetAutomaticControlParams {
+    return {
+      channel0: isSet(object.channel0)
+        ? AutomaticControlChannelParams.fromJSON(object.channel0)
+        : isSet(object.channel_0)
+        ? AutomaticControlChannelParams.fromJSON(object.channel_0)
+        : undefined,
+      channel1: isSet(object.channel1)
+        ? AutomaticControlChannelParams.fromJSON(object.channel1)
+        : isSet(object.channel_1)
+        ? AutomaticControlChannelParams.fromJSON(object.channel_1)
+        : undefined,
+      channel2: isSet(object.channel2)
+        ? AutomaticControlChannelParams.fromJSON(object.channel2)
+        : isSet(object.channel_2)
+        ? AutomaticControlChannelParams.fromJSON(object.channel_2)
+        : undefined,
+    };
+  },
+
+  toJSON(message: SetAutomaticControlParams): unknown {
+    const obj: any = {};
+    if (message.channel0 !== undefined) {
+      obj.channel0 = AutomaticControlChannelParams.toJSON(message.channel0);
+    }
+    if (message.channel1 !== undefined) {
+      obj.channel1 = AutomaticControlChannelParams.toJSON(message.channel1);
+    }
+    if (message.channel2 !== undefined) {
+      obj.channel2 = AutomaticControlChannelParams.toJSON(message.channel2);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SetAutomaticControlParams>, I>>(base?: I): SetAutomaticControlParams {
+    return SetAutomaticControlParams.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SetAutomaticControlParams>, I>>(object: I): SetAutomaticControlParams {
+    const message = createBaseSetAutomaticControlParams();
+    message.channel0 = (object.channel0 !== undefined && object.channel0 !== null)
+      ? AutomaticControlChannelParams.fromPartial(object.channel0)
+      : undefined;
+    message.channel1 = (object.channel1 !== undefined && object.channel1 !== null)
+      ? AutomaticControlChannelParams.fromPartial(object.channel1)
+      : undefined;
+    message.channel2 = (object.channel2 !== undefined && object.channel2 !== null)
+      ? AutomaticControlChannelParams.fromPartial(object.channel2)
+      : undefined;
     return message;
   },
 };

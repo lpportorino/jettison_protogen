@@ -32,6 +32,7 @@ type Root struct {
 	//	*Root_GetStatus
 	//	*Root_EnableAutomaticControl
 	//	*Root_DisableAutomaticControl
+	//	*Root_SetAutomaticControlParams
 	Cmd           isRoot_Cmd `protobuf_oneof:"cmd"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -128,6 +129,15 @@ func (x *Root) GetDisableAutomaticControl() *DisableAutomaticControl {
 	return nil
 }
 
+func (x *Root) GetSetAutomaticControlParams() *SetAutomaticControlParams {
+	if x != nil {
+		if x, ok := x.Cmd.(*Root_SetAutomaticControlParams); ok {
+			return x.SetAutomaticControlParams
+		}
+	}
+	return nil
+}
+
 type isRoot_Cmd interface {
 	isRoot_Cmd()
 }
@@ -156,6 +166,10 @@ type Root_DisableAutomaticControl struct {
 	DisableAutomaticControl *DisableAutomaticControl `protobuf:"bytes,6,opt,name=disable_automatic_control,json=disableAutomaticControl,proto3,oneof"`
 }
 
+type Root_SetAutomaticControlParams struct {
+	SetAutomaticControlParams *SetAutomaticControlParams `protobuf:"bytes,7,opt,name=set_automatic_control_params,json=setAutomaticControlParams,proto3,oneof"`
+}
+
 func (*Root_Start) isRoot_Cmd() {}
 
 func (*Root_Stop) isRoot_Cmd() {}
@@ -167,6 +181,8 @@ func (*Root_GetStatus) isRoot_Cmd() {}
 func (*Root_EnableAutomaticControl) isRoot_Cmd() {}
 
 func (*Root_DisableAutomaticControl) isRoot_Cmd() {}
+
+func (*Root_SetAutomaticControlParams) isRoot_Cmd() {}
 
 // Start initiates communication with the heater controller
 type Start struct {
@@ -440,12 +456,146 @@ func (*DisableAutomaticControl) Descriptor() ([]byte, []int) {
 	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{6}
 }
 
+// AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel
+type AutomaticControlChannelParams struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Target temperature in Celsius
+	TargetTemperature float32 `protobuf:"fixed32,1,opt,name=target_temperature,json=targetTemperature,proto3" json:"target_temperature,omitempty"`
+	// Proportional gain
+	Kp float32 `protobuf:"fixed32,2,opt,name=kp,proto3" json:"kp,omitempty"`
+	// Integral gain
+	Ki float32 `protobuf:"fixed32,3,opt,name=ki,proto3" json:"ki,omitempty"`
+	// Derivative gain
+	Kd            float32 `protobuf:"fixed32,4,opt,name=kd,proto3" json:"kd,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AutomaticControlChannelParams) Reset() {
+	*x = AutomaticControlChannelParams{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AutomaticControlChannelParams) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AutomaticControlChannelParams) ProtoMessage() {}
+
+func (x *AutomaticControlChannelParams) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AutomaticControlChannelParams.ProtoReflect.Descriptor instead.
+func (*AutomaticControlChannelParams) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AutomaticControlChannelParams) GetTargetTemperature() float32 {
+	if x != nil {
+		return x.TargetTemperature
+	}
+	return 0
+}
+
+func (x *AutomaticControlChannelParams) GetKp() float32 {
+	if x != nil {
+		return x.Kp
+	}
+	return 0
+}
+
+func (x *AutomaticControlChannelParams) GetKi() float32 {
+	if x != nil {
+		return x.Ki
+	}
+	return 0
+}
+
+func (x *AutomaticControlChannelParams) GetKd() float32 {
+	if x != nil {
+		return x.Kd
+	}
+	return 0
+}
+
+// SetAutomaticControlParams configures automatic regulation parameters for all channels
+type SetAutomaticControlParams struct {
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	Channel_0     *AutomaticControlChannelParams `protobuf:"bytes,1,opt,name=channel_0,json=channel0,proto3" json:"channel_0,omitempty"`
+	Channel_1     *AutomaticControlChannelParams `protobuf:"bytes,2,opt,name=channel_1,json=channel1,proto3" json:"channel_1,omitempty"`
+	Channel_2     *AutomaticControlChannelParams `protobuf:"bytes,3,opt,name=channel_2,json=channel2,proto3" json:"channel_2,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetAutomaticControlParams) Reset() {
+	*x = SetAutomaticControlParams{}
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetAutomaticControlParams) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetAutomaticControlParams) ProtoMessage() {}
+
+func (x *SetAutomaticControlParams) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_cmd_heater_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetAutomaticControlParams.ProtoReflect.Descriptor instead.
+func (*SetAutomaticControlParams) Descriptor() ([]byte, []int) {
+	return file_jon_shared_cmd_heater_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SetAutomaticControlParams) GetChannel_0() *AutomaticControlChannelParams {
+	if x != nil {
+		return x.Channel_0
+	}
+	return nil
+}
+
+func (x *SetAutomaticControlParams) GetChannel_1() *AutomaticControlChannelParams {
+	if x != nil {
+		return x.Channel_1
+	}
+	return nil
+}
+
+func (x *SetAutomaticControlParams) GetChannel_2() *AutomaticControlChannelParams {
+	if x != nil {
+		return x.Channel_2
+	}
+	return nil
+}
+
 var File_jon_shared_cmd_heater_proto protoreflect.FileDescriptor
 
 const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\n" +
 	"\x1bjon_shared_cmd_heater.proto\x12\n" +
-	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\x9d\x03\n" +
+	"cmd.Heater\x1a\x1bbuf/validate/validate.proto\"\x87\x04\n" +
 	"\x04Root\x12)\n" +
 	"\x05start\x18\x01 \x01(\v2\x11.cmd.Heater.StartH\x00R\x05start\x12&\n" +
 	"\x04stop\x18\x02 \x01(\v2\x10.cmd.Heater.StopH\x00R\x04stop\x129\n" +
@@ -454,7 +604,8 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"\n" +
 	"get_status\x18\x04 \x01(\v2\x15.cmd.Heater.GetStatusH\x00R\tgetStatus\x12^\n" +
 	"\x18enable_automatic_control\x18\x05 \x01(\v2\".cmd.Heater.EnableAutomaticControlH\x00R\x16enableAutomaticControl\x12a\n" +
-	"\x19disable_automatic_control\x18\x06 \x01(\v2#.cmd.Heater.DisableAutomaticControlH\x00R\x17disableAutomaticControlB\f\n" +
+	"\x19disable_automatic_control\x18\x06 \x01(\v2#.cmd.Heater.DisableAutomaticControlH\x00R\x17disableAutomaticControl\x12h\n" +
+	"\x1cset_automatic_control_params\x18\a \x01(\v2%.cmd.Heater.SetAutomaticControlParamsH\x00R\x19setAutomaticControlParamsB\f\n" +
 	"\x03cmd\x12\x05\xbaH\x02\b\x01\"\a\n" +
 	"\x05Start\"\x06\n" +
 	"\x04Stop\"\xa9\x02\n" +
@@ -483,7 +634,24 @@ const file_jon_shared_cmd_heater_proto_rawDesc = "" +
 	"tempError2\"\v\n" +
 	"\tGetStatus\"\x18\n" +
 	"\x16EnableAutomaticControl\"\x19\n" +
-	"\x17DisableAutomaticControlB\xbf\x01\n" +
+	"\x17DisableAutomaticControl\"\xb3\x01\n" +
+	"\x1dAutomaticControlChannelParams\x12>\n" +
+	"\x12target_temperature\x18\x01 \x01(\x02B\x0f\xbaH\f\n" +
+	"\n" +
+	"\x1d\x00\x00\xc8B-\x00\x00\x00\x00R\x11targetTemperature\x12\x1a\n" +
+	"\x02kp\x18\x02 \x01(\x02B\n" +
+	"\xbaH\a\n" +
+	"\x05-\x00\x00\x00\x00R\x02kp\x12\x1a\n" +
+	"\x02ki\x18\x03 \x01(\x02B\n" +
+	"\xbaH\a\n" +
+	"\x05-\x00\x00\x00\x00R\x02ki\x12\x1a\n" +
+	"\x02kd\x18\x04 \x01(\x02B\n" +
+	"\xbaH\a\n" +
+	"\x05-\x00\x00\x00\x00R\x02kd\"\xf3\x01\n" +
+	"\x19SetAutomaticControlParams\x12F\n" +
+	"\tchannel_0\x18\x01 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel0\x12F\n" +
+	"\tchannel_1\x18\x02 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel1\x12F\n" +
+	"\tchannel_2\x18\x03 \x01(\v2).cmd.Heater.AutomaticControlChannelParamsR\bchannel2B\xbf\x01\n" +
 	"\x0ecom.cmd.HeaterB\x17JonSharedCmdHeaterProtoP\x01ZKgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater\xa2\x02\x03CHX\xaa\x02\n" +
 	"Cmd.Heater\xca\x02\n" +
 	"Cmd\\Heater\xe2\x02\x16Cmd\\Heater\\GPBMetadata\xea\x02\vCmd::Heaterb\x06proto3"
@@ -500,28 +668,34 @@ func file_jon_shared_cmd_heater_proto_rawDescGZIP() []byte {
 	return file_jon_shared_cmd_heater_proto_rawDescData
 }
 
-var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_jon_shared_cmd_heater_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_jon_shared_cmd_heater_proto_goTypes = []any{
-	(*Root)(nil),                    // 0: cmd.Heater.Root
-	(*Start)(nil),                   // 1: cmd.Heater.Start
-	(*Stop)(nil),                    // 2: cmd.Heater.Stop
-	(*SetHeating)(nil),              // 3: cmd.Heater.SetHeating
-	(*GetStatus)(nil),               // 4: cmd.Heater.GetStatus
-	(*EnableAutomaticControl)(nil),  // 5: cmd.Heater.EnableAutomaticControl
-	(*DisableAutomaticControl)(nil), // 6: cmd.Heater.DisableAutomaticControl
+	(*Root)(nil),                          // 0: cmd.Heater.Root
+	(*Start)(nil),                         // 1: cmd.Heater.Start
+	(*Stop)(nil),                          // 2: cmd.Heater.Stop
+	(*SetHeating)(nil),                    // 3: cmd.Heater.SetHeating
+	(*GetStatus)(nil),                     // 4: cmd.Heater.GetStatus
+	(*EnableAutomaticControl)(nil),        // 5: cmd.Heater.EnableAutomaticControl
+	(*DisableAutomaticControl)(nil),       // 6: cmd.Heater.DisableAutomaticControl
+	(*AutomaticControlChannelParams)(nil), // 7: cmd.Heater.AutomaticControlChannelParams
+	(*SetAutomaticControlParams)(nil),     // 8: cmd.Heater.SetAutomaticControlParams
 }
 var file_jon_shared_cmd_heater_proto_depIdxs = []int32{
-	1, // 0: cmd.Heater.Root.start:type_name -> cmd.Heater.Start
-	2, // 1: cmd.Heater.Root.stop:type_name -> cmd.Heater.Stop
-	3, // 2: cmd.Heater.Root.set_heating:type_name -> cmd.Heater.SetHeating
-	4, // 3: cmd.Heater.Root.get_status:type_name -> cmd.Heater.GetStatus
-	5, // 4: cmd.Heater.Root.enable_automatic_control:type_name -> cmd.Heater.EnableAutomaticControl
-	6, // 5: cmd.Heater.Root.disable_automatic_control:type_name -> cmd.Heater.DisableAutomaticControl
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	1,  // 0: cmd.Heater.Root.start:type_name -> cmd.Heater.Start
+	2,  // 1: cmd.Heater.Root.stop:type_name -> cmd.Heater.Stop
+	3,  // 2: cmd.Heater.Root.set_heating:type_name -> cmd.Heater.SetHeating
+	4,  // 3: cmd.Heater.Root.get_status:type_name -> cmd.Heater.GetStatus
+	5,  // 4: cmd.Heater.Root.enable_automatic_control:type_name -> cmd.Heater.EnableAutomaticControl
+	6,  // 5: cmd.Heater.Root.disable_automatic_control:type_name -> cmd.Heater.DisableAutomaticControl
+	8,  // 6: cmd.Heater.Root.set_automatic_control_params:type_name -> cmd.Heater.SetAutomaticControlParams
+	7,  // 7: cmd.Heater.SetAutomaticControlParams.channel_0:type_name -> cmd.Heater.AutomaticControlChannelParams
+	7,  // 8: cmd.Heater.SetAutomaticControlParams.channel_1:type_name -> cmd.Heater.AutomaticControlChannelParams
+	7,  // 9: cmd.Heater.SetAutomaticControlParams.channel_2:type_name -> cmd.Heater.AutomaticControlChannelParams
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_cmd_heater_proto_init() }
@@ -536,6 +710,7 @@ func file_jon_shared_cmd_heater_proto_init() {
 		(*Root_GetStatus)(nil),
 		(*Root_EnableAutomaticControl)(nil),
 		(*Root_DisableAutomaticControl)(nil),
+		(*Root_SetAutomaticControlParams)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -543,7 +718,7 @@ func file_jon_shared_cmd_heater_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_cmd_heater_proto_rawDesc), len(file_jon_shared_cmd_heater_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

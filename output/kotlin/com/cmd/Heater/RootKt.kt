@@ -172,6 +172,30 @@ public object RootKt {
     public fun hasDisableAutomaticControl(): kotlin.Boolean {
       return _builder.hasDisableAutomaticControl()
     }
+
+    /**
+     * `.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7 [json_name = "setAutomaticControlParams"];`
+     */
+    public var setAutomaticControlParams: com.cmd.Heater.SetAutomaticControlParams
+      @kotlin.jvm.JvmName("getSetAutomaticControlParams")
+        get() = _builder.setAutomaticControlParams
+      @kotlin.jvm.JvmName("setSetAutomaticControlParams")
+        set(value) {
+        _builder.setAutomaticControlParams = value
+      }
+    /**
+     * `.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7 [json_name = "setAutomaticControlParams"];`
+     */
+    public fun clearSetAutomaticControlParams() {
+      _builder.clearSetAutomaticControlParams()
+    }
+    /**
+     * `.cmd.Heater.SetAutomaticControlParams set_automatic_control_params = 7 [json_name = "setAutomaticControlParams"];`
+     * @return Whether the setAutomaticControlParams field is set.
+     */
+    public fun hasSetAutomaticControlParams(): kotlin.Boolean {
+      return _builder.hasSetAutomaticControlParams()
+    }
     public val cmdCase: com.cmd.Heater.Root.CmdCase
     @kotlin.jvm.JvmName("getCmdCase")
       get() = _builder.getCmdCase()
@@ -202,4 +226,7 @@ public val com.cmd.Heater.RootOrBuilder.enableAutomaticControlOrNull: com.cmd.He
 
 public val com.cmd.Heater.RootOrBuilder.disableAutomaticControlOrNull: com.cmd.Heater.DisableAutomaticControl?
   get() = if (hasDisableAutomaticControl()) getDisableAutomaticControl() else null
+
+public val com.cmd.Heater.RootOrBuilder.setAutomaticControlParamsOrNull: com.cmd.Heater.SetAutomaticControlParams?
+  get() = if (hasSetAutomaticControlParams()) getSetAutomaticControlParams() else null
 
