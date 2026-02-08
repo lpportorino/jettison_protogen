@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+import "jon_shared_data_camera_day.proto";
+import "jon_shared_data_camera_heat.proto";
+import "jon_shared_data_rotary.proto";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// Per-channel CUDA IPC metadata (frame timing + sharpness pyramid + sensor gain).
+// Populated from /jon_cuda_ipc_day and /jon_cuda_ipc_heat shared memory.
+message CvChannelMeta {
+  // Frame timing (nanoseconds, must be non-negative)
+  uint64 pts_ns = 1 [(buf.validate.field).uint64.gte = 0];
+  uint64 capture_time_ns = 2 [(buf.validate.field).uint64.gte = 0];
+  uint32 generation = 3;
+
+  // Sharpness pyramid (85 floats total, all normalized 0.0-1.0)
+  // Global sharpness score
+  float sharpness_level0 = 4 [(buf.validate.field).float = {
+    gte: 0.0,
+    lte: 1.0
+  }];
+
+  // Quadrants: TL, TR, BL, BR (exactly 4 elements)
+  repeated float sharpness_level1 = 5 [(buf.validate.field).repeated = {
+    min_items: 4,
+    max_items: 4
+  }];
+
+  // 4x4 grid (exactly 16 elements, row-major)
+  repeated float sharpness_level2 = 6 [(buf.validate.field).repeated = {
+    min_items: 16,
+    max_items: 16
+  }];
+
+  // 8x8 grid (exactly 64 elements, row-major)
+  repeated float sharpness_level3 = 7 [(buf.validate.field).repeated = {
+    min_items: 64,
+    max_items: 64
+  }];
+
+  // Timing metrics (nanoseconds)
+  uint64 sharpness_compute_ns = 8 [(buf.validate.field).uint64.gte = 0];
+  uint64 sharpness_total_ns = 9 [(buf.validate.field).uint64.gte = 0];
+  bool sharpness_valid = 10;
+
+  // Sensor gain (day camera only; heat channel sets gain_valid=false)
+  int32 sensor_gain = 11;
+  bool gain_valid = 12;
+}
+
+// Aggregated CV metadata payload - combines all SHM sources at 60fps.
+// Injected by cv-gateway into JonGUIState.opaque_payloads.
+//
+// Sources:
+// - /jon_shm_rotary (rotary turret state)
+// - /jon_shm_cam_day (day camera settings)
+// - /jon_shm_cam_heat (thermal camera settings)
+// - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
+// - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
+//
+// UUID: 019c3e33-d52d-7552-b36b-6fdcaa5d59b8
+message CvMeta {
+  // Correlation timestamp (CLOCK_MONOTONIC, microseconds)
+  uint64 capture_monotonic_us = 1 [(buf.validate.field).uint64.gte = 0];
+
+  // Freshness bitmask indicating which sources updated since last publish
+  // Bits: 0=rotary, 1=cam_day, 2=cam_heat, 3=cuda_day, 4=cuda_heat
+  // Valid range: 0-31 (5 bits)
+  uint32 updated_sources = 2 [(buf.validate.field).uint32 = {
+    gte: 0,
+    lte: 31
+  }];
+
+  // Embedded state messages (full copies from SHMs)
+  // These are validated by their own proto definitions
+  JonGuiDataCameraDay camera_day = 3;
+  JonGuiDataCameraHeat camera_heat = 4;
+  JonGuiDataRotary rotary = 5;
+
+  // CUDA IPC channel metadata
+  CvChannelMeta channel_day = 6;
+  CvChannelMeta channel_heat = 7;
+}
