@@ -37,75 +37,75 @@ help: ## Show this help message
 
 .PHONY: build-base
 build-base: ## Build the base Docker image with all dependencies
-	@echo "$(GREEN)Building base Docker image: $(DOCKER_BASE_IMAGE)$(NC)"
+	@printf "$(GREEN)Building base Docker image: $(DOCKER_BASE_IMAGE)$(NC)\n"
 	@docker build -f Dockerfile.base -t $(DOCKER_BASE_IMAGE) .
-	@echo "$(GREEN)Base Docker image built successfully$(NC)"
+	@printf "$(GREEN)Base Docker image built successfully$(NC)\n"
 
 .PHONY: build
 build: ## Build the main Docker image (builds base if needed)
-	@echo "$(GREEN)Checking for base image...$(NC)"
+	@printf "$(GREEN)Checking for base image...$(NC)\n"
 	@if ! docker images | grep -q "jettison-proto-generator-base.*latest"; then \
-		echo "$(YELLOW)Base image not found, building...$(NC)"; \
+		printf "$(YELLOW)Base image not found, building...$(NC)\n"; \
 		$(MAKE) build-base; \
 	fi
-	@echo "$(GREEN)Building Docker image: $(DOCKER_IMAGE)$(NC)"
+	@printf "$(GREEN)Building Docker image: $(DOCKER_IMAGE)$(NC)\n"
 	@docker build -t $(DOCKER_IMAGE) .
-	@echo "$(GREEN)Docker image built successfully$(NC)"
+	@printf "$(GREEN)Docker image built successfully$(NC)\n"
 
 # Removed export-base and import-base targets - no longer using archived images
 
 .PHONY: generate
 generate: build ## Generate protocol buffer bindings for all languages
-	@echo "$(GREEN)Generating protocol buffer bindings...$(NC)"
+	@printf "$(GREEN)Generating protocol buffer bindings...$(NC)\n"
 	@PROTO_SOURCE_DIR=$(PROTO_SOURCE_DIR) \
 	 OUTPUT_BASE_DIR=$(OUTPUT_BASE_DIR) \
 	 ./generate-protos.sh
 
 .PHONY: rebuild
 rebuild: clean-image generate ## Force rebuild Docker image and regenerate bindings
-	@echo "$(GREEN)Rebuild complete$(NC)"
+	@printf "$(GREEN)Rebuild complete$(NC)\n"
 
 .PHONY: rebuild-base
 rebuild-base: clean-base clean-image build-base ## Force rebuild base image
-	@echo "$(GREEN)Base rebuild complete$(NC)"
+	@printf "$(GREEN)Base rebuild complete$(NC)\n"
 
 .PHONY: clean
 clean: ## Remove all generated files (preserves proto directory)
-	@echo "$(YELLOW)Removing generated files...$(NC)"
+	@printf "$(YELLOW)Removing generated files...$(NC)\n"
 	@if [ -d "$(OUTPUT_BASE_DIR)" ]; then \
 		rm -rf $(OUTPUT_BASE_DIR); \
 	fi
-	@echo "$(GREEN)Generated files removed$(NC)"
-	@echo "$(GREEN)Proto files preserved$(NC)"
+	@printf "$(GREEN)Generated files removed$(NC)\n"
+	@printf "$(GREEN)Proto files preserved$(NC)\n"
 
 .PHONY: clean-image
 clean-image: ## Remove the main Docker image
-	@echo "$(YELLOW)Removing Docker image...$(NC)"
+	@printf "$(YELLOW)Removing Docker image...$(NC)\n"
 	@docker rmi -f $(DOCKER_IMAGE) 2>/dev/null || true
-	@echo "$(GREEN)Docker image removed$(NC)"
+	@printf "$(GREEN)Docker image removed$(NC)\n"
 
 .PHONY: clean-base
 clean-base: ## Remove the base Docker image
-	@echo "$(YELLOW)Removing base Docker image...$(NC)"
+	@printf "$(YELLOW)Removing base Docker image...$(NC)\n"
 	@docker rmi -f $(DOCKER_BASE_IMAGE) 2>/dev/null || true
-	@echo "$(GREEN)Base Docker image removed$(NC)"
+	@printf "$(GREEN)Base Docker image removed$(NC)\n"
 
 .PHONY: clean-all
 clean-all: clean clean-image clean-base ## Remove all generated files and Docker images
-	@echo "$(GREEN)All cleaned$(NC)"
+	@printf "$(GREEN)All cleaned$(NC)\n"
 
 .PHONY: test
 test: ## Run a simple test generation with test proto
-	@echo "$(GREEN)Running test generation...$(NC)"
+	@printf "$(GREEN)Running test generation...$(NC)\n"
 	@mkdir -p test-output
 	@PROTO_SOURCE_DIR=./test-proto \
 	 OUTPUT_BASE_DIR=./test-output \
 	 ./generate-protos.sh
-	@echo "$(GREEN)Test complete - check test-output directory$(NC)"
+	@printf "$(GREEN)Test complete - check test-output directory$(NC)\n"
 
 .PHONY: shell
 shell: build ## Open a shell in the Docker container
-	@echo "$(GREEN)Opening shell in Docker container...$(NC)"
+	@printf "$(GREEN)Opening shell in Docker container...$(NC)\n"
 	@docker run --rm -it \
 		-v "$$(pwd)/proto:/workspace/proto:ro" \
 		-v "$$(pwd)/scripts:/workspace/scripts:ro" \
@@ -114,7 +114,7 @@ shell: build ## Open a shell in the Docker container
 
 .PHONY: versions
 versions: build ## Show versions of tools in the Docker image
-	@echo "$(GREEN)Tool versions in Docker image:$(NC)"
+	@printf "$(GREEN)Tool versions in Docker image:$(NC)\n"
 	@docker run --rm $(DOCKER_IMAGE) -c "\
 		echo 'protoc version:' && protoc --version && echo && \
 		echo 'go version:' && go version && echo && \
@@ -127,12 +127,12 @@ versions: build ## Show versions of tools in the Docker image
 
 .PHONY: docs-generate
 docs-generate: ## Generate proto documentation (parse + extract + render)
-	@echo "$(GREEN)Generating proto documentation...$(NC)"
+	@printf "$(GREEN)Generating proto documentation...$(NC)\n"
 	@cd docs/.protodoc/tools && clojure -M:run generate --descriptor ../../../output/json-descriptors/descriptor-set.json --output-dir ../.. --db-path ../proto-db.edn
 
 .PHONY: docs-coverage
 docs-coverage: ## Show proto documentation coverage
-	@echo "$(GREEN)Documentation coverage:$(NC)"
+	@printf "$(GREEN)Documentation coverage:$(NC)\n"
 	@bb docs/.protodoc/scripts/proto-coverage.clj docs/.protodoc/proto-db.edn
 
 .PHONY: docs-search
@@ -141,22 +141,22 @@ docs-search: ## Search proto docs (usage: make docs-search Q="query")
 
 .PHONY: docs-test
 docs-test: ## Run proto documentation tests
-	@echo "$(GREEN)Running documentation tests...$(NC)"
+	@printf "$(GREEN)Running documentation tests...$(NC)\n"
 	@cd docs/.protodoc/tools && clojure -M:test
 
 .PHONY: docs-docker-build
 docs-docker-build: ## Build proto docs Docker image
-	@echo "$(GREEN)Building proto docs Docker image...$(NC)"
+	@printf "$(GREEN)Building proto docs Docker image...$(NC)\n"
 	@cd docs/.protodoc/tools && DOCKER_BUILDKIT=1 docker build --network=host -t protodoc:latest .
 
 .PHONY: docs-docker-test
 docs-docker-test: ## Run proto docs tests in Docker
-	@echo "$(GREEN)Running proto docs tests via Docker...$(NC)"
+	@printf "$(GREEN)Running proto docs tests via Docker...$(NC)\n"
 	@docker run --rm --network=host protodoc:latest -M:test
 
 .PHONY: docs-docker-generate
 docs-docker-generate: ## Generate docs using Docker
-	@echo "$(GREEN)Generating proto docs via Docker...$(NC)"
+	@printf "$(GREEN)Generating proto docs via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/output/json-descriptors:/data/descriptors:ro \
 		-v $$(pwd)/docs:/data/docs \
@@ -168,7 +168,7 @@ docs-docker-generate: ## Generate docs using Docker
 
 .PHONY: docs-docker-coverage
 docs-docker-coverage: ## Show coverage via Docker
-	@echo "$(GREEN)Proto docs coverage via Docker...$(NC)"
+	@printf "$(GREEN)Proto docs coverage via Docker...$(NC)\n"
 	@docker run --rm --network=host \
 		-v $$(pwd)/docs:/data/docs:ro \
 		protodoc:latest \
@@ -176,4 +176,4 @@ docs-docker-coverage: ## Show coverage via Docker
 
 .PHONY: docs-docker-all
 docs-docker-all: docs-docker-build docs-docker-test docs-docker-generate ## Build, test, and generate in Docker
-	@echo "$(GREEN)All Docker tasks complete$(NC)"
+	@printf "$(GREEN)All Docker tasks complete$(NC)\n"
