@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+import "opaque/detection_common.proto";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// Object detection results for DAY camera channel.
+// Injected by cv-gateway into JonGUIState.opaque_payloads at inference rate (~30fps).
+// Errors logged to stderr, not embedded in proto.
+//
+// UUID: 019c40f6-825c-7f4c-8284-ddad4375ed9b
+message ObjectDetectionsDay {
+  // Inference status (required, must be valid enum value)
+  DetectionStatus status = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // Detected objects (up to 256)
+  repeated ObjectDetection detections = 2 [(buf.validate.field).repeated.max_items = 256];
+
+  // End-to-end inference latency (nanoseconds)
+  uint64 latency_ns = 3 [(buf.validate.field).uint64.gte = 0];
+
+  // Frame metadata for correlation
+  DetectionFrameMeta frame = 4;
+
+  // Inference configuration used
+  DetectionConfig config = 5;
+
+  // Correlation timestamp (CLOCK_MONOTONIC, microseconds) - matches CvMeta pattern
+  uint64 capture_monotonic_us = 6 [(buf.validate.field).uint64.gte = 0];
+}
