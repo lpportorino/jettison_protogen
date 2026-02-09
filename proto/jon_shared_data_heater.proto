@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/heater";
+
+package ser;
+
+// HeaterChannelStatus represents the state of a single heating channel
+message JonGuiDataHeaterChannelStatus {
+  float temperature = 1;
+  float applied_voltage_V = 2 [(buf.validate.field).float = {
+    gte: 0.0
+  }];
+  float target_voltage_V = 3 [(buf.validate.field).float = {
+    gte: 0.0
+  }];
+  bool enabled = 4;
+}
+
+// JonGuiDataHeater contains the complete heater subsystem status
+message JonGuiDataHeater {
+  float bus_voltage_V = 1 [(buf.validate.field).float = {
+    gte: 0.0
+  }];
+  float current_A = 2 [(buf.validate.field).float = {
+    gte: 0.0
+  }];
+  float power_W = 3 [(buf.validate.field).float = {
+    gte: 0.0
+  }];
+  JonGuiDataHeaterChannelStatus channel_0 = 4;  // Day camera glass (60W)
+  JonGuiDataHeaterChannelStatus channel_1 = 5;  // LRF glass (15W)
+  JonGuiDataHeaterChannelStatus channel_2 = 6;  // Heat camera glass (60W)
+  bool automatic_control_enabled = 7;
+
+  // Target temperatures for PID control (persisted via state storage)
+  float target_temp_channel_0 = 8 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  float target_temp_channel_1 = 9 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  float target_temp_channel_2 = 10 [(buf.validate.field).float = {gte: 0, lte: 60}];
+}

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/cmd/heater";
+
+package cmd.Heater;
+
+message Root {
+  oneof cmd {
+    option (buf.validate.oneof).required = true;
+    Start start = 1;
+    Stop stop = 2;
+    SetHeating set_heating = 3;
+    GetStatus get_status = 4;
+    EnableAutomaticControl enable_automatic_control = 5;
+    DisableAutomaticControl disable_automatic_control = 6;
+    SetAutomaticControlParams set_automatic_control_params = 7;
+  }
+}
+
+// Start initiates communication with the heater controller
+message Start {}
+
+// Stop terminates communication with the heater controller
+message Stop {}
+
+// SetHeating configures heating targets for all channels
+message SetHeating {
+  // Target power values per channel in watts
+  float target_0 = 1 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  float target_1 = 2 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  float target_2 = 3 [(buf.validate.field).float = {gte: 0, lte: 60}];
+  // Temperature error/tolerance per channel in Celsius
+  float temp_error_0 = 4 [(buf.validate.field).float = {gte: 0, lte: 40}];
+  float temp_error_1 = 5 [(buf.validate.field).float = {gte: 0, lte: 40}];
+  float temp_error_2 = 6 [(buf.validate.field).float = {gte: 0, lte: 40}];
+}
+
+// GetStatus requests current heater status
+message GetStatus {}
+
+// EnableAutomaticControl enables automatic heater control
+message EnableAutomaticControl {}
+
+// DisableAutomaticControl disables automatic heater control
+message DisableAutomaticControl {}
+
+// AutomaticControlChannelParams contains automatic regulation parameters for a single heater channel
+// Note: PID gains (kp, ki, kd) are loaded from Redis config_editor, not sent via command
+message AutomaticControlChannelParams {
+  // Target temperature in Celsius (persisted via manifold state storage)
+  float target_temperature = 1 [(buf.validate.field).float = {gte: 0, lte: 60}];
+}
+
+// SetAutomaticControlParams configures automatic regulation parameters for all channels
+message SetAutomaticControlParams {
+  AutomaticControlChannelParams channel_0 = 1;
+  AutomaticControlChannelParams channel_1 = 2;
+  AutomaticControlChannelParams channel_2 = 3;
+}
