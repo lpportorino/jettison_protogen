@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 266 messages, 21 enums, 726 fields
+**Statistics:** 270 messages, 21 enums, 737 fields
 
 ## Messages by Package
 
@@ -166,8 +166,12 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### cmd.Heater
 
+- [[proto/cmd.Heater.AutomaticControlChannelParams|AutomaticControlChannelParams]]
+- [[proto/cmd.Heater.DisableAutomaticControl|DisableAutomaticControl]]
+- [[proto/cmd.Heater.EnableAutomaticControl|EnableAutomaticControl]]
 - [[proto/cmd.Heater.GetStatus|GetStatus]] — Requests the heater subsystem to report its current status including bus voltage, current, power consumption, and temperature status for all three heating zones.
 - [[proto/cmd.Heater.Root|Root]] — Root command container for the heater subsystem. Contains all heater-related commands as a required oneof.
+- [[proto/cmd.Heater.SetAutomaticControlParams|SetAutomaticControlParams]]
 - [[proto/cmd.Heater.SetHeating|SetHeating]] — Sets target temperatures and acceptable error margins for each of the three independent heating zones. The heater controller will attempt to maintain each zone at its target temperature within the specified error threshold.
 - [[proto/cmd.Heater.Start|Start]] — Starts the heater subsystem, enabling temperature monitoring and heating control for all zones.
 - [[proto/cmd.Heater.Stop|Stop]] — Stops the heater subsystem, disabling all heating zones and temperature control.
