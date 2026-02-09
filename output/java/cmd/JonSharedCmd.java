@@ -355,21 +355,6 @@ public final class JonSharedCmd {
     cmd.CV.JonSharedCmdCv.RootOrBuilder getCvOrBuilder();
 
     /**
-     * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-     * @return Whether the dayCamGlassHeater field is set.
-     */
-    boolean hasDayCamGlassHeater();
-    /**
-     * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-     * @return The dayCamGlassHeater.
-     */
-    cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root getDayCamGlassHeater();
-    /**
-     * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-     */
-    cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.RootOrBuilder getDayCamGlassHeaterOrBuilder();
-
-    /**
      * <code>.cmd.Lira.Root lira = 34;</code>
      * @return Whether the lira field is set.
      */
@@ -413,6 +398,21 @@ public final class JonSharedCmd {
      * <code>.cmd.PMU.Root pmu = 36;</code>
      */
     cmd.PMU.JonSharedCmdPmu.RootOrBuilder getPmuOrBuilder();
+
+    /**
+     * <code>.cmd.Heater.Root heater = 37;</code>
+     * @return Whether the heater field is set.
+     */
+    boolean hasHeater();
+    /**
+     * <code>.cmd.Heater.Root heater = 37;</code>
+     * @return The heater.
+     */
+    cmd.Heater.JonSharedCmdHeater.Root getHeater();
+    /**
+     * <code>.cmd.Heater.Root heater = 37;</code>
+     */
+    cmd.Heater.JonSharedCmdHeater.RootOrBuilder getHeaterOrBuilder();
 
     cmd.JonSharedCmd.Root.PayloadCase getPayloadCase();
   }
@@ -475,10 +475,10 @@ public final class JonSharedCmd {
       FROZEN(30),
       SYSTEM(31),
       CV(32),
-      DAY_CAM_GLASS_HEATER(33),
       LIRA(34),
       POWER(35),
       PMU(36),
+      HEATER(37),
       PAYLOAD_NOT_SET(0);
       private final int value;
       private PayloadCase(int value) {
@@ -509,10 +509,10 @@ public final class JonSharedCmd {
           case 30: return FROZEN;
           case 31: return SYSTEM;
           case 32: return CV;
-          case 33: return DAY_CAM_GLASS_HEATER;
           case 34: return LIRA;
           case 35: return POWER;
           case 36: return PMU;
+          case 37: return HEATER;
           case 0: return PAYLOAD_NOT_SET;
           default: return null;
         }
@@ -1132,37 +1132,6 @@ public final class JonSharedCmd {
       return cmd.CV.JonSharedCmdCv.Root.getDefaultInstance();
     }
 
-    public static final int DAY_CAM_GLASS_HEATER_FIELD_NUMBER = 33;
-    /**
-     * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-     * @return Whether the dayCamGlassHeater field is set.
-     */
-    @java.lang.Override
-    public boolean hasDayCamGlassHeater() {
-      return payloadCase_ == 33;
-    }
-    /**
-     * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-     * @return The dayCamGlassHeater.
-     */
-    @java.lang.Override
-    public cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root getDayCamGlassHeater() {
-      if (payloadCase_ == 33) {
-         return (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_;
-      }
-      return cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance();
-    }
-    /**
-     * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-     */
-    @java.lang.Override
-    public cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.RootOrBuilder getDayCamGlassHeaterOrBuilder() {
-      if (payloadCase_ == 33) {
-         return (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_;
-      }
-      return cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance();
-    }
-
     public static final int LIRA_FIELD_NUMBER = 34;
     /**
      * <code>.cmd.Lira.Root lira = 34;</code>
@@ -1256,6 +1225,37 @@ public final class JonSharedCmd {
       return cmd.PMU.JonSharedCmdPmu.Root.getDefaultInstance();
     }
 
+    public static final int HEATER_FIELD_NUMBER = 37;
+    /**
+     * <code>.cmd.Heater.Root heater = 37;</code>
+     * @return Whether the heater field is set.
+     */
+    @java.lang.Override
+    public boolean hasHeater() {
+      return payloadCase_ == 37;
+    }
+    /**
+     * <code>.cmd.Heater.Root heater = 37;</code>
+     * @return The heater.
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.Root getHeater() {
+      if (payloadCase_ == 37) {
+         return (cmd.Heater.JonSharedCmdHeater.Root) payload_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance();
+    }
+    /**
+     * <code>.cmd.Heater.Root heater = 37;</code>
+     */
+    @java.lang.Override
+    public cmd.Heater.JonSharedCmdHeater.RootOrBuilder getHeaterOrBuilder() {
+      if (payloadCase_ == 37) {
+         return (cmd.Heater.JonSharedCmdHeater.Root) payload_;
+      }
+      return cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1342,9 +1342,6 @@ public final class JonSharedCmd {
       if (payloadCase_ == 32) {
         output.writeMessage(32, (cmd.CV.JonSharedCmdCv.Root) payload_);
       }
-      if (payloadCase_ == 33) {
-        output.writeMessage(33, (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_);
-      }
       if (payloadCase_ == 34) {
         output.writeMessage(34, (cmd.Lira.JonSharedCmdLira.Root) payload_);
       }
@@ -1353,6 +1350,9 @@ public final class JonSharedCmd {
       }
       if (payloadCase_ == 36) {
         output.writeMessage(36, (cmd.PMU.JonSharedCmdPmu.Root) payload_);
+      }
+      if (payloadCase_ == 37) {
+        output.writeMessage(37, (cmd.Heater.JonSharedCmdHeater.Root) payload_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1459,10 +1459,6 @@ public final class JonSharedCmd {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(32, (cmd.CV.JonSharedCmdCv.Root) payload_);
       }
-      if (payloadCase_ == 33) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(33, (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_);
-      }
       if (payloadCase_ == 34) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(34, (cmd.Lira.JonSharedCmdLira.Root) payload_);
@@ -1474,6 +1470,10 @@ public final class JonSharedCmd {
       if (payloadCase_ == 36) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(36, (cmd.PMU.JonSharedCmdPmu.Root) payload_);
+      }
+      if (payloadCase_ == 37) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(37, (cmd.Heater.JonSharedCmdHeater.Root) payload_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -1564,10 +1564,6 @@ public final class JonSharedCmd {
           if (!getCv()
               .equals(other.getCv())) return false;
           break;
-        case 33:
-          if (!getDayCamGlassHeater()
-              .equals(other.getDayCamGlassHeater())) return false;
-          break;
         case 34:
           if (!getLira()
               .equals(other.getLira())) return false;
@@ -1579,6 +1575,10 @@ public final class JonSharedCmd {
         case 36:
           if (!getPmu()
               .equals(other.getPmu())) return false;
+          break;
+        case 37:
+          if (!getHeater()
+              .equals(other.getHeater())) return false;
           break;
         case 0:
         default:
@@ -1677,10 +1677,6 @@ public final class JonSharedCmd {
           hash = (37 * hash) + CV_FIELD_NUMBER;
           hash = (53 * hash) + getCv().hashCode();
           break;
-        case 33:
-          hash = (37 * hash) + DAY_CAM_GLASS_HEATER_FIELD_NUMBER;
-          hash = (53 * hash) + getDayCamGlassHeater().hashCode();
-          break;
         case 34:
           hash = (37 * hash) + LIRA_FIELD_NUMBER;
           hash = (53 * hash) + getLira().hashCode();
@@ -1692,6 +1688,10 @@ public final class JonSharedCmd {
         case 36:
           hash = (37 * hash) + PMU_FIELD_NUMBER;
           hash = (53 * hash) + getPmu().hashCode();
+          break;
+        case 37:
+          hash = (37 * hash) + HEATER_FIELD_NUMBER;
+          hash = (53 * hash) + getHeater().hashCode();
           break;
         case 0:
         default:
@@ -1883,9 +1883,6 @@ public final class JonSharedCmd {
         if (cvBuilder_ != null) {
           cvBuilder_.clear();
         }
-        if (dayCamGlassHeaterBuilder_ != null) {
-          dayCamGlassHeaterBuilder_.clear();
-        }
         if (liraBuilder_ != null) {
           liraBuilder_.clear();
         }
@@ -1894,6 +1891,9 @@ public final class JonSharedCmd {
         }
         if (pmuBuilder_ != null) {
           pmuBuilder_.clear();
+        }
+        if (heaterBuilder_ != null) {
+          heaterBuilder_.clear();
         }
         payloadCase_ = 0;
         payload_ = null;
@@ -2031,10 +2031,6 @@ public final class JonSharedCmd {
             cvBuilder_ != null) {
           result.payload_ = cvBuilder_.build();
         }
-        if (payloadCase_ == 33 &&
-            dayCamGlassHeaterBuilder_ != null) {
-          result.payload_ = dayCamGlassHeaterBuilder_.build();
-        }
         if (payloadCase_ == 34 &&
             liraBuilder_ != null) {
           result.payload_ = liraBuilder_.build();
@@ -2046,6 +2042,10 @@ public final class JonSharedCmd {
         if (payloadCase_ == 36 &&
             pmuBuilder_ != null) {
           result.payload_ = pmuBuilder_.build();
+        }
+        if (payloadCase_ == 37 &&
+            heaterBuilder_ != null) {
+          result.payload_ = heaterBuilder_.build();
         }
       }
 
@@ -2170,10 +2170,6 @@ public final class JonSharedCmd {
             mergeCv(other.getCv());
             break;
           }
-          case DAY_CAM_GLASS_HEATER: {
-            mergeDayCamGlassHeater(other.getDayCamGlassHeater());
-            break;
-          }
           case LIRA: {
             mergeLira(other.getLira());
             break;
@@ -2184,6 +2180,10 @@ public final class JonSharedCmd {
           }
           case PMU: {
             mergePmu(other.getPmu());
+            break;
+          }
+          case HEATER: {
+            mergeHeater(other.getHeater());
             break;
           }
           case PAYLOAD_NOT_SET: {
@@ -2370,13 +2370,6 @@ public final class JonSharedCmd {
                 payloadCase_ = 32;
                 break;
               } // case 258
-              case 266: {
-                input.readMessage(
-                    getDayCamGlassHeaterFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                payloadCase_ = 33;
-                break;
-              } // case 266
               case 274: {
                 input.readMessage(
                     getLiraFieldBuilder().getBuilder(),
@@ -2398,6 +2391,13 @@ public final class JonSharedCmd {
                 payloadCase_ = 36;
                 break;
               } // case 290
+              case 298: {
+                input.readMessage(
+                    getHeaterFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                payloadCase_ = 37;
+                break;
+              } // case 298
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4999,148 +4999,6 @@ public final class JonSharedCmd {
       }
 
       private com.google.protobuf.SingleFieldBuilder<
-          cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root, cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.Builder, cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.RootOrBuilder> dayCamGlassHeaterBuilder_;
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       * @return Whether the dayCamGlassHeater field is set.
-       */
-      @java.lang.Override
-      public boolean hasDayCamGlassHeater() {
-        return payloadCase_ == 33;
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       * @return The dayCamGlassHeater.
-       */
-      @java.lang.Override
-      public cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root getDayCamGlassHeater() {
-        if (dayCamGlassHeaterBuilder_ == null) {
-          if (payloadCase_ == 33) {
-            return (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_;
-          }
-          return cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance();
-        } else {
-          if (payloadCase_ == 33) {
-            return dayCamGlassHeaterBuilder_.getMessage();
-          }
-          return cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      public Builder setDayCamGlassHeater(cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root value) {
-        if (dayCamGlassHeaterBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          payload_ = value;
-          onChanged();
-        } else {
-          dayCamGlassHeaterBuilder_.setMessage(value);
-        }
-        payloadCase_ = 33;
-        return this;
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      public Builder setDayCamGlassHeater(
-          cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.Builder builderForValue) {
-        if (dayCamGlassHeaterBuilder_ == null) {
-          payload_ = builderForValue.build();
-          onChanged();
-        } else {
-          dayCamGlassHeaterBuilder_.setMessage(builderForValue.build());
-        }
-        payloadCase_ = 33;
-        return this;
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      public Builder mergeDayCamGlassHeater(cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root value) {
-        if (dayCamGlassHeaterBuilder_ == null) {
-          if (payloadCase_ == 33 &&
-              payload_ != cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance()) {
-            payload_ = cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.newBuilder((cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_)
-                .mergeFrom(value).buildPartial();
-          } else {
-            payload_ = value;
-          }
-          onChanged();
-        } else {
-          if (payloadCase_ == 33) {
-            dayCamGlassHeaterBuilder_.mergeFrom(value);
-          } else {
-            dayCamGlassHeaterBuilder_.setMessage(value);
-          }
-        }
-        payloadCase_ = 33;
-        return this;
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      public Builder clearDayCamGlassHeater() {
-        if (dayCamGlassHeaterBuilder_ == null) {
-          if (payloadCase_ == 33) {
-            payloadCase_ = 0;
-            payload_ = null;
-            onChanged();
-          }
-        } else {
-          if (payloadCase_ == 33) {
-            payloadCase_ = 0;
-            payload_ = null;
-          }
-          dayCamGlassHeaterBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      public cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.Builder getDayCamGlassHeaterBuilder() {
-        return getDayCamGlassHeaterFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      @java.lang.Override
-      public cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.RootOrBuilder getDayCamGlassHeaterOrBuilder() {
-        if ((payloadCase_ == 33) && (dayCamGlassHeaterBuilder_ != null)) {
-          return dayCamGlassHeaterBuilder_.getMessageOrBuilder();
-        } else {
-          if (payloadCase_ == 33) {
-            return (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_;
-          }
-          return cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance();
-        }
-      }
-      /**
-       * <code>.cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root, cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.Builder, cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.RootOrBuilder> 
-          getDayCamGlassHeaterFieldBuilder() {
-        if (dayCamGlassHeaterBuilder_ == null) {
-          if (!(payloadCase_ == 33)) {
-            payload_ = cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.getDefaultInstance();
-          }
-          dayCamGlassHeaterBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root, cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root.Builder, cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.RootOrBuilder>(
-                  (cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.Root) payload_,
-                  getParentForChildren(),
-                  isClean());
-          payload_ = null;
-        }
-        payloadCase_ = 33;
-        onChanged();
-        return dayCamGlassHeaterBuilder_;
-      }
-
-      private com.google.protobuf.SingleFieldBuilder<
           cmd.Lira.JonSharedCmdLira.Root, cmd.Lira.JonSharedCmdLira.Root.Builder, cmd.Lira.JonSharedCmdLira.RootOrBuilder> liraBuilder_;
       /**
        * <code>.cmd.Lira.Root lira = 34;</code>
@@ -5564,6 +5422,148 @@ public final class JonSharedCmd {
         payloadCase_ = 36;
         onChanged();
         return pmuBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.Root, cmd.Heater.JonSharedCmdHeater.Root.Builder, cmd.Heater.JonSharedCmdHeater.RootOrBuilder> heaterBuilder_;
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       * @return Whether the heater field is set.
+       */
+      @java.lang.Override
+      public boolean hasHeater() {
+        return payloadCase_ == 37;
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       * @return The heater.
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.Root getHeater() {
+        if (heaterBuilder_ == null) {
+          if (payloadCase_ == 37) {
+            return (cmd.Heater.JonSharedCmdHeater.Root) payload_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance();
+        } else {
+          if (payloadCase_ == 37) {
+            return heaterBuilder_.getMessage();
+          }
+          return cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      public Builder setHeater(cmd.Heater.JonSharedCmdHeater.Root value) {
+        if (heaterBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          payload_ = value;
+          onChanged();
+        } else {
+          heaterBuilder_.setMessage(value);
+        }
+        payloadCase_ = 37;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      public Builder setHeater(
+          cmd.Heater.JonSharedCmdHeater.Root.Builder builderForValue) {
+        if (heaterBuilder_ == null) {
+          payload_ = builderForValue.build();
+          onChanged();
+        } else {
+          heaterBuilder_.setMessage(builderForValue.build());
+        }
+        payloadCase_ = 37;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      public Builder mergeHeater(cmd.Heater.JonSharedCmdHeater.Root value) {
+        if (heaterBuilder_ == null) {
+          if (payloadCase_ == 37 &&
+              payload_ != cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance()) {
+            payload_ = cmd.Heater.JonSharedCmdHeater.Root.newBuilder((cmd.Heater.JonSharedCmdHeater.Root) payload_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            payload_ = value;
+          }
+          onChanged();
+        } else {
+          if (payloadCase_ == 37) {
+            heaterBuilder_.mergeFrom(value);
+          } else {
+            heaterBuilder_.setMessage(value);
+          }
+        }
+        payloadCase_ = 37;
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      public Builder clearHeater() {
+        if (heaterBuilder_ == null) {
+          if (payloadCase_ == 37) {
+            payloadCase_ = 0;
+            payload_ = null;
+            onChanged();
+          }
+        } else {
+          if (payloadCase_ == 37) {
+            payloadCase_ = 0;
+            payload_ = null;
+          }
+          heaterBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      public cmd.Heater.JonSharedCmdHeater.Root.Builder getHeaterBuilder() {
+        return getHeaterFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      @java.lang.Override
+      public cmd.Heater.JonSharedCmdHeater.RootOrBuilder getHeaterOrBuilder() {
+        if ((payloadCase_ == 37) && (heaterBuilder_ != null)) {
+          return heaterBuilder_.getMessageOrBuilder();
+        } else {
+          if (payloadCase_ == 37) {
+            return (cmd.Heater.JonSharedCmdHeater.Root) payload_;
+          }
+          return cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.cmd.Heater.Root heater = 37;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          cmd.Heater.JonSharedCmdHeater.Root, cmd.Heater.JonSharedCmdHeater.Root.Builder, cmd.Heater.JonSharedCmdHeater.RootOrBuilder> 
+          getHeaterFieldBuilder() {
+        if (heaterBuilder_ == null) {
+          if (!(payloadCase_ == 37)) {
+            payload_ = cmd.Heater.JonSharedCmdHeater.Root.getDefaultInstance();
+          }
+          heaterBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              cmd.Heater.JonSharedCmdHeater.Root, cmd.Heater.JonSharedCmdHeater.Root.Builder, cmd.Heater.JonSharedCmdHeater.RootOrBuilder>(
+                  (cmd.Heater.JonSharedCmdHeater.Root) payload_,
+                  getParentForChildren(),
+                  isClean());
+          payload_ = null;
+        }
+        payloadCase_ = 37;
+        onChanged();
+        return heaterBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:cmd.Root)
@@ -6719,39 +6719,38 @@ public final class JonSharedCmd {
       "proto\032\033jon_shared_cmd_rotary.proto\032\030jon_" +
       "shared_cmd_osd.proto\032\036jon_shared_cmd_lrf" +
       "_align.proto\032\033jon_shared_cmd_system.prot" +
-      "o\032\027jon_shared_cmd_cv.proto\032)jon_shared_c" +
-      "md_day_cam_glass_heater.proto\032\031jon_share" +
-      "d_cmd_lira.proto\032\032jon_shared_cmd_power.p" +
-      "roto\032\030jon_shared_cmd_pmu.proto\032\033jon_shar" +
-      "ed_data_types.proto\"\354\007\n\004Root\022\'\n\020protocol" +
-      "_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession" +
-      "_id\030\002 \001(\r\022\021\n\timportant\030\003 \001(\010\022\031\n\021from_cv_" +
-      "subsystem\030\004 \001(\010\022:\n\013client_type\030\005 \001(\0162\031.s" +
-      "er.JonGuiDataClientTypeB\n\272H\007\202\001\004\020\001 \000\0228\n\nc" +
-      "lient_app\030\n \001(\0162\030.ser.JonGuiDataClientAp" +
-      "pB\n\272H\007\202\001\004\020\001 \000\022\026\n\016frame_time_day\030\006 \001(\004\022\027\n" +
-      "\017frame_time_heat\030\007 \001(\004\022\022\n\nstate_time\030\010 \001" +
-      "(\004\022\026\n\016client_time_ms\030\t \001(\004\022.\n\017opaque_pay" +
-      "loads\030\013 \003(\0132\025.ser.JonOpaquePayload\022)\n\nda" +
-      "y_camera\030\024 \001(\0132\023.cmd.DayCamera.RootH\000\022+\n" +
-      "\013heat_camera\030\025 \001(\0132\024.cmd.HeatCamera.Root" +
-      "H\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.RootH\000\022$\n\007comp" +
-      "ass\030\027 \001(\0132\021.cmd.Compass.RootH\000\022\034\n\003lrf\030\030 " +
-      "\001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_calib\030\031 \001(\0132" +
-      "\023.cmd.Lrf_calib.RootH\000\022*\n\006rotary\030\032 \001(\0132\030" +
-      ".cmd.RotaryPlatform.RootH\000\022\034\n\003osd\030\033 \001(\0132" +
-      "\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.Pin" +
-      "gH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH\000\022\035\n\006frozen" +
-      "\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006system\030\037 \001(\0132\020." +
-      "cmd.System.RootH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.R" +
-      "ootH\000\022;\n\024day_cam_glass_heater\030! \001(\0132\033.cm" +
-      "d.DayCamGlassHeater.RootH\000\022\036\n\004lira\030\" \001(\013" +
-      "2\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132\017.cmd." +
-      "Power.RootH\000\022\034\n\003pmu\030$ \001(\0132\r.cmd.PMU.Root" +
-      "H\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\014\020\024\"\006\n\004Ping\"\006\n\004No" +
-      "op\"\010\n\006FrozenBFZDgit-codecommit.eu-centra" +
-      "l-1.amazonaws.com/v1/repos/jettison/jonp" +
-      "/cmdb\006proto3"
+      "o\032\027jon_shared_cmd_cv.proto\032\031jon_shared_c" +
+      "md_lira.proto\032\032jon_shared_cmd_power.prot" +
+      "o\032\030jon_shared_cmd_pmu.proto\032\033jon_shared_" +
+      "cmd_heater.proto\032\033jon_shared_data_types." +
+      "proto\"\323\007\n\004Root\022\'\n\020protocol_version\030\001 \001(\r" +
+      "B\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\ti" +
+      "mportant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001(" +
+      "\010\022:\n\013client_type\030\005 \001(\0162\031.ser.JonGuiDataC" +
+      "lientTypeB\n\272H\007\202\001\004\020\001 \000\0228\n\nclient_app\030\n \001(" +
+      "\0162\030.ser.JonGuiDataClientAppB\n\272H\007\202\001\004\020\001 \000\022" +
+      "\026\n\016frame_time_day\030\006 \001(\004\022\027\n\017frame_time_he" +
+      "at\030\007 \001(\004\022\022\n\nstate_time\030\010 \001(\004\022\026\n\016client_t" +
+      "ime_ms\030\t \001(\004\022.\n\017opaque_payloads\030\013 \003(\0132\025." +
+      "ser.JonOpaquePayload\022)\n\nday_camera\030\024 \001(\013" +
+      "2\023.cmd.DayCamera.RootH\000\022+\n\013heat_camera\030\025" +
+      " \001(\0132\024.cmd.HeatCamera.RootH\000\022\034\n\003gps\030\026 \001(" +
+      "\0132\r.cmd.Gps.RootH\000\022$\n\007compass\030\027 \001(\0132\021.cm" +
+      "d.Compass.RootH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf." +
+      "RootH\000\022(\n\tlrf_calib\030\031 \001(\0132\023.cmd.Lrf_cali" +
+      "b.RootH\000\022*\n\006rotary\030\032 \001(\0132\030.cmd.RotaryPla" +
+      "tform.RootH\000\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.Root" +
+      "H\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 " +
+      "\001(\0132\t.cmd.NoopH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.F" +
+      "rozenH\000\022\"\n\006system\030\037 \001(\0132\020.cmd.System.Roo" +
+      "tH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.RootH\000\022\036\n\004lira\030" +
+      "\" \001(\0132\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132\017" +
+      ".cmd.Power.RootH\000\022\034\n\003pmu\030$ \001(\0132\r.cmd.PMU" +
+      ".RootH\000\022\"\n\006heater\030% \001(\0132\020.cmd.Heater.Roo" +
+      "tH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\014\020\024\"\006\n\004Ping\"\006\n\004N" +
+      "oop\"\010\n\006FrozenBFZDgit-codecommit.eu-centr" +
+      "al-1.amazonaws.com/v1/repos/jettison/jon" +
+      "p/cmdb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6767,10 +6766,10 @@ public final class JonSharedCmd {
           cmd.Lrf_calib.JonSharedCmdLrfAlign.getDescriptor(),
           cmd.System.JonSharedCmdSystem.getDescriptor(),
           cmd.CV.JonSharedCmdCv.getDescriptor(),
-          cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.getDescriptor(),
           cmd.Lira.JonSharedCmdLira.getDescriptor(),
           cmd.Power.JonSharedCmdPower.getDescriptor(),
           cmd.PMU.JonSharedCmdPmu.getDescriptor(),
+          cmd.Heater.JonSharedCmdHeater.getDescriptor(),
           ser.JonSharedDataTypes.getDescriptor(),
         });
     internal_static_cmd_Root_descriptor =
@@ -6778,7 +6777,7 @@ public final class JonSharedCmd {
     internal_static_cmd_Root_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_cmd_Root_descriptor,
-        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "OpaquePayloads", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "DayCamGlassHeater", "Lira", "Power", "Pmu", "Payload", });
+        new java.lang.String[] { "ProtocolVersion", "SessionId", "Important", "FromCvSubsystem", "ClientType", "ClientApp", "FrameTimeDay", "FrameTimeHeat", "StateTime", "ClientTimeMs", "OpaquePayloads", "DayCamera", "HeatCamera", "Gps", "Compass", "Lrf", "LrfCalib", "Rotary", "Osd", "Ping", "Noop", "Frozen", "System", "Cv", "Lira", "Power", "Pmu", "Heater", "Payload", });
     internal_static_cmd_Ping_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_cmd_Ping_fieldAccessorTable = new
@@ -6809,10 +6808,10 @@ public final class JonSharedCmd {
     cmd.Lrf_calib.JonSharedCmdLrfAlign.getDescriptor();
     cmd.System.JonSharedCmdSystem.getDescriptor();
     cmd.CV.JonSharedCmdCv.getDescriptor();
-    cmd.DayCamGlassHeater.JonSharedCmdDayCamGlassHeater.getDescriptor();
     cmd.Lira.JonSharedCmdLira.getDescriptor();
     cmd.Power.JonSharedCmdPower.getDescriptor();
     cmd.PMU.JonSharedCmdPmu.getDescriptor();
+    cmd.Heater.JonSharedCmdHeater.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();

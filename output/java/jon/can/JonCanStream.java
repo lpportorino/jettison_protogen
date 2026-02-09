@@ -41,10 +41,10 @@ public final class JonCanStream {
 
     /**
      * <pre>
-     * Raw CAN ID
+     * Standard 11-bit CAN ID (0x000-0x7FF)
      * </pre>
      *
-     * <code>uint32 can_id = 2;</code>
+     * <code>uint32 can_id = 2 [(.buf.validate.field) = { ... }</code>
      * @return The canId.
      */
     int getCanId();
@@ -71,10 +71,10 @@ public final class JonCanStream {
 
     /**
      * <pre>
-     * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+     * Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
      * </pre>
      *
-     * <code>bytes data = 5;</code>
+     * <code>bytes data = 5 [(.buf.validate.field) = { ... }</code>
      * @return The data.
      */
     com.google.protobuf.ByteString getData();
@@ -140,10 +140,10 @@ public final class JonCanStream {
     private int canId_ = 0;
     /**
      * <pre>
-     * Raw CAN ID
+     * Standard 11-bit CAN ID (0x000-0x7FF)
      * </pre>
      *
-     * <code>uint32 can_id = 2;</code>
+     * <code>uint32 can_id = 2 [(.buf.validate.field) = { ... }</code>
      * @return The canId.
      */
     @java.lang.Override
@@ -185,10 +185,10 @@ public final class JonCanStream {
     private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <pre>
-     * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+     * Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
      * </pre>
      *
-     * <code>bytes data = 5;</code>
+     * <code>bytes data = 5 [(.buf.validate.field) = { ... }</code>
      * @return The data.
      */
     @java.lang.Override
@@ -635,10 +635,10 @@ public final class JonCanStream {
       private int canId_ ;
       /**
        * <pre>
-       * Raw CAN ID
+       * Standard 11-bit CAN ID (0x000-0x7FF)
        * </pre>
        *
-       * <code>uint32 can_id = 2;</code>
+       * <code>uint32 can_id = 2 [(.buf.validate.field) = { ... }</code>
        * @return The canId.
        */
       @java.lang.Override
@@ -647,10 +647,10 @@ public final class JonCanStream {
       }
       /**
        * <pre>
-       * Raw CAN ID
+       * Standard 11-bit CAN ID (0x000-0x7FF)
        * </pre>
        *
-       * <code>uint32 can_id = 2;</code>
+       * <code>uint32 can_id = 2 [(.buf.validate.field) = { ... }</code>
        * @param value The canId to set.
        * @return This builder for chaining.
        */
@@ -663,10 +663,10 @@ public final class JonCanStream {
       }
       /**
        * <pre>
-       * Raw CAN ID
+       * Standard 11-bit CAN ID (0x000-0x7FF)
        * </pre>
        *
-       * <code>uint32 can_id = 2;</code>
+       * <code>uint32 can_id = 2 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearCanId() {
@@ -767,10 +767,10 @@ public final class JonCanStream {
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <pre>
-       * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+       * Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
        * </pre>
        *
-       * <code>bytes data = 5;</code>
+       * <code>bytes data = 5 [(.buf.validate.field) = { ... }</code>
        * @return The data.
        */
       @java.lang.Override
@@ -779,10 +779,10 @@ public final class JonCanStream {
       }
       /**
        * <pre>
-       * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+       * Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
        * </pre>
        *
-       * <code>bytes data = 5;</code>
+       * <code>bytes data = 5 [(.buf.validate.field) = { ... }</code>
        * @param value The data to set.
        * @return This builder for chaining.
        */
@@ -795,10 +795,10 @@ public final class JonCanStream {
       }
       /**
        * <pre>
-       * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+       * Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
        * </pre>
        *
-       * <code>bytes data = 5;</code>
+       * <code>bytes data = 5 [(.buf.validate.field) = { ... }</code>
        * @return This builder for chaining.
        */
       public Builder clearData() {
@@ -2284,14 +2284,14 @@ public final class JonCanStream {
   static {
     java.lang.String[] descriptorData = {
       "\n\024jon_can_stream.proto\022\007jon.can\032\033buf/val" +
-      "idate/validate.proto\"\\\n\010CANFrame\022\024\n\014time" +
-      "stamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001(\r\022\r\n\005is_rx\030" +
-      "\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030\005 \001(\014\"2\n\rCA" +
-      "NFrameBatch\022!\n\006frames\030\001 \003(\0132\021.jon.can.CA" +
-      "NFrame\"%\n\022CANStreamConnected\022\017\n\007streams\030" +
-      "\001 \003(\tBFZDgit-codecommit.eu-central-1.ama" +
-      "zonaws.com/v1/repos/jettison/jonp/canb\006p" +
-      "roto3"
+      "idate/validate.proto\"o\n\010CANFrame\022\024\n\014time" +
+      "stamp_us\030\001 \001(\004\022\030\n\006can_id\030\002 \001(\rB\010\272H\005*\003\030\377\017" +
+      "\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\025\n\004data\030\005" +
+      " \001(\014B\007\272H\004z\002\030@\"2\n\rCANFrameBatch\022!\n\006frames" +
+      "\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANStreamCo" +
+      "nnected\022\017\n\007streams\030\001 \003(\tBFZDgit-codecomm" +
+      "it.eu-central-1.amazonaws.com/v1/repos/j" +
+      "ettison/jonp/canb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2318,6 +2318,11 @@ public final class JonCanStream {
         new java.lang.String[] { "Streams", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
+    com.google.protobuf.ExtensionRegistry registry =
+        com.google.protobuf.ExtensionRegistry.newInstance();
+    registry.add(build.buf.validate.ValidateProto.field);
+    com.google.protobuf.Descriptors.FileDescriptor
+        .internalUpdateFileDescriptor(descriptor, registry);
   }
 
   // @@protoc_insertion_point(outer_class_scope)

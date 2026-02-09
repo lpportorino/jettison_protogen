@@ -24,12 +24,14 @@ const (
 
 // Single CAN/CAN-FD frame
 type CANFrame struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TimestampUs   uint64                 `protobuf:"varint,1,opt,name=timestamp_us,json=timestampUs,proto3" json:"timestamp_us,omitempty"` // Timestamp in microseconds
-	CanId         uint32                 `protobuf:"varint,2,opt,name=can_id,json=canId,proto3" json:"can_id,omitempty"`                   // Raw CAN ID
-	IsRx          bool                   `protobuf:"varint,3,opt,name=is_rx,json=isRx,proto3" json:"is_rx,omitempty"`                      // true=received from device, false=sent to device
-	IsFd          bool                   `protobuf:"varint,4,opt,name=is_fd,json=isFd,proto3" json:"is_fd,omitempty"`                      // true=CAN-FD, false=classic CAN
-	Data          []byte                 `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"`                                   // Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	TimestampUs uint64                 `protobuf:"varint,1,opt,name=timestamp_us,json=timestampUs,proto3" json:"timestamp_us,omitempty"` // Timestamp in microseconds
+	// Standard 11-bit CAN ID (0x000-0x7FF)
+	CanId uint32 `protobuf:"varint,2,opt,name=can_id,json=canId,proto3" json:"can_id,omitempty"`
+	IsRx  bool   `protobuf:"varint,3,opt,name=is_rx,json=isRx,proto3" json:"is_rx,omitempty"` // true=received from device, false=sent to device
+	IsFd  bool   `protobuf:"varint,4,opt,name=is_fd,json=isFd,proto3" json:"is_fd,omitempty"` // true=CAN-FD, false=classic CAN
+	// Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
+	Data          []byte `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -193,13 +195,13 @@ var File_jon_can_stream_proto protoreflect.FileDescriptor
 
 const file_jon_can_stream_proto_rawDesc = "" +
 	"\n" +
-	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\x82\x01\n" +
+	"\x14jon_can_stream.proto\x12\ajon.can\x1a\x1bbuf/validate/validate.proto\"\x95\x01\n" +
 	"\bCANFrame\x12!\n" +
-	"\ftimestamp_us\x18\x01 \x01(\x04R\vtimestampUs\x12\x15\n" +
-	"\x06can_id\x18\x02 \x01(\rR\x05canId\x12\x13\n" +
+	"\ftimestamp_us\x18\x01 \x01(\x04R\vtimestampUs\x12\x1f\n" +
+	"\x06can_id\x18\x02 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x0fR\x05canId\x12\x13\n" +
 	"\x05is_rx\x18\x03 \x01(\bR\x04isRx\x12\x13\n" +
-	"\x05is_fd\x18\x04 \x01(\bR\x04isFd\x12\x12\n" +
-	"\x04data\x18\x05 \x01(\fR\x04data\":\n" +
+	"\x05is_fd\x18\x04 \x01(\bR\x04isFd\x12\x1b\n" +
+	"\x04data\x18\x05 \x01(\fB\a\xbaH\x04z\x02\x18@R\x04data\":\n" +
 	"\rCANFrameBatch\x12)\n" +
 	"\x06frames\x18\x01 \x03(\v2\x11.jon.can.CANFrameR\x06frames\".\n" +
 	"\x12CANStreamConnected\x12\x18\n" +

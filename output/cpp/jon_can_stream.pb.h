@@ -432,7 +432,7 @@ class CANFrame final : public ::google::protobuf::Message
     kIsRxFieldNumber = 3,
     kIsFdFieldNumber = 4,
   };
-  // bytes data = 5;
+  // bytes data = 5 [(.buf.validate.field) = {
   void clear_data() ;
   const std::string& data() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -458,7 +458,7 @@ class CANFrame final : public ::google::protobuf::Message
   void _internal_set_timestamp_us(::uint64_t value);
 
   public:
-  // uint32 can_id = 2;
+  // uint32 can_id = 2 [(.buf.validate.field) = {
   void clear_can_id() ;
   ::uint32_t can_id() const;
   void set_can_id(::uint32_t value);
@@ -758,7 +758,7 @@ inline void CANFrame::_internal_set_timestamp_us(::uint64_t value) {
   _impl_.timestamp_us_ = value;
 }
 
-// uint32 can_id = 2;
+// uint32 can_id = 2 [(.buf.validate.field) = {
 inline void CANFrame::clear_can_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.can_id_ = 0u;
@@ -824,7 +824,7 @@ inline void CANFrame::_internal_set_is_fd(bool value) {
   _impl_.is_fd_ = value;
 }
 
-// bytes data = 5;
+// bytes data = 5 [(.buf.validate.field) = {
 inline void CANFrame::clear_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data_.ClearToEmpty();

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// Single object detection result (detector-agnostic).
+// Bounding box uses NDC coordinates: -1.0 (left/top) to 1.0 (right/bottom), center is (0,0).
+// Consistent with JonGuiDataROI pattern.
+message ObjectDetection {
+  // Bounding box in NDC (Normalized Device Coordinates)
+  float x1 = 1 [(buf.validate.field).float = { gte: -1.0, lte: 1.0 }];  // Left edge
+  float y1 = 2 [(buf.validate.field).float = { gte: -1.0, lte: 1.0 }];  // Top edge
+  float x2 = 3 [(buf.validate.field).float = { gte: -1.0, lte: 1.0 }];  // Right edge
+  float y2 = 4 [(buf.validate.field).float = { gte: -1.0, lte: 1.0 }];  // Bottom edge
+
+  // Detection confidence [0.0, 1.0]
+  float confidence = 5 [(buf.validate.field).float = { gte: 0.0, lte: 1.0 }];
+
+  // Class ID (0-255, detector-specific meaning)
+  int32 class_id = 6 [(buf.validate.field).int32 = { gte: 0, lte: 255 }];
+}
+
+// Inference status codes (detector-agnostic).
+enum DetectionStatus {
+  DETECTION_STATUS_UNSPECIFIED = 0;
+  DETECTION_STATUS_OK = 1;           // Inference succeeded
+  DETECTION_STATUS_NOT_READY = 2;    // Engine/IPC not initialized
+  DETECTION_STATUS_IPC_TIMEOUT = 3;  // No frame within timeout
+  DETECTION_STATUS_INFER_FAILED = 4; // Inference engine error
+  DETECTION_STATUS_ERROR = 5;        // Unclassified error
+}
+
+// Inference configuration used for this result.
+message DetectionConfig {
+  // Confidence threshold used for filtering [0.0, 1.0]
+  float confidence_threshold = 1 [(buf.validate.field).float = { gte: 0.0, lte: 1.0 }];
+
+  // NMS IoU threshold used for suppression [0.0, 1.0]
+  float nms_iou_threshold = 2 [(buf.validate.field).float = { gte: 0.0, lte: 1.0 }];
+}
+
+// Frame metadata for temporal correlation.
+message DetectionFrameMeta {
+  // Presentation timestamp (nanoseconds, must be non-negative)
+  uint64 pts_ns = 1 [(buf.validate.field).uint64.gte = 0];
+
+  // Capture timestamp (nanoseconds, must be non-negative)
+  uint64 capture_time_ns = 2 [(buf.validate.field).uint64.gte = 0];
+
+  // Frame generation counter (for correlation with CUDA IPC)
+  uint32 generation = 3;
+
+  // Source frame dimensions
+  uint32 width = 4 [(buf.validate.field).uint32.gte = 1];
+  uint32 height = 5 [(buf.validate.field).uint32.gte = 1];
+}

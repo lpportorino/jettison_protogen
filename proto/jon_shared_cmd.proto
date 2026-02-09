@@ -14,10 +14,10 @@ import "jon_shared_cmd_osd.proto";
 import "jon_shared_cmd_lrf_align.proto";
 import "jon_shared_cmd_system.proto";
 import "jon_shared_cmd_cv.proto";
-import "jon_shared_cmd_day_cam_glass_heater.proto";
 import "jon_shared_cmd_lira.proto";
 import "jon_shared_cmd_power.proto";
 import "jon_shared_cmd_pmu.proto";
+import "jon_shared_cmd_heater.proto";
 
 import "jon_shared_data_types.proto";
 
@@ -69,10 +69,10 @@ message Root {
     Frozen frozen = 30;
     System.Root system = 31;
     CV.Root cv = 32;
-    DayCamGlassHeater.Root day_cam_glass_heater = 33;
     Lira.Root lira = 34;
     Power.Root power = 35;
     PMU.Root pmu = 36;
+    Heater.Root heater = 37;
   }
 }
 

@@ -317,3 +317,83 @@ class JonOpaquePayload(_message.Message):
     version: JonOpaquePayloadVersion
     payload: bytes
     def __init__(self, type_uuid: _Optional[str] = ..., version: _Optional[_Union[JonOpaquePayloadVersion, _Mapping]] = ..., payload: _Optional[bytes] = ...) -> None: ...
+
+class JonGuiDataROI(_message.Message):
+    __slots__ = ("x1", "y1", "x2", "y2")
+    X1_FIELD_NUMBER: _ClassVar[int]
+    Y1_FIELD_NUMBER: _ClassVar[int]
+    X2_FIELD_NUMBER: _ClassVar[int]
+    Y2_FIELD_NUMBER: _ClassVar[int]
+    x1: float
+    y1: float
+    x2: float
+    y2: float
+    def __init__(self, x1: _Optional[float] = ..., y1: _Optional[float] = ..., x2: _Optional[float] = ..., y2: _Optional[float] = ...) -> None: ...
+
+class JonGuiDataSharpness(_message.Message):
+    __slots__ = ("value", "derivative_1", "derivative_2")
+    VALUE_FIELD_NUMBER: _ClassVar[int]
+    DERIVATIVE_1_FIELD_NUMBER: _ClassVar[int]
+    DERIVATIVE_2_FIELD_NUMBER: _ClassVar[int]
+    value: float
+    derivative_1: float
+    derivative_2: float
+    def __init__(self, value: _Optional[float] = ..., derivative_1: _Optional[float] = ..., derivative_2: _Optional[float] = ...) -> None: ...
+
+class JonGuiDataVector3(_message.Message):
+    __slots__ = ("x", "y", "z")
+    X_FIELD_NUMBER: _ClassVar[int]
+    Y_FIELD_NUMBER: _ClassVar[int]
+    Z_FIELD_NUMBER: _ClassVar[int]
+    x: float
+    y: float
+    z: float
+    def __init__(self, x: _Optional[float] = ..., y: _Optional[float] = ..., z: _Optional[float] = ...) -> None: ...
+
+class JonGuiDataQuaternion(_message.Message):
+    __slots__ = ("w", "x", "y", "z")
+    W_FIELD_NUMBER: _ClassVar[int]
+    X_FIELD_NUMBER: _ClassVar[int]
+    Y_FIELD_NUMBER: _ClassVar[int]
+    Z_FIELD_NUMBER: _ClassVar[int]
+    w: float
+    x: float
+    y: float
+    z: float
+    def __init__(self, w: _Optional[float] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., z: _Optional[float] = ...) -> None: ...
+
+class JonGuiDataTransform3D(_message.Message):
+    __slots__ = ("position", "orientation", "linear_velocity", "angular_velocity")
+    POSITION_FIELD_NUMBER: _ClassVar[int]
+    ORIENTATION_FIELD_NUMBER: _ClassVar[int]
+    LINEAR_VELOCITY_FIELD_NUMBER: _ClassVar[int]
+    ANGULAR_VELOCITY_FIELD_NUMBER: _ClassVar[int]
+    position: JonGuiDataVector3
+    orientation: JonGuiDataQuaternion
+    linear_velocity: JonGuiDataVector3
+    angular_velocity: JonGuiDataVector3
+    def __init__(self, position: _Optional[_Union[JonGuiDataVector3, _Mapping]] = ..., orientation: _Optional[_Union[JonGuiDataQuaternion, _Mapping]] = ..., linear_velocity: _Optional[_Union[JonGuiDataVector3, _Mapping]] = ..., angular_velocity: _Optional[_Union[JonGuiDataVector3, _Mapping]] = ...) -> None: ...
+
+class JonGuiDataTrackedObject(_message.Message):
+    __slots__ = ("uuid", "transform", "bounding_box", "state")
+    class TrackingState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+        __slots__ = ()
+        TRACKING_STATE_UNSPECIFIED: _ClassVar[JonGuiDataTrackedObject.TrackingState]
+        TRACKING_STATE_ACQUIRING: _ClassVar[JonGuiDataTrackedObject.TrackingState]
+        TRACKING_STATE_TRACKING: _ClassVar[JonGuiDataTrackedObject.TrackingState]
+        TRACKING_STATE_PREDICTED: _ClassVar[JonGuiDataTrackedObject.TrackingState]
+        TRACKING_STATE_LOST: _ClassVar[JonGuiDataTrackedObject.TrackingState]
+    TRACKING_STATE_UNSPECIFIED: JonGuiDataTrackedObject.TrackingState
+    TRACKING_STATE_ACQUIRING: JonGuiDataTrackedObject.TrackingState
+    TRACKING_STATE_TRACKING: JonGuiDataTrackedObject.TrackingState
+    TRACKING_STATE_PREDICTED: JonGuiDataTrackedObject.TrackingState
+    TRACKING_STATE_LOST: JonGuiDataTrackedObject.TrackingState
+    UUID_FIELD_NUMBER: _ClassVar[int]
+    TRANSFORM_FIELD_NUMBER: _ClassVar[int]
+    BOUNDING_BOX_FIELD_NUMBER: _ClassVar[int]
+    STATE_FIELD_NUMBER: _ClassVar[int]
+    uuid: str
+    transform: JonGuiDataTransform3D
+    bounding_box: JonGuiDataROI
+    state: JonGuiDataTrackedObject.TrackingState
+    def __init__(self, uuid: _Optional[str] = ..., transform: _Optional[_Union[JonGuiDataTransform3D, _Mapping]] = ..., bounding_box: _Optional[_Union[JonGuiDataROI, _Mapping]] = ..., state: _Optional[_Union[JonGuiDataTrackedObject.TrackingState, str]] = ...) -> None: ...

@@ -4,8 +4,8 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 ## Features
 
-- **Multi-language support**: C (nanopb), C++, Go, Python, TypeScript, Rust, and Java
-- **Buf.validate support**: Go, Java, and TypeScript (validated) bindings include validation support
+- **Multi-language support**: C (nanopb), C++, Go, Kotlin, Python, TypeScript, Rust, and Java
+- **Buf.validate support**: Go, Kotlin, Java, and TypeScript (validated) bindings include validation support
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Sequential generation**: All languages generated in a single GitHub Actions job
 - **Automatic distribution**: Generated code pushed to language-specific repositories
@@ -70,6 +70,7 @@ Generated bindings are automatically distributed to dedicated repositories:
 | C (nanopb) | [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c) | Header files |
 | C++ | [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp) | Header files |
 | Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) | Go module |
+| Kotlin | [jettison_proto_kotlin](https://github.com/lpportorino/jettison_proto_kotlin) | Maven/Gradle |
 | Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) | Python package |
 | TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) | npm package |
 | TypeScript (validated) | [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es) | npm package |
@@ -86,6 +87,7 @@ output/
 ├── c/                    # C bindings (nanopb)
 ├── cpp/                  # C++ bindings
 ├── go/                   # Go bindings with buf.validate support
+├── kotlin/               # Kotlin bindings with buf.validate support
 ├── python/               # Python bindings with type stubs
 ├── typescript/           # TypeScript bindings (ts-proto, no validation)
 ├── typescript-validated/ # TypeScript bindings with protovalidate-es
@@ -94,7 +96,7 @@ output/
 └── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
 ```
 
-**Note**: Go, Java, and TypeScript-validated bindings include buf.validate support.
+**Note**: Go, Kotlin, Java, and TypeScript-validated bindings include buf.validate support.
 
 
 ## Language-Specific Features
@@ -114,6 +116,12 @@ output/
 - Validation metadata embedded in the generated code
 - Java 17+ compatible code
 - Runtime validation requires protovalidate-java library
+
+### Kotlin
+- Generated using buf with remote BSR plugin (buf.build/protocolbuffers/kotlin)
+- buf.validate annotations preserved for runtime validation
+- Generates Kotlin-specific protobuf classes with DSL builders
+- Runtime validation requires protovalidate-kotlin library
 
 ### TypeScript
 - **Standard (ts-proto)**: Idiomatic TypeScript without validation
@@ -177,6 +185,7 @@ For automated distribution, configure these deploy keys as repository secrets:
 - `C_PUSH` - Deploy key for jettison_proto_c
 - `CPP_PUSH` - Deploy key for jettison_proto_cpp
 - `GO_PUSH` - Deploy key for jettison_proto_go
+- `KOTLIN_PUSH` - Deploy key for jettison_proto_kotlin
 - `PYTHON_PUSH` - Deploy key for jettison_proto_python
 - `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
 - `PUSH_TO_PROTOVALIDATE_ES` - Deploy key for jettison_protovalidate_es

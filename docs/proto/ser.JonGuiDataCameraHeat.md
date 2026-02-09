@@ -28,10 +28,11 @@ Represents the complete operational and configuration state of the thermal/infra
 | 9 | fx_mode | [[proto/ser.JonGuiDataFxModeHeat]] | defined enum value only |
 | 10 | digital_zoom_level | double | >= 1 |
 | 11 | clahe_level | double | >= 0, <= 1 |
-| 12 | horizontal_fov_degrees | double | > 0, < 360 |
-| 13 | vertical_fov_degrees | double | > 0, < 360 |
+| 12 | horizontal_fov_degrees | double | >= 0, < 360 |
+| 13 | vertical_fov_degrees | double | >= 0, < 360 |
 | 14 | is_started | bool | - |
 | 15 | meteo | [[proto/ser.JonGuiDataMeteo]] | - |
+| 16 | capture_monotonic_us | uint64 | - |
 
 
 
@@ -71,6 +72,17 @@ Provides real-time thermal camera state including AGC mode, filter, zoom levels,
 ### meteo (#15)
 
 Local environmental sensor data from the thermal camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
+
+
+### capture_monotonic_us (#16)
+
+CLOCK_MONOTONIC timestamp in microseconds, stamped when state is pushed to SHM in the sync timer. Approximates when the data was last captured.
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
+- **Unit:** us
 
 
 

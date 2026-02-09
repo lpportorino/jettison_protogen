@@ -109,8 +109,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update C bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -161,8 +161,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update C++ bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -217,8 +217,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Go bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -270,8 +270,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Python bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -326,8 +326,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update TypeScript bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -444,8 +444,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Rust bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -494,12 +494,62 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update Java bindings from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
           echo "JAVA_PUSH secret not configured, skipping"
+        fi
+
+    # Push to Kotlin repository
+    - name: Push to jettison_proto_kotlin
+      run: |
+        set -e  # Exit on any error
+        if [ -n "${{ secrets.KOTLIN_PUSH }}" ]; then
+          # Clean up any existing target-repo directory
+          rm -rf target-repo
+
+          # Clone via HTTPS using GitHub token for authentication
+          echo "Cloning repository..."
+          git clone https://${{ github.actor }}:${{ github.token }}@github.com/lpportorino/jettison_proto_kotlin.git target-repo || {
+            echo "Failed to clone repository"
+            exit 1
+          }
+
+          cd target-repo
+
+          # Setup SSH key for pushing
+          mkdir -p ~/.ssh
+          echo "${{ secrets.KOTLIN_PUSH }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+          # Configure git to use SSH for push
+          git remote set-url origin git@github.com:lpportorino/jettison_proto_kotlin.git
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Update files
+          rm -rf *.kt com/ org/
+          cp -r ../output/kotlin/* .
+
+          echo "# Jettison Proto Kotlin Bindings" > README.md
+          echo "" >> README.md
+          echo "Auto-generated Kotlin bindings with buf.validate support." >> README.md
+          echo "" >> README.md
+          echo "Generated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+          echo "Commit: ${{ github.sha }}" >> README.md
+
+          git add -A
+          git diff --staged --quiet || {
+            git commit -m "Update Kotlin bindings from ${{ github.sha }}"
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
+          }
+        else
+          echo "KOTLIN_PUSH secret not configured, skipping"
         fi
 
     # Push to JSON descriptors repository
@@ -544,8 +594,8 @@ jobs:
           git add -A
           git diff --staged --quiet || {
             git commit -m "Update JSON descriptors from ${{ github.sha }}"
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519" git push
           }
         else
@@ -580,6 +630,7 @@ jobs:
         - C (nanopb)
         - C++ (with buf.validate)
         - Go (with buf.validate)
+        - Kotlin (with buf.validate)
         - Python
         - TypeScript
         - TypeScript-validated (with protovalidate-es)
@@ -590,8 +641,8 @@ jobs:
         Commit: ${{ github.sha }}"
 
           if [ -n "${{ secrets.SELF_PUSH }}" ]; then
-            # Pull latest changes before pushing to avoid rejection
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git pull --rebase
+            # Pull latest changes before pushing to avoid rejection (skip if remote is empty)
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git pull --rebase || true
             GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519_self" git push
           else
             echo "Warning: SELF_PUSH not configured, cannot push to main repo"
@@ -604,7 +655,7 @@ jobs:
       run: |
         # Create tarballs for release
         mkdir -p release-artifacts
-        for lang in c cpp go python typescript rust java json-descriptors; do
+        for lang in c cpp go kotlin python typescript rust java json-descriptors; do
           if [ -d "output/$lang" ] && [ "$(ls -A output/$lang)" ]; then
             tar czf "release-artifacts/proto-${lang}.tar.gz" -C output "$lang"
           fi
@@ -626,6 +677,7 @@ jobs:
         - C (nanopb) - [jettison_proto_c](https://github.com/lpportorico/jettison_proto_c)
         - C++ (with buf.validate) - [jettison_proto_cpp](https://github.com/lpportorico/jettison_proto_cpp)
         - Go (with buf.validate) - [jettison_proto_go](https://github.com/lpportorico/jettison_proto_go)
+        - Kotlin (with buf.validate) - [jettison_proto_kotlin](https://github.com/lpportorico/jettison_proto_kotlin)
         - Python - [jettison_proto_python](https://github.com/lpportorico/jettison_proto_python)
         - TypeScript - [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript)
         - TypeScript (validated) - [jettison_protovalidate_es](https://github.com/lpportorico/jettison_protovalidate_es)

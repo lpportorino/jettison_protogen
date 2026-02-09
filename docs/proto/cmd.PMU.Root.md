@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-*No description yet.*
+Root command container for the Power Management Unit. Contains all PMU-related commands as a required oneof including lifecycle control, charging, heater, and sensor queries.
 
 ## Fields
 
@@ -36,6 +36,25 @@ type: message
 ### cmd (required)
 
 Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
+
+
+
+
+## Interaction
+
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
+
+
+### Purpose
+
+Container message that wraps all PMU commands. Exactly one command must be set.
+
+
+### Related State
+
+- [[proto/ser.JonGuiDataPMU]]
+
 
 
 

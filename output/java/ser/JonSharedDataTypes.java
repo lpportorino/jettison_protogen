@@ -5206,6 +5206,5477 @@ public final class JonSharedDataTypes {
 
   }
 
+  public interface JonGuiDataROIOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataROI)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    double getX1();
+
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    double getY1();
+
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    double getX2();
+
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    double getY2();
+  }
+  /**
+   * <pre>
+   * Region of Interest for camera operations (focus, track, zoom, fx).
+   * Coordinates are normalized: -1.0 (left/top) to 1.0 (right/bottom).
+   * Center is (0, 0).
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataROI}
+   */
+  public static final class JonGuiDataROI extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataROI)
+      JonGuiDataROIOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataROI.class.getName());
+    }
+    // Use JonGuiDataROI.newBuilder() to construct.
+    private JonGuiDataROI(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataROI() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataROI_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataROI_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataROI.class, ser.JonSharedDataTypes.JonGuiDataROI.Builder.class);
+    }
+
+    public static final int X1_FIELD_NUMBER = 1;
+    private double x1_ = 0D;
+    /**
+     * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x1.
+     */
+    @java.lang.Override
+    public double getX1() {
+      return x1_;
+    }
+
+    public static final int Y1_FIELD_NUMBER = 2;
+    private double y1_ = 0D;
+    /**
+     * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y1.
+     */
+    @java.lang.Override
+    public double getY1() {
+      return y1_;
+    }
+
+    public static final int X2_FIELD_NUMBER = 3;
+    private double x2_ = 0D;
+    /**
+     * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The x2.
+     */
+    @java.lang.Override
+    public double getX2() {
+      return x2_;
+    }
+
+    public static final int Y2_FIELD_NUMBER = 4;
+    private double y2_ = 0D;
+    /**
+     * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The y2.
+     */
+    @java.lang.Override
+    public double getY2() {
+      return y2_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        output.writeDouble(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        output.writeDouble(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        output.writeDouble(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        output.writeDouble(4, y2_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(x1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, x1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, y1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, x2_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, y2_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataROI)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataROI other = (ser.JonSharedDataTypes.JonGuiDataROI) obj;
+
+      if (java.lang.Double.doubleToLongBits(getX1())
+          != java.lang.Double.doubleToLongBits(
+              other.getX1())) return false;
+      if (java.lang.Double.doubleToLongBits(getY1())
+          != java.lang.Double.doubleToLongBits(
+              other.getY1())) return false;
+      if (java.lang.Double.doubleToLongBits(getX2())
+          != java.lang.Double.doubleToLongBits(
+              other.getX2())) return false;
+      if (java.lang.Double.doubleToLongBits(getY2())
+          != java.lang.Double.doubleToLongBits(
+              other.getY2())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX1()));
+      hash = (37 * hash) + Y1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY1()));
+      hash = (37 * hash) + X2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX2()));
+      hash = (37 * hash) + Y2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY2()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataROI parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataROI prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Region of Interest for camera operations (focus, track, zoom, fx).
+     * Coordinates are normalized: -1.0 (left/top) to 1.0 (right/bottom).
+     * Center is (0, 0).
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataROI}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataROI)
+        ser.JonSharedDataTypes.JonGuiDataROIOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataROI_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataROI_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataROI.class, ser.JonSharedDataTypes.JonGuiDataROI.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataROI.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x1_ = 0D;
+        y1_ = 0D;
+        x2_ = 0D;
+        y2_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataROI_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataROI getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataROI build() {
+        ser.JonSharedDataTypes.JonGuiDataROI result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataROI buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataROI result = new ser.JonSharedDataTypes.JonGuiDataROI(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataROI result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x1_ = x1_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y1_ = y1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.x2_ = x2_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.y2_ = y2_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataROI) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataROI)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataROI other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) return this;
+        if (other.getX1() != 0D) {
+          setX1(other.getX1());
+        }
+        if (other.getY1() != 0D) {
+          setY1(other.getY1());
+        }
+        if (other.getX2() != 0D) {
+          setX2(other.getX2());
+        }
+        if (other.getY2() != 0D) {
+          setY2(other.getY2());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                x1_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                y1_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                x2_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 33: {
+                y2_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 33
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double x1_ ;
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x1.
+       */
+      @java.lang.Override
+      public double getX1() {
+        return x1_;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX1(double value) {
+
+        x1_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x1 = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX1() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y1_ ;
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y1.
+       */
+      @java.lang.Override
+      public double getY1() {
+        return y1_;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY1(double value) {
+
+        y1_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y1 = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY1() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double x2_ ;
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The x2.
+       */
+      @java.lang.Override
+      public double getX2() {
+        return x2_;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The x2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX2(double value) {
+
+        x2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x2 = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        x2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y2_ ;
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The y2.
+       */
+      @java.lang.Override
+      public double getY2() {
+        return y2_;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The y2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY2(double value) {
+
+        y2_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y2 = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY2() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        y2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataROI)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataROI)
+    private static final ser.JonSharedDataTypes.JonGuiDataROI DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataROI();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataROI getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataROI>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataROI>() {
+      @java.lang.Override
+      public JonGuiDataROI parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataROI> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataROI> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface JonGuiDataSharpnessOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataSharpness)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The value.
+     */
+    double getValue();
+
+    /**
+     * <pre>
+     * First derivative (rate of change)
+     * </pre>
+     *
+     * <code>double derivative_1 = 2;</code>
+     * @return The derivative1.
+     */
+    double getDerivative1();
+
+    /**
+     * <pre>
+     * Second derivative (acceleration)
+     * </pre>
+     *
+     * <code>double derivative_2 = 3;</code>
+     * @return The derivative2.
+     */
+    double getDerivative2();
+  }
+  /**
+   * <pre>
+   * Image sharpness metrics with temporal derivatives.
+   * All values normalized 0.0-1.0 where 1.0 is maximum sharpness.
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataSharpness}
+   */
+  public static final class JonGuiDataSharpness extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataSharpness)
+      JonGuiDataSharpnessOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataSharpness.class.getName());
+    }
+    // Use JonGuiDataSharpness.newBuilder() to construct.
+    private JonGuiDataSharpness(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataSharpness() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataSharpness_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataSharpness_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataSharpness.class, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder.class);
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private double value_ = 0D;
+    /**
+     * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public double getValue() {
+      return value_;
+    }
+
+    public static final int DERIVATIVE_1_FIELD_NUMBER = 2;
+    private double derivative1_ = 0D;
+    /**
+     * <pre>
+     * First derivative (rate of change)
+     * </pre>
+     *
+     * <code>double derivative_1 = 2;</code>
+     * @return The derivative1.
+     */
+    @java.lang.Override
+    public double getDerivative1() {
+      return derivative1_;
+    }
+
+    public static final int DERIVATIVE_2_FIELD_NUMBER = 3;
+    private double derivative2_ = 0D;
+    /**
+     * <pre>
+     * Second derivative (acceleration)
+     * </pre>
+     *
+     * <code>double derivative_2 = 3;</code>
+     * @return The derivative2.
+     */
+    @java.lang.Override
+    public double getDerivative2() {
+      return derivative2_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        output.writeDouble(1, value_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(derivative1_) != 0) {
+        output.writeDouble(2, derivative1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(derivative2_) != 0) {
+        output.writeDouble(3, derivative2_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(value_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, value_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(derivative1_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, derivative1_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(derivative2_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, derivative2_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataSharpness)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataSharpness other = (ser.JonSharedDataTypes.JonGuiDataSharpness) obj;
+
+      if (java.lang.Double.doubleToLongBits(getValue())
+          != java.lang.Double.doubleToLongBits(
+              other.getValue())) return false;
+      if (java.lang.Double.doubleToLongBits(getDerivative1())
+          != java.lang.Double.doubleToLongBits(
+              other.getDerivative1())) return false;
+      if (java.lang.Double.doubleToLongBits(getDerivative2())
+          != java.lang.Double.doubleToLongBits(
+              other.getDerivative2())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getValue()));
+      hash = (37 * hash) + DERIVATIVE_1_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getDerivative1()));
+      hash = (37 * hash) + DERIVATIVE_2_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getDerivative2()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataSharpness prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Image sharpness metrics with temporal derivatives.
+     * All values normalized 0.0-1.0 where 1.0 is maximum sharpness.
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataSharpness}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataSharpness)
+        ser.JonSharedDataTypes.JonGuiDataSharpnessOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataSharpness_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataSharpness_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataSharpness.class, ser.JonSharedDataTypes.JonGuiDataSharpness.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataSharpness.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        value_ = 0D;
+        derivative1_ = 0D;
+        derivative2_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataSharpness_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataSharpness getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataSharpness build() {
+        ser.JonSharedDataTypes.JonGuiDataSharpness result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataSharpness buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataSharpness result = new ser.JonSharedDataTypes.JonGuiDataSharpness(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataSharpness result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.value_ = value_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.derivative1_ = derivative1_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.derivative2_ = derivative2_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataSharpness) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataSharpness)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataSharpness other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataSharpness.getDefaultInstance()) return this;
+        if (other.getValue() != 0D) {
+          setValue(other.getValue());
+        }
+        if (other.getDerivative1() != 0D) {
+          setDerivative1(other.getDerivative1());
+        }
+        if (other.getDerivative2() != 0D) {
+          setDerivative2(other.getDerivative2());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                value_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                derivative1_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                derivative2_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double value_ ;
+      /**
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The value.
+       */
+      @java.lang.Override
+      public double getValue() {
+        return value_;
+      }
+      /**
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValue(double value) {
+
+        value_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double value = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        value_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double derivative1_ ;
+      /**
+       * <pre>
+       * First derivative (rate of change)
+       * </pre>
+       *
+       * <code>double derivative_1 = 2;</code>
+       * @return The derivative1.
+       */
+      @java.lang.Override
+      public double getDerivative1() {
+        return derivative1_;
+      }
+      /**
+       * <pre>
+       * First derivative (rate of change)
+       * </pre>
+       *
+       * <code>double derivative_1 = 2;</code>
+       * @param value The derivative1 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDerivative1(double value) {
+
+        derivative1_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * First derivative (rate of change)
+       * </pre>
+       *
+       * <code>double derivative_1 = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDerivative1() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        derivative1_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double derivative2_ ;
+      /**
+       * <pre>
+       * Second derivative (acceleration)
+       * </pre>
+       *
+       * <code>double derivative_2 = 3;</code>
+       * @return The derivative2.
+       */
+      @java.lang.Override
+      public double getDerivative2() {
+        return derivative2_;
+      }
+      /**
+       * <pre>
+       * Second derivative (acceleration)
+       * </pre>
+       *
+       * <code>double derivative_2 = 3;</code>
+       * @param value The derivative2 to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDerivative2(double value) {
+
+        derivative2_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Second derivative (acceleration)
+       * </pre>
+       *
+       * <code>double derivative_2 = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDerivative2() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        derivative2_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataSharpness)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataSharpness)
+    private static final ser.JonSharedDataTypes.JonGuiDataSharpness DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataSharpness();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataSharpness getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataSharpness>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataSharpness>() {
+      @java.lang.Override
+      public JonGuiDataSharpness parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataSharpness> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataSharpness> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataSharpness getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface JonGuiDataVector3OrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataVector3)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    double getX();
+
+    /**
+     * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    double getY();
+
+    /**
+     * <code>double z = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The z.
+     */
+    double getZ();
+  }
+  /**
+   * <pre>
+   * 3D vector (position or velocity)
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataVector3}
+   */
+  public static final class JonGuiDataVector3 extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataVector3)
+      JonGuiDataVector3OrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataVector3.class.getName());
+    }
+    // Use JonGuiDataVector3.newBuilder() to construct.
+    private JonGuiDataVector3(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataVector3() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataVector3_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataVector3_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataVector3.class, ser.JonSharedDataTypes.JonGuiDataVector3.Builder.class);
+    }
+
+    public static final int X_FIELD_NUMBER = 1;
+    private double x_ = 0D;
+    /**
+     * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    @java.lang.Override
+    public double getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 2;
+    private double y_ = 0D;
+    /**
+     * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    @java.lang.Override
+    public double getY() {
+      return y_;
+    }
+
+    public static final int Z_FIELD_NUMBER = 3;
+    private double z_ = 0D;
+    /**
+     * <code>double z = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The z.
+     */
+    @java.lang.Override
+    public double getZ() {
+      return z_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        output.writeDouble(1, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        output.writeDouble(2, y_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(z_) != 0) {
+        output.writeDouble(3, z_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, y_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(z_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, z_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataVector3)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataVector3 other = (ser.JonSharedDataTypes.JonGuiDataVector3) obj;
+
+      if (java.lang.Double.doubleToLongBits(getX())
+          != java.lang.Double.doubleToLongBits(
+              other.getX())) return false;
+      if (java.lang.Double.doubleToLongBits(getY())
+          != java.lang.Double.doubleToLongBits(
+              other.getY())) return false;
+      if (java.lang.Double.doubleToLongBits(getZ())
+          != java.lang.Double.doubleToLongBits(
+              other.getZ())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX()));
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY()));
+      hash = (37 * hash) + Z_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getZ()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataVector3 prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * 3D vector (position or velocity)
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataVector3}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataVector3)
+        ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataVector3_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataVector3_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataVector3.class, ser.JonSharedDataTypes.JonGuiDataVector3.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataVector3.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        x_ = 0D;
+        y_ = 0D;
+        z_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataVector3_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataVector3 getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataVector3 build() {
+        ser.JonSharedDataTypes.JonGuiDataVector3 result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataVector3 buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataVector3 result = new ser.JonSharedDataTypes.JonGuiDataVector3(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataVector3 result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.x_ = x_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.y_ = y_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.z_ = z_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataVector3) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataVector3)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataVector3 other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance()) return this;
+        if (other.getX() != 0D) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0D) {
+          setY(other.getY());
+        }
+        if (other.getZ() != 0D) {
+          setZ(other.getZ());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                x_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                y_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                z_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double x_ ;
+      /**
+       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The x.
+       */
+      @java.lang.Override
+      public double getX() {
+        return x_;
+      }
+      /**
+       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The x to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX(double value) {
+
+        x_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double x = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y_ ;
+      /**
+       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The y.
+       */
+      @java.lang.Override
+      public double getY() {
+        return y_;
+      }
+      /**
+       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The y to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY(double value) {
+
+        y_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double y = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double z_ ;
+      /**
+       * <code>double z = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The z.
+       */
+      @java.lang.Override
+      public double getZ() {
+        return z_;
+      }
+      /**
+       * <code>double z = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The z to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZ(double value) {
+
+        z_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>double z = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZ() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        z_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataVector3)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataVector3)
+    private static final ser.JonSharedDataTypes.JonGuiDataVector3 DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataVector3();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataVector3 getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataVector3>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataVector3>() {
+      @java.lang.Override
+      public JonGuiDataVector3 parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataVector3> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataVector3> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3 getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface JonGuiDataQuaternionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataQuaternion)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * scalar (cos(θ/2))
+     * </pre>
+     *
+     * <code>double w = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The w.
+     */
+    double getW();
+
+    /**
+     * <pre>
+     * vector i
+     * </pre>
+     *
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    double getX();
+
+    /**
+     * <pre>
+     * vector j
+     * </pre>
+     *
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    double getY();
+
+    /**
+     * <pre>
+     * vector k
+     * </pre>
+     *
+     * <code>double z = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The z.
+     */
+    double getZ();
+  }
+  /**
+   * <pre>
+   * Unit quaternion for 3D rotation (w + xi + yj + zk)
+   * Must be normalized: w² + x² + y² + z² = 1
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataQuaternion}
+   */
+  public static final class JonGuiDataQuaternion extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataQuaternion)
+      JonGuiDataQuaternionOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataQuaternion.class.getName());
+    }
+    // Use JonGuiDataQuaternion.newBuilder() to construct.
+    private JonGuiDataQuaternion(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataQuaternion() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataQuaternion_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataQuaternion_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataQuaternion.class, ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder.class);
+    }
+
+    public static final int W_FIELD_NUMBER = 1;
+    private double w_ = 0D;
+    /**
+     * <pre>
+     * scalar (cos(θ/2))
+     * </pre>
+     *
+     * <code>double w = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The w.
+     */
+    @java.lang.Override
+    public double getW() {
+      return w_;
+    }
+
+    public static final int X_FIELD_NUMBER = 2;
+    private double x_ = 0D;
+    /**
+     * <pre>
+     * vector i
+     * </pre>
+     *
+     * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The x.
+     */
+    @java.lang.Override
+    public double getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 3;
+    private double y_ = 0D;
+    /**
+     * <pre>
+     * vector j
+     * </pre>
+     *
+     * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The y.
+     */
+    @java.lang.Override
+    public double getY() {
+      return y_;
+    }
+
+    public static final int Z_FIELD_NUMBER = 4;
+    private double z_ = 0D;
+    /**
+     * <pre>
+     * vector k
+     * </pre>
+     *
+     * <code>double z = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The z.
+     */
+    @java.lang.Override
+    public double getZ() {
+      return z_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (java.lang.Double.doubleToRawLongBits(w_) != 0) {
+        output.writeDouble(1, w_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        output.writeDouble(2, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        output.writeDouble(3, y_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(z_) != 0) {
+        output.writeDouble(4, z_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (java.lang.Double.doubleToRawLongBits(w_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(1, w_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(x_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, x_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(y_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, y_);
+      }
+      if (java.lang.Double.doubleToRawLongBits(z_) != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, z_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataQuaternion)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataQuaternion other = (ser.JonSharedDataTypes.JonGuiDataQuaternion) obj;
+
+      if (java.lang.Double.doubleToLongBits(getW())
+          != java.lang.Double.doubleToLongBits(
+              other.getW())) return false;
+      if (java.lang.Double.doubleToLongBits(getX())
+          != java.lang.Double.doubleToLongBits(
+              other.getX())) return false;
+      if (java.lang.Double.doubleToLongBits(getY())
+          != java.lang.Double.doubleToLongBits(
+              other.getY())) return false;
+      if (java.lang.Double.doubleToLongBits(getZ())
+          != java.lang.Double.doubleToLongBits(
+              other.getZ())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + W_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getW()));
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getX()));
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getY()));
+      hash = (37 * hash) + Z_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          java.lang.Double.doubleToLongBits(getZ()));
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataQuaternion prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Unit quaternion for 3D rotation (w + xi + yj + zk)
+     * Must be normalized: w² + x² + y² + z² = 1
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataQuaternion}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataQuaternion)
+        ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataQuaternion_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataQuaternion_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataQuaternion.class, ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataQuaternion.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        w_ = 0D;
+        x_ = 0D;
+        y_ = 0D;
+        z_ = 0D;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataQuaternion_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataQuaternion getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataQuaternion build() {
+        ser.JonSharedDataTypes.JonGuiDataQuaternion result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataQuaternion buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataQuaternion result = new ser.JonSharedDataTypes.JonGuiDataQuaternion(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataQuaternion result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.w_ = w_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.x_ = x_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.y_ = y_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.z_ = z_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataQuaternion) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataQuaternion)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataQuaternion other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance()) return this;
+        if (other.getW() != 0D) {
+          setW(other.getW());
+        }
+        if (other.getX() != 0D) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0D) {
+          setY(other.getY());
+        }
+        if (other.getZ() != 0D) {
+          setZ(other.getZ());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 9: {
+                w_ = input.readDouble();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 9
+              case 17: {
+                x_ = input.readDouble();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 17
+              case 25: {
+                y_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              case 33: {
+                z_ = input.readDouble();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 33
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private double w_ ;
+      /**
+       * <pre>
+       * scalar (cos(θ/2))
+       * </pre>
+       *
+       * <code>double w = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The w.
+       */
+      @java.lang.Override
+      public double getW() {
+        return w_;
+      }
+      /**
+       * <pre>
+       * scalar (cos(θ/2))
+       * </pre>
+       *
+       * <code>double w = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The w to set.
+       * @return This builder for chaining.
+       */
+      public Builder setW(double value) {
+
+        w_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * scalar (cos(θ/2))
+       * </pre>
+       *
+       * <code>double w = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearW() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        w_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double x_ ;
+      /**
+       * <pre>
+       * vector i
+       * </pre>
+       *
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The x.
+       */
+      @java.lang.Override
+      public double getX() {
+        return x_;
+      }
+      /**
+       * <pre>
+       * vector i
+       * </pre>
+       *
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The x to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX(double value) {
+
+        x_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * vector i
+       * </pre>
+       *
+       * <code>double x = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        x_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y_ ;
+      /**
+       * <pre>
+       * vector j
+       * </pre>
+       *
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The y.
+       */
+      @java.lang.Override
+      public double getY() {
+        return y_;
+      }
+      /**
+       * <pre>
+       * vector j
+       * </pre>
+       *
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+       * @param value The y to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY(double value) {
+
+        y_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * vector j
+       * </pre>
+       *
+       * <code>double y = 3 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double z_ ;
+      /**
+       * <pre>
+       * vector k
+       * </pre>
+       *
+       * <code>double z = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The z.
+       */
+      @java.lang.Override
+      public double getZ() {
+        return z_;
+      }
+      /**
+       * <pre>
+       * vector k
+       * </pre>
+       *
+       * <code>double z = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The z to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZ(double value) {
+
+        z_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * vector k
+       * </pre>
+       *
+       * <code>double z = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZ() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        z_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataQuaternion)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataQuaternion)
+    private static final ser.JonSharedDataTypes.JonGuiDataQuaternion DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataQuaternion();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataQuaternion getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataQuaternion>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataQuaternion>() {
+      @java.lang.Override
+      public JonGuiDataQuaternion parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataQuaternion> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataQuaternion> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataQuaternion getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface JonGuiDataTransform3DOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataTransform3D)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * meters
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the position field is set.
+     */
+    boolean hasPosition();
+    /**
+     * <pre>
+     * meters
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The position.
+     */
+    ser.JonSharedDataTypes.JonGuiDataVector3 getPosition();
+    /**
+     * <pre>
+     * meters
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getPositionOrBuilder();
+
+    /**
+     * <pre>
+     * unit quaternion
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the orientation field is set.
+     */
+    boolean hasOrientation();
+    /**
+     * <pre>
+     * unit quaternion
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The orientation.
+     */
+    ser.JonSharedDataTypes.JonGuiDataQuaternion getOrientation();
+    /**
+     * <pre>
+     * unit quaternion
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder getOrientationOrBuilder();
+
+    /**
+     * <pre>
+     * m/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the linearVelocity field is set.
+     */
+    boolean hasLinearVelocity();
+    /**
+     * <pre>
+     * m/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The linearVelocity.
+     */
+    ser.JonSharedDataTypes.JonGuiDataVector3 getLinearVelocity();
+    /**
+     * <pre>
+     * m/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getLinearVelocityOrBuilder();
+
+    /**
+     * <pre>
+     * rad/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the angularVelocity field is set.
+     */
+    boolean hasAngularVelocity();
+    /**
+     * <pre>
+     * rad/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The angularVelocity.
+     */
+    ser.JonSharedDataTypes.JonGuiDataVector3 getAngularVelocity();
+    /**
+     * <pre>
+     * rad/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getAngularVelocityOrBuilder();
+  }
+  /**
+   * <pre>
+   * 3D rigid body transform with velocity.
+   * When present, all fields are required.
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataTransform3D}
+   */
+  public static final class JonGuiDataTransform3D extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataTransform3D)
+      JonGuiDataTransform3DOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataTransform3D.class.getName());
+    }
+    // Use JonGuiDataTransform3D.newBuilder() to construct.
+    private JonGuiDataTransform3D(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataTransform3D() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTransform3D_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTransform3D_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataTransform3D.class, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int POSITION_FIELD_NUMBER = 1;
+    private ser.JonSharedDataTypes.JonGuiDataVector3 position_;
+    /**
+     * <pre>
+     * meters
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the position field is set.
+     */
+    @java.lang.Override
+    public boolean hasPosition() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * meters
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The position.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3 getPosition() {
+      return position_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : position_;
+    }
+    /**
+     * <pre>
+     * meters
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getPositionOrBuilder() {
+      return position_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : position_;
+    }
+
+    public static final int ORIENTATION_FIELD_NUMBER = 2;
+    private ser.JonSharedDataTypes.JonGuiDataQuaternion orientation_;
+    /**
+     * <pre>
+     * unit quaternion
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the orientation field is set.
+     */
+    @java.lang.Override
+    public boolean hasOrientation() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * unit quaternion
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The orientation.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataQuaternion getOrientation() {
+      return orientation_ == null ? ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance() : orientation_;
+    }
+    /**
+     * <pre>
+     * unit quaternion
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder getOrientationOrBuilder() {
+      return orientation_ == null ? ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance() : orientation_;
+    }
+
+    public static final int LINEAR_VELOCITY_FIELD_NUMBER = 3;
+    private ser.JonSharedDataTypes.JonGuiDataVector3 linearVelocity_;
+    /**
+     * <pre>
+     * m/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the linearVelocity field is set.
+     */
+    @java.lang.Override
+    public boolean hasLinearVelocity() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <pre>
+     * m/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The linearVelocity.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3 getLinearVelocity() {
+      return linearVelocity_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : linearVelocity_;
+    }
+    /**
+     * <pre>
+     * m/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getLinearVelocityOrBuilder() {
+      return linearVelocity_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : linearVelocity_;
+    }
+
+    public static final int ANGULAR_VELOCITY_FIELD_NUMBER = 4;
+    private ser.JonSharedDataTypes.JonGuiDataVector3 angularVelocity_;
+    /**
+     * <pre>
+     * rad/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the angularVelocity field is set.
+     */
+    @java.lang.Override
+    public boolean hasAngularVelocity() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <pre>
+     * rad/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The angularVelocity.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3 getAngularVelocity() {
+      return angularVelocity_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : angularVelocity_;
+    }
+    /**
+     * <pre>
+     * rad/s
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getAngularVelocityOrBuilder() {
+      return angularVelocity_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : angularVelocity_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(1, getPosition());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(2, getOrientation());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(3, getLinearVelocity());
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeMessage(4, getAngularVelocity());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getPosition());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getOrientation());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getLinearVelocity());
+      }
+      if (((bitField0_ & 0x00000008) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getAngularVelocity());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataTransform3D)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataTransform3D other = (ser.JonSharedDataTypes.JonGuiDataTransform3D) obj;
+
+      if (hasPosition() != other.hasPosition()) return false;
+      if (hasPosition()) {
+        if (!getPosition()
+            .equals(other.getPosition())) return false;
+      }
+      if (hasOrientation() != other.hasOrientation()) return false;
+      if (hasOrientation()) {
+        if (!getOrientation()
+            .equals(other.getOrientation())) return false;
+      }
+      if (hasLinearVelocity() != other.hasLinearVelocity()) return false;
+      if (hasLinearVelocity()) {
+        if (!getLinearVelocity()
+            .equals(other.getLinearVelocity())) return false;
+      }
+      if (hasAngularVelocity() != other.hasAngularVelocity()) return false;
+      if (hasAngularVelocity()) {
+        if (!getAngularVelocity()
+            .equals(other.getAngularVelocity())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasPosition()) {
+        hash = (37 * hash) + POSITION_FIELD_NUMBER;
+        hash = (53 * hash) + getPosition().hashCode();
+      }
+      if (hasOrientation()) {
+        hash = (37 * hash) + ORIENTATION_FIELD_NUMBER;
+        hash = (53 * hash) + getOrientation().hashCode();
+      }
+      if (hasLinearVelocity()) {
+        hash = (37 * hash) + LINEAR_VELOCITY_FIELD_NUMBER;
+        hash = (53 * hash) + getLinearVelocity().hashCode();
+      }
+      if (hasAngularVelocity()) {
+        hash = (37 * hash) + ANGULAR_VELOCITY_FIELD_NUMBER;
+        hash = (53 * hash) + getAngularVelocity().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataTransform3D prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * 3D rigid body transform with velocity.
+     * When present, all fields are required.
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataTransform3D}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataTransform3D)
+        ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTransform3D_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTransform3D_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataTransform3D.class, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataTransform3D.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getPositionFieldBuilder();
+          getOrientationFieldBuilder();
+          getLinearVelocityFieldBuilder();
+          getAngularVelocityFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        position_ = null;
+        if (positionBuilder_ != null) {
+          positionBuilder_.dispose();
+          positionBuilder_ = null;
+        }
+        orientation_ = null;
+        if (orientationBuilder_ != null) {
+          orientationBuilder_.dispose();
+          orientationBuilder_ = null;
+        }
+        linearVelocity_ = null;
+        if (linearVelocityBuilder_ != null) {
+          linearVelocityBuilder_.dispose();
+          linearVelocityBuilder_ = null;
+        }
+        angularVelocity_ = null;
+        if (angularVelocityBuilder_ != null) {
+          angularVelocityBuilder_.dispose();
+          angularVelocityBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTransform3D_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D build() {
+        ser.JonSharedDataTypes.JonGuiDataTransform3D result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataTransform3D result = new ser.JonSharedDataTypes.JonGuiDataTransform3D(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataTransform3D result) {
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.position_ = positionBuilder_ == null
+              ? position_
+              : positionBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.orientation_ = orientationBuilder_ == null
+              ? orientation_
+              : orientationBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.linearVelocity_ = linearVelocityBuilder_ == null
+              ? linearVelocity_
+              : linearVelocityBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.angularVelocity_ = angularVelocityBuilder_ == null
+              ? angularVelocity_
+              : angularVelocityBuilder_.build();
+          to_bitField0_ |= 0x00000008;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataTransform3D) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataTransform3D)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataTransform3D other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance()) return this;
+        if (other.hasPosition()) {
+          mergePosition(other.getPosition());
+        }
+        if (other.hasOrientation()) {
+          mergeOrientation(other.getOrientation());
+        }
+        if (other.hasLinearVelocity()) {
+          mergeLinearVelocity(other.getLinearVelocity());
+        }
+        if (other.hasAngularVelocity()) {
+          mergeAngularVelocity(other.getAngularVelocity());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                input.readMessage(
+                    getPositionFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    getOrientationFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getLinearVelocityFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 34: {
+                input.readMessage(
+                    getAngularVelocityFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private ser.JonSharedDataTypes.JonGuiDataVector3 position_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder> positionBuilder_;
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the position field is set.
+       */
+      public boolean hasPosition() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The position.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3 getPosition() {
+        if (positionBuilder_ == null) {
+          return position_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : position_;
+        } else {
+          return positionBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setPosition(ser.JonSharedDataTypes.JonGuiDataVector3 value) {
+        if (positionBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          position_ = value;
+        } else {
+          positionBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setPosition(
+          ser.JonSharedDataTypes.JonGuiDataVector3.Builder builderForValue) {
+        if (positionBuilder_ == null) {
+          position_ = builderForValue.build();
+        } else {
+          positionBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergePosition(ser.JonSharedDataTypes.JonGuiDataVector3 value) {
+        if (positionBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+            position_ != null &&
+            position_ != ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance()) {
+            getPositionBuilder().mergeFrom(value);
+          } else {
+            position_ = value;
+          }
+        } else {
+          positionBuilder_.mergeFrom(value);
+        }
+        if (position_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearPosition() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        position_ = null;
+        if (positionBuilder_ != null) {
+          positionBuilder_.dispose();
+          positionBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3.Builder getPositionBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getPositionFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getPositionOrBuilder() {
+        if (positionBuilder_ != null) {
+          return positionBuilder_.getMessageOrBuilder();
+        } else {
+          return position_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : position_;
+        }
+      }
+      /**
+       * <pre>
+       * meters
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 position = 1 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder> 
+          getPositionFieldBuilder() {
+        if (positionBuilder_ == null) {
+          positionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder>(
+                  getPosition(),
+                  getParentForChildren(),
+                  isClean());
+          position_ = null;
+        }
+        return positionBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataQuaternion orientation_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataQuaternion, ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder, ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder> orientationBuilder_;
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the orientation field is set.
+       */
+      public boolean hasOrientation() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The orientation.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataQuaternion getOrientation() {
+        if (orientationBuilder_ == null) {
+          return orientation_ == null ? ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance() : orientation_;
+        } else {
+          return orientationBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setOrientation(ser.JonSharedDataTypes.JonGuiDataQuaternion value) {
+        if (orientationBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          orientation_ = value;
+        } else {
+          orientationBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setOrientation(
+          ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder builderForValue) {
+        if (orientationBuilder_ == null) {
+          orientation_ = builderForValue.build();
+        } else {
+          orientationBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergeOrientation(ser.JonSharedDataTypes.JonGuiDataQuaternion value) {
+        if (orientationBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            orientation_ != null &&
+            orientation_ != ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance()) {
+            getOrientationBuilder().mergeFrom(value);
+          } else {
+            orientation_ = value;
+          }
+        } else {
+          orientationBuilder_.mergeFrom(value);
+        }
+        if (orientation_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearOrientation() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        orientation_ = null;
+        if (orientationBuilder_ != null) {
+          orientationBuilder_.dispose();
+          orientationBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder getOrientationBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getOrientationFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder getOrientationOrBuilder() {
+        if (orientationBuilder_ != null) {
+          return orientationBuilder_.getMessageOrBuilder();
+        } else {
+          return orientation_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataQuaternion.getDefaultInstance() : orientation_;
+        }
+      }
+      /**
+       * <pre>
+       * unit quaternion
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataQuaternion orientation = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataQuaternion, ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder, ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder> 
+          getOrientationFieldBuilder() {
+        if (orientationBuilder_ == null) {
+          orientationBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataQuaternion, ser.JonSharedDataTypes.JonGuiDataQuaternion.Builder, ser.JonSharedDataTypes.JonGuiDataQuaternionOrBuilder>(
+                  getOrientation(),
+                  getParentForChildren(),
+                  isClean());
+          orientation_ = null;
+        }
+        return orientationBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataVector3 linearVelocity_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder> linearVelocityBuilder_;
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the linearVelocity field is set.
+       */
+      public boolean hasLinearVelocity() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The linearVelocity.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3 getLinearVelocity() {
+        if (linearVelocityBuilder_ == null) {
+          return linearVelocity_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : linearVelocity_;
+        } else {
+          return linearVelocityBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setLinearVelocity(ser.JonSharedDataTypes.JonGuiDataVector3 value) {
+        if (linearVelocityBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          linearVelocity_ = value;
+        } else {
+          linearVelocityBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setLinearVelocity(
+          ser.JonSharedDataTypes.JonGuiDataVector3.Builder builderForValue) {
+        if (linearVelocityBuilder_ == null) {
+          linearVelocity_ = builderForValue.build();
+        } else {
+          linearVelocityBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergeLinearVelocity(ser.JonSharedDataTypes.JonGuiDataVector3 value) {
+        if (linearVelocityBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            linearVelocity_ != null &&
+            linearVelocity_ != ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance()) {
+            getLinearVelocityBuilder().mergeFrom(value);
+          } else {
+            linearVelocity_ = value;
+          }
+        } else {
+          linearVelocityBuilder_.mergeFrom(value);
+        }
+        if (linearVelocity_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearLinearVelocity() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        linearVelocity_ = null;
+        if (linearVelocityBuilder_ != null) {
+          linearVelocityBuilder_.dispose();
+          linearVelocityBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3.Builder getLinearVelocityBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getLinearVelocityFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getLinearVelocityOrBuilder() {
+        if (linearVelocityBuilder_ != null) {
+          return linearVelocityBuilder_.getMessageOrBuilder();
+        } else {
+          return linearVelocity_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : linearVelocity_;
+        }
+      }
+      /**
+       * <pre>
+       * m/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 linear_velocity = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder> 
+          getLinearVelocityFieldBuilder() {
+        if (linearVelocityBuilder_ == null) {
+          linearVelocityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder>(
+                  getLinearVelocity(),
+                  getParentForChildren(),
+                  isClean());
+          linearVelocity_ = null;
+        }
+        return linearVelocityBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataVector3 angularVelocity_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder> angularVelocityBuilder_;
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the angularVelocity field is set.
+       */
+      public boolean hasAngularVelocity() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The angularVelocity.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3 getAngularVelocity() {
+        if (angularVelocityBuilder_ == null) {
+          return angularVelocity_ == null ? ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : angularVelocity_;
+        } else {
+          return angularVelocityBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setAngularVelocity(ser.JonSharedDataTypes.JonGuiDataVector3 value) {
+        if (angularVelocityBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          angularVelocity_ = value;
+        } else {
+          angularVelocityBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setAngularVelocity(
+          ser.JonSharedDataTypes.JonGuiDataVector3.Builder builderForValue) {
+        if (angularVelocityBuilder_ == null) {
+          angularVelocity_ = builderForValue.build();
+        } else {
+          angularVelocityBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergeAngularVelocity(ser.JonSharedDataTypes.JonGuiDataVector3 value) {
+        if (angularVelocityBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            angularVelocity_ != null &&
+            angularVelocity_ != ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance()) {
+            getAngularVelocityBuilder().mergeFrom(value);
+          } else {
+            angularVelocity_ = value;
+          }
+        } else {
+          angularVelocityBuilder_.mergeFrom(value);
+        }
+        if (angularVelocity_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearAngularVelocity() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        angularVelocity_ = null;
+        if (angularVelocityBuilder_ != null) {
+          angularVelocityBuilder_.dispose();
+          angularVelocityBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3.Builder getAngularVelocityBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getAngularVelocityFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder getAngularVelocityOrBuilder() {
+        if (angularVelocityBuilder_ != null) {
+          return angularVelocityBuilder_.getMessageOrBuilder();
+        } else {
+          return angularVelocity_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataVector3.getDefaultInstance() : angularVelocity_;
+        }
+      }
+      /**
+       * <pre>
+       * rad/s
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataVector3 angular_velocity = 4 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder> 
+          getAngularVelocityFieldBuilder() {
+        if (angularVelocityBuilder_ == null) {
+          angularVelocityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataVector3, ser.JonSharedDataTypes.JonGuiDataVector3.Builder, ser.JonSharedDataTypes.JonGuiDataVector3OrBuilder>(
+                  getAngularVelocity(),
+                  getParentForChildren(),
+                  isClean());
+          angularVelocity_ = null;
+        }
+        return angularVelocityBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataTransform3D)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataTransform3D)
+    private static final ser.JonSharedDataTypes.JonGuiDataTransform3D DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataTransform3D();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTransform3D getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataTransform3D>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataTransform3D>() {
+      @java.lang.Override
+      public JonGuiDataTransform3D parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataTransform3D> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataTransform3D> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3D getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface JonGuiDataTrackedObjectOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ser.JonGuiDataTrackedObject)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * UUIDv7 identifier - stable across frames for the same object
+     * </pre>
+     *
+     * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The uuid.
+     */
+    java.lang.String getUuid();
+    /**
+     * <pre>
+     * UUIDv7 identifier - stable across frames for the same object
+     * </pre>
+     *
+     * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for uuid.
+     */
+    com.google.protobuf.ByteString
+        getUuidBytes();
+
+    /**
+     * <pre>
+     * 3D pose (position, orientation, velocities)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the transform field is set.
+     */
+    boolean hasTransform();
+    /**
+     * <pre>
+     * 3D pose (position, orientation, velocities)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The transform.
+     */
+    ser.JonSharedDataTypes.JonGuiDataTransform3D getTransform();
+    /**
+     * <pre>
+     * 3D pose (position, orientation, velocities)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getTransformOrBuilder();
+
+    /**
+     * <pre>
+     * 2D bounding box in image space (NDC coords -1 to 1)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the boundingBox field is set.
+     */
+    boolean hasBoundingBox();
+    /**
+     * <pre>
+     * 2D bounding box in image space (NDC coords -1 to 1)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The boundingBox.
+     */
+    ser.JonSharedDataTypes.JonGuiDataROI getBoundingBox();
+    /**
+     * <pre>
+     * 2D bounding box in image space (NDC coords -1 to 1)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getBoundingBoxOrBuilder();
+
+    /**
+     * <pre>
+     * Current tracking state
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for state.
+     */
+    int getStateValue();
+    /**
+     * <pre>
+     * Current tracking state
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The state.
+     */
+    ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState getState();
+  }
+  /**
+   * <pre>
+   * Tracked object - all fields required.
+   * If object is in the list, we have complete tracking data for it.
+   * UUID allows joining with external data sources (labels, classifications, etc.)
+   * </pre>
+   *
+   * Protobuf type {@code ser.JonGuiDataTrackedObject}
+   */
+  public static final class JonGuiDataTrackedObject extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ser.JonGuiDataTrackedObject)
+      JonGuiDataTrackedObjectOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        JonGuiDataTrackedObject.class.getName());
+    }
+    // Use JonGuiDataTrackedObject.newBuilder() to construct.
+    private JonGuiDataTrackedObject(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private JonGuiDataTrackedObject() {
+      uuid_ = "";
+      state_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTrackedObject_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTrackedObject_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ser.JonSharedDataTypes.JonGuiDataTrackedObject.class, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder.class);
+    }
+
+    /**
+     * <pre>
+     * Tracking state
+     * </pre>
+     *
+     * Protobuf enum {@code ser.JonGuiDataTrackedObject.TrackingState}
+     */
+    public enum TrackingState
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>TRACKING_STATE_UNSPECIFIED = 0;</code>
+       */
+      TRACKING_STATE_UNSPECIFIED(0),
+      /**
+       * <pre>
+       * Initial lock attempt
+       * </pre>
+       *
+       * <code>TRACKING_STATE_ACQUIRING = 1;</code>
+       */
+      TRACKING_STATE_ACQUIRING(1),
+      /**
+       * <pre>
+       * Actively tracking
+       * </pre>
+       *
+       * <code>TRACKING_STATE_TRACKING = 2;</code>
+       */
+      TRACKING_STATE_TRACKING(2),
+      /**
+       * <pre>
+       * Temporarily lost, using prediction
+       * </pre>
+       *
+       * <code>TRACKING_STATE_PREDICTED = 3;</code>
+       */
+      TRACKING_STATE_PREDICTED(3),
+      /**
+       * <pre>
+       * Lost track
+       * </pre>
+       *
+       * <code>TRACKING_STATE_LOST = 4;</code>
+       */
+      TRACKING_STATE_LOST(4),
+      UNRECOGNIZED(-1),
+      ;
+
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 29,
+          /* patch= */ 2,
+          /* suffix= */ "",
+          TrackingState.class.getName());
+      }
+      /**
+       * <code>TRACKING_STATE_UNSPECIFIED = 0;</code>
+       */
+      public static final int TRACKING_STATE_UNSPECIFIED_VALUE = 0;
+      /**
+       * <pre>
+       * Initial lock attempt
+       * </pre>
+       *
+       * <code>TRACKING_STATE_ACQUIRING = 1;</code>
+       */
+      public static final int TRACKING_STATE_ACQUIRING_VALUE = 1;
+      /**
+       * <pre>
+       * Actively tracking
+       * </pre>
+       *
+       * <code>TRACKING_STATE_TRACKING = 2;</code>
+       */
+      public static final int TRACKING_STATE_TRACKING_VALUE = 2;
+      /**
+       * <pre>
+       * Temporarily lost, using prediction
+       * </pre>
+       *
+       * <code>TRACKING_STATE_PREDICTED = 3;</code>
+       */
+      public static final int TRACKING_STATE_PREDICTED_VALUE = 3;
+      /**
+       * <pre>
+       * Lost track
+       * </pre>
+       *
+       * <code>TRACKING_STATE_LOST = 4;</code>
+       */
+      public static final int TRACKING_STATE_LOST_VALUE = 4;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static TrackingState valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static TrackingState forNumber(int value) {
+        switch (value) {
+          case 0: return TRACKING_STATE_UNSPECIFIED;
+          case 1: return TRACKING_STATE_ACQUIRING;
+          case 2: return TRACKING_STATE_TRACKING;
+          case 3: return TRACKING_STATE_PREDICTED;
+          case 4: return TRACKING_STATE_LOST;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<TrackingState>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          TrackingState> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<TrackingState>() {
+              public TrackingState findValueByNumber(int number) {
+                return TrackingState.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.JonGuiDataTrackedObject.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final TrackingState[] VALUES = values();
+
+      public static TrackingState valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private TrackingState(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:ser.JonGuiDataTrackedObject.TrackingState)
+    }
+
+    private int bitField0_;
+    public static final int UUID_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object uuid_ = "";
+    /**
+     * <pre>
+     * UUIDv7 identifier - stable across frames for the same object
+     * </pre>
+     *
+     * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The uuid.
+     */
+    @java.lang.Override
+    public java.lang.String getUuid() {
+      java.lang.Object ref = uuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        uuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * UUIDv7 identifier - stable across frames for the same object
+     * </pre>
+     *
+     * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for uuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getUuidBytes() {
+      java.lang.Object ref = uuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        uuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TRANSFORM_FIELD_NUMBER = 2;
+    private ser.JonSharedDataTypes.JonGuiDataTransform3D transform_;
+    /**
+     * <pre>
+     * 3D pose (position, orientation, velocities)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the transform field is set.
+     */
+    @java.lang.Override
+    public boolean hasTransform() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * 3D pose (position, orientation, velocities)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The transform.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3D getTransform() {
+      return transform_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : transform_;
+    }
+    /**
+     * <pre>
+     * 3D pose (position, orientation, velocities)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getTransformOrBuilder() {
+      return transform_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : transform_;
+    }
+
+    public static final int BOUNDING_BOX_FIELD_NUMBER = 3;
+    private ser.JonSharedDataTypes.JonGuiDataROI boundingBox_;
+    /**
+     * <pre>
+     * 2D bounding box in image space (NDC coords -1 to 1)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+     * @return Whether the boundingBox field is set.
+     */
+    @java.lang.Override
+    public boolean hasBoundingBox() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * 2D bounding box in image space (NDC coords -1 to 1)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+     * @return The boundingBox.
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROI getBoundingBox() {
+      return boundingBox_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : boundingBox_;
+    }
+    /**
+     * <pre>
+     * 2D bounding box in image space (NDC coords -1 to 1)
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+     */
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getBoundingBoxOrBuilder() {
+      return boundingBox_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : boundingBox_;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 4;
+    private int state_ = 0;
+    /**
+     * <pre>
+     * Current tracking state
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The enum numeric value on the wire for state.
+     */
+    @java.lang.Override public int getStateValue() {
+      return state_;
+    }
+    /**
+     * <pre>
+     * Current tracking state
+     * </pre>
+     *
+     * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The state.
+     */
+    @java.lang.Override public ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState getState() {
+      ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState result = ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState.forNumber(state_);
+      return result == null ? ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(uuid_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, uuid_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(2, getTransform());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(3, getBoundingBox());
+      }
+      if (state_ != ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState.TRACKING_STATE_UNSPECIFIED.getNumber()) {
+        output.writeEnum(4, state_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(uuid_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, uuid_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getTransform());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getBoundingBox());
+      }
+      if (state_ != ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState.TRACKING_STATE_UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, state_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ser.JonSharedDataTypes.JonGuiDataTrackedObject)) {
+        return super.equals(obj);
+      }
+      ser.JonSharedDataTypes.JonGuiDataTrackedObject other = (ser.JonSharedDataTypes.JonGuiDataTrackedObject) obj;
+
+      if (!getUuid()
+          .equals(other.getUuid())) return false;
+      if (hasTransform() != other.hasTransform()) return false;
+      if (hasTransform()) {
+        if (!getTransform()
+            .equals(other.getTransform())) return false;
+      }
+      if (hasBoundingBox() != other.hasBoundingBox()) return false;
+      if (hasBoundingBox()) {
+        if (!getBoundingBox()
+            .equals(other.getBoundingBox())) return false;
+      }
+      if (state_ != other.state_) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + UUID_FIELD_NUMBER;
+      hash = (53 * hash) + getUuid().hashCode();
+      if (hasTransform()) {
+        hash = (37 * hash) + TRANSFORM_FIELD_NUMBER;
+        hash = (53 * hash) + getTransform().hashCode();
+      }
+      if (hasBoundingBox()) {
+        hash = (37 * hash) + BOUNDING_BOX_FIELD_NUMBER;
+        hash = (53 * hash) + getBoundingBox().hashCode();
+      }
+      hash = (37 * hash) + STATE_FIELD_NUMBER;
+      hash = (53 * hash) + state_;
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ser.JonSharedDataTypes.JonGuiDataTrackedObject prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Tracked object - all fields required.
+     * If object is in the list, we have complete tracking data for it.
+     * UUID allows joining with external data sources (labels, classifications, etc.)
+     * </pre>
+     *
+     * Protobuf type {@code ser.JonGuiDataTrackedObject}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ser.JonGuiDataTrackedObject)
+        ser.JonSharedDataTypes.JonGuiDataTrackedObjectOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTrackedObject_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTrackedObject_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ser.JonSharedDataTypes.JonGuiDataTrackedObject.class, ser.JonSharedDataTypes.JonGuiDataTrackedObject.Builder.class);
+      }
+
+      // Construct using ser.JonSharedDataTypes.JonGuiDataTrackedObject.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getTransformFieldBuilder();
+          getBoundingBoxFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        uuid_ = "";
+        transform_ = null;
+        if (transformBuilder_ != null) {
+          transformBuilder_.dispose();
+          transformBuilder_ = null;
+        }
+        boundingBox_ = null;
+        if (boundingBoxBuilder_ != null) {
+          boundingBoxBuilder_.dispose();
+          boundingBoxBuilder_ = null;
+        }
+        state_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ser.JonSharedDataTypes.internal_static_ser_JonGuiDataTrackedObject_descriptor;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject getDefaultInstanceForType() {
+        return ser.JonSharedDataTypes.JonGuiDataTrackedObject.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject build() {
+        ser.JonSharedDataTypes.JonGuiDataTrackedObject result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject buildPartial() {
+        ser.JonSharedDataTypes.JonGuiDataTrackedObject result = new ser.JonSharedDataTypes.JonGuiDataTrackedObject(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ser.JonSharedDataTypes.JonGuiDataTrackedObject result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.uuid_ = uuid_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.transform_ = transformBuilder_ == null
+              ? transform_
+              : transformBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.boundingBox_ = boundingBoxBuilder_ == null
+              ? boundingBox_
+              : boundingBoxBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.state_ = state_;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ser.JonSharedDataTypes.JonGuiDataTrackedObject) {
+          return mergeFrom((ser.JonSharedDataTypes.JonGuiDataTrackedObject)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ser.JonSharedDataTypes.JonGuiDataTrackedObject other) {
+        if (other == ser.JonSharedDataTypes.JonGuiDataTrackedObject.getDefaultInstance()) return this;
+        if (!other.getUuid().isEmpty()) {
+          uuid_ = other.uuid_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.hasTransform()) {
+          mergeTransform(other.getTransform());
+        }
+        if (other.hasBoundingBox()) {
+          mergeBoundingBox(other.getBoundingBox());
+        }
+        if (other.state_ != 0) {
+          setStateValue(other.getStateValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                uuid_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                input.readMessage(
+                    getTransformFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getBoundingBoxFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 32: {
+                state_ = input.readEnum();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object uuid_ = "";
+      /**
+       * <pre>
+       * UUIDv7 identifier - stable across frames for the same object
+       * </pre>
+       *
+       * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The uuid.
+       */
+      public java.lang.String getUuid() {
+        java.lang.Object ref = uuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          uuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifier - stable across frames for the same object
+       * </pre>
+       *
+       * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for uuid.
+       */
+      public com.google.protobuf.ByteString
+          getUuidBytes() {
+        java.lang.Object ref = uuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          uuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifier - stable across frames for the same object
+       * </pre>
+       *
+       * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUuid(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        uuid_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifier - stable across frames for the same object
+       * </pre>
+       *
+       * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUuid() {
+        uuid_ = getDefaultInstance().getUuid();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * UUIDv7 identifier - stable across frames for the same object
+       * </pre>
+       *
+       * <code>string uuid = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        uuid_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataTransform3D transform_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder> transformBuilder_;
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the transform field is set.
+       */
+      public boolean hasTransform() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The transform.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D getTransform() {
+        if (transformBuilder_ == null) {
+          return transform_ == null ? ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : transform_;
+        } else {
+          return transformBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setTransform(ser.JonSharedDataTypes.JonGuiDataTransform3D value) {
+        if (transformBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          transform_ = value;
+        } else {
+          transformBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setTransform(
+          ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder builderForValue) {
+        if (transformBuilder_ == null) {
+          transform_ = builderForValue.build();
+        } else {
+          transformBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergeTransform(ser.JonSharedDataTypes.JonGuiDataTransform3D value) {
+        if (transformBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0) &&
+            transform_ != null &&
+            transform_ != ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance()) {
+            getTransformBuilder().mergeFrom(value);
+          } else {
+            transform_ = value;
+          }
+        } else {
+          transformBuilder_.mergeFrom(value);
+        }
+        if (transform_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearTransform() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        transform_ = null;
+        if (transformBuilder_ != null) {
+          transformBuilder_.dispose();
+          transformBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder getTransformBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getTransformFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder getTransformOrBuilder() {
+        if (transformBuilder_ != null) {
+          return transformBuilder_.getMessageOrBuilder();
+        } else {
+          return transform_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataTransform3D.getDefaultInstance() : transform_;
+        }
+      }
+      /**
+       * <pre>
+       * 3D pose (position, orientation, velocities)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTransform3D transform = 2 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder> 
+          getTransformFieldBuilder() {
+        if (transformBuilder_ == null) {
+          transformBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataTransform3D, ser.JonSharedDataTypes.JonGuiDataTransform3D.Builder, ser.JonSharedDataTypes.JonGuiDataTransform3DOrBuilder>(
+                  getTransform(),
+                  getParentForChildren(),
+                  isClean());
+          transform_ = null;
+        }
+        return transformBuilder_;
+      }
+
+      private ser.JonSharedDataTypes.JonGuiDataROI boundingBox_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> boundingBoxBuilder_;
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       * @return Whether the boundingBox field is set.
+       */
+      public boolean hasBoundingBox() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       * @return The boundingBox.
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI getBoundingBox() {
+        if (boundingBoxBuilder_ == null) {
+          return boundingBox_ == null ? ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : boundingBox_;
+        } else {
+          return boundingBoxBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setBoundingBox(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (boundingBoxBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          boundingBox_ = value;
+        } else {
+          boundingBoxBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder setBoundingBox(
+          ser.JonSharedDataTypes.JonGuiDataROI.Builder builderForValue) {
+        if (boundingBoxBuilder_ == null) {
+          boundingBox_ = builderForValue.build();
+        } else {
+          boundingBoxBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder mergeBoundingBox(ser.JonSharedDataTypes.JonGuiDataROI value) {
+        if (boundingBoxBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            boundingBox_ != null &&
+            boundingBox_ != ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance()) {
+            getBoundingBoxBuilder().mergeFrom(value);
+          } else {
+            boundingBox_ = value;
+          }
+        } else {
+          boundingBoxBuilder_.mergeFrom(value);
+        }
+        if (boundingBox_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public Builder clearBoundingBox() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        boundingBox_ = null;
+        if (boundingBoxBuilder_ != null) {
+          boundingBoxBuilder_.dispose();
+          boundingBoxBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROI.Builder getBoundingBoxBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getBoundingBoxFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      public ser.JonSharedDataTypes.JonGuiDataROIOrBuilder getBoundingBoxOrBuilder() {
+        if (boundingBoxBuilder_ != null) {
+          return boundingBoxBuilder_.getMessageOrBuilder();
+        } else {
+          return boundingBox_ == null ?
+              ser.JonSharedDataTypes.JonGuiDataROI.getDefaultInstance() : boundingBox_;
+        }
+      }
+      /**
+       * <pre>
+       * 2D bounding box in image space (NDC coords -1 to 1)
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataROI bounding_box = 3 [(.buf.validate.field) = { ... }</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder> 
+          getBoundingBoxFieldBuilder() {
+        if (boundingBoxBuilder_ == null) {
+          boundingBoxBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ser.JonSharedDataTypes.JonGuiDataROI, ser.JonSharedDataTypes.JonGuiDataROI.Builder, ser.JonSharedDataTypes.JonGuiDataROIOrBuilder>(
+                  getBoundingBox(),
+                  getParentForChildren(),
+                  isClean());
+          boundingBox_ = null;
+        }
+        return boundingBoxBuilder_;
+      }
+
+      private int state_ = 0;
+      /**
+       * <pre>
+       * Current tracking state
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The enum numeric value on the wire for state.
+       */
+      @java.lang.Override public int getStateValue() {
+        return state_;
+      }
+      /**
+       * <pre>
+       * Current tracking state
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The enum numeric value on the wire for state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStateValue(int value) {
+        state_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Current tracking state
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState getState() {
+        ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState result = ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState.forNumber(state_);
+        return result == null ? ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * Current tracking state
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(ser.JonSharedDataTypes.JonGuiDataTrackedObject.TrackingState value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000008;
+        state_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Current tracking state
+       * </pre>
+       *
+       * <code>.ser.JonGuiDataTrackedObject.TrackingState state = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        state_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ser.JonGuiDataTrackedObject)
+    }
+
+    // @@protoc_insertion_point(class_scope:ser.JonGuiDataTrackedObject)
+    private static final ser.JonSharedDataTypes.JonGuiDataTrackedObject DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ser.JonSharedDataTypes.JonGuiDataTrackedObject();
+    }
+
+    public static ser.JonSharedDataTypes.JonGuiDataTrackedObject getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<JonGuiDataTrackedObject>
+        PARSER = new com.google.protobuf.AbstractParser<JonGuiDataTrackedObject>() {
+      @java.lang.Override
+      public JonGuiDataTrackedObject parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<JonGuiDataTrackedObject> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JonGuiDataTrackedObject> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ser.JonSharedDataTypes.JonGuiDataTrackedObject getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ser_JonGuiDataMeteo_descriptor;
   private static final 
@@ -5221,6 +10692,36 @@ public final class JonSharedDataTypes {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ser_JonOpaquePayload_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataROI_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataROI_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataSharpness_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataSharpness_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataVector3_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataVector3_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataQuaternion_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataQuaternion_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataTransform3D_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataTransform3D_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ser_JonGuiDataTrackedObject_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ser_JonGuiDataTrackedObject_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -5242,142 +10743,172 @@ public final class JonSharedDataTypes {
       "-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-" +
       "9a-fA-F]{12}$\0225\n\007version\030\002 \001(\0132\034.ser.Jon" +
       "OpaquePayloadVersionB\006\272H\003\310\001\001\022\030\n\007payload\030" +
-      "\003 \001(\014B\007\272H\004z\002\020\001*\263\002\n!JonGuiDataVideoChanne" +
-      "lHeatFilters\0226\n2JON_GUI_DATA_VIDEO_CHANN" +
-      "EL_HEAT_FILTER_UNSPECIFIED\020\000\0224\n0JON_GUI_" +
-      "DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE" +
-      "\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FI" +
-      "LTER_HOT_BLACK\020\002\0220\n,JON_GUI_DATA_VIDEO_C" +
-      "HANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4JON_GUI_DA" +
-      "TA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVER" +
-      "SE\020\004*\356\001\n\"JonGuiDataVideoChannelHeatAGCMo" +
-      "des\0228\n4JON_GUI_DATA_VIDEO_CHANNEL_HEAT_A" +
-      "GC_MODE_UNSPECIFIED\020\000\022.\n*JON_GUI_DATA_VI" +
-      "DEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022.\n*JON_GUI" +
-      "_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2\020\002\022.\n" +
-      "*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MOD" +
-      "E_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&\n\"JON_GUI_" +
-      "DATA_GPS_UNITS_UNSPECIFIED\020\000\022*\n&JON_GUI_" +
-      "DATA_GPS_UNITS_DECIMAL_DEGREES\020\001\0222\n.JON_" +
-      "GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECON" +
-      "DS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_D" +
-      "ECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDataGpsFixTyp" +
-      "e\022)\n%JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIFI" +
-      "ED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_TYPE_NONE\020\001" +
-      "\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_1D\020\002\022 \n\034JO" +
-      "N_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 \n\034JON_GUI_" +
-      "DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_GUI_DATA_G" +
-      "PS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGuiDataCompa" +
-      "ssUnits\022*\n&JON_GUI_DATA_COMPASS_UNITS_UN" +
-      "SPECIFIED\020\000\022&\n\"JON_GUI_DATA_COMPASS_UNIT" +
-      "S_DEGREES\020\001\022#\n\037JON_GUI_DATA_COMPASS_UNIT" +
-      "S_MILS\020\002\022#\n\037JON_GUI_DATA_COMPASS_UNITS_G" +
-      "RAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_UNITS_MRAD" +
-      "\020\004*\337\003\n\035JonGuiDataAccumulatorStateIdx\022.\n*" +
-      "JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFI" +
-      "ED\020\000\022*\n&JON_GUI_DATA_ACCUMULATOR_STATE_U" +
-      "NKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUMULATOR_STA" +
-      "TE_EMPTY\020\002\022$\n JON_GUI_DATA_ACCUMULATOR_S" +
-      "TATE_1\020\003\022$\n JON_GUI_DATA_ACCUMULATOR_STA" +
-      "TE_2\020\004\022$\n JON_GUI_DATA_ACCUMULATOR_STATE" +
-      "_3\020\005\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_4" +
-      "\020\006\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_5\020\007" +
-      "\022$\n JON_GUI_DATA_ACCUMULATOR_STATE_6\020\010\022\'" +
-      "\n#JON_GUI_DATA_ACCUMULATOR_STATE_FULL\020\t\022" +
-      "+\n\'JON_GUI_DATA_ACCUMULATOR_STATE_CHARGI" +
-      "NG\020\n*\217\001\n\025JonGuiDataTimeFormats\022(\n$JON_GU" +
-      "I_DATA_TIME_FORMAT_UNSPECIFIED\020\000\022\"\n\036JON_" +
-      "GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(\n$JON_GUI_" +
-      "DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002*\254\001\n\031JonGu" +
-      "iDataRotaryDirection\022-\n)JON_GUI_DATA_ROT" +
-      "ARY_DIRECTION_UNSPECIFIED\020\000\022+\n\'JON_GUI_D" +
-      "ATA_ROTARY_DIRECTION_CLOCKWISE\020\001\0223\n/JON_" +
-      "GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKW" +
-      "ISE\020\002*\352\002\n\026JonGuiDataLrfScanModes\022*\n&JON_" +
-      "GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED\020\000\022.\n*" +
-      "JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINUO" +
-      "US\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_4_HZ_" +
-      "CONTINUOUS\020\002\022/\n+JON_GUI_DATA_LRF_SCAN_MO" +
-      "DE_10_HZ_CONTINUOUS\020\003\022/\n+JON_GUI_DATA_LR" +
-      "F_SCAN_MODE_20_HZ_CONTINUOUS\020\004\0220\n,JON_GU" +
-      "I_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS\020\005" +
-      "\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_CO" +
-      "NTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfLaserPointe" +
-      "rModes\0223\n/JON_GUI_DATA_LRF_LASER_POINTER" +
-      "_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI_DATA_LRF_" +
-      "LASER_POINTER_MODE_OFF\020\001\022,\n(JON_GUI_DATA" +
-      "_LRF_LASER_POINTER_MODE_ON_1\020\002\022,\n(JON_GU" +
-      "I_DATA_LRF_LASER_POINTER_MODE_ON_2\020\003*\362\002\n" +
-      " JonGuiDataCompassCalibrateStatus\0225\n1JON" +
-      "_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPE" +
-      "CIFIED\020\000\0229\n5JON_GUI_DATA_COMPASS_CALIBRA" +
-      "TE_STATUS_NOT_CALIBRATING\020\001\022;\n7JON_GUI_D" +
-      "ATA_COMPASS_CALIBRATE_STATUS_CALIBRATING" +
-      "_SHORT\020\002\022:\n6JON_GUI_DATA_COMPASS_CALIBRA" +
-      "TE_STATUS_CALIBRATING_LONG\020\003\0222\n.JON_GUI_" +
-      "DATA_COMPASS_CALIBRATE_STATUS_FINISHED\020\004" +
-      "\022/\n+JON_GUI_DATA_COMPASS_CALIBRATE_STATU" +
-      "S_ERROR\020\005*\270\002\n\024JonGuiDataRotaryMode\022(\n$JO" +
-      "N_GUI_DATA_ROTARY_MODE_UNSPECIFIED\020\000\022+\n\'" +
-      "JON_GUI_DATA_ROTARY_MODE_INITIALIZATION\020" +
-      "\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_SPEED\020\002\022%\n" +
-      "!JON_GUI_DATA_ROTARY_MODE_POSITION\020\003\022*\n&" +
-      "JON_GUI_DATA_ROTARY_MODE_STABILIZATION\020\004" +
-      "\022&\n\"JON_GUI_DATA_ROTARY_MODE_TARGETING\020\005" +
-      "\022*\n&JON_GUI_DATA_ROTARY_MODE_VIDEO_TRACK" +
-      "ER\020\006*\215\001\n\026JonGuiDataVideoChannel\022*\n&JON_G" +
-      "UI_DATA_VIDEO_CHANNEL_UNSPECIFIED\020\000\022#\n\037J" +
-      "ON_GUI_DATA_VIDEO_CHANNEL_HEAT\020\001\022\"\n\036JON_" +
-      "GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373\001\n\026JonGuiD" +
-      "ataRecOsdScreen\022+\n\'JON_GUI_DATA_REC_OSD_" +
-      "SCREEN_UNSPECIFIED\020\000\022$\n JON_GUI_DATA_REC" +
-      "_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_DATA_REC_O" +
-      "SD_SCREEN_LRF_MEASURE\020\002\022*\n&JON_GUI_DATA_" +
-      "REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n1JON_GUI_D" +
-      "ATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED" +
-      "\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n JON_GUI_DA" +
-      "TA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JON_GUI_DATA" +
-      "_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DATA_FX_MODE" +
-      "_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_C\020\003" +
-      "\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D\020\004\022\036\n\032JON_" +
-      "GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JON_GUI_DATA" +
-      "_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDataFxModeHea" +
-      "t\022%\n!JON_GUI_DATA_FX_MODE_HEAT_DEFAULT\020\000" +
-      "\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_A\020\001\022\037\n\033JON" +
-      "_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033JON_GUI_DA" +
-      "TA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI_DATA_FX_M" +
-      "ODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_FX_MODE_HEA" +
-      "T_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_F\020\006*\365" +
-      "\001\n\035JonGuiDataSystemLocalizations\0220\n,JON_" +
-      "GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED" +
-      "\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_E" +
-      "N\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION_" +
-      "UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATION" +
-      "_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_LOCALIZATIO" +
-      "N_CS\020\004*\355\001\n\024JonGuiDataClientType\022(\n$JON_G" +
-      "UI_DATA_CLIENT_TYPE_UNSPECIFIED\020\000\022(\n$JON" +
-      "_GUI_DATA_CLIENT_TYPE_INTERNAL_CV\020\001\022*\n&J" +
-      "ON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK\020\002\022" +
-      "2\n.JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_" +
-      "PROTECTED\020\003\022!\n\035JON_GUI_DATA_CLIENT_TYPE_" +
-      "LIRA\020\004*\346\001\n\023JonGuiDataClientApp\022\'\n#JON_GU" +
-      "I_DATA_CLIENT_APP_UNSPECIFIED\020\000\022&\n\"JON_G" +
-      "UI_DATA_CLIENT_APP_BROWSER_UI\020\001\022\'\n#JON_G" +
-      "UI_DATA_CLIENT_APP_BROWSER_MAP\020\002\022*\n&JON_" +
-      "GUI_DATA_CLIENT_APP_DESKTOP_NATIVE\020\003\022)\n%" +
-      "JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE\020\004*" +
-      "\307\001\n\026JonGuiDataExtBatStatus\022+\n\'JON_GUI_DA" +
-      "TA_EXT_BAT_STATUS_UNSPECIFIED\020\000\022(\n$JON_G" +
-      "UI_DATA_EXT_BAT_STATUS_CHARGING\020\001\022+\n\'JON" +
-      "_GUI_DATA_EXT_BAT_STATUS_DISCHARGING\020\002\022)" +
-      "\n%JON_GUI_DATA_EXT_BAT_STATUS_BALANCING\020" +
-      "\003*\301\001\n\025JonGuiDataStateSource\022)\n%JON_GUI_D" +
-      "ATA_STATE_SOURCE_UNSPECIFIED\020\000\022*\n&JON_GU" +
-      "I_DATA_STATE_SOURCE_DAY_PIPELINE\020\001\022+\n\'JO" +
-      "N_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE\020\002\022" +
-      "$\n JON_GUI_DATA_STATE_SOURCE_SYSTEM\020\003BHZ" +
-      "Fgit-codecommit.eu-central-1.amazonaws.c" +
-      "om/v1/repos/jettison/jonp/typesb\006proto3"
+      "\003 \001(\014B\007\272H\004z\002\020\001\"\243\001\n\rJonGuiDataROI\022#\n\002x1\030\001" +
+      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y1\030\002 \001(" +
+      "\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002x2\030\003 \001(\001B\027" +
+      "\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\022#\n\002y2\030\004 \001(\001B\027\272H\024" +
+      "\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000\000\360\277\"i\n\023JonGuiDataSharpn" +
+      "ess\022&\n\005value\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\000\360?)\000\000\000\000\000" +
+      "\000\000\000\022\024\n\014derivative_1\030\002 \001(\001\022\024\n\014derivative_" +
+      "2\030\003 \001(\001\"L\n\021JonGuiDataVector3\022\021\n\001x\030\001 \001(\001B" +
+      "\006\272H\003\310\001\001\022\021\n\001y\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001z\030\003 \001(\001B\006\272" +
+      "H\003\310\001\001\"b\n\024JonGuiDataQuaternion\022\021\n\001w\030\001 \001(\001" +
+      "B\006\272H\003\310\001\001\022\021\n\001x\030\002 \001(\001B\006\272H\003\310\001\001\022\021\n\001y\030\003 \001(\001B\006" +
+      "\272H\003\310\001\001\022\021\n\001z\030\004 \001(\001B\006\272H\003\310\001\001\"\364\001\n\025JonGuiData" +
+      "Transform3D\0220\n\010position\030\001 \001(\0132\026.ser.JonG" +
+      "uiDataVector3B\006\272H\003\310\001\001\0226\n\013orientation\030\002 \001" +
+      "(\0132\031.ser.JonGuiDataQuaternionB\006\272H\003\310\001\001\0227\n" +
+      "\017linear_velocity\030\003 \001(\0132\026.ser.JonGuiDataV" +
+      "ector3B\006\272H\003\310\001\001\0228\n\020angular_velocity\030\004 \001(\013" +
+      "2\026.ser.JonGuiDataVector3B\006\272H\003\310\001\001\"\325\003\n\027Jon" +
+      "GuiDataTrackedObject\022f\n\004uuid\030\001 \001(\tBX\272HUr" +
+      "S\020$\030$2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0" +
+      "-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{" +
+      "12}$\0225\n\ttransform\030\002 \001(\0132\032.ser.JonGuiData" +
+      "Transform3DB\006\272H\003\310\001\001\0220\n\014bounding_box\030\003 \001(" +
+      "\0132\022.ser.JonGuiDataROIB\006\272H\003\310\001\001\022E\n\005state\030\004" +
+      " \001(\0162*.ser.JonGuiDataTrackedObject.Track" +
+      "ingStateB\n\272H\007\202\001\004\020\001 \000\"\241\001\n\rTrackingState\022\036" +
+      "\n\032TRACKING_STATE_UNSPECIFIED\020\000\022\034\n\030TRACKI" +
+      "NG_STATE_ACQUIRING\020\001\022\033\n\027TRACKING_STATE_T" +
+      "RACKING\020\002\022\034\n\030TRACKING_STATE_PREDICTED\020\003\022" +
+      "\027\n\023TRACKING_STATE_LOST\020\004*\263\002\n!JonGuiDataV" +
+      "ideoChannelHeatFilters\0226\n2JON_GUI_DATA_V" +
+      "IDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\020\000\0224" +
+      "\n0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER" +
+      "_HOT_WHITE\020\001\0224\n0JON_GUI_DATA_VIDEO_CHANN" +
+      "EL_HEAT_FILTER_HOT_BLACK\020\002\0220\n,JON_GUI_DA" +
+      "TA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA\020\003\0228\n4" +
+      "JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_S" +
+      "EPIA_INVERSE\020\004*\356\001\n\"JonGuiDataVideoChanne" +
+      "lHeatAGCModes\0228\n4JON_GUI_DATA_VIDEO_CHAN" +
+      "NEL_HEAT_AGC_MODE_UNSPECIFIED\020\000\022.\n*JON_G" +
+      "UI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_1\020\001\022" +
+      ".\n*JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_M" +
+      "ODE_2\020\002\022.\n*JON_GUI_DATA_VIDEO_CHANNEL_HE" +
+      "AT_AGC_MODE_3\020\003*\320\001\n\022JonGuiDataGpsUnits\022&" +
+      "\n\"JON_GUI_DATA_GPS_UNITS_UNSPECIFIED\020\000\022*" +
+      "\n&JON_GUI_DATA_GPS_UNITS_DECIMAL_DEGREES" +
+      "\020\001\0222\n.JON_GUI_DATA_GPS_UNITS_DEGREES_MIN" +
+      "UTES_SECONDS\020\002\0222\n.JON_GUI_DATA_GPS_UNITS" +
+      "_DEGREES_DECIMAL_MINUTES\020\003*\361\001\n\024JonGuiDat" +
+      "aGpsFixType\022)\n%JON_GUI_DATA_GPS_FIX_TYPE" +
+      "_UNSPECIFIED\020\000\022\"\n\036JON_GUI_DATA_GPS_FIX_T" +
+      "YPE_NONE\020\001\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_" +
+      "1D\020\002\022 \n\034JON_GUI_DATA_GPS_FIX_TYPE_2D\020\003\022 " +
+      "\n\034JON_GUI_DATA_GPS_FIX_TYPE_3D\020\004\022$\n JON_" +
+      "GUI_DATA_GPS_FIX_TYPE_MANUAL\020\005*\333\001\n\026JonGu" +
+      "iDataCompassUnits\022*\n&JON_GUI_DATA_COMPAS" +
+      "S_UNITS_UNSPECIFIED\020\000\022&\n\"JON_GUI_DATA_CO" +
+      "MPASS_UNITS_DEGREES\020\001\022#\n\037JON_GUI_DATA_CO" +
+      "MPASS_UNITS_MILS\020\002\022#\n\037JON_GUI_DATA_COMPA" +
+      "SS_UNITS_GRAD\020\003\022#\n\037JON_GUI_DATA_COMPASS_" +
+      "UNITS_MRAD\020\004*\337\003\n\035JonGuiDataAccumulatorSt" +
+      "ateIdx\022.\n*JON_GUI_DATA_ACCUMULATOR_STATE" +
+      "_UNSPECIFIED\020\000\022*\n&JON_GUI_DATA_ACCUMULAT" +
+      "OR_STATE_UNKNOWN\020\001\022(\n$JON_GUI_DATA_ACCUM" +
+      "ULATOR_STATE_EMPTY\020\002\022$\n JON_GUI_DATA_ACC" +
+      "UMULATOR_STATE_1\020\003\022$\n JON_GUI_DATA_ACCUM" +
+      "ULATOR_STATE_2\020\004\022$\n JON_GUI_DATA_ACCUMUL" +
+      "ATOR_STATE_3\020\005\022$\n JON_GUI_DATA_ACCUMULAT" +
+      "OR_STATE_4\020\006\022$\n JON_GUI_DATA_ACCUMULATOR" +
+      "_STATE_5\020\007\022$\n JON_GUI_DATA_ACCUMULATOR_S" +
+      "TATE_6\020\010\022\'\n#JON_GUI_DATA_ACCUMULATOR_STA" +
+      "TE_FULL\020\t\022+\n\'JON_GUI_DATA_ACCUMULATOR_ST" +
+      "ATE_CHARGING\020\n*\217\001\n\025JonGuiDataTimeFormats" +
+      "\022(\n$JON_GUI_DATA_TIME_FORMAT_UNSPECIFIED" +
+      "\020\000\022\"\n\036JON_GUI_DATA_TIME_FORMAT_H_M_S\020\001\022(" +
+      "\n$JON_GUI_DATA_TIME_FORMAT_Y_m_D_H_M_S\020\002" +
+      "*\254\001\n\031JonGuiDataRotaryDirection\022-\n)JON_GU" +
+      "I_DATA_ROTARY_DIRECTION_UNSPECIFIED\020\000\022+\n" +
+      "\'JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE" +
+      "\020\001\0223\n/JON_GUI_DATA_ROTARY_DIRECTION_COUN" +
+      "TER_CLOCKWISE\020\002*\352\002\n\026JonGuiDataLrfScanMod" +
+      "es\022*\n&JON_GUI_DATA_LRF_SCAN_MODE_UNSPECI" +
+      "FIED\020\000\022.\n*JON_GUI_DATA_LRF_SCAN_MODE_1_H" +
+      "Z_CONTINUOUS\020\001\022.\n*JON_GUI_DATA_LRF_SCAN_" +
+      "MODE_4_HZ_CONTINUOUS\020\002\022/\n+JON_GUI_DATA_L" +
+      "RF_SCAN_MODE_10_HZ_CONTINUOUS\020\003\022/\n+JON_G" +
+      "UI_DATA_LRF_SCAN_MODE_20_HZ_CONTINUOUS\020\004" +
+      "\0220\n,JON_GUI_DATA_LRF_SCAN_MODE_100_HZ_CO" +
+      "NTINUOUS\020\005\0220\n,JON_GUI_DATA_LRF_SCAN_MODE" +
+      "_200_HZ_CONTINUOUS\020\006*\337\001\n\037JonGuiDatatLrfL" +
+      "aserPointerModes\0223\n/JON_GUI_DATA_LRF_LAS" +
+      "ER_POINTER_MODE_UNSPECIFIED\020\000\022+\n\'JON_GUI" +
+      "_DATA_LRF_LASER_POINTER_MODE_OFF\020\001\022,\n(JO" +
+      "N_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1\020\002" +
+      "\022,\n(JON_GUI_DATA_LRF_LASER_POINTER_MODE_" +
+      "ON_2\020\003*\362\002\n JonGuiDataCompassCalibrateSta" +
+      "tus\0225\n1JON_GUI_DATA_COMPASS_CALIBRATE_ST" +
+      "ATUS_UNSPECIFIED\020\000\0229\n5JON_GUI_DATA_COMPA" +
+      "SS_CALIBRATE_STATUS_NOT_CALIBRATING\020\001\022;\n" +
+      "7JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_C" +
+      "ALIBRATING_SHORT\020\002\022:\n6JON_GUI_DATA_COMPA" +
+      "SS_CALIBRATE_STATUS_CALIBRATING_LONG\020\003\0222" +
+      "\n.JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_" +
+      "FINISHED\020\004\022/\n+JON_GUI_DATA_COMPASS_CALIB" +
+      "RATE_STATUS_ERROR\020\005*\270\002\n\024JonGuiDataRotary" +
+      "Mode\022(\n$JON_GUI_DATA_ROTARY_MODE_UNSPECI" +
+      "FIED\020\000\022+\n\'JON_GUI_DATA_ROTARY_MODE_INITI" +
+      "ALIZATION\020\001\022\"\n\036JON_GUI_DATA_ROTARY_MODE_" +
+      "SPEED\020\002\022%\n!JON_GUI_DATA_ROTARY_MODE_POSI" +
+      "TION\020\003\022*\n&JON_GUI_DATA_ROTARY_MODE_STABI" +
+      "LIZATION\020\004\022&\n\"JON_GUI_DATA_ROTARY_MODE_T" +
+      "ARGETING\020\005\022*\n&JON_GUI_DATA_ROTARY_MODE_V" +
+      "IDEO_TRACKER\020\006*\215\001\n\026JonGuiDataVideoChanne" +
+      "l\022*\n&JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIF" +
+      "IED\020\000\022#\n\037JON_GUI_DATA_VIDEO_CHANNEL_HEAT" +
+      "\020\001\022\"\n\036JON_GUI_DATA_VIDEO_CHANNEL_DAY\020\002*\373" +
+      "\001\n\026JonGuiDataRecOsdScreen\022+\n\'JON_GUI_DAT" +
+      "A_REC_OSD_SCREEN_UNSPECIFIED\020\000\022$\n JON_GU" +
+      "I_DATA_REC_OSD_SCREEN_MAIN\020\001\022+\n\'JON_GUI_" +
+      "DATA_REC_OSD_SCREEN_LRF_MEASURE\020\002\022*\n&JON" +
+      "_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT\020\003\0225\n" +
+      "1JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT_" +
+      "SIMPLIFIED\020\004*\373\001\n\023JonGuiDataFxModeDay\022$\n " +
+      "JON_GUI_DATA_FX_MODE_DAY_DEFAULT\020\000\022\036\n\032JO" +
+      "N_GUI_DATA_FX_MODE_DAY_A\020\001\022\036\n\032JON_GUI_DA" +
+      "TA_FX_MODE_DAY_B\020\002\022\036\n\032JON_GUI_DATA_FX_MO" +
+      "DE_DAY_C\020\003\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_D" +
+      "\020\004\022\036\n\032JON_GUI_DATA_FX_MODE_DAY_E\020\005\022\036\n\032JO" +
+      "N_GUI_DATA_FX_MODE_DAY_F\020\006*\203\002\n\024JonGuiDat" +
+      "aFxModeHeat\022%\n!JON_GUI_DATA_FX_MODE_HEAT" +
+      "_DEFAULT\020\000\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_" +
+      "A\020\001\022\037\n\033JON_GUI_DATA_FX_MODE_HEAT_B\020\002\022\037\n\033" +
+      "JON_GUI_DATA_FX_MODE_HEAT_C\020\003\022\037\n\033JON_GUI" +
+      "_DATA_FX_MODE_HEAT_D\020\004\022\037\n\033JON_GUI_DATA_F" +
+      "X_MODE_HEAT_E\020\005\022\037\n\033JON_GUI_DATA_FX_MODE_" +
+      "HEAT_F\020\006*\365\001\n\035JonGuiDataSystemLocalizatio" +
+      "ns\0220\n,JON_GUI_DATA_SYSTEM_LOCALIZATION_U" +
+      "NSPECIFIED\020\000\022\'\n#JON_GUI_DATA_SYSTEM_LOCA" +
+      "LIZATION_EN\020\001\022\'\n#JON_GUI_DATA_SYSTEM_LOC" +
+      "ALIZATION_UA\020\002\022\'\n#JON_GUI_DATA_SYSTEM_LO" +
+      "CALIZATION_AR\020\003\022\'\n#JON_GUI_DATA_SYSTEM_L" +
+      "OCALIZATION_CS\020\004*\355\001\n\024JonGuiDataClientTyp" +
+      "e\022(\n$JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIE" +
+      "D\020\000\022(\n$JON_GUI_DATA_CLIENT_TYPE_INTERNAL" +
+      "_CV\020\001\022*\n&JON_GUI_DATA_CLIENT_TYPE_LOCAL_" +
+      "NETWORK\020\002\0222\n.JON_GUI_DATA_CLIENT_TYPE_CE" +
+      "RTIFICATE_PROTECTED\020\003\022!\n\035JON_GUI_DATA_CL" +
+      "IENT_TYPE_LIRA\020\004*\346\001\n\023JonGuiDataClientApp" +
+      "\022\'\n#JON_GUI_DATA_CLIENT_APP_UNSPECIFIED\020" +
+      "\000\022&\n\"JON_GUI_DATA_CLIENT_APP_BROWSER_UI\020" +
+      "\001\022\'\n#JON_GUI_DATA_CLIENT_APP_BROWSER_MAP" +
+      "\020\002\022*\n&JON_GUI_DATA_CLIENT_APP_DESKTOP_NA" +
+      "TIVE\020\003\022)\n%JON_GUI_DATA_CLIENT_APP_MOBILE" +
+      "_NATIVE\020\004*\307\001\n\026JonGuiDataExtBatStatus\022+\n\'" +
+      "JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED\020" +
+      "\000\022(\n$JON_GUI_DATA_EXT_BAT_STATUS_CHARGIN" +
+      "G\020\001\022+\n\'JON_GUI_DATA_EXT_BAT_STATUS_DISCH" +
+      "ARGING\020\002\022)\n%JON_GUI_DATA_EXT_BAT_STATUS_" +
+      "BALANCING\020\003*\301\001\n\025JonGuiDataStateSource\022)\n" +
+      "%JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED\020\000" +
+      "\022*\n&JON_GUI_DATA_STATE_SOURCE_DAY_PIPELI" +
+      "NE\020\001\022+\n\'JON_GUI_DATA_STATE_SOURCE_HEAT_P" +
+      "IPELINE\020\002\022$\n JON_GUI_DATA_STATE_SOURCE_S" +
+      "YSTEM\020\003BHZFgit-codecommit.eu-central-1.a" +
+      "mazonaws.com/v1/repos/jettison/jonp/type" +
+      "sb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5402,6 +10933,42 @@ public final class JonSharedDataTypes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonOpaquePayload_descriptor,
         new java.lang.String[] { "TypeUuid", "Version", "Payload", });
+    internal_static_ser_JonGuiDataROI_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_ser_JonGuiDataROI_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataROI_descriptor,
+        new java.lang.String[] { "X1", "Y1", "X2", "Y2", });
+    internal_static_ser_JonGuiDataSharpness_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_ser_JonGuiDataSharpness_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataSharpness_descriptor,
+        new java.lang.String[] { "Value", "Derivative1", "Derivative2", });
+    internal_static_ser_JonGuiDataVector3_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_ser_JonGuiDataVector3_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataVector3_descriptor,
+        new java.lang.String[] { "X", "Y", "Z", });
+    internal_static_ser_JonGuiDataQuaternion_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_ser_JonGuiDataQuaternion_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataQuaternion_descriptor,
+        new java.lang.String[] { "W", "X", "Y", "Z", });
+    internal_static_ser_JonGuiDataTransform3D_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_ser_JonGuiDataTransform3D_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataTransform3D_descriptor,
+        new java.lang.String[] { "Position", "Orientation", "LinearVelocity", "AngularVelocity", });
+    internal_static_ser_JonGuiDataTrackedObject_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_ser_JonGuiDataTrackedObject_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ser_JonGuiDataTrackedObject_descriptor,
+        new java.lang.String[] { "Uuid", "Transform", "BoundingBox", "State", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

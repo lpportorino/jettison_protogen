@@ -69,7 +69,7 @@ message JonGuiDataRotary {
     example: [0, 90, 180, 270]
   }];
 
-  ScanNode current_scan_node = 17 [(buf.validate.field).required = true];
+  ScanNode current_scan_node = 17;
   bool is_started = 18;
   JonGuiDataMeteo meteo = 19;
 
@@ -82,6 +82,9 @@ message JonGuiDataRotary {
     gte: 0,
     lte: 14
   }];
+
+  // CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+  uint64 capture_monotonic_us = 22;
 }
 
 message ScanNode {

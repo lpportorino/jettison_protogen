@@ -8,7 +8,7 @@ package cv
 
 import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
-	_ "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
+	types "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/types"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -237,6 +237,27 @@ type JonGuiDataCV struct {
 	LastExitReason JonGuiDataCV_CvBridgeExitReason `protobuf:"varint,31,opt,name=last_exit_reason,json=lastExitReason,proto3,enum=ser.JonGuiDataCV_CvBridgeExitReason" json:"last_exit_reason,omitempty"`
 	BridgeUptimeMs int64                           `protobuf:"varint,32,opt,name=bridge_uptime_ms,json=bridgeUptimeMs,proto3" json:"bridge_uptime_ms,omitempty"`
 	RestartCount   int32                           `protobuf:"varint,33,opt,name=restart_count,json=restartCount,proto3" json:"restart_count,omitempty"`
+	// Day channel ROIs
+	RoiFocusDay *types.JonGuiDataROI `protobuf:"bytes,40,opt,name=roi_focus_day,json=roiFocusDay,proto3,oneof" json:"roi_focus_day,omitempty"`
+	RoiTrackDay *types.JonGuiDataROI `protobuf:"bytes,41,opt,name=roi_track_day,json=roiTrackDay,proto3,oneof" json:"roi_track_day,omitempty"`
+	RoiZoomDay  *types.JonGuiDataROI `protobuf:"bytes,42,opt,name=roi_zoom_day,json=roiZoomDay,proto3,oneof" json:"roi_zoom_day,omitempty"`
+	RoiFxDay    *types.JonGuiDataROI `protobuf:"bytes,43,opt,name=roi_fx_day,json=roiFxDay,proto3,oneof" json:"roi_fx_day,omitempty"`
+	// Heat channel ROIs
+	RoiFocusHeat *types.JonGuiDataROI `protobuf:"bytes,50,opt,name=roi_focus_heat,json=roiFocusHeat,proto3,oneof" json:"roi_focus_heat,omitempty"`
+	RoiTrackHeat *types.JonGuiDataROI `protobuf:"bytes,51,opt,name=roi_track_heat,json=roiTrackHeat,proto3,oneof" json:"roi_track_heat,omitempty"`
+	RoiZoomHeat  *types.JonGuiDataROI `protobuf:"bytes,52,opt,name=roi_zoom_heat,json=roiZoomHeat,proto3,oneof" json:"roi_zoom_heat,omitempty"`
+	RoiFxHeat    *types.JonGuiDataROI `protobuf:"bytes,53,opt,name=roi_fx_heat,json=roiFxHeat,proto3,oneof" json:"roi_fx_heat,omitempty"`
+	// Day channel sharpness (within roi_focus_day)
+	SharpnessMetricsDay *types.JonGuiDataSharpness `protobuf:"bytes,60,opt,name=sharpness_metrics_day,json=sharpnessMetricsDay,proto3,oneof" json:"sharpness_metrics_day,omitempty"`
+	// Heat channel sharpness (within roi_focus_heat)
+	SharpnessMetricsHeat *types.JonGuiDataSharpness `protobuf:"bytes,61,opt,name=sharpness_metrics_heat,json=sharpnessMetricsHeat,proto3,oneof" json:"sharpness_metrics_heat,omitempty"`
+	// Day camera 3D pose and velocity
+	CameraTransformDay *types.JonGuiDataTransform3D `protobuf:"bytes,70,opt,name=camera_transform_day,json=cameraTransformDay,proto3,oneof" json:"camera_transform_day,omitempty"`
+	// Heat camera 3D pose and velocity
+	CameraTransformHeat *types.JonGuiDataTransform3D `protobuf:"bytes,71,opt,name=camera_transform_heat,json=cameraTransformHeat,proto3,oneof" json:"camera_transform_heat,omitempty"`
+	// Tracked objects (0 or more). Each object has UUID for joining with
+	// external data sources (labels, classifications, etc.)
+	TrackedObjects []*types.JonGuiDataTrackedObject `protobuf:"bytes,80,rep,name=tracked_objects,json=trackedObjects,proto3" json:"tracked_objects,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -397,11 +418,102 @@ func (x *JonGuiDataCV) GetRestartCount() int32 {
 	return 0
 }
 
+func (x *JonGuiDataCV) GetRoiFocusDay() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiFocusDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiTrackDay() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiTrackDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiZoomDay() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiZoomDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiFxDay() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiFxDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiFocusHeat() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiFocusHeat
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiTrackHeat() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiTrackHeat
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiZoomHeat() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiZoomHeat
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetRoiFxHeat() *types.JonGuiDataROI {
+	if x != nil {
+		return x.RoiFxHeat
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetSharpnessMetricsDay() *types.JonGuiDataSharpness {
+	if x != nil {
+		return x.SharpnessMetricsDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetSharpnessMetricsHeat() *types.JonGuiDataSharpness {
+	if x != nil {
+		return x.SharpnessMetricsHeat
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetCameraTransformDay() *types.JonGuiDataTransform3D {
+	if x != nil {
+		return x.CameraTransformDay
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetCameraTransformHeat() *types.JonGuiDataTransform3D {
+	if x != nil {
+		return x.CameraTransformHeat
+	}
+	return nil
+}
+
+func (x *JonGuiDataCV) GetTrackedObjects() []*types.JonGuiDataTrackedObject {
+	if x != nil {
+		return x.TrackedObjects
+	}
+	return nil
+}
+
 var File_jon_shared_data_cv_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\n" +
-	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\x90\x0f\n" +
+	"\x18jon_shared_data_cv.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfb\x17\n" +
 	"\fJonGuiDataCV\x12Z\n" +
 	"\x13autofocus_state_day\x18\x01 \x01(\x0e2 .ser.JonGuiDataCV.AutofocusStateB\b\xbaH\x05\x82\x01\x02\x10\x01R\x11autofocusStateDay\x123\n" +
 	"\rsharpness_day\x18\x02 \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\fsharpnessDay\x12<\n" +
@@ -421,7 +533,23 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\rbridge_status\x18\x1e \x01(\x0e2 .ser.JonGuiDataCV.CvBridgeStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\fbridgeStatus\x12X\n" +
 	"\x10last_exit_reason\x18\x1f \x01(\x0e2$.ser.JonGuiDataCV.CvBridgeExitReasonB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0elastExitReason\x121\n" +
 	"\x10bridge_uptime_ms\x18  \x01(\x03B\a\xbaH\x04\"\x02(\x00R\x0ebridgeUptimeMs\x12,\n" +
-	"\rrestart_count\x18! \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\frestartCount\"\xc8\x01\n" +
+	"\rrestart_count\x18! \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\frestartCount\x12;\n" +
+	"\rroi_focus_day\x18( \x01(\v2\x12.ser.JonGuiDataROIH\x00R\vroiFocusDay\x88\x01\x01\x12;\n" +
+	"\rroi_track_day\x18) \x01(\v2\x12.ser.JonGuiDataROIH\x01R\vroiTrackDay\x88\x01\x01\x129\n" +
+	"\froi_zoom_day\x18* \x01(\v2\x12.ser.JonGuiDataROIH\x02R\n" +
+	"roiZoomDay\x88\x01\x01\x125\n" +
+	"\n" +
+	"roi_fx_day\x18+ \x01(\v2\x12.ser.JonGuiDataROIH\x03R\broiFxDay\x88\x01\x01\x12=\n" +
+	"\x0eroi_focus_heat\x182 \x01(\v2\x12.ser.JonGuiDataROIH\x04R\froiFocusHeat\x88\x01\x01\x12=\n" +
+	"\x0eroi_track_heat\x183 \x01(\v2\x12.ser.JonGuiDataROIH\x05R\froiTrackHeat\x88\x01\x01\x12;\n" +
+	"\rroi_zoom_heat\x184 \x01(\v2\x12.ser.JonGuiDataROIH\x06R\vroiZoomHeat\x88\x01\x01\x127\n" +
+	"\vroi_fx_heat\x185 \x01(\v2\x12.ser.JonGuiDataROIH\aR\troiFxHeat\x88\x01\x01\x12Q\n" +
+	"\x15sharpness_metrics_day\x18< \x01(\v2\x18.ser.JonGuiDataSharpnessH\bR\x13sharpnessMetricsDay\x88\x01\x01\x12S\n" +
+	"\x16sharpness_metrics_heat\x18= \x01(\v2\x18.ser.JonGuiDataSharpnessH\tR\x14sharpnessMetricsHeat\x88\x01\x01\x12Q\n" +
+	"\x14camera_transform_day\x18F \x01(\v2\x1a.ser.JonGuiDataTransform3DH\n" +
+	"R\x12cameraTransformDay\x88\x01\x01\x12S\n" +
+	"\x15camera_transform_heat\x18G \x01(\v2\x1a.ser.JonGuiDataTransform3DH\vR\x13cameraTransformHeat\x88\x01\x01\x12E\n" +
+	"\x0ftracked_objects\x18P \x03(\v2\x1c.ser.JonGuiDataTrackedObjectR\x0etrackedObjects\"\xc8\x01\n" +
 	"\x0eAutofocusState\x12\x1f\n" +
 	"\x1bAUTOFOCUS_STATE_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14AUTOFOCUS_STATE_IDLE\x10\x01\x12 \n" +
@@ -446,7 +574,19 @@ const file_jon_shared_data_cv_proto_rawDesc = "" +
 	"\x1fCV_BRIDGE_EXIT_REASON_IPC_ERROR\x10\x05\x12\x1d\n" +
 	"\x19CV_BRIDGE_EXIT_REASON_OOM\x10\x06\x12!\n" +
 	"\x1dCV_BRIDGE_EXIT_REASON_TIMEOUT\x10\a\x12 \n" +
-	"\x1cCV_BRIDGE_EXIT_REASON_SIGNAL\x10\bB\x95\x01\n" +
+	"\x1cCV_BRIDGE_EXIT_REASON_SIGNAL\x10\bB\x10\n" +
+	"\x0e_roi_focus_dayB\x10\n" +
+	"\x0e_roi_track_dayB\x0f\n" +
+	"\r_roi_zoom_dayB\r\n" +
+	"\v_roi_fx_dayB\x11\n" +
+	"\x0f_roi_focus_heatB\x11\n" +
+	"\x0f_roi_track_heatB\x10\n" +
+	"\x0e_roi_zoom_heatB\x0e\n" +
+	"\f_roi_fx_heatB\x18\n" +
+	"\x16_sharpness_metrics_dayB\x19\n" +
+	"\x17_sharpness_metrics_heatB\x17\n" +
+	"\x15_camera_transform_dayB\x18\n" +
+	"\x16_camera_transform_heatB\x95\x01\n" +
 	"\acom.serB\x14JonSharedDataCvProtoP\x01ZHgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/cv\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -464,21 +604,38 @@ func file_jon_shared_data_cv_proto_rawDescGZIP() []byte {
 var file_jon_shared_data_cv_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_jon_shared_data_cv_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_jon_shared_data_cv_proto_goTypes = []any{
-	(JonGuiDataCV_AutofocusState)(0),     // 0: ser.JonGuiDataCV.AutofocusState
-	(JonGuiDataCV_CvBridgeStatus)(0),     // 1: ser.JonGuiDataCV.CvBridgeStatus
-	(JonGuiDataCV_CvBridgeExitReason)(0), // 2: ser.JonGuiDataCV.CvBridgeExitReason
-	(*JonGuiDataCV)(nil),                 // 3: ser.JonGuiDataCV
+	(JonGuiDataCV_AutofocusState)(0),      // 0: ser.JonGuiDataCV.AutofocusState
+	(JonGuiDataCV_CvBridgeStatus)(0),      // 1: ser.JonGuiDataCV.CvBridgeStatus
+	(JonGuiDataCV_CvBridgeExitReason)(0),  // 2: ser.JonGuiDataCV.CvBridgeExitReason
+	(*JonGuiDataCV)(nil),                  // 3: ser.JonGuiDataCV
+	(*types.JonGuiDataROI)(nil),           // 4: ser.JonGuiDataROI
+	(*types.JonGuiDataSharpness)(nil),     // 5: ser.JonGuiDataSharpness
+	(*types.JonGuiDataTransform3D)(nil),   // 6: ser.JonGuiDataTransform3D
+	(*types.JonGuiDataTrackedObject)(nil), // 7: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_cv_proto_depIdxs = []int32{
-	0, // 0: ser.JonGuiDataCV.autofocus_state_day:type_name -> ser.JonGuiDataCV.AutofocusState
-	0, // 1: ser.JonGuiDataCV.autofocus_state_heat:type_name -> ser.JonGuiDataCV.AutofocusState
-	1, // 2: ser.JonGuiDataCV.bridge_status:type_name -> ser.JonGuiDataCV.CvBridgeStatus
-	2, // 3: ser.JonGuiDataCV.last_exit_reason:type_name -> ser.JonGuiDataCV.CvBridgeExitReason
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0,  // 0: ser.JonGuiDataCV.autofocus_state_day:type_name -> ser.JonGuiDataCV.AutofocusState
+	0,  // 1: ser.JonGuiDataCV.autofocus_state_heat:type_name -> ser.JonGuiDataCV.AutofocusState
+	1,  // 2: ser.JonGuiDataCV.bridge_status:type_name -> ser.JonGuiDataCV.CvBridgeStatus
+	2,  // 3: ser.JonGuiDataCV.last_exit_reason:type_name -> ser.JonGuiDataCV.CvBridgeExitReason
+	4,  // 4: ser.JonGuiDataCV.roi_focus_day:type_name -> ser.JonGuiDataROI
+	4,  // 5: ser.JonGuiDataCV.roi_track_day:type_name -> ser.JonGuiDataROI
+	4,  // 6: ser.JonGuiDataCV.roi_zoom_day:type_name -> ser.JonGuiDataROI
+	4,  // 7: ser.JonGuiDataCV.roi_fx_day:type_name -> ser.JonGuiDataROI
+	4,  // 8: ser.JonGuiDataCV.roi_focus_heat:type_name -> ser.JonGuiDataROI
+	4,  // 9: ser.JonGuiDataCV.roi_track_heat:type_name -> ser.JonGuiDataROI
+	4,  // 10: ser.JonGuiDataCV.roi_zoom_heat:type_name -> ser.JonGuiDataROI
+	4,  // 11: ser.JonGuiDataCV.roi_fx_heat:type_name -> ser.JonGuiDataROI
+	5,  // 12: ser.JonGuiDataCV.sharpness_metrics_day:type_name -> ser.JonGuiDataSharpness
+	5,  // 13: ser.JonGuiDataCV.sharpness_metrics_heat:type_name -> ser.JonGuiDataSharpness
+	6,  // 14: ser.JonGuiDataCV.camera_transform_day:type_name -> ser.JonGuiDataTransform3D
+	6,  // 15: ser.JonGuiDataCV.camera_transform_heat:type_name -> ser.JonGuiDataTransform3D
+	7,  // 16: ser.JonGuiDataCV.tracked_objects:type_name -> ser.JonGuiDataTrackedObject
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_cv_proto_init() }
@@ -486,6 +643,7 @@ func file_jon_shared_data_cv_proto_init() {
 	if File_jon_shared_data_cv_proto != nil {
 		return
 	}
+	file_jon_shared_data_cv_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

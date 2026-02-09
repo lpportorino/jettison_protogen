@@ -1142,6 +1142,149 @@ export interface JonOpaquePayload {
   payload: Uint8Array;
 }
 
+/**
+ * Region of Interest for camera operations (focus, track, zoom, fx).
+ * Coordinates are normalized: -1.0 (left/top) to 1.0 (right/bottom).
+ * Center is (0, 0).
+ */
+export interface JonGuiDataROI {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+/**
+ * Image sharpness metrics with temporal derivatives.
+ * All values normalized 0.0-1.0 where 1.0 is maximum sharpness.
+ */
+export interface JonGuiDataSharpness {
+  value: number;
+  /** First derivative (rate of change) */
+  derivative1: number;
+  /** Second derivative (acceleration) */
+  derivative2: number;
+}
+
+/** 3D vector (position or velocity) */
+export interface JonGuiDataVector3 {
+  x: number;
+  y: number;
+  z: number;
+}
+
+/**
+ * Unit quaternion for 3D rotation (w + xi + yj + zk)
+ * Must be normalized: w² + x² + y² + z² = 1
+ */
+export interface JonGuiDataQuaternion {
+  /** scalar (cos(θ/2)) */
+  w: number;
+  /** vector i */
+  x: number;
+  /** vector j */
+  y: number;
+  /** vector k */
+  z: number;
+}
+
+/**
+ * 3D rigid body transform with velocity.
+ * When present, all fields are required.
+ */
+export interface JonGuiDataTransform3D {
+  /** meters */
+  position:
+    | JonGuiDataVector3
+    | undefined;
+  /** unit quaternion */
+  orientation:
+    | JonGuiDataQuaternion
+    | undefined;
+  /** m/s */
+  linearVelocity:
+    | JonGuiDataVector3
+    | undefined;
+  /** rad/s */
+  angularVelocity: JonGuiDataVector3 | undefined;
+}
+
+/**
+ * Tracked object - all fields required.
+ * If object is in the list, we have complete tracking data for it.
+ * UUID allows joining with external data sources (labels, classifications, etc.)
+ */
+export interface JonGuiDataTrackedObject {
+  /** UUIDv7 identifier - stable across frames for the same object */
+  uuid: string;
+  /** 3D pose (position, orientation, velocities) */
+  transform:
+    | JonGuiDataTransform3D
+    | undefined;
+  /** 2D bounding box in image space (NDC coords -1 to 1) */
+  boundingBox:
+    | JonGuiDataROI
+    | undefined;
+  /** Current tracking state */
+  state: JonGuiDataTrackedObject_TrackingState;
+}
+
+/** Tracking state */
+export enum JonGuiDataTrackedObject_TrackingState {
+  TRACKING_STATE_UNSPECIFIED = 0,
+  /** TRACKING_STATE_ACQUIRING - Initial lock attempt */
+  TRACKING_STATE_ACQUIRING = 1,
+  /** TRACKING_STATE_TRACKING - Actively tracking */
+  TRACKING_STATE_TRACKING = 2,
+  /** TRACKING_STATE_PREDICTED - Temporarily lost, using prediction */
+  TRACKING_STATE_PREDICTED = 3,
+  /** TRACKING_STATE_LOST - Lost track */
+  TRACKING_STATE_LOST = 4,
+  UNRECOGNIZED = -1,
+}
+
+export function jonGuiDataTrackedObject_TrackingStateFromJSON(object: any): JonGuiDataTrackedObject_TrackingState {
+  switch (object) {
+    case 0:
+    case "TRACKING_STATE_UNSPECIFIED":
+      return JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_UNSPECIFIED;
+    case 1:
+    case "TRACKING_STATE_ACQUIRING":
+      return JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_ACQUIRING;
+    case 2:
+    case "TRACKING_STATE_TRACKING":
+      return JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_TRACKING;
+    case 3:
+    case "TRACKING_STATE_PREDICTED":
+      return JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_PREDICTED;
+    case 4:
+    case "TRACKING_STATE_LOST":
+      return JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_LOST;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JonGuiDataTrackedObject_TrackingState.UNRECOGNIZED;
+  }
+}
+
+export function jonGuiDataTrackedObject_TrackingStateToJSON(object: JonGuiDataTrackedObject_TrackingState): string {
+  switch (object) {
+    case JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_UNSPECIFIED:
+      return "TRACKING_STATE_UNSPECIFIED";
+    case JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_ACQUIRING:
+      return "TRACKING_STATE_ACQUIRING";
+    case JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_TRACKING:
+      return "TRACKING_STATE_TRACKING";
+    case JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_PREDICTED:
+      return "TRACKING_STATE_PREDICTED";
+    case JonGuiDataTrackedObject_TrackingState.TRACKING_STATE_LOST:
+      return "TRACKING_STATE_LOST";
+    case JonGuiDataTrackedObject_TrackingState.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 function createBaseJonGuiDataMeteo(): JonGuiDataMeteo {
   return { temperature: 0, humidity: 0, pressure: 0 };
 }
@@ -1420,6 +1563,654 @@ export const JonOpaquePayload: MessageFns<JonOpaquePayload> = {
       ? JonOpaquePayloadVersion.fromPartial(object.version)
       : undefined;
     message.payload = object.payload ?? new Uint8Array(0);
+    return message;
+  },
+};
+
+function createBaseJonGuiDataROI(): JonGuiDataROI {
+  return { x1: 0, y1: 0, x2: 0, y2: 0 };
+}
+
+export const JonGuiDataROI: MessageFns<JonGuiDataROI> = {
+  encode(message: JonGuiDataROI, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.x1 !== 0) {
+      writer.uint32(9).double(message.x1);
+    }
+    if (message.y1 !== 0) {
+      writer.uint32(17).double(message.y1);
+    }
+    if (message.x2 !== 0) {
+      writer.uint32(25).double(message.x2);
+    }
+    if (message.y2 !== 0) {
+      writer.uint32(33).double(message.y2);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataROI {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataROI();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.x1 = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.y1 = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.x2 = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.y2 = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataROI {
+    return {
+      x1: isSet(object.x1) ? globalThis.Number(object.x1) : 0,
+      y1: isSet(object.y1) ? globalThis.Number(object.y1) : 0,
+      x2: isSet(object.x2) ? globalThis.Number(object.x2) : 0,
+      y2: isSet(object.y2) ? globalThis.Number(object.y2) : 0,
+    };
+  },
+
+  toJSON(message: JonGuiDataROI): unknown {
+    const obj: any = {};
+    if (message.x1 !== 0) {
+      obj.x1 = message.x1;
+    }
+    if (message.y1 !== 0) {
+      obj.y1 = message.y1;
+    }
+    if (message.x2 !== 0) {
+      obj.x2 = message.x2;
+    }
+    if (message.y2 !== 0) {
+      obj.y2 = message.y2;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataROI>, I>>(base?: I): JonGuiDataROI {
+    return JonGuiDataROI.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataROI>, I>>(object: I): JonGuiDataROI {
+    const message = createBaseJonGuiDataROI();
+    message.x1 = object.x1 ?? 0;
+    message.y1 = object.y1 ?? 0;
+    message.x2 = object.x2 ?? 0;
+    message.y2 = object.y2 ?? 0;
+    return message;
+  },
+};
+
+function createBaseJonGuiDataSharpness(): JonGuiDataSharpness {
+  return { value: 0, derivative1: 0, derivative2: 0 };
+}
+
+export const JonGuiDataSharpness: MessageFns<JonGuiDataSharpness> = {
+  encode(message: JonGuiDataSharpness, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.value !== 0) {
+      writer.uint32(9).double(message.value);
+    }
+    if (message.derivative1 !== 0) {
+      writer.uint32(17).double(message.derivative1);
+    }
+    if (message.derivative2 !== 0) {
+      writer.uint32(25).double(message.derivative2);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataSharpness {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataSharpness();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.value = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.derivative1 = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.derivative2 = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataSharpness {
+    return {
+      value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+      derivative1: isSet(object.derivative1)
+        ? globalThis.Number(object.derivative1)
+        : isSet(object.derivative_1)
+        ? globalThis.Number(object.derivative_1)
+        : 0,
+      derivative2: isSet(object.derivative2)
+        ? globalThis.Number(object.derivative2)
+        : isSet(object.derivative_2)
+        ? globalThis.Number(object.derivative_2)
+        : 0,
+    };
+  },
+
+  toJSON(message: JonGuiDataSharpness): unknown {
+    const obj: any = {};
+    if (message.value !== 0) {
+      obj.value = message.value;
+    }
+    if (message.derivative1 !== 0) {
+      obj.derivative1 = message.derivative1;
+    }
+    if (message.derivative2 !== 0) {
+      obj.derivative2 = message.derivative2;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataSharpness>, I>>(base?: I): JonGuiDataSharpness {
+    return JonGuiDataSharpness.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataSharpness>, I>>(object: I): JonGuiDataSharpness {
+    const message = createBaseJonGuiDataSharpness();
+    message.value = object.value ?? 0;
+    message.derivative1 = object.derivative1 ?? 0;
+    message.derivative2 = object.derivative2 ?? 0;
+    return message;
+  },
+};
+
+function createBaseJonGuiDataVector3(): JonGuiDataVector3 {
+  return { x: 0, y: 0, z: 0 };
+}
+
+export const JonGuiDataVector3: MessageFns<JonGuiDataVector3> = {
+  encode(message: JonGuiDataVector3, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.x !== 0) {
+      writer.uint32(9).double(message.x);
+    }
+    if (message.y !== 0) {
+      writer.uint32(17).double(message.y);
+    }
+    if (message.z !== 0) {
+      writer.uint32(25).double(message.z);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataVector3 {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataVector3();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.x = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.y = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.z = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataVector3 {
+    return {
+      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
+      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      z: isSet(object.z) ? globalThis.Number(object.z) : 0,
+    };
+  },
+
+  toJSON(message: JonGuiDataVector3): unknown {
+    const obj: any = {};
+    if (message.x !== 0) {
+      obj.x = message.x;
+    }
+    if (message.y !== 0) {
+      obj.y = message.y;
+    }
+    if (message.z !== 0) {
+      obj.z = message.z;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataVector3>, I>>(base?: I): JonGuiDataVector3 {
+    return JonGuiDataVector3.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataVector3>, I>>(object: I): JonGuiDataVector3 {
+    const message = createBaseJonGuiDataVector3();
+    message.x = object.x ?? 0;
+    message.y = object.y ?? 0;
+    message.z = object.z ?? 0;
+    return message;
+  },
+};
+
+function createBaseJonGuiDataQuaternion(): JonGuiDataQuaternion {
+  return { w: 0, x: 0, y: 0, z: 0 };
+}
+
+export const JonGuiDataQuaternion: MessageFns<JonGuiDataQuaternion> = {
+  encode(message: JonGuiDataQuaternion, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.w !== 0) {
+      writer.uint32(9).double(message.w);
+    }
+    if (message.x !== 0) {
+      writer.uint32(17).double(message.x);
+    }
+    if (message.y !== 0) {
+      writer.uint32(25).double(message.y);
+    }
+    if (message.z !== 0) {
+      writer.uint32(33).double(message.z);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataQuaternion {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataQuaternion();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 9) {
+            break;
+          }
+
+          message.w = reader.double();
+          continue;
+        }
+        case 2: {
+          if (tag !== 17) {
+            break;
+          }
+
+          message.x = reader.double();
+          continue;
+        }
+        case 3: {
+          if (tag !== 25) {
+            break;
+          }
+
+          message.y = reader.double();
+          continue;
+        }
+        case 4: {
+          if (tag !== 33) {
+            break;
+          }
+
+          message.z = reader.double();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataQuaternion {
+    return {
+      w: isSet(object.w) ? globalThis.Number(object.w) : 0,
+      x: isSet(object.x) ? globalThis.Number(object.x) : 0,
+      y: isSet(object.y) ? globalThis.Number(object.y) : 0,
+      z: isSet(object.z) ? globalThis.Number(object.z) : 0,
+    };
+  },
+
+  toJSON(message: JonGuiDataQuaternion): unknown {
+    const obj: any = {};
+    if (message.w !== 0) {
+      obj.w = message.w;
+    }
+    if (message.x !== 0) {
+      obj.x = message.x;
+    }
+    if (message.y !== 0) {
+      obj.y = message.y;
+    }
+    if (message.z !== 0) {
+      obj.z = message.z;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataQuaternion>, I>>(base?: I): JonGuiDataQuaternion {
+    return JonGuiDataQuaternion.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataQuaternion>, I>>(object: I): JonGuiDataQuaternion {
+    const message = createBaseJonGuiDataQuaternion();
+    message.w = object.w ?? 0;
+    message.x = object.x ?? 0;
+    message.y = object.y ?? 0;
+    message.z = object.z ?? 0;
+    return message;
+  },
+};
+
+function createBaseJonGuiDataTransform3D(): JonGuiDataTransform3D {
+  return { position: undefined, orientation: undefined, linearVelocity: undefined, angularVelocity: undefined };
+}
+
+export const JonGuiDataTransform3D: MessageFns<JonGuiDataTransform3D> = {
+  encode(message: JonGuiDataTransform3D, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.position !== undefined) {
+      JonGuiDataVector3.encode(message.position, writer.uint32(10).fork()).join();
+    }
+    if (message.orientation !== undefined) {
+      JonGuiDataQuaternion.encode(message.orientation, writer.uint32(18).fork()).join();
+    }
+    if (message.linearVelocity !== undefined) {
+      JonGuiDataVector3.encode(message.linearVelocity, writer.uint32(26).fork()).join();
+    }
+    if (message.angularVelocity !== undefined) {
+      JonGuiDataVector3.encode(message.angularVelocity, writer.uint32(34).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataTransform3D {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataTransform3D();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.position = JonGuiDataVector3.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.orientation = JonGuiDataQuaternion.decode(reader, reader.uint32());
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.linearVelocity = JonGuiDataVector3.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.angularVelocity = JonGuiDataVector3.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataTransform3D {
+    return {
+      position: isSet(object.position) ? JonGuiDataVector3.fromJSON(object.position) : undefined,
+      orientation: isSet(object.orientation) ? JonGuiDataQuaternion.fromJSON(object.orientation) : undefined,
+      linearVelocity: isSet(object.linearVelocity)
+        ? JonGuiDataVector3.fromJSON(object.linearVelocity)
+        : isSet(object.linear_velocity)
+        ? JonGuiDataVector3.fromJSON(object.linear_velocity)
+        : undefined,
+      angularVelocity: isSet(object.angularVelocity)
+        ? JonGuiDataVector3.fromJSON(object.angularVelocity)
+        : isSet(object.angular_velocity)
+        ? JonGuiDataVector3.fromJSON(object.angular_velocity)
+        : undefined,
+    };
+  },
+
+  toJSON(message: JonGuiDataTransform3D): unknown {
+    const obj: any = {};
+    if (message.position !== undefined) {
+      obj.position = JonGuiDataVector3.toJSON(message.position);
+    }
+    if (message.orientation !== undefined) {
+      obj.orientation = JonGuiDataQuaternion.toJSON(message.orientation);
+    }
+    if (message.linearVelocity !== undefined) {
+      obj.linearVelocity = JonGuiDataVector3.toJSON(message.linearVelocity);
+    }
+    if (message.angularVelocity !== undefined) {
+      obj.angularVelocity = JonGuiDataVector3.toJSON(message.angularVelocity);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataTransform3D>, I>>(base?: I): JonGuiDataTransform3D {
+    return JonGuiDataTransform3D.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataTransform3D>, I>>(object: I): JonGuiDataTransform3D {
+    const message = createBaseJonGuiDataTransform3D();
+    message.position = (object.position !== undefined && object.position !== null)
+      ? JonGuiDataVector3.fromPartial(object.position)
+      : undefined;
+    message.orientation = (object.orientation !== undefined && object.orientation !== null)
+      ? JonGuiDataQuaternion.fromPartial(object.orientation)
+      : undefined;
+    message.linearVelocity = (object.linearVelocity !== undefined && object.linearVelocity !== null)
+      ? JonGuiDataVector3.fromPartial(object.linearVelocity)
+      : undefined;
+    message.angularVelocity = (object.angularVelocity !== undefined && object.angularVelocity !== null)
+      ? JonGuiDataVector3.fromPartial(object.angularVelocity)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseJonGuiDataTrackedObject(): JonGuiDataTrackedObject {
+  return { uuid: "", transform: undefined, boundingBox: undefined, state: 0 };
+}
+
+export const JonGuiDataTrackedObject: MessageFns<JonGuiDataTrackedObject> = {
+  encode(message: JonGuiDataTrackedObject, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.uuid !== "") {
+      writer.uint32(10).string(message.uuid);
+    }
+    if (message.transform !== undefined) {
+      JonGuiDataTransform3D.encode(message.transform, writer.uint32(18).fork()).join();
+    }
+    if (message.boundingBox !== undefined) {
+      JonGuiDataROI.encode(message.boundingBox, writer.uint32(26).fork()).join();
+    }
+    if (message.state !== 0) {
+      writer.uint32(32).int32(message.state);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): JonGuiDataTrackedObject {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseJonGuiDataTrackedObject();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.uuid = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.transform = JonGuiDataTransform3D.decode(reader, reader.uint32());
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.boundingBox = JonGuiDataROI.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.state = reader.int32() as any;
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): JonGuiDataTrackedObject {
+    return {
+      uuid: isSet(object.uuid) ? globalThis.String(object.uuid) : "",
+      transform: isSet(object.transform) ? JonGuiDataTransform3D.fromJSON(object.transform) : undefined,
+      boundingBox: isSet(object.boundingBox)
+        ? JonGuiDataROI.fromJSON(object.boundingBox)
+        : isSet(object.bounding_box)
+        ? JonGuiDataROI.fromJSON(object.bounding_box)
+        : undefined,
+      state: isSet(object.state) ? jonGuiDataTrackedObject_TrackingStateFromJSON(object.state) : 0,
+    };
+  },
+
+  toJSON(message: JonGuiDataTrackedObject): unknown {
+    const obj: any = {};
+    if (message.uuid !== "") {
+      obj.uuid = message.uuid;
+    }
+    if (message.transform !== undefined) {
+      obj.transform = JonGuiDataTransform3D.toJSON(message.transform);
+    }
+    if (message.boundingBox !== undefined) {
+      obj.boundingBox = JonGuiDataROI.toJSON(message.boundingBox);
+    }
+    if (message.state !== 0) {
+      obj.state = jonGuiDataTrackedObject_TrackingStateToJSON(message.state);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<JonGuiDataTrackedObject>, I>>(base?: I): JonGuiDataTrackedObject {
+    return JonGuiDataTrackedObject.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<JonGuiDataTrackedObject>, I>>(object: I): JonGuiDataTrackedObject {
+    const message = createBaseJonGuiDataTrackedObject();
+    message.uuid = object.uuid ?? "";
+    message.transform = (object.transform !== undefined && object.transform !== null)
+      ? JonGuiDataTransform3D.fromPartial(object.transform)
+      : undefined;
+    message.boundingBox = (object.boundingBox !== undefined && object.boundingBox !== null)
+      ? JonGuiDataROI.fromPartial(object.boundingBox)
+      : undefined;
+    message.state = object.state ?? 0;
     return message;
   },
 };

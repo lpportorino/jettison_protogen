@@ -74,7 +74,7 @@ fi
 
 # Create output directories with full permissions
 print_info "Creating output directories..."
-mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,python,typescript,rust,java,json-descriptors,typescript-validated}
+mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,kotlin,python,typescript,rust,java,json-descriptors,typescript-validated}
 # Set directory permissions to 777
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
 
@@ -119,9 +119,15 @@ find /workspace/output -type d -exec chmod 777 {} + 2>/dev/null || true"
 C_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
+
 find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
     protoc --plugin=protoc-gen-nanopb=/opt/nanopb/generator/protoc-gen-nanopb \
     -I/tmp/cleaned_proto \
@@ -142,10 +148,13 @@ CPP_SCRIPT='
 set -e
 mkdir -p /tmp/cpp_proto_val
 
-# Copy proto files WITH validate imports (do NOT clean/strip annotations)
-for proto in proto/*.proto; do
-    cp "$proto" "/tmp/cpp_proto_val/$(basename "$proto")"
-    /usr/local/bin/add-validate-import.sh "/tmp/cpp_proto_val/$(basename "$proto")"
+# Copy proto files WITH validate imports including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cpp_proto_val/$dirname"
+    cp "$proto" "/tmp/cpp_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/cpp_proto_val/$relpath"
 done
 
 # Copy validate.proto from protovalidate
@@ -164,10 +173,13 @@ GO_SCRIPT='
 set -e
 mkdir -p /tmp/go_proto_val
 
-# Copy proto files and add validate import
-for proto in proto/*.proto; do
-    cp "$proto" "/tmp/go_proto_val/$(basename "$proto")"
-    /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$(basename "$proto")"
+# Copy proto files and add validate import including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/go_proto_val/$dirname"
+    cp "$proto" "/tmp/go_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/go_proto_val/$relpath"
 done
 
 # Copy validate.proto from protovalidate
@@ -212,25 +224,74 @@ fi
 echo "Go generation successful, found $(find /workspace/output -name "*.pb.go" -type f | wc -l) .pb.go files"
 '
 
+# Kotlin generation script with validation support (uses protoc alongside Java for package consistency)
+# NOTE: Kotlin codegen depends on Java classes, so packages MUST match.
+# We use protoc directly (not buf) to ensure the proto package is respected without prefix.
+KOTLIN_SCRIPT='
+set -e
+mkdir -p /tmp/kotlin_proto_val
+
+# Copy proto files and add validate import including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/kotlin_proto_val/$dirname"
+    cp "$proto" "/tmp/kotlin_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/kotlin_proto_val/$relpath"
+done
+
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/kotlin_proto_val/
+
+# Ensure output directory exists
+mkdir -p /workspace/output
+
+# Generate Kotlin using protoc (must match Java package structure)
+# Kotlin DSL wrappers require Java classes, so package must be identical
+PROTO_FILES=$(find /tmp/kotlin_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
+protoc -I/tmp/kotlin_proto_val \
+    --kotlin_out=/workspace/output \
+    $PROTO_FILES
+
+# Verify files were generated
+if [ -z "$(find /workspace/output -name "*.kt" -type f 2>/dev/null)" ]; then
+    echo "ERROR: No Kotlin files were generated!"
+    exit 1
+fi
+echo "Kotlin generation successful, found $(find /workspace/output -name "*.kt" -type f | wc -l) .kt files"
+'
+
 # Python generation script
 PYTHON_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
+
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
 protoc -I/tmp/cleaned_proto \
     --python_out=/workspace/output \
     --pyi_out=/workspace/output \
-    /tmp/cleaned_proto/*.proto
+    $PROTO_FILES
 '
 
 # TypeScript generation script
 TYPESCRIPT_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories (exclude test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
 # Create temporary node project for ts-proto
@@ -238,21 +299,28 @@ cd /tmp
 npm init -y
 npm install ts-proto
 
+# Find all proto files for protoc
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
 protoc -I/tmp/cleaned_proto \
     --plugin=protoc-gen-ts_proto=/tmp/node_modules/.bin/protoc-gen-ts_proto \
     --ts_proto_opt=outputIndex=true \
     --ts_proto_opt=esModuleInterop=true \
     --ts_proto_opt=forceLong=long \
     --ts_proto_out=/workspace/output \
-    /tmp/cleaned_proto/*.proto
+    $PROTO_FILES
 '
 
 # Rust generation script
 RUST_SCRIPT='
 set -e
 mkdir -p /tmp/cleaned_proto /tmp/rust_gen
-for proto in proto/*.proto; do
-    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$(basename "$proto")"
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
 # Ensure the output directory exists
@@ -261,34 +329,21 @@ mkdir -p /workspace/output
 # Set PATH to include cargo - try multiple locations
 export PATH="/opt/rust/bin:/root/.cargo/bin:/usr/local/bin:$PATH"
 
-# Debug output
-echo "PATH: $PATH"
-echo "Checking cargo availability..."
+# Check cargo availability
 
 # If cargo is not accessible, try to find it
 if ! command -v cargo &> /dev/null; then
-    echo "cargo not found in PATH"
-    # Try to find cargo in common locations
     if [ -f "/root/.cargo/bin/cargo" ]; then
-        echo "cargo found at /root/.cargo/bin/cargo"
-        # Check if we can execute it
         if /root/.cargo/bin/cargo --version &> /dev/null; then
-            echo "cargo is executable, adding to PATH"
             export PATH="/root/.cargo/bin:$PATH"
         else
-            echo "cargo not executable, trying to copy to accessible location"
-            # If cargo exists but not accessible due to permissions, skip Rust generation
             echo "WARNING: Skipping Rust generation due to permission issues with cargo"
-            echo "To fix this, rebuild the base image with proper Rust installation"
             exit 0
         fi
     else
-        echo "cargo not found at /root/.cargo/bin/cargo"
         echo "WARNING: Skipping Rust generation - cargo not installed"
         exit 0
     fi
-else
-    echo "cargo found in PATH: $(which cargo)"
 fi
 
 # Create a Rust project for generation
@@ -299,8 +354,7 @@ export CARGO_HOME="/tmp/.cargo"
 mkdir -p "$CARGO_HOME"
 
 # Verify cargo is working
-echo "Testing cargo version..."
-cargo --version || { echo "ERROR: cargo not working"; exit 1; }
+cargo --version &> /dev/null || { echo "ERROR: cargo not working"; exit 1; }
 
 cat > Cargo.toml << EOF
 [package]
@@ -347,53 +401,38 @@ cat > src/main.rs << "EOF"
 fn main() {}
 EOF
 
-echo "Building Rust proto generation..."
-cargo build
+cargo build 2>&1 | tail -5
 '
 
 # Java generation script with buf.validate support
 JAVA_SCRIPT='
-set -ex  # Add -x for debugging
-# Create a temporary directory for proto files
+set -e
 mkdir -p /tmp/java_proto_buf
 
-# Copy proto files to temporary directory
-cp -r /workspace/proto/* /tmp/java_proto_buf/
-
-# Copy buf validate proto definitions to the expected location
-mkdir -p /tmp/java_proto_buf/buf/validate
-cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/java_proto_buf/buf/validate/
-
-# First, ensure all proto files have proper imports
-cd /tmp/java_proto_buf
-echo "Adding validate imports to proto files..."
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        echo "Processing: $proto"
-        /usr/local/bin/add-validate-import.sh "$proto"
-        # Show first few lines to verify import was added
-        head -5 "$proto"
-        echo "---"
-    fi
+# Copy proto files and add validate import (excluding test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/java_proto_buf/$dirname"
+    cp "$proto" "/tmp/java_proto_buf/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/java_proto_buf/$relpath"
 done
 
-# List all files to ensure validate.proto is present
-echo "Files in /tmp/java_proto_buf:"
-find /tmp/java_proto_buf -name "*.proto" | sort
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/java_proto_buf/
 
 # Generate using standard protoc with the validate.proto available
-# This is simpler and more reliable than using buf generate for our use case
-echo "Running protoc..."
+PROTO_FILES=$(find /tmp/java_proto_buf -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/java_proto_buf \
     --java_out=/workspace/output \
-    /tmp/java_proto_buf/*.proto
+    $PROTO_FILES
 
 # Verify files were generated
 if [ -z "$(find /workspace/output -name "*.java" -type f 2>/dev/null)" ]; then
     echo "ERROR: No Java files were generated!"
     exit 1
 fi
-echo "Java generation successful, found $(find /workspace/output -name "*.java" -type f | wc -l) .java files"
+echo "Generated $(find /workspace/output -name "*.java" -type f | wc -l) .java files"
 '
 
 # REMOVED - Go validation is now in main GO_SCRIPT
@@ -404,24 +443,22 @@ echo "Java generation successful, found $(find /workspace/output -name "*.java" 
 
 # JSON descriptor generation script
 JSON_DESCRIPTOR_SCRIPT='
-set -ex
-# Create a temporary directory for proto files with validate imports
+set -e
 mkdir -p /tmp/json_proto
 
-# Copy proto files to temporary directory
-cp -r /workspace/proto/* /tmp/json_proto/
-
-# Copy buf validate proto definitions
-mkdir -p /tmp/json_proto/buf/validate
-cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/json_proto/buf/validate/
-
-# Add validate imports to proto files
-cd /tmp/json_proto
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        /usr/local/bin/add-validate-import.sh "$proto"
-    fi
+# Copy proto files and add validate import (excluding test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/json_proto/$dirname"
+    cp "$proto" "/tmp/json_proto/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/json_proto/$relpath"
 done
+
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/json_proto/
+
+cd /tmp/json_proto
 
 # Check if buf is available, otherwise fall back to protoc
 if command -v buf &> /dev/null; then
@@ -511,43 +548,31 @@ for file_descriptor in descriptor_dict.get("file", []):
         with open(output_path, "w") as f:
             json.dump(individual_desc, f, indent=2)
 
-print("JSON conversion complete!")
-print("Note: buf.validate annotations may not be fully preserved without buf CLI")
+print("Generated JSON descriptors")
 PYTHON_EOF
 fi
 
-echo "Descriptors generated successfully!"
-echo "Generated files:"
-ls -la /workspace/output/
+echo "Generated $(find /workspace/output -name "*.json" -type f | wc -l) JSON files"
 '
 
 # TypeScript validated generation script with protovalidate-es
 TYPESCRIPT_VALIDATED_SCRIPT='
-set -ex
-# Create a temporary directory for proto files with validate imports
+set -e
 mkdir -p /tmp/ts_proto_val
 
-# Copy proto files to temporary directory
-cp -r /workspace/proto/* /tmp/ts_proto_val/
-
-# Copy buf validate proto definitions
-mkdir -p /tmp/ts_proto_val/buf/validate
-cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/ts_proto_val/buf/validate/
-
-# Add validate imports to proto files
-cd /tmp/ts_proto_val
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        /usr/local/bin/add-validate-import.sh "$proto"
-    fi
+# Copy proto files and add validate import (excluding test directory)
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/ts_proto_val/$dirname"
+    cp "$proto" "/tmp/ts_proto_val/$relpath"
+    /usr/local/bin/add-validate-import.sh "/tmp/ts_proto_val/$relpath"
 done
 
-# List all files to verify
-echo "Proto files in /tmp/ts_proto_val:"
-find /tmp/ts_proto_val -name "*.proto" | sort
+# Copy validate.proto from protovalidate
+cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/ts_proto_val/
 
 # Generate TypeScript using @bufbuild/protoc-gen-es with validation
-echo "Generating TypeScript with protovalidate-es..."
 protoc -I/tmp/ts_proto_val \
     --plugin=/usr/local/lib/node_modules/@bufbuild/protoc-gen-es/bin/protoc-gen-es \
     --es_out=/workspace/output \
@@ -583,19 +608,18 @@ if [ -z "$(find /workspace/output -name "*_pb.js" -o -name "*_pb.ts" -type f 2>/
     echo "ERROR: No TypeScript files were generated!"
     exit 1
 fi
-echo "TypeScript validated generation successful!"
-echo "Generated files:"
-ls -la /workspace/output/
+echo "Generated $(find /workspace/output -name "*_pb.ts" -type f | wc -l) TypeScript files"
 '
 
 # Run all generations
 FAILED_LANGS=()
 
-for lang in c cpp go python typescript rust java json-descriptors typescript-validated; do
+for lang in c cpp go kotlin python typescript rust java json-descriptors typescript-validated; do
     case $lang in
         c) script="$C_SCRIPT" ;;
         cpp) script="$CPP_SCRIPT" ;;
         go) script="$GO_SCRIPT" ;;
+        kotlin) script="$KOTLIN_SCRIPT" ;;
         python) script="$PYTHON_SCRIPT" ;;
         typescript) script="$TYPESCRIPT_SCRIPT" ;;
         rust) script="$RUST_SCRIPT" ;;
@@ -619,7 +643,7 @@ print_info "========== Generation Summary =========="
 print_info "Output directory: $OUTPUT_BASE_DIR"
 
 # Check what was generated
-for lang in c cpp go python typescript rust java json-descriptors typescript-validated; do
+for lang in c cpp go kotlin python typescript rust java json-descriptors typescript-validated; do
     count=$(find "$OUTPUT_BASE_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "$lang: $count files generated"
@@ -629,7 +653,7 @@ for lang in c cpp go python typescript rust java json-descriptors typescript-val
 done
 
 print_info ""
-print_info "Note: Go, Java, and TypeScript-validated bindings include buf.validate support"
+print_info "Note: C++, Go, Kotlin, Java, and TypeScript-validated bindings include buf.validate support"
 
 if [ ${#FAILED_LANGS[@]} -gt 0 ]; then
     print_error "Failed languages: ${FAILED_LANGS[*]}"

@@ -80,21 +80,21 @@ cp -r /workspace/proto/* /tmp/json_proto/
 mkdir -p /tmp/json_proto/buf/validate
 cp /opt/protovalidate/proto/protovalidate/buf/validate/validate.proto /tmp/json_proto/buf/validate/
 
-# Add validate imports to proto files
+# Add validate imports to proto files (including subdirectories)
 cd /tmp/json_proto
-for proto in *.proto; do
-    if [ -f "$proto" ]; then
-        /usr/local/bin/add-validate-import.sh "$proto"
-    fi
+find . -name "*.proto" -type f | while read -r proto; do
+    /usr/local/bin/add-validate-import.sh "$proto"
 done
 
 # Use protoc to generate FileDescriptorSet (binary format)
 echo "Generating FileDescriptorSet with protoc..."
+# Find all proto files including subdirectories
+PROTO_FILES=$(find /tmp/json_proto -name "*.proto" -type f | grep -v "buf/validate")
 protoc -I/tmp/json_proto \
     --descriptor_set_out=/tmp/descriptor-set.pb \
     --include_imports \
     --include_source_info \
-    /tmp/json_proto/*.proto
+    $PROTO_FILES
 
 # Convert to JSON using Python
 echo "Converting to JSON format..."

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Top-level command message that routes client commands to various subsystems (day camera, thermal camera, GPS, compass, LRF, rotary platform, OSD, system, CV, glass heater, LIRA, power) with protocol versioning, session tracking, timestamps, and validation support.
+Top-level command message that routes client commands to various subsystems (day camera, thermal camera, GPS, compass, LRF, rotary platform, OSD, system, CV, LIRA, power, PMU, heater) with protocol versioning, session tracking, timestamps, and validation support.
 
 ## Fields
 
@@ -41,10 +41,10 @@ Top-level command message that routes client commands to various subsystems (day
 | 30 | frozen | [[proto/cmd.Frozen]] | - |
 | 31 | system | [[proto/cmd.System.Root]] | - |
 | 32 | cv | [[proto/cmd.CV.Root]] | - |
-| 33 | day_cam_glass_heater | [[proto/cmd.DayCamGlassHeater.Root]] | - |
 | 34 | lira | [[proto/cmd.Lira.Root]] | - |
 | 35 | power | [[proto/cmd.Power.Root]] | - |
 | 36 | pmu | [[proto/cmd.PMU.Root]] | - |
+| 37 | heater | [[proto/cmd.Heater.Root]] | - |
 
 
 ## Oneofs
@@ -52,7 +52,7 @@ Top-level command message that routes client commands to various subsystems (day
 
 ### payload (required)
 
-Fields: #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36
+Fields: #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #34, #35, #36, #37
 
 
 

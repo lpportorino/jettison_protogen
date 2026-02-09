@@ -1,12 +1,18 @@
 #!/usr/bin/env awk -f
 
 # This script removes buf specs (content within square brackets) from .proto files,
-# including nested brackets. It also removes option declarations for buf.validate.
+# including nested brackets. It also removes option declarations for buf.validate
+# and import statements for buf/validate/validate.proto.
 
 BEGIN {
     in_bracket = 0
     bracket_depth = 0
     in_option = 0
+}
+
+# Skip import lines for buf/validate/validate.proto
+/^import "buf\/validate\/validate\.proto";/ {
+    next
 }
 
 {

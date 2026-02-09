@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Root protocol buffer message that aggregates telemetry and state from 14 subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, glass heater control, spatiotemporal data, and power management. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
+Root protocol buffer message that aggregates telemetry and state from multiple subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, spatiotemporal data, power management, PMU, and heater. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
 
 ## Fields
 
@@ -36,11 +36,11 @@ Root protocol buffer message that aggregates telemetry and state from 14 subsyst
 | 21 | camera_heat | [[proto/ser.JonGuiDataCameraHeat]] | required |
 | 22 | compass_calibration | [[proto/ser.JonGuiDataCompassCalibration]] | required |
 | 23 | rec_osd | [[proto/ser.JonGuiDataRecOsd]] | required |
-| 24 | day_cam_glass_heater | [[proto/ser.JonGuiDataDayCamGlassHeater]] | required |
 | 25 | actual_space_time | [[proto/ser.JonGuiDataActualSpaceTime]] | required |
 | 26 | power | [[proto/ser.JonGuiDataPower]] | required |
 | 27 | cv | [[proto/ser.JonGuiDataCV]] | - |
 | 28 | pmu | [[proto/ser.JonGuiDataPMU]] | required |
+| 29 | heater | [[proto/ser.JonGuiDataHeater]] | - |
 
 
 

@@ -1192,6 +1192,62 @@ func (JonGuiDataStateSource) EnumDescriptor() ([]byte, []int) {
 	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{20}
 }
 
+// Tracking state
+type JonGuiDataTrackedObject_TrackingState int32
+
+const (
+	JonGuiDataTrackedObject_TRACKING_STATE_UNSPECIFIED JonGuiDataTrackedObject_TrackingState = 0
+	JonGuiDataTrackedObject_TRACKING_STATE_ACQUIRING   JonGuiDataTrackedObject_TrackingState = 1 // Initial lock attempt
+	JonGuiDataTrackedObject_TRACKING_STATE_TRACKING    JonGuiDataTrackedObject_TrackingState = 2 // Actively tracking
+	JonGuiDataTrackedObject_TRACKING_STATE_PREDICTED   JonGuiDataTrackedObject_TrackingState = 3 // Temporarily lost, using prediction
+	JonGuiDataTrackedObject_TRACKING_STATE_LOST        JonGuiDataTrackedObject_TrackingState = 4 // Lost track
+)
+
+// Enum value maps for JonGuiDataTrackedObject_TrackingState.
+var (
+	JonGuiDataTrackedObject_TrackingState_name = map[int32]string{
+		0: "TRACKING_STATE_UNSPECIFIED",
+		1: "TRACKING_STATE_ACQUIRING",
+		2: "TRACKING_STATE_TRACKING",
+		3: "TRACKING_STATE_PREDICTED",
+		4: "TRACKING_STATE_LOST",
+	}
+	JonGuiDataTrackedObject_TrackingState_value = map[string]int32{
+		"TRACKING_STATE_UNSPECIFIED": 0,
+		"TRACKING_STATE_ACQUIRING":   1,
+		"TRACKING_STATE_TRACKING":    2,
+		"TRACKING_STATE_PREDICTED":   3,
+		"TRACKING_STATE_LOST":        4,
+	}
+)
+
+func (x JonGuiDataTrackedObject_TrackingState) Enum() *JonGuiDataTrackedObject_TrackingState {
+	p := new(JonGuiDataTrackedObject_TrackingState)
+	*p = x
+	return p
+}
+
+func (x JonGuiDataTrackedObject_TrackingState) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (JonGuiDataTrackedObject_TrackingState) Descriptor() protoreflect.EnumDescriptor {
+	return file_jon_shared_data_types_proto_enumTypes[21].Descriptor()
+}
+
+func (JonGuiDataTrackedObject_TrackingState) Type() protoreflect.EnumType {
+	return &file_jon_shared_data_types_proto_enumTypes[21]
+}
+
+func (x JonGuiDataTrackedObject_TrackingState) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use JonGuiDataTrackedObject_TrackingState.Descriptor instead.
+func (JonGuiDataTrackedObject_TrackingState) EnumDescriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{8, 0}
+}
+
 type JonGuiDataMeteo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Temperature   float64                `protobuf:"fixed64,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
@@ -1380,6 +1436,415 @@ func (x *JonOpaquePayload) GetPayload() []byte {
 	return nil
 }
 
+// Region of Interest for camera operations (focus, track, zoom, fx).
+// Coordinates are normalized: -1.0 (left/top) to 1.0 (right/bottom).
+// Center is (0, 0).
+type JonGuiDataROI struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	X1            float64                `protobuf:"fixed64,1,opt,name=x1,proto3" json:"x1,omitempty"`
+	Y1            float64                `protobuf:"fixed64,2,opt,name=y1,proto3" json:"y1,omitempty"`
+	X2            float64                `protobuf:"fixed64,3,opt,name=x2,proto3" json:"x2,omitempty"`
+	Y2            float64                `protobuf:"fixed64,4,opt,name=y2,proto3" json:"y2,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonGuiDataROI) Reset() {
+	*x = JonGuiDataROI{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataROI) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataROI) ProtoMessage() {}
+
+func (x *JonGuiDataROI) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataROI.ProtoReflect.Descriptor instead.
+func (*JonGuiDataROI) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *JonGuiDataROI) GetX1() float64 {
+	if x != nil {
+		return x.X1
+	}
+	return 0
+}
+
+func (x *JonGuiDataROI) GetY1() float64 {
+	if x != nil {
+		return x.Y1
+	}
+	return 0
+}
+
+func (x *JonGuiDataROI) GetX2() float64 {
+	if x != nil {
+		return x.X2
+	}
+	return 0
+}
+
+func (x *JonGuiDataROI) GetY2() float64 {
+	if x != nil {
+		return x.Y2
+	}
+	return 0
+}
+
+// Image sharpness metrics with temporal derivatives.
+// All values normalized 0.0-1.0 where 1.0 is maximum sharpness.
+type JonGuiDataSharpness struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
+	Derivative_1  float64                `protobuf:"fixed64,2,opt,name=derivative_1,json=derivative1,proto3" json:"derivative_1,omitempty"` // First derivative (rate of change)
+	Derivative_2  float64                `protobuf:"fixed64,3,opt,name=derivative_2,json=derivative2,proto3" json:"derivative_2,omitempty"` // Second derivative (acceleration)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonGuiDataSharpness) Reset() {
+	*x = JonGuiDataSharpness{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataSharpness) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataSharpness) ProtoMessage() {}
+
+func (x *JonGuiDataSharpness) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataSharpness.ProtoReflect.Descriptor instead.
+func (*JonGuiDataSharpness) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *JonGuiDataSharpness) GetValue() float64 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+func (x *JonGuiDataSharpness) GetDerivative_1() float64 {
+	if x != nil {
+		return x.Derivative_1
+	}
+	return 0
+}
+
+func (x *JonGuiDataSharpness) GetDerivative_2() float64 {
+	if x != nil {
+		return x.Derivative_2
+	}
+	return 0
+}
+
+// 3D vector (position or velocity)
+type JonGuiDataVector3 struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	X             float64                `protobuf:"fixed64,1,opt,name=x,proto3" json:"x,omitempty"`
+	Y             float64                `protobuf:"fixed64,2,opt,name=y,proto3" json:"y,omitempty"`
+	Z             float64                `protobuf:"fixed64,3,opt,name=z,proto3" json:"z,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonGuiDataVector3) Reset() {
+	*x = JonGuiDataVector3{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataVector3) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataVector3) ProtoMessage() {}
+
+func (x *JonGuiDataVector3) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataVector3.ProtoReflect.Descriptor instead.
+func (*JonGuiDataVector3) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *JonGuiDataVector3) GetX() float64 {
+	if x != nil {
+		return x.X
+	}
+	return 0
+}
+
+func (x *JonGuiDataVector3) GetY() float64 {
+	if x != nil {
+		return x.Y
+	}
+	return 0
+}
+
+func (x *JonGuiDataVector3) GetZ() float64 {
+	if x != nil {
+		return x.Z
+	}
+	return 0
+}
+
+// Unit quaternion for 3D rotation (w + xi + yj + zk)
+// Must be normalized: w² + x² + y² + z² = 1
+type JonGuiDataQuaternion struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	W             float64                `protobuf:"fixed64,1,opt,name=w,proto3" json:"w,omitempty"` // scalar (cos(θ/2))
+	X             float64                `protobuf:"fixed64,2,opt,name=x,proto3" json:"x,omitempty"` // vector i
+	Y             float64                `protobuf:"fixed64,3,opt,name=y,proto3" json:"y,omitempty"` // vector j
+	Z             float64                `protobuf:"fixed64,4,opt,name=z,proto3" json:"z,omitempty"` // vector k
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonGuiDataQuaternion) Reset() {
+	*x = JonGuiDataQuaternion{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataQuaternion) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataQuaternion) ProtoMessage() {}
+
+func (x *JonGuiDataQuaternion) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataQuaternion.ProtoReflect.Descriptor instead.
+func (*JonGuiDataQuaternion) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *JonGuiDataQuaternion) GetW() float64 {
+	if x != nil {
+		return x.W
+	}
+	return 0
+}
+
+func (x *JonGuiDataQuaternion) GetX() float64 {
+	if x != nil {
+		return x.X
+	}
+	return 0
+}
+
+func (x *JonGuiDataQuaternion) GetY() float64 {
+	if x != nil {
+		return x.Y
+	}
+	return 0
+}
+
+func (x *JonGuiDataQuaternion) GetZ() float64 {
+	if x != nil {
+		return x.Z
+	}
+	return 0
+}
+
+// 3D rigid body transform with velocity.
+// When present, all fields are required.
+type JonGuiDataTransform3D struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Position        *JonGuiDataVector3     `protobuf:"bytes,1,opt,name=position,proto3" json:"position,omitempty"`                                      // meters
+	Orientation     *JonGuiDataQuaternion  `protobuf:"bytes,2,opt,name=orientation,proto3" json:"orientation,omitempty"`                                // unit quaternion
+	LinearVelocity  *JonGuiDataVector3     `protobuf:"bytes,3,opt,name=linear_velocity,json=linearVelocity,proto3" json:"linear_velocity,omitempty"`    // m/s
+	AngularVelocity *JonGuiDataVector3     `protobuf:"bytes,4,opt,name=angular_velocity,json=angularVelocity,proto3" json:"angular_velocity,omitempty"` // rad/s
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *JonGuiDataTransform3D) Reset() {
+	*x = JonGuiDataTransform3D{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataTransform3D) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataTransform3D) ProtoMessage() {}
+
+func (x *JonGuiDataTransform3D) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataTransform3D.ProtoReflect.Descriptor instead.
+func (*JonGuiDataTransform3D) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *JonGuiDataTransform3D) GetPosition() *JonGuiDataVector3 {
+	if x != nil {
+		return x.Position
+	}
+	return nil
+}
+
+func (x *JonGuiDataTransform3D) GetOrientation() *JonGuiDataQuaternion {
+	if x != nil {
+		return x.Orientation
+	}
+	return nil
+}
+
+func (x *JonGuiDataTransform3D) GetLinearVelocity() *JonGuiDataVector3 {
+	if x != nil {
+		return x.LinearVelocity
+	}
+	return nil
+}
+
+func (x *JonGuiDataTransform3D) GetAngularVelocity() *JonGuiDataVector3 {
+	if x != nil {
+		return x.AngularVelocity
+	}
+	return nil
+}
+
+// Tracked object - all fields required.
+// If object is in the list, we have complete tracking data for it.
+// UUID allows joining with external data sources (labels, classifications, etc.)
+type JonGuiDataTrackedObject struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// UUIDv7 identifier - stable across frames for the same object
+	Uuid string `protobuf:"bytes,1,opt,name=uuid,proto3" json:"uuid,omitempty"`
+	// 3D pose (position, orientation, velocities)
+	Transform *JonGuiDataTransform3D `protobuf:"bytes,2,opt,name=transform,proto3" json:"transform,omitempty"`
+	// 2D bounding box in image space (NDC coords -1 to 1)
+	BoundingBox *JonGuiDataROI `protobuf:"bytes,3,opt,name=bounding_box,json=boundingBox,proto3" json:"bounding_box,omitempty"`
+	// Current tracking state
+	State         JonGuiDataTrackedObject_TrackingState `protobuf:"varint,4,opt,name=state,proto3,enum=ser.JonGuiDataTrackedObject_TrackingState" json:"state,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *JonGuiDataTrackedObject) Reset() {
+	*x = JonGuiDataTrackedObject{}
+	mi := &file_jon_shared_data_types_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *JonGuiDataTrackedObject) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JonGuiDataTrackedObject) ProtoMessage() {}
+
+func (x *JonGuiDataTrackedObject) ProtoReflect() protoreflect.Message {
+	mi := &file_jon_shared_data_types_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JonGuiDataTrackedObject.ProtoReflect.Descriptor instead.
+func (*JonGuiDataTrackedObject) Descriptor() ([]byte, []int) {
+	return file_jon_shared_data_types_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *JonGuiDataTrackedObject) GetUuid() string {
+	if x != nil {
+		return x.Uuid
+	}
+	return ""
+}
+
+func (x *JonGuiDataTrackedObject) GetTransform() *JonGuiDataTransform3D {
+	if x != nil {
+		return x.Transform
+	}
+	return nil
+}
+
+func (x *JonGuiDataTrackedObject) GetBoundingBox() *JonGuiDataROI {
+	if x != nil {
+		return x.BoundingBox
+	}
+	return nil
+}
+
+func (x *JonGuiDataTrackedObject) GetState() JonGuiDataTrackedObject_TrackingState {
+	if x != nil {
+		return x.State
+	}
+	return JonGuiDataTrackedObject_TRACKING_STATE_UNSPECIFIED
+}
+
 var File_jon_shared_data_types_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_types_proto_rawDesc = "" +
@@ -1396,7 +1861,42 @@ const file_jon_shared_data_types_proto_rawDesc = "" +
 	"\x10JonOpaquePayload\x12q\n" +
 	"\ttype_uuid\x18\x01 \x01(\tBT\xbaHQrO2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$R\btypeUuid\x12>\n" +
 	"\aversion\x18\x02 \x01(\v2\x1c.ser.JonOpaquePayloadVersionB\x06\xbaH\x03\xc8\x01\x01R\aversion\x12!\n" +
-	"\apayload\x18\x03 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\apayload*\xb3\x02\n" +
+	"\apayload\x18\x03 \x01(\fB\a\xbaH\x04z\x02\x10\x01R\apayload\"\xb3\x01\n" +
+	"\rJonGuiDataROI\x12'\n" +
+	"\x02x1\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x1\x12'\n" +
+	"\x02y1\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y1\x12'\n" +
+	"\x02x2\x18\x03 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02x2\x12'\n" +
+	"\x02y2\x18\x04 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\xf0\xbfR\x02y2\"\x8a\x01\n" +
+	"\x13JonGuiDataSharpness\x12-\n" +
+	"\x05value\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05value\x12!\n" +
+	"\fderivative_1\x18\x02 \x01(\x01R\vderivative1\x12!\n" +
+	"\fderivative_2\x18\x03 \x01(\x01R\vderivative2\"U\n" +
+	"\x11JonGuiDataVector3\x12\x14\n" +
+	"\x01x\x18\x01 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01x\x12\x14\n" +
+	"\x01y\x18\x02 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01y\x12\x14\n" +
+	"\x01z\x18\x03 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01z\"n\n" +
+	"\x14JonGuiDataQuaternion\x12\x14\n" +
+	"\x01w\x18\x01 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01w\x12\x14\n" +
+	"\x01x\x18\x02 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01x\x12\x14\n" +
+	"\x01y\x18\x03 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01y\x12\x14\n" +
+	"\x01z\x18\x04 \x01(\x01B\x06\xbaH\x03\xc8\x01\x01R\x01z\"\xac\x02\n" +
+	"\x15JonGuiDataTransform3D\x12:\n" +
+	"\bposition\x18\x01 \x01(\v2\x16.ser.JonGuiDataVector3B\x06\xbaH\x03\xc8\x01\x01R\bposition\x12C\n" +
+	"\vorientation\x18\x02 \x01(\v2\x19.ser.JonGuiDataQuaternionB\x06\xbaH\x03\xc8\x01\x01R\vorientation\x12G\n" +
+	"\x0flinear_velocity\x18\x03 \x01(\v2\x16.ser.JonGuiDataVector3B\x06\xbaH\x03\xc8\x01\x01R\x0elinearVelocity\x12I\n" +
+	"\x10angular_velocity\x18\x04 \x01(\v2\x16.ser.JonGuiDataVector3B\x06\xbaH\x03\xc8\x01\x01R\x0fangularVelocity\"\xfa\x03\n" +
+	"\x17JonGuiDataTrackedObject\x12l\n" +
+	"\x04uuid\x18\x01 \x01(\tBX\xbaHUrS\x10$\x18$2M^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$R\x04uuid\x12@\n" +
+	"\ttransform\x18\x02 \x01(\v2\x1a.ser.JonGuiDataTransform3DB\x06\xbaH\x03\xc8\x01\x01R\ttransform\x12=\n" +
+	"\fbounding_box\x18\x03 \x01(\v2\x12.ser.JonGuiDataROIB\x06\xbaH\x03\xc8\x01\x01R\vboundingBox\x12L\n" +
+	"\x05state\x18\x04 \x01(\x0e2*.ser.JonGuiDataTrackedObject.TrackingStateB\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x05state\"\xa1\x01\n" +
+	"\rTrackingState\x12\x1e\n" +
+	"\x1aTRACKING_STATE_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18TRACKING_STATE_ACQUIRING\x10\x01\x12\x1b\n" +
+	"\x17TRACKING_STATE_TRACKING\x10\x02\x12\x1c\n" +
+	"\x18TRACKING_STATE_PREDICTED\x10\x03\x12\x17\n" +
+	"\x13TRACKING_STATE_LOST\x10\x04*\xb3\x02\n" +
 	"!JonGuiDataVideoChannelHeatFilters\x126\n" +
 	"2JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED\x10\x00\x124\n" +
 	"0JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE\x10\x01\x124\n" +
@@ -1543,41 +2043,55 @@ func file_jon_shared_data_types_proto_rawDescGZIP() []byte {
 	return file_jon_shared_data_types_proto_rawDescData
 }
 
-var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 21)
-var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_jon_shared_data_types_proto_enumTypes = make([]protoimpl.EnumInfo, 22)
+var file_jon_shared_data_types_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_jon_shared_data_types_proto_goTypes = []any{
-	(JonGuiDataVideoChannelHeatFilters)(0),  // 0: ser.JonGuiDataVideoChannelHeatFilters
-	(JonGuiDataVideoChannelHeatAGCModes)(0), // 1: ser.JonGuiDataVideoChannelHeatAGCModes
-	(JonGuiDataGpsUnits)(0),                 // 2: ser.JonGuiDataGpsUnits
-	(JonGuiDataGpsFixType)(0),               // 3: ser.JonGuiDataGpsFixType
-	(JonGuiDataCompassUnits)(0),             // 4: ser.JonGuiDataCompassUnits
-	(JonGuiDataAccumulatorStateIdx)(0),      // 5: ser.JonGuiDataAccumulatorStateIdx
-	(JonGuiDataTimeFormats)(0),              // 6: ser.JonGuiDataTimeFormats
-	(JonGuiDataRotaryDirection)(0),          // 7: ser.JonGuiDataRotaryDirection
-	(JonGuiDataLrfScanModes)(0),             // 8: ser.JonGuiDataLrfScanModes
-	(JonGuiDatatLrfLaserPointerModes)(0),    // 9: ser.JonGuiDatatLrfLaserPointerModes
-	(JonGuiDataCompassCalibrateStatus)(0),   // 10: ser.JonGuiDataCompassCalibrateStatus
-	(JonGuiDataRotaryMode)(0),               // 11: ser.JonGuiDataRotaryMode
-	(JonGuiDataVideoChannel)(0),             // 12: ser.JonGuiDataVideoChannel
-	(JonGuiDataRecOsdScreen)(0),             // 13: ser.JonGuiDataRecOsdScreen
-	(JonGuiDataFxModeDay)(0),                // 14: ser.JonGuiDataFxModeDay
-	(JonGuiDataFxModeHeat)(0),               // 15: ser.JonGuiDataFxModeHeat
-	(JonGuiDataSystemLocalizations)(0),      // 16: ser.JonGuiDataSystemLocalizations
-	(JonGuiDataClientType)(0),               // 17: ser.JonGuiDataClientType
-	(JonGuiDataClientApp)(0),                // 18: ser.JonGuiDataClientApp
-	(JonGuiDataExtBatStatus)(0),             // 19: ser.JonGuiDataExtBatStatus
-	(JonGuiDataStateSource)(0),              // 20: ser.JonGuiDataStateSource
-	(*JonGuiDataMeteo)(nil),                 // 21: ser.JonGuiDataMeteo
-	(*JonOpaquePayloadVersion)(nil),         // 22: ser.JonOpaquePayloadVersion
-	(*JonOpaquePayload)(nil),                // 23: ser.JonOpaquePayload
+	(JonGuiDataVideoChannelHeatFilters)(0),     // 0: ser.JonGuiDataVideoChannelHeatFilters
+	(JonGuiDataVideoChannelHeatAGCModes)(0),    // 1: ser.JonGuiDataVideoChannelHeatAGCModes
+	(JonGuiDataGpsUnits)(0),                    // 2: ser.JonGuiDataGpsUnits
+	(JonGuiDataGpsFixType)(0),                  // 3: ser.JonGuiDataGpsFixType
+	(JonGuiDataCompassUnits)(0),                // 4: ser.JonGuiDataCompassUnits
+	(JonGuiDataAccumulatorStateIdx)(0),         // 5: ser.JonGuiDataAccumulatorStateIdx
+	(JonGuiDataTimeFormats)(0),                 // 6: ser.JonGuiDataTimeFormats
+	(JonGuiDataRotaryDirection)(0),             // 7: ser.JonGuiDataRotaryDirection
+	(JonGuiDataLrfScanModes)(0),                // 8: ser.JonGuiDataLrfScanModes
+	(JonGuiDatatLrfLaserPointerModes)(0),       // 9: ser.JonGuiDatatLrfLaserPointerModes
+	(JonGuiDataCompassCalibrateStatus)(0),      // 10: ser.JonGuiDataCompassCalibrateStatus
+	(JonGuiDataRotaryMode)(0),                  // 11: ser.JonGuiDataRotaryMode
+	(JonGuiDataVideoChannel)(0),                // 12: ser.JonGuiDataVideoChannel
+	(JonGuiDataRecOsdScreen)(0),                // 13: ser.JonGuiDataRecOsdScreen
+	(JonGuiDataFxModeDay)(0),                   // 14: ser.JonGuiDataFxModeDay
+	(JonGuiDataFxModeHeat)(0),                  // 15: ser.JonGuiDataFxModeHeat
+	(JonGuiDataSystemLocalizations)(0),         // 16: ser.JonGuiDataSystemLocalizations
+	(JonGuiDataClientType)(0),                  // 17: ser.JonGuiDataClientType
+	(JonGuiDataClientApp)(0),                   // 18: ser.JonGuiDataClientApp
+	(JonGuiDataExtBatStatus)(0),                // 19: ser.JonGuiDataExtBatStatus
+	(JonGuiDataStateSource)(0),                 // 20: ser.JonGuiDataStateSource
+	(JonGuiDataTrackedObject_TrackingState)(0), // 21: ser.JonGuiDataTrackedObject.TrackingState
+	(*JonGuiDataMeteo)(nil),                    // 22: ser.JonGuiDataMeteo
+	(*JonOpaquePayloadVersion)(nil),            // 23: ser.JonOpaquePayloadVersion
+	(*JonOpaquePayload)(nil),                   // 24: ser.JonOpaquePayload
+	(*JonGuiDataROI)(nil),                      // 25: ser.JonGuiDataROI
+	(*JonGuiDataSharpness)(nil),                // 26: ser.JonGuiDataSharpness
+	(*JonGuiDataVector3)(nil),                  // 27: ser.JonGuiDataVector3
+	(*JonGuiDataQuaternion)(nil),               // 28: ser.JonGuiDataQuaternion
+	(*JonGuiDataTransform3D)(nil),              // 29: ser.JonGuiDataTransform3D
+	(*JonGuiDataTrackedObject)(nil),            // 30: ser.JonGuiDataTrackedObject
 }
 var file_jon_shared_data_types_proto_depIdxs = []int32{
-	22, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
-	1,  // [1:1] is the sub-list for method output_type
-	1,  // [1:1] is the sub-list for method input_type
-	1,  // [1:1] is the sub-list for extension type_name
-	1,  // [1:1] is the sub-list for extension extendee
-	0,  // [0:1] is the sub-list for field type_name
+	23, // 0: ser.JonOpaquePayload.version:type_name -> ser.JonOpaquePayloadVersion
+	27, // 1: ser.JonGuiDataTransform3D.position:type_name -> ser.JonGuiDataVector3
+	28, // 2: ser.JonGuiDataTransform3D.orientation:type_name -> ser.JonGuiDataQuaternion
+	27, // 3: ser.JonGuiDataTransform3D.linear_velocity:type_name -> ser.JonGuiDataVector3
+	27, // 4: ser.JonGuiDataTransform3D.angular_velocity:type_name -> ser.JonGuiDataVector3
+	29, // 5: ser.JonGuiDataTrackedObject.transform:type_name -> ser.JonGuiDataTransform3D
+	25, // 6: ser.JonGuiDataTrackedObject.bounding_box:type_name -> ser.JonGuiDataROI
+	21, // 7: ser.JonGuiDataTrackedObject.state:type_name -> ser.JonGuiDataTrackedObject.TrackingState
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_jon_shared_data_types_proto_init() }
@@ -1590,8 +2104,8 @@ func file_jon_shared_data_types_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_jon_shared_data_types_proto_rawDesc), len(file_jon_shared_data_types_proto_rawDesc)),
-			NumEnums:      21,
-			NumMessages:   3,
+			NumEnums:      22,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

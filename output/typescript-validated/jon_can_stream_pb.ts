@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file jon_can_stream.proto.
  */
 export const file_jon_can_stream: GenFile = /*@__PURE__*/
-  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiJcCghDQU5GcmFtZRIUCgx0aW1lc3RhbXBfdXMYASABKAQSDgoGY2FuX2lkGAIgASgNEg0KBWlzX3J4GAMgASgIEg0KBWlzX2ZkGAQgASgIEgwKBGRhdGEYBSABKAwiMgoNQ0FORnJhbWVCYXRjaBIhCgZmcmFtZXMYASADKAsyES5qb24uY2FuLkNBTkZyYW1lIiUKEkNBTlN0cmVhbUNvbm5lY3RlZBIPCgdzdHJlYW1zGAEgAygJQkZaRGdpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvY2FuYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChRqb25fY2FuX3N0cmVhbS5wcm90bxIHam9uLmNhbiJvCghDQU5GcmFtZRIUCgx0aW1lc3RhbXBfdXMYASABKAQSGAoGY2FuX2lkGAIgASgNQgi6SAUqAxj/DxINCgVpc19yeBgDIAEoCBINCgVpc19mZBgEIAEoCBIVCgRkYXRhGAUgASgMQge6SAR6AhhAIjIKDUNBTkZyYW1lQmF0Y2gSIQoGZnJhbWVzGAEgAygLMhEuam9uLmNhbi5DQU5GcmFtZSIlChJDQU5TdHJlYW1Db25uZWN0ZWQSDwoHc3RyZWFtcxgBIAMoCUJGWkRnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL2NhbmIGcHJvdG8z", [file_buf_validate_validate]);
 
 /**
  * Single CAN/CAN-FD frame
@@ -27,7 +27,7 @@ export type CANFrame = Message<"jon.can.CANFrame"> & {
   timestampUs: bigint;
 
   /**
-   * Raw CAN ID
+   * Standard 11-bit CAN ID (0x000-0x7FF)
    *
    * @generated from field: uint32 can_id = 2;
    */
@@ -48,7 +48,7 @@ export type CANFrame = Message<"jon.can.CANFrame"> & {
   isFd: boolean;
 
   /**
-   * Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD)
+   * Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD.
    *
    * @generated from field: bytes data = 5;
    */

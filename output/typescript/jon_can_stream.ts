@@ -12,13 +12,13 @@ import Long from "long";
 export interface CANFrame {
   /** Timestamp in microseconds */
   timestampUs: Long;
-  /** Raw CAN ID */
+  /** Standard 11-bit CAN ID (0x000-0x7FF) */
   canId: number;
   /** true=received from device, false=sent to device */
   isRx: boolean;
   /** true=CAN-FD, false=classic CAN */
   isFd: boolean;
-  /** Frame data (up to 8 bytes for CAN, up to 64 for CAN-FD) */
+  /** Frame payload: max 64 bytes (CAN-FD). All frames in this system are CAN-FD. */
   data: Uint8Array;
 }
 

@@ -210,49 +210,48 @@ const char descriptor_table_protodef_jon_5fshared_5fcmd_2eproto[] ABSL_ATTRIBUTE
     "proto\032\033jon_shared_cmd_rotary.proto\032\030jon_"
     "shared_cmd_osd.proto\032\036jon_shared_cmd_lrf"
     "_align.proto\032\033jon_shared_cmd_system.prot"
-    "o\032\027jon_shared_cmd_cv.proto\032)jon_shared_c"
-    "md_day_cam_glass_heater.proto\032\031jon_share"
-    "d_cmd_lira.proto\032\032jon_shared_cmd_power.p"
-    "roto\032\030jon_shared_cmd_pmu.proto\032\033jon_shar"
-    "ed_data_types.proto\"\354\007\n\004Root\022\'\n\020protocol"
-    "_version\030\001 \001(\rB\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession"
-    "_id\030\002 \001(\r\022\021\n\timportant\030\003 \001(\010\022\031\n\021from_cv_"
-    "subsystem\030\004 \001(\010\022:\n\013client_type\030\005 \001(\0162\031.s"
-    "er.JonGuiDataClientTypeB\n\272H\007\202\001\004\020\001 \000\0228\n\nc"
-    "lient_app\030\n \001(\0162\030.ser.JonGuiDataClientAp"
-    "pB\n\272H\007\202\001\004\020\001 \000\022\026\n\016frame_time_day\030\006 \001(\004\022\027\n"
-    "\017frame_time_heat\030\007 \001(\004\022\022\n\nstate_time\030\010 \001"
-    "(\004\022\026\n\016client_time_ms\030\t \001(\004\022.\n\017opaque_pay"
-    "loads\030\013 \003(\0132\025.ser.JonOpaquePayload\022)\n\nda"
-    "y_camera\030\024 \001(\0132\023.cmd.DayCamera.RootH\000\022+\n"
-    "\013heat_camera\030\025 \001(\0132\024.cmd.HeatCamera.Root"
-    "H\000\022\034\n\003gps\030\026 \001(\0132\r.cmd.Gps.RootH\000\022$\n\007comp"
-    "ass\030\027 \001(\0132\021.cmd.Compass.RootH\000\022\034\n\003lrf\030\030 "
-    "\001(\0132\r.cmd.Lrf.RootH\000\022(\n\tlrf_calib\030\031 \001(\0132"
-    "\023.cmd.Lrf_calib.RootH\000\022*\n\006rotary\030\032 \001(\0132\030"
-    ".cmd.RotaryPlatform.RootH\000\022\034\n\003osd\030\033 \001(\0132"
-    "\r.cmd.OSD.RootH\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.Pin"
-    "gH\000\022\031\n\004noop\030\035 \001(\0132\t.cmd.NoopH\000\022\035\n\006frozen"
-    "\030\036 \001(\0132\013.cmd.FrozenH\000\022\"\n\006system\030\037 \001(\0132\020."
-    "cmd.System.RootH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.R"
-    "ootH\000\022;\n\024day_cam_glass_heater\030! \001(\0132\033.cm"
-    "d.DayCamGlassHeater.RootH\000\022\036\n\004lira\030\" \001(\013"
-    "2\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132\017.cmd."
-    "Power.RootH\000\022\034\n\003pmu\030$ \001(\0132\r.cmd.PMU.Root"
-    "H\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\014\020\024\"\006\n\004Ping\"\006\n\004No"
-    "op\"\010\n\006FrozenBFZDgit-codecommit.eu-centra"
-    "l-1.amazonaws.com/v1/repos/jettison/jonp"
-    "/cmdb\006proto3"
+    "o\032\027jon_shared_cmd_cv.proto\032\031jon_shared_c"
+    "md_lira.proto\032\032jon_shared_cmd_power.prot"
+    "o\032\030jon_shared_cmd_pmu.proto\032\033jon_shared_"
+    "cmd_heater.proto\032\033jon_shared_data_types."
+    "proto\"\323\007\n\004Root\022\'\n\020protocol_version\030\001 \001(\r"
+    "B\r\272H\n*\010\030\377\377\377\377\007 \000\022\022\n\nsession_id\030\002 \001(\r\022\021\n\ti"
+    "mportant\030\003 \001(\010\022\031\n\021from_cv_subsystem\030\004 \001("
+    "\010\022:\n\013client_type\030\005 \001(\0162\031.ser.JonGuiDataC"
+    "lientTypeB\n\272H\007\202\001\004\020\001 \000\0228\n\nclient_app\030\n \001("
+    "\0162\030.ser.JonGuiDataClientAppB\n\272H\007\202\001\004\020\001 \000\022"
+    "\026\n\016frame_time_day\030\006 \001(\004\022\027\n\017frame_time_he"
+    "at\030\007 \001(\004\022\022\n\nstate_time\030\010 \001(\004\022\026\n\016client_t"
+    "ime_ms\030\t \001(\004\022.\n\017opaque_payloads\030\013 \003(\0132\025."
+    "ser.JonOpaquePayload\022)\n\nday_camera\030\024 \001(\013"
+    "2\023.cmd.DayCamera.RootH\000\022+\n\013heat_camera\030\025"
+    " \001(\0132\024.cmd.HeatCamera.RootH\000\022\034\n\003gps\030\026 \001("
+    "\0132\r.cmd.Gps.RootH\000\022$\n\007compass\030\027 \001(\0132\021.cm"
+    "d.Compass.RootH\000\022\034\n\003lrf\030\030 \001(\0132\r.cmd.Lrf."
+    "RootH\000\022(\n\tlrf_calib\030\031 \001(\0132\023.cmd.Lrf_cali"
+    "b.RootH\000\022*\n\006rotary\030\032 \001(\0132\030.cmd.RotaryPla"
+    "tform.RootH\000\022\034\n\003osd\030\033 \001(\0132\r.cmd.OSD.Root"
+    "H\000\022\031\n\004ping\030\034 \001(\0132\t.cmd.PingH\000\022\031\n\004noop\030\035 "
+    "\001(\0132\t.cmd.NoopH\000\022\035\n\006frozen\030\036 \001(\0132\013.cmd.F"
+    "rozenH\000\022\"\n\006system\030\037 \001(\0132\020.cmd.System.Roo"
+    "tH\000\022\032\n\002cv\030  \001(\0132\014.cmd.CV.RootH\000\022\036\n\004lira\030"
+    "\" \001(\0132\016.cmd.Lira.RootH\000\022 \n\005power\030# \001(\0132\017"
+    ".cmd.Power.RootH\000\022\034\n\003pmu\030$ \001(\0132\r.cmd.PMU"
+    ".RootH\000\022\"\n\006heater\030% \001(\0132\020.cmd.Heater.Roo"
+    "tH\000B\020\n\007payload\022\005\272H\002\010\001J\004\010\014\020\024\"\006\n\004Ping\"\006\n\004N"
+    "oop\"\010\n\006FrozenBFZDgit-codecommit.eu-centr"
+    "al-1.amazonaws.com/v1/repos/jettison/jon"
+    "p/cmdb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fcmd_2eproto_deps[16] =
     {
         &::descriptor_table_buf_2fvalidate_2fvalidate_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5fcompass_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5fcv_2eproto,
-        &::descriptor_table_jon_5fshared_5fcmd_5fday_5fcam_5fglass_5fheater_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5fday_5fcamera_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5fgps_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5fheat_5fcamera_2eproto,
+        &::descriptor_table_jon_5fshared_5fcmd_5fheater_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5flira_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5flrf_2eproto,
         &::descriptor_table_jon_5fshared_5fcmd_5flrf_5falign_2eproto,
@@ -267,7 +266,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fcmd_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fcmd_2eproto = {
     false,
     false,
-    1612,
+    1573,
     descriptor_table_protodef_jon_5fshared_5fcmd_2eproto,
     "jon_shared_cmd.proto",
     &descriptor_table_jon_5fshared_5fcmd_2eproto_once,
@@ -572,30 +571,6 @@ void Root::clear_cv() {
     clear_has_payload();
   }
 }
-void Root::set_allocated_day_cam_glass_heater(::cmd::DayCamGlassHeater::Root* day_cam_glass_heater) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  clear_payload();
-  if (day_cam_glass_heater) {
-    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(day_cam_glass_heater)->GetArena();
-    if (message_arena != submessage_arena) {
-      day_cam_glass_heater = ::google::protobuf::internal::GetOwnedMessage(message_arena, day_cam_glass_heater, submessage_arena);
-    }
-    set_has_day_cam_glass_heater();
-    _impl_.payload_.day_cam_glass_heater_ = day_cam_glass_heater;
-  }
-  // @@protoc_insertion_point(field_set_allocated:cmd.Root.day_cam_glass_heater)
-}
-void Root::clear_day_cam_glass_heater() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (payload_case() == kDayCamGlassHeater) {
-    if (GetArena() == nullptr) {
-      delete _impl_.payload_.day_cam_glass_heater_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.day_cam_glass_heater_);
-    }
-    clear_has_payload();
-  }
-}
 void Root::set_allocated_lira(::cmd::Lira::Root* lira) {
   ::google::protobuf::Arena* message_arena = GetArena();
   clear_payload();
@@ -664,6 +639,30 @@ void Root::clear_pmu() {
       delete _impl_.payload_.pmu_;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
       ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.pmu_);
+    }
+    clear_has_payload();
+  }
+}
+void Root::set_allocated_heater(::cmd::Heater::Root* heater) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_payload();
+  if (heater) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(heater)->GetArena();
+    if (message_arena != submessage_arena) {
+      heater = ::google::protobuf::internal::GetOwnedMessage(message_arena, heater, submessage_arena);
+    }
+    set_has_heater();
+    _impl_.payload_.heater_ = heater;
+  }
+  // @@protoc_insertion_point(field_set_allocated:cmd.Root.heater)
+}
+void Root::clear_heater() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (payload_case() == kHeater) {
+    if (GetArena() == nullptr) {
+      delete _impl_.payload_.heater_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.heater_);
     }
     clear_has_payload();
   }
@@ -747,9 +746,6 @@ Root::Root(
       case kCv:
         _impl_.payload_.cv_ = ::google::protobuf::Message::CopyConstruct<::cmd::CV::Root>(arena, *from._impl_.payload_.cv_);
         break;
-      case kDayCamGlassHeater:
-        _impl_.payload_.day_cam_glass_heater_ = ::google::protobuf::Message::CopyConstruct<::cmd::DayCamGlassHeater::Root>(arena, *from._impl_.payload_.day_cam_glass_heater_);
-        break;
       case kLira:
         _impl_.payload_.lira_ = ::google::protobuf::Message::CopyConstruct<::cmd::Lira::Root>(arena, *from._impl_.payload_.lira_);
         break;
@@ -758,6 +754,9 @@ Root::Root(
         break;
       case kPmu:
         _impl_.payload_.pmu_ = ::google::protobuf::Message::CopyConstruct<::cmd::PMU::Root>(arena, *from._impl_.payload_.pmu_);
+        break;
+      case kHeater:
+        _impl_.payload_.heater_ = ::google::protobuf::Message::CopyConstruct<::cmd::Heater::Root>(arena, *from._impl_.payload_.heater_);
         break;
   }
 
@@ -902,14 +901,6 @@ void Root::clear_payload() {
       }
       break;
     }
-    case kDayCamGlassHeater: {
-      if (GetArena() == nullptr) {
-        delete _impl_.payload_.day_cam_glass_heater_;
-      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.day_cam_glass_heater_);
-      }
-      break;
-    }
     case kLira: {
       if (GetArena() == nullptr) {
         delete _impl_.payload_.lira_;
@@ -931,6 +922,14 @@ void Root::clear_payload() {
         delete _impl_.payload_.pmu_;
       } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
         ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.pmu_);
+      }
+      break;
+    }
+    case kHeater: {
+      if (GetArena() == nullptr) {
+        delete _impl_.payload_.heater_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.payload_.heater_);
       }
       break;
     }
@@ -994,7 +993,7 @@ const ::_pbi::TcParseTable<4, 28, 18, 0, 7> Root::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    36, 120,  // max_field_number, fast_idx_mask
+    37, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
     522240,  // skipmap
     offsetof(decltype(_table_), field_entries),
@@ -1047,7 +1046,7 @@ const ::_pbi::TcParseTable<4, 28, 18, 0, 7> Root::_table_ = {
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
   }}, {{
-    33, 0, 1,
+    34, 0, 1,
     65520, 24,
     65535, 65535
   }}, {{
@@ -1123,17 +1122,17 @@ const ::_pbi::TcParseTable<4, 28, 18, 0, 7> Root::_table_ = {
     // .cmd.CV.Root cv = 32;
     {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.cv_), _Internal::kOneofCaseOffset + 0, 13,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.day_cam_glass_heater_), _Internal::kOneofCaseOffset + 0, 14,
-    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.Lira.Root lira = 34;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.lira_), _Internal::kOneofCaseOffset + 0, 15,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.lira_), _Internal::kOneofCaseOffset + 0, 14,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.Power.Root power = 35;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.power_), _Internal::kOneofCaseOffset + 0, 16,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.power_), _Internal::kOneofCaseOffset + 0, 15,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .cmd.PMU.Root pmu = 36;
-    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.pmu_), _Internal::kOneofCaseOffset + 0, 17,
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.pmu_), _Internal::kOneofCaseOffset + 0, 16,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .cmd.Heater.Root heater = 37;
+    {PROTOBUF_FIELD_OFFSET(Root, _impl_.payload_.heater_), _Internal::kOneofCaseOffset + 0, 17,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ser::JonOpaquePayload>()},
@@ -1150,10 +1149,10 @@ const ::_pbi::TcParseTable<4, 28, 18, 0, 7> Root::_table_ = {
     {::_pbi::TcParser::GetTable<::cmd::Frozen>()},
     {::_pbi::TcParser::GetTable<::cmd::System::Root>()},
     {::_pbi::TcParser::GetTable<::cmd::CV::Root>()},
-    {::_pbi::TcParser::GetTable<::cmd::DayCamGlassHeater::Root>()},
     {::_pbi::TcParser::GetTable<::cmd::Lira::Root>()},
     {::_pbi::TcParser::GetTable<::cmd::Power::Root>()},
     {::_pbi::TcParser::GetTable<::cmd::PMU::Root>()},
+    {::_pbi::TcParser::GetTable<::cmd::Heater::Root>()},
   }}, {{
   }},
 };
@@ -1348,12 +1347,6 @@ PROTOBUF_NOINLINE void Root::Clear() {
                   stream);
               break;
             }
-            case kDayCamGlassHeater: {
-              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-                  33, *this_._impl_.payload_.day_cam_glass_heater_, this_._impl_.payload_.day_cam_glass_heater_->GetCachedSize(), target,
-                  stream);
-              break;
-            }
             case kLira: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                   34, *this_._impl_.payload_.lira_, this_._impl_.payload_.lira_->GetCachedSize(), target,
@@ -1369,6 +1362,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kPmu: {
               target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
                   36, *this_._impl_.payload_.pmu_, this_._impl_.payload_.pmu_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kHeater: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  37, *this_._impl_.payload_.heater_, this_._impl_.payload_.heater_->GetCachedSize(), target,
                   stream);
               break;
             }
@@ -1537,12 +1536,6 @@ PROTOBUF_NOINLINE void Root::Clear() {
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.payload_.cv_);
               break;
             }
-            // .cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;
-            case kDayCamGlassHeater: {
-              total_size += 2 +
-                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.payload_.day_cam_glass_heater_);
-              break;
-            }
             // .cmd.Lira.Root lira = 34;
             case kLira: {
               total_size += 2 +
@@ -1559,6 +1552,12 @@ PROTOBUF_NOINLINE void Root::Clear() {
             case kPmu: {
               total_size += 2 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.payload_.pmu_);
+              break;
+            }
+            // .cmd.Heater.Root heater = 37;
+            case kHeater: {
+              total_size += 2 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.payload_.heater_);
               break;
             }
             case PAYLOAD_NOT_SET: {
@@ -1738,15 +1737,6 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
         }
         break;
       }
-      case kDayCamGlassHeater: {
-        if (oneof_needs_init) {
-          _this->_impl_.payload_.day_cam_glass_heater_ =
-              ::google::protobuf::Message::CopyConstruct<::cmd::DayCamGlassHeater::Root>(arena, *from._impl_.payload_.day_cam_glass_heater_);
-        } else {
-          _this->_impl_.payload_.day_cam_glass_heater_->MergeFrom(from._internal_day_cam_glass_heater());
-        }
-        break;
-      }
       case kLira: {
         if (oneof_needs_init) {
           _this->_impl_.payload_.lira_ =
@@ -1771,6 +1761,15 @@ void Root::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::pr
               ::google::protobuf::Message::CopyConstruct<::cmd::PMU::Root>(arena, *from._impl_.payload_.pmu_);
         } else {
           _this->_impl_.payload_.pmu_->MergeFrom(from._internal_pmu());
+        }
+        break;
+      }
+      case kHeater: {
+        if (oneof_needs_init) {
+          _this->_impl_.payload_.heater_ =
+              ::google::protobuf::Message::CopyConstruct<::cmd::Heater::Root>(arena, *from._impl_.payload_.heater_);
+        } else {
+          _this->_impl_.payload_.heater_->MergeFrom(from._internal_heater());
         }
         break;
       }

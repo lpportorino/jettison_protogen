@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working with the Protogen module
 
 ## Module Overview
 
-Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go and Java) using buf.validate annotations.
+Protogen is a Docker-based protocol buffer code generator that supports multiple programming languages with consistent tooling and versions. It provides both standard bindings and validated bindings (for Go, Kotlin, and Java) using buf.validate annotations.
 
 ## Module Structure
 
@@ -19,9 +19,11 @@ Protogen is a Docker-based protocol buffer code generator that supports multiple
 
 ### Directories
 - `proto/` - Input directory containing .proto files to process (contains jon_shared_*.proto files)
-- `output/` - Standard generated bindings without validation (created at runtime)
-- `output-validated/` - Generated bindings with validation support (Go and Java only, created at runtime)
-- `scripts/` - Contains helper scripts like proto_cleanup.awk
+  - Supports subdirectories (e.g., `proto/opaque/` for opaque payload types)
+  - Generation scripts recursively find all `.proto` files, excluding `test/` directory
+- `output/` - All generated bindings organized by language (created at runtime)
+  - Preserves subdirectory structure (e.g., `output/typescript/opaque/`)
+- `scripts/` - Contains helper scripts like proto_cleanup.awk and add-validate-import.sh
 
 ### Generated Output Structure
 ```
@@ -29,6 +31,7 @@ output/
 ├── c/                    # nanopb C bindings
 ├── cpp/                  # C++ bindings
 ├── go/                   # Go bindings with buf.validate support
+├── kotlin/               # Kotlin bindings with buf.validate support
 ├── java/                 # Java bindings with buf.validate support
 ├── python/               # Python bindings with type stubs
 ├── rust/                 # Rust bindings using prost
@@ -71,6 +74,7 @@ Generated bindings are automatically distributed to dedicated repositories:
 | C (nanopb) | [jettison_proto_c](https://github.com/lpportorino/jettison_proto_c) |
 | C++ | [jettison_proto_cpp](https://github.com/lpportorino/jettison_proto_cpp) |
 | Go | [jettison_proto_go](https://github.com/lpportorino/jettison_proto_go) |
+| Kotlin | [jettison_proto_kotlin](https://github.com/lpportorino/jettison_proto_kotlin) |
 | Python | [jettison_proto_python](https://github.com/lpportorino/jettison_proto_python) |
 | TypeScript | [jettison_proto_typescript](https://github.com/lpportorino/jettison_proto_typescript) |
 | TypeScript (validated) | [jettison_protovalidate_es](https://github.com/lpportorino/jettison_protovalidate_es) |
@@ -85,6 +89,7 @@ For automated distribution, these deploy keys must be configured as repository s
 - `C_PUSH` - Deploy key for jettison_proto_c
 - `CPP_PUSH` - Deploy key for jettison_proto_cpp
 - `GO_PUSH` - Deploy key for jettison_proto_go
+- `KOTLIN_PUSH` - Deploy key for jettison_proto_kotlin
 - `PYTHON_PUSH` - Deploy key for jettison_proto_python
 - `TYPESCRIPT_PUSH` - Deploy key for jettison_proto_typescript
 - `PUSH_TO_PROTOVALIDATE_ES` - Deploy key for jettison_protovalidate_es
@@ -212,13 +217,21 @@ make versions
 - Applications must link against protovalidate-cc for runtime validation
 
 **Go**
-- Standard generation uses official protoc-gen-go
-- Validation uses envoyproxy/protoc-gen-validate
+- Uses `buf generate` with remote BSR plugins (buf.build/protocolbuffers/go, buf.build/grpc/go)
+- buf.validate annotations preserved for runtime validation with protovalidate-go
 - Package paths preserved from proto files
+- **Note:** Subject to BSR rate limits (see rate limits section below)
+
+**Kotlin**
+- Uses `buf generate` with remote BSR plugin (buf.build/protocolbuffers/kotlin:v33.5)
+- buf.validate annotations preserved for runtime validation
+- Generates Kotlin-specific protobuf classes with DSL builders
+- Runtime validation requires protovalidate Kotlin library
+- **Note:** Subject to BSR rate limits (see rate limits section below)
 
 **Java**
-- Standard generation uses built-in Java support
-- Validation uses protoc-gen-validate
+- Standard protoc generation with buf.validate annotations preserved
+- Runtime validation requires protovalidate Java library
 - Package structure follows proto package declarations
 
 **TypeScript (Standard)**
@@ -249,11 +262,13 @@ make versions
 Proto files use buf.validate annotations for validation constraints. The validated outputs include these annotations in the generated code:
 - **C++**: Standard protobuf generation with buf.validate annotations preserved as field options/extensions
 - **Go**: Standard protobuf generation with buf.validate annotations preserved
+- **Kotlin**: Standard protobuf generation with buf.validate annotations preserved
 - **Java**: Standard protobuf generation with buf.validate annotations preserved
 
 Runtime validation requires the protovalidate libraries:
 - **C++**: https://github.com/bufbuild/protovalidate-cc (requires CEL-C++ 0.11.0+)
 - **Go**: github.com/bufbuild/protovalidate-go
+- **Kotlin**: build.buf:protovalidate-kotlin
 - **Java**: build.buf.protovalidate
 
 **Important Notes**:
@@ -309,6 +324,39 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 3. All proto files must be compiled together for cross-references
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution
+6. Buf Schema Registry (BSR) rate limits apply to Go and Kotlin generation (see below)
+
+## Buf Schema Registry (BSR) Rate Limits
+
+Go and Kotlin generation use `buf generate` with remote plugins, which connects to the Buf Schema Registry. Rate limits apply:
+
+### Limits
+| Service | Unauthenticated | Authenticated |
+|---------|-----------------|---------------|
+| Code Generation | 10 req/hour (10 burst) | 960 req/hour (120 burst) |
+| General API | 30 req/sec (60 burst) | 30 req/sec (60 burst) |
+| FileDescriptorSetService | 1 req/sec (2 burst) | 1 req/sec (2 burst) |
+
+**Note:** Each `buf generate` command counts as one request (max 20 plugins per request).
+
+### Detecting Rate Limits
+- HTTP 429 response indicates rate limit exceeded
+- Response headers: `X-RateLimit-Remaining`, `X-RateLimit-Reset`, `Retry-After`
+
+### Avoiding Rate Limits
+1. **Authenticate requests**: Run `buf registry login` to increase code generation limit from 10/hour to 960/hour
+2. **Batch generation**: Run `make generate` once rather than regenerating frequently
+3. **Local plugins**: Consider using local plugins instead of remote BSR plugins for high-frequency development
+
+### Troubleshooting
+If Go or Kotlin generation fails with rate limit errors:
+```bash
+# Check if authenticated
+buf registry whoami
+
+# Login to BSR (increases limits significantly)
+buf registry login
+```
 
 ## Proto Documentation System
 
@@ -409,12 +457,49 @@ make docs-docker-coverage  # In Docker
 
 ### Claude Slash Commands
 
-Two slash commands are available for proto schema exploration:
+Slash commands available for proto documentation:
 
 - `/proto-search <query>` - Fuzzy search messages, fields, enums
 - `/proto-coverage` - Show documentation coverage report
+- `/doc-next` - Show next undocumented message with context
 
 These use Babashka scripts that read directly from `.protodoc/proto-db.edn`.
+
+### Interactive Documentation Filling
+
+The `doc-fill` skill provides an interactive workflow for filling in missing documentation:
+
+1. **Find what's missing**: Run `/doc-next` to see undocumented items grouped by module
+2. **Review context**: See field types, constraints, and suggested questions
+3. **Answer questions**: Claude asks about purpose, category, UI pattern, etc.
+4. **Documentation written**: Claude edits the markdown file with collected info
+
+**Workflow example:**
+```
+User: /doc-next
+Claude: [Shows cmd.PMU.Start needs documentation]
+
+User: Let's document it
+Claude: [Invokes doc-fill skill, asks questions interactively]
+- What does PMU.Start do?
+- What category? (suggesting :lifecycle)
+- UI pattern? (suggesting :action-button)
+...
+
+User: [Answers each question]
+Claude: [Writes documentation to docs/proto/cmd.PMU.Start.md]
+```
+
+**Questions asked for each message:**
+1. Purpose - What does this message do?
+2. Category - :sensor :actuator :settings :status :lifecycle :diagnostic
+3. UI Pattern - :toggle :action-button :slider :slider-with-presets etc.
+4. Feedback - :fire-and-forget :pending-timeout :poll-confirm :optimistic-visual
+5. Related state messages (ser.*)
+6. Related commands
+7. For each field: semantic type, unit, precision, display format
+
+The skill suggests answers based on field constraints and naming patterns.
 
 ### Workflow
 

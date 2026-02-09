@@ -30,7 +30,16 @@ export interface JonGuiDataCameraDay {
   horizontalFovDegrees: number;
   verticalFovDegrees: number;
   isStarted: boolean;
-  meteo: JonGuiDataMeteo | undefined;
+  meteo:
+    | JonGuiDataMeteo
+    | undefined;
+  /** Sensor parameters (normalized 0.0-1.0, set by camera or CV) */
+  sensorGain?: number | undefined;
+  exposure?:
+    | number
+    | undefined;
+  /** CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM */
+  captureMonotonicUs: Long;
 }
 
 function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
@@ -51,6 +60,9 @@ function createBaseJonGuiDataCameraDay(): JonGuiDataCameraDay {
     verticalFovDegrees: 0,
     isStarted: false,
     meteo: undefined,
+    sensorGain: undefined,
+    exposure: undefined,
+    captureMonotonicUs: Long.UZERO,
   };
 }
 
@@ -103,6 +115,15 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     }
     if (message.meteo !== undefined) {
       JonGuiDataMeteo.encode(message.meteo, writer.uint32(130).fork()).join();
+    }
+    if (message.sensorGain !== undefined) {
+      writer.uint32(137).double(message.sensorGain);
+    }
+    if (message.exposure !== undefined) {
+      writer.uint32(145).double(message.exposure);
+    }
+    if (!message.captureMonotonicUs.equals(Long.UZERO)) {
+      writer.uint32(152).uint64(message.captureMonotonicUs.toString());
     }
     return writer;
   },
@@ -242,6 +263,30 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
           message.meteo = JonGuiDataMeteo.decode(reader, reader.uint32());
           continue;
         }
+        case 17: {
+          if (tag !== 137) {
+            break;
+          }
+
+          message.sensorGain = reader.double();
+          continue;
+        }
+        case 18: {
+          if (tag !== 145) {
+            break;
+          }
+
+          message.exposure = reader.double();
+          continue;
+        }
+        case 19: {
+          if (tag !== 152) {
+            break;
+          }
+
+          message.captureMonotonicUs = Long.fromString(reader.uint64().toString(), true);
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -329,6 +374,17 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
         ? globalThis.Boolean(object.is_started)
         : false,
       meteo: isSet(object.meteo) ? JonGuiDataMeteo.fromJSON(object.meteo) : undefined,
+      sensorGain: isSet(object.sensorGain)
+        ? globalThis.Number(object.sensorGain)
+        : isSet(object.sensor_gain)
+        ? globalThis.Number(object.sensor_gain)
+        : undefined,
+      exposure: isSet(object.exposure) ? globalThis.Number(object.exposure) : undefined,
+      captureMonotonicUs: isSet(object.captureMonotonicUs)
+        ? Long.fromValue(object.captureMonotonicUs)
+        : isSet(object.capture_monotonic_us)
+        ? Long.fromValue(object.capture_monotonic_us)
+        : Long.UZERO,
     };
   },
 
@@ -382,6 +438,15 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     if (message.meteo !== undefined) {
       obj.meteo = JonGuiDataMeteo.toJSON(message.meteo);
     }
+    if (message.sensorGain !== undefined) {
+      obj.sensorGain = message.sensorGain;
+    }
+    if (message.exposure !== undefined) {
+      obj.exposure = message.exposure;
+    }
+    if (!message.captureMonotonicUs.equals(Long.UZERO)) {
+      obj.captureMonotonicUs = (message.captureMonotonicUs || Long.UZERO).toString();
+    }
     return obj;
   },
 
@@ -408,6 +473,11 @@ export const JonGuiDataCameraDay: MessageFns<JonGuiDataCameraDay> = {
     message.meteo = (object.meteo !== undefined && object.meteo !== null)
       ? JonGuiDataMeteo.fromPartial(object.meteo)
       : undefined;
+    message.sensorGain = object.sensorGain ?? undefined;
+    message.exposure = object.exposure ?? undefined;
+    message.captureMonotonicUs = (object.captureMonotonicUs !== undefined && object.captureMonotonicUs !== null)
+      ? Long.fromValue(object.captureMonotonicUs)
+      : Long.UZERO;
     return message;
   },
 };

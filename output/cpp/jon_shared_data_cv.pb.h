@@ -405,6 +405,19 @@ class JonGuiDataCV final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kTrackedObjectsFieldNumber = 80,
+    kRoiFocusDayFieldNumber = 40,
+    kRoiTrackDayFieldNumber = 41,
+    kRoiZoomDayFieldNumber = 42,
+    kRoiFxDayFieldNumber = 43,
+    kRoiFocusHeatFieldNumber = 50,
+    kRoiTrackHeatFieldNumber = 51,
+    kRoiZoomHeatFieldNumber = 52,
+    kRoiFxHeatFieldNumber = 53,
+    kSharpnessMetricsDayFieldNumber = 60,
+    kSharpnessMetricsHeatFieldNumber = 61,
+    kCameraTransformDayFieldNumber = 70,
+    kCameraTransformHeatFieldNumber = 71,
     kSharpnessDayFieldNumber = 2,
     kAutofocusStateDayFieldNumber = 1,
     kSweepProgressDayFieldNumber = 4,
@@ -424,6 +437,203 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     kBridgeUptimeMsFieldNumber = 32,
     kRestartCountFieldNumber = 33,
   };
+  // repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;
+  int tracked_objects_size() const;
+  private:
+  int _internal_tracked_objects_size() const;
+
+  public:
+  void clear_tracked_objects() ;
+  ::ser::JonGuiDataTrackedObject* mutable_tracked_objects(int index);
+  ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>* mutable_tracked_objects();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>& _internal_tracked_objects() const;
+  ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>* _internal_mutable_tracked_objects();
+  public:
+  const ::ser::JonGuiDataTrackedObject& tracked_objects(int index) const;
+  ::ser::JonGuiDataTrackedObject* add_tracked_objects();
+  const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>& tracked_objects() const;
+  // optional .ser.JonGuiDataROI roi_focus_day = 40;
+  bool has_roi_focus_day() const;
+  void clear_roi_focus_day() ;
+  const ::ser::JonGuiDataROI& roi_focus_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_focus_day();
+  ::ser::JonGuiDataROI* mutable_roi_focus_day();
+  void set_allocated_roi_focus_day(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_focus_day(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_focus_day();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_focus_day() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_focus_day();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_track_day = 41;
+  bool has_roi_track_day() const;
+  void clear_roi_track_day() ;
+  const ::ser::JonGuiDataROI& roi_track_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_track_day();
+  ::ser::JonGuiDataROI* mutable_roi_track_day();
+  void set_allocated_roi_track_day(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_track_day(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_track_day();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_track_day() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_track_day();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_zoom_day = 42;
+  bool has_roi_zoom_day() const;
+  void clear_roi_zoom_day() ;
+  const ::ser::JonGuiDataROI& roi_zoom_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_zoom_day();
+  ::ser::JonGuiDataROI* mutable_roi_zoom_day();
+  void set_allocated_roi_zoom_day(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_zoom_day(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_zoom_day();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_zoom_day() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_zoom_day();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_fx_day = 43;
+  bool has_roi_fx_day() const;
+  void clear_roi_fx_day() ;
+  const ::ser::JonGuiDataROI& roi_fx_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_fx_day();
+  ::ser::JonGuiDataROI* mutable_roi_fx_day();
+  void set_allocated_roi_fx_day(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_fx_day(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_fx_day();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_fx_day() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_fx_day();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_focus_heat = 50;
+  bool has_roi_focus_heat() const;
+  void clear_roi_focus_heat() ;
+  const ::ser::JonGuiDataROI& roi_focus_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_focus_heat();
+  ::ser::JonGuiDataROI* mutable_roi_focus_heat();
+  void set_allocated_roi_focus_heat(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_focus_heat(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_focus_heat();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_focus_heat() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_focus_heat();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_track_heat = 51;
+  bool has_roi_track_heat() const;
+  void clear_roi_track_heat() ;
+  const ::ser::JonGuiDataROI& roi_track_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_track_heat();
+  ::ser::JonGuiDataROI* mutable_roi_track_heat();
+  void set_allocated_roi_track_heat(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_track_heat(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_track_heat();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_track_heat() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_track_heat();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_zoom_heat = 52;
+  bool has_roi_zoom_heat() const;
+  void clear_roi_zoom_heat() ;
+  const ::ser::JonGuiDataROI& roi_zoom_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_zoom_heat();
+  ::ser::JonGuiDataROI* mutable_roi_zoom_heat();
+  void set_allocated_roi_zoom_heat(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_zoom_heat(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_zoom_heat();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_zoom_heat() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_zoom_heat();
+
+  public:
+  // optional .ser.JonGuiDataROI roi_fx_heat = 53;
+  bool has_roi_fx_heat() const;
+  void clear_roi_fx_heat() ;
+  const ::ser::JonGuiDataROI& roi_fx_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataROI* release_roi_fx_heat();
+  ::ser::JonGuiDataROI* mutable_roi_fx_heat();
+  void set_allocated_roi_fx_heat(::ser::JonGuiDataROI* value);
+  void unsafe_arena_set_allocated_roi_fx_heat(::ser::JonGuiDataROI* value);
+  ::ser::JonGuiDataROI* unsafe_arena_release_roi_fx_heat();
+
+  private:
+  const ::ser::JonGuiDataROI& _internal_roi_fx_heat() const;
+  ::ser::JonGuiDataROI* _internal_mutable_roi_fx_heat();
+
+  public:
+  // optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;
+  bool has_sharpness_metrics_day() const;
+  void clear_sharpness_metrics_day() ;
+  const ::ser::JonGuiDataSharpness& sharpness_metrics_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataSharpness* release_sharpness_metrics_day();
+  ::ser::JonGuiDataSharpness* mutable_sharpness_metrics_day();
+  void set_allocated_sharpness_metrics_day(::ser::JonGuiDataSharpness* value);
+  void unsafe_arena_set_allocated_sharpness_metrics_day(::ser::JonGuiDataSharpness* value);
+  ::ser::JonGuiDataSharpness* unsafe_arena_release_sharpness_metrics_day();
+
+  private:
+  const ::ser::JonGuiDataSharpness& _internal_sharpness_metrics_day() const;
+  ::ser::JonGuiDataSharpness* _internal_mutable_sharpness_metrics_day();
+
+  public:
+  // optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;
+  bool has_sharpness_metrics_heat() const;
+  void clear_sharpness_metrics_heat() ;
+  const ::ser::JonGuiDataSharpness& sharpness_metrics_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataSharpness* release_sharpness_metrics_heat();
+  ::ser::JonGuiDataSharpness* mutable_sharpness_metrics_heat();
+  void set_allocated_sharpness_metrics_heat(::ser::JonGuiDataSharpness* value);
+  void unsafe_arena_set_allocated_sharpness_metrics_heat(::ser::JonGuiDataSharpness* value);
+  ::ser::JonGuiDataSharpness* unsafe_arena_release_sharpness_metrics_heat();
+
+  private:
+  const ::ser::JonGuiDataSharpness& _internal_sharpness_metrics_heat() const;
+  ::ser::JonGuiDataSharpness* _internal_mutable_sharpness_metrics_heat();
+
+  public:
+  // optional .ser.JonGuiDataTransform3D camera_transform_day = 70;
+  bool has_camera_transform_day() const;
+  void clear_camera_transform_day() ;
+  const ::ser::JonGuiDataTransform3D& camera_transform_day() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataTransform3D* release_camera_transform_day();
+  ::ser::JonGuiDataTransform3D* mutable_camera_transform_day();
+  void set_allocated_camera_transform_day(::ser::JonGuiDataTransform3D* value);
+  void unsafe_arena_set_allocated_camera_transform_day(::ser::JonGuiDataTransform3D* value);
+  ::ser::JonGuiDataTransform3D* unsafe_arena_release_camera_transform_day();
+
+  private:
+  const ::ser::JonGuiDataTransform3D& _internal_camera_transform_day() const;
+  ::ser::JonGuiDataTransform3D* _internal_mutable_camera_transform_day();
+
+  public:
+  // optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;
+  bool has_camera_transform_heat() const;
+  void clear_camera_transform_heat() ;
+  const ::ser::JonGuiDataTransform3D& camera_transform_heat() const;
+  PROTOBUF_NODISCARD ::ser::JonGuiDataTransform3D* release_camera_transform_heat();
+  ::ser::JonGuiDataTransform3D* mutable_camera_transform_heat();
+  void set_allocated_camera_transform_heat(::ser::JonGuiDataTransform3D* value);
+  void unsafe_arena_set_allocated_camera_transform_heat(::ser::JonGuiDataTransform3D* value);
+  ::ser::JonGuiDataTransform3D* unsafe_arena_release_camera_transform_heat();
+
+  private:
+  const ::ser::JonGuiDataTransform3D& _internal_camera_transform_heat() const;
+  ::ser::JonGuiDataTransform3D* _internal_mutable_camera_transform_heat();
+
+  public:
   // double sharpness_day = 2 [(.buf.validate.field) = {
   void clear_sharpness_day() ;
   double sharpness_day() const;
@@ -609,8 +819,8 @@ class JonGuiDataCV final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      5, 18, 0,
-      0, 7>
+      5, 31, 13,
+      0, 11>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -627,6 +837,21 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const JonGuiDataCV& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::ser::JonGuiDataTrackedObject > tracked_objects_;
+    ::ser::JonGuiDataROI* roi_focus_day_;
+    ::ser::JonGuiDataROI* roi_track_day_;
+    ::ser::JonGuiDataROI* roi_zoom_day_;
+    ::ser::JonGuiDataROI* roi_fx_day_;
+    ::ser::JonGuiDataROI* roi_focus_heat_;
+    ::ser::JonGuiDataROI* roi_track_heat_;
+    ::ser::JonGuiDataROI* roi_zoom_heat_;
+    ::ser::JonGuiDataROI* roi_fx_heat_;
+    ::ser::JonGuiDataSharpness* sharpness_metrics_day_;
+    ::ser::JonGuiDataSharpness* sharpness_metrics_heat_;
+    ::ser::JonGuiDataTransform3D* camera_transform_day_;
+    ::ser::JonGuiDataTransform3D* camera_transform_heat_;
     double sharpness_day_;
     int autofocus_state_day_;
     ::int32_t sweep_progress_day_;
@@ -645,7 +870,6 @@ class JonGuiDataCV final : public ::google::protobuf::Message
     int last_exit_reason_;
     ::int64_t bridge_uptime_ms_;
     ::int32_t restart_count_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1062,6 +1286,1143 @@ inline ::int32_t JonGuiDataCV::_internal_restart_count() const {
 inline void JonGuiDataCV::_internal_set_restart_count(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.restart_count_ = value;
+}
+
+// optional .ser.JonGuiDataROI roi_focus_day = 40;
+inline bool JonGuiDataCV::has_roi_focus_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_focus_day_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_focus_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_focus_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_focus_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_focus_day)
+  return _internal_roi_focus_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_focus_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_focus_day_);
+  }
+  _impl_.roi_focus_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_focus_day)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_focus_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_focus_day_;
+  _impl_.roi_focus_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_focus_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_focus_day)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_focus_day_;
+  _impl_.roi_focus_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_focus_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_focus_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_focus_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_focus_day_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_focus_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_focus_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_focus_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_focus_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_focus_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.roi_focus_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_focus_day)
+}
+
+// optional .ser.JonGuiDataROI roi_track_day = 41;
+inline bool JonGuiDataCV::has_roi_track_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_track_day_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_track_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_track_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_track_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_track_day)
+  return _internal_roi_track_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_track_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_track_day_);
+  }
+  _impl_.roi_track_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_track_day)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_track_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_track_day_;
+  _impl_.roi_track_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_track_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_track_day)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_track_day_;
+  _impl_.roi_track_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_track_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_track_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_track_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_track_day_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_track_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_track_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_track_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_track_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_track_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.roi_track_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_track_day)
+}
+
+// optional .ser.JonGuiDataROI roi_zoom_day = 42;
+inline bool JonGuiDataCV::has_roi_zoom_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_zoom_day_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_zoom_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_zoom_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_zoom_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_zoom_day)
+  return _internal_roi_zoom_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_zoom_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_zoom_day_);
+  }
+  _impl_.roi_zoom_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_zoom_day)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_zoom_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_zoom_day_;
+  _impl_.roi_zoom_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_zoom_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_zoom_day)
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_zoom_day_;
+  _impl_.roi_zoom_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_zoom_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_zoom_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_zoom_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_zoom_day_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_zoom_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_zoom_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_zoom_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_zoom_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_zoom_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+
+  _impl_.roi_zoom_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_zoom_day)
+}
+
+// optional .ser.JonGuiDataROI roi_fx_day = 43;
+inline bool JonGuiDataCV::has_roi_fx_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_fx_day_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_fx_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_fx_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_fx_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_fx_day)
+  return _internal_roi_fx_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_fx_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_fx_day_);
+  }
+  _impl_.roi_fx_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_fx_day)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_fx_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_fx_day_;
+  _impl_.roi_fx_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_fx_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_fx_day)
+
+  _impl_._has_bits_[0] &= ~0x00000008u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_fx_day_;
+  _impl_.roi_fx_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_fx_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_fx_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_fx_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_fx_day_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_fx_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_fx_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_fx_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_fx_day(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_fx_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000008u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000008u;
+  }
+
+  _impl_.roi_fx_day_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_fx_day)
+}
+
+// optional .ser.JonGuiDataROI roi_focus_heat = 50;
+inline bool JonGuiDataCV::has_roi_focus_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_focus_heat_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_focus_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_focus_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_focus_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_focus_heat)
+  return _internal_roi_focus_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_focus_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_focus_heat_);
+  }
+  _impl_.roi_focus_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000010u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000010u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_focus_heat)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_focus_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000010u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_focus_heat_;
+  _impl_.roi_focus_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_focus_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_focus_heat)
+
+  _impl_._has_bits_[0] &= ~0x00000010u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_focus_heat_;
+  _impl_.roi_focus_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_focus_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_focus_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_focus_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_focus_heat_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_focus_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000010u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_focus_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_focus_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_focus_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_focus_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000010u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000010u;
+  }
+
+  _impl_.roi_focus_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_focus_heat)
+}
+
+// optional .ser.JonGuiDataROI roi_track_heat = 51;
+inline bool JonGuiDataCV::has_roi_track_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_track_heat_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_track_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_track_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_track_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_track_heat)
+  return _internal_roi_track_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_track_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_track_heat_);
+  }
+  _impl_.roi_track_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000020u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000020u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_track_heat)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_track_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000020u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_track_heat_;
+  _impl_.roi_track_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_track_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_track_heat)
+
+  _impl_._has_bits_[0] &= ~0x00000020u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_track_heat_;
+  _impl_.roi_track_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_track_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_track_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_track_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_track_heat_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_track_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000020u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_track_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_track_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_track_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_track_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000020u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000020u;
+  }
+
+  _impl_.roi_track_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_track_heat)
+}
+
+// optional .ser.JonGuiDataROI roi_zoom_heat = 52;
+inline bool JonGuiDataCV::has_roi_zoom_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_zoom_heat_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_zoom_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_zoom_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_zoom_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_zoom_heat)
+  return _internal_roi_zoom_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_zoom_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_zoom_heat_);
+  }
+  _impl_.roi_zoom_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000040u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000040u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_zoom_heat)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_zoom_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000040u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_zoom_heat_;
+  _impl_.roi_zoom_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_zoom_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_zoom_heat)
+
+  _impl_._has_bits_[0] &= ~0x00000040u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_zoom_heat_;
+  _impl_.roi_zoom_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_zoom_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_zoom_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_zoom_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_zoom_heat_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_zoom_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000040u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_zoom_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_zoom_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_zoom_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_zoom_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000040u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000040u;
+  }
+
+  _impl_.roi_zoom_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_zoom_heat)
+}
+
+// optional .ser.JonGuiDataROI roi_fx_heat = 53;
+inline bool JonGuiDataCV::has_roi_fx_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000080u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.roi_fx_heat_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::_internal_roi_fx_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataROI* p = _impl_.roi_fx_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataROI&>(::ser::_JonGuiDataROI_default_instance_);
+}
+inline const ::ser::JonGuiDataROI& JonGuiDataCV::roi_fx_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.roi_fx_heat)
+  return _internal_roi_fx_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_roi_fx_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_fx_heat_);
+  }
+  _impl_.roi_fx_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000080u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000080u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.roi_fx_heat)
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::release_roi_fx_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000080u;
+  ::ser::JonGuiDataROI* released = _impl_.roi_fx_heat_;
+  _impl_.roi_fx_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::unsafe_arena_release_roi_fx_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.roi_fx_heat)
+
+  _impl_._has_bits_[0] &= ~0x00000080u;
+  ::ser::JonGuiDataROI* temp = _impl_.roi_fx_heat_;
+  _impl_.roi_fx_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::_internal_mutable_roi_fx_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.roi_fx_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataROI>(GetArena());
+    _impl_.roi_fx_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(p);
+  }
+  return _impl_.roi_fx_heat_;
+}
+inline ::ser::JonGuiDataROI* JonGuiDataCV::mutable_roi_fx_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000080u;
+  ::ser::JonGuiDataROI* _msg = _internal_mutable_roi_fx_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.roi_fx_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_roi_fx_heat(::ser::JonGuiDataROI* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.roi_fx_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000080u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000080u;
+  }
+
+  _impl_.roi_fx_heat_ = reinterpret_cast<::ser::JonGuiDataROI*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.roi_fx_heat)
+}
+
+// optional .ser.JonGuiDataSharpness sharpness_metrics_day = 60;
+inline bool JonGuiDataCV::has_sharpness_metrics_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000100u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.sharpness_metrics_day_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataSharpness& JonGuiDataCV::_internal_sharpness_metrics_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataSharpness* p = _impl_.sharpness_metrics_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataSharpness&>(::ser::_JonGuiDataSharpness_default_instance_);
+}
+inline const ::ser::JonGuiDataSharpness& JonGuiDataCV::sharpness_metrics_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.sharpness_metrics_day)
+  return _internal_sharpness_metrics_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_sharpness_metrics_day(::ser::JonGuiDataSharpness* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.sharpness_metrics_day_);
+  }
+  _impl_.sharpness_metrics_day_ = reinterpret_cast<::ser::JonGuiDataSharpness*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000100u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000100u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.sharpness_metrics_day)
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::release_sharpness_metrics_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000100u;
+  ::ser::JonGuiDataSharpness* released = _impl_.sharpness_metrics_day_;
+  _impl_.sharpness_metrics_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::unsafe_arena_release_sharpness_metrics_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.sharpness_metrics_day)
+
+  _impl_._has_bits_[0] &= ~0x00000100u;
+  ::ser::JonGuiDataSharpness* temp = _impl_.sharpness_metrics_day_;
+  _impl_.sharpness_metrics_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::_internal_mutable_sharpness_metrics_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.sharpness_metrics_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataSharpness>(GetArena());
+    _impl_.sharpness_metrics_day_ = reinterpret_cast<::ser::JonGuiDataSharpness*>(p);
+  }
+  return _impl_.sharpness_metrics_day_;
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::mutable_sharpness_metrics_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000100u;
+  ::ser::JonGuiDataSharpness* _msg = _internal_mutable_sharpness_metrics_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.sharpness_metrics_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_sharpness_metrics_day(::ser::JonGuiDataSharpness* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.sharpness_metrics_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000100u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000100u;
+  }
+
+  _impl_.sharpness_metrics_day_ = reinterpret_cast<::ser::JonGuiDataSharpness*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.sharpness_metrics_day)
+}
+
+// optional .ser.JonGuiDataSharpness sharpness_metrics_heat = 61;
+inline bool JonGuiDataCV::has_sharpness_metrics_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000200u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.sharpness_metrics_heat_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataSharpness& JonGuiDataCV::_internal_sharpness_metrics_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataSharpness* p = _impl_.sharpness_metrics_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataSharpness&>(::ser::_JonGuiDataSharpness_default_instance_);
+}
+inline const ::ser::JonGuiDataSharpness& JonGuiDataCV::sharpness_metrics_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.sharpness_metrics_heat)
+  return _internal_sharpness_metrics_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_sharpness_metrics_heat(::ser::JonGuiDataSharpness* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.sharpness_metrics_heat_);
+  }
+  _impl_.sharpness_metrics_heat_ = reinterpret_cast<::ser::JonGuiDataSharpness*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000200u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000200u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.sharpness_metrics_heat)
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::release_sharpness_metrics_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000200u;
+  ::ser::JonGuiDataSharpness* released = _impl_.sharpness_metrics_heat_;
+  _impl_.sharpness_metrics_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::unsafe_arena_release_sharpness_metrics_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.sharpness_metrics_heat)
+
+  _impl_._has_bits_[0] &= ~0x00000200u;
+  ::ser::JonGuiDataSharpness* temp = _impl_.sharpness_metrics_heat_;
+  _impl_.sharpness_metrics_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::_internal_mutable_sharpness_metrics_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.sharpness_metrics_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataSharpness>(GetArena());
+    _impl_.sharpness_metrics_heat_ = reinterpret_cast<::ser::JonGuiDataSharpness*>(p);
+  }
+  return _impl_.sharpness_metrics_heat_;
+}
+inline ::ser::JonGuiDataSharpness* JonGuiDataCV::mutable_sharpness_metrics_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000200u;
+  ::ser::JonGuiDataSharpness* _msg = _internal_mutable_sharpness_metrics_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.sharpness_metrics_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_sharpness_metrics_heat(::ser::JonGuiDataSharpness* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.sharpness_metrics_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000200u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000200u;
+  }
+
+  _impl_.sharpness_metrics_heat_ = reinterpret_cast<::ser::JonGuiDataSharpness*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.sharpness_metrics_heat)
+}
+
+// optional .ser.JonGuiDataTransform3D camera_transform_day = 70;
+inline bool JonGuiDataCV::has_camera_transform_day() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000400u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.camera_transform_day_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataTransform3D& JonGuiDataCV::_internal_camera_transform_day() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataTransform3D* p = _impl_.camera_transform_day_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataTransform3D&>(::ser::_JonGuiDataTransform3D_default_instance_);
+}
+inline const ::ser::JonGuiDataTransform3D& JonGuiDataCV::camera_transform_day() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.camera_transform_day)
+  return _internal_camera_transform_day();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_camera_transform_day(::ser::JonGuiDataTransform3D* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.camera_transform_day_);
+  }
+  _impl_.camera_transform_day_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000400u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000400u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.camera_transform_day)
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::release_camera_transform_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000400u;
+  ::ser::JonGuiDataTransform3D* released = _impl_.camera_transform_day_;
+  _impl_.camera_transform_day_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::unsafe_arena_release_camera_transform_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.camera_transform_day)
+
+  _impl_._has_bits_[0] &= ~0x00000400u;
+  ::ser::JonGuiDataTransform3D* temp = _impl_.camera_transform_day_;
+  _impl_.camera_transform_day_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::_internal_mutable_camera_transform_day() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.camera_transform_day_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataTransform3D>(GetArena());
+    _impl_.camera_transform_day_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(p);
+  }
+  return _impl_.camera_transform_day_;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::mutable_camera_transform_day() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000400u;
+  ::ser::JonGuiDataTransform3D* _msg = _internal_mutable_camera_transform_day();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.camera_transform_day)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_camera_transform_day(::ser::JonGuiDataTransform3D* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.camera_transform_day_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000400u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000400u;
+  }
+
+  _impl_.camera_transform_day_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.camera_transform_day)
+}
+
+// optional .ser.JonGuiDataTransform3D camera_transform_heat = 71;
+inline bool JonGuiDataCV::has_camera_transform_heat() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000800u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.camera_transform_heat_ != nullptr);
+  return value;
+}
+inline const ::ser::JonGuiDataTransform3D& JonGuiDataCV::_internal_camera_transform_heat() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ser::JonGuiDataTransform3D* p = _impl_.camera_transform_heat_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ser::JonGuiDataTransform3D&>(::ser::_JonGuiDataTransform3D_default_instance_);
+}
+inline const ::ser::JonGuiDataTransform3D& JonGuiDataCV::camera_transform_heat() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.camera_transform_heat)
+  return _internal_camera_transform_heat();
+}
+inline void JonGuiDataCV::unsafe_arena_set_allocated_camera_transform_heat(::ser::JonGuiDataTransform3D* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.camera_transform_heat_);
+  }
+  _impl_.camera_transform_heat_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000800u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000800u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ser.JonGuiDataCV.camera_transform_heat)
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::release_camera_transform_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000800u;
+  ::ser::JonGuiDataTransform3D* released = _impl_.camera_transform_heat_;
+  _impl_.camera_transform_heat_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::unsafe_arena_release_camera_transform_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ser.JonGuiDataCV.camera_transform_heat)
+
+  _impl_._has_bits_[0] &= ~0x00000800u;
+  ::ser::JonGuiDataTransform3D* temp = _impl_.camera_transform_heat_;
+  _impl_.camera_transform_heat_ = nullptr;
+  return temp;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::_internal_mutable_camera_transform_heat() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.camera_transform_heat_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ser::JonGuiDataTransform3D>(GetArena());
+    _impl_.camera_transform_heat_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(p);
+  }
+  return _impl_.camera_transform_heat_;
+}
+inline ::ser::JonGuiDataTransform3D* JonGuiDataCV::mutable_camera_transform_heat() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000800u;
+  ::ser::JonGuiDataTransform3D* _msg = _internal_mutable_camera_transform_heat();
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.camera_transform_heat)
+  return _msg;
+}
+inline void JonGuiDataCV::set_allocated_camera_transform_heat(::ser::JonGuiDataTransform3D* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.camera_transform_heat_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::google::protobuf::MessageLite*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000800u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000800u;
+  }
+
+  _impl_.camera_transform_heat_ = reinterpret_cast<::ser::JonGuiDataTransform3D*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ser.JonGuiDataCV.camera_transform_heat)
+}
+
+// repeated .ser.JonGuiDataTrackedObject tracked_objects = 80;
+inline int JonGuiDataCV::_internal_tracked_objects_size() const {
+  return _internal_tracked_objects().size();
+}
+inline int JonGuiDataCV::tracked_objects_size() const {
+  return _internal_tracked_objects_size();
+}
+inline ::ser::JonGuiDataTrackedObject* JonGuiDataCV::mutable_tracked_objects(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:ser.JonGuiDataCV.tracked_objects)
+  return _internal_mutable_tracked_objects()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>* JonGuiDataCV::mutable_tracked_objects()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ser.JonGuiDataCV.tracked_objects)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_tracked_objects();
+}
+inline const ::ser::JonGuiDataTrackedObject& JonGuiDataCV::tracked_objects(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCV.tracked_objects)
+  return _internal_tracked_objects().Get(index);
+}
+inline ::ser::JonGuiDataTrackedObject* JonGuiDataCV::add_tracked_objects() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ser::JonGuiDataTrackedObject* _add = _internal_mutable_tracked_objects()->Add();
+  // @@protoc_insertion_point(field_add:ser.JonGuiDataCV.tracked_objects)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>& JonGuiDataCV::tracked_objects() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ser.JonGuiDataCV.tracked_objects)
+  return _internal_tracked_objects();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>&
+JonGuiDataCV::_internal_tracked_objects() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.tracked_objects_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ser::JonGuiDataTrackedObject>*
+JonGuiDataCV::_internal_mutable_tracked_objects() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.tracked_objects_;
 }
 
 #ifdef __GNUC__

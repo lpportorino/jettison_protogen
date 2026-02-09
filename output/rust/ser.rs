@@ -35,6 +35,148 @@ pub struct JonOpaquePayload {
     #[prost(bytes = "vec", tag = "3")]
     pub payload: ::prost::alloc::vec::Vec<u8>,
 }
+/// Region of Interest for camera operations (focus, track, zoom, fx).
+/// Coordinates are normalized: -1.0 (left/top) to 1.0 (right/bottom).
+/// Center is (0, 0).
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataRoi {
+    #[prost(double, tag = "1")]
+    pub x1: f64,
+    #[prost(double, tag = "2")]
+    pub y1: f64,
+    #[prost(double, tag = "3")]
+    pub x2: f64,
+    #[prost(double, tag = "4")]
+    pub y2: f64,
+}
+/// Image sharpness metrics with temporal derivatives.
+/// All values normalized 0.0-1.0 where 1.0 is maximum sharpness.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataSharpness {
+    #[prost(double, tag = "1")]
+    pub value: f64,
+    /// First derivative (rate of change)
+    #[prost(double, tag = "2")]
+    pub derivative_1: f64,
+    /// Second derivative (acceleration)
+    #[prost(double, tag = "3")]
+    pub derivative_2: f64,
+}
+/// 3D vector (position or velocity)
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataVector3 {
+    #[prost(double, tag = "1")]
+    pub x: f64,
+    #[prost(double, tag = "2")]
+    pub y: f64,
+    #[prost(double, tag = "3")]
+    pub z: f64,
+}
+/// Unit quaternion for 3D rotation (w + xi + yj + zk)
+/// Must be normalized: w² + x² + y² + z² = 1
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataQuaternion {
+    /// scalar (cos(θ/2))
+    #[prost(double, tag = "1")]
+    pub w: f64,
+    /// vector i
+    #[prost(double, tag = "2")]
+    pub x: f64,
+    /// vector j
+    #[prost(double, tag = "3")]
+    pub y: f64,
+    /// vector k
+    #[prost(double, tag = "4")]
+    pub z: f64,
+}
+/// 3D rigid body transform with velocity.
+/// When present, all fields are required.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataTransform3D {
+    /// meters
+    #[prost(message, optional, tag = "1")]
+    pub position: ::core::option::Option<JonGuiDataVector3>,
+    /// unit quaternion
+    #[prost(message, optional, tag = "2")]
+    pub orientation: ::core::option::Option<JonGuiDataQuaternion>,
+    /// m/s
+    #[prost(message, optional, tag = "3")]
+    pub linear_velocity: ::core::option::Option<JonGuiDataVector3>,
+    /// rad/s
+    #[prost(message, optional, tag = "4")]
+    pub angular_velocity: ::core::option::Option<JonGuiDataVector3>,
+}
+/// Tracked object - all fields required.
+/// If object is in the list, we have complete tracking data for it.
+/// UUID allows joining with external data sources (labels, classifications, etc.)
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct JonGuiDataTrackedObject {
+    /// UUIDv7 identifier - stable across frames for the same object
+    #[prost(string, tag = "1")]
+    pub uuid: ::prost::alloc::string::String,
+    /// 3D pose (position, orientation, velocities)
+    #[prost(message, optional, tag = "2")]
+    pub transform: ::core::option::Option<JonGuiDataTransform3D>,
+    /// 2D bounding box in image space (NDC coords -1 to 1)
+    #[prost(message, optional, tag = "3")]
+    pub bounding_box: ::core::option::Option<JonGuiDataRoi>,
+    /// Current tracking state
+    #[prost(enumeration = "jon_gui_data_tracked_object::TrackingState", tag = "4")]
+    pub state: i32,
+}
+/// Nested message and enum types in `JonGuiDataTrackedObject`.
+pub mod jon_gui_data_tracked_object {
+    /// Tracking state
+    #[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    pub enum TrackingState {
+        Unspecified = 0,
+        /// Initial lock attempt
+        Acquiring = 1,
+        /// Actively tracking
+        Tracking = 2,
+        /// Temporarily lost, using prediction
+        Predicted = 3,
+        /// Lost track
+        Lost = 4,
+    }
+    impl TrackingState {
+        /// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        pub fn as_str_name(&self) -> &'static str {
+            match self {
+                Self::Unspecified => "TRACKING_STATE_UNSPECIFIED",
+                Self::Acquiring => "TRACKING_STATE_ACQUIRING",
+                Self::Tracking => "TRACKING_STATE_TRACKING",
+                Self::Predicted => "TRACKING_STATE_PREDICTED",
+                Self::Lost => "TRACKING_STATE_LOST",
+            }
+        }
+        /// Creates an enum from field names used in the ProtoBuf definition.
+        pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+            match value {
+                "TRACKING_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+                "TRACKING_STATE_ACQUIRING" => Some(Self::Acquiring),
+                "TRACKING_STATE_TRACKING" => Some(Self::Tracking),
+                "TRACKING_STATE_PREDICTED" => Some(Self::Predicted),
+                "TRACKING_STATE_LOST" => Some(Self::Lost),
+                _ => None,
+            }
+        }
+    }
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum JonGuiDataVideoChannelHeatFilters {
@@ -990,6 +1132,9 @@ pub struct JonGuiDataCameraHeat {
     pub is_started: bool,
     #[prost(message, optional, tag = "15")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+    #[prost(uint64, tag = "16")]
+    pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataTime {
@@ -1247,6 +1392,9 @@ pub struct JonGuiDataRotary {
     pub pan_init_status: i32,
     #[prost(int32, tag = "21")]
     pub tilt_init_status: i32,
+    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+    #[prost(uint64, tag = "22")]
+    pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ScanNode {
@@ -1299,6 +1447,14 @@ pub struct JonGuiDataCameraDay {
     pub is_started: bool,
     #[prost(message, optional, tag = "16")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+    #[prost(double, optional, tag = "17")]
+    pub sensor_gain: ::core::option::Option<f64>,
+    #[prost(double, optional, tag = "18")]
+    pub exposure: ::core::option::Option<f64>,
+    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+    #[prost(uint64, tag = "19")]
+    pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataRecOsd {
@@ -1316,17 +1472,6 @@ pub struct JonGuiDataRecOsd {
     pub day_crosshair_offset_horizontal: i32,
     #[prost(int32, tag = "7")]
     pub day_crosshair_offset_vertical: i32,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataDayCamGlassHeater {
-    #[prost(double, tag = "1")]
-    pub temperature: f64,
-    #[prost(bool, tag = "2")]
-    pub status: bool,
-    #[prost(bool, tag = "3")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "4")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataActualSpaceTime {
@@ -1404,7 +1549,7 @@ pub struct JonGuiDataPower {
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 /// CV Gateway state enrichment - autofocus metrics and sweep status
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct JonGuiDataCv {
     /// Day channel autofocus
     #[prost(enumeration = "jon_gui_data_cv::AutofocusState", tag = "1")]
@@ -1446,6 +1591,40 @@ pub struct JonGuiDataCv {
     pub bridge_uptime_ms: i64,
     #[prost(int32, tag = "33")]
     pub restart_count: i32,
+    /// Day channel ROIs
+    #[prost(message, optional, tag = "40")]
+    pub roi_focus_day: ::core::option::Option<JonGuiDataRoi>,
+    #[prost(message, optional, tag = "41")]
+    pub roi_track_day: ::core::option::Option<JonGuiDataRoi>,
+    #[prost(message, optional, tag = "42")]
+    pub roi_zoom_day: ::core::option::Option<JonGuiDataRoi>,
+    #[prost(message, optional, tag = "43")]
+    pub roi_fx_day: ::core::option::Option<JonGuiDataRoi>,
+    /// Heat channel ROIs
+    #[prost(message, optional, tag = "50")]
+    pub roi_focus_heat: ::core::option::Option<JonGuiDataRoi>,
+    #[prost(message, optional, tag = "51")]
+    pub roi_track_heat: ::core::option::Option<JonGuiDataRoi>,
+    #[prost(message, optional, tag = "52")]
+    pub roi_zoom_heat: ::core::option::Option<JonGuiDataRoi>,
+    #[prost(message, optional, tag = "53")]
+    pub roi_fx_heat: ::core::option::Option<JonGuiDataRoi>,
+    /// Day channel sharpness (within roi_focus_day)
+    #[prost(message, optional, tag = "60")]
+    pub sharpness_metrics_day: ::core::option::Option<JonGuiDataSharpness>,
+    /// Heat channel sharpness (within roi_focus_heat)
+    #[prost(message, optional, tag = "61")]
+    pub sharpness_metrics_heat: ::core::option::Option<JonGuiDataSharpness>,
+    /// Day camera 3D pose and velocity
+    #[prost(message, optional, tag = "70")]
+    pub camera_transform_day: ::core::option::Option<JonGuiDataTransform3D>,
+    /// Heat camera 3D pose and velocity
+    #[prost(message, optional, tag = "71")]
+    pub camera_transform_heat: ::core::option::Option<JonGuiDataTransform3D>,
+    /// Tracked objects (0 or more). Each object has UUID for joining with
+    /// external data sources (labels, classifications, etc.)
+    #[prost(message, repeated, tag = "80")]
+    pub tracked_objects: ::prost::alloc::vec::Vec<JonGuiDataTrackedObject>,
 }
 /// Nested message and enum types in `JonGuiDataCV`.
 pub mod jon_gui_data_cv {
@@ -1623,6 +1802,46 @@ pub mod jon_gui_data_cv {
         }
     }
 }
+/// HeaterChannelStatus represents the state of a single heating channel
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataHeaterChannelStatus {
+    #[prost(float, tag = "1")]
+    pub temperature: f32,
+    #[prost(float, tag = "2")]
+    pub applied_voltage_v: f32,
+    #[prost(float, tag = "3")]
+    pub target_voltage_v: f32,
+    #[prost(bool, tag = "4")]
+    pub enabled: bool,
+}
+/// JonGuiDataHeater contains the complete heater subsystem status
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataHeater {
+    #[prost(float, tag = "1")]
+    pub bus_voltage_v: f32,
+    #[prost(float, tag = "2")]
+    pub current_a: f32,
+    #[prost(float, tag = "3")]
+    pub power_w: f32,
+    /// Day camera glass (60W)
+    #[prost(message, optional, tag = "4")]
+    pub channel_0: ::core::option::Option<JonGuiDataHeaterChannelStatus>,
+    /// LRF glass (15W)
+    #[prost(message, optional, tag = "5")]
+    pub channel_1: ::core::option::Option<JonGuiDataHeaterChannelStatus>,
+    /// Heat camera glass (60W)
+    #[prost(message, optional, tag = "6")]
+    pub channel_2: ::core::option::Option<JonGuiDataHeaterChannelStatus>,
+    #[prost(bool, tag = "7")]
+    pub automatic_control_enabled: bool,
+    /// Target temperatures for PID control (persisted via state storage)
+    #[prost(float, tag = "8")]
+    pub target_temp_channel_0: f32,
+    #[prost(float, tag = "9")]
+    pub target_temp_channel_1: f32,
+    #[prost(float, tag = "10")]
+    pub target_temp_channel_2: f32,
+}
 /// Root message
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct JonGuiState {
@@ -1670,8 +1889,6 @@ pub struct JonGuiState {
     pub compass_calibration: ::core::option::Option<JonGuiDataCompassCalibration>,
     #[prost(message, optional, tag = "23")]
     pub rec_osd: ::core::option::Option<JonGuiDataRecOsd>,
-    #[prost(message, optional, tag = "24")]
-    pub day_cam_glass_heater: ::core::option::Option<JonGuiDataDayCamGlassHeater>,
     #[prost(message, optional, tag = "25")]
     pub actual_space_time: ::core::option::Option<JonGuiDataActualSpaceTime>,
     #[prost(message, optional, tag = "26")]
@@ -1680,44 +1897,6 @@ pub struct JonGuiState {
     pub cv: ::core::option::Option<JonGuiDataCv>,
     #[prost(message, optional, tag = "28")]
     pub pmu: ::core::option::Option<JonGuiDataPmu>,
-}
-/// HeaterChannelStatus represents the state of a single heating channel
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataHeaterChannelStatus {
-    #[prost(float, tag = "1")]
-    pub temperature: f32,
-    #[prost(float, tag = "2")]
-    pub applied_voltage_v: f32,
-    #[prost(float, tag = "3")]
-    pub target_voltage_v: f32,
-    #[prost(bool, tag = "4")]
-    pub enabled: bool,
-}
-/// JonGuiDataHeater contains the complete heater subsystem status
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataHeater {
-    #[prost(float, tag = "1")]
-    pub bus_voltage_v: f32,
-    #[prost(float, tag = "2")]
-    pub current_a: f32,
-    #[prost(float, tag = "3")]
-    pub power_w: f32,
-    /// Day camera glass (60W)
-    #[prost(message, optional, tag = "4")]
-    pub channel_0: ::core::option::Option<JonGuiDataHeaterChannelStatus>,
-    /// LRF glass (15W)
-    #[prost(message, optional, tag = "5")]
-    pub channel_1: ::core::option::Option<JonGuiDataHeaterChannelStatus>,
-    /// Heat camera glass (60W)
-    #[prost(message, optional, tag = "6")]
-    pub channel_2: ::core::option::Option<JonGuiDataHeaterChannelStatus>,
-    #[prost(bool, tag = "7")]
-    pub automatic_control_enabled: bool,
-    /// Target temperatures for PID control (persisted via state storage)
-    #[prost(float, tag = "8")]
-    pub target_temp_channel_0: f32,
-    #[prost(float, tag = "9")]
-    pub target_temp_channel_1: f32,
-    #[prost(float, tag = "10")]
-    pub target_temp_channel_2: f32,
+    #[prost(message, optional, tag = "29")]
+    pub heater: ::core::option::Option<JonGuiDataHeater>,
 }

@@ -41,10 +41,10 @@
 #include "jon_shared_cmd_lrf_align.pb.h"
 #include "jon_shared_cmd_system.pb.h"
 #include "jon_shared_cmd_cv.pb.h"
-#include "jon_shared_cmd_day_cam_glass_heater.pb.h"
 #include "jon_shared_cmd_lira.pb.h"
 #include "jon_shared_cmd_power.pb.h"
 #include "jon_shared_cmd_pmu.pb.h"
+#include "jon_shared_cmd_heater.pb.h"
 #include "jon_shared_data_types.pb.h"
 // @@protoc_insertion_point(includes)
 
@@ -598,10 +598,10 @@ class Root final : public ::google::protobuf::Message
     kFrozen = 30,
     kSystem = 31,
     kCv = 32,
-    kDayCamGlassHeater = 33,
     kLira = 34,
     kPower = 35,
     kPmu = 36,
+    kHeater = 37,
     PAYLOAD_NOT_SET = 0,
   };
   static inline const Root* internal_default_instance() {
@@ -719,10 +719,10 @@ class Root final : public ::google::protobuf::Message
     kFrozenFieldNumber = 30,
     kSystemFieldNumber = 31,
     kCvFieldNumber = 32,
-    kDayCamGlassHeaterFieldNumber = 33,
     kLiraFieldNumber = 34,
     kPowerFieldNumber = 35,
     kPmuFieldNumber = 36,
+    kHeaterFieldNumber = 37,
   };
   // repeated .ser.JonOpaquePayload opaque_payloads = 11;
   int opaque_payloads_size() const;
@@ -1088,25 +1088,6 @@ class Root final : public ::google::protobuf::Message
   ::cmd::CV::Root* _internal_mutable_cv();
 
   public:
-  // .cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;
-  bool has_day_cam_glass_heater() const;
-  private:
-  bool _internal_has_day_cam_glass_heater() const;
-
-  public:
-  void clear_day_cam_glass_heater() ;
-  const ::cmd::DayCamGlassHeater::Root& day_cam_glass_heater() const;
-  PROTOBUF_NODISCARD ::cmd::DayCamGlassHeater::Root* release_day_cam_glass_heater();
-  ::cmd::DayCamGlassHeater::Root* mutable_day_cam_glass_heater();
-  void set_allocated_day_cam_glass_heater(::cmd::DayCamGlassHeater::Root* value);
-  void unsafe_arena_set_allocated_day_cam_glass_heater(::cmd::DayCamGlassHeater::Root* value);
-  ::cmd::DayCamGlassHeater::Root* unsafe_arena_release_day_cam_glass_heater();
-
-  private:
-  const ::cmd::DayCamGlassHeater::Root& _internal_day_cam_glass_heater() const;
-  ::cmd::DayCamGlassHeater::Root* _internal_mutable_day_cam_glass_heater();
-
-  public:
   // .cmd.Lira.Root lira = 34;
   bool has_lira() const;
   private:
@@ -1164,6 +1145,25 @@ class Root final : public ::google::protobuf::Message
   ::cmd::PMU::Root* _internal_mutable_pmu();
 
   public:
+  // .cmd.Heater.Root heater = 37;
+  bool has_heater() const;
+  private:
+  bool _internal_has_heater() const;
+
+  public:
+  void clear_heater() ;
+  const ::cmd::Heater::Root& heater() const;
+  PROTOBUF_NODISCARD ::cmd::Heater::Root* release_heater();
+  ::cmd::Heater::Root* mutable_heater();
+  void set_allocated_heater(::cmd::Heater::Root* value);
+  void unsafe_arena_set_allocated_heater(::cmd::Heater::Root* value);
+  ::cmd::Heater::Root* unsafe_arena_release_heater();
+
+  private:
+  const ::cmd::Heater::Root& _internal_heater() const;
+  ::cmd::Heater::Root* _internal_mutable_heater();
+
+  public:
   void clear_payload();
   PayloadCase payload_case() const;
   // @@protoc_insertion_point(class_scope:cmd.Root)
@@ -1182,10 +1182,10 @@ class Root final : public ::google::protobuf::Message
   void set_has_frozen();
   void set_has_system();
   void set_has_cv();
-  void set_has_day_cam_glass_heater();
   void set_has_lira();
   void set_has_power();
   void set_has_pmu();
+  void set_has_heater();
   inline bool has_payload() const;
   inline void clear_has_payload();
   friend class ::google::protobuf::internal::TcParser;
@@ -1235,10 +1235,10 @@ class Root final : public ::google::protobuf::Message
       ::cmd::Frozen* frozen_;
       ::cmd::System::Root* system_;
       ::cmd::CV::Root* cv_;
-      ::cmd::DayCamGlassHeater::Root* day_cam_glass_heater_;
       ::cmd::Lira::Root* lira_;
       ::cmd::Power::Root* power_;
       ::cmd::PMU::Root* pmu_;
+      ::cmd::Heater::Root* heater_;
     } payload_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2446,74 +2446,6 @@ inline ::cmd::CV::Root* Root::mutable_cv() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   return _msg;
 }
 
-// .cmd.DayCamGlassHeater.Root day_cam_glass_heater = 33;
-inline bool Root::has_day_cam_glass_heater() const {
-  return payload_case() == kDayCamGlassHeater;
-}
-inline bool Root::_internal_has_day_cam_glass_heater() const {
-  return payload_case() == kDayCamGlassHeater;
-}
-inline void Root::set_has_day_cam_glass_heater() {
-  _impl_._oneof_case_[0] = kDayCamGlassHeater;
-}
-inline ::cmd::DayCamGlassHeater::Root* Root::release_day_cam_glass_heater() {
-  // @@protoc_insertion_point(field_release:cmd.Root.day_cam_glass_heater)
-  if (payload_case() == kDayCamGlassHeater) {
-    clear_has_payload();
-    auto* temp = _impl_.payload_.day_cam_glass_heater_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.payload_.day_cam_glass_heater_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::cmd::DayCamGlassHeater::Root& Root::_internal_day_cam_glass_heater() const {
-  return payload_case() == kDayCamGlassHeater ? *_impl_.payload_.day_cam_glass_heater_ : reinterpret_cast<::cmd::DayCamGlassHeater::Root&>(::cmd::DayCamGlassHeater::_Root_default_instance_);
-}
-inline const ::cmd::DayCamGlassHeater::Root& Root::day_cam_glass_heater() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:cmd.Root.day_cam_glass_heater)
-  return _internal_day_cam_glass_heater();
-}
-inline ::cmd::DayCamGlassHeater::Root* Root::unsafe_arena_release_day_cam_glass_heater() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Root.day_cam_glass_heater)
-  if (payload_case() == kDayCamGlassHeater) {
-    clear_has_payload();
-    auto* temp = _impl_.payload_.day_cam_glass_heater_;
-    _impl_.payload_.day_cam_glass_heater_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Root::unsafe_arena_set_allocated_day_cam_glass_heater(::cmd::DayCamGlassHeater::Root* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_payload();
-  if (value) {
-    set_has_day_cam_glass_heater();
-    _impl_.payload_.day_cam_glass_heater_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Root.day_cam_glass_heater)
-}
-inline ::cmd::DayCamGlassHeater::Root* Root::_internal_mutable_day_cam_glass_heater() {
-  if (payload_case() != kDayCamGlassHeater) {
-    clear_payload();
-    set_has_day_cam_glass_heater();
-    _impl_.payload_.day_cam_glass_heater_ =
-        ::google::protobuf::Message::DefaultConstruct<::cmd::DayCamGlassHeater::Root>(GetArena());
-  }
-  return _impl_.payload_.day_cam_glass_heater_;
-}
-inline ::cmd::DayCamGlassHeater::Root* Root::mutable_day_cam_glass_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::cmd::DayCamGlassHeater::Root* _msg = _internal_mutable_day_cam_glass_heater();
-  // @@protoc_insertion_point(field_mutable:cmd.Root.day_cam_glass_heater)
-  return _msg;
-}
-
 // .cmd.Lira.Root lira = 34;
 inline bool Root::has_lira() const {
   return payload_case() == kLira;
@@ -2715,6 +2647,74 @@ inline ::cmd::PMU::Root* Root::_internal_mutable_pmu() {
 inline ::cmd::PMU::Root* Root::mutable_pmu() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::cmd::PMU::Root* _msg = _internal_mutable_pmu();
   // @@protoc_insertion_point(field_mutable:cmd.Root.pmu)
+  return _msg;
+}
+
+// .cmd.Heater.Root heater = 37;
+inline bool Root::has_heater() const {
+  return payload_case() == kHeater;
+}
+inline bool Root::_internal_has_heater() const {
+  return payload_case() == kHeater;
+}
+inline void Root::set_has_heater() {
+  _impl_._oneof_case_[0] = kHeater;
+}
+inline ::cmd::Heater::Root* Root::release_heater() {
+  // @@protoc_insertion_point(field_release:cmd.Root.heater)
+  if (payload_case() == kHeater) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.heater_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.payload_.heater_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::cmd::Heater::Root& Root::_internal_heater() const {
+  return payload_case() == kHeater ? *_impl_.payload_.heater_ : reinterpret_cast<::cmd::Heater::Root&>(::cmd::Heater::_Root_default_instance_);
+}
+inline const ::cmd::Heater::Root& Root::heater() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:cmd.Root.heater)
+  return _internal_heater();
+}
+inline ::cmd::Heater::Root* Root::unsafe_arena_release_heater() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:cmd.Root.heater)
+  if (payload_case() == kHeater) {
+    clear_has_payload();
+    auto* temp = _impl_.payload_.heater_;
+    _impl_.payload_.heater_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Root::unsafe_arena_set_allocated_heater(::cmd::Heater::Root* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_payload();
+  if (value) {
+    set_has_heater();
+    _impl_.payload_.heater_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:cmd.Root.heater)
+}
+inline ::cmd::Heater::Root* Root::_internal_mutable_heater() {
+  if (payload_case() != kHeater) {
+    clear_payload();
+    set_has_heater();
+    _impl_.payload_.heater_ =
+        ::google::protobuf::Message::DefaultConstruct<::cmd::Heater::Root>(GetArena());
+  }
+  return _impl_.payload_.heater_;
+}
+inline ::cmd::Heater::Root* Root::mutable_heater() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::cmd::Heater::Root* _msg = _internal_mutable_heater();
+  // @@protoc_insertion_point(field_mutable:cmd.Root.heater)
   return _msg;
 }
 

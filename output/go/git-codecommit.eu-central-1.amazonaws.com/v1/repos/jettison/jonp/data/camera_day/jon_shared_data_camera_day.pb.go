@@ -41,8 +41,13 @@ type JonGuiDataCameraDay struct {
 	VerticalFovDegrees   float64                   `protobuf:"fixed64,13,opt,name=vertical_fov_degrees,json=verticalFovDegrees,proto3" json:"vertical_fov_degrees,omitempty"`
 	IsStarted            bool                      `protobuf:"varint,14,opt,name=is_started,json=isStarted,proto3" json:"is_started,omitempty"`
 	Meteo                *types.JonGuiDataMeteo    `protobuf:"bytes,16,opt,name=meteo,proto3" json:"meteo,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+	SensorGain *float64 `protobuf:"fixed64,17,opt,name=sensor_gain,json=sensorGain,proto3,oneof" json:"sensor_gain,omitempty"`
+	Exposure   *float64 `protobuf:"fixed64,18,opt,name=exposure,proto3,oneof" json:"exposure,omitempty"`
+	// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+	CaptureMonotonicUs uint64 `protobuf:"varint,19,opt,name=capture_monotonic_us,json=captureMonotonicUs,proto3" json:"capture_monotonic_us,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCameraDay) Reset() {
@@ -187,11 +192,32 @@ func (x *JonGuiDataCameraDay) GetMeteo() *types.JonGuiDataMeteo {
 	return nil
 }
 
+func (x *JonGuiDataCameraDay) GetSensorGain() float64 {
+	if x != nil && x.SensorGain != nil {
+		return *x.SensorGain
+	}
+	return 0
+}
+
+func (x *JonGuiDataCameraDay) GetExposure() float64 {
+	if x != nil && x.Exposure != nil {
+		return *x.Exposure
+	}
+	return 0
+}
+
+func (x *JonGuiDataCameraDay) GetCaptureMonotonicUs() uint64 {
+	if x != nil {
+		return x.CaptureMonotonicUs
+	}
+	return 0
+}
+
 var File_jon_shared_data_camera_day_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	"\n" +
-	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xb4\x06\n" +
+	" jon_shared_data_camera_day.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xfc\a\n" +
 	"\x13JonGuiDataCameraDay\x124\n" +
 	"\tfocus_pos\x18\x01 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\bfocusPos\x122\n" +
 	"\bzoom_pos\x18\x02 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\azoomPos\x122\n" +
@@ -208,11 +234,17 @@ const file_jon_shared_data_camera_day_proto_rawDesc = "" +
 	" \x01(\x01B\x0e\xbaH\v\x12\t)\x00\x00\x00\x00\x00\x00\xf0?R\x10digitalZoomLevel\x128\n" +
 	"\vclahe_level\x18\v \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\n" +
 	"claheLevel\x12M\n" +
-	"\x16horizontal_fov_degrees\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x14horizontalFovDegrees\x12I\n" +
-	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@!\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegrees\x12\x1d\n" +
+	"\x16horizontal_fov_degrees\x18\f \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\x14horizontalFovDegrees\x12I\n" +
+	"\x14vertical_fov_degrees\x18\r \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80v@)\x00\x00\x00\x00\x00\x00\x00\x00R\x12verticalFovDegrees\x12\x1d\n" +
 	"\n" +
 	"is_started\x18\x0e \x01(\bR\tisStarted\x12*\n" +
-	"\x05meteo\x18\x10 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteoB\xa4\x01\n" +
+	"\x05meteo\x18\x10 \x01(\v2\x14.ser.JonGuiDataMeteoR\x05meteo\x12=\n" +
+	"\vsensor_gain\x18\x11 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x00R\n" +
+	"sensorGain\x88\x01\x01\x128\n" +
+	"\bexposure\x18\x12 \x01(\x01B\x17\xbaH\x14\x12\x12\x19\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00H\x01R\bexposure\x88\x01\x01\x120\n" +
+	"\x14capture_monotonic_us\x18\x13 \x01(\x04R\x12captureMonotonicUsB\x0e\n" +
+	"\f_sensor_gainB\v\n" +
+	"\t_exposureB\xa4\x01\n" +
 	"\acom.serB\x1bJonSharedDataCameraDayProtoP\x01ZPgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/camera_day\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (
@@ -248,6 +280,7 @@ func file_jon_shared_data_camera_day_proto_init() {
 	if File_jon_shared_data_camera_day_proto != nil {
 		return
 	}
+	file_jon_shared_data_camera_day_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

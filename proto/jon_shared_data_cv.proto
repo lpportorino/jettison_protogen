@@ -111,4 +111,48 @@ message JonGuiDataCV {
   int32 restart_count = 33 [(buf.validate.field).int32 = {
     gte: 0
   }];
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // ROIs - regions of interest for various camera operations (NDC: -1 to 1)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Day channel ROIs
+  optional JonGuiDataROI roi_focus_day = 40;
+  optional JonGuiDataROI roi_track_day = 41;
+  optional JonGuiDataROI roi_zoom_day = 42;
+  optional JonGuiDataROI roi_fx_day = 43;
+
+  // Heat channel ROIs
+  optional JonGuiDataROI roi_focus_heat = 50;
+  optional JonGuiDataROI roi_track_heat = 51;
+  optional JonGuiDataROI roi_zoom_heat = 52;
+  optional JonGuiDataROI roi_fx_heat = 53;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Sharpness metrics with temporal derivatives
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Day channel sharpness (within roi_focus_day)
+  optional JonGuiDataSharpness sharpness_metrics_day = 60;
+
+  // Heat channel sharpness (within roi_focus_heat)
+  optional JonGuiDataSharpness sharpness_metrics_heat = 61;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Camera motion tracking (3D transforms)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Day camera 3D pose and velocity
+  optional JonGuiDataTransform3D camera_transform_day = 70;
+
+  // Heat camera 3D pose and velocity
+  optional JonGuiDataTransform3D camera_transform_heat = 71;
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Object tracking
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Tracked objects (0 or more). Each object has UUID for joining with
+  // external data sources (labels, classifications, etc.)
+  repeated JonGuiDataTrackedObject tracked_objects = 80;
 }

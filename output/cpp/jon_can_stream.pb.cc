@@ -163,14 +163,14 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_jon_5fcan_5fstream_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
     "\n\024jon_can_stream.proto\022\007jon.can\032\033buf/val"
-    "idate/validate.proto\"\\\n\010CANFrame\022\024\n\014time"
-    "stamp_us\030\001 \001(\004\022\016\n\006can_id\030\002 \001(\r\022\r\n\005is_rx\030"
-    "\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\014\n\004data\030\005 \001(\014\"2\n\rCA"
-    "NFrameBatch\022!\n\006frames\030\001 \003(\0132\021.jon.can.CA"
-    "NFrame\"%\n\022CANStreamConnected\022\017\n\007streams\030"
-    "\001 \003(\tBFZDgit-codecommit.eu-central-1.ama"
-    "zonaws.com/v1/repos/jettison/jonp/canb\006p"
-    "roto3"
+    "idate/validate.proto\"o\n\010CANFrame\022\024\n\014time"
+    "stamp_us\030\001 \001(\004\022\030\n\006can_id\030\002 \001(\rB\010\272H\005*\003\030\377\017"
+    "\022\r\n\005is_rx\030\003 \001(\010\022\r\n\005is_fd\030\004 \001(\010\022\025\n\004data\030\005"
+    " \001(\014B\007\272H\004z\002\030@\"2\n\rCANFrameBatch\022!\n\006frames"
+    "\030\001 \003(\0132\021.jon.can.CANFrame\"%\n\022CANStreamCo"
+    "nnected\022\017\n\007streams\030\001 \003(\tBFZDgit-codecomm"
+    "it.eu-central-1.amazonaws.com/v1/repos/j"
+    "ettison/jonp/canb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fcan_5fstream_2eproto_deps[1] =
     {
@@ -180,7 +180,7 @@ static ::absl::once_flag descriptor_table_jon_5fcan_5fstream_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fcan_5fstream_2eproto = {
     false,
     false,
-    325,
+    344,
     descriptor_table_protodef_jon_5fcan_5fstream_2eproto,
     "jon_can_stream.proto",
     &descriptor_table_jon_5fcan_5fstream_2eproto_once,
@@ -324,7 +324,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
     // uint64 timestamp_us = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CANFrame, _impl_.timestamp_us_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.timestamp_us_)}},
-    // uint32 can_id = 2;
+    // uint32 can_id = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CANFrame, _impl_.can_id_), 63>(),
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.can_id_)}},
     // bool is_rx = 3;
@@ -333,7 +333,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
     // bool is_fd = 4;
     {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(CANFrame, _impl_.is_fd_), 63>(),
      {32, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.is_fd_)}},
-    // bytes data = 5;
+    // bytes data = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastBS1,
      {42, 63, 0, PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.data_)}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -344,7 +344,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
     // uint64 timestamp_us = 1;
     {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.timestamp_us_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
-    // uint32 can_id = 2;
+    // uint32 can_id = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.can_id_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
     // bool is_rx = 3;
@@ -353,7 +353,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 0, 2> CANFrame::_table_ = {
     // bool is_fd = 4;
     {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.is_fd_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
-    // bytes data = 5;
+    // bytes data = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(CANFrame, _impl_.data_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBytes | ::_fl::kRepAString)},
   }},
@@ -398,7 +398,7 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
                 1, this_._internal_timestamp_us(), target);
           }
 
-          // uint32 can_id = 2;
+          // uint32 can_id = 2 [(.buf.validate.field) = {
           if (this_._internal_can_id() != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
@@ -419,7 +419,7 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
                 4, this_._internal_is_fd(), target);
           }
 
-          // bytes data = 5;
+          // bytes data = 5 [(.buf.validate.field) = {
           if (!this_._internal_data().empty()) {
             const std::string& _s = this_._internal_data();
             target = stream->WriteBytesMaybeAliased(5, _s, target);
@@ -450,7 +450,7 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // bytes data = 5;
+            // bytes data = 5 [(.buf.validate.field) = {
             if (!this_._internal_data().empty()) {
               total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
                                               this_._internal_data());
@@ -460,7 +460,7 @@ PROTOBUF_NOINLINE void CANFrame::Clear() {
               total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
                   this_._internal_timestamp_us());
             }
-            // uint32 can_id = 2;
+            // uint32 can_id = 2 [(.buf.validate.field) = {
             if (this_._internal_can_id() != 0) {
               total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
                   this_._internal_can_id());
