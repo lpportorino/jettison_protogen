@@ -32,6 +32,7 @@
    [:min-len {:optional true} int?]
    [:max-len {:optional true} int?]
    [:min-items {:optional true} int?]
+   [:max-items {:optional true} int?]
    [:defined-only {:optional true} boolean?]
    [:not-in {:optional true} [:vector int?]]
    [:in {:optional true} [:vector :string]]

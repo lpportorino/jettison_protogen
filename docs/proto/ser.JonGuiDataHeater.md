@@ -24,6 +24,9 @@ Heater subsystem status. Reports overall bus power consumption (voltage, current
 | 5 | channel_1 | [[proto/ser.JonGuiDataHeaterChannelStatus]] | - |
 | 6 | channel_2 | [[proto/ser.JonGuiDataHeaterChannelStatus]] | - |
 | 7 | automatic_control_enabled | bool | - |
+| 8 | target_temp_channel_0 | float | >= 0, <= 60 |
+| 9 | target_temp_channel_1 | float | >= 0, <= 60 |
+| 10 | target_temp_channel_2 | float | >= 0, <= 60 |
 
 
 

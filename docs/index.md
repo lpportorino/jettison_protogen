@@ -5,7 +5,7 @@ type: index
 
 # Proto Documentation
 
-**Statistics:** 270 messages, 21 enums, 737 fields
+**Statistics:** 278 messages, 22 enums, 795 fields
 
 ## Messages by Package
 
@@ -328,6 +328,10 @@ When the CV Bridge is stopped, fanout operates in bypass mode - state continues 
 
 ### ser
 
+- [[proto/ser.CvChannelMeta|CvChannelMeta]] — *No description yet.*
+- [[proto/ser.CvMeta|CvMeta]] — *No description yet.*
+- [[proto/ser.DetectionConfig|DetectionConfig]] — *No description yet.*
+- [[proto/ser.DetectionFrameMeta|DetectionFrameMeta]] — *No description yet.*
 - [[proto/ser.JonGUIState|JonGUIState]] — Root protocol buffer message that aggregates telemetry and state from multiple subsystems including system status, meteorological data, laser rangefinder, time, GPS, compass with calibration, rotary encoder, dual thermal and optical cameras, recording metadata, spatiotemporal data, power management, PMU, and heater. Synchronized using monotonic timestamps for both day and thermal imaging pipelines, published periodically to the frontend.
 - [[proto/ser.JonGuiDataActualSpaceTime|JonGuiDataActualSpaceTime]] — Encapsulates real-time spatial position and temporal information of the system, containing three-dimensional attitude angles (azimuth, elevation, bank), geographic coordinates (latitude, longitude, altitude), and a timestamp. Displayed across multiple UI widgets including the azimuth compass, altitude scale, and time widget.
 - [[proto/ser.JonGuiDataCV|JonGuiDataCV]] — CV Gateway state enrichment message containing autofocus metrics and sweep status for both day and heat camera channels.
@@ -363,6 +367,10 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 - [[proto/ser.JonGuiDataVector3|JonGuiDataVector3]] — 3D vector with x, y, z components. Used for positions (in meters) and velocities (in m/s) in the tracking system&#39;s coordinate frame.
 - [[proto/ser.JonOpaquePayload|JonOpaquePayload]] — Extensibility container that carries subsystem-specific binary payloads identified by UUIDv7 type markers and semantic versioning, allowing handlers to match payload types and verify version compatibility without the transport layer interpreting the binary data. Appears in both state and command messages as a repeated field to support multiple concurrent subsystem extensions.
 - [[proto/ser.JonOpaquePayloadVersion|JonOpaquePayloadVersion]] — Structured version triplet (major, minor, build) that enables version-aware handling of opaque subsystem-specific payloads, supporting both build numbers and millisecond-precision timestamps for the build field. Allows handlers to perform version compatibility checks through simple numeric comparisons without string parsing.
+- [[proto/ser.ObjectDetection|ObjectDetection]] — *No description yet.*
+- [[proto/ser.ObjectDetectionsDay|ObjectDetectionsDay]] — *No description yet.*
+- [[proto/ser.ObjectDetectionsHeat|ObjectDetectionsHeat]] — *No description yet.*
+- [[proto/ser.OsdClientMetadata|OsdClientMetadata]] — *No description yet.*
 - [[proto/ser.RgbColor|RgbColor]] — Represents an RGB color value with red, green, and blue components each constrained to 0-255, used in the UI to specify and display target marker colors for laser rangefinder measurements and on-screen display (OSD) configuration.
 - [[proto/ser.ScanNode|ScanNode]] — Represents a single waypoint within a rotary platform scanning pattern, containing positional data (azimuth and elevation angles), camera zoom table positions for both day and thermal cameras, and transition parameters (linger time at the waypoint and speed to the next node). Used across frontend scanning pattern editors, backend scan APIs, and embedded device controllers to define and execute multi-point scanning sequences.
 
@@ -370,6 +378,7 @@ The ROI coordinates use Normalized Device Coordinates (NDC) ranging from -1 to 1
 
 ## Enums
 
+- [[proto/ser.DetectionStatus|DetectionStatus]] — *No description yet.*
 - [[proto/ser.JonGuiDataAccumulatorStateIdx|JonGuiDataAccumulatorStateIdx]] — Represents the charge state index of an internal battery (accumulator) with 11 discrete states ranging from empty to full, plus a charging state. Used in the battery indicator UI component with color-coded visual feedback (red=empty, orange=low, yellow=medium, green=good/full, blue=charging).
 - [[proto/ser.JonGuiDataClientApp|JonGuiDataClientApp]] — Identifies the type of client application connecting to the system, enabling the server to differentiate between different UI implementations. Defines four application types: BROWSER_UI (web interface), BROWSER_MAP (map view), DESKTOP_NATIVE (desktop app), and MOBILE_NATIVE (mobile app).
 - [[proto/ser.JonGuiDataClientType|JonGuiDataClientType]] — Categorizes different types of clients connecting to the system based on their connection method: internal computer vision systems (INTERNAL_CV), local network access (LOCAL_NETWORK), certificate-protected secured connections (CERTIFICATE_PROTECTED), and LIRA device interfaces (LIRA).

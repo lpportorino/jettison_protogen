@@ -73,7 +73,7 @@
     :enum/definedOnly :enum/notIn
 
     ;; Repeated constraints
-    :repeated/minItems
+    :repeated/minItems :repeated/maxItems
 
     ;; General constraints
     :required})
@@ -148,6 +148,7 @@
 
 ;; Repeated constraint handlers
 (defmethod parse-constraint :repeated/minItems [_ _ v] {:min-items (parse-number v)})
+(defmethod parse-constraint :repeated/maxItems [_ _ v] {:max-items (parse-number v)})
 
 ;; Required constraint handler (special case - appears at top level of validate object)
 (defmethod parse-constraint :required [_ _ v] {:required (boolean v)})
@@ -307,19 +308,23 @@
     {:messages messages
      :enums enums}))
 
-(defn- filter-jon-files
-  "Filter to only jon_shared_* proto files."
+(defn- filter-project-files
+  "Filter to jon_shared_* and opaque/* proto files."
   [files]
-  (filter #(str/starts-with? (get % "name" "") "jon_shared_") files))
+  (filter (fn [file]
+            (let [name (get file "name" "")]
+              (or (str/starts-with? name "jon_shared_")
+                  (str/starts-with? name "opaque/"))))
+          files))
 
 (defn parse-descriptor-file
   "Parse a descriptor-set.json file into proto-db format."
   [path]
   (t/log! :info ["Parsing" path])
   (let [content (json/read-str (slurp (io/file path)))
-        files (filter-jon-files (get content "file" []))
+        files (filter-project-files (get content "file" []))
 
-        _ (t/log! :debug ["Found" (count files) "jon_shared proto files"])
+        _ (t/log! :debug ["Found" (count files) "project proto files"])
 
         results (map parse-file files)
 

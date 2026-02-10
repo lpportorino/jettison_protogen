@@ -192,8 +192,8 @@
         (finally
           (.delete temp-file))))))
 
-(deftest filter-jon-files-test
-  (testing "Only processes jon_shared_* files"
+(deftest filter-project-files-test
+  (testing "Processes jon_shared_* and opaque/* files, excludes others"
     (let [descriptor {"file"
                       [{"name" "jon_shared_cmd.proto"
                         "package" "cmd"
@@ -203,15 +203,19 @@
                         "messageType" [{"name" "Test2" "field" []}]}
                        {"name" "jon_shared_data.proto"
                         "package" "ser"
-                        "messageType" [{"name" "Test3" "field" []}]}]}
+                        "messageType" [{"name" "Test3" "field" []}]}
+                       {"name" "opaque/object_detection.proto"
+                        "package" "ser"
+                        "messageType" [{"name" "ObjectDetection" "field" []}]}]}
           temp-file (java.io.File/createTempFile "filter" ".json")]
       (try
         (spit temp-file (json/write-str descriptor))
         (let [db (parse/parse-descriptor-file (.getPath temp-file))]
-          ;; Should only have Test1 and Test3, not Test2
-          (is (= 2 (count (:messages db))))
+          ;; Should have Test1, Test3, and ObjectDetection, not Test2
+          (is (= 3 (count (:messages db))))
           (is (contains? (:messages db) "cmd.Test1"))
           (is (contains? (:messages db) "ser.Test3"))
+          (is (contains? (:messages db) "ser.ObjectDetection"))
           (is (not (contains? (:messages db) "other.Test2"))))
         (finally
           (.delete temp-file))))))
@@ -408,6 +412,54 @@
               (is (= "double" (:type-key data)))
               (is (= "newConstraint" (:constraint-key data)))
               (is (= 42 (:value data))))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-repeated-max-items-constraint-test
+  (testing "Parses repeated.maxItems constraint (maximum array length)"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "DetectionList"
+                          "field"
+                          [{"name" "detections"
+                            "number" 1
+                            "type" "TYPE_MESSAGE"
+                            "typeName" ".test.Detection"
+                            "label" "LABEL_REPEATED"
+                            "options" {"[buf.validate.field]" {"repeated" {"maxItems" "256"}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "repeated-max" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              msg (get-in db [:messages "test.DetectionList"])
+              field (first (:fields msg))]
+          (is (= 256 (:max-items (:constraints field)))))
+        (finally
+          (.delete temp-file))))))
+
+(deftest parse-repeated-min-max-items-constraint-test
+  (testing "Parses combined minItems + maxItems constraints"
+    (let [descriptor {"file"
+                      [{"name" "jon_shared_test.proto"
+                        "package" "test"
+                        "messageType"
+                        [{"name" "BoundedList"
+                          "field"
+                          [{"name" "items"
+                            "number" 1
+                            "type" "TYPE_STRING"
+                            "label" "LABEL_REPEATED"
+                            "options" {"[buf.validate.field]" {"repeated" {"minItems" "1" "maxItems" "100"}}}}]}]}]}
+          temp-file (java.io.File/createTempFile "repeated-minmax" ".json")]
+      (try
+        (spit temp-file (json/write-str descriptor))
+        (let [db (parse/parse-descriptor-file (.getPath temp-file))
+              msg (get-in db [:messages "test.BoundedList"])
+              field (first (:fields msg))]
+          (is (= 1 (:min-items (:constraints field))))
+          (is (= 100 (:max-items (:constraints field)))))
         (finally
           (.delete temp-file))))))
 

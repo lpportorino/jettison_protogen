@@ -34,6 +34,9 @@
                   (:min-items constraints)
                   (conj (str "min-items: " (:min-items constraints)))
 
+                  (:max-items constraints)
+                  (conj (str "max-items: " (:max-items constraints)))
+
                   (:pattern constraints)
                   (conj (str "pattern: " (:pattern constraints)))
 
