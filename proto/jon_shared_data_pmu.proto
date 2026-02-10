@@ -32,7 +32,7 @@ message JonGuiDataPMU {
   }];
   double ina_power = 9 [(buf.validate.field).double = {
     gte: 0.0,
-    lte: 100000.0  // Power in mW (max 100W)
+    lte: 200000.0  // Power in mW (max 100W)
   }];
   bool ina_power_fault = 10;
 
