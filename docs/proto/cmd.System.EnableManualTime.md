@@ -34,19 +34,19 @@ Enables manual time mode instead of GPS time synchronization
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.System.DisableManualTime]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepYear]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepMonth]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepDay]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepHour]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepMinute]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepSecond]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.SyncBrowserTimeAndZone]]
+- [[proto/cmd.System.DisableManualTime]]
+- [[proto/cmd.System.StepYear]]
+- [[proto/cmd.System.StepMonth]]
+- [[proto/cmd.System.StepDay]]
+- [[proto/cmd.System.StepHour]]
+- [[proto/cmd.System.StepMinute]]
+- [[proto/cmd.System.StepSecond]]
+- [[proto/cmd.System.SyncBrowserTimeAndZone]]
 
 
 

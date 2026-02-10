@@ -34,14 +34,14 @@ Stops rotary platform scanning operation
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStart]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanPause]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanUnpause]]
+- [[proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/cmd.RotaryPlatform.ScanPause]]
+- [[proto/cmd.RotaryPlatform.ScanUnpause]]
 
 
 ### Preconditions

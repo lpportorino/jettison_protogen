@@ -273,6 +273,43 @@ Normalized iris position (0.0 = closed, 1.0 = fully open).
       (is (= :normalized (get-in (first (:fields msg)) [:interaction :semantic-type])))
       (is (= "%" (get-in (first (:fields msg)) [:interaction :unit]))))))
 
+(deftest extract-compounding-wikilinks-test
+  (testing "Strips compounded proto/ prefixes from wikilinks"
+    (let [md "---
+id: cmd.Test.Compounding
+proto: test.proto
+package: cmd.Test
+type: message
+---
+
+# Compounding
+
+## Interaction
+
+- **Category:** :actuator
+
+### Related State
+
+- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+
+### Related Commands
+
+- [[proto/proto/proto/cmd.DayCamera.SetAutoIris]]
+- [[proto/cmd.DayCamera.ResetFocus]]
+"
+          temp-file (java.io.File/createTempFile "test-compounding" ".md")]
+      (try
+        (spit temp-file md)
+        (let [result (extract/extract-from-file (.getPath temp-file))
+              interaction (:interaction result)]
+          (is (= ["ser.JonGuiDataCameraDay"] (:related-state interaction))
+              "Should strip all proto/ prefixes from related state")
+          (is (= ["cmd.DayCamera.SetAutoIris" "cmd.DayCamera.ResetFocus"]
+                 (:related-commands interaction))
+              "Should strip all proto/ prefixes from related commands"))
+        (finally
+          (.delete temp-file))))))
+
 (deftest preserve-interaction-content-test
   (testing "Preserves interaction metadata when syncing IR"
     (let [old-db {:messages {"cmd.Test" {:id "cmd.Test"

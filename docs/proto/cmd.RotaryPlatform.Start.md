@@ -34,13 +34,13 @@ Starts the rotary platform subsystem
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Stop]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Halt]]
+- [[proto/cmd.RotaryPlatform.Stop]]
+- [[proto/cmd.RotaryPlatform.Halt]]
 
 
 ### Preconditions

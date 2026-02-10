@@ -34,12 +34,12 @@ Save current focus position to lookup table
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
+- [[proto/cmd.DayCamera.Focus]]
 
 
 

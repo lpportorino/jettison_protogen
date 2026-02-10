@@ -36,13 +36,13 @@ Set azimuth position relative to current position (immediate, no motion)
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthRelative]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+- [[proto/cmd.RotaryPlatform.RotateAzimuthRelative]]
+- [[proto/cmd.RotaryPlatform.RotateAzimuthTo]]
 
 
 

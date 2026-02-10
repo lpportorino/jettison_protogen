@@ -52,12 +52,12 @@ Controls day camera optical zoom through various methods
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
+- [[proto/cmd.DayCamera.Focus]]
 
 
 ### Preconditions

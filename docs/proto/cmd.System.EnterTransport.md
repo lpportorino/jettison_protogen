@@ -34,7 +34,7 @@ Enter transport/storage mode - safely prepares system for transport
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem]]
 
 
 

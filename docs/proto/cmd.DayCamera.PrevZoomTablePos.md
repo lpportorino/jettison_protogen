@@ -34,13 +34,13 @@ Decrements day camera zoom to previous table position
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.NextZoomTablePos]]
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.SetZoomTableValue]]
+- [[proto/cmd.DayCamera.NextZoomTablePos]]
+- [[proto/cmd.DayCamera.SetZoomTableValue]]
 
 
 ### Preconditions

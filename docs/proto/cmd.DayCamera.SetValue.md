@@ -35,7 +35,7 @@ Generic value setter for day camera parameters
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 

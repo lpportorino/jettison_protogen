@@ -34,7 +34,7 @@ Trigger laser rangefinder measurement
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf]]
 
 
 

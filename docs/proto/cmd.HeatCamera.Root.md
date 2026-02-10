@@ -78,7 +78,7 @@ Root message container for all heat camera commands
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 

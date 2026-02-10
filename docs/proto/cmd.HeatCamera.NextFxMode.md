@@ -34,13 +34,13 @@ Cycles to next FX enhancement mode
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetFxMode]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.PrevFxMode]]
+- [[proto/cmd.HeatCamera.SetFxMode]]
+- [[proto/cmd.HeatCamera.PrevFxMode]]
 
 
 

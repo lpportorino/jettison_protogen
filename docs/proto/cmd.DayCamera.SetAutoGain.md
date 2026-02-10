@@ -35,7 +35,7 @@ Enable or disable automatic gain control for day camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 

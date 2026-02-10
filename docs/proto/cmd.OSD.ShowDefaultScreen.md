@@ -34,13 +34,13 @@ Switch OSD to default/home screen layout
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataOSD]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.OSD.ShowLRFMeasureScreen]]
-- [[proto/proto/proto/proto/proto/proto/cmd.OSD.ShowLRFResultScreen]]
+- [[proto/cmd.OSD.ShowLRFMeasureScreen]]
+- [[proto/cmd.OSD.ShowLRFResultScreen]]
 
 
 

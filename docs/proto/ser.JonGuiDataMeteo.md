@@ -37,9 +37,9 @@ Meteorological sensor data (temperature, pressure, humidity, etc.)
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.GetMeteo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.GetMeteo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.GetMeteo]]
+- [[proto/cmd.DayCamera.GetMeteo]]
+- [[proto/cmd.HeatCamera.GetMeteo]]
+- [[proto/cmd.Lrf.GetMeteo]]
 
 
 

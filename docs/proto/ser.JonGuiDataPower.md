@@ -46,9 +46,9 @@ Real-time power monitoring for all channels with voltage, current, and alarm sta
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Power.SetAll]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Power.SetChannel]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Power.SetAlertThreshold]]
+- [[proto/cmd.Power.SetAll]]
+- [[proto/cmd.Power.SetChannel]]
+- [[proto/cmd.Power.SetAlertThreshold]]
 
 
 

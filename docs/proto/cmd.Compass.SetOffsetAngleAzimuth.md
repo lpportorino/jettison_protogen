@@ -35,12 +35,12 @@ Sets compass azimuth angle offset for calibration correction
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.SetOffsetAngleElevation]]
+- [[proto/cmd.Compass.SetOffsetAngleElevation]]
 
 
 ### Preconditions

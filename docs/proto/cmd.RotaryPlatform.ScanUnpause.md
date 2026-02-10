@@ -35,9 +35,9 @@ Resumes paused rotary platform scan pattern
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStart]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanPause]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStop]]
+- [[proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/cmd.RotaryPlatform.ScanPause]]
+- [[proto/cmd.RotaryPlatform.ScanStop]]
 
 
 ### Preconditions

@@ -34,13 +34,13 @@ Disable on-screen display overlay on heat camera video
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataOSD]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.OSD.EnableHeatOSD]]
-- [[proto/proto/proto/proto/proto/proto/cmd.OSD.DisableDayOSD]]
+- [[proto/cmd.OSD.EnableHeatOSD]]
+- [[proto/cmd.OSD.DisableDayOSD]]
 
 
 

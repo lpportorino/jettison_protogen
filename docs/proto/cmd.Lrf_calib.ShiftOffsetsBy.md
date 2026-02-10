@@ -36,14 +36,14 @@ Shift LRF calibration offsets by incremental x/y pixels
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf_calib.SetOffsets]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf_calib.SaveOffsets]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf_calib.ResetOffsets]]
+- [[proto/cmd.Lrf_calib.SetOffsets]]
+- [[proto/cmd.Lrf_calib.SaveOffsets]]
+- [[proto/cmd.Lrf_calib.ResetOffsets]]
 
 
 

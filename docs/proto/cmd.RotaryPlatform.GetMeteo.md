@@ -34,12 +34,12 @@ Requests meteorological data from rotary platform sensors
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.GetMeteo]]
+- [[proto/cmd.Compass.GetMeteo]]
 
 
 ### Preconditions

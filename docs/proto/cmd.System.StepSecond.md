@@ -35,14 +35,14 @@ Increments or decrements system time by seconds
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepMinute]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepHour]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.EnableManualTime]]
+- [[proto/cmd.System.StepMinute]]
+- [[proto/cmd.System.StepHour]]
+- [[proto/cmd.System.EnableManualTime]]
 
 
 ### Preconditions

@@ -35,8 +35,8 @@ Start long compass calibration procedure
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.Next]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateCencel]]
+- [[proto/cmd.Compass.Next]]
+- [[proto/cmd.Compass.CalibrateCencel]]
 
 
 

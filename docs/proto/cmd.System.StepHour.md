@@ -35,15 +35,15 @@ Adjust system clock hour by specified offset
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataSystemTime]]
+- [[proto/ser.JonGuiDataSystemTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepMinute]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepSecond]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepDay]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.SetTimeAndZone]]
+- [[proto/cmd.System.StepMinute]]
+- [[proto/cmd.System.StepSecond]]
+- [[proto/cmd.System.StepDay]]
+- [[proto/cmd.System.SetTimeAndZone]]
 
 
 ### Preconditions

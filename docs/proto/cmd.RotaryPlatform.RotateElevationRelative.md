@@ -37,14 +37,14 @@ Rotate platform elevation relative to current position with specified speed and 
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateElevationTo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltElevation]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.SetElevationValue]]
+- [[proto/cmd.RotaryPlatform.RotateElevationTo]]
+- [[proto/cmd.RotaryPlatform.HaltElevation]]
+- [[proto/cmd.RotaryPlatform.SetElevationValue]]
 
 
 ### Preconditions

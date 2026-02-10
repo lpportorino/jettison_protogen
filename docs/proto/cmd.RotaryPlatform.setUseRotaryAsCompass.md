@@ -35,12 +35,12 @@ Enables or disables using rotary platform position as compass heading
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.SetUseRotaryPosition]]
+- [[proto/cmd.Compass.SetUseRotaryPosition]]
 
 
 

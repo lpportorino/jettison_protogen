@@ -35,7 +35,7 @@ Refines target positioning using LIRA rangefinding data
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLira]]
+- [[proto/ser.JonGuiDataLira]]
 
 
 

@@ -34,14 +34,14 @@ Advances to next step in compass calibration sequence
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompassCalibration]]
+- [[proto/ser.JonGuiDataCompassCalibration]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartLong]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateStartShort]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.CalibrateCencel]]
+- [[proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/cmd.Compass.CalibrateStartShort]]
+- [[proto/cmd.Compass.CalibrateCencel]]
 
 
 ### Preconditions

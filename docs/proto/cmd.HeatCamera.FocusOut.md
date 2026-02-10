@@ -35,8 +35,8 @@ Moves thermal camera focus continuously farther (hold to continue)
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusIn]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusStop]]
+- [[proto/cmd.HeatCamera.FocusIn]]
+- [[proto/cmd.HeatCamera.FocusStop]]
 
 
 ### Preconditions

@@ -35,12 +35,12 @@ Sets power state for all channels simultaneously
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataPower]]
+- [[proto/ser.JonGuiDataPower]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Power.SetChannel]]
+- [[proto/cmd.Power.SetChannel]]
 
 
 

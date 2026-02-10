@@ -35,13 +35,13 @@ Sets the system timezone
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.System.StepTimeZone]]
-- [[proto/proto/proto/proto/proto/proto/cmd.System.SetTimeAndZone]]
+- [[proto/cmd.System.StepTimeZone]]
+- [[proto/cmd.System.SetTimeAndZone]]
 
 
 

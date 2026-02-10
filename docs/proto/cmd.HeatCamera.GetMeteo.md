@@ -35,9 +35,9 @@ Requests meteorological/diagnostic data from thermal camera
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.GetMeteo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Gps.GetMeteo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.GetMeteo]]
+- [[proto/cmd.Compass.GetMeteo]]
+- [[proto/cmd.Gps.GetMeteo]]
+- [[proto/cmd.RotaryPlatform.GetMeteo]]
 
 
 

@@ -35,14 +35,14 @@ Adjust DDE (Digital Detail Enhancement) level incrementally for heat camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetDDELevel]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.EnableDDE]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.DisableDDE]]
+- [[proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/cmd.HeatCamera.EnableDDE]]
+- [[proto/cmd.HeatCamera.DisableDDE]]
 
 
 

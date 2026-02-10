@@ -40,12 +40,12 @@ Defines region to zoom into on thermal camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.ZoomROI]]
+- [[proto/cmd.DayCamera.ZoomROI]]
 
 
 ### Preconditions

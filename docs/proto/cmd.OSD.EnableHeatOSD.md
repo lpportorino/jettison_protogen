@@ -34,12 +34,12 @@ Enable on-screen display overlay for heat camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataOSD]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.OSD.DisableHeatOSD]]
+- [[proto/cmd.OSD.DisableHeatOSD]]
 
 
 

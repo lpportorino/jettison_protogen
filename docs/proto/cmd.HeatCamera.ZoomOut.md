@@ -34,14 +34,14 @@ Decrease heat camera zoom level (zoom out/wider field of view)
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomIn]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomStop]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ResetZoom]]
+- [[proto/cmd.HeatCamera.ZoomIn]]
+- [[proto/cmd.HeatCamera.ZoomStop]]
+- [[proto/cmd.HeatCamera.ResetZoom]]
 
 
 ### Preconditions

@@ -35,8 +35,8 @@ Immediately halt elevation axis motion
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Halt]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltAzimuth]]
+- [[proto/cmd.RotaryPlatform.Halt]]
+- [[proto/cmd.RotaryPlatform.HaltAzimuth]]
 
 
 

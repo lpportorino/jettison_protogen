@@ -34,13 +34,13 @@ Stops continuous zoom movement on heat camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomIn]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.ZoomOut]]
+- [[proto/cmd.HeatCamera.ZoomIn]]
+- [[proto/cmd.HeatCamera.ZoomOut]]
 
 
 ### Preconditions

@@ -35,8 +35,8 @@ Decrements thermal camera focus by one discrete step (farther)
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusStepPlus]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.FocusOut]]
+- [[proto/cmd.HeatCamera.FocusStepPlus]]
+- [[proto/cmd.HeatCamera.FocusOut]]
 
 
 ### Preconditions

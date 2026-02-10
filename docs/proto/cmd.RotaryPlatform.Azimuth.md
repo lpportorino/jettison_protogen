@@ -49,14 +49,14 @@ Container for azimuth axis control commands
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Azimuth.RotateTo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Azimuth.Rotate]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Azimuth.Halt]]
+- [[proto/cmd.RotaryPlatform.Azimuth.RotateTo]]
+- [[proto/cmd.RotaryPlatform.Azimuth.Rotate]]
+- [[proto/cmd.RotaryPlatform.Azimuth.Halt]]
 
 
 

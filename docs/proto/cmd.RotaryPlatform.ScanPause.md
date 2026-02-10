@@ -34,14 +34,14 @@ Pauses the active scan pattern execution
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotaryPlatform]]
+- [[proto/ser.JonGuiDataRotaryPlatform]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanUnpause]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStart]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStop]]
+- [[proto/cmd.RotaryPlatform.ScanUnpause]]
+- [[proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/cmd.RotaryPlatform.ScanStop]]
 
 
 

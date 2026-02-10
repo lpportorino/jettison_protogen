@@ -36,7 +36,7 @@ Sets overcurrent alert threshold for power channel monitoring
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataPower]]
+- [[proto/ser.JonGuiDataPower]]
 
 
 

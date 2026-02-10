@@ -34,12 +34,12 @@ Start compass/IMU sensor system
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCompass]]
+- [[proto/ser.JonGuiDataCompass]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Compass.Stop]]
+- [[proto/cmd.Compass.Stop]]
 
 
 

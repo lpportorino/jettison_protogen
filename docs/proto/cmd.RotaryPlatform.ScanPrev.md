@@ -34,14 +34,14 @@ Move to previous node in rotary scan pattern
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotaryScan]]
+- [[proto/ser.JonGuiDataRotaryScan]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanNext]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStart]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.ScanStop]]
+- [[proto/cmd.RotaryPlatform.ScanNext]]
+- [[proto/cmd.RotaryPlatform.ScanStart]]
+- [[proto/cmd.RotaryPlatform.ScanStop]]
 
 
 ### Preconditions

@@ -36,12 +36,12 @@ Sets elevation relative to current position
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.RotateElevationRelative]]
+- [[proto/cmd.RotaryPlatform.RotateElevationRelative]]
 
 
 

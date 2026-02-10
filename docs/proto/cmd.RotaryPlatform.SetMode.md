@@ -35,13 +35,13 @@ Set rotary platform operational mode (speed/position/stabilization/targeting/tra
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Start]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.Halt]]
+- [[proto/cmd.RotaryPlatform.Start]]
+- [[proto/cmd.RotaryPlatform.Halt]]
 
 
 ### Preconditions

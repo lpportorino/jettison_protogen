@@ -40,14 +40,14 @@ Focus on region of interest (ROI) in day camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.Focus]]
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.TrackROI]]
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.ZoomROI]]
+- [[proto/cmd.DayCamera.Focus]]
+- [[proto/cmd.DayCamera.TrackROI]]
+- [[proto/cmd.DayCamera.ZoomROI]]
 
 
 

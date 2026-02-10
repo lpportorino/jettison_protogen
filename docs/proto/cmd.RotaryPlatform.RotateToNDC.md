@@ -39,12 +39,12 @@ Rotate rotary platform to aim at Normalized Device Coordinates (NDC) on video fr
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.HaltWithNDC]]
+- [[proto/cmd.RotaryPlatform.HaltWithNDC]]
 
 
 ### Preconditions

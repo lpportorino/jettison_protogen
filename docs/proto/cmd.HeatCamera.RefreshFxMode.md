@@ -34,14 +34,14 @@ Refreshes/reapplies the current FX mode for thermal camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetFxMode]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.NextFxMode]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.PrevFxMode]]
+- [[proto/cmd.HeatCamera.SetFxMode]]
+- [[proto/cmd.HeatCamera.NextFxMode]]
+- [[proto/cmd.HeatCamera.PrevFxMode]]
 
 
 

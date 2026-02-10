@@ -34,13 +34,13 @@ Starts the laser range finder module
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.Stop]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.Measure]]
+- [[proto/cmd.Lrf.Stop]]
+- [[proto/cmd.Lrf.Measure]]
 
 
 ### Preconditions

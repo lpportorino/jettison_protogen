@@ -47,7 +47,7 @@ Container for GPS module commands
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataGps]]
+- [[proto/ser.JonGuiDataGps]]
 
 
 

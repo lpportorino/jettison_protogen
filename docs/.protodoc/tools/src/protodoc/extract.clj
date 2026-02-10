@@ -65,10 +65,11 @@
                (let [target (if (str/includes? link "|")
                               (first (str/split link #"\|"))
                               link)]
-                 ;; Strip proto/ prefix if present
-                 (if (str/starts-with? target "proto/")
-                   (subs target 6)
-                   target))))))
+                 ;; Strip all proto/ prefixes (may compound across regeneration cycles)
+                 (loop [s target]
+                   (if (str/starts-with? s "proto/")
+                     (recur (subs s 6))
+                     s)))))))
 
 (defn- parse-keyword-value
   "Parse keyword from string like ':foo' or 'foo'."

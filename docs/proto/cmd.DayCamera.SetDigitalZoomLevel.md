@@ -35,13 +35,13 @@ Controls digital zoom magnification level for day camera
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.DayCamera.SetZoomTableValue]]
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.SetDigitalZoomLevel]]
+- [[proto/cmd.DayCamera.SetZoomTableValue]]
+- [[proto/cmd.HeatCamera.SetDigitalZoomLevel]]
 
 
 

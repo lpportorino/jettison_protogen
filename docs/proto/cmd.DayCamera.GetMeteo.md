@@ -34,14 +34,14 @@ Request meteorological data from day camera sensors
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataMeteo]]
+- [[proto/ser.JonGuiDataMeteo]]
 
 
 ### Related Commands
 
-- [[proto/proto/proto/proto/proto/proto/cmd.HeatCamera.GetMeteo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.Lrf.GetMeteo]]
-- [[proto/proto/proto/proto/proto/proto/cmd.RotaryPlatform.GetMeteo]]
+- [[proto/cmd.HeatCamera.GetMeteo]]
+- [[proto/cmd.Lrf.GetMeteo]]
+- [[proto/cmd.RotaryPlatform.GetMeteo]]
 
 
 

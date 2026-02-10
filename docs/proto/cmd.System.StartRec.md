@@ -34,7 +34,7 @@ Starts video recording of camera streams
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataSystem]]
+- [[proto/ser.JonGuiDataSystem]]
 
 
 

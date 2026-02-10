@@ -36,7 +36,7 @@ Moves day camera lens (zoom or focus) to target position at specified speed
 
 ### Related State
 
-- [[proto/proto/proto/proto/proto/proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 
