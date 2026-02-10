@@ -11,7 +11,7 @@ type: enum
 
 ## Description
 
-*No description yet.*
+Detector-agnostic inference status codes reported by the object detection pipeline. Indicates whether the most recent inference cycle completed successfully or identifies the specific failure mode. Used as the `status` field in [[proto/ser.ObjectDetectionsDay]] and [[proto/ser.ObjectDetectionsHeat]] to communicate pipeline health. A status other than OK means the `detections` array should be considered empty or stale.
 
 ## Values
 
