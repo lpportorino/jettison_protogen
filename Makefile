@@ -174,6 +174,14 @@ docs-docker-coverage: ## Show coverage via Docker
 		protodoc:latest \
 		-M:run coverage --db-path /data/docs/.protodoc/proto-db.edn
 
+.PHONY: docs-docker-lint
+docs-docker-lint: ## Lint proto documentation quality via Docker
+	@printf "$(GREEN)Proto docs lint via Docker...$(NC)\n"
+	@docker run --rm --network=host \
+		-v $$(pwd)/docs:/data/docs:ro \
+		protodoc:latest \
+		-M:run lint --db-path /data/docs/.protodoc/proto-db.edn
+
 .PHONY: docs-docker-all
 docs-docker-all: docs-docker-build docs-docker-test docs-docker-generate ## Build, test, and generate in Docker
 	@printf "$(GREEN)All Docker tasks complete$(NC)\n"

@@ -4,7 +4,9 @@
             [protodoc.parse :as parse]
             [protodoc.extract :as extract]
             [protodoc.render :as render]
+            [protodoc.lint :as lint]
             [clojure.edn :as edn]
+            [clojure.string :as str]
             [clojure.java.io :as io]
             [taoensso.telemere :as t])
   (:gen-class))
@@ -139,6 +141,29 @@
                    (< enum-documented enum-total)))
       (System/exit 1))))
 
+(defn lint-cli
+  "Lint documentation quality.
+
+   Options:
+   - :db-path  - path to proto-db.edn
+   - :rules    - comma-separated rule names to include
+   - :exclude  - comma-separated rule names to exclude
+   - :severity - comma-separated severity levels to include"
+  [{:keys [db-path rules exclude severity]
+    :or {db-path "docs/.protodoc/proto-db.edn"}}]
+  (let [db (load-db db-path)
+        _ (when-not db
+            (throw (ex-info "Database not found" {:path db-path})))
+        parse-kws (fn [s] (when s (set (map keyword (str/split s #",")))))
+        result (lint/lint db
+                          :rules (parse-kws rules)
+                          :exclude (parse-kws exclude)
+                          :severity (parse-kws severity))]
+    (print (lint/format-findings result))
+    (flush)
+    (when (pos? (:error (:summary result)))
+      (System/exit 1))))
+
 (defn validate
   "Validate database integrity.
 
@@ -193,19 +218,24 @@
      generate   - Full roundtrip (parse + extract + render)
      sync-ir    - Update DB from descriptors only
      coverage   - Show documentation coverage
+     lint       - Lint documentation quality
      validate   - Validate database
 
    Options:
      --descriptor PATH  - Path to descriptor-set.json
      --output-dir PATH  - Path to output vault directory
      --db-path PATH     - Path to proto-db.edn
-     --strict           - Exit with error if coverage < 100%"
+     --strict           - Exit with error if coverage < 100%
+     --rules RULES      - Comma-separated lint rules to include
+     --exclude RULES    - Comma-separated lint rules to exclude
+     --severity LEVELS  - Comma-separated severity levels to include"
   [& args]
   (let [{:keys [command options]} (parse-args args)]
     (case command
       "generate" (generate options)
       "sync-ir"  (sync-ir options)
       "coverage" (coverage (update options :strict #(= % "true")))
+      "lint"     (lint-cli options)
       "validate" (validate-cli options)
       (do
         (println "Usage: protodoc <command> [options]")
@@ -214,6 +244,7 @@
         (println "  generate   Full roundtrip (parse + extract + render)")
         (println "  sync-ir    Update DB from descriptors only")
         (println "  coverage   Show documentation coverage")
+        (println "  lint       Lint documentation quality")
         (println "  validate   Validate database")
         (println)
         (println "Options:")
@@ -221,4 +252,7 @@
         (println "  --output-dir PATH  Path to output vault directory")
         (println "  --db-path PATH     Path to proto-db.edn")
         (println "  --strict           Exit with error if coverage < 100%")
+        (println "  --rules RULES      Comma-separated lint rules to include")
+        (println "  --exclude RULES    Comma-separated lint rules to exclude")
+        (println "  --severity LEVELS  Comma-separated severity levels to include")
         (System/exit 1)))))
