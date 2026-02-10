@@ -375,10 +375,13 @@ docs/                      # Obsidian vault (output)
 │   ├── proto-db.edn      # EDN database (git committed)
 │   ├── scripts/          # Babashka scripts for Claude
 │   │   ├── proto-search.clj
-│   │   └── proto-coverage.clj
+│   │   ├── proto-coverage.clj
+│   │   ├── doc-next.clj
+│   │   ├── proto-lint.clj
+│   │   └── patch-lint.clj
 │   └── tools/            # Clojure tooling
-│       ├── src/protodoc/ # Core modules
-│       ├── test/protodoc/# Tests (64 tests, 255 assertions)
+│       ├── src/protodoc/ # Core modules (parse, extract, render, lint, schema)
+│       ├── test/protodoc/# Tests (83 tests, 335 assertions)
 │       ├── resources/    # Selmer templates
 │       ├── Dockerfile    # temurin-25 based
 │       └── deps.edn      # Dependencies
@@ -433,7 +436,7 @@ Messages and fields can have optional interaction metadata for platform-agnostic
 - Molecular: `:slider-with-steppers` `:press-accelerating`
 - Composite: `:slider-with-presets` `:directional-mover` `:tabbed-config` `:state-machine-menu`
 
-**Semantic Types:** `:normalized` `:angle` `:percentage` `:coordinate-geo` `:temperature` `:voltage` `:current` `:power` `:distance` `:duration` `:count` `:timestamp` `:cardinal` `:enum-label` `:raw`
+**Semantic Types:** `:normalized` `:angle` `:percentage` `:coordinate-geo` `:coordinate-viewport` `:temperature` `:voltage` `:current` `:power` `:distance` `:duration` `:speed` `:count` `:timestamp` `:cardinal` `:enum-label` `:toggle-state` `:identifier` `:raw`
 
 Interaction metadata survives roundtrip regeneration and appears in the `## Interaction` section of generated markdown.
 
@@ -455,6 +458,12 @@ make docs-docker-render    # In Docker
 # Coverage report
 make docs-coverage
 make docs-docker-coverage  # In Docker
+
+# Lint documentation quality
+make docs-docker-lint      # In Docker
+
+# Validate database
+cd docs/.protodoc/tools && clojure -M:run validate --db-path ../../proto-db.edn
 
 # Search proto schema (via Claude command)
 /proto-search iris
@@ -529,7 +538,7 @@ descriptor-set.json → parse.clj → extract.clj → proto-db.edn → render.cl
 
 ```bash
 cd docs/.protodoc/tools
-clojure -M:test  # 64 tests, 255 assertions
+clojure -M:test  # 83 tests, 335 assertions
 
 # Test categories:
 # - schema_test.clj    - Malli validation, property-based
@@ -538,6 +547,7 @@ clojure -M:test  # 64 tests, 255 assertions
 # - render_test.clj    - Template rendering, wikilinks
 # - roundtrip_test.clj - E2E preservation tests
 # - core_test.clj      - CLI, integration
+# - lint_test.clj      - Documentation quality rules
 ```
 
 ## References

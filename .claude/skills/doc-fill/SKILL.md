@@ -303,11 +303,7 @@ Done! Here's the updated documentation:
 
 ## Module-by-Module Strategy
 
-Work through modules in priority order:
-
-1. **Current Priority: Heater** - 5 undocumented commands
-2. **PMU** - 12 undocumented commands + state message
-3. **New ser.* messages** - State/data messages
+Use `/doc-next` to find the next undocumented message. It groups results by module.
 
 For each module:
 1. Document the Root message first (shows structure)
