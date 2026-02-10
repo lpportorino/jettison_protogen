@@ -41,8 +41,8 @@ Rotates elevation axis to absolute target angle
 
 ### Related Commands
 
-- [[proto/cmd.RotaryPlatform.Elevation.SetValue]]
-- [[proto/cmd.RotaryPlatform.Elevation.Halt]]
+- [[proto/cmd.RotaryPlatform.SetElevationValue]]
+- [[proto/cmd.RotaryPlatform.HaltElevation]]
 
 
 
@@ -53,6 +53,8 @@ Rotates elevation axis to absolute target angle
 
 ### target_value (#1)
 
+Target position value
+
 
 #### Metadata
 
@@ -62,6 +64,8 @@ Rotates elevation axis to absolute target angle
 
 
 ### speed (#2)
+
+Movement speed (0.0=stopped, 1.0=maximum)
 
 
 #### Metadata

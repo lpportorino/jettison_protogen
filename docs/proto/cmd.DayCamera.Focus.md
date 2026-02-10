@@ -54,7 +54,7 @@ Controls day camera focus operations (set, move, halt, offset, reset, save)
 
 ### Related Commands
 
-- [[proto/cmd.DayCamera.SetAutoFocus]]
+- [[proto/cmd.CV.SetAutoFocus]]
 - [[proto/cmd.DayCamera.SetAutoGain]]
 
 
@@ -62,6 +62,40 @@ Controls day camera focus operations (set, move, halt, offset, reset, save)
 ### Implementation Notes
 
 Composite command with multiple focus control sub-commands
+
+
+
+## Field Notes
+
+
+### set_value (#1)
+
+See [[proto/cmd.DayCamera.SetValue]]
+
+
+### move (#2)
+
+See [[proto/cmd.DayCamera.Move]]
+
+
+### halt (#3)
+
+See [[proto/cmd.DayCamera.Halt]]
+
+
+### offset (#4)
+
+Step offset value
+
+
+### reset_focus (#5)
+
+See [[proto/cmd.DayCamera.ResetFocus]]
+
+
+### save_to_table_focus (#6)
+
+See [[proto/cmd.DayCamera.SaveToTableFocus]]
 
 
 

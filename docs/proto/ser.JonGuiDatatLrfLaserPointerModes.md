@@ -17,8 +17,8 @@ Controls the laser rangefinder's target designator pointer, supporting three ope
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_OFF | - |
-| 2 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1 | - |
-| 3 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2 | - |
+| 0 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_OFF | Laser pointer off |
+| 2 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_1 | Laser pointer mode 1 |
+| 3 | JON_GUI_DATA_LRF_LASER_POINTER_MODE_ON_2 | Laser pointer mode 2 |
 

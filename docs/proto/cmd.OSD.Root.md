@@ -64,3 +64,47 @@ Container message for OSD configuration commands
 
 
 
+## Field Notes
+
+
+### show_default_screen (#1)
+
+See [[proto/cmd.OSD.ShowDefaultScreen]]
+
+
+### show_lrf_measure_screen (#2)
+
+See [[proto/cmd.OSD.ShowLRFMeasureScreen]]
+
+
+### show_lrf_result_screen (#3)
+
+See [[proto/cmd.OSD.ShowLRFResultScreen]]
+
+
+### show_lrf_result_simplified_screen (#4)
+
+See [[proto/cmd.OSD.ShowLRFResultSimplifiedScreen]]
+
+
+### enable_heat_osd (#5)
+
+See [[proto/cmd.OSD.EnableHeatOSD]]
+
+
+### disable_heat_osd (#6)
+
+See [[proto/cmd.OSD.DisableHeatOSD]]
+
+
+### enable_day_osd (#7)
+
+See [[proto/cmd.OSD.EnableDayOSD]]
+
+
+### disable_day_osd (#8)
+
+See [[proto/cmd.OSD.DisableDayOSD]]
+
+
+

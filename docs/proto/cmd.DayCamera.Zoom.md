@@ -71,3 +71,52 @@ Composite message supporting multiple zoom control patterns: absolute value, con
 
 
 
+## Field Notes
+
+
+### set_value (#1)
+
+See [[proto/cmd.DayCamera.SetValue]]
+
+
+### move (#2)
+
+See [[proto/cmd.DayCamera.Move]]
+
+
+### halt (#3)
+
+See [[proto/cmd.DayCamera.Halt]]
+
+
+### set_zoom_table_value (#4)
+
+See [[proto/cmd.DayCamera.SetZoomTableValue]]
+
+
+### next_zoom_table_pos (#5)
+
+Current zoom table position
+
+
+### prev_zoom_table_pos (#6)
+
+Current zoom table position
+
+
+### offset (#7)
+
+Step offset value
+
+
+### reset_zoom (#8)
+
+See [[proto/cmd.DayCamera.ResetZoom]]
+
+
+### save_to_table (#9)
+
+See [[proto/cmd.DayCamera.SaveToTable]]
+
+
+

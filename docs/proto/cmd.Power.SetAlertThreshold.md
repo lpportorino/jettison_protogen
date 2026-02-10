@@ -52,6 +52,8 @@ Configures per-channel overcurrent protection thresholds
 
 ### channel (#1)
 
+Power channel index
+
 
 #### Metadata
 
@@ -61,10 +63,12 @@ Configures per-channel overcurrent protection thresholds
 
 ### threshold_ma (#2)
 
+Alert threshold in milliamps
+
 
 #### Metadata
 
-- **Semantic Type:** :current
+- **Semantic Type:** :count
 - **Unit:** mA
 - **Display Format:** `{value} mA`
 

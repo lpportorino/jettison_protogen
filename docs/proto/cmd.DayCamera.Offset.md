@@ -56,6 +56,8 @@ Used within Focus and Zoom submessages
 
 ### offset_value (#1)
 
+Signed offset value (-1.0 to 1.0)
+
 
 #### Metadata
 

@@ -57,10 +57,12 @@ Adjusts edge enhancement intensity for thermal imagery
 
 ### value (#1)
 
+Percentage value (0-100)
+
 
 #### Metadata
 
-- **Semantic Type:** :normalized
+- **Semantic Type:** :percentage
 - **Precision:** 2
 - **Display Format:** `Level: {value}`
 

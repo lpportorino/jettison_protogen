@@ -46,6 +46,7 @@ Represents the real-time operational state of a rotary platform, tracking curren
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -67,6 +68,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 ### azimuth (#1)
 
+Azimuth angle in degrees (0=North, clockwise)
+
 
 #### Metadata
 
@@ -78,6 +81,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 ### azimuth_speed (#2)
 
+Current speed (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -87,6 +92,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 
 ### elevation (#3)
+
+Elevation angle in degrees
 
 
 #### Metadata
@@ -99,6 +106,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 ### elevation_speed (#4)
 
+Current speed (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -108,6 +117,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 
 ### platform_azimuth (#5)
+
+Latitude in decimal degrees
 
 
 #### Metadata
@@ -120,6 +131,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 ### platform_elevation (#6)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -131,6 +144,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 ### platform_bank (#7)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -140,7 +155,24 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 - **Display Format:** `{value}°`
 
 
+### mode (#9)
+
+Operating mode
+
+
+### scan_target (#13)
+
+Current scan target node index
+
+
+### scan_target_max (#14)
+
+Maximum scan node count
+
+
 ### sun_azimuth (#15)
+
+Azimuth angle in degrees (0=North, clockwise)
 
 
 #### Metadata
@@ -153,6 +185,8 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 
 ### sun_elevation (#16)
 
+Sun elevation in degrees
+
 
 #### Metadata
 
@@ -162,9 +196,29 @@ Read-only state message displaying azimuth, elevation, speeds, and operational m
 - **Display Format:** `{value}°`
 
 
+### current_scan_node (#17)
+
+Current draw in amperes
+
+
+### is_started (#18)
+
+GPS receiver started state
+
+
 ### meteo (#19)
 
 Local environmental sensor data from the rotary platform, providing temperature, humidity, and pressure readings for system diagnostics.
+
+
+### pan_init_status (#20)
+
+Initialization status code
+
+
+### tilt_init_status (#21)
+
+Initialization status code
 
 
 ### capture_monotonic_us (#22)

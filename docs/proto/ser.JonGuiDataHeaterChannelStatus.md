@@ -28,6 +28,7 @@ Status of an individual heater channel. Reports current temperature (°C), appli
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose

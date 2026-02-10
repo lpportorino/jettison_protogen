@@ -58,6 +58,8 @@ Continuously rotates platform elevation at specified speed
 
 ### speed (#1)
 
+Movement speed (0.0=stopped, 1.0=maximum)
+
 
 #### Metadata
 
@@ -68,6 +70,8 @@ Continuously rotates platform elevation at specified speed
 
 
 ### direction (#2)
+
+Rotation direction
 
 
 #### Metadata

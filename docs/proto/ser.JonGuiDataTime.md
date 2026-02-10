@@ -27,6 +27,8 @@ Manages the device's current time state with support for both system and manuall
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -48,6 +50,8 @@ Read-only status information about system time
 
 ### timestamp (#1)
 
+Monotonic timestamp in microseconds
+
 
 #### Metadata
 
@@ -57,6 +61,8 @@ Read-only status information about system time
 
 
 ### manual_timestamp (#2)
+
+Monotonic timestamp in microseconds
 
 
 #### Metadata
@@ -68,13 +74,17 @@ Read-only status information about system time
 
 ### zone_id (#3)
 
+IANA timezone identifier
+
 
 #### Metadata
 
-- **Semantic Type:** :enum-label
+- **Semantic Type:** :identifier
 
 
 ### use_manual_time (#4)
+
+Use manual time instead of GPS/NTP
 
 
 #### Metadata

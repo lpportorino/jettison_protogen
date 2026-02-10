@@ -27,6 +27,7 @@ Structured version triplet (major, minor, build) that enables version-aware hand
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose

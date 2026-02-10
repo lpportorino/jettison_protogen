@@ -34,6 +34,7 @@ Power Management Unit status. Reports battery/power system state including tempe
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -70,6 +71,11 @@ PMU board temperature.
 ### is_started (#3)
 
 Whether PMU monitoring is active.
+
+
+### meteo (#4)
+
+See [[proto/ser.JonGuiDataMeteo]]
 
 
 ### voltage (#5)

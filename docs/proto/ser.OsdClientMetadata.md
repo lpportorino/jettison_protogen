@@ -37,6 +37,8 @@ Client-side canvas and rendering metadata for resolution-aware OSD overlay compo
 ## Interaction
 
 - **Category:** :settings
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

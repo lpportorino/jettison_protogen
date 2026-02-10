@@ -61,6 +61,8 @@ Used with stepper UI with -5/-1/+1/+5 buttons
 
 ### offset (#1)
 
+Step offset value
+
 
 #### Metadata
 

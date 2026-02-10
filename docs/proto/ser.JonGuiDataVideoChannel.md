@@ -17,7 +17,7 @@ Specifies the active video source with two primary channels: thermal imaging (HE
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT | - |
-| 2 | JON_GUI_DATA_VIDEO_CHANNEL_DAY | - |
+| 0 | JON_GUI_DATA_VIDEO_CHANNEL_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT | Thermal/IR camera |
+| 2 | JON_GUI_DATA_VIDEO_CHANNEL_DAY | Day/visible camera |
 

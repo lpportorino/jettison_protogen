@@ -36,6 +36,8 @@ Fields: #1, #2, #3, #4
 ## Interaction
 
 - **Category:** :settings
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -53,6 +55,30 @@ Set calibration offsets for laser rangefinder alignment
 ### Implementation Notes
 
 Used in LRF calibration workflow
+
+
+
+## Field Notes
+
+
+### set (#1)
+
+See [[proto/cmd.Lrf_calib.SetOffsets]]
+
+
+### save (#2)
+
+See [[proto/cmd.Lrf_calib.SaveOffsets]]
+
+
+### reset (#3)
+
+See [[proto/cmd.Lrf_calib.ResetOffsets]]
+
+
+### shift (#4)
+
+See [[proto/cmd.Lrf_calib.ShiftOffsetsBy]]
 
 
 

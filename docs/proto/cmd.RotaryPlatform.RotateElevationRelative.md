@@ -59,6 +59,8 @@ Rotate platform elevation relative to current position with specified speed and 
 
 ### value (#1)
 
+Value (-90 to 90)
+
 
 #### Metadata
 
@@ -70,6 +72,8 @@ Rotate platform elevation relative to current position with specified speed and 
 
 ### speed (#2)
 
+Movement speed (0.0=stopped, 1.0=maximum)
+
 
 #### Metadata
 
@@ -80,6 +84,8 @@ Rotate platform elevation relative to current position with specified speed and 
 
 
 ### direction (#3)
+
+Rotation direction
 
 
 #### Metadata

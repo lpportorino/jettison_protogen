@@ -60,6 +60,8 @@ Cycles through AGC modes (MODE_1, MODE_2, MODE_3) for different viewing conditio
 
 ### value (#1)
 
+See related enum for valid values
+
 
 #### Metadata
 

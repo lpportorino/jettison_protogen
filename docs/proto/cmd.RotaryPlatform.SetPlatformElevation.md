@@ -35,7 +35,7 @@ Sets the platform elevation angle directly
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotaryPlatform]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
@@ -55,6 +55,8 @@ Direct position control for elevation axis
 
 
 ### value (#1)
+
+Value (-90 to 90)
 
 
 #### Metadata

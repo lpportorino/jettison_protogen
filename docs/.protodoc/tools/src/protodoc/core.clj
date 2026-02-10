@@ -89,6 +89,23 @@
     (t/log! :info ["Saved database to" db-path])
     db))
 
+(defn render-only
+  "Render markdown from existing proto-db.edn without parsing/extraction.
+
+   Options:
+   - :db-path    - path to proto-db.edn
+   - :output-dir - path to vault output directory"
+  [{:keys [db-path output-dir]
+    :or {db-path "docs/.protodoc/proto-db.edn"
+         output-dir "docs"}}]
+  (let [db (load-db db-path)]
+    (when-not db
+      (throw (ex-info "Database not found" {:path db-path})))
+    (t/log! :info ["Rendering from" db-path "to" output-dir])
+    (render/render-all db output-dir)
+    (t/log! :info "Render complete.")
+    db))
+
 (defn coverage
   "Show documentation coverage report.
 
@@ -216,6 +233,7 @@
 
    Commands:
      generate   - Full roundtrip (parse + extract + render)
+     render     - Render markdown from existing proto-db.edn
      sync-ir    - Update DB from descriptors only
      coverage   - Show documentation coverage
      lint       - Lint documentation quality
@@ -233,6 +251,7 @@
   (let [{:keys [command options]} (parse-args args)]
     (case command
       "generate" (generate options)
+      "render"   (render-only options)
       "sync-ir"  (sync-ir options)
       "coverage" (coverage (update options :strict #(= % "true")))
       "lint"     (lint-cli options)
@@ -242,6 +261,7 @@
         (println)
         (println "Commands:")
         (println "  generate   Full roundtrip (parse + extract + render)")
+        (println "  render     Render markdown from existing proto-db.edn")
         (println "  sync-ir    Update DB from descriptors only")
         (println "  coverage   Show documentation coverage")
         (println "  lint       Lint documentation quality")

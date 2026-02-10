@@ -54,6 +54,8 @@ Separate calibration offsets for day and heat channels
 
 ### x (#1)
 
+Temperature in degrees Celsius
+
 
 #### Metadata
 
@@ -63,6 +65,8 @@ Separate calibration offsets for day and heat channels
 
 
 ### y (#2)
+
+Temperature in degrees Celsius
 
 
 #### Metadata

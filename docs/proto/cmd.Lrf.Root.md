@@ -48,6 +48,7 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15
 
 - **Category:** :lifecycle
 - **UI Pattern:** :state-machine-menu
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -65,6 +66,85 @@ Root message container for laser rangefinder commands
 ### Implementation Notes
 
 Oneof wrapper containing start, stop, measure, scanOn, scanOff, enableFogMode, disableFogMode, targetDesignatorOff, targetDesignatorOnModeA, targetDesignatorOnModeB, getMeteo, etc.
+
+
+
+## Field Notes
+
+
+### measure (#1)
+
+See [[proto/cmd.Lrf.Measure]]
+
+
+### scan_on (#2)
+
+See [[proto/cmd.Lrf.ScanOn]]
+
+
+### scan_off (#3)
+
+See [[proto/cmd.Lrf.ScanOff]]
+
+
+### start (#4)
+
+See [[proto/cmd.Lrf.Start]]
+
+
+### stop (#5)
+
+See [[proto/cmd.Lrf.Stop]]
+
+
+### target_designator_off (#6)
+
+See [[proto/cmd.Lrf.TargetDesignatorOff]]
+
+
+### target_designator_on_mode_a (#7)
+
+See [[proto/cmd.Lrf.TargetDesignatorOnModeA]]
+
+
+### target_designator_on_mode_b (#8)
+
+See [[proto/cmd.Lrf.TargetDesignatorOnModeB]]
+
+
+### enable_fog_mode (#9)
+
+See [[proto/cmd.Lrf.EnableFogMode]]
+
+
+### disable_fog_mode (#10)
+
+See [[proto/cmd.Lrf.DisableFogMode]]
+
+
+### set_scan_mode (#11)
+
+See [[proto/cmd.Lrf.SetScanMode]]
+
+
+### new_session (#12)
+
+See [[proto/cmd.Lrf.NewSession]]
+
+
+### get_meteo (#13)
+
+See [[proto/cmd.Lrf.GetMeteo]]
+
+
+### refine_on (#14)
+
+See [[proto/cmd.Lrf.RefineOn]]
+
+
+### refine_off (#15)
+
+See [[proto/cmd.Lrf.RefineOff]]
 
 
 

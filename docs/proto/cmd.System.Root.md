@@ -76,3 +76,137 @@ Container message for all system-level commands
 
 
 
+## Field Notes
+
+
+### start_all (#1)
+
+See [[proto/cmd.System.StartALl]]
+
+
+### stop_all (#2)
+
+See [[proto/cmd.System.StopALl]]
+
+
+### reboot (#3)
+
+See [[proto/cmd.System.Reboot]]
+
+
+### power_off (#4)
+
+Power consumption in watts
+
+
+### localization (#5)
+
+See [[proto/cmd.System.SetLocalization]]
+
+
+### reset_configs (#6)
+
+See [[proto/cmd.System.ResetConfigs]]
+
+
+### start_rec (#7)
+
+See [[proto/cmd.System.StartRec]]
+
+
+### stop_rec (#8)
+
+See [[proto/cmd.System.StopRec]]
+
+
+### mark_rec_important (#9)
+
+See [[proto/cmd.System.MarkRecImportant]]
+
+
+### unmark_rec_important (#10)
+
+See [[proto/cmd.System.UnmarkRecImportant]]
+
+
+### enter_transport (#11)
+
+See [[proto/cmd.System.EnterTransport]]
+
+
+### geodesic_mode_enable (#12)
+
+See [[proto/cmd.System.EnableGeodesicMode]]
+
+
+### geodesic_mode_disable (#13)
+
+See [[proto/cmd.System.DisableGeodesicMode]]
+
+
+### save_factory_defaults (#14)
+
+See [[proto/cmd.System.SaveFactoryDefaults]]
+
+
+### wipe_user_data (#15)
+
+See [[proto/cmd.System.WipeUserData]]
+
+
+### step_year (#16)
+
+See [[proto/cmd.System.StepYear]]
+
+
+### step_month (#17)
+
+See [[proto/cmd.System.StepMonth]]
+
+
+### step_day (#18)
+
+See [[proto/cmd.System.StepDay]]
+
+
+### step_hour (#19)
+
+See [[proto/cmd.System.StepHour]]
+
+
+### step_minute (#20)
+
+See [[proto/cmd.System.StepMinute]]
+
+
+### step_second (#21)
+
+See [[proto/cmd.System.StepSecond]]
+
+
+### enable_manual_time (#22)
+
+See [[proto/cmd.System.EnableManualTime]]
+
+
+### disable_manual_time (#23)
+
+See [[proto/cmd.System.DisableManualTime]]
+
+
+### set_time_zone (#24)
+
+See [[proto/cmd.System.SetTimeZone]]
+
+
+### step_time_zone (#25)
+
+See [[proto/cmd.System.StepTimeZone]]
+
+
+### set_time_and_zone (#26)
+
+See [[proto/cmd.System.SetTimeAndZone]]
+
+
+

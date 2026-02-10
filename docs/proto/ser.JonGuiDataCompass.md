@@ -33,6 +33,7 @@ Represents the real-time orientation and calibration state of a compass sensor, 
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -56,6 +57,8 @@ Compass sensor data and calibration state
 
 ### azimuth (#1)
 
+Azimuth angle in degrees (0=North, clockwise)
+
 
 #### Metadata
 
@@ -64,6 +67,8 @@ Compass sensor data and calibration state
 
 
 ### elevation (#2)
+
+Elevation angle in degrees
 
 
 #### Metadata
@@ -74,10 +79,32 @@ Compass sensor data and calibration state
 
 ### bank (#3)
 
+Bank/roll angle in degrees
+
 
 #### Metadata
 
-- **Semantic Type:** :enum-label
+- **Semantic Type:** :angle
+
+
+### offsetAzimuth (#4)
+
+Azimuth offset correction in degrees
+
+
+### offsetElevation (#5)
+
+Elevation angle in degrees
+
+
+### magneticDeclination (#6)
+
+Magnetic declination correction in degrees
+
+
+### is_started (#8)
+
+GPS receiver started state
 
 
 ### meteo (#9)

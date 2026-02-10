@@ -46,3 +46,12 @@ Message defined in proto but no direct usage found in frontend command senders
 
 
 
+## Field Notes
+
+
+### value (#1)
+
+Normalized value (0.0 to 1.0)
+
+
+

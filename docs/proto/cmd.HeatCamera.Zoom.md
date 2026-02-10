@@ -63,12 +63,17 @@ Controls thermal camera optical zoom position
 
 ### set_zoom_table_value (#1)
 
+See [[proto/cmd.HeatCamera.SetZoomTableValue]]
 
-#### Metadata
 
-- **Semantic Type:** :count
-- **Unit:** index
-- **Precision:** 0
+### next_zoom_table_pos (#2)
+
+Current zoom table position
+
+
+### prev_zoom_table_pos (#3)
+
+Current zoom table position
 
 
 

@@ -56,6 +56,8 @@ Can be synchronized with day camera digital zoom via UI sync toggle
 
 ### value (#1)
 
+Numeric value
+
 
 #### Metadata
 

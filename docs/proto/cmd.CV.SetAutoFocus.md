@@ -52,6 +52,8 @@ Enable/disable auto focus for day or heat camera via computer vision
 
 ### channel (#1)
 
+Video channel selector
+
 
 #### Metadata
 
@@ -60,10 +62,12 @@ Enable/disable auto focus for day or heat camera via computer vision
 
 ### value (#2)
 
+Enable/disable state
+
 
 #### Metadata
 
-- **Semantic Type:** :enum-label
+- **Semantic Type:** :toggle-state
 
 
 

@@ -56,6 +56,8 @@ Part of zoom/focus control, provides smooth movement with speed control
 
 ### target_value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 
@@ -65,6 +67,8 @@ Part of zoom/focus control, provides smooth movement with speed control
 
 
 ### speed (#2)
+
+Movement speed (0.0=stopped, 1.0=maximum)
 
 
 #### Metadata

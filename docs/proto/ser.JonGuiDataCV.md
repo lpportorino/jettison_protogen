@@ -123,3 +123,162 @@ Fields: #71
 
 
 
+## Field Notes
+
+
+### autofocus_state_day (#1)
+
+See related enum for valid values
+
+
+### sharpness_day (#2)
+
+Focus sharpness metric
+
+
+### best_sharpness_day (#3)
+
+Best sharpness found during autofocus sweep
+
+
+### sweep_progress_day (#4)
+
+Percentage value (0-100)
+
+
+### best_focus_pos_day (#5)
+
+Normalized value (0.0 to 1.0)
+
+
+### autofocus_state_heat (#10)
+
+See related enum for valid values
+
+
+### sharpness_heat (#11)
+
+Focus sharpness metric
+
+
+### best_sharpness_heat (#12)
+
+Best sharpness found during autofocus sweep
+
+
+### sweep_progress_heat (#13)
+
+Percentage value (0-100)
+
+
+### best_focus_pos_heat (#14)
+
+Normalized value (0.0 to 1.0)
+
+
+### roi_x1 (#20)
+
+Left edge in NDC (-1.0 to 1.0)
+
+
+### roi_y1 (#21)
+
+Top edge in NDC (-1.0 to 1.0)
+
+
+### roi_x2 (#22)
+
+Right edge in NDC (-1.0 to 1.0)
+
+
+### roi_y2 (#23)
+
+Bottom edge in NDC (-1.0 to 1.0)
+
+
+### bridge_status (#30)
+
+See related enum for valid values
+
+
+### last_exit_reason (#31)
+
+See related enum for valid values
+
+
+### bridge_uptime_ms (#32)
+
+CV bridge uptime in milliseconds
+
+
+### restart_count (#33)
+
+CV bridge restart count
+
+
+### roi_focus_day (#40)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_track_day (#41)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_zoom_day (#42)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_fx_day (#43)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_focus_heat (#50)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_track_heat (#51)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_zoom_heat (#52)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### roi_fx_heat (#53)
+
+ROI edge in NDC (-1.0 to 1.0)
+
+
+### sharpness_metrics_day (#60)
+
+Focus sharpness metric
+
+
+### sharpness_metrics_heat (#61)
+
+Focus sharpness metric
+
+
+### camera_transform_day (#70)
+
+See [[proto/ser.JonGuiDataTransform3D]]
+
+
+### camera_transform_heat (#71)
+
+See [[proto/ser.JonGuiDataTransform3D]]
+
+
+### tracked_objects (#80)
+
+See [[proto/ser.JonGuiDataTrackedObject]]
+
+
+

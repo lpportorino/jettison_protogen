@@ -56,6 +56,8 @@ Increments or decrements system time by minutes
 
 ### offset (#1)
 
+Step offset value
+
 
 #### Metadata
 

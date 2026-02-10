@@ -36,6 +36,7 @@ Represents real-time power distribution state across all 8 system channels (GPS,
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -63,48 +64,52 @@ Contains 8 channel structures (s0-s7), each with voltage/current/power/state
 
 ### s0 (#1)
 
-
-#### Metadata
-
-- **Semantic Type:** :voltage
-- **Unit:** V
-- **Precision:** 2
+See [[proto/ser.JonGuiDataPowerModule]]
 
 
 ### s1 (#2)
 
-
-#### Metadata
-
-- **Semantic Type:** :current
-- **Unit:** A
-- **Precision:** 3
+See [[proto/ser.JonGuiDataPowerModule]]
 
 
 ### s2 (#3)
 
-
-#### Metadata
-
-- **Semantic Type:** :power
-- **Unit:** W
-- **Precision:** 2
+See [[proto/ser.JonGuiDataPowerModule]]
 
 
 ### s3 (#4)
 
-
-#### Metadata
-
-- **Semantic Type:** :raw
+See [[proto/ser.JonGuiDataPowerModule]]
 
 
 ### s4 (#5)
 
+See [[proto/ser.JonGuiDataPowerModule]]
 
-#### Metadata
 
-- **Semantic Type:** :raw
+### s5 (#6)
+
+See [[proto/ser.JonGuiDataPowerModule]]
+
+
+### s6 (#7)
+
+See [[proto/ser.JonGuiDataPowerModule]]
+
+
+### s7 (#8)
+
+See [[proto/ser.JonGuiDataPowerModule]]
+
+
+### accumulator_state (#9)
+
+Latitude in decimal degrees
+
+
+### ext_bat_capacity (#10)
+
+External battery capacity percentage
 
 
 ### meteo (#12)

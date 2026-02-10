@@ -34,7 +34,7 @@ Disables on-screen display overlay on day camera video
 
 ### Related State
 
-- [[proto/ser.JonGuiDataOsd]]
+- [[proto/ser.JonGuiDataRecOsd]]
 
 
 ### Related Commands

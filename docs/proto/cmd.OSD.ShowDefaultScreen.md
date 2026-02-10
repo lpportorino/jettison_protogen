@@ -34,7 +34,7 @@ Switch OSD to default/home screen layout
 
 ### Related State
 
-- [[proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataRecOsd]]
 
 
 ### Related Commands

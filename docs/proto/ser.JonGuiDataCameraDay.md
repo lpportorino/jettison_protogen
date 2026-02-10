@@ -57,6 +57,7 @@ Fields: #18
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -80,6 +81,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### focus_pos (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 
@@ -89,6 +92,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### zoom_pos (#2)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 
@@ -97,6 +102,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 
 ### iris_pos (#3)
+
+Normalized value (0.0 to 1.0)
 
 
 #### Metadata
@@ -109,6 +116,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### infrared_filter (#4)
 
+Thermal image color filter
+
 
 #### Metadata
 
@@ -116,6 +125,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 
 ### zoom_table_pos (#5)
+
+Current zoom table position
 
 
 #### Metadata
@@ -125,6 +136,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### zoom_table_pos_max (#6)
 
+Maximum zoom table position
+
 
 #### Metadata
 
@@ -132,6 +145,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 
 ### fx_mode (#7)
+
+See related enum for valid values
 
 
 #### Metadata
@@ -141,6 +156,8 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### auto_focus (#8)
 
+Auto-focus enabled state
+
 
 #### Metadata
 
@@ -149,13 +166,22 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### auto_iris (#9)
 
+Auto-iris enabled state
+
 
 #### Metadata
 
-- **Semantic Type:** :count
+- **Semantic Type:** :toggle-state
+
+
+### auto_gain (#15)
+
+Auto-gain enabled state
 
 
 ### digital_zoom_level (#10)
+
+Digital zoom multiplier
 
 
 #### Metadata
@@ -166,15 +192,42 @@ Day camera state including zoom, focus, iris, and image processing settings
 
 ### clahe_level (#11)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 
 - **Semantic Type:** :raw
 
 
+### horizontal_fov_degrees (#12)
+
+Horizontal field of view in degrees
+
+
+### vertical_fov_degrees (#13)
+
+Vertical field of view in degrees
+
+
+### is_started (#14)
+
+GPS receiver started state
+
+
 ### meteo (#16)
 
 Local environmental sensor data from the day camera, providing temperature, humidity, and pressure readings for system diagnostics and thermal management.
+
+
+### sensor_gain (#17)
+
+Normalized value (0.0 to 1.0)
+
+
+### exposure (#18)
+
+Normalized value (0.0 to 1.0)
 
 
 ### capture_monotonic_us (#19)

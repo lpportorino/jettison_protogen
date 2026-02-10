@@ -34,7 +34,7 @@ Switch OSD to laser rangefinder measurement screen
 
 ### Related State
 
-- [[proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataRecOsd]]
 - [[proto/ser.JonGuiDataLrf]]
 
 

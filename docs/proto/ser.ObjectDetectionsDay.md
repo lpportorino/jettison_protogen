@@ -30,6 +30,7 @@ Object detection results for the day (visible-light) camera channel. Produced by
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

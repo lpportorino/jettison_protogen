@@ -50,6 +50,8 @@ Rotates platform to point at GPS coordinates
 
 ### latitude (#1)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -60,6 +62,8 @@ Rotates platform to point at GPS coordinates
 
 ### longitude (#2)
 
+Longitude in decimal degrees
+
 
 #### Metadata
 
@@ -69,6 +73,8 @@ Rotates platform to point at GPS coordinates
 
 
 ### altitude (#3)
+
+Altitude in meters above sea level
 
 
 #### Metadata

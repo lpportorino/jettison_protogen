@@ -55,6 +55,8 @@ Set CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level f
 
 ### value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 

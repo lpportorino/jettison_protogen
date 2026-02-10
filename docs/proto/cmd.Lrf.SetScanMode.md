@@ -46,3 +46,12 @@ Currently commented out in cmdLRF.ts - may be deprecated or not yet implemented
 
 
 
+## Field Notes
+
+
+### mode (#1)
+
+Operating mode
+
+
+

@@ -29,6 +29,8 @@ Represents the current state and progress of a compass calibration process, trac
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -49,6 +51,40 @@ Compass calibration state and progress
 ### Implementation Notes
 
 Contains calibration step, progress, and result data
+
+
+
+## Field Notes
+
+
+### stage (#1)
+
+Current calibration stage
+
+
+### final_stage (#2)
+
+Total calibration stages
+
+
+### target_azimuth (#3)
+
+Azimuth angle in degrees (0=North, clockwise)
+
+
+### target_elevation (#4)
+
+Elevation angle in degrees
+
+
+### target_bank (#5)
+
+Bank/roll angle in degrees
+
+
+### status (#6)
+
+See related enum for valid values
 
 
 

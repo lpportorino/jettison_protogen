@@ -29,6 +29,8 @@ A single object detection bounding box result from the inference engine. Detecto
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

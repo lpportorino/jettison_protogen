@@ -35,6 +35,7 @@ Fields: #1, #2
 
 - **Category:** :settings
 - **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -52,6 +53,20 @@ Root message container for LRF calibration commands
 ### Implementation Notes
 
 Calibration workflow for laser rangefinder alignment
+
+
+
+## Field Notes
+
+
+### day (#1)
+
+See [[proto/cmd.Lrf_calib.Offsets]]
+
+
+### heat (#2)
+
+See [[proto/cmd.Lrf_calib.Offsets]]
 
 
 

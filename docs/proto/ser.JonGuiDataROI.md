@@ -25,3 +25,27 @@ Region of Interest (ROI) for CV tracking. Defines a rectangular area in normaliz
 
 
 
+## Field Notes
+
+
+### x1 (#1)
+
+Left edge in NDC (-1.0 to 1.0)
+
+
+### y1 (#2)
+
+Top edge in NDC (-1.0 to 1.0)
+
+
+### x2 (#3)
+
+Right edge in NDC (-1.0 to 1.0)
+
+
+### y2 (#4)
+
+Bottom edge in NDC (-1.0 to 1.0)
+
+
+

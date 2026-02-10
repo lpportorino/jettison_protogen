@@ -60,3 +60,37 @@ Submessage containing elevation movement commands
 
 
 
+## Field Notes
+
+
+### set_value (#1)
+
+See [[proto/cmd.RotaryPlatform.SetElevationValue]]
+
+
+### rotate_to (#2)
+
+See [[proto/cmd.RotaryPlatform.RotateElevationTo]]
+
+
+### rotate (#3)
+
+See [[proto/cmd.RotaryPlatform.RotateElevation]]
+
+
+### relative (#4)
+
+Latitude in decimal degrees
+
+
+### relative_set (#5)
+
+Latitude in decimal degrees
+
+
+### halt (#6)
+
+See [[proto/cmd.RotaryPlatform.HaltElevation]]
+
+
+

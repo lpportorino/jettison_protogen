@@ -27,6 +27,7 @@ Represents environmental sensor data containing atmospheric measurements: temper
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -46,6 +47,25 @@ Meteorological sensor data (temperature, pressure, humidity, etc.)
 ### Implementation Notes
 
 Environmental sensor readings used for ballistics calculations and system monitoring
+
+
+
+## Field Notes
+
+
+### temperature (#1)
+
+Temperature in degrees Celsius
+
+
+### humidity (#2)
+
+Relative humidity percentage (0-100)
+
+
+### pressure (#3)
+
+Atmospheric pressure in pascals
 
 
 

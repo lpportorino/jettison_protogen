@@ -66,6 +66,8 @@ Requires NDC coordinates (-1 to 1) and frame/state timestamps for synchronizatio
 
 ### x1 (#1)
 
+Left edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -75,6 +77,8 @@ Requires NDC coordinates (-1 to 1) and frame/state timestamps for synchronizatio
 
 
 ### y1 (#2)
+
+Top edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -86,6 +90,8 @@ Requires NDC coordinates (-1 to 1) and frame/state timestamps for synchronizatio
 
 ### x2 (#3)
 
+Right edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -95,6 +101,8 @@ Requires NDC coordinates (-1 to 1) and frame/state timestamps for synchronizatio
 
 
 ### y2 (#4)
+
+Bottom edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -106,6 +114,8 @@ Requires NDC coordinates (-1 to 1) and frame/state timestamps for synchronizatio
 
 ### frame_time (#5)
 
+Frame timestamp for synchronization
+
 
 #### Metadata
 
@@ -114,6 +124,8 @@ Requires NDC coordinates (-1 to 1) and frame/state timestamps for synchronizatio
 
 
 ### state_time (#6)
+
+State snapshot timestamp for synchronization
 
 
 #### Metadata

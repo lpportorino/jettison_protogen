@@ -55,6 +55,8 @@ Configuration toggle for compass data source
 
 ### flag (#1)
 
+Enable/disable flag
+
 
 #### Metadata
 

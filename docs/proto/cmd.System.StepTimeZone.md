@@ -47,6 +47,8 @@ Used with buttons for ±1 and ±10 hour adjustments
 
 ### offset (#1)
 
+Step offset value
+
 
 #### Metadata
 

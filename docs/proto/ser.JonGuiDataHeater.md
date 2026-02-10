@@ -31,3 +31,52 @@ Heater subsystem status. Reports overall bus power consumption (voltage, current
 
 
 
+## Field Notes
+
+
+### bus_voltage_V (#1)
+
+Bus voltage in volts
+
+
+### current_A (#2)
+
+Current draw in amperes
+
+
+### power_W (#3)
+
+Power consumption in watts
+
+
+### channel_0 (#4)
+
+See [[proto/ser.JonGuiDataHeaterChannelStatus]]
+
+
+### channel_1 (#5)
+
+See [[proto/ser.JonGuiDataHeaterChannelStatus]]
+
+
+### channel_2 (#6)
+
+See [[proto/ser.JonGuiDataHeaterChannelStatus]]
+
+
+### target_temp_channel_0 (#8)
+
+Target temperature setpoint in degrees Celsius
+
+
+### target_temp_channel_1 (#9)
+
+Target temperature setpoint in degrees Celsius
+
+
+### target_temp_channel_2 (#10)
+
+Target temperature setpoint in degrees Celsius
+
+
+

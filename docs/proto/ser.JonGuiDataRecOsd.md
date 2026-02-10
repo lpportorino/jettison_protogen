@@ -31,6 +31,7 @@ Represents the recording on-screen display (OSD) configuration state, tracking w
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -52,6 +53,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 ### screen (#1)
 
+See related enum for valid values
+
 
 #### Metadata
 
@@ -59,6 +62,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 
 ### heat_osd_enabled (#2)
+
+Heat camera OSD enabled state
 
 
 #### Metadata
@@ -68,6 +73,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 ### day_osd_enabled (#3)
 
+Day camera OSD enabled state
+
 
 #### Metadata
 
@@ -75,6 +82,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 
 ### heat_crosshair_offset_horizontal (#4)
+
+Crosshair position offset
 
 
 #### Metadata
@@ -85,6 +94,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 ### heat_crosshair_offset_vertical (#5)
 
+Crosshair position offset
+
 
 #### Metadata
 
@@ -94,6 +105,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 ### day_crosshair_offset_horizontal (#6)
 
+Crosshair position offset
+
 
 #### Metadata
 
@@ -102,6 +115,8 @@ Displays current OSD screen mode and crosshair offsets for both cameras
 
 
 ### day_crosshair_offset_vertical (#7)
+
+Crosshair position offset
 
 
 #### Metadata

@@ -25,3 +25,27 @@ A tracked object in the CV tracking system. Contains a unique UUID for object id
 
 
 
+## Field Notes
+
+
+### uuid (#1)
+
+Object UUID
+
+
+### transform (#2)
+
+Required — see [[proto/ser.JonGuiDataTransform3D]]
+
+
+### bounding_box (#3)
+
+Required — see [[proto/ser.JonGuiDataROI]]
+
+
+### state (#4)
+
+See related enum for valid values
+
+
+

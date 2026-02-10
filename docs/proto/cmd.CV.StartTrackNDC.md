@@ -50,3 +50,32 @@ Not implemented in current frontend version
 
 
 
+## Field Notes
+
+
+### channel (#1)
+
+Video channel selector
+
+
+### x (#2)
+
+X coordinate in NDC (-1.0 to 1.0)
+
+
+### y (#3)
+
+Y coordinate in NDC (-1.0 to 1.0)
+
+
+### frame_time (#4)
+
+Frame timestamp for synchronization
+
+
+### state_time (#5)
+
+State snapshot timestamp for synchronization
+
+
+

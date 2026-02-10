@@ -17,8 +17,8 @@ Represents the operational state of an external battery pack, indicating whether
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_EXT_BAT_STATUS_CHARGING | - |
-| 2 | JON_GUI_DATA_EXT_BAT_STATUS_DISCHARGING | - |
-| 3 | JON_GUI_DATA_EXT_BAT_STATUS_BALANCING | - |
+| 0 | JON_GUI_DATA_EXT_BAT_STATUS_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_EXT_BAT_STATUS_CHARGING | Battery charging |
+| 2 | JON_GUI_DATA_EXT_BAT_STATUS_DISCHARGING | Battery discharging |
+| 3 | JON_GUI_DATA_EXT_BAT_STATUS_BALANCING | Cell balancing |
 

@@ -57,6 +57,8 @@ Used with keyboard shortcuts to shift DDE level by ±15
 
 ### value (#1)
 
+Value (-100 to 100)
+
 
 #### Metadata
 

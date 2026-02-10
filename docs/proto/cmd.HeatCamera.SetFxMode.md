@@ -52,6 +52,8 @@ Set FX (image enhancement) mode for heat camera
 
 ### mode (#1)
 
+Operating mode
+
 
 #### Metadata
 

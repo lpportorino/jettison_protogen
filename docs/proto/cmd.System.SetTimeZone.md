@@ -56,6 +56,8 @@ Uses numeric zone ID from timezone database
 
 ### zone_id (#1)
 
+IANA timezone identifier
+
 
 #### Metadata
 

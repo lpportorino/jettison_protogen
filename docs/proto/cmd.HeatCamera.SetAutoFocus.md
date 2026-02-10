@@ -59,6 +59,8 @@ Used in jonFocusUi component. Part of focus control system with manual steppers 
 
 ### value (#1)
 
+Enable/disable state
+
 
 #### Metadata
 

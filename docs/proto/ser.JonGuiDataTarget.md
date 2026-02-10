@@ -63,3 +63,107 @@ Displays tracked target information, coordinates, and designation status
 
 
 
+## Field Notes
+
+
+### timestamp (#1)
+
+Monotonic timestamp in microseconds
+
+
+### target_longitude (#2)
+
+Longitude in decimal degrees
+
+
+### target_latitude (#3)
+
+Latitude in decimal degrees
+
+
+### observer_longitude (#5)
+
+Longitude in decimal degrees
+
+
+### observer_latitude (#6)
+
+Latitude in decimal degrees
+
+
+### observer_altitude (#7)
+
+Observer altitude
+
+
+### observer_azimuth (#8)
+
+Azimuth angle in degrees (0=North, clockwise)
+
+
+### observer_elevation (#9)
+
+Elevation angle in degrees
+
+
+### observer_bank (#10)
+
+Bank/roll angle in degrees
+
+
+### distance_2d (#11)
+
+Calculated distance to target in meters
+
+
+### distance_3b (#12)
+
+Calculated distance to target in meters
+
+
+### distance_c (#22)
+
+Calculated distance to target in meters
+
+
+### observer_fix_type (#13)
+
+See related enum for valid values
+
+
+### session_id (#14)
+
+Session identifier
+
+
+### target_id (#15)
+
+Target tracking identifier
+
+
+### target_color (#16)
+
+See [[proto/ser.RgbColor]]
+
+
+### uuid_part1 (#18)
+
+UUID component (combined parts form full UUID)
+
+
+### uuid_part2 (#19)
+
+UUID component (combined parts form full UUID)
+
+
+### uuid_part3 (#20)
+
+UUID component (combined parts form full UUID)
+
+
+### uuid_part4 (#21)
+
+UUID component (combined parts form full UUID)
+
+
+

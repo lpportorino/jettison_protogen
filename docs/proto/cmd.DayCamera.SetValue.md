@@ -46,3 +46,12 @@ Not found in frontend - may be deprecated or internal
 
 
 
+## Field Notes
+
+
+### value (#1)
+
+Normalized value (0.0 to 1.0)
+
+
+

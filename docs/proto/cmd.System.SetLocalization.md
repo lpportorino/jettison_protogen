@@ -51,6 +51,8 @@ Changes UI language and regional formatting
 
 ### loc (#1)
 
+See related enum for valid values
+
 
 #### Metadata
 

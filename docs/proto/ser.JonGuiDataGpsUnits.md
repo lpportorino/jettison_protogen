@@ -17,8 +17,8 @@ Specifies the coordinate format used for displaying GPS coordinates in the UI: D
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_GPS_UNITS_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_GPS_UNITS_DECIMAL_DEGREES | - |
-| 2 | JON_GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECONDS | - |
-| 3 | JON_GUI_DATA_GPS_UNITS_DEGREES_DECIMAL_MINUTES | - |
+| 0 | JON_GUI_DATA_GPS_UNITS_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_GPS_UNITS_DECIMAL_DEGREES | Decimal degrees (DD) |
+| 2 | JON_GUI_DATA_GPS_UNITS_DEGREES_MINUTES_SECONDS | Degrees/minutes/seconds (DMS) |
+| 3 | JON_GUI_DATA_GPS_UNITS_DEGREES_DECIMAL_MINUTES | Degrees/decimal minutes (DDM) |
 

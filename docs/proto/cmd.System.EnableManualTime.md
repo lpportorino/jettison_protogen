@@ -46,7 +46,6 @@ Enables manual time mode instead of GPS time synchronization
 - [[proto/cmd.System.StepHour]]
 - [[proto/cmd.System.StepMinute]]
 - [[proto/cmd.System.StepSecond]]
-- [[proto/cmd.System.SyncBrowserTimeAndZone]]
 
 
 

@@ -54,6 +54,8 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 ## Interaction
 
 - **Category:** :lifecycle
+- **UI Pattern:** :state-machine-menu
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -67,6 +69,120 @@ Root container for all day camera commands
 ### Implementation Notes
 
 This is a oneOf container message, not directly invoked. Contains all day camera sub-commands like SetIris, Focus, Zoom, etc.
+
+
+
+## Field Notes
+
+
+### focus (#1)
+
+See [[proto/cmd.DayCamera.Focus]]
+
+
+### zoom (#2)
+
+See [[proto/cmd.DayCamera.Zoom]]
+
+
+### set_iris (#3)
+
+See [[proto/cmd.DayCamera.SetIris]]
+
+
+### set_infra_red_filter (#4)
+
+Thermal image color filter
+
+
+### start (#5)
+
+See [[proto/cmd.DayCamera.Start]]
+
+
+### stop (#6)
+
+See [[proto/cmd.DayCamera.Stop]]
+
+
+### photo (#7)
+
+See [[proto/cmd.DayCamera.Photo]]
+
+
+### set_auto_iris (#8)
+
+See [[proto/cmd.DayCamera.SetAutoIris]]
+
+
+### halt_all (#9)
+
+See [[proto/cmd.DayCamera.HaltAll]]
+
+
+### set_fx_mode (#10)
+
+Image processing effects mode
+
+
+### next_fx_mode (#11)
+
+Image processing effects mode
+
+
+### prev_fx_mode (#12)
+
+Image processing effects mode
+
+
+### get_meteo (#13)
+
+See [[proto/cmd.DayCamera.GetMeteo]]
+
+
+### refresh_fx_mode (#14)
+
+Image processing effects mode
+
+
+### set_digital_zoom_level (#15)
+
+Digital zoom multiplier
+
+
+### set_clahe_level (#16)
+
+CLAHE contrast enhancement level (0.0 to 1.0)
+
+
+### shift_clahe_level (#17)
+
+CLAHE contrast enhancement level (0.0 to 1.0)
+
+
+### focus_roi (#18)
+
+See [[proto/cmd.DayCamera.FocusROI]]
+
+
+### track_roi (#19)
+
+See [[proto/cmd.DayCamera.TrackROI]]
+
+
+### zoom_roi (#20)
+
+See [[proto/cmd.DayCamera.ZoomROI]]
+
+
+### fx_roi (#21)
+
+See [[proto/cmd.DayCamera.FxROI]]
+
+
+### set_auto_gain (#22)
+
+See [[proto/cmd.DayCamera.SetAutoGain]]
 
 
 

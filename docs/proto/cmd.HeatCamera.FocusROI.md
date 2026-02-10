@@ -61,6 +61,8 @@ User draws rectangle on video to select focus area
 
 ### x1 (#1)
 
+Left edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -68,6 +70,8 @@ User draws rectangle on video to select focus area
 
 
 ### y1 (#2)
+
+Top edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -77,6 +81,8 @@ User draws rectangle on video to select focus area
 
 ### x2 (#3)
 
+Right edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -84,6 +90,8 @@ User draws rectangle on video to select focus area
 
 
 ### y2 (#4)
+
+Bottom edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -93,6 +101,8 @@ User draws rectangle on video to select focus area
 
 ### frame_time (#5)
 
+Frame timestamp for synchronization
+
 
 #### Metadata
 
@@ -101,6 +111,8 @@ User draws rectangle on video to select focus area
 
 
 ### state_time (#6)
+
+State snapshot timestamp for synchronization
 
 
 #### Metadata

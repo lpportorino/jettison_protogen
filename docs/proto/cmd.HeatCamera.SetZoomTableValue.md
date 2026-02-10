@@ -61,6 +61,8 @@ Used extensively for POI navigation, scan nodes, and hotkey-based zoom control. 
 
 ### value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 

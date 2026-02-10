@@ -60,6 +60,8 @@ Uses jonIrisPalette component with slider + steppers + preset buttons. Presets: 
 
 ### value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 

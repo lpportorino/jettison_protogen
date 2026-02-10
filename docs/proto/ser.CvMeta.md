@@ -31,6 +31,7 @@ Aggregated CV metadata payload combining all shared-memory sources at 60fps. Pop
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

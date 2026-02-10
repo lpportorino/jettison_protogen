@@ -54,6 +54,8 @@ Shift LRF calibration offsets by incremental x/y pixels
 
 ### x (#1)
 
+Temperature in degrees Celsius
+
 
 #### Metadata
 
@@ -63,6 +65,8 @@ Shift LRF calibration offsets by incremental x/y pixels
 
 
 ### y (#2)
+
+Temperature in degrees Celsius
 
 
 #### Metadata

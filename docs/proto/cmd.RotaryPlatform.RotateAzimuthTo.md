@@ -53,6 +53,8 @@ Rotates azimuth to target angle at specified speed
 
 ### target_value (#1)
 
+Target position value
+
 
 #### Metadata
 
@@ -63,6 +65,8 @@ Rotates azimuth to target angle at specified speed
 
 ### speed (#2)
 
+Movement speed (0.0=stopped, 1.0=maximum)
+
 
 #### Metadata
 
@@ -72,6 +76,8 @@ Rotates azimuth to target angle at specified speed
 
 
 ### direction (#3)
+
+Rotation direction
 
 
 #### Metadata

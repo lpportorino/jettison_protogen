@@ -49,6 +49,8 @@ Captures comprehensive device telemetry including hardware metrics (CPU/GPU temp
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -76,6 +78,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### cpu_temperature (#1)
 
+Temperature in degrees Celsius
+
 
 #### Metadata
 
@@ -86,6 +90,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 
 ### gpu_temperature (#2)
+
+Temperature in degrees Celsius
 
 
 #### Metadata
@@ -98,6 +104,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### gpu_load (#3)
 
+GPU utilization percentage
+
 
 #### Metadata
 
@@ -108,6 +116,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 
 ### cpu_load (#4)
+
+CPU utilization percentage
 
 
 #### Metadata
@@ -120,6 +130,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### power_consumption (#5)
 
+Power consumption in watts
+
 
 #### Metadata
 
@@ -129,7 +141,44 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 - **Display Format:** `{value}W`
 
 
+### loc (#6)
+
+See related enum for valid values
+
+
+### cur_video_rec_dir_year (#7)
+
+Recording directory year component
+
+
+### cur_video_rec_dir_month (#8)
+
+Recording directory month component
+
+
+### cur_video_rec_dir_day (#9)
+
+Recording directory day component
+
+
+### cur_video_rec_dir_hour (#10)
+
+Recording directory hour component
+
+
+### cur_video_rec_dir_minute (#11)
+
+Recording directory minute component
+
+
+### cur_video_rec_dir_second (#12)
+
+Recording directory second component
+
+
 ### disk_space (#17)
+
+Percentage value (0-100)
 
 
 #### Metadata
@@ -142,6 +191,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### tracking (#18)
 
+tracking state
+
 
 #### Metadata
 
@@ -149,6 +200,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 
 ### vampire_mode (#19)
+
+vampire mode state
 
 
 #### Metadata
@@ -158,6 +211,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### stabilization_mode (#20)
 
+stabilization mode state
+
 
 #### Metadata
 
@@ -165,6 +220,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 
 ### geodesic_mode (#21)
+
+geodesic mode state
 
 
 #### Metadata
@@ -174,6 +231,8 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### cv_dumping (#22)
 
+cv dumping state
+
 
 #### Metadata
 
@@ -182,13 +241,22 @@ Comprehensive system status including CPU/GPU metrics, recording state, operatio
 
 ### recognition_mode (#23)
 
+recognition mode state
+
 
 #### Metadata
 
 - **Semantic Type:** :raw
 
 
+### accumulator_state (#24)
+
+Latitude in decimal degrees
+
+
 ### ext_bat_capacity (#25)
+
+Percentage value (0-100)
 
 
 #### Metadata

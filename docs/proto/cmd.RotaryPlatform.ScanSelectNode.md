@@ -52,6 +52,8 @@ Selects specific scan waypoint by index
 
 ### index (#1)
 
+Zero-based node index
+
 
 #### Metadata
 

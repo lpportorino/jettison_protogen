@@ -34,6 +34,8 @@ A data structure containing geographic coordinates (latitude, longitude, altitud
 ## Interaction
 
 - **Category:** :sensor
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -55,6 +57,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 ### timestamp (#1)
 
+Monotonic timestamp in microseconds
+
 
 #### Metadata
 
@@ -63,6 +67,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 
 ### target_longitude (#2)
+
+Longitude in decimal degrees
 
 
 #### Metadata
@@ -73,6 +79,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 ### target_latitude (#3)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -81,6 +89,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 
 ### target_altitude (#4)
+
+Altitude in meters above sea level
 
 
 #### Metadata
@@ -91,6 +101,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 ### target_azimuth (#5)
 
+Azimuth angle in degrees (0=North, clockwise)
+
 
 #### Metadata
 
@@ -99,6 +111,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 
 ### target_elevation (#6)
+
+Elevation angle in degrees
 
 
 #### Metadata
@@ -109,6 +123,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 ### distance (#7)
 
+Distance to target in meters
+
 
 #### Metadata
 
@@ -118,6 +134,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 ### uuid_part1 (#8)
 
+UUID component (combined parts form full UUID)
+
 
 #### Metadata
 
@@ -125,6 +143,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 
 ### uuid_part2 (#9)
+
+UUID component (combined parts form full UUID)
 
 
 #### Metadata
@@ -134,6 +154,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 ### uuid_part3 (#10)
 
+UUID component (combined parts form full UUID)
+
 
 #### Metadata
 
@@ -141,6 +163,8 @@ This is a nested message type used within cmd.Lira.Refine_target, not a standalo
 
 
 ### uuid_part4 (#11)
+
+UUID component (combined parts form full UUID)
 
 
 #### Metadata

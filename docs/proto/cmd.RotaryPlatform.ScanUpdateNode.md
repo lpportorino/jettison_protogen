@@ -53,6 +53,8 @@ Update parameters of an existing scan pattern node
 
 ### index (#1)
 
+Zero-based node index
+
 
 #### Metadata
 
@@ -60,6 +62,8 @@ Update parameters of an existing scan pattern node
 
 
 ### DayZoomTableValue (#2)
+
+Day camera zoom table index for this scan node
 
 
 #### Metadata
@@ -69,6 +73,8 @@ Update parameters of an existing scan pattern node
 
 ### HeatZoomTableValue (#3)
 
+Heat camera zoom table index for this scan node
+
 
 #### Metadata
 
@@ -76,6 +82,8 @@ Update parameters of an existing scan pattern node
 
 
 ### azimuth (#4)
+
+Azimuth angle in degrees (0=North, clockwise)
 
 
 #### Metadata
@@ -86,6 +94,8 @@ Update parameters of an existing scan pattern node
 
 ### elevation (#5)
 
+Elevation angle in degrees
+
 
 #### Metadata
 
@@ -95,6 +105,8 @@ Update parameters of an existing scan pattern node
 
 ### linger (#6)
 
+Dwell time at this scan node in seconds
+
 
 #### Metadata
 
@@ -103,6 +115,8 @@ Update parameters of an existing scan pattern node
 
 
 ### speed (#7)
+
+Movement speed (0.0=stopped, 1.0=maximum)
 
 
 #### Metadata

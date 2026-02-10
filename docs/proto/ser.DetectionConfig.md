@@ -25,6 +25,8 @@ Inference configuration snapshot attached to each detection result. Records the 
 ## Interaction
 
 - **Category:** :settings
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 

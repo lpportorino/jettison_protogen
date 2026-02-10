@@ -25,3 +25,27 @@ Unit quaternion representing 3D orientation (w + xi + yj + zk). Should be normal
 
 
 
+## Field Notes
+
+
+### w (#1)
+
+Required W component
+
+
+### x (#2)
+
+Required X component
+
+
+### y (#3)
+
+Required Y component
+
+
+### z (#4)
+
+Required Z component
+
+
+

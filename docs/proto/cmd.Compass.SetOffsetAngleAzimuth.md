@@ -59,6 +59,8 @@ Used for manual calibration adjustments.
 
 ### value (#1)
 
+Angle value in degrees
+
 
 #### Metadata
 

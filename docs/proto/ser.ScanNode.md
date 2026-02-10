@@ -31,6 +31,7 @@ Represents a single waypoint within a rotary platform scanning pattern, containi
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -54,6 +55,8 @@ Represents a single node in a scanning pattern with position and timing paramete
 
 ### index (#1)
 
+Zero-based node index
+
 
 #### Metadata
 
@@ -62,6 +65,8 @@ Represents a single node in a scanning pattern with position and timing paramete
 
 
 ### DayZoomTableValue (#2)
+
+Day camera zoom table index for this scan node
 
 
 #### Metadata
@@ -72,6 +77,8 @@ Represents a single node in a scanning pattern with position and timing paramete
 
 ### HeatZoomTableValue (#3)
 
+Heat camera zoom table index for this scan node
+
 
 #### Metadata
 
@@ -81,6 +88,8 @@ Represents a single node in a scanning pattern with position and timing paramete
 
 ### azimuth (#4)
 
+Azimuth angle in degrees (0=North, clockwise)
+
 
 #### Metadata
 
@@ -89,18 +98,27 @@ Represents a single node in a scanning pattern with position and timing paramete
 
 ### elevation (#5)
 
+Elevation angle in degrees
+
 
 #### Metadata
 
-- **Semantic Type:** :count
+- **Semantic Type:** :angle
 
 
 ### linger (#6)
 
+Dwell time at this scan node in seconds
+
 
 #### Metadata
 
-- **Semantic Type:** :count
+- **Semantic Type:** :duration
+
+
+### speed (#7)
+
+Movement speed (0.0=stopped, 1.0=maximum)
 
 
 

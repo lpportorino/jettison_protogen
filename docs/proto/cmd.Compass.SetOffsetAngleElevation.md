@@ -52,6 +52,8 @@ Set compass elevation angle offset calibration value
 
 ### value (#1)
 
+Value (-90 to 90)
+
 
 #### Metadata
 

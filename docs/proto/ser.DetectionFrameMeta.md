@@ -28,6 +28,8 @@ Frame metadata for temporal correlation between detection results and the video 
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

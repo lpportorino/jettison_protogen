@@ -58,6 +58,7 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 
 - **Category:** :actuator
 - **UI Pattern:** :directional-mover
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -75,6 +76,135 @@ Container for rotary platform commands
 ### Implementation Notes
 
 Root message containing azimuth/elevation and scan commands
+
+
+
+## Field Notes
+
+
+### start (#1)
+
+See [[proto/cmd.RotaryPlatform.Start]]
+
+
+### stop (#2)
+
+See [[proto/cmd.RotaryPlatform.Stop]]
+
+
+### axis (#3)
+
+See [[proto/cmd.RotaryPlatform.Axis]]
+
+
+### set_platform_azimuth (#4)
+
+Latitude in decimal degrees
+
+
+### set_platform_elevation (#5)
+
+Latitude in decimal degrees
+
+
+### set_platform_bank (#6)
+
+Latitude in decimal degrees
+
+
+### halt (#7)
+
+See [[proto/cmd.RotaryPlatform.Halt]]
+
+
+### set_use_rotary_as_compass (#8)
+
+See [[proto/cmd.RotaryPlatform.setUseRotaryAsCompass]]
+
+
+### rotate_to_gps (#9)
+
+See [[proto/cmd.RotaryPlatform.RotateToGPS]]
+
+
+### set_origin_gps (#10)
+
+See [[proto/cmd.RotaryPlatform.SetOriginGPS]]
+
+
+### set_mode (#11)
+
+See [[proto/cmd.RotaryPlatform.SetMode]]
+
+
+### rotate_to_ndc (#12)
+
+See [[proto/cmd.RotaryPlatform.RotateToNDC]]
+
+
+### scan_start (#13)
+
+See [[proto/cmd.RotaryPlatform.ScanStart]]
+
+
+### scan_stop (#14)
+
+See [[proto/cmd.RotaryPlatform.ScanStop]]
+
+
+### scan_pause (#15)
+
+See [[proto/cmd.RotaryPlatform.ScanPause]]
+
+
+### scan_unpause (#16)
+
+See [[proto/cmd.RotaryPlatform.ScanUnpause]]
+
+
+### get_meteo (#17)
+
+See [[proto/cmd.RotaryPlatform.GetMeteo]]
+
+
+### scan_prev (#18)
+
+See [[proto/cmd.RotaryPlatform.ScanPrev]]
+
+
+### scan_next (#19)
+
+See [[proto/cmd.RotaryPlatform.ScanNext]]
+
+
+### scan_refresh_node_list (#20)
+
+See [[proto/cmd.RotaryPlatform.ScanRefreshNodeList]]
+
+
+### scan_select_node (#21)
+
+See [[proto/cmd.RotaryPlatform.ScanSelectNode]]
+
+
+### scan_delete_node (#22)
+
+See [[proto/cmd.RotaryPlatform.ScanDeleteNode]]
+
+
+### scan_update_node (#23)
+
+See [[proto/cmd.RotaryPlatform.ScanUpdateNode]]
+
+
+### scan_add_node (#24)
+
+See [[proto/cmd.RotaryPlatform.ScanAddNode]]
+
+
+### halt_with_ndc (#25)
+
+See [[proto/cmd.RotaryPlatform.HaltWithNDC]]
 
 
 

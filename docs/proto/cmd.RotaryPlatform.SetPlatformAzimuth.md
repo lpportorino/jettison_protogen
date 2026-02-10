@@ -51,6 +51,8 @@ Sets absolute platform azimuth angle
 
 ### value (#1)
 
+Azimuth angle value in degrees
+
 
 #### Metadata
 

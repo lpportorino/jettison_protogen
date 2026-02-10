@@ -40,6 +40,7 @@ Fields: #1, #2, #3, #4, #5, #6, #7
 
 - **Category:** :settings
 - **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -53,6 +54,45 @@ Container message that wraps all heater commands. Exactly one command must be se
 
 
 
+
+
+
+## Field Notes
+
+
+### start (#1)
+
+See [[proto/cmd.Heater.Start]]
+
+
+### stop (#2)
+
+See [[proto/cmd.Heater.Stop]]
+
+
+### set_heating (#3)
+
+See [[proto/cmd.Heater.SetHeating]]
+
+
+### get_status (#4)
+
+See [[proto/cmd.Heater.GetStatus]]
+
+
+### enable_automatic_control (#5)
+
+See [[proto/cmd.Heater.EnableAutomaticControl]]
+
+
+### disable_automatic_control (#6)
+
+See [[proto/cmd.Heater.DisableAutomaticControl]]
+
+
+### set_automatic_control_params (#7)
+
+See [[proto/cmd.Heater.SetAutomaticControlParams]]
 
 
 

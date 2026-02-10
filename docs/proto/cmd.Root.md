@@ -60,6 +60,8 @@ Fields: #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #34, #3
 ## Interaction
 
 - **Category:** :lifecycle
+- **UI Pattern:** :state-machine-menu
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -81,6 +83,8 @@ This is the top-level message wrapper. Contains protocol version, session ID, ti
 
 ### protocol_version (#1)
 
+Protocol version number
+
 
 #### Metadata
 
@@ -89,13 +93,27 @@ This is the top-level message wrapper. Contains protocol version, session ID, ti
 
 ### session_id (#2)
 
+Session identifier
+
 
 #### Metadata
 
 - **Semantic Type:** :raw
 
 
+### client_type (#5)
+
+See related enum for valid values
+
+
+### client_app (#10)
+
+See related enum for valid values
+
+
 ### frame_time_day (#6)
+
+Frame timestamp for synchronization
 
 
 #### Metadata
@@ -106,6 +124,8 @@ This is the top-level message wrapper. Contains protocol version, session ID, ti
 
 ### frame_time_heat (#7)
 
+Frame timestamp for synchronization
+
 
 #### Metadata
 
@@ -114,6 +134,8 @@ This is the top-level message wrapper. Contains protocol version, session ID, ti
 
 
 ### state_time (#8)
+
+State snapshot timestamp for synchronization
 
 
 #### Metadata
@@ -124,11 +146,103 @@ This is the top-level message wrapper. Contains protocol version, session ID, ti
 
 ### client_time_ms (#9)
 
+Client-side timestamp in milliseconds
+
 
 #### Metadata
 
 - **Semantic Type:** :timestamp
 - **Unit:** milliseconds
+
+
+### opaque_payloads (#11)
+
+See [[proto/ser.JonOpaquePayload]]
+
+
+### day_camera (#20)
+
+See [[proto/cmd.DayCamera.Root]]
+
+
+### heat_camera (#21)
+
+See [[proto/cmd.HeatCamera.Root]]
+
+
+### gps (#22)
+
+See [[proto/cmd.Gps.Root]]
+
+
+### compass (#23)
+
+See [[proto/cmd.Compass.Root]]
+
+
+### lrf (#24)
+
+See [[proto/cmd.Lrf.Root]]
+
+
+### lrf_calib (#25)
+
+See [[proto/cmd.Lrf_calib.Root]]
+
+
+### rotary (#26)
+
+See [[proto/cmd.RotaryPlatform.Root]]
+
+
+### osd (#27)
+
+See [[proto/cmd.OSD.Root]]
+
+
+### ping (#28)
+
+See [[proto/cmd.Ping]]
+
+
+### noop (#29)
+
+See [[proto/cmd.Noop]]
+
+
+### frozen (#30)
+
+See [[proto/cmd.Frozen]]
+
+
+### system (#31)
+
+See [[proto/cmd.System.Root]]
+
+
+### cv (#32)
+
+See [[proto/cmd.CV.Root]]
+
+
+### lira (#34)
+
+See [[proto/cmd.Lira.Root]]
+
+
+### power (#35)
+
+Power consumption in watts
+
+
+### pmu (#36)
+
+See [[proto/cmd.PMU.Root]]
+
+
+### heater (#37)
+
+See [[proto/cmd.Heater.Root]]
 
 
 

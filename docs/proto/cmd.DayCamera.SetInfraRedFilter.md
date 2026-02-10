@@ -47,10 +47,12 @@ Enable or disable infrared filter on day camera
 
 ### value (#1)
 
+Enable/disable state
+
 
 #### Metadata
 
-- **Semantic Type:** :enum-label
+- **Semantic Type:** :toggle-state
 - **Display Format:** `Boolean flag`
 
 

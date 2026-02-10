@@ -17,15 +17,15 @@ Represents the charge state index of an internal battery (accumulator) with 11 d
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_ACCUMULATOR_STATE_UNKNOWN | - |
-| 2 | JON_GUI_DATA_ACCUMULATOR_STATE_EMPTY | - |
-| 3 | JON_GUI_DATA_ACCUMULATOR_STATE_1 | - |
-| 4 | JON_GUI_DATA_ACCUMULATOR_STATE_2 | - |
-| 5 | JON_GUI_DATA_ACCUMULATOR_STATE_3 | - |
-| 6 | JON_GUI_DATA_ACCUMULATOR_STATE_4 | - |
-| 7 | JON_GUI_DATA_ACCUMULATOR_STATE_5 | - |
-| 8 | JON_GUI_DATA_ACCUMULATOR_STATE_6 | - |
-| 9 | JON_GUI_DATA_ACCUMULATOR_STATE_FULL | - |
-| 10 | JON_GUI_DATA_ACCUMULATOR_STATE_CHARGING | - |
+| 0 | JON_GUI_DATA_ACCUMULATOR_STATE_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_ACCUMULATOR_STATE_UNKNOWN | Unknown battery state |
+| 2 | JON_GUI_DATA_ACCUMULATOR_STATE_EMPTY | Battery empty |
+| 3 | JON_GUI_DATA_ACCUMULATOR_STATE_1 | Battery level 1 (lowest) |
+| 4 | JON_GUI_DATA_ACCUMULATOR_STATE_2 | Battery level 2 |
+| 5 | JON_GUI_DATA_ACCUMULATOR_STATE_3 | Battery level 3 |
+| 6 | JON_GUI_DATA_ACCUMULATOR_STATE_4 | Battery level 4 |
+| 7 | JON_GUI_DATA_ACCUMULATOR_STATE_5 | Battery level 5 |
+| 8 | JON_GUI_DATA_ACCUMULATOR_STATE_6 | Battery level 6 |
+| 9 | JON_GUI_DATA_ACCUMULATOR_STATE_FULL | Battery fully charged |
+| 10 | JON_GUI_DATA_ACCUMULATOR_STATE_CHARGING | Battery charging |
 

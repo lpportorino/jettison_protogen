@@ -56,6 +56,8 @@ Set rotary platform operational mode (speed/position/stabilization/targeting/tra
 
 ### mode (#1)
 
+Operating mode
+
 
 #### Metadata
 

@@ -55,6 +55,8 @@ Channel 5 (ORIN NUC) is protected and skipped when powering off
 
 ### power_on (#1)
 
+Power consumption in watts
+
 
 #### Metadata
 

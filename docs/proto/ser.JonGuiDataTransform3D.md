@@ -25,3 +25,27 @@ Complete 3D transform including position, orientation, and motion state. Represe
 
 
 
+## Field Notes
+
+
+### position (#1)
+
+Required — see [[proto/ser.JonGuiDataVector3]]
+
+
+### orientation (#2)
+
+Required — see [[proto/ser.JonGuiDataQuaternion]]
+
+
+### linear_velocity (#3)
+
+Required — see [[proto/ser.JonGuiDataVector3]]
+
+
+### angular_velocity (#4)
+
+Required — see [[proto/ser.JonGuiDataVector3]]
+
+
+

@@ -36,6 +36,7 @@ Fields: #1, #2, #3
 
 - **Category:** :settings
 - **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -53,6 +54,25 @@ Container for power management commands
 ### Implementation Notes
 
 Root message for controlling device power channels
+
+
+
+## Field Notes
+
+
+### set_channel (#1)
+
+See [[proto/cmd.Power.SetChannel]]
+
+
+### set_all (#2)
+
+See [[proto/cmd.Power.SetAll]]
+
+
+### set_alert_threshold (#3)
+
+See [[proto/cmd.Power.SetAlertThreshold]]
 
 
 

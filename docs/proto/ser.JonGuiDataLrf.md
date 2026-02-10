@@ -61,6 +61,26 @@ Displays distance measurements, scan status, and LRF operational state
 ## Field Notes
 
 
+### measure_id (#3)
+
+Rangefinder measurement sequence ID
+
+
+### target (#4)
+
+See [[proto/ser.JonGuiDataTarget]]
+
+
+### pointer_mode (#5)
+
+See related enum for valid values
+
+
+### is_started (#9)
+
+GPS receiver started state
+
+
 ### meteo (#10)
 
 Local environmental sensor data from the LRF module, providing temperature, humidity, and pressure readings for ballistics calculations and range correction.

@@ -64,6 +64,8 @@ Uses frame timestamps and state time for synchronization. NDC coordinates are no
 
 ### channel (#1)
 
+Video channel selector
+
 
 #### Metadata
 
@@ -72,6 +74,8 @@ Uses frame timestamps and state time for synchronization. NDC coordinates are no
 
 
 ### x (#2)
+
+X coordinate in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -82,11 +86,23 @@ Uses frame timestamps and state time for synchronization. NDC coordinates are no
 
 ### y (#3)
 
+Y coordinate in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
 - **Semantic Type:** :normalized
 - **Display Format:** `Y coordinate`
+
+
+### frame_time (#4)
+
+Frame timestamp for synchronization
+
+
+### state_time (#5)
+
+State snapshot timestamp for synchronization
 
 
 

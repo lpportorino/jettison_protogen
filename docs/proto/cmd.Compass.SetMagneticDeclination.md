@@ -47,6 +47,8 @@ Sets magnetic declination correction for compass
 
 ### value (#1)
 
+Angle value in degrees
+
 
 #### Metadata
 

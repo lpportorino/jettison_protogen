@@ -32,6 +32,7 @@ UUID: `019c40f6-825d-7e0e-9893-87c7b167a751`
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

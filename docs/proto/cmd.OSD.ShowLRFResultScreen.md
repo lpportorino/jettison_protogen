@@ -34,7 +34,7 @@ Switch OSD to laser rangefinder result display screen
 
 ### Related State
 
-- [[proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataRecOsd]]
 - [[proto/ser.JonGuiDataLrf]]
 
 

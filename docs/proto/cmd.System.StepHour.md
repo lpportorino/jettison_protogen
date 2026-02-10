@@ -35,7 +35,7 @@ Adjust system clock hour by specified offset
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystemTime]]
+- [[proto/ser.JonGuiDataTime]]
 
 
 ### Related Commands
@@ -57,6 +57,8 @@ Adjust system clock hour by specified offset
 
 
 ### offset (#1)
+
+Step offset value
 
 
 #### Metadata

@@ -116,7 +116,12 @@ When new messages or fields are added to proto files, you MUST regenerate the do
 
 3. **Add descriptions** to new messages/fields in the generated markdown files in `docs/`
 
-4. **Commit all changes** including the updated docs
+4. **Run lint** to verify no errors introduced:
+   ```bash
+   make docs-docker-lint
+   ```
+
+5. **Commit all changes** including the updated docs
 
 ### Understanding Message Context
 
@@ -442,6 +447,10 @@ make docs-docker-generate  # In Docker
 # Run tests
 make docs-test
 make docs-docker-test      # In Docker
+
+# Render only (DB → markdown, no parsing/extraction)
+make docs-render
+make docs-docker-render    # In Docker
 
 # Coverage report
 make docs-coverage

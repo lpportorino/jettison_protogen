@@ -29,6 +29,8 @@ Represents an RGB color value with red, green, and blue components each constrai
 
 ### red (#1)
 
+Red color channel (0-255)
+
 
 #### Metadata
 
@@ -38,6 +40,8 @@ Represents an RGB color value with red, green, and blue components each constrai
 
 ### green (#2)
 
+Green color channel (0-255)
+
 
 #### Metadata
 
@@ -46,6 +50,8 @@ Represents an RGB color value with red, green, and blue components each constrai
 
 
 ### blue (#3)
+
+Blue color channel (0-255)
 
 
 #### Metadata

@@ -53,6 +53,8 @@ Set azimuth position relative to current position (immediate, no motion)
 
 ### value (#1)
 
+Angle value in degrees
+
 
 #### Metadata
 
@@ -62,6 +64,8 @@ Set azimuth position relative to current position (immediate, no motion)
 
 
 ### direction (#2)
+
+Rotation direction
 
 
 #### Metadata

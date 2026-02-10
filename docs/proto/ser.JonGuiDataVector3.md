@@ -24,3 +24,22 @@ type: message
 
 
 
+## Field Notes
+
+
+### x (#1)
+
+Required X component
+
+
+### y (#2)
+
+Required Y component
+
+
+### z (#3)
+
+Required Z component
+
+
+

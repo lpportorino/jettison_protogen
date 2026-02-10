@@ -34,7 +34,7 @@ Stop video recording
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystemRecording]]
+- [[proto/ser.JonGuiDataRecOsd]]
 
 
 ### Related Commands

@@ -130,6 +130,11 @@ docs-generate: ## Generate proto documentation (parse + extract + render)
 	@printf "$(GREEN)Generating proto documentation...$(NC)\n"
 	@cd docs/.protodoc/tools && clojure -M:run generate --descriptor ../../../output/json-descriptors/descriptor-set.json --output-dir ../.. --db-path ../proto-db.edn
 
+.PHONY: docs-render
+docs-render: ## Render markdown from existing proto-db.edn (no parsing)
+	@printf "$(GREEN)Rendering proto documentation...$(NC)\n"
+	@cd docs/.protodoc/tools && clojure -M:run render --output-dir ../.. --db-path ../proto-db.edn
+
 .PHONY: docs-coverage
 docs-coverage: ## Show proto documentation coverage
 	@printf "$(GREEN)Documentation coverage:$(NC)\n"
@@ -163,6 +168,16 @@ docs-docker-generate: ## Generate docs using Docker
 		protodoc:latest \
 		-M:run generate \
 		--descriptor /data/descriptors/descriptor-set.json \
+		--output-dir /data/docs \
+		--db-path /data/docs/.protodoc/proto-db.edn
+
+.PHONY: docs-docker-render
+docs-docker-render: ## Render markdown from proto-db.edn via Docker (no parsing)
+	@printf "$(GREEN)Rendering proto docs via Docker...$(NC)\n"
+	@docker run --rm --network=host \
+		-v $$(pwd)/docs:/data/docs \
+		protodoc:latest \
+		-M:run render \
 		--output-dir /data/docs \
 		--db-path /data/docs/.protodoc/proto-db.edn
 

@@ -54,15 +54,49 @@ Container for azimuth axis control commands
 
 ### Related Commands
 
-- [[proto/cmd.RotaryPlatform.Azimuth.RotateTo]]
-- [[proto/cmd.RotaryPlatform.Azimuth.Rotate]]
-- [[proto/cmd.RotaryPlatform.Azimuth.Halt]]
+- [[proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+- [[proto/cmd.RotaryPlatform.RotateAzimuth]]
+- [[proto/cmd.RotaryPlatform.HaltAzimuth]]
 
 
 
 ### Implementation Notes
 
 Nested message containing all azimuth movement commands
+
+
+
+## Field Notes
+
+
+### set_value (#1)
+
+See [[proto/cmd.RotaryPlatform.SetAzimuthValue]]
+
+
+### rotate_to (#2)
+
+See [[proto/cmd.RotaryPlatform.RotateAzimuthTo]]
+
+
+### rotate (#3)
+
+See [[proto/cmd.RotaryPlatform.RotateAzimuth]]
+
+
+### relative (#4)
+
+Latitude in decimal degrees
+
+
+### relative_set (#5)
+
+Latitude in decimal degrees
+
+
+### halt (#6)
+
+See [[proto/cmd.RotaryPlatform.HaltAzimuth]]
 
 
 

@@ -34,7 +34,7 @@ Disable on-screen display overlay on heat camera video
 
 ### Related State
 
-- [[proto/ser.JonGuiDataOSD]]
+- [[proto/ser.JonGuiDataRecOsd]]
 
 
 ### Related Commands

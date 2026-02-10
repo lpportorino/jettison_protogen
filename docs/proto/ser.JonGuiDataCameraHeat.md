@@ -53,8 +53,8 @@ Thermal camera status, settings, and operational data
 
 - [[proto/cmd.HeatCamera.Start]]
 - [[proto/cmd.HeatCamera.Stop]]
-- [[proto/cmd.HeatCamera.SetAgc]]
-- [[proto/cmd.HeatCamera.SetFilter]]
+- [[proto/cmd.HeatCamera.SetAGC]]
+- [[proto/cmd.HeatCamera.SetFilters]]
 - [[proto/cmd.HeatCamera.SetDDELevel]]
 - [[proto/cmd.HeatCamera.SetDigitalZoomLevel]]
 
@@ -67,6 +67,71 @@ Provides real-time thermal camera state including AGC mode, filter, zoom levels,
 
 
 ## Field Notes
+
+
+### zoom_pos (#1)
+
+Normalized value (0.0 to 1.0)
+
+
+### agc_mode (#2)
+
+See related enum for valid values
+
+
+### filter (#3)
+
+See related enum for valid values
+
+
+### auto_focus (#4)
+
+Auto-focus enabled state
+
+
+### zoom_table_pos (#5)
+
+Current zoom table position
+
+
+### zoom_table_pos_max (#6)
+
+Maximum zoom table position
+
+
+### dde_level (#7)
+
+DDE (Dynamic Detail Enhancement) level
+
+
+### fx_mode (#9)
+
+See related enum for valid values
+
+
+### digital_zoom_level (#10)
+
+Digital zoom multiplier
+
+
+### clahe_level (#11)
+
+Normalized value (0.0 to 1.0)
+
+
+### horizontal_fov_degrees (#12)
+
+Horizontal field of view in degrees
+
+
+### vertical_fov_degrees (#13)
+
+Vertical field of view in degrees
+
+
+### is_started (#14)
+
+GPS receiver started state
 
 
 ### meteo (#15)

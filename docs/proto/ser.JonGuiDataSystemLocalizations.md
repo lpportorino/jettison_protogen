@@ -17,9 +17,9 @@ Specifies the UI language setting for the system, supporting four languages: Eng
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_SYSTEM_LOCALIZATION_EN | - |
-| 2 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UA | - |
-| 3 | JON_GUI_DATA_SYSTEM_LOCALIZATION_AR | - |
-| 4 | JON_GUI_DATA_SYSTEM_LOCALIZATION_CS | - |
+| 0 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_SYSTEM_LOCALIZATION_EN | English |
+| 2 | JON_GUI_DATA_SYSTEM_LOCALIZATION_UA | Ukrainian |
+| 3 | JON_GUI_DATA_SYSTEM_LOCALIZATION_AR | Arabic |
+| 4 | JON_GUI_DATA_SYSTEM_LOCALIZATION_CS | Czech |
 

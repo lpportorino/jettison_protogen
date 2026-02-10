@@ -51,3 +51,17 @@ Composite command allowing coordinated dual-axis movement, used extensively in g
 
 
 
+## Field Notes
+
+
+### azimuth (#1)
+
+See [[proto/cmd.RotaryPlatform.Azimuth]]
+
+
+### elevation (#2)
+
+See [[proto/cmd.RotaryPlatform.Elevation]]
+
+
+

@@ -120,26 +120,41 @@ Provide context: Show type and constraints.
 #### 2. Semantic Type
 Ask: "What semantic type is '{name}'?"
 
-Options:
-- `:normalized` - 0-1 range value
-- `:angle` - Degrees or radians
-- `:percentage` - 0-100%
-- `:coordinate-geo` - Lat/lon or NDC
-- `:temperature` - Celsius/Fahrenheit
-- `:voltage` - Volts
-- `:current` - Amps
-- `:power` - Watts
-- `:distance` - Meters
-- `:duration` - Time span (ms, s)
-- `:count` - Integer count
-- `:timestamp` - Time value
-- `:enum-label` - Enum display name
-- `:raw` - No special type
+Options (field-type compatibility in parentheses):
+- `:normalized` - 0-1 range value (double/float only)
+- `:angle` - Degrees or radians (double/float/int32/uint32)
+- `:percentage` - 0-100% (double/float/int32/uint32)
+- `:coordinate-geo` - Lat/lon geographic coordinates (double/float only)
+- `:coordinate-viewport` - NDC viewport coordinates -1 to 1 (double/float only)
+- `:speed` - Movement speed value (double/float only)
+- `:temperature` - Celsius/Fahrenheit (double/float/int32)
+- `:voltage` - Volts (double/float only)
+- `:current` - Amps (double/float only)
+- `:power` - Watts (double/float only)
+- `:distance` - Meters (double/float/int32/uint32/int64/uint64)
+- `:duration` - Time span, ms or s (uint32/uint64/int32/int64/double/float)
+- `:count` - Integer count (uint32/int32/uint64/int64 only)
+- `:timestamp` - Time value (uint64/int64/uint32/double only)
+- `:identifier` - ID values (uint32/int32/uint64/int64/string)
+- `:enum-label` - Enum display name (enum fields ONLY, not bool/int)
+- `:toggle-state` - Boolean on/off (bool fields ONLY)
+- `:raw` - No special type (any field type)
+
+**IMPORTANT: Type compatibility rules:**
+- `:enum-label` ONLY works with `:enum` field type — never use for `:bool` or numeric fields
+- `:toggle-state` ONLY works with `:bool` field type
+- `:normalized`/`:coordinate-geo`/`:coordinate-viewport` ONLY work with `:double`/`:float`
+- `:count` ONLY works with integer types (not `:double`/`:float`)
+- For `:message` typed fields, do NOT assign a semantic type — omit `:interaction` entirely
 
 **Hints from constraints:**
-- `gte: 0, lte: 1` → `:normalized`
+- `gte: 0, lte: 1` with double/float → `:normalized`
+- `gte: -1, lte: 1` with double/float → `:coordinate-viewport` (NDC)
+- `gte: -90, lte: 90` with double → `:coordinate-geo` (latitude)
 - `gte: -273.15` (temperature) → `:temperature`
 - `gte: 0, lte: 360` → `:angle`
+- Bool field → `:toggle-state` (never `:enum-label`)
+- Enum field with `:defined-only` → `:enum-label`
 - Voltage constraints → `:voltage`
 
 #### 3. Unit
@@ -337,3 +352,20 @@ bb docs/.protodoc/scripts/proto-search.clj "PMU" docs/.protodoc/proto-db.edn
 Look for patterns:
 - `cmd.X.Set*` usually has `cmd.X.SetAuto*` counterpart
 - `cmd.X.*` commands usually have `ser.JonGuiData*` state
+
+---
+
+## Post-Write Validation
+
+**IMPORTANT:** After writing documentation for each message, run lint to verify no errors were introduced:
+
+```bash
+/docs-lint
+```
+
+Check for:
+- `:semantic-type-mismatch` errors — field type incompatible with chosen semantic type
+- `:invalid-references` errors — related-state/related-commands pointing to non-existent messages
+- `:interaction-incomplete` warnings — missing `:ui-pattern` or `:feedback`
+
+Fix any errors before moving to the next message.

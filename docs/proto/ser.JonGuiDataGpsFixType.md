@@ -17,10 +17,10 @@ Represents the quality and type of GPS positional fix available: No Fix (no sate
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_GPS_FIX_TYPE_NONE | - |
-| 2 | JON_GUI_DATA_GPS_FIX_TYPE_1D | - |
-| 3 | JON_GUI_DATA_GPS_FIX_TYPE_2D | - |
-| 4 | JON_GUI_DATA_GPS_FIX_TYPE_3D | - |
-| 5 | JON_GUI_DATA_GPS_FIX_TYPE_MANUAL | - |
+| 0 | JON_GUI_DATA_GPS_FIX_TYPE_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_GPS_FIX_TYPE_NONE | No fix |
+| 2 | JON_GUI_DATA_GPS_FIX_TYPE_1D | 1D fix (time only) |
+| 3 | JON_GUI_DATA_GPS_FIX_TYPE_2D | 2D fix (latitude/longitude) |
+| 4 | JON_GUI_DATA_GPS_FIX_TYPE_3D | 3D fix (lat/lon/altitude) |
+| 5 | JON_GUI_DATA_GPS_FIX_TYPE_MANUAL | Manual position entry |
 

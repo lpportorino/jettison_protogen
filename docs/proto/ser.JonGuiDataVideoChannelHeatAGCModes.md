@@ -17,8 +17,8 @@ Defines three Automatic Gain Control (AGC) modes for thermal camera operation: M
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_1 | - |
-| 2 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2 | - |
-| 3 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_3 | - |
+| 0 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_1 | AGC mode 1 |
+| 2 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_2 | AGC mode 2 |
+| 3 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_AGC_MODE_3 | AGC mode 3 |
 

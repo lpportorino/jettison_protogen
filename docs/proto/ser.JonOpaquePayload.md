@@ -26,6 +26,8 @@ Extensibility container that carries subsystem-specific binary payloads identifi
 ## Interaction
 
 - **Category:** :diagnostic
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -39,6 +41,25 @@ Opaque binary payload container for extensibility
 ### Implementation Notes
 
 Not directly used in UI - extension mechanism for custom data
+
+
+
+## Field Notes
+
+
+### type_uuid (#1)
+
+Type identifier UUID
+
+
+### version (#2)
+
+Required — see [[proto/ser.JonOpaquePayloadVersion]]
+
+
+### payload (#3)
+
+Serialized payload bytes
 
 
 

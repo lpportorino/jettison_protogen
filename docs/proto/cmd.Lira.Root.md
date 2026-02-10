@@ -51,3 +51,12 @@ This is a oneof wrapper containing all LIRA command types
 
 
 
+## Field Notes
+
+
+### refine_target (#1)
+
+See [[proto/cmd.Lira.Refine_target]]
+
+
+

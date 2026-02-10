@@ -56,6 +56,8 @@ Increments or decrements system date by months
 
 ### offset (#1)
 
+Step offset value
+
 
 #### Metadata
 

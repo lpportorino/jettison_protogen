@@ -44,6 +44,7 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 - **Category:** :settings
 - **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -57,6 +58,65 @@ Container message that wraps all PMU commands. Exactly one command must be set.
 
 
 
+
+
+
+## Field Notes
+
+
+### start (#1)
+
+See [[proto/cmd.PMU.Start]]
+
+
+### stop (#2)
+
+See [[proto/cmd.PMU.Stop]]
+
+
+### turn_on (#3)
+
+See [[proto/cmd.PMU.TurnOn]]
+
+
+### turn_off (#4)
+
+See [[proto/cmd.PMU.TurnOff]]
+
+
+### get_meteo (#5)
+
+See [[proto/cmd.PMU.GetMeteo]]
+
+
+### get_heater_power_state (#6)
+
+Power consumption in watts
+
+
+### power_off (#7)
+
+Power consumption in watts
+
+
+### charge_enable (#8)
+
+See [[proto/cmd.PMU.ChargeEnable]]
+
+
+### charge_disable (#9)
+
+See [[proto/cmd.PMU.ChargeDisable]]
+
+
+### boot_heater (#10)
+
+See [[proto/cmd.PMU.BootHeater]]
+
+
+### get_data_u1 (#11)
+
+See [[proto/cmd.PMU.GetDataU1]]
 
 
 

@@ -61,6 +61,8 @@ Immediate positioning command with direction control
 
 ### value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 
@@ -72,6 +74,8 @@ Immediate positioning command with direction control
 
 
 ### direction (#2)
+
+Rotation direction
 
 
 #### Metadata

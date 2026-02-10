@@ -36,6 +36,7 @@ Per-channel CUDA IPC metadata carrying frame timing, a multi-level sharpness pyr
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 

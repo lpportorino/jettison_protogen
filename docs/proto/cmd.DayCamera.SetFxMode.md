@@ -57,6 +57,8 @@ Set day camera image processing FX mode preset (daytime/dusk/fog)
 
 ### mode (#1)
 
+Operating mode
+
 
 #### Metadata
 

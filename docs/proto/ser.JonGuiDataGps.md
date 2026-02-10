@@ -35,6 +35,7 @@ Represents the complete GPS positioning state of the system, including both auto
 
 - **Category:** :sensor
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -56,6 +57,8 @@ Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
 
 ### longitude (#1)
 
+Longitude in decimal degrees
+
 
 #### Metadata
 
@@ -66,6 +69,8 @@ Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
 
 
 ### latitude (#2)
+
+Latitude in decimal degrees
 
 
 #### Metadata
@@ -78,6 +83,8 @@ Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
 
 ### altitude (#3)
 
+Altitude in meters above sea level
+
 
 #### Metadata
 
@@ -86,38 +93,56 @@ Displays GPS coordinates with fix status indicator (N/A, TIME, 2D, 3D, MAN)
 - **Precision:** 2
 
 
+### manual_longitude (#4)
+
+Longitude in decimal degrees
+
+
 ### manual_latitude (#5)
 
-
-#### Metadata
-
-- **Semantic Type:** :enum-label
-
-
-### manual_altitude (#6)
-
-
-#### Metadata
-
-- **Semantic Type:** :count
-
-
-### timestamp (#9)
+Latitude in decimal degrees
 
 
 #### Metadata
 
 - **Semantic Type:** :coordinate-geo
+
+
+### manual_altitude (#6)
+
+Altitude in meters above sea level
+
+
+#### Metadata
+
+- **Semantic Type:** :distance
+
+
+### fix_type (#7)
+
+See related enum for valid values
+
+
+### timestamp (#9)
+
+Monotonic timestamp in microseconds
+
+
+#### Metadata
+
+- **Semantic Type:** :timestamp
 - **Unit:** degrees
 - **Precision:** 6
 
 
 ### is_started (#10)
 
+GPS receiver started state
+
 
 #### Metadata
 
-- **Semantic Type:** :coordinate-geo
+- **Semantic Type:** :toggle-state
 - **Unit:** degrees
 - **Precision:** 6
 

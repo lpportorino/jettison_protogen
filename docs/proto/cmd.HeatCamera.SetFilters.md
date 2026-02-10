@@ -59,6 +59,8 @@ Cycles through filter modes (hot_black, hot_white, sepia) for different viewing 
 
 ### value (#1)
 
+See related enum for valid values
+
 
 #### Metadata
 

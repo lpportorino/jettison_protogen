@@ -51,10 +51,12 @@ Toggle between GPS-based and manual position entry
 
 ### flag (#1)
 
+Enable/disable flag
+
 
 #### Metadata
 
-- **Semantic Type:** :enum-label
+- **Semantic Type:** :toggle-state
 - **Display Format:** `Boolean flag (true = use manual)`
 
 

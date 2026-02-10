@@ -44,6 +44,7 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 - **Category:** :lifecycle
 - **UI Pattern:** :state-machine-menu
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -62,6 +63,65 @@ Root message container for compass/magnetometer commands
 ### Implementation Notes
 
 Oneof wrapper containing start, stop, setMagneticDeclination, setOffsetAngleAzimuth, setOffsetAngleElevation, calibration commands, etc.
+
+
+
+## Field Notes
+
+
+### start (#1)
+
+See [[proto/cmd.Compass.Start]]
+
+
+### stop (#2)
+
+See [[proto/cmd.Compass.Stop]]
+
+
+### set_magnetic_declination (#3)
+
+See [[proto/cmd.Compass.SetMagneticDeclination]]
+
+
+### set_offset_angle_azimuth (#4)
+
+See [[proto/cmd.Compass.SetOffsetAngleAzimuth]]
+
+
+### set_offset_angle_elevation (#5)
+
+See [[proto/cmd.Compass.SetOffsetAngleElevation]]
+
+
+### set_use_rotary_position (#6)
+
+See [[proto/cmd.Compass.SetUseRotaryPosition]]
+
+
+### start_calibrate_long (#7)
+
+Longitude in decimal degrees
+
+
+### start_calibrate_short (#8)
+
+See [[proto/cmd.Compass.CalibrateStartShort]]
+
+
+### calibrate_next (#9)
+
+See [[proto/cmd.Compass.CalibrateNext]]
+
+
+### calibrate_cencel (#10)
+
+See [[proto/cmd.Compass.CalibrateCencel]]
+
+
+### get_meteo (#11)
+
+See [[proto/cmd.Compass.GetMeteo]]
 
 
 

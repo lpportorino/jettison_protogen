@@ -65,6 +65,8 @@ Requires frame timestamp and system monotonic time for synchronization
 
 ### channel (#1)
 
+Video channel selector
+
 
 #### Metadata
 
@@ -73,6 +75,8 @@ Requires frame timestamp and system monotonic time for synchronization
 
 
 ### x (#2)
+
+X coordinate in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -85,6 +89,8 @@ Requires frame timestamp and system monotonic time for synchronization
 
 ### y (#3)
 
+Y coordinate in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -96,6 +102,8 @@ Requires frame timestamp and system monotonic time for synchronization
 
 ### frame_time (#4)
 
+Frame timestamp for synchronization
+
 
 #### Metadata
 
@@ -105,6 +113,8 @@ Requires frame timestamp and system monotonic time for synchronization
 
 
 ### state_time (#5)
+
+State snapshot timestamp for synchronization
 
 
 #### Metadata

@@ -48,6 +48,8 @@ Sets platform bank angle (roll) correction
 
 ### value (#1)
 
+Angle value in degrees
+
 
 #### Metadata
 

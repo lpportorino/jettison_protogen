@@ -17,9 +17,9 @@ Identifies the type of client application connecting to the system, enabling the
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_CLIENT_APP_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_CLIENT_APP_BROWSER_UI | - |
-| 2 | JON_GUI_DATA_CLIENT_APP_BROWSER_MAP | - |
-| 3 | JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE | - |
-| 4 | JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE | - |
+| 0 | JON_GUI_DATA_CLIENT_APP_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_CLIENT_APP_BROWSER_UI | Browser-based UI |
+| 2 | JON_GUI_DATA_CLIENT_APP_BROWSER_MAP | Browser-based map view |
+| 3 | JON_GUI_DATA_CLIENT_APP_DESKTOP_NATIVE | Native desktop application |
+| 4 | JON_GUI_DATA_CLIENT_APP_MOBILE_NATIVE | Native mobile application |
 

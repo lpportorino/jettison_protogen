@@ -52,6 +52,8 @@ Sets elevation relative to current position
 
 ### value (#1)
 
+Value (-90 to 90)
+
 
 #### Metadata
 
@@ -61,6 +63,8 @@ Sets elevation relative to current position
 
 
 ### direction (#2)
+
+Rotation direction
 
 
 #### Metadata

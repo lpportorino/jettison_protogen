@@ -38,6 +38,7 @@ Fields: #1, #2, #3, #4, #5
 
 - **Category:** :lifecycle
 - **UI Pattern:** :tabbed-config
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -55,6 +56,35 @@ Container for GPS module commands
 ### Implementation Notes
 
 Root message containing GPS start/stop and configuration
+
+
+
+## Field Notes
+
+
+### start (#1)
+
+See [[proto/cmd.Gps.Start]]
+
+
+### stop (#2)
+
+See [[proto/cmd.Gps.Stop]]
+
+
+### set_manual_position (#3)
+
+See [[proto/cmd.Gps.SetManualPosition]]
+
+
+### set_use_manual_position (#4)
+
+See [[proto/cmd.Gps.SetUseManualPosition]]
+
+
+### get_meteo (#5)
+
+See [[proto/cmd.Gps.GetMeteo]]
 
 
 

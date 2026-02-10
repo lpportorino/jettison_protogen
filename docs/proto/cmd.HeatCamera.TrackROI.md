@@ -66,6 +66,8 @@ Uses trackingOverlay component with green theme. Rectangle selection for ROI-bas
 
 ### x1 (#1)
 
+Left edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -74,6 +76,8 @@ Uses trackingOverlay component with green theme. Rectangle selection for ROI-bas
 
 
 ### y1 (#2)
+
+Top edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -84,6 +88,8 @@ Uses trackingOverlay component with green theme. Rectangle selection for ROI-bas
 
 ### x2 (#3)
 
+Right edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -92,6 +98,8 @@ Uses trackingOverlay component with green theme. Rectangle selection for ROI-bas
 
 
 ### y2 (#4)
+
+Bottom edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -102,6 +110,8 @@ Uses trackingOverlay component with green theme. Rectangle selection for ROI-bas
 
 ### frame_time (#5)
 
+Frame timestamp for synchronization
+
 
 #### Metadata
 
@@ -110,6 +120,8 @@ Uses trackingOverlay component with green theme. Rectangle selection for ROI-bas
 
 
 ### state_time (#6)
+
+State snapshot timestamp for synchronization
 
 
 #### Metadata

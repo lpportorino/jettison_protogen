@@ -89,3 +89,182 @@ This is a oneof wrapper containing all heat camera command types
 
 
 
+## Field Notes
+
+
+### zoom (#1)
+
+See [[proto/cmd.HeatCamera.Zoom]]
+
+
+### set_agc (#2)
+
+See [[proto/cmd.HeatCamera.SetAGC]]
+
+
+### set_filter (#3)
+
+Thermal image color filter
+
+
+### start (#4)
+
+See [[proto/cmd.HeatCamera.Start]]
+
+
+### stop (#5)
+
+See [[proto/cmd.HeatCamera.Stop]]
+
+
+### photo (#6)
+
+See [[proto/cmd.HeatCamera.Photo]]
+
+
+### zoom_in (#10)
+
+See [[proto/cmd.HeatCamera.ZoomIn]]
+
+
+### zoom_out (#11)
+
+See [[proto/cmd.HeatCamera.ZoomOut]]
+
+
+### zoom_stop (#12)
+
+See [[proto/cmd.HeatCamera.ZoomStop]]
+
+
+### focus_in (#13)
+
+See [[proto/cmd.HeatCamera.FocusIn]]
+
+
+### focus_out (#14)
+
+See [[proto/cmd.HeatCamera.FocusOut]]
+
+
+### focus_stop (#15)
+
+See [[proto/cmd.HeatCamera.FocusStop]]
+
+
+### calibrate (#16)
+
+See [[proto/cmd.HeatCamera.Calibrate]]
+
+
+### set_dde_level (#17)
+
+DDE (Dynamic Detail Enhancement) level
+
+
+### enable_dde (#18)
+
+See [[proto/cmd.HeatCamera.EnableDDE]]
+
+
+### disable_dde (#19)
+
+See [[proto/cmd.HeatCamera.DisableDDE]]
+
+
+### set_auto_focus (#20)
+
+See [[proto/cmd.HeatCamera.SetAutoFocus]]
+
+
+### focus_step_plus (#21)
+
+See [[proto/cmd.HeatCamera.FocusStepPlus]]
+
+
+### focus_step_minus (#22)
+
+See [[proto/cmd.HeatCamera.FocusStepMinus]]
+
+
+### set_fx_mode (#23)
+
+Image processing effects mode
+
+
+### next_fx_mode (#24)
+
+Image processing effects mode
+
+
+### prev_fx_mode (#25)
+
+Image processing effects mode
+
+
+### get_meteo (#26)
+
+See [[proto/cmd.HeatCamera.GetMeteo]]
+
+
+### shift_dde (#27)
+
+See [[proto/cmd.HeatCamera.ShiftDDE]]
+
+
+### refresh_fx_mode (#28)
+
+Image processing effects mode
+
+
+### reset_zoom (#29)
+
+See [[proto/cmd.HeatCamera.ResetZoom]]
+
+
+### save_to_table (#30)
+
+See [[proto/cmd.HeatCamera.SaveToTable]]
+
+
+### set_calib_mode (#31)
+
+See [[proto/cmd.HeatCamera.SetCalibMode]]
+
+
+### set_digital_zoom_level (#32)
+
+Digital zoom multiplier
+
+
+### set_clahe_level (#33)
+
+CLAHE contrast enhancement level (0.0 to 1.0)
+
+
+### shift_clahe_level (#34)
+
+CLAHE contrast enhancement level (0.0 to 1.0)
+
+
+### focus_roi (#35)
+
+See [[proto/cmd.HeatCamera.FocusROI]]
+
+
+### track_roi (#36)
+
+See [[proto/cmd.HeatCamera.TrackROI]]
+
+
+### zoom_roi (#37)
+
+See [[proto/cmd.HeatCamera.ZoomROI]]
+
+
+### fx_roi (#38)
+
+See [[proto/cmd.HeatCamera.FxROI]]
+
+
+

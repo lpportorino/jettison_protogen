@@ -49,6 +49,8 @@ Set manual GPS position override
 
 ### latitude (#1)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -59,6 +61,8 @@ Set manual GPS position override
 
 ### longitude (#2)
 
+Longitude in decimal degrees
+
 
 #### Metadata
 
@@ -68,6 +72,8 @@ Set manual GPS position override
 
 
 ### altitude (#3)
+
+Altitude in meters above sea level
 
 
 #### Metadata

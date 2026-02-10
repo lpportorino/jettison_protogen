@@ -51,6 +51,8 @@ Preset values: 0%, 10%, 25%, 50%, 75%, 100%; can increment/decrement by 5%
 
 ### value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 

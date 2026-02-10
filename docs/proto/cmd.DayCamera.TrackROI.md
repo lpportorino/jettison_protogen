@@ -67,6 +67,8 @@ ROI specified as normalized coordinates with frame timestamp for synchronization
 
 ### x1 (#1)
 
+Left edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -75,6 +77,8 @@ ROI specified as normalized coordinates with frame timestamp for synchronization
 
 
 ### y1 (#2)
+
+Top edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -85,6 +89,8 @@ ROI specified as normalized coordinates with frame timestamp for synchronization
 
 ### x2 (#3)
 
+Right edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -94,11 +100,23 @@ ROI specified as normalized coordinates with frame timestamp for synchronization
 
 ### y2 (#4)
 
+Bottom edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
 - **Semantic Type:** :normalized
 - **Display Format:** `Y2 coordinate`
+
+
+### frame_time (#5)
+
+Frame timestamp for synchronization
+
+
+### state_time (#6)
+
+State snapshot timestamp for synchronization
 
 
 

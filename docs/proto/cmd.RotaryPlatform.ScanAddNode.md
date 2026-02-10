@@ -54,6 +54,8 @@ Adds a new waypoint node to scan pattern
 
 ### index (#1)
 
+Zero-based node index
+
 
 #### Metadata
 
@@ -61,6 +63,8 @@ Adds a new waypoint node to scan pattern
 
 
 ### DayZoomTableValue (#2)
+
+Day camera zoom table index for this scan node
 
 
 #### Metadata
@@ -70,6 +74,8 @@ Adds a new waypoint node to scan pattern
 
 ### HeatZoomTableValue (#3)
 
+Heat camera zoom table index for this scan node
+
 
 #### Metadata
 
@@ -77,6 +83,8 @@ Adds a new waypoint node to scan pattern
 
 
 ### azimuth (#4)
+
+Azimuth angle in degrees (0=North, clockwise)
 
 
 #### Metadata
@@ -88,6 +96,8 @@ Adds a new waypoint node to scan pattern
 
 ### elevation (#5)
 
+Elevation angle in degrees
+
 
 #### Metadata
 
@@ -98,6 +108,8 @@ Adds a new waypoint node to scan pattern
 
 ### linger (#6)
 
+Dwell time at this scan node in seconds
+
 
 #### Metadata
 
@@ -107,6 +119,8 @@ Adds a new waypoint node to scan pattern
 
 
 ### speed (#7)
+
+Movement speed (0.0=stopped, 1.0=maximum)
 
 
 #### Metadata

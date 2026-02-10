@@ -30,6 +30,8 @@ Encapsulates real-time spatial position and temporal information of the system, 
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -51,6 +53,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 ### azimuth (#1)
 
+Azimuth angle in degrees (0=North, clockwise)
+
 
 #### Metadata
 
@@ -61,6 +65,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 
 ### elevation (#2)
+
+Elevation angle in degrees
 
 
 #### Metadata
@@ -73,6 +79,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 ### bank (#3)
 
+Bank/roll angle in degrees
+
 
 #### Metadata
 
@@ -84,6 +92,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 ### latitude (#4)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -93,6 +103,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 
 ### longitude (#5)
+
+Longitude in decimal degrees
 
 
 #### Metadata
@@ -104,6 +116,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 ### altitude (#6)
 
+Altitude in meters above sea level
+
 
 #### Metadata
 
@@ -114,6 +128,8 @@ Real-time status of platform position including azimuth, elevation, bank, GPS co
 
 
 ### timestamp (#7)
+
+Monotonic timestamp in microseconds
 
 
 #### Metadata

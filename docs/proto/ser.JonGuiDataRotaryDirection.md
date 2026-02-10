@@ -17,7 +17,7 @@ Specifies the rotation direction of a rotary device, supporting clockwise and co
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED | - |
-| 1 | JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE | - |
-| 2 | JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKWISE | - |
+| 0 | JON_GUI_DATA_ROTARY_DIRECTION_UNSPECIFIED | Unspecified/default value |
+| 1 | JON_GUI_DATA_ROTARY_DIRECTION_CLOCKWISE | Clockwise |
+| 2 | JON_GUI_DATA_ROTARY_DIRECTION_COUNTER_CLOCKWISE | Counter-clockwise |
 

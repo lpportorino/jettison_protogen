@@ -29,6 +29,7 @@ Represents the real-time power state and telemetry for a single power distributi
 
 - **Category:** :status
 - **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -51,6 +52,8 @@ Power module status and telemetry
 
 ### voltage (#1)
 
+Bus voltage in volts
+
 
 #### Metadata
 
@@ -61,6 +64,8 @@ Power module status and telemetry
 
 
 ### current (#2)
+
+Current draw in amperes
 
 
 #### Metadata
@@ -73,6 +78,8 @@ Power module status and telemetry
 
 ### power (#3)
 
+Power consumption in watts
+
 
 #### Metadata
 
@@ -84,6 +91,8 @@ Power module status and telemetry
 
 ### is_on (#4)
 
+Channel powered on state
+
 
 #### Metadata
 
@@ -91,6 +100,8 @@ Power module status and telemetry
 
 
 ### has_alarm (#5)
+
+Alarm triggered state
 
 
 #### Metadata

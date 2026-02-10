@@ -49,6 +49,8 @@ Continuously rotate azimuth axis at specified speed and direction
 
 ### speed (#1)
 
+Movement speed (0.0=stopped, 1.0=maximum)
+
 
 #### Metadata
 
@@ -56,6 +58,8 @@ Continuously rotate azimuth axis at specified speed and direction
 
 
 ### direction (#2)
+
+Rotation direction
 
 
 #### Metadata

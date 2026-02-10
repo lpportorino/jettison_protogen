@@ -57,6 +57,8 @@ Establishes coordinate system origin for GPS-based targeting
 
 ### latitude (#1)
 
+Latitude in decimal degrees
+
 
 #### Metadata
 
@@ -68,6 +70,8 @@ Establishes coordinate system origin for GPS-based targeting
 
 ### longitude (#2)
 
+Longitude in decimal degrees
+
 
 #### Metadata
 
@@ -78,6 +82,8 @@ Establishes coordinate system origin for GPS-based targeting
 
 
 ### altitude (#3)
+
+Altitude in meters above sea level
 
 
 #### Metadata

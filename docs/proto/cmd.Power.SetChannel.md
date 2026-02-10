@@ -52,6 +52,8 @@ Channel 5 (ORIN NUC) is protected and cannot be powered off remotely
 
 ### channel (#1)
 
+Power channel index
+
 
 #### Metadata
 
@@ -60,10 +62,12 @@ Channel 5 (ORIN NUC) is protected and cannot be powered off remotely
 
 ### power_on (#2)
 
+Power consumption in watts
+
 
 #### Metadata
 
-- **Semantic Type:** :enum-label
+- **Semantic Type:** :toggle-state
 
 
 

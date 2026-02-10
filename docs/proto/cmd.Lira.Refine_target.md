@@ -33,10 +33,6 @@ Updates target tracking coordinates by accepting a refined target location with 
 Refines target positioning using LIRA rangefinding data
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataLira]]
-
 
 
 ### Preconditions
@@ -56,11 +52,7 @@ Complex command with geographic coordinates, angles, and UUID for target trackin
 
 ### target (#1)
 
-
-#### Metadata
-
-- **Semantic Type:** :timestamp
-- **Unit:** microseconds
+See [[proto/cmd.Lira.JonGuiDataLiraTarget]]
 
 
 

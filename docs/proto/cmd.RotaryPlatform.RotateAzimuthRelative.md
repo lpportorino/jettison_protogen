@@ -37,7 +37,7 @@ Rotates azimuth axis by a relative offset from current position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataRotaryPlatform]]
+- [[proto/ser.JonGuiDataRotary]]
 
 
 ### Related Commands
@@ -59,6 +59,8 @@ Relative movement with speed and direction control
 
 ### value (#1)
 
+Angle value in degrees
+
 
 #### Metadata
 
@@ -70,6 +72,8 @@ Relative movement with speed and direction control
 
 ### speed (#2)
 
+Movement speed (0.0=stopped, 1.0=maximum)
+
 
 #### Metadata
 
@@ -79,6 +83,8 @@ Relative movement with speed and direction control
 
 
 ### direction (#3)
+
+Rotation direction
 
 
 #### Metadata

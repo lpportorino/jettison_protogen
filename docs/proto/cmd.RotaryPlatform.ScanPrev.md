@@ -32,10 +32,6 @@ Commands the rotary platform to move to the previous node in the active scan pat
 Move to previous node in rotary scan pattern
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataRotaryScan]]
-
 
 ### Related Commands
 

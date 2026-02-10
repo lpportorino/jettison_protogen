@@ -47,6 +47,8 @@ Root protocol buffer message that aggregates telemetry and state from multiple s
 ## Interaction
 
 - **Category:** :status
+- **UI Pattern:** :indicator
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -60,6 +62,130 @@ Root state message containing all device state data
 ### Implementation Notes
 
 Main state container - published periodically to frontend. Contains all subsystem state messages.
+
+
+
+## Field Notes
+
+
+### protocol_version (#1)
+
+Protocol version number
+
+
+### system_monotonic_time_us (#2)
+
+System monotonic time in microseconds
+
+
+### state_source (#3)
+
+See related enum for valid values
+
+
+### frame_pts_day_ns (#4)
+
+Day camera frame PTS in nanoseconds
+
+
+### frame_pts_heat_ns (#5)
+
+Heat camera frame PTS in nanoseconds
+
+
+### frame_monotonic_day_us (#6)
+
+Day camera frame monotonic time in microseconds
+
+
+### frame_monotonic_heat_us (#7)
+
+Heat camera frame monotonic time in microseconds
+
+
+### opaque_payloads (#8)
+
+See [[proto/ser.JonOpaquePayload]]
+
+
+### system (#13)
+
+Required — see [[proto/ser.JonGuiDataSystem]]
+
+
+### meteo_internal (#14)
+
+Required — see [[proto/ser.JonGuiDataMeteo]]
+
+
+### lrf (#15)
+
+Required — see [[proto/ser.JonGuiDataLrf]]
+
+
+### time (#16)
+
+Required — see [[proto/ser.JonGuiDataTime]]
+
+
+### gps (#17)
+
+Required — see [[proto/ser.JonGuiDataGps]]
+
+
+### compass (#18)
+
+Required — see [[proto/ser.JonGuiDataCompass]]
+
+
+### rotary (#19)
+
+Required — see [[proto/ser.JonGuiDataRotary]]
+
+
+### camera_day (#20)
+
+Required — see [[proto/ser.JonGuiDataCameraDay]]
+
+
+### camera_heat (#21)
+
+Required — see [[proto/ser.JonGuiDataCameraHeat]]
+
+
+### compass_calibration (#22)
+
+Required — see [[proto/ser.JonGuiDataCompassCalibration]]
+
+
+### rec_osd (#23)
+
+Required — see [[proto/ser.JonGuiDataRecOsd]]
+
+
+### actual_space_time (#25)
+
+Required — see [[proto/ser.JonGuiDataActualSpaceTime]]
+
+
+### power (#26)
+
+Power consumption in watts
+
+
+### cv (#27)
+
+See [[proto/ser.JonGuiDataCV]]
+
+
+### pmu (#28)
+
+Required — see [[proto/ser.JonGuiDataPMU]]
+
+
+### heater (#29)
+
+See [[proto/ser.JonGuiDataHeater]]
 
 
 

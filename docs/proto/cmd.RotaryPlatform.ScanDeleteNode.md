@@ -61,6 +61,8 @@ Part of scan pattern editor UI
 
 ### index (#1)
 
+Zero-based node index
+
 
 #### Metadata
 

@@ -42,7 +42,6 @@ Sets system time and timezone simultaneously
 ### Related Commands
 
 - [[proto/cmd.System.EnableManualTime]]
-- [[proto/cmd.System.SyncBrowserTimeAndZone]]
 - [[proto/cmd.System.StepTimeZone]]
 
 
@@ -58,6 +57,8 @@ Combined time and timezone configuration command
 
 ### timestamp (#1)
 
+Monotonic timestamp in microseconds
+
 
 #### Metadata
 
@@ -66,6 +67,8 @@ Combined time and timezone configuration command
 
 
 ### zone_id (#2)
+
+IANA timezone identifier
 
 
 #### Metadata

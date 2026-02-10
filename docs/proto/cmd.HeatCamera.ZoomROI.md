@@ -65,6 +65,8 @@ Uses zoomOverlay component. Allows specifying a region to zoom into via rectangl
 
 ### x1 (#1)
 
+Left edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -73,6 +75,8 @@ Uses zoomOverlay component. Allows specifying a region to zoom into via rectangl
 
 
 ### y1 (#2)
+
+Top edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -83,6 +87,8 @@ Uses zoomOverlay component. Allows specifying a region to zoom into via rectangl
 
 ### x2 (#3)
 
+Right edge in NDC (-1.0 to 1.0)
+
 
 #### Metadata
 
@@ -91,6 +97,8 @@ Uses zoomOverlay component. Allows specifying a region to zoom into via rectangl
 
 
 ### y2 (#4)
+
+Bottom edge in NDC (-1.0 to 1.0)
 
 
 #### Metadata
@@ -101,6 +109,8 @@ Uses zoomOverlay component. Allows specifying a region to zoom into via rectangl
 
 ### frame_time (#5)
 
+Frame timestamp for synchronization
+
 
 #### Metadata
 
@@ -109,6 +119,8 @@ Uses zoomOverlay component. Allows specifying a region to zoom into via rectangl
 
 
 ### state_time (#6)
+
+State snapshot timestamp for synchronization
 
 
 #### Metadata

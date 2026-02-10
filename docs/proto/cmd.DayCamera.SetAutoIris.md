@@ -59,6 +59,8 @@ When enabled, disables manual iris control
 
 ### value (#1)
 
+Enable/disable state
+
 
 #### Metadata
 

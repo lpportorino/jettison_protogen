@@ -56,6 +56,8 @@ Sets day camera zoom to specific table position
 
 ### value (#1)
 
+Normalized value (0.0 to 1.0)
+
 
 #### Metadata
 
