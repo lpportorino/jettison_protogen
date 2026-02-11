@@ -9,7 +9,7 @@ from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Map
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class CvChannelMeta(_message.Message):
-    __slots__ = ("pts_ns", "capture_time_ns", "generation", "sharpness_level0", "sharpness_level1", "sharpness_level2", "sharpness_level3", "sharpness_compute_ns", "sharpness_total_ns", "sharpness_valid", "sensor_gain", "gain_valid")
+    __slots__ = ("pts_ns", "capture_time_ns", "generation", "sharpness_level0", "sharpness_level1", "sharpness_level2", "sharpness_level3", "sharpness_compute_ns", "sharpness_total_ns", "sharpness_valid", "sensor_gain", "gain_valid", "sensor_exposure", "exposure_valid")
     PTS_NS_FIELD_NUMBER: _ClassVar[int]
     CAPTURE_TIME_NS_FIELD_NUMBER: _ClassVar[int]
     GENERATION_FIELD_NUMBER: _ClassVar[int]
@@ -22,6 +22,8 @@ class CvChannelMeta(_message.Message):
     SHARPNESS_VALID_FIELD_NUMBER: _ClassVar[int]
     SENSOR_GAIN_FIELD_NUMBER: _ClassVar[int]
     GAIN_VALID_FIELD_NUMBER: _ClassVar[int]
+    SENSOR_EXPOSURE_FIELD_NUMBER: _ClassVar[int]
+    EXPOSURE_VALID_FIELD_NUMBER: _ClassVar[int]
     pts_ns: int
     capture_time_ns: int
     generation: int
@@ -34,7 +36,9 @@ class CvChannelMeta(_message.Message):
     sharpness_valid: bool
     sensor_gain: int
     gain_valid: bool
-    def __init__(self, pts_ns: _Optional[int] = ..., capture_time_ns: _Optional[int] = ..., generation: _Optional[int] = ..., sharpness_level0: _Optional[float] = ..., sharpness_level1: _Optional[_Iterable[float]] = ..., sharpness_level2: _Optional[_Iterable[float]] = ..., sharpness_level3: _Optional[_Iterable[float]] = ..., sharpness_compute_ns: _Optional[int] = ..., sharpness_total_ns: _Optional[int] = ..., sharpness_valid: bool = ..., sensor_gain: _Optional[int] = ..., gain_valid: bool = ...) -> None: ...
+    sensor_exposure: int
+    exposure_valid: bool
+    def __init__(self, pts_ns: _Optional[int] = ..., capture_time_ns: _Optional[int] = ..., generation: _Optional[int] = ..., sharpness_level0: _Optional[float] = ..., sharpness_level1: _Optional[_Iterable[float]] = ..., sharpness_level2: _Optional[_Iterable[float]] = ..., sharpness_level3: _Optional[_Iterable[float]] = ..., sharpness_compute_ns: _Optional[int] = ..., sharpness_total_ns: _Optional[int] = ..., sharpness_valid: bool = ..., sensor_gain: _Optional[int] = ..., gain_valid: bool = ..., sensor_exposure: _Optional[int] = ..., exposure_valid: bool = ...) -> None: ...
 
 class CvMeta(_message.Message):
     __slots__ = ("capture_monotonic_us", "updated_sources", "camera_day", "camera_heat", "rotary", "channel_day", "channel_heat")

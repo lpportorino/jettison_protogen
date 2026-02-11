@@ -17,9 +17,9 @@ Specifies which OSD (On-Screen Display) overlay screen to display during recordi
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_REC_OSD_SCREEN_UNSPECIFIED | Unspecified/default value |
-| 1 | JON_GUI_DATA_REC_OSD_SCREEN_MAIN | Main interface screen |
-| 2 | JON_GUI_DATA_REC_OSD_SCREEN_LRF_MEASURE | Laser rangefinder measurement screen |
-| 3 | JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT | Laser rangefinder results screen |
-| 4 | JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED | Simplified rangefinder results |
+| 0 | JON_GUI_DATA_REC_OSD_SCREEN_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_REC_OSD_SCREEN_MAIN | - |
+| 2 | JON_GUI_DATA_REC_OSD_SCREEN_LRF_MEASURE | - |
+| 3 | JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT | - |
+| 4 | JON_GUI_DATA_REC_OSD_SCREEN_LRF_RESULT_SIMPLIFIED | - |
 

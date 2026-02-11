@@ -17,9 +17,9 @@ Categorizes different types of clients connecting to the system based on their c
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIED | Unspecified/default value |
-| 1 | JON_GUI_DATA_CLIENT_TYPE_INTERNAL_CV | Internal CV module |
-| 2 | JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK | Local network client |
-| 3 | JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED | Certificate-authenticated client |
-| 4 | JON_GUI_DATA_CLIENT_TYPE_LIRA | LIRA integration client |
+| 0 | JON_GUI_DATA_CLIENT_TYPE_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_CLIENT_TYPE_INTERNAL_CV | - |
+| 2 | JON_GUI_DATA_CLIENT_TYPE_LOCAL_NETWORK | - |
+| 3 | JON_GUI_DATA_CLIENT_TYPE_CERTIFICATE_PROTECTED | - |
+| 4 | JON_GUI_DATA_CLIENT_TYPE_LIRA | - |
 

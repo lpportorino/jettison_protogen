@@ -47,10 +47,14 @@ type CvChannelMeta struct {
 	SharpnessTotalNs   uint64 `protobuf:"varint,9,opt,name=sharpness_total_ns,json=sharpnessTotalNs,proto3" json:"sharpness_total_ns,omitempty"`
 	SharpnessValid     bool   `protobuf:"varint,10,opt,name=sharpness_valid,json=sharpnessValid,proto3" json:"sharpness_valid,omitempty"`
 	// Sensor gain (day camera only; heat channel sets gain_valid=false)
-	SensorGain    int32 `protobuf:"varint,11,opt,name=sensor_gain,json=sensorGain,proto3" json:"sensor_gain,omitempty"`
-	GainValid     bool  `protobuf:"varint,12,opt,name=gain_valid,json=gainValid,proto3" json:"gain_valid,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	SensorGain int32 `protobuf:"varint,11,opt,name=sensor_gain,json=sensorGain,proto3" json:"sensor_gain,omitempty"`
+	GainValid  bool  `protobuf:"varint,12,opt,name=gain_valid,json=gainValid,proto3" json:"gain_valid,omitempty"`
+	// Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+	// IMX290 range: 15-16820
+	SensorExposure int32 `protobuf:"varint,13,opt,name=sensor_exposure,json=sensorExposure,proto3" json:"sensor_exposure,omitempty"`
+	ExposureValid  bool  `protobuf:"varint,14,opt,name=exposure_valid,json=exposureValid,proto3" json:"exposure_valid,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CvChannelMeta) Reset() {
@@ -163,6 +167,20 @@ func (x *CvChannelMeta) GetSensorGain() int32 {
 func (x *CvChannelMeta) GetGainValid() bool {
 	if x != nil {
 		return x.GainValid
+	}
+	return false
+}
+
+func (x *CvChannelMeta) GetSensorExposure() int32 {
+	if x != nil {
+		return x.SensorExposure
+	}
+	return 0
+}
+
+func (x *CvChannelMeta) GetExposureValid() bool {
+	if x != nil {
+		return x.ExposureValid
 	}
 	return false
 }
@@ -281,7 +299,7 @@ var File_opaque_cv_meta_proto protoreflect.FileDescriptor
 
 const file_opaque_cv_meta_proto_rawDesc = "" +
 	"\n" +
-	"\x14opaque/cv_meta.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1cjon_shared_data_rotary.proto\"\xbc\x04\n" +
+	"\x14opaque/cv_meta.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1cjon_shared_data_rotary.proto\"\x8c\x05\n" +
 	"\rCvChannelMeta\x12\x1e\n" +
 	"\x06pts_ns\x18\x01 \x01(\x04B\a\xbaH\x042\x02(\x00R\x05ptsNs\x12/\n" +
 	"\x0fcapture_time_ns\x18\x02 \x01(\x04B\a\xbaH\x042\x02(\x00R\rcaptureTimeNs\x12\x1e\n" +
@@ -304,7 +322,9 @@ const file_opaque_cv_meta_proto_rawDesc = "" +
 	"\vsensor_gain\x18\v \x01(\x05R\n" +
 	"sensorGain\x12\x1d\n" +
 	"\n" +
-	"gain_valid\x18\f \x01(\bR\tgainValid\"\x87\x03\n" +
+	"gain_valid\x18\f \x01(\bR\tgainValid\x12'\n" +
+	"\x0fsensor_exposure\x18\r \x01(\x05R\x0esensorExposure\x12%\n" +
+	"\x0eexposure_valid\x18\x0e \x01(\bR\rexposureValid\"\x87\x03\n" +
 	"\x06CvMeta\x129\n" +
 	"\x14capture_monotonic_us\x18\x01 \x01(\x04B\a\xbaH\x042\x02(\x00R\x12captureMonotonicUs\x122\n" +
 	"\x0fupdated_sources\x18\x02 \x01(\rB\t\xbaH\x06*\x04\x18\x1f(\x00R\x0eupdatedSources\x127\n" +

@@ -36,6 +36,10 @@ typedef struct _ser_CvChannelMeta {
     /* Sensor gain (day camera only; heat channel sets gain_valid=false) */
     int32_t sensor_gain;
     bool gain_valid;
+    /* Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+ IMX290 range: 15-16820 */
+    int32_t sensor_exposure;
+    bool exposure_valid;
 } ser_CvChannelMeta;
 
 /* Aggregated CV metadata payload - combines all SHM sources at 60fps.
@@ -77,9 +81,9 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_CvChannelMeta_init_default           {0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0}
+#define ser_CvChannelMeta_init_default           {0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0, 0, 0}
 #define ser_CvMeta_init_default                  {0, 0, false, ser_JonGuiDataCameraDay_init_default, false, ser_JonGuiDataCameraHeat_init_default, false, ser_JonGuiDataRotary_init_default, false, ser_CvChannelMeta_init_default, false, ser_CvChannelMeta_init_default}
-#define ser_CvChannelMeta_init_zero              {0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0}
+#define ser_CvChannelMeta_init_zero              {0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, 0, 0, 0, 0, 0}
 #define ser_CvMeta_init_zero                     {0, 0, false, ser_JonGuiDataCameraDay_init_zero, false, ser_JonGuiDataCameraHeat_init_zero, false, ser_JonGuiDataRotary_init_zero, false, ser_CvChannelMeta_init_zero, false, ser_CvChannelMeta_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -95,6 +99,8 @@ extern "C" {
 #define ser_CvChannelMeta_sharpness_valid_tag    10
 #define ser_CvChannelMeta_sensor_gain_tag        11
 #define ser_CvChannelMeta_gain_valid_tag         12
+#define ser_CvChannelMeta_sensor_exposure_tag    13
+#define ser_CvChannelMeta_exposure_valid_tag     14
 #define ser_CvMeta_capture_monotonic_us_tag      1
 #define ser_CvMeta_updated_sources_tag           2
 #define ser_CvMeta_camera_day_tag                3
@@ -116,7 +122,9 @@ X(a, STATIC,   SINGULAR, UINT64,   sharpness_compute_ns,   8) \
 X(a, STATIC,   SINGULAR, UINT64,   sharpness_total_ns,   9) \
 X(a, STATIC,   SINGULAR, BOOL,     sharpness_valid,  10) \
 X(a, STATIC,   SINGULAR, INT32,    sensor_gain,      11) \
-X(a, STATIC,   SINGULAR, BOOL,     gain_valid,       12)
+X(a, STATIC,   SINGULAR, BOOL,     gain_valid,       12) \
+X(a, STATIC,   SINGULAR, INT32,    sensor_exposure,  13) \
+X(a, STATIC,   SINGULAR, BOOL,     exposure_valid,   14)
 #define ser_CvChannelMeta_CALLBACK pb_default_field_callback
 #define ser_CvChannelMeta_DEFAULT NULL
 

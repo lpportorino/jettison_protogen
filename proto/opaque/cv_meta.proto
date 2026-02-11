@@ -50,6 +50,11 @@ message CvChannelMeta {
   // Sensor gain (day camera only; heat channel sets gain_valid=false)
   int32 sensor_gain = 11;
   bool gain_valid = 12;
+
+  // Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+  // IMX290 range: 15-16820
+  int32 sensor_exposure = 13;
+  bool exposure_valid = 14;
 }
 
 // Aggregated CV metadata payload - combines all SHM sources at 60fps.

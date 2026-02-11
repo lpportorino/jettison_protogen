@@ -17,8 +17,8 @@ Indicates the origin of GUI state data in the system: DAY_PIPELINE (day imaging 
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED | Unspecified/default value |
-| 1 | JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE | Day camera pipeline |
-| 2 | JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE | Heat camera pipeline |
-| 3 | JON_GUI_DATA_STATE_SOURCE_SYSTEM | System-level state |
+| 0 | JON_GUI_DATA_STATE_SOURCE_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_STATE_SOURCE_DAY_PIPELINE | - |
+| 2 | JON_GUI_DATA_STATE_SOURCE_HEAT_PIPELINE | - |
+| 3 | JON_GUI_DATA_STATE_SOURCE_SYSTEM | - |
 

@@ -17,9 +17,9 @@ Specifies thermal camera display color schemes with four filter modes: Hot White
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED | Unspecified/default value |
-| 1 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE | Hot white polarity |
-| 2 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_BLACK | Hot black polarity |
-| 3 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA | Sepia color mapping |
-| 4 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVERSE | Inverted sepia color mapping |
+| 0 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_WHITE | - |
+| 2 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_HOT_BLACK | - |
+| 3 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA | - |
+| 4 | JON_GUI_DATA_VIDEO_CHANNEL_HEAT_FILTER_SEPIA_INVERSE | - |
 

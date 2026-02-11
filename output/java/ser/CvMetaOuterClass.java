@@ -186,6 +186,23 @@ public final class CvMetaOuterClass {
      * @return The gainValid.
      */
     boolean getGainValid();
+
+    /**
+     * <pre>
+     * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+     * IMX290 range: 15-16820
+     * </pre>
+     *
+     * <code>int32 sensor_exposure = 13;</code>
+     * @return The sensorExposure.
+     */
+    int getSensorExposure();
+
+    /**
+     * <code>bool exposure_valid = 14;</code>
+     * @return The exposureValid.
+     */
+    boolean getExposureValid();
   }
   /**
    * <pre>
@@ -474,6 +491,33 @@ public final class CvMetaOuterClass {
       return gainValid_;
     }
 
+    public static final int SENSOR_EXPOSURE_FIELD_NUMBER = 13;
+    private int sensorExposure_ = 0;
+    /**
+     * <pre>
+     * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+     * IMX290 range: 15-16820
+     * </pre>
+     *
+     * <code>int32 sensor_exposure = 13;</code>
+     * @return The sensorExposure.
+     */
+    @java.lang.Override
+    public int getSensorExposure() {
+      return sensorExposure_;
+    }
+
+    public static final int EXPOSURE_VALID_FIELD_NUMBER = 14;
+    private boolean exposureValid_ = false;
+    /**
+     * <code>bool exposure_valid = 14;</code>
+     * @return The exposureValid.
+     */
+    @java.lang.Override
+    public boolean getExposureValid() {
+      return exposureValid_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -536,6 +580,12 @@ public final class CvMetaOuterClass {
       }
       if (gainValid_ != false) {
         output.writeBool(12, gainValid_);
+      }
+      if (sensorExposure_ != 0) {
+        output.writeInt32(13, sensorExposure_);
+      }
+      if (exposureValid_ != false) {
+        output.writeBool(14, exposureValid_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -615,6 +665,14 @@ public final class CvMetaOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(12, gainValid_);
       }
+      if (sensorExposure_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, sensorExposure_);
+      }
+      if (exposureValid_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(14, exposureValid_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -655,6 +713,10 @@ public final class CvMetaOuterClass {
           != other.getSensorGain()) return false;
       if (getGainValid()
           != other.getGainValid()) return false;
+      if (getSensorExposure()
+          != other.getSensorExposure()) return false;
+      if (getExposureValid()
+          != other.getExposureValid()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -703,6 +765,11 @@ public final class CvMetaOuterClass {
       hash = (37 * hash) + GAIN_VALID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getGainValid());
+      hash = (37 * hash) + SENSOR_EXPOSURE_FIELD_NUMBER;
+      hash = (53 * hash) + getSensorExposure();
+      hash = (37 * hash) + EXPOSURE_VALID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getExposureValid());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -851,6 +918,8 @@ public final class CvMetaOuterClass {
         sharpnessValid_ = false;
         sensorGain_ = 0;
         gainValid_ = false;
+        sensorExposure_ = 0;
+        exposureValid_ = false;
         return this;
       }
 
@@ -922,6 +991,12 @@ public final class CvMetaOuterClass {
         }
         if (((from_bitField0_ & 0x00000800) != 0)) {
           result.gainValid_ = gainValid_;
+        }
+        if (((from_bitField0_ & 0x00001000) != 0)) {
+          result.sensorExposure_ = sensorExposure_;
+        }
+        if (((from_bitField0_ & 0x00002000) != 0)) {
+          result.exposureValid_ = exposureValid_;
         }
       }
 
@@ -996,6 +1071,12 @@ public final class CvMetaOuterClass {
         }
         if (other.getGainValid() != false) {
           setGainValid(other.getGainValid());
+        }
+        if (other.getSensorExposure() != 0) {
+          setSensorExposure(other.getSensorExposure());
+        }
+        if (other.getExposureValid() != false) {
+          setExposureValid(other.getExposureValid());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -1119,6 +1200,16 @@ public final class CvMetaOuterClass {
                 bitField0_ |= 0x00000800;
                 break;
               } // case 96
+              case 104: {
+                sensorExposure_ = input.readInt32();
+                bitField0_ |= 0x00001000;
+                break;
+              } // case 104
+              case 112: {
+                exposureValid_ = input.readBool();
+                bitField0_ |= 0x00002000;
+                break;
+              } // case 112
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1825,6 +1916,85 @@ public final class CvMetaOuterClass {
       public Builder clearGainValid() {
         bitField0_ = (bitField0_ & ~0x00000800);
         gainValid_ = false;
+        onChanged();
+        return this;
+      }
+
+      private int sensorExposure_ ;
+      /**
+       * <pre>
+       * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+       * IMX290 range: 15-16820
+       * </pre>
+       *
+       * <code>int32 sensor_exposure = 13;</code>
+       * @return The sensorExposure.
+       */
+      @java.lang.Override
+      public int getSensorExposure() {
+        return sensorExposure_;
+      }
+      /**
+       * <pre>
+       * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+       * IMX290 range: 15-16820
+       * </pre>
+       *
+       * <code>int32 sensor_exposure = 13;</code>
+       * @param value The sensorExposure to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSensorExposure(int value) {
+
+        sensorExposure_ = value;
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+       * IMX290 range: 15-16820
+       * </pre>
+       *
+       * <code>int32 sensor_exposure = 13;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSensorExposure() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        sensorExposure_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean exposureValid_ ;
+      /**
+       * <code>bool exposure_valid = 14;</code>
+       * @return The exposureValid.
+       */
+      @java.lang.Override
+      public boolean getExposureValid() {
+        return exposureValid_;
+      }
+      /**
+       * <code>bool exposure_valid = 14;</code>
+       * @param value The exposureValid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExposureValid(boolean value) {
+
+        exposureValid_ = value;
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool exposure_valid = 14;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExposureValid() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        exposureValid_ = false;
         onChanged();
         return this;
       }
@@ -3630,7 +3800,7 @@ public final class CvMetaOuterClass {
       "\n\024opaque/cv_meta.proto\022\003ser\032\033buf/validat" +
       "e/validate.proto\032 jon_shared_data_camera" +
       "_day.proto\032!jon_shared_data_camera_heat." +
-      "proto\032\034jon_shared_data_rotary.proto\"\211\003\n\r" +
+      "proto\032\034jon_shared_data_rotary.proto\"\272\003\n\r" +
       "CvChannelMeta\022\027\n\006pts_ns\030\001 \001(\004B\007\272H\0042\002(\000\022 " +
       "\n\017capture_time_ns\030\002 \001(\004B\007\272H\0042\002(\000\022\022\n\ngene" +
       "ration\030\003 \001(\r\022)\n\020sharpness_level0\030\004 \001(\002B\017" +
@@ -3640,17 +3810,18 @@ public final class CvMetaOuterClass {
       "H\007\222\001\004\010@\020@\022%\n\024sharpness_compute_ns\030\010 \001(\004B" +
       "\007\272H\0042\002(\000\022#\n\022sharpness_total_ns\030\t \001(\004B\007\272H" +
       "\0042\002(\000\022\027\n\017sharpness_valid\030\n \001(\010\022\023\n\013sensor" +
-      "_gain\030\013 \001(\005\022\022\n\ngain_valid\030\014 \001(\010\"\253\002\n\006CvMe" +
-      "ta\022%\n\024capture_monotonic_us\030\001 \001(\004B\007\272H\0042\002(" +
-      "\000\022\"\n\017updated_sources\030\002 \001(\rB\t\272H\006*\004\030\037(\000\022,\n" +
-      "\ncamera_day\030\003 \001(\0132\030.ser.JonGuiDataCamera" +
-      "Day\022.\n\013camera_heat\030\004 \001(\0132\031.ser.JonGuiDat" +
-      "aCameraHeat\022%\n\006rotary\030\005 \001(\0132\025.ser.JonGui" +
-      "DataRotary\022\'\n\013channel_day\030\006 \001(\0132\022.ser.Cv" +
-      "ChannelMeta\022(\n\014channel_heat\030\007 \001(\0132\022.ser." +
-      "CvChannelMetaBIZGgit-codecommit.eu-centr" +
-      "al-1.amazonaws.com/v1/repos/jettison/jon" +
-      "p/opaqueb\006proto3"
+      "_gain\030\013 \001(\005\022\022\n\ngain_valid\030\014 \001(\010\022\027\n\017senso" +
+      "r_exposure\030\r \001(\005\022\026\n\016exposure_valid\030\016 \001(\010" +
+      "\"\253\002\n\006CvMeta\022%\n\024capture_monotonic_us\030\001 \001(" +
+      "\004B\007\272H\0042\002(\000\022\"\n\017updated_sources\030\002 \001(\rB\t\272H\006" +
+      "*\004\030\037(\000\022,\n\ncamera_day\030\003 \001(\0132\030.ser.JonGuiD" +
+      "ataCameraDay\022.\n\013camera_heat\030\004 \001(\0132\031.ser." +
+      "JonGuiDataCameraHeat\022%\n\006rotary\030\005 \001(\0132\025.s" +
+      "er.JonGuiDataRotary\022\'\n\013channel_day\030\006 \001(\013" +
+      "2\022.ser.CvChannelMeta\022(\n\014channel_heat\030\007 \001" +
+      "(\0132\022.ser.CvChannelMetaBIZGgit-codecommit" +
+      ".eu-central-1.amazonaws.com/v1/repos/jet" +
+      "tison/jonp/opaqueb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3665,7 +3836,7 @@ public final class CvMetaOuterClass {
     internal_static_ser_CvChannelMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_CvChannelMeta_descriptor,
-        new java.lang.String[] { "PtsNs", "CaptureTimeNs", "Generation", "SharpnessLevel0", "SharpnessLevel1", "SharpnessLevel2", "SharpnessLevel3", "SharpnessComputeNs", "SharpnessTotalNs", "SharpnessValid", "SensorGain", "GainValid", });
+        new java.lang.String[] { "PtsNs", "CaptureTimeNs", "Generation", "SharpnessLevel0", "SharpnessLevel1", "SharpnessLevel2", "SharpnessLevel3", "SharpnessComputeNs", "SharpnessTotalNs", "SharpnessValid", "SensorGain", "GainValid", "SensorExposure", "ExposureValid", });
     internal_static_ser_CvMeta_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ser_CvMeta_fieldAccessorTable = new

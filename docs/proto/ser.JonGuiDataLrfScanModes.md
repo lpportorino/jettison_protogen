@@ -17,11 +17,11 @@ Specifies continuous scanning frequency modes for the laser rangefinder (LRF) de
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED | Unspecified/default value |
-| 1 | JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINUOUS | 1 Hz continuous scanning |
-| 2 | JON_GUI_DATA_LRF_SCAN_MODE_4_HZ_CONTINUOUS | 4 Hz continuous scanning |
-| 3 | JON_GUI_DATA_LRF_SCAN_MODE_10_HZ_CONTINUOUS | 10 Hz continuous scanning |
-| 4 | JON_GUI_DATA_LRF_SCAN_MODE_20_HZ_CONTINUOUS | 20 Hz continuous scanning |
-| 5 | JON_GUI_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS | 100 Hz continuous scanning |
-| 6 | JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_CONTINUOUS | 200 Hz continuous scanning |
+| 0 | JON_GUI_DATA_LRF_SCAN_MODE_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_LRF_SCAN_MODE_1_HZ_CONTINUOUS | - |
+| 2 | JON_GUI_DATA_LRF_SCAN_MODE_4_HZ_CONTINUOUS | - |
+| 3 | JON_GUI_DATA_LRF_SCAN_MODE_10_HZ_CONTINUOUS | - |
+| 4 | JON_GUI_DATA_LRF_SCAN_MODE_20_HZ_CONTINUOUS | - |
+| 5 | JON_GUI_DATA_LRF_SCAN_MODE_100_HZ_CONTINUOUS | - |
+| 6 | JON_GUI_DATA_LRF_SCAN_MODE_200_HZ_CONTINUOUS | - |
 

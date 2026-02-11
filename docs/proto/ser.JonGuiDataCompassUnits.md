@@ -17,9 +17,9 @@ Specifies the angular unit system for displaying compass bearing measurements. S
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | JON_GUI_DATA_COMPASS_UNITS_UNSPECIFIED | Unspecified/default value |
-| 1 | JON_GUI_DATA_COMPASS_UNITS_DEGREES | Degrees (0-360) |
-| 2 | JON_GUI_DATA_COMPASS_UNITS_MILS | NATO mils (0-6400) |
-| 3 | JON_GUI_DATA_COMPASS_UNITS_GRAD | Gradians (0-400) |
-| 4 | JON_GUI_DATA_COMPASS_UNITS_MRAD | Milliradians |
+| 0 | JON_GUI_DATA_COMPASS_UNITS_UNSPECIFIED | - |
+| 1 | JON_GUI_DATA_COMPASS_UNITS_DEGREES | - |
+| 2 | JON_GUI_DATA_COMPASS_UNITS_MILS | - |
+| 3 | JON_GUI_DATA_COMPASS_UNITS_GRAD | - |
+| 4 | JON_GUI_DATA_COMPASS_UNITS_MRAD | - |
 

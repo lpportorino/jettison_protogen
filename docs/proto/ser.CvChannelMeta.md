@@ -29,6 +29,8 @@ Per-channel CUDA IPC metadata carrying frame timing, a multi-level sharpness pyr
 | 10 | sharpness_valid | bool | - |
 | 11 | sensor_gain | int32 | - |
 | 12 | gain_valid | bool | - |
+| 13 | sensor_exposure | int32 | - |
+| 14 | exposure_valid | bool | - |
 
 
 

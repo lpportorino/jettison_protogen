@@ -498,6 +498,50 @@ public object CvChannelMetaKt {
     public fun clearGainValid() {
       _builder.clearGainValid()
     }
+
+    /**
+     * ```
+     * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+     * IMX290 range: 15-16820
+     * ```
+     *
+     * `int32 sensor_exposure = 13;`
+     */
+    public var sensorExposure: kotlin.Int
+      @JvmName("getSensorExposure")
+      get() = _builder.sensorExposure
+      @JvmName("setSensorExposure")
+      set(value) {
+        _builder.sensorExposure = value
+      }
+    /**
+     * ```
+     * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+     * IMX290 range: 15-16820
+     * ```
+     *
+     * `int32 sensor_exposure = 13;`
+     */
+    public fun clearSensorExposure() {
+      _builder.clearSensorExposure()
+    }
+
+    /**
+     * `bool exposure_valid = 14;`
+     */
+    public var exposureValid: kotlin.Boolean
+      @JvmName("getExposureValid")
+      get() = _builder.exposureValid
+      @JvmName("setExposureValid")
+      set(value) {
+        _builder.exposureValid = value
+      }
+    /**
+     * `bool exposure_valid = 14;`
+     */
+    public fun clearExposureValid() {
+      _builder.clearExposureValid()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

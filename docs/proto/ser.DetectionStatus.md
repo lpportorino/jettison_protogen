@@ -17,10 +17,10 @@ Detector-agnostic inference status codes reported by the object detection pipeli
 
 | # | Name | Description |
 |---|------|-------------|
-| 0 | DETECTION_STATUS_UNSPECIFIED | Unspecified/default value |
-| 1 | DETECTION_STATUS_OK | Detection running normally |
-| 2 | DETECTION_STATUS_NOT_READY | Detection system not ready |
-| 3 | DETECTION_STATUS_IPC_TIMEOUT | IPC communication timeout |
-| 4 | DETECTION_STATUS_INFER_FAILED | Neural network inference failed |
-| 5 | DETECTION_STATUS_ERROR | Detection system error |
+| 0 | DETECTION_STATUS_UNSPECIFIED | - |
+| 1 | DETECTION_STATUS_OK | - |
+| 2 | DETECTION_STATUS_NOT_READY | - |
+| 3 | DETECTION_STATUS_IPC_TIMEOUT | - |
+| 4 | DETECTION_STATUS_INFER_FAILED | - |
+| 5 | DETECTION_STATUS_ERROR | - |
 

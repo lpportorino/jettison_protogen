@@ -38,6 +38,12 @@ export interface CvChannelMeta {
   /** Sensor gain (day camera only; heat channel sets gain_valid=false) */
   sensorGain: number;
   gainValid: boolean;
+  /**
+   * Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+   * IMX290 range: 15-16820
+   */
+  sensorExposure: number;
+  exposureValid: boolean;
 }
 
 /**
@@ -90,6 +96,8 @@ function createBaseCvChannelMeta(): CvChannelMeta {
     sharpnessValid: false,
     sensorGain: 0,
     gainValid: false,
+    sensorExposure: 0,
+    exposureValid: false,
   };
 }
 
@@ -136,6 +144,12 @@ export const CvChannelMeta: MessageFns<CvChannelMeta> = {
     }
     if (message.gainValid !== false) {
       writer.uint32(96).bool(message.gainValid);
+    }
+    if (message.sensorExposure !== 0) {
+      writer.uint32(104).int32(message.sensorExposure);
+    }
+    if (message.exposureValid !== false) {
+      writer.uint32(112).bool(message.exposureValid);
     }
     return writer;
   },
@@ -273,6 +287,22 @@ export const CvChannelMeta: MessageFns<CvChannelMeta> = {
           message.gainValid = reader.bool();
           continue;
         }
+        case 13: {
+          if (tag !== 104) {
+            break;
+          }
+
+          message.sensorExposure = reader.int32();
+          continue;
+        }
+        case 14: {
+          if (tag !== 112) {
+            break;
+          }
+
+          message.exposureValid = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -340,6 +370,16 @@ export const CvChannelMeta: MessageFns<CvChannelMeta> = {
         : isSet(object.gain_valid)
         ? globalThis.Boolean(object.gain_valid)
         : false,
+      sensorExposure: isSet(object.sensorExposure)
+        ? globalThis.Number(object.sensorExposure)
+        : isSet(object.sensor_exposure)
+        ? globalThis.Number(object.sensor_exposure)
+        : 0,
+      exposureValid: isSet(object.exposureValid)
+        ? globalThis.Boolean(object.exposureValid)
+        : isSet(object.exposure_valid)
+        ? globalThis.Boolean(object.exposure_valid)
+        : false,
     };
   },
 
@@ -381,6 +421,12 @@ export const CvChannelMeta: MessageFns<CvChannelMeta> = {
     if (message.gainValid !== false) {
       obj.gainValid = message.gainValid;
     }
+    if (message.sensorExposure !== 0) {
+      obj.sensorExposure = Math.round(message.sensorExposure);
+    }
+    if (message.exposureValid !== false) {
+      obj.exposureValid = message.exposureValid;
+    }
     return obj;
   },
 
@@ -407,6 +453,8 @@ export const CvChannelMeta: MessageFns<CvChannelMeta> = {
     message.sharpnessValid = object.sharpnessValid ?? false;
     message.sensorGain = object.sensorGain ?? 0;
     message.gainValid = object.gainValid ?? false;
+    message.sensorExposure = object.sensorExposure ?? 0;
+    message.exposureValid = object.exposureValid ?? false;
     return message;
   },
 };
