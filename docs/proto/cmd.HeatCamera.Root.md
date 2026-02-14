@@ -67,13 +67,13 @@ Fields: #1, #2, #3, #4, #5, #6, #10, #11, #12, #13, #14, #15, #16, #17, #18, #19
 ## Interaction
 
 - **Category:** :lifecycle
-- **UI Pattern:** :tabbed-config
+- **UI Pattern:** :command-router
 - **Feedback:** :pending-timeout
 
 
 ### Purpose
 
-Root message container for all heat camera commands
+Root message container for all thermal camera commands. The frontend constructs individual command messages (zoom, focus, AGC, filters, calibration, DDE, CLAHE, FX modes, ROI operations) and wraps them in this Root message for dispatch via WebSocket to the cmd_server.
 
 
 ### Related State
@@ -81,11 +81,26 @@ Root message container for all heat camera commands
 - [[proto/ser.JonGuiDataCameraHeat]]
 
 
+### Related Commands
+
+- [[proto/cmd.HeatCamera.Zoom]] - Optical/digital zoom control
+- [[proto/cmd.HeatCamera.SetAGC]] - Automatic gain control mode
+- [[proto/cmd.HeatCamera.SetFilters]] - Thermal color filter selection
+- [[proto/cmd.HeatCamera.Start]] - Start thermal camera
+- [[proto/cmd.HeatCamera.Stop]] - Stop thermal camera
+- [[proto/cmd.HeatCamera.Calibrate]] - Trigger sensor calibration (NUC)
+- [[proto/cmd.HeatCamera.SetAutoFocus]] - Enable/disable autofocus
+- [[proto/cmd.HeatCamera.SetDDELevel]] - DDE enhancement level
+- [[proto/cmd.HeatCamera.SetClaheLevel]] - CLAHE contrast level
+- [[proto/cmd.HeatCamera.SetFxMode]] - FX processing mode
+- [[proto/cmd.HeatCamera.TrackROI]] - Track region of interest
+- [[proto/cmd.HeatCamera.ZoomROI]] - Zoom to region of interest
+- [[proto/cmd.HeatCamera.FocusROI]] - Focus on region of interest
 
 
 ### Implementation Notes
 
-This is a oneof wrapper containing all heat camera command types
+This is a oneof wrapper containing all heat camera command types. Each command function in the frontend creates a Root message with exactly one field set, then sends it via the command worker to the backend.
 
 
 

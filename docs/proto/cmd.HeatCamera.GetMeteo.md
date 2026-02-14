@@ -29,17 +29,32 @@ Requests meteorological and diagnostic data from the thermal camera module. This
 
 ### Purpose
 
-Requests meteorological/diagnostic data from thermal camera
+Request meteorological data from thermal camera sensors
 
+
+### Related State
+
+- [[proto/ser.JonGuiDataMeteo]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands
 
+- [[proto/cmd.DayCamera.GetMeteo]]
 - [[proto/cmd.Compass.GetMeteo]]
 - [[proto/cmd.Gps.GetMeteo]]
+- [[proto/cmd.Lrf.GetMeteo]]
 - [[proto/cmd.RotaryPlatform.GetMeteo]]
 
 
+### Preconditions
+
+- Thermal camera must be started
+
+
+### Implementation Notes
+
+Polling command - retrieves environmental sensor data from the thermal camera's integrated sensors. The response includes temperature, humidity, and pressure readings that are used for environmental monitoring and ranging corrections.
 
 
 

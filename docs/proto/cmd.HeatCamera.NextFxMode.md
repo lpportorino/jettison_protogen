@@ -41,12 +41,12 @@ Cycles to next FX enhancement mode
 
 - [[proto/cmd.HeatCamera.SetFxMode]]
 - [[proto/cmd.HeatCamera.PrevFxMode]]
-
+- [[proto/cmd.HeatCamera.RefreshFxMode]]
 
 
 ### Implementation Notes
 
-Cycles through image enhancement modes
+Cycles through image enhancement modes. The frontend guards against sending this command when already at MODE_HEAT_F (the last mode), preventing wrap-around at the UI level. Available modes cycle through: DEFAULT (0) -> A (1) -> B (2) -> C (3) -> D (4) -> E (5) -> F (6). Accessible via hotkey 'n' in the Heat FX Mode submenu.
 
 
 

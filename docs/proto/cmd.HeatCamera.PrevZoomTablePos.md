@@ -40,6 +40,7 @@ Move to previous position in heat camera zoom lookup table
 ### Related Commands
 
 - [[proto/cmd.HeatCamera.NextZoomTablePos]]
+- [[proto/cmd.HeatCamera.SetZoomTableValue]]
 - [[proto/cmd.HeatCamera.ResetZoom]]
 - [[proto/cmd.HeatCamera.SaveToTable]]
 

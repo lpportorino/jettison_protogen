@@ -22,7 +22,7 @@ Emergency stop command that halts all thermal camera motor movements including b
 
 ## Interaction
 
-- **Category:** :lifecycle
+- **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
@@ -41,15 +41,20 @@ Halts all thermal camera motor movements (zoom and focus)
 
 - [[proto/cmd.HeatCamera.ZoomStop]]
 - [[proto/cmd.HeatCamera.FocusStop]]
+- [[proto/cmd.HeatCamera.ZoomIn]]
+- [[proto/cmd.HeatCamera.ZoomOut]]
+- [[proto/cmd.HeatCamera.FocusIn]]
+- [[proto/cmd.HeatCamera.FocusOut]]
 
 
 ### Preconditions
 
+- Thermal camera must be started
 
 
 ### Implementation Notes
 
-Emergency stop for camera movements. No parameters.
+Emergency stop for camera movements. No parameters. This is a standalone message that stops all motor activity, unlike ZoomStop/FocusStop which target specific subsystems.
 
 
 

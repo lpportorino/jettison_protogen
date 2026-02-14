@@ -37,6 +37,9 @@ Captures a photo from the thermal camera
 - [[proto/ser.JonGuiDataLrf]]
 
 
+### Related Commands
+
+- [[proto/cmd.DayCamera.Photo]]
 
 
 ### Implementation Notes
