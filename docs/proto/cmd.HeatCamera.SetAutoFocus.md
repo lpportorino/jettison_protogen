@@ -23,14 +23,14 @@ Enables or disables automatic focus for the thermal camera. When enabled (value=
 
 ## Interaction
 
-- **Category:** :actuator
+- **Category:** :settings
 - **UI Pattern:** :toggle
 - **Feedback:** :pending-timeout
 
 
 ### Purpose
 
-Enables or disables auto-focus for thermal camera
+Enables or disables auto-focus for thermal camera. When auto-focus is enabled, the camera automatically adjusts focus based on the scene. When disabled, manual focus controls become active.
 
 
 ### Related State
@@ -41,6 +41,12 @@ Enables or disables auto-focus for thermal camera
 ### Related Commands
 
 - [[proto/cmd.CV.SetAutoFocus]]
+- [[proto/cmd.HeatCamera.FocusIn]]
+- [[proto/cmd.HeatCamera.FocusOut]]
+- [[proto/cmd.HeatCamera.FocusStepPlus]]
+- [[proto/cmd.HeatCamera.FocusStepMinus]]
+- [[proto/cmd.HeatCamera.FocusStop]]
+- [[proto/cmd.HeatCamera.FocusROI]]
 
 
 ### Preconditions
@@ -50,7 +56,7 @@ Enables or disables auto-focus for thermal camera
 
 ### Implementation Notes
 
-Used in jonFocusUi component. Part of focus control system with manual steppers and auto mode toggle.
+Used in jonFocusUi component ("TF" panel for thermal focus). The UI provides an "AF" button that triggers `heatCameraSetAutoFocusOn()` to enable auto-focus. Manual focus step buttons (+/-) provide single-step adjustments when auto-focus is disabled.
 
 
 
@@ -59,12 +65,12 @@ Used in jonFocusUi component. Part of focus control system with manual steppers 
 
 ### value (#1)
 
-Enable/disable state
+Enable/disable auto-focus state. When `true`, the thermal camera automatically adjusts focus. When `false`, manual focus controls (FocusIn, FocusOut, FocusStepPlus, FocusStepMinus) become active.
 
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :toggle-state
 
 
 
