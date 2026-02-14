@@ -59,13 +59,16 @@ Used for manual calibration adjustments.
 
 ### value (#1)
 
-Angle value in degrees
+Azimuth offset angle in degrees. Positive values rotate the reported azimuth clockwise, negative values rotate counter-clockwise. Used to compensate for physical mounting misalignment between the compass sensor and the platform's reference frame.
 
+<!-- NEEDS_REVIEW: Frontend code comment says "mils" but proto constraints (-180 to 180) suggest degrees. Verify actual unit with hardware team. -->
 
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** milliradians
+- **Unit:** degrees
+- **Precision:** 1
+- **Display Format:** `{value}°`
 
 
 

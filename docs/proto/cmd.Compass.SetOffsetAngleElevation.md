@@ -24,13 +24,13 @@ Sets the compass elevation angle offset calibration value to correct for mountin
 ## Interaction
 
 - **Category:** :settings
-- **UI Pattern:** :slider
-- **Feedback:** :pending-timeout
+- **UI Pattern:** :stepper
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Set compass elevation angle offset calibration value
+Sets compass elevation angle offset for calibration correction
 
 
 ### Related State
@@ -44,6 +44,16 @@ Set compass elevation angle offset calibration value
 - [[proto/cmd.Compass.Start]]
 
 
+### Preconditions
+
+- Compass must be started
+
+
+### Implementation Notes
+
+Used for manual calibration adjustments to correct for tilt or mounting errors.
+
+
 
 
 
@@ -52,8 +62,9 @@ Set compass elevation angle offset calibration value
 
 ### value (#1)
 
-Value (-90 to 90)
+Elevation angle offset value in the range -90 to +90. Negative values tilt the reference plane down, positive values tilt up.
 
+<!-- NEEDS_REVIEW: Proto constraints (-90 to 90) suggest degrees, but UI displays "mils". Verify actual unit with hardware team. -->
 
 #### Metadata
 

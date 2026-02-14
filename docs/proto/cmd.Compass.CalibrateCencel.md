@@ -51,7 +51,9 @@ Cancels an ongoing compass calibration process
 
 ### Implementation Notes
 
-Part of compass calibration state machine UI
+Part of compass calibration state machine UI. Invoked via `calibrateCancel()` function in frontend cmdCompass.ts.
+
+**Note**: The proto message name "CalibrateCencel" contains a typo (should be "CalibrateCancel"). This is preserved for backward compatibility.
 
 
 

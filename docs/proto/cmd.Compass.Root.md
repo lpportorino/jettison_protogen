@@ -42,27 +42,40 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 ## Interaction
 
-- **Category:** :lifecycle
+- **Category:** :settings
 - **UI Pattern:** :state-machine-menu
 - **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Root message container for compass/magnetometer commands
+Root command container that dispatches to compass/magnetometer sub-commands. Routes lifecycle commands (start/stop), calibration workflow commands, and configuration settings to the compass module. The compass provides azimuth/elevation readings for system orientation.
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompass]]
-- [[proto/ser.JonGuiDataCompassCalibration]]
+- [[proto/ser.JonGuiDataCompass]] - Current compass readings (azimuth, elevation, isStarted)
+- [[proto/ser.JonGuiDataCompassCalibration]] - Calibration status and progress
 
 
+### Related Commands
+
+- [[proto/cmd.Compass.Start]] - Start compass sensor
+- [[proto/cmd.Compass.Stop]] - Stop compass sensor
+- [[proto/cmd.Compass.CalibrateStartLong]] - Begin long calibration procedure
+- [[proto/cmd.Compass.CalibrateStartShort]] - Begin short calibration procedure
+- [[proto/cmd.Compass.CalibrateNext]] - Advance to next calibration step
+- [[proto/cmd.Compass.CalibrateCencel]] - Cancel ongoing calibration
+- [[proto/cmd.Compass.SetMagneticDeclination]] - Set magnetic declination offset
+- [[proto/cmd.Compass.SetOffsetAngleAzimuth]] - Set azimuth offset angle
+- [[proto/cmd.Compass.SetOffsetAngleElevation]] - Set elevation offset angle
+- [[proto/cmd.Compass.SetUseRotaryPosition]] - Toggle rotary position usage
+- [[proto/cmd.Compass.GetMeteo]] - Request meteo data from compass sensor
 
 
 ### Implementation Notes
 
-Oneof wrapper containing start, stop, setMagneticDeclination, setOffsetAngleAzimuth, setOffsetAngleElevation, calibration commands, etc.
+Oneof wrapper routing commands through cmd_server to the compass module. Commands are dispatched based on which field is set in the oneof. The compass module communicates with hardware via CAN bus (IDs 0x304/0x305 TX, 0x314/0x315 RX).
 
 
 
@@ -71,57 +84,72 @@ Oneof wrapper containing start, stop, setMagneticDeclination, setOffsetAngleAzim
 
 ### start (#1)
 
-See [[proto/cmd.Compass.Start]]
+Start the compass sensor. Powers on the magnetometer hardware and begins providing azimuth/elevation readings. See [[proto/cmd.Compass.Start]].
 
+- **Semantic Type:** :action
 
 ### stop (#2)
 
-See [[proto/cmd.Compass.Stop]]
+Stop the compass sensor. Powers down the magnetometer hardware. See [[proto/cmd.Compass.Stop]].
 
+- **Semantic Type:** :action
 
 ### set_magnetic_declination (#3)
 
-See [[proto/cmd.Compass.SetMagneticDeclination]]
+Configure magnetic declination compensation. Adjusts compass readings to account for the difference between magnetic and true north at the current location. See [[proto/cmd.Compass.SetMagneticDeclination]].
 
+- **Semantic Type:** :angle
 
 ### set_offset_angle_azimuth (#4)
 
-See [[proto/cmd.Compass.SetOffsetAngleAzimuth]]
+Set azimuth offset angle in mils. Compensates for physical mounting orientation. See [[proto/cmd.Compass.SetOffsetAngleAzimuth]].
 
+- **Semantic Type:** :angle
 
 ### set_offset_angle_elevation (#5)
 
-See [[proto/cmd.Compass.SetOffsetAngleElevation]]
+Set elevation offset angle in mils. Compensates for physical mounting tilt. See [[proto/cmd.Compass.SetOffsetAngleElevation]].
 
+- **Semantic Type:** :angle
 
 ### set_use_rotary_position (#6)
 
-See [[proto/cmd.Compass.SetUseRotaryPosition]]
+Toggle whether compass uses rotary turret position data for enhanced accuracy. When enabled, combines magnetometer readings with rotary encoder data. See [[proto/cmd.Compass.SetUseRotaryPosition]].
+
+- **Semantic Type:** :toggle-state
 
 
 ### start_calibrate_long (#7)
 
-Longitude in decimal degrees
+Initiates the long (full) calibration procedure. Requires rotating the device in all directions to collect magnetometer samples. Monitor progress via [[proto/ser.JonGuiDataCompassCalibration]].
+
+- **Semantic Type:** :action
 
 
 ### start_calibrate_short (#8)
 
-See [[proto/cmd.Compass.CalibrateStartShort]]
+Initiates a short (quick) calibration procedure. Less comprehensive than long calibration but faster. See [[proto/cmd.Compass.CalibrateStartShort]].
 
+- **Semantic Type:** :action
 
 ### calibrate_next (#9)
 
-See [[proto/cmd.Compass.CalibrateNext]]
+Advances to the next step in an active calibration procedure. Used during multi-step calibration workflows. See [[proto/cmd.Compass.CalibrateNext]].
 
+- **Semantic Type:** :action
 
 ### calibrate_cencel (#10)
 
-See [[proto/cmd.Compass.CalibrateCencel]]
+Cancels an ongoing calibration procedure. Aborts the calibration workflow without saving results. See [[proto/cmd.Compass.CalibrateCencel]].
 
+- **Semantic Type:** :action
+<!-- NEEDS_REVIEW: Field name "calibrate_cencel" appears to be a typo for "calibrate_cancel" -->
 
 ### get_meteo (#11)
 
-See [[proto/cmd.Compass.GetMeteo]]
+Request meteorological data from the compass sensor. The compass module includes internal temperature, pressure, and humidity sensors. See [[proto/cmd.Compass.GetMeteo]].
+
+- **Semantic Type:** :action
 
 
 
