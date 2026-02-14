@@ -47,7 +47,9 @@ Controls digital zoom magnification level for day camera
 
 ### Implementation Notes
 
-Can be synchronized with heat camera digital zoom via UI sync toggle
+- Can be synchronized with heat camera digital zoom via UI sync toggle
+- Frontend uses 2000ms timeout for pending state confirmation
+- Value is applied in GPU FX pipeline PRE stage (before encoding)
 
 
 
@@ -56,15 +58,17 @@ Can be synchronized with heat camera digital zoom via UI sync toggle
 
 ### value (#1)
 
-Numeric value
+Digital zoom magnification factor. Minimum is 1.0 (no magnification), maximum is 6.0 (6x magnification). Applied as software zoom in the GPU FX pipeline after optical zoom.
 
 
 #### Metadata
 
-- **Semantic Type:** :normalized
+- **Semantic Type:** :multiplier
 - **Unit:** x
-- **Precision:** 2
+- **Precision:** 1
 - **Display Format:** `{value}x`
+- **Range:** 1.0 - 6.0
+- **Step:** 0.5
 
 
 

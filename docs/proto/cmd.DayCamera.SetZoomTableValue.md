@@ -24,13 +24,14 @@ Sets the day camera to a specific zoom table position by index value. This comma
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :slider
-- **Feedback:** :fire-and-forget
+- **UI Pattern:** :enum-picker
+- **Feedback:** :pending-timeout
+- **Timeout:** 2000ms
 
 
 ### Purpose
 
-Sets day camera zoom to specific table position
+Sets day camera zoom to specific table position by index. The zoom table contains predefined optical magnification levels (typically 5 levels labeled I through V for the day camera). This command allows direct selection of a table entry rather than stepping through with Next/Prev commands.
 
 
 ### Related State
@@ -42,11 +43,18 @@ Sets day camera zoom to specific table position
 
 - [[proto/cmd.DayCamera.NextZoomTablePos]]
 - [[proto/cmd.DayCamera.PrevZoomTablePos]]
+- [[proto/cmd.DayCamera.SaveToTable]]
 
 
 ### Preconditions
 
 - Day camera must be started
+- Index must be within range [0, zoomTablePosMax]
+
+
+### Implementation Notes
+
+Typically used in zoom palette UI where users can click directly on preset buttons (I, II, III, IV, V) rather than stepping through. When cameras are synced, both day and heat cameras receive the same zoom table index. The pending state clears after 2 seconds or when the state confirms the new position.
 
 
 
@@ -56,12 +64,13 @@ Sets day camera zoom to specific table position
 
 ### value (#1)
 
-Normalized value (0.0 to 1.0)
+Zero-based index into the camera's zoom table. Valid range is 0 to zoomTablePosMax (typically 0-4 for day camera with 5 preset levels). Each index corresponds to a predefined optical magnification level.
 
 
 #### Metadata
 
 - **Semantic Type:** :count
+- **Unit:** (index)
 - **Precision:** 0
 
 

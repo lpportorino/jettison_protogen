@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Sets the day camera's image processing FX mode to a specific preset (DAY_A for daytime, DAY_B for dusk, or DAY_C for fog conditions). Each mode applies predefined color and exposure settings optimized for different environmental lighting conditions to enhance video quality.
+Sets the day camera's image processing FX mode to a specific preset. Each mode applies predefined color, contrast, and exposure settings optimized for different environmental lighting conditions to enhance video quality. The UI presents modes A-C with human-readable labels (Daytime, Dusk, Fog), while modes D-F are available for additional presets displayed as VF:IV through VF:VI.
 
 ## Fields
 
@@ -25,12 +25,12 @@ Sets the day camera's image processing FX mode to a specific preset (DAY_A for d
 
 - **Category:** :settings
 - **UI Pattern:** :enum-picker
-- **Feedback:** :pending-timeout
+- **Feedback:** :pending-timeout (2s)
 
 
 ### Purpose
 
-Set day camera image processing FX mode preset (daytime/dusk/fog)
+Explicitly set day camera FX mode by enum value; provides direct mode selection versus cycling with Next/PrevFxMode
 
 
 ### Related State
@@ -57,14 +57,15 @@ Set day camera image processing FX mode preset (daytime/dusk/fog)
 
 ### mode (#1)
 
-Operating mode
+Target FX processing mode for the day camera video pipeline
 
 
 #### Metadata
 
 - **Semantic Type:** :enum-label
 - **Display Format:** `{mode}`
-- **Presets:** DAY_A, DAY_B, DAY_C
+- **Presets:** DAY_A (Daytime/VF:I), DAY_B (Dusk/VF:II), DAY_C (Fog/VF:III), DAY_D (VF:IV), DAY_E (VF:V), DAY_F (VF:VI)
+- **Note:** DEFAULT (0) is excluded by validation constraint
 
 
 

@@ -25,6 +25,7 @@ Starts the day camera module, initiating video streaming and enabling camera con
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
+- **Timeout:** 2000ms
 
 
 ### Purpose

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Enables or disables the infrared filter on the day camera to block IR light for better color reproduction in visible light conditions. This fire-and-forget toggle command switches the physical IR-cut filter state with a boolean flag.
+Enables or disables the infrared filter on the day camera to block IR light for better color reproduction in visible light conditions. The UI displays a pending state until the camera confirms the filter position change (typically within 2 seconds).
 
 ## Fields
 
@@ -25,17 +25,23 @@ Enables or disables the infrared filter on the day camera to block IR light for 
 
 - **Category:** :actuator
 - **UI Pattern:** :toggle
-- **Feedback:** :fire-and-forget
+- **Feedback:** :pending-timeout
+- **Timeout:** 2000ms
 
 
 ### Purpose
 
-Enable or disable infrared filter on day camera
+Enable or disable infrared filter on day camera. When enabled (true), the IR-cut filter blocks infrared light for accurate color reproduction in daylight. When disabled (false), infrared light passes through, improving low-light/night vision sensitivity at the cost of color accuracy.
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]] - `infraredFilter` field reflects current filter state
+
+
+### Related Commands
+
+- [[proto/cmd.DayCamera.Start]] - Camera must be started before controlling IR filter
 
 
 
@@ -47,13 +53,13 @@ Enable or disable infrared filter on day camera
 
 ### value (#1)
 
-Enable/disable state
+Controls the IR-cut filter state. `true` enables the filter (blocks IR light, normal daylight operation), `false` disables it (passes IR light, enhanced low-light sensitivity).
 
 
 #### Metadata
 
 - **Semantic Type:** :toggle-state
-- **Display Format:** `Boolean flag`
+- **Display Format:** `Enabled/Disabled`
 
 
 
