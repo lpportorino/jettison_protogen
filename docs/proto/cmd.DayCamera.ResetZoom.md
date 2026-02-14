@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Resets the day camera's optical zoom to its default position (typically 1x or minimum zoom). This fire-and-forget command is triggered via an action button in the UI zoom control panel and requires the day camera to be started before execution.
+Resets the day camera's optical zoom to its default position (typically 1x or minimum zoom). Triggered via an action button in the UI zoom control panel with a 2-second pending timeout while waiting for confirmation. The UI monitors `zoomPos` in state to detect completion before the timeout expires.
 
 ## Fields
 
@@ -24,22 +24,27 @@ Resets the day camera's optical zoom to its default position (typically 1x or mi
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
-- **Feedback:** :fire-and-forget
+- **Feedback:** :pending-timeout
+- **Timeout:** 2000ms
 
 
 ### Purpose
 
-Resets day camera zoom to default position
+Resets day camera zoom to default position (typically 1x or minimum zoom). Used as a quick way to return to wide-angle view.
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]] - provides `zoomPos` field to confirm reset completion
 
 
 ### Related Commands
 
-- [[proto/cmd.DayCamera.SetZoomTableValue]]
+- [[proto/cmd.DayCamera.Zoom]] - parent wrapper message
+- [[proto/cmd.DayCamera.Halt]] - stops zoom motor movement
+- [[proto/cmd.DayCamera.Offset]] - incremental zoom adjustment
+- [[proto/cmd.DayCamera.SaveToTable]] - saves current zoom position
+- [[proto/cmd.DayCamera.SetZoomTableValue]] - sets zoom to table entry
 
 
 ### Preconditions

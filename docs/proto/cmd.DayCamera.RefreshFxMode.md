@@ -37,6 +37,11 @@ Refresh current FX mode on day camera
 - [[proto/ser.JonGuiDataCameraDay]]
 
 
+### Related Commands
+
+- [[proto/cmd.DayCamera.SetFxMode]]
+- [[proto/cmd.DayCamera.NextFxMode]]
+- [[proto/cmd.DayCamera.PrevFxMode]]
 
 
 ### Implementation Notes

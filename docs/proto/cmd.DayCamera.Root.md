@@ -54,13 +54,15 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 ## Interaction
 
 - **Category:** :lifecycle
-- **UI Pattern:** :state-machine-menu
+- **UI Pattern:** :command-router
 - **Feedback:** :fire-and-forget
+- **Related State:** ser.JonGuiDataCameraDay
+- **Related Commands:** cmd.HeatCamera.Root (thermal equivalent)
 
 
 ### Purpose
 
-Root container for all day camera commands
+Root container for all day camera commands. Frontend creates Root instances with exactly one sub-command field set, then assigns to `rootMsg.dayCamera` before sending via WebSocket/WebTransport to cmd_server.
 
 
 
@@ -92,7 +94,7 @@ See [[proto/cmd.DayCamera.SetIris]]
 
 ### set_infra_red_filter (#4)
 
-Thermal image color filter
+Controls the infrared cut filter on the day camera. When enabled, blocks near-IR light for accurate color reproduction; when disabled, allows IR sensitivity for low-light operation.
 
 
 ### start (#5)
@@ -122,17 +124,15 @@ See [[proto/cmd.DayCamera.HaltAll]]
 
 ### set_fx_mode (#10)
 
-Image processing effects mode
-
+Sets the image processing effects mode explicitly by value. Uses JonGuiDataFxModeDay enum.
 
 ### next_fx_mode (#11)
 
-Image processing effects mode
-
+Cycles to the next FX mode in sequence. Fire-and-forget action button.
 
 ### prev_fx_mode (#12)
 
-Image processing effects mode
+Cycles to the previous FX mode in sequence. Fire-and-forget action button.
 
 
 ### get_meteo (#13)
@@ -142,22 +142,20 @@ See [[proto/cmd.DayCamera.GetMeteo]]
 
 ### refresh_fx_mode (#14)
 
-Image processing effects mode
+Reloads the current FX mode parameters from Redis without changing the mode. Used after config changes.
 
 
 ### set_digital_zoom_level (#15)
 
-Digital zoom multiplier
-
+Sets the digital zoom multiplier applied in the GPU FX pipeline (PRE stage). Separate from optical zoom.
 
 ### set_clahe_level (#16)
 
-CLAHE contrast enhancement level (0.0 to 1.0)
-
+Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) level absolutely. Value range 0.0 to 1.0.
 
 ### shift_clahe_level (#17)
 
-CLAHE contrast enhancement level (0.0 to 1.0)
+Adjusts the CLAHE level by a relative delta. Useful for increment/decrement controls.
 
 
 ### focus_roi (#18)

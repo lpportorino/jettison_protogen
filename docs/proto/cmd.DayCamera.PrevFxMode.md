@@ -41,6 +41,7 @@ Cycle to previous FX mode (visual effect) for day camera
 
 - [[proto/cmd.DayCamera.NextFxMode]]
 - [[proto/cmd.DayCamera.SetFxMode]]
+- [[proto/cmd.DayCamera.RefreshFxMode]]
 
 
 

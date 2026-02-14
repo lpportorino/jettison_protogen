@@ -40,6 +40,9 @@ Reset focus to default/home position
 ### Related Commands
 
 - [[proto/cmd.DayCamera.Focus]]
+- [[proto/cmd.DayCamera.FocusROI]]
+- [[proto/cmd.DayCamera.Halt]]
+- [[proto/cmd.DayCamera.SaveToTableFocus]]
 
 
 

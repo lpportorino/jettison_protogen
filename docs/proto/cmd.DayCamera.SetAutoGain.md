@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Enables or disables automatic gain control (AGC) for the day camera. When enabled, the camera automatically adjusts hardware gain to optimize brightness based on scene lighting. Exposed in the UI as a toggle control with fire-and-forget feedback.
+Enables or disables automatic gain control (AGC) for the day camera. When enabled, the camera automatically adjusts hardware gain to optimize brightness based on scene lighting. Exposed in the UI as a toggle control with pending-timeout feedback (waits up to 2 seconds for state confirmation).
 
 ## Fields
 
@@ -25,7 +25,8 @@ Enables or disables automatic gain control (AGC) for the day camera. When enable
 
 - **Category:** :settings
 - **UI Pattern:** :toggle
-- **Feedback:** :fire-and-forget
+- **Feedback:** :pending-timeout
+- **Timeout:** 2000ms
 
 
 ### Purpose
@@ -35,7 +36,22 @@ Enable or disable automatic gain control for day camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]] (autoGain field)
+
+
+### Related Commands
+
+- [[proto/cmd.DayCamera.SetAutoIris]]
+
+
+### Preconditions
+
+- Day camera started
+
+
+### Implementation Notes
+
+When enabled, camera automatically adjusts hardware gain to optimize brightness based on scene lighting. Works alongside auto-iris for full automatic exposure control.
 
 
 
