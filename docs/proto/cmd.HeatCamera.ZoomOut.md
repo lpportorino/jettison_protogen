@@ -49,5 +49,12 @@ Decrease heat camera zoom level (zoom out/wider field of view)
 - Heat camera must be started
 
 
+### Notes
 
+- Triggered by pinch-out gesture on touchscreen (spreading two fingers apart)
+- Also triggered by mouse wheel scroll down in the video viewport
+- UI button labeled "Zoom Out" sends this command on mousedown
+- Must be paired with [[proto/cmd.HeatCamera.ZoomStop]] on mouseup/touchend to halt zoom
+- Frontend uses `heatCameraZoomOut()` function from `cmdHeatCamera.ts`
+- When cameras are synced, both day and heat cameras zoom together
 

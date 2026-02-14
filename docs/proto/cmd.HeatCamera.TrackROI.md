@@ -40,24 +40,29 @@ Defines region for object tracking on thermal camera
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]] - Heat camera state
+- [[proto/ser.JonGUIState]] - For `systemMonotonicTimeUs` used in `state_time`
 
 
 ### Related Commands
 
-- [[proto/cmd.DayCamera.TrackROI]]
-- [[proto/cmd.CV.StartTrackNDC]]
+- [[proto/cmd.DayCamera.TrackROI]] - Equivalent command for day camera
+- [[proto/cmd.CV.StartTrackNDC]] - Point-based tracking (used when user taps instead of drawing rectangle)
+- [[proto/cmd.HeatCamera.ZoomROI]] - Zoom to region instead of track
+- [[proto/cmd.HeatCamera.FocusROI]] - Focus on region instead of track
 
 
 ### Preconditions
 
-- Camera must be started
-- User draws rectangle or taps on video overlay
+- Camera must be started and streaming video
+- System state must be available (non-zero `systemMonotonicTimeUs`)
+- Frame data must be available from video stream
+- User draws rectangle on thermal video overlay (triggers TrackROI)
 
 
 ### Implementation Notes
 
-Uses trackingOverlay component with green theme. Rectangle selection for ROI-based tracking or point selection for CV-based tracking.
+Uses `<tracking-overlay>` Lit component with green theme (`#00ff88`). Rectangle selection (pan gesture) triggers TrackROI, while point selection (tap gesture) triggers CV.StartTrackNDC instead. The overlay converts screen percentage coordinates [0-100] to NDC [-1, 1] via `normalizeROI()`. State time is validated before sending - command is rejected if state has not been received yet.
 
 
 
@@ -110,7 +115,7 @@ Bottom edge in NDC (-1.0 to 1.0)
 
 ### frame_time (#5)
 
-Frame timestamp for synchronization
+Timestamp of the video frame displayed when user initiated tracking. Retrieved from `DeviceStateDispatch.getHeatFrameData().timestamp`. Used for frame-to-action correlation.
 
 
 #### Metadata
@@ -121,7 +126,7 @@ Frame timestamp for synchronization
 
 ### state_time (#6)
 
-State snapshot timestamp for synchronization
+System monotonic time from the state snapshot when the user performed the action. Retrieved from `DeviceStateDispatch.getSystemMonotonicTimeUs()`. Used to correlate tracking intent with system state at that moment. <!-- NEEDS_REVIEW: Proto comment says "microseconds" but metadata says "nanoseconds" - verify actual unit convention -->
 
 
 #### Metadata

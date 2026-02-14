@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Initiates continuous zoom-in motion on the thermal camera. This parameterless command starts increasing magnification and requires a ZoomStop command to halt the operation, using a press-accelerating UI pattern for smooth zoom control.
+Initiates continuous zoom-in motion on the thermal camera. This parameterless command starts increasing magnification and requires a ZoomStop command to halt the operation. Used in the frontend for button press-and-hold interactions where zoom continues while the button is pressed, then stops when released via ZoomStop. For discrete step-based zooming (e.g., mouse wheel or tap), use the Zoom.NextZoomTablePos command instead.
 
 ## Fields
 
@@ -39,14 +39,16 @@ Start zooming heat camera in (continuous motion)
 
 ### Related Commands
 
-- [[proto/cmd.HeatCamera.ZoomOut]]
-- [[proto/cmd.HeatCamera.ZoomStop]]
+- [[proto/cmd.HeatCamera.ZoomOut]] - Continuous zoom out (requires ZoomStop)
+- [[proto/cmd.HeatCamera.ZoomStop]] - Stops continuous zoom motion
+- [[proto/cmd.HeatCamera.Zoom.NextZoomTablePos]] - Discrete step zoom in (preferred for mouse wheel/gestures)
+- [[proto/cmd.HeatCamera.Zoom.PrevZoomTablePos]] - Discrete step zoom out
 
 
 
 ### Implementation Notes
 
-Continuous zoom command, requires ZoomStop to halt
+Continuous zoom command, requires ZoomStop to halt. In the frontend, this is primarily used by the control panel's zoom buttons (e.g., HCamZoomIn) with mousedown/mouseup event handlers that call ZoomIn on press and ZoomStop on release. The pinch-to-zoom and mouse wheel gestures use the discrete NextZoomTablePos/PrevZoomTablePos commands instead for better control.
 
 
 
