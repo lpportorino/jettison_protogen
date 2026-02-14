@@ -31,9 +31,11 @@ Sets the X and Y laser rangefinder calibration offsets for either day or thermal
 
 ### Purpose
 
-Sets LRF calibration offsets for alignment with camera view
+Sets the absolute X and Y pixel offsets for aligning the LRF crosshair with the camera view. The command is routed to either the day or thermal camera channel via the parent `Lrf_calib.Offsets` message. Offsets are applied to the crosshair overlay in the video stream, positioning the crosshair at (center + offset) coordinates.
 
+### Related State
 
+- [[proto/ser.JonGuiDataRecOsd]] - Exposes `dayCrosshairOffsetHorizontal`, `dayCrosshairOffsetVertical`, `heatCrosshairOffsetHorizontal`, `heatCrosshairOffsetVertical` fields reflecting current offsets
 
 ### Related Commands
 
@@ -43,9 +45,14 @@ Sets LRF calibration offsets for alignment with camera view
 
 
 
+### Preconditions
+
+- Camera (day or heat) must be started
+- LRF module must be initialized
+
 ### Implementation Notes
 
-Separate calibration offsets for day and heat channels
+Separate calibration offsets are maintained for day and heat channels. The offset values are stored per zoom level to account for optical parallax at different magnifications. The frontend uses `lrfCalibSetDayOffsets(x, y)` or `lrfCalibSetHeatOffsets(x, y)` to send this command. Changes are immediately reflected in the `recOsd` state and the crosshair overlay updates accordingly.
 
 
 
@@ -54,24 +61,22 @@ Separate calibration offsets for day and heat channels
 
 ### x (#1)
 
-Temperature in degrees Celsius
-
+Horizontal pixel offset from frame center. Positive values shift the crosshair right, negative values shift left. The constraint range [-1920, 1920] covers the full width of the day camera frame (1920x1080), while heat camera frames are 900x720.
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :coordinate-viewport
 - **Unit:** px
 - **Display Format:** `{value}px`
 
 
 ### y (#2)
 
-Temperature in degrees Celsius
-
+Vertical pixel offset from frame center. Positive values shift the crosshair down, negative values shift up. The constraint range [-1080, 1080] covers the full height of the day camera frame.
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :coordinate-viewport
 - **Unit:** px
 - **Display Format:** `{value}px`
 

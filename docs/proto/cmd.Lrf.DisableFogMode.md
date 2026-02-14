@@ -24,7 +24,7 @@ Disables fog mode for LRF distance measurement, causing the laser rangefinder to
 
 - **Category:** :settings
 - **UI Pattern:** :toggle
-- **Feedback:** :pending-timeout
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -46,6 +46,11 @@ Disable LRF fog mode for normal atmospheric conditions
 ### Preconditions
 
 - LRF must be started
+
+
+### Implementation Notes
+
+Fog mode toggle is exposed in the frontend via `toggleFogMode()` hotkey command (L+F). The state is tracked in `ser.JonGuiDataLrf.fogModeEnabled` boolean field. Standard measurement mode uses higher visibility wavelength, while fog mode uses lower visibility wavelength optimized for adverse weather.
 
 
 
