@@ -29,8 +29,8 @@ Focuses the thermal camera on a user-selected rectangular region of interest (RO
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :action-button
-- **Feedback:** :fire-and-forget
+- **UI Pattern:** :roi-selection
+- **Feedback:** :pending-timeout
 
 
 ### Purpose
@@ -61,42 +61,42 @@ User draws rectangle on video to select focus area
 
 ### x1 (#1)
 
-Left edge in NDC (-1.0 to 1.0)
+Left edge of focus region in NDC (-1.0 to 1.0). Together with x2, defines the horizontal bounds of the region where autofocus will be performed.
 
 
 #### Metadata
 
-- **Semantic Type:** :coordinate-geo
+- **Semantic Type:** :coordinate-viewport
 
 
 ### y1 (#2)
 
-Top edge in NDC (-1.0 to 1.0)
+Top edge of focus region in NDC (-1.0 to 1.0). Together with y2, defines the vertical bounds of the region where autofocus will be performed.
 
 
 #### Metadata
 
-- **Semantic Type:** :coordinate-geo
+- **Semantic Type:** :coordinate-viewport
 
 
 ### x2 (#3)
 
-Right edge in NDC (-1.0 to 1.0)
+Right edge of focus region in NDC (-1.0 to 1.0). Together with x1, defines the horizontal bounds of the region where autofocus will be performed.
 
 
 #### Metadata
 
-- **Semantic Type:** :coordinate-geo
+- **Semantic Type:** :coordinate-viewport
 
 
 ### y2 (#4)
 
-Bottom edge in NDC (-1.0 to 1.0)
+Bottom edge of focus region in NDC (-1.0 to 1.0). Together with y1, defines the vertical bounds of the region where autofocus will be performed.
 
 
 #### Metadata
 
-- **Semantic Type:** :coordinate-geo
+- **Semantic Type:** :coordinate-viewport
 
 
 ### frame_time (#5)

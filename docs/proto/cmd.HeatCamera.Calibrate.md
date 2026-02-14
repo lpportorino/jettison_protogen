@@ -22,14 +22,14 @@ Triggers a Non-Uniformity Correction (NUC) calibration cycle on the thermal came
 
 ## Interaction
 
-- **Category:** :actuator
+- **Category:** :diagnostic <!-- Sensor calibration is a diagnostic/maintenance operation -->
 - **UI Pattern:** :action-button
-- **Feedback:** :fire-and-forget
+- **Feedback:** :fire-and-forget <!-- Frontend uses simple button click without pending state -->
 
 
 ### Purpose
 
-Trigger thermal camera calibration cycle
+Trigger thermal camera NUC (Non-Uniformity Correction) calibration cycle to compensate for pixel-to-pixel sensor variations and improve image accuracy.
 
 
 ### Related State
@@ -37,11 +37,18 @@ Trigger thermal camera calibration cycle
 - [[proto/ser.JonGuiDataCameraHeat]]
 
 
+### Related Commands
+
+- [[proto/cmd.HeatCamera.Start]] - Camera must be started before calibration
+- [[proto/cmd.HeatCamera.Stop]]
 
 
 ### Implementation Notes
 
-Performs NUC (Non-Uniformity Correction) calibration
+- Performs NUC (Non-Uniformity Correction) calibration
+- Exposed in UI via "Calibrate" button in the thermal camera sensor controls palette (`jonHeatCalibratePalette`)
+- Also available as hotkey command (`calibrateHeatCamera`)
+- Parameterless fire-and-forget command - no confirmation or status feedback in current UI
 
 
 

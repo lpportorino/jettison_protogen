@@ -23,29 +23,39 @@ Disables Digital Detail Enhancement (DDE) on the thermal camera. This parameterl
 ## Interaction
 
 - **Category:** :settings
-- **UI Pattern:** :toggle
-- **Feedback:** :fire-and-forget
+- **UI Pattern:** :action-button
+- **Feedback:** :pending-timeout
+- **Timeout:** 2000ms
 
 
 ### Purpose
 
-Disables DDE (Digital Detail Enhancement) on thermal camera
+Disables DDE (Digital Detail Enhancement) on thermal camera, turning off edge detail enhancement in the thermal image output.
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]] - `ddeEnabled` and `ddeLevel` fields reflect DDE status
 
 
 ### Related Commands
 
-- [[proto/cmd.HeatCamera.EnableDDE]]
-- [[proto/cmd.HeatCamera.SetDDELevel]]
+- [[proto/cmd.HeatCamera.EnableDDE]] - Enables DDE processing
+- [[proto/cmd.HeatCamera.SetDDELevel]] - Sets DDE intensity (0-255)
+- [[proto/cmd.HeatCamera.ShiftDDE]] - Incrementally adjusts DDE level
 
 
 ### Preconditions
 
 - Heat camera must be started
+- DDE must currently be enabled (command is idempotent but typically called when toggling off)
+
+
+### UI Integration
+
+- Toggle button in `jon-dde-ui` component under "Digital Detail Enhancement" card
+- Keyboard shortcut: `t` key in transient DDE overlay (`jon-transient-dde-overlay`)
+- Button shows pending state during the 2s timeout while awaiting state confirmation
 
 
 
