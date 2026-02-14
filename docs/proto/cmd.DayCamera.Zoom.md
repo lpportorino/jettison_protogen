@@ -42,22 +42,25 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9
 
 - **Category:** :actuator
 - **UI Pattern:** :slider-with-steppers
-- **Feedback:** :optimistic-visual
+- **Feedback:** :pending-timeout
+- **Timeout (ms):** 2000
 
 
 ### Purpose
 
-Controls day camera optical zoom through various methods
+Controls day camera optical zoom through various methods: direct value setting, continuous movement with speed control, table-based preset positions, fine offset adjustment, and persistence to zoom table.
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]] - `zoomPos` field reflects current normalized zoom position (0.0-1.0)
 
 
 ### Related Commands
 
-- [[proto/cmd.DayCamera.Focus]]
+- [[proto/cmd.DayCamera.Focus]] - Related lens control with parallel structure
+- [[proto/cmd.DayCamera.SetDigitalZoomLevel]] - Digital zoom (post-capture scaling, separate from optical)
+- [[proto/cmd.HeatCamera.Zoom]] - Thermal camera zoom (often synced with day camera via UI toggle)
 
 
 ### Preconditions
@@ -67,7 +70,18 @@ Controls day camera optical zoom through various methods
 
 ### Implementation Notes
 
-Composite message supporting multiple zoom control patterns: absolute value, continuous move, halt, table positions, offset, reset
+The frontend provides three zoom UI components:
+
+1. **jon-zoom-ui**: Dual-camera zoom panel with sync toggle
+   - `setZoomTableValue(index)` for preset positions (1-4)
+   - Optional sync mode applies zoom to both day and heat cameras simultaneously
+
+2. **jon-day-zoom-mover**: Fine zoom control with step sizes
+   - Uses `offset` for step adjustments (0.001% to 10% of range)
+   - Save button calls `saveToTable` to persist position
+   - Reset button calls `resetZoom` to restore table value
+
+3. **Mouse wheel/hotkey zoom**: Quick zoom in/out via `offset` commands
 
 
 
@@ -76,47 +90,47 @@ Composite message supporting multiple zoom control patterns: absolute value, con
 
 ### set_value (#1)
 
-See [[proto/cmd.DayCamera.SetValue]]
+Direct absolute positioning of optical zoom. See [[proto/cmd.DayCamera.SetValue]] for normalized value constraints (0.0-1.0).
 
 
 ### move (#2)
 
-See [[proto/cmd.DayCamera.Move]]
+Continuous movement toward target position at specified speed. Used for press-and-hold zoom adjustment with ramping acceleration. See [[proto/cmd.DayCamera.Move]].
 
 
 ### halt (#3)
 
-See [[proto/cmd.DayCamera.Halt]]
+Immediately stops zoom motor movement. Called on button release after move commands. See [[proto/cmd.DayCamera.Halt]].
 
 
 ### set_zoom_table_value (#4)
 
-See [[proto/cmd.DayCamera.SetZoomTableValue]]
+Jump to a preset zoom position by table index. The zoom table contains 4 preset positions. See [[proto/cmd.DayCamera.SetZoomTableValue]].
 
 
 ### next_zoom_table_pos (#5)
 
-Current zoom table position
+Increment to the next zoom table position (cycles through 4 presets). See [[proto/cmd.DayCamera.NextZoomTablePos]].
 
 
 ### prev_zoom_table_pos (#6)
 
-Current zoom table position
+Decrement to the previous zoom table position (cycles through 4 presets). See [[proto/cmd.DayCamera.PrevZoomTablePos]].
 
 
 ### offset (#7)
 
-Step offset value
+Relative step adjustment for fine zoom control. Frontend uses step sizes from 0.00001 (0.001%) to 0.1 (10%) of the full range. See [[proto/cmd.DayCamera.Offset]].
 
 
 ### reset_zoom (#8)
 
-See [[proto/cmd.DayCamera.ResetZoom]]
+Restores zoom to the value stored in the zoom lookup table for the current table position. See [[proto/cmd.DayCamera.ResetZoom]].
 
 
 ### save_to_table (#9)
 
-See [[proto/cmd.DayCamera.SaveToTable]]
+Saves current zoom position to the zoom lookup table at the current table index. Enables custom preset positions. See [[proto/cmd.DayCamera.SaveToTable]].
 
 
 

@@ -33,6 +33,12 @@ Requests meteorological/diagnostic data from GPS module
 
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataGps]] - Contains `meteo` field (JonGuiDataMeteo) with response data
+- [[proto/ser.JonGuiDataMeteo]] - Temperature, humidity, and pressure readings
+
+
 ### Related Commands
 
 - [[proto/cmd.Compass.GetMeteo]]

@@ -26,19 +26,23 @@ Sets a manual GPS position override with specified latitude, longitude, and alti
 ## Interaction
 
 - **Category:** :settings
-- **UI Pattern:** :tabbed-config
+- **UI Pattern:** :state-machine-menu <!-- Keyboard-driven transient overlay (jonTransientGpsOverlay) -->
 - **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Set manual GPS position override
+Set manual GPS position override for use when GPS signal is unavailable or for testing purposes. The position is applied when manual mode is enabled via SetUseManualPosition.
 
+
+### Related State
+
+- [[proto/ser.JonGuiDataGps]] - Contains manual_latitude, manual_longitude, manual_altitude fields that store these values
 
 
 ### Related Commands
 
-- [[proto/cmd.Gps.SetUseManualPosition]]
+- [[proto/cmd.Gps.SetUseManualPosition]] - Enables/disables manual position mode
 
 
 
