@@ -29,7 +29,7 @@ Specifies a region of interest for the day camera's AGC/exposure optimization an
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :directional-mover
+- **UI Pattern:** :roi-selection
 - **Feedback:** :fire-and-forget
 
 
