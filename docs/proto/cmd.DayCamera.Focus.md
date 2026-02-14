@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Composite command for controlling day camera focus operations, supporting direct value setting, continuous movement, halting, offset adjustment, reset to table value, and saving current position to the focus table. Uses a required oneof with six sub-commands.
+Composite command for controlling day camera focus operations, supporting direct value setting, continuous movement with variable speed, halting, offset adjustment, reset to table-stored value, and saving current position to the focus table. Uses a required oneof with six sub-commands. The focus position is normalized (0.0-1.0 range) and persisted to a zoom-indexed lookup table for automatic focus recall when the zoom level changes.
 
 ## Fields
 
@@ -39,29 +39,40 @@ Fields: #1, #2, #3, #4, #5, #6
 
 - **Category:** :actuator
 - **UI Pattern:** :directional-mover
-- **Feedback:** :fire-and-forget
+- **Feedback:** :pending-timeout
+- **Timeout (ms):** 2000
 
 
 ### Purpose
 
-Controls day camera focus operations (set, move, halt, offset, reset, save)
+Controls day camera focus operations (set, move, halt, offset, reset, save) with press-and-hold acceleration for continuous movement and single-click step adjustment for fine control.
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]]
+- [[proto/ser.JonGuiDataCameraDay]] - `focusPos` field reflects current normalized focus position
 
 
 ### Related Commands
 
-- [[proto/cmd.CV.SetAutoFocus]]
-- [[proto/cmd.DayCamera.SetAutoGain]]
+- [[proto/cmd.CV.SetAutoFocus]] - Enable/disable autofocus (disables manual focus buttons when active)
+- [[proto/cmd.DayCamera.Zoom]] - Related lens control with parallel structure
 
+
+### Preconditions
+
+- Day camera started
+- Auto-focus disabled for manual control (set_value, move, offset)
 
 
 ### Implementation Notes
 
-Composite command with multiple focus control sub-commands
+The frontend implements a two-phase focus pattern:
+1. **Initial press**: Sends `offset` command with small step (5% of range direction)
+2. **Hold acceleration**: After initial offset, starts interval timer sending `move` commands with ramping speed (0 to 1 over 2 seconds)
+3. **Release**: Sends `halt` to stop motor movement (only if move commands were sent)
+
+The `jon-day-focus-mover` component provides finer control with configurable step sizes (0.001% to 10%) using only `offset` commands, plus Save/Reset action buttons.
 
 
 
@@ -70,32 +81,32 @@ Composite command with multiple focus control sub-commands
 
 ### set_value (#1)
 
-See [[proto/cmd.DayCamera.SetValue]]
+Direct absolute positioning of focus. See [[proto/cmd.DayCamera.SetValue]] for normalized value constraints (0.0-1.0).
 
 
 ### move (#2)
 
-See [[proto/cmd.DayCamera.Move]]
+Continuous movement toward target position at specified speed. Used for press-and-hold focus adjustment with ramping acceleration. See [[proto/cmd.DayCamera.Move]].
 
 
 ### halt (#3)
 
-See [[proto/cmd.DayCamera.Halt]]
+Immediately stops focus motor movement. Called on button release after move commands. See [[proto/cmd.DayCamera.Halt]].
 
 
 ### offset (#4)
 
-Step offset value
+Relative step adjustment. Used for single-click fine focus control. Frontend uses step sizes from 0.00001 (0.001%) to 0.1 (10%) of the full range. See [[proto/cmd.DayCamera.Offset]].
 
 
 ### reset_focus (#5)
 
-See [[proto/cmd.DayCamera.ResetFocus]]
+Restores focus to the value stored in the focus lookup table for the current zoom position. See [[proto/cmd.DayCamera.ResetFocus]].
 
 
 ### save_to_table_focus (#6)
 
-See [[proto/cmd.DayCamera.SaveToTableFocus]]
+Saves current focus position to the focus lookup table, indexed by current zoom level. Enables automatic focus recall when returning to this zoom level. See [[proto/cmd.DayCamera.SaveToTableFocus]].
 
 
 

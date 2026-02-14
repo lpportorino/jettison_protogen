@@ -41,7 +41,14 @@ Stops active video tracking
 
 ### Implementation Notes
 
-Not implemented in current frontend version
+Frontend implementation:
+- **UI Component**: `jonTrackingButton.ts` - A dedicated stop tracking button that appears when `system.tracking` is true
+- **Icon**: Corner brackets with smiley face (tracking target indicator)
+- **Visibility**: Button is hidden when tracking is inactive, appears dynamically when tracking starts
+- **Hotkey**: Available via `hotkeyCommands.ts` as `stopTrack()`
+- **Tooltip**: "Stop Target Tracking - ends automatic target following"
+
+The command sends `{ cv: { stopTrack: {} } }` via the WebSocket command channel
 
 
 

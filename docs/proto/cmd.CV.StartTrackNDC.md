@@ -28,7 +28,7 @@ Initiates object tracking at a specific point using normalized device coordinate
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :action-button
+- **UI Pattern:** :roi-selection
 - **Feedback:** :fire-and-forget
 
 
@@ -46,7 +46,7 @@ Starts video tracking at normalized device coordinates
 
 ### Implementation Notes
 
-Not implemented in current frontend version
+Triggered by single tap on video stream, point selection in tracking overlay, or short swipe. The frontend converts viewport-normalized coordinates (0-1) to NDC (-1 to 1) before sending. Frame and state timestamps are retrieved from `DeviceStateDispatch` to synchronize with the current video frame being displayed.
 
 
 
@@ -55,27 +55,37 @@ Not implemented in current frontend version
 
 ### channel (#1)
 
-Video channel selector
+- **Semantic Type:** :enum-label
+
+Specifies which video channel (day or thermal) the tracking coordinates apply to. Required because each channel has independent resolution and processing pipelines.
 
 
 ### x (#2)
 
-X coordinate in NDC (-1.0 to 1.0)
+- **Semantic Type:** :coordinate-viewport
+
+X coordinate in NDC (-1.0 to 1.0). Negative values indicate left of center, positive values indicate right of center.
 
 
 ### y (#3)
 
-Y coordinate in NDC (-1.0 to 1.0)
+- **Semantic Type:** :coordinate-viewport
+
+Y coordinate in NDC (-1.0 to 1.0). Positive values indicate above center, negative values indicate below center. Note: The frontend inverts Y when converting from viewport coordinates.
 
 
 ### frame_time (#4)
 
-Frame timestamp for synchronization
+- **Semantic Type:** :timestamp
+
+Frame PTS (presentation timestamp) in nanoseconds from the video frame being displayed when the user initiated tracking. Used to correlate the tracking request with the exact video frame the user was viewing.
 
 
 ### state_time (#5)
 
-State snapshot timestamp for synchronization
+- **Semantic Type:** :timestamp
+
+System monotonic time in microseconds from the most recent state update. Provides temporal context for synchronizing tracking initiation with system state (e.g., turret position, zoom level).
 
 
 

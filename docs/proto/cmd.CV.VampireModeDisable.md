@@ -32,16 +32,19 @@ Disables vampire mode (sun avoidance) in the computer vision system, allowing ca
 Disables vampire mode in computer vision
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataSystem]]
+
 
 ### Related Commands
 
 - [[proto/cmd.CV.VampireModeEnable]]
 
 
-
 ### Implementation Notes
 
-Not implemented in current frontend version
+Implemented in `jonVampireModeButton.ts` as a toggle button in the command palette. The button displays the current state from `ser.JonGuiDataSystem.vampire_mode` and toggles between Enable/Disable commands. Uses a 2000ms pending timeout for visual feedback while waiting for state confirmation.
 
 
 
