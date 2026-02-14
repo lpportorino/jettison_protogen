@@ -45,12 +45,25 @@ Stops continuous zoom movement on heat camera
 
 ### Preconditions
 
-- Heat camera started
+- Heat camera must be started
+- A continuous zoom operation (ZoomIn or ZoomOut) should be in progress
+
+
+### Notes
+
+- Sent automatically when user releases zoom button (mouseup/touchend event)
+- Also sent on presscancel events (e.g., finger slides off button)
+- Frontend function: `heatCameraZoomStop()` in `cmdHeatCamera.ts`
+- Control panel button "HCamZoomStop" triggers this directly on click
+- Part of press-hold-release pattern: ZoomIn/ZoomOut on press, ZoomStop on release
 
 
 ### Implementation Notes
 
-Used with continuous zoom in/out commands
+Completes the continuous zoom command cycle. In the frontend, this is used by:
+- `jonFocusUi.ts`: Bound to `@pressend` and `@presscancel` events on thermal zoom buttons via `handleThermalZoomStop()`
+- `ctl_app.js`: Bound to `mouseup` events on HCamZoomIn/HCamZoomOut buttons
+- Dedicated "Zoom Stop" button (HCamZoomStop) for manual stop if needed
 
 
 

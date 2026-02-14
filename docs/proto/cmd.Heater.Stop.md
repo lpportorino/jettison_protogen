@@ -40,6 +40,9 @@ Shuts down the heater subsystem. All heating zones will be disabled.
 ### Related Commands
 
 - [[proto/cmd.Heater.Start]]
+- [[proto/cmd.Heater.SetHeating]]
+- [[proto/cmd.Heater.EnableAutomaticControl]]
+- [[proto/cmd.Heater.DisableAutomaticControl]]
 
 
 

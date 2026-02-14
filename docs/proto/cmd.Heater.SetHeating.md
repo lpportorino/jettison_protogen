@@ -11,7 +11,11 @@ type: message
 
 ## Description
 
-Sets target temperatures and acceptable error margins for each of the three independent heating zones. The heater controller will attempt to maintain each zone at its target temperature within the specified error threshold.
+<!-- NEEDS_REVIEW: Proto comment says "target power values per channel in watts" but field names use "target_X". Verify whether this is direct power control (watts) or temperature setpoints (degrees). The frontend uses SetAutomaticControlParams for temperature-based control, suggesting SetHeating may be legacy/low-level direct power control. -->
+
+Sets target power values and acceptable temperature error margins for each of the three independent heating zones (day camera glass, LRF glass, and thermal camera glass). This is a low-level control interface that may be used for direct power control when automatic PID regulation is disabled.
+
+**Note:** For temperature-based automatic control, use [[proto/cmd.Heater.SetAutomaticControlParams]] instead, which is the modern interface used by the web UI.
 
 ## Fields
 
@@ -35,7 +39,10 @@ Sets target temperatures and acceptable error margins for each of the three inde
 
 ### Purpose
 
-Configures target temperatures and tolerances for the three heating zones. Each zone can be set independently.
+Configures power targets and temperature tolerances for the three glass heater zones. Each zone heats an optical window to prevent fogging/condensation:
+- Zone 0: Day camera lens (60W max)
+- Zone 1: LRF (laser rangefinder) lens (15W max)
+- Zone 2: Thermal camera lens (60W max)
 
 
 ### Related State
@@ -47,6 +54,9 @@ Configures target temperatures and tolerances for the three heating zones. Each 
 
 - [[proto/cmd.Heater.Start]]
 - [[proto/cmd.Heater.GetStatus]]
+- [[proto/cmd.Heater.SetAutomaticControlParams]]
+- [[proto/cmd.Heater.EnableAutomaticControl]]
+- [[proto/cmd.Heater.DisableAutomaticControl]]
 
 
 ### Preconditions
@@ -61,43 +71,46 @@ Configures target temperatures and tolerances for the three heating zones. Each 
 
 ### target_0 (#1)
 
-Target temperature for heating zone 0.
+<!-- NEEDS_REVIEW: Verify if this is power (watts) or temperature (Celsius) -->
+Target power/temperature setpoint for heating zone 0 (day camera glass heater). The day camera optical window is a 60W heating element.
 
 
 #### Metadata
 
-- **Semantic Type:** :temperature
-- **Unit:** °C
+- **Semantic Type:** :power
+- **Unit:** W
 - **Precision:** 1
 
 
 ### target_1 (#2)
 
-Target temperature for heating zone 1.
+<!-- NEEDS_REVIEW: Verify if this is power (watts) or temperature (Celsius) -->
+Target power/temperature setpoint for heating zone 1 (LRF glass heater). The laser rangefinder optical window uses a 15W heating element, smaller due to the smaller aperture size.
 
 
 #### Metadata
 
-- **Semantic Type:** :temperature
-- **Unit:** °C
+- **Semantic Type:** :power
+- **Unit:** W
 - **Precision:** 1
 
 
 ### target_2 (#3)
 
-Target temperature for heating zone 2.
+<!-- NEEDS_REVIEW: Verify if this is power (watts) or temperature (Celsius) -->
+Target power/temperature setpoint for heating zone 2 (thermal camera glass heater). The thermal camera germanium window uses a 60W heating element.
 
 
 #### Metadata
 
-- **Semantic Type:** :temperature
-- **Unit:** °C
+- **Semantic Type:** :power
+- **Unit:** W
 - **Precision:** 1
 
 
 ### temp_error_0 (#4)
 
-Acceptable temperature deviation from target for zone 0. Heating will activate when temperature falls below (target - error).
+Acceptable temperature deviation threshold for zone 0 (day camera glass). Defines the temperature hysteresis band for on/off control. Heating activates when temperature falls below (target - error) and deactivates when it exceeds (target + error).
 
 
 #### Metadata
@@ -109,7 +122,7 @@ Acceptable temperature deviation from target for zone 0. Heating will activate w
 
 ### temp_error_1 (#5)
 
-Acceptable temperature deviation from target for zone 1.
+Acceptable temperature deviation threshold for zone 1 (LRF glass). Defines the temperature hysteresis band for the smaller 15W LRF heater.
 
 
 #### Metadata
@@ -121,7 +134,7 @@ Acceptable temperature deviation from target for zone 1.
 
 ### temp_error_2 (#6)
 
-Acceptable temperature deviation from target for zone 2.
+Acceptable temperature deviation threshold for zone 2 (thermal camera glass). Defines the temperature hysteresis band for the thermal camera window heater.
 
 
 #### Metadata
