@@ -46,7 +46,11 @@ Enables continuous LRF scanning mode
 ### Preconditions
 
 - LRF must be started
+- Scanning mode should be inactive
 
 
+### Implementation Notes
+
+Frontend function `lrfScanOn()` in `cmdLRF.ts` sends this command. Forms a toggle pair with ScanOff for controlling continuous scanning mode. When enabled, the device performs repeated distance measurements at the configured scan rate (see SetScanMode). The `is_measuring` and `is_scanning` flags in LRF state reflect the current mode.
 
 

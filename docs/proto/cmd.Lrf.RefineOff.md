@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Disables LRF refinement mode, setting the refining state to false to stop precision refinement operations on the laser rangefinder system.
+Disables LRF refine mode, stopping precision targeting adjustments. When sent, the `isRefining` state flag transitions to false, exiting fine-grained control mode for the laser rangefinder system.
 
 ## Fields
 
@@ -22,30 +22,35 @@ Disables LRF refinement mode, setting the refining state to false to stop precis
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :action-button
+- **Category:** :settings
+- **UI Pattern:** :toggle
 - **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Disables LRF refine mode
+Disables LRF refine mode for precision measurements
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataLrf]] - `isRefining` field indicates current refine mode state
 
 
 ### Related Commands
 
-- [[proto/cmd.Lrf.RefineOn]]
+- [[proto/cmd.Lrf.RefineOn]] - Toggle pair counterpart that enables refine mode
+- [[proto/cmd.Lrf.Measure]] - Primary LRF measurement command
 
+
+### Preconditions
+
+- LRF must be started
+- Refine mode must be currently active (`isRefining` = true)
 
 
 ### Implementation Notes
 
-Refine mode provides higher precision measurements
-
+Forms a toggle pair with RefineOn. In the frontend UI, the refine button only appears when `isRefining` is true, allowing the user to disable the mode. Refine mode provides higher precision measurements for accurate target designation.
 
 

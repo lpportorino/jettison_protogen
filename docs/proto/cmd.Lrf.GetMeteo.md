@@ -35,7 +35,15 @@ Requests meteorological data from LRF
 ### Related State
 
 - [[proto/ser.JonGuiDataLrf]]
+- [[proto/ser.JonGuiDataMeteo]] - Contains temperature, humidity, pressure readings
 
+
+### Related Commands
+
+- [[proto/cmd.DayCamera.GetMeteo]] - Meteo request for day camera
+- [[proto/cmd.HeatCamera.GetMeteo]] - Meteo request for thermal camera
+- [[proto/cmd.Compass.GetMeteo]] - Meteo request for compass
+- [[proto/cmd.Gps.GetMeteo]] - Meteo request for GPS
 
 
 ### Preconditions
@@ -43,5 +51,8 @@ Requests meteorological data from LRF
 - LRF must be started
 
 
+### Implementation Notes
+
+Frontend function `getMeteo()` in `cmdLRF.ts` sends this command. Typically called periodically by the system to update environmental sensor readings used for atmospheric corrections in ranging calculations.
 
 

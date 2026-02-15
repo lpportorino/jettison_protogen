@@ -51,7 +51,13 @@ Currently commented out in cmdLRF.ts - may be deprecated or not yet implemented
 
 ### mode (#1)
 
-Operating mode
+Scan frequency mode selection from the JonGuiDataLrfScanModes enum. Available modes range from 1 Hz to 200 Hz scan rates. Higher scan rates provide faster updates but increase power consumption and may reduce per-measurement accuracy.
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
+- **Display Format:** `{mode}Hz`
 
 
 

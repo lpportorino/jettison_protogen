@@ -40,8 +40,17 @@ Enable fog mode for laser range finder (optimizes for low visibility)
 ### Related Commands
 
 - [[proto/cmd.Lrf.DisableFogMode]]
+- [[proto/cmd.Lrf.Start]]
 
 
+### Preconditions
+
+- LRF must be started
+
+
+### Implementation Notes
+
+Fog mode toggle is exposed in the frontend via `toggleFogMode()` hotkey command (L+F). The state is tracked in `ser.JonGuiDataLrf.fogModeEnabled` boolean field. Fog mode uses a lower visibility wavelength optimized for adverse weather conditions (fog, rain, snow), while standard mode uses higher visibility wavelength for clear atmospheric conditions.
 
 
 
