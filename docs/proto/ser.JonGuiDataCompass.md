@@ -104,7 +104,12 @@ Magnetic declination correction in degrees
 
 ### is_started (#8)
 
-GPS receiver started state
+Compass sensor started state
+
+
+#### Metadata
+
+- **Semantic Type:** :toggle-state
 
 
 ### meteo (#9)
