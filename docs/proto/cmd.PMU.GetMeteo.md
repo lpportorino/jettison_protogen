@@ -39,10 +39,16 @@ Requests current environmental sensor readings. Response is delivered via the me
 
 
 
+### Related Commands
+
+- [[proto/cmd.DayCamera.GetMeteo]] - Meteo from day camera
+- [[proto/cmd.HeatCamera.GetMeteo]] - Meteo from thermal camera
+- [[proto/cmd.Lrf.GetMeteo]] - Meteo from LRF
+
+
 ### Preconditions
 
 - PMU must be started
-
 
 
 
