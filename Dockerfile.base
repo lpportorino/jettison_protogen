@@ -4,7 +4,7 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PROTOC_VERSION=29.2
 ENV GO_VERSION=1.23.4
-ENV RUST_VERSION=1.83.0
+ENV RUST_VERSION=1.85.0
 
 # Install base dependencies
 # Use retry logic to handle transient repository issues
