@@ -42,6 +42,10 @@ Disables geodesic triangulation positioning mode
 - [[proto/cmd.System.EnableGeodesicMode]]
 
 
+### Preconditions
+
+
+
 ### Implementation Notes
 
 Uses jonGeodesicModeButton component. Toggle button with triangulation icon. Pending state until server confirms via ser.JonGuiDataSystem.geodesic_mode.

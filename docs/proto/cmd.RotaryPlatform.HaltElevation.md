@@ -32,10 +32,6 @@ Stops the rotary platform's elevation (vertical) movement by halting the elevati
 Immediately halt elevation axis motion
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataRotary]]
-
 
 ### Related Commands
 

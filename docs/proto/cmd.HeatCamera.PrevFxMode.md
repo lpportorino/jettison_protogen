@@ -22,7 +22,7 @@ Cycles to the previous FX (effects) mode on the thermal camera, navigating backw
 
 ## Interaction
 
-- **Category:** :actuator
+- **Category:** :settings
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
@@ -41,7 +41,6 @@ Cycles to previous FX mode for thermal camera
 
 - [[proto/cmd.HeatCamera.NextFxMode]]
 - [[proto/cmd.HeatCamera.SetFxMode]]
-- [[proto/cmd.HeatCamera.RefreshFxMode]]
 
 
 ### Preconditions

@@ -39,9 +39,6 @@ Sets overcurrent alert threshold for power channel monitoring
 - [[proto/ser.JonGuiDataPower]]
 
 
-### Preconditions
-
-- Power management must be active
 
 
 ### Implementation Notes

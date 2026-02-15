@@ -34,10 +34,6 @@ Continuously rotates the azimuth axis at a specified speed in a specified direct
 Continuously rotate azimuth axis at specified speed and direction
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataRotary]]
-
 
 ### Related Commands
 
@@ -58,9 +54,7 @@ Movement speed (0.0=stopped, 1.0=maximum)
 
 #### Metadata
 
-- **Semantic Type:** :normalized
-- **Precision:** 2
-- **Display Format:** `{value * 100}%`
+- **Semantic Type:** :raw
 
 
 ### direction (#2)

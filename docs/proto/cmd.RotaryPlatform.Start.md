@@ -43,6 +43,10 @@ Starts the rotary platform subsystem
 - [[proto/cmd.RotaryPlatform.Halt]]
 
 
+### Preconditions
+
+
+
 ### Implementation Notes
 
 No parameters required. Basic lifecycle control.

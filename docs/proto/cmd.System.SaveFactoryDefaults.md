@@ -40,7 +40,6 @@ Saves current configuration as factory defaults
 
 ### Preconditions
 
-- User confirmation required
 
 
 ### Implementation Notes

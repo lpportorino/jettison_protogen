@@ -43,10 +43,6 @@ Start new LRF (Laser Range Finder) measurement session
 - [[proto/cmd.Lrf.Start]]
 
 
-### Preconditions
-
-- LRF must be started
-
 
 ### Implementation Notes
 

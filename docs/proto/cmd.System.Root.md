@@ -57,8 +57,8 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :command-router
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
 
@@ -96,7 +96,7 @@ See [[proto/cmd.System.Reboot]]
 
 ### power_off (#4)
 
-See [[proto/cmd.System.PowerOff]]
+Power consumption in watts
 
 
 ### localization (#5)

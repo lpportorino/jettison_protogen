@@ -33,16 +33,10 @@ Decrements thermal camera focus by one discrete step (farther)
 
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataCameraHeat]] - Contains focus_mode field indicating manual vs automatic focus
-
-
 ### Related Commands
 
 - [[proto/cmd.HeatCamera.FocusStepPlus]]
 - [[proto/cmd.HeatCamera.FocusOut]]
-- [[proto/cmd.HeatCamera.FocusIn]]
 
 
 ### Preconditions

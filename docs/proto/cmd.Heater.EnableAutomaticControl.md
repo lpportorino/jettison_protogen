@@ -23,14 +23,10 @@ Enables PID-based automatic temperature regulation for all heater channels. When
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :toggle
+- **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
-- **Purpose:** Controls automatic PID-based temperature regulation for glass heater channels (Day Camera Lens, Rangefinder Lens, Thermal Camera Lens)
 
-### Notes
 
-In the frontend, this command is triggered via a toggle button in the Glass Heater Control panel (`jonHeaterPanel.ts`). The toggle pairs `EnableAutomaticControl` with `DisableAutomaticControl` - toggling ON sends this command, toggling OFF sends the disable command. The UI displays a pending state for 2000ms while waiting for the `automaticControlEnabled` flag in `ser.JonGuiDataHeater` to reflect the change.
 
 ### Related State
 

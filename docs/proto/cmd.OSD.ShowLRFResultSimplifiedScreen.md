@@ -44,10 +44,6 @@ Switch OSD to simplified LRF result display screen
 - [[proto/cmd.OSD.ShowLRFResultScreen]]
 
 
-### Implementation Notes
-
-Frontend function `OSDShowLRFResultSimplifiedScreen()` in `cmdOSD.ts` sends this command. Used for continuous scanning mode where a compact overlay shows distance updates without the full targeting UI.
-
 
 
 

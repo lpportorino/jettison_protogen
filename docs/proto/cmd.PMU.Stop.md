@@ -42,9 +42,6 @@ Stops PMU monitoring operations. The PMU hardware remains powered but monitoring
 - [[proto/cmd.PMU.Start]]
 
 
-### Preconditions
-
-- PMU must be started
 
 
 

@@ -33,15 +33,6 @@ Sets the magnetic declination correction value for the compass to convert magnet
 Sets magnetic declination correction for compass
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataCompass]]
-
-
-### Related Commands
-
-- [[proto/cmd.Compass.SetOffsetAngleAzimuth]]
-- [[proto/cmd.Compass.SetOffsetAngleElevation]]
 
 
 ### Preconditions
@@ -62,8 +53,8 @@ Angle value in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
-- **Precision:** 1
+- **Unit:** mils
+- **Precision:** 0
 
 
 

@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Stops the GPS receiver hardware and ceases position data collection. This parameterless lifecycle command shuts down the GPS module, triggered via a power toggle button in the UI that enters a pending state until `isStarted` changes to false or a 2-second timeout elapses.
+Stops the GPS receiver hardware and ceases position data collection. This parameterless lifecycle command shuts down the GPS module, typically triggered via a power toggle button in the UI with fire-and-forget feedback.
 
 ## Fields
 
@@ -24,8 +24,7 @@ Stops the GPS receiver hardware and ceases position data collection. This parame
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
-- **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose

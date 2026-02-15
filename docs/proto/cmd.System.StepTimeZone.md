@@ -33,15 +33,7 @@ Steps through available timezone options by a specified positive or negative ind
 Increment or decrement timezone offset
 
 
-### Related State
 
-- [[proto/ser.JonGuiDataTime]]
-
-
-### Related Commands
-
-- [[proto/cmd.System.SetTimeZone]]
-- [[proto/cmd.System.SetTimeAndZone]]
 
 
 ### Implementation Notes
@@ -60,8 +52,7 @@ Step offset value
 
 #### Metadata
 
-- **Semantic Type:** :count
-- **Precision:** 0
+- **Semantic Type:** :raw
 
 
 

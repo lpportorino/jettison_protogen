@@ -23,29 +23,26 @@ Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) level for the 
 
 ## Interaction
 
-- **Category:** :actuator
+- **Category:** :settings
 - **UI Pattern:** :slider-with-presets
 - **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Set CLAHE (contrast limited adaptive histogram equalization) level for heat camera. Controls thermal image contrast enhancement to improve temperature detail visibility and thermal gradients.
+Set CLAHE (contrast limited adaptive histogram equalization) level for heat camera
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraHeat]] - `claheLevel` field reflects current setting
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
-### Related Commands
-
-- [[proto/cmd.HeatCamera.ShiftClaheLevel]] - Relative adjustment by delta value
 
 
 ### Implementation Notes
 
-Preset values: 0%, 10%, 25%, 50%, 75%, 100%; can increment/decrement by 1% via slider UI. Value 0 disables CLAHE, 100% applies maximum contrast enhancement.
+Preset values: 0%, 10%, 25%, 50%, 75%, 100%; can increment/decrement by 5%
 
 
 

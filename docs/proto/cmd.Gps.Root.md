@@ -37,13 +37,13 @@ Fields: #1, #2, #3, #4, #5
 ## Interaction
 
 - **Category:** :lifecycle
-- **UI Pattern:** :command-router
+- **UI Pattern:** :tabbed-config
 - **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Container for GPS module commands. Routes to sub-commands for starting/stopping the GPS receiver, configuring manual position fallback, and requesting meteorological data.
+Container for GPS module commands
 
 
 ### Related State
@@ -51,18 +51,11 @@ Container for GPS module commands. Routes to sub-commands for starting/stopping 
 - [[proto/ser.JonGuiDataGps]]
 
 
-### Related Commands
-
-- [[proto/cmd.Gps.Start]]
-- [[proto/cmd.Gps.Stop]]
-- [[proto/cmd.Gps.SetManualPosition]]
-- [[proto/cmd.Gps.SetUseManualPosition]]
-- [[proto/cmd.Gps.GetMeteo]]
 
 
 ### Implementation Notes
 
-Root message containing GPS start/stop and configuration. Used as a wrapper in the command hierarchy - all GPS commands are sent by creating a `cmd.Gps.Root` with the appropriate oneof field set. The frontend dispatches through `cmdGps.ts` functions: `gpsStart()`, `gpsStop()`, `setManualPosition()`, `setUseManualPosition()`, and `getMeteo()`.
+Root message containing GPS start/stop and configuration
 
 
 

@@ -89,7 +89,7 @@ Use manual time instead of GPS/NTP
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 

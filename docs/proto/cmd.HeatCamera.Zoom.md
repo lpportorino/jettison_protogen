@@ -53,37 +53,6 @@ Controls thermal camera optical zoom position
 
 - [[proto/cmd.HeatCamera.SetDigitalZoomLevel]]
 - [[proto/cmd.HeatCamera.ResetZoom]]
-- [[proto/cmd.DayCamera.Zoom]]
-
-
-### Preconditions
-
-- Heat camera must be started
-
-
-### Implementation Notes
-
-This container message provides three mutually exclusive ways to control optical zoom via its `cmd` oneof:
-
-1. **set_zoom_table_value** - Jump directly to a specific zoom table position (typically 0-4)
-2. **next_zoom_table_pos** - Step forward one position in the zoom table
-3. **prev_zoom_table_pos** - Step backward one position in the zoom table
-
-**Frontend Usage:**
-
-In `jonZoomUi.ts`, this command is used for:
-- Slider-based zoom control in the zoom palette UI
-- Synchronized zoom when `isSynced` signal is enabled (both day and heat cameras zoom together)
-
-In `hotkeyCommands.ts`, this command supports:
-- Direct position hotkeys (Numpad 0-4 for zoom positions)
-- Incremental zoom hotkeys (scroll-based next/prev)
-
-In `poiCommands.ts`, this command is used when navigating to POIs (Points of Interest), restoring the saved thermal zoom position.
-
-In `interactionHandler.ts`, pinch gestures and mouse wheel events trigger next/prev zoom table position commands.
-
-The current zoom position is reflected in `ser.JonGuiDataCameraHeat.zoomTablePos` with maximum position in `zoomTablePosMax`.
 
 
 
@@ -99,12 +68,12 @@ See [[proto/cmd.HeatCamera.SetZoomTableValue]]
 
 ### next_zoom_table_pos (#2)
 
-Advances to the next position in the zoom table. Empty message (trigger only) - no parameters required. See [[proto/cmd.HeatCamera.NextZoomTablePos]].
+Current zoom table position
 
 
 ### prev_zoom_table_pos (#3)
 
-Moves to the previous position in the zoom table. Empty message (trigger only) - no parameters required. See [[proto/cmd.HeatCamera.PrevZoomTablePos]].
+Current zoom table position
 
 
 

@@ -63,9 +63,8 @@ Step offset value
 
 #### Metadata
 
-- **Semantic Type:** :count
-- **Unit:** hours
-- **Precision:** 0
+- **Semantic Type:** :raw
+- **Display Format:** `Hour offset (integer)`
 
 
 

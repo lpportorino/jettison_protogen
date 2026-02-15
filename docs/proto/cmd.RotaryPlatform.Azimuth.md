@@ -86,12 +86,12 @@ See [[proto/cmd.RotaryPlatform.RotateAzimuth]]
 
 ### relative (#4)
 
-See [[proto/cmd.RotaryPlatform.RotateAzimuthRelative]]
+Latitude in decimal degrees
 
 
 ### relative_set (#5)
 
-See [[proto/cmd.RotaryPlatform.RotateAzimuthRelativeSet]]
+Latitude in decimal degrees
 
 
 ### halt (#6)

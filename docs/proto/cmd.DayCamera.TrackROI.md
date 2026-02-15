@@ -29,8 +29,8 @@ Initiates continuous video tracking on a specified rectangular region of interes
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :roi-selection
-- **Feedback:** :fire-and-forget
+- **UI Pattern:** :action-button
+- **Feedback:** :poll-confirm
 
 
 ### Purpose
@@ -47,8 +47,6 @@ Start video tracking on specified Region of Interest (ROI) in day camera
 
 - [[proto/cmd.DayCamera.ZoomROI]]
 - [[proto/cmd.DayCamera.FocusROI]]
-- [[proto/cmd.CV.StartTrackNDC]]
-- [[proto/cmd.CV.StopTrack]]
 
 
 ### Preconditions
@@ -113,26 +111,12 @@ Bottom edge in NDC (-1.0 to 1.0)
 
 ### frame_time (#5)
 
-Frame timestamp for synchronization. Obtained from the video frame's PTS (presentation timestamp) to correlate the ROI selection with a specific captured frame.
-
-
-#### Metadata
-
-- **Semantic Type:** :timestamp
-- **Unit:** nanoseconds
-- **Precision:** 0
+Frame timestamp for synchronization
 
 
 ### state_time (#6)
 
-State snapshot timestamp for synchronization. System monotonic time (CLOCK_MONOTONIC) in microseconds when the state was captured. Used to correlate the ROI with the camera/system state at that instant.
-
-
-#### Metadata
-
-- **Semantic Type:** :timestamp
-- **Unit:** microseconds
-- **Precision:** 0
+State snapshot timestamp for synchronization
 
 
 

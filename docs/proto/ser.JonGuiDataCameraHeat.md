@@ -131,12 +131,7 @@ Vertical field of view in degrees
 
 ### is_started (#14)
 
-Heat camera started state
-
-
-#### Metadata
-
-- **Semantic Type:** :toggle-state
+GPS receiver started state
 
 
 ### meteo (#15)

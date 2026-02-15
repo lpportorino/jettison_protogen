@@ -22,14 +22,14 @@ Saves the current thermal camera zoom position to a lookup table for quick recal
 
 ## Interaction
 
-- **Category:** :settings <!-- Persists zoom configuration to lookup table -->
+- **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Save current zoom position to lookup table for quick recall. Used in conjunction with zoom table navigation commands to store frequently-used zoom positions.
+Save current zoom position to lookup table
 
 
 ### Related State
@@ -40,10 +40,6 @@ Save current zoom position to lookup table for quick recall. Used in conjunction
 ### Related Commands
 
 - [[proto/cmd.HeatCamera.Zoom]]
-- [[proto/cmd.HeatCamera.NextZoomTablePos]]
-- [[proto/cmd.HeatCamera.PrevZoomTablePos]]
-- [[proto/cmd.HeatCamera.SetZoomTableValue]]
-- [[proto/cmd.HeatCamera.ResetZoom]]
 
 
 

@@ -44,14 +44,5 @@ Enable laser target designator in Mode B
 - LRF must be started
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataLrf]] - `laser_pointer_mode` tracks designator state
-
-
-### Implementation Notes
-
-Frontend function `lrfTargetDesignatorOnModeB()` in `cmdLRF.ts` sends this command. Mode B provides an alternate laser designation pattern. Forms a toggle group with ModeA and Off commands.
-
 
 

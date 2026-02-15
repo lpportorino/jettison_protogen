@@ -61,15 +61,16 @@ Immediate positioning command with direction control
 
 ### value (#1)
 
-Azimuth angle in degrees (0=North, clockwise)
+Normalized value (0.0 to 1.0)
 
 
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
+- **Unit:** °
 - **Precision:** 1
-- **Presets:** 0, 90, 180, 270
+- **Display Format:** `{value}°`
+- **Presets:** 0.0, 90.0, 180.0, 270.0
 
 
 ### direction (#2)

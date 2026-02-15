@@ -24,7 +24,7 @@ Decrements the day camera optical zoom to the previous position in the zoom tabl
 
 - **Category:** :actuator
 - **UI Pattern:** :action-button
-- **Feedback:** :pending-timeout <!-- Physical zoom motor movement requires timeout feedback -->
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
@@ -34,25 +34,23 @@ Decrements day camera zoom to previous table position
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCameraDay]] - `zoomTablePos`, `zoomTablePosMax`
+- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
 
 - [[proto/cmd.DayCamera.NextZoomTablePos]]
 - [[proto/cmd.DayCamera.SetZoomTableValue]]
-- [[proto/cmd.DayCamera.Zoom.SaveToTable]]
 
 
 ### Preconditions
 
 - Camera must be started
-- Current `zoomTablePos > 0` (frontend enforces this check before sending)
 
 
 ### Implementation Notes
 
-No parameters. Simple decrement operation. Used in hotkey commands (`prevZoomPosition`) and mouse wheel/pinch-out gestures (`handleZoomOut`). When zoom sync is enabled, both day and heat cameras step to previous position together.
+No parameters. Simple decrement operation. Used in hotkey commands and mouse wheel interactions.
 
 
 

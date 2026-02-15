@@ -29,8 +29,8 @@ Zooms the day camera to focus on a region of interest (ROI) marked by the user o
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :roi-selection
-- **Feedback:** :pending-timeout
+- **UI Pattern:** :action-button
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose

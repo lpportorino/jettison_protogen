@@ -24,8 +24,7 @@ Starts the GPS module and begins receiving position data. This parameterless lif
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
-- **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose

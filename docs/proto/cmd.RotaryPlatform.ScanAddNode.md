@@ -39,10 +39,6 @@ Adds a waypoint node to the rotary platform scan path, specifying position (azim
 Adds a new waypoint node to scan pattern
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataRotary]]
-
 
 ### Related Commands
 

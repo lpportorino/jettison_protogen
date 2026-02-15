@@ -42,8 +42,8 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :command-router
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
 - **Feedback:** :fire-and-forget
 
 
@@ -91,12 +91,12 @@ See [[proto/cmd.PMU.GetMeteo]]
 
 ### get_heater_power_state (#6)
 
-See [[proto/cmd.PMU.GetHeaterPowerState]]
+Power consumption in watts
 
 
 ### power_off (#7)
 
-See [[proto/cmd.PMU.PowerOff]]
+Power consumption in watts
 
 
 ### charge_enable (#8)

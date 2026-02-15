@@ -116,32 +116,32 @@ Normalized value (0.0 to 1.0)
 
 ### infrared_filter (#4)
 
-IR cut filter enabled state (true = IR filter engaged)
+Thermal image color filter
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### zoom_table_pos (#5)
 
-Current zoom table position index
+Current zoom table position
 
 
 #### Metadata
 
-- **Semantic Type:** :count
+- **Semantic Type:** :raw
 
 
 ### zoom_table_pos_max (#6)
 
-Maximum zoom table position index
+Maximum zoom table position
 
 
 #### Metadata
 
-- **Semantic Type:** :count
+- **Semantic Type:** :raw
 
 
 ### fx_mode (#7)
@@ -161,7 +161,7 @@ Auto-focus enabled state
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### auto_iris (#9)
@@ -192,13 +192,12 @@ Digital zoom multiplier
 
 ### clahe_level (#11)
 
-CLAHE enhancement level (0.0 to 1.0)
+Normalized value (0.0 to 1.0)
 
 
 #### Metadata
 
-- **Semantic Type:** :normalized
-- **Precision:** 2
+- **Semantic Type:** :raw
 
 
 ### horizontal_fov_degrees (#12)
@@ -213,12 +212,7 @@ Vertical field of view in degrees
 
 ### is_started (#14)
 
-Day camera started state
-
-
-#### Metadata
-
-- **Semantic Type:** :toggle-state
+GPS receiver started state
 
 
 ### meteo (#16)

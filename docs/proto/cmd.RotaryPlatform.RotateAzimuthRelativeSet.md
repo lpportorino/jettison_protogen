@@ -59,9 +59,8 @@ Angle value in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
-- **Unit:** degrees
-- **Precision:** 2
-- **Display Format:** `{value}°`
+- **Unit:** mils
+- **Precision:** 0
 
 
 ### direction (#2)

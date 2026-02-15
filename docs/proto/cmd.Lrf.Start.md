@@ -50,7 +50,7 @@ Starts the laser range finder module
 
 ### Implementation Notes
 
-Frontend function `lrfStart()` in `cmdLRF.ts` sends this command. Lifecycle command pair with Stop. When executed, the device initializes hardware and begins accepting ranging commands. The `is_started` flag in `ser.JonGuiDataLrf` reflects the current state.
+Lifecycle command to initialize LRF hardware
 
 
 

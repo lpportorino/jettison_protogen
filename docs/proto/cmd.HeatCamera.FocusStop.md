@@ -33,11 +33,6 @@ Stops continuous thermal camera focus movement
 
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataCameraHeat]]
-
-
 ### Related Commands
 
 - [[proto/cmd.HeatCamera.FocusIn]]
@@ -50,7 +45,5 @@ Stops continuous thermal camera focus movement
 - Focus movement in progress
 
 
-### Implementation Notes
 
-Empty message - trigger only. Sent on button release after FocusIn/FocusOut, or via dedicated stop button (hotkey 's' in Heat Focus overlay).
 

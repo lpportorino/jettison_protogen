@@ -56,14 +56,14 @@ Can be synchronized with day camera digital zoom via UI sync toggle
 
 ### value (#1)
 
-Digital zoom magnification multiplier. Minimum 1.0x (no zoom), with UI supporting up to 6.0x in 0.5x increments.
+Numeric value
 
 
 #### Metadata
 
-- **Semantic Type:** :multiplier
+- **Semantic Type:** :normalized
 - **Unit:** x
-- **Precision:** 1
+- **Precision:** 2
 - **Display Format:** `{value}x`
 
 

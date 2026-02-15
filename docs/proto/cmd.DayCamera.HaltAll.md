@@ -33,16 +33,10 @@ Stops all day camera movements (zoom and focus)
 
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataCameraDay]] - `zoomPos` and `focusPos` fields stop changing when halt is issued
-
-
 ### Related Commands
 
-- [[proto/cmd.DayCamera.Halt]] - Sub-command to halt individual zoom/focus motor (used within Focus/Zoom composite commands)
-- [[proto/cmd.DayCamera.Focus]] - Composite focus command (contains halt sub-command)
-- [[proto/cmd.DayCamera.Zoom]] - Composite zoom command (contains halt sub-command)
+- [[proto/cmd.DayCamera.Focus]]
+- [[proto/cmd.DayCamera.Zoom]]
 
 
 ### Preconditions

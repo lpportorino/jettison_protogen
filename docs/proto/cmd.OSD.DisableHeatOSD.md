@@ -43,14 +43,6 @@ Disable on-screen display overlay on heat camera video
 - [[proto/cmd.OSD.DisableDayOSD]]
 
 
-### Preconditions
-
-- Heat camera video must be active
-
-
-### Implementation Notes
-
-Frontend function `OSDDisableHeatOSD()` in `cmdOSD.ts` sends this command. Forms a toggle pair with EnableHeatOSD. The OSD overlay renders telemetry information onto the thermal camera video stream.
 
 
 

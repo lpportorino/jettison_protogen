@@ -22,39 +22,27 @@ Initiates the long (comprehensive) compass calibration procedure, which guides t
 
 ## Interaction
 
-- **Category:** :diagnostic
+- **Category:** :settings
 - **UI Pattern:** :action-button
-- **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+- **Feedback:** :fire-and-forget
 
 
 ### Purpose
 
-Initiates the comprehensive 12-point compass calibration procedure that compensates for hard-iron and soft-iron magnetic field distortions. Used when the device has been moved to a new location with different local magnetic interference or when compass readings are inaccurate.
+Start long compass calibration procedure
 
-
-### Related State
-
-- [[proto/ser.JonGuiDataCompassCalibration]]
-- [[proto/ser.JonGuiDataCompass]]
 
 
 ### Related Commands
 
-- [[proto/cmd.Compass.CalibrateStartShort]]
-- [[proto/cmd.Compass.CalibrateNext]]
+- [[proto/cmd.Compass.Next]]
 - [[proto/cmd.Compass.CalibrateCencel]]
 
-
-### Preconditions
-
-- Compass must be started (`isStarted: true`)
-- Not currently calibrating
 
 
 ### Implementation Notes
 
-Multi-step calibration process requiring user to rotate the device through multiple orientations. The UI displays a "Start Calibration" button that sends this command via `calibrateLongStart()`. After sending, the button shows pending state for 2 seconds or until the `compassCalibration.status` changes to `CALIBRATING_LONG`. Progress is tracked via `stage/finalStage` fields in `JonGuiDataCompassCalibration`.
+Multi-step calibration process requiring user to rotate device
 
 
 

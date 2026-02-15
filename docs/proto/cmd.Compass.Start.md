@@ -18,14 +18,14 @@ Initializes and powers on the compass/IMU sensor subsystem, transitioning it fro
 | # | Field | Type | Constraints |
 |---|-------|------|-------------|
 
-_Parameterless command - no fields required._
+
 
 ## Interaction
 
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+
 
 ### Purpose
 

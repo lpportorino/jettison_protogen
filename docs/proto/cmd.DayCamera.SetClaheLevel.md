@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level for the day camera to improve image contrast and visibility. Accepts a normalized value (0-1, displayed as 0-100%) with presets at 0%, 10%, 25%, 50%, 75%, and 100%, controlled through UI sliders with step buttons and pending-timeout feedback.
+Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level for the day camera to improve image contrast and visibility. Accepts a normalized value (0-1, displayed as 0-100%) with presets at 0%, 25%, 50%, 75%, and 100%, controlled through UI sliders with pending-timeout feedback.
 
 ## Fields
 
@@ -23,8 +23,8 @@ Sets the CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement le
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :slider-with-steppers
+- **Category:** :settings
+- **UI Pattern:** :slider
 - **Feedback:** :pending-timeout
 
 
@@ -64,7 +64,7 @@ Normalized value (0.0 to 1.0)
 - **Unit:** %
 - **Precision:** 0
 - **Display Format:** `{value * 100}%`
-- **Presets:** 0.0, 0.1, 0.25, 0.5, 0.75, 1.0
+- **Presets:** 0.0, 0.25, 0.5, 0.75, 1.0
 
 
 

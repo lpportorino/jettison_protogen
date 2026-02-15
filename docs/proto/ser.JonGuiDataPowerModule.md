@@ -96,7 +96,7 @@ Channel powered on state
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### has_alarm (#5)
@@ -106,7 +106,7 @@ Alarm triggered state
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 

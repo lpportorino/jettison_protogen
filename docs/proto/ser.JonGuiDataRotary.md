@@ -118,7 +118,7 @@ Current speed (-1.0 to 1.0)
 
 ### platform_azimuth (#5)
 
-Platform reference azimuth angle in degrees (0=North, clockwise)
+Latitude in decimal degrees
 
 
 #### Metadata
@@ -131,7 +131,7 @@ Platform reference azimuth angle in degrees (0=North, clockwise)
 
 ### platform_elevation (#6)
 
-Platform reference elevation angle in degrees
+Latitude in decimal degrees
 
 
 #### Metadata
@@ -144,7 +144,7 @@ Platform reference elevation angle in degrees
 
 ### platform_bank (#7)
 
-Platform bank/roll angle in degrees
+Latitude in decimal degrees
 
 
 #### Metadata
@@ -198,17 +198,12 @@ Sun elevation in degrees
 
 ### current_scan_node (#17)
 
-See [[proto/ser.ScanNode]]
+Current draw in amperes
 
 
 ### is_started (#18)
 
-Rotary platform started state
-
-
-#### Metadata
-
-- **Semantic Type:** :toggle-state
+GPS receiver started state
 
 
 ### meteo (#19)

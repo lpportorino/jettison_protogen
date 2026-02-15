@@ -29,24 +29,19 @@ Resets laser rangefinder calibration offsets for either the day or thermal camer
 
 ### Purpose
 
-Reverts the laser rangefinder crosshair alignment offsets for the specified camera channel (day or thermal) to their last saved values stored in Redis, discarding any unsaved adjustments made during the current calibration session.
+Reset laser rangefinder alignment offsets to factory defaults
 
-
-### Related State
-
-- [[proto/ser.JonGuiDataRecOsd]]
 
 
 ### Related Commands
 
 - [[proto/cmd.Lrf_calib.SetOffsets]]
-- [[proto/cmd.Lrf_calib.SaveOffsets]]
-- [[proto/cmd.Lrf_calib.ShiftOffsetsBy]]
+
 
 
 ### Implementation Notes
 
-Used during LRF calibration/alignment procedures. Triggered by the "Reset" button in the Day/Heat Crosshair Position panels (`jonDayCrosshairMover`, `jonHeatCrosshairMover` Lit components). The reset operation restores offsets to the values previously persisted via `SaveOffsets`, allowing operators to undo calibration changes without restarting the system.
+Used during LRF calibration/alignment procedures
 
 
 

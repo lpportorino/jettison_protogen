@@ -32,19 +32,7 @@ Restarts the system after gracefully shutting down services, allowing users to r
 Reboot the entire system
 
 
-### Related State
 
-- [[proto/ser.JonGuiDataSystem]]
-
-
-### Related Commands
-
-- [[proto/cmd.System.PowerOff]]
-
-
-### Preconditions
-
-- User confirmation required
 
 
 ### Implementation Notes

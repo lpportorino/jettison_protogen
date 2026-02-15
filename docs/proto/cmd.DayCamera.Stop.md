@@ -25,11 +25,7 @@ Stops day camera operation and releases associated hardware resources. This para
 - **Category:** :lifecycle
 - **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
 
-### Keyboard Shortcut
-
-`d` `x` (Day Camera > Stop)
 
 ### Purpose
 

@@ -11,13 +11,7 @@ type: message
 
 ## Description
 
-Per-channel parameters for the heater automatic (PID) control loop. This sub-message is used by `SetAutomaticControlParams` to configure one of the three heating channels:
-
-- **Channel 0**: Day Camera Lens Heater
-- **Channel 1**: Rangefinder (LRF) Lens Heater
-- **Channel 2**: Thermal Camera Lens Heater
-
-Currently contains only the target temperature setpoint; PID tuning gains (kp, ki, kd) are loaded separately from Redis via config_editor.
+Per-channel parameters for the heater automatic (PID) control loop. This sub-message is used by `SetAutomaticControlParams` to configure one of the three heating channels (channel 0 = day camera glass, channel 1 = LRF glass, channel 2 = heat camera glass). Currently contains only the target temperature setpoint; PID tuning gains (kp, ki, kd) are loaded separately from Redis via config_editor.
 
 ## Fields
 

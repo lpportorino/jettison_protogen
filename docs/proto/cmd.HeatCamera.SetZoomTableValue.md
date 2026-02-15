@@ -61,7 +61,7 @@ Used extensively for POI navigation, scan nodes, and hotkey-based zoom control. 
 
 ### value (#1)
 
-Discrete zoom table position index. Typically 0-4 where 0 is the widest field of view and higher values represent narrower/more zoomed positions. The valid range depends on `zoomTablePosMax` from the camera state.
+Normalized value (0.0 to 1.0)
 
 
 #### Metadata

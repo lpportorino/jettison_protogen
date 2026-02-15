@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Starts the heater subsystem, enabling temperature monitoring and heating control for all three zones: Day Camera Lens, Rangefinder Lens, and Thermal Camera Lens.
+Starts the heater subsystem, enabling temperature monitoring and heating control for all zones.
 
 ## Fields
 
@@ -29,10 +29,7 @@ Starts the heater subsystem, enabling temperature monitoring and heating control
 
 ### Purpose
 
-Initializes and starts the heater subsystem. Must be called before SetHeating or automatic control commands will be processed.
-
-<!-- NEEDS_REVIEW: Verify if Start is called automatically at system boot or if it requires explicit invocation -->
-Note: This command is typically invoked at system startup rather than from the frontend UI. The frontend heater panel assumes the subsystem is already started and provides controls for automatic temperature control via EnableAutomaticControl/DisableAutomaticControl and SetAutomaticControlParams.
+Initializes and starts the heater subsystem. Must be called before SetHeating commands will be processed.
 
 
 ### Related State
@@ -43,11 +40,7 @@ Note: This command is typically invoked at system startup rather than from the f
 ### Related Commands
 
 - [[proto/cmd.Heater.Stop]]
-- [[proto/cmd.Heater.EnableAutomaticControl]]
-- [[proto/cmd.Heater.DisableAutomaticControl]]
-- [[proto/cmd.Heater.SetAutomaticControlParams]]
 - [[proto/cmd.Heater.SetHeating]]
-- [[proto/cmd.Heater.GetStatus]]
 
 
 

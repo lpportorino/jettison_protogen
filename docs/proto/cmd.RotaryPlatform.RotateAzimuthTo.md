@@ -70,9 +70,9 @@ Movement speed (0.0=stopped, 1.0=maximum)
 
 #### Metadata
 
-- **Semantic Type:** :normalized
-- **Precision:** 2
-- **Display Format:** `{value * 100}%`
+- **Semantic Type:** :percentage
+- **Unit:** %
+- **Precision:** 0
 
 
 ### direction (#3)

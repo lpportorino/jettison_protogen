@@ -32,9 +32,9 @@ Fields: #1
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :action-button
-- **Feedback:** :fire-and-forget
+- **Category:** :lifecycle
+- **UI Pattern:** :tabbed-config
+- **Feedback:** :pending-timeout
 
 
 ### Purpose
@@ -42,21 +42,6 @@ Fields: #1
 Root message container for all LIRA (target designation) commands
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataLrf]] - Contains `target` field with current LRF measurement and `is_refining` flag
-
-
-### Related Commands
-
-- [[proto/cmd.Lrf.RefineOn]] - Enables target refinement mode on LRF
-- [[proto/cmd.Lrf.RefineOff]] - Disables target refinement mode
-
-
-### Preconditions
-
-- LRF subsystem must be started (`cmd.Lrf.Start`)
-- Target refinement mode should be enabled (`cmd.Lrf.RefineOn`)
 
 
 
@@ -71,7 +56,7 @@ This is a oneof wrapper containing all LIRA command types
 
 ### refine_target (#1)
 
-Command to update target tracking with refined geospatial coordinates from LRF measurements. See [[proto/cmd.Lira.Refine_target]] for the full message structure including GPS coordinates, azimuth/elevation angles, distance, and UUID.
+See [[proto/cmd.Lira.Refine_target]]
 
 
 

@@ -55,12 +55,12 @@ Channel 5 (ORIN NUC) is protected and skipped when powering off
 
 ### power_on (#1)
 
-Boolean flag to set all channels on (true) or off (false). When powering off, channel 5 (ORIN NUC) is automatically skipped to prevent remote shutdown.
+Power consumption in watts
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 

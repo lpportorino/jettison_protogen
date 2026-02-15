@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Incremental adjustment command for thermal camera CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level. Accepts a normalized shift value between -1.0 and 1.0 to adjust the contrast enhancement by relative increments. Used by keyboard shortcuts in the Heat CLAHE Control transient overlay, where 'd' decreases by 1% (-0.01) and 'i' increases by 1% (+0.01). The shift is applied relative to the current `claheLevel` in `ser.JonGuiDataCameraHeat`.
+Incremental adjustment command for thermal camera CLAHE (Contrast Limited Adaptive Histogram Equalization) enhancement level. Accepts a normalized shift value between -1.0 and 1.0 to adjust the contrast enhancement by relative increments via keyboard shortcuts or steppers.
 
 ## Fields
 
@@ -30,7 +30,7 @@ Incremental adjustment command for thermal camera CLAHE (Contrast Limited Adapti
 
 ### Purpose
 
-Adjusts thermal CLAHE level incrementally via keyboard shortcuts. In the Heat CLAHE Control transient overlay (`jon-transient-heat-clahe-overlay`), pressing 'd' sends `shiftClaheLevel(-0.01)` to decrease by 1%, and pressing 'i' sends `shiftClaheLevel(0.01)` to increase by 1%. The frontend checks current `claheLevel` bounds before sending (only decreases if > 0, only increases if < 1).
+Adjusts thermal CLAHE level incrementally
 
 
 ### Related State
@@ -55,16 +55,16 @@ Adjusts thermal CLAHE level incrementally via keyboard shortcuts. In the Heat CL
 
 ### value (#1)
 
-Signed offset value (-1.0 to 1.0) representing the relative change to apply to the current CLAHE level. Positive values increase contrast enhancement, negative values decrease it. Typical increment is 0.01 (1% change per key press).
+Signed offset value (-1.0 to 1.0)
 
 
 #### Metadata
 
 - **Semantic Type:** :normalized
-- **Unit:** (relative)
-- **Precision:** 2
-- **Display Format:** `{value > 0 ? '+' : ''}{value * 100}%`
-- **Presets:** -0.01, +0.01
+- **Unit:** %
+- **Precision:** 0
+- **Display Format:** `{value * 100}%`
+- **Presets:** 0.1, 0.25, 0.5, 0.75, 1.0
 
 
 

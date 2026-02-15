@@ -41,23 +41,12 @@ Move to next preset zoom position in lookup table
 
 - [[proto/cmd.HeatCamera.Zoom]]
 - [[proto/cmd.HeatCamera.PrevZoomTablePos]]
-- [[proto/cmd.HeatCamera.SetZoomTableValue]]
-- [[proto/cmd.HeatCamera.SaveToTable]]
-- [[proto/cmd.DayCamera.NextZoomTablePos]]
 
 
 
 ### Implementation Notes
 
-Empty message - trigger only. Part of Zoom submessage.
-
-In the frontend, this command is triggered by:
-- Pinch-to-zoom gestures on the video stream (zoom in direction)
-- Mouse wheel scrolling on the video canvas
-- Keyboard hotkeys for zoom control
-- Direct button presses in the zoom palette UI
-
-When camera sync mode is enabled (`isSynced`), both `heatCameraNextZoomTablePos()` and `dayCameraNextZoomTablePos()` are called together, keeping both cameras at the same zoom table position.
+Empty message - trigger only. Part of Zoom submessage
 
 
 

@@ -42,9 +42,6 @@ Stops the thermal camera subsystem
 - [[proto/cmd.HeatCamera.Start]]
 
 
-### Preconditions
-
-- Heat camera must be started (`isStarted` = true in [[proto/ser.JonGuiDataCameraHeat]])
 
 
 

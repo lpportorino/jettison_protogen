@@ -42,12 +42,6 @@ Set FX (image enhancement) mode for heat camera
 
 - [[proto/cmd.HeatCamera.NextFxMode]]
 - [[proto/cmd.HeatCamera.PrevFxMode]]
-- [[proto/cmd.HeatCamera.RefreshFxMode]]
-
-
-### Implementation Notes
-
-Frontend uses a 2000ms pending timeout - if state confirmation is not received within this window, the UI clears the pending indicator. The FX mode palette displays modes as labeled buttons (e.g., "High Contrast", "Low Contrast") while the compact selector uses abbreviated labels (e.g., "TF:A", "TF:B").
 
 
 

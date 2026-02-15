@@ -22,7 +22,7 @@ Stops rotary platform motion and disables motor control, shutting down the rotar
 
 ## Interaction
 
-- **Category:** :lifecycle
+- **Category:** :actuator
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 

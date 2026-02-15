@@ -29,7 +29,7 @@ Specifies a rectangular region of interest for thermal camera AGC/exposure optim
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :roi-selection
+- **UI Pattern:** :directional-mover
 - **Feedback:** :fire-and-forget
 
 
@@ -40,7 +40,7 @@ Defines region of interest for AGC/exposure optimization and post-processing eff
 
 ### Related State
 
-- [[proto/ser.JonGuiDataVideoChannelHeat]]
+- [[proto/ser.JonGuiDataCameraHeat]]
 
 
 ### Related Commands

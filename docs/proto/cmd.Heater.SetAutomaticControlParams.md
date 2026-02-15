@@ -51,17 +51,17 @@ Configures target temperatures for the PID-based automatic heating control syste
 
 ### channel_0 (#1)
 
-Day camera glass heater. <!-- NEEDS_REVIEW: verify 60W power rating from hardware specs --> Sets the target temperature for the day camera optical window. The PID controller drives this channel's heating element to maintain the glass at the specified temperature, preventing fogging and condensation on the day camera optics.
+Day camera glass heater (60 W channel). Sets the target temperature for the day camera optical window. The PID controller drives this channel's heating element to maintain the glass at the specified temperature, preventing fogging and condensation on the day camera optics.
 
 
 ### channel_1 (#2)
 
-Laser rangefinder (LRF) glass heater. <!-- NEEDS_REVIEW: verify 15W power rating from hardware specs --> Sets the target temperature for the LRF optical window. This channel has a lower power budget than the other two channels, reflecting the smaller glass area of the LRF aperture.
+Laser rangefinder (LRF) glass heater (15 W channel). Sets the target temperature for the LRF optical window. This channel has a lower power budget than the other two channels, reflecting the smaller glass area of the LRF aperture.
 
 
 ### channel_2 (#3)
 
-Thermal/heat camera glass heater. <!-- NEEDS_REVIEW: verify 60W power rating from hardware specs --> Sets the target temperature for the thermal camera optical window. Keeps the heat camera germanium window at the specified temperature to maintain consistent thermal imaging performance and prevent condensation.
+Thermal/heat camera glass heater (60 W channel). Sets the target temperature for the thermal camera optical window. Keeps the heat camera germanium window at the specified temperature to maintain consistent thermal imaging performance and prevent condensation.
 
 
 

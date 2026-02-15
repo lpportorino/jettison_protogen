@@ -37,10 +37,6 @@ Starts video recording of camera streams
 - [[proto/ser.JonGuiDataSystem]]
 
 
-### Related Commands
-
-- [[proto/cmd.System.StopRec]]
-- [[proto/cmd.System.MarkRecImportant]]
 
 
 ### Implementation Notes

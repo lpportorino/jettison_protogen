@@ -32,10 +32,6 @@ Stops all rotary platform movement immediately by halting both azimuth and eleva
 Immediately halt all rotary platform motion (both azimuth and elevation)
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataRotary]]
-
 
 ### Related Commands
 

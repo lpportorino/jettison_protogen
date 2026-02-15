@@ -11,7 +11,7 @@ type: message
 
 ## Description
 
-Enables AI-powered object recognition mode on the computer vision system, activating automatic detection and classification of objects in the video feed. Sets `system.recognitionMode` to true in system state. UI renders a toggle button with bracket-and-question-mark icon; tooltip reads "Start Recognition - Enable AI object recognition and tracking".
+Enables AI-powered object recognition mode on the computer vision system, which activates detection and classification of objects in the video feed. UI displays a bracket icon with question mark and tooltip "Enable AI object recognition and tracking".
 
 ## Fields
 
@@ -24,15 +24,12 @@ Enables AI-powered object recognition mode on the computer vision system, activa
 
 - **Category:** :settings
 - **UI Pattern:** :toggle
-- **Feedback:** :fire-and-forget
+- **Feedback:** :pending-timeout
 
-### Related State
-
-- [[proto/ser.JonGuiDataSystem]] - `recognitionMode` field reflects current state
 
 ### Purpose
 
-Activates CV-based object recognition and detection capabilities
+Enables computer vision recognition mode
 
 
 
@@ -44,7 +41,7 @@ Activates CV-based object recognition and detection capabilities
 
 ### Implementation Notes
 
-Implemented in `jonCognitionButton.ts` as a toggle button that reads `system.recognitionMode` state and calls `recognitionModeEnable()` when recognition is currently disabled. Also accessible via keyboard shortcut `y > o > e` (System > Recognition Mode > Enable).
+Not implemented in current frontend version
 
 
 

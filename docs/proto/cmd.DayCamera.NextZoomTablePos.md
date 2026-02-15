@@ -39,18 +39,14 @@ Steps to next predefined optical zoom position
 
 ### Related Commands
 
+- [[proto/cmd.DayCamera.Zoom]]
 - [[proto/cmd.DayCamera.PrevZoomTablePos]]
-- [[proto/cmd.DayCamera.SetZoomTableValue]]
 
-
-### Preconditions
-
-- Camera must be started
 
 
 ### Implementation Notes
 
-No parameters. Simple increment operation. Used in hotkey commands and mouse wheel interactions.
+Cycles through zoom presets
 
 
 

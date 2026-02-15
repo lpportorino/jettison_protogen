@@ -191,72 +191,67 @@ Percentage value (0-100)
 
 ### tracking (#18)
 
-Tracking mode enabled state
+tracking state
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### vampire_mode (#19)
 
-Vampire mode enabled state
+vampire mode state
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### stabilization_mode (#20)
 
-Stabilization mode enabled state
+stabilization mode state
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### geodesic_mode (#21)
 
-Geodesic mode enabled state
+geodesic mode state
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### cv_dumping (#22)
 
-CV dumping enabled state
+cv dumping state
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### recognition_mode (#23)
 
-Recognition mode enabled state
+recognition mode state
 
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### accumulator_state (#24)
 
-See [[proto/ser.JonGuiDataAccumulatorStateIdx]]
-
-
-#### Metadata
-
-- **Semantic Type:** :enum-label
+Latitude in decimal degrees
 
 
 ### ext_bat_capacity (#25)

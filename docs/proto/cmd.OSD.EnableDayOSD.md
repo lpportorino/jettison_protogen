@@ -44,12 +44,11 @@ Enables on-screen display overlay for day camera
 
 ### Preconditions
 
-- Day camera video must be active
 
 
 ### Implementation Notes
 
-Frontend function `OSDEnableDayOSD()` in `cmdOSD.ts` sends this command. Forms a toggle pair with DisableDayOSD. Controlled via `jonOsdDisablePalette` component toggle button. The OSD overlay renders crosshair, navball, timestamps, and telemetry widgets onto the day camera video stream.
+Uses jonOsdDisablePalette component. Simple toggle for OSD visibility.
 
 
 

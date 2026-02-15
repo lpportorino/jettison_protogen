@@ -34,8 +34,8 @@ Fields: #1, #2, #3
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :command-router
+- **Category:** :settings
+- **UI Pattern:** :tabbed-config
 - **Feedback:** :fire-and-forget
 
 

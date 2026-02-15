@@ -25,17 +25,16 @@ Disables the computer vision image stabilization mode, allowing the camera to re
 - **Category:** :settings
 - **UI Pattern:** :toggle
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
 
 
 ### Purpose
 
-Disables computer vision stabilization mode, allowing raw camera movement without shake compensation
+Disable computer vision stabilization mode
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]] (stabilization_mode boolean field)
+- [[proto/ser.JonGuiDataCV]]
 
 
 ### Related Commands
@@ -43,9 +42,10 @@ Disables computer vision stabilization mode, allowing raw camera movement withou
 - [[proto/cmd.CV.StabilizationModeEnable]]
 
 
+
 ### Implementation Notes
 
-Empty message - trigger only. The frontend implements this as a toggle button that pairs with StabilizationModeEnable. The button tracks pending state and clears it either when the system state confirms the change or after a 2000ms timeout. Accessible via keyboard shortcut: System > Stabilization > Disable (y > s > d). Tooltip when stabilization is enabled: "Disable Image Stabilization - allows manual camera movement"
+Empty message - trigger only
 
 
 

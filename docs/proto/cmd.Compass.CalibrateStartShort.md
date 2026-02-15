@@ -22,36 +22,36 @@ Initiates a short (4-point) compass calibration procedure that requires the devi
 
 ## Interaction
 
-- **Category:** :diagnostic
+- **Category:** :lifecycle
 - **UI Pattern:** :action-button
-- **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
+- **Feedback:** :fire-and-forget
+
 
 ### Purpose
 
-Initiates a quick 4-point compass calibration procedure as an alternative to the full 12-point long calibration. This mode is faster but provides less precise magnetic distortion correction compared to the comprehensive long calibration.
+Initiates short compass calibration procedure
+
 
 ### Related State
 
-- [[proto/ser.JonGuiDataCompassCalibration]] - Tracks calibration status, current stage, and final stage count
-- [[proto/ser.JonGuiDataCompassCalibrateStatus]] - Enum indicating CALIBRATING_SHORT when active
+- [[proto/ser.JonGuiDataCompass]]
+
 
 ### Related Commands
 
-- [[proto/cmd.Compass.CalibrateStartLong]] - Full 12-point calibration (more precise, slower)
-- [[proto/cmd.Compass.CalibrateNext]] - Advances to next calibration stage
-- [[proto/cmd.Compass.CalibrateCencel]] - Cancels ongoing calibration
+- [[proto/cmd.Compass.CalibrateStartLong]]
+- [[proto/cmd.Compass.CalibrateNext]]
+- [[proto/cmd.Compass.CalibrateCencel]]
+
 
 ### Preconditions
 
-- Compass must be started (`compass.isStarted == true`)
-- Calibration must not already be in progress
+- Compass must be started
+
 
 ### Implementation Notes
 
-No parameters required. Invoked via `calibrateShortStart()` function in frontend. The backend sends `COMPASS_CALIBRATION_4POINT` to the compass device via CAN bus. During calibration, device must be rotated to 4 cardinal positions (N, E, S, W). Progress is tracked via `stage` and `finalStage` fields in compass calibration state.
-
-<!-- NEEDS_REVIEW: Verify if short calibration is exposed in main UI or only in factory/control panel -->
+No parameters required. Simple button invocation via calibrateShortStart() function.
 
 
 

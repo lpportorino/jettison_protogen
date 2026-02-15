@@ -41,7 +41,6 @@ Enables or disables automatic iris control for day camera exposure
 ### Related Commands
 
 - [[proto/cmd.DayCamera.SetIris]]
-- [[proto/cmd.DayCamera.SetAutoGain]]
 
 
 ### Preconditions
@@ -65,7 +64,7 @@ Enable/disable state
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 

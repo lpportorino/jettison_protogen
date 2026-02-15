@@ -46,16 +46,9 @@ Adjust DDE (Digital Detail Enhancement) level incrementally for heat camera
 
 
 
-### Preconditions
-
-- DDE must be enabled (via `EnableDDE`)
-- For increment (+15): current DDE level must be <= 240
-- For decrement (-15): current DDE level must be >= 15
-
-
 ### Implementation Notes
 
-Used with keyboard shortcuts to shift DDE level by +/-15. The frontend enforces boundary checking before sending the command to prevent level overflow/underflow. DDE level range is 0-255.
+Used with keyboard shortcuts to shift DDE level by ±15
 
 
 

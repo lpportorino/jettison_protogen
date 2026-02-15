@@ -32,10 +32,6 @@ Begins automated execution of a pre-defined scan pattern on the rotary platform,
 Starts automated scan pattern execution
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataRotary]]
-
 
 ### Related Commands
 

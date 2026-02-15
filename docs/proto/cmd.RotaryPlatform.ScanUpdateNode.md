@@ -111,8 +111,7 @@ Dwell time at this scan node in seconds
 #### Metadata
 
 - **Semantic Type:** :duration
-- **Unit:** s
-- **Precision:** 1
+- **Unit:** ms
 
 
 ### speed (#7)
@@ -122,8 +121,7 @@ Movement speed (0.0=stopped, 1.0=maximum)
 
 #### Metadata
 
-- **Semantic Type:** :normalized
-- **Precision:** 2
+- **Semantic Type:** :raw
 
 
 

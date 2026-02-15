@@ -38,10 +38,6 @@ Set absolute elevation position of rotary platform
 - [[proto/ser.JonGuiDataRotary]]
 
 
-### Related Commands
-
-- [[proto/cmd.RotaryPlatform.SetAzimuthValue]]
-- [[proto/cmd.RotaryPlatform.RotateElevationTo]]
 
 
 

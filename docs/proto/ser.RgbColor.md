@@ -23,18 +23,6 @@ Represents an RGB color value with red, green, and blue components each constrai
 
 
 
-## Interaction
-
-- **Category:** :status
-- **UI Pattern:** :indicator
-- **Feedback:** :fire-and-forget
-
-
-### Purpose
-
-RGB color value for UI target marker and OSD configuration
-
-
 
 ## Field Notes
 

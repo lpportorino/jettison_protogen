@@ -26,9 +26,6 @@ Disables the AI-powered computer vision recognition mode, stopping automatic obj
 - **UI Pattern:** :toggle
 - **Feedback:** :fire-and-forget
 
-### Related State
-
-- [[proto/ser.JonGuiDataSystem]] - `recognitionMode` field reflects current state
 
 ### Purpose
 
@@ -44,7 +41,7 @@ Disables computer vision object recognition mode
 
 ### Implementation Notes
 
-Implemented in `jonCognitionButton.ts` as a toggle button that reads `system.recognitionMode` state and calls `recognitionModeDisable()` when recognition is currently enabled. Also accessible via keyboard shortcut `y > o > d` (System > Recognition Mode > Disable).
+Stops CV-based object detection and recognition
 
 
 

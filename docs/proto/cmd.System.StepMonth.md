@@ -35,7 +35,7 @@ Increments or decrements system date by months
 
 ### Related State
 
-- [[proto/ser.JonGuiDataTime]]
+- [[proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands

@@ -62,7 +62,7 @@ Power channel index
 
 ### power_on (#2)
 
-Boolean flag to turn the specified channel on (true) or off (false).
+Power consumption in watts
 
 
 #### Metadata

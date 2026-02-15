@@ -41,9 +41,6 @@ Saves current day camera zoom position to zoom table
 
 - [[proto/cmd.DayCamera.ResetZoom]]
 - [[proto/cmd.DayCamera.SetZoomTableValue]]
-- [[proto/cmd.DayCamera.NextZoomTablePos]]
-- [[proto/cmd.DayCamera.PrevZoomTablePos]]
-- [[proto/cmd.DayCamera.SaveToTableFocus]]
 
 
 ### Preconditions

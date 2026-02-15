@@ -23,7 +23,7 @@ Stops the compass/IMU sensor subsystem and powers down the device, preventing he
 ## Interaction
 
 - **Category:** :lifecycle
-- **UI Pattern:** :action-button
+- **UI Pattern:** :toggle
 - **Feedback:** :pending-timeout
 
 

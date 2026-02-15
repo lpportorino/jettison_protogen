@@ -23,13 +23,8 @@ Disables the PID-based automatic temperature regulation loop for all heater chan
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :toggle
+- **UI Pattern:** :action-button
 - **Feedback:** :pending-timeout
-- **Timeout:** 2000ms
-
-### Usage Context
-
-In the Glass Heater Control panel, the "Automatic Control" toggle button sends either `EnableAutomaticControl` or `DisableAutomaticControl` depending on the current state. When the toggle is switched from enabled to disabled, this command is sent. The UI shows a pending state for up to 2 seconds while awaiting confirmation via the `automaticControlEnabled` field in `JonGuiDataHeater` state.
 
 
 
@@ -44,4 +39,8 @@ In the Glass Heater Control panel, the "Automatic Control" toggle button sends e
 - [[proto/cmd.Heater.SetAutomaticControlParams]]
 - [[proto/cmd.Heater.SetHeating]]
 - [[proto/cmd.Heater.Stop]]
+
+
+
+
 

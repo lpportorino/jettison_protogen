@@ -29,12 +29,12 @@ Enables vampire mode for the computer vision system, which causes the cameras to
 
 ### Purpose
 
-Enables sun avoidance behavior in the computer vision system to protect camera sensors from damage and prevent image overexposure when pointing at bright light sources.
+Enables vampire mode for computer vision processing
 
 
 ### Related State
 
-- [[proto/ser.JonGuiDataSystem]] - `vampireMode` boolean field reflects the current state
+- [[proto/ser.JonGuiDataSystem]]
 
 
 ### Related Commands
@@ -44,12 +44,11 @@ Enables sun avoidance behavior in the computer vision system to protect camera s
 
 ### Preconditions
 
-None - can be enabled at any time
 
 
 ### Implementation Notes
 
-The frontend provides a toggle button (`jon-vampire-mode-button`) with keyboard shortcut `v` > `e`. The button shows pending state while waiting for confirmation from the backend. Currently marked as "NOT IMPLEMENTED" in some frontend code paths, indicating feature may not be fully deployed.
+Vampire mode likely relates to low-light or nighttime CV processing optimization.
 
 
 

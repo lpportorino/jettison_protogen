@@ -66,9 +66,7 @@ Step offset value
 
 #### Metadata
 
-- **Semantic Type:** :count
-- **Unit:** seconds
-- **Precision:** 0
+- **Semantic Type:** :raw
 
 
 

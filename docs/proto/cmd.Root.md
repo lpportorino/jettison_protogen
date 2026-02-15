@@ -59,8 +59,8 @@ Fields: #20, #21, #22, #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #34, #3
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :command-router
+- **Category:** :lifecycle
+- **UI Pattern:** :state-machine-menu
 - **Feedback:** :fire-and-forget
 
 
@@ -232,7 +232,7 @@ See [[proto/cmd.Lira.Root]]
 
 ### power (#35)
 
-See [[proto/cmd.Power.Root]]
+Power consumption in watts
 
 
 ### pmu (#36)

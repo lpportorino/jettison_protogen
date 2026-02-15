@@ -23,20 +23,6 @@ Use this command to recover from errors or apply configuration changes that requ
 |---|-------|------|-------------|
 | 1 | force | bool | - |
 
-## Interaction
 
-| Property | Value |
-|----------|-------|
-| Category | `:lifecycle` |
-| UI Pattern | `:action-button` |
-| Feedback | `:pending-timeout` |
-| Timeout | 10000ms |
-| Related State | [[proto/ser.JonGuiDataCV]] |
-| Related Commands | [[proto/cmd.CV.BridgeStart]], [[proto/cmd.CV.BridgeStop]] |
 
-## Field Notes
-
-### force (#1)
-
-When true, forcefully terminates the CV Bridge container without waiting for graceful shutdown. Use when the bridge is unresponsive or stuck in an error state. When false (default), performs a graceful stop followed by start.
 

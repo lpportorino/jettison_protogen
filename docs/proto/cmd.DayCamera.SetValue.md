@@ -40,17 +40,9 @@ Generic value setter for day camera parameters
 
 
 
-### Related Commands
-
-- [[proto/cmd.DayCamera.Focus]] - Parent composite command for focus operations
-- [[proto/cmd.DayCamera.Zoom]] - Parent composite command for zoom operations
-- [[proto/cmd.DayCamera.Offset]] - Alternative sub-command for relative adjustments
-- [[proto/cmd.DayCamera.Move]] - Alternative sub-command for continuous movement
-
-
 ### Implementation Notes
 
-Used in the frontend via `dayCameraSetFocus(value)` and `dayCameraSetZoom(value)` functions in `cmdDayCamera.ts`. These create Focus or Zoom composite commands with the `setValue` sub-command containing the normalized position. Provides direct absolute positioning as an alternative to relative `offset` or continuous `move` commands
+Not found in frontend - may be deprecated or internal
 
 
 
@@ -59,14 +51,7 @@ Used in the frontend via `dayCameraSetFocus(value)` and `dayCameraSetZoom(value)
 
 ### value (#1)
 
-Normalized value (0.0 to 1.0) representing the absolute position of the actuator (focus or zoom). Value 0.0 represents the minimum position and 1.0 represents the maximum position.
-
-
-#### Metadata
-
-- **Semantic Type:** :normalized
-- **Unit:** (unitless, 0-1 range)
-- **Precision:** 4 decimal places (0.0001 granularity typical for motor positioning)
+Normalized value (0.0 to 1.0)
 
 
 

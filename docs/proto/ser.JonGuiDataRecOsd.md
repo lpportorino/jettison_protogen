@@ -68,7 +68,7 @@ Heat camera OSD enabled state
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### day_osd_enabled (#3)
@@ -78,7 +78,7 @@ Day camera OSD enabled state
 
 #### Metadata
 
-- **Semantic Type:** :toggle-state
+- **Semantic Type:** :raw
 
 
 ### heat_crosshair_offset_horizontal (#4)

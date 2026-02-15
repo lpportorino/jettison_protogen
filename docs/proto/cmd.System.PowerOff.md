@@ -32,9 +32,6 @@ Triggers a controlled system shutdown sequence by creating a power-off flag that
 Initiates full system shutdown
 
 
-### Related State
-
-- [[proto/ser.JonGuiDataSystem]]
 
 
 ### Preconditions

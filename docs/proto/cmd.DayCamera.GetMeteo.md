@@ -22,7 +22,7 @@ Polling command that requests meteorological sensor data (temperature, humidity,
 
 ## Interaction
 
-- **Category:** :diagnostic
+- **Category:** :sensor
 - **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
@@ -35,7 +35,6 @@ Request meteorological data from day camera sensors
 ### Related State
 
 - [[proto/ser.JonGuiDataMeteo]]
-- [[proto/ser.JonGuiDataCameraDay]]
 
 
 ### Related Commands
@@ -43,18 +42,12 @@ Request meteorological data from day camera sensors
 - [[proto/cmd.HeatCamera.GetMeteo]]
 - [[proto/cmd.Lrf.GetMeteo]]
 - [[proto/cmd.RotaryPlatform.GetMeteo]]
-- [[proto/cmd.Compass.GetMeteo]]
-- [[proto/cmd.Gps.GetMeteo]]
 
-
-### Preconditions
-
-- Day camera must be started
 
 
 ### Implementation Notes
 
-Polling command - retrieves environmental sensor data from the day camera's integrated sensors. The response includes temperature, humidity, and pressure readings that are used for environmental monitoring and ranging corrections.
+Polling command - retrieves environmental sensor data
 
 
 

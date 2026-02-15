@@ -58,11 +58,6 @@ Defines region to zoom into on thermal camera
 
 Uses zoomOverlay component. Allows specifying a region to zoom into via rectangle selection or point tap.
 
-- **Rectangle selection**: User draws a rectangle on the video overlay; coordinates are normalized to NDC [-1, 1]
-- **Point tap**: Single tap creates a 0.2 NDC region (10% of view) centered on the tap point
-- **Timestamp synchronization**: `frame_time` comes from the video frame's timestamp; `state_time` comes from `DeviceStateDispatch.getSystemMonotonicTimeUs()`
-- **Validation**: Command is not sent if system monotonic time is unavailable (state not yet received)
-
 
 
 ## Field Notes
@@ -114,7 +109,7 @@ Bottom edge in NDC (-1.0 to 1.0)
 
 ### frame_time (#5)
 
-Frame timestamp for synchronization. Obtained from the video frame data via `DeviceStateDispatch.getHeatFrameData().timestamp`. Used to correlate the ROI selection with the exact video frame the user was viewing when they made the selection.
+Frame timestamp for synchronization
 
 
 #### Metadata
@@ -125,7 +120,7 @@ Frame timestamp for synchronization. Obtained from the video frame data via `Dev
 
 ### state_time (#6)
 
-State snapshot timestamp for synchronization. Obtained from `DeviceStateDispatch.getSystemMonotonicTimeUs()` (system monotonic time from JonGUIState). Used together with frame_time to account for any latency between frame capture and state updates.
+State snapshot timestamp for synchronization
 
 
 #### Metadata
