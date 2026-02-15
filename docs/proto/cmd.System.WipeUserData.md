@@ -32,6 +32,10 @@ Permanently deletes all user data from the device, including all photos, videos,
 Wipes all user data from the system (factory reset)
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataSystem]]
+
 
 ### Related Commands
 

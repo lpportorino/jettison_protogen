@@ -22,8 +22,8 @@ Instructs the device to immediately stop video recording. When received by the r
 
 ## Interaction
 
-- **Category:** :actuator
-- **UI Pattern:** :toggle
+- **Category:** :lifecycle
+- **UI Pattern:** :action-button
 - **Feedback:** :fire-and-forget
 
 

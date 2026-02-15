@@ -32,6 +32,10 @@ Shuts down all active system subsystems including cameras, sensors, and platform
 Stops all system components and subsystems
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataSystem]]
+
 
 ### Related Commands
 
