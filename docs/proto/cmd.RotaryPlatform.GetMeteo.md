@@ -44,6 +44,7 @@ Requests meteorological data from rotary platform sensors
 
 ### Preconditions
 
+- Rotary platform must be started
 
 
 ### Implementation Notes

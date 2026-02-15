@@ -80,12 +80,12 @@ See [[proto/cmd.RotaryPlatform.RotateElevation]]
 
 ### relative (#4)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.RotateElevationRelative]]
 
 
 ### relative_set (#5)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.RotateElevationRelativeSet]]
 
 
 ### halt (#6)
