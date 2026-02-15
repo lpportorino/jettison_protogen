@@ -46,7 +46,7 @@ Switch OSD to default/home screen layout
 
 ### Implementation Notes
 
-Empty message - trigger only
+Frontend function `OSDShowDefaultScreen()` in `cmdOSD.ts` sends this command. Returns OSD to the default telemetry display after LRF operations. Typically triggered by gamepad exit button or keyboard escape.
 
 
 

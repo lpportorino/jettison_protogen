@@ -32,6 +32,14 @@ A lightweight keepalive command that allows clients to update their session hear
 Test connectivity and measure round-trip latency
 
 
+### Related Commands
+
+- [[proto/cmd.Noop]] - No-op placeholder command
+
+
+### Implementation Notes
+
+Sent periodically by the frontend to maintain session heartbeat. The server tracks last heartbeat time per session and can automatically halt operations (camera movements, scanning) if a session becomes unresponsive. The feedback is `:pending-timeout` because the response is used to measure RTT latency.
 
 
 

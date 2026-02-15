@@ -47,7 +47,7 @@ Switch OSD to laser rangefinder result display screen
 
 ### Implementation Notes
 
-Empty message - trigger only
+Frontend function `OSDShowLRFResultScreen()` in `cmdOSD.ts` sends this command. Displays full LRF measurement results including distance, GPS coordinates, and targeting data overlay.
 
 
 

@@ -47,7 +47,7 @@ Switch OSD to laser rangefinder measurement screen
 
 ### Implementation Notes
 
-Empty message - trigger only
+Frontend function `OSDShowLRFMeasureScreen()` in `cmdOSD.ts` sends this command. Switches OSD to display measurement UI with crosshair and targeting indicators while waiting for LRF measurement.
 
 
 

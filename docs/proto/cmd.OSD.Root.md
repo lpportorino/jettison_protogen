@@ -39,8 +39,8 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8
 
 ## Interaction
 
-- **Category:** :settings
-- **UI Pattern:** :enum-picker
+- **Category:** :actuator
+- **UI Pattern:** :command-router
 - **Feedback:** :fire-and-forget
 
 
@@ -50,6 +50,11 @@ Controls OSD (on-screen display) visibility and screen modes
 
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataRecOsd]] - Current OSD screen and visibility state
+
+
 ### Related Commands
 
 - [[proto/cmd.OSD.ShowDefaultScreen]]
@@ -57,10 +62,9 @@ Controls OSD (on-screen display) visibility and screen modes
 - [[proto/cmd.OSD.DisableHeatOSD]]
 
 
-
 ### Implementation Notes
 
-Container message for OSD configuration commands
+Root command router for OSD subsystem. Commands are dispatched from `cmdOSD.ts` in the frontend. The OSD system controls telemetry overlays on both day and thermal camera video streams, as well as screen selection for LRF operations.
 
 
 
