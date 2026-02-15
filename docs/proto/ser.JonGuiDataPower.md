@@ -104,7 +104,12 @@ See [[proto/ser.JonGuiDataPowerModule]]
 
 ### accumulator_state (#9)
 
-Latitude in decimal degrees
+See [[proto/ser.JonGuiDataAccumulatorStateIdx]]
+
+
+#### Metadata
+
+- **Semantic Type:** :enum-label
 
 
 ### ext_bat_capacity (#10)

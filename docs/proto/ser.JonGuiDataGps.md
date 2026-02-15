@@ -131,8 +131,7 @@ Monotonic timestamp in microseconds
 #### Metadata
 
 - **Semantic Type:** :timestamp
-- **Unit:** degrees
-- **Precision:** 6
+- **Unit:** us
 
 
 ### is_started (#10)
@@ -143,8 +142,6 @@ GPS receiver started state
 #### Metadata
 
 - **Semantic Type:** :toggle-state
-- **Unit:** degrees
-- **Precision:** 6
 
 
 ### meteo (#11)

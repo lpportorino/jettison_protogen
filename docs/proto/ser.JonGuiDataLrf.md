@@ -78,7 +78,12 @@ See related enum for valid values
 
 ### is_started (#9)
 
-GPS receiver started state
+LRF started state
+
+
+#### Metadata
+
+- **Semantic Type:** :toggle-state
 
 
 ### meteo (#10)
