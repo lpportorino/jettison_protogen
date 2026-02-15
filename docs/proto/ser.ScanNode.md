@@ -60,8 +60,7 @@ Zero-based node index
 
 #### Metadata
 
-- **Semantic Type:** :angle
-- **Unit:** degrees
+- **Semantic Type:** :count
 
 
 ### DayZoomTableValue (#2)
@@ -71,8 +70,7 @@ Day camera zoom table index for this scan node
 
 #### Metadata
 
-- **Semantic Type:** :angle
-- **Unit:** degrees
+- **Semantic Type:** :count
 
 
 ### HeatZoomTableValue (#3)
@@ -82,8 +80,7 @@ Heat camera zoom table index for this scan node
 
 #### Metadata
 
-- **Semantic Type:** :duration
-- **Unit:** ms
+- **Semantic Type:** :count
 
 
 ### azimuth (#4)
@@ -93,7 +90,9 @@ Azimuth angle in degrees (0=North, clockwise)
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
 
 
 ### elevation (#5)
@@ -104,6 +103,8 @@ Elevation angle in degrees
 #### Metadata
 
 - **Semantic Type:** :angle
+- **Unit:** °
+- **Precision:** 2
 
 
 ### linger (#6)
@@ -114,11 +115,19 @@ Dwell time at this scan node in seconds
 #### Metadata
 
 - **Semantic Type:** :duration
+- **Unit:** s
+- **Precision:** 1
 
 
 ### speed (#7)
 
 Movement speed (0.0=stopped, 1.0=maximum)
+
+
+#### Metadata
+
+- **Semantic Type:** :normalized
+- **Precision:** 3
 
 
 

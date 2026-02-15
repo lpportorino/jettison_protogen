@@ -170,7 +170,7 @@ Required — see [[proto/ser.JonGuiDataActualSpaceTime]]
 
 ### power (#26)
 
-Power consumption in watts
+Required — see [[proto/ser.JonGuiDataPower]]
 
 
 ### cv (#27)
