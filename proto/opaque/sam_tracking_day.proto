@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+import "opaque/sam_tracking_common.proto";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// SAM visual tracking result for DAY camera channel.
+// Injected by bezoar SamTrackerModule into JonGUIState.opaque_payloads at inference rate (~30fps).
+// Contains RLE-encoded binary mask within the bounding box for efficient transmission.
+//
+// UUID: 019f4a7c-8b2d-7a1e-9c3f-2e8d5f1a4b6e
+message SamTrackingDay {
+  // Tracking status for this tick (required, must be valid enum value)
+  SamTrackingStatus status = 1 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // Current tracking state machine state
+  SamTrackingState state = 2 [(buf.validate.field).enum = {
+    defined_only: true,
+    not_in: [0]
+  }];
+
+  // Bounding box in NDC (Normalized Device Coordinates)
+  // -1.0 (left/top) to 1.0 (right/bottom), center is (0,0)
+  double bbox_x1 = 3 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double bbox_y1 = 4 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double bbox_x2 = 5 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double bbox_y2 = 6 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+
+  // K-Medoids cluster center (centroid) in NDC
+  // This is the point used to prompt the next iteration
+  double centroid_x = 7 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double centroid_y = 8 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+
+  // Tracking confidence [0.0, 1.0]
+  // Computed as mask_area / bbox_area
+  float confidence = 9 [(buf.validate.field).float = { gte: 0.0, lte: 1.0 }];
+
+  // Decoder IoU prediction [0.0, 1.0]
+  float iou = 10 [(buf.validate.field).float = { gte: 0.0, lte: 1.0 }];
+
+  // RLE-encoded binary mask within the bounding box
+  // Format: [run_length:u16, value:u8]... (little-endian)
+  // Max 64KB to prevent oversized payloads
+  bytes mask_rle = 11 [(buf.validate.field).bytes.max_len = 65536];
+
+  // Mask dimensions within the bounding box (pixels)
+  // Typically 256x256 from the SAM decoder output
+  uint32 mask_width = 12 [(buf.validate.field).uint32 = { gte: 1, lte: 2048 }];
+  uint32 mask_height = 13 [(buf.validate.field).uint32 = { gte: 1, lte: 2048 }];
+
+  // Non-zero pixel count in the mask
+  uint32 mask_pixels = 14;
+
+  // Frame metadata for temporal correlation
+  SamTrackingFrameMeta frame = 15;
+
+  // Kalman filter state for visualization/debugging
+  SamTrackingKalmanState kalman = 16;
+
+  // Number of consecutive frames in LOST state
+  // Used for auto-stop logic (stop after 5 frames in LOST)
+  uint32 lost_frame_count = 17 [(buf.validate.field).uint32.lte = 255];
+
+  // Processing latency (nanoseconds)
+  uint64 latency_ns = 18 [(buf.validate.field).uint64.gte = 0];
+}

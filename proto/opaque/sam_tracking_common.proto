@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/opaque";
+
+package ser;
+
+// SAM tracking state machine states.
+// State transitions: IDLE → STARTING → TRACKING ⇄ OCCLUDED → LOST
+enum SamTrackingState {
+  SAM_TRACKING_STATE_UNSPECIFIED = 0;
+  SAM_TRACKING_STATE_IDLE = 1;      // Not tracking, awaiting start
+  SAM_TRACKING_STATE_STARTING = 2;  // Initial prompt received, warming up
+  SAM_TRACKING_STATE_TRACKING = 3;  // Normal tracking with valid masks
+  SAM_TRACKING_STATE_OCCLUDED = 4;  // Low confidence, using Kalman prediction
+  SAM_TRACKING_STATE_LOST = 5;      // Tracking lost (max_occluded_frames exceeded)
+}
+
+// SAM tracking tick result status codes.
+enum SamTrackingStatus {
+  SAM_TRACKING_STATUS_UNSPECIFIED = 0;
+  SAM_TRACKING_STATUS_OK = 1;           // Successful tracking iteration
+  SAM_TRACKING_STATUS_NOT_READY = 2;    // Engine/IPC not initialized
+  SAM_TRACKING_STATUS_NOT_STARTED = 3;  // Tracking not started (awaiting start command)
+  SAM_TRACKING_STATUS_IPC_TIMEOUT = 4;  // CUDA IPC read timeout
+  SAM_TRACKING_STATUS_INFER_FAILED = 5; // TensorRT inference failed
+  SAM_TRACKING_STATUS_LOST = 6;         // Object tracking lost
+}
+
+// Frame metadata for SAM tracking correlation.
+message SamTrackingFrameMeta {
+  // Presentation timestamp (nanoseconds)
+  uint64 pts_ns = 1 [(buf.validate.field).uint64.gte = 0];
+
+  // Capture timestamp (nanoseconds)
+  uint64 capture_time_ns = 2 [(buf.validate.field).uint64.gte = 0];
+
+  // Frame generation counter (for CUDA IPC correlation)
+  uint32 generation = 3;
+
+  // Correlation timestamp (CLOCK_MONOTONIC, microseconds) - matches CvMeta pattern
+  uint64 capture_monotonic_us = 4 [(buf.validate.field).uint64.gte = 0];
+}
+
+// Kalman filter state for visualization and debugging.
+message SamTrackingKalmanState {
+  // Predicted centroid position (NDC [-1, 1])
+  double predicted_x = 1 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+  double predicted_y = 2 [(buf.validate.field).double = { gte: -1.0, lte: 1.0 }];
+
+  // Velocity estimate (NDC/second)
+  double velocity_x = 3;
+  double velocity_y = 4;
+}
