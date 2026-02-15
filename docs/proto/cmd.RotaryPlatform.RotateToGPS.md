@@ -35,6 +35,16 @@ Commands the rotary platform to rotate and point toward a specified GPS coordina
 Rotates platform to point at GPS coordinates
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataRotary]]
+- [[proto/ser.JonGuiDataGps]] - Current platform position
+
+
+### Related Commands
+
+- [[proto/cmd.RotaryPlatform.SetOriginGPS]]
+- [[proto/cmd.RotaryPlatform.RotateToNDC]]
 
 
 ### Preconditions
