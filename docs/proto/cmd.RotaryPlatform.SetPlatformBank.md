@@ -33,6 +33,10 @@ Sets the rotary platform's roll/bank angle to a specific value between -180 and 
 Sets platform bank angle (roll) correction
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataRotary]]
+
 
 ### Related Commands
 

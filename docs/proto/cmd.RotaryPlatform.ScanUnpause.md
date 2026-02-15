@@ -32,6 +32,10 @@ Resumes a paused scan pattern on the rotary platform after it has been temporari
 Resumes paused rotary platform scan pattern
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataRotary]]
+
 
 ### Related Commands
 
