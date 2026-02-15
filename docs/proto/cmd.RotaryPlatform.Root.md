@@ -57,7 +57,7 @@ Fields: #1, #2, #3, #4, #5, #6, #7, #8, #9, #10, #11, #12, #13, #14, #15, #16, #
 ## Interaction
 
 - **Category:** :actuator
-- **UI Pattern:** :directional-mover
+- **UI Pattern:** :command-router
 - **Feedback:** :fire-and-forget
 
 
@@ -99,17 +99,17 @@ See [[proto/cmd.RotaryPlatform.Axis]]
 
 ### set_platform_azimuth (#4)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.SetPlatformAzimuth]]
 
 
 ### set_platform_elevation (#5)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.SetPlatformElevation]]
 
 
 ### set_platform_bank (#6)
 
-Latitude in decimal degrees
+See [[proto/cmd.RotaryPlatform.SetPlatformBank]]
 
 
 ### halt (#7)
