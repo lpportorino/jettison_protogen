@@ -60,7 +60,7 @@ Enable/disable flag
 
 #### Metadata
 
-- **Semantic Type:** :raw
+- **Semantic Type:** :toggle-state
 
 
 
