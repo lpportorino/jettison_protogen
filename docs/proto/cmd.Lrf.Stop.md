@@ -32,12 +32,24 @@ Stops the LRF (Laser Rangefinder) device by setting its operational state to ina
 Stop laser rangefinder operation
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataLrf]] - `is_started` flag reflects current state
+
 
 ### Related Commands
 
 - [[proto/cmd.Lrf.Start]]
 
 
+### Preconditions
+
+- LRF must be started
+
+
+### Implementation Notes
+
+Frontend function `lrfStop()` in `cmdLRF.ts` sends this command. Lifecycle command pair with Start. When executed, the device stops active operations and powers down the laser hardware.
 
 
 

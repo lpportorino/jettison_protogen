@@ -44,5 +44,14 @@ Enable laser target designator in Mode A
 - LRF must be started
 
 
+### Related State
+
+- [[proto/ser.JonGuiDataLrf]] - `laser_pointer_mode` tracks designator state
+
+
+### Implementation Notes
+
+Frontend function `lrfTargetDesignatorOnModeA()` in `cmdLRF.ts` sends this command. Mode A provides continuous laser designation for target acquisition. Forms a toggle group with ModeB and Off commands.
+
 
 

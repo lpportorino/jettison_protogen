@@ -43,9 +43,14 @@ Enable on-screen display overlay for heat camera
 
 
 
+### Preconditions
+
+- Heat camera video must be active
+
+
 ### Implementation Notes
 
-Empty message - trigger only
+Frontend function `OSDEnableHeatOSD()` in `cmdOSD.ts` sends this command. Forms a toggle pair with DisableHeatOSD. The OSD overlay renders thermal-specific telemetry onto the heat camera video stream.
 
 
 

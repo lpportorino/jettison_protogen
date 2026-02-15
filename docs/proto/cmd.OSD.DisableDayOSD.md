@@ -43,9 +43,14 @@ Disables on-screen display overlay on day camera video
 
 
 
+### Preconditions
+
+- Day camera video must be active
+
+
 ### Implementation Notes
 
-Removes telemetry overlay from video output
+Frontend function `OSDDisableDayOSD()` in `cmdOSD.ts` sends this command. Forms a toggle pair with EnableDayOSD. The OSD overlay renders telemetry information (crosshair, compass, GPS, altitude) onto the day camera video stream. Controlled via `jonOsdDisablePalette` component.
 
 
 

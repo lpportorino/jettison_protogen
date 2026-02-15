@@ -50,7 +50,7 @@ Turns off laser target designator
 
 ### Implementation Notes
 
-Safety command to disable laser designation
+Frontend function `lrfTargetDesignatorOff()` in `cmdLRF.ts` sends this command. Forms a toggle group with TargetDesignatorOnModeA and TargetDesignatorOnModeB. The `laser_pointer_mode` field in `ser.JonGuiDataLrf` tracks the current designator state. This is a safety-critical command that disables the laser beam.
 
 
 
