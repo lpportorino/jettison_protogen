@@ -372,28 +372,33 @@ EOF
 mkdir -p src
 cat > build.rs << "EOF"
 use std::io::Result;
+use std::path::{Path, PathBuf};
 
 fn main() -> Result<()> {
-    let proto_files: Vec<_> = std::fs::read_dir("/tmp/cleaned_proto")?
-        .filter_map(|entry| {
-            let entry = entry.ok()?;
-            let path = entry.path();
-            if path.extension()? == "proto" {
-                Some(path)
-            } else {
-                None
-            }
-        })
-        .collect();
-    
+    let proto_files = find_protos(Path::new("/tmp/cleaned_proto"))?;
+
     // Ensure output directory exists and is writable
     std::fs::create_dir_all("/workspace/output")?;
-    
+
     prost_build::Config::new()
         .out_dir("/workspace/output")
         .compile_protos(&proto_files, &["/tmp/cleaned_proto"])?;
-    
+
     Ok(())
+}
+
+/// Recursively find all `.proto` files under `dir`.
+fn find_protos(dir: &Path) -> Result<Vec<PathBuf>> {
+    let mut files = Vec::new();
+    for entry in std::fs::read_dir(dir)? {
+        let path = entry?.path();
+        if path.is_dir() {
+            files.extend(find_protos(&path)?);
+        } else if path.extension().is_some_and(|e| e == "proto") {
+            files.push(path);
+        }
+    }
+    Ok(files)
 }
 EOF
 
