@@ -5,7 +5,4 @@
 
 /* eslint-disable */
 
-export * as ui from "./index.ui";
-export * as ser from "./index.ser";
-export * as jon from "./index.jon";
-export * as cmd from "./index.cmd";
+export * from "./ui/ui_ast";

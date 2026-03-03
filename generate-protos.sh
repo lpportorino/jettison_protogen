@@ -128,6 +128,18 @@ find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; 
     awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
+# Copy nanopb .options files alongside cleaned protos (required for size constraints)
+# nanopb plugin searches both the cleaned proto dir and the workspace CWD
+find proto -name "*.options" -type f -not -path "*/test/*" | while read -r opts; do
+    relpath="${opts#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    cp "$opts" "/tmp/cleaned_proto/$relpath"
+    # Also copy to CWD-relative path for nanopb plugin discovery
+    mkdir -p "$dirname"
+    cp "$opts" "$relpath"
+done
+
 find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
     protoc --plugin=protoc-gen-nanopb=/opt/nanopb/generator/protoc-gen-nanopb \
     -I/tmp/cleaned_proto \
@@ -161,9 +173,10 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/cpp_proto_val/
 
 # Generate C++ with validation annotations preserved
+PROTO_FILES=$(find /tmp/cpp_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/cpp_proto_val \
     --cpp_out=/workspace/output \
-    /tmp/cpp_proto_val/*.proto
+    $PROTO_FILES
 
 echo "C++ generation with buf.validate support completed"
 '
@@ -496,11 +509,12 @@ else
     echo "buf not found, using protoc with custom extensions support..."
     
     # Use protoc to generate FileDescriptorSet (binary format) with extensions
+    JSON_PROTO_FILES=$(find /tmp/json_proto -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
     protoc -I/tmp/json_proto \
         --descriptor_set_out=/tmp/descriptor-set.pb \
         --include_imports \
         --include_source_info \
-        /tmp/json_proto/*.proto
+        $JSON_PROTO_FILES
     
     # Convert to JSON using Python with custom extensions support
     python3 << "PYTHON_EOF"
@@ -578,11 +592,12 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/ts_proto_val/
 
 # Generate TypeScript using @bufbuild/protoc-gen-es with validation
+TS_PROTO_FILES=$(find /tmp/ts_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/ts_proto_val \
     --plugin=/usr/local/lib/node_modules/@bufbuild/protoc-gen-es/bin/protoc-gen-es \
     --es_out=/workspace/output \
     --es_opt=target=ts \
-    /tmp/ts_proto_val/*.proto
+    $TS_PROTO_FILES
 
 # Create package.json for the generated output
 cat > /workspace/output/package.json << "PKG_EOF"
