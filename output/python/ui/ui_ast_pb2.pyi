@@ -6,6 +6,11 @@ from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Map
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class SubjectType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    SUBJECT_INT: _ClassVar[SubjectType]
+    SUBJECT_STRING: _ClassVar[SubjectType]
+
 class WidgetType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     WIDGET_OBJ: _ClassVar[WidgetType]
@@ -27,6 +32,21 @@ class WidgetType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     WIDGET_SCALE: _ClassVar[WidgetType]
     WIDGET_BUTTONMATRIX: _ClassVar[WidgetType]
     WIDGET_TABLE: _ClassVar[WidgetType]
+
+class EventTrigger(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    TRIGGER_CLICKED: _ClassVar[EventTrigger]
+    TRIGGER_VALUE_CHANGED: _ClassVar[EventTrigger]
+    TRIGGER_LONG_PRESSED: _ClassVar[EventTrigger]
+
+class CompareOp(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    COMPARE_EQ: _ClassVar[CompareOp]
+    COMPARE_NOT_EQ: _ClassVar[CompareOp]
+    COMPARE_GT: _ClassVar[CompareOp]
+    COMPARE_GTE: _ClassVar[CompareOp]
+    COMPARE_LT: _ClassVar[CompareOp]
+    COMPARE_LTE: _ClassVar[CompareOp]
 
 class FlexFlow(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -283,6 +303,8 @@ class StylePropertyType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     PROP_GRID_CELL_ROW_POS: _ClassVar[StylePropertyType]
     PROP_GRID_CELL_Y_ALIGN: _ClassVar[StylePropertyType]
     PROP_GRID_CELL_ROW_SPAN: _ClassVar[StylePropertyType]
+SUBJECT_INT: SubjectType
+SUBJECT_STRING: SubjectType
 WIDGET_OBJ: WidgetType
 WIDGET_BUTTON: WidgetType
 WIDGET_LABEL: WidgetType
@@ -302,6 +324,15 @@ WIDGET_LINE: WidgetType
 WIDGET_SCALE: WidgetType
 WIDGET_BUTTONMATRIX: WidgetType
 WIDGET_TABLE: WidgetType
+TRIGGER_CLICKED: EventTrigger
+TRIGGER_VALUE_CHANGED: EventTrigger
+TRIGGER_LONG_PRESSED: EventTrigger
+COMPARE_EQ: CompareOp
+COMPARE_NOT_EQ: CompareOp
+COMPARE_GT: CompareOp
+COMPARE_GTE: CompareOp
+COMPARE_LT: CompareOp
+COMPARE_LTE: CompareOp
 FLEX_FLOW_NONE: FlexFlow
 FLEX_FLOW_ROW: FlexFlow
 FLEX_FLOW_COLUMN: FlexFlow
@@ -508,15 +539,52 @@ PROP_GRID_CELL_ROW_POS: StylePropertyType
 PROP_GRID_CELL_Y_ALIGN: StylePropertyType
 PROP_GRID_CELL_ROW_SPAN: StylePropertyType
 
+class SubjectDeclaration(_message.Message):
+    __slots__ = ("name", "type", "int_initial", "string_initial")
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    TYPE_FIELD_NUMBER: _ClassVar[int]
+    INT_INITIAL_FIELD_NUMBER: _ClassVar[int]
+    STRING_INITIAL_FIELD_NUMBER: _ClassVar[int]
+    name: str
+    type: SubjectType
+    int_initial: int
+    string_initial: str
+    def __init__(self, name: _Optional[str] = ..., type: _Optional[_Union[SubjectType, str]] = ..., int_initial: _Optional[int] = ..., string_initial: _Optional[str] = ...) -> None: ...
+
+class StateUpdate(_message.Message):
+    __slots__ = ("values",)
+    VALUES_FIELD_NUMBER: _ClassVar[int]
+    values: _containers.RepeatedCompositeFieldContainer[SubjectValue]
+    def __init__(self, values: _Optional[_Iterable[_Union[SubjectValue, _Mapping]]] = ...) -> None: ...
+
+class SubjectValue(_message.Message):
+    __slots__ = ("name", "int_value", "string_value")
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    INT_VALUE_FIELD_NUMBER: _ClassVar[int]
+    STRING_VALUE_FIELD_NUMBER: _ClassVar[int]
+    name: str
+    int_value: int
+    string_value: str
+    def __init__(self, name: _Optional[str] = ..., int_value: _Optional[int] = ..., string_value: _Optional[str] = ...) -> None: ...
+
 class Screen(_message.Message):
-    __slots__ = ("root",)
+    __slots__ = ("root", "subjects")
     ROOT_FIELD_NUMBER: _ClassVar[int]
+    SUBJECTS_FIELD_NUMBER: _ClassVar[int]
     root: WidgetNode
-    def __init__(self, root: _Optional[_Union[WidgetNode, _Mapping]] = ...) -> None: ...
+    subjects: _containers.RepeatedCompositeFieldContainer[SubjectDeclaration]
+    def __init__(self, root: _Optional[_Union[WidgetNode, _Mapping]] = ..., subjects: _Optional[_Iterable[_Union[SubjectDeclaration, _Mapping]]] = ...) -> None: ...
 
 class WidgetNode(_message.Message):
-    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props")
+    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "visibility", "bind_formats")
     class BindingsEntry(_message.Message):
+        __slots__ = ("key", "value")
+        KEY_FIELD_NUMBER: _ClassVar[int]
+        VALUE_FIELD_NUMBER: _ClassVar[int]
+        key: str
+        value: str
+        def __init__(self, key: _Optional[str] = ..., value: _Optional[str] = ...) -> None: ...
+    class BindFormatsEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
         VALUE_FIELD_NUMBER: _ClassVar[int]
@@ -551,6 +619,8 @@ class WidgetNode(_message.Message):
     SCALE_PROPS_FIELD_NUMBER: _ClassVar[int]
     BUTTONMATRIX_PROPS_FIELD_NUMBER: _ClassVar[int]
     TABLE_PROPS_FIELD_NUMBER: _ClassVar[int]
+    VISIBILITY_FIELD_NUMBER: _ClassVar[int]
+    BIND_FORMATS_FIELD_NUMBER: _ClassVar[int]
     type: WidgetType
     x: int
     y: int
@@ -579,7 +649,9 @@ class WidgetNode(_message.Message):
     scale_props: ScaleProps
     buttonmatrix_props: ButtonMatrixProps
     table_props: TableProps
-    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ...) -> None: ...
+    visibility: VisibilityBinding
+    bind_formats: _containers.ScalarMap[str, str]
+    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ...) -> None: ...
 
 class ObjProps(_message.Message):
     __slots__ = ()
@@ -780,16 +852,34 @@ class Point(_message.Message):
     def __init__(self, x: _Optional[int] = ..., y: _Optional[int] = ...) -> None: ...
 
 class EventBinding(_message.Message):
-    __slots__ = ("event_name", "command_type", "float_value", "int_value")
-    EVENT_NAME_FIELD_NUMBER: _ClassVar[int]
-    COMMAND_TYPE_FIELD_NUMBER: _ClassVar[int]
-    FLOAT_VALUE_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ("name", "trigger", "int_value", "include_widget_value", "set_subject", "set_value", "toggle", "notify_host")
+    NAME_FIELD_NUMBER: _ClassVar[int]
+    TRIGGER_FIELD_NUMBER: _ClassVar[int]
     INT_VALUE_FIELD_NUMBER: _ClassVar[int]
-    event_name: str
-    command_type: int
-    float_value: float
+    INCLUDE_WIDGET_VALUE_FIELD_NUMBER: _ClassVar[int]
+    SET_SUBJECT_FIELD_NUMBER: _ClassVar[int]
+    SET_VALUE_FIELD_NUMBER: _ClassVar[int]
+    TOGGLE_FIELD_NUMBER: _ClassVar[int]
+    NOTIFY_HOST_FIELD_NUMBER: _ClassVar[int]
+    name: str
+    trigger: EventTrigger
     int_value: int
-    def __init__(self, event_name: _Optional[str] = ..., command_type: _Optional[int] = ..., float_value: _Optional[float] = ..., int_value: _Optional[int] = ...) -> None: ...
+    include_widget_value: bool
+    set_subject: str
+    set_value: int
+    toggle: bool
+    notify_host: bool
+    def __init__(self, name: _Optional[str] = ..., trigger: _Optional[_Union[EventTrigger, str]] = ..., int_value: _Optional[int] = ..., include_widget_value: bool = ..., set_subject: _Optional[str] = ..., set_value: _Optional[int] = ..., toggle: bool = ..., notify_host: bool = ...) -> None: ...
+
+class VisibilityBinding(_message.Message):
+    __slots__ = ("subject", "ref_value", "compare")
+    SUBJECT_FIELD_NUMBER: _ClassVar[int]
+    REF_VALUE_FIELD_NUMBER: _ClassVar[int]
+    COMPARE_FIELD_NUMBER: _ClassVar[int]
+    subject: str
+    ref_value: int
+    compare: CompareOp
+    def __init__(self, subject: _Optional[str] = ..., ref_value: _Optional[int] = ..., compare: _Optional[_Union[CompareOp, str]] = ...) -> None: ...
 
 class Layout(_message.Message):
     __slots__ = ("flow", "main_place", "cross_place", "track_place")

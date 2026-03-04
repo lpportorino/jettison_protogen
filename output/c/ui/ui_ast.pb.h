@@ -10,6 +10,13 @@
 #endif
 
 /* Enum definitions */
+/* Subject type — LVGL 9.2 supports INT, STRING, POINTER, COLOR, GROUP.
+ We expose INT and STRING; others are renderer-internal. */
+typedef enum _ui_SubjectType {
+    ui_SubjectType_SUBJECT_INT = 0,
+    ui_SubjectType_SUBJECT_STRING = 1
+} ui_SubjectType;
+
 typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_OBJ = 0,
     ui_WidgetType_WIDGET_BUTTON = 1,
@@ -31,6 +38,23 @@ typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_BUTTONMATRIX = 17,
     ui_WidgetType_WIDGET_TABLE = 18
 } ui_WidgetType;
+
+/* Which LVGL event code triggers this event binding. */
+typedef enum _ui_EventTrigger {
+    ui_EventTrigger_TRIGGER_CLICKED = 0, /* LV_EVENT_CLICKED (default) */
+    ui_EventTrigger_TRIGGER_VALUE_CHANGED = 1, /* LV_EVENT_VALUE_CHANGED */
+    ui_EventTrigger_TRIGGER_LONG_PRESSED = 2 /* LV_EVENT_LONG_PRESSED */
+} ui_EventTrigger;
+
+/* Comparison operator for conditional visibility bindings. */
+typedef enum _ui_CompareOp {
+    ui_CompareOp_COMPARE_EQ = 0, /* show when subject == ref_value (native LVGL bind) */
+    ui_CompareOp_COMPARE_NOT_EQ = 1, /* show when subject != ref_value (native LVGL bind) */
+    ui_CompareOp_COMPARE_GT = 2, /* show when subject > ref_value  (custom observer) */
+    ui_CompareOp_COMPARE_GTE = 3, /* show when subject >= ref_value (custom observer) */
+    ui_CompareOp_COMPARE_LT = 4, /* show when subject < ref_value  (custom observer) */
+    ui_CompareOp_COMPARE_LTE = 5 /* show when subject <= ref_value (custom observer) */
+} ui_CompareOp;
 
 typedef enum _ui_FlexFlow {
     ui_FlexFlow_FLEX_FLOW_NONE = 0,
@@ -306,10 +330,41 @@ typedef enum _ui_StylePropertyType {
 } ui_StylePropertyType;
 
 /* Struct definitions */
+/* Declaration of a reactive subject (lives in Screen, initialized at load time) */
+typedef struct _ui_SubjectDeclaration {
+    char name[64]; /* unique identifier, e.g. "zoom_level" */
+    ui_SubjectType type;
+    pb_size_t which_initial;
+    union {
+        int32_t int_initial; /* default value for INT subjects */
+        char string_initial[256]; /* default value for STRING subjects */
+    } initial;
+} ui_SubjectDeclaration;
+
+/* Host → WASM state update (decoded by controls_update_state) */
+typedef struct _ui_StateUpdate {
+    pb_callback_t values;
+} ui_StateUpdate;
+
+/* A single subject value in a state update */
+typedef struct _ui_SubjectValue {
+    char name[64];
+    pb_size_t which_value;
+    union {
+        int32_t int_value;
+        char string_value[256];
+    } value;
+} ui_SubjectValue;
+
 typedef struct _ui_WidgetNode_BindingsEntry {
-    pb_callback_t key;
-    pb_callback_t value;
+    char key[64];
+    char value[64];
 } ui_WidgetNode_BindingsEntry;
+
+typedef struct _ui_WidgetNode_BindFormatsEntry {
+    char key[64];
+    char value[256];
+} ui_WidgetNode_BindFormatsEntry;
 
 typedef struct _ui_ObjProps {
     char dummy_field;
@@ -397,8 +452,7 @@ typedef struct _ui_SpinnerProps {
 } ui_SpinnerProps;
 
 typedef struct _ui_LineProps {
-    pb_size_t points_count;
-    struct _ui_Point *points;
+    pb_callback_t points;
     bool y_invert;
 } ui_LineProps;
 
@@ -429,11 +483,22 @@ typedef struct _ui_Point {
 } ui_Point;
 
 typedef struct _ui_EventBinding {
-    char event_name[64]; /* e.g., "zoom_in" (for logging) */
-    uint32_t command_type; /* binary command type ID (0x0105 etc.) */
-    double float_value; /* default float arg (can be 0) */
-    int32_t int_value; /* default int arg (can be 0) */
+    char name[64]; /* event keyword — IS the command identifier */
+    ui_EventTrigger trigger; /* which LVGL event fires this (default: CLICKED) */
+    int32_t int_value; /* static int payload */
+    bool include_widget_value; /* inject widget's current value as int_value */
+    char set_subject[64]; /* local subject to mutate (empty = host event) */
+    int32_t set_value; /* value to set on subject */
+    bool toggle; /* flip 0↔1 instead of set_value */
+    bool notify_host; /* also send to host when mutating subject */
 } ui_EventBinding;
+
+/* Conditional visibility — show/hide widget based on subject value comparison. */
+typedef struct _ui_VisibilityBinding {
+    char subject[64]; /* subject name to observe */
+    int32_t ref_value; /* reference value for comparison */
+    ui_CompareOp compare; /* comparison operator (default: EQ) */
+} ui_VisibilityBinding;
 
 typedef struct _ui_Layout {
     ui_FlexFlow flow;
@@ -446,14 +511,12 @@ typedef struct _ui_Layout {
  state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc. */
 typedef struct _ui_StyleGroup {
     uint32_t state_selector;
-    pb_size_t variants_count;
-    struct _ui_ResolvedStyle *variants; /* exactly 8 entries (composite indices 0-7) */
+    pb_callback_t variants; /* exactly 8 entries (composite indices 0-7) */
 } ui_StyleGroup;
 
 /* A fully-resolved style: all token refs are resolved to concrete LVGL values. */
 typedef struct _ui_ResolvedStyle {
-    pb_size_t properties_count;
-    struct _ui_StyleProperty *properties;
+    pb_callback_t properties;
 } ui_ResolvedStyle;
 
 typedef struct _ui_Color {
@@ -477,8 +540,7 @@ typedef struct _ui_WidgetNode {
     /* Static text (labels, checkbox, textarea, button) */
     char text[256];
     /* Subject data bindings (key = LVGL property, value = subject name) */
-    pb_size_t bindings_count;
-    struct _ui_WidgetNode_BindingsEntry *bindings;
+    pb_callback_t bindings;
     /* Event binding (what command to emit on click) */
     bool has_event;
     ui_EventBinding event;
@@ -486,12 +548,10 @@ typedef struct _ui_WidgetNode {
     bool has_layout;
     ui_Layout layout;
     /* Children */
-    pb_size_t children_count;
-    struct _ui_WidgetNode *children;
+    pb_callback_t children;
     /* Style groups: default + per-state, each with 8 composite variants.
  Ordered: */
-    pb_size_t style_groups_count;
-    struct _ui_StyleGroup *style_groups;
+    pb_callback_t style_groups;
     pb_size_t which_widget_props;
     union {
         ui_ObjProps obj_props;
@@ -514,6 +574,11 @@ typedef struct _ui_WidgetNode {
         ui_ButtonMatrixProps buttonmatrix_props;
         ui_TableProps table_props;
     } widget_props;
+    /* Conditional visibility binding (show/hide based on subject value) */
+    bool has_visibility;
+    ui_VisibilityBinding visibility;
+    /* Format strings for bound text (key = binding key, value = printf format) */
+    pb_callback_t bind_formats;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -522,6 +587,7 @@ typedef struct _ui_Screen {
  checking in proto3 (submessage fields do NOT get `has_*` by default). */
     bool has_root;
     ui_WidgetNode root;
+    pb_callback_t subjects; /* reactive subject declarations */
 } ui_Screen;
 
 typedef struct _ui_ShadowBundle {
@@ -551,9 +617,21 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
+#define _ui_SubjectType_MIN ui_SubjectType_SUBJECT_INT
+#define _ui_SubjectType_MAX ui_SubjectType_SUBJECT_STRING
+#define _ui_SubjectType_ARRAYSIZE ((ui_SubjectType)(ui_SubjectType_SUBJECT_STRING+1))
+
 #define _ui_WidgetType_MIN ui_WidgetType_WIDGET_OBJ
 #define _ui_WidgetType_MAX ui_WidgetType_WIDGET_TABLE
 #define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_TABLE+1))
+
+#define _ui_EventTrigger_MIN ui_EventTrigger_TRIGGER_CLICKED
+#define _ui_EventTrigger_MAX ui_EventTrigger_TRIGGER_LONG_PRESSED
+#define _ui_EventTrigger_ARRAYSIZE ((ui_EventTrigger)(ui_EventTrigger_TRIGGER_LONG_PRESSED+1))
+
+#define _ui_CompareOp_MIN ui_CompareOp_COMPARE_EQ
+#define _ui_CompareOp_MAX ui_CompareOp_COMPARE_LTE
+#define _ui_CompareOp_ARRAYSIZE ((ui_CompareOp)(ui_CompareOp_COMPARE_LTE+1))
 
 #define _ui_FlexFlow_MIN ui_FlexFlow_FLEX_FLOW_NONE
 #define _ui_FlexFlow_MAX ui_FlexFlow_FLEX_FLOW_COLUMN_WRAP_REVERSE
@@ -623,8 +701,13 @@ extern "C" {
 #define _ui_StylePropertyType_MAX ui_StylePropertyType_PROP_GRID_CELL_ROW_SPAN
 #define _ui_StylePropertyType_ARRAYSIZE ((ui_StylePropertyType)(ui_StylePropertyType_PROP_GRID_CELL_ROW_SPAN+1))
 
+#define ui_SubjectDeclaration_type_ENUMTYPE ui_SubjectType
+
+
+
 
 #define ui_WidgetNode_type_ENUMTYPE ui_WidgetType
+
 
 
 
@@ -654,6 +737,9 @@ extern "C" {
 
 
 
+#define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
+
+#define ui_VisibilityBinding_compare_ENUMTYPE ui_CompareOp
 
 #define ui_Layout_flow_ENUMTYPE ui_FlexFlow
 #define ui_Layout_main_place_ENUMTYPE ui_FlexAlign
@@ -668,9 +754,13 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ui_Screen_init_default                   {false, ui_WidgetNode_init_default}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", 0, NULL, false, ui_EventBinding_init_default, false, ui_Layout_init_default, 0, NULL, 0, NULL, 0, {ui_ObjProps_init_default}}
-#define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_SubjectDeclaration_init_default       {"", _ui_SubjectType_MIN, 0, {0}}
+#define ui_StateUpdate_init_default              {{{NULL}, NULL}}
+#define ui_SubjectValue_init_default             {"", 0, {0}}
+#define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}}
+#define ui_WidgetNode_BindingsEntry_init_default {"", ""}
+#define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
 #define ui_ObjProps_init_default                 {0}
 #define ui_ButtonProps_init_default              {0}
 #define ui_LabelProps_init_default               {_ui_LabelLongMode_MIN}
@@ -686,21 +776,26 @@ extern "C" {
 #define ui_SpinboxProps_init_default             {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_default             {0, 0}
 #define ui_LedProps_init_default                 {false, ui_Color_init_default, 0}
-#define ui_LineProps_init_default                {0, NULL, 0}
+#define ui_LineProps_init_default                {{{NULL}, NULL}, 0}
 #define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0}
 #define ui_ButtonMatrixProps_init_default        {"", 0}
 #define ui_TableProps_init_default               {0, 0}
 #define ui_Point_init_default                    {0, 0}
-#define ui_EventBinding_init_default             {"", 0, 0, 0}
+#define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0}
+#define ui_VisibilityBinding_init_default        {"", 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
-#define ui_StyleGroup_init_default               {0, 0, NULL}
-#define ui_ResolvedStyle_init_default            {0, NULL}
+#define ui_StyleGroup_init_default               {0, {{NULL}, NULL}}
+#define ui_ResolvedStyle_init_default            {{{NULL}, NULL}}
 #define ui_StyleProperty_init_default            {_ui_StylePropertyType_MIN, 0, {0}}
 #define ui_Color_init_default                    {0, 0, 0}
 #define ui_ShadowBundle_init_default             {0, 0, 0, 0, 0}
-#define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", 0, NULL, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, 0, NULL, 0, NULL, 0, {ui_ObjProps_init_zero}}
-#define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_SubjectDeclaration_init_zero          {"", _ui_SubjectType_MIN, 0, {0}}
+#define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
+#define ui_SubjectValue_init_zero                {"", 0, {0}}
+#define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}}
+#define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
+#define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
 #define ui_ObjProps_init_zero                    {0}
 #define ui_ButtonProps_init_zero                 {0}
 #define ui_LabelProps_init_zero                  {_ui_LabelLongMode_MIN}
@@ -716,22 +811,33 @@ extern "C" {
 #define ui_SpinboxProps_init_zero                {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_zero                {0, 0}
 #define ui_LedProps_init_zero                    {false, ui_Color_init_zero, 0}
-#define ui_LineProps_init_zero                   {0, NULL, 0}
+#define ui_LineProps_init_zero                   {{{NULL}, NULL}, 0}
 #define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0}
 #define ui_ButtonMatrixProps_init_zero           {"", 0}
 #define ui_TableProps_init_zero                  {0, 0}
 #define ui_Point_init_zero                       {0, 0}
-#define ui_EventBinding_init_zero                {"", 0, 0, 0}
+#define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0}
+#define ui_VisibilityBinding_init_zero           {"", 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
-#define ui_StyleGroup_init_zero                  {0, 0, NULL}
-#define ui_ResolvedStyle_init_zero               {0, NULL}
+#define ui_StyleGroup_init_zero                  {0, {{NULL}, NULL}}
+#define ui_ResolvedStyle_init_zero               {{{NULL}, NULL}}
 #define ui_StyleProperty_init_zero               {_ui_StylePropertyType_MIN, 0, {0}}
 #define ui_Color_init_zero                       {0, 0, 0}
 #define ui_ShadowBundle_init_zero                {0, 0, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define ui_SubjectDeclaration_name_tag           1
+#define ui_SubjectDeclaration_type_tag           2
+#define ui_SubjectDeclaration_int_initial_tag    3
+#define ui_SubjectDeclaration_string_initial_tag 4
+#define ui_StateUpdate_values_tag                1
+#define ui_SubjectValue_name_tag                 1
+#define ui_SubjectValue_int_value_tag            2
+#define ui_SubjectValue_string_value_tag         3
 #define ui_WidgetNode_BindingsEntry_key_tag      1
 #define ui_WidgetNode_BindingsEntry_value_tag    2
+#define ui_WidgetNode_BindFormatsEntry_key_tag   1
+#define ui_WidgetNode_BindFormatsEntry_value_tag 2
 #define ui_LabelProps_long_mode_tag              1
 #define ui_SliderProps_min_value_tag             1
 #define ui_SliderProps_max_value_tag             2
@@ -789,10 +895,17 @@ extern "C" {
 #define ui_TableProps_column_count_tag           2
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
-#define ui_EventBinding_event_name_tag           1
-#define ui_EventBinding_command_type_tag         2
-#define ui_EventBinding_float_value_tag          3
-#define ui_EventBinding_int_value_tag            4
+#define ui_EventBinding_name_tag                 1
+#define ui_EventBinding_trigger_tag              2
+#define ui_EventBinding_int_value_tag            3
+#define ui_EventBinding_include_widget_value_tag 4
+#define ui_EventBinding_set_subject_tag          5
+#define ui_EventBinding_set_value_tag            6
+#define ui_EventBinding_toggle_tag               7
+#define ui_EventBinding_notify_host_tag          8
+#define ui_VisibilityBinding_subject_tag         1
+#define ui_VisibilityBinding_ref_value_tag       2
+#define ui_VisibilityBinding_compare_tag         3
 #define ui_Layout_flow_tag                       1
 #define ui_Layout_main_place_tag                 2
 #define ui_Layout_cross_place_tag                3
@@ -833,7 +946,10 @@ extern "C" {
 #define ui_WidgetNode_scale_props_tag            26
 #define ui_WidgetNode_buttonmatrix_props_tag     27
 #define ui_WidgetNode_table_props_tag            28
+#define ui_WidgetNode_visibility_tag             29
+#define ui_WidgetNode_bind_formats_tag           30
 #define ui_Screen_root_tag                       1
+#define ui_Screen_subjects_tag                   2
 #define ui_ShadowBundle_width_tag                1
 #define ui_ShadowBundle_offset_x_tag             2
 #define ui_ShadowBundle_offset_y_tag             3
@@ -847,22 +963,45 @@ extern "C" {
 #define ui_StyleProperty_shadow_value_tag        6
 
 /* Struct field encoding specification for nanopb */
+#define ui_SubjectDeclaration_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   name,              1) \
+X(a, STATIC,   SINGULAR, UENUM,    type,              2) \
+X(a, STATIC,   ONEOF,    INT32,    (initial,int_initial,initial.int_initial),   3) \
+X(a, STATIC,   ONEOF,    STRING,   (initial,string_initial,initial.string_initial),   4)
+#define ui_SubjectDeclaration_CALLBACK NULL
+#define ui_SubjectDeclaration_DEFAULT NULL
+
+#define ui_StateUpdate_FIELDLIST(X, a) \
+X(a, CALLBACK, REPEATED, MESSAGE,  values,            1)
+#define ui_StateUpdate_CALLBACK pb_default_field_callback
+#define ui_StateUpdate_DEFAULT NULL
+#define ui_StateUpdate_values_MSGTYPE ui_SubjectValue
+
+#define ui_SubjectValue_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   name,              1) \
+X(a, STATIC,   ONEOF,    INT32,    (value,int_value,value.int_value),   2) \
+X(a, STATIC,   ONEOF,    STRING,   (value,string_value,value.string_value),   3)
+#define ui_SubjectValue_CALLBACK NULL
+#define ui_SubjectValue_DEFAULT NULL
+
 #define ui_Screen_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  root,              1)
-#define ui_Screen_CALLBACK NULL
+X(a, STATIC,   OPTIONAL, MESSAGE,  root,              1) \
+X(a, CALLBACK, REPEATED, MESSAGE,  subjects,          2)
+#define ui_Screen_CALLBACK pb_default_field_callback
 #define ui_Screen_DEFAULT NULL
 #define ui_Screen_root_MSGTYPE ui_WidgetNode
+#define ui_Screen_subjects_MSGTYPE ui_SubjectDeclaration
 
 #define ui_WidgetNode_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 2) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 3) \
 X(a, STATIC,   SINGULAR, STRING,   text,              4) \
-X(a, POINTER,  REPEATED, MESSAGE,  bindings,          5) \
+X(a, CALLBACK, REPEATED, MESSAGE,  bindings,          5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  event,             6) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  layout,            7) \
-X(a, POINTER,  REPEATED, MESSAGE,  children,          8) \
-X(a, POINTER,  REPEATED, MESSAGE,  style_groups,      9) \
+X(a, CALLBACK, REPEATED, MESSAGE,  children,          8) \
+X(a, CALLBACK, REPEATED, MESSAGE,  style_groups,      9) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,obj_props,widget_props.obj_props),  10) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,button_props,widget_props.button_props),  11) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,label_props,widget_props.label_props),  12) \
@@ -881,8 +1020,10 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,led_props,widget_props.led_prop
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,line_props,widget_props.line_props),  25) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,scale_props,widget_props.scale_props),  26) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,buttonmatrix_props,widget_props.buttonmatrix_props),  27) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,table_props,widget_props.table_props),  28)
-#define ui_WidgetNode_CALLBACK NULL
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,table_props,widget_props.table_props),  28) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  visibility,       29) \
+X(a, CALLBACK, REPEATED, MESSAGE,  bind_formats,     30)
+#define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
 #define ui_WidgetNode_event_MSGTYPE ui_EventBinding
@@ -908,12 +1049,20 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,table_props,widget_props.table_
 #define ui_WidgetNode_widget_props_scale_props_MSGTYPE ui_ScaleProps
 #define ui_WidgetNode_widget_props_buttonmatrix_props_MSGTYPE ui_ButtonMatrixProps
 #define ui_WidgetNode_widget_props_table_props_MSGTYPE ui_TableProps
+#define ui_WidgetNode_visibility_MSGTYPE ui_VisibilityBinding
+#define ui_WidgetNode_bind_formats_MSGTYPE ui_WidgetNode_BindFormatsEntry
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
-X(a, CALLBACK, SINGULAR, STRING,   value,             2)
-#define ui_WidgetNode_BindingsEntry_CALLBACK pb_default_field_callback
+X(a, STATIC,   SINGULAR, STRING,   key,               1) \
+X(a, STATIC,   SINGULAR, STRING,   value,             2)
+#define ui_WidgetNode_BindingsEntry_CALLBACK NULL
 #define ui_WidgetNode_BindingsEntry_DEFAULT NULL
+
+#define ui_WidgetNode_BindFormatsEntry_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   key,               1) \
+X(a, STATIC,   SINGULAR, STRING,   value,             2)
+#define ui_WidgetNode_BindFormatsEntry_CALLBACK NULL
+#define ui_WidgetNode_BindFormatsEntry_DEFAULT NULL
 
 #define ui_ObjProps_FIELDLIST(X, a) \
 
@@ -1022,9 +1171,9 @@ X(a, STATIC,   SINGULAR, UINT32,   brightness,        2)
 #define ui_LedProps_color_MSGTYPE ui_Color
 
 #define ui_LineProps_FIELDLIST(X, a) \
-X(a, POINTER,  REPEATED, MESSAGE,  points,            1) \
+X(a, CALLBACK, REPEATED, MESSAGE,  points,            1) \
 X(a, STATIC,   SINGULAR, BOOL,     y_invert,          2)
-#define ui_LineProps_CALLBACK NULL
+#define ui_LineProps_CALLBACK pb_default_field_callback
 #define ui_LineProps_DEFAULT NULL
 #define ui_LineProps_points_MSGTYPE ui_Point
 
@@ -1059,12 +1208,23 @@ X(a, STATIC,   SINGULAR, INT32,    y,                 2)
 #define ui_Point_DEFAULT NULL
 
 #define ui_EventBinding_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   event_name,        1) \
-X(a, STATIC,   SINGULAR, UINT32,   command_type,      2) \
-X(a, STATIC,   SINGULAR, DOUBLE,   float_value,       3) \
-X(a, STATIC,   SINGULAR, INT32,    int_value,         4)
+X(a, STATIC,   SINGULAR, STRING,   name,              1) \
+X(a, STATIC,   SINGULAR, UENUM,    trigger,           2) \
+X(a, STATIC,   SINGULAR, INT32,    int_value,         3) \
+X(a, STATIC,   SINGULAR, BOOL,     include_widget_value,   4) \
+X(a, STATIC,   SINGULAR, STRING,   set_subject,       5) \
+X(a, STATIC,   SINGULAR, INT32,    set_value,         6) \
+X(a, STATIC,   SINGULAR, BOOL,     toggle,            7) \
+X(a, STATIC,   SINGULAR, BOOL,     notify_host,       8)
 #define ui_EventBinding_CALLBACK NULL
 #define ui_EventBinding_DEFAULT NULL
+
+#define ui_VisibilityBinding_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   subject,           1) \
+X(a, STATIC,   SINGULAR, INT32,    ref_value,         2) \
+X(a, STATIC,   SINGULAR, UENUM,    compare,           3)
+#define ui_VisibilityBinding_CALLBACK NULL
+#define ui_VisibilityBinding_DEFAULT NULL
 
 #define ui_Layout_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    flow,              1) \
@@ -1076,14 +1236,14 @@ X(a, STATIC,   SINGULAR, UENUM,    track_place,       4)
 
 #define ui_StyleGroup_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   state_selector,    1) \
-X(a, POINTER,  REPEATED, MESSAGE,  variants,          2)
-#define ui_StyleGroup_CALLBACK NULL
+X(a, CALLBACK, REPEATED, MESSAGE,  variants,          2)
+#define ui_StyleGroup_CALLBACK pb_default_field_callback
 #define ui_StyleGroup_DEFAULT NULL
 #define ui_StyleGroup_variants_MSGTYPE ui_ResolvedStyle
 
 #define ui_ResolvedStyle_FIELDLIST(X, a) \
-X(a, POINTER,  REPEATED, MESSAGE,  properties,        1)
-#define ui_ResolvedStyle_CALLBACK NULL
+X(a, CALLBACK, REPEATED, MESSAGE,  properties,        1)
+#define ui_ResolvedStyle_CALLBACK pb_default_field_callback
 #define ui_ResolvedStyle_DEFAULT NULL
 #define ui_ResolvedStyle_properties_MSGTYPE ui_StyleProperty
 
@@ -1115,9 +1275,13 @@ X(a, STATIC,   SINGULAR, UINT32,   opa,               5)
 #define ui_ShadowBundle_CALLBACK NULL
 #define ui_ShadowBundle_DEFAULT NULL
 
+extern const pb_msgdesc_t ui_SubjectDeclaration_msg;
+extern const pb_msgdesc_t ui_StateUpdate_msg;
+extern const pb_msgdesc_t ui_SubjectValue_msg;
 extern const pb_msgdesc_t ui_Screen_msg;
 extern const pb_msgdesc_t ui_WidgetNode_msg;
 extern const pb_msgdesc_t ui_WidgetNode_BindingsEntry_msg;
+extern const pb_msgdesc_t ui_WidgetNode_BindFormatsEntry_msg;
 extern const pb_msgdesc_t ui_ObjProps_msg;
 extern const pb_msgdesc_t ui_ButtonProps_msg;
 extern const pb_msgdesc_t ui_LabelProps_msg;
@@ -1139,6 +1303,7 @@ extern const pb_msgdesc_t ui_ButtonMatrixProps_msg;
 extern const pb_msgdesc_t ui_TableProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
 extern const pb_msgdesc_t ui_EventBinding_msg;
+extern const pb_msgdesc_t ui_VisibilityBinding_msg;
 extern const pb_msgdesc_t ui_Layout_msg;
 extern const pb_msgdesc_t ui_StyleGroup_msg;
 extern const pb_msgdesc_t ui_ResolvedStyle_msg;
@@ -1147,9 +1312,13 @@ extern const pb_msgdesc_t ui_Color_msg;
 extern const pb_msgdesc_t ui_ShadowBundle_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
+#define ui_SubjectDeclaration_fields &ui_SubjectDeclaration_msg
+#define ui_StateUpdate_fields &ui_StateUpdate_msg
+#define ui_SubjectValue_fields &ui_SubjectValue_msg
 #define ui_Screen_fields &ui_Screen_msg
 #define ui_WidgetNode_fields &ui_WidgetNode_msg
 #define ui_WidgetNode_BindingsEntry_fields &ui_WidgetNode_BindingsEntry_msg
+#define ui_WidgetNode_BindFormatsEntry_fields &ui_WidgetNode_BindFormatsEntry_msg
 #define ui_ObjProps_fields &ui_ObjProps_msg
 #define ui_ButtonProps_fields &ui_ButtonProps_msg
 #define ui_LabelProps_fields &ui_LabelProps_msg
@@ -1171,6 +1340,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_TableProps_fields &ui_TableProps_msg
 #define ui_Point_fields &ui_Point_msg
 #define ui_EventBinding_fields &ui_EventBinding_msg
+#define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
 #define ui_Layout_fields &ui_Layout_msg
 #define ui_StyleGroup_fields &ui_StyleGroup_msg
 #define ui_ResolvedStyle_fields &ui_ResolvedStyle_msg
@@ -1179,9 +1349,9 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ShadowBundle_fields &ui_ShadowBundle_msg
 
 /* Maximum encoded size of messages (where known) */
+/* ui_StateUpdate_size depends on runtime parameters */
 /* ui_Screen_size depends on runtime parameters */
 /* ui_WidgetNode_size depends on runtime parameters */
-/* ui_WidgetNode_BindingsEntry_size depends on runtime parameters */
 /* ui_LineProps_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_ResolvedStyle_size depends on runtime parameters */
@@ -1193,7 +1363,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_CheckboxProps_size                    2
 #define ui_Color_size                            18
 #define ui_DropdownProps_size                    1034
-#define ui_EventBinding_size                     91
+#define ui_EventBinding_size                     160
 #define ui_ImageProps_size                       258
 #define ui_LabelProps_size                       2
 #define ui_Layout_size                           8
@@ -1207,9 +1377,14 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_SpinboxProps_size                     56
 #define ui_SpinnerProps_size                     12
 #define ui_StyleProperty_size                    67
+#define ui_SubjectDeclaration_size               325
+#define ui_SubjectValue_size                     323
 #define ui_SwitchProps_size                      2
 #define ui_TableProps_size                       12
 #define ui_TextareaProps_size                    268
+#define ui_VisibilityBinding_size                78
+#define ui_WidgetNode_BindFormatsEntry_size      323
+#define ui_WidgetNode_BindingsEntry_size         130
 
 #ifdef __cplusplus
 } /* extern "C" */

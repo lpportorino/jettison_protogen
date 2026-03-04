@@ -3,11 +3,43 @@ package ui;
 
 option go_package = "ui/ui_ast";
 
+// Subject type — LVGL 9.2 supports INT, STRING, POINTER, COLOR, GROUP.
+// We expose INT and STRING; others are renderer-internal.
+enum SubjectType {
+  SUBJECT_INT = 0;
+  SUBJECT_STRING = 1;
+}
+
+// Declaration of a reactive subject (lives in Screen, initialized at load time)
+message SubjectDeclaration {
+  string name = 1;           // unique identifier, e.g. "zoom_level"
+  SubjectType type = 2;
+  oneof initial {
+    int32 int_initial = 3;    // default value for INT subjects
+    string string_initial = 4; // default value for STRING subjects
+  }
+}
+
+// Host → WASM state update (decoded by controls_update_state)
+message StateUpdate {
+  repeated SubjectValue values = 1;
+}
+
+// A single subject value in a state update
+message SubjectValue {
+  string name = 1;
+  oneof value {
+    int32 int_value = 2;
+    string string_value = 3;
+  }
+}
+
 // A complete UI screen — root message pushed via controls_load_ui().
 message Screen {
   // `optional` is required so nanopb generates `has_root` for presence
   // checking in proto3 (submessage fields do NOT get `has_*` by default).
   optional WidgetNode root = 1;
+  repeated SubjectDeclaration subjects = 2;  // reactive subject declarations
 }
 
 // A node in the widget tree (recursive).
@@ -59,6 +91,12 @@ message WidgetNode {
     ButtonMatrixProps buttonmatrix_props = 27;
     TableProps table_props = 28;
   }
+
+  // Conditional visibility binding (show/hide based on subject value)
+  VisibilityBinding visibility = 29;
+
+  // Format strings for bound text (key = binding key, value = printf format)
+  map<string, string> bind_formats = 30;
 }
 
 enum WidgetType {
@@ -204,11 +242,39 @@ message Point {
   int32 y = 2;
 }
 
+// Which LVGL event code triggers this event binding.
+enum EventTrigger {
+  TRIGGER_CLICKED = 0;        // LV_EVENT_CLICKED (default)
+  TRIGGER_VALUE_CHANGED = 1;  // LV_EVENT_VALUE_CHANGED
+  TRIGGER_LONG_PRESSED = 2;   // LV_EVENT_LONG_PRESSED
+}
+
 message EventBinding {
-  string event_name = 1;     // e.g., "zoom_in" (for logging)
-  uint32 command_type = 2;   // binary command type ID (0x0105 etc.)
-  double float_value = 3;    // default float arg (can be 0)
-  int32 int_value = 4;       // default int arg (can be 0)
+  string name = 1;                // event keyword — IS the command identifier
+  EventTrigger trigger = 2;       // which LVGL event fires this (default: CLICKED)
+  int32 int_value = 3;            // static int payload
+  bool include_widget_value = 4;  // inject widget's current value as int_value
+  string set_subject = 5;         // local subject to mutate (empty = host event)
+  int32 set_value = 6;            // value to set on subject
+  bool toggle = 7;                // flip 0↔1 instead of set_value
+  bool notify_host = 8;           // also send to host when mutating subject
+}
+
+// Comparison operator for conditional visibility bindings.
+enum CompareOp {
+  COMPARE_EQ = 0;      // show when subject == ref_value (native LVGL bind)
+  COMPARE_NOT_EQ = 1;  // show when subject != ref_value (native LVGL bind)
+  COMPARE_GT = 2;      // show when subject > ref_value  (custom observer)
+  COMPARE_GTE = 3;     // show when subject >= ref_value (custom observer)
+  COMPARE_LT = 4;      // show when subject < ref_value  (custom observer)
+  COMPARE_LTE = 5;     // show when subject <= ref_value (custom observer)
+}
+
+// Conditional visibility — show/hide widget based on subject value comparison.
+message VisibilityBinding {
+  string subject = 1;     // subject name to observe
+  int32 ref_value = 2;    // reference value for comparison
+  CompareOp compare = 3;  // comparison operator (default: EQ)
 }
 
 message Layout {

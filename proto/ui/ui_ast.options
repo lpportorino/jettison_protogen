@@ -1,14 +1,34 @@
-ui.WidgetNode.children          type:FT_POINTER
+ui.WidgetNode.children          type:FT_CALLBACK
 ui.WidgetNode.text              max_size:256
-ui.WidgetNode.style_groups      type:FT_POINTER
-ui.StyleGroup.variants          type:FT_POINTER
-ui.ResolvedStyle.properties     type:FT_POINTER
+ui.WidgetNode.style_groups      type:FT_CALLBACK
+ui.StyleGroup.variants          type:FT_CALLBACK
+ui.ResolvedStyle.properties     type:FT_CALLBACK
 ui.StyleProperty.string_value   max_size:64
-ui.EventBinding.event_name      max_size:64
-ui.WidgetNode.bindings          type:FT_POINTER
+# Phase 1.4: Event system redesign
+ui.EventBinding.name                max_size:64
+ui.EventBinding.set_subject         max_size:64
+ui.WidgetNode.bindings          type:FT_CALLBACK
 ui.ImageProps.src               max_size:256
 ui.DropdownProps.options         max_size:1024
 ui.RollerProps.options           max_size:512
 ui.TextareaProps.placeholder     max_size:256
 ui.ButtonMatrixProps.map_str     max_size:1024
-ui.LineProps.points              type:FT_POINTER
+ui.LineProps.points              type:FT_CALLBACK
+
+# Phase 1.3: Subject binding
+ui.Screen.subjects                       type:FT_CALLBACK
+ui.SubjectDeclaration.name               max_size:64
+ui.SubjectDeclaration.string_initial     max_size:256
+ui.StateUpdate.values                    type:FT_CALLBACK
+ui.SubjectValue.name                     max_size:64
+ui.SubjectValue.string_value             max_size:256
+
+# Phase 3.1: Conditional visibility
+ui.VisibilityBinding.subject             max_size:64
+
+# Phase 1.3: Bind format strings + binding map entry strings
+ui.WidgetNode.bind_formats               type:FT_CALLBACK
+ui.WidgetNode.BindFormatsEntry.key        max_size:64
+ui.WidgetNode.BindFormatsEntry.value      max_size:256
+ui.WidgetNode.BindingsEntry.key           max_size:64
+ui.WidgetNode.BindingsEntry.value         max_size:64

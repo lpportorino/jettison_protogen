@@ -948,6 +948,130 @@ public object WidgetNodeKt {
     public fun hasTableProps(): kotlin.Boolean {
       return _builder.hasTableProps()
     }
+
+    /**
+     * ```
+     * Conditional visibility binding (show/hide based on subject value)
+     * ```
+     *
+     * `.ui.VisibilityBinding visibility = 29;`
+     */
+    public var visibility: ui.UiAst.VisibilityBinding
+      @JvmName("getVisibility")
+      get() = _builder.visibility
+      @JvmName("setVisibility")
+      set(value) {
+        _builder.visibility = value
+      }
+    /**
+     * ```
+     * Conditional visibility binding (show/hide based on subject value)
+     * ```
+     *
+     * `.ui.VisibilityBinding visibility = 29;`
+     */
+    public fun clearVisibility() {
+      _builder.clearVisibility()
+    }
+    /**
+     * ```
+     * Conditional visibility binding (show/hide based on subject value)
+     * ```
+     *
+     * `.ui.VisibilityBinding visibility = 29;`
+     * @return Whether the visibility field is set.
+     */
+    public fun hasVisibility(): kotlin.Boolean {
+      return _builder.hasVisibility()
+    }
+
+    public val WidgetNodeKt.Dsl.visibilityOrNull: ui.UiAst.VisibilityBinding?
+      get() = _builder.visibilityOrNull
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class BindFormatsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * Format strings for bound text (key = binding key, value = printf format)
+     * ```
+     *
+     * `map<string, string> bind_formats = 30;`
+     */
+     public val bindFormats: com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
+      @kotlin.jvm.JvmSynthetic
+      @JvmName("getBindFormatsMap")
+      get() = com.google.protobuf.kotlin.DslMap(
+        _builder.bindFormatsMap
+      )
+    /**
+     * ```
+     * Format strings for bound text (key = binding key, value = printf format)
+     * ```
+     *
+     * `map<string, string> bind_formats = 30;`
+     */
+    @JvmName("putBindFormats")
+    public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
+      .put(key: kotlin.String, value: kotlin.String) {
+         _builder.putBindFormats(key, value)
+       }
+    /**
+     * ```
+     * Format strings for bound text (key = binding key, value = printf format)
+     * ```
+     *
+     * `map<string, string> bind_formats = 30;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @JvmName("setBindFormats")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
+      .set(key: kotlin.String, value: kotlin.String) {
+         put(key, value)
+       }
+    /**
+     * ```
+     * Format strings for bound text (key = binding key, value = printf format)
+     * ```
+     *
+     * `map<string, string> bind_formats = 30;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @JvmName("removeBindFormats")
+    public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
+      .remove(key: kotlin.String) {
+         _builder.removeBindFormats(key)
+       }
+    /**
+     * ```
+     * Format strings for bound text (key = binding key, value = printf format)
+     * ```
+     *
+     * `map<string, string> bind_formats = 30;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @JvmName("putAllBindFormats")
+    public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
+      .putAll(map: kotlin.collections.Map<kotlin.String, kotlin.String>) {
+         _builder.putAllBindFormats(map)
+       }
+    /**
+     * ```
+     * Format strings for bound text (key = binding key, value = printf format)
+     * ```
+     *
+     * `map<string, string> bind_formats = 30;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @JvmName("clearBindFormats")
+    public fun com.google.protobuf.kotlin.DslMap<kotlin.String, kotlin.String, BindFormatsProxy>
+      .clear() {
+         _builder.clearBindFormats()
+       }
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()
@@ -1023,4 +1147,7 @@ public val ui.UiAst.WidgetNodeOrBuilder.buttonmatrixPropsOrNull: ui.UiAst.Button
 
 public val ui.UiAst.WidgetNodeOrBuilder.tablePropsOrNull: ui.UiAst.TableProps?
   get() = if (hasTableProps()) getTableProps() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.visibilityOrNull: ui.UiAst.VisibilityBinding?
+  get() = if (hasVisibility()) getVisibility() else null
 

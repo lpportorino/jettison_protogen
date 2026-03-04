@@ -10,7 +10,109 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ui/ui_ast.proto.
  */
 export const file_ui_ui_ast: GenFile = /*@__PURE__*/
-  fileDesc("Cg91aS91aV9hc3QucHJvdG8SAnVpIjQKBlNjcmVlbhIhCgRyb290GAEgASgLMg4udWkuV2lkZ2V0Tm9kZUgAiAEBQgcKBV9yb290IscICgpXaWRnZXROb2RlEhwKBHR5cGUYASABKA4yDi51aS5XaWRnZXRUeXBlEgkKAXgYAiABKAUSCQoBeRgDIAEoBRIMCgR0ZXh0GAQgASgJEi4KCGJpbmRpbmdzGAUgAygLMhwudWkuV2lkZ2V0Tm9kZS5CaW5kaW5nc0VudHJ5Eh8KBWV2ZW50GAYgASgLMhAudWkuRXZlbnRCaW5kaW5nEhoKBmxheW91dBgHIAEoCzIKLnVpLkxheW91dBIgCghjaGlsZHJlbhgIIAMoCzIOLnVpLldpZGdldE5vZGUSJAoMc3R5bGVfZ3JvdXBzGAkgAygLMg4udWkuU3R5bGVHcm91cBIhCglvYmpfcHJvcHMYCiABKAsyDC51aS5PYmpQcm9wc0gAEicKDGJ1dHRvbl9wcm9wcxgLIAEoCzIPLnVpLkJ1dHRvblByb3BzSAASJQoLbGFiZWxfcHJvcHMYDCABKAsyDi51aS5MYWJlbFByb3BzSAASJwoMc2xpZGVyX3Byb3BzGA0gASgLMg8udWkuU2xpZGVyUHJvcHNIABIlCgtpbWFnZV9wcm9wcxgOIAEoCzIOLnVpLkltYWdlUHJvcHNIABIhCglhcmNfcHJvcHMYDyABKAsyDC51aS5BcmNQcm9wc0gAEiEKCWJhcl9wcm9wcxgQIAEoCzIMLnVpLkJhclByb3BzSAASJwoMc3dpdGNoX3Byb3BzGBEgASgLMg8udWkuU3dpdGNoUHJvcHNIABIrCg5jaGVja2JveF9wcm9wcxgSIAEoCzIRLnVpLkNoZWNrYm94UHJvcHNIABIrCg5kcm9wZG93bl9wcm9wcxgTIAEoCzIRLnVpLkRyb3Bkb3duUHJvcHNIABInCgxyb2xsZXJfcHJvcHMYFCABKAsyDy51aS5Sb2xsZXJQcm9wc0gAEisKDnRleHRhcmVhX3Byb3BzGBUgASgLMhEudWkuVGV4dGFyZWFQcm9wc0gAEikKDXNwaW5ib3hfcHJvcHMYFiABKAsyEC51aS5TcGluYm94UHJvcHNIABIpCg1zcGlubmVyX3Byb3BzGBcgASgLMhAudWkuU3Bpbm5lclByb3BzSAASIQoJbGVkX3Byb3BzGBggASgLMgwudWkuTGVkUHJvcHNIABIjCgpsaW5lX3Byb3BzGBkgASgLMg0udWkuTGluZVByb3BzSAASJQoLc2NhbGVfcHJvcHMYGiABKAsyDi51aS5TY2FsZVByb3BzSAASMwoSYnV0dG9ubWF0cml4X3Byb3BzGBsgASgLMhUudWkuQnV0dG9uTWF0cml4UHJvcHNIABIlCgt0YWJsZV9wcm9wcxgcIAEoCzIOLnVpLlRhYmxlUHJvcHNIABovCg1CaW5kaW5nc0VudHJ5EgsKA2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAFCDgoMd2lkZ2V0X3Byb3BzIgoKCE9ialByb3BzIg0KC0J1dHRvblByb3BzIjIKCkxhYmVsUHJvcHMSJAoJbG9uZ19tb2RlGAEgASgOMhEudWkuTGFiZWxMb25nTW9kZSJdCgtTbGlkZXJQcm9wcxIRCgltaW5fdmFsdWUYASABKAUSEQoJbWF4X3ZhbHVlGAIgASgFEg0KBXZhbHVlGAMgASgFEhkKBG1vZGUYBCABKA4yCy51aS5CYXJNb2RlIhkKCkltYWdlUHJvcHMSCwoDc3JjGAEgASgJIsIBCghBcmNQcm9wcxITCgtzdGFydF9hbmdsZRgBIAEoDRIRCgllbmRfYW5nbGUYAiABKA0SFgoOYmdfc3RhcnRfYW5nbGUYAyABKA0SFAoMYmdfZW5kX2FuZ2xlGAQgASgNEhAKCHJvdGF0aW9uGAUgASgFEhkKBG1vZGUYBiABKA4yCy51aS5BcmNNb2RlEhEKCW1pbl92YWx1ZRgHIAEoBRIRCgltYXhfdmFsdWUYCCABKAUSDQoFdmFsdWUYCSABKAUibwoIQmFyUHJvcHMSEQoJbWluX3ZhbHVlGAEgASgFEhEKCW1heF92YWx1ZRgCIAEoBRINCgV2YWx1ZRgDIAEoBRITCgtzdGFydF92YWx1ZRgEIAEoBRIZCgRtb2RlGAUgASgOMgsudWkuQmFyTW9kZSIeCgtTd2l0Y2hQcm9wcxIPCgdjaGVja2VkGAEgASgIIiAKDUNoZWNrYm94UHJvcHMSDwoHY2hlY2tlZBgBIAEoCCJOCg1Ecm9wZG93blByb3BzEg8KB29wdGlvbnMYASABKAkSEAoIc2VsZWN0ZWQYAiABKA0SGgoJZGlyZWN0aW9uGAMgASgOMgcudWkuRGlyImkKC1JvbGxlclByb3BzEg8KB29wdGlvbnMYASABKAkSEAoIc2VsZWN0ZWQYAiABKA0SGQoRdmlzaWJsZV9yb3dfY291bnQYAyABKA0SHAoEbW9kZRgEIAEoDjIOLnVpLlJvbGxlck1vZGUiYQoNVGV4dGFyZWFQcm9wcxITCgtwbGFjZWhvbGRlchgBIAEoCRISCgptYXhfbGVuZ3RoGAIgASgNEhAKCG9uZV9saW5lGAMgASgIEhUKDXBhc3N3b3JkX21vZGUYBCABKAgiggEKDFNwaW5ib3hQcm9wcxIRCgltaW5fdmFsdWUYASABKAUSEQoJbWF4X3ZhbHVlGAIgASgFEg0KBXZhbHVlGAMgASgFEgwKBHN0ZXAYBCABKAUSEwoLZGlnaXRfY291bnQYBSABKA0SGgoSc2VwYXJhdG9yX3Bvc2l0aW9uGAYgASgNIjUKDFNwaW5uZXJQcm9wcxIRCglzcGluX3RpbWUYASABKA0SEgoKYXJjX2xlbmd0aBgCIAEoDSI4CghMZWRQcm9wcxIYCgVjb2xvchgBIAEoCzIJLnVpLkNvbG9yEhIKCmJyaWdodG5lc3MYAiABKA0iOAoJTGluZVByb3BzEhkKBnBvaW50cxgBIAMoCzIJLnVpLlBvaW50EhAKCHlfaW52ZXJ0GAIgASgIIr4BCgpTY2FsZVByb3BzEhsKBG1vZGUYASABKA4yDS51aS5TY2FsZU1vZGUSGAoQdG90YWxfdGlja19jb3VudBgCIAEoDRIYChBtYWpvcl90aWNrX2V2ZXJ5GAMgASgNEhIKCmxhYmVsX3Nob3cYBCABKAgSEQoJbWluX3ZhbHVlGAUgASgFEhEKCW1heF92YWx1ZRgGIAEoBRIQCghyb3RhdGlvbhgHIAEoBRITCgthbmdsZV9yYW5nZRgIIAEoDSI3ChFCdXR0b25NYXRyaXhQcm9wcxIPCgdtYXBfc3RyGAEgASgJEhEKCW9uZV9jaGVjaxgCIAEoCCI1CgpUYWJsZVByb3BzEhEKCXJvd19jb3VudBgBIAEoDRIUCgxjb2x1bW5fY291bnQYAiABKA0iHQoFUG9pbnQSCQoBeBgBIAEoBRIJCgF5GAIgASgFImAKDEV2ZW50QmluZGluZxISCgpldmVudF9uYW1lGAEgASgJEhQKDGNvbW1hbmRfdHlwZRgCIAEoDRITCgtmbG9hdF92YWx1ZRgDIAEoARIRCglpbnRfdmFsdWUYBCABKAUijwEKBkxheW91dBIaCgRmbG93GAEgASgOMgwudWkuRmxleEZsb3cSIQoKbWFpbl9wbGFjZRgCIAEoDjINLnVpLkZsZXhBbGlnbhIiCgtjcm9zc19wbGFjZRgDIAEoDjINLnVpLkZsZXhBbGlnbhIiCgt0cmFja19wbGFjZRgEIAEoDjINLnVpLkZsZXhBbGlnbiJJCgpTdHlsZUdyb3VwEhYKDnN0YXRlX3NlbGVjdG9yGAEgASgNEiMKCHZhcmlhbnRzGAIgAygLMhEudWkuUmVzb2x2ZWRTdHlsZSI2Cg1SZXNvbHZlZFN0eWxlEiUKCnByb3BlcnRpZXMYASADKAsyES51aS5TdHlsZVByb3BlcnR5IswBCg1TdHlsZVByb3BlcnR5EiMKBHR5cGUYASABKA4yFS51aS5TdHlsZVByb3BlcnR5VHlwZRIUCgp1aW50X3ZhbHVlGAIgASgNSAASEwoJaW50X3ZhbHVlGAMgASgFSAASIAoLY29sb3JfdmFsdWUYBCABKAsyCS51aS5Db2xvckgAEhYKDHN0cmluZ192YWx1ZRgFIAEoCUgAEigKDHNoYWRvd192YWx1ZRgGIAEoCzIQLnVpLlNoYWRvd0J1bmRsZUgAQgcKBXZhbHVlIigKBUNvbG9yEgkKAXIYASABKA0SCQoBZxgCIAEoDRIJCgFiGAMgASgNIl4KDFNoYWRvd0J1bmRsZRINCgV3aWR0aBgBIAEoDRIQCghvZmZzZXRfeBgCIAEoBRIQCghvZmZzZXRfeRgDIAEoBRIOCgZzcHJlYWQYBCABKA0SCwoDb3BhGAUgASgNKvECCgpXaWRnZXRUeXBlEg4KCldJREdFVF9PQkoQABIRCg1XSURHRVRfQlVUVE9OEAESEAoMV0lER0VUX0xBQkVMEAISEQoNV0lER0VUX1NMSURFUhADEhAKDFdJREdFVF9JTUFHRRAEEg4KCldJREdFVF9BUkMQBRIOCgpXSURHRVRfQkFSEAYSEQoNV0lER0VUX1NXSVRDSBAHEhMKD1dJREdFVF9DSEVDS0JPWBAIEhMKD1dJREdFVF9EUk9QRE9XThAJEhEKDVdJREdFVF9ST0xMRVIQChITCg9XSURHRVRfVEVYVEFSRUEQCxISCg5XSURHRVRfU1BJTkJPWBAMEhIKDldJREdFVF9TUElOTkVSEA0SDgoKV0lER0VUX0xFRBAOEg8KC1dJREdFVF9MSU5FEA8SEAoMV0lER0VUX1NDQUxFEBASFwoTV0lER0VUX0JVVFRPTk1BVFJJWBAREhAKDFdJREdFVF9UQUJMRRASKvYBCghGbGV4RmxvdxISCg5GTEVYX0ZMT1dfTk9ORRAAEhEKDUZMRVhfRkxPV19ST1cQARIUChBGTEVYX0ZMT1dfQ09MVU1OEAISFgoSRkxFWF9GTE9XX1JPV19XUkFQEAMSGQoVRkxFWF9GTE9XX1JPV19SRVZFUlNFEAQSHgoaRkxFWF9GTE9XX1JPV19XUkFQX1JFVkVSU0UQBRIZChVGTEVYX0ZMT1dfQ09MVU1OX1dSQVAQBhIcChhGTEVYX0ZMT1dfQ09MVU1OX1JFVkVSU0UQBxIhCh1GTEVYX0ZMT1dfQ09MVU1OX1dSQVBfUkVWRVJTRRAIKqQBCglGbGV4QWxpZ24SFAoQRkxFWF9BTElHTl9TVEFSVBAAEhIKDkZMRVhfQUxJR05fRU5EEAESFQoRRkxFWF9BTElHTl9DRU5URVIQAhIbChdGTEVYX0FMSUdOX1NQQUNFX0VWRU5MWRADEhsKF0ZMRVhfQUxJR05fU1BBQ0VfQVJPVU5EEAQSHAoYRkxFWF9BTElHTl9TUEFDRV9CRVRXRUVOEAUqvAEKCUdyaWRBbGlnbhIUChBHUklEX0FMSUdOX1NUQVJUEAASFQoRR1JJRF9BTElHTl9DRU5URVIQARISCg5HUklEX0FMSUdOX0VORBACEhYKEkdSSURfQUxJR05fU1RSRVRDSBADEhsKF0dSSURfQUxJR05fU1BBQ0VfRVZFTkxZEAQSGwoXR1JJRF9BTElHTl9TUEFDRV9BUk9VTkQQBRIcChhHUklEX0FMSUdOX1NQQUNFX0JFVFdFRU4QBipiCglUZXh0QWxpZ24SEwoPVEVYVF9BTElHTl9BVVRPEAASEwoPVEVYVF9BTElHTl9MRUZUEAESFQoRVEVYVF9BTElHTl9DRU5URVIQAhIUChBURVhUX0FMSUdOX1JJR0hUEAMqWAoJVGV4dERlY29yEhMKD1RFWFRfREVDT1JfTk9ORRAAEhgKFFRFWFRfREVDT1JfVU5ERVJMSU5FEAESHAoYVEVYVF9ERUNPUl9TVFJJS0VUSFJPVUdIEAIqcAoJQmxlbmRNb2RlEhUKEUJMRU5EX01PREVfTk9STUFMEAASFwoTQkxFTkRfTU9ERV9BRERJVElWRRABEhoKFkJMRU5EX01PREVfU1VCVFJBQ1RJVkUQAhIXChNCTEVORF9NT0RFX01VTFRJUExZEAMqQAoHQmFzZURpchIQCgxCQVNFX0RJUl9MVFIQABIQCgxCQVNFX0RJUl9SVEwQARIRCg1CQVNFX0RJUl9BVVRPEAIqgAEKB0dyYWREaXISEQoNR1JBRF9ESVJfTk9ORRAAEhAKDEdSQURfRElSX1ZFUhABEhAKDEdSQURfRElSX0hPUhACEhMKD0dSQURfRElSX0xJTkVBUhADEhMKD0dSQURfRElSX1JBRElBTBAEEhQKEEdSQURfRElSX0NPTklDQUwQBSp0CgNEaXISDAoIRElSX05PTkUQABIMCghESVJfTEVGVBABEg0KCURJUl9SSUdIVBACEgsKB0RJUl9IT1IQAxILCgdESVJfVE9QEAQSDgoKRElSX0JPVFRPTRAIEgsKB0RJUl9WRVIQDBILCgdESVJfQUxMEA8qiAQKBUFsaWduEhEKDUFMSUdOX0RFRkFVTFQQABISCg5BTElHTl9UT1BfTEVGVBABEhEKDUFMSUdOX1RPUF9NSUQQAhITCg9BTElHTl9UT1BfUklHSFQQAxIVChFBTElHTl9CT1RUT01fTEVGVBAEEhQKEEFMSUdOX0JPVFRPTV9NSUQQBRIWChJBTElHTl9CT1RUT01fUklHSFQQBhISCg5BTElHTl9MRUZUX01JRBAHEhMKD0FMSUdOX1JJR0hUX01JRBAIEhAKDEFMSUdOX0NFTlRFUhAJEhYKEkFMSUdOX09VVF9UT1BfTEVGVBAKEhUKEUFMSUdOX09VVF9UT1BfTUlEEAsSFwoTQUxJR05fT1VUX1RPUF9SSUdIVBAMEhkKFUFMSUdOX09VVF9CT1RUT01fTEVGVBANEhgKFEFMSUdOX09VVF9CT1RUT01fTUlEEA4SGgoWQUxJR05fT1VUX0JPVFRPTV9SSUdIVBAPEhYKEkFMSUdOX09VVF9MRUZUX1RPUBAQEhYKEkFMSUdOX09VVF9MRUZUX01JRBAREhkKFUFMSUdOX09VVF9MRUZUX0JPVFRPTRASEhcKE0FMSUdOX09VVF9SSUdIVF9UT1AQExIXChNBTElHTl9PVVRfUklHSFRfTUlEEBQSGgoWQUxJR05fT1VUX1JJR0hUX0JPVFRPTRAVKqwBCgpCb3JkZXJTaWRlEhQKEEJPUkRFUl9TSURFX05PTkUQABIWChJCT1JERVJfU0lERV9CT1RUT00QARITCg9CT1JERVJfU0lERV9UT1AQAhIUChBCT1JERVJfU0lERV9MRUZUEAQSFQoRQk9SREVSX1NJREVfUklHSFQQCBIUChBCT1JERVJfU0lERV9GVUxMEA8SGAoUQk9SREVSX1NJREVfSU5URVJOQUwQECqEAQoNTGFiZWxMb25nTW9kZRITCg9MQUJFTF9MT05HX1dSQVAQABISCg5MQUJFTF9MT05HX0RPVBABEhUKEUxBQkVMX0xPTkdfU0NST0xMEAISHgoaTEFCRUxfTE9OR19TQ1JPTExfQ0lSQ1VMQVIQAxITCg9MQUJFTF9MT05HX0NMSVAQBCpMCgdCYXJNb2RlEhMKD0JBUl9NT0RFX05PUk1BTBAAEhgKFEJBUl9NT0RFX1NZTU1FVFJJQ0FMEAESEgoOQkFSX01PREVfUkFOR0UQAipOCgdBcmNNb2RlEhMKD0FSQ19NT0RFX05PUk1BTBAAEhgKFEFSQ19NT0RFX1NZTU1FVFJJQ0FMEAESFAoQQVJDX01PREVfUkVWRVJTRRACKj4KClJvbGxlck1vZGUSFgoSUk9MTEVSX01PREVfTk9STUFMEAASGAoUUk9MTEVSX01PREVfSU5GSU5JVEUQASrBAQoJU2NhbGVNb2RlEh0KGVNDQUxFX01PREVfSE9SSVpPTlRBTF9UT1AQABIgChxTQ0FMRV9NT0RFX0hPUklaT05UQUxfQk9UVE9NEAESHAoYU0NBTEVfTU9ERV9WRVJUSUNBTF9MRUZUEAISHQoZU0NBTEVfTU9ERV9WRVJUSUNBTF9SSUdIVBAEEhoKFlNDQUxFX01PREVfUk9VTkRfSU5ORVIQCBIaChZTQ0FMRV9NT0RFX1JPVU5EX09VVEVSEBAquxIKEVN0eWxlUHJvcGVydHlUeXBlEhEKDVBST1BfQkdfQ09MT1IQABIPCgtQUk9QX0JHX09QQRABEhMKD1BST1BfVEVYVF9DT0xPUhACEhIKDlBST1BfVEVYVF9GT05UEAMSFQoRUFJPUF9CT1JERVJfQ09MT1IQBBIVChFQUk9QX0JPUkRFUl9XSURUSBAFEg8KC1BST1BfUkFESVVTEAYSEAoMUFJPUF9QQURfQUxMEAcSEAoMUFJPUF9QQURfR0FQEAgSDgoKUFJPUF9XSURUSBAJEg8KC1BST1BfSEVJR0hUEAoSDwoLUFJPUF9TSEFET1cQCxIQCgxQUk9QX1BBRF9IT1IQDBIQCgxQUk9QX1BBRF9WRVIQDRITCg9QUk9QX01BUkdJTl9BTEwQDhITCg9QUk9QX0JPUkRFUl9PUEEQDxISCg5QUk9QX01JTl9XSURUSBAQEhIKDlBST1BfTUFYX1dJRFRIEBESEwoPUFJPUF9NSU5fSEVJR0hUEBISEwoPUFJPUF9NQVhfSEVJR0hUEBMSDwoLUFJPUF9MRU5HVEgQFBIKCgZQUk9QX1gQFRIKCgZQUk9QX1kQFhIOCgpQUk9QX0FMSUdOEBcSGAoUUFJPUF9UUkFOU0ZPUk1fV0lEVEgQGBIZChVQUk9QX1RSQU5TRk9STV9IRUlHSFQQGRIUChBQUk9QX1RSQU5TTEFURV9YEBoSFAoQUFJPUF9UUkFOU0xBVEVfWRAbEhAKDFBST1BfU0NBTEVfWBAcEhAKDFBST1BfU0NBTEVfWRAdEhEKDVBST1BfUk9UQVRJT04QHhIQCgxQUk9QX1BJVk9UX1gQHxIQCgxQUk9QX1BJVk9UX1kQIBIPCgtQUk9QX1NLRVdfWBAhEg8KC1BST1BfU0tFV19ZECISEAoMUFJPUF9QQURfVE9QECMSEwoPUFJPUF9QQURfQk9UVE9NECQSEQoNUFJPUF9QQURfTEVGVBAlEhIKDlBST1BfUEFEX1JJR0hUECYSEAoMUFJPUF9QQURfUk9XECcSEwoPUFJPUF9QQURfQ09MVU1OECgSEwoPUFJPUF9NQVJHSU5fVE9QECkSFgoSUFJPUF9NQVJHSU5fQk9UVE9NECoSFAoQUFJPUF9NQVJHSU5fTEVGVBArEhUKEVBST1BfTUFSR0lOX1JJR0hUECwSFgoSUFJPUF9CR19HUkFEX0NPTE9SEC0SFAoQUFJPUF9CR19HUkFEX0RJUhAuEhUKEVBST1BfQkdfTUFJTl9TVE9QEC8SFQoRUFJPUF9CR19HUkFEX1NUT1AQMBIUChBQUk9QX0JHX01BSU5fT1BBEDESFAoQUFJPUF9CR19HUkFEX09QQRAyEhUKEVBST1BfQkdfSU1BR0VfU1JDEDMSFQoRUFJPUF9CR19JTUFHRV9PUEEQNBIZChVQUk9QX0JHX0lNQUdFX1JFQ09MT1IQNRIdChlQUk9QX0JHX0lNQUdFX1JFQ09MT1JfT1BBEDYSFwoTUFJPUF9CR19JTUFHRV9USUxFRBA3EhQKEFBST1BfQk9SREVSX1NJREUQOBIUChBQUk9QX0JPUkRFUl9QT1NUEDkSFgoSUFJPUF9PVVRMSU5FX1dJRFRIEDoSFgoSUFJPUF9PVVRMSU5FX0NPTE9SEDsSFAoQUFJPUF9PVVRMSU5FX09QQRA8EhQKEFBST1BfT1VUTElORV9QQUQQPRIVChFQUk9QX1NIQURPV19XSURUSBA+EhgKFFBST1BfU0hBRE9XX09GRlNFVF9YED8SGAoUUFJPUF9TSEFET1dfT0ZGU0VUX1kQQBIWChJQUk9QX1NIQURPV19TUFJFQUQQQRIVChFQUk9QX1NIQURPV19DT0xPUhBCEhMKD1BST1BfU0hBRE9XX09QQRBDEhIKDlBST1BfSU1BR0VfT1BBEEQSFgoSUFJPUF9JTUFHRV9SRUNPTE9SEEUSGgoWUFJPUF9JTUFHRV9SRUNPTE9SX09QQRBGEhMKD1BST1BfTElORV9XSURUSBBHEhgKFFBST1BfTElORV9EQVNIX1dJRFRIEEgSFgoSUFJPUF9MSU5FX0RBU0hfR0FQEEkSFQoRUFJPUF9MSU5FX1JPVU5ERUQQShITCg9QUk9QX0xJTkVfQ09MT1IQSxIRCg1QUk9QX0xJTkVfT1BBEEwSEgoOUFJPUF9BUkNfV0lEVEgQTRIUChBQUk9QX0FSQ19ST1VOREVEEE4SEgoOUFJPUF9BUkNfQ09MT1IQTxIQCgxQUk9QX0FSQ19PUEEQUBIRCg1QUk9QX1RFWFRfT1BBEFESGgoWUFJPUF9URVhUX0xFVFRFUl9TUEFDRRBSEhgKFFBST1BfVEVYVF9MSU5FX1NQQUNFEFMSEwoPUFJPUF9URVhUX0RFQ09SEFQSEwoPUFJPUF9URVhUX0FMSUdOEFUSFAoQUFJPUF9DTElQX0NPUk5FUhBWEgwKCFBST1BfT1BBEFcSFAoQUFJPUF9PUEFfTEFZRVJFRBBYEhkKFVBST1BfQ09MT1JfRklMVEVSX09QQRBZEhYKElBST1BfQU5JTV9EVVJBVElPThBaEhMKD1BST1BfQkxFTkRfTU9ERRBbEhEKDVBST1BfQkFTRV9ESVIQXBIbChdQUk9QX1JPVEFSWV9TRU5TSVRJVklUWRBdEhIKDlBST1BfRkxFWF9GTE9XEF4SGAoUUFJPUF9GTEVYX01BSU5fUExBQ0UQXxIZChVQUk9QX0ZMRVhfQ1JPU1NfUExBQ0UQYBIZChVQUk9QX0ZMRVhfVFJBQ0tfUExBQ0UQYRISCg5QUk9QX0ZMRVhfR1JPVxBiEhoKFlBST1BfR1JJRF9DT0xVTU5fQUxJR04QYxIXChNQUk9QX0dSSURfUk9XX0FMSUdOEGQSHQoZUFJPUF9HUklEX0NFTExfQ09MVU1OX1BPUxBlEhoKFlBST1BfR1JJRF9DRUxMX1hfQUxJR04QZhIeChpQUk9QX0dSSURfQ0VMTF9DT0xVTU5fU1BBThBnEhoKFlBST1BfR1JJRF9DRUxMX1JPV19QT1MQaBIaChZQUk9QX0dSSURfQ0VMTF9ZX0FMSUdOEGkSGwoXUFJPUF9HUklEX0NFTExfUk9XX1NQQU4QakILWgl1aS91aV9hc3RiBnByb3RvMw");
+  fileDesc("Cg91aS91aV9hc3QucHJvdG8SAnVpIn0KElN1YmplY3REZWNsYXJhdGlvbhIMCgRuYW1lGAEgASgJEh0KBHR5cGUYAiABKA4yDy51aS5TdWJqZWN0VHlwZRIVCgtpbnRfaW5pdGlhbBgDIAEoBUgAEhgKDnN0cmluZ19pbml0aWFsGAQgASgJSABCCQoHaW5pdGlhbCIvCgtTdGF0ZVVwZGF0ZRIgCgZ2YWx1ZXMYASADKAsyEC51aS5TdWJqZWN0VmFsdWUiUgoMU3ViamVjdFZhbHVlEgwKBG5hbWUYASABKAkSEwoJaW50X3ZhbHVlGAIgASgFSAASFgoMc3RyaW5nX3ZhbHVlGAMgASgJSABCBwoFdmFsdWUiXgoGU2NyZWVuEiEKBHJvb3QYASABKAsyDi51aS5XaWRnZXROb2RlSACIAQESKAoIc3ViamVjdHMYAiADKAsyFi51aS5TdWJqZWN0RGVjbGFyYXRpb25CBwoFX3Jvb3Qi3QkKCldpZGdldE5vZGUSHAoEdHlwZRgBIAEoDjIOLnVpLldpZGdldFR5cGUSCQoBeBgCIAEoBRIJCgF5GAMgASgFEgwKBHRleHQYBCABKAkSLgoIYmluZGluZ3MYBSADKAsyHC51aS5XaWRnZXROb2RlLkJpbmRpbmdzRW50cnkSHwoFZXZlbnQYBiABKAsyEC51aS5FdmVudEJpbmRpbmcSGgoGbGF5b3V0GAcgASgLMgoudWkuTGF5b3V0EiAKCGNoaWxkcmVuGAggAygLMg4udWkuV2lkZ2V0Tm9kZRIkCgxzdHlsZV9ncm91cHMYCSADKAsyDi51aS5TdHlsZUdyb3VwEiEKCW9ial9wcm9wcxgKIAEoCzIMLnVpLk9ialByb3BzSAASJwoMYnV0dG9uX3Byb3BzGAsgASgLMg8udWkuQnV0dG9uUHJvcHNIABIlCgtsYWJlbF9wcm9wcxgMIAEoCzIOLnVpLkxhYmVsUHJvcHNIABInCgxzbGlkZXJfcHJvcHMYDSABKAsyDy51aS5TbGlkZXJQcm9wc0gAEiUKC2ltYWdlX3Byb3BzGA4gASgLMg4udWkuSW1hZ2VQcm9wc0gAEiEKCWFyY19wcm9wcxgPIAEoCzIMLnVpLkFyY1Byb3BzSAASIQoJYmFyX3Byb3BzGBAgASgLMgwudWkuQmFyUHJvcHNIABInCgxzd2l0Y2hfcHJvcHMYESABKAsyDy51aS5Td2l0Y2hQcm9wc0gAEisKDmNoZWNrYm94X3Byb3BzGBIgASgLMhEudWkuQ2hlY2tib3hQcm9wc0gAEisKDmRyb3Bkb3duX3Byb3BzGBMgASgLMhEudWkuRHJvcGRvd25Qcm9wc0gAEicKDHJvbGxlcl9wcm9wcxgUIAEoCzIPLnVpLlJvbGxlclByb3BzSAASKwoOdGV4dGFyZWFfcHJvcHMYFSABKAsyES51aS5UZXh0YXJlYVByb3BzSAASKQoNc3BpbmJveF9wcm9wcxgWIAEoCzIQLnVpLlNwaW5ib3hQcm9wc0gAEikKDXNwaW5uZXJfcHJvcHMYFyABKAsyEC51aS5TcGlubmVyUHJvcHNIABIhCglsZWRfcHJvcHMYGCABKAsyDC51aS5MZWRQcm9wc0gAEiMKCmxpbmVfcHJvcHMYGSABKAsyDS51aS5MaW5lUHJvcHNIABIlCgtzY2FsZV9wcm9wcxgaIAEoCzIOLnVpLlNjYWxlUHJvcHNIABIzChJidXR0b25tYXRyaXhfcHJvcHMYGyABKAsyFS51aS5CdXR0b25NYXRyaXhQcm9wc0gAEiUKC3RhYmxlX3Byb3BzGBwgASgLMg4udWkuVGFibGVQcm9wc0gAEikKCnZpc2liaWxpdHkYHSABKAsyFS51aS5WaXNpYmlsaXR5QmluZGluZxI1CgxiaW5kX2Zvcm1hdHMYHiADKAsyHy51aS5XaWRnZXROb2RlLkJpbmRGb3JtYXRzRW50cnkaLwoNQmluZGluZ3NFbnRyeRILCgNrZXkYASABKAkSDQoFdmFsdWUYAiABKAk6AjgBGjIKEEJpbmRGb3JtYXRzRW50cnkSCwoDa2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4AUIOCgx3aWRnZXRfcHJvcHMiCgoIT2JqUHJvcHMiDQoLQnV0dG9uUHJvcHMiMgoKTGFiZWxQcm9wcxIkCglsb25nX21vZGUYASABKA4yES51aS5MYWJlbExvbmdNb2RlIl0KC1NsaWRlclByb3BzEhEKCW1pbl92YWx1ZRgBIAEoBRIRCgltYXhfdmFsdWUYAiABKAUSDQoFdmFsdWUYAyABKAUSGQoEbW9kZRgEIAEoDjILLnVpLkJhck1vZGUiGQoKSW1hZ2VQcm9wcxILCgNzcmMYASABKAkiwgEKCEFyY1Byb3BzEhMKC3N0YXJ0X2FuZ2xlGAEgASgNEhEKCWVuZF9hbmdsZRgCIAEoDRIWCg5iZ19zdGFydF9hbmdsZRgDIAEoDRIUCgxiZ19lbmRfYW5nbGUYBCABKA0SEAoIcm90YXRpb24YBSABKAUSGQoEbW9kZRgGIAEoDjILLnVpLkFyY01vZGUSEQoJbWluX3ZhbHVlGAcgASgFEhEKCW1heF92YWx1ZRgIIAEoBRINCgV2YWx1ZRgJIAEoBSJvCghCYXJQcm9wcxIRCgltaW5fdmFsdWUYASABKAUSEQoJbWF4X3ZhbHVlGAIgASgFEg0KBXZhbHVlGAMgASgFEhMKC3N0YXJ0X3ZhbHVlGAQgASgFEhkKBG1vZGUYBSABKA4yCy51aS5CYXJNb2RlIh4KC1N3aXRjaFByb3BzEg8KB2NoZWNrZWQYASABKAgiIAoNQ2hlY2tib3hQcm9wcxIPCgdjaGVja2VkGAEgASgIIk4KDURyb3Bkb3duUHJvcHMSDwoHb3B0aW9ucxgBIAEoCRIQCghzZWxlY3RlZBgCIAEoDRIaCglkaXJlY3Rpb24YAyABKA4yBy51aS5EaXIiaQoLUm9sbGVyUHJvcHMSDwoHb3B0aW9ucxgBIAEoCRIQCghzZWxlY3RlZBgCIAEoDRIZChF2aXNpYmxlX3Jvd19jb3VudBgDIAEoDRIcCgRtb2RlGAQgASgOMg4udWkuUm9sbGVyTW9kZSJhCg1UZXh0YXJlYVByb3BzEhMKC3BsYWNlaG9sZGVyGAEgASgJEhIKCm1heF9sZW5ndGgYAiABKA0SEAoIb25lX2xpbmUYAyABKAgSFQoNcGFzc3dvcmRfbW9kZRgEIAEoCCKCAQoMU3BpbmJveFByb3BzEhEKCW1pbl92YWx1ZRgBIAEoBRIRCgltYXhfdmFsdWUYAiABKAUSDQoFdmFsdWUYAyABKAUSDAoEc3RlcBgEIAEoBRITCgtkaWdpdF9jb3VudBgFIAEoDRIaChJzZXBhcmF0b3JfcG9zaXRpb24YBiABKA0iNQoMU3Bpbm5lclByb3BzEhEKCXNwaW5fdGltZRgBIAEoDRISCgphcmNfbGVuZ3RoGAIgASgNIjgKCExlZFByb3BzEhgKBWNvbG9yGAEgASgLMgkudWkuQ29sb3ISEgoKYnJpZ2h0bmVzcxgCIAEoDSI4CglMaW5lUHJvcHMSGQoGcG9pbnRzGAEgAygLMgkudWkuUG9pbnQSEAoIeV9pbnZlcnQYAiABKAgivgEKClNjYWxlUHJvcHMSGwoEbW9kZRgBIAEoDjINLnVpLlNjYWxlTW9kZRIYChB0b3RhbF90aWNrX2NvdW50GAIgASgNEhgKEG1ham9yX3RpY2tfZXZlcnkYAyABKA0SEgoKbGFiZWxfc2hvdxgEIAEoCBIRCgltaW5fdmFsdWUYBSABKAUSEQoJbWF4X3ZhbHVlGAYgASgFEhAKCHJvdGF0aW9uGAcgASgFEhMKC2FuZ2xlX3JhbmdlGAggASgNIjcKEUJ1dHRvbk1hdHJpeFByb3BzEg8KB21hcF9zdHIYASABKAkSEQoJb25lX2NoZWNrGAIgASgIIjUKClRhYmxlUHJvcHMSEQoJcm93X2NvdW50GAEgASgNEhQKDGNvbHVtbl9jb3VudBgCIAEoDSIdCgVQb2ludBIJCgF4GAEgASgFEgkKAXkYAiABKAUivQEKDEV2ZW50QmluZGluZxIMCgRuYW1lGAEgASgJEiEKB3RyaWdnZXIYAiABKA4yEC51aS5FdmVudFRyaWdnZXISEQoJaW50X3ZhbHVlGAMgASgFEhwKFGluY2x1ZGVfd2lkZ2V0X3ZhbHVlGAQgASgIEhMKC3NldF9zdWJqZWN0GAUgASgJEhEKCXNldF92YWx1ZRgGIAEoBRIOCgZ0b2dnbGUYByABKAgSEwoLbm90aWZ5X2hvc3QYCCABKAgiVwoRVmlzaWJpbGl0eUJpbmRpbmcSDwoHc3ViamVjdBgBIAEoCRIRCglyZWZfdmFsdWUYAiABKAUSHgoHY29tcGFyZRgDIAEoDjINLnVpLkNvbXBhcmVPcCKPAQoGTGF5b3V0EhoKBGZsb3cYASABKA4yDC51aS5GbGV4RmxvdxIhCgptYWluX3BsYWNlGAIgASgOMg0udWkuRmxleEFsaWduEiIKC2Nyb3NzX3BsYWNlGAMgASgOMg0udWkuRmxleEFsaWduEiIKC3RyYWNrX3BsYWNlGAQgASgOMg0udWkuRmxleEFsaWduIkkKClN0eWxlR3JvdXASFgoOc3RhdGVfc2VsZWN0b3IYASABKA0SIwoIdmFyaWFudHMYAiADKAsyES51aS5SZXNvbHZlZFN0eWxlIjYKDVJlc29sdmVkU3R5bGUSJQoKcHJvcGVydGllcxgBIAMoCzIRLnVpLlN0eWxlUHJvcGVydHkizAEKDVN0eWxlUHJvcGVydHkSIwoEdHlwZRgBIAEoDjIVLnVpLlN0eWxlUHJvcGVydHlUeXBlEhQKCnVpbnRfdmFsdWUYAiABKA1IABITCglpbnRfdmFsdWUYAyABKAVIABIgCgtjb2xvcl92YWx1ZRgEIAEoCzIJLnVpLkNvbG9ySAASFgoMc3RyaW5nX3ZhbHVlGAUgASgJSAASKAoMc2hhZG93X3ZhbHVlGAYgASgLMhAudWkuU2hhZG93QnVuZGxlSABCBwoFdmFsdWUiKAoFQ29sb3ISCQoBchgBIAEoDRIJCgFnGAIgASgNEgkKAWIYAyABKA0iXgoMU2hhZG93QnVuZGxlEg0KBXdpZHRoGAEgASgNEhAKCG9mZnNldF94GAIgASgFEhAKCG9mZnNldF95GAMgASgFEg4KBnNwcmVhZBgEIAEoDRILCgNvcGEYBSABKA0qMgoLU3ViamVjdFR5cGUSDwoLU1VCSkVDVF9JTlQQABISCg5TVUJKRUNUX1NUUklORxABKvECCgpXaWRnZXRUeXBlEg4KCldJREdFVF9PQkoQABIRCg1XSURHRVRfQlVUVE9OEAESEAoMV0lER0VUX0xBQkVMEAISEQoNV0lER0VUX1NMSURFUhADEhAKDFdJREdFVF9JTUFHRRAEEg4KCldJREdFVF9BUkMQBRIOCgpXSURHRVRfQkFSEAYSEQoNV0lER0VUX1NXSVRDSBAHEhMKD1dJREdFVF9DSEVDS0JPWBAIEhMKD1dJREdFVF9EUk9QRE9XThAJEhEKDVdJREdFVF9ST0xMRVIQChITCg9XSURHRVRfVEVYVEFSRUEQCxISCg5XSURHRVRfU1BJTkJPWBAMEhIKDldJREdFVF9TUElOTkVSEA0SDgoKV0lER0VUX0xFRBAOEg8KC1dJREdFVF9MSU5FEA8SEAoMV0lER0VUX1NDQUxFEBASFwoTV0lER0VUX0JVVFRPTk1BVFJJWBAREhAKDFdJREdFVF9UQUJMRRASKlgKDEV2ZW50VHJpZ2dlchITCg9UUklHR0VSX0NMSUNLRUQQABIZChVUUklHR0VSX1ZBTFVFX0NIQU5HRUQQARIYChRUUklHR0VSX0xPTkdfUFJFU1NFRBACKnEKCUNvbXBhcmVPcBIOCgpDT01QQVJFX0VREAASEgoOQ09NUEFSRV9OT1RfRVEQARIOCgpDT01QQVJFX0dUEAISDwoLQ09NUEFSRV9HVEUQAxIOCgpDT01QQVJFX0xUEAQSDwoLQ09NUEFSRV9MVEUQBSr2AQoIRmxleEZsb3cSEgoORkxFWF9GTE9XX05PTkUQABIRCg1GTEVYX0ZMT1dfUk9XEAESFAoQRkxFWF9GTE9XX0NPTFVNThACEhYKEkZMRVhfRkxPV19ST1dfV1JBUBADEhkKFUZMRVhfRkxPV19ST1dfUkVWRVJTRRAEEh4KGkZMRVhfRkxPV19ST1dfV1JBUF9SRVZFUlNFEAUSGQoVRkxFWF9GTE9XX0NPTFVNTl9XUkFQEAYSHAoYRkxFWF9GTE9XX0NPTFVNTl9SRVZFUlNFEAcSIQodRkxFWF9GTE9XX0NPTFVNTl9XUkFQX1JFVkVSU0UQCCqkAQoJRmxleEFsaWduEhQKEEZMRVhfQUxJR05fU1RBUlQQABISCg5GTEVYX0FMSUdOX0VORBABEhUKEUZMRVhfQUxJR05fQ0VOVEVSEAISGwoXRkxFWF9BTElHTl9TUEFDRV9FVkVOTFkQAxIbChdGTEVYX0FMSUdOX1NQQUNFX0FST1VORBAEEhwKGEZMRVhfQUxJR05fU1BBQ0VfQkVUV0VFThAFKrwBCglHcmlkQWxpZ24SFAoQR1JJRF9BTElHTl9TVEFSVBAAEhUKEUdSSURfQUxJR05fQ0VOVEVSEAESEgoOR1JJRF9BTElHTl9FTkQQAhIWChJHUklEX0FMSUdOX1NUUkVUQ0gQAxIbChdHUklEX0FMSUdOX1NQQUNFX0VWRU5MWRAEEhsKF0dSSURfQUxJR05fU1BBQ0VfQVJPVU5EEAUSHAoYR1JJRF9BTElHTl9TUEFDRV9CRVRXRUVOEAYqYgoJVGV4dEFsaWduEhMKD1RFWFRfQUxJR05fQVVUTxAAEhMKD1RFWFRfQUxJR05fTEVGVBABEhUKEVRFWFRfQUxJR05fQ0VOVEVSEAISFAoQVEVYVF9BTElHTl9SSUdIVBADKlgKCVRleHREZWNvchITCg9URVhUX0RFQ09SX05PTkUQABIYChRURVhUX0RFQ09SX1VOREVSTElORRABEhwKGFRFWFRfREVDT1JfU1RSSUtFVEhST1VHSBACKnAKCUJsZW5kTW9kZRIVChFCTEVORF9NT0RFX05PUk1BTBAAEhcKE0JMRU5EX01PREVfQURESVRJVkUQARIaChZCTEVORF9NT0RFX1NVQlRSQUNUSVZFEAISFwoTQkxFTkRfTU9ERV9NVUxUSVBMWRADKkAKB0Jhc2VEaXISEAoMQkFTRV9ESVJfTFRSEAASEAoMQkFTRV9ESVJfUlRMEAESEQoNQkFTRV9ESVJfQVVUTxACKoABCgdHcmFkRGlyEhEKDUdSQURfRElSX05PTkUQABIQCgxHUkFEX0RJUl9WRVIQARIQCgxHUkFEX0RJUl9IT1IQAhITCg9HUkFEX0RJUl9MSU5FQVIQAxITCg9HUkFEX0RJUl9SQURJQUwQBBIUChBHUkFEX0RJUl9DT05JQ0FMEAUqdAoDRGlyEgwKCERJUl9OT05FEAASDAoIRElSX0xFRlQQARINCglESVJfUklHSFQQAhILCgdESVJfSE9SEAMSCwoHRElSX1RPUBAEEg4KCkRJUl9CT1RUT00QCBILCgdESVJfVkVSEAwSCwoHRElSX0FMTBAPKogECgVBbGlnbhIRCg1BTElHTl9ERUZBVUxUEAASEgoOQUxJR05fVE9QX0xFRlQQARIRCg1BTElHTl9UT1BfTUlEEAISEwoPQUxJR05fVE9QX1JJR0hUEAMSFQoRQUxJR05fQk9UVE9NX0xFRlQQBBIUChBBTElHTl9CT1RUT01fTUlEEAUSFgoSQUxJR05fQk9UVE9NX1JJR0hUEAYSEgoOQUxJR05fTEVGVF9NSUQQBxITCg9BTElHTl9SSUdIVF9NSUQQCBIQCgxBTElHTl9DRU5URVIQCRIWChJBTElHTl9PVVRfVE9QX0xFRlQQChIVChFBTElHTl9PVVRfVE9QX01JRBALEhcKE0FMSUdOX09VVF9UT1BfUklHSFQQDBIZChVBTElHTl9PVVRfQk9UVE9NX0xFRlQQDRIYChRBTElHTl9PVVRfQk9UVE9NX01JRBAOEhoKFkFMSUdOX09VVF9CT1RUT01fUklHSFQQDxIWChJBTElHTl9PVVRfTEVGVF9UT1AQEBIWChJBTElHTl9PVVRfTEVGVF9NSUQQERIZChVBTElHTl9PVVRfTEVGVF9CT1RUT00QEhIXChNBTElHTl9PVVRfUklHSFRfVE9QEBMSFwoTQUxJR05fT1VUX1JJR0hUX01JRBAUEhoKFkFMSUdOX09VVF9SSUdIVF9CT1RUT00QFSqsAQoKQm9yZGVyU2lkZRIUChBCT1JERVJfU0lERV9OT05FEAASFgoSQk9SREVSX1NJREVfQk9UVE9NEAESEwoPQk9SREVSX1NJREVfVE9QEAISFAoQQk9SREVSX1NJREVfTEVGVBAEEhUKEUJPUkRFUl9TSURFX1JJR0hUEAgSFAoQQk9SREVSX1NJREVfRlVMTBAPEhgKFEJPUkRFUl9TSURFX0lOVEVSTkFMEBAqhAEKDUxhYmVsTG9uZ01vZGUSEwoPTEFCRUxfTE9OR19XUkFQEAASEgoOTEFCRUxfTE9OR19ET1QQARIVChFMQUJFTF9MT05HX1NDUk9MTBACEh4KGkxBQkVMX0xPTkdfU0NST0xMX0NJUkNVTEFSEAMSEwoPTEFCRUxfTE9OR19DTElQEAQqTAoHQmFyTW9kZRITCg9CQVJfTU9ERV9OT1JNQUwQABIYChRCQVJfTU9ERV9TWU1NRVRSSUNBTBABEhIKDkJBUl9NT0RFX1JBTkdFEAIqTgoHQXJjTW9kZRITCg9BUkNfTU9ERV9OT1JNQUwQABIYChRBUkNfTU9ERV9TWU1NRVRSSUNBTBABEhQKEEFSQ19NT0RFX1JFVkVSU0UQAio+CgpSb2xsZXJNb2RlEhYKElJPTExFUl9NT0RFX05PUk1BTBAAEhgKFFJPTExFUl9NT0RFX0lORklOSVRFEAEqwQEKCVNjYWxlTW9kZRIdChlTQ0FMRV9NT0RFX0hPUklaT05UQUxfVE9QEAASIAocU0NBTEVfTU9ERV9IT1JJWk9OVEFMX0JPVFRPTRABEhwKGFNDQUxFX01PREVfVkVSVElDQUxfTEVGVBACEh0KGVNDQUxFX01PREVfVkVSVElDQUxfUklHSFQQBBIaChZTQ0FMRV9NT0RFX1JPVU5EX0lOTkVSEAgSGgoWU0NBTEVfTU9ERV9ST1VORF9PVVRFUhAQKrsSChFTdHlsZVByb3BlcnR5VHlwZRIRCg1QUk9QX0JHX0NPTE9SEAASDwoLUFJPUF9CR19PUEEQARITCg9QUk9QX1RFWFRfQ09MT1IQAhISCg5QUk9QX1RFWFRfRk9OVBADEhUKEVBST1BfQk9SREVSX0NPTE9SEAQSFQoRUFJPUF9CT1JERVJfV0lEVEgQBRIPCgtQUk9QX1JBRElVUxAGEhAKDFBST1BfUEFEX0FMTBAHEhAKDFBST1BfUEFEX0dBUBAIEg4KClBST1BfV0lEVEgQCRIPCgtQUk9QX0hFSUdIVBAKEg8KC1BST1BfU0hBRE9XEAsSEAoMUFJPUF9QQURfSE9SEAwSEAoMUFJPUF9QQURfVkVSEA0SEwoPUFJPUF9NQVJHSU5fQUxMEA4SEwoPUFJPUF9CT1JERVJfT1BBEA8SEgoOUFJPUF9NSU5fV0lEVEgQEBISCg5QUk9QX01BWF9XSURUSBAREhMKD1BST1BfTUlOX0hFSUdIVBASEhMKD1BST1BfTUFYX0hFSUdIVBATEg8KC1BST1BfTEVOR1RIEBQSCgoGUFJPUF9YEBUSCgoGUFJPUF9ZEBYSDgoKUFJPUF9BTElHThAXEhgKFFBST1BfVFJBTlNGT1JNX1dJRFRIEBgSGQoVUFJPUF9UUkFOU0ZPUk1fSEVJR0hUEBkSFAoQUFJPUF9UUkFOU0xBVEVfWBAaEhQKEFBST1BfVFJBTlNMQVRFX1kQGxIQCgxQUk9QX1NDQUxFX1gQHBIQCgxQUk9QX1NDQUxFX1kQHRIRCg1QUk9QX1JPVEFUSU9OEB4SEAoMUFJPUF9QSVZPVF9YEB8SEAoMUFJPUF9QSVZPVF9ZECASDwoLUFJPUF9TS0VXX1gQIRIPCgtQUk9QX1NLRVdfWRAiEhAKDFBST1BfUEFEX1RPUBAjEhMKD1BST1BfUEFEX0JPVFRPTRAkEhEKDVBST1BfUEFEX0xFRlQQJRISCg5QUk9QX1BBRF9SSUdIVBAmEhAKDFBST1BfUEFEX1JPVxAnEhMKD1BST1BfUEFEX0NPTFVNThAoEhMKD1BST1BfTUFSR0lOX1RPUBApEhYKElBST1BfTUFSR0lOX0JPVFRPTRAqEhQKEFBST1BfTUFSR0lOX0xFRlQQKxIVChFQUk9QX01BUkdJTl9SSUdIVBAsEhYKElBST1BfQkdfR1JBRF9DT0xPUhAtEhQKEFBST1BfQkdfR1JBRF9ESVIQLhIVChFQUk9QX0JHX01BSU5fU1RPUBAvEhUKEVBST1BfQkdfR1JBRF9TVE9QEDASFAoQUFJPUF9CR19NQUlOX09QQRAxEhQKEFBST1BfQkdfR1JBRF9PUEEQMhIVChFQUk9QX0JHX0lNQUdFX1NSQxAzEhUKEVBST1BfQkdfSU1BR0VfT1BBEDQSGQoVUFJPUF9CR19JTUFHRV9SRUNPTE9SEDUSHQoZUFJPUF9CR19JTUFHRV9SRUNPTE9SX09QQRA2EhcKE1BST1BfQkdfSU1BR0VfVElMRUQQNxIUChBQUk9QX0JPUkRFUl9TSURFEDgSFAoQUFJPUF9CT1JERVJfUE9TVBA5EhYKElBST1BfT1VUTElORV9XSURUSBA6EhYKElBST1BfT1VUTElORV9DT0xPUhA7EhQKEFBST1BfT1VUTElORV9PUEEQPBIUChBQUk9QX09VVExJTkVfUEFEED0SFQoRUFJPUF9TSEFET1dfV0lEVEgQPhIYChRQUk9QX1NIQURPV19PRkZTRVRfWBA/EhgKFFBST1BfU0hBRE9XX09GRlNFVF9ZEEASFgoSUFJPUF9TSEFET1dfU1BSRUFEEEESFQoRUFJPUF9TSEFET1dfQ09MT1IQQhITCg9QUk9QX1NIQURPV19PUEEQQxISCg5QUk9QX0lNQUdFX09QQRBEEhYKElBST1BfSU1BR0VfUkVDT0xPUhBFEhoKFlBST1BfSU1BR0VfUkVDT0xPUl9PUEEQRhITCg9QUk9QX0xJTkVfV0lEVEgQRxIYChRQUk9QX0xJTkVfREFTSF9XSURUSBBIEhYKElBST1BfTElORV9EQVNIX0dBUBBJEhUKEVBST1BfTElORV9ST1VOREVEEEoSEwoPUFJPUF9MSU5FX0NPTE9SEEsSEQoNUFJPUF9MSU5FX09QQRBMEhIKDlBST1BfQVJDX1dJRFRIEE0SFAoQUFJPUF9BUkNfUk9VTkRFRBBOEhIKDlBST1BfQVJDX0NPTE9SEE8SEAoMUFJPUF9BUkNfT1BBEFASEQoNUFJPUF9URVhUX09QQRBREhoKFlBST1BfVEVYVF9MRVRURVJfU1BBQ0UQUhIYChRQUk9QX1RFWFRfTElORV9TUEFDRRBTEhMKD1BST1BfVEVYVF9ERUNPUhBUEhMKD1BST1BfVEVYVF9BTElHThBVEhQKEFBST1BfQ0xJUF9DT1JORVIQVhIMCghQUk9QX09QQRBXEhQKEFBST1BfT1BBX0xBWUVSRUQQWBIZChVQUk9QX0NPTE9SX0ZJTFRFUl9PUEEQWRIWChJQUk9QX0FOSU1fRFVSQVRJT04QWhITCg9QUk9QX0JMRU5EX01PREUQWxIRCg1QUk9QX0JBU0VfRElSEFwSGwoXUFJPUF9ST1RBUllfU0VOU0lUSVZJVFkQXRISCg5QUk9QX0ZMRVhfRkxPVxBeEhgKFFBST1BfRkxFWF9NQUlOX1BMQUNFEF8SGQoVUFJPUF9GTEVYX0NST1NTX1BMQUNFEGASGQoVUFJPUF9GTEVYX1RSQUNLX1BMQUNFEGESEgoOUFJPUF9GTEVYX0dST1cQYhIaChZQUk9QX0dSSURfQ09MVU1OX0FMSUdOEGMSFwoTUFJPUF9HUklEX1JPV19BTElHThBkEh0KGVBST1BfR1JJRF9DRUxMX0NPTFVNTl9QT1MQZRIaChZQUk9QX0dSSURfQ0VMTF9YX0FMSUdOEGYSHgoaUFJPUF9HUklEX0NFTExfQ09MVU1OX1NQQU4QZxIaChZQUk9QX0dSSURfQ0VMTF9ST1dfUE9TEGgSGgoWUFJPUF9HUklEX0NFTExfWV9BTElHThBpEhsKF1BST1BfR1JJRF9DRUxMX1JPV19TUEFOEGpCC1oJdWkvdWlfYXN0YgZwcm90bzM");
+
+/**
+ * Declaration of a reactive subject (lives in Screen, initialized at load time)
+ *
+ * @generated from message ui.SubjectDeclaration
+ */
+export type SubjectDeclaration = Message<"ui.SubjectDeclaration"> & {
+  /**
+   * unique identifier, e.g. "zoom_level"
+   *
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: ui.SubjectType type = 2;
+   */
+  type: SubjectType;
+
+  /**
+   * @generated from oneof ui.SubjectDeclaration.initial
+   */
+  initial: {
+    /**
+     * default value for INT subjects
+     *
+     * @generated from field: int32 int_initial = 3;
+     */
+    value: number;
+    case: "intInitial";
+  } | {
+    /**
+     * default value for STRING subjects
+     *
+     * @generated from field: string string_initial = 4;
+     */
+    value: string;
+    case: "stringInitial";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message ui.SubjectDeclaration.
+ * Use `create(SubjectDeclarationSchema)` to create a new message.
+ */
+export const SubjectDeclarationSchema: GenMessage<SubjectDeclaration> = /*@__PURE__*/
+  messageDesc(file_ui_ui_ast, 0);
+
+/**
+ * Host → WASM state update (decoded by controls_update_state)
+ *
+ * @generated from message ui.StateUpdate
+ */
+export type StateUpdate = Message<"ui.StateUpdate"> & {
+  /**
+   * @generated from field: repeated ui.SubjectValue values = 1;
+   */
+  values: SubjectValue[];
+};
+
+/**
+ * Describes the message ui.StateUpdate.
+ * Use `create(StateUpdateSchema)` to create a new message.
+ */
+export const StateUpdateSchema: GenMessage<StateUpdate> = /*@__PURE__*/
+  messageDesc(file_ui_ui_ast, 1);
+
+/**
+ * A single subject value in a state update
+ *
+ * @generated from message ui.SubjectValue
+ */
+export type SubjectValue = Message<"ui.SubjectValue"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from oneof ui.SubjectValue.value
+   */
+  value: {
+    /**
+     * @generated from field: int32 int_value = 2;
+     */
+    value: number;
+    case: "intValue";
+  } | {
+    /**
+     * @generated from field: string string_value = 3;
+     */
+    value: string;
+    case: "stringValue";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message ui.SubjectValue.
+ * Use `create(SubjectValueSchema)` to create a new message.
+ */
+export const SubjectValueSchema: GenMessage<SubjectValue> = /*@__PURE__*/
+  messageDesc(file_ui_ui_ast, 2);
 
 /**
  * A complete UI screen — root message pushed via controls_load_ui().
@@ -25,6 +127,13 @@ export type Screen = Message<"ui.Screen"> & {
    * @generated from field: optional ui.WidgetNode root = 1;
    */
   root?: WidgetNode;
+
+  /**
+   * reactive subject declarations
+   *
+   * @generated from field: repeated ui.SubjectDeclaration subjects = 2;
+   */
+  subjects: SubjectDeclaration[];
 };
 
 /**
@@ -32,7 +141,7 @@ export type Screen = Message<"ui.Screen"> & {
  * Use `create(ScreenSchema)` to create a new message.
  */
 export const ScreenSchema: GenMessage<Screen> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 0);
+  messageDesc(file_ui_ui_ast, 3);
 
 /**
  * A node in the widget tree (recursive).
@@ -220,6 +329,20 @@ export type WidgetNode = Message<"ui.WidgetNode"> & {
     value: TableProps;
     case: "tableProps";
   } | { case: undefined; value?: undefined };
+
+  /**
+   * Conditional visibility binding (show/hide based on subject value)
+   *
+   * @generated from field: ui.VisibilityBinding visibility = 29;
+   */
+  visibility?: VisibilityBinding;
+
+  /**
+   * Format strings for bound text (key = binding key, value = printf format)
+   *
+   * @generated from field: map<string, string> bind_formats = 30;
+   */
+  bindFormats: { [key: string]: string };
 };
 
 /**
@@ -227,7 +350,7 @@ export type WidgetNode = Message<"ui.WidgetNode"> & {
  * Use `create(WidgetNodeSchema)` to create a new message.
  */
 export const WidgetNodeSchema: GenMessage<WidgetNode> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 1);
+  messageDesc(file_ui_ui_ast, 4);
 
 /**
  * @generated from message ui.ObjProps
@@ -240,7 +363,7 @@ export type ObjProps = Message<"ui.ObjProps"> & {
  * Use `create(ObjPropsSchema)` to create a new message.
  */
 export const ObjPropsSchema: GenMessage<ObjProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 2);
+  messageDesc(file_ui_ui_ast, 5);
 
 /**
  * @generated from message ui.ButtonProps
@@ -253,7 +376,7 @@ export type ButtonProps = Message<"ui.ButtonProps"> & {
  * Use `create(ButtonPropsSchema)` to create a new message.
  */
 export const ButtonPropsSchema: GenMessage<ButtonProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 3);
+  messageDesc(file_ui_ui_ast, 6);
 
 /**
  * @generated from message ui.LabelProps
@@ -270,7 +393,7 @@ export type LabelProps = Message<"ui.LabelProps"> & {
  * Use `create(LabelPropsSchema)` to create a new message.
  */
 export const LabelPropsSchema: GenMessage<LabelProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 4);
+  messageDesc(file_ui_ui_ast, 7);
 
 /**
  * @generated from message ui.SliderProps
@@ -302,7 +425,7 @@ export type SliderProps = Message<"ui.SliderProps"> & {
  * Use `create(SliderPropsSchema)` to create a new message.
  */
 export const SliderPropsSchema: GenMessage<SliderProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 5);
+  messageDesc(file_ui_ui_ast, 8);
 
 /**
  * @generated from message ui.ImageProps
@@ -319,7 +442,7 @@ export type ImageProps = Message<"ui.ImageProps"> & {
  * Use `create(ImagePropsSchema)` to create a new message.
  */
 export const ImagePropsSchema: GenMessage<ImageProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 6);
+  messageDesc(file_ui_ui_ast, 9);
 
 /**
  * @generated from message ui.ArcProps
@@ -376,7 +499,7 @@ export type ArcProps = Message<"ui.ArcProps"> & {
  * Use `create(ArcPropsSchema)` to create a new message.
  */
 export const ArcPropsSchema: GenMessage<ArcProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 7);
+  messageDesc(file_ui_ui_ast, 10);
 
 /**
  * @generated from message ui.BarProps
@@ -413,7 +536,7 @@ export type BarProps = Message<"ui.BarProps"> & {
  * Use `create(BarPropsSchema)` to create a new message.
  */
 export const BarPropsSchema: GenMessage<BarProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 8);
+  messageDesc(file_ui_ui_ast, 11);
 
 /**
  * @generated from message ui.SwitchProps
@@ -430,7 +553,7 @@ export type SwitchProps = Message<"ui.SwitchProps"> & {
  * Use `create(SwitchPropsSchema)` to create a new message.
  */
 export const SwitchPropsSchema: GenMessage<SwitchProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 9);
+  messageDesc(file_ui_ui_ast, 12);
 
 /**
  * @generated from message ui.CheckboxProps
@@ -447,7 +570,7 @@ export type CheckboxProps = Message<"ui.CheckboxProps"> & {
  * Use `create(CheckboxPropsSchema)` to create a new message.
  */
 export const CheckboxPropsSchema: GenMessage<CheckboxProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 10);
+  messageDesc(file_ui_ui_ast, 13);
 
 /**
  * @generated from message ui.DropdownProps
@@ -474,7 +597,7 @@ export type DropdownProps = Message<"ui.DropdownProps"> & {
  * Use `create(DropdownPropsSchema)` to create a new message.
  */
 export const DropdownPropsSchema: GenMessage<DropdownProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 11);
+  messageDesc(file_ui_ui_ast, 14);
 
 /**
  * @generated from message ui.RollerProps
@@ -506,7 +629,7 @@ export type RollerProps = Message<"ui.RollerProps"> & {
  * Use `create(RollerPropsSchema)` to create a new message.
  */
 export const RollerPropsSchema: GenMessage<RollerProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 12);
+  messageDesc(file_ui_ui_ast, 15);
 
 /**
  * @generated from message ui.TextareaProps
@@ -538,7 +661,7 @@ export type TextareaProps = Message<"ui.TextareaProps"> & {
  * Use `create(TextareaPropsSchema)` to create a new message.
  */
 export const TextareaPropsSchema: GenMessage<TextareaProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 13);
+  messageDesc(file_ui_ui_ast, 16);
 
 /**
  * @generated from message ui.SpinboxProps
@@ -580,7 +703,7 @@ export type SpinboxProps = Message<"ui.SpinboxProps"> & {
  * Use `create(SpinboxPropsSchema)` to create a new message.
  */
 export const SpinboxPropsSchema: GenMessage<SpinboxProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 14);
+  messageDesc(file_ui_ui_ast, 17);
 
 /**
  * @generated from message ui.SpinnerProps
@@ -602,7 +725,7 @@ export type SpinnerProps = Message<"ui.SpinnerProps"> & {
  * Use `create(SpinnerPropsSchema)` to create a new message.
  */
 export const SpinnerPropsSchema: GenMessage<SpinnerProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 15);
+  messageDesc(file_ui_ui_ast, 18);
 
 /**
  * @generated from message ui.LedProps
@@ -624,7 +747,7 @@ export type LedProps = Message<"ui.LedProps"> & {
  * Use `create(LedPropsSchema)` to create a new message.
  */
 export const LedPropsSchema: GenMessage<LedProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 16);
+  messageDesc(file_ui_ui_ast, 19);
 
 /**
  * @generated from message ui.LineProps
@@ -646,7 +769,7 @@ export type LineProps = Message<"ui.LineProps"> & {
  * Use `create(LinePropsSchema)` to create a new message.
  */
 export const LinePropsSchema: GenMessage<LineProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 17);
+  messageDesc(file_ui_ui_ast, 20);
 
 /**
  * @generated from message ui.ScaleProps
@@ -698,7 +821,7 @@ export type ScaleProps = Message<"ui.ScaleProps"> & {
  * Use `create(ScalePropsSchema)` to create a new message.
  */
 export const ScalePropsSchema: GenMessage<ScaleProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 18);
+  messageDesc(file_ui_ui_ast, 21);
 
 /**
  * @generated from message ui.ButtonMatrixProps
@@ -720,7 +843,7 @@ export type ButtonMatrixProps = Message<"ui.ButtonMatrixProps"> & {
  * Use `create(ButtonMatrixPropsSchema)` to create a new message.
  */
 export const ButtonMatrixPropsSchema: GenMessage<ButtonMatrixProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 19);
+  messageDesc(file_ui_ui_ast, 22);
 
 /**
  * @generated from message ui.TableProps
@@ -742,7 +865,7 @@ export type TableProps = Message<"ui.TableProps"> & {
  * Use `create(TablePropsSchema)` to create a new message.
  */
 export const TablePropsSchema: GenMessage<TableProps> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 20);
+  messageDesc(file_ui_ui_ast, 23);
 
 /**
  * @generated from message ui.Point
@@ -764,39 +887,67 @@ export type Point = Message<"ui.Point"> & {
  * Use `create(PointSchema)` to create a new message.
  */
 export const PointSchema: GenMessage<Point> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 21);
+  messageDesc(file_ui_ui_ast, 24);
 
 /**
  * @generated from message ui.EventBinding
  */
 export type EventBinding = Message<"ui.EventBinding"> & {
   /**
-   * e.g., "zoom_in" (for logging)
+   * event keyword — IS the command identifier
    *
-   * @generated from field: string event_name = 1;
+   * @generated from field: string name = 1;
    */
-  eventName: string;
+  name: string;
 
   /**
-   * binary command type ID (0x0105 etc.)
+   * which LVGL event fires this (default: CLICKED)
    *
-   * @generated from field: uint32 command_type = 2;
+   * @generated from field: ui.EventTrigger trigger = 2;
    */
-  commandType: number;
+  trigger: EventTrigger;
 
   /**
-   * default float arg (can be 0)
+   * static int payload
    *
-   * @generated from field: double float_value = 3;
-   */
-  floatValue: number;
-
-  /**
-   * default int arg (can be 0)
-   *
-   * @generated from field: int32 int_value = 4;
+   * @generated from field: int32 int_value = 3;
    */
   intValue: number;
+
+  /**
+   * inject widget's current value as int_value
+   *
+   * @generated from field: bool include_widget_value = 4;
+   */
+  includeWidgetValue: boolean;
+
+  /**
+   * local subject to mutate (empty = host event)
+   *
+   * @generated from field: string set_subject = 5;
+   */
+  setSubject: string;
+
+  /**
+   * value to set on subject
+   *
+   * @generated from field: int32 set_value = 6;
+   */
+  setValue: number;
+
+  /**
+   * flip 0↔1 instead of set_value
+   *
+   * @generated from field: bool toggle = 7;
+   */
+  toggle: boolean;
+
+  /**
+   * also send to host when mutating subject
+   *
+   * @generated from field: bool notify_host = 8;
+   */
+  notifyHost: boolean;
 };
 
 /**
@@ -804,7 +955,42 @@ export type EventBinding = Message<"ui.EventBinding"> & {
  * Use `create(EventBindingSchema)` to create a new message.
  */
 export const EventBindingSchema: GenMessage<EventBinding> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 22);
+  messageDesc(file_ui_ui_ast, 25);
+
+/**
+ * Conditional visibility — show/hide widget based on subject value comparison.
+ *
+ * @generated from message ui.VisibilityBinding
+ */
+export type VisibilityBinding = Message<"ui.VisibilityBinding"> & {
+  /**
+   * subject name to observe
+   *
+   * @generated from field: string subject = 1;
+   */
+  subject: string;
+
+  /**
+   * reference value for comparison
+   *
+   * @generated from field: int32 ref_value = 2;
+   */
+  refValue: number;
+
+  /**
+   * comparison operator (default: EQ)
+   *
+   * @generated from field: ui.CompareOp compare = 3;
+   */
+  compare: CompareOp;
+};
+
+/**
+ * Describes the message ui.VisibilityBinding.
+ * Use `create(VisibilityBindingSchema)` to create a new message.
+ */
+export const VisibilityBindingSchema: GenMessage<VisibilityBinding> = /*@__PURE__*/
+  messageDesc(file_ui_ui_ast, 26);
 
 /**
  * @generated from message ui.Layout
@@ -836,7 +1022,7 @@ export type Layout = Message<"ui.Layout"> & {
  * Use `create(LayoutSchema)` to create a new message.
  */
 export const LayoutSchema: GenMessage<Layout> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 23);
+  messageDesc(file_ui_ui_ast, 27);
 
 /**
  * A group of style variants for one LVGL state selector.
@@ -863,7 +1049,7 @@ export type StyleGroup = Message<"ui.StyleGroup"> & {
  * Use `create(StyleGroupSchema)` to create a new message.
  */
 export const StyleGroupSchema: GenMessage<StyleGroup> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 24);
+  messageDesc(file_ui_ui_ast, 28);
 
 /**
  * A fully-resolved style: all token refs are resolved to concrete LVGL values.
@@ -882,7 +1068,7 @@ export type ResolvedStyle = Message<"ui.ResolvedStyle"> & {
  * Use `create(ResolvedStyleSchema)` to create a new message.
  */
 export const ResolvedStyleSchema: GenMessage<ResolvedStyle> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 25);
+  messageDesc(file_ui_ui_ast, 29);
 
 /**
  * A single LVGL style property with its resolved value.
@@ -944,7 +1130,7 @@ export type StyleProperty = Message<"ui.StyleProperty"> & {
  * Use `create(StylePropertySchema)` to create a new message.
  */
 export const StylePropertySchema: GenMessage<StyleProperty> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 26);
+  messageDesc(file_ui_ui_ast, 30);
 
 /**
  * @generated from message ui.Color
@@ -973,7 +1159,7 @@ export type Color = Message<"ui.Color"> & {
  * Use `create(ColorSchema)` to create a new message.
  */
 export const ColorSchema: GenMessage<Color> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 27);
+  messageDesc(file_ui_ui_ast, 31);
 
 /**
  * @generated from message ui.ShadowBundle
@@ -1010,7 +1196,31 @@ export type ShadowBundle = Message<"ui.ShadowBundle"> & {
  * Use `create(ShadowBundleSchema)` to create a new message.
  */
 export const ShadowBundleSchema: GenMessage<ShadowBundle> = /*@__PURE__*/
-  messageDesc(file_ui_ui_ast, 28);
+  messageDesc(file_ui_ui_ast, 32);
+
+/**
+ * Subject type — LVGL 9.2 supports INT, STRING, POINTER, COLOR, GROUP.
+ * We expose INT and STRING; others are renderer-internal.
+ *
+ * @generated from enum ui.SubjectType
+ */
+export enum SubjectType {
+  /**
+   * @generated from enum value: SUBJECT_INT = 0;
+   */
+  SUBJECT_INT = 0,
+
+  /**
+   * @generated from enum value: SUBJECT_STRING = 1;
+   */
+  SUBJECT_STRING = 1,
+}
+
+/**
+ * Describes the enum ui.SubjectType.
+ */
+export const SubjectTypeSchema: GenEnum<SubjectType> = /*@__PURE__*/
+  enumDesc(file_ui_ui_ast, 0);
 
 /**
  * @generated from enum ui.WidgetType
@@ -1116,7 +1326,96 @@ export enum WidgetType {
  * Describes the enum ui.WidgetType.
  */
 export const WidgetTypeSchema: GenEnum<WidgetType> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 0);
+  enumDesc(file_ui_ui_ast, 1);
+
+/**
+ * Which LVGL event code triggers this event binding.
+ *
+ * @generated from enum ui.EventTrigger
+ */
+export enum EventTrigger {
+  /**
+   * LV_EVENT_CLICKED (default)
+   *
+   * @generated from enum value: TRIGGER_CLICKED = 0;
+   */
+  TRIGGER_CLICKED = 0,
+
+  /**
+   * LV_EVENT_VALUE_CHANGED
+   *
+   * @generated from enum value: TRIGGER_VALUE_CHANGED = 1;
+   */
+  TRIGGER_VALUE_CHANGED = 1,
+
+  /**
+   * LV_EVENT_LONG_PRESSED
+   *
+   * @generated from enum value: TRIGGER_LONG_PRESSED = 2;
+   */
+  TRIGGER_LONG_PRESSED = 2,
+}
+
+/**
+ * Describes the enum ui.EventTrigger.
+ */
+export const EventTriggerSchema: GenEnum<EventTrigger> = /*@__PURE__*/
+  enumDesc(file_ui_ui_ast, 2);
+
+/**
+ * Comparison operator for conditional visibility bindings.
+ *
+ * @generated from enum ui.CompareOp
+ */
+export enum CompareOp {
+  /**
+   * show when subject == ref_value (native LVGL bind)
+   *
+   * @generated from enum value: COMPARE_EQ = 0;
+   */
+  COMPARE_EQ = 0,
+
+  /**
+   * show when subject != ref_value (native LVGL bind)
+   *
+   * @generated from enum value: COMPARE_NOT_EQ = 1;
+   */
+  COMPARE_NOT_EQ = 1,
+
+  /**
+   * show when subject > ref_value  (custom observer)
+   *
+   * @generated from enum value: COMPARE_GT = 2;
+   */
+  COMPARE_GT = 2,
+
+  /**
+   * show when subject >= ref_value (custom observer)
+   *
+   * @generated from enum value: COMPARE_GTE = 3;
+   */
+  COMPARE_GTE = 3,
+
+  /**
+   * show when subject < ref_value  (custom observer)
+   *
+   * @generated from enum value: COMPARE_LT = 4;
+   */
+  COMPARE_LT = 4,
+
+  /**
+   * show when subject <= ref_value (custom observer)
+   *
+   * @generated from enum value: COMPARE_LTE = 5;
+   */
+  COMPARE_LTE = 5,
+}
+
+/**
+ * Describes the enum ui.CompareOp.
+ */
+export const CompareOpSchema: GenEnum<CompareOp> = /*@__PURE__*/
+  enumDesc(file_ui_ui_ast, 3);
 
 /**
  * @generated from enum ui.FlexFlow
@@ -1172,7 +1471,7 @@ export enum FlexFlow {
  * Describes the enum ui.FlexFlow.
  */
 export const FlexFlowSchema: GenEnum<FlexFlow> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 1);
+  enumDesc(file_ui_ui_ast, 4);
 
 /**
  * @generated from enum ui.FlexAlign
@@ -1213,7 +1512,7 @@ export enum FlexAlign {
  * Describes the enum ui.FlexAlign.
  */
 export const FlexAlignSchema: GenEnum<FlexAlign> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 2);
+  enumDesc(file_ui_ui_ast, 5);
 
 /**
  * @generated from enum ui.GridAlign
@@ -1259,7 +1558,7 @@ export enum GridAlign {
  * Describes the enum ui.GridAlign.
  */
 export const GridAlignSchema: GenEnum<GridAlign> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 3);
+  enumDesc(file_ui_ui_ast, 6);
 
 /**
  * @generated from enum ui.TextAlign
@@ -1290,7 +1589,7 @@ export enum TextAlign {
  * Describes the enum ui.TextAlign.
  */
 export const TextAlignSchema: GenEnum<TextAlign> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 4);
+  enumDesc(file_ui_ui_ast, 7);
 
 /**
  * @generated from enum ui.TextDecor
@@ -1316,7 +1615,7 @@ export enum TextDecor {
  * Describes the enum ui.TextDecor.
  */
 export const TextDecorSchema: GenEnum<TextDecor> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 5);
+  enumDesc(file_ui_ui_ast, 8);
 
 /**
  * @generated from enum ui.BlendMode
@@ -1347,7 +1646,7 @@ export enum BlendMode {
  * Describes the enum ui.BlendMode.
  */
 export const BlendModeSchema: GenEnum<BlendMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 6);
+  enumDesc(file_ui_ui_ast, 9);
 
 /**
  * @generated from enum ui.BaseDir
@@ -1373,7 +1672,7 @@ export enum BaseDir {
  * Describes the enum ui.BaseDir.
  */
 export const BaseDirSchema: GenEnum<BaseDir> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 7);
+  enumDesc(file_ui_ui_ast, 10);
 
 /**
  * @generated from enum ui.GradDir
@@ -1414,7 +1713,7 @@ export enum GradDir {
  * Describes the enum ui.GradDir.
  */
 export const GradDirSchema: GenEnum<GradDir> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 8);
+  enumDesc(file_ui_ui_ast, 11);
 
 /**
  * @generated from enum ui.Dir
@@ -1465,7 +1764,7 @@ export enum Dir {
  * Describes the enum ui.Dir.
  */
 export const DirSchema: GenEnum<Dir> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 9);
+  enumDesc(file_ui_ui_ast, 12);
 
 /**
  * @generated from enum ui.Align
@@ -1586,7 +1885,7 @@ export enum Align {
  * Describes the enum ui.Align.
  */
 export const AlignSchema: GenEnum<Align> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 10);
+  enumDesc(file_ui_ui_ast, 13);
 
 /**
  * @generated from enum ui.BorderSide
@@ -1632,7 +1931,7 @@ export enum BorderSide {
  * Describes the enum ui.BorderSide.
  */
 export const BorderSideSchema: GenEnum<BorderSide> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 11);
+  enumDesc(file_ui_ui_ast, 14);
 
 /**
  * @generated from enum ui.LabelLongMode
@@ -1668,7 +1967,7 @@ export enum LabelLongMode {
  * Describes the enum ui.LabelLongMode.
  */
 export const LabelLongModeSchema: GenEnum<LabelLongMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 12);
+  enumDesc(file_ui_ui_ast, 15);
 
 /**
  * @generated from enum ui.BarMode
@@ -1694,7 +1993,7 @@ export enum BarMode {
  * Describes the enum ui.BarMode.
  */
 export const BarModeSchema: GenEnum<BarMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 13);
+  enumDesc(file_ui_ui_ast, 16);
 
 /**
  * @generated from enum ui.ArcMode
@@ -1720,7 +2019,7 @@ export enum ArcMode {
  * Describes the enum ui.ArcMode.
  */
 export const ArcModeSchema: GenEnum<ArcMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 14);
+  enumDesc(file_ui_ui_ast, 17);
 
 /**
  * @generated from enum ui.RollerMode
@@ -1741,7 +2040,7 @@ export enum RollerMode {
  * Describes the enum ui.RollerMode.
  */
 export const RollerModeSchema: GenEnum<RollerMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 15);
+  enumDesc(file_ui_ui_ast, 18);
 
 /**
  * @generated from enum ui.ScaleMode
@@ -1782,7 +2081,7 @@ export enum ScaleMode {
  * Describes the enum ui.ScaleMode.
  */
 export const ScaleModeSchema: GenEnum<ScaleMode> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 16);
+  enumDesc(file_ui_ui_ast, 19);
 
 /**
  * @generated from enum ui.StylePropertyType
@@ -2362,5 +2661,5 @@ export enum StylePropertyType {
  * Describes the enum ui.StylePropertyType.
  */
 export const StylePropertyTypeSchema: GenEnum<StylePropertyType> = /*@__PURE__*/
-  enumDesc(file_ui_ui_ast, 17);
+  enumDesc(file_ui_ui_ast, 20);
 

@@ -8,6 +8,43 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
 
+/**
+ * Subject type — LVGL 9.2 supports INT, STRING, POINTER, COLOR, GROUP.
+ * We expose INT and STRING; others are renderer-internal.
+ */
+export enum SubjectType {
+  SUBJECT_INT = 0,
+  SUBJECT_STRING = 1,
+  UNRECOGNIZED = -1,
+}
+
+export function subjectTypeFromJSON(object: any): SubjectType {
+  switch (object) {
+    case 0:
+    case "SUBJECT_INT":
+      return SubjectType.SUBJECT_INT;
+    case 1:
+    case "SUBJECT_STRING":
+      return SubjectType.SUBJECT_STRING;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return SubjectType.UNRECOGNIZED;
+  }
+}
+
+export function subjectTypeToJSON(object: SubjectType): string {
+  switch (object) {
+    case SubjectType.SUBJECT_INT:
+      return "SUBJECT_INT";
+    case SubjectType.SUBJECT_STRING:
+      return "SUBJECT_STRING";
+    case SubjectType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export enum WidgetType {
   WIDGET_OBJ = 0,
   WIDGET_BUTTON = 1,
@@ -138,6 +175,113 @@ export function widgetTypeToJSON(object: WidgetType): string {
     case WidgetType.WIDGET_TABLE:
       return "WIDGET_TABLE";
     case WidgetType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/** Which LVGL event code triggers this event binding. */
+export enum EventTrigger {
+  /** TRIGGER_CLICKED - LV_EVENT_CLICKED (default) */
+  TRIGGER_CLICKED = 0,
+  /** TRIGGER_VALUE_CHANGED - LV_EVENT_VALUE_CHANGED */
+  TRIGGER_VALUE_CHANGED = 1,
+  /** TRIGGER_LONG_PRESSED - LV_EVENT_LONG_PRESSED */
+  TRIGGER_LONG_PRESSED = 2,
+  UNRECOGNIZED = -1,
+}
+
+export function eventTriggerFromJSON(object: any): EventTrigger {
+  switch (object) {
+    case 0:
+    case "TRIGGER_CLICKED":
+      return EventTrigger.TRIGGER_CLICKED;
+    case 1:
+    case "TRIGGER_VALUE_CHANGED":
+      return EventTrigger.TRIGGER_VALUE_CHANGED;
+    case 2:
+    case "TRIGGER_LONG_PRESSED":
+      return EventTrigger.TRIGGER_LONG_PRESSED;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return EventTrigger.UNRECOGNIZED;
+  }
+}
+
+export function eventTriggerToJSON(object: EventTrigger): string {
+  switch (object) {
+    case EventTrigger.TRIGGER_CLICKED:
+      return "TRIGGER_CLICKED";
+    case EventTrigger.TRIGGER_VALUE_CHANGED:
+      return "TRIGGER_VALUE_CHANGED";
+    case EventTrigger.TRIGGER_LONG_PRESSED:
+      return "TRIGGER_LONG_PRESSED";
+    case EventTrigger.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/** Comparison operator for conditional visibility bindings. */
+export enum CompareOp {
+  /** COMPARE_EQ - show when subject == ref_value (native LVGL bind) */
+  COMPARE_EQ = 0,
+  /** COMPARE_NOT_EQ - show when subject != ref_value (native LVGL bind) */
+  COMPARE_NOT_EQ = 1,
+  /** COMPARE_GT - show when subject > ref_value  (custom observer) */
+  COMPARE_GT = 2,
+  /** COMPARE_GTE - show when subject >= ref_value (custom observer) */
+  COMPARE_GTE = 3,
+  /** COMPARE_LT - show when subject < ref_value  (custom observer) */
+  COMPARE_LT = 4,
+  /** COMPARE_LTE - show when subject <= ref_value (custom observer) */
+  COMPARE_LTE = 5,
+  UNRECOGNIZED = -1,
+}
+
+export function compareOpFromJSON(object: any): CompareOp {
+  switch (object) {
+    case 0:
+    case "COMPARE_EQ":
+      return CompareOp.COMPARE_EQ;
+    case 1:
+    case "COMPARE_NOT_EQ":
+      return CompareOp.COMPARE_NOT_EQ;
+    case 2:
+    case "COMPARE_GT":
+      return CompareOp.COMPARE_GT;
+    case 3:
+    case "COMPARE_GTE":
+      return CompareOp.COMPARE_GTE;
+    case 4:
+    case "COMPARE_LT":
+      return CompareOp.COMPARE_LT;
+    case 5:
+    case "COMPARE_LTE":
+      return CompareOp.COMPARE_LTE;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return CompareOp.UNRECOGNIZED;
+  }
+}
+
+export function compareOpToJSON(object: CompareOp): string {
+  switch (object) {
+    case CompareOp.COMPARE_EQ:
+      return "COMPARE_EQ";
+    case CompareOp.COMPARE_NOT_EQ:
+      return "COMPARE_NOT_EQ";
+    case CompareOp.COMPARE_GT:
+      return "COMPARE_GT";
+    case CompareOp.COMPARE_GTE:
+      return "COMPARE_GTE";
+    case CompareOp.COMPARE_LT:
+      return "COMPARE_LT";
+    case CompareOp.COMPARE_LTE:
+      return "COMPARE_LTE";
+    case CompareOp.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
@@ -1747,13 +1891,42 @@ export function stylePropertyTypeToJSON(object: StylePropertyType): string {
   }
 }
 
+/** Declaration of a reactive subject (lives in Screen, initialized at load time) */
+export interface SubjectDeclaration {
+  /** unique identifier, e.g. "zoom_level" */
+  name: string;
+  type: SubjectType;
+  /** default value for INT subjects */
+  intInitial?:
+    | number
+    | undefined;
+  /** default value for STRING subjects */
+  stringInitial?: string | undefined;
+}
+
+/** Host → WASM state update (decoded by controls_update_state) */
+export interface StateUpdate {
+  values: SubjectValue[];
+}
+
+/** A single subject value in a state update */
+export interface SubjectValue {
+  name: string;
+  intValue?: number | undefined;
+  stringValue?: string | undefined;
+}
+
 /** A complete UI screen — root message pushed via controls_load_ui(). */
 export interface Screen {
   /**
    * `optional` is required so nanopb generates `has_root` for presence
    * checking in proto3 (submessage fields do NOT get `has_*` by default).
    */
-  root?: WidgetNode | undefined;
+  root?:
+    | WidgetNode
+    | undefined;
+  /** reactive subject declarations */
+  subjects: SubjectDeclaration[];
 }
 
 /** A node in the widget tree (recursive). */
@@ -1799,10 +1972,23 @@ export interface WidgetNode {
   lineProps?: LineProps | undefined;
   scaleProps?: ScaleProps | undefined;
   buttonmatrixProps?: ButtonMatrixProps | undefined;
-  tableProps?: TableProps | undefined;
+  tableProps?:
+    | TableProps
+    | undefined;
+  /** Conditional visibility binding (show/hide based on subject value) */
+  visibility:
+    | VisibilityBinding
+    | undefined;
+  /** Format strings for bound text (key = binding key, value = printf format) */
+  bindFormats: { [key: string]: string };
 }
 
 export interface WidgetNode_BindingsEntry {
+  key: string;
+  value: string;
+}
+
+export interface WidgetNode_BindFormatsEntry {
   key: string;
   value: string;
 }
@@ -1927,14 +2113,32 @@ export interface Point {
 }
 
 export interface EventBinding {
-  /** e.g., "zoom_in" (for logging) */
-  eventName: string;
-  /** binary command type ID (0x0105 etc.) */
-  commandType: number;
-  /** default float arg (can be 0) */
-  floatValue: number;
-  /** default int arg (can be 0) */
+  /** event keyword — IS the command identifier */
+  name: string;
+  /** which LVGL event fires this (default: CLICKED) */
+  trigger: EventTrigger;
+  /** static int payload */
   intValue: number;
+  /** inject widget's current value as int_value */
+  includeWidgetValue: boolean;
+  /** local subject to mutate (empty = host event) */
+  setSubject: string;
+  /** value to set on subject */
+  setValue: number;
+  /** flip 0↔1 instead of set_value */
+  toggle: boolean;
+  /** also send to host when mutating subject */
+  notifyHost: boolean;
+}
+
+/** Conditional visibility — show/hide widget based on subject value comparison. */
+export interface VisibilityBinding {
+  /** subject name to observe */
+  subject: string;
+  /** reference value for comparison */
+  refValue: number;
+  /** comparison operator (default: EQ) */
+  compare: CompareOp;
 }
 
 export interface Layout {
@@ -1994,14 +2198,293 @@ export interface ShadowBundle {
   opa: number;
 }
 
+function createBaseSubjectDeclaration(): SubjectDeclaration {
+  return { name: "", type: 0, intInitial: undefined, stringInitial: undefined };
+}
+
+export const SubjectDeclaration: MessageFns<SubjectDeclaration> = {
+  encode(message: SubjectDeclaration, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
+    }
+    if (message.type !== 0) {
+      writer.uint32(16).int32(message.type);
+    }
+    if (message.intInitial !== undefined) {
+      writer.uint32(24).int32(message.intInitial);
+    }
+    if (message.stringInitial !== undefined) {
+      writer.uint32(34).string(message.stringInitial);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SubjectDeclaration {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSubjectDeclaration();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.type = reader.int32() as any;
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.intInitial = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.stringInitial = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SubjectDeclaration {
+    return {
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      type: isSet(object.type) ? subjectTypeFromJSON(object.type) : 0,
+      intInitial: isSet(object.intInitial)
+        ? globalThis.Number(object.intInitial)
+        : isSet(object.int_initial)
+        ? globalThis.Number(object.int_initial)
+        : undefined,
+      stringInitial: isSet(object.stringInitial)
+        ? globalThis.String(object.stringInitial)
+        : isSet(object.string_initial)
+        ? globalThis.String(object.string_initial)
+        : undefined,
+    };
+  },
+
+  toJSON(message: SubjectDeclaration): unknown {
+    const obj: any = {};
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.type !== 0) {
+      obj.type = subjectTypeToJSON(message.type);
+    }
+    if (message.intInitial !== undefined) {
+      obj.intInitial = Math.round(message.intInitial);
+    }
+    if (message.stringInitial !== undefined) {
+      obj.stringInitial = message.stringInitial;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubjectDeclaration>, I>>(base?: I): SubjectDeclaration {
+    return SubjectDeclaration.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SubjectDeclaration>, I>>(object: I): SubjectDeclaration {
+    const message = createBaseSubjectDeclaration();
+    message.name = object.name ?? "";
+    message.type = object.type ?? 0;
+    message.intInitial = object.intInitial ?? undefined;
+    message.stringInitial = object.stringInitial ?? undefined;
+    return message;
+  },
+};
+
+function createBaseStateUpdate(): StateUpdate {
+  return { values: [] };
+}
+
+export const StateUpdate: MessageFns<StateUpdate> = {
+  encode(message: StateUpdate, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.values) {
+      SubjectValue.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StateUpdate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStateUpdate();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.values.push(SubjectValue.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StateUpdate {
+    return {
+      values: globalThis.Array.isArray(object?.values) ? object.values.map((e: any) => SubjectValue.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: StateUpdate): unknown {
+    const obj: any = {};
+    if (message.values?.length) {
+      obj.values = message.values.map((e) => SubjectValue.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StateUpdate>, I>>(base?: I): StateUpdate {
+    return StateUpdate.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StateUpdate>, I>>(object: I): StateUpdate {
+    const message = createBaseStateUpdate();
+    message.values = object.values?.map((e) => SubjectValue.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseSubjectValue(): SubjectValue {
+  return { name: "", intValue: undefined, stringValue: undefined };
+}
+
+export const SubjectValue: MessageFns<SubjectValue> = {
+  encode(message: SubjectValue, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
+    }
+    if (message.intValue !== undefined) {
+      writer.uint32(16).int32(message.intValue);
+    }
+    if (message.stringValue !== undefined) {
+      writer.uint32(26).string(message.stringValue);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SubjectValue {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSubjectValue();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.intValue = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.stringValue = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SubjectValue {
+    return {
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      intValue: isSet(object.intValue)
+        ? globalThis.Number(object.intValue)
+        : isSet(object.int_value)
+        ? globalThis.Number(object.int_value)
+        : undefined,
+      stringValue: isSet(object.stringValue)
+        ? globalThis.String(object.stringValue)
+        : isSet(object.string_value)
+        ? globalThis.String(object.string_value)
+        : undefined,
+    };
+  },
+
+  toJSON(message: SubjectValue): unknown {
+    const obj: any = {};
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.intValue !== undefined) {
+      obj.intValue = Math.round(message.intValue);
+    }
+    if (message.stringValue !== undefined) {
+      obj.stringValue = message.stringValue;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubjectValue>, I>>(base?: I): SubjectValue {
+    return SubjectValue.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SubjectValue>, I>>(object: I): SubjectValue {
+    const message = createBaseSubjectValue();
+    message.name = object.name ?? "";
+    message.intValue = object.intValue ?? undefined;
+    message.stringValue = object.stringValue ?? undefined;
+    return message;
+  },
+};
+
 function createBaseScreen(): Screen {
-  return { root: undefined };
+  return { root: undefined, subjects: [] };
 }
 
 export const Screen: MessageFns<Screen> = {
   encode(message: Screen, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.root !== undefined) {
       WidgetNode.encode(message.root, writer.uint32(10).fork()).join();
+    }
+    for (const v of message.subjects) {
+      SubjectDeclaration.encode(v!, writer.uint32(18).fork()).join();
     }
     return writer;
   },
@@ -2021,6 +2504,14 @@ export const Screen: MessageFns<Screen> = {
           message.root = WidgetNode.decode(reader, reader.uint32());
           continue;
         }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.subjects.push(SubjectDeclaration.decode(reader, reader.uint32()));
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -2031,13 +2522,21 @@ export const Screen: MessageFns<Screen> = {
   },
 
   fromJSON(object: any): Screen {
-    return { root: isSet(object.root) ? WidgetNode.fromJSON(object.root) : undefined };
+    return {
+      root: isSet(object.root) ? WidgetNode.fromJSON(object.root) : undefined,
+      subjects: globalThis.Array.isArray(object?.subjects)
+        ? object.subjects.map((e: any) => SubjectDeclaration.fromJSON(e))
+        : [],
+    };
   },
 
   toJSON(message: Screen): unknown {
     const obj: any = {};
     if (message.root !== undefined) {
       obj.root = WidgetNode.toJSON(message.root);
+    }
+    if (message.subjects?.length) {
+      obj.subjects = message.subjects.map((e) => SubjectDeclaration.toJSON(e));
     }
     return obj;
   },
@@ -2050,6 +2549,7 @@ export const Screen: MessageFns<Screen> = {
     message.root = (object.root !== undefined && object.root !== null)
       ? WidgetNode.fromPartial(object.root)
       : undefined;
+    message.subjects = object.subjects?.map((e) => SubjectDeclaration.fromPartial(e)) || [];
     return message;
   },
 };
@@ -2084,6 +2584,8 @@ function createBaseWidgetNode(): WidgetNode {
     scaleProps: undefined,
     buttonmatrixProps: undefined,
     tableProps: undefined,
+    visibility: undefined,
+    bindFormats: {},
   };
 }
 
@@ -2173,6 +2675,12 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.tableProps !== undefined) {
       TableProps.encode(message.tableProps, writer.uint32(226).fork()).join();
     }
+    if (message.visibility !== undefined) {
+      VisibilityBinding.encode(message.visibility, writer.uint32(234).fork()).join();
+    }
+    globalThis.Object.entries(message.bindFormats).forEach(([key, value]: [string, string]) => {
+      WidgetNode_BindFormatsEntry.encode({ key: key as any, value }, writer.uint32(242).fork()).join();
+    });
     return writer;
   },
 
@@ -2410,6 +2918,25 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.tableProps = TableProps.decode(reader, reader.uint32());
           continue;
         }
+        case 29: {
+          if (tag !== 234) {
+            break;
+          }
+
+          message.visibility = VisibilityBinding.decode(reader, reader.uint32());
+          continue;
+        }
+        case 30: {
+          if (tag !== 242) {
+            break;
+          }
+
+          const entry30 = WidgetNode_BindFormatsEntry.decode(reader, reader.uint32());
+          if (entry30.value !== undefined) {
+            message.bindFormats[entry30.key] = entry30.value;
+          }
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -2539,6 +3066,24 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.table_props)
         ? TableProps.fromJSON(object.table_props)
         : undefined,
+      visibility: isSet(object.visibility) ? VisibilityBinding.fromJSON(object.visibility) : undefined,
+      bindFormats: isObject(object.bindFormats)
+        ? (globalThis.Object.entries(object.bindFormats) as [string, any][]).reduce(
+          (acc: { [key: string]: string }, [key, value]: [string, any]) => {
+            acc[key] = globalThis.String(value);
+            return acc;
+          },
+          {},
+        )
+        : isObject(object.bind_formats)
+        ? (globalThis.Object.entries(object.bind_formats) as [string, any][]).reduce(
+          (acc: { [key: string]: string }, [key, value]: [string, any]) => {
+            acc[key] = globalThis.String(value);
+            return acc;
+          },
+          {},
+        )
+        : {},
     };
   },
 
@@ -2634,6 +3179,18 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.tableProps !== undefined) {
       obj.tableProps = TableProps.toJSON(message.tableProps);
     }
+    if (message.visibility !== undefined) {
+      obj.visibility = VisibilityBinding.toJSON(message.visibility);
+    }
+    if (message.bindFormats) {
+      const entries = globalThis.Object.entries(message.bindFormats) as [string, string][];
+      if (entries.length > 0) {
+        obj.bindFormats = {};
+        entries.forEach(([k, v]) => {
+          obj.bindFormats[k] = v;
+        });
+      }
+    }
     return obj;
   },
 
@@ -2720,6 +3277,18 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.tableProps = (object.tableProps !== undefined && object.tableProps !== null)
       ? TableProps.fromPartial(object.tableProps)
       : undefined;
+    message.visibility = (object.visibility !== undefined && object.visibility !== null)
+      ? VisibilityBinding.fromPartial(object.visibility)
+      : undefined;
+    message.bindFormats = (globalThis.Object.entries(object.bindFormats ?? {}) as [string, string][]).reduce(
+      (acc: { [key: string]: string }, [key, value]: [string, string]) => {
+        if (value !== undefined) {
+          acc[key] = globalThis.String(value);
+        }
+        return acc;
+      },
+      {},
+    );
     return message;
   },
 };
@@ -2794,6 +3363,82 @@ export const WidgetNode_BindingsEntry: MessageFns<WidgetNode_BindingsEntry> = {
   },
   fromPartial<I extends Exact<DeepPartial<WidgetNode_BindingsEntry>, I>>(object: I): WidgetNode_BindingsEntry {
     const message = createBaseWidgetNode_BindingsEntry();
+    message.key = object.key ?? "";
+    message.value = object.value ?? "";
+    return message;
+  },
+};
+
+function createBaseWidgetNode_BindFormatsEntry(): WidgetNode_BindFormatsEntry {
+  return { key: "", value: "" };
+}
+
+export const WidgetNode_BindFormatsEntry: MessageFns<WidgetNode_BindFormatsEntry> = {
+  encode(message: WidgetNode_BindFormatsEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== "") {
+      writer.uint32(18).string(message.value);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): WidgetNode_BindFormatsEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseWidgetNode_BindFormatsEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): WidgetNode_BindFormatsEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? globalThis.String(object.value) : "",
+    };
+  },
+
+  toJSON(message: WidgetNode_BindFormatsEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== "") {
+      obj.value = message.value;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<WidgetNode_BindFormatsEntry>, I>>(base?: I): WidgetNode_BindFormatsEntry {
+    return WidgetNode_BindFormatsEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<WidgetNode_BindFormatsEntry>, I>>(object: I): WidgetNode_BindFormatsEntry {
+    const message = createBaseWidgetNode_BindFormatsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
     return message;
@@ -4768,22 +5413,43 @@ export const Point: MessageFns<Point> = {
 };
 
 function createBaseEventBinding(): EventBinding {
-  return { eventName: "", commandType: 0, floatValue: 0, intValue: 0 };
+  return {
+    name: "",
+    trigger: 0,
+    intValue: 0,
+    includeWidgetValue: false,
+    setSubject: "",
+    setValue: 0,
+    toggle: false,
+    notifyHost: false,
+  };
 }
 
 export const EventBinding: MessageFns<EventBinding> = {
   encode(message: EventBinding, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.eventName !== "") {
-      writer.uint32(10).string(message.eventName);
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
     }
-    if (message.commandType !== 0) {
-      writer.uint32(16).uint32(message.commandType);
-    }
-    if (message.floatValue !== 0) {
-      writer.uint32(25).double(message.floatValue);
+    if (message.trigger !== 0) {
+      writer.uint32(16).int32(message.trigger);
     }
     if (message.intValue !== 0) {
-      writer.uint32(32).int32(message.intValue);
+      writer.uint32(24).int32(message.intValue);
+    }
+    if (message.includeWidgetValue !== false) {
+      writer.uint32(32).bool(message.includeWidgetValue);
+    }
+    if (message.setSubject !== "") {
+      writer.uint32(42).string(message.setSubject);
+    }
+    if (message.setValue !== 0) {
+      writer.uint32(48).int32(message.setValue);
+    }
+    if (message.toggle !== false) {
+      writer.uint32(56).bool(message.toggle);
+    }
+    if (message.notifyHost !== false) {
+      writer.uint32(64).bool(message.notifyHost);
     }
     return writer;
   },
@@ -4800,7 +5466,7 @@ export const EventBinding: MessageFns<EventBinding> = {
             break;
           }
 
-          message.eventName = reader.string();
+          message.name = reader.string();
           continue;
         }
         case 2: {
@@ -4808,15 +5474,15 @@ export const EventBinding: MessageFns<EventBinding> = {
             break;
           }
 
-          message.commandType = reader.uint32();
+          message.trigger = reader.int32() as any;
           continue;
         }
         case 3: {
-          if (tag !== 25) {
+          if (tag !== 24) {
             break;
           }
 
-          message.floatValue = reader.double();
+          message.intValue = reader.int32();
           continue;
         }
         case 4: {
@@ -4824,7 +5490,39 @@ export const EventBinding: MessageFns<EventBinding> = {
             break;
           }
 
-          message.intValue = reader.int32();
+          message.includeWidgetValue = reader.bool();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.setSubject = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.setValue = reader.int32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.toggle = reader.bool();
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.notifyHost = reader.bool();
           continue;
         }
       }
@@ -4838,42 +5536,62 @@ export const EventBinding: MessageFns<EventBinding> = {
 
   fromJSON(object: any): EventBinding {
     return {
-      eventName: isSet(object.eventName)
-        ? globalThis.String(object.eventName)
-        : isSet(object.event_name)
-        ? globalThis.String(object.event_name)
-        : "",
-      commandType: isSet(object.commandType)
-        ? globalThis.Number(object.commandType)
-        : isSet(object.command_type)
-        ? globalThis.Number(object.command_type)
-        : 0,
-      floatValue: isSet(object.floatValue)
-        ? globalThis.Number(object.floatValue)
-        : isSet(object.float_value)
-        ? globalThis.Number(object.float_value)
-        : 0,
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      trigger: isSet(object.trigger) ? eventTriggerFromJSON(object.trigger) : 0,
       intValue: isSet(object.intValue)
         ? globalThis.Number(object.intValue)
         : isSet(object.int_value)
         ? globalThis.Number(object.int_value)
         : 0,
+      includeWidgetValue: isSet(object.includeWidgetValue)
+        ? globalThis.Boolean(object.includeWidgetValue)
+        : isSet(object.include_widget_value)
+        ? globalThis.Boolean(object.include_widget_value)
+        : false,
+      setSubject: isSet(object.setSubject)
+        ? globalThis.String(object.setSubject)
+        : isSet(object.set_subject)
+        ? globalThis.String(object.set_subject)
+        : "",
+      setValue: isSet(object.setValue)
+        ? globalThis.Number(object.setValue)
+        : isSet(object.set_value)
+        ? globalThis.Number(object.set_value)
+        : 0,
+      toggle: isSet(object.toggle) ? globalThis.Boolean(object.toggle) : false,
+      notifyHost: isSet(object.notifyHost)
+        ? globalThis.Boolean(object.notifyHost)
+        : isSet(object.notify_host)
+        ? globalThis.Boolean(object.notify_host)
+        : false,
     };
   },
 
   toJSON(message: EventBinding): unknown {
     const obj: any = {};
-    if (message.eventName !== "") {
-      obj.eventName = message.eventName;
+    if (message.name !== "") {
+      obj.name = message.name;
     }
-    if (message.commandType !== 0) {
-      obj.commandType = Math.round(message.commandType);
-    }
-    if (message.floatValue !== 0) {
-      obj.floatValue = message.floatValue;
+    if (message.trigger !== 0) {
+      obj.trigger = eventTriggerToJSON(message.trigger);
     }
     if (message.intValue !== 0) {
       obj.intValue = Math.round(message.intValue);
+    }
+    if (message.includeWidgetValue !== false) {
+      obj.includeWidgetValue = message.includeWidgetValue;
+    }
+    if (message.setSubject !== "") {
+      obj.setSubject = message.setSubject;
+    }
+    if (message.setValue !== 0) {
+      obj.setValue = Math.round(message.setValue);
+    }
+    if (message.toggle !== false) {
+      obj.toggle = message.toggle;
+    }
+    if (message.notifyHost !== false) {
+      obj.notifyHost = message.notifyHost;
     }
     return obj;
   },
@@ -4883,10 +5601,110 @@ export const EventBinding: MessageFns<EventBinding> = {
   },
   fromPartial<I extends Exact<DeepPartial<EventBinding>, I>>(object: I): EventBinding {
     const message = createBaseEventBinding();
-    message.eventName = object.eventName ?? "";
-    message.commandType = object.commandType ?? 0;
-    message.floatValue = object.floatValue ?? 0;
+    message.name = object.name ?? "";
+    message.trigger = object.trigger ?? 0;
     message.intValue = object.intValue ?? 0;
+    message.includeWidgetValue = object.includeWidgetValue ?? false;
+    message.setSubject = object.setSubject ?? "";
+    message.setValue = object.setValue ?? 0;
+    message.toggle = object.toggle ?? false;
+    message.notifyHost = object.notifyHost ?? false;
+    return message;
+  },
+};
+
+function createBaseVisibilityBinding(): VisibilityBinding {
+  return { subject: "", refValue: 0, compare: 0 };
+}
+
+export const VisibilityBinding: MessageFns<VisibilityBinding> = {
+  encode(message: VisibilityBinding, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.subject !== "") {
+      writer.uint32(10).string(message.subject);
+    }
+    if (message.refValue !== 0) {
+      writer.uint32(16).int32(message.refValue);
+    }
+    if (message.compare !== 0) {
+      writer.uint32(24).int32(message.compare);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): VisibilityBinding {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseVisibilityBinding();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.subject = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.refValue = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.compare = reader.int32() as any;
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): VisibilityBinding {
+    return {
+      subject: isSet(object.subject) ? globalThis.String(object.subject) : "",
+      refValue: isSet(object.refValue)
+        ? globalThis.Number(object.refValue)
+        : isSet(object.ref_value)
+        ? globalThis.Number(object.ref_value)
+        : 0,
+      compare: isSet(object.compare) ? compareOpFromJSON(object.compare) : 0,
+    };
+  },
+
+  toJSON(message: VisibilityBinding): unknown {
+    const obj: any = {};
+    if (message.subject !== "") {
+      obj.subject = message.subject;
+    }
+    if (message.refValue !== 0) {
+      obj.refValue = Math.round(message.refValue);
+    }
+    if (message.compare !== 0) {
+      obj.compare = compareOpToJSON(message.compare);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<VisibilityBinding>, I>>(base?: I): VisibilityBinding {
+    return VisibilityBinding.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<VisibilityBinding>, I>>(object: I): VisibilityBinding {
+    const message = createBaseVisibilityBinding();
+    message.subject = object.subject ?? "";
+    message.refValue = object.refValue ?? 0;
+    message.compare = object.compare ?? 0;
     return message;
   },
 };

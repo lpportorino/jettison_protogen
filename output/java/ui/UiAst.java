@@ -26,6 +26,128 @@ public final class UiAst {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
+   * <pre>
+   * Subject type — LVGL 9.2 supports INT, STRING, POINTER, COLOR, GROUP.
+   * We expose INT and STRING; others are renderer-internal.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.SubjectType}
+   */
+  public enum SubjectType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>SUBJECT_INT = 0;</code>
+     */
+    SUBJECT_INT(0),
+    /**
+     * <code>SUBJECT_STRING = 1;</code>
+     */
+    SUBJECT_STRING(1),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SubjectType.class.getName());
+    }
+    /**
+     * <code>SUBJECT_INT = 0;</code>
+     */
+    public static final int SUBJECT_INT_VALUE = 0;
+    /**
+     * <code>SUBJECT_STRING = 1;</code>
+     */
+    public static final int SUBJECT_STRING_VALUE = 1;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static SubjectType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static SubjectType forNumber(int value) {
+      switch (value) {
+        case 0: return SUBJECT_INT;
+        case 1: return SUBJECT_STRING;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<SubjectType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        SubjectType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<SubjectType>() {
+            public SubjectType findValueByNumber(int number) {
+              return SubjectType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final SubjectType[] VALUES = values();
+
+    public static SubjectType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private SubjectType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.SubjectType)
+  }
+
+  /**
    * Protobuf enum {@code ui.WidgetType}
    */
   public enum WidgetType
@@ -269,7 +391,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(0);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(1);
     }
 
     private static final WidgetType[] VALUES = values();
@@ -293,6 +415,365 @@ public final class UiAst {
     }
 
     // @@protoc_insertion_point(enum_scope:ui.WidgetType)
+  }
+
+  /**
+   * <pre>
+   * Which LVGL event code triggers this event binding.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.EventTrigger}
+   */
+  public enum EventTrigger
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * LV_EVENT_CLICKED (default)
+     * </pre>
+     *
+     * <code>TRIGGER_CLICKED = 0;</code>
+     */
+    TRIGGER_CLICKED(0),
+    /**
+     * <pre>
+     * LV_EVENT_VALUE_CHANGED
+     * </pre>
+     *
+     * <code>TRIGGER_VALUE_CHANGED = 1;</code>
+     */
+    TRIGGER_VALUE_CHANGED(1),
+    /**
+     * <pre>
+     * LV_EVENT_LONG_PRESSED
+     * </pre>
+     *
+     * <code>TRIGGER_LONG_PRESSED = 2;</code>
+     */
+    TRIGGER_LONG_PRESSED(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        EventTrigger.class.getName());
+    }
+    /**
+     * <pre>
+     * LV_EVENT_CLICKED (default)
+     * </pre>
+     *
+     * <code>TRIGGER_CLICKED = 0;</code>
+     */
+    public static final int TRIGGER_CLICKED_VALUE = 0;
+    /**
+     * <pre>
+     * LV_EVENT_VALUE_CHANGED
+     * </pre>
+     *
+     * <code>TRIGGER_VALUE_CHANGED = 1;</code>
+     */
+    public static final int TRIGGER_VALUE_CHANGED_VALUE = 1;
+    /**
+     * <pre>
+     * LV_EVENT_LONG_PRESSED
+     * </pre>
+     *
+     * <code>TRIGGER_LONG_PRESSED = 2;</code>
+     */
+    public static final int TRIGGER_LONG_PRESSED_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static EventTrigger valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static EventTrigger forNumber(int value) {
+      switch (value) {
+        case 0: return TRIGGER_CLICKED;
+        case 1: return TRIGGER_VALUE_CHANGED;
+        case 2: return TRIGGER_LONG_PRESSED;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<EventTrigger>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        EventTrigger> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<EventTrigger>() {
+            public EventTrigger findValueByNumber(int number) {
+              return EventTrigger.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final EventTrigger[] VALUES = values();
+
+    public static EventTrigger valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private EventTrigger(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.EventTrigger)
+  }
+
+  /**
+   * <pre>
+   * Comparison operator for conditional visibility bindings.
+   * </pre>
+   *
+   * Protobuf enum {@code ui.CompareOp}
+   */
+  public enum CompareOp
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <pre>
+     * show when subject == ref_value (native LVGL bind)
+     * </pre>
+     *
+     * <code>COMPARE_EQ = 0;</code>
+     */
+    COMPARE_EQ(0),
+    /**
+     * <pre>
+     * show when subject != ref_value (native LVGL bind)
+     * </pre>
+     *
+     * <code>COMPARE_NOT_EQ = 1;</code>
+     */
+    COMPARE_NOT_EQ(1),
+    /**
+     * <pre>
+     * show when subject &gt; ref_value  (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_GT = 2;</code>
+     */
+    COMPARE_GT(2),
+    /**
+     * <pre>
+     * show when subject &gt;= ref_value (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_GTE = 3;</code>
+     */
+    COMPARE_GTE(3),
+    /**
+     * <pre>
+     * show when subject &lt; ref_value  (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_LT = 4;</code>
+     */
+    COMPARE_LT(4),
+    /**
+     * <pre>
+     * show when subject &lt;= ref_value (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_LTE = 5;</code>
+     */
+    COMPARE_LTE(5),
+    UNRECOGNIZED(-1),
+    ;
+
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        CompareOp.class.getName());
+    }
+    /**
+     * <pre>
+     * show when subject == ref_value (native LVGL bind)
+     * </pre>
+     *
+     * <code>COMPARE_EQ = 0;</code>
+     */
+    public static final int COMPARE_EQ_VALUE = 0;
+    /**
+     * <pre>
+     * show when subject != ref_value (native LVGL bind)
+     * </pre>
+     *
+     * <code>COMPARE_NOT_EQ = 1;</code>
+     */
+    public static final int COMPARE_NOT_EQ_VALUE = 1;
+    /**
+     * <pre>
+     * show when subject &gt; ref_value  (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_GT = 2;</code>
+     */
+    public static final int COMPARE_GT_VALUE = 2;
+    /**
+     * <pre>
+     * show when subject &gt;= ref_value (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_GTE = 3;</code>
+     */
+    public static final int COMPARE_GTE_VALUE = 3;
+    /**
+     * <pre>
+     * show when subject &lt; ref_value  (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_LT = 4;</code>
+     */
+    public static final int COMPARE_LT_VALUE = 4;
+    /**
+     * <pre>
+     * show when subject &lt;= ref_value (custom observer)
+     * </pre>
+     *
+     * <code>COMPARE_LTE = 5;</code>
+     */
+    public static final int COMPARE_LTE_VALUE = 5;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static CompareOp valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static CompareOp forNumber(int value) {
+      switch (value) {
+        case 0: return COMPARE_EQ;
+        case 1: return COMPARE_NOT_EQ;
+        case 2: return COMPARE_GT;
+        case 3: return COMPARE_GTE;
+        case 4: return COMPARE_LT;
+        case 5: return COMPARE_LTE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<CompareOp>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        CompareOp> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<CompareOp>() {
+            public CompareOp findValueByNumber(int number) {
+              return CompareOp.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return ui.UiAst.getDescriptor().getEnumTypes().get(3);
+    }
+
+    private static final CompareOp[] VALUES = values();
+
+    public static CompareOp valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private CompareOp(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:ui.CompareOp)
   }
 
   /**
@@ -449,7 +930,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(1);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(4);
     }
 
     private static final FlexFlow[] VALUES = values();
@@ -602,7 +1083,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(2);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(5);
     }
 
     private static final FlexAlign[] VALUES = values();
@@ -764,7 +1245,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(3);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(6);
     }
 
     private static final GridAlign[] VALUES = values();
@@ -899,7 +1380,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(4);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
     }
 
     private static final TextAlign[] VALUES = values();
@@ -1025,7 +1506,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(5);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
     }
 
     private static final TextDecor[] VALUES = values();
@@ -1160,7 +1641,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(6);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
     }
 
     private static final BlendMode[] VALUES = values();
@@ -1286,7 +1767,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(7);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
     }
 
     private static final BaseDir[] VALUES = values();
@@ -1439,7 +1920,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(8);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
     }
 
     private static final GradDir[] VALUES = values();
@@ -1610,7 +2091,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(9);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
     }
 
     private static final Dir[] VALUES = values();
@@ -1907,7 +2388,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(10);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
     }
 
     private static final Align[] VALUES = values();
@@ -2069,7 +2550,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(11);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
     }
 
     private static final BorderSide[] VALUES = values();
@@ -2213,7 +2694,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(12);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
     }
 
     private static final LabelLongMode[] VALUES = values();
@@ -2339,7 +2820,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(13);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
     }
 
     private static final BarMode[] VALUES = values();
@@ -2465,7 +2946,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(14);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
     }
 
     private static final ArcMode[] VALUES = values();
@@ -2582,7 +3063,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(15);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(18);
     }
 
     private static final RollerMode[] VALUES = values();
@@ -2735,7 +3216,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(16);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(19);
     }
 
     private static final ScaleMode[] VALUES = values();
@@ -3933,7 +4414,7 @@ public final class UiAst {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return ui.UiAst.getDescriptor().getEnumTypes().get(17);
+      return ui.UiAst.getDescriptor().getEnumTypes().get(20);
     }
 
     private static final StylePropertyType[] VALUES = values();
@@ -3957,6 +4438,2749 @@ public final class UiAst {
     }
 
     // @@protoc_insertion_point(enum_scope:ui.StylePropertyType)
+  }
+
+  public interface SubjectDeclarationOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.SubjectDeclaration)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * unique identifier, e.g. "zoom_level"
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     * @return The name.
+     */
+    java.lang.String getName();
+    /**
+     * <pre>
+     * unique identifier, e.g. "zoom_level"
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     * @return The bytes for name.
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <code>.ui.SubjectType type = 2;</code>
+     * @return The enum numeric value on the wire for type.
+     */
+    int getTypeValue();
+    /**
+     * <code>.ui.SubjectType type = 2;</code>
+     * @return The type.
+     */
+    ui.UiAst.SubjectType getType();
+
+    /**
+     * <pre>
+     * default value for INT subjects
+     * </pre>
+     *
+     * <code>int32 int_initial = 3;</code>
+     * @return Whether the intInitial field is set.
+     */
+    boolean hasIntInitial();
+    /**
+     * <pre>
+     * default value for INT subjects
+     * </pre>
+     *
+     * <code>int32 int_initial = 3;</code>
+     * @return The intInitial.
+     */
+    int getIntInitial();
+
+    /**
+     * <pre>
+     * default value for STRING subjects
+     * </pre>
+     *
+     * <code>string string_initial = 4;</code>
+     * @return Whether the stringInitial field is set.
+     */
+    boolean hasStringInitial();
+    /**
+     * <pre>
+     * default value for STRING subjects
+     * </pre>
+     *
+     * <code>string string_initial = 4;</code>
+     * @return The stringInitial.
+     */
+    java.lang.String getStringInitial();
+    /**
+     * <pre>
+     * default value for STRING subjects
+     * </pre>
+     *
+     * <code>string string_initial = 4;</code>
+     * @return The bytes for stringInitial.
+     */
+    com.google.protobuf.ByteString
+        getStringInitialBytes();
+
+    ui.UiAst.SubjectDeclaration.InitialCase getInitialCase();
+  }
+  /**
+   * <pre>
+   * Declaration of a reactive subject (lives in Screen, initialized at load time)
+   * </pre>
+   *
+   * Protobuf type {@code ui.SubjectDeclaration}
+   */
+  public static final class SubjectDeclaration extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.SubjectDeclaration)
+      SubjectDeclarationOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SubjectDeclaration.class.getName());
+    }
+    // Use SubjectDeclaration.newBuilder() to construct.
+    private SubjectDeclaration(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SubjectDeclaration() {
+      name_ = "";
+      type_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_SubjectDeclaration_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_SubjectDeclaration_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.SubjectDeclaration.class, ui.UiAst.SubjectDeclaration.Builder.class);
+    }
+
+    private int initialCase_ = 0;
+    @SuppressWarnings("serial")
+    private java.lang.Object initial_;
+    public enum InitialCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      INT_INITIAL(3),
+      STRING_INITIAL(4),
+      INITIAL_NOT_SET(0);
+      private final int value;
+      private InitialCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static InitialCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static InitialCase forNumber(int value) {
+        switch (value) {
+          case 3: return INT_INITIAL;
+          case 4: return STRING_INITIAL;
+          case 0: return INITIAL_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public InitialCase
+    getInitialCase() {
+      return InitialCase.forNumber(
+          initialCase_);
+    }
+
+    public static final int NAME_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object name_ = "";
+    /**
+     * <pre>
+     * unique identifier, e.g. "zoom_level"
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     * @return The name.
+     */
+    @java.lang.Override
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * unique identifier, e.g. "zoom_level"
+     * </pre>
+     *
+     * <code>string name = 1;</code>
+     * @return The bytes for name.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private int type_ = 0;
+    /**
+     * <code>.ui.SubjectType type = 2;</code>
+     * @return The enum numeric value on the wire for type.
+     */
+    @java.lang.Override public int getTypeValue() {
+      return type_;
+    }
+    /**
+     * <code>.ui.SubjectType type = 2;</code>
+     * @return The type.
+     */
+    @java.lang.Override public ui.UiAst.SubjectType getType() {
+      ui.UiAst.SubjectType result = ui.UiAst.SubjectType.forNumber(type_);
+      return result == null ? ui.UiAst.SubjectType.UNRECOGNIZED : result;
+    }
+
+    public static final int INT_INITIAL_FIELD_NUMBER = 3;
+    /**
+     * <pre>
+     * default value for INT subjects
+     * </pre>
+     *
+     * <code>int32 int_initial = 3;</code>
+     * @return Whether the intInitial field is set.
+     */
+    @java.lang.Override
+    public boolean hasIntInitial() {
+      return initialCase_ == 3;
+    }
+    /**
+     * <pre>
+     * default value for INT subjects
+     * </pre>
+     *
+     * <code>int32 int_initial = 3;</code>
+     * @return The intInitial.
+     */
+    @java.lang.Override
+    public int getIntInitial() {
+      if (initialCase_ == 3) {
+        return (java.lang.Integer) initial_;
+      }
+      return 0;
+    }
+
+    public static final int STRING_INITIAL_FIELD_NUMBER = 4;
+    /**
+     * <pre>
+     * default value for STRING subjects
+     * </pre>
+     *
+     * <code>string string_initial = 4;</code>
+     * @return Whether the stringInitial field is set.
+     */
+    public boolean hasStringInitial() {
+      return initialCase_ == 4;
+    }
+    /**
+     * <pre>
+     * default value for STRING subjects
+     * </pre>
+     *
+     * <code>string string_initial = 4;</code>
+     * @return The stringInitial.
+     */
+    public java.lang.String getStringInitial() {
+      java.lang.Object ref = "";
+      if (initialCase_ == 4) {
+        ref = initial_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (initialCase_ == 4) {
+          initial_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * default value for STRING subjects
+     * </pre>
+     *
+     * <code>string string_initial = 4;</code>
+     * @return The bytes for stringInitial.
+     */
+    public com.google.protobuf.ByteString
+        getStringInitialBytes() {
+      java.lang.Object ref = "";
+      if (initialCase_ == 4) {
+        ref = initial_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (initialCase_ == 4) {
+          initial_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(name_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+      }
+      if (type_ != ui.UiAst.SubjectType.SUBJECT_INT.getNumber()) {
+        output.writeEnum(2, type_);
+      }
+      if (initialCase_ == 3) {
+        output.writeInt32(
+            3, (int)((java.lang.Integer) initial_));
+      }
+      if (initialCase_ == 4) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 4, initial_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(name_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+      }
+      if (type_ != ui.UiAst.SubjectType.SUBJECT_INT.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, type_);
+      }
+      if (initialCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(
+              3, (int)((java.lang.Integer) initial_));
+      }
+      if (initialCase_ == 4) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(4, initial_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.SubjectDeclaration)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.SubjectDeclaration other = (ui.UiAst.SubjectDeclaration) obj;
+
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (type_ != other.type_) return false;
+      if (!getInitialCase().equals(other.getInitialCase())) return false;
+      switch (initialCase_) {
+        case 3:
+          if (getIntInitial()
+              != other.getIntInitial()) return false;
+          break;
+        case 4:
+          if (!getStringInitial()
+              .equals(other.getStringInitial())) return false;
+          break;
+        case 0:
+        default:
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
+      switch (initialCase_) {
+        case 3:
+          hash = (37 * hash) + INT_INITIAL_FIELD_NUMBER;
+          hash = (53 * hash) + getIntInitial();
+          break;
+        case 4:
+          hash = (37 * hash) + STRING_INITIAL_FIELD_NUMBER;
+          hash = (53 * hash) + getStringInitial().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.SubjectDeclaration parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.SubjectDeclaration parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.SubjectDeclaration parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.SubjectDeclaration prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Declaration of a reactive subject (lives in Screen, initialized at load time)
+     * </pre>
+     *
+     * Protobuf type {@code ui.SubjectDeclaration}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.SubjectDeclaration)
+        ui.UiAst.SubjectDeclarationOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_SubjectDeclaration_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_SubjectDeclaration_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.SubjectDeclaration.class, ui.UiAst.SubjectDeclaration.Builder.class);
+      }
+
+      // Construct using ui.UiAst.SubjectDeclaration.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        name_ = "";
+        type_ = 0;
+        initialCase_ = 0;
+        initial_ = null;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_SubjectDeclaration_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.SubjectDeclaration getDefaultInstanceForType() {
+        return ui.UiAst.SubjectDeclaration.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.SubjectDeclaration build() {
+        ui.UiAst.SubjectDeclaration result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.SubjectDeclaration buildPartial() {
+        ui.UiAst.SubjectDeclaration result = new ui.UiAst.SubjectDeclaration(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        buildPartialOneofs(result);
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.SubjectDeclaration result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.name_ = name_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.type_ = type_;
+        }
+      }
+
+      private void buildPartialOneofs(ui.UiAst.SubjectDeclaration result) {
+        result.initialCase_ = initialCase_;
+        result.initial_ = this.initial_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.SubjectDeclaration) {
+          return mergeFrom((ui.UiAst.SubjectDeclaration)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.SubjectDeclaration other) {
+        if (other == ui.UiAst.SubjectDeclaration.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.type_ != 0) {
+          setTypeValue(other.getTypeValue());
+        }
+        switch (other.getInitialCase()) {
+          case INT_INITIAL: {
+            setIntInitial(other.getIntInitial());
+            break;
+          }
+          case STRING_INITIAL: {
+            initialCase_ = 4;
+            initial_ = other.initial_;
+            onChanged();
+            break;
+          }
+          case INITIAL_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                name_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                type_ = input.readEnum();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                initial_ = input.readInt32();
+                initialCase_ = 3;
+                break;
+              } // case 24
+              case 34: {
+                java.lang.String s = input.readStringRequireUtf8();
+                initialCase_ = 4;
+                initial_ = s;
+                break;
+              } // case 34
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int initialCase_ = 0;
+      private java.lang.Object initial_;
+      public InitialCase
+          getInitialCase() {
+        return InitialCase.forNumber(
+            initialCase_);
+      }
+
+      public Builder clearInitial() {
+        initialCase_ = 0;
+        initial_ = null;
+        onChanged();
+        return this;
+      }
+
+      private int bitField0_;
+
+      private java.lang.Object name_ = "";
+      /**
+       * <pre>
+       * unique identifier, e.g. "zoom_level"
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       * @return The name.
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * unique identifier, e.g. "zoom_level"
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       * @return The bytes for name.
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * unique identifier, e.g. "zoom_level"
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        name_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * unique identifier, e.g. "zoom_level"
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearName() {
+        name_ = getDefaultInstance().getName();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * unique identifier, e.g. "zoom_level"
+       * </pre>
+       *
+       * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        name_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private int type_ = 0;
+      /**
+       * <code>.ui.SubjectType type = 2;</code>
+       * @return The enum numeric value on the wire for type.
+       */
+      @java.lang.Override public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <code>.ui.SubjectType type = 2;</code>
+       * @param value The enum numeric value on the wire for type to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTypeValue(int value) {
+        type_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.SubjectType type = 2;</code>
+       * @return The type.
+       */
+      @java.lang.Override
+      public ui.UiAst.SubjectType getType() {
+        ui.UiAst.SubjectType result = ui.UiAst.SubjectType.forNumber(type_);
+        return result == null ? ui.UiAst.SubjectType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.ui.SubjectType type = 2;</code>
+       * @param value The type to set.
+       * @return This builder for chaining.
+       */
+      public Builder setType(ui.UiAst.SubjectType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.ui.SubjectType type = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <pre>
+       * default value for INT subjects
+       * </pre>
+       *
+       * <code>int32 int_initial = 3;</code>
+       * @return Whether the intInitial field is set.
+       */
+      public boolean hasIntInitial() {
+        return initialCase_ == 3;
+      }
+      /**
+       * <pre>
+       * default value for INT subjects
+       * </pre>
+       *
+       * <code>int32 int_initial = 3;</code>
+       * @return The intInitial.
+       */
+      public int getIntInitial() {
+        if (initialCase_ == 3) {
+          return (java.lang.Integer) initial_;
+        }
+        return 0;
+      }
+      /**
+       * <pre>
+       * default value for INT subjects
+       * </pre>
+       *
+       * <code>int32 int_initial = 3;</code>
+       * @param value The intInitial to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIntInitial(int value) {
+
+        initialCase_ = 3;
+        initial_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * default value for INT subjects
+       * </pre>
+       *
+       * <code>int32 int_initial = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIntInitial() {
+        if (initialCase_ == 3) {
+          initialCase_ = 0;
+          initial_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <pre>
+       * default value for STRING subjects
+       * </pre>
+       *
+       * <code>string string_initial = 4;</code>
+       * @return Whether the stringInitial field is set.
+       */
+      @java.lang.Override
+      public boolean hasStringInitial() {
+        return initialCase_ == 4;
+      }
+      /**
+       * <pre>
+       * default value for STRING subjects
+       * </pre>
+       *
+       * <code>string string_initial = 4;</code>
+       * @return The stringInitial.
+       */
+      @java.lang.Override
+      public java.lang.String getStringInitial() {
+        java.lang.Object ref = "";
+        if (initialCase_ == 4) {
+          ref = initial_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (initialCase_ == 4) {
+            initial_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * default value for STRING subjects
+       * </pre>
+       *
+       * <code>string string_initial = 4;</code>
+       * @return The bytes for stringInitial.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getStringInitialBytes() {
+        java.lang.Object ref = "";
+        if (initialCase_ == 4) {
+          ref = initial_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (initialCase_ == 4) {
+            initial_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * default value for STRING subjects
+       * </pre>
+       *
+       * <code>string string_initial = 4;</code>
+       * @param value The stringInitial to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStringInitial(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        initialCase_ = 4;
+        initial_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * default value for STRING subjects
+       * </pre>
+       *
+       * <code>string string_initial = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStringInitial() {
+        if (initialCase_ == 4) {
+          initialCase_ = 0;
+          initial_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * default value for STRING subjects
+       * </pre>
+       *
+       * <code>string string_initial = 4;</code>
+       * @param value The bytes for stringInitial to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStringInitialBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        initialCase_ = 4;
+        initial_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.SubjectDeclaration)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.SubjectDeclaration)
+    private static final ui.UiAst.SubjectDeclaration DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.SubjectDeclaration();
+    }
+
+    public static ui.UiAst.SubjectDeclaration getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SubjectDeclaration>
+        PARSER = new com.google.protobuf.AbstractParser<SubjectDeclaration>() {
+      @java.lang.Override
+      public SubjectDeclaration parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SubjectDeclaration> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SubjectDeclaration> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.SubjectDeclaration getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface StateUpdateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.StateUpdate)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    java.util.List<ui.UiAst.SubjectValue> 
+        getValuesList();
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    ui.UiAst.SubjectValue getValues(int index);
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    int getValuesCount();
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    java.util.List<? extends ui.UiAst.SubjectValueOrBuilder> 
+        getValuesOrBuilderList();
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    ui.UiAst.SubjectValueOrBuilder getValuesOrBuilder(
+        int index);
+  }
+  /**
+   * <pre>
+   * Host → WASM state update (decoded by controls_update_state)
+   * </pre>
+   *
+   * Protobuf type {@code ui.StateUpdate}
+   */
+  public static final class StateUpdate extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.StateUpdate)
+      StateUpdateOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StateUpdate.class.getName());
+    }
+    // Use StateUpdate.newBuilder() to construct.
+    private StateUpdate(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StateUpdate() {
+      values_ = java.util.Collections.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_StateUpdate_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_StateUpdate_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.StateUpdate.class, ui.UiAst.StateUpdate.Builder.class);
+    }
+
+    public static final int VALUES_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiAst.SubjectValue> values_;
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiAst.SubjectValue> getValuesList() {
+      return values_;
+    }
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiAst.SubjectValueOrBuilder> 
+        getValuesOrBuilderList() {
+      return values_;
+    }
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    @java.lang.Override
+    public int getValuesCount() {
+      return values_.size();
+    }
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.SubjectValue getValues(int index) {
+      return values_.get(index);
+    }
+    /**
+     * <code>repeated .ui.SubjectValue values = 1;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.SubjectValueOrBuilder getValuesOrBuilder(
+        int index) {
+      return values_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < values_.size(); i++) {
+        output.writeMessage(1, values_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < values_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, values_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.StateUpdate)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.StateUpdate other = (ui.UiAst.StateUpdate) obj;
+
+      if (!getValuesList()
+          .equals(other.getValuesList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getValuesCount() > 0) {
+        hash = (37 * hash) + VALUES_FIELD_NUMBER;
+        hash = (53 * hash) + getValuesList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.StateUpdate parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.StateUpdate parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.StateUpdate parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.StateUpdate parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.StateUpdate prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Host → WASM state update (decoded by controls_update_state)
+     * </pre>
+     *
+     * Protobuf type {@code ui.StateUpdate}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.StateUpdate)
+        ui.UiAst.StateUpdateOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_StateUpdate_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_StateUpdate_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.StateUpdate.class, ui.UiAst.StateUpdate.Builder.class);
+      }
+
+      // Construct using ui.UiAst.StateUpdate.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        if (valuesBuilder_ == null) {
+          values_ = java.util.Collections.emptyList();
+        } else {
+          values_ = null;
+          valuesBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_StateUpdate_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.StateUpdate getDefaultInstanceForType() {
+        return ui.UiAst.StateUpdate.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.StateUpdate build() {
+        ui.UiAst.StateUpdate result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.StateUpdate buildPartial() {
+        ui.UiAst.StateUpdate result = new ui.UiAst.StateUpdate(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(ui.UiAst.StateUpdate result) {
+        if (valuesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            values_ = java.util.Collections.unmodifiableList(values_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.values_ = values_;
+        } else {
+          result.values_ = valuesBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(ui.UiAst.StateUpdate result) {
+        int from_bitField0_ = bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.StateUpdate) {
+          return mergeFrom((ui.UiAst.StateUpdate)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.StateUpdate other) {
+        if (other == ui.UiAst.StateUpdate.getDefaultInstance()) return this;
+        if (valuesBuilder_ == null) {
+          if (!other.values_.isEmpty()) {
+            if (values_.isEmpty()) {
+              values_ = other.values_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureValuesIsMutable();
+              values_.addAll(other.values_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.values_.isEmpty()) {
+            if (valuesBuilder_.isEmpty()) {
+              valuesBuilder_.dispose();
+              valuesBuilder_ = null;
+              values_ = other.values_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              valuesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getValuesFieldBuilder() : null;
+            } else {
+              valuesBuilder_.addAllMessages(other.values_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                ui.UiAst.SubjectValue m =
+                    input.readMessage(
+                        ui.UiAst.SubjectValue.parser(),
+                        extensionRegistry);
+                if (valuesBuilder_ == null) {
+                  ensureValuesIsMutable();
+                  values_.add(m);
+                } else {
+                  valuesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<ui.UiAst.SubjectValue> values_ =
+        java.util.Collections.emptyList();
+      private void ensureValuesIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          values_ = new java.util.ArrayList<ui.UiAst.SubjectValue>(values_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.SubjectValue, ui.UiAst.SubjectValue.Builder, ui.UiAst.SubjectValueOrBuilder> valuesBuilder_;
+
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public java.util.List<ui.UiAst.SubjectValue> getValuesList() {
+        if (valuesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(values_);
+        } else {
+          return valuesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public int getValuesCount() {
+        if (valuesBuilder_ == null) {
+          return values_.size();
+        } else {
+          return valuesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public ui.UiAst.SubjectValue getValues(int index) {
+        if (valuesBuilder_ == null) {
+          return values_.get(index);
+        } else {
+          return valuesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder setValues(
+          int index, ui.UiAst.SubjectValue value) {
+        if (valuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValuesIsMutable();
+          values_.set(index, value);
+          onChanged();
+        } else {
+          valuesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder setValues(
+          int index, ui.UiAst.SubjectValue.Builder builderForValue) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          valuesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder addValues(ui.UiAst.SubjectValue value) {
+        if (valuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValuesIsMutable();
+          values_.add(value);
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder addValues(
+          int index, ui.UiAst.SubjectValue value) {
+        if (valuesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValuesIsMutable();
+          values_.add(index, value);
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder addValues(
+          ui.UiAst.SubjectValue.Builder builderForValue) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.add(builderForValue.build());
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder addValues(
+          int index, ui.UiAst.SubjectValue.Builder builderForValue) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          valuesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder addAllValues(
+          java.lang.Iterable<? extends ui.UiAst.SubjectValue> values) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, values_);
+          onChanged();
+        } else {
+          valuesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder clearValues() {
+        if (valuesBuilder_ == null) {
+          values_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          valuesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public Builder removeValues(int index) {
+        if (valuesBuilder_ == null) {
+          ensureValuesIsMutable();
+          values_.remove(index);
+          onChanged();
+        } else {
+          valuesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public ui.UiAst.SubjectValue.Builder getValuesBuilder(
+          int index) {
+        return getValuesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public ui.UiAst.SubjectValueOrBuilder getValuesOrBuilder(
+          int index) {
+        if (valuesBuilder_ == null) {
+          return values_.get(index);  } else {
+          return valuesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public java.util.List<? extends ui.UiAst.SubjectValueOrBuilder> 
+           getValuesOrBuilderList() {
+        if (valuesBuilder_ != null) {
+          return valuesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(values_);
+        }
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public ui.UiAst.SubjectValue.Builder addValuesBuilder() {
+        return getValuesFieldBuilder().addBuilder(
+            ui.UiAst.SubjectValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public ui.UiAst.SubjectValue.Builder addValuesBuilder(
+          int index) {
+        return getValuesFieldBuilder().addBuilder(
+            index, ui.UiAst.SubjectValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ui.SubjectValue values = 1;</code>
+       */
+      public java.util.List<ui.UiAst.SubjectValue.Builder> 
+           getValuesBuilderList() {
+        return getValuesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.SubjectValue, ui.UiAst.SubjectValue.Builder, ui.UiAst.SubjectValueOrBuilder> 
+          getValuesFieldBuilder() {
+        if (valuesBuilder_ == null) {
+          valuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiAst.SubjectValue, ui.UiAst.SubjectValue.Builder, ui.UiAst.SubjectValueOrBuilder>(
+                  values_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          values_ = null;
+        }
+        return valuesBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.StateUpdate)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.StateUpdate)
+    private static final ui.UiAst.StateUpdate DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.StateUpdate();
+    }
+
+    public static ui.UiAst.StateUpdate getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StateUpdate>
+        PARSER = new com.google.protobuf.AbstractParser<StateUpdate>() {
+      @java.lang.Override
+      public StateUpdate parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StateUpdate> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StateUpdate> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.StateUpdate getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SubjectValueOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.SubjectValue)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string name = 1;</code>
+     * @return The name.
+     */
+    java.lang.String getName();
+    /**
+     * <code>string name = 1;</code>
+     * @return The bytes for name.
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <code>int32 int_value = 2;</code>
+     * @return Whether the intValue field is set.
+     */
+    boolean hasIntValue();
+    /**
+     * <code>int32 int_value = 2;</code>
+     * @return The intValue.
+     */
+    int getIntValue();
+
+    /**
+     * <code>string string_value = 3;</code>
+     * @return Whether the stringValue field is set.
+     */
+    boolean hasStringValue();
+    /**
+     * <code>string string_value = 3;</code>
+     * @return The stringValue.
+     */
+    java.lang.String getStringValue();
+    /**
+     * <code>string string_value = 3;</code>
+     * @return The bytes for stringValue.
+     */
+    com.google.protobuf.ByteString
+        getStringValueBytes();
+
+    ui.UiAst.SubjectValue.ValueCase getValueCase();
+  }
+  /**
+   * <pre>
+   * A single subject value in a state update
+   * </pre>
+   *
+   * Protobuf type {@code ui.SubjectValue}
+   */
+  public static final class SubjectValue extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.SubjectValue)
+      SubjectValueOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        SubjectValue.class.getName());
+    }
+    // Use SubjectValue.newBuilder() to construct.
+    private SubjectValue(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private SubjectValue() {
+      name_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_SubjectValue_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_SubjectValue_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.SubjectValue.class, ui.UiAst.SubjectValue.Builder.class);
+    }
+
+    private int valueCase_ = 0;
+    @SuppressWarnings("serial")
+    private java.lang.Object value_;
+    public enum ValueCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      INT_VALUE(2),
+      STRING_VALUE(3),
+      VALUE_NOT_SET(0);
+      private final int value;
+      private ValueCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static ValueCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static ValueCase forNumber(int value) {
+        switch (value) {
+          case 2: return INT_VALUE;
+          case 3: return STRING_VALUE;
+          case 0: return VALUE_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public ValueCase
+    getValueCase() {
+      return ValueCase.forNumber(
+          valueCase_);
+    }
+
+    public static final int NAME_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object name_ = "";
+    /**
+     * <code>string name = 1;</code>
+     * @return The name.
+     */
+    @java.lang.Override
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string name = 1;</code>
+     * @return The bytes for name.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int INT_VALUE_FIELD_NUMBER = 2;
+    /**
+     * <code>int32 int_value = 2;</code>
+     * @return Whether the intValue field is set.
+     */
+    @java.lang.Override
+    public boolean hasIntValue() {
+      return valueCase_ == 2;
+    }
+    /**
+     * <code>int32 int_value = 2;</code>
+     * @return The intValue.
+     */
+    @java.lang.Override
+    public int getIntValue() {
+      if (valueCase_ == 2) {
+        return (java.lang.Integer) value_;
+      }
+      return 0;
+    }
+
+    public static final int STRING_VALUE_FIELD_NUMBER = 3;
+    /**
+     * <code>string string_value = 3;</code>
+     * @return Whether the stringValue field is set.
+     */
+    public boolean hasStringValue() {
+      return valueCase_ == 3;
+    }
+    /**
+     * <code>string string_value = 3;</code>
+     * @return The stringValue.
+     */
+    public java.lang.String getStringValue() {
+      java.lang.Object ref = "";
+      if (valueCase_ == 3) {
+        ref = value_;
+      }
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (valueCase_ == 3) {
+          value_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>string string_value = 3;</code>
+     * @return The bytes for stringValue.
+     */
+    public com.google.protobuf.ByteString
+        getStringValueBytes() {
+      java.lang.Object ref = "";
+      if (valueCase_ == 3) {
+        ref = value_;
+      }
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        if (valueCase_ == 3) {
+          value_ = b;
+        }
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(name_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+      }
+      if (valueCase_ == 2) {
+        output.writeInt32(
+            2, (int)((java.lang.Integer) value_));
+      }
+      if (valueCase_ == 3) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 3, value_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(name_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+      }
+      if (valueCase_ == 2) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(
+              2, (int)((java.lang.Integer) value_));
+      }
+      if (valueCase_ == 3) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(3, value_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.SubjectValue)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.SubjectValue other = (ui.UiAst.SubjectValue) obj;
+
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (!getValueCase().equals(other.getValueCase())) return false;
+      switch (valueCase_) {
+        case 2:
+          if (getIntValue()
+              != other.getIntValue()) return false;
+          break;
+        case 3:
+          if (!getStringValue()
+              .equals(other.getStringValue())) return false;
+          break;
+        case 0:
+        default:
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      switch (valueCase_) {
+        case 2:
+          hash = (37 * hash) + INT_VALUE_FIELD_NUMBER;
+          hash = (53 * hash) + getIntValue();
+          break;
+        case 3:
+          hash = (37 * hash) + STRING_VALUE_FIELD_NUMBER;
+          hash = (53 * hash) + getStringValue().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.SubjectValue parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.SubjectValue parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.SubjectValue parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.SubjectValue parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.SubjectValue prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * A single subject value in a state update
+     * </pre>
+     *
+     * Protobuf type {@code ui.SubjectValue}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.SubjectValue)
+        ui.UiAst.SubjectValueOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_SubjectValue_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_SubjectValue_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.SubjectValue.class, ui.UiAst.SubjectValue.Builder.class);
+      }
+
+      // Construct using ui.UiAst.SubjectValue.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        name_ = "";
+        valueCase_ = 0;
+        value_ = null;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_SubjectValue_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.SubjectValue getDefaultInstanceForType() {
+        return ui.UiAst.SubjectValue.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.SubjectValue build() {
+        ui.UiAst.SubjectValue result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.SubjectValue buildPartial() {
+        ui.UiAst.SubjectValue result = new ui.UiAst.SubjectValue(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        buildPartialOneofs(result);
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.SubjectValue result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.name_ = name_;
+        }
+      }
+
+      private void buildPartialOneofs(ui.UiAst.SubjectValue result) {
+        result.valueCase_ = valueCase_;
+        result.value_ = this.value_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.SubjectValue) {
+          return mergeFrom((ui.UiAst.SubjectValue)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.SubjectValue other) {
+        if (other == ui.UiAst.SubjectValue.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        switch (other.getValueCase()) {
+          case INT_VALUE: {
+            setIntValue(other.getIntValue());
+            break;
+          }
+          case STRING_VALUE: {
+            valueCase_ = 3;
+            value_ = other.value_;
+            onChanged();
+            break;
+          }
+          case VALUE_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                name_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                value_ = input.readInt32();
+                valueCase_ = 2;
+                break;
+              } // case 16
+              case 26: {
+                java.lang.String s = input.readStringRequireUtf8();
+                valueCase_ = 3;
+                value_ = s;
+                break;
+              } // case 26
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int valueCase_ = 0;
+      private java.lang.Object value_;
+      public ValueCase
+          getValueCase() {
+        return ValueCase.forNumber(
+            valueCase_);
+      }
+
+      public Builder clearValue() {
+        valueCase_ = 0;
+        value_ = null;
+        onChanged();
+        return this;
+      }
+
+      private int bitField0_;
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>string name = 1;</code>
+       * @return The name.
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       * @return The bytes for name.
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string name = 1;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        name_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearName() {
+        name_ = getDefaultInstance().getName();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        name_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      /**
+       * <code>int32 int_value = 2;</code>
+       * @return Whether the intValue field is set.
+       */
+      public boolean hasIntValue() {
+        return valueCase_ == 2;
+      }
+      /**
+       * <code>int32 int_value = 2;</code>
+       * @return The intValue.
+       */
+      public int getIntValue() {
+        if (valueCase_ == 2) {
+          return (java.lang.Integer) value_;
+        }
+        return 0;
+      }
+      /**
+       * <code>int32 int_value = 2;</code>
+       * @param value The intValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIntValue(int value) {
+
+        valueCase_ = 2;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 int_value = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIntValue() {
+        if (valueCase_ == 2) {
+          valueCase_ = 0;
+          value_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>string string_value = 3;</code>
+       * @return Whether the stringValue field is set.
+       */
+      @java.lang.Override
+      public boolean hasStringValue() {
+        return valueCase_ == 3;
+      }
+      /**
+       * <code>string string_value = 3;</code>
+       * @return The stringValue.
+       */
+      @java.lang.Override
+      public java.lang.String getStringValue() {
+        java.lang.Object ref = "";
+        if (valueCase_ == 3) {
+          ref = value_;
+        }
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (valueCase_ == 3) {
+            value_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string string_value = 3;</code>
+       * @return The bytes for stringValue.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getStringValueBytes() {
+        java.lang.Object ref = "";
+        if (valueCase_ == 3) {
+          ref = value_;
+        }
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          if (valueCase_ == 3) {
+            value_ = b;
+          }
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string string_value = 3;</code>
+       * @param value The stringValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStringValue(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        valueCase_ = 3;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string string_value = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStringValue() {
+        if (valueCase_ == 3) {
+          valueCase_ = 0;
+          value_ = null;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>string string_value = 3;</code>
+       * @param value The bytes for stringValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStringValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        valueCase_ = 3;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.SubjectValue)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.SubjectValue)
+    private static final ui.UiAst.SubjectValue DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.SubjectValue();
+    }
+
+    public static ui.UiAst.SubjectValue getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SubjectValue>
+        PARSER = new com.google.protobuf.AbstractParser<SubjectValue>() {
+      @java.lang.Override
+      public SubjectValue parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<SubjectValue> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SubjectValue> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.SubjectValue getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
   }
 
   public interface ScreenOrBuilder extends
@@ -3992,6 +7216,50 @@ public final class UiAst {
      * <code>optional .ui.WidgetNode root = 1;</code>
      */
     ui.UiAst.WidgetNodeOrBuilder getRootOrBuilder();
+
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    java.util.List<ui.UiAst.SubjectDeclaration> 
+        getSubjectsList();
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    ui.UiAst.SubjectDeclaration getSubjects(int index);
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    int getSubjectsCount();
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    java.util.List<? extends ui.UiAst.SubjectDeclarationOrBuilder> 
+        getSubjectsOrBuilderList();
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    ui.UiAst.SubjectDeclarationOrBuilder getSubjectsOrBuilder(
+        int index);
   }
   /**
    * <pre>
@@ -4019,6 +7287,7 @@ public final class UiAst {
       super(builder);
     }
     private Screen() {
+      subjects_ = java.util.Collections.emptyList();
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -4076,6 +7345,67 @@ public final class UiAst {
       return root_ == null ? ui.UiAst.WidgetNode.getDefaultInstance() : root_;
     }
 
+    public static final int SUBJECTS_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiAst.SubjectDeclaration> subjects_;
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiAst.SubjectDeclaration> getSubjectsList() {
+      return subjects_;
+    }
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiAst.SubjectDeclarationOrBuilder> 
+        getSubjectsOrBuilderList() {
+      return subjects_;
+    }
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    @java.lang.Override
+    public int getSubjectsCount() {
+      return subjects_.size();
+    }
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.SubjectDeclaration getSubjects(int index) {
+      return subjects_.get(index);
+    }
+    /**
+     * <pre>
+     * reactive subject declarations
+     * </pre>
+     *
+     * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.SubjectDeclarationOrBuilder getSubjectsOrBuilder(
+        int index) {
+      return subjects_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4093,6 +7423,9 @@ public final class UiAst {
       if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getRoot());
       }
+      for (int i = 0; i < subjects_.size(); i++) {
+        output.writeMessage(2, subjects_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4105,6 +7438,10 @@ public final class UiAst {
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getRoot());
+      }
+      for (int i = 0; i < subjects_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, subjects_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -4126,6 +7463,8 @@ public final class UiAst {
         if (!getRoot()
             .equals(other.getRoot())) return false;
       }
+      if (!getSubjectsList()
+          .equals(other.getSubjectsList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -4140,6 +7479,10 @@ public final class UiAst {
       if (hasRoot()) {
         hash = (37 * hash) + ROOT_FIELD_NUMBER;
         hash = (53 * hash) + getRoot().hashCode();
+      }
+      if (getSubjectsCount() > 0) {
+        hash = (37 * hash) + SUBJECTS_FIELD_NUMBER;
+        hash = (53 * hash) + getSubjectsList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -4276,6 +7619,7 @@ public final class UiAst {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getRootFieldBuilder();
+          getSubjectsFieldBuilder();
         }
       }
       @java.lang.Override
@@ -4287,6 +7631,13 @@ public final class UiAst {
           rootBuilder_.dispose();
           rootBuilder_ = null;
         }
+        if (subjectsBuilder_ == null) {
+          subjects_ = java.util.Collections.emptyList();
+        } else {
+          subjects_ = null;
+          subjectsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -4313,9 +7664,22 @@ public final class UiAst {
       @java.lang.Override
       public ui.UiAst.Screen buildPartial() {
         ui.UiAst.Screen result = new ui.UiAst.Screen(this);
+        buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartialRepeatedFields(ui.UiAst.Screen result) {
+        if (subjectsBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            subjects_ = java.util.Collections.unmodifiableList(subjects_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.subjects_ = subjects_;
+        } else {
+          result.subjects_ = subjectsBuilder_.build();
+        }
       }
 
       private void buildPartial0(ui.UiAst.Screen result) {
@@ -4344,6 +7708,32 @@ public final class UiAst {
         if (other == ui.UiAst.Screen.getDefaultInstance()) return this;
         if (other.hasRoot()) {
           mergeRoot(other.getRoot());
+        }
+        if (subjectsBuilder_ == null) {
+          if (!other.subjects_.isEmpty()) {
+            if (subjects_.isEmpty()) {
+              subjects_ = other.subjects_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureSubjectsIsMutable();
+              subjects_.addAll(other.subjects_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.subjects_.isEmpty()) {
+            if (subjectsBuilder_.isEmpty()) {
+              subjectsBuilder_.dispose();
+              subjectsBuilder_ = null;
+              subjects_ = other.subjects_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              subjectsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSubjectsFieldBuilder() : null;
+            } else {
+              subjectsBuilder_.addAllMessages(other.subjects_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -4378,6 +7768,19 @@ public final class UiAst {
                 bitField0_ |= 0x00000001;
                 break;
               } // case 10
+              case 18: {
+                ui.UiAst.SubjectDeclaration m =
+                    input.readMessage(
+                        ui.UiAst.SubjectDeclaration.parser(),
+                        extensionRegistry);
+                if (subjectsBuilder_ == null) {
+                  ensureSubjectsIsMutable();
+                  subjects_.add(m);
+                } else {
+                  subjectsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 18
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4559,6 +7962,318 @@ public final class UiAst {
           root_ = null;
         }
         return rootBuilder_;
+      }
+
+      private java.util.List<ui.UiAst.SubjectDeclaration> subjects_ =
+        java.util.Collections.emptyList();
+      private void ensureSubjectsIsMutable() {
+        if (!((bitField0_ & 0x00000002) != 0)) {
+          subjects_ = new java.util.ArrayList<ui.UiAst.SubjectDeclaration>(subjects_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.SubjectDeclaration, ui.UiAst.SubjectDeclaration.Builder, ui.UiAst.SubjectDeclarationOrBuilder> subjectsBuilder_;
+
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public java.util.List<ui.UiAst.SubjectDeclaration> getSubjectsList() {
+        if (subjectsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(subjects_);
+        } else {
+          return subjectsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public int getSubjectsCount() {
+        if (subjectsBuilder_ == null) {
+          return subjects_.size();
+        } else {
+          return subjectsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public ui.UiAst.SubjectDeclaration getSubjects(int index) {
+        if (subjectsBuilder_ == null) {
+          return subjects_.get(index);
+        } else {
+          return subjectsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder setSubjects(
+          int index, ui.UiAst.SubjectDeclaration value) {
+        if (subjectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSubjectsIsMutable();
+          subjects_.set(index, value);
+          onChanged();
+        } else {
+          subjectsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder setSubjects(
+          int index, ui.UiAst.SubjectDeclaration.Builder builderForValue) {
+        if (subjectsBuilder_ == null) {
+          ensureSubjectsIsMutable();
+          subjects_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          subjectsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder addSubjects(ui.UiAst.SubjectDeclaration value) {
+        if (subjectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSubjectsIsMutable();
+          subjects_.add(value);
+          onChanged();
+        } else {
+          subjectsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder addSubjects(
+          int index, ui.UiAst.SubjectDeclaration value) {
+        if (subjectsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSubjectsIsMutable();
+          subjects_.add(index, value);
+          onChanged();
+        } else {
+          subjectsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder addSubjects(
+          ui.UiAst.SubjectDeclaration.Builder builderForValue) {
+        if (subjectsBuilder_ == null) {
+          ensureSubjectsIsMutable();
+          subjects_.add(builderForValue.build());
+          onChanged();
+        } else {
+          subjectsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder addSubjects(
+          int index, ui.UiAst.SubjectDeclaration.Builder builderForValue) {
+        if (subjectsBuilder_ == null) {
+          ensureSubjectsIsMutable();
+          subjects_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          subjectsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder addAllSubjects(
+          java.lang.Iterable<? extends ui.UiAst.SubjectDeclaration> values) {
+        if (subjectsBuilder_ == null) {
+          ensureSubjectsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, subjects_);
+          onChanged();
+        } else {
+          subjectsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder clearSubjects() {
+        if (subjectsBuilder_ == null) {
+          subjects_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          subjectsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public Builder removeSubjects(int index) {
+        if (subjectsBuilder_ == null) {
+          ensureSubjectsIsMutable();
+          subjects_.remove(index);
+          onChanged();
+        } else {
+          subjectsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public ui.UiAst.SubjectDeclaration.Builder getSubjectsBuilder(
+          int index) {
+        return getSubjectsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public ui.UiAst.SubjectDeclarationOrBuilder getSubjectsOrBuilder(
+          int index) {
+        if (subjectsBuilder_ == null) {
+          return subjects_.get(index);  } else {
+          return subjectsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public java.util.List<? extends ui.UiAst.SubjectDeclarationOrBuilder> 
+           getSubjectsOrBuilderList() {
+        if (subjectsBuilder_ != null) {
+          return subjectsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(subjects_);
+        }
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public ui.UiAst.SubjectDeclaration.Builder addSubjectsBuilder() {
+        return getSubjectsFieldBuilder().addBuilder(
+            ui.UiAst.SubjectDeclaration.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public ui.UiAst.SubjectDeclaration.Builder addSubjectsBuilder(
+          int index) {
+        return getSubjectsFieldBuilder().addBuilder(
+            index, ui.UiAst.SubjectDeclaration.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * reactive subject declarations
+       * </pre>
+       *
+       * <code>repeated .ui.SubjectDeclaration subjects = 2;</code>
+       */
+      public java.util.List<ui.UiAst.SubjectDeclaration.Builder> 
+           getSubjectsBuilderList() {
+        return getSubjectsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiAst.SubjectDeclaration, ui.UiAst.SubjectDeclaration.Builder, ui.UiAst.SubjectDeclarationOrBuilder> 
+          getSubjectsFieldBuilder() {
+        if (subjectsBuilder_ == null) {
+          subjectsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiAst.SubjectDeclaration, ui.UiAst.SubjectDeclaration.Builder, ui.UiAst.SubjectDeclarationOrBuilder>(
+                  subjects_,
+                  ((bitField0_ & 0x00000002) != 0),
+                  getParentForChildren(),
+                  isClean());
+          subjects_ = null;
+        }
+        return subjectsBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.Screen)
@@ -5149,6 +8864,87 @@ java.lang.String defaultValue);
      */
     ui.UiAst.TablePropsOrBuilder getTablePropsOrBuilder();
 
+    /**
+     * <pre>
+     * Conditional visibility binding (show/hide based on subject value)
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding visibility = 29;</code>
+     * @return Whether the visibility field is set.
+     */
+    boolean hasVisibility();
+    /**
+     * <pre>
+     * Conditional visibility binding (show/hide based on subject value)
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding visibility = 29;</code>
+     * @return The visibility.
+     */
+    ui.UiAst.VisibilityBinding getVisibility();
+    /**
+     * <pre>
+     * Conditional visibility binding (show/hide based on subject value)
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding visibility = 29;</code>
+     */
+    ui.UiAst.VisibilityBindingOrBuilder getVisibilityOrBuilder();
+
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    int getBindFormatsCount();
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    boolean containsBindFormats(
+        java.lang.String key);
+    /**
+     * Use {@link #getBindFormatsMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getBindFormats();
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getBindFormatsMap();
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    /* nullable */
+java.lang.String getBindFormatsOrDefault(
+        java.lang.String key,
+        /* nullable */
+java.lang.String defaultValue);
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    java.lang.String getBindFormatsOrThrow(
+        java.lang.String key);
+
     ui.UiAst.WidgetNode.WidgetPropsCase getWidgetPropsCase();
   }
   /**
@@ -5195,6 +8991,8 @@ java.lang.String defaultValue);
       switch (number) {
         case 5:
           return internalGetBindings();
+        case 30:
+          return internalGetBindFormats();
         default:
           throw new RuntimeException(
               "Invalid map field number: " + number);
@@ -6263,6 +10061,139 @@ java.lang.String defaultValue) {
       return ui.UiAst.TableProps.getDefaultInstance();
     }
 
+    public static final int VISIBILITY_FIELD_NUMBER = 29;
+    private ui.UiAst.VisibilityBinding visibility_;
+    /**
+     * <pre>
+     * Conditional visibility binding (show/hide based on subject value)
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding visibility = 29;</code>
+     * @return Whether the visibility field is set.
+     */
+    @java.lang.Override
+    public boolean hasVisibility() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <pre>
+     * Conditional visibility binding (show/hide based on subject value)
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding visibility = 29;</code>
+     * @return The visibility.
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBinding getVisibility() {
+      return visibility_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : visibility_;
+    }
+    /**
+     * <pre>
+     * Conditional visibility binding (show/hide based on subject value)
+     * </pre>
+     *
+     * <code>.ui.VisibilityBinding visibility = 29;</code>
+     */
+    @java.lang.Override
+    public ui.UiAst.VisibilityBindingOrBuilder getVisibilityOrBuilder() {
+      return visibility_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : visibility_;
+    }
+
+    public static final int BIND_FORMATS_FIELD_NUMBER = 30;
+    private static final class BindFormatsDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  ui.UiAst.internal_static_ui_WidgetNode_BindFormatsEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    @SuppressWarnings("serial")
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> bindFormats_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetBindFormats() {
+      if (bindFormats_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            BindFormatsDefaultEntryHolder.defaultEntry);
+      }
+      return bindFormats_;
+    }
+    public int getBindFormatsCount() {
+      return internalGetBindFormats().getMap().size();
+    }
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    @java.lang.Override
+    public boolean containsBindFormats(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      return internalGetBindFormats().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getBindFormatsMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getBindFormats() {
+      return getBindFormatsMap();
+    }
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    @java.lang.Override
+    public java.util.Map<java.lang.String, java.lang.String> getBindFormatsMap() {
+      return internalGetBindFormats().getMap();
+    }
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    @java.lang.Override
+    public /* nullable */
+java.lang.String getBindFormatsOrDefault(
+        java.lang.String key,
+        /* nullable */
+java.lang.String defaultValue) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetBindFormats().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <pre>
+     * Format strings for bound text (key = binding key, value = printf format)
+     * </pre>
+     *
+     * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+     */
+    @java.lang.Override
+    public java.lang.String getBindFormatsOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetBindFormats().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6364,6 +10295,15 @@ java.lang.String defaultValue) {
       if (widgetPropsCase_ == 28) {
         output.writeMessage(28, (ui.UiAst.TableProps) widgetProps_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(29, getVisibility());
+      }
+      com.google.protobuf.GeneratedMessage
+        .serializeStringMapTo(
+          output,
+          internalGetBindFormats(),
+          BindFormatsDefaultEntryHolder.defaultEntry,
+          30);
       getUnknownFields().writeTo(output);
     }
 
@@ -6490,6 +10430,20 @@ java.lang.String defaultValue) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(28, (ui.UiAst.TableProps) widgetProps_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(29, getVisibility());
+      }
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetBindFormats().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        bindFormats__ = BindFormatsDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(30, bindFormats__);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -6528,6 +10482,13 @@ java.lang.String defaultValue) {
           .equals(other.getChildrenList())) return false;
       if (!getStyleGroupsList()
           .equals(other.getStyleGroupsList())) return false;
+      if (hasVisibility() != other.hasVisibility()) return false;
+      if (hasVisibility()) {
+        if (!getVisibility()
+            .equals(other.getVisibility())) return false;
+      }
+      if (!internalGetBindFormats().equals(
+          other.internalGetBindFormats())) return false;
       if (!getWidgetPropsCase().equals(other.getWidgetPropsCase())) return false;
       switch (widgetPropsCase_) {
         case 10:
@@ -6647,6 +10608,14 @@ java.lang.String defaultValue) {
       if (getStyleGroupsCount() > 0) {
         hash = (37 * hash) + STYLE_GROUPS_FIELD_NUMBER;
         hash = (53 * hash) + getStyleGroupsList().hashCode();
+      }
+      if (hasVisibility()) {
+        hash = (37 * hash) + VISIBILITY_FIELD_NUMBER;
+        hash = (53 * hash) + getVisibility().hashCode();
+      }
+      if (!internalGetBindFormats().getMap().isEmpty()) {
+        hash = (37 * hash) + BIND_FORMATS_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetBindFormats().hashCode();
       }
       switch (widgetPropsCase_) {
         case 10:
@@ -6847,6 +10816,8 @@ java.lang.String defaultValue) {
         switch (number) {
           case 5:
             return internalGetBindings();
+          case 30:
+            return internalGetBindFormats();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -6858,6 +10829,8 @@ java.lang.String defaultValue) {
         switch (number) {
           case 5:
             return internalGetMutableBindings();
+          case 30:
+            return internalGetMutableBindFormats();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -6888,6 +10861,7 @@ java.lang.String defaultValue) {
           getLayoutFieldBuilder();
           getChildrenFieldBuilder();
           getStyleGroupsFieldBuilder();
+          getVisibilityFieldBuilder();
         }
       }
       @java.lang.Override
@@ -6980,6 +10954,12 @@ java.lang.String defaultValue) {
         if (tablePropsBuilder_ != null) {
           tablePropsBuilder_.clear();
         }
+        visibility_ = null;
+        if (visibilityBuilder_ != null) {
+          visibilityBuilder_.dispose();
+          visibilityBuilder_ = null;
+        }
+        internalGetMutableBindFormats().clear();
         widgetPropsCase_ = 0;
         widgetProps_ = null;
         return this;
@@ -7066,6 +11046,16 @@ java.lang.String defaultValue) {
               ? layout_
               : layoutBuilder_.build();
           to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x10000000) != 0)) {
+          result.visibility_ = visibilityBuilder_ == null
+              ? visibility_
+              : visibilityBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x20000000) != 0)) {
+          result.bindFormats_ = internalGetBindFormats();
+          result.bindFormats_.makeImmutable();
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -7238,6 +11228,12 @@ java.lang.String defaultValue) {
             }
           }
         }
+        if (other.hasVisibility()) {
+          mergeVisibility(other.getVisibility());
+        }
+        internalGetMutableBindFormats().mergeFrom(
+            other.internalGetBindFormats());
+        bitField0_ |= 0x20000000;
         switch (other.getWidgetPropsCase()) {
           case OBJ_PROPS: {
             mergeObjProps(other.getObjProps());
@@ -7547,6 +11543,22 @@ java.lang.String defaultValue) {
                 widgetPropsCase_ = 28;
                 break;
               } // case 226
+              case 234: {
+                input.readMessage(
+                    getVisibilityFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x10000000;
+                break;
+              } // case 234
+              case 242: {
+                com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+                bindFormats__ = input.readMessage(
+                    BindFormatsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+                internalGetMutableBindFormats().getMutableMap().put(
+                    bindFormats__.getKey(), bindFormats__.getValue());
+                bitField0_ |= 0x20000000;
+                break;
+              } // case 242
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -11607,6 +15619,318 @@ java.lang.String defaultValue) {
         widgetPropsCase_ = 28;
         onChanged();
         return tablePropsBuilder_;
+      }
+
+      private ui.UiAst.VisibilityBinding visibility_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> visibilityBuilder_;
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       * @return Whether the visibility field is set.
+       */
+      public boolean hasVisibility() {
+        return ((bitField0_ & 0x10000000) != 0);
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       * @return The visibility.
+       */
+      public ui.UiAst.VisibilityBinding getVisibility() {
+        if (visibilityBuilder_ == null) {
+          return visibility_ == null ? ui.UiAst.VisibilityBinding.getDefaultInstance() : visibility_;
+        } else {
+          return visibilityBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      public Builder setVisibility(ui.UiAst.VisibilityBinding value) {
+        if (visibilityBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          visibility_ = value;
+        } else {
+          visibilityBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      public Builder setVisibility(
+          ui.UiAst.VisibilityBinding.Builder builderForValue) {
+        if (visibilityBuilder_ == null) {
+          visibility_ = builderForValue.build();
+        } else {
+          visibilityBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      public Builder mergeVisibility(ui.UiAst.VisibilityBinding value) {
+        if (visibilityBuilder_ == null) {
+          if (((bitField0_ & 0x10000000) != 0) &&
+            visibility_ != null &&
+            visibility_ != ui.UiAst.VisibilityBinding.getDefaultInstance()) {
+            getVisibilityBuilder().mergeFrom(value);
+          } else {
+            visibility_ = value;
+          }
+        } else {
+          visibilityBuilder_.mergeFrom(value);
+        }
+        if (visibility_ != null) {
+          bitField0_ |= 0x10000000;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      public Builder clearVisibility() {
+        bitField0_ = (bitField0_ & ~0x10000000);
+        visibility_ = null;
+        if (visibilityBuilder_ != null) {
+          visibilityBuilder_.dispose();
+          visibilityBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      public ui.UiAst.VisibilityBinding.Builder getVisibilityBuilder() {
+        bitField0_ |= 0x10000000;
+        onChanged();
+        return getVisibilityFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      public ui.UiAst.VisibilityBindingOrBuilder getVisibilityOrBuilder() {
+        if (visibilityBuilder_ != null) {
+          return visibilityBuilder_.getMessageOrBuilder();
+        } else {
+          return visibility_ == null ?
+              ui.UiAst.VisibilityBinding.getDefaultInstance() : visibility_;
+        }
+      }
+      /**
+       * <pre>
+       * Conditional visibility binding (show/hide based on subject value)
+       * </pre>
+       *
+       * <code>.ui.VisibilityBinding visibility = 29;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder> 
+          getVisibilityFieldBuilder() {
+        if (visibilityBuilder_ == null) {
+          visibilityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiAst.VisibilityBinding, ui.UiAst.VisibilityBinding.Builder, ui.UiAst.VisibilityBindingOrBuilder>(
+                  getVisibility(),
+                  getParentForChildren(),
+                  isClean());
+          visibility_ = null;
+        }
+        return visibilityBuilder_;
+      }
+
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> bindFormats_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+          internalGetBindFormats() {
+        if (bindFormats_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              BindFormatsDefaultEntryHolder.defaultEntry);
+        }
+        return bindFormats_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+          internalGetMutableBindFormats() {
+        if (bindFormats_ == null) {
+          bindFormats_ = com.google.protobuf.MapField.newMapField(
+              BindFormatsDefaultEntryHolder.defaultEntry);
+        }
+        if (!bindFormats_.isMutable()) {
+          bindFormats_ = bindFormats_.copy();
+        }
+        bitField0_ |= 0x20000000;
+        onChanged();
+        return bindFormats_;
+      }
+      public int getBindFormatsCount() {
+        return internalGetBindFormats().getMap().size();
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      @java.lang.Override
+      public boolean containsBindFormats(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetBindFormats().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getBindFormatsMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getBindFormats() {
+        return getBindFormatsMap();
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      @java.lang.Override
+      public java.util.Map<java.lang.String, java.lang.String> getBindFormatsMap() {
+        return internalGetBindFormats().getMap();
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      @java.lang.Override
+      public /* nullable */
+java.lang.String getBindFormatsOrDefault(
+          java.lang.String key,
+          /* nullable */
+java.lang.String defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetBindFormats().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      @java.lang.Override
+      public java.lang.String getBindFormatsOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetBindFormats().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+      public Builder clearBindFormats() {
+        bitField0_ = (bitField0_ & ~0x20000000);
+        internalGetMutableBindFormats().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      public Builder removeBindFormats(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        internalGetMutableBindFormats().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+          getMutableBindFormats() {
+        bitField0_ |= 0x20000000;
+        return internalGetMutableBindFormats().getMutableMap();
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      public Builder putBindFormats(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        if (value == null) { throw new NullPointerException("map value"); }
+        internalGetMutableBindFormats().getMutableMap()
+            .put(key, value);
+        bitField0_ |= 0x20000000;
+        return this;
+      }
+      /**
+       * <pre>
+       * Format strings for bound text (key = binding key, value = printf format)
+       * </pre>
+       *
+       * <code>map&lt;string, string&gt; bind_formats = 30;</code>
+       */
+      public Builder putAllBindFormats(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableBindFormats().getMutableMap()
+            .putAll(values);
+        bitField0_ |= 0x20000000;
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.WidgetNode)
@@ -24200,53 +28524,112 @@ java.lang.String defaultValue) {
 
     /**
      * <pre>
-     * e.g., "zoom_in" (for logging)
+     * event keyword — IS the command identifier
      * </pre>
      *
-     * <code>string event_name = 1;</code>
-     * @return The eventName.
+     * <code>string name = 1;</code>
+     * @return The name.
      */
-    java.lang.String getEventName();
+    java.lang.String getName();
     /**
      * <pre>
-     * e.g., "zoom_in" (for logging)
+     * event keyword — IS the command identifier
      * </pre>
      *
-     * <code>string event_name = 1;</code>
-     * @return The bytes for eventName.
+     * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     com.google.protobuf.ByteString
-        getEventNameBytes();
+        getNameBytes();
 
     /**
      * <pre>
-     * binary command type ID (0x0105 etc.)
+     * which LVGL event fires this (default: CLICKED)
      * </pre>
      *
-     * <code>uint32 command_type = 2;</code>
-     * @return The commandType.
+     * <code>.ui.EventTrigger trigger = 2;</code>
+     * @return The enum numeric value on the wire for trigger.
      */
-    int getCommandType();
-
+    int getTriggerValue();
     /**
      * <pre>
-     * default float arg (can be 0)
+     * which LVGL event fires this (default: CLICKED)
      * </pre>
      *
-     * <code>double float_value = 3;</code>
-     * @return The floatValue.
+     * <code>.ui.EventTrigger trigger = 2;</code>
+     * @return The trigger.
      */
-    double getFloatValue();
+    ui.UiAst.EventTrigger getTrigger();
 
     /**
      * <pre>
-     * default int arg (can be 0)
+     * static int payload
      * </pre>
      *
-     * <code>int32 int_value = 4;</code>
+     * <code>int32 int_value = 3;</code>
      * @return The intValue.
      */
     int getIntValue();
+
+    /**
+     * <pre>
+     * inject widget's current value as int_value
+     * </pre>
+     *
+     * <code>bool include_widget_value = 4;</code>
+     * @return The includeWidgetValue.
+     */
+    boolean getIncludeWidgetValue();
+
+    /**
+     * <pre>
+     * local subject to mutate (empty = host event)
+     * </pre>
+     *
+     * <code>string set_subject = 5;</code>
+     * @return The setSubject.
+     */
+    java.lang.String getSetSubject();
+    /**
+     * <pre>
+     * local subject to mutate (empty = host event)
+     * </pre>
+     *
+     * <code>string set_subject = 5;</code>
+     * @return The bytes for setSubject.
+     */
+    com.google.protobuf.ByteString
+        getSetSubjectBytes();
+
+    /**
+     * <pre>
+     * value to set on subject
+     * </pre>
+     *
+     * <code>int32 set_value = 6;</code>
+     * @return The setValue.
+     */
+    int getSetValue();
+
+    /**
+     * <pre>
+     * flip 0↔1 instead of set_value
+     * </pre>
+     *
+     * <code>bool toggle = 7;</code>
+     * @return The toggle.
+     */
+    boolean getToggle();
+
+    /**
+     * <pre>
+     * also send to host when mutating subject
+     * </pre>
+     *
+     * <code>bool notify_host = 8;</code>
+     * @return The notifyHost.
+     */
+    boolean getNotifyHost();
   }
   /**
    * Protobuf type {@code ui.EventBinding}
@@ -24270,7 +28653,9 @@ java.lang.String defaultValue) {
       super(builder);
     }
     private EventBinding() {
-      eventName_ = "";
+      name_ = "";
+      trigger_ = 0;
+      setSubject_ = "";
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -24286,96 +28671,199 @@ java.lang.String defaultValue) {
               ui.UiAst.EventBinding.class, ui.UiAst.EventBinding.Builder.class);
     }
 
-    public static final int EVENT_NAME_FIELD_NUMBER = 1;
+    public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
-    private volatile java.lang.Object eventName_ = "";
+    private volatile java.lang.Object name_ = "";
     /**
      * <pre>
-     * e.g., "zoom_in" (for logging)
+     * event keyword — IS the command identifier
      * </pre>
      *
-     * <code>string event_name = 1;</code>
-     * @return The eventName.
+     * <code>string name = 1;</code>
+     * @return The name.
      */
     @java.lang.Override
-    public java.lang.String getEventName() {
-      java.lang.Object ref = eventName_;
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        eventName_ = s;
+        name_ = s;
         return s;
       }
     }
     /**
      * <pre>
-     * e.g., "zoom_in" (for logging)
+     * event keyword — IS the command identifier
      * </pre>
      *
-     * <code>string event_name = 1;</code>
-     * @return The bytes for eventName.
+     * <code>string name = 1;</code>
+     * @return The bytes for name.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString
-        getEventNameBytes() {
-      java.lang.Object ref = eventName_;
+        getNameBytes() {
+      java.lang.Object ref = name_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        eventName_ = b;
+        name_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
-    public static final int COMMAND_TYPE_FIELD_NUMBER = 2;
-    private int commandType_ = 0;
+    public static final int TRIGGER_FIELD_NUMBER = 2;
+    private int trigger_ = 0;
     /**
      * <pre>
-     * binary command type ID (0x0105 etc.)
+     * which LVGL event fires this (default: CLICKED)
      * </pre>
      *
-     * <code>uint32 command_type = 2;</code>
-     * @return The commandType.
+     * <code>.ui.EventTrigger trigger = 2;</code>
+     * @return The enum numeric value on the wire for trigger.
      */
-    @java.lang.Override
-    public int getCommandType() {
-      return commandType_;
+    @java.lang.Override public int getTriggerValue() {
+      return trigger_;
     }
-
-    public static final int FLOAT_VALUE_FIELD_NUMBER = 3;
-    private double floatValue_ = 0D;
     /**
      * <pre>
-     * default float arg (can be 0)
+     * which LVGL event fires this (default: CLICKED)
      * </pre>
      *
-     * <code>double float_value = 3;</code>
-     * @return The floatValue.
+     * <code>.ui.EventTrigger trigger = 2;</code>
+     * @return The trigger.
      */
-    @java.lang.Override
-    public double getFloatValue() {
-      return floatValue_;
+    @java.lang.Override public ui.UiAst.EventTrigger getTrigger() {
+      ui.UiAst.EventTrigger result = ui.UiAst.EventTrigger.forNumber(trigger_);
+      return result == null ? ui.UiAst.EventTrigger.UNRECOGNIZED : result;
     }
 
-    public static final int INT_VALUE_FIELD_NUMBER = 4;
+    public static final int INT_VALUE_FIELD_NUMBER = 3;
     private int intValue_ = 0;
     /**
      * <pre>
-     * default int arg (can be 0)
+     * static int payload
      * </pre>
      *
-     * <code>int32 int_value = 4;</code>
+     * <code>int32 int_value = 3;</code>
      * @return The intValue.
      */
     @java.lang.Override
     public int getIntValue() {
       return intValue_;
+    }
+
+    public static final int INCLUDE_WIDGET_VALUE_FIELD_NUMBER = 4;
+    private boolean includeWidgetValue_ = false;
+    /**
+     * <pre>
+     * inject widget's current value as int_value
+     * </pre>
+     *
+     * <code>bool include_widget_value = 4;</code>
+     * @return The includeWidgetValue.
+     */
+    @java.lang.Override
+    public boolean getIncludeWidgetValue() {
+      return includeWidgetValue_;
+    }
+
+    public static final int SET_SUBJECT_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object setSubject_ = "";
+    /**
+     * <pre>
+     * local subject to mutate (empty = host event)
+     * </pre>
+     *
+     * <code>string set_subject = 5;</code>
+     * @return The setSubject.
+     */
+    @java.lang.Override
+    public java.lang.String getSetSubject() {
+      java.lang.Object ref = setSubject_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        setSubject_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * local subject to mutate (empty = host event)
+     * </pre>
+     *
+     * <code>string set_subject = 5;</code>
+     * @return The bytes for setSubject.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSetSubjectBytes() {
+      java.lang.Object ref = setSubject_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        setSubject_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SET_VALUE_FIELD_NUMBER = 6;
+    private int setValue_ = 0;
+    /**
+     * <pre>
+     * value to set on subject
+     * </pre>
+     *
+     * <code>int32 set_value = 6;</code>
+     * @return The setValue.
+     */
+    @java.lang.Override
+    public int getSetValue() {
+      return setValue_;
+    }
+
+    public static final int TOGGLE_FIELD_NUMBER = 7;
+    private boolean toggle_ = false;
+    /**
+     * <pre>
+     * flip 0↔1 instead of set_value
+     * </pre>
+     *
+     * <code>bool toggle = 7;</code>
+     * @return The toggle.
+     */
+    @java.lang.Override
+    public boolean getToggle() {
+      return toggle_;
+    }
+
+    public static final int NOTIFY_HOST_FIELD_NUMBER = 8;
+    private boolean notifyHost_ = false;
+    /**
+     * <pre>
+     * also send to host when mutating subject
+     * </pre>
+     *
+     * <code>bool notify_host = 8;</code>
+     * @return The notifyHost.
+     */
+    @java.lang.Override
+    public boolean getNotifyHost() {
+      return notifyHost_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -24392,17 +28880,29 @@ java.lang.String defaultValue) {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(eventName_)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, eventName_);
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(name_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
       }
-      if (commandType_ != 0) {
-        output.writeUInt32(2, commandType_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(floatValue_) != 0) {
-        output.writeDouble(3, floatValue_);
+      if (trigger_ != ui.UiAst.EventTrigger.TRIGGER_CLICKED.getNumber()) {
+        output.writeEnum(2, trigger_);
       }
       if (intValue_ != 0) {
-        output.writeInt32(4, intValue_);
+        output.writeInt32(3, intValue_);
+      }
+      if (includeWidgetValue_ != false) {
+        output.writeBool(4, includeWidgetValue_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(setSubject_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 5, setSubject_);
+      }
+      if (setValue_ != 0) {
+        output.writeInt32(6, setValue_);
+      }
+      if (toggle_ != false) {
+        output.writeBool(7, toggle_);
+      }
+      if (notifyHost_ != false) {
+        output.writeBool(8, notifyHost_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -24413,20 +28913,35 @@ java.lang.String defaultValue) {
       if (size != -1) return size;
 
       size = 0;
-      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(eventName_)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, eventName_);
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(name_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
       }
-      if (commandType_ != 0) {
+      if (trigger_ != ui.UiAst.EventTrigger.TRIGGER_CLICKED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, commandType_);
-      }
-      if (java.lang.Double.doubleToRawLongBits(floatValue_) != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(3, floatValue_);
+          .computeEnumSize(2, trigger_);
       }
       if (intValue_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, intValue_);
+          .computeInt32Size(3, intValue_);
+      }
+      if (includeWidgetValue_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, includeWidgetValue_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(setSubject_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(5, setSubject_);
+      }
+      if (setValue_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, setValue_);
+      }
+      if (toggle_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, toggle_);
+      }
+      if (notifyHost_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(8, notifyHost_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -24443,15 +28958,21 @@ java.lang.String defaultValue) {
       }
       ui.UiAst.EventBinding other = (ui.UiAst.EventBinding) obj;
 
-      if (!getEventName()
-          .equals(other.getEventName())) return false;
-      if (getCommandType()
-          != other.getCommandType()) return false;
-      if (java.lang.Double.doubleToLongBits(getFloatValue())
-          != java.lang.Double.doubleToLongBits(
-              other.getFloatValue())) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
+      if (trigger_ != other.trigger_) return false;
       if (getIntValue()
           != other.getIntValue()) return false;
+      if (getIncludeWidgetValue()
+          != other.getIncludeWidgetValue()) return false;
+      if (!getSetSubject()
+          .equals(other.getSetSubject())) return false;
+      if (getSetValue()
+          != other.getSetValue()) return false;
+      if (getToggle()
+          != other.getToggle()) return false;
+      if (getNotifyHost()
+          != other.getNotifyHost()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -24463,15 +28984,25 @@ java.lang.String defaultValue) {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + EVENT_NAME_FIELD_NUMBER;
-      hash = (53 * hash) + getEventName().hashCode();
-      hash = (37 * hash) + COMMAND_TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getCommandType();
-      hash = (37 * hash) + FLOAT_VALUE_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          java.lang.Double.doubleToLongBits(getFloatValue()));
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + TRIGGER_FIELD_NUMBER;
+      hash = (53 * hash) + trigger_;
       hash = (37 * hash) + INT_VALUE_FIELD_NUMBER;
       hash = (53 * hash) + getIntValue();
+      hash = (37 * hash) + INCLUDE_WIDGET_VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIncludeWidgetValue());
+      hash = (37 * hash) + SET_SUBJECT_FIELD_NUMBER;
+      hash = (53 * hash) + getSetSubject().hashCode();
+      hash = (37 * hash) + SET_VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getSetValue();
+      hash = (37 * hash) + TOGGLE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getToggle());
+      hash = (37 * hash) + NOTIFY_HOST_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getNotifyHost());
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -24603,10 +29134,14 @@ java.lang.String defaultValue) {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
-        eventName_ = "";
-        commandType_ = 0;
-        floatValue_ = 0D;
+        name_ = "";
+        trigger_ = 0;
         intValue_ = 0;
+        includeWidgetValue_ = false;
+        setSubject_ = "";
+        setValue_ = 0;
+        toggle_ = false;
+        notifyHost_ = false;
         return this;
       }
 
@@ -24641,16 +29176,28 @@ java.lang.String defaultValue) {
       private void buildPartial0(ui.UiAst.EventBinding result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.eventName_ = eventName_;
+          result.name_ = name_;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.commandType_ = commandType_;
+          result.trigger_ = trigger_;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.floatValue_ = floatValue_;
+          result.intValue_ = intValue_;
         }
         if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.intValue_ = intValue_;
+          result.includeWidgetValue_ = includeWidgetValue_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.setSubject_ = setSubject_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.setValue_ = setValue_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.toggle_ = toggle_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.notifyHost_ = notifyHost_;
         }
       }
 
@@ -24666,19 +29213,33 @@ java.lang.String defaultValue) {
 
       public Builder mergeFrom(ui.UiAst.EventBinding other) {
         if (other == ui.UiAst.EventBinding.getDefaultInstance()) return this;
-        if (!other.getEventName().isEmpty()) {
-          eventName_ = other.eventName_;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
           bitField0_ |= 0x00000001;
           onChanged();
         }
-        if (other.getCommandType() != 0) {
-          setCommandType(other.getCommandType());
-        }
-        if (other.getFloatValue() != 0D) {
-          setFloatValue(other.getFloatValue());
+        if (other.trigger_ != 0) {
+          setTriggerValue(other.getTriggerValue());
         }
         if (other.getIntValue() != 0) {
           setIntValue(other.getIntValue());
+        }
+        if (other.getIncludeWidgetValue() != false) {
+          setIncludeWidgetValue(other.getIncludeWidgetValue());
+        }
+        if (!other.getSetSubject().isEmpty()) {
+          setSubject_ = other.setSubject_;
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        if (other.getSetValue() != 0) {
+          setSetValue(other.getSetValue());
+        }
+        if (other.getToggle() != false) {
+          setToggle(other.getToggle());
+        }
+        if (other.getNotifyHost() != false) {
+          setNotifyHost(other.getNotifyHost());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -24707,25 +29268,45 @@ java.lang.String defaultValue) {
                 done = true;
                 break;
               case 10: {
-                eventName_ = input.readStringRequireUtf8();
+                name_ = input.readStringRequireUtf8();
                 bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 16: {
-                commandType_ = input.readUInt32();
+                trigger_ = input.readEnum();
                 bitField0_ |= 0x00000002;
                 break;
               } // case 16
-              case 25: {
-                floatValue_ = input.readDouble();
+              case 24: {
+                intValue_ = input.readInt32();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 25
+              } // case 24
               case 32: {
-                intValue_ = input.readInt32();
+                includeWidgetValue_ = input.readBool();
                 bitField0_ |= 0x00000008;
                 break;
               } // case 32
+              case 42: {
+                setSubject_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 48: {
+                setValue_ = input.readInt32();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
+              case 56: {
+                toggle_ = input.readBool();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 64: {
+                notifyHost_ = input.readBool();
+                bitField0_ |= 0x00000080;
+                break;
+              } // case 64
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -24743,22 +29324,22 @@ java.lang.String defaultValue) {
       }
       private int bitField0_;
 
-      private java.lang.Object eventName_ = "";
+      private java.lang.Object name_ = "";
       /**
        * <pre>
-       * e.g., "zoom_in" (for logging)
+       * event keyword — IS the command identifier
        * </pre>
        *
-       * <code>string event_name = 1;</code>
-       * @return The eventName.
+       * <code>string name = 1;</code>
+       * @return The name.
        */
-      public java.lang.String getEventName() {
-        java.lang.Object ref = eventName_;
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          eventName_ = s;
+          name_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -24766,20 +29347,20 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * e.g., "zoom_in" (for logging)
+       * event keyword — IS the command identifier
        * </pre>
        *
-       * <code>string event_name = 1;</code>
-       * @return The bytes for eventName.
+       * <code>string name = 1;</code>
+       * @return The bytes for name.
        */
       public com.google.protobuf.ByteString
-          getEventNameBytes() {
-        java.lang.Object ref = eventName_;
+          getNameBytes() {
+        java.lang.Object ref = name_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          eventName_ = b;
+          name_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
@@ -24787,138 +29368,123 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * e.g., "zoom_in" (for logging)
+       * event keyword — IS the command identifier
        * </pre>
        *
-       * <code>string event_name = 1;</code>
-       * @param value The eventName to set.
+       * <code>string name = 1;</code>
+       * @param value The name to set.
        * @return This builder for chaining.
        */
-      public Builder setEventName(
+      public Builder setName(
           java.lang.String value) {
         if (value == null) { throw new NullPointerException(); }
-        eventName_ = value;
+        name_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * e.g., "zoom_in" (for logging)
+       * event keyword — IS the command identifier
        * </pre>
        *
-       * <code>string event_name = 1;</code>
+       * <code>string name = 1;</code>
        * @return This builder for chaining.
        */
-      public Builder clearEventName() {
-        eventName_ = getDefaultInstance().getEventName();
+      public Builder clearName() {
+        name_ = getDefaultInstance().getName();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * e.g., "zoom_in" (for logging)
+       * event keyword — IS the command identifier
        * </pre>
        *
-       * <code>string event_name = 1;</code>
-       * @param value The bytes for eventName to set.
+       * <code>string name = 1;</code>
+       * @param value The bytes for name to set.
        * @return This builder for chaining.
        */
-      public Builder setEventNameBytes(
+      public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
-        eventName_ = value;
+        name_ = value;
         bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
 
-      private int commandType_ ;
+      private int trigger_ = 0;
       /**
        * <pre>
-       * binary command type ID (0x0105 etc.)
+       * which LVGL event fires this (default: CLICKED)
        * </pre>
        *
-       * <code>uint32 command_type = 2;</code>
-       * @return The commandType.
+       * <code>.ui.EventTrigger trigger = 2;</code>
+       * @return The enum numeric value on the wire for trigger.
        */
-      @java.lang.Override
-      public int getCommandType() {
-        return commandType_;
+      @java.lang.Override public int getTriggerValue() {
+        return trigger_;
       }
       /**
        * <pre>
-       * binary command type ID (0x0105 etc.)
+       * which LVGL event fires this (default: CLICKED)
        * </pre>
        *
-       * <code>uint32 command_type = 2;</code>
-       * @param value The commandType to set.
+       * <code>.ui.EventTrigger trigger = 2;</code>
+       * @param value The enum numeric value on the wire for trigger to set.
        * @return This builder for chaining.
        */
-      public Builder setCommandType(int value) {
-
-        commandType_ = value;
+      public Builder setTriggerValue(int value) {
+        trigger_ = value;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * binary command type ID (0x0105 etc.)
+       * which LVGL event fires this (default: CLICKED)
        * </pre>
        *
-       * <code>uint32 command_type = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearCommandType() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        commandType_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private double floatValue_ ;
-      /**
-       * <pre>
-       * default float arg (can be 0)
-       * </pre>
-       *
-       * <code>double float_value = 3;</code>
-       * @return The floatValue.
+       * <code>.ui.EventTrigger trigger = 2;</code>
+       * @return The trigger.
        */
       @java.lang.Override
-      public double getFloatValue() {
-        return floatValue_;
+      public ui.UiAst.EventTrigger getTrigger() {
+        ui.UiAst.EventTrigger result = ui.UiAst.EventTrigger.forNumber(trigger_);
+        return result == null ? ui.UiAst.EventTrigger.UNRECOGNIZED : result;
       }
       /**
        * <pre>
-       * default float arg (can be 0)
+       * which LVGL event fires this (default: CLICKED)
        * </pre>
        *
-       * <code>double float_value = 3;</code>
-       * @param value The floatValue to set.
+       * <code>.ui.EventTrigger trigger = 2;</code>
+       * @param value The trigger to set.
        * @return This builder for chaining.
        */
-      public Builder setFloatValue(double value) {
-
-        floatValue_ = value;
-        bitField0_ |= 0x00000004;
+      public Builder setTrigger(ui.UiAst.EventTrigger value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        trigger_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * default float arg (can be 0)
+       * which LVGL event fires this (default: CLICKED)
        * </pre>
        *
-       * <code>double float_value = 3;</code>
+       * <code>.ui.EventTrigger trigger = 2;</code>
        * @return This builder for chaining.
        */
-      public Builder clearFloatValue() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        floatValue_ = 0D;
+      public Builder clearTrigger() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        trigger_ = 0;
         onChanged();
         return this;
       }
@@ -24926,10 +29492,10 @@ java.lang.String defaultValue) {
       private int intValue_ ;
       /**
        * <pre>
-       * default int arg (can be 0)
+       * static int payload
        * </pre>
        *
-       * <code>int32 int_value = 4;</code>
+       * <code>int32 int_value = 3;</code>
        * @return The intValue.
        */
       @java.lang.Override
@@ -24938,31 +29504,299 @@ java.lang.String defaultValue) {
       }
       /**
        * <pre>
-       * default int arg (can be 0)
+       * static int payload
        * </pre>
        *
-       * <code>int32 int_value = 4;</code>
+       * <code>int32 int_value = 3;</code>
        * @param value The intValue to set.
        * @return This builder for chaining.
        */
       public Builder setIntValue(int value) {
 
         intValue_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * static int payload
+       * </pre>
+       *
+       * <code>int32 int_value = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIntValue() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        intValue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean includeWidgetValue_ ;
+      /**
+       * <pre>
+       * inject widget's current value as int_value
+       * </pre>
+       *
+       * <code>bool include_widget_value = 4;</code>
+       * @return The includeWidgetValue.
+       */
+      @java.lang.Override
+      public boolean getIncludeWidgetValue() {
+        return includeWidgetValue_;
+      }
+      /**
+       * <pre>
+       * inject widget's current value as int_value
+       * </pre>
+       *
+       * <code>bool include_widget_value = 4;</code>
+       * @param value The includeWidgetValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIncludeWidgetValue(boolean value) {
+
+        includeWidgetValue_ = value;
         bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * default int arg (can be 0)
+       * inject widget's current value as int_value
        * </pre>
        *
-       * <code>int32 int_value = 4;</code>
+       * <code>bool include_widget_value = 4;</code>
        * @return This builder for chaining.
        */
-      public Builder clearIntValue() {
+      public Builder clearIncludeWidgetValue() {
         bitField0_ = (bitField0_ & ~0x00000008);
-        intValue_ = 0;
+        includeWidgetValue_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object setSubject_ = "";
+      /**
+       * <pre>
+       * local subject to mutate (empty = host event)
+       * </pre>
+       *
+       * <code>string set_subject = 5;</code>
+       * @return The setSubject.
+       */
+      public java.lang.String getSetSubject() {
+        java.lang.Object ref = setSubject_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          setSubject_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * local subject to mutate (empty = host event)
+       * </pre>
+       *
+       * <code>string set_subject = 5;</code>
+       * @return The bytes for setSubject.
+       */
+      public com.google.protobuf.ByteString
+          getSetSubjectBytes() {
+        java.lang.Object ref = setSubject_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          setSubject_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * local subject to mutate (empty = host event)
+       * </pre>
+       *
+       * <code>string set_subject = 5;</code>
+       * @param value The setSubject to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSetSubject(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        setSubject_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * local subject to mutate (empty = host event)
+       * </pre>
+       *
+       * <code>string set_subject = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSetSubject() {
+        setSubject_ = getDefaultInstance().getSetSubject();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * local subject to mutate (empty = host event)
+       * </pre>
+       *
+       * <code>string set_subject = 5;</code>
+       * @param value The bytes for setSubject to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSetSubjectBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        setSubject_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+
+      private int setValue_ ;
+      /**
+       * <pre>
+       * value to set on subject
+       * </pre>
+       *
+       * <code>int32 set_value = 6;</code>
+       * @return The setValue.
+       */
+      @java.lang.Override
+      public int getSetValue() {
+        return setValue_;
+      }
+      /**
+       * <pre>
+       * value to set on subject
+       * </pre>
+       *
+       * <code>int32 set_value = 6;</code>
+       * @param value The setValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSetValue(int value) {
+
+        setValue_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * value to set on subject
+       * </pre>
+       *
+       * <code>int32 set_value = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSetValue() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        setValue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean toggle_ ;
+      /**
+       * <pre>
+       * flip 0↔1 instead of set_value
+       * </pre>
+       *
+       * <code>bool toggle = 7;</code>
+       * @return The toggle.
+       */
+      @java.lang.Override
+      public boolean getToggle() {
+        return toggle_;
+      }
+      /**
+       * <pre>
+       * flip 0↔1 instead of set_value
+       * </pre>
+       *
+       * <code>bool toggle = 7;</code>
+       * @param value The toggle to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToggle(boolean value) {
+
+        toggle_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * flip 0↔1 instead of set_value
+       * </pre>
+       *
+       * <code>bool toggle = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToggle() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        toggle_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean notifyHost_ ;
+      /**
+       * <pre>
+       * also send to host when mutating subject
+       * </pre>
+       *
+       * <code>bool notify_host = 8;</code>
+       * @return The notifyHost.
+       */
+      @java.lang.Override
+      public boolean getNotifyHost() {
+        return notifyHost_;
+      }
+      /**
+       * <pre>
+       * also send to host when mutating subject
+       * </pre>
+       *
+       * <code>bool notify_host = 8;</code>
+       * @param value The notifyHost to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNotifyHost(boolean value) {
+
+        notifyHost_ = value;
+        bitField0_ |= 0x00000080;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * also send to host when mutating subject
+       * </pre>
+       *
+       * <code>bool notify_host = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNotifyHost() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        notifyHost_ = false;
         onChanged();
         return this;
       }
@@ -25013,6 +29847,793 @@ java.lang.String defaultValue) {
 
     @java.lang.Override
     public ui.UiAst.EventBinding getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface VisibilityBindingOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.VisibilityBinding)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * subject name to observe
+     * </pre>
+     *
+     * <code>string subject = 1;</code>
+     * @return The subject.
+     */
+    java.lang.String getSubject();
+    /**
+     * <pre>
+     * subject name to observe
+     * </pre>
+     *
+     * <code>string subject = 1;</code>
+     * @return The bytes for subject.
+     */
+    com.google.protobuf.ByteString
+        getSubjectBytes();
+
+    /**
+     * <pre>
+     * reference value for comparison
+     * </pre>
+     *
+     * <code>int32 ref_value = 2;</code>
+     * @return The refValue.
+     */
+    int getRefValue();
+
+    /**
+     * <pre>
+     * comparison operator (default: EQ)
+     * </pre>
+     *
+     * <code>.ui.CompareOp compare = 3;</code>
+     * @return The enum numeric value on the wire for compare.
+     */
+    int getCompareValue();
+    /**
+     * <pre>
+     * comparison operator (default: EQ)
+     * </pre>
+     *
+     * <code>.ui.CompareOp compare = 3;</code>
+     * @return The compare.
+     */
+    ui.UiAst.CompareOp getCompare();
+  }
+  /**
+   * <pre>
+   * Conditional visibility — show/hide widget based on subject value comparison.
+   * </pre>
+   *
+   * Protobuf type {@code ui.VisibilityBinding}
+   */
+  public static final class VisibilityBinding extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.VisibilityBinding)
+      VisibilityBindingOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        VisibilityBinding.class.getName());
+    }
+    // Use VisibilityBinding.newBuilder() to construct.
+    private VisibilityBinding(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private VisibilityBinding() {
+      subject_ = "";
+      compare_ = 0;
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiAst.internal_static_ui_VisibilityBinding_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiAst.internal_static_ui_VisibilityBinding_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiAst.VisibilityBinding.class, ui.UiAst.VisibilityBinding.Builder.class);
+    }
+
+    public static final int SUBJECT_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object subject_ = "";
+    /**
+     * <pre>
+     * subject name to observe
+     * </pre>
+     *
+     * <code>string subject = 1;</code>
+     * @return The subject.
+     */
+    @java.lang.Override
+    public java.lang.String getSubject() {
+      java.lang.Object ref = subject_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        subject_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * subject name to observe
+     * </pre>
+     *
+     * <code>string subject = 1;</code>
+     * @return The bytes for subject.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getSubjectBytes() {
+      java.lang.Object ref = subject_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        subject_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int REF_VALUE_FIELD_NUMBER = 2;
+    private int refValue_ = 0;
+    /**
+     * <pre>
+     * reference value for comparison
+     * </pre>
+     *
+     * <code>int32 ref_value = 2;</code>
+     * @return The refValue.
+     */
+    @java.lang.Override
+    public int getRefValue() {
+      return refValue_;
+    }
+
+    public static final int COMPARE_FIELD_NUMBER = 3;
+    private int compare_ = 0;
+    /**
+     * <pre>
+     * comparison operator (default: EQ)
+     * </pre>
+     *
+     * <code>.ui.CompareOp compare = 3;</code>
+     * @return The enum numeric value on the wire for compare.
+     */
+    @java.lang.Override public int getCompareValue() {
+      return compare_;
+    }
+    /**
+     * <pre>
+     * comparison operator (default: EQ)
+     * </pre>
+     *
+     * <code>.ui.CompareOp compare = 3;</code>
+     * @return The compare.
+     */
+    @java.lang.Override public ui.UiAst.CompareOp getCompare() {
+      ui.UiAst.CompareOp result = ui.UiAst.CompareOp.forNumber(compare_);
+      return result == null ? ui.UiAst.CompareOp.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(subject_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, subject_);
+      }
+      if (refValue_ != 0) {
+        output.writeInt32(2, refValue_);
+      }
+      if (compare_ != ui.UiAst.CompareOp.COMPARE_EQ.getNumber()) {
+        output.writeEnum(3, compare_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(subject_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, subject_);
+      }
+      if (refValue_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, refValue_);
+      }
+      if (compare_ != ui.UiAst.CompareOp.COMPARE_EQ.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, compare_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiAst.VisibilityBinding)) {
+        return super.equals(obj);
+      }
+      ui.UiAst.VisibilityBinding other = (ui.UiAst.VisibilityBinding) obj;
+
+      if (!getSubject()
+          .equals(other.getSubject())) return false;
+      if (getRefValue()
+          != other.getRefValue()) return false;
+      if (compare_ != other.compare_) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SUBJECT_FIELD_NUMBER;
+      hash = (53 * hash) + getSubject().hashCode();
+      hash = (37 * hash) + REF_VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getRefValue();
+      hash = (37 * hash) + COMPARE_FIELD_NUMBER;
+      hash = (53 * hash) + compare_;
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiAst.VisibilityBinding parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiAst.VisibilityBinding parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiAst.VisibilityBinding parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiAst.VisibilityBinding prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Conditional visibility — show/hide widget based on subject value comparison.
+     * </pre>
+     *
+     * Protobuf type {@code ui.VisibilityBinding}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.VisibilityBinding)
+        ui.UiAst.VisibilityBindingOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiAst.internal_static_ui_VisibilityBinding_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiAst.internal_static_ui_VisibilityBinding_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiAst.VisibilityBinding.class, ui.UiAst.VisibilityBinding.Builder.class);
+      }
+
+      // Construct using ui.UiAst.VisibilityBinding.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        subject_ = "";
+        refValue_ = 0;
+        compare_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiAst.internal_static_ui_VisibilityBinding_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.VisibilityBinding getDefaultInstanceForType() {
+        return ui.UiAst.VisibilityBinding.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiAst.VisibilityBinding build() {
+        ui.UiAst.VisibilityBinding result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiAst.VisibilityBinding buildPartial() {
+        ui.UiAst.VisibilityBinding result = new ui.UiAst.VisibilityBinding(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiAst.VisibilityBinding result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.subject_ = subject_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.refValue_ = refValue_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.compare_ = compare_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiAst.VisibilityBinding) {
+          return mergeFrom((ui.UiAst.VisibilityBinding)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiAst.VisibilityBinding other) {
+        if (other == ui.UiAst.VisibilityBinding.getDefaultInstance()) return this;
+        if (!other.getSubject().isEmpty()) {
+          subject_ = other.subject_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.getRefValue() != 0) {
+          setRefValue(other.getRefValue());
+        }
+        if (other.compare_ != 0) {
+          setCompareValue(other.getCompareValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                subject_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                refValue_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                compare_ = input.readEnum();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object subject_ = "";
+      /**
+       * <pre>
+       * subject name to observe
+       * </pre>
+       *
+       * <code>string subject = 1;</code>
+       * @return The subject.
+       */
+      public java.lang.String getSubject() {
+        java.lang.Object ref = subject_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          subject_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * subject name to observe
+       * </pre>
+       *
+       * <code>string subject = 1;</code>
+       * @return The bytes for subject.
+       */
+      public com.google.protobuf.ByteString
+          getSubjectBytes() {
+        java.lang.Object ref = subject_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          subject_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * subject name to observe
+       * </pre>
+       *
+       * <code>string subject = 1;</code>
+       * @param value The subject to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSubject(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        subject_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * subject name to observe
+       * </pre>
+       *
+       * <code>string subject = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSubject() {
+        subject_ = getDefaultInstance().getSubject();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * subject name to observe
+       * </pre>
+       *
+       * <code>string subject = 1;</code>
+       * @param value The bytes for subject to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSubjectBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        subject_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private int refValue_ ;
+      /**
+       * <pre>
+       * reference value for comparison
+       * </pre>
+       *
+       * <code>int32 ref_value = 2;</code>
+       * @return The refValue.
+       */
+      @java.lang.Override
+      public int getRefValue() {
+        return refValue_;
+      }
+      /**
+       * <pre>
+       * reference value for comparison
+       * </pre>
+       *
+       * <code>int32 ref_value = 2;</code>
+       * @param value The refValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRefValue(int value) {
+
+        refValue_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * reference value for comparison
+       * </pre>
+       *
+       * <code>int32 ref_value = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRefValue() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        refValue_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int compare_ = 0;
+      /**
+       * <pre>
+       * comparison operator (default: EQ)
+       * </pre>
+       *
+       * <code>.ui.CompareOp compare = 3;</code>
+       * @return The enum numeric value on the wire for compare.
+       */
+      @java.lang.Override public int getCompareValue() {
+        return compare_;
+      }
+      /**
+       * <pre>
+       * comparison operator (default: EQ)
+       * </pre>
+       *
+       * <code>.ui.CompareOp compare = 3;</code>
+       * @param value The enum numeric value on the wire for compare to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCompareValue(int value) {
+        compare_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * comparison operator (default: EQ)
+       * </pre>
+       *
+       * <code>.ui.CompareOp compare = 3;</code>
+       * @return The compare.
+       */
+      @java.lang.Override
+      public ui.UiAst.CompareOp getCompare() {
+        ui.UiAst.CompareOp result = ui.UiAst.CompareOp.forNumber(compare_);
+        return result == null ? ui.UiAst.CompareOp.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * comparison operator (default: EQ)
+       * </pre>
+       *
+       * <code>.ui.CompareOp compare = 3;</code>
+       * @param value The compare to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCompare(ui.UiAst.CompareOp value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000004;
+        compare_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * comparison operator (default: EQ)
+       * </pre>
+       *
+       * <code>.ui.CompareOp compare = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCompare() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        compare_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.VisibilityBinding)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.VisibilityBinding)
+    private static final ui.UiAst.VisibilityBinding DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiAst.VisibilityBinding();
+    }
+
+    public static ui.UiAst.VisibilityBinding getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<VisibilityBinding>
+        PARSER = new com.google.protobuf.AbstractParser<VisibilityBinding>() {
+      @java.lang.Override
+      public VisibilityBinding parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<VisibilityBinding> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<VisibilityBinding> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiAst.VisibilityBinding getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -30367,6 +35988,21 @@ java.lang.String defaultValue) {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_SubjectDeclaration_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_SubjectDeclaration_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_StateUpdate_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_StateUpdate_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_SubjectValue_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_SubjectValue_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_Screen_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -30381,6 +36017,11 @@ java.lang.String defaultValue) {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_WidgetNode_BindFormatsEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_WidgetNode_BindFormatsEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_ObjProps_descriptor;
   private static final 
@@ -30487,6 +36128,11 @@ java.lang.String defaultValue) {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_EventBinding_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_VisibilityBinding_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_VisibilityBinding_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_Layout_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -30525,403 +36171,456 @@ java.lang.String defaultValue) {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017ui/ui_ast.proto\022\002ui\"4\n\006Screen\022!\n\004root\030" +
-      "\001 \001(\0132\016.ui.WidgetNodeH\000\210\001\001B\007\n\005_root\"\307\010\n\n" +
-      "WidgetNode\022\034\n\004type\030\001 \001(\0162\016.ui.WidgetType" +
-      "\022\t\n\001x\030\002 \001(\005\022\t\n\001y\030\003 \001(\005\022\014\n\004text\030\004 \001(\t\022.\n\010" +
-      "bindings\030\005 \003(\0132\034.ui.WidgetNode.BindingsE" +
-      "ntry\022\037\n\005event\030\006 \001(\0132\020.ui.EventBinding\022\032\n" +
-      "\006layout\030\007 \001(\0132\n.ui.Layout\022 \n\010children\030\010 " +
-      "\003(\0132\016.ui.WidgetNode\022$\n\014style_groups\030\t \003(" +
-      "\0132\016.ui.StyleGroup\022!\n\tobj_props\030\n \001(\0132\014.u" +
-      "i.ObjPropsH\000\022\'\n\014button_props\030\013 \001(\0132\017.ui." +
-      "ButtonPropsH\000\022%\n\013label_props\030\014 \001(\0132\016.ui." +
-      "LabelPropsH\000\022\'\n\014slider_props\030\r \001(\0132\017.ui." +
-      "SliderPropsH\000\022%\n\013image_props\030\016 \001(\0132\016.ui." +
-      "ImagePropsH\000\022!\n\tarc_props\030\017 \001(\0132\014.ui.Arc" +
-      "PropsH\000\022!\n\tbar_props\030\020 \001(\0132\014.ui.BarProps" +
-      "H\000\022\'\n\014switch_props\030\021 \001(\0132\017.ui.SwitchProp" +
-      "sH\000\022+\n\016checkbox_props\030\022 \001(\0132\021.ui.Checkbo" +
-      "xPropsH\000\022+\n\016dropdown_props\030\023 \001(\0132\021.ui.Dr" +
-      "opdownPropsH\000\022\'\n\014roller_props\030\024 \001(\0132\017.ui" +
-      ".RollerPropsH\000\022+\n\016textarea_props\030\025 \001(\0132\021" +
-      ".ui.TextareaPropsH\000\022)\n\rspinbox_props\030\026 \001" +
-      "(\0132\020.ui.SpinboxPropsH\000\022)\n\rspinner_props\030" +
-      "\027 \001(\0132\020.ui.SpinnerPropsH\000\022!\n\tled_props\030\030" +
-      " \001(\0132\014.ui.LedPropsH\000\022#\n\nline_props\030\031 \001(\013" +
-      "2\r.ui.LinePropsH\000\022%\n\013scale_props\030\032 \001(\0132\016" +
-      ".ui.ScalePropsH\000\0223\n\022buttonmatrix_props\030\033" +
-      " \001(\0132\025.ui.ButtonMatrixPropsH\000\022%\n\013table_p" +
-      "rops\030\034 \001(\0132\016.ui.TablePropsH\000\032/\n\rBindings" +
-      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001B\016\n" +
-      "\014widget_props\"\n\n\010ObjProps\"\r\n\013ButtonProps" +
-      "\"2\n\nLabelProps\022$\n\tlong_mode\030\001 \001(\0162\021.ui.L" +
-      "abelLongMode\"]\n\013SliderProps\022\021\n\tmin_value" +
-      "\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005" +
-      "\022\031\n\004mode\030\004 \001(\0162\013.ui.BarMode\"\031\n\nImageProp" +
-      "s\022\013\n\003src\030\001 \001(\t\"\302\001\n\010ArcProps\022\023\n\013start_ang" +
-      "le\030\001 \001(\r\022\021\n\tend_angle\030\002 \001(\r\022\026\n\016bg_start_" +
-      "angle\030\003 \001(\r\022\024\n\014bg_end_angle\030\004 \001(\r\022\020\n\010rot" +
-      "ation\030\005 \001(\005\022\031\n\004mode\030\006 \001(\0162\013.ui.ArcMode\022\021" +
-      "\n\tmin_value\030\007 \001(\005\022\021\n\tmax_value\030\010 \001(\005\022\r\n\005" +
-      "value\030\t \001(\005\"o\n\010BarProps\022\021\n\tmin_value\030\001 \001" +
-      "(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\023\n\013" +
-      "start_value\030\004 \001(\005\022\031\n\004mode\030\005 \001(\0162\013.ui.Bar" +
-      "Mode\"\036\n\013SwitchProps\022\017\n\007checked\030\001 \001(\010\" \n\r" +
-      "CheckboxProps\022\017\n\007checked\030\001 \001(\010\"N\n\rDropdo" +
-      "wnProps\022\017\n\007options\030\001 \001(\t\022\020\n\010selected\030\002 \001" +
-      "(\r\022\032\n\tdirection\030\003 \001(\0162\007.ui.Dir\"i\n\013Roller" +
-      "Props\022\017\n\007options\030\001 \001(\t\022\020\n\010selected\030\002 \001(\r" +
-      "\022\031\n\021visible_row_count\030\003 \001(\r\022\034\n\004mode\030\004 \001(" +
-      "\0162\016.ui.RollerMode\"a\n\rTextareaProps\022\023\n\013pl" +
-      "aceholder\030\001 \001(\t\022\022\n\nmax_length\030\002 \001(\r\022\020\n\010o" +
-      "ne_line\030\003 \001(\010\022\025\n\rpassword_mode\030\004 \001(\010\"\202\001\n" +
-      "\014SpinboxProps\022\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_" +
-      "value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014\n\004step\030\004 \001(\005" +
-      "\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022separator_posit" +
-      "ion\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n\tspin_time\030\001" +
-      " \001(\r\022\022\n\narc_length\030\002 \001(\r\"8\n\010LedProps\022\030\n\005" +
-      "color\030\001 \001(\0132\t.ui.Color\022\022\n\nbrightness\030\002 \001" +
-      "(\r\"8\n\tLineProps\022\031\n\006points\030\001 \003(\0132\t.ui.Poi" +
-      "nt\022\020\n\010y_invert\030\002 \001(\010\"\276\001\n\nScaleProps\022\033\n\004m" +
-      "ode\030\001 \001(\0162\r.ui.ScaleMode\022\030\n\020total_tick_c" +
-      "ount\030\002 \001(\r\022\030\n\020major_tick_every\030\003 \001(\r\022\022\n\n" +
-      "label_show\030\004 \001(\010\022\021\n\tmin_value\030\005 \001(\005\022\021\n\tm" +
-      "ax_value\030\006 \001(\005\022\020\n\010rotation\030\007 \001(\005\022\023\n\013angl" +
-      "e_range\030\010 \001(\r\"7\n\021ButtonMatrixProps\022\017\n\007ma" +
-      "p_str\030\001 \001(\t\022\021\n\tone_check\030\002 \001(\010\"5\n\nTableP" +
-      "rops\022\021\n\trow_count\030\001 \001(\r\022\024\n\014column_count\030" +
-      "\002 \001(\r\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"`\n\014" +
-      "EventBinding\022\022\n\nevent_name\030\001 \001(\t\022\024\n\014comm" +
-      "and_type\030\002 \001(\r\022\023\n\013float_value\030\003 \001(\001\022\021\n\ti" +
-      "nt_value\030\004 \001(\005\"\217\001\n\006Layout\022\032\n\004flow\030\001 \001(\0162" +
-      "\014.ui.FlexFlow\022!\n\nmain_place\030\002 \001(\0162\r.ui.F" +
-      "lexAlign\022\"\n\013cross_place\030\003 \001(\0162\r.ui.FlexA" +
-      "lign\022\"\n\013track_place\030\004 \001(\0162\r.ui.FlexAlign" +
-      "\"I\n\nStyleGroup\022\026\n\016state_selector\030\001 \001(\r\022#" +
-      "\n\010variants\030\002 \003(\0132\021.ui.ResolvedStyle\"6\n\rR" +
-      "esolvedStyle\022%\n\nproperties\030\001 \003(\0132\021.ui.St" +
-      "yleProperty\"\314\001\n\rStyleProperty\022#\n\004type\030\001 " +
-      "\001(\0162\025.ui.StylePropertyType\022\024\n\nuint_value" +
-      "\030\002 \001(\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013color_v" +
-      "alue\030\004 \001(\0132\t.ui.ColorH\000\022\026\n\014string_value\030" +
-      "\005 \001(\tH\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.Shado" +
-      "wBundleH\000B\007\n\005value\"(\n\005Color\022\t\n\001r\030\001 \001(\r\022\t" +
-      "\n\001g\030\002 \001(\r\022\t\n\001b\030\003 \001(\r\"^\n\014ShadowBundle\022\r\n\005" +
-      "width\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010offset_" +
-      "y\030\003 \001(\005\022\016\n\006spread\030\004 \001(\r\022\013\n\003opa\030\005 \001(\r*\361\002\n" +
-      "\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWIDGET_BU" +
-      "TTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGET_SLIDE" +
-      "R\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET_ARC\020\005\022\016\n" +
-      "\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022\023\n\017WIDG" +
-      "ET_CHECKBOX\020\010\022\023\n\017WIDGET_DROPDOWN\020\t\022\021\n\rWI" +
-      "DGET_ROLLER\020\n\022\023\n\017WIDGET_TEXTAREA\020\013\022\022\n\016WI" +
-      "DGET_SPINBOX\020\014\022\022\n\016WIDGET_SPINNER\020\r\022\016\n\nWI" +
-      "DGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WIDGET_SC" +
-      "ALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX\020\021\022\020\n\014WIDGET" +
-      "_TABLE\020\022*\366\001\n\010FlexFlow\022\022\n\016FLEX_FLOW_NONE\020" +
-      "\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX_FLOW_COLUMN" +
-      "\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031\n\025FLEX_FLOW_" +
-      "ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_ROW_WRAP_REVE" +
-      "RSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WRAP\020\006\022\034\n\030FLEX" +
-      "_FLOW_COLUMN_REVERSE\020\007\022!\n\035FLEX_FLOW_COLU" +
-      "MN_WRAP_REVERSE\020\010*\244\001\n\tFlexAlign\022\024\n\020FLEX_" +
-      "ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_END\020\001\022\025\n\021FLE" +
-      "X_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALIGN_SPACE_EVE" +
-      "NLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AROUND\020\004\022\034\n\030FL" +
-      "EX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n\tGridAlign\022\024" +
-      "\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID_ALIGN_CENTE" +
-      "R\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022GRID_ALIGN_ST" +
-      "RETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_EVENLY\020\004\022\033\n\027" +
-      "GRID_ALIGN_SPACE_AROUND\020\005\022\034\n\030GRID_ALIGN_" +
-      "SPACE_BETWEEN\020\006*b\n\tTextAlign\022\023\n\017TEXT_ALI" +
-      "GN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT\020\001\022\025\n\021TEXT_A" +
-      "LIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_RIGHT\020\003*X\n\tT" +
-      "extDecor\022\023\n\017TEXT_DECOR_NONE\020\000\022\030\n\024TEXT_DE" +
-      "COR_UNDERLINE\020\001\022\034\n\030TEXT_DECOR_STRIKETHRO" +
-      "UGH\020\002*p\n\tBlendMode\022\025\n\021BLEND_MODE_NORMAL\020" +
-      "\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032\n\026BLEND_MODE" +
-      "_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE_MULTIPLY\020\003*" +
-      "@\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000\022\020\n\014BASE_DIR" +
-      "_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002*\200\001\n\007GradDir\022\021\n" +
-      "\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR_VER\020\001\022\020\n\014GR" +
-      "AD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LINEAR\020\003\022\023\n\017GRA" +
-      "D_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_CONICAL\020\005*t\n\003" +
-      "Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEFT\020\001\022\r\n\tDIR_R" +
-      "IGHT\020\002\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_TOP\020\004\022\016\n\nDIR_" +
-      "BOTTOM\020\010\022\013\n\007DIR_VER\020\014\022\013\n\007DIR_ALL\020\017*\210\004\n\005A" +
-      "lign\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016ALIGN_TOP_LEF" +
-      "T\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017ALIGN_TOP_RIGH" +
-      "T\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024\n\020ALIGN_BOTT" +
-      "OM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIGHT\020\006\022\022\n\016ALIG" +
-      "N_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_MID\020\010\022\020\n\014ALI" +
-      "GN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP_LEFT\020\n\022\025\n\021A" +
-      "LIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_OUT_TOP_RIGH" +
-      "T\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT\020\r\022\030\n\024ALIGN_" +
-      "OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OUT_BOTTOM_RIG" +
-      "HT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020\022\026\n\022ALIGN_OU" +
-      "T_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LEFT_BOTTOM\020\022\022" +
-      "\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023ALIGN_OUT_RI" +
-      "GHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT_BOTTOM\020\025*\254\001" +
-      "\n\nBorderSide\022\024\n\020BORDER_SIDE_NONE\020\000\022\026\n\022BO" +
-      "RDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER_SIDE_TOP\020\002\022" +
-      "\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BORDER_SIDE_RIG" +
-      "HT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030\n\024BORDER_SID" +
-      "E_INTERNAL\020\020*\204\001\n\rLabelLongMode\022\023\n\017LABEL_" +
-      "LONG_WRAP\020\000\022\022\n\016LABEL_LONG_DOT\020\001\022\025\n\021LABEL" +
-      "_LONG_SCROLL\020\002\022\036\n\032LABEL_LONG_SCROLL_CIRC" +
-      "ULAR\020\003\022\023\n\017LABEL_LONG_CLIP\020\004*L\n\007BarMode\022\023" +
-      "\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BAR_MODE_SYMMETRI" +
-      "CAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n\007ArcMode\022\023\n\017" +
-      "ARC_MODE_NORMAL\020\000\022\030\n\024ARC_MODE_SYMMETRICA" +
-      "L\020\001\022\024\n\020ARC_MODE_REVERSE\020\002*>\n\nRollerMode\022" +
-      "\026\n\022ROLLER_MODE_NORMAL\020\000\022\030\n\024ROLLER_MODE_I" +
-      "NFINITE\020\001*\301\001\n\tScaleMode\022\035\n\031SCALE_MODE_HO" +
-      "RIZONTAL_TOP\020\000\022 \n\034SCALE_MODE_HORIZONTAL_" +
-      "BOTTOM\020\001\022\034\n\030SCALE_MODE_VERTICAL_LEFT\020\002\022\035" +
-      "\n\031SCALE_MODE_VERTICAL_RIGHT\020\004\022\032\n\026SCALE_M" +
-      "ODE_ROUND_INNER\020\010\022\032\n\026SCALE_MODE_ROUND_OU" +
-      "TER\020\020*\273\022\n\021StylePropertyType\022\021\n\rPROP_BG_C" +
-      "OLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017PROP_TEXT_COL" +
-      "OR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021PROP_BORDER_" +
-      "COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH\020\005\022\017\n\013PROP_R" +
-      "ADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n\014PROP_PAD_GA" +
-      "P\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_HEIGHT\020\n\022\017\n\013" +
-      "PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HOR\020\014\022\020\n\014PROP_" +
-      "PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL\020\016\022\023\n\017PROP_B" +
-      "ORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDTH\020\020\022\022\n\016PROP_" +
-      "MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIGHT\020\022\022\023\n\017PROP" +
-      "_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH\020\024\022\n\n\006PROP_X" +
-      "\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN\020\027\022\030\n\024PROP_T" +
-      "RANSFORM_WIDTH\020\030\022\031\n\025PROP_TRANSFORM_HEIGH" +
-      "T\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n\020PROP_TRANSL" +
-      "ATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n\014PROP_SCALE_" +
-      "Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PROP_PIVOT_X\020\037" +
-      "\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_SKEW_X\020!\022\017\n\013P" +
-      "ROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP\020#\022\023\n\017PROP_P" +
-      "AD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT\020%\022\022\n\016PROP_P" +
-      "AD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'\022\023\n\017PROP_PAD" +
-      "_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP\020)\022\026\n\022PROP_M" +
-      "ARGIN_BOTTOM\020*\022\024\n\020PROP_MARGIN_LEFT\020+\022\025\n\021" +
-      "PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_BG_GRAD_COLO" +
-      "R\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n\021PROP_BG_MAI" +
-      "N_STOP\020/\022\025\n\021PROP_BG_GRAD_STOP\0200\022\024\n\020PROP_" +
-      "BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRAD_OPA\0202\022\025\n\021P" +
-      "ROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_BG_IMAGE_OPA\020" +
-      "4\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205\022\035\n\031PROP_BG_" +
-      "IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_BG_IMAGE_TIL" +
-      "ED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024\n\020PROP_BORDE" +
-      "R_POST\0209\022\026\n\022PROP_OUTLINE_WIDTH\020:\022\026\n\022PROP" +
-      "_OUTLINE_COLOR\020;\022\024\n\020PROP_OUTLINE_OPA\020<\022\024" +
-      "\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP_SHADOW_WIDT" +
-      "H\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020?\022\030\n\024PROP_SH" +
-      "ADOW_OFFSET_Y\020@\022\026\n\022PROP_SHADOW_SPREAD\020A\022" +
-      "\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PROP_SHADOW_OP" +
-      "A\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022PROP_IMAGE_RE" +
-      "COLOR\020E\022\032\n\026PROP_IMAGE_RECOLOR_OPA\020F\022\023\n\017P" +
-      "ROP_LINE_WIDTH\020G\022\030\n\024PROP_LINE_DASH_WIDTH" +
-      "\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025\n\021PROP_LINE_" +
-      "ROUNDED\020J\022\023\n\017PROP_LINE_COLOR\020K\022\021\n\rPROP_L" +
-      "INE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020M\022\024\n\020PROP_AR" +
-      "C_ROUNDED\020N\022\022\n\016PROP_ARC_COLOR\020O\022\020\n\014PROP_" +
-      "ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q\022\032\n\026PROP_TEX" +
-      "T_LETTER_SPACE\020R\022\030\n\024PROP_TEXT_LINE_SPACE" +
-      "\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017PROP_TEXT_ALI" +
-      "GN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014\n\010PROP_OPA\020W" +
-      "\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PROP_COLOR_FIL" +
-      "TER_OPA\020Y\022\026\n\022PROP_ANIM_DURATION\020Z\022\023\n\017PRO" +
-      "P_BLEND_MODE\020[\022\021\n\rPROP_BASE_DIR\020\\\022\033\n\027PRO" +
-      "P_ROTARY_SENSITIVITY\020]\022\022\n\016PROP_FLEX_FLOW" +
-      "\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_\022\031\n\025PROP_FLE" +
-      "X_CROSS_PLACE\020`\022\031\n\025PROP_FLEX_TRACK_PLACE" +
-      "\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PROP_GRID_COLU" +
-      "MN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_ALIGN\020d\022\035\n\031P" +
-      "ROP_GRID_CELL_COLUMN_POS\020e\022\032\n\026PROP_GRID_" +
-      "CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_CELL_COLUMN_" +
-      "SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW_POS\020h\022\032\n\026PR" +
-      "OP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PROP_GRID_CELL" +
-      "_ROW_SPAN\020jB\013Z\tui/ui_astb\006proto3"
+      "\n\017ui/ui_ast.proto\022\002ui\"}\n\022SubjectDeclarat" +
+      "ion\022\014\n\004name\030\001 \001(\t\022\035\n\004type\030\002 \001(\0162\017.ui.Sub" +
+      "jectType\022\025\n\013int_initial\030\003 \001(\005H\000\022\030\n\016strin" +
+      "g_initial\030\004 \001(\tH\000B\t\n\007initial\"/\n\013StateUpd" +
+      "ate\022 \n\006values\030\001 \003(\0132\020.ui.SubjectValue\"R\n" +
+      "\014SubjectValue\022\014\n\004name\030\001 \001(\t\022\023\n\tint_value" +
+      "\030\002 \001(\005H\000\022\026\n\014string_value\030\003 \001(\tH\000B\007\n\005valu" +
+      "e\"^\n\006Screen\022!\n\004root\030\001 \001(\0132\016.ui.WidgetNod" +
+      "eH\000\210\001\001\022(\n\010subjects\030\002 \003(\0132\026.ui.SubjectDec" +
+      "larationB\007\n\005_root\"\335\t\n\nWidgetNode\022\034\n\004type" +
+      "\030\001 \001(\0162\016.ui.WidgetType\022\t\n\001x\030\002 \001(\005\022\t\n\001y\030\003" +
+      " \001(\005\022\014\n\004text\030\004 \001(\t\022.\n\010bindings\030\005 \003(\0132\034.u" +
+      "i.WidgetNode.BindingsEntry\022\037\n\005event\030\006 \001(" +
+      "\0132\020.ui.EventBinding\022\032\n\006layout\030\007 \001(\0132\n.ui" +
+      ".Layout\022 \n\010children\030\010 \003(\0132\016.ui.WidgetNod" +
+      "e\022$\n\014style_groups\030\t \003(\0132\016.ui.StyleGroup\022" +
+      "!\n\tobj_props\030\n \001(\0132\014.ui.ObjPropsH\000\022\'\n\014bu" +
+      "tton_props\030\013 \001(\0132\017.ui.ButtonPropsH\000\022%\n\013l" +
+      "abel_props\030\014 \001(\0132\016.ui.LabelPropsH\000\022\'\n\014sl" +
+      "ider_props\030\r \001(\0132\017.ui.SliderPropsH\000\022%\n\013i" +
+      "mage_props\030\016 \001(\0132\016.ui.ImagePropsH\000\022!\n\tar" +
+      "c_props\030\017 \001(\0132\014.ui.ArcPropsH\000\022!\n\tbar_pro" +
+      "ps\030\020 \001(\0132\014.ui.BarPropsH\000\022\'\n\014switch_props" +
+      "\030\021 \001(\0132\017.ui.SwitchPropsH\000\022+\n\016checkbox_pr" +
+      "ops\030\022 \001(\0132\021.ui.CheckboxPropsH\000\022+\n\016dropdo" +
+      "wn_props\030\023 \001(\0132\021.ui.DropdownPropsH\000\022\'\n\014r" +
+      "oller_props\030\024 \001(\0132\017.ui.RollerPropsH\000\022+\n\016" +
+      "textarea_props\030\025 \001(\0132\021.ui.TextareaPropsH" +
+      "\000\022)\n\rspinbox_props\030\026 \001(\0132\020.ui.SpinboxPro" +
+      "psH\000\022)\n\rspinner_props\030\027 \001(\0132\020.ui.Spinner" +
+      "PropsH\000\022!\n\tled_props\030\030 \001(\0132\014.ui.LedProps" +
+      "H\000\022#\n\nline_props\030\031 \001(\0132\r.ui.LinePropsH\000\022" +
+      "%\n\013scale_props\030\032 \001(\0132\016.ui.ScalePropsH\000\0223" +
+      "\n\022buttonmatrix_props\030\033 \001(\0132\025.ui.ButtonMa" +
+      "trixPropsH\000\022%\n\013table_props\030\034 \001(\0132\016.ui.Ta" +
+      "blePropsH\000\022)\n\nvisibility\030\035 \001(\0132\025.ui.Visi" +
+      "bilityBinding\0225\n\014bind_formats\030\036 \003(\0132\037.ui" +
+      ".WidgetNode.BindFormatsEntry\032/\n\rBindings" +
+      "Entry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\0322\n" +
+      "\020BindFormatsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030" +
+      "\002 \001(\t:\0028\001B\016\n\014widget_props\"\n\n\010ObjProps\"\r\n" +
+      "\013ButtonProps\"2\n\nLabelProps\022$\n\tlong_mode\030" +
+      "\001 \001(\0162\021.ui.LabelLongMode\"]\n\013SliderProps\022" +
+      "\021\n\tmin_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n" +
+      "\005value\030\003 \001(\005\022\031\n\004mode\030\004 \001(\0162\013.ui.BarMode\"" +
+      "\031\n\nImageProps\022\013\n\003src\030\001 \001(\t\"\302\001\n\010ArcProps\022" +
+      "\023\n\013start_angle\030\001 \001(\r\022\021\n\tend_angle\030\002 \001(\r\022" +
+      "\026\n\016bg_start_angle\030\003 \001(\r\022\024\n\014bg_end_angle\030" +
+      "\004 \001(\r\022\020\n\010rotation\030\005 \001(\005\022\031\n\004mode\030\006 \001(\0162\013." +
+      "ui.ArcMode\022\021\n\tmin_value\030\007 \001(\005\022\021\n\tmax_val" +
+      "ue\030\010 \001(\005\022\r\n\005value\030\t \001(\005\"o\n\010BarProps\022\021\n\tm" +
+      "in_value\030\001 \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005val" +
+      "ue\030\003 \001(\005\022\023\n\013start_value\030\004 \001(\005\022\031\n\004mode\030\005 " +
+      "\001(\0162\013.ui.BarMode\"\036\n\013SwitchProps\022\017\n\007check" +
+      "ed\030\001 \001(\010\" \n\rCheckboxProps\022\017\n\007checked\030\001 \001" +
+      "(\010\"N\n\rDropdownProps\022\017\n\007options\030\001 \001(\t\022\020\n\010" +
+      "selected\030\002 \001(\r\022\032\n\tdirection\030\003 \001(\0162\007.ui.D" +
+      "ir\"i\n\013RollerProps\022\017\n\007options\030\001 \001(\t\022\020\n\010se" +
+      "lected\030\002 \001(\r\022\031\n\021visible_row_count\030\003 \001(\r\022" +
+      "\034\n\004mode\030\004 \001(\0162\016.ui.RollerMode\"a\n\rTextare" +
+      "aProps\022\023\n\013placeholder\030\001 \001(\t\022\022\n\nmax_lengt" +
+      "h\030\002 \001(\r\022\020\n\010one_line\030\003 \001(\010\022\025\n\rpassword_mo" +
+      "de\030\004 \001(\010\"\202\001\n\014SpinboxProps\022\021\n\tmin_value\030\001" +
+      " \001(\005\022\021\n\tmax_value\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\014" +
+      "\n\004step\030\004 \001(\005\022\023\n\013digit_count\030\005 \001(\r\022\032\n\022sep" +
+      "arator_position\030\006 \001(\r\"5\n\014SpinnerProps\022\021\n" +
+      "\tspin_time\030\001 \001(\r\022\022\n\narc_length\030\002 \001(\r\"8\n\010" +
+      "LedProps\022\030\n\005color\030\001 \001(\0132\t.ui.Color\022\022\n\nbr" +
+      "ightness\030\002 \001(\r\"8\n\tLineProps\022\031\n\006points\030\001 " +
+      "\003(\0132\t.ui.Point\022\020\n\010y_invert\030\002 \001(\010\"\276\001\n\nSca" +
+      "leProps\022\033\n\004mode\030\001 \001(\0162\r.ui.ScaleMode\022\030\n\020" +
+      "total_tick_count\030\002 \001(\r\022\030\n\020major_tick_eve" +
+      "ry\030\003 \001(\r\022\022\n\nlabel_show\030\004 \001(\010\022\021\n\tmin_valu" +
+      "e\030\005 \001(\005\022\021\n\tmax_value\030\006 \001(\005\022\020\n\010rotation\030\007" +
+      " \001(\005\022\023\n\013angle_range\030\010 \001(\r\"7\n\021ButtonMatri" +
+      "xProps\022\017\n\007map_str\030\001 \001(\t\022\021\n\tone_check\030\002 \001" +
+      "(\010\"5\n\nTableProps\022\021\n\trow_count\030\001 \001(\r\022\024\n\014c" +
+      "olumn_count\030\002 \001(\r\"\035\n\005Point\022\t\n\001x\030\001 \001(\005\022\t\n" +
+      "\001y\030\002 \001(\005\"\275\001\n\014EventBinding\022\014\n\004name\030\001 \001(\t\022" +
+      "!\n\007trigger\030\002 \001(\0162\020.ui.EventTrigger\022\021\n\tin" +
+      "t_value\030\003 \001(\005\022\034\n\024include_widget_value\030\004 " +
+      "\001(\010\022\023\n\013set_subject\030\005 \001(\t\022\021\n\tset_value\030\006 " +
+      "\001(\005\022\016\n\006toggle\030\007 \001(\010\022\023\n\013notify_host\030\010 \001(\010" +
+      "\"W\n\021VisibilityBinding\022\017\n\007subject\030\001 \001(\t\022\021" +
+      "\n\tref_value\030\002 \001(\005\022\036\n\007compare\030\003 \001(\0162\r.ui." +
+      "CompareOp\"\217\001\n\006Layout\022\032\n\004flow\030\001 \001(\0162\014.ui." +
+      "FlexFlow\022!\n\nmain_place\030\002 \001(\0162\r.ui.FlexAl" +
+      "ign\022\"\n\013cross_place\030\003 \001(\0162\r.ui.FlexAlign\022" +
+      "\"\n\013track_place\030\004 \001(\0162\r.ui.FlexAlign\"I\n\nS" +
+      "tyleGroup\022\026\n\016state_selector\030\001 \001(\r\022#\n\010var" +
+      "iants\030\002 \003(\0132\021.ui.ResolvedStyle\"6\n\rResolv" +
+      "edStyle\022%\n\nproperties\030\001 \003(\0132\021.ui.StylePr" +
+      "operty\"\314\001\n\rStyleProperty\022#\n\004type\030\001 \001(\0162\025" +
+      ".ui.StylePropertyType\022\024\n\nuint_value\030\002 \001(" +
+      "\rH\000\022\023\n\tint_value\030\003 \001(\005H\000\022 \n\013color_value\030" +
+      "\004 \001(\0132\t.ui.ColorH\000\022\026\n\014string_value\030\005 \001(\t" +
+      "H\000\022(\n\014shadow_value\030\006 \001(\0132\020.ui.ShadowBund" +
+      "leH\000B\007\n\005value\"(\n\005Color\022\t\n\001r\030\001 \001(\r\022\t\n\001g\030\002" +
+      " \001(\r\022\t\n\001b\030\003 \001(\r\"^\n\014ShadowBundle\022\r\n\005width" +
+      "\030\001 \001(\r\022\020\n\010offset_x\030\002 \001(\005\022\020\n\010offset_y\030\003 \001" +
+      "(\005\022\016\n\006spread\030\004 \001(\r\022\013\n\003opa\030\005 \001(\r*2\n\013Subje" +
+      "ctType\022\017\n\013SUBJECT_INT\020\000\022\022\n\016SUBJECT_STRIN" +
+      "G\020\001*\361\002\n\nWidgetType\022\016\n\nWIDGET_OBJ\020\000\022\021\n\rWI" +
+      "DGET_BUTTON\020\001\022\020\n\014WIDGET_LABEL\020\002\022\021\n\rWIDGE" +
+      "T_SLIDER\020\003\022\020\n\014WIDGET_IMAGE\020\004\022\016\n\nWIDGET_A" +
+      "RC\020\005\022\016\n\nWIDGET_BAR\020\006\022\021\n\rWIDGET_SWITCH\020\007\022" +
+      "\023\n\017WIDGET_CHECKBOX\020\010\022\023\n\017WIDGET_DROPDOWN\020" +
+      "\t\022\021\n\rWIDGET_ROLLER\020\n\022\023\n\017WIDGET_TEXTAREA\020" +
+      "\013\022\022\n\016WIDGET_SPINBOX\020\014\022\022\n\016WIDGET_SPINNER\020" +
+      "\r\022\016\n\nWIDGET_LED\020\016\022\017\n\013WIDGET_LINE\020\017\022\020\n\014WI" +
+      "DGET_SCALE\020\020\022\027\n\023WIDGET_BUTTONMATRIX\020\021\022\020\n" +
+      "\014WIDGET_TABLE\020\022*X\n\014EventTrigger\022\023\n\017TRIGG" +
+      "ER_CLICKED\020\000\022\031\n\025TRIGGER_VALUE_CHANGED\020\001\022" +
+      "\030\n\024TRIGGER_LONG_PRESSED\020\002*q\n\tCompareOp\022\016" +
+      "\n\nCOMPARE_EQ\020\000\022\022\n\016COMPARE_NOT_EQ\020\001\022\016\n\nCO" +
+      "MPARE_GT\020\002\022\017\n\013COMPARE_GTE\020\003\022\016\n\nCOMPARE_L" +
+      "T\020\004\022\017\n\013COMPARE_LTE\020\005*\366\001\n\010FlexFlow\022\022\n\016FLE" +
+      "X_FLOW_NONE\020\000\022\021\n\rFLEX_FLOW_ROW\020\001\022\024\n\020FLEX" +
+      "_FLOW_COLUMN\020\002\022\026\n\022FLEX_FLOW_ROW_WRAP\020\003\022\031" +
+      "\n\025FLEX_FLOW_ROW_REVERSE\020\004\022\036\n\032FLEX_FLOW_R" +
+      "OW_WRAP_REVERSE\020\005\022\031\n\025FLEX_FLOW_COLUMN_WR" +
+      "AP\020\006\022\034\n\030FLEX_FLOW_COLUMN_REVERSE\020\007\022!\n\035FL" +
+      "EX_FLOW_COLUMN_WRAP_REVERSE\020\010*\244\001\n\tFlexAl" +
+      "ign\022\024\n\020FLEX_ALIGN_START\020\000\022\022\n\016FLEX_ALIGN_" +
+      "END\020\001\022\025\n\021FLEX_ALIGN_CENTER\020\002\022\033\n\027FLEX_ALI" +
+      "GN_SPACE_EVENLY\020\003\022\033\n\027FLEX_ALIGN_SPACE_AR" +
+      "OUND\020\004\022\034\n\030FLEX_ALIGN_SPACE_BETWEEN\020\005*\274\001\n" +
+      "\tGridAlign\022\024\n\020GRID_ALIGN_START\020\000\022\025\n\021GRID" +
+      "_ALIGN_CENTER\020\001\022\022\n\016GRID_ALIGN_END\020\002\022\026\n\022G" +
+      "RID_ALIGN_STRETCH\020\003\022\033\n\027GRID_ALIGN_SPACE_" +
+      "EVENLY\020\004\022\033\n\027GRID_ALIGN_SPACE_AROUND\020\005\022\034\n" +
+      "\030GRID_ALIGN_SPACE_BETWEEN\020\006*b\n\tTextAlign" +
+      "\022\023\n\017TEXT_ALIGN_AUTO\020\000\022\023\n\017TEXT_ALIGN_LEFT" +
+      "\020\001\022\025\n\021TEXT_ALIGN_CENTER\020\002\022\024\n\020TEXT_ALIGN_" +
+      "RIGHT\020\003*X\n\tTextDecor\022\023\n\017TEXT_DECOR_NONE\020" +
+      "\000\022\030\n\024TEXT_DECOR_UNDERLINE\020\001\022\034\n\030TEXT_DECO" +
+      "R_STRIKETHROUGH\020\002*p\n\tBlendMode\022\025\n\021BLEND_" +
+      "MODE_NORMAL\020\000\022\027\n\023BLEND_MODE_ADDITIVE\020\001\022\032" +
+      "\n\026BLEND_MODE_SUBTRACTIVE\020\002\022\027\n\023BLEND_MODE" +
+      "_MULTIPLY\020\003*@\n\007BaseDir\022\020\n\014BASE_DIR_LTR\020\000" +
+      "\022\020\n\014BASE_DIR_RTL\020\001\022\021\n\rBASE_DIR_AUTO\020\002*\200\001" +
+      "\n\007GradDir\022\021\n\rGRAD_DIR_NONE\020\000\022\020\n\014GRAD_DIR" +
+      "_VER\020\001\022\020\n\014GRAD_DIR_HOR\020\002\022\023\n\017GRAD_DIR_LIN" +
+      "EAR\020\003\022\023\n\017GRAD_DIR_RADIAL\020\004\022\024\n\020GRAD_DIR_C" +
+      "ONICAL\020\005*t\n\003Dir\022\014\n\010DIR_NONE\020\000\022\014\n\010DIR_LEF" +
+      "T\020\001\022\r\n\tDIR_RIGHT\020\002\022\013\n\007DIR_HOR\020\003\022\013\n\007DIR_T" +
+      "OP\020\004\022\016\n\nDIR_BOTTOM\020\010\022\013\n\007DIR_VER\020\014\022\013\n\007DIR" +
+      "_ALL\020\017*\210\004\n\005Align\022\021\n\rALIGN_DEFAULT\020\000\022\022\n\016A" +
+      "LIGN_TOP_LEFT\020\001\022\021\n\rALIGN_TOP_MID\020\002\022\023\n\017AL" +
+      "IGN_TOP_RIGHT\020\003\022\025\n\021ALIGN_BOTTOM_LEFT\020\004\022\024" +
+      "\n\020ALIGN_BOTTOM_MID\020\005\022\026\n\022ALIGN_BOTTOM_RIG" +
+      "HT\020\006\022\022\n\016ALIGN_LEFT_MID\020\007\022\023\n\017ALIGN_RIGHT_" +
+      "MID\020\010\022\020\n\014ALIGN_CENTER\020\t\022\026\n\022ALIGN_OUT_TOP" +
+      "_LEFT\020\n\022\025\n\021ALIGN_OUT_TOP_MID\020\013\022\027\n\023ALIGN_" +
+      "OUT_TOP_RIGHT\020\014\022\031\n\025ALIGN_OUT_BOTTOM_LEFT" +
+      "\020\r\022\030\n\024ALIGN_OUT_BOTTOM_MID\020\016\022\032\n\026ALIGN_OU" +
+      "T_BOTTOM_RIGHT\020\017\022\026\n\022ALIGN_OUT_LEFT_TOP\020\020" +
+      "\022\026\n\022ALIGN_OUT_LEFT_MID\020\021\022\031\n\025ALIGN_OUT_LE" +
+      "FT_BOTTOM\020\022\022\027\n\023ALIGN_OUT_RIGHT_TOP\020\023\022\027\n\023" +
+      "ALIGN_OUT_RIGHT_MID\020\024\022\032\n\026ALIGN_OUT_RIGHT" +
+      "_BOTTOM\020\025*\254\001\n\nBorderSide\022\024\n\020BORDER_SIDE_" +
+      "NONE\020\000\022\026\n\022BORDER_SIDE_BOTTOM\020\001\022\023\n\017BORDER" +
+      "_SIDE_TOP\020\002\022\024\n\020BORDER_SIDE_LEFT\020\004\022\025\n\021BOR" +
+      "DER_SIDE_RIGHT\020\010\022\024\n\020BORDER_SIDE_FULL\020\017\022\030" +
+      "\n\024BORDER_SIDE_INTERNAL\020\020*\204\001\n\rLabelLongMo" +
+      "de\022\023\n\017LABEL_LONG_WRAP\020\000\022\022\n\016LABEL_LONG_DO" +
+      "T\020\001\022\025\n\021LABEL_LONG_SCROLL\020\002\022\036\n\032LABEL_LONG" +
+      "_SCROLL_CIRCULAR\020\003\022\023\n\017LABEL_LONG_CLIP\020\004*" +
+      "L\n\007BarMode\022\023\n\017BAR_MODE_NORMAL\020\000\022\030\n\024BAR_M" +
+      "ODE_SYMMETRICAL\020\001\022\022\n\016BAR_MODE_RANGE\020\002*N\n" +
+      "\007ArcMode\022\023\n\017ARC_MODE_NORMAL\020\000\022\030\n\024ARC_MOD" +
+      "E_SYMMETRICAL\020\001\022\024\n\020ARC_MODE_REVERSE\020\002*>\n" +
+      "\nRollerMode\022\026\n\022ROLLER_MODE_NORMAL\020\000\022\030\n\024R" +
+      "OLLER_MODE_INFINITE\020\001*\301\001\n\tScaleMode\022\035\n\031S" +
+      "CALE_MODE_HORIZONTAL_TOP\020\000\022 \n\034SCALE_MODE" +
+      "_HORIZONTAL_BOTTOM\020\001\022\034\n\030SCALE_MODE_VERTI" +
+      "CAL_LEFT\020\002\022\035\n\031SCALE_MODE_VERTICAL_RIGHT\020" +
+      "\004\022\032\n\026SCALE_MODE_ROUND_INNER\020\010\022\032\n\026SCALE_M" +
+      "ODE_ROUND_OUTER\020\020*\273\022\n\021StylePropertyType\022" +
+      "\021\n\rPROP_BG_COLOR\020\000\022\017\n\013PROP_BG_OPA\020\001\022\023\n\017P" +
+      "ROP_TEXT_COLOR\020\002\022\022\n\016PROP_TEXT_FONT\020\003\022\025\n\021" +
+      "PROP_BORDER_COLOR\020\004\022\025\n\021PROP_BORDER_WIDTH" +
+      "\020\005\022\017\n\013PROP_RADIUS\020\006\022\020\n\014PROP_PAD_ALL\020\007\022\020\n" +
+      "\014PROP_PAD_GAP\020\010\022\016\n\nPROP_WIDTH\020\t\022\017\n\013PROP_" +
+      "HEIGHT\020\n\022\017\n\013PROP_SHADOW\020\013\022\020\n\014PROP_PAD_HO" +
+      "R\020\014\022\020\n\014PROP_PAD_VER\020\r\022\023\n\017PROP_MARGIN_ALL" +
+      "\020\016\022\023\n\017PROP_BORDER_OPA\020\017\022\022\n\016PROP_MIN_WIDT" +
+      "H\020\020\022\022\n\016PROP_MAX_WIDTH\020\021\022\023\n\017PROP_MIN_HEIG" +
+      "HT\020\022\022\023\n\017PROP_MAX_HEIGHT\020\023\022\017\n\013PROP_LENGTH" +
+      "\020\024\022\n\n\006PROP_X\020\025\022\n\n\006PROP_Y\020\026\022\016\n\nPROP_ALIGN" +
+      "\020\027\022\030\n\024PROP_TRANSFORM_WIDTH\020\030\022\031\n\025PROP_TRA" +
+      "NSFORM_HEIGHT\020\031\022\024\n\020PROP_TRANSLATE_X\020\032\022\024\n" +
+      "\020PROP_TRANSLATE_Y\020\033\022\020\n\014PROP_SCALE_X\020\034\022\020\n" +
+      "\014PROP_SCALE_Y\020\035\022\021\n\rPROP_ROTATION\020\036\022\020\n\014PR" +
+      "OP_PIVOT_X\020\037\022\020\n\014PROP_PIVOT_Y\020 \022\017\n\013PROP_S" +
+      "KEW_X\020!\022\017\n\013PROP_SKEW_Y\020\"\022\020\n\014PROP_PAD_TOP" +
+      "\020#\022\023\n\017PROP_PAD_BOTTOM\020$\022\021\n\rPROP_PAD_LEFT" +
+      "\020%\022\022\n\016PROP_PAD_RIGHT\020&\022\020\n\014PROP_PAD_ROW\020\'" +
+      "\022\023\n\017PROP_PAD_COLUMN\020(\022\023\n\017PROP_MARGIN_TOP" +
+      "\020)\022\026\n\022PROP_MARGIN_BOTTOM\020*\022\024\n\020PROP_MARGI" +
+      "N_LEFT\020+\022\025\n\021PROP_MARGIN_RIGHT\020,\022\026\n\022PROP_" +
+      "BG_GRAD_COLOR\020-\022\024\n\020PROP_BG_GRAD_DIR\020.\022\025\n" +
+      "\021PROP_BG_MAIN_STOP\020/\022\025\n\021PROP_BG_GRAD_STO" +
+      "P\0200\022\024\n\020PROP_BG_MAIN_OPA\0201\022\024\n\020PROP_BG_GRA" +
+      "D_OPA\0202\022\025\n\021PROP_BG_IMAGE_SRC\0203\022\025\n\021PROP_B" +
+      "G_IMAGE_OPA\0204\022\031\n\025PROP_BG_IMAGE_RECOLOR\0205" +
+      "\022\035\n\031PROP_BG_IMAGE_RECOLOR_OPA\0206\022\027\n\023PROP_" +
+      "BG_IMAGE_TILED\0207\022\024\n\020PROP_BORDER_SIDE\0208\022\024" +
+      "\n\020PROP_BORDER_POST\0209\022\026\n\022PROP_OUTLINE_WID" +
+      "TH\020:\022\026\n\022PROP_OUTLINE_COLOR\020;\022\024\n\020PROP_OUT" +
+      "LINE_OPA\020<\022\024\n\020PROP_OUTLINE_PAD\020=\022\025\n\021PROP" +
+      "_SHADOW_WIDTH\020>\022\030\n\024PROP_SHADOW_OFFSET_X\020" +
+      "?\022\030\n\024PROP_SHADOW_OFFSET_Y\020@\022\026\n\022PROP_SHAD" +
+      "OW_SPREAD\020A\022\025\n\021PROP_SHADOW_COLOR\020B\022\023\n\017PR" +
+      "OP_SHADOW_OPA\020C\022\022\n\016PROP_IMAGE_OPA\020D\022\026\n\022P" +
+      "ROP_IMAGE_RECOLOR\020E\022\032\n\026PROP_IMAGE_RECOLO" +
+      "R_OPA\020F\022\023\n\017PROP_LINE_WIDTH\020G\022\030\n\024PROP_LIN" +
+      "E_DASH_WIDTH\020H\022\026\n\022PROP_LINE_DASH_GAP\020I\022\025" +
+      "\n\021PROP_LINE_ROUNDED\020J\022\023\n\017PROP_LINE_COLOR" +
+      "\020K\022\021\n\rPROP_LINE_OPA\020L\022\022\n\016PROP_ARC_WIDTH\020" +
+      "M\022\024\n\020PROP_ARC_ROUNDED\020N\022\022\n\016PROP_ARC_COLO" +
+      "R\020O\022\020\n\014PROP_ARC_OPA\020P\022\021\n\rPROP_TEXT_OPA\020Q" +
+      "\022\032\n\026PROP_TEXT_LETTER_SPACE\020R\022\030\n\024PROP_TEX" +
+      "T_LINE_SPACE\020S\022\023\n\017PROP_TEXT_DECOR\020T\022\023\n\017P" +
+      "ROP_TEXT_ALIGN\020U\022\024\n\020PROP_CLIP_CORNER\020V\022\014" +
+      "\n\010PROP_OPA\020W\022\024\n\020PROP_OPA_LAYERED\020X\022\031\n\025PR" +
+      "OP_COLOR_FILTER_OPA\020Y\022\026\n\022PROP_ANIM_DURAT" +
+      "ION\020Z\022\023\n\017PROP_BLEND_MODE\020[\022\021\n\rPROP_BASE_" +
+      "DIR\020\\\022\033\n\027PROP_ROTARY_SENSITIVITY\020]\022\022\n\016PR" +
+      "OP_FLEX_FLOW\020^\022\030\n\024PROP_FLEX_MAIN_PLACE\020_" +
+      "\022\031\n\025PROP_FLEX_CROSS_PLACE\020`\022\031\n\025PROP_FLEX" +
+      "_TRACK_PLACE\020a\022\022\n\016PROP_FLEX_GROW\020b\022\032\n\026PR" +
+      "OP_GRID_COLUMN_ALIGN\020c\022\027\n\023PROP_GRID_ROW_" +
+      "ALIGN\020d\022\035\n\031PROP_GRID_CELL_COLUMN_POS\020e\022\032" +
+      "\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_" +
+      "CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW" +
+      "_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PR" +
+      "OP_GRID_CELL_ROW_SPAN\020jB\013Z\tui/ui_astb\006pr" +
+      "oto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_ui_Screen_descriptor =
+    internal_static_ui_SubjectDeclaration_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_ui_SubjectDeclaration_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_SubjectDeclaration_descriptor,
+        new java.lang.String[] { "Name", "Type", "IntInitial", "StringInitial", "Initial", });
+    internal_static_ui_StateUpdate_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_ui_StateUpdate_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_StateUpdate_descriptor,
+        new java.lang.String[] { "Values", });
+    internal_static_ui_SubjectValue_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_ui_SubjectValue_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_SubjectValue_descriptor,
+        new java.lang.String[] { "Name", "IntValue", "StringValue", "Value", });
+    internal_static_ui_Screen_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_ui_Screen_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Screen_descriptor,
-        new java.lang.String[] { "Root", });
+        new java.lang.String[] { "Root", "Subjects", });
     internal_static_ui_WidgetNode_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_ui_WidgetNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_descriptor,
-        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "WidgetProps", });
+        new java.lang.String[] { "Type", "X", "Y", "Text", "Bindings", "Event", "Layout", "Children", "StyleGroups", "ObjProps", "ButtonProps", "LabelProps", "SliderProps", "ImageProps", "ArcProps", "BarProps", "SwitchProps", "CheckboxProps", "DropdownProps", "RollerProps", "TextareaProps", "SpinboxProps", "SpinnerProps", "LedProps", "LineProps", "ScaleProps", "ButtonmatrixProps", "TableProps", "Visibility", "BindFormats", "WidgetProps", });
     internal_static_ui_WidgetNode_BindingsEntry_descriptor =
       internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(0);
     internal_static_ui_WidgetNode_BindingsEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_WidgetNode_BindingsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
+    internal_static_ui_WidgetNode_BindFormatsEntry_descriptor =
+      internal_static_ui_WidgetNode_descriptor.getNestedTypes().get(1);
+    internal_static_ui_WidgetNode_BindFormatsEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_WidgetNode_BindFormatsEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_ui_ObjProps_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_ui_ObjProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ObjProps_descriptor,
         new java.lang.String[] { });
     internal_static_ui_ButtonProps_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_ui_ButtonProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ButtonProps_descriptor,
         new java.lang.String[] { });
     internal_static_ui_LabelProps_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_ui_LabelProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_LabelProps_descriptor,
         new java.lang.String[] { "LongMode", });
     internal_static_ui_SliderProps_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_ui_SliderProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_SliderProps_descriptor,
         new java.lang.String[] { "MinValue", "MaxValue", "Value", "Mode", });
     internal_static_ui_ImageProps_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_ui_ImageProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ImageProps_descriptor,
         new java.lang.String[] { "Src", });
     internal_static_ui_ArcProps_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_ui_ArcProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ArcProps_descriptor,
         new java.lang.String[] { "StartAngle", "EndAngle", "BgStartAngle", "BgEndAngle", "Rotation", "Mode", "MinValue", "MaxValue", "Value", });
     internal_static_ui_BarProps_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_ui_BarProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_BarProps_descriptor,
         new java.lang.String[] { "MinValue", "MaxValue", "Value", "StartValue", "Mode", });
     internal_static_ui_SwitchProps_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_ui_SwitchProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_SwitchProps_descriptor,
         new java.lang.String[] { "Checked", });
     internal_static_ui_CheckboxProps_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_ui_CheckboxProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_CheckboxProps_descriptor,
         new java.lang.String[] { "Checked", });
     internal_static_ui_DropdownProps_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_ui_DropdownProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_DropdownProps_descriptor,
         new java.lang.String[] { "Options", "Selected", "Direction", });
     internal_static_ui_RollerProps_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_ui_RollerProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_RollerProps_descriptor,
         new java.lang.String[] { "Options", "Selected", "VisibleRowCount", "Mode", });
     internal_static_ui_TextareaProps_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_ui_TextareaProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_TextareaProps_descriptor,
         new java.lang.String[] { "Placeholder", "MaxLength", "OneLine", "PasswordMode", });
     internal_static_ui_SpinboxProps_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_ui_SpinboxProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_SpinboxProps_descriptor,
         new java.lang.String[] { "MinValue", "MaxValue", "Value", "Step", "DigitCount", "SeparatorPosition", });
     internal_static_ui_SpinnerProps_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_ui_SpinnerProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_SpinnerProps_descriptor,
         new java.lang.String[] { "SpinTime", "ArcLength", });
     internal_static_ui_LedProps_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_ui_LedProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_LedProps_descriptor,
         new java.lang.String[] { "Color", "Brightness", });
     internal_static_ui_LineProps_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_ui_LineProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_LineProps_descriptor,
         new java.lang.String[] { "Points", "YInvert", });
     internal_static_ui_ScaleProps_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_ui_ScaleProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ScaleProps_descriptor,
         new java.lang.String[] { "Mode", "TotalTickCount", "MajorTickEvery", "LabelShow", "MinValue", "MaxValue", "Rotation", "AngleRange", });
     internal_static_ui_ButtonMatrixProps_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_ui_ButtonMatrixProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ButtonMatrixProps_descriptor,
         new java.lang.String[] { "MapStr", "OneCheck", });
     internal_static_ui_TableProps_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_ui_TableProps_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_TableProps_descriptor,
         new java.lang.String[] { "RowCount", "ColumnCount", });
     internal_static_ui_Point_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_ui_Point_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Point_descriptor,
         new java.lang.String[] { "X", "Y", });
     internal_static_ui_EventBinding_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_ui_EventBinding_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_EventBinding_descriptor,
-        new java.lang.String[] { "EventName", "CommandType", "FloatValue", "IntValue", });
+        new java.lang.String[] { "Name", "Trigger", "IntValue", "IncludeWidgetValue", "SetSubject", "SetValue", "Toggle", "NotifyHost", });
+    internal_static_ui_VisibilityBinding_descriptor =
+      getDescriptor().getMessageTypes().get(26);
+    internal_static_ui_VisibilityBinding_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_VisibilityBinding_descriptor,
+        new java.lang.String[] { "Subject", "RefValue", "Compare", });
     internal_static_ui_Layout_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(27);
     internal_static_ui_Layout_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Layout_descriptor,
         new java.lang.String[] { "Flow", "MainPlace", "CrossPlace", "TrackPlace", });
     internal_static_ui_StyleGroup_descriptor =
-      getDescriptor().getMessageTypes().get(24);
+      getDescriptor().getMessageTypes().get(28);
     internal_static_ui_StyleGroup_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleGroup_descriptor,
         new java.lang.String[] { "StateSelector", "Variants", });
     internal_static_ui_ResolvedStyle_descriptor =
-      getDescriptor().getMessageTypes().get(25);
+      getDescriptor().getMessageTypes().get(29);
     internal_static_ui_ResolvedStyle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ResolvedStyle_descriptor,
         new java.lang.String[] { "Properties", });
     internal_static_ui_StyleProperty_descriptor =
-      getDescriptor().getMessageTypes().get(26);
+      getDescriptor().getMessageTypes().get(30);
     internal_static_ui_StyleProperty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StyleProperty_descriptor,
         new java.lang.String[] { "Type", "UintValue", "IntValue", "ColorValue", "StringValue", "ShadowValue", "Value", });
     internal_static_ui_Color_descriptor =
-      getDescriptor().getMessageTypes().get(27);
+      getDescriptor().getMessageTypes().get(31);
     internal_static_ui_Color_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_Color_descriptor,
         new java.lang.String[] { "R", "G", "B", });
     internal_static_ui_ShadowBundle_descriptor =
-      getDescriptor().getMessageTypes().get(28);
+      getDescriptor().getMessageTypes().get(32);
     internal_static_ui_ShadowBundle_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ShadowBundle_descriptor,

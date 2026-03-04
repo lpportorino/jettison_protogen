@@ -30,85 +30,67 @@ public object EventBindingKt {
 
     /**
      * ```
-     * e.g., "zoom_in" (for logging)
+     * event keyword — IS the command identifier
      * ```
      *
-     * `string event_name = 1;`
+     * `string name = 1;`
      */
-    public var eventName: kotlin.String
-      @JvmName("getEventName")
-      get() = _builder.eventName
-      @JvmName("setEventName")
+    public var name: kotlin.String
+      @JvmName("getName")
+      get() = _builder.name
+      @JvmName("setName")
       set(value) {
-        _builder.eventName = value
+        _builder.name = value
       }
     /**
      * ```
-     * e.g., "zoom_in" (for logging)
+     * event keyword — IS the command identifier
      * ```
      *
-     * `string event_name = 1;`
+     * `string name = 1;`
      */
-    public fun clearEventName() {
-      _builder.clearEventName()
+    public fun clearName() {
+      _builder.clearName()
     }
 
     /**
      * ```
-     * binary command type ID (0x0105 etc.)
+     * which LVGL event fires this (default: CLICKED)
      * ```
      *
-     * `uint32 command_type = 2;`
+     * `.ui.EventTrigger trigger = 2;`
      */
-    public var commandType: kotlin.Int
-      @JvmName("getCommandType")
-      get() = _builder.commandType
-      @JvmName("setCommandType")
+    public var trigger: ui.UiAst.EventTrigger
+      @JvmName("getTrigger")
+      get() = _builder.trigger
+      @JvmName("setTrigger")
       set(value) {
-        _builder.commandType = value
+        _builder.trigger = value
+      }
+    public var triggerValue: kotlin.Int
+      @JvmName("getTriggerValue")
+      get() = _builder.triggerValue
+      @JvmName("setTriggerValue")
+      set(value) {
+        _builder.triggerValue = value
       }
     /**
      * ```
-     * binary command type ID (0x0105 etc.)
+     * which LVGL event fires this (default: CLICKED)
      * ```
      *
-     * `uint32 command_type = 2;`
+     * `.ui.EventTrigger trigger = 2;`
      */
-    public fun clearCommandType() {
-      _builder.clearCommandType()
+    public fun clearTrigger() {
+      _builder.clearTrigger()
     }
 
     /**
      * ```
-     * default float arg (can be 0)
+     * static int payload
      * ```
      *
-     * `double float_value = 3;`
-     */
-    public var floatValue: kotlin.Double
-      @JvmName("getFloatValue")
-      get() = _builder.floatValue
-      @JvmName("setFloatValue")
-      set(value) {
-        _builder.floatValue = value
-      }
-    /**
-     * ```
-     * default float arg (can be 0)
-     * ```
-     *
-     * `double float_value = 3;`
-     */
-    public fun clearFloatValue() {
-      _builder.clearFloatValue()
-    }
-
-    /**
-     * ```
-     * default int arg (can be 0)
-     * ```
-     *
-     * `int32 int_value = 4;`
+     * `int32 int_value = 3;`
      */
     public var intValue: kotlin.Int
       @JvmName("getIntValue")
@@ -119,13 +101,138 @@ public object EventBindingKt {
       }
     /**
      * ```
-     * default int arg (can be 0)
+     * static int payload
      * ```
      *
-     * `int32 int_value = 4;`
+     * `int32 int_value = 3;`
      */
     public fun clearIntValue() {
       _builder.clearIntValue()
+    }
+
+    /**
+     * ```
+     * inject widget's current value as int_value
+     * ```
+     *
+     * `bool include_widget_value = 4;`
+     */
+    public var includeWidgetValue: kotlin.Boolean
+      @JvmName("getIncludeWidgetValue")
+      get() = _builder.includeWidgetValue
+      @JvmName("setIncludeWidgetValue")
+      set(value) {
+        _builder.includeWidgetValue = value
+      }
+    /**
+     * ```
+     * inject widget's current value as int_value
+     * ```
+     *
+     * `bool include_widget_value = 4;`
+     */
+    public fun clearIncludeWidgetValue() {
+      _builder.clearIncludeWidgetValue()
+    }
+
+    /**
+     * ```
+     * local subject to mutate (empty = host event)
+     * ```
+     *
+     * `string set_subject = 5;`
+     */
+    public var setSubject: kotlin.String
+      @JvmName("getSetSubject")
+      get() = _builder.setSubject
+      @JvmName("setSetSubject")
+      set(value) {
+        _builder.setSubject = value
+      }
+    /**
+     * ```
+     * local subject to mutate (empty = host event)
+     * ```
+     *
+     * `string set_subject = 5;`
+     */
+    public fun clearSetSubject() {
+      _builder.clearSetSubject()
+    }
+
+    /**
+     * ```
+     * value to set on subject
+     * ```
+     *
+     * `int32 set_value = 6;`
+     */
+    public var setValue: kotlin.Int
+      @JvmName("getSetValue")
+      get() = _builder.setValue
+      @JvmName("setSetValue")
+      set(value) {
+        _builder.setValue = value
+      }
+    /**
+     * ```
+     * value to set on subject
+     * ```
+     *
+     * `int32 set_value = 6;`
+     */
+    public fun clearSetValue() {
+      _builder.clearSetValue()
+    }
+
+    /**
+     * ```
+     * flip 0↔1 instead of set_value
+     * ```
+     *
+     * `bool toggle = 7;`
+     */
+    public var toggle: kotlin.Boolean
+      @JvmName("getToggle")
+      get() = _builder.toggle
+      @JvmName("setToggle")
+      set(value) {
+        _builder.toggle = value
+      }
+    /**
+     * ```
+     * flip 0↔1 instead of set_value
+     * ```
+     *
+     * `bool toggle = 7;`
+     */
+    public fun clearToggle() {
+      _builder.clearToggle()
+    }
+
+    /**
+     * ```
+     * also send to host when mutating subject
+     * ```
+     *
+     * `bool notify_host = 8;`
+     */
+    public var notifyHost: kotlin.Boolean
+      @JvmName("getNotifyHost")
+      get() = _builder.notifyHost
+      @JvmName("setNotifyHost")
+      set(value) {
+        _builder.notifyHost = value
+      }
+    /**
+     * ```
+     * also send to host when mutating subject
+     * ```
+     *
+     * `bool notify_host = 8;`
+     */
+    public fun clearNotifyHost() {
+      _builder.clearNotifyHost()
     }
   }
 }

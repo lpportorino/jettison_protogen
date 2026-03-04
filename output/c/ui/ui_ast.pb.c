@@ -6,6 +6,15 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
+PB_BIND(ui_SubjectDeclaration, ui_SubjectDeclaration, 2)
+
+
+PB_BIND(ui_StateUpdate, ui_StateUpdate, AUTO)
+
+
+PB_BIND(ui_SubjectValue, ui_SubjectValue, 2)
+
+
 PB_BIND(ui_Screen, ui_Screen, 2)
 
 
@@ -13,6 +22,9 @@ PB_BIND(ui_WidgetNode, ui_WidgetNode, 2)
 
 
 PB_BIND(ui_WidgetNode_BindingsEntry, ui_WidgetNode_BindingsEntry, AUTO)
+
+
+PB_BIND(ui_WidgetNode_BindFormatsEntry, ui_WidgetNode_BindFormatsEntry, 2)
 
 
 PB_BIND(ui_ObjProps, ui_ObjProps, AUTO)
@@ -78,6 +90,9 @@ PB_BIND(ui_Point, ui_Point, AUTO)
 PB_BIND(ui_EventBinding, ui_EventBinding, AUTO)
 
 
+PB_BIND(ui_VisibilityBinding, ui_VisibilityBinding, AUTO)
+
+
 PB_BIND(ui_Layout, ui_Layout, AUTO)
 
 
@@ -133,11 +148,9 @@ PB_BIND(ui_ShadowBundle, ui_ShadowBundle, AUTO)
 
 
 
-#ifndef PB_CONVERT_DOUBLE_FLOAT
-/* On some platforms (such as AVR), double is really float.
- * To be able to encode/decode double on these platforms, you need.
- * to define PB_CONVERT_DOUBLE_FLOAT in pb.h or compiler command line.
- */
-PB_STATIC_ASSERT(sizeof(double) == 8, DOUBLE_MUST_BE_8_BYTES)
-#endif
+
+
+
+
+
 
