@@ -10,10 +10,6 @@ package ui;
 public inline fun resolvedStyle(block: ui.ResolvedStyleKt.Dsl.() -> kotlin.Unit): ui.UiAst.ResolvedStyle =
   ui.ResolvedStyleKt.Dsl._create(ui.UiAst.ResolvedStyle.newBuilder()).apply { block() }._build()
 /**
- * ```
- * A fully-resolved style: all token refs are resolved to concrete LVGL values.
- * ```
- *
  * Protobuf type `ui.ResolvedStyle`
  */
 public object ResolvedStyleKt {

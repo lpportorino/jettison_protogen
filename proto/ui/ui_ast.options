@@ -6,9 +6,3 @@ ui.ResolvedStyle.properties     type:FT_POINTER
 ui.StyleProperty.string_value   max_size:64
 ui.EventBinding.event_name      max_size:64
 ui.WidgetNode.bindings          type:FT_POINTER
-ui.ImageProps.src               max_size:256
-ui.DropdownProps.options         max_size:1024
-ui.RollerProps.options           max_size:512
-ui.TextareaProps.placeholder     max_size:256
-ui.ButtonMatrixProps.map_str     max_size:1024
-ui.LineProps.points              type:FT_POINTER

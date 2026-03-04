@@ -29,9 +29,9 @@ public object LayoutKt {
     internal fun _build(): ui.UiAst.Layout = _builder.build()
 
     /**
-     * `.ui.FlexFlow flow = 1;`
+     * `.ui.LayoutFlow flow = 1;`
      */
-    public var flow: ui.UiAst.FlexFlow
+    public var flow: ui.UiAst.LayoutFlow
       @JvmName("getFlow")
       get() = _builder.flow
       @JvmName("setFlow")
@@ -46,82 +46,10 @@ public object LayoutKt {
         _builder.flowValue = value
       }
     /**
-     * `.ui.FlexFlow flow = 1;`
+     * `.ui.LayoutFlow flow = 1;`
      */
     public fun clearFlow() {
       _builder.clearFlow()
-    }
-
-    /**
-     * `.ui.FlexAlign main_place = 2;`
-     */
-    public var mainPlace: ui.UiAst.FlexAlign
-      @JvmName("getMainPlace")
-      get() = _builder.mainPlace
-      @JvmName("setMainPlace")
-      set(value) {
-        _builder.mainPlace = value
-      }
-    public var mainPlaceValue: kotlin.Int
-      @JvmName("getMainPlaceValue")
-      get() = _builder.mainPlaceValue
-      @JvmName("setMainPlaceValue")
-      set(value) {
-        _builder.mainPlaceValue = value
-      }
-    /**
-     * `.ui.FlexAlign main_place = 2;`
-     */
-    public fun clearMainPlace() {
-      _builder.clearMainPlace()
-    }
-
-    /**
-     * `.ui.FlexAlign cross_place = 3;`
-     */
-    public var crossPlace: ui.UiAst.FlexAlign
-      @JvmName("getCrossPlace")
-      get() = _builder.crossPlace
-      @JvmName("setCrossPlace")
-      set(value) {
-        _builder.crossPlace = value
-      }
-    public var crossPlaceValue: kotlin.Int
-      @JvmName("getCrossPlaceValue")
-      get() = _builder.crossPlaceValue
-      @JvmName("setCrossPlaceValue")
-      set(value) {
-        _builder.crossPlaceValue = value
-      }
-    /**
-     * `.ui.FlexAlign cross_place = 3;`
-     */
-    public fun clearCrossPlace() {
-      _builder.clearCrossPlace()
-    }
-
-    /**
-     * `.ui.FlexAlign track_place = 4;`
-     */
-    public var trackPlace: ui.UiAst.FlexAlign
-      @JvmName("getTrackPlace")
-      get() = _builder.trackPlace
-      @JvmName("setTrackPlace")
-      set(value) {
-        _builder.trackPlace = value
-      }
-    public var trackPlaceValue: kotlin.Int
-      @JvmName("getTrackPlaceValue")
-      get() = _builder.trackPlaceValue
-      @JvmName("setTrackPlaceValue")
-      set(value) {
-        _builder.trackPlaceValue = value
-      }
-    /**
-     * `.ui.FlexAlign track_place = 4;`
-     */
-    public fun clearTrackPlace() {
-      _builder.clearTrackPlace()
     }
   }
 }

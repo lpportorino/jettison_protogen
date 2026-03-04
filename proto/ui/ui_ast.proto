@@ -1,64 +1,23 @@
 syntax = "proto3";
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/ui";
+
 package ui;
 
-option go_package = "ui/ui_ast";
-
-// A complete UI screen — root message pushed via controls_load_ui().
 message Screen {
-  // `optional` is required so nanopb generates `has_root` for presence
-  // checking in proto3 (submessage fields do NOT get `has_*` by default).
   optional WidgetNode root = 1;
 }
 
-// A node in the widget tree (recursive).
 message WidgetNode {
   WidgetType type = 1;
-
-  // Position (optional — 0,0 = use layout)
   int32 x = 2;
   int32 y = 3;
-
-  // Static text (labels, checkbox, textarea, button)
   string text = 4;
-
-  // Subject data bindings (key = LVGL property, value = subject name)
   map<string, string> bindings = 5;
-
-  // Event binding (what command to emit on click)
   EventBinding event = 6;
-
-  // Layout flow
   Layout layout = 7;
-
-  // Children
   repeated WidgetNode children = 8;
-
-  // Style groups: default + per-state, each with 8 composite variants.
-  // Ordered: [default, pressed, focused, disabled, ...]
   repeated StyleGroup style_groups = 9;
-
-  // Typed widget-specific properties (one per widget type)
-  oneof widget_props {
-    ObjProps obj_props = 10;
-    ButtonProps button_props = 11;
-    LabelProps label_props = 12;
-    SliderProps slider_props = 13;
-    ImageProps image_props = 14;
-    ArcProps arc_props = 15;
-    BarProps bar_props = 16;
-    SwitchProps switch_props = 17;
-    CheckboxProps checkbox_props = 18;
-    DropdownProps dropdown_props = 19;
-    RollerProps roller_props = 20;
-    TextareaProps textarea_props = 21;
-    SpinboxProps spinbox_props = 22;
-    SpinnerProps spinner_props = 23;
-    LedProps led_props = 24;
-    LineProps line_props = 25;
-    ScaleProps scale_props = 26;
-    ButtonMatrixProps buttonmatrix_props = 27;
-    TableProps table_props = 28;
-  }
 }
 
 enum WidgetType {
@@ -67,333 +26,46 @@ enum WidgetType {
   WIDGET_LABEL = 2;
   WIDGET_SLIDER = 3;
   WIDGET_IMAGE = 4;
-  WIDGET_ARC = 5;
-  WIDGET_BAR = 6;
-  WIDGET_SWITCH = 7;
-  WIDGET_CHECKBOX = 8;
-  WIDGET_DROPDOWN = 9;
-  WIDGET_ROLLER = 10;
-  WIDGET_TEXTAREA = 11;
-  WIDGET_SPINBOX = 12;
-  WIDGET_SPINNER = 13;
-  WIDGET_LED = 14;
-  WIDGET_LINE = 15;
-  WIDGET_SCALE = 16;
-  WIDGET_BUTTONMATRIX = 17;
-  WIDGET_TABLE = 18;
-}
-
-// -- Widget-specific properties messages --
-
-message ObjProps {}
-
-message ButtonProps {}
-
-message LabelProps {
-  LabelLongMode long_mode = 1;
-}
-
-message SliderProps {
-  int32 min_value = 1;
-  int32 max_value = 2;
-  int32 value = 3;
-  BarMode mode = 4;
-}
-
-message ImageProps {
-  string src = 1;
-}
-
-message ArcProps {
-  uint32 start_angle = 1;
-  uint32 end_angle = 2;
-  uint32 bg_start_angle = 3;
-  uint32 bg_end_angle = 4;
-  int32 rotation = 5;
-  ArcMode mode = 6;
-  int32 min_value = 7;
-  int32 max_value = 8;
-  int32 value = 9;
-}
-
-message BarProps {
-  int32 min_value = 1;
-  int32 max_value = 2;
-  int32 value = 3;
-  int32 start_value = 4;
-  BarMode mode = 5;
-}
-
-message SwitchProps {
-  bool checked = 1;
-}
-
-message CheckboxProps {
-  bool checked = 1;
-}
-
-message DropdownProps {
-  string options = 1;
-  uint32 selected = 2;
-  Dir direction = 3;
-}
-
-message RollerProps {
-  string options = 1;
-  uint32 selected = 2;
-  uint32 visible_row_count = 3;
-  RollerMode mode = 4;
-}
-
-message TextareaProps {
-  string placeholder = 1;
-  uint32 max_length = 2;
-  bool one_line = 3;
-  bool password_mode = 4;
-}
-
-message SpinboxProps {
-  int32 min_value = 1;
-  int32 max_value = 2;
-  int32 value = 3;
-  int32 step = 4;
-  uint32 digit_count = 5;
-  uint32 separator_position = 6;
-}
-
-message SpinnerProps {
-  uint32 spin_time = 1;
-  uint32 arc_length = 2;
-}
-
-message LedProps {
-  Color color = 1;
-  uint32 brightness = 2;
-}
-
-message LineProps {
-  repeated Point points = 1;
-  bool y_invert = 2;
-}
-
-message ScaleProps {
-  ScaleMode mode = 1;
-  uint32 total_tick_count = 2;
-  uint32 major_tick_every = 3;
-  bool label_show = 4;
-  int32 min_value = 5;
-  int32 max_value = 6;
-  int32 rotation = 7;
-  uint32 angle_range = 8;
-}
-
-message ButtonMatrixProps {
-  string map_str = 1;
-  bool one_check = 2;
-}
-
-message TableProps {
-  uint32 row_count = 1;
-  uint32 column_count = 2;
-}
-
-// -- Supporting types --
-
-message Point {
-  int32 x = 1;
-  int32 y = 2;
 }
 
 message EventBinding {
-  string event_name = 1;     // e.g., "zoom_in" (for logging)
-  uint32 command_type = 2;   // binary command type ID (0x0105 etc.)
-  double float_value = 3;    // default float arg (can be 0)
-  int32 int_value = 4;       // default int arg (can be 0)
+  string event_name = 1;
+  uint32 command_type = 2;
+  double float_value = 3;
+  int32 int_value = 4;
 }
 
 message Layout {
-  FlexFlow flow = 1;
-  FlexAlign main_place = 2;
-  FlexAlign cross_place = 3;
-  FlexAlign track_place = 4;
+  LayoutFlow flow = 1;
 }
 
-// -- Enums --
-
-enum FlexFlow {
-  FLEX_FLOW_NONE = 0;
-  FLEX_FLOW_ROW = 1;
-  FLEX_FLOW_COLUMN = 2;
-  FLEX_FLOW_ROW_WRAP = 3;
-  FLEX_FLOW_ROW_REVERSE = 4;
-  FLEX_FLOW_ROW_WRAP_REVERSE = 5;
-  FLEX_FLOW_COLUMN_WRAP = 6;
-  FLEX_FLOW_COLUMN_REVERSE = 7;
-  FLEX_FLOW_COLUMN_WRAP_REVERSE = 8;
+enum LayoutFlow {
+  LAYOUT_NONE = 0;
+  LAYOUT_FLEX_ROW = 1;
+  LAYOUT_FLEX_COLUMN = 2;
 }
 
-enum FlexAlign {
-  FLEX_ALIGN_START = 0;
-  FLEX_ALIGN_END = 1;
-  FLEX_ALIGN_CENTER = 2;
-  FLEX_ALIGN_SPACE_EVENLY = 3;
-  FLEX_ALIGN_SPACE_AROUND = 4;
-  FLEX_ALIGN_SPACE_BETWEEN = 5;
-}
-
-enum GridAlign {
-  GRID_ALIGN_START = 0;
-  GRID_ALIGN_CENTER = 1;
-  GRID_ALIGN_END = 2;
-  GRID_ALIGN_STRETCH = 3;
-  GRID_ALIGN_SPACE_EVENLY = 4;
-  GRID_ALIGN_SPACE_AROUND = 5;
-  GRID_ALIGN_SPACE_BETWEEN = 6;
-}
-
-enum TextAlign {
-  TEXT_ALIGN_AUTO = 0;
-  TEXT_ALIGN_LEFT = 1;
-  TEXT_ALIGN_CENTER = 2;
-  TEXT_ALIGN_RIGHT = 3;
-}
-
-enum TextDecor {
-  TEXT_DECOR_NONE = 0;
-  TEXT_DECOR_UNDERLINE = 1;
-  TEXT_DECOR_STRIKETHROUGH = 2;
-}
-
-enum BlendMode {
-  BLEND_MODE_NORMAL = 0;
-  BLEND_MODE_ADDITIVE = 1;
-  BLEND_MODE_SUBTRACTIVE = 2;
-  BLEND_MODE_MULTIPLY = 3;
-}
-
-enum BaseDir {
-  BASE_DIR_LTR = 0;
-  BASE_DIR_RTL = 1;
-  BASE_DIR_AUTO = 2;
-}
-
-enum GradDir {
-  GRAD_DIR_NONE = 0;
-  GRAD_DIR_VER = 1;
-  GRAD_DIR_HOR = 2;
-  GRAD_DIR_LINEAR = 3;
-  GRAD_DIR_RADIAL = 4;
-  GRAD_DIR_CONICAL = 5;
-}
-
-enum Dir {
-  DIR_NONE = 0;
-  DIR_LEFT = 1;
-  DIR_RIGHT = 2;
-  DIR_HOR = 3;
-  DIR_TOP = 4;
-  DIR_BOTTOM = 8;
-  DIR_VER = 12;
-  DIR_ALL = 15;
-}
-
-enum Align {
-  ALIGN_DEFAULT = 0;
-  ALIGN_TOP_LEFT = 1;
-  ALIGN_TOP_MID = 2;
-  ALIGN_TOP_RIGHT = 3;
-  ALIGN_BOTTOM_LEFT = 4;
-  ALIGN_BOTTOM_MID = 5;
-  ALIGN_BOTTOM_RIGHT = 6;
-  ALIGN_LEFT_MID = 7;
-  ALIGN_RIGHT_MID = 8;
-  ALIGN_CENTER = 9;
-  ALIGN_OUT_TOP_LEFT = 10;
-  ALIGN_OUT_TOP_MID = 11;
-  ALIGN_OUT_TOP_RIGHT = 12;
-  ALIGN_OUT_BOTTOM_LEFT = 13;
-  ALIGN_OUT_BOTTOM_MID = 14;
-  ALIGN_OUT_BOTTOM_RIGHT = 15;
-  ALIGN_OUT_LEFT_TOP = 16;
-  ALIGN_OUT_LEFT_MID = 17;
-  ALIGN_OUT_LEFT_BOTTOM = 18;
-  ALIGN_OUT_RIGHT_TOP = 19;
-  ALIGN_OUT_RIGHT_MID = 20;
-  ALIGN_OUT_RIGHT_BOTTOM = 21;
-}
-
-enum BorderSide {
-  BORDER_SIDE_NONE = 0;
-  BORDER_SIDE_BOTTOM = 1;
-  BORDER_SIDE_TOP = 2;
-  BORDER_SIDE_LEFT = 4;
-  BORDER_SIDE_RIGHT = 8;
-  BORDER_SIDE_FULL = 15;
-  BORDER_SIDE_INTERNAL = 16;
-}
-
-enum LabelLongMode {
-  LABEL_LONG_WRAP = 0;
-  LABEL_LONG_DOT = 1;
-  LABEL_LONG_SCROLL = 2;
-  LABEL_LONG_SCROLL_CIRCULAR = 3;
-  LABEL_LONG_CLIP = 4;
-}
-
-enum BarMode {
-  BAR_MODE_NORMAL = 0;
-  BAR_MODE_SYMMETRICAL = 1;
-  BAR_MODE_RANGE = 2;
-}
-
-enum ArcMode {
-  ARC_MODE_NORMAL = 0;
-  ARC_MODE_SYMMETRICAL = 1;
-  ARC_MODE_REVERSE = 2;
-}
-
-enum RollerMode {
-  ROLLER_MODE_NORMAL = 0;
-  ROLLER_MODE_INFINITE = 1;
-}
-
-enum ScaleMode {
-  SCALE_MODE_HORIZONTAL_TOP = 0;
-  SCALE_MODE_HORIZONTAL_BOTTOM = 1;
-  SCALE_MODE_VERTICAL_LEFT = 2;
-  SCALE_MODE_VERTICAL_RIGHT = 4;
-  SCALE_MODE_ROUND_INNER = 8;
-  SCALE_MODE_ROUND_OUTER = 16;
-}
-
-// -- Style system --
-
-// A group of style variants for one LVGL state selector.
-// state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
 message StyleGroup {
   uint32 state_selector = 1;
-  repeated ResolvedStyle variants = 2;  // exactly 8 entries (composite indices 0-7)
+  repeated ResolvedStyle variants = 2;
 }
 
-// A fully-resolved style: all token refs are resolved to concrete LVGL values.
 message ResolvedStyle {
   repeated StyleProperty properties = 1;
 }
 
-// A single LVGL style property with its resolved value.
 message StyleProperty {
   StylePropertyType type = 1;
   oneof value {
-    uint32 uint_value = 2;       // pixels, opacity, enum values
-    int32 int_value = 3;         // signed values (width, height, padding, coords)
-    Color color_value = 4;       // resolved RGB
-    string string_value = 5;     // font C symbol name, image source path
+    uint32 uint_value = 2;
+    int32 int_value = 3;
+    Color color_value = 4;
+    string string_value = 5;
     ShadowBundle shadow_value = 6;
   }
 }
 
 enum StylePropertyType {
-  // Existing 0-15 (backward-compatible wire format)
   PROP_BG_COLOR = 0;
   PROP_BG_OPA = 1;
   PROP_TEXT_COLOR = 2;
@@ -410,133 +82,10 @@ enum StylePropertyType {
   PROP_PAD_VER = 13;
   PROP_MARGIN_ALL = 14;
   PROP_BORDER_OPA = 15;
-
-  // Size (16-20)
-  PROP_MIN_WIDTH = 16;
-  PROP_MAX_WIDTH = 17;
-  PROP_MIN_HEIGHT = 18;
-  PROP_MAX_HEIGHT = 19;
-  PROP_LENGTH = 20;
-
-  // Position (21-23)
-  PROP_X = 21;
-  PROP_Y = 22;
-  PROP_ALIGN = 23;
-
-  // Transform (24-34)
-  PROP_TRANSFORM_WIDTH = 24;
-  PROP_TRANSFORM_HEIGHT = 25;
-  PROP_TRANSLATE_X = 26;
-  PROP_TRANSLATE_Y = 27;
-  PROP_SCALE_X = 28;
-  PROP_SCALE_Y = 29;
-  PROP_ROTATION = 30;
-  PROP_PIVOT_X = 31;
-  PROP_PIVOT_Y = 32;
-  PROP_SKEW_X = 33;
-  PROP_SKEW_Y = 34;
-
-  // Padding individual (35-40)
-  PROP_PAD_TOP = 35;
-  PROP_PAD_BOTTOM = 36;
-  PROP_PAD_LEFT = 37;
-  PROP_PAD_RIGHT = 38;
-  PROP_PAD_ROW = 39;
-  PROP_PAD_COLUMN = 40;
-
-  // Margin individual (41-44)
-  PROP_MARGIN_TOP = 41;
-  PROP_MARGIN_BOTTOM = 42;
-  PROP_MARGIN_LEFT = 43;
-  PROP_MARGIN_RIGHT = 44;
-
-  // Background extended (45-55)
-  PROP_BG_GRAD_COLOR = 45;
-  PROP_BG_GRAD_DIR = 46;
-  PROP_BG_MAIN_STOP = 47;
-  PROP_BG_GRAD_STOP = 48;
-  PROP_BG_MAIN_OPA = 49;
-  PROP_BG_GRAD_OPA = 50;
-  PROP_BG_IMAGE_SRC = 51;
-  PROP_BG_IMAGE_OPA = 52;
-  PROP_BG_IMAGE_RECOLOR = 53;
-  PROP_BG_IMAGE_RECOLOR_OPA = 54;
-  PROP_BG_IMAGE_TILED = 55;
-
-  // Border extended (56-57)
-  PROP_BORDER_SIDE = 56;
-  PROP_BORDER_POST = 57;
-
-  // Outline (58-61)
-  PROP_OUTLINE_WIDTH = 58;
-  PROP_OUTLINE_COLOR = 59;
-  PROP_OUTLINE_OPA = 60;
-  PROP_OUTLINE_PAD = 61;
-
-  // Shadow individual (62-67)
-  PROP_SHADOW_WIDTH = 62;
-  PROP_SHADOW_OFFSET_X = 63;
-  PROP_SHADOW_OFFSET_Y = 64;
-  PROP_SHADOW_SPREAD = 65;
-  PROP_SHADOW_COLOR = 66;
-  PROP_SHADOW_OPA = 67;
-
-  // Image style (68-70)
-  PROP_IMAGE_OPA = 68;
-  PROP_IMAGE_RECOLOR = 69;
-  PROP_IMAGE_RECOLOR_OPA = 70;
-
-  // Line style (71-76)
-  PROP_LINE_WIDTH = 71;
-  PROP_LINE_DASH_WIDTH = 72;
-  PROP_LINE_DASH_GAP = 73;
-  PROP_LINE_ROUNDED = 74;
-  PROP_LINE_COLOR = 75;
-  PROP_LINE_OPA = 76;
-
-  // Arc style (77-80)
-  PROP_ARC_WIDTH = 77;
-  PROP_ARC_ROUNDED = 78;
-  PROP_ARC_COLOR = 79;
-  PROP_ARC_OPA = 80;
-
-  // Text extended (81-85)
-  PROP_TEXT_OPA = 81;
-  PROP_TEXT_LETTER_SPACE = 82;
-  PROP_TEXT_LINE_SPACE = 83;
-  PROP_TEXT_DECOR = 84;
-  PROP_TEXT_ALIGN = 85;
-
-  // Misc (86-93)
-  PROP_CLIP_CORNER = 86;
-  PROP_OPA = 87;
-  PROP_OPA_LAYERED = 88;
-  PROP_COLOR_FILTER_OPA = 89;
-  PROP_ANIM_DURATION = 90;
-  PROP_BLEND_MODE = 91;
-  PROP_BASE_DIR = 92;
-  PROP_ROTARY_SENSITIVITY = 93;
-
-  // Flex (94-98)
-  PROP_FLEX_FLOW = 94;
-  PROP_FLEX_MAIN_PLACE = 95;
-  PROP_FLEX_CROSS_PLACE = 96;
-  PROP_FLEX_TRACK_PLACE = 97;
-  PROP_FLEX_GROW = 98;
-
-  // Grid cell (99-106)
-  PROP_GRID_COLUMN_ALIGN = 99;
-  PROP_GRID_ROW_ALIGN = 100;
-  PROP_GRID_CELL_COLUMN_POS = 101;
-  PROP_GRID_CELL_X_ALIGN = 102;
-  PROP_GRID_CELL_COLUMN_SPAN = 103;
-  PROP_GRID_CELL_ROW_POS = 104;
-  PROP_GRID_CELL_Y_ALIGN = 105;
-  PROP_GRID_CELL_ROW_SPAN = 106;
 }
 
 message Color {
-  uint32 r = 1;  // 0-255
+  uint32 r = 1;
   uint32 g = 2;
   uint32 b = 3;
 }

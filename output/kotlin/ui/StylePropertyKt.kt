@@ -10,10 +10,6 @@ package ui;
 public inline fun styleProperty(block: ui.StylePropertyKt.Dsl.() -> kotlin.Unit): ui.UiAst.StyleProperty =
   ui.StylePropertyKt.Dsl._create(ui.UiAst.StyleProperty.newBuilder()).apply { block() }._build()
 /**
- * ```
- * A single LVGL style property with its resolved value.
- * ```
- *
  * Protobuf type `ui.StyleProperty`
  */
 public object StylePropertyKt {
@@ -57,10 +53,6 @@ public object StylePropertyKt {
     }
 
     /**
-     * ```
-     * pixels, opacity, enum values
-     * ```
-     *
      * `uint32 uint_value = 2;`
      */
     public var uintValue: kotlin.Int
@@ -71,20 +63,12 @@ public object StylePropertyKt {
         _builder.uintValue = value
       }
     /**
-     * ```
-     * pixels, opacity, enum values
-     * ```
-     *
      * `uint32 uint_value = 2;`
      */
     public fun clearUintValue() {
       _builder.clearUintValue()
     }
     /**
-     * ```
-     * pixels, opacity, enum values
-     * ```
-     *
      * `uint32 uint_value = 2;`
      * @return Whether the uintValue field is set.
      */
@@ -93,10 +77,6 @@ public object StylePropertyKt {
     }
 
     /**
-     * ```
-     * signed values (width, height, padding, coords)
-     * ```
-     *
      * `int32 int_value = 3;`
      */
     public var intValue: kotlin.Int
@@ -107,20 +87,12 @@ public object StylePropertyKt {
         _builder.intValue = value
       }
     /**
-     * ```
-     * signed values (width, height, padding, coords)
-     * ```
-     *
      * `int32 int_value = 3;`
      */
     public fun clearIntValue() {
       _builder.clearIntValue()
     }
     /**
-     * ```
-     * signed values (width, height, padding, coords)
-     * ```
-     *
      * `int32 int_value = 3;`
      * @return Whether the intValue field is set.
      */
@@ -129,10 +101,6 @@ public object StylePropertyKt {
     }
 
     /**
-     * ```
-     * resolved RGB
-     * ```
-     *
      * `.ui.Color color_value = 4;`
      */
     public var colorValue: ui.UiAst.Color
@@ -143,20 +111,12 @@ public object StylePropertyKt {
         _builder.colorValue = value
       }
     /**
-     * ```
-     * resolved RGB
-     * ```
-     *
      * `.ui.Color color_value = 4;`
      */
     public fun clearColorValue() {
       _builder.clearColorValue()
     }
     /**
-     * ```
-     * resolved RGB
-     * ```
-     *
      * `.ui.Color color_value = 4;`
      * @return Whether the colorValue field is set.
      */
@@ -165,10 +125,6 @@ public object StylePropertyKt {
     }
 
     /**
-     * ```
-     * font C symbol name, image source path
-     * ```
-     *
      * `string string_value = 5;`
      */
     public var stringValue: kotlin.String
@@ -179,20 +135,12 @@ public object StylePropertyKt {
         _builder.stringValue = value
       }
     /**
-     * ```
-     * font C symbol name, image source path
-     * ```
-     *
      * `string string_value = 5;`
      */
     public fun clearStringValue() {
       _builder.clearStringValue()
     }
     /**
-     * ```
-     * font C symbol name, image source path
-     * ```
-     *
      * `string string_value = 5;`
      * @return Whether the stringValue field is set.
      */

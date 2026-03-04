@@ -29,10 +29,6 @@ public object EventBindingKt {
     internal fun _build(): ui.UiAst.EventBinding = _builder.build()
 
     /**
-     * ```
-     * e.g., "zoom_in" (for logging)
-     * ```
-     *
      * `string event_name = 1;`
      */
     public var eventName: kotlin.String
@@ -43,10 +39,6 @@ public object EventBindingKt {
         _builder.eventName = value
       }
     /**
-     * ```
-     * e.g., "zoom_in" (for logging)
-     * ```
-     *
      * `string event_name = 1;`
      */
     public fun clearEventName() {
@@ -54,10 +46,6 @@ public object EventBindingKt {
     }
 
     /**
-     * ```
-     * binary command type ID (0x0105 etc.)
-     * ```
-     *
      * `uint32 command_type = 2;`
      */
     public var commandType: kotlin.Int
@@ -68,10 +56,6 @@ public object EventBindingKt {
         _builder.commandType = value
       }
     /**
-     * ```
-     * binary command type ID (0x0105 etc.)
-     * ```
-     *
      * `uint32 command_type = 2;`
      */
     public fun clearCommandType() {
@@ -79,10 +63,6 @@ public object EventBindingKt {
     }
 
     /**
-     * ```
-     * default float arg (can be 0)
-     * ```
-     *
      * `double float_value = 3;`
      */
     public var floatValue: kotlin.Double
@@ -93,10 +73,6 @@ public object EventBindingKt {
         _builder.floatValue = value
       }
     /**
-     * ```
-     * default float arg (can be 0)
-     * ```
-     *
      * `double float_value = 3;`
      */
     public fun clearFloatValue() {
@@ -104,10 +80,6 @@ public object EventBindingKt {
     }
 
     /**
-     * ```
-     * default int arg (can be 0)
-     * ```
-     *
      * `int32 int_value = 4;`
      */
     public var intValue: kotlin.Int
@@ -118,10 +90,6 @@ public object EventBindingKt {
         _builder.intValue = value
       }
     /**
-     * ```
-     * default int arg (can be 0)
-     * ```
-     *
      * `int32 int_value = 4;`
      */
     public fun clearIntValue() {

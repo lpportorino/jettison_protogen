@@ -10,10 +10,6 @@ package ui;
 public inline fun screen(block: ui.ScreenKt.Dsl.() -> kotlin.Unit): ui.UiAst.Screen =
   ui.ScreenKt.Dsl._create(ui.UiAst.Screen.newBuilder()).apply { block() }._build()
 /**
- * ```
- * A complete UI screen — root message pushed via controls_load_ui().
- * ```
- *
  * Protobuf type `ui.Screen`
  */
 public object ScreenKt {
@@ -33,11 +29,6 @@ public object ScreenKt {
     internal fun _build(): ui.UiAst.Screen = _builder.build()
 
     /**
-     * ```
-     * `optional` is required so nanopb generates `has_root` for presence
-     * checking in proto3 (submessage fields do NOT get `has_*` by default).
-     * ```
-     *
      * `optional .ui.WidgetNode root = 1;`
      */
     public var root: ui.UiAst.WidgetNode
@@ -48,22 +39,12 @@ public object ScreenKt {
         _builder.root = value
       }
     /**
-     * ```
-     * `optional` is required so nanopb generates `has_root` for presence
-     * checking in proto3 (submessage fields do NOT get `has_*` by default).
-     * ```
-     *
      * `optional .ui.WidgetNode root = 1;`
      */
     public fun clearRoot() {
       _builder.clearRoot()
     }
     /**
-     * ```
-     * `optional` is required so nanopb generates `has_root` for presence
-     * checking in proto3 (submessage fields do NOT get `has_*` by default).
-     * ```
-     *
      * `optional .ui.WidgetNode root = 1;`
      * @return Whether the root field is set.
      */
