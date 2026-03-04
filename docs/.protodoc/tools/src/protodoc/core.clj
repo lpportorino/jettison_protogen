@@ -5,6 +5,7 @@
             [protodoc.extract :as extract]
             [protodoc.render :as render]
             [protodoc.lint :as lint]
+            [protodoc.manifest :as manifest]
             [clojure.edn :as edn]
             [clojure.string :as str]
             [clojure.java.io :as io]
@@ -256,6 +257,7 @@
       "coverage" (coverage (update options :strict #(= % "true")))
       "lint"     (lint-cli options)
       "validate" (validate-cli options)
+      "manifest" (manifest/generate-manifests options)
       (do
         (println "Usage: protodoc <command> [options]")
         (println)
@@ -266,13 +268,16 @@
         (println "  coverage   Show documentation coverage")
         (println "  lint       Lint documentation quality")
         (println "  validate   Validate database")
+        (println "  manifest   Generate machine-readable JSON manifests")
         (println)
         (println "Options:")
-        (println "  --descriptor PATH  Path to descriptor-set.json")
-        (println "  --output-dir PATH  Path to output vault directory")
-        (println "  --db-path PATH     Path to proto-db.edn")
-        (println "  --strict           Exit with error if coverage < 100%")
-        (println "  --rules RULES      Comma-separated lint rules to include")
-        (println "  --exclude RULES    Comma-separated lint rules to exclude")
-        (println "  --severity LEVELS  Comma-separated severity levels to include")
+        (println "  --descriptor PATH    Path to descriptor-set.json")
+        (println "  --output-dir PATH    Path to output vault directory (or manifests dir)")
+        (println "  --db-path PATH       Path to proto-db.edn")
+        (println "  --config-path PATH   Path to manifest-config.edn")
+        (println "  --git-sha SHA        Git commit SHA for manifest metadata")
+        (println "  --strict             Exit with error if coverage < 100%")
+        (println "  --rules RULES        Comma-separated lint rules to include")
+        (println "  --exclude RULES      Comma-separated lint rules to exclude")
+        (println "  --severity LEVELS    Comma-separated severity levels to include")
         (System/exit 1)))))

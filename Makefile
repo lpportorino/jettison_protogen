@@ -149,6 +149,12 @@ docs-test: ## Run proto documentation tests
 	@printf "$(GREEN)Running documentation tests...$(NC)\n"
 	@cd docs/.protodoc/tools && clojure -M:test
 
+.PHONY: docs-manifests
+docs-manifests: ## Generate machine-readable JSON manifests from proto-db.edn
+	@printf "$(GREEN)Generating proto manifests...$(NC)\n"
+	@cd docs/.protodoc/tools && clojure -M:run manifest --db-path ../proto-db.edn --config-path ../manifest-config.edn --output-dir ../../../output/manifests --git-sha "$$(cd ../../.. && git rev-parse --short HEAD 2>/dev/null || echo unknown)"
+	@printf "$(GREEN)Manifests written to output/manifests/$(NC)\n"
+
 .PHONY: docs-docker-build
 docs-docker-build: ## Build proto docs Docker image
 	@printf "$(GREEN)Building proto docs Docker image...$(NC)\n"
