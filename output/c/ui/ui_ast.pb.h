@@ -332,12 +332,12 @@ typedef enum _ui_StylePropertyType {
 /* Struct definitions */
 /* Declaration of a reactive subject (lives in Screen, initialized at load time) */
 typedef struct _ui_SubjectDeclaration {
-    char name[64]; /* unique identifier, e.g. "zoom_level" */
+    pb_callback_t name; /* unique identifier, e.g. "zoom_level" */
     ui_SubjectType type;
     pb_size_t which_initial;
     union {
         int32_t int_initial; /* default value for INT subjects */
-        char string_initial[256]; /* default value for STRING subjects */
+        pb_callback_t string_initial; /* default value for STRING subjects */
     } initial;
 } ui_SubjectDeclaration;
 
@@ -348,22 +348,22 @@ typedef struct _ui_StateUpdate {
 
 /* A single subject value in a state update */
 typedef struct _ui_SubjectValue {
-    char name[64];
+    pb_callback_t name;
     pb_size_t which_value;
     union {
         int32_t int_value;
-        char string_value[256];
+        pb_callback_t string_value;
     } value;
 } ui_SubjectValue;
 
 typedef struct _ui_WidgetNode_BindingsEntry {
-    char key[64];
-    char value[64];
+    pb_callback_t key;
+    pb_callback_t value;
 } ui_WidgetNode_BindingsEntry;
 
 typedef struct _ui_WidgetNode_BindFormatsEntry {
-    char key[64];
-    char value[256];
+    pb_callback_t key;
+    pb_callback_t value;
 } ui_WidgetNode_BindFormatsEntry;
 
 typedef struct _ui_ObjProps {
@@ -386,7 +386,7 @@ typedef struct _ui_SliderProps {
 } ui_SliderProps;
 
 typedef struct _ui_ImageProps {
-    char src[256];
+    pb_callback_t src;
 } ui_ImageProps;
 
 typedef struct _ui_ArcProps {
@@ -418,20 +418,20 @@ typedef struct _ui_CheckboxProps {
 } ui_CheckboxProps;
 
 typedef struct _ui_DropdownProps {
-    char options[1024];
+    pb_callback_t options;
     uint32_t selected;
     ui_Dir direction;
 } ui_DropdownProps;
 
 typedef struct _ui_RollerProps {
-    char options[512];
+    pb_callback_t options;
     uint32_t selected;
     uint32_t visible_row_count;
     ui_RollerMode mode;
 } ui_RollerProps;
 
 typedef struct _ui_TextareaProps {
-    char placeholder[256];
+    pb_callback_t placeholder;
     uint32_t max_length;
     bool one_line;
     bool password_mode;
@@ -468,7 +468,7 @@ typedef struct _ui_ScaleProps {
 } ui_ScaleProps;
 
 typedef struct _ui_ButtonMatrixProps {
-    char map_str[1024];
+    pb_callback_t map_str;
     bool one_check;
 } ui_ButtonMatrixProps;
 
@@ -483,11 +483,11 @@ typedef struct _ui_Point {
 } ui_Point;
 
 typedef struct _ui_EventBinding {
-    char name[64]; /* event keyword — IS the command identifier */
+    pb_callback_t name; /* event keyword — IS the command identifier */
     ui_EventTrigger trigger; /* which LVGL event fires this (default: CLICKED) */
     int32_t int_value; /* static int payload */
     bool include_widget_value; /* inject widget's current value as int_value */
-    char set_subject[64]; /* local subject to mutate (empty = host event) */
+    pb_callback_t set_subject; /* local subject to mutate (empty = host event) */
     int32_t set_value; /* value to set on subject */
     bool toggle; /* flip 0↔1 instead of set_value */
     bool notify_host; /* also send to host when mutating subject */
@@ -495,7 +495,7 @@ typedef struct _ui_EventBinding {
 
 /* Conditional visibility — show/hide widget based on subject value comparison. */
 typedef struct _ui_VisibilityBinding {
-    char subject[64]; /* subject name to observe */
+    pb_callback_t subject; /* subject name to observe */
     int32_t ref_value; /* reference value for comparison */
     ui_CompareOp compare; /* comparison operator (default: EQ) */
 } ui_VisibilityBinding;
@@ -538,7 +538,7 @@ typedef struct _ui_WidgetNode {
     int32_t x;
     int32_t y;
     /* Static text (labels, checkbox, textarea, button) */
-    char text[256];
+    pb_callback_t text;
     /* Subject data bindings (key = LVGL property, value = subject name) */
     pb_callback_t bindings;
     /* Event binding (what command to emit on click) */
@@ -606,7 +606,7 @@ typedef struct _ui_StyleProperty {
         uint32_t uint_value; /* pixels, opacity, enum values */
         int32_t int_value; /* signed values (width, height, padding, coords) */
         ui_Color color_value; /* resolved RGB */
-        char string_value[64]; /* font C symbol name, image source path */
+        pb_callback_t string_value; /* font C symbol name, image source path */
         ui_ShadowBundle shadow_value;
     } value;
 } ui_StyleProperty;
@@ -754,70 +754,70 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define ui_SubjectDeclaration_init_default       {"", _ui_SubjectType_MIN, 0, {0}}
+#define ui_SubjectDeclaration_init_default       {{{NULL}, NULL}, _ui_SubjectType_MIN, 0, {0}}
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
-#define ui_SubjectValue_init_default             {"", 0, {0}}
+#define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_BindingsEntry_init_default {"", ""}
-#define ui_WidgetNode_BindFormatsEntry_init_default {"", ""}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}}
+#define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_default                 {0}
 #define ui_ButtonProps_init_default              {0}
 #define ui_LabelProps_init_default               {_ui_LabelLongMode_MIN}
 #define ui_SliderProps_init_default              {0, 0, 0, _ui_BarMode_MIN}
-#define ui_ImageProps_init_default               {""}
+#define ui_ImageProps_init_default               {{{NULL}, NULL}}
 #define ui_ArcProps_init_default                 {0, 0, 0, 0, 0, _ui_ArcMode_MIN, 0, 0, 0}
 #define ui_BarProps_init_default                 {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_default              {0}
 #define ui_CheckboxProps_init_default            {0}
-#define ui_DropdownProps_init_default            {"", 0, _ui_Dir_MIN}
-#define ui_RollerProps_init_default              {"", 0, 0, _ui_RollerMode_MIN}
-#define ui_TextareaProps_init_default            {"", 0, 0, 0}
+#define ui_DropdownProps_init_default            {{{NULL}, NULL}, 0, _ui_Dir_MIN}
+#define ui_RollerProps_init_default              {{{NULL}, NULL}, 0, 0, _ui_RollerMode_MIN}
+#define ui_TextareaProps_init_default            {{{NULL}, NULL}, 0, 0, 0}
 #define ui_SpinboxProps_init_default             {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_default             {0, 0}
 #define ui_LedProps_init_default                 {false, ui_Color_init_default, 0}
 #define ui_LineProps_init_default                {{{NULL}, NULL}, 0}
 #define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0}
-#define ui_ButtonMatrixProps_init_default        {"", 0}
+#define ui_ButtonMatrixProps_init_default        {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_default               {0, 0}
 #define ui_Point_init_default                    {0, 0}
-#define ui_EventBinding_init_default             {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0}
-#define ui_VisibilityBinding_init_default        {"", 0, _ui_CompareOp_MIN}
+#define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
+#define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_default               {0, {{NULL}, NULL}}
 #define ui_ResolvedStyle_init_default            {{{NULL}, NULL}}
 #define ui_StyleProperty_init_default            {_ui_StylePropertyType_MIN, 0, {0}}
 #define ui_Color_init_default                    {0, 0, 0}
 #define ui_ShadowBundle_init_default             {0, 0, 0, 0, 0}
-#define ui_SubjectDeclaration_init_zero          {"", _ui_SubjectType_MIN, 0, {0}}
+#define ui_SubjectDeclaration_init_zero          {{{NULL}, NULL}, _ui_SubjectType_MIN, 0, {0}}
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
-#define ui_SubjectValue_init_zero                {"", 0, {0}}
+#define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, "", {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_BindingsEntry_init_zero    {"", ""}
-#define ui_WidgetNode_BindFormatsEntry_init_zero {"", ""}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}}
+#define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_zero                    {0}
 #define ui_ButtonProps_init_zero                 {0}
 #define ui_LabelProps_init_zero                  {_ui_LabelLongMode_MIN}
 #define ui_SliderProps_init_zero                 {0, 0, 0, _ui_BarMode_MIN}
-#define ui_ImageProps_init_zero                  {""}
+#define ui_ImageProps_init_zero                  {{{NULL}, NULL}}
 #define ui_ArcProps_init_zero                    {0, 0, 0, 0, 0, _ui_ArcMode_MIN, 0, 0, 0}
 #define ui_BarProps_init_zero                    {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_zero                 {0}
 #define ui_CheckboxProps_init_zero               {0}
-#define ui_DropdownProps_init_zero               {"", 0, _ui_Dir_MIN}
-#define ui_RollerProps_init_zero                 {"", 0, 0, _ui_RollerMode_MIN}
-#define ui_TextareaProps_init_zero               {"", 0, 0, 0}
+#define ui_DropdownProps_init_zero               {{{NULL}, NULL}, 0, _ui_Dir_MIN}
+#define ui_RollerProps_init_zero                 {{{NULL}, NULL}, 0, 0, _ui_RollerMode_MIN}
+#define ui_TextareaProps_init_zero               {{{NULL}, NULL}, 0, 0, 0}
 #define ui_SpinboxProps_init_zero                {0, 0, 0, 0, 0, 0}
 #define ui_SpinnerProps_init_zero                {0, 0}
 #define ui_LedProps_init_zero                    {false, ui_Color_init_zero, 0}
 #define ui_LineProps_init_zero                   {{{NULL}, NULL}, 0}
 #define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0}
-#define ui_ButtonMatrixProps_init_zero           {"", 0}
+#define ui_ButtonMatrixProps_init_zero           {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_zero                  {0, 0}
 #define ui_Point_init_zero                       {0, 0}
-#define ui_EventBinding_init_zero                {"", _ui_EventTrigger_MIN, 0, 0, "", 0, 0, 0}
-#define ui_VisibilityBinding_init_zero           {"", 0, _ui_CompareOp_MIN}
+#define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
+#define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_zero                  {0, {{NULL}, NULL}}
 #define ui_ResolvedStyle_init_zero               {{{NULL}, NULL}}
@@ -964,11 +964,11 @@ extern "C" {
 
 /* Struct field encoding specification for nanopb */
 #define ui_SubjectDeclaration_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   name,              1) \
+X(a, CALLBACK, SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              2) \
 X(a, STATIC,   ONEOF,    INT32,    (initial,int_initial,initial.int_initial),   3) \
-X(a, STATIC,   ONEOF,    STRING,   (initial,string_initial,initial.string_initial),   4)
-#define ui_SubjectDeclaration_CALLBACK NULL
+X(a, CALLBACK, ONEOF,    STRING,   (initial,string_initial,initial.string_initial),   4)
+#define ui_SubjectDeclaration_CALLBACK pb_default_field_callback
 #define ui_SubjectDeclaration_DEFAULT NULL
 
 #define ui_StateUpdate_FIELDLIST(X, a) \
@@ -978,10 +978,10 @@ X(a, CALLBACK, REPEATED, MESSAGE,  values,            1)
 #define ui_StateUpdate_values_MSGTYPE ui_SubjectValue
 
 #define ui_SubjectValue_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   name,              1) \
+X(a, CALLBACK, SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   ONEOF,    INT32,    (value,int_value,value.int_value),   2) \
-X(a, STATIC,   ONEOF,    STRING,   (value,string_value,value.string_value),   3)
-#define ui_SubjectValue_CALLBACK NULL
+X(a, CALLBACK, ONEOF,    STRING,   (value,string_value,value.string_value),   3)
+#define ui_SubjectValue_CALLBACK pb_default_field_callback
 #define ui_SubjectValue_DEFAULT NULL
 
 #define ui_Screen_FIELDLIST(X, a) \
@@ -996,7 +996,7 @@ X(a, CALLBACK, REPEATED, MESSAGE,  subjects,          2)
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 2) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 3) \
-X(a, STATIC,   SINGULAR, STRING,   text,              4) \
+X(a, CALLBACK, SINGULAR, STRING,   text,              4) \
 X(a, CALLBACK, REPEATED, MESSAGE,  bindings,          5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  event,             6) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  layout,            7) \
@@ -1053,15 +1053,15 @@ X(a, CALLBACK, REPEATED, MESSAGE,  bind_formats,     30)
 #define ui_WidgetNode_bind_formats_MSGTYPE ui_WidgetNode_BindFormatsEntry
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   key,               1) \
-X(a, STATIC,   SINGULAR, STRING,   value,             2)
-#define ui_WidgetNode_BindingsEntry_CALLBACK NULL
+X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
+X(a, CALLBACK, SINGULAR, STRING,   value,             2)
+#define ui_WidgetNode_BindingsEntry_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_BindingsEntry_DEFAULT NULL
 
 #define ui_WidgetNode_BindFormatsEntry_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   key,               1) \
-X(a, STATIC,   SINGULAR, STRING,   value,             2)
-#define ui_WidgetNode_BindFormatsEntry_CALLBACK NULL
+X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
+X(a, CALLBACK, SINGULAR, STRING,   value,             2)
+#define ui_WidgetNode_BindFormatsEntry_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_BindFormatsEntry_DEFAULT NULL
 
 #define ui_ObjProps_FIELDLIST(X, a) \
@@ -1088,8 +1088,8 @@ X(a, STATIC,   SINGULAR, UENUM,    mode,              4)
 #define ui_SliderProps_DEFAULT NULL
 
 #define ui_ImageProps_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   src,               1)
-#define ui_ImageProps_CALLBACK NULL
+X(a, CALLBACK, SINGULAR, STRING,   src,               1)
+#define ui_ImageProps_CALLBACK pb_default_field_callback
 #define ui_ImageProps_DEFAULT NULL
 
 #define ui_ArcProps_FIELDLIST(X, a) \
@@ -1125,26 +1125,26 @@ X(a, STATIC,   SINGULAR, BOOL,     checked,           1)
 #define ui_CheckboxProps_DEFAULT NULL
 
 #define ui_DropdownProps_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   options,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   options,           1) \
 X(a, STATIC,   SINGULAR, UINT32,   selected,          2) \
 X(a, STATIC,   SINGULAR, UENUM,    direction,         3)
-#define ui_DropdownProps_CALLBACK NULL
+#define ui_DropdownProps_CALLBACK pb_default_field_callback
 #define ui_DropdownProps_DEFAULT NULL
 
 #define ui_RollerProps_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   options,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   options,           1) \
 X(a, STATIC,   SINGULAR, UINT32,   selected,          2) \
 X(a, STATIC,   SINGULAR, UINT32,   visible_row_count,   3) \
 X(a, STATIC,   SINGULAR, UENUM,    mode,              4)
-#define ui_RollerProps_CALLBACK NULL
+#define ui_RollerProps_CALLBACK pb_default_field_callback
 #define ui_RollerProps_DEFAULT NULL
 
 #define ui_TextareaProps_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   placeholder,       1) \
+X(a, CALLBACK, SINGULAR, STRING,   placeholder,       1) \
 X(a, STATIC,   SINGULAR, UINT32,   max_length,        2) \
 X(a, STATIC,   SINGULAR, BOOL,     one_line,          3) \
 X(a, STATIC,   SINGULAR, BOOL,     password_mode,     4)
-#define ui_TextareaProps_CALLBACK NULL
+#define ui_TextareaProps_CALLBACK pb_default_field_callback
 #define ui_TextareaProps_DEFAULT NULL
 
 #define ui_SpinboxProps_FIELDLIST(X, a) \
@@ -1190,9 +1190,9 @@ X(a, STATIC,   SINGULAR, UINT32,   angle_range,       8)
 #define ui_ScaleProps_DEFAULT NULL
 
 #define ui_ButtonMatrixProps_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   map_str,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   map_str,           1) \
 X(a, STATIC,   SINGULAR, BOOL,     one_check,         2)
-#define ui_ButtonMatrixProps_CALLBACK NULL
+#define ui_ButtonMatrixProps_CALLBACK pb_default_field_callback
 #define ui_ButtonMatrixProps_DEFAULT NULL
 
 #define ui_TableProps_FIELDLIST(X, a) \
@@ -1208,22 +1208,22 @@ X(a, STATIC,   SINGULAR, INT32,    y,                 2)
 #define ui_Point_DEFAULT NULL
 
 #define ui_EventBinding_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   name,              1) \
+X(a, CALLBACK, SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   SINGULAR, UENUM,    trigger,           2) \
 X(a, STATIC,   SINGULAR, INT32,    int_value,         3) \
 X(a, STATIC,   SINGULAR, BOOL,     include_widget_value,   4) \
-X(a, STATIC,   SINGULAR, STRING,   set_subject,       5) \
+X(a, CALLBACK, SINGULAR, STRING,   set_subject,       5) \
 X(a, STATIC,   SINGULAR, INT32,    set_value,         6) \
 X(a, STATIC,   SINGULAR, BOOL,     toggle,            7) \
 X(a, STATIC,   SINGULAR, BOOL,     notify_host,       8)
-#define ui_EventBinding_CALLBACK NULL
+#define ui_EventBinding_CALLBACK pb_default_field_callback
 #define ui_EventBinding_DEFAULT NULL
 
 #define ui_VisibilityBinding_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   subject,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   subject,           1) \
 X(a, STATIC,   SINGULAR, INT32,    ref_value,         2) \
 X(a, STATIC,   SINGULAR, UENUM,    compare,           3)
-#define ui_VisibilityBinding_CALLBACK NULL
+#define ui_VisibilityBinding_CALLBACK pb_default_field_callback
 #define ui_VisibilityBinding_DEFAULT NULL
 
 #define ui_Layout_FIELDLIST(X, a) \
@@ -1252,9 +1252,9 @@ X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   ONEOF,    UINT32,   (value,uint_value,value.uint_value),   2) \
 X(a, STATIC,   ONEOF,    INT32,    (value,int_value,value.int_value),   3) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (value,color_value,value.color_value),   4) \
-X(a, STATIC,   ONEOF,    STRING,   (value,string_value,value.string_value),   5) \
+X(a, CALLBACK, ONEOF,    STRING,   (value,string_value,value.string_value),   5) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (value,shadow_value,value.shadow_value),   6)
-#define ui_StyleProperty_CALLBACK NULL
+#define ui_StyleProperty_CALLBACK pb_default_field_callback
 #define ui_StyleProperty_DEFAULT NULL
 #define ui_StyleProperty_value_color_value_MSGTYPE ui_Color
 #define ui_StyleProperty_value_shadow_value_MSGTYPE ui_ShadowBundle
@@ -1349,42 +1349,42 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ShadowBundle_fields &ui_ShadowBundle_msg
 
 /* Maximum encoded size of messages (where known) */
+/* ui_SubjectDeclaration_size depends on runtime parameters */
 /* ui_StateUpdate_size depends on runtime parameters */
+/* ui_SubjectValue_size depends on runtime parameters */
 /* ui_Screen_size depends on runtime parameters */
 /* ui_WidgetNode_size depends on runtime parameters */
+/* ui_WidgetNode_BindingsEntry_size depends on runtime parameters */
+/* ui_WidgetNode_BindFormatsEntry_size depends on runtime parameters */
+/* ui_ImageProps_size depends on runtime parameters */
+/* ui_DropdownProps_size depends on runtime parameters */
+/* ui_RollerProps_size depends on runtime parameters */
+/* ui_TextareaProps_size depends on runtime parameters */
 /* ui_LineProps_size depends on runtime parameters */
+/* ui_ButtonMatrixProps_size depends on runtime parameters */
+/* ui_EventBinding_size depends on runtime parameters */
+/* ui_VisibilityBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_ResolvedStyle_size depends on runtime parameters */
-#define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_DropdownProps_size
+/* ui_StyleProperty_size depends on runtime parameters */
+#define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_ArcProps_size
 #define ui_ArcProps_size                         70
 #define ui_BarProps_size                         46
-#define ui_ButtonMatrixProps_size                1028
 #define ui_ButtonProps_size                      0
 #define ui_CheckboxProps_size                    2
 #define ui_Color_size                            18
-#define ui_DropdownProps_size                    1034
-#define ui_EventBinding_size                     160
-#define ui_ImageProps_size                       258
 #define ui_LabelProps_size                       2
 #define ui_Layout_size                           8
 #define ui_LedProps_size                         26
 #define ui_ObjProps_size                         0
 #define ui_Point_size                            22
-#define ui_RollerProps_size                      528
 #define ui_ScaleProps_size                       55
 #define ui_ShadowBundle_size                     40
 #define ui_SliderProps_size                      35
 #define ui_SpinboxProps_size                     56
 #define ui_SpinnerProps_size                     12
-#define ui_StyleProperty_size                    67
-#define ui_SubjectDeclaration_size               325
-#define ui_SubjectValue_size                     323
 #define ui_SwitchProps_size                      2
 #define ui_TableProps_size                       12
-#define ui_TextareaProps_size                    268
-#define ui_VisibilityBinding_size                78
-#define ui_WidgetNode_BindFormatsEntry_size      323
-#define ui_WidgetNode_BindingsEntry_size         130
 
 #ifdef __cplusplus
 } /* extern "C" */

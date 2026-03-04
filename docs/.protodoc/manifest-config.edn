@@ -1,0 +1,23 @@
+{;; JonGUIState fields that are NOT subsystem messages (skip for signals)
+ :root-skip-fields #{"protocol_version" "system_monotonic_time_us" "state_source"
+                      "frame_pts_day_ns" "frame_pts_heat_ns"
+                      "frame_monotonic_day_us" "frame_monotonic_heat_us"
+                      "opaque_payloads"}
+
+ ;; cmd.Root fields that are NOT subsystem commands (skip for endpoints)
+ :cmd-skip-fields #{"protocol_version" "session_id" "important"
+                     "from_cv_subsystem" "client_type" "client_app"
+                     "frame_time_day" "frame_time_heat" "state_time"
+                     "client_time_ms" "opaque_payloads"
+                     "noop" "ping" "frozen"}
+
+ ;; Signal prefix overrides (default: snake->camelCase of field name)
+ :signal-prefix-overrides {}
+
+ ;; Endpoint path overrides (default: kebab-case convention)
+ :endpoint-path-overrides {}
+
+ ;; Derived signals (ARM enrichment layer, not in proto)
+ :derived-signals
+ [{:name "navPosition" :sources ["gpsLatitude" "gpsLongitude"]
+   :description "Combined lat/lon string from enrichment pre-pass"}]}

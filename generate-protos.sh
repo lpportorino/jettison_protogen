@@ -128,16 +128,12 @@ find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; 
     awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
 done
 
-# Copy nanopb .options files alongside cleaned protos (required for size constraints)
-# nanopb plugin searches both the cleaned proto dir and the workspace CWD
+# Copy nanopb .options files (controls field types/sizes for generated C structs)
 find proto -name "*.options" -type f -not -path "*/test/*" | while read -r opts; do
     relpath="${opts#proto/}"
     dirname=$(dirname "$relpath")
     mkdir -p "/tmp/cleaned_proto/$dirname"
     cp "$opts" "/tmp/cleaned_proto/$relpath"
-    # Also copy to CWD-relative path for nanopb plugin discovery
-    mkdir -p "$dirname"
-    cp "$opts" "$relpath"
 done
 
 find /tmp/cleaned_proto -name "*.proto" -print0 | xargs -0 -P 8 -I{} \
@@ -173,10 +169,9 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/cpp_proto_val/
 
 # Generate C++ with validation annotations preserved
-PROTO_FILES=$(find /tmp/cpp_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/cpp_proto_val \
     --cpp_out=/workspace/output \
-    $PROTO_FILES
+    /tmp/cpp_proto_val/*.proto
 
 echo "C++ generation with buf.validate support completed"
 '
@@ -385,33 +380,28 @@ EOF
 mkdir -p src
 cat > build.rs << "EOF"
 use std::io::Result;
-use std::path::{Path, PathBuf};
 
 fn main() -> Result<()> {
-    let proto_files = find_protos(Path::new("/tmp/cleaned_proto"))?;
-
+    let proto_files: Vec<_> = std::fs::read_dir("/tmp/cleaned_proto")?
+        .filter_map(|entry| {
+            let entry = entry.ok()?;
+            let path = entry.path();
+            if path.extension()? == "proto" {
+                Some(path)
+            } else {
+                None
+            }
+        })
+        .collect();
+    
     // Ensure output directory exists and is writable
     std::fs::create_dir_all("/workspace/output")?;
-
+    
     prost_build::Config::new()
         .out_dir("/workspace/output")
         .compile_protos(&proto_files, &["/tmp/cleaned_proto"])?;
-
+    
     Ok(())
-}
-
-/// Recursively find all `.proto` files under `dir`.
-fn find_protos(dir: &Path) -> Result<Vec<PathBuf>> {
-    let mut files = Vec::new();
-    for entry in std::fs::read_dir(dir)? {
-        let path = entry?.path();
-        if path.is_dir() {
-            files.extend(find_protos(&path)?);
-        } else if path.extension().is_some_and(|e| e == "proto") {
-            files.push(path);
-        }
-    }
-    Ok(files)
 }
 EOF
 
@@ -509,12 +499,11 @@ else
     echo "buf not found, using protoc with custom extensions support..."
     
     # Use protoc to generate FileDescriptorSet (binary format) with extensions
-    JSON_PROTO_FILES=$(find /tmp/json_proto -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
     protoc -I/tmp/json_proto \
         --descriptor_set_out=/tmp/descriptor-set.pb \
         --include_imports \
         --include_source_info \
-        $JSON_PROTO_FILES
+        /tmp/json_proto/*.proto
     
     # Convert to JSON using Python with custom extensions support
     python3 << "PYTHON_EOF"
@@ -592,12 +581,11 @@ done
 cp -r /opt/protovalidate/proto/protovalidate/buf /tmp/ts_proto_val/
 
 # Generate TypeScript using @bufbuild/protoc-gen-es with validation
-TS_PROTO_FILES=$(find /tmp/ts_proto_val -name "*.proto" -type f ! -path "*/buf/*" ! -path "*/test/*")
 protoc -I/tmp/ts_proto_val \
     --plugin=/usr/local/lib/node_modules/@bufbuild/protoc-gen-es/bin/protoc-gen-es \
     --es_out=/workspace/output \
     --es_opt=target=ts \
-    $TS_PROTO_FILES
+    /tmp/ts_proto_val/*.proto
 
 # Create package.json for the generated output
 cat > /workspace/output/package.json << "PKG_EOF"

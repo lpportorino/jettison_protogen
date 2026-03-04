@@ -36408,8 +36408,9 @@ java.lang.String defaultValue) {
       "\n\026PROP_GRID_CELL_X_ALIGN\020f\022\036\n\032PROP_GRID_" +
       "CELL_COLUMN_SPAN\020g\022\032\n\026PROP_GRID_CELL_ROW" +
       "_POS\020h\022\032\n\026PROP_GRID_CELL_Y_ALIGN\020i\022\033\n\027PR" +
-      "OP_GRID_CELL_ROW_SPAN\020jB\013Z\tui/ui_astb\006pr" +
-      "oto3"
+      "OP_GRID_CELL_ROW_SPAN\020jBEZCgit-codecommi" +
+      "t.eu-central-1.amazonaws.com/v1/repos/je" +
+      "ttison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
