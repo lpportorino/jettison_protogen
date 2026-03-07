@@ -37,6 +37,7 @@ output/
 ├── rust/                 # Rust bindings using prost
 ├── typescript/           # TypeScript bindings using ts-proto (no validation)
 ├── typescript-validated/ # TypeScript bindings with protovalidate-es
+├── zig/                  # Zig bindings using zig-protobuf
 └── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
 ```
 
@@ -257,6 +258,12 @@ make versions
 - Handles all proto files in single compilation
 - Creates module structure automatically
 
+**Zig**
+- Uses protoc-gen-zig from Arwalk/zig-protobuf for Zig code generation
+- Removes all validation annotations via AWK preprocessing (no buf.validate support)
+- Proto3 only
+- Generates `.zig` files
+
 **Python**
 - Generates both .py implementation and .pyi type stubs
 - Uses standard protoc Python plugin
@@ -330,6 +337,7 @@ The JSON descriptor generation script has been enhanced to use buf CLI when avai
 4. Docker required for consistent environment
 5. GitHub Actions required for automated distribution
 6. Buf Schema Registry (BSR) rate limits apply to Go and Kotlin generation (see below)
+7. Zig (zig-protobuf) does not support buf.validate annotations or proto2
 
 ## Buf Schema Registry (BSR) Rate Limits
 

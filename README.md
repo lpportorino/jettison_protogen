@@ -4,7 +4,7 @@ A containerized environment for generating protocol buffer bindings for multiple
 
 ## Features
 
-- **Multi-language support**: C (nanopb), C++, Go, Kotlin, Python, TypeScript, Rust, and Java
+- **Multi-language support**: C (nanopb), C++, Go, Kotlin, Python, TypeScript, Rust, Zig, and Java
 - **Buf.validate support**: Go, Kotlin, Java, and TypeScript (validated) bindings include validation support
 - **Consistent environment**: All tools run in a controlled Docker container
 - **Sequential generation**: All languages generated in a single GitHub Actions job
@@ -92,6 +92,7 @@ output/
 ├── typescript/           # TypeScript bindings (ts-proto, no validation)
 ├── typescript-validated/ # TypeScript bindings with protovalidate-es
 ├── rust/                 # Rust bindings (prost)
+├── zig/                  # Zig bindings (zig-protobuf)
 ├── java/                 # Java bindings with buf.validate support
 └── json-descriptors/     # JSON FileDescriptorSets with buf.validate annotations
 ```
@@ -136,6 +137,11 @@ output/
 ### Rust
 - Uses prost for Rust code generation
 - Creates proper Rust module structure
+
+### Zig
+- Uses zig-protobuf (Arwalk/zig-protobuf) for Zig code generation
+- Automatically removes buf.validate annotations
+- Proto3 only
 
 ### Python
 - Generates both `.py` files and `.pyi` type stubs
@@ -347,6 +353,7 @@ Edit version variables in `Dockerfile.base`:
 - `PROTOC_VERSION`
 - `GO_VERSION`
 - `RUST_VERSION`
+- `ZIG_VERSION`
 
 Then rebuild:
 ```bash

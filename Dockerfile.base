@@ -5,6 +5,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PROTOC_VERSION=29.2
 ENV GO_VERSION=1.23.4
 ENV RUST_VERSION=1.85.0
+ENV ZIG_VERSION=0.15.1
+ENV ZIG_PROTOBUF_VERSION=v3.0.1
 
 # Install base dependencies
 # Use retry logic to handle transient repository issues
@@ -65,6 +67,26 @@ RUN curl -s --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -
 ENV PATH=/opt/rust/bin:$PATH
 # Make rust directory accessible to all users
 RUN chmod -R a+rx /opt/rust
+
+# Install Zig for the correct architecture
+RUN ARCH=$(uname -m) && \
+    if [ "$ARCH" = "aarch64" ]; then \
+        ZIG_ARCH="aarch64"; \
+    else \
+        ZIG_ARCH="x86_64"; \
+    fi && \
+    wget -q https://ziglang.org/download/${ZIG_VERSION}/zig-linux-${ZIG_ARCH}-${ZIG_VERSION}.tar.xz \
+    && tar -C /opt -xJf zig-linux-${ZIG_ARCH}-${ZIG_VERSION}.tar.xz \
+    && ln -s /opt/zig-linux-${ZIG_ARCH}-${ZIG_VERSION} /opt/zig \
+    && rm zig-linux-${ZIG_ARCH}-${ZIG_VERSION}.tar.xz
+ENV PATH=/opt/zig:$PATH
+
+# Clone and build protoc-gen-zig from Arwalk/zig-protobuf
+RUN git clone https://github.com/Arwalk/zig-protobuf.git /opt/zig-protobuf \
+    && cd /opt/zig-protobuf \
+    && git checkout ${ZIG_PROTOBUF_VERSION} \
+    && zig build
+ENV PATH=$PATH:/opt/zig-protobuf/zig-out/bin
 
 # Install Python protobuf dependencies
 RUN pip3 install --break-system-packages \
@@ -129,7 +151,9 @@ RUN protoc --version \
     && python3 --version \
     && node --version \
     && java --version \
+    && zig version \
     && protoc-gen-nanopb --version || echo "nanopb version check" \
-    && which protoc-gen-go
+    && which protoc-gen-go \
+    && which protoc-gen-zig
 
 ENTRYPOINT ["/bin/bash"]

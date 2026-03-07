@@ -635,6 +635,7 @@ jobs:
         - TypeScript
         - TypeScript-validated (with protovalidate-es)
         - Rust
+        - Zig
         - Java (with buf.validate)
         - JSON Descriptors
 
@@ -655,7 +656,7 @@ jobs:
       run: |
         # Create tarballs for release
         mkdir -p release-artifacts
-        for lang in c cpp go kotlin python typescript rust java json-descriptors; do
+        for lang in c cpp go kotlin python typescript rust zig java json-descriptors; do
           if [ -d "output/$lang" ] && [ "$(ls -A output/$lang)" ]; then
             tar czf "release-artifacts/proto-${lang}.tar.gz" -C output "$lang"
           fi
@@ -682,6 +683,7 @@ jobs:
         - TypeScript - [jettison_proto_typescript](https://github.com/lpportorico/jettison_proto_typescript)
         - TypeScript (validated) - [jettison_protovalidate_es](https://github.com/lpportorico/jettison_protovalidate_es)
         - Rust - [jettison_proto_rust](https://github.com/lpportorico/jettison_proto_rust)
+        - Zig (zig-protobuf)
         - Java (with buf.validate) - [jettison_proto_java](https://github.com/lpportorico/jettison_proto_java)
         - JSON Descriptors - [jettison_proto_json-descriptors](https://github.com/lpportorico/jettison_proto_json-descriptors)" \
           ${{ github.event.inputs.release_tag == '' && '--prerelease' || '' }} \

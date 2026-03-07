@@ -74,7 +74,7 @@ fi
 
 # Create output directories with full permissions
 print_info "Creating output directories..."
-mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,kotlin,python,typescript,rust,java,json-descriptors,typescript-validated}
+mkdir -p "$OUTPUT_BASE_DIR"/{c,cpp,go,kotlin,python,typescript,rust,zig,java,json-descriptors,typescript-validated}
 # Set directory permissions to 777
 chmod -R 777 "$OUTPUT_BASE_DIR" 2>/dev/null || true
 
@@ -412,6 +412,34 @@ EOF
 cargo build 2>&1 | tail -5
 '
 
+# Zig generation script
+ZIG_SCRIPT='
+set -e
+mkdir -p /tmp/cleaned_proto
+
+# Process all proto files including subdirectories
+find proto -name "*.proto" -type f -not -path "*/test/*" | while read -r proto; do
+    relpath="${proto#proto/}"
+    dirname=$(dirname "$relpath")
+    mkdir -p "/tmp/cleaned_proto/$dirname"
+    awk -f /usr/local/bin/proto_cleanup.awk "$proto" > "/tmp/cleaned_proto/$relpath"
+done
+
+# Generate Zig bindings using protoc-gen-zig
+PROTO_FILES=$(find /tmp/cleaned_proto -name "*.proto" -type f)
+protoc --plugin=protoc-gen-zig=/opt/zig-protobuf/zig-out/bin/protoc-gen-zig \
+    -I/tmp/cleaned_proto \
+    --zig_out=/workspace/output \
+    $PROTO_FILES
+
+# Verify files were generated
+if [ -z "$(find /workspace/output -name "*.zig" -o -name "*.pb.zig" -type f 2>/dev/null)" ]; then
+    echo "ERROR: No Zig files were generated!"
+    exit 1
+fi
+echo "Zig generation successful, found $(find /workspace/output \( -name "*.zig" -o -name "*.pb.zig" \) -type f | wc -l) Zig files"
+'
+
 # Java generation script with buf.validate support
 JAVA_SCRIPT='
 set -e
@@ -622,7 +650,7 @@ echo "Generated $(find /workspace/output -name "*_pb.ts" -type f | wc -l) TypeSc
 # Run all generations
 FAILED_LANGS=()
 
-for lang in c cpp go kotlin python typescript rust java json-descriptors typescript-validated; do
+for lang in c cpp go kotlin python typescript rust zig java json-descriptors typescript-validated; do
     case $lang in
         c) script="$C_SCRIPT" ;;
         cpp) script="$CPP_SCRIPT" ;;
@@ -631,6 +659,7 @@ for lang in c cpp go kotlin python typescript rust java json-descriptors typescr
         python) script="$PYTHON_SCRIPT" ;;
         typescript) script="$TYPESCRIPT_SCRIPT" ;;
         rust) script="$RUST_SCRIPT" ;;
+        zig) script="$ZIG_SCRIPT" ;;
         java) script="$JAVA_SCRIPT" ;;
         json-descriptors) script="$JSON_DESCRIPTOR_SCRIPT" ;;
         typescript-validated) script="$TYPESCRIPT_VALIDATED_SCRIPT" ;;
@@ -651,7 +680,7 @@ print_info "========== Generation Summary =========="
 print_info "Output directory: $OUTPUT_BASE_DIR"
 
 # Check what was generated
-for lang in c cpp go kotlin python typescript rust java json-descriptors typescript-validated; do
+for lang in c cpp go kotlin python typescript rust zig java json-descriptors typescript-validated; do
     count=$(find "$OUTPUT_BASE_DIR/$lang" -type f 2>/dev/null | wc -l)
     if [ $count -gt 0 ]; then
         print_info "$lang: $count files generated"

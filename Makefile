@@ -121,7 +121,8 @@ versions: build ## Show versions of tools in the Docker image
 		echo 'rustc version:' && rustc --version && echo && \
 		echo 'python version:' && python3 --version && echo && \
 		echo 'java version:' && java --version | head -n1 && echo && \
-		echo 'node version:' && node --version"
+		echo 'node version:' && node --version && echo && \
+		echo 'zig version:' && zig version"
 
 # === Documentation targets ===
 
