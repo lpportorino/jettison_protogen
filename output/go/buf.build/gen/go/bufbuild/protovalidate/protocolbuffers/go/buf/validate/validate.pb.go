@@ -41,7 +41,7 @@
 //
 // These rules are enforced at runtime by language-specific libraries.
 // See the [developer quickstart](https://protovalidate.com/quickstart/) to get started, or go directly to the runtime library for your language:
-// [Go](https://github.com/bufbuild/protovalidate-go)
+// [Go](https://github.com/bufbuild/protovalidate-go),
 // [JavaScript/TypeScript](https://github.com/bufbuild/protovalidate-es),
 // [Java](https://github.com/bufbuild/protovalidate-java),
 // [Python](https://github.com/bufbuild/protovalidate-python),
@@ -1261,7 +1261,7 @@ type FloatRules struct {
 	//
 	// ```
 	In []float32 `protobuf:"fixed32,6,rep,name=in" json:"in,omitempty"`
-	// `in` requires the field value to not be equal to any of the specified
+	// `not_in` requires the field value to not be equal to any of the specified
 	// values. If the field value is one of the specified values, an error
 	// message is generated.
 	//
@@ -6519,7 +6519,7 @@ type AnyRules struct {
 	//
 	// ```
 	In []string `protobuf:"bytes,2,rep,name=in" json:"in,omitempty"`
-	// requires the field's type_url to be not equal to any of the specified values. If it matches any of the specified values, an error message is generated.
+	// `not_in` requires the field's type_url to be not equal to any of the specified values. If it matches any of the specified values, an error message is generated.
 	//
 	// ```proto
 	//
@@ -7168,13 +7168,13 @@ type isTimestampRules_LessThan interface {
 }
 
 type TimestampRules_Lt struct {
-	// requires the duration field value to be less than the specified value (field < value). If the field value doesn't meet the required conditions, an error message is generated.
+	// `lt` requires the timestamp field value to be less than the specified value (field < value). If the field value doesn't meet the required conditions, an error message is generated.
 	//
 	// ```proto
 	//
-	//	message MyDuration {
-	//	  // duration must be less than 'P3D' [duration.lt]
-	//	  google.protobuf.Duration value = 1 [(buf.validate.field).duration.lt = { seconds: 259200 }];
+	//	message MyTimestamp {
+	//	  // timestamp must be less than '2023-01-01T00:00:00Z' [timestamp.lt]
+	//	  google.protobuf.Timestamp value = 1 [(buf.validate.field).timestamp.lt = { seconds: 1672444800 }];
 	//	}
 	//
 	// ```
@@ -7182,7 +7182,7 @@ type TimestampRules_Lt struct {
 }
 
 type TimestampRules_Lte struct {
-	// requires the timestamp field value to be less than or equal to the specified value (field <= value). If the field value doesn't meet the required conditions, an error message is generated.
+	// `lte` requires the timestamp field value to be less than or equal to the specified value (field <= value). If the field value doesn't meet the required conditions, an error message is generated.
 	//
 	// ```proto
 	//
