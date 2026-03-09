@@ -27,7 +27,7 @@ typedef struct _ser_CvChannelMeta {
     pb_callback_t sharpness_level1;
     /* 4x4 grid (exactly 16 elements, row-major) */
     pb_callback_t sharpness_level2;
-    /* 8x8 grid (exactly 64 elements, row-major) */
+    /* 16x10 grid (exactly 160 elements, row-major) */
     pb_callback_t sharpness_level3;
     /* Timing metrics (nanoseconds) */
     uint64_t sharpness_compute_ns;

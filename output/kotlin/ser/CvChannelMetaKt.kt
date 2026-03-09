@@ -313,7 +313,7 @@ public object CvChannelMetaKt {
     public class SharpnessLevel3Proxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
@@ -325,7 +325,7 @@ public object CvChannelMetaKt {
       )
     /**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
@@ -337,7 +337,7 @@ public object CvChannelMetaKt {
       _builder.addSharpnessLevel3(value)
     }/**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
@@ -350,7 +350,7 @@ public object CvChannelMetaKt {
       add(value)
     }/**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
@@ -362,7 +362,7 @@ public object CvChannelMetaKt {
       _builder.addAllSharpnessLevel3(values)
     }/**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
@@ -375,7 +375,7 @@ public object CvChannelMetaKt {
       addAll(values)
     }/**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`
@@ -388,7 +388,7 @@ public object CvChannelMetaKt {
       _builder.setSharpnessLevel3(index, value)
     }/**
      * ```
-     * 8x8 grid (exactly 64 elements, row-major)
+     * 16x10 grid (exactly 160 elements, row-major)
      * ```
      *
      * `repeated float sharpness_level3 = 7 [(.buf.validate.field) = { ... }`

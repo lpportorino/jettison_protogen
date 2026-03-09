@@ -29,7 +29,7 @@ export interface CvChannelMeta {
   sharpnessLevel1: number[];
   /** 4x4 grid (exactly 16 elements, row-major) */
   sharpnessLevel2: number[];
-  /** 8x8 grid (exactly 64 elements, row-major) */
+  /** 16x10 grid (exactly 160 elements, row-major) */
   sharpnessLevel3: number[];
   /** Timing metrics (nanoseconds) */
   sharpnessComputeNs: Long;

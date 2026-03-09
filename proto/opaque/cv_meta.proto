@@ -36,10 +36,10 @@ message CvChannelMeta {
     max_items: 16
   }];
 
-  // 8x8 grid (exactly 64 elements, row-major)
+  // 16x10 grid (exactly 160 elements, row-major)
   repeated float sharpness_level3 = 7 [(buf.validate.field).repeated = {
-    min_items: 64,
-    max_items: 64
+    min_items: 160,
+    max_items: 160
   }];
 
   // Timing metrics (nanoseconds)

@@ -40,7 +40,7 @@ type CvChannelMeta struct {
 	SharpnessLevel1 []float32 `protobuf:"fixed32,5,rep,packed,name=sharpness_level1,json=sharpnessLevel1,proto3" json:"sharpness_level1,omitempty"`
 	// 4x4 grid (exactly 16 elements, row-major)
 	SharpnessLevel2 []float32 `protobuf:"fixed32,6,rep,packed,name=sharpness_level2,json=sharpnessLevel2,proto3" json:"sharpness_level2,omitempty"`
-	// 8x8 grid (exactly 64 elements, row-major)
+	// 16x10 grid (exactly 160 elements, row-major)
 	SharpnessLevel3 []float32 `protobuf:"fixed32,7,rep,packed,name=sharpness_level3,json=sharpnessLevel3,proto3" json:"sharpness_level3,omitempty"`
 	// Timing metrics (nanoseconds)
 	SharpnessComputeNs uint64 `protobuf:"varint,8,opt,name=sharpness_compute_ns,json=sharpnessComputeNs,proto3" json:"sharpness_compute_ns,omitempty"`
@@ -299,7 +299,7 @@ var File_opaque_cv_meta_proto protoreflect.FileDescriptor
 
 const file_opaque_cv_meta_proto_rawDesc = "" +
 	"\n" +
-	"\x14opaque/cv_meta.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1cjon_shared_data_rotary.proto\"\x8c\x05\n" +
+	"\x14opaque/cv_meta.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a jon_shared_data_camera_day.proto\x1a!jon_shared_data_camera_heat.proto\x1a\x1cjon_shared_data_rotary.proto\"\x8e\x05\n" +
 	"\rCvChannelMeta\x12\x1e\n" +
 	"\x06pts_ns\x18\x01 \x01(\x04B\a\xbaH\x042\x02(\x00R\x05ptsNs\x12/\n" +
 	"\x0fcapture_time_ns\x18\x02 \x01(\x04B\a\xbaH\x042\x02(\x00R\rcaptureTimeNs\x12\x1e\n" +
@@ -312,9 +312,8 @@ const file_opaque_cv_meta_proto_rawDesc = "" +
 	"\x10sharpness_level1\x18\x05 \x03(\x02B\n" +
 	"\xbaH\a\x92\x01\x04\b\x04\x10\x04R\x0fsharpnessLevel1\x125\n" +
 	"\x10sharpness_level2\x18\x06 \x03(\x02B\n" +
-	"\xbaH\a\x92\x01\x04\b\x10\x10\x10R\x0fsharpnessLevel2\x125\n" +
-	"\x10sharpness_level3\x18\a \x03(\x02B\n" +
-	"\xbaH\a\x92\x01\x04\b@\x10@R\x0fsharpnessLevel3\x129\n" +
+	"\xbaH\a\x92\x01\x04\b\x10\x10\x10R\x0fsharpnessLevel2\x127\n" +
+	"\x10sharpness_level3\x18\a \x03(\x02B\f\xbaH\t\x92\x01\x06\b\xa0\x01\x10\xa0\x01R\x0fsharpnessLevel3\x129\n" +
 	"\x14sharpness_compute_ns\x18\b \x01(\x04B\a\xbaH\x042\x02(\x00R\x12sharpnessComputeNs\x125\n" +
 	"\x12sharpness_total_ns\x18\t \x01(\x04B\a\xbaH\x042\x02(\x00R\x10sharpnessTotalNs\x12'\n" +
 	"\x0fsharpness_valid\x18\n" +
