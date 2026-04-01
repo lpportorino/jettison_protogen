@@ -6,6 +6,7 @@
             [protodoc.render :as render]
             [protodoc.lint :as lint]
             [protodoc.manifest :as manifest]
+            [protodoc.binary-dedup :as binary-dedup]
             [clojure.edn :as edn]
             [clojure.string :as str]
             [clojure.java.io :as io]
@@ -247,7 +248,11 @@
      --strict           - Exit with error if coverage < 100%
      --rules RULES      - Comma-separated lint rules to include
      --exclude RULES    - Comma-separated lint rules to exclude
-     --severity LEVELS  - Comma-separated severity levels to include"
+     --severity LEVELS  - Comma-separated severity levels to include
+
+   binary-dedup:
+     --descriptor PATH  - Path to descriptor-set.json
+     --output PATH      - Path to write generated .ts file"
   [& args]
   (let [{:keys [command options]} (parse-args args)]
     (case command
@@ -258,6 +263,7 @@
       "lint"     (lint-cli options)
       "validate" (validate-cli options)
       "manifest" (manifest/generate-manifests options)
+      "binary-dedup" (binary-dedup/generate! (:descriptor options) (:output options))
       (do
         (println "Usage: protodoc <command> [options]")
         (println)
@@ -268,7 +274,8 @@
         (println "  coverage   Show documentation coverage")
         (println "  lint       Lint documentation quality")
         (println "  validate   Validate database")
-        (println "  manifest   Generate machine-readable JSON manifests")
+        (println "  manifest     Generate machine-readable JSON manifests")
+        (println "  binary-dedup Generate binary dedup TypeScript tag map")
         (println)
         (println "Options:")
         (println "  --descriptor PATH    Path to descriptor-set.json")

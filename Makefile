@@ -60,6 +60,7 @@ generate: build ## Generate protocol buffer bindings for all languages
 	@PROTO_SOURCE_DIR=$(PROTO_SOURCE_DIR) \
 	 OUTPUT_BASE_DIR=$(OUTPUT_BASE_DIR) \
 	 ./generate-protos.sh
+	@$(MAKE) binary-dedup-run
 
 .PHONY: rebuild
 rebuild: clean-image generate ## Force rebuild Docker image and regenerate bindings
@@ -77,6 +78,21 @@ clean: ## Remove all generated files (preserves proto directory)
 	fi
 	@printf "$(GREEN)Generated files removed$(NC)\n"
 	@printf "$(GREEN)Proto files preserved$(NC)\n"
+
+.PHONY: binary-dedup
+binary-dedup: generate ## Full generate + binary dedup tag map (use for standalone runs)
+
+.PHONY: binary-dedup-run
+binary-dedup-run: ## Generate binary dedup tag map (called automatically by generate)
+	@printf "$(GREEN)Generating binary dedup tag map...$(NC)\n"
+	@docker run --rm \
+		-v "$$(pwd)/output/json-descriptors:/data/descriptors:ro" \
+		-v "$$(pwd)/output/typescript:/data/output" \
+		-v "$$(pwd)/docs/.protodoc/tools:/app" \
+		-w /app \
+		clojure:temurin-25-tools-deps-bookworm \
+		clojure -M:run binary-dedup --descriptor /data/descriptors/descriptor-set.json --output /data/output/binary_dedup_tags.ts
+	@printf "$(GREEN)Binary dedup tag map generated$(NC)\n"
 
 .PHONY: clean-image
 clean-image: ## Remove the main Docker image
