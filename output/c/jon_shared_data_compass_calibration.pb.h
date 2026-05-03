@@ -18,6 +18,14 @@ typedef struct _ser_JonGuiDataCompassCalibration {
     double target_elevation;
     double target_bank;
     ser_JonGuiDataCompassCalibrateStatus status;
+    /* Figure of merit reported by the DMC-pico after compensation completes.
+ Two raw bytes from the CAN-UART bridge response, packed as uint16
+ (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+ The vendor manual (TML 913755) documents FOM as a degrees value
+ (typical 0.2-0.3, recommended < 0.5, device rejects results > 9.9)
+ for the ASCII serial protocol, but the binary CAN-UART encoding is
+ not in the public manual. Consumers must decode empirically. */
+    uint32_t figure_of_merit_raw;
 } ser_JonGuiDataCompassCalibration;
 
 
@@ -26,8 +34,8 @@ extern "C" {
 #endif
 
 /* Initializer values for message structs */
-#define ser_JonGuiDataCompassCalibration_init_default {0, 0, 0, 0, 0, _ser_JonGuiDataCompassCalibrateStatus_MIN}
-#define ser_JonGuiDataCompassCalibration_init_zero {0, 0, 0, 0, 0, _ser_JonGuiDataCompassCalibrateStatus_MIN}
+#define ser_JonGuiDataCompassCalibration_init_default {0, 0, 0, 0, 0, _ser_JonGuiDataCompassCalibrateStatus_MIN, 0}
+#define ser_JonGuiDataCompassCalibration_init_zero {0, 0, 0, 0, 0, _ser_JonGuiDataCompassCalibrateStatus_MIN, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ser_JonGuiDataCompassCalibration_stage_tag 1
@@ -36,6 +44,7 @@ extern "C" {
 #define ser_JonGuiDataCompassCalibration_target_elevation_tag 4
 #define ser_JonGuiDataCompassCalibration_target_bank_tag 5
 #define ser_JonGuiDataCompassCalibration_status_tag 6
+#define ser_JonGuiDataCompassCalibration_figure_of_merit_raw_tag 7
 
 /* Struct field encoding specification for nanopb */
 #define ser_JonGuiDataCompassCalibration_FIELDLIST(X, a) \
@@ -44,7 +53,8 @@ X(a, STATIC,   SINGULAR, UINT32,   final_stage,       2) \
 X(a, STATIC,   SINGULAR, DOUBLE,   target_azimuth,    3) \
 X(a, STATIC,   SINGULAR, DOUBLE,   target_elevation,   4) \
 X(a, STATIC,   SINGULAR, DOUBLE,   target_bank,       5) \
-X(a, STATIC,   SINGULAR, UENUM,    status,            6)
+X(a, STATIC,   SINGULAR, UENUM,    status,            6) \
+X(a, STATIC,   SINGULAR, UINT32,   figure_of_merit_raw,   7)
 #define ser_JonGuiDataCompassCalibration_CALLBACK NULL
 #define ser_JonGuiDataCompassCalibration_DEFAULT NULL
 
@@ -55,7 +65,7 @@ extern const pb_msgdesc_t ser_JonGuiDataCompassCalibration_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define SER_JON_SHARED_DATA_COMPASS_CALIBRATION_PB_H_MAX_SIZE ser_JonGuiDataCompassCalibration_size
-#define ser_JonGuiDataCompassCalibration_size    41
+#define ser_JonGuiDataCompassCalibration_size    47
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -222,6 +222,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
     kTargetElevationFieldNumber = 4,
     kTargetBankFieldNumber = 5,
     kStatusFieldNumber = 6,
+    kFigureOfMeritRawFieldNumber = 7,
   };
   // uint32 stage = 1 [(.buf.validate.field) = {
   void clear_stage() ;
@@ -283,12 +284,22 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
   void _internal_set_status(::ser::JonGuiDataCompassCalibrateStatus value);
 
   public:
+  // uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = {
+  void clear_figure_of_merit_raw() ;
+  ::uint32_t figure_of_merit_raw() const;
+  void set_figure_of_merit_raw(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_figure_of_merit_raw() const;
+  void _internal_set_figure_of_merit_raw(::uint32_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:ser.JonGuiDataCompassCalibration)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 0,
+      3, 7, 0,
       0, 2>
       _table_;
 
@@ -312,6 +323,7 @@ class JonGuiDataCompassCalibration final : public ::google::protobuf::Message
     double target_elevation_;
     double target_bank_;
     int status_;
+    ::uint32_t figure_of_merit_raw_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -465,6 +477,28 @@ inline ::ser::JonGuiDataCompassCalibrateStatus JonGuiDataCompassCalibration::_in
 inline void JonGuiDataCompassCalibration::_internal_set_status(::ser::JonGuiDataCompassCalibrateStatus value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.status_ = value;
+}
+
+// uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = {
+inline void JonGuiDataCompassCalibration::clear_figure_of_merit_raw() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.figure_of_merit_raw_ = 0u;
+}
+inline ::uint32_t JonGuiDataCompassCalibration::figure_of_merit_raw() const {
+  // @@protoc_insertion_point(field_get:ser.JonGuiDataCompassCalibration.figure_of_merit_raw)
+  return _internal_figure_of_merit_raw();
+}
+inline void JonGuiDataCompassCalibration::set_figure_of_merit_raw(::uint32_t value) {
+  _internal_set_figure_of_merit_raw(value);
+  // @@protoc_insertion_point(field_set:ser.JonGuiDataCompassCalibration.figure_of_merit_raw)
+}
+inline ::uint32_t JonGuiDataCompassCalibration::_internal_figure_of_merit_raw() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.figure_of_merit_raw_;
+}
+inline void JonGuiDataCompassCalibration::_internal_set_figure_of_merit_raw(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.figure_of_merit_raw_ = value;
 }
 
 #ifdef __GNUC__

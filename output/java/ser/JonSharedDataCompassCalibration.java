@@ -69,6 +69,22 @@ public final class JonSharedDataCompassCalibration {
      * @return The status.
      */
     ser.JonSharedDataTypes.JonGuiDataCompassCalibrateStatus getStatus();
+
+    /**
+     * <pre>
+     * Figure of merit reported by the DMC-pico after compensation completes.
+     * Two raw bytes from the CAN-UART bridge response, packed as uint16
+     * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+     * The vendor manual (TML 913755) documents FOM as a degrees value
+     * (typical 0.2-0.3, recommended &lt; 0.5, device rejects results &gt; 9.9)
+     * for the ASCII serial protocol, but the binary CAN-UART encoding is
+     * not in the public manual. Consumers must decode empirically.
+     * </pre>
+     *
+     * <code>uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The figureOfMeritRaw.
+     */
+    int getFigureOfMeritRaw();
   }
   /**
    * Protobuf type {@code ser.JonGuiDataCompassCalibration}
@@ -181,6 +197,27 @@ public final class JonSharedDataCompassCalibration {
       return result == null ? ser.JonSharedDataTypes.JonGuiDataCompassCalibrateStatus.UNRECOGNIZED : result;
     }
 
+    public static final int FIGURE_OF_MERIT_RAW_FIELD_NUMBER = 7;
+    private int figureOfMeritRaw_ = 0;
+    /**
+     * <pre>
+     * Figure of merit reported by the DMC-pico after compensation completes.
+     * Two raw bytes from the CAN-UART bridge response, packed as uint16
+     * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+     * The vendor manual (TML 913755) documents FOM as a degrees value
+     * (typical 0.2-0.3, recommended &lt; 0.5, device rejects results &gt; 9.9)
+     * for the ASCII serial protocol, but the binary CAN-UART encoding is
+     * not in the public manual. Consumers must decode empirically.
+     * </pre>
+     *
+     * <code>uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }</code>
+     * @return The figureOfMeritRaw.
+     */
+    @java.lang.Override
+    public int getFigureOfMeritRaw() {
+      return figureOfMeritRaw_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -212,6 +249,9 @@ public final class JonSharedDataCompassCalibration {
       }
       if (status_ != ser.JonSharedDataTypes.JonGuiDataCompassCalibrateStatus.JON_GUI_DATA_COMPASS_CALIBRATE_STATUS_UNSPECIFIED.getNumber()) {
         output.writeEnum(6, status_);
+      }
+      if (figureOfMeritRaw_ != 0) {
+        output.writeUInt32(7, figureOfMeritRaw_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -246,6 +286,10 @@ public final class JonSharedDataCompassCalibration {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, status_);
       }
+      if (figureOfMeritRaw_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, figureOfMeritRaw_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -275,6 +319,8 @@ public final class JonSharedDataCompassCalibration {
           != java.lang.Double.doubleToLongBits(
               other.getTargetBank())) return false;
       if (status_ != other.status_) return false;
+      if (getFigureOfMeritRaw()
+          != other.getFigureOfMeritRaw()) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -301,6 +347,8 @@ public final class JonSharedDataCompassCalibration {
           java.lang.Double.doubleToLongBits(getTargetBank()));
       hash = (37 * hash) + STATUS_FIELD_NUMBER;
       hash = (53 * hash) + status_;
+      hash = (37 * hash) + FIGURE_OF_MERIT_RAW_FIELD_NUMBER;
+      hash = (53 * hash) + getFigureOfMeritRaw();
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -438,6 +486,7 @@ public final class JonSharedDataCompassCalibration {
         targetElevation_ = 0D;
         targetBank_ = 0D;
         status_ = 0;
+        figureOfMeritRaw_ = 0;
         return this;
       }
 
@@ -489,6 +538,9 @@ public final class JonSharedDataCompassCalibration {
         if (((from_bitField0_ & 0x00000020) != 0)) {
           result.status_ = status_;
         }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.figureOfMeritRaw_ = figureOfMeritRaw_;
+        }
       }
 
       @java.lang.Override
@@ -520,6 +572,9 @@ public final class JonSharedDataCompassCalibration {
         }
         if (other.status_ != 0) {
           setStatusValue(other.getStatusValue());
+        }
+        if (other.getFigureOfMeritRaw() != 0) {
+          setFigureOfMeritRaw(other.getFigureOfMeritRaw());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -577,6 +632,11 @@ public final class JonSharedDataCompassCalibration {
                 bitField0_ |= 0x00000020;
                 break;
               } // case 48
+              case 56: {
+                figureOfMeritRaw_ = input.readUInt32();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -807,6 +867,68 @@ public final class JonSharedDataCompassCalibration {
         return this;
       }
 
+      private int figureOfMeritRaw_ ;
+      /**
+       * <pre>
+       * Figure of merit reported by the DMC-pico after compensation completes.
+       * Two raw bytes from the CAN-UART bridge response, packed as uint16
+       * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+       * The vendor manual (TML 913755) documents FOM as a degrees value
+       * (typical 0.2-0.3, recommended &lt; 0.5, device rejects results &gt; 9.9)
+       * for the ASCII serial protocol, but the binary CAN-UART encoding is
+       * not in the public manual. Consumers must decode empirically.
+       * </pre>
+       *
+       * <code>uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }</code>
+       * @return The figureOfMeritRaw.
+       */
+      @java.lang.Override
+      public int getFigureOfMeritRaw() {
+        return figureOfMeritRaw_;
+      }
+      /**
+       * <pre>
+       * Figure of merit reported by the DMC-pico after compensation completes.
+       * Two raw bytes from the CAN-UART bridge response, packed as uint16
+       * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+       * The vendor manual (TML 913755) documents FOM as a degrees value
+       * (typical 0.2-0.3, recommended &lt; 0.5, device rejects results &gt; 9.9)
+       * for the ASCII serial protocol, but the binary CAN-UART encoding is
+       * not in the public manual. Consumers must decode empirically.
+       * </pre>
+       *
+       * <code>uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }</code>
+       * @param value The figureOfMeritRaw to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFigureOfMeritRaw(int value) {
+
+        figureOfMeritRaw_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Figure of merit reported by the DMC-pico after compensation completes.
+       * Two raw bytes from the CAN-UART bridge response, packed as uint16
+       * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+       * The vendor manual (TML 913755) documents FOM as a degrees value
+       * (typical 0.2-0.3, recommended &lt; 0.5, device rejects results &gt; 9.9)
+       * for the ASCII serial protocol, but the binary CAN-UART encoding is
+       * not in the public manual. Consumers must decode empirically.
+       * </pre>
+       *
+       * <code>uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFigureOfMeritRaw() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        figureOfMeritRaw_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ser.JonGuiDataCompassCalibration)
     }
 
@@ -874,7 +996,7 @@ public final class JonSharedDataCompassCalibration {
     java.lang.String[] descriptorData = {
       "\n)jon_shared_data_compass_calibration.pr" +
       "oto\022\003ser\032\033buf/validate/validate.proto\032\033j" +
-      "on_shared_data_types.proto\"\251\002\n\034JonGuiDat" +
+      "on_shared_data_types.proto\"\321\002\n\034JonGuiDat" +
       "aCompassCalibration\022\026\n\005stage\030\001 \001(\rB\007\272H\004*" +
       "\002(\000\022\034\n\013final_stage\030\002 \001(\rB\007\272H\004*\002 \000\022/\n\016tar" +
       "get_azimuth\030\003 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000" +
@@ -882,7 +1004,8 @@ public final class JonSharedDataCompassCalibration {
       "\000\200V@)\000\000\000\000\000\200V\300\022,\n\013target_bank\030\005 \001(\001B\027\272H\024\022" +
       "\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022A\n\006status\030\006 \001(\0162%.se" +
       "r.JonGuiDataCompassCalibrateStatusB\n\272H\007\202" +
-      "\001\004\020\001 \000B[ZYgit-codecommit.eu-central-1.am" +
+      "\001\004\020\001 \000\022&\n\023figure_of_merit_raw\030\007 \001(\rB\t\272H\006" +
+      "*\004\030\377\377\003B[ZYgit-codecommit.eu-central-1.am" +
       "azonaws.com/v1/repos/jettison/jonp/data/" +
       "compass_calibrationb\006proto3"
     };
@@ -897,7 +1020,7 @@ public final class JonSharedDataCompassCalibration {
     internal_static_ser_JonGuiDataCompassCalibration_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ser_JonGuiDataCompassCalibration_descriptor,
-        new java.lang.String[] { "Stage", "FinalStage", "TargetAzimuth", "TargetElevation", "TargetBank", "Status", });
+        new java.lang.String[] { "Stage", "FinalStage", "TargetAzimuth", "TargetElevation", "TargetBank", "Status", "FigureOfMeritRaw", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     ser.JonSharedDataTypes.getDescriptor();

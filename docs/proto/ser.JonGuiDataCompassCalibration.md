@@ -87,4 +87,9 @@ Bank/roll angle in degrees
 See related enum for valid values
 
 
+### figure_of_merit_raw (#7)
+
+Two raw bytes returned by the DMC-pico after calculating compensation parameters, packed as a uint16 (low byte first) and zero-extended into uint32. Per vendor manual TML 913755 §4.1.4 the FOM is a degrees value (typical 0.2-0.3, recommended < 0.5, device discards results > 9.9). The binary CAN-UART bridge encoding is undocumented; consumers must decode empirically. Value 0 means no FOM has been reported yet for the current session.
+
+
 

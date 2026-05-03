@@ -136,6 +136,43 @@ public object JonGuiDataCompassCalibrationKt {
     public fun clearStatus() {
       _builder.clearStatus()
     }
+
+    /**
+     * ```
+     * Figure of merit reported by the DMC-pico after compensation completes.
+     * Two raw bytes from the CAN-UART bridge response, packed as uint16
+     * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+     * The vendor manual (TML 913755) documents FOM as a degrees value
+     * (typical 0.2-0.3, recommended < 0.5, device rejects results > 9.9)
+     * for the ASCII serial protocol, but the binary CAN-UART encoding is
+     * not in the public manual. Consumers must decode empirically.
+     * ```
+     *
+     * `uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }`
+     */
+    public var figureOfMeritRaw: kotlin.Int
+      @JvmName("getFigureOfMeritRaw")
+      get() = _builder.figureOfMeritRaw
+      @JvmName("setFigureOfMeritRaw")
+      set(value) {
+        _builder.figureOfMeritRaw = value
+      }
+    /**
+     * ```
+     * Figure of merit reported by the DMC-pico after compensation completes.
+     * Two raw bytes from the CAN-UART bridge response, packed as uint16
+     * (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+     * The vendor manual (TML 913755) documents FOM as a degrees value
+     * (typical 0.2-0.3, recommended < 0.5, device rejects results > 9.9)
+     * for the ASCII serial protocol, but the binary CAN-UART encoding is
+     * not in the public manual. Consumers must decode empirically.
+     * ```
+     *
+     * `uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearFigureOfMeritRaw() {
+      _builder.clearFigureOfMeritRaw()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

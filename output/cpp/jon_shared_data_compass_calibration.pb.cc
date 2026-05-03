@@ -34,6 +34,7 @@ inline constexpr JonGuiDataCompassCalibration::Impl_::Impl_(
         target_elevation_{0},
         target_bank_{0},
         status_{static_cast< ::ser::JonGuiDataCompassCalibrateStatus >(0)},
+        figure_of_merit_raw_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -77,6 +78,7 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompassCalibration, _impl_.target_elevation_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompassCalibration, _impl_.target_bank_),
         PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompassCalibration, _impl_.status_),
+        PROTOBUF_FIELD_OFFSET(::ser::JonGuiDataCompassCalibration, _impl_.figure_of_merit_raw_),
 };
 
 static const ::_pbi::MigrationSchema
@@ -90,7 +92,7 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_5fcalibration
     protodesc_cold) = {
     "\n)jon_shared_data_compass_calibration.pr"
     "oto\022\003ser\032\033buf/validate/validate.proto\032\033j"
-    "on_shared_data_types.proto\"\251\002\n\034JonGuiDat"
+    "on_shared_data_types.proto\"\321\002\n\034JonGuiDat"
     "aCompassCalibration\022\026\n\005stage\030\001 \001(\rB\007\272H\004*"
     "\002(\000\022\034\n\013final_stage\030\002 \001(\rB\007\272H\004*\002 \000\022/\n\016tar"
     "get_azimuth\030\003 \001(\001B\027\272H\024\022\022\021\000\000\000\000\000\200v@)\000\000\000\000\000\000"
@@ -98,7 +100,8 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_5fcalibration
     "\000\200V@)\000\000\000\000\000\200V\300\022,\n\013target_bank\030\005 \001(\001B\027\272H\024\022"
     "\022\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022A\n\006status\030\006 \001(\0162%.se"
     "r.JonGuiDataCompassCalibrateStatusB\n\272H\007\202"
-    "\001\004\020\001 \000B[ZYgit-codecommit.eu-central-1.am"
+    "\001\004\020\001 \000\022&\n\023figure_of_merit_raw\030\007 \001(\rB\t\272H\006"
+    "*\004\030\377\377\003B[ZYgit-codecommit.eu-central-1.am"
     "azonaws.com/v1/repos/jettison/jonp/data/"
     "compass_calibrationb\006proto3"
 };
@@ -111,7 +114,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibr
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto = {
     false,
     false,
-    507,
+    547,
     descriptor_table_protodef_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto,
     "jon_shared_data_compass_calibration.proto",
     &descriptor_table_jon_5fshared_5fdata_5fcompass_5fcalibration_2eproto_once,
@@ -155,9 +158,9 @@ inline void JonGuiDataCompassCalibration::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, stage_),
            0,
-           offsetof(Impl_, status_) -
+           offsetof(Impl_, figure_of_merit_raw_) -
                offsetof(Impl_, stage_) +
-               sizeof(Impl_::status_));
+               sizeof(Impl_::figure_of_merit_raw_));
 }
 JonGuiDataCompassCalibration::~JonGuiDataCompassCalibration() {
   // @@protoc_insertion_point(destructor:ser.JonGuiDataCompassCalibration)
@@ -206,15 +209,15 @@ const ::google::protobuf::internal::ClassData* JonGuiDataCompassCalibration::Get
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 0, 0, 2> JonGuiDataCompassCalibration::_table_ = {
+const ::_pbi::TcParseTable<3, 7, 0, 0, 2> JonGuiDataCompassCalibration::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    6, 56,  // max_field_number, fast_idx_mask
+    7, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294967168,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
+    7,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -243,7 +246,9 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> JonGuiDataCompassCalibration::_table_ 
     // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCompassCalibration, _impl_.status_), 63>(),
      {48, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.status_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(JonGuiDataCompassCalibration, _impl_.figure_of_merit_raw_), 63>(),
+     {56, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.figure_of_merit_raw_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -265,6 +270,9 @@ const ::_pbi::TcParseTable<3, 6, 0, 0, 2> JonGuiDataCompassCalibration::_table_ 
     // .ser.JonGuiDataCompassCalibrateStatus status = 6 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.status_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    // uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.figure_of_merit_raw_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
   // no aux_entries
   {{
@@ -279,8 +287,8 @@ PROTOBUF_NOINLINE void JonGuiDataCompassCalibration::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.stage_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.status_) -
-      reinterpret_cast<char*>(&_impl_.stage_)) + sizeof(_impl_.status_));
+      reinterpret_cast<char*>(&_impl_.figure_of_merit_raw_) -
+      reinterpret_cast<char*>(&_impl_.stage_)) + sizeof(_impl_.figure_of_merit_raw_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -341,6 +349,13 @@ PROTOBUF_NOINLINE void JonGuiDataCompassCalibration::Clear() {
                 6, this_._internal_status(), target);
           }
 
+          // uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = {
+          if (this_._internal_figure_of_merit_raw() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                7, this_._internal_figure_of_merit_raw(), target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -393,6 +408,11 @@ PROTOBUF_NOINLINE void JonGuiDataCompassCalibration::Clear() {
               total_size += 1 +
                             ::_pbi::WireFormatLite::EnumSize(this_._internal_status());
             }
+            // uint32 figure_of_merit_raw = 7 [(.buf.validate.field) = {
+            if (this_._internal_figure_of_merit_raw() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_figure_of_merit_raw());
+            }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
                                                      &this_._impl_._cached_size_);
@@ -424,6 +444,9 @@ void JonGuiDataCompassCalibration::MergeImpl(::google::protobuf::MessageLite& to
   if (from._internal_status() != 0) {
     _this->_impl_.status_ = from._impl_.status_;
   }
+  if (from._internal_figure_of_merit_raw() != 0) {
+    _this->_impl_.figure_of_merit_raw_ = from._impl_.figure_of_merit_raw_;
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -439,8 +462,8 @@ void JonGuiDataCompassCalibration::InternalSwap(JonGuiDataCompassCalibration* PR
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.status_)
-      + sizeof(JonGuiDataCompassCalibration::_impl_.status_)
+      PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.figure_of_merit_raw_)
+      + sizeof(JonGuiDataCompassCalibration::_impl_.figure_of_merit_raw_)
       - PROTOBUF_FIELD_OFFSET(JonGuiDataCompassCalibration, _impl_.stage_)>(
           reinterpret_cast<char*>(&_impl_.stage_),
           reinterpret_cast<char*>(&other->_impl_.stage_));

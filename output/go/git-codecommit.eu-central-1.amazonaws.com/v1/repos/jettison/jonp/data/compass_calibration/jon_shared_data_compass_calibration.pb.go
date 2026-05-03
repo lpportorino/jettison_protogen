@@ -31,8 +31,16 @@ type JonGuiDataCompassCalibration struct {
 	TargetElevation float64                                `protobuf:"fixed64,4,opt,name=target_elevation,json=targetElevation,proto3" json:"target_elevation,omitempty"`
 	TargetBank      float64                                `protobuf:"fixed64,5,opt,name=target_bank,json=targetBank,proto3" json:"target_bank,omitempty"`
 	Status          types.JonGuiDataCompassCalibrateStatus `protobuf:"varint,6,opt,name=status,proto3,enum=ser.JonGuiDataCompassCalibrateStatus" json:"status,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// Figure of merit reported by the DMC-pico after compensation completes.
+	// Two raw bytes from the CAN-UART bridge response, packed as uint16
+	// (byte 0 in low 8 bits, byte 1 in next 8 bits) and zero-extended.
+	// The vendor manual (TML 913755) documents FOM as a degrees value
+	// (typical 0.2-0.3, recommended < 0.5, device rejects results > 9.9)
+	// for the ASCII serial protocol, but the binary CAN-UART encoding is
+	// not in the public manual. Consumers must decode empirically.
+	FigureOfMeritRaw uint32 `protobuf:"varint,7,opt,name=figure_of_merit_raw,json=figureOfMeritRaw,proto3" json:"figure_of_merit_raw,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *JonGuiDataCompassCalibration) Reset() {
@@ -107,11 +115,18 @@ func (x *JonGuiDataCompassCalibration) GetStatus() types.JonGuiDataCompassCalibr
 	return types.JonGuiDataCompassCalibrateStatus(0)
 }
 
+func (x *JonGuiDataCompassCalibration) GetFigureOfMeritRaw() uint32 {
+	if x != nil {
+		return x.FigureOfMeritRaw
+	}
+	return 0
+}
+
 var File_jon_shared_data_compass_calibration_proto protoreflect.FileDescriptor
 
 const file_jon_shared_data_compass_calibration_proto_rawDesc = "" +
 	"\n" +
-	")jon_shared_data_compass_calibration.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xf0\x02\n" +
+	")jon_shared_data_compass_calibration.proto\x12\x03ser\x1a\x1bbuf/validate/validate.proto\x1a\x1bjon_shared_data_types.proto\"\xaa\x03\n" +
 	"\x1cJonGuiDataCompassCalibration\x12\x1d\n" +
 	"\x05stage\x18\x01 \x01(\rB\a\xbaH\x04*\x02(\x00R\x05stage\x12(\n" +
 	"\vfinal_stage\x18\x02 \x01(\rB\a\xbaH\x04*\x02 \x00R\n" +
@@ -121,7 +136,8 @@ const file_jon_shared_data_compass_calibration_proto_rawDesc = "" +
 	"\vtarget_bank\x18\x05 \x01(\x01B\x17\xbaH\x14\x12\x12\x11\x00\x00\x00\x00\x00\x80f@)\x00\x00\x00\x00\x00\x80f\xc0R\n" +
 	"targetBank\x12I\n" +
 	"\x06status\x18\x06 \x01(\x0e2%.ser.JonGuiDataCompassCalibrateStatusB\n" +
-	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x06statusB\xb6\x01\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x06status\x128\n" +
+	"\x13figure_of_merit_raw\x18\a \x01(\rB\t\xbaH\x06*\x04\x18\xff\xff\x03R\x10figureOfMeritRawB\xb6\x01\n" +
 	"\acom.serB$JonSharedDataCompassCalibrationProtoP\x01ZYgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compass_calibration\xa2\x02\x03SXX\xaa\x02\x03Ser\xca\x02\x03Ser\xe2\x02\x0fSer\\GPBMetadata\xea\x02\x03Serb\x06proto3"
 
 var (

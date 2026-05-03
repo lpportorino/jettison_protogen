@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 import jon_shared_data_types_pb2 as jon__shared__data__types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)jon_shared_data_compass_calibration.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xc0\x01\n\x1cJonGuiDataCompassCalibration\x12\r\n\x05stage\x18\x01 \x01(\r\x12\x13\n\x0b\x66inal_stage\x18\x02 \x01(\r\x12\x16\n\x0etarget_azimuth\x18\x03 \x01(\x01\x12\x18\n\x10target_elevation\x18\x04 \x01(\x01\x12\x13\n\x0btarget_bank\x18\x05 \x01(\x01\x12\x35\n\x06status\x18\x06 \x01(\x0e\x32%.ser.JonGuiDataCompassCalibrateStatusB[ZYgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compass_calibrationb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n)jon_shared_data_compass_calibration.proto\x12\x03ser\x1a\x1bjon_shared_data_types.proto\"\xdd\x01\n\x1cJonGuiDataCompassCalibration\x12\r\n\x05stage\x18\x01 \x01(\r\x12\x13\n\x0b\x66inal_stage\x18\x02 \x01(\r\x12\x16\n\x0etarget_azimuth\x18\x03 \x01(\x01\x12\x18\n\x10target_elevation\x18\x04 \x01(\x01\x12\x13\n\x0btarget_bank\x18\x05 \x01(\x01\x12\x35\n\x06status\x18\x06 \x01(\x0e\x32%.ser.JonGuiDataCompassCalibrateStatus\x12\x1b\n\x13\x66igure_of_merit_raw\x18\x07 \x01(\rB[ZYgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compass_calibrationb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,5 +34,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZYgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/data/compass_calibration'
   _globals['_JONGUIDATACOMPASSCALIBRATION']._serialized_start=80
-  _globals['_JONGUIDATACOMPASSCALIBRATION']._serialized_end=272
+  _globals['_JONGUIDATACOMPASSCALIBRATION']._serialized_end=301
 # @@protoc_insertion_point(module_scope)
