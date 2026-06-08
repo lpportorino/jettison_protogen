@@ -63,7 +63,7 @@ public object JonGuiDataGpsKt {
     }
 
     /**
-     * `double altitude = 3 [(.buf.validate.field) = { ... }`
+     * `double altitude = 3;`
      */
     public var altitude: kotlin.Double
       @JvmName("getAltitude")
@@ -73,7 +73,7 @@ public object JonGuiDataGpsKt {
         _builder.altitude = value
       }
     /**
-     * `double altitude = 3 [(.buf.validate.field) = { ... }`
+     * `double altitude = 3;`
      */
     public fun clearAltitude() {
       _builder.clearAltitude()
@@ -114,7 +114,7 @@ public object JonGuiDataGpsKt {
     }
 
     /**
-     * `double manual_altitude = 6 [(.buf.validate.field) = { ... }`
+     * `double manual_altitude = 6;`
      */
     public var manualAltitude: kotlin.Double
       @JvmName("getManualAltitude")
@@ -124,7 +124,7 @@ public object JonGuiDataGpsKt {
         _builder.manualAltitude = value
       }
     /**
-     * `double manual_altitude = 6 [(.buf.validate.field) = { ... }`
+     * `double manual_altitude = 6;`
      */
     public fun clearManualAltitude() {
       _builder.clearManualAltitude()

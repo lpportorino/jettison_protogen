@@ -913,31 +913,391 @@ pub const TrackingState = enum(i32) {
     }
 };
 
-pub const JonGuiDataGps = struct {
-    longitude: f64 = 0,
-    latitude: f64 = 0,
-    altitude: f64 = 0,
-    manual_longitude: f64 = 0,
-    manual_latitude: f64 = 0,
-    manual_altitude: f64 = 0,
-    fix_type: JonGuiDataGpsFixType = @enumFromInt(0),
-    use_manual: bool = false,
-    timestamp: i64 = 0,
-    is_started: bool = false,
+pub const JonGuiDataPowerModule = struct {
+    voltage: f64 = 0,
+    current: f64 = 0,
+    power: f64 = 0,
+    is_on: bool = false,
+    has_alarm: bool = false,
+
+    pub const _desc_table = .{
+        .voltage = fd(1, .{ .scalar = .double }),
+        .current = fd(2, .{ .scalar = .double }),
+        .power = fd(3, .{ .scalar = .double }),
+        .is_on = fd(4, .{ .scalar = .bool }),
+        .has_alarm = fd(5, .{ .scalar = .bool }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataPower = struct {
+    s0: ?JonGuiDataPowerModule = null,
+    s1: ?JonGuiDataPowerModule = null,
+    s2: ?JonGuiDataPowerModule = null,
+    s3: ?JonGuiDataPowerModule = null,
+    s4: ?JonGuiDataPowerModule = null,
+    s5: ?JonGuiDataPowerModule = null,
+    s6: ?JonGuiDataPowerModule = null,
+    s7: ?JonGuiDataPowerModule = null,
+    accumulator_state: JonGuiDataAccumulatorStateIdx = @enumFromInt(0),
+    ext_bat_capacity: i32 = 0,
+    ext_bat_status: JonGuiDataExtBatStatus = @enumFromInt(0),
     meteo: ?JonGuiDataMeteo = null,
 
     pub const _desc_table = .{
-        .longitude = fd(1, .{ .scalar = .double }),
-        .latitude = fd(2, .{ .scalar = .double }),
-        .altitude = fd(3, .{ .scalar = .double }),
-        .manual_longitude = fd(4, .{ .scalar = .double }),
-        .manual_latitude = fd(5, .{ .scalar = .double }),
-        .manual_altitude = fd(6, .{ .scalar = .double }),
-        .fix_type = fd(7, .@"enum"),
-        .use_manual = fd(8, .{ .scalar = .bool }),
-        .timestamp = fd(9, .{ .scalar = .int64 }),
-        .is_started = fd(10, .{ .scalar = .bool }),
-        .meteo = fd(11, .submessage),
+        .s0 = fd(1, .submessage),
+        .s1 = fd(2, .submessage),
+        .s2 = fd(3, .submessage),
+        .s3 = fd(4, .submessage),
+        .s4 = fd(5, .submessage),
+        .s5 = fd(6, .submessage),
+        .s6 = fd(7, .submessage),
+        .s7 = fd(8, .submessage),
+        .accumulator_state = fd(9, .@"enum"),
+        .ext_bat_capacity = fd(10, .{ .scalar = .int32 }),
+        .ext_bat_status = fd(11, .@"enum"),
+        .meteo = fd(12, .submessage),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataLrf = struct {
+    is_scanning: bool = false,
+    is_measuring: bool = false,
+    measure_id: i32 = 0,
+    target: ?JonGuiDataTarget = null,
+    pointer_mode: JonGuiDatatLrfLaserPointerModes = @enumFromInt(0),
+    fogModeEnabled: bool = false,
+    is_refining: bool = false,
+    is_continuous_measuring: bool = false,
+    is_started: bool = false,
+    meteo: ?JonGuiDataMeteo = null,
+    scan_mode: i32 = 0,
+
+    pub const _desc_table = .{
+        .is_scanning = fd(1, .{ .scalar = .bool }),
+        .is_measuring = fd(2, .{ .scalar = .bool }),
+        .measure_id = fd(3, .{ .scalar = .int32 }),
+        .target = fd(4, .submessage),
+        .pointer_mode = fd(5, .@"enum"),
+        .fogModeEnabled = fd(6, .{ .scalar = .bool }),
+        .is_refining = fd(7, .{ .scalar = .bool }),
+        .is_continuous_measuring = fd(8, .{ .scalar = .bool }),
+        .is_started = fd(9, .{ .scalar = .bool }),
+        .meteo = fd(10, .submessage),
+        .scan_mode = fd(11, .{ .scalar = .int32 }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataTarget = struct {
+    timestamp: i64 = 0,
+    target_longitude: f64 = 0,
+    target_latitude: f64 = 0,
+    target_altitude: f64 = 0,
+    observer_longitude: f64 = 0,
+    observer_latitude: f64 = 0,
+    observer_altitude: f64 = 0,
+    observer_azimuth: f64 = 0,
+    observer_elevation: f64 = 0,
+    observer_bank: f64 = 0,
+    distance_2d: f64 = 0,
+    distance_3b: f64 = 0,
+    distance_c: f64 = 0,
+    observer_fix_type: JonGuiDataGpsFixType = @enumFromInt(0),
+    session_id: i32 = 0,
+    target_id: i32 = 0,
+    target_color: ?RgbColor = null,
+    type: u32 = 0,
+    uuid_part1: i32 = 0,
+    uuid_part2: i32 = 0,
+    uuid_part3: i32 = 0,
+    uuid_part4: i32 = 0,
+
+    pub const _desc_table = .{
+        .timestamp = fd(1, .{ .scalar = .int64 }),
+        .target_longitude = fd(2, .{ .scalar = .double }),
+        .target_latitude = fd(3, .{ .scalar = .double }),
+        .target_altitude = fd(4, .{ .scalar = .double }),
+        .observer_longitude = fd(5, .{ .scalar = .double }),
+        .observer_latitude = fd(6, .{ .scalar = .double }),
+        .observer_altitude = fd(7, .{ .scalar = .double }),
+        .observer_azimuth = fd(8, .{ .scalar = .double }),
+        .observer_elevation = fd(9, .{ .scalar = .double }),
+        .observer_bank = fd(10, .{ .scalar = .double }),
+        .distance_2d = fd(11, .{ .scalar = .double }),
+        .distance_3b = fd(12, .{ .scalar = .double }),
+        .distance_c = fd(22, .{ .scalar = .double }),
+        .observer_fix_type = fd(13, .@"enum"),
+        .session_id = fd(14, .{ .scalar = .int32 }),
+        .target_id = fd(15, .{ .scalar = .int32 }),
+        .target_color = fd(16, .submessage),
+        .type = fd(17, .{ .scalar = .uint32 }),
+        .uuid_part1 = fd(18, .{ .scalar = .int32 }),
+        .uuid_part2 = fd(19, .{ .scalar = .int32 }),
+        .uuid_part3 = fd(20, .{ .scalar = .int32 }),
+        .uuid_part4 = fd(21, .{ .scalar = .int32 }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const RgbColor = struct {
+    red: u32 = 0,
+    green: u32 = 0,
+    blue: u32 = 0,
+
+    pub const _desc_table = .{
+        .red = fd(1, .{ .scalar = .uint32 }),
+        .green = fd(2, .{ .scalar = .uint32 }),
+        .blue = fd(3, .{ .scalar = .uint32 }),
     };
 
     /// Encodes the message to the writer
@@ -1220,6 +1580,208 @@ pub const SamTrackingDay = struct {
         .kalman = fd(16, .submessage),
         .lost_frame_count = fd(17, .{ .scalar = .uint32 }),
         .latency_ns = fd(18, .{ .scalar = .uint64 }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const SamTrackingHeat = struct {
+    status: SamTrackingStatus = @enumFromInt(0),
+    state: SamTrackingState = @enumFromInt(0),
+    bbox_x1: f64 = 0,
+    bbox_y1: f64 = 0,
+    bbox_x2: f64 = 0,
+    bbox_y2: f64 = 0,
+    centroid_x: f64 = 0,
+    centroid_y: f64 = 0,
+    confidence: f32 = 0,
+    iou: f32 = 0,
+    mask_rle: []const u8 = &.{},
+    mask_width: u32 = 0,
+    mask_height: u32 = 0,
+    mask_pixels: u32 = 0,
+    frame: ?SamTrackingFrameMeta = null,
+    kalman: ?SamTrackingKalmanState = null,
+    lost_frame_count: u32 = 0,
+    latency_ns: u64 = 0,
+
+    pub const _desc_table = .{
+        .status = fd(1, .@"enum"),
+        .state = fd(2, .@"enum"),
+        .bbox_x1 = fd(3, .{ .scalar = .double }),
+        .bbox_y1 = fd(4, .{ .scalar = .double }),
+        .bbox_x2 = fd(5, .{ .scalar = .double }),
+        .bbox_y2 = fd(6, .{ .scalar = .double }),
+        .centroid_x = fd(7, .{ .scalar = .double }),
+        .centroid_y = fd(8, .{ .scalar = .double }),
+        .confidence = fd(9, .{ .scalar = .float }),
+        .iou = fd(10, .{ .scalar = .float }),
+        .mask_rle = fd(11, .{ .scalar = .bytes }),
+        .mask_width = fd(12, .{ .scalar = .uint32 }),
+        .mask_height = fd(13, .{ .scalar = .uint32 }),
+        .mask_pixels = fd(14, .{ .scalar = .uint32 }),
+        .frame = fd(15, .submessage),
+        .kalman = fd(16, .submessage),
+        .lost_frame_count = fd(17, .{ .scalar = .uint32 }),
+        .latency_ns = fd(18, .{ .scalar = .uint64 }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const OsdClientMetadata = struct {
+    canvas_width_px: u32 = 0,
+    canvas_height_px: u32 = 0,
+    device_pixel_ratio: f32 = 0,
+    osd_buffer_width: u32 = 0,
+    osd_buffer_height: u32 = 0,
+    video_proxy_ndc_x: f32 = 0,
+    video_proxy_ndc_y: f32 = 0,
+    video_proxy_ndc_width: f32 = 0,
+    video_proxy_ndc_height: f32 = 0,
+    scale_factor: f32 = 0,
+    is_sharp_mode: bool = false,
+    theme_hue: f32 = 0,
+    theme_chroma: f32 = 0,
+    theme_lightness: f32 = 0,
+
+    pub const _desc_table = .{
+        .canvas_width_px = fd(1, .{ .scalar = .uint32 }),
+        .canvas_height_px = fd(2, .{ .scalar = .uint32 }),
+        .device_pixel_ratio = fd(3, .{ .scalar = .float }),
+        .osd_buffer_width = fd(4, .{ .scalar = .uint32 }),
+        .osd_buffer_height = fd(5, .{ .scalar = .uint32 }),
+        .video_proxy_ndc_x = fd(6, .{ .scalar = .float }),
+        .video_proxy_ndc_y = fd(7, .{ .scalar = .float }),
+        .video_proxy_ndc_width = fd(8, .{ .scalar = .float }),
+        .video_proxy_ndc_height = fd(9, .{ .scalar = .float }),
+        .scale_factor = fd(10, .{ .scalar = .float }),
+        .is_sharp_mode = fd(11, .{ .scalar = .bool }),
+        .theme_hue = fd(12, .{ .scalar = .float }),
+        .theme_chroma = fd(13, .{ .scalar = .float }),
+        .theme_lightness = fd(14, .{ .scalar = .float }),
     };
 
     /// Encodes the message to the writer
@@ -1626,103 +2188,6 @@ pub const ObjectDetectionsDay = struct {
         .frame = fd(4, .submessage),
         .config = fd(5, .submessage),
         .capture_monotonic_us = fd(6, .{ .scalar = .uint64 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const OsdClientMetadata = struct {
-    canvas_width_px: u32 = 0,
-    canvas_height_px: u32 = 0,
-    device_pixel_ratio: f32 = 0,
-    osd_buffer_width: u32 = 0,
-    osd_buffer_height: u32 = 0,
-    video_proxy_ndc_x: f32 = 0,
-    video_proxy_ndc_y: f32 = 0,
-    video_proxy_ndc_width: f32 = 0,
-    video_proxy_ndc_height: f32 = 0,
-    scale_factor: f32 = 0,
-    is_sharp_mode: bool = false,
-    theme_hue: f32 = 0,
-    theme_chroma: f32 = 0,
-    theme_lightness: f32 = 0,
-
-    pub const _desc_table = .{
-        .canvas_width_px = fd(1, .{ .scalar = .uint32 }),
-        .canvas_height_px = fd(2, .{ .scalar = .uint32 }),
-        .device_pixel_ratio = fd(3, .{ .scalar = .float }),
-        .osd_buffer_width = fd(4, .{ .scalar = .uint32 }),
-        .osd_buffer_height = fd(5, .{ .scalar = .uint32 }),
-        .video_proxy_ndc_x = fd(6, .{ .scalar = .float }),
-        .video_proxy_ndc_y = fd(7, .{ .scalar = .float }),
-        .video_proxy_ndc_width = fd(8, .{ .scalar = .float }),
-        .video_proxy_ndc_height = fd(9, .{ .scalar = .float }),
-        .scale_factor = fd(10, .{ .scalar = .float }),
-        .is_sharp_mode = fd(11, .{ .scalar = .bool }),
-        .theme_hue = fd(12, .{ .scalar = .float }),
-        .theme_chroma = fd(13, .{ .scalar = .float }),
-        .theme_lightness = fd(14, .{ .scalar = .float }),
     };
 
     /// Encodes the message to the writer
@@ -2373,249 +2838,114 @@ pub const CvMeta = struct {
     }
 };
 
-pub const SamTrackingHeat = struct {
-    status: SamTrackingStatus = @enumFromInt(0),
-    state: SamTrackingState = @enumFromInt(0),
-    bbox_x1: f64 = 0,
-    bbox_y1: f64 = 0,
-    bbox_x2: f64 = 0,
-    bbox_y2: f64 = 0,
-    centroid_x: f64 = 0,
-    centroid_y: f64 = 0,
-    confidence: f32 = 0,
-    iou: f32 = 0,
-    mask_rle: []const u8 = &.{},
-    mask_width: u32 = 0,
-    mask_height: u32 = 0,
-    mask_pixels: u32 = 0,
-    frame: ?SamTrackingFrameMeta = null,
-    kalman: ?SamTrackingKalmanState = null,
-    lost_frame_count: u32 = 0,
-    latency_ns: u64 = 0,
-
-    pub const _desc_table = .{
-        .status = fd(1, .@"enum"),
-        .state = fd(2, .@"enum"),
-        .bbox_x1 = fd(3, .{ .scalar = .double }),
-        .bbox_y1 = fd(4, .{ .scalar = .double }),
-        .bbox_x2 = fd(5, .{ .scalar = .double }),
-        .bbox_y2 = fd(6, .{ .scalar = .double }),
-        .centroid_x = fd(7, .{ .scalar = .double }),
-        .centroid_y = fd(8, .{ .scalar = .double }),
-        .confidence = fd(9, .{ .scalar = .float }),
-        .iou = fd(10, .{ .scalar = .float }),
-        .mask_rle = fd(11, .{ .scalar = .bytes }),
-        .mask_width = fd(12, .{ .scalar = .uint32 }),
-        .mask_height = fd(13, .{ .scalar = .uint32 }),
-        .mask_pixels = fd(14, .{ .scalar = .uint32 }),
-        .frame = fd(15, .submessage),
-        .kalman = fd(16, .submessage),
-        .lost_frame_count = fd(17, .{ .scalar = .uint32 }),
-        .latency_ns = fd(18, .{ .scalar = .uint64 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataSystem = struct {
-    cpu_temperature: f64 = 0,
-    gpu_temperature: f64 = 0,
-    gpu_load: f64 = 0,
-    cpu_load: f64 = 0,
-    power_consumption: f64 = 0,
-    loc: JonGuiDataSystemLocalizations = @enumFromInt(0),
-    cur_video_rec_dir_year: i32 = 0,
-    cur_video_rec_dir_month: i32 = 0,
-    cur_video_rec_dir_day: i32 = 0,
-    cur_video_rec_dir_hour: i32 = 0,
-    cur_video_rec_dir_minute: i32 = 0,
-    cur_video_rec_dir_second: i32 = 0,
-    rec_enabled: bool = false,
-    important_rec_enabled: bool = false,
-    low_disk_space: bool = false,
-    no_disk_space: bool = false,
-    disk_space: i32 = 0,
-    tracking: bool = false,
-    vampire_mode: bool = false,
-    stabilization_mode: bool = false,
-    geodesic_mode: bool = false,
-    cv_dumping: bool = false,
-    recognition_mode: bool = false,
-    accumulator_state: JonGuiDataAccumulatorStateIdx = @enumFromInt(0),
-    ext_bat_capacity: i32 = 0,
-    ext_bat_status: JonGuiDataExtBatStatus = @enumFromInt(0),
-
-    pub const _desc_table = .{
-        .cpu_temperature = fd(1, .{ .scalar = .double }),
-        .gpu_temperature = fd(2, .{ .scalar = .double }),
-        .gpu_load = fd(3, .{ .scalar = .double }),
-        .cpu_load = fd(4, .{ .scalar = .double }),
-        .power_consumption = fd(5, .{ .scalar = .double }),
-        .loc = fd(6, .@"enum"),
-        .cur_video_rec_dir_year = fd(7, .{ .scalar = .int32 }),
-        .cur_video_rec_dir_month = fd(8, .{ .scalar = .int32 }),
-        .cur_video_rec_dir_day = fd(9, .{ .scalar = .int32 }),
-        .cur_video_rec_dir_hour = fd(10, .{ .scalar = .int32 }),
-        .cur_video_rec_dir_minute = fd(11, .{ .scalar = .int32 }),
-        .cur_video_rec_dir_second = fd(12, .{ .scalar = .int32 }),
-        .rec_enabled = fd(13, .{ .scalar = .bool }),
-        .important_rec_enabled = fd(14, .{ .scalar = .bool }),
-        .low_disk_space = fd(15, .{ .scalar = .bool }),
-        .no_disk_space = fd(16, .{ .scalar = .bool }),
-        .disk_space = fd(17, .{ .scalar = .int32 }),
-        .tracking = fd(18, .{ .scalar = .bool }),
-        .vampire_mode = fd(19, .{ .scalar = .bool }),
-        .stabilization_mode = fd(20, .{ .scalar = .bool }),
-        .geodesic_mode = fd(21, .{ .scalar = .bool }),
-        .cv_dumping = fd(22, .{ .scalar = .bool }),
-        .recognition_mode = fd(23, .{ .scalar = .bool }),
-        .accumulator_state = fd(24, .@"enum"),
-        .ext_bat_capacity = fd(25, .{ .scalar = .int32 }),
-        .ext_bat_status = fd(26, .@"enum"),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataActualSpaceTime = struct {
-    azimuth: f64 = 0,
-    elevation: f64 = 0,
-    bank: f64 = 0,
-    latitude: f64 = 0,
+pub const JonGuiDataGps = struct {
     longitude: f64 = 0,
+    latitude: f64 = 0,
     altitude: f64 = 0,
+    manual_longitude: f64 = 0,
+    manual_latitude: f64 = 0,
+    manual_altitude: f64 = 0,
+    fix_type: JonGuiDataGpsFixType = @enumFromInt(0),
+    use_manual: bool = false,
     timestamp: i64 = 0,
+    is_started: bool = false,
+    meteo: ?JonGuiDataMeteo = null,
 
     pub const _desc_table = .{
-        .azimuth = fd(1, .{ .scalar = .double }),
-        .elevation = fd(2, .{ .scalar = .double }),
-        .bank = fd(3, .{ .scalar = .double }),
-        .latitude = fd(4, .{ .scalar = .double }),
-        .longitude = fd(5, .{ .scalar = .double }),
-        .altitude = fd(6, .{ .scalar = .double }),
-        .timestamp = fd(7, .{ .scalar = .int64 }),
+        .longitude = fd(1, .{ .scalar = .double }),
+        .latitude = fd(2, .{ .scalar = .double }),
+        .altitude = fd(3, .{ .scalar = .double }),
+        .manual_longitude = fd(4, .{ .scalar = .double }),
+        .manual_latitude = fd(5, .{ .scalar = .double }),
+        .manual_altitude = fd(6, .{ .scalar = .double }),
+        .fix_type = fd(7, .@"enum"),
+        .use_manual = fd(8, .{ .scalar = .bool }),
+        .timestamp = fd(9, .{ .scalar = .int64 }),
+        .is_started = fd(10, .{ .scalar = .bool }),
+        .meteo = fd(11, .submessage),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataRecOsd = struct {
+    screen: JonGuiDataRecOsdScreen = @enumFromInt(0),
+    heat_osd_enabled: bool = false,
+    day_osd_enabled: bool = false,
+    heat_crosshair_offset_horizontal: i32 = 0,
+    heat_crosshair_offset_vertical: i32 = 0,
+    day_crosshair_offset_horizontal: i32 = 0,
+    day_crosshair_offset_vertical: i32 = 0,
+
+    pub const _desc_table = .{
+        .screen = fd(1, .@"enum"),
+        .heat_osd_enabled = fd(2, .{ .scalar = .bool }),
+        .day_osd_enabled = fd(3, .{ .scalar = .bool }),
+        .heat_crosshair_offset_horizontal = fd(4, .{ .scalar = .int32 }),
+        .heat_crosshair_offset_vertical = fd(5, .{ .scalar = .int32 }),
+        .day_crosshair_offset_horizontal = fd(6, .{ .scalar = .int32 }),
+        .day_crosshair_offset_vertical = fd(7, .{ .scalar = .int32 }),
     };
 
     /// Encodes the message to the writer
@@ -2703,6 +3033,178 @@ pub const JonGuiDataCompass = struct {
         .calibrating = fd(7, .{ .scalar = .bool }),
         .is_started = fd(8, .{ .scalar = .bool }),
         .meteo = fd(9, .submessage),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataPMU = struct {
+    temperature: f64 = 0,
+    is_started: bool = false,
+    meteo: ?JonGuiDataMeteo = null,
+    voltage: f64 = 0,
+    heater_power_state: bool = false,
+    ina_voltage: f64 = 0,
+    ina_current: f64 = 0,
+    ina_power: f64 = 0,
+    ina_power_fault: bool = false,
+    charge_disabled: bool = false,
+
+    pub const _desc_table = .{
+        .temperature = fd(1, .{ .scalar = .double }),
+        .is_started = fd(3, .{ .scalar = .bool }),
+        .meteo = fd(4, .submessage),
+        .voltage = fd(5, .{ .scalar = .double }),
+        .heater_power_state = fd(6, .{ .scalar = .bool }),
+        .ina_voltage = fd(7, .{ .scalar = .double }),
+        .ina_current = fd(8, .{ .scalar = .double }),
+        .ina_power = fd(9, .{ .scalar = .double }),
+        .ina_power_fault = fd(10, .{ .scalar = .bool }),
+        .charge_disabled = fd(11, .{ .scalar = .bool }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataActualSpaceTime = struct {
+    azimuth: f64 = 0,
+    elevation: f64 = 0,
+    bank: f64 = 0,
+    latitude: f64 = 0,
+    longitude: f64 = 0,
+    altitude: f64 = 0,
+    timestamp: i64 = 0,
+
+    pub const _desc_table = .{
+        .azimuth = fd(1, .{ .scalar = .double }),
+        .elevation = fd(2, .{ .scalar = .double }),
+        .bank = fd(3, .{ .scalar = .double }),
+        .latitude = fd(4, .{ .scalar = .double }),
+        .longitude = fd(5, .{ .scalar = .double }),
+        .altitude = fd(6, .{ .scalar = .double }),
+        .timestamp = fd(7, .{ .scalar = .int64 }),
     };
 
     /// Encodes the message to the writer
@@ -2935,368 +3437,6 @@ pub const JonGuiDataHeater = struct {
     }
 };
 
-pub const JonGuiDataRecOsd = struct {
-    screen: JonGuiDataRecOsdScreen = @enumFromInt(0),
-    heat_osd_enabled: bool = false,
-    day_osd_enabled: bool = false,
-    heat_crosshair_offset_horizontal: i32 = 0,
-    heat_crosshair_offset_vertical: i32 = 0,
-    day_crosshair_offset_horizontal: i32 = 0,
-    day_crosshair_offset_vertical: i32 = 0,
-
-    pub const _desc_table = .{
-        .screen = fd(1, .@"enum"),
-        .heat_osd_enabled = fd(2, .{ .scalar = .bool }),
-        .day_osd_enabled = fd(3, .{ .scalar = .bool }),
-        .heat_crosshair_offset_horizontal = fd(4, .{ .scalar = .int32 }),
-        .heat_crosshair_offset_vertical = fd(5, .{ .scalar = .int32 }),
-        .day_crosshair_offset_horizontal = fd(6, .{ .scalar = .int32 }),
-        .day_crosshair_offset_vertical = fd(7, .{ .scalar = .int32 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataLrf = struct {
-    is_scanning: bool = false,
-    is_measuring: bool = false,
-    measure_id: i32 = 0,
-    target: ?JonGuiDataTarget = null,
-    pointer_mode: JonGuiDatatLrfLaserPointerModes = @enumFromInt(0),
-    fogModeEnabled: bool = false,
-    is_refining: bool = false,
-    is_continuous_measuring: bool = false,
-    is_started: bool = false,
-    meteo: ?JonGuiDataMeteo = null,
-    scan_mode: i32 = 0,
-
-    pub const _desc_table = .{
-        .is_scanning = fd(1, .{ .scalar = .bool }),
-        .is_measuring = fd(2, .{ .scalar = .bool }),
-        .measure_id = fd(3, .{ .scalar = .int32 }),
-        .target = fd(4, .submessage),
-        .pointer_mode = fd(5, .@"enum"),
-        .fogModeEnabled = fd(6, .{ .scalar = .bool }),
-        .is_refining = fd(7, .{ .scalar = .bool }),
-        .is_continuous_measuring = fd(8, .{ .scalar = .bool }),
-        .is_started = fd(9, .{ .scalar = .bool }),
-        .meteo = fd(10, .submessage),
-        .scan_mode = fd(11, .{ .scalar = .int32 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataTarget = struct {
-    timestamp: i64 = 0,
-    target_longitude: f64 = 0,
-    target_latitude: f64 = 0,
-    target_altitude: f64 = 0,
-    observer_longitude: f64 = 0,
-    observer_latitude: f64 = 0,
-    observer_altitude: f64 = 0,
-    observer_azimuth: f64 = 0,
-    observer_elevation: f64 = 0,
-    observer_bank: f64 = 0,
-    distance_2d: f64 = 0,
-    distance_3b: f64 = 0,
-    distance_c: f64 = 0,
-    observer_fix_type: JonGuiDataGpsFixType = @enumFromInt(0),
-    session_id: i32 = 0,
-    target_id: i32 = 0,
-    target_color: ?RgbColor = null,
-    type: u32 = 0,
-    uuid_part1: i32 = 0,
-    uuid_part2: i32 = 0,
-    uuid_part3: i32 = 0,
-    uuid_part4: i32 = 0,
-
-    pub const _desc_table = .{
-        .timestamp = fd(1, .{ .scalar = .int64 }),
-        .target_longitude = fd(2, .{ .scalar = .double }),
-        .target_latitude = fd(3, .{ .scalar = .double }),
-        .target_altitude = fd(4, .{ .scalar = .double }),
-        .observer_longitude = fd(5, .{ .scalar = .double }),
-        .observer_latitude = fd(6, .{ .scalar = .double }),
-        .observer_altitude = fd(7, .{ .scalar = .double }),
-        .observer_azimuth = fd(8, .{ .scalar = .double }),
-        .observer_elevation = fd(9, .{ .scalar = .double }),
-        .observer_bank = fd(10, .{ .scalar = .double }),
-        .distance_2d = fd(11, .{ .scalar = .double }),
-        .distance_3b = fd(12, .{ .scalar = .double }),
-        .distance_c = fd(22, .{ .scalar = .double }),
-        .observer_fix_type = fd(13, .@"enum"),
-        .session_id = fd(14, .{ .scalar = .int32 }),
-        .target_id = fd(15, .{ .scalar = .int32 }),
-        .target_color = fd(16, .submessage),
-        .type = fd(17, .{ .scalar = .uint32 }),
-        .uuid_part1 = fd(18, .{ .scalar = .int32 }),
-        .uuid_part2 = fd(19, .{ .scalar = .int32 }),
-        .uuid_part3 = fd(20, .{ .scalar = .int32 }),
-        .uuid_part4 = fd(21, .{ .scalar = .int32 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const RgbColor = struct {
-    red: u32 = 0,
-    green: u32 = 0,
-    blue: u32 = 0,
-
-    pub const _desc_table = .{
-        .red = fd(1, .{ .scalar = .uint32 }),
-        .green = fd(2, .{ .scalar = .uint32 }),
-        .blue = fd(3, .{ .scalar = .uint32 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
 pub const JonGuiDataTime = struct {
     timestamp: i64 = 0,
     manual_timestamp: i64 = 0,
@@ -3308,6 +3448,127 @@ pub const JonGuiDataTime = struct {
         .manual_timestamp = fd(2, .{ .scalar = .int64 }),
         .zone_id = fd(3, .{ .scalar = .int32 }),
         .use_manual_time = fd(4, .{ .scalar = .bool }),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const JonGuiDataSystem = struct {
+    cpu_temperature: f64 = 0,
+    gpu_temperature: f64 = 0,
+    gpu_load: f64 = 0,
+    cpu_load: f64 = 0,
+    power_consumption: f64 = 0,
+    loc: JonGuiDataSystemLocalizations = @enumFromInt(0),
+    cur_video_rec_dir_year: i32 = 0,
+    cur_video_rec_dir_month: i32 = 0,
+    cur_video_rec_dir_day: i32 = 0,
+    cur_video_rec_dir_hour: i32 = 0,
+    cur_video_rec_dir_minute: i32 = 0,
+    cur_video_rec_dir_second: i32 = 0,
+    rec_enabled: bool = false,
+    important_rec_enabled: bool = false,
+    low_disk_space: bool = false,
+    no_disk_space: bool = false,
+    disk_space: i32 = 0,
+    tracking: bool = false,
+    vampire_mode: bool = false,
+    stabilization_mode: bool = false,
+    geodesic_mode: bool = false,
+    cv_dumping: bool = false,
+    recognition_mode: bool = false,
+    accumulator_state: JonGuiDataAccumulatorStateIdx = @enumFromInt(0),
+    ext_bat_capacity: i32 = 0,
+    ext_bat_status: JonGuiDataExtBatStatus = @enumFromInt(0),
+
+    pub const _desc_table = .{
+        .cpu_temperature = fd(1, .{ .scalar = .double }),
+        .gpu_temperature = fd(2, .{ .scalar = .double }),
+        .gpu_load = fd(3, .{ .scalar = .double }),
+        .cpu_load = fd(4, .{ .scalar = .double }),
+        .power_consumption = fd(5, .{ .scalar = .double }),
+        .loc = fd(6, .@"enum"),
+        .cur_video_rec_dir_year = fd(7, .{ .scalar = .int32 }),
+        .cur_video_rec_dir_month = fd(8, .{ .scalar = .int32 }),
+        .cur_video_rec_dir_day = fd(9, .{ .scalar = .int32 }),
+        .cur_video_rec_dir_hour = fd(10, .{ .scalar = .int32 }),
+        .cur_video_rec_dir_minute = fd(11, .{ .scalar = .int32 }),
+        .cur_video_rec_dir_second = fd(12, .{ .scalar = .int32 }),
+        .rec_enabled = fd(13, .{ .scalar = .bool }),
+        .important_rec_enabled = fd(14, .{ .scalar = .bool }),
+        .low_disk_space = fd(15, .{ .scalar = .bool }),
+        .no_disk_space = fd(16, .{ .scalar = .bool }),
+        .disk_space = fd(17, .{ .scalar = .int32 }),
+        .tracking = fd(18, .{ .scalar = .bool }),
+        .vampire_mode = fd(19, .{ .scalar = .bool }),
+        .stabilization_mode = fd(20, .{ .scalar = .bool }),
+        .geodesic_mode = fd(21, .{ .scalar = .bool }),
+        .cv_dumping = fd(22, .{ .scalar = .bool }),
+        .recognition_mode = fd(23, .{ .scalar = .bool }),
+        .accumulator_state = fd(24, .@"enum"),
+        .ext_bat_capacity = fd(25, .{ .scalar = .int32 }),
+        .ext_bat_status = fd(26, .@"enum"),
     };
 
     /// Encodes the message to the writer
@@ -3391,178 +3652,6 @@ pub const JonGuiDataCompassCalibration = struct {
         .target_bank = fd(5, .{ .scalar = .double }),
         .status = fd(6, .@"enum"),
         .figure_of_merit_raw = fd(7, .{ .scalar = .uint32 }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataPowerModule = struct {
-    voltage: f64 = 0,
-    current: f64 = 0,
-    power: f64 = 0,
-    is_on: bool = false,
-    has_alarm: bool = false,
-
-    pub const _desc_table = .{
-        .voltage = fd(1, .{ .scalar = .double }),
-        .current = fd(2, .{ .scalar = .double }),
-        .power = fd(3, .{ .scalar = .double }),
-        .is_on = fd(4, .{ .scalar = .bool }),
-        .has_alarm = fd(5, .{ .scalar = .bool }),
-    };
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataPower = struct {
-    s0: ?JonGuiDataPowerModule = null,
-    s1: ?JonGuiDataPowerModule = null,
-    s2: ?JonGuiDataPowerModule = null,
-    s3: ?JonGuiDataPowerModule = null,
-    s4: ?JonGuiDataPowerModule = null,
-    s5: ?JonGuiDataPowerModule = null,
-    s6: ?JonGuiDataPowerModule = null,
-    s7: ?JonGuiDataPowerModule = null,
-    accumulator_state: JonGuiDataAccumulatorStateIdx = @enumFromInt(0),
-    ext_bat_capacity: i32 = 0,
-    ext_bat_status: JonGuiDataExtBatStatus = @enumFromInt(0),
-    meteo: ?JonGuiDataMeteo = null,
-
-    pub const _desc_table = .{
-        .s0 = fd(1, .submessage),
-        .s1 = fd(2, .submessage),
-        .s2 = fd(3, .submessage),
-        .s3 = fd(4, .submessage),
-        .s4 = fd(5, .submessage),
-        .s5 = fd(6, .submessage),
-        .s6 = fd(7, .submessage),
-        .s7 = fd(8, .submessage),
-        .accumulator_state = fd(9, .@"enum"),
-        .ext_bat_capacity = fd(10, .{ .scalar = .int32 }),
-        .ext_bat_status = fd(11, .@"enum"),
-        .meteo = fd(12, .submessage),
     };
 
     /// Encodes the message to the writer
@@ -3732,95 +3821,6 @@ pub const CvBridgeExitReason = enum(i32) {
     _,
 };
 
-
-    /// Encodes the message to the writer
-    /// The allocator is used to generate submessages internally.
-    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
-    pub fn encode(
-        self: @This(),
-        writer: *std.Io.Writer,
-        allocator: std.mem.Allocator,
-    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
-        return protobuf.encode(writer, allocator, self);
-    }
-
-    /// Decodes the message from the bytes read from the reader.
-    pub fn decode(
-        reader: *std.Io.Reader,
-        allocator: std.mem.Allocator,
-    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
-        return protobuf.decode(@This(), reader, allocator);
-    }
-    
-    /// Deinitializes and frees the memory associated with the message.
-    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
-        return protobuf.deinit(allocator, self);
-    }
-
-    /// Duplicates the message.
-    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
-        return protobuf.dupe(@This(), self, allocator);
-    }
-
-    /// Decodes the message from the JSON string.
-    pub fn jsonDecode(
-        input: []const u8,
-        options: std.json.ParseOptions,
-        allocator: std.mem.Allocator,
-    ) !std.json.Parsed(@This()) {
-        return protobuf.json.decode(@This(), input, options, allocator);
-    }
-  
-    /// Encodes the message to a JSON string.
-    pub fn jsonEncode(
-        self: @This(),
-        options: std.json.Stringify.Options,
-        allocator: std.mem.Allocator,
-    ) ![]const u8 {
-        return protobuf.json.encode(self, options, allocator);
-    }
-
-    /// This method is used by std.json
-    /// internally for deserialization. DO NOT RENAME!
-    pub fn jsonParse(
-        allocator: std.mem.Allocator,
-        source: anytype,
-        options: std.json.ParseOptions,
-    ) !@This() {
-        return protobuf.json.parse(@This(), allocator, source, options);
-    }
-
-    /// This method is used by std.json
-    /// internally for serialization. DO NOT RENAME!
-    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
-        return protobuf.json.stringify(@This(), self, jws);
-    }
-};
-
-pub const JonGuiDataPMU = struct {
-    temperature: f64 = 0,
-    is_started: bool = false,
-    meteo: ?JonGuiDataMeteo = null,
-    voltage: f64 = 0,
-    heater_power_state: bool = false,
-    ina_voltage: f64 = 0,
-    ina_current: f64 = 0,
-    ina_power: f64 = 0,
-    ina_power_fault: bool = false,
-    charge_disabled: bool = false,
-
-    pub const _desc_table = .{
-        .temperature = fd(1, .{ .scalar = .double }),
-        .is_started = fd(3, .{ .scalar = .bool }),
-        .meteo = fd(4, .submessage),
-        .voltage = fd(5, .{ .scalar = .double }),
-        .heater_power_state = fd(6, .{ .scalar = .bool }),
-        .ina_voltage = fd(7, .{ .scalar = .double }),
-        .ina_current = fd(8, .{ .scalar = .double }),
-        .ina_power = fd(9, .{ .scalar = .double }),
-        .ina_power_fault = fd(10, .{ .scalar = .bool }),
-        .charge_disabled = fd(11, .{ .scalar = .bool }),
-    };
 
     /// Encodes the message to the writer
     /// The allocator is used to generate submessages internally.

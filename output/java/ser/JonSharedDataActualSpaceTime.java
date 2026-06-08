@@ -60,7 +60,7 @@ public final class JonSharedDataActualSpaceTime {
     double getLongitude();
 
     /**
-     * <code>double altitude = 6 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 6;</code>
      * @return The altitude.
      */
     double getAltitude();
@@ -166,7 +166,7 @@ public final class JonSharedDataActualSpaceTime {
     public static final int ALTITUDE_FIELD_NUMBER = 6;
     private double altitude_ = 0D;
     /**
-     * <code>double altitude = 6 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 6;</code>
      * @return The altitude.
      */
     @java.lang.Override
@@ -791,7 +791,7 @@ public final class JonSharedDataActualSpaceTime {
 
       private double altitude_ ;
       /**
-       * <code>double altitude = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 6;</code>
        * @return The altitude.
        */
       @java.lang.Override
@@ -799,7 +799,7 @@ public final class JonSharedDataActualSpaceTime {
         return altitude_;
       }
       /**
-       * <code>double altitude = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 6;</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
@@ -811,7 +811,7 @@ public final class JonSharedDataActualSpaceTime {
         return this;
       }
       /**
-       * <code>double altitude = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
@@ -919,7 +919,7 @@ public final class JonSharedDataActualSpaceTime {
   static {
     java.lang.String[] descriptorData = {
       "\n\'jon_shared_data_actual_space_time.prot" +
-      "o\022\003ser\032\033buf/validate/validate.proto\"\306\003\n\031" +
+      "o\022\003ser\032\033buf/validate/validate.proto\"\255\003\n\031" +
       "JonGuiDataActualSpaceTime\022L\n\007azimuth\030\001 \001" +
       "(\001B;\272H8\0226\021\000\000\000\000\000\200v@)\000\000\000\000\000\000\000\000I\000\000\000\000\000\000\000\000I\000\000\000" +
       "\000\000\200V@I\000\000\000\000\000\200f@I\000\000\000\000\000\340p@\022E\n\televation\030\002 \001" +
@@ -929,11 +929,11 @@ public final class JonSharedDataActualSpaceTime {
       "\022D\n\010latitude\030\004 \001(\001B2\272H/\022-\031\000\000\000\000\000\200V@)\000\000\000\000\000" +
       "\200V\300I\000\000\000\000\000\200F\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200F@\022E\n\tlongit" +
       "ude\030\005 \001(\001B2\272H/\022-\021\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300I\000\000\000\000\000" +
-      "\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022)\n\010altitude\030\006 \001(\001B" +
-      "\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\022\032\n\ttimestamp\030\007 " +
-      "\001(\003B\007\272H\004\"\002(\000BYZWgit-codecommit.eu-centra" +
-      "l-1.amazonaws.com/v1/repos/jettison/jonp" +
-      "/data/actual_space_timeb\006proto3"
+      "\200V\300I\000\000\000\000\000\000\000\000I\000\000\000\000\000\200V@\022\020\n\010altitude\030\006 \001(\001\022" +
+      "\032\n\ttimestamp\030\007 \001(\003B\007\272H\004\"\002(\000BYZWgit-codec" +
+      "ommit.eu-central-1.amazonaws.com/v1/repo" +
+      "s/jettison/jonp/data/actual_space_timeb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

@@ -273,7 +273,7 @@ class JonGuiDataActualSpaceTime final : public ::google::protobuf::Message
   void _internal_set_longitude(double value);
 
   public:
-  // double altitude = 6 [(.buf.validate.field) = {
+  // double altitude = 6;
   void clear_altitude() ;
   double altitude() const;
   void set_altitude(double value);
@@ -456,7 +456,7 @@ inline void JonGuiDataActualSpaceTime::_internal_set_longitude(double value) {
   _impl_.longitude_ = value;
 }
 
-// double altitude = 6 [(.buf.validate.field) = {
+// double altitude = 6;
 inline void JonGuiDataActualSpaceTime::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;

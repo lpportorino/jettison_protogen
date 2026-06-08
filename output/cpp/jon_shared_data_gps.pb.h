@@ -263,7 +263,7 @@ class JonGuiDataGps final : public ::google::protobuf::Message
   void _internal_set_latitude(double value);
 
   public:
-  // double altitude = 3 [(.buf.validate.field) = {
+  // double altitude = 3;
   void clear_altitude() ;
   double altitude() const;
   void set_altitude(double value);
@@ -293,7 +293,7 @@ class JonGuiDataGps final : public ::google::protobuf::Message
   void _internal_set_manual_latitude(double value);
 
   public:
-  // double manual_altitude = 6 [(.buf.validate.field) = {
+  // double manual_altitude = 6;
   void clear_manual_altitude() ;
   double manual_altitude() const;
   void set_manual_altitude(double value);
@@ -445,7 +445,7 @@ inline void JonGuiDataGps::_internal_set_latitude(double value) {
   _impl_.latitude_ = value;
 }
 
-// double altitude = 3 [(.buf.validate.field) = {
+// double altitude = 3;
 inline void JonGuiDataGps::clear_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.altitude_ = 0;
@@ -511,7 +511,7 @@ inline void JonGuiDataGps::_internal_set_manual_latitude(double value) {
   _impl_.manual_latitude_ = value;
 }
 
-// double manual_altitude = 6 [(.buf.validate.field) = {
+// double manual_altitude = 6;
 inline void JonGuiDataGps::clear_manual_altitude() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.manual_altitude_ = 0;

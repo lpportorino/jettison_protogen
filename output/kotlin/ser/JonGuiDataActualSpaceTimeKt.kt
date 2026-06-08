@@ -114,7 +114,7 @@ public object JonGuiDataActualSpaceTimeKt {
     }
 
     /**
-     * `double altitude = 6 [(.buf.validate.field) = { ... }`
+     * `double altitude = 6;`
      */
     public var altitude: kotlin.Double
       @JvmName("getAltitude")
@@ -124,7 +124,7 @@ public object JonGuiDataActualSpaceTimeKt {
         _builder.altitude = value
       }
     /**
-     * `double altitude = 6 [(.buf.validate.field) = { ... }`
+     * `double altitude = 6;`
      */
     public fun clearAltitude() {
       _builder.clearAltitude()

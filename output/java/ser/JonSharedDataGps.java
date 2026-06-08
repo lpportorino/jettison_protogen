@@ -42,7 +42,7 @@ public final class JonSharedDataGps {
     double getLatitude();
 
     /**
-     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3;</code>
      * @return The altitude.
      */
     double getAltitude();
@@ -60,7 +60,7 @@ public final class JonSharedDataGps {
     double getManualLatitude();
 
     /**
-     * <code>double manual_altitude = 6 [(.buf.validate.field) = { ... }</code>
+     * <code>double manual_altitude = 6;</code>
      * @return The manualAltitude.
      */
     double getManualAltitude();
@@ -177,7 +177,7 @@ public final class JonSharedDataGps {
     public static final int ALTITUDE_FIELD_NUMBER = 3;
     private double altitude_ = 0D;
     /**
-     * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
+     * <code>double altitude = 3;</code>
      * @return The altitude.
      */
     @java.lang.Override
@@ -210,7 +210,7 @@ public final class JonSharedDataGps {
     public static final int MANUAL_ALTITUDE_FIELD_NUMBER = 6;
     private double manualAltitude_ = 0D;
     /**
-     * <code>double manual_altitude = 6 [(.buf.validate.field) = { ... }</code>
+     * <code>double manual_altitude = 6;</code>
      * @return The manualAltitude.
      */
     @java.lang.Override
@@ -924,7 +924,7 @@ public final class JonSharedDataGps {
 
       private double altitude_ ;
       /**
-       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3;</code>
        * @return The altitude.
        */
       @java.lang.Override
@@ -932,7 +932,7 @@ public final class JonSharedDataGps {
         return altitude_;
       }
       /**
-       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3;</code>
        * @param value The altitude to set.
        * @return This builder for chaining.
        */
@@ -944,7 +944,7 @@ public final class JonSharedDataGps {
         return this;
       }
       /**
-       * <code>double altitude = 3 [(.buf.validate.field) = { ... }</code>
+       * <code>double altitude = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearAltitude() {
@@ -1020,7 +1020,7 @@ public final class JonSharedDataGps {
 
       private double manualAltitude_ ;
       /**
-       * <code>double manual_altitude = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double manual_altitude = 6;</code>
        * @return The manualAltitude.
        */
       @java.lang.Override
@@ -1028,7 +1028,7 @@ public final class JonSharedDataGps {
         return manualAltitude_;
       }
       /**
-       * <code>double manual_altitude = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double manual_altitude = 6;</code>
        * @param value The manualAltitude to set.
        * @return This builder for chaining.
        */
@@ -1040,7 +1040,7 @@ public final class JonSharedDataGps {
         return this;
       }
       /**
-       * <code>double manual_altitude = 6 [(.buf.validate.field) = { ... }</code>
+       * <code>double manual_altitude = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearManualAltitude() {
@@ -1399,20 +1399,19 @@ public final class JonSharedDataGps {
     java.lang.String[] descriptorData = {
       "\n\031jon_shared_data_gps.proto\022\003ser\032\033buf/va" +
       "lidate/validate.proto\032\033jon_shared_data_t" +
-      "ypes.proto\"\301\003\n\rJonGuiDataGps\022*\n\tlongitud" +
+      "ypes.proto\"\217\003\n\rJonGuiDataGps\022*\n\tlongitud" +
       "e\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010lati" +
-      "tude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022)\n\010a" +
-      "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\0221" +
-      "\n\020manual_longitude\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@" +
-      ")\000\000\000\000\000\200f\300\0220\n\017manual_latitude\030\005 \001(\001B\027\272H\024\022" +
-      "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\0220\n\017manual_altitude\030\006" +
-      " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\0227\n\010fix_typ" +
-      "e\030\007 \001(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202" +
-      "\001\004\020\001 \000\022\022\n\nuse_manual\030\010 \001(\010\022\021\n\ttimestamp\030" +
-      "\t \001(\003\022\022\n\nis_started\030\n \001(\010\022#\n\005meteo\030\013 \001(\013" +
-      "2\024.ser.JonGuiDataMeteoBKZIgit-codecommit" +
-      ".eu-central-1.amazonaws.com/v1/repos/jet" +
-      "tison/jonp/data/gpsb\006proto3"
+      "tude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\020\n\010a" +
+      "ltitude\030\003 \001(\001\0221\n\020manual_longitude\030\004 \001(\001B" +
+      "\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017manual_latit" +
+      "ude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017ma" +
+      "nual_altitude\030\006 \001(\001\0227\n\010fix_type\030\007 \001(\0162\031." +
+      "ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\022\n\n" +
+      "use_manual\030\010 \001(\010\022\021\n\ttimestamp\030\t \001(\003\022\022\n\ni" +
+      "s_started\030\n \001(\010\022#\n\005meteo\030\013 \001(\0132\024.ser.Jon" +
+      "GuiDataMeteoBKZIgit-codecommit.eu-centra" +
+      "l-1.amazonaws.com/v1/repos/jettison/jonp" +
+      "/data/gpsb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

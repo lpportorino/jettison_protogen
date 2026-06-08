@@ -111,20 +111,19 @@ const char descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto[] ABSL_AT
     protodesc_cold) = {
     "\n\031jon_shared_data_gps.proto\022\003ser\032\033buf/va"
     "lidate/validate.proto\032\033jon_shared_data_t"
-    "ypes.proto\"\301\003\n\rJonGuiDataGps\022*\n\tlongitud"
+    "ypes.proto\"\217\003\n\rJonGuiDataGps\022*\n\tlongitud"
     "e\030\001 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\022)\n\010lati"
-    "tude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022)\n\010a"
-    "ltitude\030\003 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\0221"
-    "\n\020manual_longitude\030\004 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200f@"
-    ")\000\000\000\000\000\200f\300\0220\n\017manual_latitude\030\005 \001(\001B\027\272H\024\022"
-    "\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\0220\n\017manual_altitude\030\006"
-    " \001(\001B\027\272H\024\022\022\031\000\000\000\000\000j\370@)\000\000\000\000\000\340z\300\0227\n\010fix_typ"
-    "e\030\007 \001(\0162\031.ser.JonGuiDataGpsFixTypeB\n\272H\007\202"
-    "\001\004\020\001 \000\022\022\n\nuse_manual\030\010 \001(\010\022\021\n\ttimestamp\030"
-    "\t \001(\003\022\022\n\nis_started\030\n \001(\010\022#\n\005meteo\030\013 \001(\013"
-    "2\024.ser.JonGuiDataMeteoBKZIgit-codecommit"
-    ".eu-central-1.amazonaws.com/v1/repos/jet"
-    "tison/jonp/data/gpsb\006proto3"
+    "tude\030\002 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\020\n\010a"
+    "ltitude\030\003 \001(\001\0221\n\020manual_longitude\030\004 \001(\001B"
+    "\027\272H\024\022\022\031\000\000\000\000\000\200f@)\000\000\000\000\000\200f\300\0220\n\017manual_latit"
+    "ude\030\005 \001(\001B\027\272H\024\022\022\031\000\000\000\000\000\200V@)\000\000\000\000\000\200V\300\022\027\n\017ma"
+    "nual_altitude\030\006 \001(\001\0227\n\010fix_type\030\007 \001(\0162\031."
+    "ser.JonGuiDataGpsFixTypeB\n\272H\007\202\001\004\020\001 \000\022\022\n\n"
+    "use_manual\030\010 \001(\010\022\021\n\ttimestamp\030\t \001(\003\022\022\n\ni"
+    "s_started\030\n \001(\010\022#\n\005meteo\030\013 \001(\0132\024.ser.Jon"
+    "GuiDataMeteoBKZIgit-codecommit.eu-centra"
+    "l-1.amazonaws.com/v1/repos/jettison/jonp"
+    "/data/gpsb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_deps[2] =
     {
@@ -135,7 +134,7 @@ static ::absl::once_flag descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_once
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_jon_5fshared_5fdata_5fgps_2eproto = {
     false,
     false,
-    627,
+    577,
     descriptor_table_protodef_jon_5fshared_5fdata_5fgps_2eproto,
     "jon_shared_data_gps.proto",
     &descriptor_table_jon_5fshared_5fdata_5fgps_2eproto_once,
@@ -293,7 +292,7 @@ const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
     // double latitude = 2 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {17, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.latitude_)}},
-    // double altitude = 3 [(.buf.validate.field) = {
+    // double altitude = 3;
     {::_pbi::TcParser::FastF64S1,
      {25, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.altitude_)}},
     // double manual_longitude = 4 [(.buf.validate.field) = {
@@ -302,7 +301,7 @@ const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
     // double manual_latitude = 5 [(.buf.validate.field) = {
     {::_pbi::TcParser::FastF64S1,
      {41, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.manual_latitude_)}},
-    // double manual_altitude = 6 [(.buf.validate.field) = {
+    // double manual_altitude = 6;
     {::_pbi::TcParser::FastF64S1,
      {49, 63, 0, PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.manual_altitude_)}},
     // .ser.JonGuiDataGpsFixType fix_type = 7 [(.buf.validate.field) = {
@@ -333,7 +332,7 @@ const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
     // double latitude = 2 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.latitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double altitude = 3 [(.buf.validate.field) = {
+    // double altitude = 3;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.altitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // double manual_longitude = 4 [(.buf.validate.field) = {
@@ -342,7 +341,7 @@ const ::_pbi::TcParseTable<4, 11, 1, 0, 2> JonGuiDataGps::_table_ = {
     // double manual_latitude = 5 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.manual_latitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
-    // double manual_altitude = 6 [(.buf.validate.field) = {
+    // double manual_altitude = 6;
     {PROTOBUF_FIELD_OFFSET(JonGuiDataGps, _impl_.manual_altitude_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kDouble)},
     // .ser.JonGuiDataGpsFixType fix_type = 7 [(.buf.validate.field) = {
@@ -414,7 +413,7 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
                 2, this_._internal_latitude(), target);
           }
 
-          // double altitude = 3 [(.buf.validate.field) = {
+          // double altitude = 3;
           if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -435,7 +434,7 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
                 5, this_._internal_manual_latitude(), target);
           }
 
-          // double manual_altitude = 6 [(.buf.validate.field) = {
+          // double manual_altitude = 6;
           if (::absl::bit_cast<::uint64_t>(this_._internal_manual_altitude()) != 0) {
             target = stream->EnsureSpace(target);
             target = ::_pbi::WireFormatLite::WriteDoubleToArray(
@@ -519,7 +518,7 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_latitude()) != 0) {
               total_size += 9;
             }
-            // double altitude = 3 [(.buf.validate.field) = {
+            // double altitude = 3;
             if (::absl::bit_cast<::uint64_t>(this_._internal_altitude()) != 0) {
               total_size += 9;
             }
@@ -531,7 +530,7 @@ PROTOBUF_NOINLINE void JonGuiDataGps::Clear() {
             if (::absl::bit_cast<::uint64_t>(this_._internal_manual_latitude()) != 0) {
               total_size += 9;
             }
-            // double manual_altitude = 6 [(.buf.validate.field) = {
+            // double manual_altitude = 6;
             if (::absl::bit_cast<::uint64_t>(this_._internal_manual_altitude()) != 0) {
               total_size += 9;
             }
