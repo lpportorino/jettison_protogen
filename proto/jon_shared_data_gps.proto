@@ -15,10 +15,7 @@ message JonGuiDataGps {
     gte: -90.0,
     lte: 90.0
   }];
-  double altitude = 3 [(buf.validate.field).double = {
-    gte: -430.0,  // Dead Sea shore (lowest point on Earth's surface)
-    lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
-  }];
+  double altitude = 3;
   double manual_longitude = 4 [(buf.validate.field).double = {
     gte: -180.0,
     lte: 180.0
@@ -27,10 +24,7 @@ message JonGuiDataGps {
     gte: -90.0,
     lte: 90.0
   }];
-  double manual_altitude = 6 [(buf.validate.field).double = {
-    gte: -430.0,  // Dead Sea shore (lowest point on Earth's surface)
-    lte: 100000.0  // Kármán line (edge of space/atmosphere boundary)
-  }];
+  double manual_altitude = 6;
   JonGuiDataGpsFixType fix_type = 7 [(buf.validate.field).enum = {
     defined_only: true,
     not_in: [0]  // Assuming 0 is UNSPECIFIED in the enum
