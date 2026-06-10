@@ -90,6 +90,12 @@ PB_BIND(ui_TableProps, ui_TableProps, AUTO)
 PB_BIND(ui_TabviewProps, ui_TabviewProps, AUTO)
 
 
+PB_BIND(ui_ChartSeries, ui_ChartSeries, AUTO)
+
+
+PB_BIND(ui_ChartProps, ui_ChartProps, AUTO)
+
+
 PB_BIND(ui_Point, ui_Point, AUTO)
 
 
@@ -115,6 +121,10 @@ PB_BIND(ui_Color, ui_Color, AUTO)
 
 
 PB_BIND(ui_ShadowBundle, ui_ShadowBundle, AUTO)
+
+
+
+
 
 
 

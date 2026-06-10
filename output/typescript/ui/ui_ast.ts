@@ -66,6 +66,7 @@ export enum WidgetType {
   WIDGET_BUTTONMATRIX = 17,
   WIDGET_TABLE = 18,
   WIDGET_TABVIEW = 19,
+  WIDGET_CHART = 20,
   UNRECOGNIZED = -1,
 }
 
@@ -131,6 +132,9 @@ export function widgetTypeFromJSON(object: any): WidgetType {
     case 19:
     case "WIDGET_TABVIEW":
       return WidgetType.WIDGET_TABVIEW;
+    case 20:
+    case "WIDGET_CHART":
+      return WidgetType.WIDGET_CHART;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -180,6 +184,8 @@ export function widgetTypeToJSON(object: WidgetType): string {
       return "WIDGET_TABLE";
     case WidgetType.WIDGET_TABVIEW:
       return "WIDGET_TABVIEW";
+    case WidgetType.WIDGET_CHART:
+      return "WIDGET_CHART";
     case WidgetType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -1235,6 +1241,108 @@ export function scaleModeToJSON(object: ScaleMode): string {
   }
 }
 
+export enum ChartType {
+  CHART_TYPE_NONE = 0,
+  CHART_TYPE_LINE = 1,
+  CHART_TYPE_CURVE = 2,
+  CHART_TYPE_BAR = 3,
+  CHART_TYPE_STACKED = 4,
+  CHART_TYPE_SCATTER = 5,
+  UNRECOGNIZED = -1,
+}
+
+export function chartTypeFromJSON(object: any): ChartType {
+  switch (object) {
+    case 0:
+    case "CHART_TYPE_NONE":
+      return ChartType.CHART_TYPE_NONE;
+    case 1:
+    case "CHART_TYPE_LINE":
+      return ChartType.CHART_TYPE_LINE;
+    case 2:
+    case "CHART_TYPE_CURVE":
+      return ChartType.CHART_TYPE_CURVE;
+    case 3:
+    case "CHART_TYPE_BAR":
+      return ChartType.CHART_TYPE_BAR;
+    case 4:
+    case "CHART_TYPE_STACKED":
+      return ChartType.CHART_TYPE_STACKED;
+    case 5:
+    case "CHART_TYPE_SCATTER":
+      return ChartType.CHART_TYPE_SCATTER;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return ChartType.UNRECOGNIZED;
+  }
+}
+
+export function chartTypeToJSON(object: ChartType): string {
+  switch (object) {
+    case ChartType.CHART_TYPE_NONE:
+      return "CHART_TYPE_NONE";
+    case ChartType.CHART_TYPE_LINE:
+      return "CHART_TYPE_LINE";
+    case ChartType.CHART_TYPE_CURVE:
+      return "CHART_TYPE_CURVE";
+    case ChartType.CHART_TYPE_BAR:
+      return "CHART_TYPE_BAR";
+    case ChartType.CHART_TYPE_STACKED:
+      return "CHART_TYPE_STACKED";
+    case ChartType.CHART_TYPE_SCATTER:
+      return "CHART_TYPE_SCATTER";
+    case ChartType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+export enum ChartAxis {
+  CHART_AXIS_PRIMARY_Y = 0,
+  CHART_AXIS_SECONDARY_Y = 1,
+  CHART_AXIS_PRIMARY_X = 2,
+  CHART_AXIS_SECONDARY_X = 4,
+  UNRECOGNIZED = -1,
+}
+
+export function chartAxisFromJSON(object: any): ChartAxis {
+  switch (object) {
+    case 0:
+    case "CHART_AXIS_PRIMARY_Y":
+      return ChartAxis.CHART_AXIS_PRIMARY_Y;
+    case 1:
+    case "CHART_AXIS_SECONDARY_Y":
+      return ChartAxis.CHART_AXIS_SECONDARY_Y;
+    case 2:
+    case "CHART_AXIS_PRIMARY_X":
+      return ChartAxis.CHART_AXIS_PRIMARY_X;
+    case 4:
+    case "CHART_AXIS_SECONDARY_X":
+      return ChartAxis.CHART_AXIS_SECONDARY_X;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return ChartAxis.UNRECOGNIZED;
+  }
+}
+
+export function chartAxisToJSON(object: ChartAxis): string {
+  switch (object) {
+    case ChartAxis.CHART_AXIS_PRIMARY_Y:
+      return "CHART_AXIS_PRIMARY_Y";
+    case ChartAxis.CHART_AXIS_SECONDARY_Y:
+      return "CHART_AXIS_SECONDARY_Y";
+    case ChartAxis.CHART_AXIS_PRIMARY_X:
+      return "CHART_AXIS_PRIMARY_X";
+    case ChartAxis.CHART_AXIS_SECONDARY_X:
+      return "CHART_AXIS_SECONDARY_X";
+    case ChartAxis.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export enum StylePropertyType {
   /** PROP_BG_COLOR - Existing 0-15 (backward-compatible wire format) */
   PROP_BG_COLOR = 0,
@@ -1997,8 +2105,9 @@ export interface WidgetNode {
   scaleProps?: ScaleProps | undefined;
   buttonmatrixProps?: ButtonMatrixProps | undefined;
   tableProps?: TableProps | undefined;
-  tabviewProps?:
-    | TabviewProps
+  tabviewProps?: TabviewProps | undefined;
+  chartProps?:
+    | ChartProps
     | undefined;
   /** Conditional visibility binding (show/hide based on subject value) */
   visibility:
@@ -2202,6 +2311,52 @@ export interface TabviewProps {
    * the LVGL default (top).
    */
   tabBarPosition: Dir;
+}
+
+/** One chart data series (lv_chart_add_series + per-index value writes). */
+export interface ChartSeries {
+  /**
+   * Series color; absent = the theme primary color (the demo's default
+   * for its unstyled series).
+   */
+  color:
+    | Color
+    | undefined;
+  /**
+   * Y axis the series attaches to — lv_chart_axis_t direct-cast
+   * (parity-gated, sparse bitmask values); PRIMARY_Y (0) is the default.
+   */
+  axis: ChartAxis;
+  /**
+   * Frozen-frame data points, written BY INDEX (point i = values via
+   * lv_chart_set_series_value_by_id); points past the list keep
+   * LV_CHART_POINT_NONE.
+   */
+  values: number[];
+}
+
+export interface ChartProps {
+  /**
+   * lv_chart_type_t direct-cast (parity-gated); NONE (0) = keep the LVGL
+   * default (LINE).
+   */
+  type: ChartType;
+  /** 0 = keep the LVGL default point count. */
+  pointCount: number;
+  /**
+   * Division lines: 0 is a VALID explicit count (the demo sets 0,12), so
+   * presence rides has_div_lines (the ImageProps.has_pivot pattern);
+   * false = keep the LVGL defaults (HDIV_DEF/VDIV_DEF).
+   */
+  hasDivLines: boolean;
+  hdivCount: number;
+  vdivCount: number;
+  series: ChartSeries[];
+  /**
+   * Replicate the demo's chart fader draw-event: a vertical-gradient area
+   * under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED).
+   */
+  fadeArea: boolean;
 }
 
 export interface Point {
@@ -2681,6 +2836,7 @@ function createBaseWidgetNode(): WidgetNode {
     buttonmatrixProps: undefined,
     tableProps: undefined,
     tabviewProps: undefined,
+    chartProps: undefined,
     visibility: undefined,
     bindFormats: {},
     objFlags: 0,
@@ -2782,6 +2938,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.tabviewProps !== undefined) {
       TabviewProps.encode(message.tabviewProps, writer.uint32(306).fork()).join();
+    }
+    if (message.chartProps !== undefined) {
+      ChartProps.encode(message.chartProps, writer.uint32(322).fork()).join();
     }
     if (message.visibility !== undefined) {
       VisibilityBinding.encode(message.visibility, writer.uint32(234).fork()).join();
@@ -3062,6 +3221,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.tabviewProps = TabviewProps.decode(reader, reader.uint32());
           continue;
         }
+        case 40: {
+          if (tag !== 322) {
+            break;
+          }
+
+          message.chartProps = ChartProps.decode(reader, reader.uint32());
+          continue;
+        }
         case 29: {
           if (tag !== 234) {
             break;
@@ -3299,6 +3466,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.tabview_props)
         ? TabviewProps.fromJSON(object.tabview_props)
         : undefined,
+      chartProps: isSet(object.chartProps)
+        ? ChartProps.fromJSON(object.chartProps)
+        : isSet(object.chart_props)
+        ? ChartProps.fromJSON(object.chart_props)
+        : undefined,
       visibility: isSet(object.visibility) ? VisibilityBinding.fromJSON(object.visibility) : undefined,
       bindFormats: isObject(object.bindFormats)
         ? (globalThis.Object.entries(object.bindFormats) as [string, any][]).reduce(
@@ -3447,6 +3619,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.tabviewProps !== undefined) {
       obj.tabviewProps = TabviewProps.toJSON(message.tabviewProps);
     }
+    if (message.chartProps !== undefined) {
+      obj.chartProps = ChartProps.toJSON(message.chartProps);
+    }
     if (message.visibility !== undefined) {
       obj.visibility = VisibilityBinding.toJSON(message.visibility);
     }
@@ -3571,6 +3746,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
       : undefined;
     message.tabviewProps = (object.tabviewProps !== undefined && object.tabviewProps !== null)
       ? TabviewProps.fromPartial(object.tabviewProps)
+      : undefined;
+    message.chartProps = (object.chartProps !== undefined && object.chartProps !== null)
+      ? ChartProps.fromPartial(object.chartProps)
       : undefined;
     message.visibility = (object.visibility !== undefined && object.visibility !== null)
       ? VisibilityBinding.fromPartial(object.visibility)
@@ -6014,6 +6192,288 @@ export const TabviewProps: MessageFns<TabviewProps> = {
     message.tabBarSize = object.tabBarSize ?? 0;
     message.activeIndex = object.activeIndex ?? 0;
     message.tabBarPosition = object.tabBarPosition ?? 0;
+    return message;
+  },
+};
+
+function createBaseChartSeries(): ChartSeries {
+  return { color: undefined, axis: 0, values: [] };
+}
+
+export const ChartSeries: MessageFns<ChartSeries> = {
+  encode(message: ChartSeries, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.color !== undefined) {
+      Color.encode(message.color, writer.uint32(10).fork()).join();
+    }
+    if (message.axis !== 0) {
+      writer.uint32(16).int32(message.axis);
+    }
+    writer.uint32(26).fork();
+    for (const v of message.values) {
+      writer.int32(v);
+    }
+    writer.join();
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ChartSeries {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseChartSeries();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.color = Color.decode(reader, reader.uint32());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.axis = reader.int32() as any;
+          continue;
+        }
+        case 3: {
+          if (tag === 24) {
+            message.values.push(reader.int32());
+
+            continue;
+          }
+
+          if (tag === 26) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.values.push(reader.int32());
+            }
+
+            continue;
+          }
+
+          break;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ChartSeries {
+    return {
+      color: isSet(object.color) ? Color.fromJSON(object.color) : undefined,
+      axis: isSet(object.axis) ? chartAxisFromJSON(object.axis) : 0,
+      values: globalThis.Array.isArray(object?.values) ? object.values.map((e: any) => globalThis.Number(e)) : [],
+    };
+  },
+
+  toJSON(message: ChartSeries): unknown {
+    const obj: any = {};
+    if (message.color !== undefined) {
+      obj.color = Color.toJSON(message.color);
+    }
+    if (message.axis !== 0) {
+      obj.axis = chartAxisToJSON(message.axis);
+    }
+    if (message.values?.length) {
+      obj.values = message.values.map((e) => Math.round(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ChartSeries>, I>>(base?: I): ChartSeries {
+    return ChartSeries.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ChartSeries>, I>>(object: I): ChartSeries {
+    const message = createBaseChartSeries();
+    message.color = (object.color !== undefined && object.color !== null) ? Color.fromPartial(object.color) : undefined;
+    message.axis = object.axis ?? 0;
+    message.values = object.values?.map((e) => e) || [];
+    return message;
+  },
+};
+
+function createBaseChartProps(): ChartProps {
+  return { type: 0, pointCount: 0, hasDivLines: false, hdivCount: 0, vdivCount: 0, series: [], fadeArea: false };
+}
+
+export const ChartProps: MessageFns<ChartProps> = {
+  encode(message: ChartProps, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.type !== 0) {
+      writer.uint32(8).int32(message.type);
+    }
+    if (message.pointCount !== 0) {
+      writer.uint32(16).uint32(message.pointCount);
+    }
+    if (message.hasDivLines !== false) {
+      writer.uint32(24).bool(message.hasDivLines);
+    }
+    if (message.hdivCount !== 0) {
+      writer.uint32(32).uint32(message.hdivCount);
+    }
+    if (message.vdivCount !== 0) {
+      writer.uint32(40).uint32(message.vdivCount);
+    }
+    for (const v of message.series) {
+      ChartSeries.encode(v!, writer.uint32(50).fork()).join();
+    }
+    if (message.fadeArea !== false) {
+      writer.uint32(56).bool(message.fadeArea);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ChartProps {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseChartProps();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.type = reader.int32() as any;
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.pointCount = reader.uint32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.hasDivLines = reader.bool();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.hdivCount = reader.uint32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.vdivCount = reader.uint32();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.series.push(ChartSeries.decode(reader, reader.uint32()));
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.fadeArea = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ChartProps {
+    return {
+      type: isSet(object.type) ? chartTypeFromJSON(object.type) : 0,
+      pointCount: isSet(object.pointCount)
+        ? globalThis.Number(object.pointCount)
+        : isSet(object.point_count)
+        ? globalThis.Number(object.point_count)
+        : 0,
+      hasDivLines: isSet(object.hasDivLines)
+        ? globalThis.Boolean(object.hasDivLines)
+        : isSet(object.has_div_lines)
+        ? globalThis.Boolean(object.has_div_lines)
+        : false,
+      hdivCount: isSet(object.hdivCount)
+        ? globalThis.Number(object.hdivCount)
+        : isSet(object.hdiv_count)
+        ? globalThis.Number(object.hdiv_count)
+        : 0,
+      vdivCount: isSet(object.vdivCount)
+        ? globalThis.Number(object.vdivCount)
+        : isSet(object.vdiv_count)
+        ? globalThis.Number(object.vdiv_count)
+        : 0,
+      series: globalThis.Array.isArray(object?.series)
+        ? object.series.map((e: any) => ChartSeries.fromJSON(e))
+        : [],
+      fadeArea: isSet(object.fadeArea)
+        ? globalThis.Boolean(object.fadeArea)
+        : isSet(object.fade_area)
+        ? globalThis.Boolean(object.fade_area)
+        : false,
+    };
+  },
+
+  toJSON(message: ChartProps): unknown {
+    const obj: any = {};
+    if (message.type !== 0) {
+      obj.type = chartTypeToJSON(message.type);
+    }
+    if (message.pointCount !== 0) {
+      obj.pointCount = Math.round(message.pointCount);
+    }
+    if (message.hasDivLines !== false) {
+      obj.hasDivLines = message.hasDivLines;
+    }
+    if (message.hdivCount !== 0) {
+      obj.hdivCount = Math.round(message.hdivCount);
+    }
+    if (message.vdivCount !== 0) {
+      obj.vdivCount = Math.round(message.vdivCount);
+    }
+    if (message.series?.length) {
+      obj.series = message.series.map((e) => ChartSeries.toJSON(e));
+    }
+    if (message.fadeArea !== false) {
+      obj.fadeArea = message.fadeArea;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ChartProps>, I>>(base?: I): ChartProps {
+    return ChartProps.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ChartProps>, I>>(object: I): ChartProps {
+    const message = createBaseChartProps();
+    message.type = object.type ?? 0;
+    message.pointCount = object.pointCount ?? 0;
+    message.hasDivLines = object.hasDivLines ?? false;
+    message.hdivCount = object.hdivCount ?? 0;
+    message.vdivCount = object.vdivCount ?? 0;
+    message.series = object.series?.map((e) => ChartSeries.fromPartial(e)) || [];
+    message.fadeArea = object.fadeArea ?? false;
     return message;
   },
 };

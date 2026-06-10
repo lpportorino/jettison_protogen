@@ -974,6 +974,30 @@ public object WidgetNodeKt {
     }
 
     /**
+     * `.ui.ChartProps chart_props = 40;`
+     */
+    public var chartProps: ui.UiAst.ChartProps
+      @JvmName("getChartProps")
+      get() = _builder.chartProps
+      @JvmName("setChartProps")
+      set(value) {
+        _builder.chartProps = value
+      }
+    /**
+     * `.ui.ChartProps chart_props = 40;`
+     */
+    public fun clearChartProps() {
+      _builder.clearChartProps()
+    }
+    /**
+     * `.ui.ChartProps chart_props = 40;`
+     * @return Whether the chartProps field is set.
+     */
+    public fun hasChartProps(): kotlin.Boolean {
+      return _builder.hasChartProps()
+    }
+
+    /**
      * ```
      * Conditional visibility binding (show/hide based on subject value)
      * ```
@@ -1504,6 +1528,9 @@ public val ui.UiAst.WidgetNodeOrBuilder.tablePropsOrNull: ui.UiAst.TableProps?
 
 public val ui.UiAst.WidgetNodeOrBuilder.tabviewPropsOrNull: ui.UiAst.TabviewProps?
   get() = if (hasTabviewProps()) getTabviewProps() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.chartPropsOrNull: ui.UiAst.ChartProps?
+  get() = if (hasChartProps()) getChartProps() else null
 
 public val ui.UiAst.WidgetNodeOrBuilder.visibilityOrNull: ui.UiAst.VisibilityBinding?
   get() = if (hasVisibility()) getVisibility() else null

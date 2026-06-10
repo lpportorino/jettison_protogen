@@ -37,7 +37,8 @@ typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_SCALE = 16,
     ui_WidgetType_WIDGET_BUTTONMATRIX = 17,
     ui_WidgetType_WIDGET_TABLE = 18,
-    ui_WidgetType_WIDGET_TABVIEW = 19
+    ui_WidgetType_WIDGET_TABVIEW = 19,
+    ui_WidgetType_WIDGET_CHART = 20
 } ui_WidgetType;
 
 /* Which LVGL event code triggers this event binding. */
@@ -205,6 +206,22 @@ typedef enum _ui_ScaleMode {
     ui_ScaleMode_SCALE_MODE_ROUND_INNER = 8,
     ui_ScaleMode_SCALE_MODE_ROUND_OUTER = 16
 } ui_ScaleMode;
+
+typedef enum _ui_ChartType {
+    ui_ChartType_CHART_TYPE_NONE = 0,
+    ui_ChartType_CHART_TYPE_LINE = 1,
+    ui_ChartType_CHART_TYPE_CURVE = 2,
+    ui_ChartType_CHART_TYPE_BAR = 3,
+    ui_ChartType_CHART_TYPE_STACKED = 4,
+    ui_ChartType_CHART_TYPE_SCATTER = 5
+} ui_ChartType;
+
+typedef enum _ui_ChartAxis {
+    ui_ChartAxis_CHART_AXIS_PRIMARY_Y = 0,
+    ui_ChartAxis_CHART_AXIS_SECONDARY_Y = 1,
+    ui_ChartAxis_CHART_AXIS_PRIMARY_X = 2,
+    ui_ChartAxis_CHART_AXIS_SECONDARY_X = 4
+} ui_ChartAxis;
 
 typedef enum _ui_StylePropertyType {
     /* Existing 0-15 (backward-compatible wire format) */
@@ -511,6 +528,24 @@ typedef struct _ui_TabviewProps {
     ui_Dir tab_bar_position;
 } ui_TabviewProps;
 
+typedef struct _ui_ChartProps {
+    /* lv_chart_type_t direct-cast (parity-gated); NONE (0) = keep the LVGL
+ default (LINE). */
+    ui_ChartType type;
+    /* 0 = keep the LVGL default point count. */
+    uint32_t point_count;
+    /* Division lines: 0 is a VALID explicit count (the demo sets 0,12), so
+ presence rides has_div_lines (the ImageProps.has_pivot pattern);
+ false = keep the LVGL defaults (HDIV_DEF/VDIV_DEF). */
+    bool has_div_lines;
+    uint32_t hdiv_count;
+    uint32_t vdiv_count;
+    pb_callback_t series;
+    /* Replicate the demo's chart fader draw-event: a vertical-gradient area
+ under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED). */
+    bool fade_area;
+} ui_ChartProps;
+
 typedef struct _ui_Point {
     int32_t x;
     int32_t y;
@@ -614,6 +649,7 @@ typedef struct _ui_WidgetNode {
         ui_ButtonMatrixProps buttonmatrix_props;
         ui_TableProps table_props;
         ui_TabviewProps tabview_props;
+        ui_ChartProps chart_props;
     } widget_props;
     /* Conditional visibility binding (show/hide based on subject value) */
     bool has_visibility;
@@ -660,6 +696,21 @@ typedef struct _ui_ScaleSection {
     uint32_t width;
 } ui_ScaleSection;
 
+/* One chart data series (lv_chart_add_series + per-index value writes). */
+typedef struct _ui_ChartSeries {
+    /* Series color; absent = the theme primary color (the demo's default
+ for its unstyled series). */
+    bool has_color;
+    ui_Color color;
+    /* Y axis the series attaches to — lv_chart_axis_t direct-cast
+ (parity-gated, sparse bitmask values); PRIMARY_Y (0) is the default. */
+    ui_ChartAxis axis;
+    /* Frozen-frame data points, written BY INDEX (point i = values via
+ lv_chart_set_series_value_by_id); points past the list keep
+ LV_CHART_POINT_NONE. */
+    pb_callback_t values;
+} ui_ChartSeries;
+
 typedef struct _ui_ShadowBundle {
     uint32_t width;
     int32_t offset_x;
@@ -693,8 +744,8 @@ extern "C" {
 #define _ui_SubjectType_ARRAYSIZE ((ui_SubjectType)(ui_SubjectType_SUBJECT_STRING+1))
 
 #define _ui_WidgetType_MIN ui_WidgetType_WIDGET_OBJ
-#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_TABVIEW
-#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_TABVIEW+1))
+#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_CHART
+#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_CHART+1))
 
 #define _ui_EventTrigger_MIN ui_EventTrigger_TRIGGER_CLICKED
 #define _ui_EventTrigger_MAX ui_EventTrigger_TRIGGER_LONG_PRESSED
@@ -768,6 +819,14 @@ extern "C" {
 #define _ui_ScaleMode_MAX ui_ScaleMode_SCALE_MODE_ROUND_OUTER
 #define _ui_ScaleMode_ARRAYSIZE ((ui_ScaleMode)(ui_ScaleMode_SCALE_MODE_ROUND_OUTER+1))
 
+#define _ui_ChartType_MIN ui_ChartType_CHART_TYPE_NONE
+#define _ui_ChartType_MAX ui_ChartType_CHART_TYPE_SCATTER
+#define _ui_ChartType_ARRAYSIZE ((ui_ChartType)(ui_ChartType_CHART_TYPE_SCATTER+1))
+
+#define _ui_ChartAxis_MIN ui_ChartAxis_CHART_AXIS_PRIMARY_Y
+#define _ui_ChartAxis_MAX ui_ChartAxis_CHART_AXIS_SECONDARY_X
+#define _ui_ChartAxis_ARRAYSIZE ((ui_ChartAxis)(ui_ChartAxis_CHART_AXIS_SECONDARY_X+1))
+
 #define _ui_StylePropertyType_MIN ui_StylePropertyType_PROP_BG_COLOR
 #define _ui_StylePropertyType_MAX ui_StylePropertyType_PROP_GRID_CELL_ROW_SPAN
 #define _ui_StylePropertyType_ARRAYSIZE ((ui_StylePropertyType)(ui_StylePropertyType_PROP_GRID_CELL_ROW_SPAN+1))
@@ -809,6 +868,10 @@ extern "C" {
 
 
 #define ui_TabviewProps_tab_bar_position_ENUMTYPE ui_Dir
+
+#define ui_ChartSeries_axis_ENUMTYPE ui_ChartAxis
+
+#define ui_ChartProps_type_ENUMTYPE ui_ChartType
 
 
 #define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
@@ -856,6 +919,8 @@ extern "C" {
 #define ui_ButtonMatrixProps_init_default        {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_default               {0, 0}
 #define ui_TabviewProps_init_default             {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN}
+#define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, {{NULL}, NULL}}
+#define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_Point_init_default                    {0, 0}
 #define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
 #define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
@@ -893,6 +958,8 @@ extern "C" {
 #define ui_ButtonMatrixProps_init_zero           {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_zero                  {0, 0}
 #define ui_TabviewProps_init_zero                {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN}
+#define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, {{NULL}, NULL}}
+#define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_Point_init_zero                       {0, 0}
 #define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
 #define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
@@ -982,6 +1049,13 @@ extern "C" {
 #define ui_TabviewProps_tab_bar_size_tag         2
 #define ui_TabviewProps_active_index_tag         3
 #define ui_TabviewProps_tab_bar_position_tag     4
+#define ui_ChartProps_type_tag                   1
+#define ui_ChartProps_point_count_tag            2
+#define ui_ChartProps_has_div_lines_tag          3
+#define ui_ChartProps_hdiv_count_tag             4
+#define ui_ChartProps_vdiv_count_tag             5
+#define ui_ChartProps_series_tag                 6
+#define ui_ChartProps_fade_area_tag              7
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
 #define ui_EventBinding_name_tag                 1
@@ -1036,6 +1110,7 @@ extern "C" {
 #define ui_WidgetNode_buttonmatrix_props_tag     27
 #define ui_WidgetNode_table_props_tag            28
 #define ui_WidgetNode_tabview_props_tag          38
+#define ui_WidgetNode_chart_props_tag            40
 #define ui_WidgetNode_visibility_tag             29
 #define ui_WidgetNode_bind_formats_tag           30
 #define ui_WidgetNode_obj_flags_tag              31
@@ -1052,6 +1127,9 @@ extern "C" {
 #define ui_ScaleSection_range_max_tag            2
 #define ui_ScaleSection_color_tag                3
 #define ui_ScaleSection_width_tag                4
+#define ui_ChartSeries_color_tag                 1
+#define ui_ChartSeries_axis_tag                  2
+#define ui_ChartSeries_values_tag                3
 #define ui_ShadowBundle_width_tag                1
 #define ui_ShadowBundle_offset_x_tag             2
 #define ui_ShadowBundle_offset_y_tag             3
@@ -1133,7 +1211,8 @@ X(a, CALLBACK, REPEATED, INT32,    grid_col_dsc,     35) \
 X(a, CALLBACK, REPEATED, INT32,    grid_row_dsc,     36) \
 X(a, STATIC,   SINGULAR, BOOL,     bare,             37) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,tabview_props,widget_props.tabview_props),  38) \
-X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39)
+X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_props),  40)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1163,6 +1242,7 @@ X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39)
 #define ui_WidgetNode_visibility_MSGTYPE ui_VisibilityBinding
 #define ui_WidgetNode_bind_formats_MSGTYPE ui_WidgetNode_BindFormatsEntry
 #define ui_WidgetNode_widget_props_tabview_props_MSGTYPE ui_TabviewProps
+#define ui_WidgetNode_widget_props_chart_props_MSGTYPE ui_ChartProps
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
@@ -1338,6 +1418,26 @@ X(a, STATIC,   SINGULAR, UENUM,    tab_bar_position,   4)
 #define ui_TabviewProps_CALLBACK pb_default_field_callback
 #define ui_TabviewProps_DEFAULT NULL
 
+#define ui_ChartSeries_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  color,             1) \
+X(a, STATIC,   SINGULAR, UENUM,    axis,              2) \
+X(a, CALLBACK, REPEATED, INT32,    values,            3)
+#define ui_ChartSeries_CALLBACK pb_default_field_callback
+#define ui_ChartSeries_DEFAULT NULL
+#define ui_ChartSeries_color_MSGTYPE ui_Color
+
+#define ui_ChartProps_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
+X(a, STATIC,   SINGULAR, UINT32,   point_count,       2) \
+X(a, STATIC,   SINGULAR, BOOL,     has_div_lines,     3) \
+X(a, STATIC,   SINGULAR, UINT32,   hdiv_count,        4) \
+X(a, STATIC,   SINGULAR, UINT32,   vdiv_count,        5) \
+X(a, CALLBACK, REPEATED, MESSAGE,  series,            6) \
+X(a, STATIC,   SINGULAR, BOOL,     fade_area,         7)
+#define ui_ChartProps_CALLBACK pb_default_field_callback
+#define ui_ChartProps_DEFAULT NULL
+#define ui_ChartProps_series_MSGTYPE ui_ChartSeries
+
 #define ui_Point_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 1) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 2)
@@ -1440,6 +1540,8 @@ extern const pb_msgdesc_t ui_ScaleSection_msg;
 extern const pb_msgdesc_t ui_ButtonMatrixProps_msg;
 extern const pb_msgdesc_t ui_TableProps_msg;
 extern const pb_msgdesc_t ui_TabviewProps_msg;
+extern const pb_msgdesc_t ui_ChartSeries_msg;
+extern const pb_msgdesc_t ui_ChartProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
 extern const pb_msgdesc_t ui_EventBinding_msg;
 extern const pb_msgdesc_t ui_VisibilityBinding_msg;
@@ -1479,6 +1581,8 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ButtonMatrixProps_fields &ui_ButtonMatrixProps_msg
 #define ui_TableProps_fields &ui_TableProps_msg
 #define ui_TabviewProps_fields &ui_TabviewProps_msg
+#define ui_ChartSeries_fields &ui_ChartSeries_msg
+#define ui_ChartProps_fields &ui_ChartProps_msg
 #define ui_Point_fields &ui_Point_msg
 #define ui_EventBinding_fields &ui_EventBinding_msg
 #define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
@@ -1505,6 +1609,8 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_ScaleProps_size depends on runtime parameters */
 /* ui_ButtonMatrixProps_size depends on runtime parameters */
 /* ui_TabviewProps_size depends on runtime parameters */
+/* ui_ChartSeries_size depends on runtime parameters */
+/* ui_ChartProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */

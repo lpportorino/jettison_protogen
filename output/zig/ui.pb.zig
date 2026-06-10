@@ -33,6 +33,7 @@ pub const WidgetType = enum(i32) {
    WIDGET_BUTTONMATRIX = 17,
    WIDGET_TABLE = 18,
    WIDGET_TABVIEW = 19,
+   WIDGET_CHART = 20,
     _,
 };
 
@@ -233,6 +234,26 @@ pub const ScaleMode = enum(i32) {
    SCALE_MODE_VERTICAL_RIGHT = 4,
    SCALE_MODE_ROUND_INNER = 8,
    SCALE_MODE_ROUND_OUTER = 16,
+    _,
+};
+
+
+pub const ChartType = enum(i32) {
+   CHART_TYPE_NONE = 0,
+   CHART_TYPE_LINE = 1,
+   CHART_TYPE_CURVE = 2,
+   CHART_TYPE_BAR = 3,
+   CHART_TYPE_STACKED = 4,
+   CHART_TYPE_SCATTER = 5,
+    _,
+};
+
+
+pub const ChartAxis = enum(i32) {
+   CHART_AXIS_PRIMARY_Y = 0,
+   CHART_AXIS_SECONDARY_Y = 1,
+   CHART_AXIS_PRIMARY_X = 2,
+   CHART_AXIS_SECONDARY_X = 4,
     _,
 };
 
@@ -710,6 +731,7 @@ pub const WidgetNode = struct {
       buttonmatrix_props,
       table_props,
       tabview_props,
+      chart_props,
     };
     pub const widget_props_union = union(_widget_props_case) {
       obj_props: ObjProps,
@@ -732,6 +754,7 @@ pub const WidgetNode = struct {
       buttonmatrix_props: ButtonMatrixProps,
       table_props: TableProps,
       tabview_props: TabviewProps,
+      chart_props: ChartProps,
     pub const _desc_table  = .{
         .obj_props = fd(10, .submessage),
         .button_props = fd(11, .submessage),
@@ -753,6 +776,7 @@ pub const WidgetNode = struct {
         .buttonmatrix_props = fd(27, .submessage),
         .table_props = fd(28, .submessage),
         .tabview_props = fd(38, .submessage),
+        .chart_props = fd(40, .submessage),
       };
     };
 
@@ -2516,6 +2540,164 @@ pub const TabviewProps = struct {
         .tab_bar_size = fd(2, .{ .scalar = .int32 }),
         .active_index = fd(3, .{ .scalar = .uint32 }),
         .tab_bar_position = fd(4, .@"enum"),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const ChartSeries = struct {
+    color: ?Color = null,
+    axis: ChartAxis = @enumFromInt(0),
+    values: std.ArrayListUnmanaged(i32) = .empty,
+
+    pub const _desc_table = .{
+        .color = fd(1, .submessage),
+        .axis = fd(2, .@"enum"),
+        .values = fd(3, .{ .packed_repeated = .{ .scalar = .int32 }}),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const ChartProps = struct {
+    type: ChartType = @enumFromInt(0),
+    point_count: u32 = 0,
+    has_div_lines: bool = false,
+    hdiv_count: u32 = 0,
+    vdiv_count: u32 = 0,
+    series: std.ArrayListUnmanaged(ChartSeries) = .empty,
+    fade_area: bool = false,
+
+    pub const _desc_table = .{
+        .type = fd(1, .@"enum"),
+        .point_count = fd(2, .{ .scalar = .uint32 }),
+        .has_div_lines = fd(3, .{ .scalar = .bool }),
+        .hdiv_count = fd(4, .{ .scalar = .uint32 }),
+        .vdiv_count = fd(5, .{ .scalar = .uint32 }),
+        .series = fd(6, .{ .repeated = .submessage}),
+        .fade_area = fd(7, .{ .scalar = .bool }),
     };
 
     /// Encodes the message to the writer
