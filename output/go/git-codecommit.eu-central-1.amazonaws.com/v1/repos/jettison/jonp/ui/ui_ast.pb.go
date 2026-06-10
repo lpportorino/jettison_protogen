@@ -570,6 +570,7 @@ const (
 	BlendMode_BLEND_MODE_ADDITIVE    BlendMode = 1
 	BlendMode_BLEND_MODE_SUBTRACTIVE BlendMode = 2
 	BlendMode_BLEND_MODE_MULTIPLY    BlendMode = 3
+	BlendMode_BLEND_MODE_DIFFERENCE  BlendMode = 4
 )
 
 // Enum value maps for BlendMode.
@@ -579,12 +580,14 @@ var (
 		1: "BLEND_MODE_ADDITIVE",
 		2: "BLEND_MODE_SUBTRACTIVE",
 		3: "BLEND_MODE_MULTIPLY",
+		4: "BLEND_MODE_DIFFERENCE",
 	}
 	BlendMode_value = map[string]int32{
 		"BLEND_MODE_NORMAL":      0,
 		"BLEND_MODE_ADDITIVE":    1,
 		"BLEND_MODE_SUBTRACTIVE": 2,
 		"BLEND_MODE_MULTIPLY":    3,
+		"BLEND_MODE_DIFFERENCE":  4,
 	}
 )
 
@@ -618,22 +621,28 @@ func (BlendMode) EnumDescriptor() ([]byte, []int) {
 type BaseDir int32
 
 const (
-	BaseDir_BASE_DIR_LTR  BaseDir = 0
-	BaseDir_BASE_DIR_RTL  BaseDir = 1
-	BaseDir_BASE_DIR_AUTO BaseDir = 2
+	BaseDir_BASE_DIR_LTR     BaseDir = 0
+	BaseDir_BASE_DIR_RTL     BaseDir = 1
+	BaseDir_BASE_DIR_AUTO    BaseDir = 2
+	BaseDir_BASE_DIR_NEUTRAL BaseDir = 32
+	BaseDir_BASE_DIR_WEAK    BaseDir = 33
 )
 
 // Enum value maps for BaseDir.
 var (
 	BaseDir_name = map[int32]string{
-		0: "BASE_DIR_LTR",
-		1: "BASE_DIR_RTL",
-		2: "BASE_DIR_AUTO",
+		0:  "BASE_DIR_LTR",
+		1:  "BASE_DIR_RTL",
+		2:  "BASE_DIR_AUTO",
+		32: "BASE_DIR_NEUTRAL",
+		33: "BASE_DIR_WEAK",
 	}
 	BaseDir_value = map[string]int32{
-		"BASE_DIR_LTR":  0,
-		"BASE_DIR_RTL":  1,
-		"BASE_DIR_AUTO": 2,
+		"BASE_DIR_LTR":     0,
+		"BASE_DIR_RTL":     1,
+		"BASE_DIR_AUTO":    2,
+		"BASE_DIR_NEUTRAL": 32,
+		"BASE_DIR_WEAK":    33,
 	}
 )
 
@@ -728,9 +737,9 @@ const (
 	Dir_DIR_NONE   Dir = 0
 	Dir_DIR_LEFT   Dir = 1
 	Dir_DIR_RIGHT  Dir = 2
-	Dir_DIR_HOR    Dir = 3
 	Dir_DIR_TOP    Dir = 4
 	Dir_DIR_BOTTOM Dir = 8
+	Dir_DIR_HOR    Dir = 3
 	Dir_DIR_VER    Dir = 12
 	Dir_DIR_ALL    Dir = 15
 )
@@ -741,9 +750,9 @@ var (
 		0:  "DIR_NONE",
 		1:  "DIR_LEFT",
 		2:  "DIR_RIGHT",
-		3:  "DIR_HOR",
 		4:  "DIR_TOP",
 		8:  "DIR_BOTTOM",
+		3:  "DIR_HOR",
 		12: "DIR_VER",
 		15: "DIR_ALL",
 	}
@@ -751,9 +760,9 @@ var (
 		"DIR_NONE":   0,
 		"DIR_LEFT":   1,
 		"DIR_RIGHT":  2,
-		"DIR_HOR":    3,
 		"DIR_TOP":    4,
 		"DIR_BOTTOM": 8,
+		"DIR_HOR":    3,
 		"DIR_VER":    12,
 		"DIR_ALL":    15,
 	}
@@ -956,28 +965,28 @@ func (BorderSide) EnumDescriptor() ([]byte, []int) {
 type LabelLongMode int32
 
 const (
-	LabelLongMode_LABEL_LONG_WRAP            LabelLongMode = 0
-	LabelLongMode_LABEL_LONG_DOT             LabelLongMode = 1
-	LabelLongMode_LABEL_LONG_SCROLL          LabelLongMode = 2
-	LabelLongMode_LABEL_LONG_SCROLL_CIRCULAR LabelLongMode = 3
-	LabelLongMode_LABEL_LONG_CLIP            LabelLongMode = 4
+	LabelLongMode_LABEL_LONG_MODE_WRAP            LabelLongMode = 0
+	LabelLongMode_LABEL_LONG_MODE_DOTS            LabelLongMode = 1
+	LabelLongMode_LABEL_LONG_MODE_SCROLL          LabelLongMode = 2
+	LabelLongMode_LABEL_LONG_MODE_SCROLL_CIRCULAR LabelLongMode = 3
+	LabelLongMode_LABEL_LONG_MODE_CLIP            LabelLongMode = 4
 )
 
 // Enum value maps for LabelLongMode.
 var (
 	LabelLongMode_name = map[int32]string{
-		0: "LABEL_LONG_WRAP",
-		1: "LABEL_LONG_DOT",
-		2: "LABEL_LONG_SCROLL",
-		3: "LABEL_LONG_SCROLL_CIRCULAR",
-		4: "LABEL_LONG_CLIP",
+		0: "LABEL_LONG_MODE_WRAP",
+		1: "LABEL_LONG_MODE_DOTS",
+		2: "LABEL_LONG_MODE_SCROLL",
+		3: "LABEL_LONG_MODE_SCROLL_CIRCULAR",
+		4: "LABEL_LONG_MODE_CLIP",
 	}
 	LabelLongMode_value = map[string]int32{
-		"LABEL_LONG_WRAP":            0,
-		"LABEL_LONG_DOT":             1,
-		"LABEL_LONG_SCROLL":          2,
-		"LABEL_LONG_SCROLL_CIRCULAR": 3,
-		"LABEL_LONG_CLIP":            4,
+		"LABEL_LONG_MODE_WRAP":            0,
+		"LABEL_LONG_MODE_DOTS":            1,
+		"LABEL_LONG_MODE_SCROLL":          2,
+		"LABEL_LONG_MODE_SCROLL_CIRCULAR": 3,
+		"LABEL_LONG_MODE_CLIP":            4,
 	}
 )
 
@@ -2448,7 +2457,7 @@ func (x *LabelProps) GetLongMode() LabelLongMode {
 	if x != nil {
 		return x.LongMode
 	}
-	return LabelLongMode_LABEL_LONG_WRAP
+	return LabelLongMode_LABEL_LONG_MODE_WRAP
 }
 
 type SliderProps struct {
@@ -4430,16 +4439,19 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\tTextDecor\x12\x13\n" +
 	"\x0fTEXT_DECOR_NONE\x10\x00\x12\x18\n" +
 	"\x14TEXT_DECOR_UNDERLINE\x10\x01\x12\x1c\n" +
-	"\x18TEXT_DECOR_STRIKETHROUGH\x10\x02*p\n" +
+	"\x18TEXT_DECOR_STRIKETHROUGH\x10\x02*\x8b\x01\n" +
 	"\tBlendMode\x12\x15\n" +
 	"\x11BLEND_MODE_NORMAL\x10\x00\x12\x17\n" +
 	"\x13BLEND_MODE_ADDITIVE\x10\x01\x12\x1a\n" +
 	"\x16BLEND_MODE_SUBTRACTIVE\x10\x02\x12\x17\n" +
-	"\x13BLEND_MODE_MULTIPLY\x10\x03*@\n" +
+	"\x13BLEND_MODE_MULTIPLY\x10\x03\x12\x19\n" +
+	"\x15BLEND_MODE_DIFFERENCE\x10\x04*i\n" +
 	"\aBaseDir\x12\x10\n" +
 	"\fBASE_DIR_LTR\x10\x00\x12\x10\n" +
 	"\fBASE_DIR_RTL\x10\x01\x12\x11\n" +
-	"\rBASE_DIR_AUTO\x10\x02*\x80\x01\n" +
+	"\rBASE_DIR_AUTO\x10\x02\x12\x14\n" +
+	"\x10BASE_DIR_NEUTRAL\x10 \x12\x11\n" +
+	"\rBASE_DIR_WEAK\x10!*\x80\x01\n" +
 	"\aGradDir\x12\x11\n" +
 	"\rGRAD_DIR_NONE\x10\x00\x12\x10\n" +
 	"\fGRAD_DIR_VER\x10\x01\x12\x10\n" +
@@ -4451,10 +4463,10 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\bDIR_NONE\x10\x00\x12\f\n" +
 	"\bDIR_LEFT\x10\x01\x12\r\n" +
 	"\tDIR_RIGHT\x10\x02\x12\v\n" +
-	"\aDIR_HOR\x10\x03\x12\v\n" +
 	"\aDIR_TOP\x10\x04\x12\x0e\n" +
 	"\n" +
 	"DIR_BOTTOM\x10\b\x12\v\n" +
+	"\aDIR_HOR\x10\x03\x12\v\n" +
 	"\aDIR_VER\x10\f\x12\v\n" +
 	"\aDIR_ALL\x10\x0f*\x88\x04\n" +
 	"\x05Align\x12\x11\n" +
@@ -4489,13 +4501,13 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x10BORDER_SIDE_LEFT\x10\x04\x12\x15\n" +
 	"\x11BORDER_SIDE_RIGHT\x10\b\x12\x14\n" +
 	"\x10BORDER_SIDE_FULL\x10\x0f\x12\x18\n" +
-	"\x14BORDER_SIDE_INTERNAL\x10\x10*\x84\x01\n" +
-	"\rLabelLongMode\x12\x13\n" +
-	"\x0fLABEL_LONG_WRAP\x10\x00\x12\x12\n" +
-	"\x0eLABEL_LONG_DOT\x10\x01\x12\x15\n" +
-	"\x11LABEL_LONG_SCROLL\x10\x02\x12\x1e\n" +
-	"\x1aLABEL_LONG_SCROLL_CIRCULAR\x10\x03\x12\x13\n" +
-	"\x0fLABEL_LONG_CLIP\x10\x04*L\n" +
+	"\x14BORDER_SIDE_INTERNAL\x10\x10*\x9e\x01\n" +
+	"\rLabelLongMode\x12\x18\n" +
+	"\x14LABEL_LONG_MODE_WRAP\x10\x00\x12\x18\n" +
+	"\x14LABEL_LONG_MODE_DOTS\x10\x01\x12\x1a\n" +
+	"\x16LABEL_LONG_MODE_SCROLL\x10\x02\x12#\n" +
+	"\x1fLABEL_LONG_MODE_SCROLL_CIRCULAR\x10\x03\x12\x18\n" +
+	"\x14LABEL_LONG_MODE_CLIP\x10\x04*L\n" +
 	"\aBarMode\x12\x13\n" +
 	"\x0fBAR_MODE_NORMAL\x10\x00\x12\x18\n" +
 	"\x14BAR_MODE_SYMMETRICAL\x10\x01\x12\x12\n" +

@@ -104,13 +104,16 @@ typedef enum _ui_BlendMode {
     ui_BlendMode_BLEND_MODE_NORMAL = 0,
     ui_BlendMode_BLEND_MODE_ADDITIVE = 1,
     ui_BlendMode_BLEND_MODE_SUBTRACTIVE = 2,
-    ui_BlendMode_BLEND_MODE_MULTIPLY = 3
+    ui_BlendMode_BLEND_MODE_MULTIPLY = 3,
+    ui_BlendMode_BLEND_MODE_DIFFERENCE = 4
 } ui_BlendMode;
 
 typedef enum _ui_BaseDir {
     ui_BaseDir_BASE_DIR_LTR = 0,
     ui_BaseDir_BASE_DIR_RTL = 1,
-    ui_BaseDir_BASE_DIR_AUTO = 2
+    ui_BaseDir_BASE_DIR_AUTO = 2,
+    ui_BaseDir_BASE_DIR_NEUTRAL = 32,
+    ui_BaseDir_BASE_DIR_WEAK = 33
 } ui_BaseDir;
 
 typedef enum _ui_GradDir {
@@ -126,9 +129,9 @@ typedef enum _ui_Dir {
     ui_Dir_DIR_NONE = 0,
     ui_Dir_DIR_LEFT = 1,
     ui_Dir_DIR_RIGHT = 2,
-    ui_Dir_DIR_HOR = 3,
     ui_Dir_DIR_TOP = 4,
     ui_Dir_DIR_BOTTOM = 8,
+    ui_Dir_DIR_HOR = 3,
     ui_Dir_DIR_VER = 12,
     ui_Dir_DIR_ALL = 15
 } ui_Dir;
@@ -169,11 +172,11 @@ typedef enum _ui_BorderSide {
 } ui_BorderSide;
 
 typedef enum _ui_LabelLongMode {
-    ui_LabelLongMode_LABEL_LONG_WRAP = 0,
-    ui_LabelLongMode_LABEL_LONG_DOT = 1,
-    ui_LabelLongMode_LABEL_LONG_SCROLL = 2,
-    ui_LabelLongMode_LABEL_LONG_SCROLL_CIRCULAR = 3,
-    ui_LabelLongMode_LABEL_LONG_CLIP = 4
+    ui_LabelLongMode_LABEL_LONG_MODE_WRAP = 0,
+    ui_LabelLongMode_LABEL_LONG_MODE_DOTS = 1,
+    ui_LabelLongMode_LABEL_LONG_MODE_SCROLL = 2,
+    ui_LabelLongMode_LABEL_LONG_MODE_SCROLL_CIRCULAR = 3,
+    ui_LabelLongMode_LABEL_LONG_MODE_CLIP = 4
 } ui_LabelLongMode;
 
 typedef enum _ui_BarMode {
@@ -663,12 +666,12 @@ extern "C" {
 #define _ui_TextDecor_ARRAYSIZE ((ui_TextDecor)(ui_TextDecor_TEXT_DECOR_STRIKETHROUGH+1))
 
 #define _ui_BlendMode_MIN ui_BlendMode_BLEND_MODE_NORMAL
-#define _ui_BlendMode_MAX ui_BlendMode_BLEND_MODE_MULTIPLY
-#define _ui_BlendMode_ARRAYSIZE ((ui_BlendMode)(ui_BlendMode_BLEND_MODE_MULTIPLY+1))
+#define _ui_BlendMode_MAX ui_BlendMode_BLEND_MODE_DIFFERENCE
+#define _ui_BlendMode_ARRAYSIZE ((ui_BlendMode)(ui_BlendMode_BLEND_MODE_DIFFERENCE+1))
 
 #define _ui_BaseDir_MIN ui_BaseDir_BASE_DIR_LTR
-#define _ui_BaseDir_MAX ui_BaseDir_BASE_DIR_AUTO
-#define _ui_BaseDir_ARRAYSIZE ((ui_BaseDir)(ui_BaseDir_BASE_DIR_AUTO+1))
+#define _ui_BaseDir_MAX ui_BaseDir_BASE_DIR_WEAK
+#define _ui_BaseDir_ARRAYSIZE ((ui_BaseDir)(ui_BaseDir_BASE_DIR_WEAK+1))
 
 #define _ui_GradDir_MIN ui_GradDir_GRAD_DIR_NONE
 #define _ui_GradDir_MAX ui_GradDir_GRAD_DIR_CONICAL
@@ -686,9 +689,9 @@ extern "C" {
 #define _ui_BorderSide_MAX ui_BorderSide_BORDER_SIDE_INTERNAL
 #define _ui_BorderSide_ARRAYSIZE ((ui_BorderSide)(ui_BorderSide_BORDER_SIDE_INTERNAL+1))
 
-#define _ui_LabelLongMode_MIN ui_LabelLongMode_LABEL_LONG_WRAP
-#define _ui_LabelLongMode_MAX ui_LabelLongMode_LABEL_LONG_CLIP
-#define _ui_LabelLongMode_ARRAYSIZE ((ui_LabelLongMode)(ui_LabelLongMode_LABEL_LONG_CLIP+1))
+#define _ui_LabelLongMode_MIN ui_LabelLongMode_LABEL_LONG_MODE_WRAP
+#define _ui_LabelLongMode_MAX ui_LabelLongMode_LABEL_LONG_MODE_CLIP
+#define _ui_LabelLongMode_ARRAYSIZE ((ui_LabelLongMode)(ui_LabelLongMode_LABEL_LONG_MODE_CLIP+1))
 
 #define _ui_BarMode_MIN ui_BarMode_BAR_MODE_NORMAL
 #define _ui_BarMode_MAX ui_BarMode_BAR_MODE_RANGE

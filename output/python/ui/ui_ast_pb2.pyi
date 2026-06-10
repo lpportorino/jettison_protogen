@@ -98,12 +98,15 @@ class BlendMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     BLEND_MODE_ADDITIVE: _ClassVar[BlendMode]
     BLEND_MODE_SUBTRACTIVE: _ClassVar[BlendMode]
     BLEND_MODE_MULTIPLY: _ClassVar[BlendMode]
+    BLEND_MODE_DIFFERENCE: _ClassVar[BlendMode]
 
 class BaseDir(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
     BASE_DIR_LTR: _ClassVar[BaseDir]
     BASE_DIR_RTL: _ClassVar[BaseDir]
     BASE_DIR_AUTO: _ClassVar[BaseDir]
+    BASE_DIR_NEUTRAL: _ClassVar[BaseDir]
+    BASE_DIR_WEAK: _ClassVar[BaseDir]
 
 class GradDir(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -119,9 +122,9 @@ class Dir(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     DIR_NONE: _ClassVar[Dir]
     DIR_LEFT: _ClassVar[Dir]
     DIR_RIGHT: _ClassVar[Dir]
-    DIR_HOR: _ClassVar[Dir]
     DIR_TOP: _ClassVar[Dir]
     DIR_BOTTOM: _ClassVar[Dir]
+    DIR_HOR: _ClassVar[Dir]
     DIR_VER: _ClassVar[Dir]
     DIR_ALL: _ClassVar[Dir]
 
@@ -162,11 +165,11 @@ class BorderSide(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
 
 class LabelLongMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
-    LABEL_LONG_WRAP: _ClassVar[LabelLongMode]
-    LABEL_LONG_DOT: _ClassVar[LabelLongMode]
-    LABEL_LONG_SCROLL: _ClassVar[LabelLongMode]
-    LABEL_LONG_SCROLL_CIRCULAR: _ClassVar[LabelLongMode]
-    LABEL_LONG_CLIP: _ClassVar[LabelLongMode]
+    LABEL_LONG_MODE_WRAP: _ClassVar[LabelLongMode]
+    LABEL_LONG_MODE_DOTS: _ClassVar[LabelLongMode]
+    LABEL_LONG_MODE_SCROLL: _ClassVar[LabelLongMode]
+    LABEL_LONG_MODE_SCROLL_CIRCULAR: _ClassVar[LabelLongMode]
+    LABEL_LONG_MODE_CLIP: _ClassVar[LabelLongMode]
 
 class BarMode(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
     __slots__ = ()
@@ -366,9 +369,12 @@ BLEND_MODE_NORMAL: BlendMode
 BLEND_MODE_ADDITIVE: BlendMode
 BLEND_MODE_SUBTRACTIVE: BlendMode
 BLEND_MODE_MULTIPLY: BlendMode
+BLEND_MODE_DIFFERENCE: BlendMode
 BASE_DIR_LTR: BaseDir
 BASE_DIR_RTL: BaseDir
 BASE_DIR_AUTO: BaseDir
+BASE_DIR_NEUTRAL: BaseDir
+BASE_DIR_WEAK: BaseDir
 GRAD_DIR_NONE: GradDir
 GRAD_DIR_VER: GradDir
 GRAD_DIR_HOR: GradDir
@@ -378,9 +384,9 @@ GRAD_DIR_CONICAL: GradDir
 DIR_NONE: Dir
 DIR_LEFT: Dir
 DIR_RIGHT: Dir
-DIR_HOR: Dir
 DIR_TOP: Dir
 DIR_BOTTOM: Dir
+DIR_HOR: Dir
 DIR_VER: Dir
 DIR_ALL: Dir
 ALIGN_DEFAULT: Align
@@ -412,11 +418,11 @@ BORDER_SIDE_LEFT: BorderSide
 BORDER_SIDE_RIGHT: BorderSide
 BORDER_SIDE_FULL: BorderSide
 BORDER_SIDE_INTERNAL: BorderSide
-LABEL_LONG_WRAP: LabelLongMode
-LABEL_LONG_DOT: LabelLongMode
-LABEL_LONG_SCROLL: LabelLongMode
-LABEL_LONG_SCROLL_CIRCULAR: LabelLongMode
-LABEL_LONG_CLIP: LabelLongMode
+LABEL_LONG_MODE_WRAP: LabelLongMode
+LABEL_LONG_MODE_DOTS: LabelLongMode
+LABEL_LONG_MODE_SCROLL: LabelLongMode
+LABEL_LONG_MODE_SCROLL_CIRCULAR: LabelLongMode
+LABEL_LONG_MODE_CLIP: LabelLongMode
 BAR_MODE_NORMAL: BarMode
 BAR_MODE_SYMMETRICAL: BarMode
 BAR_MODE_RANGE: BarMode

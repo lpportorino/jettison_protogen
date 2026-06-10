@@ -114,6 +114,7 @@ pub const BlendMode = enum(i32) {
    BLEND_MODE_ADDITIVE = 1,
    BLEND_MODE_SUBTRACTIVE = 2,
    BLEND_MODE_MULTIPLY = 3,
+   BLEND_MODE_DIFFERENCE = 4,
     _,
 };
 
@@ -122,6 +123,8 @@ pub const BaseDir = enum(i32) {
    BASE_DIR_LTR = 0,
    BASE_DIR_RTL = 1,
    BASE_DIR_AUTO = 2,
+   BASE_DIR_NEUTRAL = 32,
+   BASE_DIR_WEAK = 33,
     _,
 };
 
@@ -141,9 +144,9 @@ pub const Dir = enum(i32) {
    DIR_NONE = 0,
    DIR_LEFT = 1,
    DIR_RIGHT = 2,
-   DIR_HOR = 3,
    DIR_TOP = 4,
    DIR_BOTTOM = 8,
+   DIR_HOR = 3,
    DIR_VER = 12,
    DIR_ALL = 15,
     _,
@@ -190,11 +193,11 @@ pub const BorderSide = enum(i32) {
 
 
 pub const LabelLongMode = enum(i32) {
-   LABEL_LONG_WRAP = 0,
-   LABEL_LONG_DOT = 1,
-   LABEL_LONG_SCROLL = 2,
-   LABEL_LONG_SCROLL_CIRCULAR = 3,
-   LABEL_LONG_CLIP = 4,
+   LABEL_LONG_MODE_WRAP = 0,
+   LABEL_LONG_MODE_DOTS = 1,
+   LABEL_LONG_MODE_SCROLL = 2,
+   LABEL_LONG_MODE_SCROLL_CIRCULAR = 3,
+   LABEL_LONG_MODE_CLIP = 4,
     _,
 };
 

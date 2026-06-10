@@ -571,6 +571,7 @@ export enum BlendMode {
   BLEND_MODE_ADDITIVE = 1,
   BLEND_MODE_SUBTRACTIVE = 2,
   BLEND_MODE_MULTIPLY = 3,
+  BLEND_MODE_DIFFERENCE = 4,
   UNRECOGNIZED = -1,
 }
 
@@ -588,6 +589,9 @@ export function blendModeFromJSON(object: any): BlendMode {
     case 3:
     case "BLEND_MODE_MULTIPLY":
       return BlendMode.BLEND_MODE_MULTIPLY;
+    case 4:
+    case "BLEND_MODE_DIFFERENCE":
+      return BlendMode.BLEND_MODE_DIFFERENCE;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -605,6 +609,8 @@ export function blendModeToJSON(object: BlendMode): string {
       return "BLEND_MODE_SUBTRACTIVE";
     case BlendMode.BLEND_MODE_MULTIPLY:
       return "BLEND_MODE_MULTIPLY";
+    case BlendMode.BLEND_MODE_DIFFERENCE:
+      return "BLEND_MODE_DIFFERENCE";
     case BlendMode.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -615,6 +621,8 @@ export enum BaseDir {
   BASE_DIR_LTR = 0,
   BASE_DIR_RTL = 1,
   BASE_DIR_AUTO = 2,
+  BASE_DIR_NEUTRAL = 32,
+  BASE_DIR_WEAK = 33,
   UNRECOGNIZED = -1,
 }
 
@@ -629,6 +637,12 @@ export function baseDirFromJSON(object: any): BaseDir {
     case 2:
     case "BASE_DIR_AUTO":
       return BaseDir.BASE_DIR_AUTO;
+    case 32:
+    case "BASE_DIR_NEUTRAL":
+      return BaseDir.BASE_DIR_NEUTRAL;
+    case 33:
+    case "BASE_DIR_WEAK":
+      return BaseDir.BASE_DIR_WEAK;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -644,6 +658,10 @@ export function baseDirToJSON(object: BaseDir): string {
       return "BASE_DIR_RTL";
     case BaseDir.BASE_DIR_AUTO:
       return "BASE_DIR_AUTO";
+    case BaseDir.BASE_DIR_NEUTRAL:
+      return "BASE_DIR_NEUTRAL";
+    case BaseDir.BASE_DIR_WEAK:
+      return "BASE_DIR_WEAK";
     case BaseDir.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -711,9 +729,9 @@ export enum Dir {
   DIR_NONE = 0,
   DIR_LEFT = 1,
   DIR_RIGHT = 2,
-  DIR_HOR = 3,
   DIR_TOP = 4,
   DIR_BOTTOM = 8,
+  DIR_HOR = 3,
   DIR_VER = 12,
   DIR_ALL = 15,
   UNRECOGNIZED = -1,
@@ -730,15 +748,15 @@ export function dirFromJSON(object: any): Dir {
     case 2:
     case "DIR_RIGHT":
       return Dir.DIR_RIGHT;
-    case 3:
-    case "DIR_HOR":
-      return Dir.DIR_HOR;
     case 4:
     case "DIR_TOP":
       return Dir.DIR_TOP;
     case 8:
     case "DIR_BOTTOM":
       return Dir.DIR_BOTTOM;
+    case 3:
+    case "DIR_HOR":
+      return Dir.DIR_HOR;
     case 12:
     case "DIR_VER":
       return Dir.DIR_VER;
@@ -760,12 +778,12 @@ export function dirToJSON(object: Dir): string {
       return "DIR_LEFT";
     case Dir.DIR_RIGHT:
       return "DIR_RIGHT";
-    case Dir.DIR_HOR:
-      return "DIR_HOR";
     case Dir.DIR_TOP:
       return "DIR_TOP";
     case Dir.DIR_BOTTOM:
       return "DIR_BOTTOM";
+    case Dir.DIR_HOR:
+      return "DIR_HOR";
     case Dir.DIR_VER:
       return "DIR_VER";
     case Dir.DIR_ALL:
@@ -993,31 +1011,31 @@ export function borderSideToJSON(object: BorderSide): string {
 }
 
 export enum LabelLongMode {
-  LABEL_LONG_WRAP = 0,
-  LABEL_LONG_DOT = 1,
-  LABEL_LONG_SCROLL = 2,
-  LABEL_LONG_SCROLL_CIRCULAR = 3,
-  LABEL_LONG_CLIP = 4,
+  LABEL_LONG_MODE_WRAP = 0,
+  LABEL_LONG_MODE_DOTS = 1,
+  LABEL_LONG_MODE_SCROLL = 2,
+  LABEL_LONG_MODE_SCROLL_CIRCULAR = 3,
+  LABEL_LONG_MODE_CLIP = 4,
   UNRECOGNIZED = -1,
 }
 
 export function labelLongModeFromJSON(object: any): LabelLongMode {
   switch (object) {
     case 0:
-    case "LABEL_LONG_WRAP":
-      return LabelLongMode.LABEL_LONG_WRAP;
+    case "LABEL_LONG_MODE_WRAP":
+      return LabelLongMode.LABEL_LONG_MODE_WRAP;
     case 1:
-    case "LABEL_LONG_DOT":
-      return LabelLongMode.LABEL_LONG_DOT;
+    case "LABEL_LONG_MODE_DOTS":
+      return LabelLongMode.LABEL_LONG_MODE_DOTS;
     case 2:
-    case "LABEL_LONG_SCROLL":
-      return LabelLongMode.LABEL_LONG_SCROLL;
+    case "LABEL_LONG_MODE_SCROLL":
+      return LabelLongMode.LABEL_LONG_MODE_SCROLL;
     case 3:
-    case "LABEL_LONG_SCROLL_CIRCULAR":
-      return LabelLongMode.LABEL_LONG_SCROLL_CIRCULAR;
+    case "LABEL_LONG_MODE_SCROLL_CIRCULAR":
+      return LabelLongMode.LABEL_LONG_MODE_SCROLL_CIRCULAR;
     case 4:
-    case "LABEL_LONG_CLIP":
-      return LabelLongMode.LABEL_LONG_CLIP;
+    case "LABEL_LONG_MODE_CLIP":
+      return LabelLongMode.LABEL_LONG_MODE_CLIP;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -1027,16 +1045,16 @@ export function labelLongModeFromJSON(object: any): LabelLongMode {
 
 export function labelLongModeToJSON(object: LabelLongMode): string {
   switch (object) {
-    case LabelLongMode.LABEL_LONG_WRAP:
-      return "LABEL_LONG_WRAP";
-    case LabelLongMode.LABEL_LONG_DOT:
-      return "LABEL_LONG_DOT";
-    case LabelLongMode.LABEL_LONG_SCROLL:
-      return "LABEL_LONG_SCROLL";
-    case LabelLongMode.LABEL_LONG_SCROLL_CIRCULAR:
-      return "LABEL_LONG_SCROLL_CIRCULAR";
-    case LabelLongMode.LABEL_LONG_CLIP:
-      return "LABEL_LONG_CLIP";
+    case LabelLongMode.LABEL_LONG_MODE_WRAP:
+      return "LABEL_LONG_MODE_WRAP";
+    case LabelLongMode.LABEL_LONG_MODE_DOTS:
+      return "LABEL_LONG_MODE_DOTS";
+    case LabelLongMode.LABEL_LONG_MODE_SCROLL:
+      return "LABEL_LONG_MODE_SCROLL";
+    case LabelLongMode.LABEL_LONG_MODE_SCROLL_CIRCULAR:
+      return "LABEL_LONG_MODE_SCROLL_CIRCULAR";
+    case LabelLongMode.LABEL_LONG_MODE_CLIP:
+      return "LABEL_LONG_MODE_CLIP";
     case LabelLongMode.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
