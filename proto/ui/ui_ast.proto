@@ -12,11 +12,13 @@ enum SubjectType {
 
 // Declaration of a reactive subject (lives in Screen, initialized at load time)
 message SubjectDeclaration {
-  string name = 1;           // unique identifier, e.g. "zoom_level"
-  SubjectType type = 2;
+  // unique identifier, e.g. "zoom_level"
+  string name = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
+  SubjectType type = 2 [(buf.validate.field).enum = {defined_only: true}];
   oneof initial {
     int32 int_initial = 3;    // default value for INT subjects
-    string string_initial = 4; // default value for STRING subjects
+    // default value for STRING subjects
+    string string_initial = 4 [(buf.validate.field).string = {max_len: 255}];
   }
 }
 
@@ -27,10 +29,10 @@ message StateUpdate {
 
 // A single subject value in a state update
 message SubjectValue {
-  string name = 1;
+  string name = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
   oneof value {
     int32 int_value = 2;
-    string string_value = 3;
+    string string_value = 3 [(buf.validate.field).string = {max_len: 255}];
   }
 }
 
@@ -44,14 +46,14 @@ message Screen {
 
 // A node in the widget tree (recursive).
 message WidgetNode {
-  WidgetType type = 1;
+  WidgetType type = 1 [(buf.validate.field).enum = {defined_only: true}];
 
   // Position (optional — 0,0 = use layout)
   int32 x = 2;
   int32 y = 3;
 
   // Static text (labels, checkbox, textarea, button)
-  string text = 4;
+  string text = 4 [(buf.validate.field).string = {max_len: 255}];
 
   // Subject data bindings (key = LVGL property, value = subject name)
   map<string, string> bindings = 5;
@@ -65,8 +67,8 @@ message WidgetNode {
   // Children
   repeated WidgetNode children = 8;
 
-  // Style groups: default + per-state, each with 8 composite variants.
-  // Ordered: [default, pressed, focused, disabled, ...]
+  // Style groups: default + per-state, each with 8 composite variants,
+  // ordered default, pressed, focused, disabled, ...
   repeated StyleGroup style_groups = 9;
 
   // Typed widget-specific properties (one per widget type)
@@ -128,27 +130,28 @@ message ObjProps {}
 message ButtonProps {}
 
 message LabelProps {
-  LabelLongMode long_mode = 1;
+  LabelLongMode long_mode = 1
+      [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message SliderProps {
   int32 min_value = 1;
   int32 max_value = 2;
   int32 value = 3;
-  BarMode mode = 4;
+  BarMode mode = 4 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message ImageProps {
-  string src = 1;
+  string src = 1 [(buf.validate.field).string = {max_len: 255}];
 }
 
 message ArcProps {
-  uint32 start_angle = 1;
-  uint32 end_angle = 2;
-  uint32 bg_start_angle = 3;
-  uint32 bg_end_angle = 4;
+  uint32 start_angle = 1 [(buf.validate.field).uint32 = {lte: 360}];
+  uint32 end_angle = 2 [(buf.validate.field).uint32 = {lte: 360}];
+  uint32 bg_start_angle = 3 [(buf.validate.field).uint32 = {lte: 360}];
+  uint32 bg_end_angle = 4 [(buf.validate.field).uint32 = {lte: 360}];
   int32 rotation = 5;
-  ArcMode mode = 6;
+  ArcMode mode = 6 [(buf.validate.field).enum = {defined_only: true}];
   int32 min_value = 7;
   int32 max_value = 8;
   int32 value = 9;
@@ -159,7 +162,7 @@ message BarProps {
   int32 max_value = 2;
   int32 value = 3;
   int32 start_value = 4;
-  BarMode mode = 5;
+  BarMode mode = 5 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message SwitchProps {
@@ -171,20 +174,20 @@ message CheckboxProps {
 }
 
 message DropdownProps {
-  string options = 1;
+  string options = 1 [(buf.validate.field).string = {max_len: 1023}];
   uint32 selected = 2;
-  Dir direction = 3;
+  Dir direction = 3 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message RollerProps {
-  string options = 1;
+  string options = 1 [(buf.validate.field).string = {max_len: 511}];
   uint32 selected = 2;
   uint32 visible_row_count = 3;
-  RollerMode mode = 4;
+  RollerMode mode = 4 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message TextareaProps {
-  string placeholder = 1;
+  string placeholder = 1 [(buf.validate.field).string = {max_len: 255}];
   uint32 max_length = 2;
   bool one_line = 3;
   bool password_mode = 4;
@@ -206,7 +209,7 @@ message SpinnerProps {
 
 message LedProps {
   Color color = 1;
-  uint32 brightness = 2;
+  uint32 brightness = 2 [(buf.validate.field).uint32 = {lte: 255}];
 }
 
 message LineProps {
@@ -215,18 +218,18 @@ message LineProps {
 }
 
 message ScaleProps {
-  ScaleMode mode = 1;
+  ScaleMode mode = 1 [(buf.validate.field).enum = {defined_only: true}];
   uint32 total_tick_count = 2;
   uint32 major_tick_every = 3;
   bool label_show = 4;
   int32 min_value = 5;
   int32 max_value = 6;
   int32 rotation = 7;
-  uint32 angle_range = 8;
+  uint32 angle_range = 8 [(buf.validate.field).uint32 = {lte: 360}];
 }
 
 message ButtonMatrixProps {
-  string map_str = 1;
+  string map_str = 1 [(buf.validate.field).string = {max_len: 1023}];
   bool one_check = 2;
 }
 
@@ -250,11 +253,14 @@ enum EventTrigger {
 }
 
 message EventBinding {
-  string name = 1;                // event keyword — IS the command identifier
-  EventTrigger trigger = 2;       // which LVGL event fires this (default: CLICKED)
+  // event keyword — IS the command identifier
+  string name = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
+  // which LVGL event fires this (default: CLICKED)
+  EventTrigger trigger = 2 [(buf.validate.field).enum = {defined_only: true}];
   int32 int_value = 3;            // static int payload
   bool include_widget_value = 4;  // inject widget's current value as int_value
-  string set_subject = 5;         // local subject to mutate (empty = host event)
+  // local subject to mutate (empty = host event)
+  string set_subject = 5 [(buf.validate.field).string = {max_len: 63}];
   int32 set_value = 6;            // value to set on subject
   bool toggle = 7;                // flip 0↔1 instead of set_value
   bool notify_host = 8;           // also send to host when mutating subject
@@ -272,16 +278,18 @@ enum CompareOp {
 
 // Conditional visibility — show/hide widget based on subject value comparison.
 message VisibilityBinding {
-  string subject = 1;     // subject name to observe
+  // subject name to observe
+  string subject = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
   int32 ref_value = 2;    // reference value for comparison
-  CompareOp compare = 3;  // comparison operator (default: EQ)
+  // comparison operator (default: EQ)
+  CompareOp compare = 3 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message Layout {
-  FlexFlow flow = 1;
-  FlexAlign main_place = 2;
-  FlexAlign cross_place = 3;
-  FlexAlign track_place = 4;
+  FlexFlow flow = 1 [(buf.validate.field).enum = {defined_only: true}];
+  FlexAlign main_place = 2 [(buf.validate.field).enum = {defined_only: true}];
+  FlexAlign cross_place = 3 [(buf.validate.field).enum = {defined_only: true}];
+  FlexAlign track_place = 4 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 // -- Enums --
@@ -438,7 +446,9 @@ enum ScaleMode {
 // state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
 message StyleGroup {
   uint32 state_selector = 1;
-  repeated ResolvedStyle variants = 2;  // exactly 8 entries (composite indices 0-7)
+  // exactly 8 entries (composite indices 0-7)
+  repeated ResolvedStyle variants = 2
+      [(buf.validate.field).repeated = {min_items: 8, max_items: 8}];
 }
 
 // A fully-resolved style: all token refs are resolved to concrete LVGL values.
@@ -448,12 +458,13 @@ message ResolvedStyle {
 
 // A single LVGL style property with its resolved value.
 message StyleProperty {
-  StylePropertyType type = 1;
+  StylePropertyType type = 1 [(buf.validate.field).enum = {defined_only: true}];
   oneof value {
     uint32 uint_value = 2;       // pixels, opacity, enum values
     int32 int_value = 3;         // signed values (width, height, padding, coords)
     Color color_value = 4;       // resolved RGB
-    string string_value = 5;     // font C symbol name, image source path
+    // font C symbol name, image source path
+    string string_value = 5 [(buf.validate.field).string = {max_len: 63}];
     ShadowBundle shadow_value = 6;
   }
 }
@@ -602,9 +613,9 @@ enum StylePropertyType {
 }
 
 message Color {
-  uint32 r = 1;  // 0-255
-  uint32 g = 2;
-  uint32 b = 3;
+  uint32 r = 1 [(buf.validate.field).uint32 = {lte: 255}];
+  uint32 g = 2 [(buf.validate.field).uint32 = {lte: 255}];
+  uint32 b = 3 [(buf.validate.field).uint32 = {lte: 255}];
 }
 
 message ShadowBundle {
@@ -612,5 +623,5 @@ message ShadowBundle {
   int32 offset_x = 2;
   int32 offset_y = 3;
   uint32 spread = 4;
-  uint32 opa = 5;
+  uint32 opa = 5 [(buf.validate.field).uint32 = {lte: 255}];
 }
