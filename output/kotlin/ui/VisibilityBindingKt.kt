@@ -37,7 +37,7 @@ public object VisibilityBindingKt {
      * subject name to observe
      * ```
      *
-     * `string subject = 1;`
+     * `string subject = 1 [(.buf.validate.field) = { ... }`
      */
     public var subject: kotlin.String
       @JvmName("getSubject")
@@ -51,7 +51,7 @@ public object VisibilityBindingKt {
      * subject name to observe
      * ```
      *
-     * `string subject = 1;`
+     * `string subject = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearSubject() {
       _builder.clearSubject()
@@ -87,7 +87,7 @@ public object VisibilityBindingKt {
      * comparison operator (default: EQ)
      * ```
      *
-     * `.ui.CompareOp compare = 3;`
+     * `.ui.CompareOp compare = 3 [(.buf.validate.field) = { ... }`
      */
     public var compare: ui.UiAst.CompareOp
       @JvmName("getCompare")
@@ -108,7 +108,7 @@ public object VisibilityBindingKt {
      * comparison operator (default: EQ)
      * ```
      *
-     * `.ui.CompareOp compare = 3;`
+     * `.ui.CompareOp compare = 3 [(.buf.validate.field) = { ... }`
      */
     public fun clearCompare() {
       _builder.clearCompare()

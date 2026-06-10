@@ -29,7 +29,7 @@ public object LabelPropsKt {
     internal fun _build(): ui.UiAst.LabelProps = _builder.build()
 
     /**
-     * `.ui.LabelLongMode long_mode = 1;`
+     * `.ui.LabelLongMode long_mode = 1 [(.buf.validate.field) = { ... }`
      */
     public var longMode: ui.UiAst.LabelLongMode
       @JvmName("getLongMode")
@@ -46,7 +46,7 @@ public object LabelPropsKt {
         _builder.longModeValue = value
       }
     /**
-     * `.ui.LabelLongMode long_mode = 1;`
+     * `.ui.LabelLongMode long_mode = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearLongMode() {
       _builder.clearLongMode()

@@ -33,7 +33,7 @@ public object WidgetNodeKt {
     internal fun _build(): ui.UiAst.WidgetNode = _builder.build()
 
     /**
-     * `.ui.WidgetType type = 1;`
+     * `.ui.WidgetType type = 1 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.WidgetType
       @JvmName("getType")
@@ -50,7 +50,7 @@ public object WidgetNodeKt {
         _builder.typeValue = value
       }
     /**
-     * `.ui.WidgetType type = 1;`
+     * `.ui.WidgetType type = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearType() {
       _builder.clearType()
@@ -103,7 +103,7 @@ public object WidgetNodeKt {
      * Static text (labels, checkbox, textarea, button)
      * ```
      *
-     * `string text = 4;`
+     * `string text = 4 [(.buf.validate.field) = { ... }`
      */
     public var text: kotlin.String
       @JvmName("getText")
@@ -117,7 +117,7 @@ public object WidgetNodeKt {
      * Static text (labels, checkbox, textarea, button)
      * ```
      *
-     * `string text = 4;`
+     * `string text = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearText() {
       _builder.clearText()
@@ -394,8 +394,8 @@ public object WidgetNodeKt {
     public class StyleGroupsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`
@@ -407,8 +407,8 @@ public object WidgetNodeKt {
       )
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`
@@ -421,8 +421,8 @@ public object WidgetNodeKt {
     }
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`
@@ -436,8 +436,8 @@ public object WidgetNodeKt {
     }
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`
@@ -450,8 +450,8 @@ public object WidgetNodeKt {
     }
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`
@@ -465,8 +465,8 @@ public object WidgetNodeKt {
     }
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`
@@ -480,8 +480,8 @@ public object WidgetNodeKt {
     }
     /**
      * ```
-     * Style groups: default + per-state, each with 8 composite variants.
-     * Ordered: [default, pressed, focused, disabled, ...]
+     * Style groups: default + per-state, each with 8 composite variants,
+     * ordered default, pressed, focused, disabled, ...
      * ```
      *
      * `repeated .ui.StyleGroup style_groups = 9;`

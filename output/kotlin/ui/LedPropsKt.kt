@@ -56,7 +56,7 @@ public object LedPropsKt {
       get() = _builder.colorOrNull
 
     /**
-     * `uint32 brightness = 2;`
+     * `uint32 brightness = 2 [(.buf.validate.field) = { ... }`
      */
     public var brightness: kotlin.Int
       @JvmName("getBrightness")
@@ -66,7 +66,7 @@ public object LedPropsKt {
         _builder.brightness = value
       }
     /**
-     * `uint32 brightness = 2;`
+     * `uint32 brightness = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearBrightness() {
       _builder.clearBrightness()

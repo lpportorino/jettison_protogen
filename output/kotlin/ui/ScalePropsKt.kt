@@ -29,7 +29,7 @@ public object ScalePropsKt {
     internal fun _build(): ui.UiAst.ScaleProps = _builder.build()
 
     /**
-     * `.ui.ScaleMode mode = 1;`
+     * `.ui.ScaleMode mode = 1 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.ScaleMode
       @JvmName("getMode")
@@ -46,7 +46,7 @@ public object ScalePropsKt {
         _builder.modeValue = value
       }
     /**
-     * `.ui.ScaleMode mode = 1;`
+     * `.ui.ScaleMode mode = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearMode() {
       _builder.clearMode()
@@ -155,7 +155,7 @@ public object ScalePropsKt {
     }
 
     /**
-     * `uint32 angle_range = 8;`
+     * `uint32 angle_range = 8 [(.buf.validate.field) = { ... }`
      */
     public var angleRange: kotlin.Int
       @JvmName("getAngleRange")
@@ -165,7 +165,7 @@ public object ScalePropsKt {
         _builder.angleRange = value
       }
     /**
-     * `uint32 angle_range = 8;`
+     * `uint32 angle_range = 8 [(.buf.validate.field) = { ... }`
      */
     public fun clearAngleRange() {
       _builder.clearAngleRange()

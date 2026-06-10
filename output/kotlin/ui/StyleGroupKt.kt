@@ -61,7 +61,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      */
      public val variants: com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>
       @kotlin.jvm.JvmSynthetic
@@ -73,7 +73,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      * @param value The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -86,7 +86,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      * @param value The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -100,7 +100,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      * @param values The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -113,7 +113,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      * @param values The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
@@ -127,7 +127,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      * @param index The index to set the value at.
      * @param value The variants to set.
      */
@@ -141,7 +141,7 @@ public object StyleGroupKt {
      * exactly 8 entries (composite indices 0-7)
      * ```
      *
-     * `repeated .ui.ResolvedStyle variants = 2;`
+     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearVariants")

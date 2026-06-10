@@ -29,7 +29,7 @@ public object ArcPropsKt {
     internal fun _build(): ui.UiAst.ArcProps = _builder.build()
 
     /**
-     * `uint32 start_angle = 1;`
+     * `uint32 start_angle = 1 [(.buf.validate.field) = { ... }`
      */
     public var startAngle: kotlin.Int
       @JvmName("getStartAngle")
@@ -39,14 +39,14 @@ public object ArcPropsKt {
         _builder.startAngle = value
       }
     /**
-     * `uint32 start_angle = 1;`
+     * `uint32 start_angle = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearStartAngle() {
       _builder.clearStartAngle()
     }
 
     /**
-     * `uint32 end_angle = 2;`
+     * `uint32 end_angle = 2 [(.buf.validate.field) = { ... }`
      */
     public var endAngle: kotlin.Int
       @JvmName("getEndAngle")
@@ -56,14 +56,14 @@ public object ArcPropsKt {
         _builder.endAngle = value
       }
     /**
-     * `uint32 end_angle = 2;`
+     * `uint32 end_angle = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearEndAngle() {
       _builder.clearEndAngle()
     }
 
     /**
-     * `uint32 bg_start_angle = 3;`
+     * `uint32 bg_start_angle = 3 [(.buf.validate.field) = { ... }`
      */
     public var bgStartAngle: kotlin.Int
       @JvmName("getBgStartAngle")
@@ -73,14 +73,14 @@ public object ArcPropsKt {
         _builder.bgStartAngle = value
       }
     /**
-     * `uint32 bg_start_angle = 3;`
+     * `uint32 bg_start_angle = 3 [(.buf.validate.field) = { ... }`
      */
     public fun clearBgStartAngle() {
       _builder.clearBgStartAngle()
     }
 
     /**
-     * `uint32 bg_end_angle = 4;`
+     * `uint32 bg_end_angle = 4 [(.buf.validate.field) = { ... }`
      */
     public var bgEndAngle: kotlin.Int
       @JvmName("getBgEndAngle")
@@ -90,7 +90,7 @@ public object ArcPropsKt {
         _builder.bgEndAngle = value
       }
     /**
-     * `uint32 bg_end_angle = 4;`
+     * `uint32 bg_end_angle = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearBgEndAngle() {
       _builder.clearBgEndAngle()
@@ -114,7 +114,7 @@ public object ArcPropsKt {
     }
 
     /**
-     * `.ui.ArcMode mode = 6;`
+     * `.ui.ArcMode mode = 6 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.ArcMode
       @JvmName("getMode")
@@ -131,7 +131,7 @@ public object ArcPropsKt {
         _builder.modeValue = value
       }
     /**
-     * `.ui.ArcMode mode = 6;`
+     * `.ui.ArcMode mode = 6 [(.buf.validate.field) = { ... }`
      */
     public fun clearMode() {
       _builder.clearMode()

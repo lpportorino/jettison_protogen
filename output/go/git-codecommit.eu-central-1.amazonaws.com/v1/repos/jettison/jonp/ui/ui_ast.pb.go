@@ -7,6 +7,7 @@
 package ui
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1590,8 +1591,9 @@ func (StylePropertyType) EnumDescriptor() ([]byte, []int) {
 // Declaration of a reactive subject (lives in Screen, initialized at load time)
 type SubjectDeclaration struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"` // unique identifier, e.g. "zoom_level"
-	Type  SubjectType            `protobuf:"varint,2,opt,name=type,proto3,enum=ui.SubjectType" json:"type,omitempty"`
+	// unique identifier, e.g. "zoom_level"
+	Name string      `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type SubjectType `protobuf:"varint,2,opt,name=type,proto3,enum=ui.SubjectType" json:"type,omitempty"`
 	// Types that are valid to be assigned to Initial:
 	//
 	//	*SubjectDeclaration_IntInitial
@@ -1679,7 +1681,8 @@ type SubjectDeclaration_IntInitial struct {
 }
 
 type SubjectDeclaration_StringInitial struct {
-	StringInitial string `protobuf:"bytes,4,opt,name=string_initial,json=stringInitial,proto3,oneof"` // default value for STRING subjects
+	// default value for STRING subjects
+	StringInitial string `protobuf:"bytes,4,opt,name=string_initial,json=stringInitial,proto3,oneof"`
 }
 
 func (*SubjectDeclaration_IntInitial) isSubjectDeclaration_Initial() {}
@@ -1894,8 +1897,8 @@ type WidgetNode struct {
 	Layout *Layout `protobuf:"bytes,7,opt,name=layout,proto3" json:"layout,omitempty"`
 	// Children
 	Children []*WidgetNode `protobuf:"bytes,8,rep,name=children,proto3" json:"children,omitempty"`
-	// Style groups: default + per-state, each with 8 composite variants.
-	// Ordered: [default, pressed, focused, disabled, ...]
+	// Style groups: default + per-state, each with 8 composite variants,
+	// ordered default, pressed, focused, disabled, ...
 	StyleGroups []*StyleGroup `protobuf:"bytes,9,rep,name=style_groups,json=styleGroups,proto3" json:"style_groups,omitempty"`
 	// Typed widget-specific properties (one per widget type)
 	//
@@ -3525,17 +3528,20 @@ func (x *Point) GetY() int32 {
 }
 
 type EventBinding struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Name               string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`                                                          // event keyword — IS the command identifier
-	Trigger            EventTrigger           `protobuf:"varint,2,opt,name=trigger,proto3,enum=ui.EventTrigger" json:"trigger,omitempty"`                              // which LVGL event fires this (default: CLICKED)
-	IntValue           int32                  `protobuf:"varint,3,opt,name=int_value,json=intValue,proto3" json:"int_value,omitempty"`                                 // static int payload
-	IncludeWidgetValue bool                   `protobuf:"varint,4,opt,name=include_widget_value,json=includeWidgetValue,proto3" json:"include_widget_value,omitempty"` // inject widget's current value as int_value
-	SetSubject         string                 `protobuf:"bytes,5,opt,name=set_subject,json=setSubject,proto3" json:"set_subject,omitempty"`                            // local subject to mutate (empty = host event)
-	SetValue           int32                  `protobuf:"varint,6,opt,name=set_value,json=setValue,proto3" json:"set_value,omitempty"`                                 // value to set on subject
-	Toggle             bool                   `protobuf:"varint,7,opt,name=toggle,proto3" json:"toggle,omitempty"`                                                     // flip 0↔1 instead of set_value
-	NotifyHost         bool                   `protobuf:"varint,8,opt,name=notify_host,json=notifyHost,proto3" json:"notify_host,omitempty"`                           // also send to host when mutating subject
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// event keyword — IS the command identifier
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// which LVGL event fires this (default: CLICKED)
+	Trigger            EventTrigger `protobuf:"varint,2,opt,name=trigger,proto3,enum=ui.EventTrigger" json:"trigger,omitempty"`
+	IntValue           int32        `protobuf:"varint,3,opt,name=int_value,json=intValue,proto3" json:"int_value,omitempty"`                                 // static int payload
+	IncludeWidgetValue bool         `protobuf:"varint,4,opt,name=include_widget_value,json=includeWidgetValue,proto3" json:"include_widget_value,omitempty"` // inject widget's current value as int_value
+	// local subject to mutate (empty = host event)
+	SetSubject    string `protobuf:"bytes,5,opt,name=set_subject,json=setSubject,proto3" json:"set_subject,omitempty"`
+	SetValue      int32  `protobuf:"varint,6,opt,name=set_value,json=setValue,proto3" json:"set_value,omitempty"`       // value to set on subject
+	Toggle        bool   `protobuf:"varint,7,opt,name=toggle,proto3" json:"toggle,omitempty"`                           // flip 0↔1 instead of set_value
+	NotifyHost    bool   `protobuf:"varint,8,opt,name=notify_host,json=notifyHost,proto3" json:"notify_host,omitempty"` // also send to host when mutating subject
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *EventBinding) Reset() {
@@ -3626,10 +3632,12 @@ func (x *EventBinding) GetNotifyHost() bool {
 
 // Conditional visibility — show/hide widget based on subject value comparison.
 type VisibilityBinding struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Subject       string                 `protobuf:"bytes,1,opt,name=subject,proto3" json:"subject,omitempty"`                    // subject name to observe
-	RefValue      int32                  `protobuf:"varint,2,opt,name=ref_value,json=refValue,proto3" json:"ref_value,omitempty"` // reference value for comparison
-	Compare       CompareOp              `protobuf:"varint,3,opt,name=compare,proto3,enum=ui.CompareOp" json:"compare,omitempty"` // comparison operator (default: EQ)
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// subject name to observe
+	Subject  string `protobuf:"bytes,1,opt,name=subject,proto3" json:"subject,omitempty"`
+	RefValue int32  `protobuf:"varint,2,opt,name=ref_value,json=refValue,proto3" json:"ref_value,omitempty"` // reference value for comparison
+	// comparison operator (default: EQ)
+	Compare       CompareOp `protobuf:"varint,3,opt,name=compare,proto3,enum=ui.CompareOp" json:"compare,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3758,7 +3766,8 @@ func (x *Layout) GetTrackPlace() FlexAlign {
 type StyleGroup struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StateSelector uint32                 `protobuf:"varint,1,opt,name=state_selector,json=stateSelector,proto3" json:"state_selector,omitempty"`
-	Variants      []*ResolvedStyle       `protobuf:"bytes,2,rep,name=variants,proto3" json:"variants,omitempty"` // exactly 8 entries (composite indices 0-7)
+	// exactly 8 entries (composite indices 0-7)
+	Variants      []*ResolvedStyle `protobuf:"bytes,2,rep,name=variants,proto3" json:"variants,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3974,7 +3983,8 @@ type StyleProperty_ColorValue struct {
 }
 
 type StyleProperty_StringValue struct {
-	StringValue string `protobuf:"bytes,5,opt,name=string_value,json=stringValue,proto3,oneof"` // font C symbol name, image source path
+	// font C symbol name, image source path
+	StringValue string `protobuf:"bytes,5,opt,name=string_value,json=stringValue,proto3,oneof"`
 }
 
 type StyleProperty_ShadowValue struct {
@@ -3993,7 +4003,7 @@ func (*StyleProperty_ShadowValue) isStyleProperty_Value() {}
 
 type Color struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	R             uint32                 `protobuf:"varint,1,opt,name=r,proto3" json:"r,omitempty"` // 0-255
+	R             uint32                 `protobuf:"varint,1,opt,name=r,proto3" json:"r,omitempty"`
 	G             uint32                 `protobuf:"varint,2,opt,name=g,proto3" json:"g,omitempty"`
 	B             uint32                 `protobuf:"varint,3,opt,name=b,proto3" json:"b,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -4131,31 +4141,31 @@ var File_ui_ui_ast_proto protoreflect.FileDescriptor
 
 const file_ui_ui_ast_proto_rawDesc = "" +
 	"\n" +
-	"\x0fui/ui_ast.proto\x12\x02ui\"\xa4\x01\n" +
-	"\x12SubjectDeclaration\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12#\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x0f.ui.SubjectTypeR\x04type\x12!\n" +
+	"\x0fui/ui_ast.proto\x12\x02ui\x1a\x1bbuf/validate/validate.proto\"\xc3\x01\n" +
+	"\x12SubjectDeclaration\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\x04name\x12-\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x0f.ui.SubjectTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12!\n" +
 	"\vint_initial\x18\x03 \x01(\x05H\x00R\n" +
-	"intInitial\x12'\n" +
-	"\x0estring_initial\x18\x04 \x01(\tH\x00R\rstringInitialB\t\n" +
+	"intInitial\x121\n" +
+	"\x0estring_initial\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x00R\rstringInitialB\t\n" +
 	"\ainitial\"7\n" +
 	"\vStateUpdate\x12(\n" +
-	"\x06values\x18\x01 \x03(\v2\x10.ui.SubjectValueR\x06values\"o\n" +
-	"\fSubjectValue\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
-	"\tint_value\x18\x02 \x01(\x05H\x00R\bintValue\x12#\n" +
-	"\fstring_value\x18\x03 \x01(\tH\x00R\vstringValueB\a\n" +
+	"\x06values\x18\x01 \x03(\v2\x10.ui.SubjectValueR\x06values\"\x84\x01\n" +
+	"\fSubjectValue\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\x04name\x12\x1d\n" +
+	"\tint_value\x18\x02 \x01(\x05H\x00R\bintValue\x12-\n" +
+	"\fstring_value\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x00R\vstringValueB\a\n" +
 	"\x05value\"n\n" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xc3\f\n" +
+	"\x05_root\"\xd7\f\n" +
 	"\n" +
-	"WidgetNode\x12\"\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeR\x04type\x12\f\n" +
+	"WidgetNode\x12,\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
 	"\x01x\x18\x02 \x01(\x05R\x01x\x12\f\n" +
-	"\x01y\x18\x03 \x01(\x05R\x01y\x12\x12\n" +
-	"\x04text\x18\x04 \x01(\tR\x04text\x128\n" +
+	"\x01y\x18\x03 \x01(\x05R\x01y\x12\x1c\n" +
+	"\x04text\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x04text\x128\n" +
 	"\bbindings\x18\x05 \x03(\v2\x1c.ui.WidgetNode.BindingsEntryR\bbindings\x12&\n" +
 	"\x05event\x18\x06 \x01(\v2\x10.ui.EventBindingR\x05event\x12\"\n" +
 	"\x06layout\x18\a \x01(\v2\n" +
@@ -4200,52 +4210,52 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fwidget_props\"\n" +
 	"\n" +
 	"\bObjProps\"\r\n" +
-	"\vButtonProps\"<\n" +
+	"\vButtonProps\"F\n" +
 	"\n" +
-	"LabelProps\x12.\n" +
-	"\tlong_mode\x18\x01 \x01(\x0e2\x11.ui.LabelLongModeR\blongMode\"~\n" +
+	"LabelProps\x128\n" +
+	"\tlong_mode\x18\x01 \x01(\x0e2\x11.ui.LabelLongModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\blongMode\"\x88\x01\n" +
 	"\vSliderProps\x12\x1b\n" +
 	"\tmin_value\x18\x01 \x01(\x05R\bminValue\x12\x1b\n" +
 	"\tmax_value\x18\x02 \x01(\x05R\bmaxValue\x12\x14\n" +
-	"\x05value\x18\x03 \x01(\x05R\x05value\x12\x1f\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\v.ui.BarModeR\x04mode\"\x1e\n" +
+	"\x05value\x18\x03 \x01(\x05R\x05value\x12)\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\v.ui.BarModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\"(\n" +
 	"\n" +
-	"ImageProps\x12\x10\n" +
-	"\x03src\x18\x01 \x01(\tR\x03src\"\x9d\x02\n" +
-	"\bArcProps\x12\x1f\n" +
-	"\vstart_angle\x18\x01 \x01(\rR\n" +
-	"startAngle\x12\x1b\n" +
-	"\tend_angle\x18\x02 \x01(\rR\bendAngle\x12$\n" +
-	"\x0ebg_start_angle\x18\x03 \x01(\rR\fbgStartAngle\x12 \n" +
-	"\fbg_end_angle\x18\x04 \x01(\rR\n" +
+	"ImageProps\x12\x1a\n" +
+	"\x03src\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\x03src\"\xcf\x02\n" +
+	"\bArcProps\x12)\n" +
+	"\vstart_angle\x18\x01 \x01(\rB\b\xbaH\x05*\x03\x18\xe8\x02R\n" +
+	"startAngle\x12%\n" +
+	"\tend_angle\x18\x02 \x01(\rB\b\xbaH\x05*\x03\x18\xe8\x02R\bendAngle\x12.\n" +
+	"\x0ebg_start_angle\x18\x03 \x01(\rB\b\xbaH\x05*\x03\x18\xe8\x02R\fbgStartAngle\x12*\n" +
+	"\fbg_end_angle\x18\x04 \x01(\rB\b\xbaH\x05*\x03\x18\xe8\x02R\n" +
 	"bgEndAngle\x12\x1a\n" +
-	"\brotation\x18\x05 \x01(\x05R\brotation\x12\x1f\n" +
-	"\x04mode\x18\x06 \x01(\x0e2\v.ui.ArcModeR\x04mode\x12\x1b\n" +
+	"\brotation\x18\x05 \x01(\x05R\brotation\x12)\n" +
+	"\x04mode\x18\x06 \x01(\x0e2\v.ui.ArcModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\x12\x1b\n" +
 	"\tmin_value\x18\a \x01(\x05R\bminValue\x12\x1b\n" +
 	"\tmax_value\x18\b \x01(\x05R\bmaxValue\x12\x14\n" +
-	"\x05value\x18\t \x01(\x05R\x05value\"\x9c\x01\n" +
+	"\x05value\x18\t \x01(\x05R\x05value\"\xa6\x01\n" +
 	"\bBarProps\x12\x1b\n" +
 	"\tmin_value\x18\x01 \x01(\x05R\bminValue\x12\x1b\n" +
 	"\tmax_value\x18\x02 \x01(\x05R\bmaxValue\x12\x14\n" +
 	"\x05value\x18\x03 \x01(\x05R\x05value\x12\x1f\n" +
 	"\vstart_value\x18\x04 \x01(\x05R\n" +
-	"startValue\x12\x1f\n" +
-	"\x04mode\x18\x05 \x01(\x0e2\v.ui.BarModeR\x04mode\"'\n" +
+	"startValue\x12)\n" +
+	"\x04mode\x18\x05 \x01(\x0e2\v.ui.BarModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\"'\n" +
 	"\vSwitchProps\x12\x18\n" +
 	"\achecked\x18\x01 \x01(\bR\achecked\")\n" +
 	"\rCheckboxProps\x12\x18\n" +
-	"\achecked\x18\x01 \x01(\bR\achecked\"l\n" +
-	"\rDropdownProps\x12\x18\n" +
-	"\aoptions\x18\x01 \x01(\tR\aoptions\x12\x1a\n" +
-	"\bselected\x18\x02 \x01(\rR\bselected\x12%\n" +
-	"\tdirection\x18\x03 \x01(\x0e2\a.ui.DirR\tdirection\"\x93\x01\n" +
-	"\vRollerProps\x12\x18\n" +
-	"\aoptions\x18\x01 \x01(\tR\aoptions\x12\x1a\n" +
+	"\achecked\x18\x01 \x01(\bR\achecked\"\x80\x01\n" +
+	"\rDropdownProps\x12\"\n" +
+	"\aoptions\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\aR\aoptions\x12\x1a\n" +
+	"\bselected\x18\x02 \x01(\rR\bselected\x12/\n" +
+	"\tdirection\x18\x03 \x01(\x0e2\a.ui.DirB\b\xbaH\x05\x82\x01\x02\x10\x01R\tdirection\"\xa7\x01\n" +
+	"\vRollerProps\x12\"\n" +
+	"\aoptions\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x03R\aoptions\x12\x1a\n" +
 	"\bselected\x18\x02 \x01(\rR\bselected\x12*\n" +
-	"\x11visible_row_count\x18\x03 \x01(\rR\x0fvisibleRowCount\x12\"\n" +
-	"\x04mode\x18\x04 \x01(\x0e2\x0e.ui.RollerModeR\x04mode\"\x90\x01\n" +
-	"\rTextareaProps\x12 \n" +
-	"\vplaceholder\x18\x01 \x01(\tR\vplaceholder\x12\x1d\n" +
+	"\x11visible_row_count\x18\x03 \x01(\rR\x0fvisibleRowCount\x12,\n" +
+	"\x04mode\x18\x04 \x01(\x0e2\x0e.ui.RollerModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\"\x9a\x01\n" +
+	"\rTextareaProps\x12*\n" +
+	"\vplaceholder\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\vplaceholder\x12\x1d\n" +
 	"\n" +
 	"max_length\x18\x02 \x01(\rR\tmaxLength\x12\x19\n" +
 	"\bone_line\x18\x03 \x01(\bR\aoneLine\x12#\n" +
@@ -4261,29 +4271,29 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fSpinnerProps\x12\x1b\n" +
 	"\tspin_time\x18\x01 \x01(\rR\bspinTime\x12\x1d\n" +
 	"\n" +
-	"arc_length\x18\x02 \x01(\rR\tarcLength\"K\n" +
+	"arc_length\x18\x02 \x01(\rR\tarcLength\"U\n" +
 	"\bLedProps\x12\x1f\n" +
-	"\x05color\x18\x01 \x01(\v2\t.ui.ColorR\x05color\x12\x1e\n" +
+	"\x05color\x18\x01 \x01(\v2\t.ui.ColorR\x05color\x12(\n" +
 	"\n" +
-	"brightness\x18\x02 \x01(\rR\n" +
+	"brightness\x18\x02 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\n" +
 	"brightness\"I\n" +
 	"\tLineProps\x12!\n" +
 	"\x06points\x18\x01 \x03(\v2\t.ui.PointR\x06points\x12\x19\n" +
-	"\by_invert\x18\x02 \x01(\bR\ayInvert\"\x99\x02\n" +
+	"\by_invert\x18\x02 \x01(\bR\ayInvert\"\xad\x02\n" +
 	"\n" +
-	"ScaleProps\x12!\n" +
-	"\x04mode\x18\x01 \x01(\x0e2\r.ui.ScaleModeR\x04mode\x12(\n" +
+	"ScaleProps\x12+\n" +
+	"\x04mode\x18\x01 \x01(\x0e2\r.ui.ScaleModeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04mode\x12(\n" +
 	"\x10total_tick_count\x18\x02 \x01(\rR\x0etotalTickCount\x12(\n" +
 	"\x10major_tick_every\x18\x03 \x01(\rR\x0emajorTickEvery\x12\x1d\n" +
 	"\n" +
 	"label_show\x18\x04 \x01(\bR\tlabelShow\x12\x1b\n" +
 	"\tmin_value\x18\x05 \x01(\x05R\bminValue\x12\x1b\n" +
 	"\tmax_value\x18\x06 \x01(\x05R\bmaxValue\x12\x1a\n" +
-	"\brotation\x18\a \x01(\x05R\brotation\x12\x1f\n" +
-	"\vangle_range\x18\b \x01(\rR\n" +
-	"angleRange\"I\n" +
-	"\x11ButtonMatrixProps\x12\x17\n" +
-	"\amap_str\x18\x01 \x01(\tR\x06mapStr\x12\x1b\n" +
+	"\brotation\x18\a \x01(\x05R\brotation\x12)\n" +
+	"\vangle_range\x18\b \x01(\rB\b\xbaH\x05*\x03\x18\xe8\x02R\n" +
+	"angleRange\"S\n" +
+	"\x11ButtonMatrixProps\x12!\n" +
+	"\amap_str\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\aR\x06mapStr\x12\x1b\n" +
 	"\tone_check\x18\x02 \x01(\bR\boneCheck\"L\n" +
 	"\n" +
 	"TableProps\x12\x1b\n" +
@@ -4291,58 +4301,59 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\fcolumn_count\x18\x02 \x01(\rR\vcolumnCount\"#\n" +
 	"\x05Point\x12\f\n" +
 	"\x01x\x18\x01 \x01(\x05R\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\x05R\x01y\"\x94\x02\n" +
-	"\fEventBinding\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12*\n" +
-	"\atrigger\x18\x02 \x01(\x0e2\x10.ui.EventTriggerR\atrigger\x12\x1b\n" +
+	"\x01y\x18\x02 \x01(\x05R\x01y\"\xb2\x02\n" +
+	"\fEventBinding\x12\x1d\n" +
+	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\x04name\x124\n" +
+	"\atrigger\x18\x02 \x01(\x0e2\x10.ui.EventTriggerB\b\xbaH\x05\x82\x01\x02\x10\x01R\atrigger\x12\x1b\n" +
 	"\tint_value\x18\x03 \x01(\x05R\bintValue\x120\n" +
-	"\x14include_widget_value\x18\x04 \x01(\bR\x12includeWidgetValue\x12\x1f\n" +
-	"\vset_subject\x18\x05 \x01(\tR\n" +
+	"\x14include_widget_value\x18\x04 \x01(\bR\x12includeWidgetValue\x12(\n" +
+	"\vset_subject\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x18?R\n" +
 	"setSubject\x12\x1b\n" +
 	"\tset_value\x18\x06 \x01(\x05R\bsetValue\x12\x16\n" +
 	"\x06toggle\x18\a \x01(\bR\x06toggle\x12\x1f\n" +
 	"\vnotify_host\x18\b \x01(\bR\n" +
-	"notifyHost\"s\n" +
-	"\x11VisibilityBinding\x12\x18\n" +
-	"\asubject\x18\x01 \x01(\tR\asubject\x12\x1b\n" +
-	"\tref_value\x18\x02 \x01(\x05R\brefValue\x12'\n" +
-	"\acompare\x18\x03 \x01(\x0e2\r.ui.CompareOpR\acompare\"\xb8\x01\n" +
-	"\x06Layout\x12 \n" +
-	"\x04flow\x18\x01 \x01(\x0e2\f.ui.FlexFlowR\x04flow\x12,\n" +
+	"notifyHost\"\x88\x01\n" +
+	"\x11VisibilityBinding\x12#\n" +
+	"\asubject\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18?R\asubject\x12\x1b\n" +
+	"\tref_value\x18\x02 \x01(\x05R\brefValue\x121\n" +
+	"\acompare\x18\x03 \x01(\x0e2\r.ui.CompareOpB\b\xbaH\x05\x82\x01\x02\x10\x01R\acompare\"\xe0\x01\n" +
+	"\x06Layout\x12*\n" +
+	"\x04flow\x18\x01 \x01(\x0e2\f.ui.FlexFlowB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04flow\x126\n" +
 	"\n" +
-	"main_place\x18\x02 \x01(\x0e2\r.ui.FlexAlignR\tmainPlace\x12.\n" +
-	"\vcross_place\x18\x03 \x01(\x0e2\r.ui.FlexAlignR\n" +
-	"crossPlace\x12.\n" +
-	"\vtrack_place\x18\x04 \x01(\x0e2\r.ui.FlexAlignR\n" +
-	"trackPlace\"b\n" +
+	"main_place\x18\x02 \x01(\x0e2\r.ui.FlexAlignB\b\xbaH\x05\x82\x01\x02\x10\x01R\tmainPlace\x128\n" +
+	"\vcross_place\x18\x03 \x01(\x0e2\r.ui.FlexAlignB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"crossPlace\x128\n" +
+	"\vtrack_place\x18\x04 \x01(\x0e2\r.ui.FlexAlignB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"trackPlace\"n\n" +
 	"\n" +
 	"StyleGroup\x12%\n" +
-	"\x0estate_selector\x18\x01 \x01(\rR\rstateSelector\x12-\n" +
-	"\bvariants\x18\x02 \x03(\v2\x11.ui.ResolvedStyleR\bvariants\"B\n" +
+	"\x0estate_selector\x18\x01 \x01(\rR\rstateSelector\x129\n" +
+	"\bvariants\x18\x02 \x03(\v2\x11.ui.ResolvedStyleB\n" +
+	"\xbaH\a\x92\x01\x04\b\b\x10\bR\bvariants\"B\n" +
 	"\rResolvedStyle\x121\n" +
 	"\n" +
 	"properties\x18\x01 \x03(\v2\x11.ui.StylePropertyR\n" +
-	"properties\"\x8d\x02\n" +
-	"\rStyleProperty\x12)\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x15.ui.StylePropertyTypeR\x04type\x12\x1f\n" +
+	"properties\"\xa0\x02\n" +
+	"\rStyleProperty\x123\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x15.ui.StylePropertyTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\x1f\n" +
 	"\n" +
 	"uint_value\x18\x02 \x01(\rH\x00R\tuintValue\x12\x1d\n" +
 	"\tint_value\x18\x03 \x01(\x05H\x00R\bintValue\x12,\n" +
 	"\vcolor_value\x18\x04 \x01(\v2\t.ui.ColorH\x00R\n" +
-	"colorValue\x12#\n" +
-	"\fstring_value\x18\x05 \x01(\tH\x00R\vstringValue\x125\n" +
+	"colorValue\x12,\n" +
+	"\fstring_value\x18\x05 \x01(\tB\a\xbaH\x04r\x02\x18?H\x00R\vstringValue\x125\n" +
 	"\fshadow_value\x18\x06 \x01(\v2\x10.ui.ShadowBundleH\x00R\vshadowValueB\a\n" +
-	"\x05value\"1\n" +
-	"\x05Color\x12\f\n" +
-	"\x01r\x18\x01 \x01(\rR\x01r\x12\f\n" +
-	"\x01g\x18\x02 \x01(\rR\x01g\x12\f\n" +
-	"\x01b\x18\x03 \x01(\rR\x01b\"\x84\x01\n" +
+	"\x05value\"O\n" +
+	"\x05Color\x12\x16\n" +
+	"\x01r\x18\x01 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x01r\x12\x16\n" +
+	"\x01g\x18\x02 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x01g\x12\x16\n" +
+	"\x01b\x18\x03 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x01b\"\x8e\x01\n" +
 	"\fShadowBundle\x12\x14\n" +
 	"\x05width\x18\x01 \x01(\rR\x05width\x12\x19\n" +
 	"\boffset_x\x18\x02 \x01(\x05R\aoffsetX\x12\x19\n" +
 	"\boffset_y\x18\x03 \x01(\x05R\aoffsetY\x12\x16\n" +
-	"\x06spread\x18\x04 \x01(\rR\x06spread\x12\x10\n" +
-	"\x03opa\x18\x05 \x01(\rR\x03opa*2\n" +
+	"\x06spread\x18\x04 \x01(\rR\x06spread\x12\x1a\n" +
+	"\x03opa\x18\x05 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x03opa*2\n" +
 	"\vSubjectType\x12\x0f\n" +
 	"\vSUBJECT_INT\x10\x00\x12\x12\n" +
 	"\x0eSUBJECT_STRING\x10\x01*\xf1\x02\n" +

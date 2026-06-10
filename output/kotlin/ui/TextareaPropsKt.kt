@@ -29,7 +29,7 @@ public object TextareaPropsKt {
     internal fun _build(): ui.UiAst.TextareaProps = _builder.build()
 
     /**
-     * `string placeholder = 1;`
+     * `string placeholder = 1 [(.buf.validate.field) = { ... }`
      */
     public var placeholder: kotlin.String
       @JvmName("getPlaceholder")
@@ -39,7 +39,7 @@ public object TextareaPropsKt {
         _builder.placeholder = value
       }
     /**
-     * `string placeholder = 1;`
+     * `string placeholder = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearPlaceholder() {
       _builder.clearPlaceholder()

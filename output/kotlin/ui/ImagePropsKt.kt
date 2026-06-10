@@ -29,7 +29,7 @@ public object ImagePropsKt {
     internal fun _build(): ui.UiAst.ImageProps = _builder.build()
 
     /**
-     * `string src = 1;`
+     * `string src = 1 [(.buf.validate.field) = { ... }`
      */
     public var src: kotlin.String
       @JvmName("getSrc")
@@ -39,7 +39,7 @@ public object ImagePropsKt {
         _builder.src = value
       }
     /**
-     * `string src = 1;`
+     * `string src = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearSrc() {
       _builder.clearSrc()

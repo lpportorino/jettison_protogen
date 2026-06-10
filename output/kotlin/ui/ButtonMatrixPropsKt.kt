@@ -29,7 +29,7 @@ public object ButtonMatrixPropsKt {
     internal fun _build(): ui.UiAst.ButtonMatrixProps = _builder.build()
 
     /**
-     * `string map_str = 1;`
+     * `string map_str = 1 [(.buf.validate.field) = { ... }`
      */
     public var mapStr: kotlin.String
       @JvmName("getMapStr")
@@ -39,7 +39,7 @@ public object ButtonMatrixPropsKt {
         _builder.mapStr = value
       }
     /**
-     * `string map_str = 1;`
+     * `string map_str = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearMapStr() {
       _builder.clearMapStr()

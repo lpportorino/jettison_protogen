@@ -33,7 +33,7 @@ public object EventBindingKt {
      * event keyword — IS the command identifier
      * ```
      *
-     * `string name = 1;`
+     * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public var name: kotlin.String
       @JvmName("getName")
@@ -47,7 +47,7 @@ public object EventBindingKt {
      * event keyword — IS the command identifier
      * ```
      *
-     * `string name = 1;`
+     * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearName() {
       _builder.clearName()
@@ -58,7 +58,7 @@ public object EventBindingKt {
      * which LVGL event fires this (default: CLICKED)
      * ```
      *
-     * `.ui.EventTrigger trigger = 2;`
+     * `.ui.EventTrigger trigger = 2 [(.buf.validate.field) = { ... }`
      */
     public var trigger: ui.UiAst.EventTrigger
       @JvmName("getTrigger")
@@ -79,7 +79,7 @@ public object EventBindingKt {
      * which LVGL event fires this (default: CLICKED)
      * ```
      *
-     * `.ui.EventTrigger trigger = 2;`
+     * `.ui.EventTrigger trigger = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearTrigger() {
       _builder.clearTrigger()
@@ -140,7 +140,7 @@ public object EventBindingKt {
      * local subject to mutate (empty = host event)
      * ```
      *
-     * `string set_subject = 5;`
+     * `string set_subject = 5 [(.buf.validate.field) = { ... }`
      */
     public var setSubject: kotlin.String
       @JvmName("getSetSubject")
@@ -154,7 +154,7 @@ public object EventBindingKt {
      * local subject to mutate (empty = host event)
      * ```
      *
-     * `string set_subject = 5;`
+     * `string set_subject = 5 [(.buf.validate.field) = { ... }`
      */
     public fun clearSetSubject() {
       _builder.clearSetSubject()

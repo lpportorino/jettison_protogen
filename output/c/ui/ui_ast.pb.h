@@ -332,12 +332,14 @@ typedef enum _ui_StylePropertyType {
 /* Struct definitions */
 /* Declaration of a reactive subject (lives in Screen, initialized at load time) */
 typedef struct _ui_SubjectDeclaration {
-    pb_callback_t name; /* unique identifier, e.g. "zoom_level" */
+    /* unique identifier, e.g. "zoom_level" */
+    pb_callback_t name;
     ui_SubjectType type;
     pb_size_t which_initial;
     union {
         int32_t int_initial; /* default value for INT subjects */
-        pb_callback_t string_initial; /* default value for STRING subjects */
+        /* default value for STRING subjects */
+        pb_callback_t string_initial;
     } initial;
 } ui_SubjectDeclaration;
 
@@ -483,11 +485,14 @@ typedef struct _ui_Point {
 } ui_Point;
 
 typedef struct _ui_EventBinding {
-    pb_callback_t name; /* event keyword — IS the command identifier */
-    ui_EventTrigger trigger; /* which LVGL event fires this (default: CLICKED) */
+    /* event keyword — IS the command identifier */
+    pb_callback_t name;
+    /* which LVGL event fires this (default: CLICKED) */
+    ui_EventTrigger trigger;
     int32_t int_value; /* static int payload */
     bool include_widget_value; /* inject widget's current value as int_value */
-    pb_callback_t set_subject; /* local subject to mutate (empty = host event) */
+    /* local subject to mutate (empty = host event) */
+    pb_callback_t set_subject;
     int32_t set_value; /* value to set on subject */
     bool toggle; /* flip 0↔1 instead of set_value */
     bool notify_host; /* also send to host when mutating subject */
@@ -495,9 +500,11 @@ typedef struct _ui_EventBinding {
 
 /* Conditional visibility — show/hide widget based on subject value comparison. */
 typedef struct _ui_VisibilityBinding {
-    pb_callback_t subject; /* subject name to observe */
+    /* subject name to observe */
+    pb_callback_t subject;
     int32_t ref_value; /* reference value for comparison */
-    ui_CompareOp compare; /* comparison operator (default: EQ) */
+    /* comparison operator (default: EQ) */
+    ui_CompareOp compare;
 } ui_VisibilityBinding;
 
 typedef struct _ui_Layout {
@@ -511,7 +518,8 @@ typedef struct _ui_Layout {
  state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc. */
 typedef struct _ui_StyleGroup {
     uint32_t state_selector;
-    pb_callback_t variants; /* exactly 8 entries (composite indices 0-7) */
+    /* exactly 8 entries (composite indices 0-7) */
+    pb_callback_t variants;
 } ui_StyleGroup;
 
 /* A fully-resolved style: all token refs are resolved to concrete LVGL values. */
@@ -520,7 +528,7 @@ typedef struct _ui_ResolvedStyle {
 } ui_ResolvedStyle;
 
 typedef struct _ui_Color {
-    uint32_t r; /* 0-255 */
+    uint32_t r;
     uint32_t g;
     uint32_t b;
 } ui_Color;
@@ -549,8 +557,8 @@ typedef struct _ui_WidgetNode {
     ui_Layout layout;
     /* Children */
     pb_callback_t children;
-    /* Style groups: default + per-state, each with 8 composite variants.
- Ordered: */
+    /* Style groups: default + per-state, each with 8 composite variants,
+ ordered default, pressed, focused, disabled, ... */
     pb_callback_t style_groups;
     pb_size_t which_widget_props;
     union {
@@ -606,7 +614,8 @@ typedef struct _ui_StyleProperty {
         uint32_t uint_value; /* pixels, opacity, enum values */
         int32_t int_value; /* signed values (width, height, padding, coords) */
         ui_Color color_value; /* resolved RGB */
-        pb_callback_t string_value; /* font C symbol name, image source path */
+        /* font C symbol name, image source path */
+        pb_callback_t string_value;
         ui_ShadowBundle shadow_value;
     } value;
 } ui_StyleProperty;

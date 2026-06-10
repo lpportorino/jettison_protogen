@@ -29,7 +29,7 @@ public object DropdownPropsKt {
     internal fun _build(): ui.UiAst.DropdownProps = _builder.build()
 
     /**
-     * `string options = 1;`
+     * `string options = 1 [(.buf.validate.field) = { ... }`
      */
     public var options: kotlin.String
       @JvmName("getOptions")
@@ -39,7 +39,7 @@ public object DropdownPropsKt {
         _builder.options = value
       }
     /**
-     * `string options = 1;`
+     * `string options = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearOptions() {
       _builder.clearOptions()
@@ -63,7 +63,7 @@ public object DropdownPropsKt {
     }
 
     /**
-     * `.ui.Dir direction = 3;`
+     * `.ui.Dir direction = 3 [(.buf.validate.field) = { ... }`
      */
     public var direction: ui.UiAst.Dir
       @JvmName("getDirection")
@@ -80,7 +80,7 @@ public object DropdownPropsKt {
         _builder.directionValue = value
       }
     /**
-     * `.ui.Dir direction = 3;`
+     * `.ui.Dir direction = 3 [(.buf.validate.field) = { ... }`
      */
     public fun clearDirection() {
       _builder.clearDirection()

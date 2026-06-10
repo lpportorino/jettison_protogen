@@ -29,7 +29,7 @@ public object RollerPropsKt {
     internal fun _build(): ui.UiAst.RollerProps = _builder.build()
 
     /**
-     * `string options = 1;`
+     * `string options = 1 [(.buf.validate.field) = { ... }`
      */
     public var options: kotlin.String
       @JvmName("getOptions")
@@ -39,7 +39,7 @@ public object RollerPropsKt {
         _builder.options = value
       }
     /**
-     * `string options = 1;`
+     * `string options = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearOptions() {
       _builder.clearOptions()
@@ -80,7 +80,7 @@ public object RollerPropsKt {
     }
 
     /**
-     * `.ui.RollerMode mode = 4;`
+     * `.ui.RollerMode mode = 4 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.RollerMode
       @JvmName("getMode")
@@ -97,7 +97,7 @@ public object RollerPropsKt {
         _builder.modeValue = value
       }
     /**
-     * `.ui.RollerMode mode = 4;`
+     * `.ui.RollerMode mode = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearMode() {
       _builder.clearMode()

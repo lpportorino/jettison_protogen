@@ -29,7 +29,7 @@ public object LayoutKt {
     internal fun _build(): ui.UiAst.Layout = _builder.build()
 
     /**
-     * `.ui.FlexFlow flow = 1;`
+     * `.ui.FlexFlow flow = 1 [(.buf.validate.field) = { ... }`
      */
     public var flow: ui.UiAst.FlexFlow
       @JvmName("getFlow")
@@ -46,14 +46,14 @@ public object LayoutKt {
         _builder.flowValue = value
       }
     /**
-     * `.ui.FlexFlow flow = 1;`
+     * `.ui.FlexFlow flow = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearFlow() {
       _builder.clearFlow()
     }
 
     /**
-     * `.ui.FlexAlign main_place = 2;`
+     * `.ui.FlexAlign main_place = 2 [(.buf.validate.field) = { ... }`
      */
     public var mainPlace: ui.UiAst.FlexAlign
       @JvmName("getMainPlace")
@@ -70,14 +70,14 @@ public object LayoutKt {
         _builder.mainPlaceValue = value
       }
     /**
-     * `.ui.FlexAlign main_place = 2;`
+     * `.ui.FlexAlign main_place = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearMainPlace() {
       _builder.clearMainPlace()
     }
 
     /**
-     * `.ui.FlexAlign cross_place = 3;`
+     * `.ui.FlexAlign cross_place = 3 [(.buf.validate.field) = { ... }`
      */
     public var crossPlace: ui.UiAst.FlexAlign
       @JvmName("getCrossPlace")
@@ -94,14 +94,14 @@ public object LayoutKt {
         _builder.crossPlaceValue = value
       }
     /**
-     * `.ui.FlexAlign cross_place = 3;`
+     * `.ui.FlexAlign cross_place = 3 [(.buf.validate.field) = { ... }`
      */
     public fun clearCrossPlace() {
       _builder.clearCrossPlace()
     }
 
     /**
-     * `.ui.FlexAlign track_place = 4;`
+     * `.ui.FlexAlign track_place = 4 [(.buf.validate.field) = { ... }`
      */
     public var trackPlace: ui.UiAst.FlexAlign
       @JvmName("getTrackPlace")
@@ -118,7 +118,7 @@ public object LayoutKt {
         _builder.trackPlaceValue = value
       }
     /**
-     * `.ui.FlexAlign track_place = 4;`
+     * `.ui.FlexAlign track_place = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearTrackPlace() {
       _builder.clearTrackPlace()

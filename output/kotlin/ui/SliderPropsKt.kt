@@ -80,7 +80,7 @@ public object SliderPropsKt {
     }
 
     /**
-     * `.ui.BarMode mode = 4;`
+     * `.ui.BarMode mode = 4 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.BarMode
       @JvmName("getMode")
@@ -97,7 +97,7 @@ public object SliderPropsKt {
         _builder.modeValue = value
       }
     /**
-     * `.ui.BarMode mode = 4;`
+     * `.ui.BarMode mode = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearMode() {
       _builder.clearMode()

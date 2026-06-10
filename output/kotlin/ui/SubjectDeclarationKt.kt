@@ -37,7 +37,7 @@ public object SubjectDeclarationKt {
      * unique identifier, e.g. "zoom_level"
      * ```
      *
-     * `string name = 1;`
+     * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public var name: kotlin.String
       @JvmName("getName")
@@ -51,14 +51,14 @@ public object SubjectDeclarationKt {
      * unique identifier, e.g. "zoom_level"
      * ```
      *
-     * `string name = 1;`
+     * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearName() {
       _builder.clearName()
     }
 
     /**
-     * `.ui.SubjectType type = 2;`
+     * `.ui.SubjectType type = 2 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.SubjectType
       @JvmName("getType")
@@ -75,7 +75,7 @@ public object SubjectDeclarationKt {
         _builder.typeValue = value
       }
     /**
-     * `.ui.SubjectType type = 2;`
+     * `.ui.SubjectType type = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearType() {
       _builder.clearType()
@@ -122,7 +122,7 @@ public object SubjectDeclarationKt {
      * default value for STRING subjects
      * ```
      *
-     * `string string_initial = 4;`
+     * `string string_initial = 4 [(.buf.validate.field) = { ... }`
      */
     public var stringInitial: kotlin.String
       @JvmName("getStringInitial")
@@ -136,7 +136,7 @@ public object SubjectDeclarationKt {
      * default value for STRING subjects
      * ```
      *
-     * `string string_initial = 4;`
+     * `string string_initial = 4 [(.buf.validate.field) = { ... }`
      */
     public fun clearStringInitial() {
       _builder.clearStringInitial()
@@ -146,7 +146,7 @@ public object SubjectDeclarationKt {
      * default value for STRING subjects
      * ```
      *
-     * `string string_initial = 4;`
+     * `string string_initial = 4 [(.buf.validate.field) = { ... }`
      * @return Whether the stringInitial field is set.
      */
     public fun hasStringInitial(): kotlin.Boolean {

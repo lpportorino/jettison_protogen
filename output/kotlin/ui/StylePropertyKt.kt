@@ -33,7 +33,7 @@ public object StylePropertyKt {
     internal fun _build(): ui.UiAst.StyleProperty = _builder.build()
 
     /**
-     * `.ui.StylePropertyType type = 1;`
+     * `.ui.StylePropertyType type = 1 [(.buf.validate.field) = { ... }`
      */
     public var type: ui.UiAst.StylePropertyType
       @JvmName("getType")
@@ -50,7 +50,7 @@ public object StylePropertyKt {
         _builder.typeValue = value
       }
     /**
-     * `.ui.StylePropertyType type = 1;`
+     * `.ui.StylePropertyType type = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearType() {
       _builder.clearType()
@@ -169,7 +169,7 @@ public object StylePropertyKt {
      * font C symbol name, image source path
      * ```
      *
-     * `string string_value = 5;`
+     * `string string_value = 5 [(.buf.validate.field) = { ... }`
      */
     public var stringValue: kotlin.String
       @JvmName("getStringValue")
@@ -183,7 +183,7 @@ public object StylePropertyKt {
      * font C symbol name, image source path
      * ```
      *
-     * `string string_value = 5;`
+     * `string string_value = 5 [(.buf.validate.field) = { ... }`
      */
     public fun clearStringValue() {
       _builder.clearStringValue()
@@ -193,7 +193,7 @@ public object StylePropertyKt {
      * font C symbol name, image source path
      * ```
      *
-     * `string string_value = 5;`
+     * `string string_value = 5 [(.buf.validate.field) = { ... }`
      * @return Whether the stringValue field is set.
      */
     public fun hasStringValue(): kotlin.Boolean {

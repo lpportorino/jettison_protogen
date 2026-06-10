@@ -29,11 +29,7 @@ public object ColorKt {
     internal fun _build(): ui.UiAst.Color = _builder.build()
 
     /**
-     * ```
-     * 0-255
-     * ```
-     *
-     * `uint32 r = 1;`
+     * `uint32 r = 1 [(.buf.validate.field) = { ... }`
      */
     public var r: kotlin.Int
       @JvmName("getR")
@@ -43,18 +39,14 @@ public object ColorKt {
         _builder.r = value
       }
     /**
-     * ```
-     * 0-255
-     * ```
-     *
-     * `uint32 r = 1;`
+     * `uint32 r = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearR() {
       _builder.clearR()
     }
 
     /**
-     * `uint32 g = 2;`
+     * `uint32 g = 2 [(.buf.validate.field) = { ... }`
      */
     public var g: kotlin.Int
       @JvmName("getG")
@@ -64,14 +56,14 @@ public object ColorKt {
         _builder.g = value
       }
     /**
-     * `uint32 g = 2;`
+     * `uint32 g = 2 [(.buf.validate.field) = { ... }`
      */
     public fun clearG() {
       _builder.clearG()
     }
 
     /**
-     * `uint32 b = 3;`
+     * `uint32 b = 3 [(.buf.validate.field) = { ... }`
      */
     public var b: kotlin.Int
       @JvmName("getB")
@@ -81,7 +73,7 @@ public object ColorKt {
         _builder.b = value
       }
     /**
-     * `uint32 b = 3;`
+     * `uint32 b = 3 [(.buf.validate.field) = { ... }`
      */
     public fun clearB() {
       _builder.clearB()

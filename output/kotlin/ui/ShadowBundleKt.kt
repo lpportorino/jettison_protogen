@@ -97,7 +97,7 @@ public object ShadowBundleKt {
     }
 
     /**
-     * `uint32 opa = 5;`
+     * `uint32 opa = 5 [(.buf.validate.field) = { ... }`
      */
     public var opa: kotlin.Int
       @JvmName("getOpa")
@@ -107,7 +107,7 @@ public object ShadowBundleKt {
         _builder.opa = value
       }
     /**
-     * `uint32 opa = 5;`
+     * `uint32 opa = 5 [(.buf.validate.field) = { ... }`
      */
     public fun clearOpa() {
       _builder.clearOpa()

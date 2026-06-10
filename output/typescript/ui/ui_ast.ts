@@ -1950,8 +1950,8 @@ export interface WidgetNode {
   /** Children */
   children: WidgetNode[];
   /**
-   * Style groups: default + per-state, each with 8 composite variants.
-   * Ordered:
+   * Style groups: default + per-state, each with 8 composite variants,
+   * ordered default, pressed, focused, disabled, ...
    */
   styleGroups: StyleGroup[];
   objProps?: ObjProps | undefined;
@@ -2184,7 +2184,6 @@ export interface StyleProperty {
 }
 
 export interface Color {
-  /** 0-255 */
   r: number;
   g: number;
   b: number;

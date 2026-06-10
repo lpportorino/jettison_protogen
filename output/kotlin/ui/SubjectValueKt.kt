@@ -33,7 +33,7 @@ public object SubjectValueKt {
     internal fun _build(): ui.UiAst.SubjectValue = _builder.build()
 
     /**
-     * `string name = 1;`
+     * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public var name: kotlin.String
       @JvmName("getName")
@@ -43,7 +43,7 @@ public object SubjectValueKt {
         _builder.name = value
       }
     /**
-     * `string name = 1;`
+     * `string name = 1 [(.buf.validate.field) = { ... }`
      */
     public fun clearName() {
       _builder.clearName()
@@ -74,7 +74,7 @@ public object SubjectValueKt {
     }
 
     /**
-     * `string string_value = 3;`
+     * `string string_value = 3 [(.buf.validate.field) = { ... }`
      */
     public var stringValue: kotlin.String
       @JvmName("getStringValue")
@@ -84,13 +84,13 @@ public object SubjectValueKt {
         _builder.stringValue = value
       }
     /**
-     * `string string_value = 3;`
+     * `string string_value = 3 [(.buf.validate.field) = { ... }`
      */
     public fun clearStringValue() {
       _builder.clearStringValue()
     }
     /**
-     * `string string_value = 3;`
+     * `string string_value = 3 [(.buf.validate.field) = { ... }`
      * @return Whether the stringValue field is set.
      */
     public fun hasStringValue(): kotlin.Boolean {

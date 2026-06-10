@@ -97,7 +97,7 @@ public object BarPropsKt {
     }
 
     /**
-     * `.ui.BarMode mode = 5;`
+     * `.ui.BarMode mode = 5 [(.buf.validate.field) = { ... }`
      */
     public var mode: ui.UiAst.BarMode
       @JvmName("getMode")
@@ -114,7 +114,7 @@ public object BarPropsKt {
         _builder.modeValue = value
       }
     /**
-     * `.ui.BarMode mode = 5;`
+     * `.ui.BarMode mode = 5 [(.buf.validate.field) = { ... }`
      */
     public fun clearMode() {
       _builder.clearMode()
