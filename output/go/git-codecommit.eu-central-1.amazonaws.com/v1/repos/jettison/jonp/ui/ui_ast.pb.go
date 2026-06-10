@@ -1936,7 +1936,24 @@ type WidgetNode struct {
 	// Conditional visibility binding (show/hide based on subject value)
 	Visibility *VisibilityBinding `protobuf:"bytes,29,opt,name=visibility,proto3" json:"visibility,omitempty"`
 	// Format strings for bound text (key = binding key, value = printf format)
-	BindFormats   map[string]string `protobuf:"bytes,30,rep,name=bind_formats,json=bindFormats,proto3" json:"bind_formats,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	BindFormats map[string]string `protobuf:"bytes,30,rep,name=bind_formats,json=bindFormats,proto3" json:"bind_formats,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+	// parity-gated). 0 = no extra flags.
+	ObjFlags uint32 `protobuf:"varint,31,opt,name=obj_flags,json=objFlags,proto3" json:"obj_flags,omitempty"`
+	// LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels).
+	ObjFlagsClear uint32 `protobuf:"varint,32,opt,name=obj_flags_clear,json=objFlagsClear,proto3" json:"obj_flags_clear,omitempty"`
+	// lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
+	States uint32 `protobuf:"varint,33,opt,name=states,proto3" json:"states,omitempty"`
+	// lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+	ScrollDir uint32 `protobuf:"varint,34,opt,name=scroll_dir,json=scrollDir,proto3" json:"scroll_dir,omitempty"`
+	// Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+	// encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+	// no grid layout.
+	GridColDsc []int32 `protobuf:"varint,35,rep,packed,name=grid_col_dsc,json=gridColDsc,proto3" json:"grid_col_dsc,omitempty"`
+	GridRowDsc []int32 `protobuf:"varint,36,rep,packed,name=grid_row_dsc,json=gridRowDsc,proto3" json:"grid_row_dsc,omitempty"`
+	// Strip ALL theme/base styles before applying style_groups
+	// (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
+	Bare          bool `protobuf:"varint,37,opt,name=bare,proto3" json:"bare,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2224,6 +2241,55 @@ func (x *WidgetNode) GetBindFormats() map[string]string {
 		return x.BindFormats
 	}
 	return nil
+}
+
+func (x *WidgetNode) GetObjFlags() uint32 {
+	if x != nil {
+		return x.ObjFlags
+	}
+	return 0
+}
+
+func (x *WidgetNode) GetObjFlagsClear() uint32 {
+	if x != nil {
+		return x.ObjFlagsClear
+	}
+	return 0
+}
+
+func (x *WidgetNode) GetStates() uint32 {
+	if x != nil {
+		return x.States
+	}
+	return 0
+}
+
+func (x *WidgetNode) GetScrollDir() uint32 {
+	if x != nil {
+		return x.ScrollDir
+	}
+	return 0
+}
+
+func (x *WidgetNode) GetGridColDsc() []int32 {
+	if x != nil {
+		return x.GridColDsc
+	}
+	return nil
+}
+
+func (x *WidgetNode) GetGridRowDsc() []int32 {
+	if x != nil {
+		return x.GridRowDsc
+	}
+	return nil
+}
+
+func (x *WidgetNode) GetBare() bool {
+	if x != nil {
+		return x.Bare
+	}
+	return false
 }
 
 type isWidgetNode_WidgetProps interface {
@@ -4168,7 +4234,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xd7\f\n" +
+	"\x05_root\"\xab\x0e\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
@@ -4209,7 +4275,17 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\n" +
 	"visibility\x18\x1d \x01(\v2\x15.ui.VisibilityBindingR\n" +
 	"visibility\x12B\n" +
-	"\fbind_formats\x18\x1e \x03(\v2\x1f.ui.WidgetNode.BindFormatsEntryR\vbindFormats\x1a;\n" +
+	"\fbind_formats\x18\x1e \x03(\v2\x1f.ui.WidgetNode.BindFormatsEntryR\vbindFormats\x12\x1b\n" +
+	"\tobj_flags\x18\x1f \x01(\rR\bobjFlags\x12&\n" +
+	"\x0fobj_flags_clear\x18  \x01(\rR\robjFlagsClear\x12\x16\n" +
+	"\x06states\x18! \x01(\rR\x06states\x12\x1d\n" +
+	"\n" +
+	"scroll_dir\x18\" \x01(\rR\tscrollDir\x12 \n" +
+	"\fgrid_col_dsc\x18# \x03(\x05R\n" +
+	"gridColDsc\x12 \n" +
+	"\fgrid_row_dsc\x18$ \x03(\x05R\n" +
+	"gridRowDsc\x12\x12\n" +
+	"\x04bare\x18% \x01(\bR\x04bare\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +

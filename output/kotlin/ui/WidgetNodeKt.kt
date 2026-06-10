@@ -1072,6 +1072,307 @@ public object WidgetNodeKt {
       .clear() {
          _builder.clearBindFormats()
        }
+
+    /**
+     * ```
+     * LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+     * parity-gated). 0 = no extra flags.
+     * ```
+     *
+     * `uint32 obj_flags = 31;`
+     */
+    public var objFlags: kotlin.Int
+      @JvmName("getObjFlags")
+      get() = _builder.objFlags
+      @JvmName("setObjFlags")
+      set(value) {
+        _builder.objFlags = value
+      }
+    /**
+     * ```
+     * LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+     * parity-gated). 0 = no extra flags.
+     * ```
+     *
+     * `uint32 obj_flags = 31;`
+     */
+    public fun clearObjFlags() {
+      _builder.clearObjFlags()
+    }
+
+    /**
+     * ```
+     * LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels).
+     * ```
+     *
+     * `uint32 obj_flags_clear = 32;`
+     */
+    public var objFlagsClear: kotlin.Int
+      @JvmName("getObjFlagsClear")
+      get() = _builder.objFlagsClear
+      @JvmName("setObjFlagsClear")
+      set(value) {
+        _builder.objFlagsClear = value
+      }
+    /**
+     * ```
+     * LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels).
+     * ```
+     *
+     * `uint32 obj_flags_clear = 32;`
+     */
+    public fun clearObjFlagsClear() {
+      _builder.clearObjFlagsClear()
+    }
+
+    /**
+     * ```
+     * lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
+     * ```
+     *
+     * `uint32 states = 33;`
+     */
+    public var states: kotlin.Int
+      @JvmName("getStates")
+      get() = _builder.states
+      @JvmName("setStates")
+      set(value) {
+        _builder.states = value
+      }
+    /**
+     * ```
+     * lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
+     * ```
+     *
+     * `uint32 states = 33;`
+     */
+    public fun clearStates() {
+      _builder.clearStates()
+    }
+
+    /**
+     * ```
+     * lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+     * ```
+     *
+     * `uint32 scroll_dir = 34;`
+     */
+    public var scrollDir: kotlin.Int
+      @JvmName("getScrollDir")
+      get() = _builder.scrollDir
+      @JvmName("setScrollDir")
+      set(value) {
+        _builder.scrollDir = value
+      }
+    /**
+     * ```
+     * lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+     * ```
+     *
+     * `uint32 scroll_dir = 34;`
+     */
+    public fun clearScrollDir() {
+      _builder.clearScrollDir()
+    }
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class GridColDscProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     */
+     public val gridColDsc: com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.gridColDscList
+      )
+    /**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     * @param value The gridColDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addGridColDsc")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.add(value: kotlin.Int) {
+      _builder.addGridColDsc(value)
+    }/**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     * @param value The gridColDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignGridColDsc")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.plusAssign(value: kotlin.Int) {
+      add(value)
+    }/**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     * @param values The gridColDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllGridColDsc")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
+      _builder.addAllGridColDsc(values)
+    }/**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     * @param values The gridColDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllGridColDsc")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
+      addAll(values)
+    }/**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     * @param index The index to set the value at.
+     * @param value The gridColDsc to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setGridColDsc")
+    public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.set(index: kotlin.Int, value: kotlin.Int) {
+      _builder.setGridColDsc(index, value)
+    }/**
+     * ```
+     * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+     * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+     * no grid layout.
+     * ```
+     *
+     * `repeated int32 grid_col_dsc = 35;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearGridColDsc")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridColDscProxy>.clear() {
+      _builder.clearGridColDsc()
+    }
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class GridRowDscProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * `repeated int32 grid_row_dsc = 36;`
+     */
+     public val gridRowDsc: com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.gridRowDscList
+      )
+    /**
+     * `repeated int32 grid_row_dsc = 36;`
+     * @param value The gridRowDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addGridRowDsc")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.add(value: kotlin.Int) {
+      _builder.addGridRowDsc(value)
+    }/**
+     * `repeated int32 grid_row_dsc = 36;`
+     * @param value The gridRowDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignGridRowDsc")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.plusAssign(value: kotlin.Int) {
+      add(value)
+    }/**
+     * `repeated int32 grid_row_dsc = 36;`
+     * @param values The gridRowDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllGridRowDsc")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.addAll(values: kotlin.collections.Iterable<kotlin.Int>) {
+      _builder.addAllGridRowDsc(values)
+    }/**
+     * `repeated int32 grid_row_dsc = 36;`
+     * @param values The gridRowDsc to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllGridRowDsc")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.plusAssign(values: kotlin.collections.Iterable<kotlin.Int>) {
+      addAll(values)
+    }/**
+     * `repeated int32 grid_row_dsc = 36;`
+     * @param index The index to set the value at.
+     * @param value The gridRowDsc to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setGridRowDsc")
+    public operator fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.set(index: kotlin.Int, value: kotlin.Int) {
+      _builder.setGridRowDsc(index, value)
+    }/**
+     * `repeated int32 grid_row_dsc = 36;`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearGridRowDsc")
+    public fun com.google.protobuf.kotlin.DslList<kotlin.Int, GridRowDscProxy>.clear() {
+      _builder.clearGridRowDsc()
+    }
+    /**
+     * ```
+     * Strip ALL theme/base styles before applying style_groups
+     * (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
+     * ```
+     *
+     * `bool bare = 37;`
+     */
+    public var bare: kotlin.Boolean
+      @JvmName("getBare")
+      get() = _builder.bare
+      @JvmName("setBare")
+      set(value) {
+        _builder.bare = value
+      }
+    /**
+     * ```
+     * Strip ALL theme/base styles before applying style_groups
+     * (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
+     * ```
+     *
+     * `bool bare = 37;`
+     */
+    public fun clearBare() {
+      _builder.clearBare()
+    }
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()

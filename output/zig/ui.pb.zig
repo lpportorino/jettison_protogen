@@ -678,6 +678,13 @@ pub const WidgetNode = struct {
     style_groups: std.ArrayListUnmanaged(StyleGroup) = .empty,
     visibility: ?VisibilityBinding = null,
     bind_formats: std.ArrayListUnmanaged(WidgetNode.BindFormatsEntry) = .empty,
+    obj_flags: u32 = 0,
+    obj_flags_clear: u32 = 0,
+    states: u32 = 0,
+    scroll_dir: u32 = 0,
+    grid_col_dsc: std.ArrayListUnmanaged(i32) = .empty,
+    grid_row_dsc: std.ArrayListUnmanaged(i32) = .empty,
+    bare: bool = false,
     widget_props: ?widget_props_union = null,
 
     pub const _widget_props_case = enum {
@@ -756,6 +763,13 @@ pub const WidgetNode = struct {
         .style_groups = fd(9, .{ .repeated = .submessage}),
         .visibility = fd(29, .submessage),
         .bind_formats = fd(30, .{ .repeated = .submessage}),
+        .obj_flags = fd(31, .{ .scalar = .uint32 }),
+        .obj_flags_clear = fd(32, .{ .scalar = .uint32 }),
+        .states = fd(33, .{ .scalar = .uint32 }),
+        .scroll_dir = fd(34, .{ .scalar = .uint32 }),
+        .grid_col_dsc = fd(35, .{ .packed_repeated = .{ .scalar = .int32 }}),
+        .grid_row_dsc = fd(36, .{ .packed_repeated = .{ .scalar = .int32 }}),
+        .bare = fd(37, .{ .scalar = .bool }),
     .widget_props = fd(null, .{ .oneof  = widget_props_union }),
     };
 

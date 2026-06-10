@@ -1999,6 +1999,29 @@ export interface WidgetNode {
     | undefined;
   /** Format strings for bound text (key = binding key, value = printf format) */
   bindFormats: { [key: string]: string };
+  /**
+   * LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+   * parity-gated). 0 = no extra flags.
+   */
+  objFlags: number;
+  /** LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels). */
+  objFlagsClear: number;
+  /** lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast. */
+  states: number;
+  /** lv_dir_t scroll direction constraint; 0 = leave the LVGL default. */
+  scrollDir: number;
+  /**
+   * Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+   * encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+   * no grid layout.
+   */
+  gridColDsc: number[];
+  gridRowDsc: number[];
+  /**
+   * Strip ALL theme/base styles before applying style_groups
+   * (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
+   */
+  bare: boolean;
 }
 
 export interface WidgetNode_BindingsEntry {
@@ -2603,6 +2626,13 @@ function createBaseWidgetNode(): WidgetNode {
     tableProps: undefined,
     visibility: undefined,
     bindFormats: {},
+    objFlags: 0,
+    objFlagsClear: 0,
+    states: 0,
+    scrollDir: 0,
+    gridColDsc: [],
+    gridRowDsc: [],
+    bare: false,
   };
 }
 
@@ -2698,6 +2728,31 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     globalThis.Object.entries(message.bindFormats).forEach(([key, value]: [string, string]) => {
       WidgetNode_BindFormatsEntry.encode({ key: key as any, value }, writer.uint32(242).fork()).join();
     });
+    if (message.objFlags !== 0) {
+      writer.uint32(248).uint32(message.objFlags);
+    }
+    if (message.objFlagsClear !== 0) {
+      writer.uint32(256).uint32(message.objFlagsClear);
+    }
+    if (message.states !== 0) {
+      writer.uint32(264).uint32(message.states);
+    }
+    if (message.scrollDir !== 0) {
+      writer.uint32(272).uint32(message.scrollDir);
+    }
+    writer.uint32(282).fork();
+    for (const v of message.gridColDsc) {
+      writer.int32(v);
+    }
+    writer.join();
+    writer.uint32(290).fork();
+    for (const v of message.gridRowDsc) {
+      writer.int32(v);
+    }
+    writer.join();
+    if (message.bare !== false) {
+      writer.uint32(296).bool(message.bare);
+    }
     return writer;
   },
 
@@ -2954,6 +3009,82 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           }
           continue;
         }
+        case 31: {
+          if (tag !== 248) {
+            break;
+          }
+
+          message.objFlags = reader.uint32();
+          continue;
+        }
+        case 32: {
+          if (tag !== 256) {
+            break;
+          }
+
+          message.objFlagsClear = reader.uint32();
+          continue;
+        }
+        case 33: {
+          if (tag !== 264) {
+            break;
+          }
+
+          message.states = reader.uint32();
+          continue;
+        }
+        case 34: {
+          if (tag !== 272) {
+            break;
+          }
+
+          message.scrollDir = reader.uint32();
+          continue;
+        }
+        case 35: {
+          if (tag === 280) {
+            message.gridColDsc.push(reader.int32());
+
+            continue;
+          }
+
+          if (tag === 282) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.gridColDsc.push(reader.int32());
+            }
+
+            continue;
+          }
+
+          break;
+        }
+        case 36: {
+          if (tag === 288) {
+            message.gridRowDsc.push(reader.int32());
+
+            continue;
+          }
+
+          if (tag === 290) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.gridRowDsc.push(reader.int32());
+            }
+
+            continue;
+          }
+
+          break;
+        }
+        case 37: {
+          if (tag !== 296) {
+            break;
+          }
+
+          message.bare = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3101,6 +3232,33 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           {},
         )
         : {},
+      objFlags: isSet(object.objFlags)
+        ? globalThis.Number(object.objFlags)
+        : isSet(object.obj_flags)
+        ? globalThis.Number(object.obj_flags)
+        : 0,
+      objFlagsClear: isSet(object.objFlagsClear)
+        ? globalThis.Number(object.objFlagsClear)
+        : isSet(object.obj_flags_clear)
+        ? globalThis.Number(object.obj_flags_clear)
+        : 0,
+      states: isSet(object.states) ? globalThis.Number(object.states) : 0,
+      scrollDir: isSet(object.scrollDir)
+        ? globalThis.Number(object.scrollDir)
+        : isSet(object.scroll_dir)
+        ? globalThis.Number(object.scroll_dir)
+        : 0,
+      gridColDsc: globalThis.Array.isArray(object?.gridColDsc)
+        ? object.gridColDsc.map((e: any) => globalThis.Number(e))
+        : globalThis.Array.isArray(object?.grid_col_dsc)
+        ? object.grid_col_dsc.map((e: any) => globalThis.Number(e))
+        : [],
+      gridRowDsc: globalThis.Array.isArray(object?.gridRowDsc)
+        ? object.gridRowDsc.map((e: any) => globalThis.Number(e))
+        : globalThis.Array.isArray(object?.grid_row_dsc)
+        ? object.grid_row_dsc.map((e: any) => globalThis.Number(e))
+        : [],
+      bare: isSet(object.bare) ? globalThis.Boolean(object.bare) : false,
     };
   },
 
@@ -3208,6 +3366,27 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         });
       }
     }
+    if (message.objFlags !== 0) {
+      obj.objFlags = Math.round(message.objFlags);
+    }
+    if (message.objFlagsClear !== 0) {
+      obj.objFlagsClear = Math.round(message.objFlagsClear);
+    }
+    if (message.states !== 0) {
+      obj.states = Math.round(message.states);
+    }
+    if (message.scrollDir !== 0) {
+      obj.scrollDir = Math.round(message.scrollDir);
+    }
+    if (message.gridColDsc?.length) {
+      obj.gridColDsc = message.gridColDsc.map((e) => Math.round(e));
+    }
+    if (message.gridRowDsc?.length) {
+      obj.gridRowDsc = message.gridRowDsc.map((e) => Math.round(e));
+    }
+    if (message.bare !== false) {
+      obj.bare = message.bare;
+    }
     return obj;
   },
 
@@ -3306,6 +3485,13 @@ export const WidgetNode: MessageFns<WidgetNode> = {
       },
       {},
     );
+    message.objFlags = object.objFlags ?? 0;
+    message.objFlagsClear = object.objFlagsClear ?? 0;
+    message.states = object.states ?? 0;
+    message.scrollDir = object.scrollDir ?? 0;
+    message.gridColDsc = object.gridColDsc?.map((e) => e) || [];
+    message.gridRowDsc = object.gridRowDsc?.map((e) => e) || [];
+    message.bare = object.bare ?? false;
     return message;
   },
 };

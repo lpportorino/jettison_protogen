@@ -590,6 +590,23 @@ typedef struct _ui_WidgetNode {
     ui_VisibilityBinding visibility;
     /* Format strings for bound text (key = binding key, value = printf format) */
     pb_callback_t bind_formats;
+    /* LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+ parity-gated). 0 = no extra flags. */
+    uint32_t obj_flags;
+    /* LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels). */
+    uint32_t obj_flags_clear;
+    /* lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast. */
+    uint32_t states;
+    /* lv_dir_t scroll direction constraint; 0 = leave the LVGL default. */
+    uint32_t scroll_dir;
+    /* Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+ encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+ no grid layout. */
+    pb_callback_t grid_col_dsc;
+    pb_callback_t grid_row_dsc;
+    /* Strip ALL theme/base styles before applying style_groups
+ (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes. */
+    bool bare;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -770,7 +787,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0}
 #define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_default                 {0}
@@ -805,7 +822,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0}
 #define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_zero                    {0}
@@ -960,6 +977,13 @@ extern "C" {
 #define ui_WidgetNode_table_props_tag            28
 #define ui_WidgetNode_visibility_tag             29
 #define ui_WidgetNode_bind_formats_tag           30
+#define ui_WidgetNode_obj_flags_tag              31
+#define ui_WidgetNode_obj_flags_clear_tag        32
+#define ui_WidgetNode_states_tag                 33
+#define ui_WidgetNode_scroll_dir_tag             34
+#define ui_WidgetNode_grid_col_dsc_tag           35
+#define ui_WidgetNode_grid_row_dsc_tag           36
+#define ui_WidgetNode_bare_tag                   37
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_ShadowBundle_width_tag                1
@@ -1034,7 +1058,14 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,scale_props,widget_props.scale_
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,buttonmatrix_props,widget_props.buttonmatrix_props),  27) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,table_props,widget_props.table_props),  28) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  visibility,       29) \
-X(a, CALLBACK, REPEATED, MESSAGE,  bind_formats,     30)
+X(a, CALLBACK, REPEATED, MESSAGE,  bind_formats,     30) \
+X(a, STATIC,   SINGULAR, UINT32,   obj_flags,        31) \
+X(a, STATIC,   SINGULAR, UINT32,   obj_flags_clear,  32) \
+X(a, STATIC,   SINGULAR, UINT32,   states,           33) \
+X(a, STATIC,   SINGULAR, UINT32,   scroll_dir,       34) \
+X(a, CALLBACK, REPEATED, INT32,    grid_col_dsc,     35) \
+X(a, CALLBACK, REPEATED, INT32,    grid_row_dsc,     36) \
+X(a, STATIC,   SINGULAR, BOOL,     bare,             37)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry

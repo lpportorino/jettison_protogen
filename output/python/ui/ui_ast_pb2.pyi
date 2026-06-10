@@ -582,7 +582,7 @@ class Screen(_message.Message):
     def __init__(self, root: _Optional[_Union[WidgetNode, _Mapping]] = ..., subjects: _Optional[_Iterable[_Union[SubjectDeclaration, _Mapping]]] = ...) -> None: ...
 
 class WidgetNode(_message.Message):
-    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "visibility", "bind_formats")
+    __slots__ = ("type", "x", "y", "text", "bindings", "event", "layout", "children", "style_groups", "obj_props", "button_props", "label_props", "slider_props", "image_props", "arc_props", "bar_props", "switch_props", "checkbox_props", "dropdown_props", "roller_props", "textarea_props", "spinbox_props", "spinner_props", "led_props", "line_props", "scale_props", "buttonmatrix_props", "table_props", "visibility", "bind_formats", "obj_flags", "obj_flags_clear", "states", "scroll_dir", "grid_col_dsc", "grid_row_dsc", "bare")
     class BindingsEntry(_message.Message):
         __slots__ = ("key", "value")
         KEY_FIELD_NUMBER: _ClassVar[int]
@@ -627,6 +627,13 @@ class WidgetNode(_message.Message):
     TABLE_PROPS_FIELD_NUMBER: _ClassVar[int]
     VISIBILITY_FIELD_NUMBER: _ClassVar[int]
     BIND_FORMATS_FIELD_NUMBER: _ClassVar[int]
+    OBJ_FLAGS_FIELD_NUMBER: _ClassVar[int]
+    OBJ_FLAGS_CLEAR_FIELD_NUMBER: _ClassVar[int]
+    STATES_FIELD_NUMBER: _ClassVar[int]
+    SCROLL_DIR_FIELD_NUMBER: _ClassVar[int]
+    GRID_COL_DSC_FIELD_NUMBER: _ClassVar[int]
+    GRID_ROW_DSC_FIELD_NUMBER: _ClassVar[int]
+    BARE_FIELD_NUMBER: _ClassVar[int]
     type: WidgetType
     x: int
     y: int
@@ -657,7 +664,14 @@ class WidgetNode(_message.Message):
     table_props: TableProps
     visibility: VisibilityBinding
     bind_formats: _containers.ScalarMap[str, str]
-    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ...) -> None: ...
+    obj_flags: int
+    obj_flags_clear: int
+    states: int
+    scroll_dir: int
+    grid_col_dsc: _containers.RepeatedScalarFieldContainer[int]
+    grid_row_dsc: _containers.RepeatedScalarFieldContainer[int]
+    bare: bool
+    def __init__(self, type: _Optional[_Union[WidgetType, str]] = ..., x: _Optional[int] = ..., y: _Optional[int] = ..., text: _Optional[str] = ..., bindings: _Optional[_Mapping[str, str]] = ..., event: _Optional[_Union[EventBinding, _Mapping]] = ..., layout: _Optional[_Union[Layout, _Mapping]] = ..., children: _Optional[_Iterable[_Union[WidgetNode, _Mapping]]] = ..., style_groups: _Optional[_Iterable[_Union[StyleGroup, _Mapping]]] = ..., obj_props: _Optional[_Union[ObjProps, _Mapping]] = ..., button_props: _Optional[_Union[ButtonProps, _Mapping]] = ..., label_props: _Optional[_Union[LabelProps, _Mapping]] = ..., slider_props: _Optional[_Union[SliderProps, _Mapping]] = ..., image_props: _Optional[_Union[ImageProps, _Mapping]] = ..., arc_props: _Optional[_Union[ArcProps, _Mapping]] = ..., bar_props: _Optional[_Union[BarProps, _Mapping]] = ..., switch_props: _Optional[_Union[SwitchProps, _Mapping]] = ..., checkbox_props: _Optional[_Union[CheckboxProps, _Mapping]] = ..., dropdown_props: _Optional[_Union[DropdownProps, _Mapping]] = ..., roller_props: _Optional[_Union[RollerProps, _Mapping]] = ..., textarea_props: _Optional[_Union[TextareaProps, _Mapping]] = ..., spinbox_props: _Optional[_Union[SpinboxProps, _Mapping]] = ..., spinner_props: _Optional[_Union[SpinnerProps, _Mapping]] = ..., led_props: _Optional[_Union[LedProps, _Mapping]] = ..., line_props: _Optional[_Union[LineProps, _Mapping]] = ..., scale_props: _Optional[_Union[ScaleProps, _Mapping]] = ..., buttonmatrix_props: _Optional[_Union[ButtonMatrixProps, _Mapping]] = ..., table_props: _Optional[_Union[TableProps, _Mapping]] = ..., visibility: _Optional[_Union[VisibilityBinding, _Mapping]] = ..., bind_formats: _Optional[_Mapping[str, str]] = ..., obj_flags: _Optional[int] = ..., obj_flags_clear: _Optional[int] = ..., states: _Optional[int] = ..., scroll_dir: _Optional[int] = ..., grid_col_dsc: _Optional[_Iterable[int]] = ..., grid_row_dsc: _Optional[_Iterable[int]] = ..., bare: bool = ...) -> None: ...
 
 class ObjProps(_message.Message):
     __slots__ = ()
