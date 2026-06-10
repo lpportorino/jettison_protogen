@@ -65,6 +65,7 @@ export enum WidgetType {
   WIDGET_SCALE = 16,
   WIDGET_BUTTONMATRIX = 17,
   WIDGET_TABLE = 18,
+  WIDGET_TABVIEW = 19,
   UNRECOGNIZED = -1,
 }
 
@@ -127,6 +128,9 @@ export function widgetTypeFromJSON(object: any): WidgetType {
     case 18:
     case "WIDGET_TABLE":
       return WidgetType.WIDGET_TABLE;
+    case 19:
+    case "WIDGET_TABVIEW":
+      return WidgetType.WIDGET_TABVIEW;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -174,6 +178,8 @@ export function widgetTypeToJSON(object: WidgetType): string {
       return "WIDGET_BUTTONMATRIX";
     case WidgetType.WIDGET_TABLE:
       return "WIDGET_TABLE";
+    case WidgetType.WIDGET_TABVIEW:
+      return "WIDGET_TABVIEW";
     case WidgetType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -1990,8 +1996,9 @@ export interface WidgetNode {
   lineProps?: LineProps | undefined;
   scaleProps?: ScaleProps | undefined;
   buttonmatrixProps?: ButtonMatrixProps | undefined;
-  tableProps?:
-    | TableProps
+  tableProps?: TableProps | undefined;
+  tabviewProps?:
+    | TabviewProps
     | undefined;
   /** Conditional visibility binding (show/hide based on subject value) */
   visibility:
@@ -2022,6 +2029,12 @@ export interface WidgetNode {
    * (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
    */
   bare: boolean;
+  /**
+   * Tab-bar slot selector — meaningful ONLY on a direct child of a
+   * WIDGET_TABVIEW node: true builds this child inside the tab bar
+   * (lv_tabview_get_tab_bar) instead of zipping into a tab page.
+   */
+  inTabBar: boolean;
 }
 
 export interface WidgetNode_BindingsEntry {
@@ -2168,6 +2181,27 @@ export interface ButtonMatrixProps {
 export interface TableProps {
   rowCount: number;
   columnCount: number;
+}
+
+export interface TabviewProps {
+  /**
+   * Tab names, one per content child of the tabview node — child i of the
+   * node's regular children list becomes tab i's page content (children
+   * flagged in_tab_bar are excluded from the zip; they go to the tab bar).
+   */
+  tabNames: string[];
+  /**
+   * Tab bar size in px (height for top/bottom bars, width for left/right);
+   * 0 = keep the LVGL default (DPI-derived).
+   */
+  tabBarSize: number;
+  /** Initially active tab index (applied LAST, with LV_ANIM_OFF). */
+  activeIndex: number;
+  /**
+   * Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
+   * the LVGL default (top).
+   */
+  tabBarPosition: Dir;
 }
 
 export interface Point {
@@ -2646,6 +2680,7 @@ function createBaseWidgetNode(): WidgetNode {
     scaleProps: undefined,
     buttonmatrixProps: undefined,
     tableProps: undefined,
+    tabviewProps: undefined,
     visibility: undefined,
     bindFormats: {},
     objFlags: 0,
@@ -2655,6 +2690,7 @@ function createBaseWidgetNode(): WidgetNode {
     gridColDsc: [],
     gridRowDsc: [],
     bare: false,
+    inTabBar: false,
   };
 }
 
@@ -2744,6 +2780,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.tableProps !== undefined) {
       TableProps.encode(message.tableProps, writer.uint32(226).fork()).join();
     }
+    if (message.tabviewProps !== undefined) {
+      TabviewProps.encode(message.tabviewProps, writer.uint32(306).fork()).join();
+    }
     if (message.visibility !== undefined) {
       VisibilityBinding.encode(message.visibility, writer.uint32(234).fork()).join();
     }
@@ -2774,6 +2813,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     writer.join();
     if (message.bare !== false) {
       writer.uint32(296).bool(message.bare);
+    }
+    if (message.inTabBar !== false) {
+      writer.uint32(312).bool(message.inTabBar);
     }
     return writer;
   },
@@ -3012,6 +3054,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.tableProps = TableProps.decode(reader, reader.uint32());
           continue;
         }
+        case 38: {
+          if (tag !== 306) {
+            break;
+          }
+
+          message.tabviewProps = TabviewProps.decode(reader, reader.uint32());
+          continue;
+        }
         case 29: {
           if (tag !== 234) {
             break;
@@ -3105,6 +3155,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           }
 
           message.bare = reader.bool();
+          continue;
+        }
+        case 39: {
+          if (tag !== 312) {
+            break;
+          }
+
+          message.inTabBar = reader.bool();
           continue;
         }
       }
@@ -3236,6 +3294,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.table_props)
         ? TableProps.fromJSON(object.table_props)
         : undefined,
+      tabviewProps: isSet(object.tabviewProps)
+        ? TabviewProps.fromJSON(object.tabviewProps)
+        : isSet(object.tabview_props)
+        ? TabviewProps.fromJSON(object.tabview_props)
+        : undefined,
       visibility: isSet(object.visibility) ? VisibilityBinding.fromJSON(object.visibility) : undefined,
       bindFormats: isObject(object.bindFormats)
         ? (globalThis.Object.entries(object.bindFormats) as [string, any][]).reduce(
@@ -3281,6 +3344,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         ? object.grid_row_dsc.map((e: any) => globalThis.Number(e))
         : [],
       bare: isSet(object.bare) ? globalThis.Boolean(object.bare) : false,
+      inTabBar: isSet(object.inTabBar)
+        ? globalThis.Boolean(object.inTabBar)
+        : isSet(object.in_tab_bar)
+        ? globalThis.Boolean(object.in_tab_bar)
+        : false,
     };
   },
 
@@ -3376,6 +3444,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.tableProps !== undefined) {
       obj.tableProps = TableProps.toJSON(message.tableProps);
     }
+    if (message.tabviewProps !== undefined) {
+      obj.tabviewProps = TabviewProps.toJSON(message.tabviewProps);
+    }
     if (message.visibility !== undefined) {
       obj.visibility = VisibilityBinding.toJSON(message.visibility);
     }
@@ -3408,6 +3479,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.bare !== false) {
       obj.bare = message.bare;
+    }
+    if (message.inTabBar !== false) {
+      obj.inTabBar = message.inTabBar;
     }
     return obj;
   },
@@ -3495,6 +3569,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.tableProps = (object.tableProps !== undefined && object.tableProps !== null)
       ? TableProps.fromPartial(object.tableProps)
       : undefined;
+    message.tabviewProps = (object.tabviewProps !== undefined && object.tabviewProps !== null)
+      ? TabviewProps.fromPartial(object.tabviewProps)
+      : undefined;
     message.visibility = (object.visibility !== undefined && object.visibility !== null)
       ? VisibilityBinding.fromPartial(object.visibility)
       : undefined;
@@ -3514,6 +3591,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.gridColDsc = object.gridColDsc?.map((e) => e) || [];
     message.gridRowDsc = object.gridRowDsc?.map((e) => e) || [];
     message.bare = object.bare ?? false;
+    message.inTabBar = object.inTabBar ?? false;
     return message;
   },
 };
@@ -5812,6 +5890,130 @@ export const TableProps: MessageFns<TableProps> = {
     const message = createBaseTableProps();
     message.rowCount = object.rowCount ?? 0;
     message.columnCount = object.columnCount ?? 0;
+    return message;
+  },
+};
+
+function createBaseTabviewProps(): TabviewProps {
+  return { tabNames: [], tabBarSize: 0, activeIndex: 0, tabBarPosition: 0 };
+}
+
+export const TabviewProps: MessageFns<TabviewProps> = {
+  encode(message: TabviewProps, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.tabNames) {
+      writer.uint32(10).string(v!);
+    }
+    if (message.tabBarSize !== 0) {
+      writer.uint32(16).int32(message.tabBarSize);
+    }
+    if (message.activeIndex !== 0) {
+      writer.uint32(24).uint32(message.activeIndex);
+    }
+    if (message.tabBarPosition !== 0) {
+      writer.uint32(32).int32(message.tabBarPosition);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TabviewProps {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTabviewProps();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.tabNames.push(reader.string());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.tabBarSize = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.activeIndex = reader.uint32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.tabBarPosition = reader.int32() as any;
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TabviewProps {
+    return {
+      tabNames: globalThis.Array.isArray(object?.tabNames)
+        ? object.tabNames.map((e: any) => globalThis.String(e))
+        : globalThis.Array.isArray(object?.tab_names)
+        ? object.tab_names.map((e: any) => globalThis.String(e))
+        : [],
+      tabBarSize: isSet(object.tabBarSize)
+        ? globalThis.Number(object.tabBarSize)
+        : isSet(object.tab_bar_size)
+        ? globalThis.Number(object.tab_bar_size)
+        : 0,
+      activeIndex: isSet(object.activeIndex)
+        ? globalThis.Number(object.activeIndex)
+        : isSet(object.active_index)
+        ? globalThis.Number(object.active_index)
+        : 0,
+      tabBarPosition: isSet(object.tabBarPosition)
+        ? dirFromJSON(object.tabBarPosition)
+        : isSet(object.tab_bar_position)
+        ? dirFromJSON(object.tab_bar_position)
+        : 0,
+    };
+  },
+
+  toJSON(message: TabviewProps): unknown {
+    const obj: any = {};
+    if (message.tabNames?.length) {
+      obj.tabNames = message.tabNames;
+    }
+    if (message.tabBarSize !== 0) {
+      obj.tabBarSize = Math.round(message.tabBarSize);
+    }
+    if (message.activeIndex !== 0) {
+      obj.activeIndex = Math.round(message.activeIndex);
+    }
+    if (message.tabBarPosition !== 0) {
+      obj.tabBarPosition = dirToJSON(message.tabBarPosition);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<TabviewProps>, I>>(base?: I): TabviewProps {
+    return TabviewProps.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TabviewProps>, I>>(object: I): TabviewProps {
+    const message = createBaseTabviewProps();
+    message.tabNames = object.tabNames?.map((e) => e) || [];
+    message.tabBarSize = object.tabBarSize ?? 0;
+    message.activeIndex = object.activeIndex ?? 0;
+    message.tabBarPosition = object.tabBarPosition ?? 0;
     return message;
   },
 };

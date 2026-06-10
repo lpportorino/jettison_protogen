@@ -87,6 +87,9 @@ PB_BIND(ui_ButtonMatrixProps, ui_ButtonMatrixProps, AUTO)
 PB_BIND(ui_TableProps, ui_TableProps, AUTO)
 
 
+PB_BIND(ui_TabviewProps, ui_TabviewProps, AUTO)
+
+
 PB_BIND(ui_Point, ui_Point, AUTO)
 
 

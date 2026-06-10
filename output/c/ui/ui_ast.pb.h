@@ -36,7 +36,8 @@ typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_LINE = 15,
     ui_WidgetType_WIDGET_SCALE = 16,
     ui_WidgetType_WIDGET_BUTTONMATRIX = 17,
-    ui_WidgetType_WIDGET_TABLE = 18
+    ui_WidgetType_WIDGET_TABLE = 18,
+    ui_WidgetType_WIDGET_TABVIEW = 19
 } ui_WidgetType;
 
 /* Which LVGL event code triggers this event binding. */
@@ -495,6 +496,21 @@ typedef struct _ui_TableProps {
     uint32_t column_count;
 } ui_TableProps;
 
+typedef struct _ui_TabviewProps {
+    /* Tab names, one per content child of the tabview node — child i of the
+ node's regular children list becomes tab i's page content (children
+ flagged in_tab_bar are excluded from the zip; they go to the tab bar). */
+    pb_callback_t tab_names;
+    /* Tab bar size in px (height for top/bottom bars, width for left/right);
+ 0 = keep the LVGL default (DPI-derived). */
+    int32_t tab_bar_size;
+    /* Initially active tab index (applied LAST, with LV_ANIM_OFF). */
+    uint32_t active_index;
+    /* Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
+ the LVGL default (top). */
+    ui_Dir tab_bar_position;
+} ui_TabviewProps;
+
 typedef struct _ui_Point {
     int32_t x;
     int32_t y;
@@ -597,6 +613,7 @@ typedef struct _ui_WidgetNode {
         ui_ScaleProps scale_props;
         ui_ButtonMatrixProps buttonmatrix_props;
         ui_TableProps table_props;
+        ui_TabviewProps tabview_props;
     } widget_props;
     /* Conditional visibility binding (show/hide based on subject value) */
     bool has_visibility;
@@ -620,6 +637,10 @@ typedef struct _ui_WidgetNode {
     /* Strip ALL theme/base styles before applying style_groups
  (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes. */
     bool bare;
+    /* Tab-bar slot selector — meaningful ONLY on a direct child of a
+ WIDGET_TABVIEW node: true builds this child inside the tab bar
+ (lv_tabview_get_tab_bar) instead of zipping into a tab page. */
+    bool in_tab_bar;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -672,8 +693,8 @@ extern "C" {
 #define _ui_SubjectType_ARRAYSIZE ((ui_SubjectType)(ui_SubjectType_SUBJECT_STRING+1))
 
 #define _ui_WidgetType_MIN ui_WidgetType_WIDGET_OBJ
-#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_TABLE
-#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_TABLE+1))
+#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_TABVIEW
+#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_TABVIEW+1))
 
 #define _ui_EventTrigger_MIN ui_EventTrigger_TRIGGER_CLICKED
 #define _ui_EventTrigger_MAX ui_EventTrigger_TRIGGER_LONG_PRESSED
@@ -787,6 +808,8 @@ extern "C" {
 
 
 
+#define ui_TabviewProps_tab_bar_position_ENUMTYPE ui_Dir
+
 
 #define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
 
@@ -809,7 +832,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0}
 #define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_default                 {0}
@@ -832,6 +855,7 @@ extern "C" {
 #define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0}
 #define ui_ButtonMatrixProps_init_default        {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_default               {0, 0}
+#define ui_TabviewProps_init_default             {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN}
 #define ui_Point_init_default                    {0, 0}
 #define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
 #define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
@@ -845,7 +869,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0}
 #define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_zero                    {0}
@@ -868,6 +892,7 @@ extern "C" {
 #define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0}
 #define ui_ButtonMatrixProps_init_zero           {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_zero                  {0, 0}
+#define ui_TabviewProps_init_zero                {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN}
 #define ui_Point_init_zero                       {0, 0}
 #define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
 #define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
@@ -953,6 +978,10 @@ extern "C" {
 #define ui_ButtonMatrixProps_one_check_tag       2
 #define ui_TableProps_row_count_tag              1
 #define ui_TableProps_column_count_tag           2
+#define ui_TabviewProps_tab_names_tag            1
+#define ui_TabviewProps_tab_bar_size_tag         2
+#define ui_TabviewProps_active_index_tag         3
+#define ui_TabviewProps_tab_bar_position_tag     4
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
 #define ui_EventBinding_name_tag                 1
@@ -1006,6 +1035,7 @@ extern "C" {
 #define ui_WidgetNode_scale_props_tag            26
 #define ui_WidgetNode_buttonmatrix_props_tag     27
 #define ui_WidgetNode_table_props_tag            28
+#define ui_WidgetNode_tabview_props_tag          38
 #define ui_WidgetNode_visibility_tag             29
 #define ui_WidgetNode_bind_formats_tag           30
 #define ui_WidgetNode_obj_flags_tag              31
@@ -1015,6 +1045,7 @@ extern "C" {
 #define ui_WidgetNode_grid_col_dsc_tag           35
 #define ui_WidgetNode_grid_row_dsc_tag           36
 #define ui_WidgetNode_bare_tag                   37
+#define ui_WidgetNode_in_tab_bar_tag             39
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_ScaleSection_range_min_tag            1
@@ -1100,7 +1131,9 @@ X(a, STATIC,   SINGULAR, UINT32,   states,           33) \
 X(a, STATIC,   SINGULAR, UINT32,   scroll_dir,       34) \
 X(a, CALLBACK, REPEATED, INT32,    grid_col_dsc,     35) \
 X(a, CALLBACK, REPEATED, INT32,    grid_row_dsc,     36) \
-X(a, STATIC,   SINGULAR, BOOL,     bare,             37)
+X(a, STATIC,   SINGULAR, BOOL,     bare,             37) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,tabview_props,widget_props.tabview_props),  38) \
+X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1129,6 +1162,7 @@ X(a, STATIC,   SINGULAR, BOOL,     bare,             37)
 #define ui_WidgetNode_widget_props_table_props_MSGTYPE ui_TableProps
 #define ui_WidgetNode_visibility_MSGTYPE ui_VisibilityBinding
 #define ui_WidgetNode_bind_formats_MSGTYPE ui_WidgetNode_BindFormatsEntry
+#define ui_WidgetNode_widget_props_tabview_props_MSGTYPE ui_TabviewProps
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
@@ -1296,6 +1330,14 @@ X(a, STATIC,   SINGULAR, UINT32,   column_count,      2)
 #define ui_TableProps_CALLBACK NULL
 #define ui_TableProps_DEFAULT NULL
 
+#define ui_TabviewProps_FIELDLIST(X, a) \
+X(a, CALLBACK, REPEATED, STRING,   tab_names,         1) \
+X(a, STATIC,   SINGULAR, INT32,    tab_bar_size,      2) \
+X(a, STATIC,   SINGULAR, UINT32,   active_index,      3) \
+X(a, STATIC,   SINGULAR, UENUM,    tab_bar_position,   4)
+#define ui_TabviewProps_CALLBACK pb_default_field_callback
+#define ui_TabviewProps_DEFAULT NULL
+
 #define ui_Point_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 1) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 2)
@@ -1397,6 +1439,7 @@ extern const pb_msgdesc_t ui_ScaleProps_msg;
 extern const pb_msgdesc_t ui_ScaleSection_msg;
 extern const pb_msgdesc_t ui_ButtonMatrixProps_msg;
 extern const pb_msgdesc_t ui_TableProps_msg;
+extern const pb_msgdesc_t ui_TabviewProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
 extern const pb_msgdesc_t ui_EventBinding_msg;
 extern const pb_msgdesc_t ui_VisibilityBinding_msg;
@@ -1435,6 +1478,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_ScaleSection_fields &ui_ScaleSection_msg
 #define ui_ButtonMatrixProps_fields &ui_ButtonMatrixProps_msg
 #define ui_TableProps_fields &ui_TableProps_msg
+#define ui_TabviewProps_fields &ui_TabviewProps_msg
 #define ui_Point_fields &ui_Point_msg
 #define ui_EventBinding_fields &ui_EventBinding_msg
 #define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
@@ -1460,6 +1504,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_LineProps_size depends on runtime parameters */
 /* ui_ScaleProps_size depends on runtime parameters */
 /* ui_ButtonMatrixProps_size depends on runtime parameters */
+/* ui_TabviewProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */

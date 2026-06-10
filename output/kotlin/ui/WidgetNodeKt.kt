@@ -950,6 +950,30 @@ public object WidgetNodeKt {
     }
 
     /**
+     * `.ui.TabviewProps tabview_props = 38;`
+     */
+    public var tabviewProps: ui.UiAst.TabviewProps
+      @JvmName("getTabviewProps")
+      get() = _builder.tabviewProps
+      @JvmName("setTabviewProps")
+      set(value) {
+        _builder.tabviewProps = value
+      }
+    /**
+     * `.ui.TabviewProps tabview_props = 38;`
+     */
+    public fun clearTabviewProps() {
+      _builder.clearTabviewProps()
+    }
+    /**
+     * `.ui.TabviewProps tabview_props = 38;`
+     * @return Whether the tabviewProps field is set.
+     */
+    public fun hasTabviewProps(): kotlin.Boolean {
+      return _builder.hasTabviewProps()
+    }
+
+    /**
      * ```
      * Conditional visibility binding (show/hide based on subject value)
      * ```
@@ -1373,6 +1397,35 @@ public object WidgetNodeKt {
     public fun clearBare() {
       _builder.clearBare()
     }
+
+    /**
+     * ```
+     * Tab-bar slot selector — meaningful ONLY on a direct child of a
+     * WIDGET_TABVIEW node: true builds this child inside the tab bar
+     * (lv_tabview_get_tab_bar) instead of zipping into a tab page.
+     * ```
+     *
+     * `bool in_tab_bar = 39;`
+     */
+    public var inTabBar: kotlin.Boolean
+      @JvmName("getInTabBar")
+      get() = _builder.inTabBar
+      @JvmName("setInTabBar")
+      set(value) {
+        _builder.inTabBar = value
+      }
+    /**
+     * ```
+     * Tab-bar slot selector — meaningful ONLY on a direct child of a
+     * WIDGET_TABVIEW node: true builds this child inside the tab bar
+     * (lv_tabview_get_tab_bar) instead of zipping into a tab page.
+     * ```
+     *
+     * `bool in_tab_bar = 39;`
+     */
+    public fun clearInTabBar() {
+      _builder.clearInTabBar()
+    }
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()
@@ -1448,6 +1501,9 @@ public val ui.UiAst.WidgetNodeOrBuilder.buttonmatrixPropsOrNull: ui.UiAst.Button
 
 public val ui.UiAst.WidgetNodeOrBuilder.tablePropsOrNull: ui.UiAst.TableProps?
   get() = if (hasTableProps()) getTableProps() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.tabviewPropsOrNull: ui.UiAst.TabviewProps?
+  get() = if (hasTabviewProps()) getTabviewProps() else null
 
 public val ui.UiAst.WidgetNodeOrBuilder.visibilityOrNull: ui.UiAst.VisibilityBinding?
   get() = if (hasVisibility()) getVisibility() else null
