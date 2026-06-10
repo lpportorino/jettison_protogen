@@ -171,6 +171,12 @@ message SliderProps {
 
 message ImageProps {
   string src = 1 [(buf.validate.field).string = {max_len: 255}];
+  // Transform pivot (lv_image_set_pivot) — meaningful with rotation.
+  bool has_pivot = 2;
+  int32 pivot_x = 3;
+  int32 pivot_y = 4;
+  // Rotation in 0.1-degree units (lv_image_set_rotation).
+  int32 rotation = 5;
 }
 
 message ArcProps {
@@ -254,6 +260,20 @@ message ScaleProps {
   int32 max_value = 6;
   int32 rotation = 7;
   uint32 angle_range = 8 [(buf.validate.field).uint32 = {lte: 360}];
+  // Demo-parity extensions (lv_demo_widgets analytics scales):
+  // major-tick label sources ("\n"-joined custom texts).
+  string text_src = 9 [(buf.validate.field).string = {max_len: 255}];
+  // Draw tick labels after the needle/indicator (lv_scale_set_post_draw).
+  bool post_draw = 10;
+  // Colored value sections (lv_scale_section_*).
+  repeated ScaleSection sections = 11 [(buf.validate.field).repeated = {max_items: 4}];
+}
+
+message ScaleSection {
+  int32 range_min = 1;
+  int32 range_max = 2;
+  Color color = 3;
+  uint32 width = 4;
 }
 
 message ButtonMatrixProps {

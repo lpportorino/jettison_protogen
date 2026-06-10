@@ -37,3 +37,7 @@ ui.WidgetNode.BindingsEntry.value         max_size:64
 # stay narrow; the renderer appends LV_GRID_TEMPLATE_LAST within the cap).
 ui.WidgetNode.grid_col_dsc       max_count:12
 ui.WidgetNode.grid_row_dsc       max_count:12
+
+# Scale demo-parity extensions
+ui.ScaleProps.text_src           max_size:256
+ui.ScaleProps.sections           max_count:4
