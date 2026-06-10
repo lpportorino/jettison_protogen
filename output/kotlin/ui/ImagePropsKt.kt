@@ -44,6 +44,90 @@ public object ImagePropsKt {
     public fun clearSrc() {
       _builder.clearSrc()
     }
+
+    /**
+     * ```
+     * Transform pivot (lv_image_set_pivot) — meaningful with rotation.
+     * ```
+     *
+     * `bool has_pivot = 2;`
+     */
+    public var hasPivot: kotlin.Boolean
+      @JvmName("getHasPivot")
+      get() = _builder.hasPivot
+      @JvmName("setHasPivot")
+      set(value) {
+        _builder.hasPivot = value
+      }
+    /**
+     * ```
+     * Transform pivot (lv_image_set_pivot) — meaningful with rotation.
+     * ```
+     *
+     * `bool has_pivot = 2;`
+     */
+    public fun clearHasPivot() {
+      _builder.clearHasPivot()
+    }
+
+    /**
+     * `int32 pivot_x = 3;`
+     */
+    public var pivotX: kotlin.Int
+      @JvmName("getPivotX")
+      get() = _builder.pivotX
+      @JvmName("setPivotX")
+      set(value) {
+        _builder.pivotX = value
+      }
+    /**
+     * `int32 pivot_x = 3;`
+     */
+    public fun clearPivotX() {
+      _builder.clearPivotX()
+    }
+
+    /**
+     * `int32 pivot_y = 4;`
+     */
+    public var pivotY: kotlin.Int
+      @JvmName("getPivotY")
+      get() = _builder.pivotY
+      @JvmName("setPivotY")
+      set(value) {
+        _builder.pivotY = value
+      }
+    /**
+     * `int32 pivot_y = 4;`
+     */
+    public fun clearPivotY() {
+      _builder.clearPivotY()
+    }
+
+    /**
+     * ```
+     * Rotation in 0.1-degree units (lv_image_set_rotation).
+     * ```
+     *
+     * `int32 rotation = 5;`
+     */
+    public var rotation: kotlin.Int
+      @JvmName("getRotation")
+      get() = _builder.rotation
+      @JvmName("setRotation")
+      set(value) {
+        _builder.rotation = value
+      }
+    /**
+     * ```
+     * Rotation in 0.1-degree units (lv_image_set_rotation).
+     * ```
+     *
+     * `int32 rotation = 5;`
+     */
+    public fun clearRotation() {
+      _builder.clearRotation()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

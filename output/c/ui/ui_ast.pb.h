@@ -392,6 +392,12 @@ typedef struct _ui_SliderProps {
 
 typedef struct _ui_ImageProps {
     pb_callback_t src;
+    /* Transform pivot (lv_image_set_pivot) — meaningful with rotation. */
+    bool has_pivot;
+    int32_t pivot_x;
+    int32_t pivot_y;
+    /* Rotation in 0.1-degree units (lv_image_set_rotation). */
+    int32_t rotation;
 } ui_ImageProps;
 
 typedef struct _ui_ArcProps {
@@ -470,6 +476,13 @@ typedef struct _ui_ScaleProps {
     int32_t max_value;
     int32_t rotation;
     uint32_t angle_range;
+    /* Demo-parity extensions (lv_demo_widgets analytics scales):
+ major-tick label sources ("\n"-joined custom texts). */
+    pb_callback_t text_src;
+    /* Draw tick labels after the needle/indicator (lv_scale_set_post_draw). */
+    bool post_draw;
+    /* Colored value sections (lv_scale_section_*). */
+    pb_callback_t sections;
 } ui_ScaleProps;
 
 typedef struct _ui_ButtonMatrixProps {
@@ -617,6 +630,14 @@ typedef struct _ui_Screen {
     ui_WidgetNode root;
     pb_callback_t subjects; /* reactive subject declarations */
 } ui_Screen;
+
+typedef struct _ui_ScaleSection {
+    int32_t range_min;
+    int32_t range_max;
+    bool has_color;
+    ui_Color color;
+    uint32_t width;
+} ui_ScaleSection;
 
 typedef struct _ui_ShadowBundle {
     uint32_t width;
@@ -766,6 +787,7 @@ extern "C" {
 
 
 
+
 #define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
 
 #define ui_VisibilityBinding_compare_ENUMTYPE ui_CompareOp
@@ -794,7 +816,7 @@ extern "C" {
 #define ui_ButtonProps_init_default              {0}
 #define ui_LabelProps_init_default               {_ui_LabelLongMode_MIN}
 #define ui_SliderProps_init_default              {0, 0, 0, _ui_BarMode_MIN}
-#define ui_ImageProps_init_default               {{{NULL}, NULL}}
+#define ui_ImageProps_init_default               {{{NULL}, NULL}, 0, 0, 0, 0}
 #define ui_ArcProps_init_default                 {0, 0, 0, 0, 0, _ui_ArcMode_MIN, 0, 0, 0}
 #define ui_BarProps_init_default                 {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_default              {0}
@@ -806,7 +828,8 @@ extern "C" {
 #define ui_SpinnerProps_init_default             {0, 0}
 #define ui_LedProps_init_default                 {false, ui_Color_init_default, 0}
 #define ui_LineProps_init_default                {{{NULL}, NULL}, 0}
-#define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0}
+#define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}}
+#define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0}
 #define ui_ButtonMatrixProps_init_default        {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_default               {0, 0}
 #define ui_Point_init_default                    {0, 0}
@@ -829,7 +852,7 @@ extern "C" {
 #define ui_ButtonProps_init_zero                 {0}
 #define ui_LabelProps_init_zero                  {_ui_LabelLongMode_MIN}
 #define ui_SliderProps_init_zero                 {0, 0, 0, _ui_BarMode_MIN}
-#define ui_ImageProps_init_zero                  {{{NULL}, NULL}}
+#define ui_ImageProps_init_zero                  {{{NULL}, NULL}, 0, 0, 0, 0}
 #define ui_ArcProps_init_zero                    {0, 0, 0, 0, 0, _ui_ArcMode_MIN, 0, 0, 0}
 #define ui_BarProps_init_zero                    {0, 0, 0, 0, _ui_BarMode_MIN}
 #define ui_SwitchProps_init_zero                 {0}
@@ -841,7 +864,8 @@ extern "C" {
 #define ui_SpinnerProps_init_zero                {0, 0}
 #define ui_LedProps_init_zero                    {false, ui_Color_init_zero, 0}
 #define ui_LineProps_init_zero                   {{{NULL}, NULL}, 0}
-#define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0}
+#define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}}
+#define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0}
 #define ui_ButtonMatrixProps_init_zero           {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_zero                  {0, 0}
 #define ui_Point_init_zero                       {0, 0}
@@ -873,6 +897,10 @@ extern "C" {
 #define ui_SliderProps_value_tag                 3
 #define ui_SliderProps_mode_tag                  4
 #define ui_ImageProps_src_tag                    1
+#define ui_ImageProps_has_pivot_tag              2
+#define ui_ImageProps_pivot_x_tag                3
+#define ui_ImageProps_pivot_y_tag                4
+#define ui_ImageProps_rotation_tag               5
 #define ui_ArcProps_start_angle_tag              1
 #define ui_ArcProps_end_angle_tag                2
 #define ui_ArcProps_bg_start_angle_tag           3
@@ -918,6 +946,9 @@ extern "C" {
 #define ui_ScaleProps_max_value_tag              6
 #define ui_ScaleProps_rotation_tag               7
 #define ui_ScaleProps_angle_range_tag            8
+#define ui_ScaleProps_text_src_tag               9
+#define ui_ScaleProps_post_draw_tag              10
+#define ui_ScaleProps_sections_tag               11
 #define ui_ButtonMatrixProps_map_str_tag         1
 #define ui_ButtonMatrixProps_one_check_tag       2
 #define ui_TableProps_row_count_tag              1
@@ -986,6 +1017,10 @@ extern "C" {
 #define ui_WidgetNode_bare_tag                   37
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
+#define ui_ScaleSection_range_min_tag            1
+#define ui_ScaleSection_range_max_tag            2
+#define ui_ScaleSection_color_tag                3
+#define ui_ScaleSection_width_tag                4
 #define ui_ShadowBundle_width_tag                1
 #define ui_ShadowBundle_offset_x_tag             2
 #define ui_ShadowBundle_offset_y_tag             3
@@ -1131,7 +1166,11 @@ X(a, STATIC,   SINGULAR, UENUM,    mode,              4)
 #define ui_SliderProps_DEFAULT NULL
 
 #define ui_ImageProps_FIELDLIST(X, a) \
-X(a, CALLBACK, SINGULAR, STRING,   src,               1)
+X(a, CALLBACK, SINGULAR, STRING,   src,               1) \
+X(a, STATIC,   SINGULAR, BOOL,     has_pivot,         2) \
+X(a, STATIC,   SINGULAR, INT32,    pivot_x,           3) \
+X(a, STATIC,   SINGULAR, INT32,    pivot_y,           4) \
+X(a, STATIC,   SINGULAR, INT32,    rotation,          5)
 #define ui_ImageProps_CALLBACK pb_default_field_callback
 #define ui_ImageProps_DEFAULT NULL
 
@@ -1228,9 +1267,22 @@ X(a, STATIC,   SINGULAR, BOOL,     label_show,        4) \
 X(a, STATIC,   SINGULAR, INT32,    min_value,         5) \
 X(a, STATIC,   SINGULAR, INT32,    max_value,         6) \
 X(a, STATIC,   SINGULAR, INT32,    rotation,          7) \
-X(a, STATIC,   SINGULAR, UINT32,   angle_range,       8)
-#define ui_ScaleProps_CALLBACK NULL
+X(a, STATIC,   SINGULAR, UINT32,   angle_range,       8) \
+X(a, CALLBACK, SINGULAR, STRING,   text_src,          9) \
+X(a, STATIC,   SINGULAR, BOOL,     post_draw,        10) \
+X(a, CALLBACK, REPEATED, MESSAGE,  sections,         11)
+#define ui_ScaleProps_CALLBACK pb_default_field_callback
 #define ui_ScaleProps_DEFAULT NULL
+#define ui_ScaleProps_sections_MSGTYPE ui_ScaleSection
+
+#define ui_ScaleSection_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT32,    range_min,         1) \
+X(a, STATIC,   SINGULAR, INT32,    range_max,         2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  color,             3) \
+X(a, STATIC,   SINGULAR, UINT32,   width,             4)
+#define ui_ScaleSection_CALLBACK NULL
+#define ui_ScaleSection_DEFAULT NULL
+#define ui_ScaleSection_color_MSGTYPE ui_Color
 
 #define ui_ButtonMatrixProps_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   map_str,           1) \
@@ -1342,6 +1394,7 @@ extern const pb_msgdesc_t ui_SpinnerProps_msg;
 extern const pb_msgdesc_t ui_LedProps_msg;
 extern const pb_msgdesc_t ui_LineProps_msg;
 extern const pb_msgdesc_t ui_ScaleProps_msg;
+extern const pb_msgdesc_t ui_ScaleSection_msg;
 extern const pb_msgdesc_t ui_ButtonMatrixProps_msg;
 extern const pb_msgdesc_t ui_TableProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
@@ -1379,6 +1432,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_LedProps_fields &ui_LedProps_msg
 #define ui_LineProps_fields &ui_LineProps_msg
 #define ui_ScaleProps_fields &ui_ScaleProps_msg
+#define ui_ScaleSection_fields &ui_ScaleSection_msg
 #define ui_ButtonMatrixProps_fields &ui_ButtonMatrixProps_msg
 #define ui_TableProps_fields &ui_TableProps_msg
 #define ui_Point_fields &ui_Point_msg
@@ -1404,6 +1458,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_RollerProps_size depends on runtime parameters */
 /* ui_TextareaProps_size depends on runtime parameters */
 /* ui_LineProps_size depends on runtime parameters */
+/* ui_ScaleProps_size depends on runtime parameters */
 /* ui_ButtonMatrixProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
@@ -1421,7 +1476,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_LedProps_size                         26
 #define ui_ObjProps_size                         0
 #define ui_Point_size                            22
-#define ui_ScaleProps_size                       55
+#define ui_ScaleSection_size                     48
 #define ui_ShadowBundle_size                     40
 #define ui_SliderProps_size                      35
 #define ui_SpinboxProps_size                     56

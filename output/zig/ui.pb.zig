@@ -1271,9 +1271,17 @@ pub const SliderProps = struct {
 
 pub const ImageProps = struct {
     src: []const u8 = &.{},
+    has_pivot: bool = false,
+    pivot_x: i32 = 0,
+    pivot_y: i32 = 0,
+    rotation: i32 = 0,
 
     pub const _desc_table = .{
         .src = fd(1, .{ .scalar = .string }),
+        .has_pivot = fd(2, .{ .scalar = .bool }),
+        .pivot_x = fd(3, .{ .scalar = .int32 }),
+        .pivot_y = fd(4, .{ .scalar = .int32 }),
+        .rotation = fd(5, .{ .scalar = .int32 }),
     };
 
     /// Encodes the message to the writer
@@ -2186,6 +2194,9 @@ pub const ScaleProps = struct {
     max_value: i32 = 0,
     rotation: i32 = 0,
     angle_range: u32 = 0,
+    text_src: []const u8 = &.{},
+    post_draw: bool = false,
+    sections: std.ArrayListUnmanaged(ScaleSection) = .empty,
 
     pub const _desc_table = .{
         .mode = fd(1, .@"enum"),
@@ -2196,6 +2207,86 @@ pub const ScaleProps = struct {
         .max_value = fd(6, .{ .scalar = .int32 }),
         .rotation = fd(7, .{ .scalar = .int32 }),
         .angle_range = fd(8, .{ .scalar = .uint32 }),
+        .text_src = fd(9, .{ .scalar = .string }),
+        .post_draw = fd(10, .{ .scalar = .bool }),
+        .sections = fd(11, .{ .repeated = .submessage}),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const ScaleSection = struct {
+    range_min: i32 = 0,
+    range_max: i32 = 0,
+    color: ?Color = null,
+    width: u32 = 0,
+
+    pub const _desc_table = .{
+        .range_min = fd(1, .{ .scalar = .int32 }),
+        .range_max = fd(2, .{ .scalar = .int32 }),
+        .color = fd(3, .submessage),
+        .width = fd(4, .{ .scalar = .uint32 }),
     };
 
     /// Encodes the message to the writer

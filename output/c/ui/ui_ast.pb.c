@@ -78,6 +78,9 @@ PB_BIND(ui_LineProps, ui_LineProps, AUTO)
 PB_BIND(ui_ScaleProps, ui_ScaleProps, AUTO)
 
 
+PB_BIND(ui_ScaleSection, ui_ScaleSection, AUTO)
+
+
 PB_BIND(ui_ButtonMatrixProps, ui_ButtonMatrixProps, AUTO)
 
 

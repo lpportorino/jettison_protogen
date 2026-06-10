@@ -2053,6 +2053,12 @@ export interface SliderProps {
 
 export interface ImageProps {
   src: string;
+  /** Transform pivot (lv_image_set_pivot) — meaningful with rotation. */
+  hasPivot: boolean;
+  pivotX: number;
+  pivotY: number;
+  /** Rotation in 0.1-degree units (lv_image_set_rotation). */
+  rotation: number;
 }
 
 export interface ArcProps {
@@ -2136,6 +2142,22 @@ export interface ScaleProps {
   maxValue: number;
   rotation: number;
   angleRange: number;
+  /**
+   * Demo-parity extensions (lv_demo_widgets analytics scales):
+   * major-tick label sources ("\n"-joined custom texts).
+   */
+  textSrc: string;
+  /** Draw tick labels after the needle/indicator (lv_scale_set_post_draw). */
+  postDraw: boolean;
+  /** Colored value sections (lv_scale_section_*). */
+  sections: ScaleSection[];
+}
+
+export interface ScaleSection {
+  rangeMin: number;
+  rangeMax: number;
+  color: Color | undefined;
+  width: number;
 }
 
 export interface ButtonMatrixProps {
@@ -3915,13 +3937,25 @@ export const SliderProps: MessageFns<SliderProps> = {
 };
 
 function createBaseImageProps(): ImageProps {
-  return { src: "" };
+  return { src: "", hasPivot: false, pivotX: 0, pivotY: 0, rotation: 0 };
 }
 
 export const ImageProps: MessageFns<ImageProps> = {
   encode(message: ImageProps, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.src !== "") {
       writer.uint32(10).string(message.src);
+    }
+    if (message.hasPivot !== false) {
+      writer.uint32(16).bool(message.hasPivot);
+    }
+    if (message.pivotX !== 0) {
+      writer.uint32(24).int32(message.pivotX);
+    }
+    if (message.pivotY !== 0) {
+      writer.uint32(32).int32(message.pivotY);
+    }
+    if (message.rotation !== 0) {
+      writer.uint32(40).int32(message.rotation);
     }
     return writer;
   },
@@ -3941,6 +3975,38 @@ export const ImageProps: MessageFns<ImageProps> = {
           message.src = reader.string();
           continue;
         }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.hasPivot = reader.bool();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.pivotX = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.pivotY = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.rotation = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3951,13 +4017,43 @@ export const ImageProps: MessageFns<ImageProps> = {
   },
 
   fromJSON(object: any): ImageProps {
-    return { src: isSet(object.src) ? globalThis.String(object.src) : "" };
+    return {
+      src: isSet(object.src) ? globalThis.String(object.src) : "",
+      hasPivot: isSet(object.hasPivot)
+        ? globalThis.Boolean(object.hasPivot)
+        : isSet(object.has_pivot)
+        ? globalThis.Boolean(object.has_pivot)
+        : false,
+      pivotX: isSet(object.pivotX)
+        ? globalThis.Number(object.pivotX)
+        : isSet(object.pivot_x)
+        ? globalThis.Number(object.pivot_x)
+        : 0,
+      pivotY: isSet(object.pivotY)
+        ? globalThis.Number(object.pivotY)
+        : isSet(object.pivot_y)
+        ? globalThis.Number(object.pivot_y)
+        : 0,
+      rotation: isSet(object.rotation) ? globalThis.Number(object.rotation) : 0,
+    };
   },
 
   toJSON(message: ImageProps): unknown {
     const obj: any = {};
     if (message.src !== "") {
       obj.src = message.src;
+    }
+    if (message.hasPivot !== false) {
+      obj.hasPivot = message.hasPivot;
+    }
+    if (message.pivotX !== 0) {
+      obj.pivotX = Math.round(message.pivotX);
+    }
+    if (message.pivotY !== 0) {
+      obj.pivotY = Math.round(message.pivotY);
+    }
+    if (message.rotation !== 0) {
+      obj.rotation = Math.round(message.rotation);
     }
     return obj;
   },
@@ -3968,6 +4064,10 @@ export const ImageProps: MessageFns<ImageProps> = {
   fromPartial<I extends Exact<DeepPartial<ImageProps>, I>>(object: I): ImageProps {
     const message = createBaseImageProps();
     message.src = object.src ?? "";
+    message.hasPivot = object.hasPivot ?? false;
+    message.pivotX = object.pivotX ?? 0;
+    message.pivotY = object.pivotY ?? 0;
+    message.rotation = object.rotation ?? 0;
     return message;
   },
 };
@@ -5176,6 +5276,9 @@ function createBaseScaleProps(): ScaleProps {
     maxValue: 0,
     rotation: 0,
     angleRange: 0,
+    textSrc: "",
+    postDraw: false,
+    sections: [],
   };
 }
 
@@ -5204,6 +5307,15 @@ export const ScaleProps: MessageFns<ScaleProps> = {
     }
     if (message.angleRange !== 0) {
       writer.uint32(64).uint32(message.angleRange);
+    }
+    if (message.textSrc !== "") {
+      writer.uint32(74).string(message.textSrc);
+    }
+    if (message.postDraw !== false) {
+      writer.uint32(80).bool(message.postDraw);
+    }
+    for (const v of message.sections) {
+      ScaleSection.encode(v!, writer.uint32(90).fork()).join();
     }
     return writer;
   },
@@ -5279,6 +5391,30 @@ export const ScaleProps: MessageFns<ScaleProps> = {
           message.angleRange = reader.uint32();
           continue;
         }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.textSrc = reader.string();
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.postDraw = reader.bool();
+          continue;
+        }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.sections.push(ScaleSection.decode(reader, reader.uint32()));
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -5322,6 +5458,19 @@ export const ScaleProps: MessageFns<ScaleProps> = {
         : isSet(object.angle_range)
         ? globalThis.Number(object.angle_range)
         : 0,
+      textSrc: isSet(object.textSrc)
+        ? globalThis.String(object.textSrc)
+        : isSet(object.text_src)
+        ? globalThis.String(object.text_src)
+        : "",
+      postDraw: isSet(object.postDraw)
+        ? globalThis.Boolean(object.postDraw)
+        : isSet(object.post_draw)
+        ? globalThis.Boolean(object.post_draw)
+        : false,
+      sections: globalThis.Array.isArray(object?.sections)
+        ? object.sections.map((e: any) => ScaleSection.fromJSON(e))
+        : [],
     };
   },
 
@@ -5351,6 +5500,15 @@ export const ScaleProps: MessageFns<ScaleProps> = {
     if (message.angleRange !== 0) {
       obj.angleRange = Math.round(message.angleRange);
     }
+    if (message.textSrc !== "") {
+      obj.textSrc = message.textSrc;
+    }
+    if (message.postDraw !== false) {
+      obj.postDraw = message.postDraw;
+    }
+    if (message.sections?.length) {
+      obj.sections = message.sections.map((e) => ScaleSection.toJSON(e));
+    }
     return obj;
   },
 
@@ -5367,6 +5525,125 @@ export const ScaleProps: MessageFns<ScaleProps> = {
     message.maxValue = object.maxValue ?? 0;
     message.rotation = object.rotation ?? 0;
     message.angleRange = object.angleRange ?? 0;
+    message.textSrc = object.textSrc ?? "";
+    message.postDraw = object.postDraw ?? false;
+    message.sections = object.sections?.map((e) => ScaleSection.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseScaleSection(): ScaleSection {
+  return { rangeMin: 0, rangeMax: 0, color: undefined, width: 0 };
+}
+
+export const ScaleSection: MessageFns<ScaleSection> = {
+  encode(message: ScaleSection, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.rangeMin !== 0) {
+      writer.uint32(8).int32(message.rangeMin);
+    }
+    if (message.rangeMax !== 0) {
+      writer.uint32(16).int32(message.rangeMax);
+    }
+    if (message.color !== undefined) {
+      Color.encode(message.color, writer.uint32(26).fork()).join();
+    }
+    if (message.width !== 0) {
+      writer.uint32(32).uint32(message.width);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ScaleSection {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseScaleSection();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.rangeMin = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.rangeMax = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.color = Color.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.width = reader.uint32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ScaleSection {
+    return {
+      rangeMin: isSet(object.rangeMin)
+        ? globalThis.Number(object.rangeMin)
+        : isSet(object.range_min)
+        ? globalThis.Number(object.range_min)
+        : 0,
+      rangeMax: isSet(object.rangeMax)
+        ? globalThis.Number(object.rangeMax)
+        : isSet(object.range_max)
+        ? globalThis.Number(object.range_max)
+        : 0,
+      color: isSet(object.color) ? Color.fromJSON(object.color) : undefined,
+      width: isSet(object.width) ? globalThis.Number(object.width) : 0,
+    };
+  },
+
+  toJSON(message: ScaleSection): unknown {
+    const obj: any = {};
+    if (message.rangeMin !== 0) {
+      obj.rangeMin = Math.round(message.rangeMin);
+    }
+    if (message.rangeMax !== 0) {
+      obj.rangeMax = Math.round(message.rangeMax);
+    }
+    if (message.color !== undefined) {
+      obj.color = Color.toJSON(message.color);
+    }
+    if (message.width !== 0) {
+      obj.width = Math.round(message.width);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ScaleSection>, I>>(base?: I): ScaleSection {
+    return ScaleSection.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ScaleSection>, I>>(object: I): ScaleSection {
+    const message = createBaseScaleSection();
+    message.rangeMin = object.rangeMin ?? 0;
+    message.rangeMax = object.rangeMax ?? 0;
+    message.color = (object.color !== undefined && object.color !== null) ? Color.fromPartial(object.color) : undefined;
+    message.width = object.width ?? 0;
     return message;
   },
 };

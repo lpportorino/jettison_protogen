@@ -700,10 +700,18 @@ class SliderProps(_message.Message):
     def __init__(self, min_value: _Optional[int] = ..., max_value: _Optional[int] = ..., value: _Optional[int] = ..., mode: _Optional[_Union[BarMode, str]] = ...) -> None: ...
 
 class ImageProps(_message.Message):
-    __slots__ = ("src",)
+    __slots__ = ("src", "has_pivot", "pivot_x", "pivot_y", "rotation")
     SRC_FIELD_NUMBER: _ClassVar[int]
+    HAS_PIVOT_FIELD_NUMBER: _ClassVar[int]
+    PIVOT_X_FIELD_NUMBER: _ClassVar[int]
+    PIVOT_Y_FIELD_NUMBER: _ClassVar[int]
+    ROTATION_FIELD_NUMBER: _ClassVar[int]
     src: str
-    def __init__(self, src: _Optional[str] = ...) -> None: ...
+    has_pivot: bool
+    pivot_x: int
+    pivot_y: int
+    rotation: int
+    def __init__(self, src: _Optional[str] = ..., has_pivot: bool = ..., pivot_x: _Optional[int] = ..., pivot_y: _Optional[int] = ..., rotation: _Optional[int] = ...) -> None: ...
 
 class ArcProps(_message.Message):
     __slots__ = ("start_angle", "end_angle", "bg_start_angle", "bg_end_angle", "rotation", "mode", "min_value", "max_value", "value")
@@ -828,7 +836,7 @@ class LineProps(_message.Message):
     def __init__(self, points: _Optional[_Iterable[_Union[Point, _Mapping]]] = ..., y_invert: bool = ...) -> None: ...
 
 class ScaleProps(_message.Message):
-    __slots__ = ("mode", "total_tick_count", "major_tick_every", "label_show", "min_value", "max_value", "rotation", "angle_range")
+    __slots__ = ("mode", "total_tick_count", "major_tick_every", "label_show", "min_value", "max_value", "rotation", "angle_range", "text_src", "post_draw", "sections")
     MODE_FIELD_NUMBER: _ClassVar[int]
     TOTAL_TICK_COUNT_FIELD_NUMBER: _ClassVar[int]
     MAJOR_TICK_EVERY_FIELD_NUMBER: _ClassVar[int]
@@ -837,6 +845,9 @@ class ScaleProps(_message.Message):
     MAX_VALUE_FIELD_NUMBER: _ClassVar[int]
     ROTATION_FIELD_NUMBER: _ClassVar[int]
     ANGLE_RANGE_FIELD_NUMBER: _ClassVar[int]
+    TEXT_SRC_FIELD_NUMBER: _ClassVar[int]
+    POST_DRAW_FIELD_NUMBER: _ClassVar[int]
+    SECTIONS_FIELD_NUMBER: _ClassVar[int]
     mode: ScaleMode
     total_tick_count: int
     major_tick_every: int
@@ -845,7 +856,22 @@ class ScaleProps(_message.Message):
     max_value: int
     rotation: int
     angle_range: int
-    def __init__(self, mode: _Optional[_Union[ScaleMode, str]] = ..., total_tick_count: _Optional[int] = ..., major_tick_every: _Optional[int] = ..., label_show: bool = ..., min_value: _Optional[int] = ..., max_value: _Optional[int] = ..., rotation: _Optional[int] = ..., angle_range: _Optional[int] = ...) -> None: ...
+    text_src: str
+    post_draw: bool
+    sections: _containers.RepeatedCompositeFieldContainer[ScaleSection]
+    def __init__(self, mode: _Optional[_Union[ScaleMode, str]] = ..., total_tick_count: _Optional[int] = ..., major_tick_every: _Optional[int] = ..., label_show: bool = ..., min_value: _Optional[int] = ..., max_value: _Optional[int] = ..., rotation: _Optional[int] = ..., angle_range: _Optional[int] = ..., text_src: _Optional[str] = ..., post_draw: bool = ..., sections: _Optional[_Iterable[_Union[ScaleSection, _Mapping]]] = ...) -> None: ...
+
+class ScaleSection(_message.Message):
+    __slots__ = ("range_min", "range_max", "color", "width")
+    RANGE_MIN_FIELD_NUMBER: _ClassVar[int]
+    RANGE_MAX_FIELD_NUMBER: _ClassVar[int]
+    COLOR_FIELD_NUMBER: _ClassVar[int]
+    WIDTH_FIELD_NUMBER: _ClassVar[int]
+    range_min: int
+    range_max: int
+    color: Color
+    width: int
+    def __init__(self, range_min: _Optional[int] = ..., range_max: _Optional[int] = ..., color: _Optional[_Union[Color, _Mapping]] = ..., width: _Optional[int] = ...) -> None: ...
 
 class ButtonMatrixProps(_message.Message):
     __slots__ = ("map_str", "one_check")

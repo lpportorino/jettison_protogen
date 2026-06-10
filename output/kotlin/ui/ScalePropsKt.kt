@@ -170,6 +170,158 @@ public object ScalePropsKt {
     public fun clearAngleRange() {
       _builder.clearAngleRange()
     }
+
+    /**
+     * ```
+     * Demo-parity extensions (lv_demo_widgets analytics scales):
+     * major-tick label sources ("\n"-joined custom texts).
+     * ```
+     *
+     * `string text_src = 9 [(.buf.validate.field) = { ... }`
+     */
+    public var textSrc: kotlin.String
+      @JvmName("getTextSrc")
+      get() = _builder.textSrc
+      @JvmName("setTextSrc")
+      set(value) {
+        _builder.textSrc = value
+      }
+    /**
+     * ```
+     * Demo-parity extensions (lv_demo_widgets analytics scales):
+     * major-tick label sources ("\n"-joined custom texts).
+     * ```
+     *
+     * `string text_src = 9 [(.buf.validate.field) = { ... }`
+     */
+    public fun clearTextSrc() {
+      _builder.clearTextSrc()
+    }
+
+    /**
+     * ```
+     * Draw tick labels after the needle/indicator (lv_scale_set_post_draw).
+     * ```
+     *
+     * `bool post_draw = 10;`
+     */
+    public var postDraw: kotlin.Boolean
+      @JvmName("getPostDraw")
+      get() = _builder.postDraw
+      @JvmName("setPostDraw")
+      set(value) {
+        _builder.postDraw = value
+      }
+    /**
+     * ```
+     * Draw tick labels after the needle/indicator (lv_scale_set_post_draw).
+     * ```
+     *
+     * `bool post_draw = 10;`
+     */
+    public fun clearPostDraw() {
+      _builder.clearPostDraw()
+    }
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class SectionsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     */
+     public val sections: com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>
+      @kotlin.jvm.JvmSynthetic
+      get() = com.google.protobuf.kotlin.DslList(
+        _builder.sectionsList
+      )
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     * @param value The sections to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addSections")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.add(value: ui.UiAst.ScaleSection) {
+      _builder.addSections(value)
+    }
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     * @param value The sections to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignSections")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.plusAssign(value: ui.UiAst.ScaleSection) {
+      add(value)
+    }
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     * @param values The sections to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("addAllSections")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.ScaleSection>) {
+      _builder.addAllSections(values)
+    }
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     * @param values The sections to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("plusAssignAllSections")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.ScaleSection>) {
+      addAll(values)
+    }
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     * @param index The index to set the value at.
+     * @param value The sections to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("setSections")
+    public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.set(index: kotlin.Int, value: ui.UiAst.ScaleSection) {
+      _builder.setSections(index, value)
+    }
+    /**
+     * ```
+     * Colored value sections (lv_scale_section_*).
+     * ```
+     *
+     * `repeated .ui.ScaleSection sections = 11 [(.buf.validate.field) = { ... }`
+     */
+    @kotlin.jvm.JvmSynthetic
+    @kotlin.jvm.JvmName("clearSections")
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ScaleSection, SectionsProxy>.clear() {
+      _builder.clearSections()
+    }
+
   }
 }
 @kotlin.jvm.JvmSynthetic
