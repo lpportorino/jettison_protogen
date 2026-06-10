@@ -41,3 +41,6 @@ ui.WidgetNode.grid_row_dsc       max_count:12
 # Scale demo-parity extensions
 ui.ScaleProps.text_src           max_size:256
 ui.ScaleProps.sections           max_count:4
+
+# Tabview demo-parity arm
+ui.TabviewProps.tab_names        max_count:8 max_size:32

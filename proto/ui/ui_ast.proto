@@ -98,6 +98,7 @@ message WidgetNode {
     ScaleProps scale_props = 26;
     ButtonMatrixProps buttonmatrix_props = 27;
     TableProps table_props = 28;
+    TabviewProps tabview_props = 38;
   }
 
   // Conditional visibility binding (show/hide based on subject value)
@@ -128,6 +129,11 @@ message WidgetNode {
   // Strip ALL theme/base styles before applying style_groups
   // (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
   bool bare = 37;
+
+  // Tab-bar slot selector — meaningful ONLY on a direct child of a
+  // WIDGET_TABVIEW node: true builds this child inside the tab bar
+  // (lv_tabview_get_tab_bar) instead of zipping into a tab page.
+  bool in_tab_bar = 39;
 }
 
 enum WidgetType {
@@ -150,6 +156,7 @@ enum WidgetType {
   WIDGET_SCALE = 16;
   WIDGET_BUTTONMATRIX = 17;
   WIDGET_TABLE = 18;
+  WIDGET_TABVIEW = 19;
 }
 
 // -- Widget-specific properties messages --
@@ -284,6 +291,26 @@ message ButtonMatrixProps {
 message TableProps {
   uint32 row_count = 1;
   uint32 column_count = 2;
+}
+
+message TabviewProps {
+  // Tab names, one per content child of the tabview node — child i of the
+  // node's regular children list becomes tab i's page content (children
+  // flagged in_tab_bar are excluded from the zip; they go to the tab bar).
+  repeated string tab_names = 1 [(buf.validate.field).repeated = {
+    max_items: 8
+    items: {
+      string: {max_len: 31}
+    }
+  }];
+  // Tab bar size in px (height for top/bottom bars, width for left/right);
+  // 0 = keep the LVGL default (DPI-derived).
+  int32 tab_bar_size = 2;
+  // Initially active tab index (applied LAST, with LV_ANIM_OFF).
+  uint32 active_index = 3;
+  // Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
+  // the LVGL default (top).
+  Dir tab_bar_position = 4 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 // -- Supporting types --
