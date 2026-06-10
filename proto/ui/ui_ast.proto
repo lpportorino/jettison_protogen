@@ -105,6 +105,29 @@ message WidgetNode {
 
   // Format strings for bound text (key = binding key, value = printf format)
   map<string, string> bind_formats = 30;
+
+  // LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+  // parity-gated). 0 = no extra flags.
+  uint32 obj_flags = 31;
+
+  // LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels).
+  uint32 obj_flags_clear = 32;
+
+  // lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
+  uint32 states = 33;
+
+  // lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+  uint32 scroll_dir = 34;
+
+  // Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+  // encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+  // no grid layout.
+  repeated int32 grid_col_dsc = 35;
+  repeated int32 grid_row_dsc = 36;
+
+  // Strip ALL theme/base styles before applying style_groups
+  // (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
+  bool bare = 37;
 }
 
 enum WidgetType {

@@ -32,3 +32,8 @@ ui.WidgetNode.BindFormatsEntry.key        max_size:64
 ui.WidgetNode.BindFormatsEntry.value      max_size:256
 ui.WidgetNode.BindingsEntry.key           max_size:64
 ui.WidgetNode.BindingsEntry.value         max_size:64
+
+# Grid track templates: small bounded arrays (LVGL grids in our screens
+# stay narrow; the renderer appends LV_GRID_TEMPLATE_LAST within the cap).
+ui.WidgetNode.grid_col_dsc       max_count:12
+ui.WidgetNode.grid_row_dsc       max_count:12
