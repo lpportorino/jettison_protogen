@@ -44,3 +44,9 @@ ui.ScaleProps.sections           max_count:4
 
 # Tabview demo-parity arm
 ui.TabviewProps.tab_names        max_count:8 max_size:32
+
+# Chart demo-parity arm: demo max is 3 series x 12 values; bounds carry
+# headroom (8 x 32). Static nanopb arrays — the decoded values are COPIED
+# into the chart's own y_points by the renderer, so no pool is needed.
+ui.ChartProps.series             max_count:8
+ui.ChartSeries.values            max_count:32

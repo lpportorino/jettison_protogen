@@ -99,6 +99,7 @@ message WidgetNode {
     ButtonMatrixProps buttonmatrix_props = 27;
     TableProps table_props = 28;
     TabviewProps tabview_props = 38;
+    ChartProps chart_props = 40;
   }
 
   // Conditional visibility binding (show/hide based on subject value)
@@ -157,6 +158,7 @@ enum WidgetType {
   WIDGET_BUTTONMATRIX = 17;
   WIDGET_TABLE = 18;
   WIDGET_TABVIEW = 19;
+  WIDGET_CHART = 20;
 }
 
 // -- Widget-specific properties messages --
@@ -311,6 +313,38 @@ message TabviewProps {
   // Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
   // the LVGL default (top).
   Dir tab_bar_position = 4 [(buf.validate.field).enum = {defined_only: true}];
+}
+
+// One chart data series (lv_chart_add_series + per-index value writes).
+message ChartSeries {
+  // Series color; absent = the theme primary color (the demo's default
+  // for its unstyled series).
+  Color color = 1;
+  // Y axis the series attaches to — lv_chart_axis_t direct-cast
+  // (parity-gated, sparse bitmask values); PRIMARY_Y (0) is the default.
+  ChartAxis axis = 2 [(buf.validate.field).enum = {defined_only: true}];
+  // Frozen-frame data points, written BY INDEX (point i = values[i] via
+  // lv_chart_set_series_value_by_id); points past the list keep
+  // LV_CHART_POINT_NONE.
+  repeated int32 values = 3 [(buf.validate.field).repeated = {max_items: 32}];
+}
+
+message ChartProps {
+  // lv_chart_type_t direct-cast (parity-gated); NONE (0) = keep the LVGL
+  // default (LINE).
+  ChartType type = 1 [(buf.validate.field).enum = {defined_only: true}];
+  // 0 = keep the LVGL default point count.
+  uint32 point_count = 2;
+  // Division lines: 0 is a VALID explicit count (the demo sets 0,12), so
+  // presence rides has_div_lines (the ImageProps.has_pivot pattern);
+  // false = keep the LVGL defaults (HDIV_DEF/VDIV_DEF).
+  bool has_div_lines = 3;
+  uint32 hdiv_count = 4 [(buf.validate.field).uint32 = {lte: 255}];
+  uint32 vdiv_count = 5 [(buf.validate.field).uint32 = {lte: 255}];
+  repeated ChartSeries series = 6 [(buf.validate.field).repeated = {max_items: 8}];
+  // Replicate the demo's chart fader draw-event: a vertical-gradient area
+  // under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED).
+  bool fade_area = 7;
 }
 
 // -- Supporting types --
@@ -522,6 +556,22 @@ enum ScaleMode {
   SCALE_MODE_VERTICAL_RIGHT = 4;
   SCALE_MODE_ROUND_INNER = 8;
   SCALE_MODE_ROUND_OUTER = 16;
+}
+
+enum ChartType {
+  CHART_TYPE_NONE = 0;
+  CHART_TYPE_LINE = 1;
+  CHART_TYPE_CURVE = 2;
+  CHART_TYPE_BAR = 3;
+  CHART_TYPE_STACKED = 4;
+  CHART_TYPE_SCATTER = 5;
+}
+
+enum ChartAxis {
+  CHART_AXIS_PRIMARY_Y = 0;
+  CHART_AXIS_SECONDARY_Y = 1;
+  CHART_AXIS_PRIMARY_X = 2;
+  CHART_AXIS_SECONDARY_X = 4;
 }
 
 // -- Style system --
