@@ -13,10 +13,13 @@ enum SubjectType {
 // Declaration of a reactive subject (lives in Screen, initialized at load time)
 message SubjectDeclaration {
   // unique identifier, e.g. "zoom_level"
-  string name = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
+  string name = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
   SubjectType type = 2 [(buf.validate.field).enum = {defined_only: true}];
   oneof initial {
-    int32 int_initial = 3;    // default value for INT subjects
+    int32 int_initial = 3; // default value for INT subjects
     // default value for STRING subjects
     string string_initial = 4 [(buf.validate.field).string = {max_len: 255}];
   }
@@ -29,7 +32,10 @@ message StateUpdate {
 
 // A single subject value in a state update
 message SubjectValue {
-  string name = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
+  string name = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
   oneof value {
     int32 int_value = 2;
     string string_value = 3 [(buf.validate.field).string = {max_len: 255}];
@@ -41,7 +47,7 @@ message Screen {
   // `optional` is required so nanopb generates `has_root` for presence
   // checking in proto3 (submessage fields do NOT get `has_*` by default).
   optional WidgetNode root = 1;
-  repeated SubjectDeclaration subjects = 2;  // reactive subject declarations
+  repeated SubjectDeclaration subjects = 2; // reactive subject declarations
 }
 
 // A node in the widget tree (recursive).
@@ -130,8 +136,7 @@ message ObjProps {}
 message ButtonProps {}
 
 message LabelProps {
-  LabelLongMode long_mode = 1
-      [(buf.validate.field).enum = {defined_only: true}];
+  LabelLongMode long_mode = 1 [(buf.validate.field).enum = {defined_only: true}];
 }
 
 message SliderProps {
@@ -247,40 +252,46 @@ message Point {
 
 // Which LVGL event code triggers this event binding.
 enum EventTrigger {
-  TRIGGER_CLICKED = 0;        // LV_EVENT_CLICKED (default)
-  TRIGGER_VALUE_CHANGED = 1;  // LV_EVENT_VALUE_CHANGED
-  TRIGGER_LONG_PRESSED = 2;   // LV_EVENT_LONG_PRESSED
+  TRIGGER_CLICKED = 0; // LV_EVENT_CLICKED (default)
+  TRIGGER_VALUE_CHANGED = 1; // LV_EVENT_VALUE_CHANGED
+  TRIGGER_LONG_PRESSED = 2; // LV_EVENT_LONG_PRESSED
 }
 
 message EventBinding {
   // event keyword — IS the command identifier
-  string name = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
+  string name = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
   // which LVGL event fires this (default: CLICKED)
   EventTrigger trigger = 2 [(buf.validate.field).enum = {defined_only: true}];
-  int32 int_value = 3;            // static int payload
-  bool include_widget_value = 4;  // inject widget's current value as int_value
+  int32 int_value = 3; // static int payload
+  bool include_widget_value = 4; // inject widget's current value as int_value
   // local subject to mutate (empty = host event)
   string set_subject = 5 [(buf.validate.field).string = {max_len: 63}];
-  int32 set_value = 6;            // value to set on subject
-  bool toggle = 7;                // flip 0↔1 instead of set_value
-  bool notify_host = 8;           // also send to host when mutating subject
+  int32 set_value = 6; // value to set on subject
+  bool toggle = 7; // flip 0↔1 instead of set_value
+  bool notify_host = 8; // also send to host when mutating subject
 }
 
 // Comparison operator for conditional visibility bindings.
 enum CompareOp {
-  COMPARE_EQ = 0;      // show when subject == ref_value (native LVGL bind)
-  COMPARE_NOT_EQ = 1;  // show when subject != ref_value (native LVGL bind)
-  COMPARE_GT = 2;      // show when subject > ref_value  (custom observer)
-  COMPARE_GTE = 3;     // show when subject >= ref_value (custom observer)
-  COMPARE_LT = 4;      // show when subject < ref_value  (custom observer)
-  COMPARE_LTE = 5;     // show when subject <= ref_value (custom observer)
+  COMPARE_EQ = 0; // show when subject == ref_value (native LVGL bind)
+  COMPARE_NOT_EQ = 1; // show when subject != ref_value (native LVGL bind)
+  COMPARE_GT = 2; // show when subject > ref_value  (custom observer)
+  COMPARE_GTE = 3; // show when subject >= ref_value (custom observer)
+  COMPARE_LT = 4; // show when subject < ref_value  (custom observer)
+  COMPARE_LTE = 5; // show when subject <= ref_value (custom observer)
 }
 
 // Conditional visibility — show/hide widget based on subject value comparison.
 message VisibilityBinding {
   // subject name to observe
-  string subject = 1 [(buf.validate.field).string = {min_len: 1, max_len: 63}];
-  int32 ref_value = 2;    // reference value for comparison
+  string subject = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
+  int32 ref_value = 2; // reference value for comparison
   // comparison operator (default: EQ)
   CompareOp compare = 3 [(buf.validate.field).enum = {defined_only: true}];
 }
@@ -343,12 +354,15 @@ enum BlendMode {
   BLEND_MODE_ADDITIVE = 1;
   BLEND_MODE_SUBTRACTIVE = 2;
   BLEND_MODE_MULTIPLY = 3;
+  BLEND_MODE_DIFFERENCE = 4;
 }
 
 enum BaseDir {
   BASE_DIR_LTR = 0;
   BASE_DIR_RTL = 1;
   BASE_DIR_AUTO = 2;
+  BASE_DIR_NEUTRAL = 32;
+  BASE_DIR_WEAK = 33;
 }
 
 enum GradDir {
@@ -364,9 +378,9 @@ enum Dir {
   DIR_NONE = 0;
   DIR_LEFT = 1;
   DIR_RIGHT = 2;
-  DIR_HOR = 3;
   DIR_TOP = 4;
   DIR_BOTTOM = 8;
+  DIR_HOR = 3;
   DIR_VER = 12;
   DIR_ALL = 15;
 }
@@ -407,11 +421,11 @@ enum BorderSide {
 }
 
 enum LabelLongMode {
-  LABEL_LONG_WRAP = 0;
-  LABEL_LONG_DOT = 1;
-  LABEL_LONG_SCROLL = 2;
-  LABEL_LONG_SCROLL_CIRCULAR = 3;
-  LABEL_LONG_CLIP = 4;
+  LABEL_LONG_MODE_WRAP = 0;
+  LABEL_LONG_MODE_DOTS = 1;
+  LABEL_LONG_MODE_SCROLL = 2;
+  LABEL_LONG_MODE_SCROLL_CIRCULAR = 3;
+  LABEL_LONG_MODE_CLIP = 4;
 }
 
 enum BarMode {
@@ -447,8 +461,10 @@ enum ScaleMode {
 message StyleGroup {
   uint32 state_selector = 1;
   // exactly 8 entries (composite indices 0-7)
-  repeated ResolvedStyle variants = 2
-      [(buf.validate.field).repeated = {min_items: 8, max_items: 8}];
+  repeated ResolvedStyle variants = 2 [(buf.validate.field).repeated = {
+    min_items: 8
+    max_items: 8
+  }];
 }
 
 // A fully-resolved style: all token refs are resolved to concrete LVGL values.
@@ -460,9 +476,9 @@ message ResolvedStyle {
 message StyleProperty {
   StylePropertyType type = 1 [(buf.validate.field).enum = {defined_only: true}];
   oneof value {
-    uint32 uint_value = 2;       // pixels, opacity, enum values
-    int32 int_value = 3;         // signed values (width, height, padding, coords)
-    Color color_value = 4;       // resolved RGB
+    uint32 uint_value = 2; // pixels, opacity, enum values
+    int32 int_value = 3; // signed values (width, height, padding, coords)
+    Color color_value = 4; // resolved RGB
     // font C symbol name, image source path
     string string_value = 5 [(buf.validate.field).string = {max_len: 63}];
     ShadowBundle shadow_value = 6;
