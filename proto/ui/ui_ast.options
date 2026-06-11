@@ -50,3 +50,6 @@ ui.TabviewProps.tab_names        max_count:8 max_size:32
 # into the chart's own y_points by the renderer, so no pool is needed.
 ui.ChartProps.series             max_count:8
 ui.ChartSeries.values            max_count:32
+
+# Host-proxy arm: stable host-side join key
+ui.HostProxyProps.proxy_id       max_size:64

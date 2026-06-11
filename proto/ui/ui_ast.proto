@@ -100,6 +100,7 @@ message WidgetNode {
     TableProps table_props = 28;
     TabviewProps tabview_props = 38;
     ChartProps chart_props = 40;
+    HostProxyProps host_proxy_props = 41;
   }
 
   // Conditional visibility binding (show/hide based on subject value)
@@ -135,6 +136,13 @@ message WidgetNode {
   // WIDGET_TABVIEW node: true builds this child inside the tab bar
   // (lv_tabview_get_tab_bar) instead of zipping into a tab page.
   bool in_tab_bar = 39;
+
+  // Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+  // the comparison against the subject holds, cleared otherwise (the
+  // reactive sibling of `states`; setting CHECKED in both is author error,
+  // rejected by codegen validation). Reuses the VisibilityBinding shape
+  // (subject + ref_value + compare).
+  VisibilityBinding checked_when = 42;
 }
 
 enum WidgetType {
@@ -159,6 +167,7 @@ enum WidgetType {
   WIDGET_TABLE = 18;
   WIDGET_TABVIEW = 19;
   WIDGET_CHART = 20;
+  WIDGET_HOST_PROXY = 21;
 }
 
 // -- Widget-specific properties messages --
@@ -358,6 +367,43 @@ message ChartProps {
   // Replicate the demo's chart fader draw-event: a vertical-gradient area
   // under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED).
   bool fade_area = 7;
+}
+
+// Host-proxy positioning modes. OUR enum (no LVGL counterpart — not
+// parity-gated); int values are the wire contract for the mode subject.
+enum ProxyMode {
+  PROXY_MODE_STATIC = 0; // host element interactive; proxy inert
+  PROXY_MODE_DRAGGABLE = 1; // body drag moves the box
+  PROXY_MODE_RESIZABLE = 2; // corner handles resize; body drag moves
+  PROXY_MODE_ALIGNABLE = 3; // 3x3 snap grid; no free drag
+}
+
+// Host-proxy widget: a box that POSITIONS a host-side element. The renderer
+// draws the box + its interaction affordances and streams the box's rect +
+// mode to the host via the host_proxy_report import; the host composites
+// its own element (DOM overlay, video plane) at the reported rect.
+message HostProxyProps {
+  // Stable host-side join key (jettison keys proxies by name —
+  // proxySerializationUtils.ts). Survives tree rebuilds.
+  string proxy_id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
+  // Initial mode. When a "mode" binding is present, the SUBJECT is the
+  // source of truth and this is ignored after attach.
+  ProxyMode mode = 2 [(buf.validate.field).enum = {defined_only: true}];
+  // Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
+  // at 2x the resolved handle size so handles stay usable).
+  int32 min_w = 3;
+  int32 min_h = 4;
+  int32 max_w = 5;
+  int32 max_h = 6;
+  // Corner handle edge, px. 0 = renderer default (DPI-derived).
+  uint32 handle_size = 7;
+  // Opaque host stacking hint, forwarded verbatim in reports (jettison's
+  // consumers want zIndex with every position update). The renderer never
+  // interprets it.
+  int32 z = 8;
 }
 
 // -- Supporting types --
