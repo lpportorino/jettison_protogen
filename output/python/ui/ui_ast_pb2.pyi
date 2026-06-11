@@ -898,16 +898,20 @@ class ScaleProps(_message.Message):
     def __init__(self, mode: _Optional[_Union[ScaleMode, str]] = ..., total_tick_count: _Optional[int] = ..., major_tick_every: _Optional[int] = ..., label_show: bool = ..., min_value: _Optional[int] = ..., max_value: _Optional[int] = ..., rotation: _Optional[int] = ..., angle_range: _Optional[int] = ..., text_src: _Optional[str] = ..., post_draw: bool = ..., sections: _Optional[_Iterable[_Union[ScaleSection, _Mapping]]] = ...) -> None: ...
 
 class ScaleSection(_message.Message):
-    __slots__ = ("range_min", "range_max", "color", "width")
+    __slots__ = ("range_min", "range_max", "color", "width", "main_color", "main_width")
     RANGE_MIN_FIELD_NUMBER: _ClassVar[int]
     RANGE_MAX_FIELD_NUMBER: _ClassVar[int]
     COLOR_FIELD_NUMBER: _ClassVar[int]
     WIDTH_FIELD_NUMBER: _ClassVar[int]
+    MAIN_COLOR_FIELD_NUMBER: _ClassVar[int]
+    MAIN_WIDTH_FIELD_NUMBER: _ClassVar[int]
     range_min: int
     range_max: int
     color: Color
     width: int
-    def __init__(self, range_min: _Optional[int] = ..., range_max: _Optional[int] = ..., color: _Optional[_Union[Color, _Mapping]] = ..., width: _Optional[int] = ...) -> None: ...
+    main_color: Color
+    main_width: int
+    def __init__(self, range_min: _Optional[int] = ..., range_max: _Optional[int] = ..., color: _Optional[_Union[Color, _Mapping]] = ..., width: _Optional[int] = ..., main_color: _Optional[_Union[Color, _Mapping]] = ..., main_width: _Optional[int] = ...) -> None: ...
 
 class ButtonMatrixProps(_message.Message):
     __slots__ = ("map_str", "one_check")
@@ -926,16 +930,18 @@ class TableProps(_message.Message):
     def __init__(self, row_count: _Optional[int] = ..., column_count: _Optional[int] = ...) -> None: ...
 
 class TabviewProps(_message.Message):
-    __slots__ = ("tab_names", "tab_bar_size", "active_index", "tab_bar_position")
+    __slots__ = ("tab_names", "tab_bar_size", "active_index", "tab_bar_position", "tab_bar_pad_left")
     TAB_NAMES_FIELD_NUMBER: _ClassVar[int]
     TAB_BAR_SIZE_FIELD_NUMBER: _ClassVar[int]
     ACTIVE_INDEX_FIELD_NUMBER: _ClassVar[int]
     TAB_BAR_POSITION_FIELD_NUMBER: _ClassVar[int]
+    TAB_BAR_PAD_LEFT_FIELD_NUMBER: _ClassVar[int]
     tab_names: _containers.RepeatedScalarFieldContainer[str]
     tab_bar_size: int
     active_index: int
     tab_bar_position: Dir
-    def __init__(self, tab_names: _Optional[_Iterable[str]] = ..., tab_bar_size: _Optional[int] = ..., active_index: _Optional[int] = ..., tab_bar_position: _Optional[_Union[Dir, str]] = ...) -> None: ...
+    tab_bar_pad_left: int
+    def __init__(self, tab_names: _Optional[_Iterable[str]] = ..., tab_bar_size: _Optional[int] = ..., active_index: _Optional[int] = ..., tab_bar_position: _Optional[_Union[Dir, str]] = ..., tab_bar_pad_left: _Optional[int] = ...) -> None: ...
 
 class ChartSeries(_message.Message):
     __slots__ = ("color", "axis", "values")

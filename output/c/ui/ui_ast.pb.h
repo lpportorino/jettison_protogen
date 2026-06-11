@@ -526,6 +526,10 @@ typedef struct _ui_TabviewProps {
     /* Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
  the LVGL default (top). */
     ui_Dir tab_bar_position;
+    /* Extra left padding (px) on the tab bar itself — the demo offsets its
+ tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+ logo + title decor over the freed left half. 0 = no extra padding. */
+    int32_t tab_bar_pad_left;
 } ui_TabviewProps;
 
 typedef struct _ui_ChartProps {
@@ -691,9 +695,19 @@ typedef struct _ui_Screen {
 typedef struct _ui_ScaleSection {
     int32_t range_min;
     int32_t range_max;
+    /* INDICATOR + ITEMS tick-line style for the section (line_color /
+ line_width — the demo styles both parts identically). */
     bool has_color;
     ui_Color color;
     uint32_t width;
+    /* MAIN-part style for the section — the arc band on a round scale /
+ the main line on a linear one (arc_color+arc_width AND
+ line_color+line_width are both set from this pair; LVGL reads the
+ part that matches the scale mode). Absent color + zero width = no
+ MAIN section style. */
+    bool has_main_color;
+    ui_Color main_color;
+    uint32_t main_width;
 } ui_ScaleSection;
 
 /* One chart data series (lv_chart_add_series + per-index value writes). */
@@ -915,10 +929,10 @@ extern "C" {
 #define ui_LedProps_init_default                 {false, ui_Color_init_default, 0}
 #define ui_LineProps_init_default                {{{NULL}, NULL}, 0}
 #define ui_ScaleProps_init_default               {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}}
-#define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0}
+#define ui_ScaleSection_init_default             {0, 0, false, ui_Color_init_default, 0, false, ui_Color_init_default, 0}
 #define ui_ButtonMatrixProps_init_default        {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_default               {0, 0}
-#define ui_TabviewProps_init_default             {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN}
+#define ui_TabviewProps_init_default             {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN, 0}
 #define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, {{NULL}, NULL}}
 #define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_Point_init_default                    {0, 0}
@@ -954,10 +968,10 @@ extern "C" {
 #define ui_LedProps_init_zero                    {false, ui_Color_init_zero, 0}
 #define ui_LineProps_init_zero                   {{{NULL}, NULL}, 0}
 #define ui_ScaleProps_init_zero                  {_ui_ScaleMode_MIN, 0, 0, 0, 0, 0, 0, 0, {{NULL}, NULL}, 0, {{NULL}, NULL}}
-#define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0}
+#define ui_ScaleSection_init_zero                {0, 0, false, ui_Color_init_zero, 0, false, ui_Color_init_zero, 0}
 #define ui_ButtonMatrixProps_init_zero           {{{NULL}, NULL}, 0}
 #define ui_TableProps_init_zero                  {0, 0}
-#define ui_TabviewProps_init_zero                {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN}
+#define ui_TabviewProps_init_zero                {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN, 0}
 #define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, {{NULL}, NULL}}
 #define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
 #define ui_Point_init_zero                       {0, 0}
@@ -1049,6 +1063,7 @@ extern "C" {
 #define ui_TabviewProps_tab_bar_size_tag         2
 #define ui_TabviewProps_active_index_tag         3
 #define ui_TabviewProps_tab_bar_position_tag     4
+#define ui_TabviewProps_tab_bar_pad_left_tag     5
 #define ui_ChartProps_type_tag                   1
 #define ui_ChartProps_point_count_tag            2
 #define ui_ChartProps_has_div_lines_tag          3
@@ -1127,6 +1142,8 @@ extern "C" {
 #define ui_ScaleSection_range_max_tag            2
 #define ui_ScaleSection_color_tag                3
 #define ui_ScaleSection_width_tag                4
+#define ui_ScaleSection_main_color_tag           5
+#define ui_ScaleSection_main_width_tag           6
 #define ui_ChartSeries_color_tag                 1
 #define ui_ChartSeries_axis_tag                  2
 #define ui_ChartSeries_values_tag                3
@@ -1393,10 +1410,13 @@ X(a, CALLBACK, REPEATED, MESSAGE,  sections,         11)
 X(a, STATIC,   SINGULAR, INT32,    range_min,         1) \
 X(a, STATIC,   SINGULAR, INT32,    range_max,         2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  color,             3) \
-X(a, STATIC,   SINGULAR, UINT32,   width,             4)
+X(a, STATIC,   SINGULAR, UINT32,   width,             4) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  main_color,        5) \
+X(a, STATIC,   SINGULAR, UINT32,   main_width,        6)
 #define ui_ScaleSection_CALLBACK NULL
 #define ui_ScaleSection_DEFAULT NULL
 #define ui_ScaleSection_color_MSGTYPE ui_Color
+#define ui_ScaleSection_main_color_MSGTYPE ui_Color
 
 #define ui_ButtonMatrixProps_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   map_str,           1) \
@@ -1414,7 +1434,8 @@ X(a, STATIC,   SINGULAR, UINT32,   column_count,      2)
 X(a, CALLBACK, REPEATED, STRING,   tab_names,         1) \
 X(a, STATIC,   SINGULAR, INT32,    tab_bar_size,      2) \
 X(a, STATIC,   SINGULAR, UINT32,   active_index,      3) \
-X(a, STATIC,   SINGULAR, UENUM,    tab_bar_position,   4)
+X(a, STATIC,   SINGULAR, UENUM,    tab_bar_position,   4) \
+X(a, STATIC,   SINGULAR, INT32,    tab_bar_pad_left,   5)
 #define ui_TabviewProps_CALLBACK pb_default_field_callback
 #define ui_TabviewProps_DEFAULT NULL
 
@@ -1616,7 +1637,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_StyleGroup_size depends on runtime parameters */
 /* ui_ResolvedStyle_size depends on runtime parameters */
 /* ui_StyleProperty_size depends on runtime parameters */
-#define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_ArcProps_size
+#define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_ScaleSection_size
 #define ui_ArcProps_size                         70
 #define ui_BarProps_size                         46
 #define ui_ButtonProps_size                      0
@@ -1627,7 +1648,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_LedProps_size                         26
 #define ui_ObjProps_size                         0
 #define ui_Point_size                            22
-#define ui_ScaleSection_size                     48
+#define ui_ScaleSection_size                     74
 #define ui_ShadowBundle_size                     40
 #define ui_SliderProps_size                      35
 #define ui_SpinboxProps_size                     56

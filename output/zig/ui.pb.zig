@@ -2311,12 +2311,16 @@ pub const ScaleSection = struct {
     range_max: i32 = 0,
     color: ?Color = null,
     width: u32 = 0,
+    main_color: ?Color = null,
+    main_width: u32 = 0,
 
     pub const _desc_table = .{
         .range_min = fd(1, .{ .scalar = .int32 }),
         .range_max = fd(2, .{ .scalar = .int32 }),
         .color = fd(3, .submessage),
         .width = fd(4, .{ .scalar = .uint32 }),
+        .main_color = fd(5, .submessage),
+        .main_width = fd(6, .{ .scalar = .uint32 }),
     };
 
     /// Encodes the message to the writer
@@ -2534,12 +2538,14 @@ pub const TabviewProps = struct {
     tab_bar_size: i32 = 0,
     active_index: u32 = 0,
     tab_bar_position: Dir = @enumFromInt(0),
+    tab_bar_pad_left: i32 = 0,
 
     pub const _desc_table = .{
         .tab_names = fd(1, .{ .repeated = .{ .scalar = .string }}),
         .tab_bar_size = fd(2, .{ .scalar = .int32 }),
         .active_index = fd(3, .{ .scalar = .uint32 }),
         .tab_bar_position = fd(4, .@"enum"),
+        .tab_bar_pad_left = fd(5, .{ .scalar = .int32 }),
     };
 
     /// Encodes the message to the writer

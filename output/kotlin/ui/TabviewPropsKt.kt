@@ -225,6 +225,35 @@ public object TabviewPropsKt {
     public fun clearTabBarPosition() {
       _builder.clearTabBarPosition()
     }
+
+    /**
+     * ```
+     * Extra left padding (px) on the tab bar itself — the demo offsets its
+     * tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+     * logo + title decor over the freed left half. 0 = no extra padding.
+     * ```
+     *
+     * `int32 tab_bar_pad_left = 5;`
+     */
+    public var tabBarPadLeft: kotlin.Int
+      @JvmName("getTabBarPadLeft")
+      get() = _builder.tabBarPadLeft
+      @JvmName("setTabBarPadLeft")
+      set(value) {
+        _builder.tabBarPadLeft = value
+      }
+    /**
+     * ```
+     * Extra left padding (px) on the tab bar itself — the demo offsets its
+     * tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+     * logo + title decor over the freed left half. 0 = no extra padding.
+     * ```
+     *
+     * `int32 tab_bar_pad_left = 5;`
+     */
+    public fun clearTabBarPadLeft() {
+      _builder.clearTabBarPadLeft()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic

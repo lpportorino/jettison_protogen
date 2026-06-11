@@ -2278,8 +2278,21 @@ export interface ScaleProps {
 export interface ScaleSection {
   rangeMin: number;
   rangeMax: number;
+  /**
+   * INDICATOR + ITEMS tick-line style for the section (line_color /
+   * line_width — the demo styles both parts identically).
+   */
   color: Color | undefined;
   width: number;
+  /**
+   * MAIN-part style for the section — the arc band on a round scale /
+   * the main line on a linear one (arc_color+arc_width AND
+   * line_color+line_width are both set from this pair; LVGL reads the
+   * part that matches the scale mode). Absent color + zero width = no
+   * MAIN section style.
+   */
+  mainColor: Color | undefined;
+  mainWidth: number;
 }
 
 export interface ButtonMatrixProps {
@@ -2311,6 +2324,12 @@ export interface TabviewProps {
    * the LVGL default (top).
    */
   tabBarPosition: Dir;
+  /**
+   * Extra left padding (px) on the tab bar itself — the demo offsets its
+   * tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+   * logo + title decor over the freed left half. 0 = no extra padding.
+   */
+  tabBarPadLeft: number;
 }
 
 /** One chart data series (lv_chart_add_series + per-index value writes). */
@@ -5789,7 +5808,7 @@ export const ScaleProps: MessageFns<ScaleProps> = {
 };
 
 function createBaseScaleSection(): ScaleSection {
-  return { rangeMin: 0, rangeMax: 0, color: undefined, width: 0 };
+  return { rangeMin: 0, rangeMax: 0, color: undefined, width: 0, mainColor: undefined, mainWidth: 0 };
 }
 
 export const ScaleSection: MessageFns<ScaleSection> = {
@@ -5805,6 +5824,12 @@ export const ScaleSection: MessageFns<ScaleSection> = {
     }
     if (message.width !== 0) {
       writer.uint32(32).uint32(message.width);
+    }
+    if (message.mainColor !== undefined) {
+      Color.encode(message.mainColor, writer.uint32(42).fork()).join();
+    }
+    if (message.mainWidth !== 0) {
+      writer.uint32(48).uint32(message.mainWidth);
     }
     return writer;
   },
@@ -5848,6 +5873,22 @@ export const ScaleSection: MessageFns<ScaleSection> = {
           message.width = reader.uint32();
           continue;
         }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.mainColor = Color.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.mainWidth = reader.uint32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -5871,6 +5912,16 @@ export const ScaleSection: MessageFns<ScaleSection> = {
         : 0,
       color: isSet(object.color) ? Color.fromJSON(object.color) : undefined,
       width: isSet(object.width) ? globalThis.Number(object.width) : 0,
+      mainColor: isSet(object.mainColor)
+        ? Color.fromJSON(object.mainColor)
+        : isSet(object.main_color)
+        ? Color.fromJSON(object.main_color)
+        : undefined,
+      mainWidth: isSet(object.mainWidth)
+        ? globalThis.Number(object.mainWidth)
+        : isSet(object.main_width)
+        ? globalThis.Number(object.main_width)
+        : 0,
     };
   },
 
@@ -5888,6 +5939,12 @@ export const ScaleSection: MessageFns<ScaleSection> = {
     if (message.width !== 0) {
       obj.width = Math.round(message.width);
     }
+    if (message.mainColor !== undefined) {
+      obj.mainColor = Color.toJSON(message.mainColor);
+    }
+    if (message.mainWidth !== 0) {
+      obj.mainWidth = Math.round(message.mainWidth);
+    }
     return obj;
   },
 
@@ -5900,6 +5957,10 @@ export const ScaleSection: MessageFns<ScaleSection> = {
     message.rangeMax = object.rangeMax ?? 0;
     message.color = (object.color !== undefined && object.color !== null) ? Color.fromPartial(object.color) : undefined;
     message.width = object.width ?? 0;
+    message.mainColor = (object.mainColor !== undefined && object.mainColor !== null)
+      ? Color.fromPartial(object.mainColor)
+      : undefined;
+    message.mainWidth = object.mainWidth ?? 0;
     return message;
   },
 };
@@ -6073,7 +6134,7 @@ export const TableProps: MessageFns<TableProps> = {
 };
 
 function createBaseTabviewProps(): TabviewProps {
-  return { tabNames: [], tabBarSize: 0, activeIndex: 0, tabBarPosition: 0 };
+  return { tabNames: [], tabBarSize: 0, activeIndex: 0, tabBarPosition: 0, tabBarPadLeft: 0 };
 }
 
 export const TabviewProps: MessageFns<TabviewProps> = {
@@ -6089,6 +6150,9 @@ export const TabviewProps: MessageFns<TabviewProps> = {
     }
     if (message.tabBarPosition !== 0) {
       writer.uint32(32).int32(message.tabBarPosition);
+    }
+    if (message.tabBarPadLeft !== 0) {
+      writer.uint32(40).int32(message.tabBarPadLeft);
     }
     return writer;
   },
@@ -6132,6 +6196,14 @@ export const TabviewProps: MessageFns<TabviewProps> = {
           message.tabBarPosition = reader.int32() as any;
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.tabBarPadLeft = reader.int32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -6163,6 +6235,11 @@ export const TabviewProps: MessageFns<TabviewProps> = {
         : isSet(object.tab_bar_position)
         ? dirFromJSON(object.tab_bar_position)
         : 0,
+      tabBarPadLeft: isSet(object.tabBarPadLeft)
+        ? globalThis.Number(object.tabBarPadLeft)
+        : isSet(object.tab_bar_pad_left)
+        ? globalThis.Number(object.tab_bar_pad_left)
+        : 0,
     };
   },
 
@@ -6180,6 +6257,9 @@ export const TabviewProps: MessageFns<TabviewProps> = {
     if (message.tabBarPosition !== 0) {
       obj.tabBarPosition = dirToJSON(message.tabBarPosition);
     }
+    if (message.tabBarPadLeft !== 0) {
+      obj.tabBarPadLeft = Math.round(message.tabBarPadLeft);
+    }
     return obj;
   },
 
@@ -6192,6 +6272,7 @@ export const TabviewProps: MessageFns<TabviewProps> = {
     message.tabBarSize = object.tabBarSize ?? 0;
     message.activeIndex = object.activeIndex ?? 0;
     message.tabBarPosition = object.tabBarPosition ?? 0;
+    message.tabBarPadLeft = object.tabBarPadLeft ?? 0;
     return message;
   },
 };

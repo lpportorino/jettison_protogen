@@ -63,6 +63,11 @@ public object ScaleSectionKt {
     }
 
     /**
+     * ```
+     * INDICATOR + ITEMS tick-line style for the section (line_color /
+     * line_width — the demo styles both parts identically).
+     * ```
+     *
      * `.ui.Color color = 3;`
      */
     public var color: ui.UiAst.Color
@@ -73,12 +78,22 @@ public object ScaleSectionKt {
         _builder.color = value
       }
     /**
+     * ```
+     * INDICATOR + ITEMS tick-line style for the section (line_color /
+     * line_width — the demo styles both parts identically).
+     * ```
+     *
      * `.ui.Color color = 3;`
      */
     public fun clearColor() {
       _builder.clearColor()
     }
     /**
+     * ```
+     * INDICATOR + ITEMS tick-line style for the section (line_color /
+     * line_width — the demo styles both parts identically).
+     * ```
+     *
      * `.ui.Color color = 3;`
      * @return Whether the color field is set.
      */
@@ -105,6 +120,74 @@ public object ScaleSectionKt {
     public fun clearWidth() {
       _builder.clearWidth()
     }
+
+    /**
+     * ```
+     * MAIN-part style for the section — the arc band on a round scale /
+     * the main line on a linear one (arc_color+arc_width AND
+     * line_color+line_width are both set from this pair; LVGL reads the
+     * part that matches the scale mode). Absent color + zero width = no
+     * MAIN section style.
+     * ```
+     *
+     * `.ui.Color main_color = 5;`
+     */
+    public var mainColor: ui.UiAst.Color
+      @JvmName("getMainColor")
+      get() = _builder.mainColor
+      @JvmName("setMainColor")
+      set(value) {
+        _builder.mainColor = value
+      }
+    /**
+     * ```
+     * MAIN-part style for the section — the arc band on a round scale /
+     * the main line on a linear one (arc_color+arc_width AND
+     * line_color+line_width are both set from this pair; LVGL reads the
+     * part that matches the scale mode). Absent color + zero width = no
+     * MAIN section style.
+     * ```
+     *
+     * `.ui.Color main_color = 5;`
+     */
+    public fun clearMainColor() {
+      _builder.clearMainColor()
+    }
+    /**
+     * ```
+     * MAIN-part style for the section — the arc band on a round scale /
+     * the main line on a linear one (arc_color+arc_width AND
+     * line_color+line_width are both set from this pair; LVGL reads the
+     * part that matches the scale mode). Absent color + zero width = no
+     * MAIN section style.
+     * ```
+     *
+     * `.ui.Color main_color = 5;`
+     * @return Whether the mainColor field is set.
+     */
+    public fun hasMainColor(): kotlin.Boolean {
+      return _builder.hasMainColor()
+    }
+
+    public val ScaleSectionKt.Dsl.mainColorOrNull: ui.UiAst.Color?
+      get() = _builder.mainColorOrNull
+
+    /**
+     * `uint32 main_width = 6;`
+     */
+    public var mainWidth: kotlin.Int
+      @JvmName("getMainWidth")
+      get() = _builder.mainWidth
+      @JvmName("setMainWidth")
+      set(value) {
+        _builder.mainWidth = value
+      }
+    /**
+     * `uint32 main_width = 6;`
+     */
+    public fun clearMainWidth() {
+      _builder.clearMainWidth()
+    }
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -113,4 +196,7 @@ public inline fun ui.UiAst.ScaleSection.copy(block: `ui`.ScaleSectionKt.Dsl.() -
 
 public val ui.UiAst.ScaleSectionOrBuilder.colorOrNull: ui.UiAst.Color?
   get() = if (hasColor()) getColor() else null
+
+public val ui.UiAst.ScaleSectionOrBuilder.mainColorOrNull: ui.UiAst.Color?
+  get() = if (hasMainColor()) getMainColor() else null
 
