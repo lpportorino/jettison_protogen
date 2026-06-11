@@ -143,6 +143,50 @@ message WidgetNode {
   // rejected by codegen validation). Reuses the VisibilityBinding shape
   // (subject + ref_value + compare).
   VisibilityBinding checked_when = 42;
+
+  // Stable node identity for tree patching: FNV-1a-32 of the node's
+  // root→node identity path (author :id segments, else type#ordinal among
+  // unkeyed same-type siblings), assigned + collision-checked by codegen.
+  // 0 = never assigned (proto3 default); the renderer mirrors it into
+  // lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+  // address live widgets.
+  uint32 uid = 43;
+}
+
+// ── Tree patches — partial UI updates (controls_apply_patch) ──────────
+// A ScreenPatch carries explicit node-level ops the codegen-side differ
+// resolved against authoritative uids; the wasm reconciler applies them
+// mechanically (no client-side matching). Op ordering is the differ's
+// obligation: ops apply strictly sequentially against the live tree.
+
+enum PatchOpKind {
+  PATCH_OP_UPDATE_PROPS = 0; // morph target in place from node's props
+  PATCH_OP_REPLACE_NODE = 1; // teardown target subtree, build node in slot
+  PATCH_OP_INSERT_NODE = 2; // build node under parent_uid at index
+  PATCH_OP_REMOVE_NODE = 3; // teardown target subtree
+  PATCH_OP_MOVE_NODE = 4; // reorder target to index (same parent)
+}
+
+message TreePatchOp {
+  PatchOpKind kind = 1 [(buf.validate.field).enum = {defined_only: true}];
+  uint32 target_uid = 2; // UPDATE / REPLACE / REMOVE / MOVE
+  uint32 parent_uid = 3; // INSERT / MOVE destination
+  uint32 index = 4; // INSERT / MOVE child slot
+  // INSERT/REPLACE: the full new subtree; UPDATE_PROPS: the node's
+  // morphable prop set with children EMPTY (non-empty children in an
+  // UPDATE op is a decode error).
+  optional WidgetNode node = 5;
+}
+
+// Tree patch container — pushed via controls_apply_patch(ptr, len).
+message ScreenPatch {
+  // FNV-1a-32 of the base .pb bytes this patch was diffed from; the
+  // reconciler refuses on mismatch (fail-fast against out-of-order pushes).
+  uint32 base_hash = 1;
+  // Hash of the target full .pb; becomes the current-state hash after a
+  // successful apply.
+  uint32 target_hash = 2;
+  repeated TreePatchOp ops = 3;
 }
 
 enum WidgetType {

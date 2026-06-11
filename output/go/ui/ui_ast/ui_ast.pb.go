@@ -70,6 +70,61 @@ func (SubjectType) EnumDescriptor() ([]byte, []int) {
 	return file_ui_ui_ast_proto_rawDescGZIP(), []int{0}
 }
 
+type PatchOpKind int32
+
+const (
+	PatchOpKind_PATCH_OP_UPDATE_PROPS PatchOpKind = 0 // morph target in place from node's props
+	PatchOpKind_PATCH_OP_REPLACE_NODE PatchOpKind = 1 // teardown target subtree, build node in slot
+	PatchOpKind_PATCH_OP_INSERT_NODE  PatchOpKind = 2 // build node under parent_uid at index
+	PatchOpKind_PATCH_OP_REMOVE_NODE  PatchOpKind = 3 // teardown target subtree
+	PatchOpKind_PATCH_OP_MOVE_NODE    PatchOpKind = 4 // reorder target to index (same parent)
+)
+
+// Enum value maps for PatchOpKind.
+var (
+	PatchOpKind_name = map[int32]string{
+		0: "PATCH_OP_UPDATE_PROPS",
+		1: "PATCH_OP_REPLACE_NODE",
+		2: "PATCH_OP_INSERT_NODE",
+		3: "PATCH_OP_REMOVE_NODE",
+		4: "PATCH_OP_MOVE_NODE",
+	}
+	PatchOpKind_value = map[string]int32{
+		"PATCH_OP_UPDATE_PROPS": 0,
+		"PATCH_OP_REPLACE_NODE": 1,
+		"PATCH_OP_INSERT_NODE":  2,
+		"PATCH_OP_REMOVE_NODE":  3,
+		"PATCH_OP_MOVE_NODE":    4,
+	}
+)
+
+func (x PatchOpKind) Enum() *PatchOpKind {
+	p := new(PatchOpKind)
+	*p = x
+	return p
+}
+
+func (x PatchOpKind) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PatchOpKind) Descriptor() protoreflect.EnumDescriptor {
+	return file_ui_ui_ast_proto_enumTypes[1].Descriptor()
+}
+
+func (PatchOpKind) Type() protoreflect.EnumType {
+	return &file_ui_ui_ast_proto_enumTypes[1]
+}
+
+func (x PatchOpKind) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PatchOpKind.Descriptor instead.
+func (PatchOpKind) EnumDescriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{1}
+}
+
 type WidgetType int32
 
 const (
@@ -160,11 +215,11 @@ func (x WidgetType) String() string {
 }
 
 func (WidgetType) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[1].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[2].Descriptor()
 }
 
 func (WidgetType) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[1]
+	return &file_ui_ui_ast_proto_enumTypes[2]
 }
 
 func (x WidgetType) Number() protoreflect.EnumNumber {
@@ -173,7 +228,7 @@ func (x WidgetType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WidgetType.Descriptor instead.
 func (WidgetType) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{1}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{2}
 }
 
 // Host-proxy positioning modes. OUR enum (no LVGL counterpart — not
@@ -214,11 +269,11 @@ func (x ProxyMode) String() string {
 }
 
 func (ProxyMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[2].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[3].Descriptor()
 }
 
 func (ProxyMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[2]
+	return &file_ui_ui_ast_proto_enumTypes[3]
 }
 
 func (x ProxyMode) Number() protoreflect.EnumNumber {
@@ -227,7 +282,7 @@ func (x ProxyMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ProxyMode.Descriptor instead.
 func (ProxyMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{2}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{3}
 }
 
 // Which LVGL event code triggers this event binding.
@@ -264,11 +319,11 @@ func (x EventTrigger) String() string {
 }
 
 func (EventTrigger) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[3].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[4].Descriptor()
 }
 
 func (EventTrigger) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[3]
+	return &file_ui_ui_ast_proto_enumTypes[4]
 }
 
 func (x EventTrigger) Number() protoreflect.EnumNumber {
@@ -277,7 +332,7 @@ func (x EventTrigger) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use EventTrigger.Descriptor instead.
 func (EventTrigger) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{3}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{4}
 }
 
 // Comparison operator for conditional visibility bindings.
@@ -323,11 +378,11 @@ func (x CompareOp) String() string {
 }
 
 func (CompareOp) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[4].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[5].Descriptor()
 }
 
 func (CompareOp) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[4]
+	return &file_ui_ui_ast_proto_enumTypes[5]
 }
 
 func (x CompareOp) Number() protoreflect.EnumNumber {
@@ -336,7 +391,7 @@ func (x CompareOp) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use CompareOp.Descriptor instead.
 func (CompareOp) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{4}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{5}
 }
 
 type FlexFlow int32
@@ -390,11 +445,11 @@ func (x FlexFlow) String() string {
 }
 
 func (FlexFlow) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[5].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[6].Descriptor()
 }
 
 func (FlexFlow) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[5]
+	return &file_ui_ui_ast_proto_enumTypes[6]
 }
 
 func (x FlexFlow) Number() protoreflect.EnumNumber {
@@ -403,7 +458,7 @@ func (x FlexFlow) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use FlexFlow.Descriptor instead.
 func (FlexFlow) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{5}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{6}
 }
 
 type FlexAlign int32
@@ -448,11 +503,11 @@ func (x FlexAlign) String() string {
 }
 
 func (FlexAlign) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[6].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[7].Descriptor()
 }
 
 func (FlexAlign) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[6]
+	return &file_ui_ui_ast_proto_enumTypes[7]
 }
 
 func (x FlexAlign) Number() protoreflect.EnumNumber {
@@ -461,7 +516,7 @@ func (x FlexAlign) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use FlexAlign.Descriptor instead.
 func (FlexAlign) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{6}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{7}
 }
 
 type GridAlign int32
@@ -509,11 +564,11 @@ func (x GridAlign) String() string {
 }
 
 func (GridAlign) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[7].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[8].Descriptor()
 }
 
 func (GridAlign) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[7]
+	return &file_ui_ui_ast_proto_enumTypes[8]
 }
 
 func (x GridAlign) Number() protoreflect.EnumNumber {
@@ -522,7 +577,7 @@ func (x GridAlign) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GridAlign.Descriptor instead.
 func (GridAlign) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{7}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{8}
 }
 
 type TextAlign int32
@@ -561,11 +616,11 @@ func (x TextAlign) String() string {
 }
 
 func (TextAlign) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[8].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[9].Descriptor()
 }
 
 func (TextAlign) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[8]
+	return &file_ui_ui_ast_proto_enumTypes[9]
 }
 
 func (x TextAlign) Number() protoreflect.EnumNumber {
@@ -574,7 +629,7 @@ func (x TextAlign) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TextAlign.Descriptor instead.
 func (TextAlign) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{8}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{9}
 }
 
 type TextDecor int32
@@ -610,11 +665,11 @@ func (x TextDecor) String() string {
 }
 
 func (TextDecor) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[9].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[10].Descriptor()
 }
 
 func (TextDecor) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[9]
+	return &file_ui_ui_ast_proto_enumTypes[10]
 }
 
 func (x TextDecor) Number() protoreflect.EnumNumber {
@@ -623,7 +678,7 @@ func (x TextDecor) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TextDecor.Descriptor instead.
 func (TextDecor) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{9}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{10}
 }
 
 type BlendMode int32
@@ -665,11 +720,11 @@ func (x BlendMode) String() string {
 }
 
 func (BlendMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[10].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[11].Descriptor()
 }
 
 func (BlendMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[10]
+	return &file_ui_ui_ast_proto_enumTypes[11]
 }
 
 func (x BlendMode) Number() protoreflect.EnumNumber {
@@ -678,7 +733,7 @@ func (x BlendMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BlendMode.Descriptor instead.
 func (BlendMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{10}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{11}
 }
 
 type BaseDir int32
@@ -720,11 +775,11 @@ func (x BaseDir) String() string {
 }
 
 func (BaseDir) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[11].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[12].Descriptor()
 }
 
 func (BaseDir) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[11]
+	return &file_ui_ui_ast_proto_enumTypes[12]
 }
 
 func (x BaseDir) Number() protoreflect.EnumNumber {
@@ -733,7 +788,7 @@ func (x BaseDir) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BaseDir.Descriptor instead.
 func (BaseDir) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{11}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{12}
 }
 
 type GradDir int32
@@ -778,11 +833,11 @@ func (x GradDir) String() string {
 }
 
 func (GradDir) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[12].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[13].Descriptor()
 }
 
 func (GradDir) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[12]
+	return &file_ui_ui_ast_proto_enumTypes[13]
 }
 
 func (x GradDir) Number() protoreflect.EnumNumber {
@@ -791,7 +846,7 @@ func (x GradDir) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GradDir.Descriptor instead.
 func (GradDir) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{12}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{13}
 }
 
 type Dir int32
@@ -842,11 +897,11 @@ func (x Dir) String() string {
 }
 
 func (Dir) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[13].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[14].Descriptor()
 }
 
 func (Dir) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[13]
+	return &file_ui_ui_ast_proto_enumTypes[14]
 }
 
 func (x Dir) Number() protoreflect.EnumNumber {
@@ -855,7 +910,7 @@ func (x Dir) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Dir.Descriptor instead.
 func (Dir) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{13}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{14}
 }
 
 type Align int32
@@ -948,11 +1003,11 @@ func (x Align) String() string {
 }
 
 func (Align) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[14].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[15].Descriptor()
 }
 
 func (Align) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[14]
+	return &file_ui_ui_ast_proto_enumTypes[15]
 }
 
 func (x Align) Number() protoreflect.EnumNumber {
@@ -961,7 +1016,7 @@ func (x Align) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Align.Descriptor instead.
 func (Align) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{14}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{15}
 }
 
 type BorderSide int32
@@ -1009,11 +1064,11 @@ func (x BorderSide) String() string {
 }
 
 func (BorderSide) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[15].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[16].Descriptor()
 }
 
 func (BorderSide) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[15]
+	return &file_ui_ui_ast_proto_enumTypes[16]
 }
 
 func (x BorderSide) Number() protoreflect.EnumNumber {
@@ -1022,7 +1077,7 @@ func (x BorderSide) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BorderSide.Descriptor instead.
 func (BorderSide) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{15}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{16}
 }
 
 type LabelLongMode int32
@@ -1064,11 +1119,11 @@ func (x LabelLongMode) String() string {
 }
 
 func (LabelLongMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[16].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[17].Descriptor()
 }
 
 func (LabelLongMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[16]
+	return &file_ui_ui_ast_proto_enumTypes[17]
 }
 
 func (x LabelLongMode) Number() protoreflect.EnumNumber {
@@ -1077,7 +1132,7 @@ func (x LabelLongMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use LabelLongMode.Descriptor instead.
 func (LabelLongMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{16}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{17}
 }
 
 type BarMode int32
@@ -1113,11 +1168,11 @@ func (x BarMode) String() string {
 }
 
 func (BarMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[17].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[18].Descriptor()
 }
 
 func (BarMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[17]
+	return &file_ui_ui_ast_proto_enumTypes[18]
 }
 
 func (x BarMode) Number() protoreflect.EnumNumber {
@@ -1126,7 +1181,7 @@ func (x BarMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use BarMode.Descriptor instead.
 func (BarMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{17}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{18}
 }
 
 type ArcMode int32
@@ -1162,11 +1217,11 @@ func (x ArcMode) String() string {
 }
 
 func (ArcMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[18].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[19].Descriptor()
 }
 
 func (ArcMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[18]
+	return &file_ui_ui_ast_proto_enumTypes[19]
 }
 
 func (x ArcMode) Number() protoreflect.EnumNumber {
@@ -1175,7 +1230,7 @@ func (x ArcMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ArcMode.Descriptor instead.
 func (ArcMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{18}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{19}
 }
 
 type RollerMode int32
@@ -1208,11 +1263,11 @@ func (x RollerMode) String() string {
 }
 
 func (RollerMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[19].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[20].Descriptor()
 }
 
 func (RollerMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[19]
+	return &file_ui_ui_ast_proto_enumTypes[20]
 }
 
 func (x RollerMode) Number() protoreflect.EnumNumber {
@@ -1221,7 +1276,7 @@ func (x RollerMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RollerMode.Descriptor instead.
 func (RollerMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{19}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{20}
 }
 
 type ScaleMode int32
@@ -1266,11 +1321,11 @@ func (x ScaleMode) String() string {
 }
 
 func (ScaleMode) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[20].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[21].Descriptor()
 }
 
 func (ScaleMode) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[20]
+	return &file_ui_ui_ast_proto_enumTypes[21]
 }
 
 func (x ScaleMode) Number() protoreflect.EnumNumber {
@@ -1279,7 +1334,7 @@ func (x ScaleMode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ScaleMode.Descriptor instead.
 func (ScaleMode) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{20}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{21}
 }
 
 type ChartType int32
@@ -1324,11 +1379,11 @@ func (x ChartType) String() string {
 }
 
 func (ChartType) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[21].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[22].Descriptor()
 }
 
 func (ChartType) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[21]
+	return &file_ui_ui_ast_proto_enumTypes[22]
 }
 
 func (x ChartType) Number() protoreflect.EnumNumber {
@@ -1337,7 +1392,7 @@ func (x ChartType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ChartType.Descriptor instead.
 func (ChartType) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{21}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{22}
 }
 
 type ChartAxis int32
@@ -1376,11 +1431,11 @@ func (x ChartAxis) String() string {
 }
 
 func (ChartAxis) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[22].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[23].Descriptor()
 }
 
 func (ChartAxis) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[22]
+	return &file_ui_ui_ast_proto_enumTypes[23]
 }
 
 func (x ChartAxis) Number() protoreflect.EnumNumber {
@@ -1389,7 +1444,7 @@ func (x ChartAxis) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ChartAxis.Descriptor instead.
 func (ChartAxis) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{22}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{23}
 }
 
 type StylePropertyType int32
@@ -1754,11 +1809,11 @@ func (x StylePropertyType) String() string {
 }
 
 func (StylePropertyType) Descriptor() protoreflect.EnumDescriptor {
-	return file_ui_ui_ast_proto_enumTypes[23].Descriptor()
+	return file_ui_ui_ast_proto_enumTypes[24].Descriptor()
 }
 
 func (StylePropertyType) Type() protoreflect.EnumType {
-	return &file_ui_ui_ast_proto_enumTypes[23]
+	return &file_ui_ui_ast_proto_enumTypes[24]
 }
 
 func (x StylePropertyType) Number() protoreflect.EnumNumber {
@@ -1767,7 +1822,7 @@ func (x StylePropertyType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use StylePropertyType.Descriptor instead.
 func (StylePropertyType) EnumDescriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{23}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{24}
 }
 
 // Declaration of a reactive subject (lives in Screen, initialized at load time)
@@ -2139,7 +2194,14 @@ type WidgetNode struct {
 	// reactive sibling of `states`; setting CHECKED in both is author error,
 	// rejected by codegen validation). Reuses the VisibilityBinding shape
 	// (subject + ref_value + compare).
-	CheckedWhen   *VisibilityBinding `protobuf:"bytes,42,opt,name=checked_when,json=checkedWhen,proto3" json:"checked_when,omitempty"`
+	CheckedWhen *VisibilityBinding `protobuf:"bytes,42,opt,name=checked_when,json=checkedWhen,proto3" json:"checked_when,omitempty"`
+	// Stable node identity for tree patching: FNV-1a-32 of the node's
+	// root→node identity path (author :id segments, else type#ordinal among
+	// unkeyed same-type siblings), assigned + collision-checked by codegen.
+	// 0 = never assigned (proto3 default); the renderer mirrors it into
+	// lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+	// address live widgets.
+	Uid           uint32 `protobuf:"varint,43,opt,name=uid,proto3" json:"uid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2519,6 +2581,13 @@ func (x *WidgetNode) GetCheckedWhen() *VisibilityBinding {
 	return nil
 }
 
+func (x *WidgetNode) GetUid() uint32 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
 type isWidgetNode_WidgetProps interface {
 	isWidgetNode_WidgetProps()
 }
@@ -2655,6 +2724,150 @@ func (*WidgetNode_ChartProps) isWidgetNode_WidgetProps() {}
 
 func (*WidgetNode_HostProxyProps) isWidgetNode_WidgetProps() {}
 
+type TreePatchOp struct {
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	Kind      PatchOpKind            `protobuf:"varint,1,opt,name=kind,proto3,enum=ui.PatchOpKind" json:"kind,omitempty"`
+	TargetUid uint32                 `protobuf:"varint,2,opt,name=target_uid,json=targetUid,proto3" json:"target_uid,omitempty"` // UPDATE / REPLACE / REMOVE / MOVE
+	ParentUid uint32                 `protobuf:"varint,3,opt,name=parent_uid,json=parentUid,proto3" json:"parent_uid,omitempty"` // INSERT / MOVE destination
+	Index     uint32                 `protobuf:"varint,4,opt,name=index,proto3" json:"index,omitempty"`                          // INSERT / MOVE child slot
+	// INSERT/REPLACE: the full new subtree; UPDATE_PROPS: the node's
+	// morphable prop set with children EMPTY (non-empty children in an
+	// UPDATE op is a decode error).
+	Node          *WidgetNode `protobuf:"bytes,5,opt,name=node,proto3,oneof" json:"node,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TreePatchOp) Reset() {
+	*x = TreePatchOp{}
+	mi := &file_ui_ui_ast_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TreePatchOp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TreePatchOp) ProtoMessage() {}
+
+func (x *TreePatchOp) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_ast_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TreePatchOp.ProtoReflect.Descriptor instead.
+func (*TreePatchOp) Descriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *TreePatchOp) GetKind() PatchOpKind {
+	if x != nil {
+		return x.Kind
+	}
+	return PatchOpKind_PATCH_OP_UPDATE_PROPS
+}
+
+func (x *TreePatchOp) GetTargetUid() uint32 {
+	if x != nil {
+		return x.TargetUid
+	}
+	return 0
+}
+
+func (x *TreePatchOp) GetParentUid() uint32 {
+	if x != nil {
+		return x.ParentUid
+	}
+	return 0
+}
+
+func (x *TreePatchOp) GetIndex() uint32 {
+	if x != nil {
+		return x.Index
+	}
+	return 0
+}
+
+func (x *TreePatchOp) GetNode() *WidgetNode {
+	if x != nil {
+		return x.Node
+	}
+	return nil
+}
+
+// Tree patch container — pushed via controls_apply_patch(ptr, len).
+type ScreenPatch struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// FNV-1a-32 of the base .pb bytes this patch was diffed from; the
+	// reconciler refuses on mismatch (fail-fast against out-of-order pushes).
+	BaseHash uint32 `protobuf:"varint,1,opt,name=base_hash,json=baseHash,proto3" json:"base_hash,omitempty"`
+	// Hash of the target full .pb; becomes the current-state hash after a
+	// successful apply.
+	TargetHash    uint32         `protobuf:"varint,2,opt,name=target_hash,json=targetHash,proto3" json:"target_hash,omitempty"`
+	Ops           []*TreePatchOp `protobuf:"bytes,3,rep,name=ops,proto3" json:"ops,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ScreenPatch) Reset() {
+	*x = ScreenPatch{}
+	mi := &file_ui_ui_ast_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ScreenPatch) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ScreenPatch) ProtoMessage() {}
+
+func (x *ScreenPatch) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_ast_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ScreenPatch.ProtoReflect.Descriptor instead.
+func (*ScreenPatch) Descriptor() ([]byte, []int) {
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ScreenPatch) GetBaseHash() uint32 {
+	if x != nil {
+		return x.BaseHash
+	}
+	return 0
+}
+
+func (x *ScreenPatch) GetTargetHash() uint32 {
+	if x != nil {
+		return x.TargetHash
+	}
+	return 0
+}
+
+func (x *ScreenPatch) GetOps() []*TreePatchOp {
+	if x != nil {
+		return x.Ops
+	}
+	return nil
+}
+
 type ObjProps struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -2663,7 +2876,7 @@ type ObjProps struct {
 
 func (x *ObjProps) Reset() {
 	*x = ObjProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[5]
+	mi := &file_ui_ui_ast_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2675,7 +2888,7 @@ func (x *ObjProps) String() string {
 func (*ObjProps) ProtoMessage() {}
 
 func (x *ObjProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[5]
+	mi := &file_ui_ui_ast_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2688,7 +2901,7 @@ func (x *ObjProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ObjProps.ProtoReflect.Descriptor instead.
 func (*ObjProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{5}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{7}
 }
 
 type ButtonProps struct {
@@ -2699,7 +2912,7 @@ type ButtonProps struct {
 
 func (x *ButtonProps) Reset() {
 	*x = ButtonProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[6]
+	mi := &file_ui_ui_ast_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2711,7 +2924,7 @@ func (x *ButtonProps) String() string {
 func (*ButtonProps) ProtoMessage() {}
 
 func (x *ButtonProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[6]
+	mi := &file_ui_ui_ast_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2724,7 +2937,7 @@ func (x *ButtonProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ButtonProps.ProtoReflect.Descriptor instead.
 func (*ButtonProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{6}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{8}
 }
 
 type LabelProps struct {
@@ -2736,7 +2949,7 @@ type LabelProps struct {
 
 func (x *LabelProps) Reset() {
 	*x = LabelProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[7]
+	mi := &file_ui_ui_ast_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2748,7 +2961,7 @@ func (x *LabelProps) String() string {
 func (*LabelProps) ProtoMessage() {}
 
 func (x *LabelProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[7]
+	mi := &file_ui_ui_ast_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2761,7 +2974,7 @@ func (x *LabelProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LabelProps.ProtoReflect.Descriptor instead.
 func (*LabelProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{7}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *LabelProps) GetLongMode() LabelLongMode {
@@ -2783,7 +2996,7 @@ type SliderProps struct {
 
 func (x *SliderProps) Reset() {
 	*x = SliderProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[8]
+	mi := &file_ui_ui_ast_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2795,7 +3008,7 @@ func (x *SliderProps) String() string {
 func (*SliderProps) ProtoMessage() {}
 
 func (x *SliderProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[8]
+	mi := &file_ui_ui_ast_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2808,7 +3021,7 @@ func (x *SliderProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SliderProps.ProtoReflect.Descriptor instead.
 func (*SliderProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{8}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *SliderProps) GetMinValue() int32 {
@@ -2854,7 +3067,7 @@ type ImageProps struct {
 
 func (x *ImageProps) Reset() {
 	*x = ImageProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[9]
+	mi := &file_ui_ui_ast_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2866,7 +3079,7 @@ func (x *ImageProps) String() string {
 func (*ImageProps) ProtoMessage() {}
 
 func (x *ImageProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[9]
+	mi := &file_ui_ui_ast_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2879,7 +3092,7 @@ func (x *ImageProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImageProps.ProtoReflect.Descriptor instead.
 func (*ImageProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{9}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *ImageProps) GetSrc() string {
@@ -2934,7 +3147,7 @@ type ArcProps struct {
 
 func (x *ArcProps) Reset() {
 	*x = ArcProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[10]
+	mi := &file_ui_ui_ast_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2946,7 +3159,7 @@ func (x *ArcProps) String() string {
 func (*ArcProps) ProtoMessage() {}
 
 func (x *ArcProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[10]
+	mi := &file_ui_ui_ast_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2959,7 +3172,7 @@ func (x *ArcProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ArcProps.ProtoReflect.Descriptor instead.
 func (*ArcProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{10}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ArcProps) GetStartAngle() uint32 {
@@ -3038,7 +3251,7 @@ type BarProps struct {
 
 func (x *BarProps) Reset() {
 	*x = BarProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[11]
+	mi := &file_ui_ui_ast_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3050,7 +3263,7 @@ func (x *BarProps) String() string {
 func (*BarProps) ProtoMessage() {}
 
 func (x *BarProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[11]
+	mi := &file_ui_ui_ast_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3063,7 +3276,7 @@ func (x *BarProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BarProps.ProtoReflect.Descriptor instead.
 func (*BarProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{11}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *BarProps) GetMinValue() int32 {
@@ -3110,7 +3323,7 @@ type SwitchProps struct {
 
 func (x *SwitchProps) Reset() {
 	*x = SwitchProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[12]
+	mi := &file_ui_ui_ast_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3122,7 +3335,7 @@ func (x *SwitchProps) String() string {
 func (*SwitchProps) ProtoMessage() {}
 
 func (x *SwitchProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[12]
+	mi := &file_ui_ui_ast_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3135,7 +3348,7 @@ func (x *SwitchProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SwitchProps.ProtoReflect.Descriptor instead.
 func (*SwitchProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{12}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *SwitchProps) GetChecked() bool {
@@ -3154,7 +3367,7 @@ type CheckboxProps struct {
 
 func (x *CheckboxProps) Reset() {
 	*x = CheckboxProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[13]
+	mi := &file_ui_ui_ast_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3166,7 +3379,7 @@ func (x *CheckboxProps) String() string {
 func (*CheckboxProps) ProtoMessage() {}
 
 func (x *CheckboxProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[13]
+	mi := &file_ui_ui_ast_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3179,7 +3392,7 @@ func (x *CheckboxProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckboxProps.ProtoReflect.Descriptor instead.
 func (*CheckboxProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{13}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *CheckboxProps) GetChecked() bool {
@@ -3200,7 +3413,7 @@ type DropdownProps struct {
 
 func (x *DropdownProps) Reset() {
 	*x = DropdownProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[14]
+	mi := &file_ui_ui_ast_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3212,7 +3425,7 @@ func (x *DropdownProps) String() string {
 func (*DropdownProps) ProtoMessage() {}
 
 func (x *DropdownProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[14]
+	mi := &file_ui_ui_ast_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3225,7 +3438,7 @@ func (x *DropdownProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DropdownProps.ProtoReflect.Descriptor instead.
 func (*DropdownProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{14}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *DropdownProps) GetOptions() string {
@@ -3261,7 +3474,7 @@ type RollerProps struct {
 
 func (x *RollerProps) Reset() {
 	*x = RollerProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[15]
+	mi := &file_ui_ui_ast_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3273,7 +3486,7 @@ func (x *RollerProps) String() string {
 func (*RollerProps) ProtoMessage() {}
 
 func (x *RollerProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[15]
+	mi := &file_ui_ui_ast_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3286,7 +3499,7 @@ func (x *RollerProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RollerProps.ProtoReflect.Descriptor instead.
 func (*RollerProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{15}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *RollerProps) GetOptions() string {
@@ -3329,7 +3542,7 @@ type TextareaProps struct {
 
 func (x *TextareaProps) Reset() {
 	*x = TextareaProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[16]
+	mi := &file_ui_ui_ast_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3341,7 +3554,7 @@ func (x *TextareaProps) String() string {
 func (*TextareaProps) ProtoMessage() {}
 
 func (x *TextareaProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[16]
+	mi := &file_ui_ui_ast_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3354,7 +3567,7 @@ func (x *TextareaProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TextareaProps.ProtoReflect.Descriptor instead.
 func (*TextareaProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{16}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *TextareaProps) GetPlaceholder() string {
@@ -3399,7 +3612,7 @@ type SpinboxProps struct {
 
 func (x *SpinboxProps) Reset() {
 	*x = SpinboxProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[17]
+	mi := &file_ui_ui_ast_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3411,7 +3624,7 @@ func (x *SpinboxProps) String() string {
 func (*SpinboxProps) ProtoMessage() {}
 
 func (x *SpinboxProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[17]
+	mi := &file_ui_ui_ast_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3424,7 +3637,7 @@ func (x *SpinboxProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SpinboxProps.ProtoReflect.Descriptor instead.
 func (*SpinboxProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{17}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *SpinboxProps) GetMinValue() int32 {
@@ -3479,7 +3692,7 @@ type SpinnerProps struct {
 
 func (x *SpinnerProps) Reset() {
 	*x = SpinnerProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[18]
+	mi := &file_ui_ui_ast_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3491,7 +3704,7 @@ func (x *SpinnerProps) String() string {
 func (*SpinnerProps) ProtoMessage() {}
 
 func (x *SpinnerProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[18]
+	mi := &file_ui_ui_ast_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3504,7 +3717,7 @@ func (x *SpinnerProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SpinnerProps.ProtoReflect.Descriptor instead.
 func (*SpinnerProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{18}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *SpinnerProps) GetSpinTime() uint32 {
@@ -3531,7 +3744,7 @@ type LedProps struct {
 
 func (x *LedProps) Reset() {
 	*x = LedProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[19]
+	mi := &file_ui_ui_ast_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3543,7 +3756,7 @@ func (x *LedProps) String() string {
 func (*LedProps) ProtoMessage() {}
 
 func (x *LedProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[19]
+	mi := &file_ui_ui_ast_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3556,7 +3769,7 @@ func (x *LedProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LedProps.ProtoReflect.Descriptor instead.
 func (*LedProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{19}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *LedProps) GetColor() *Color {
@@ -3583,7 +3796,7 @@ type LineProps struct {
 
 func (x *LineProps) Reset() {
 	*x = LineProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[20]
+	mi := &file_ui_ui_ast_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3595,7 +3808,7 @@ func (x *LineProps) String() string {
 func (*LineProps) ProtoMessage() {}
 
 func (x *LineProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[20]
+	mi := &file_ui_ui_ast_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3608,7 +3821,7 @@ func (x *LineProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LineProps.ProtoReflect.Descriptor instead.
 func (*LineProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{20}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *LineProps) GetPoints() []*Point {
@@ -3648,7 +3861,7 @@ type ScaleProps struct {
 
 func (x *ScaleProps) Reset() {
 	*x = ScaleProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[21]
+	mi := &file_ui_ui_ast_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3660,7 +3873,7 @@ func (x *ScaleProps) String() string {
 func (*ScaleProps) ProtoMessage() {}
 
 func (x *ScaleProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[21]
+	mi := &file_ui_ui_ast_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3673,7 +3886,7 @@ func (x *ScaleProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScaleProps.ProtoReflect.Descriptor instead.
 func (*ScaleProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{21}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ScaleProps) GetMode() ScaleMode {
@@ -3774,7 +3987,7 @@ type ScaleSection struct {
 
 func (x *ScaleSection) Reset() {
 	*x = ScaleSection{}
-	mi := &file_ui_ui_ast_proto_msgTypes[22]
+	mi := &file_ui_ui_ast_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3786,7 +3999,7 @@ func (x *ScaleSection) String() string {
 func (*ScaleSection) ProtoMessage() {}
 
 func (x *ScaleSection) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[22]
+	mi := &file_ui_ui_ast_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3799,7 +4012,7 @@ func (x *ScaleSection) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ScaleSection.ProtoReflect.Descriptor instead.
 func (*ScaleSection) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{22}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ScaleSection) GetRangeMin() int32 {
@@ -3854,7 +4067,7 @@ type ButtonMatrixProps struct {
 
 func (x *ButtonMatrixProps) Reset() {
 	*x = ButtonMatrixProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[23]
+	mi := &file_ui_ui_ast_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3866,7 +4079,7 @@ func (x *ButtonMatrixProps) String() string {
 func (*ButtonMatrixProps) ProtoMessage() {}
 
 func (x *ButtonMatrixProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[23]
+	mi := &file_ui_ui_ast_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3879,7 +4092,7 @@ func (x *ButtonMatrixProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ButtonMatrixProps.ProtoReflect.Descriptor instead.
 func (*ButtonMatrixProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{23}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ButtonMatrixProps) GetMapStr() string {
@@ -3906,7 +4119,7 @@ type TableProps struct {
 
 func (x *TableProps) Reset() {
 	*x = TableProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[24]
+	mi := &file_ui_ui_ast_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3918,7 +4131,7 @@ func (x *TableProps) String() string {
 func (*TableProps) ProtoMessage() {}
 
 func (x *TableProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[24]
+	mi := &file_ui_ui_ast_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3931,7 +4144,7 @@ func (x *TableProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TableProps.ProtoReflect.Descriptor instead.
 func (*TableProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{24}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *TableProps) GetRowCount() uint32 {
@@ -3972,7 +4185,7 @@ type TabviewProps struct {
 
 func (x *TabviewProps) Reset() {
 	*x = TabviewProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[25]
+	mi := &file_ui_ui_ast_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3984,7 +4197,7 @@ func (x *TabviewProps) String() string {
 func (*TabviewProps) ProtoMessage() {}
 
 func (x *TabviewProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[25]
+	mi := &file_ui_ui_ast_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3997,7 +4210,7 @@ func (x *TabviewProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TabviewProps.ProtoReflect.Descriptor instead.
 func (*TabviewProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{25}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *TabviewProps) GetTabNames() []string {
@@ -4054,7 +4267,7 @@ type ChartSeries struct {
 
 func (x *ChartSeries) Reset() {
 	*x = ChartSeries{}
-	mi := &file_ui_ui_ast_proto_msgTypes[26]
+	mi := &file_ui_ui_ast_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4066,7 +4279,7 @@ func (x *ChartSeries) String() string {
 func (*ChartSeries) ProtoMessage() {}
 
 func (x *ChartSeries) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[26]
+	mi := &file_ui_ui_ast_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4079,7 +4292,7 @@ func (x *ChartSeries) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChartSeries.ProtoReflect.Descriptor instead.
 func (*ChartSeries) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{26}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ChartSeries) GetColor() *Color {
@@ -4126,7 +4339,7 @@ type ChartProps struct {
 
 func (x *ChartProps) Reset() {
 	*x = ChartProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[27]
+	mi := &file_ui_ui_ast_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4138,7 +4351,7 @@ func (x *ChartProps) String() string {
 func (*ChartProps) ProtoMessage() {}
 
 func (x *ChartProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[27]
+	mi := &file_ui_ui_ast_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4151,7 +4364,7 @@ func (x *ChartProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ChartProps.ProtoReflect.Descriptor instead.
 func (*ChartProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{27}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ChartProps) GetType() ChartType {
@@ -4233,7 +4446,7 @@ type HostProxyProps struct {
 
 func (x *HostProxyProps) Reset() {
 	*x = HostProxyProps{}
-	mi := &file_ui_ui_ast_proto_msgTypes[28]
+	mi := &file_ui_ui_ast_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4245,7 +4458,7 @@ func (x *HostProxyProps) String() string {
 func (*HostProxyProps) ProtoMessage() {}
 
 func (x *HostProxyProps) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[28]
+	mi := &file_ui_ui_ast_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4258,7 +4471,7 @@ func (x *HostProxyProps) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HostProxyProps.ProtoReflect.Descriptor instead.
 func (*HostProxyProps) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{28}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *HostProxyProps) GetProxyId() string {
@@ -4327,7 +4540,7 @@ type Point struct {
 
 func (x *Point) Reset() {
 	*x = Point{}
-	mi := &file_ui_ui_ast_proto_msgTypes[29]
+	mi := &file_ui_ui_ast_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4339,7 +4552,7 @@ func (x *Point) String() string {
 func (*Point) ProtoMessage() {}
 
 func (x *Point) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[29]
+	mi := &file_ui_ui_ast_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4352,7 +4565,7 @@ func (x *Point) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Point.ProtoReflect.Descriptor instead.
 func (*Point) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{29}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *Point) GetX() int32 {
@@ -4388,7 +4601,7 @@ type EventBinding struct {
 
 func (x *EventBinding) Reset() {
 	*x = EventBinding{}
-	mi := &file_ui_ui_ast_proto_msgTypes[30]
+	mi := &file_ui_ui_ast_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4400,7 +4613,7 @@ func (x *EventBinding) String() string {
 func (*EventBinding) ProtoMessage() {}
 
 func (x *EventBinding) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[30]
+	mi := &file_ui_ui_ast_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4413,7 +4626,7 @@ func (x *EventBinding) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EventBinding.ProtoReflect.Descriptor instead.
 func (*EventBinding) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{30}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *EventBinding) GetName() string {
@@ -4486,7 +4699,7 @@ type VisibilityBinding struct {
 
 func (x *VisibilityBinding) Reset() {
 	*x = VisibilityBinding{}
-	mi := &file_ui_ui_ast_proto_msgTypes[31]
+	mi := &file_ui_ui_ast_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4498,7 +4711,7 @@ func (x *VisibilityBinding) String() string {
 func (*VisibilityBinding) ProtoMessage() {}
 
 func (x *VisibilityBinding) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[31]
+	mi := &file_ui_ui_ast_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4511,7 +4724,7 @@ func (x *VisibilityBinding) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VisibilityBinding.ProtoReflect.Descriptor instead.
 func (*VisibilityBinding) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{31}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *VisibilityBinding) GetSubject() string {
@@ -4547,7 +4760,7 @@ type Layout struct {
 
 func (x *Layout) Reset() {
 	*x = Layout{}
-	mi := &file_ui_ui_ast_proto_msgTypes[32]
+	mi := &file_ui_ui_ast_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4559,7 +4772,7 @@ func (x *Layout) String() string {
 func (*Layout) ProtoMessage() {}
 
 func (x *Layout) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[32]
+	mi := &file_ui_ui_ast_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4572,7 +4785,7 @@ func (x *Layout) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Layout.ProtoReflect.Descriptor instead.
 func (*Layout) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{32}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *Layout) GetFlow() FlexFlow {
@@ -4616,7 +4829,7 @@ type StyleGroup struct {
 
 func (x *StyleGroup) Reset() {
 	*x = StyleGroup{}
-	mi := &file_ui_ui_ast_proto_msgTypes[33]
+	mi := &file_ui_ui_ast_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4628,7 +4841,7 @@ func (x *StyleGroup) String() string {
 func (*StyleGroup) ProtoMessage() {}
 
 func (x *StyleGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[33]
+	mi := &file_ui_ui_ast_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4641,7 +4854,7 @@ func (x *StyleGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleGroup.ProtoReflect.Descriptor instead.
 func (*StyleGroup) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{33}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *StyleGroup) GetStateSelector() uint32 {
@@ -4668,7 +4881,7 @@ type ResolvedStyle struct {
 
 func (x *ResolvedStyle) Reset() {
 	*x = ResolvedStyle{}
-	mi := &file_ui_ui_ast_proto_msgTypes[34]
+	mi := &file_ui_ui_ast_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4680,7 +4893,7 @@ func (x *ResolvedStyle) String() string {
 func (*ResolvedStyle) ProtoMessage() {}
 
 func (x *ResolvedStyle) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[34]
+	mi := &file_ui_ui_ast_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4693,7 +4906,7 @@ func (x *ResolvedStyle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResolvedStyle.ProtoReflect.Descriptor instead.
 func (*ResolvedStyle) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{34}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *ResolvedStyle) GetProperties() []*StyleProperty {
@@ -4721,7 +4934,7 @@ type StyleProperty struct {
 
 func (x *StyleProperty) Reset() {
 	*x = StyleProperty{}
-	mi := &file_ui_ui_ast_proto_msgTypes[35]
+	mi := &file_ui_ui_ast_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4733,7 +4946,7 @@ func (x *StyleProperty) String() string {
 func (*StyleProperty) ProtoMessage() {}
 
 func (x *StyleProperty) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[35]
+	mi := &file_ui_ui_ast_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4746,7 +4959,7 @@ func (x *StyleProperty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StyleProperty.ProtoReflect.Descriptor instead.
 func (*StyleProperty) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{35}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *StyleProperty) GetType() StylePropertyType {
@@ -4854,7 +5067,7 @@ type Color struct {
 
 func (x *Color) Reset() {
 	*x = Color{}
-	mi := &file_ui_ui_ast_proto_msgTypes[36]
+	mi := &file_ui_ui_ast_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4866,7 +5079,7 @@ func (x *Color) String() string {
 func (*Color) ProtoMessage() {}
 
 func (x *Color) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[36]
+	mi := &file_ui_ui_ast_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4879,7 +5092,7 @@ func (x *Color) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Color.ProtoReflect.Descriptor instead.
 func (*Color) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{36}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *Color) GetR() uint32 {
@@ -4916,7 +5129,7 @@ type ShadowBundle struct {
 
 func (x *ShadowBundle) Reset() {
 	*x = ShadowBundle{}
-	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	mi := &file_ui_ui_ast_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4928,7 +5141,7 @@ func (x *ShadowBundle) String() string {
 func (*ShadowBundle) ProtoMessage() {}
 
 func (x *ShadowBundle) ProtoReflect() protoreflect.Message {
-	mi := &file_ui_ui_ast_proto_msgTypes[37]
+	mi := &file_ui_ui_ast_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4941,7 +5154,7 @@ func (x *ShadowBundle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShadowBundle.ProtoReflect.Descriptor instead.
 func (*ShadowBundle) Descriptor() ([]byte, []int) {
-	return file_ui_ui_ast_proto_rawDescGZIP(), []int{37}
+	return file_ui_ui_ast_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *ShadowBundle) GetWidth() uint32 {
@@ -5001,7 +5214,7 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x06Screen\x12'\n" +
 	"\x04root\x18\x01 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04root\x88\x01\x01\x122\n" +
 	"\bsubjects\x18\x02 \x03(\v2\x16.ui.SubjectDeclarationR\bsubjectsB\a\n" +
-	"\x05_root\"\xaf\x10\n" +
+	"\x05_root\"\xc1\x10\n" +
 	"\n" +
 	"WidgetNode\x12,\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x0e.ui.WidgetTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\f\n" +
@@ -5059,14 +5272,29 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x04bare\x18% \x01(\bR\x04bare\x12\x1c\n" +
 	"\n" +
 	"in_tab_bar\x18' \x01(\bR\binTabBar\x128\n" +
-	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x1a;\n" +
+	"\fchecked_when\x18* \x01(\v2\x15.ui.VisibilityBindingR\vcheckedWhen\x12\x10\n" +
+	"\x03uid\x18+ \x01(\rR\x03uid\x1a;\n" +
 	"\rBindingsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a>\n" +
 	"\x10BindFormatsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x0e\n" +
-	"\fwidget_props\"\n" +
+	"\fwidget_props\"\xc2\x01\n" +
+	"\vTreePatchOp\x12-\n" +
+	"\x04kind\x18\x01 \x01(\x0e2\x0f.ui.PatchOpKindB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04kind\x12\x1d\n" +
+	"\n" +
+	"target_uid\x18\x02 \x01(\rR\ttargetUid\x12\x1d\n" +
+	"\n" +
+	"parent_uid\x18\x03 \x01(\rR\tparentUid\x12\x14\n" +
+	"\x05index\x18\x04 \x01(\rR\x05index\x12'\n" +
+	"\x04node\x18\x05 \x01(\v2\x0e.ui.WidgetNodeH\x00R\x04node\x88\x01\x01B\a\n" +
+	"\x05_node\"n\n" +
+	"\vScreenPatch\x12\x1b\n" +
+	"\tbase_hash\x18\x01 \x01(\rR\bbaseHash\x12\x1f\n" +
+	"\vtarget_hash\x18\x02 \x01(\rR\n" +
+	"targetHash\x12!\n" +
+	"\x03ops\x18\x03 \x03(\v2\x0f.ui.TreePatchOpR\x03ops\"\n" +
 	"\n" +
 	"\bObjProps\"\r\n" +
 	"\vButtonProps\"F\n" +
@@ -5265,7 +5493,13 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\x03opa\x18\x05 \x01(\rB\b\xbaH\x05*\x03\x18\xff\x01R\x03opa*2\n" +
 	"\vSubjectType\x12\x0f\n" +
 	"\vSUBJECT_INT\x10\x00\x12\x12\n" +
-	"\x0eSUBJECT_STRING\x10\x01*\xae\x03\n" +
+	"\x0eSUBJECT_STRING\x10\x01*\x8f\x01\n" +
+	"\vPatchOpKind\x12\x19\n" +
+	"\x15PATCH_OP_UPDATE_PROPS\x10\x00\x12\x19\n" +
+	"\x15PATCH_OP_REPLACE_NODE\x10\x01\x12\x18\n" +
+	"\x14PATCH_OP_INSERT_NODE\x10\x02\x12\x18\n" +
+	"\x14PATCH_OP_REMOVE_NODE\x10\x03\x12\x16\n" +
+	"\x12PATCH_OP_MOVE_NODE\x10\x04*\xae\x03\n" +
 	"\n" +
 	"WidgetType\x12\x0e\n" +
 	"\n" +
@@ -5573,144 +5807,150 @@ func file_ui_ui_ast_proto_rawDescGZIP() []byte {
 	return file_ui_ui_ast_proto_rawDescData
 }
 
-var file_ui_ui_ast_proto_enumTypes = make([]protoimpl.EnumInfo, 24)
-var file_ui_ui_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
+var file_ui_ui_ast_proto_enumTypes = make([]protoimpl.EnumInfo, 25)
+var file_ui_ui_ast_proto_msgTypes = make([]protoimpl.MessageInfo, 42)
 var file_ui_ui_ast_proto_goTypes = []any{
 	(SubjectType)(0),           // 0: ui.SubjectType
-	(WidgetType)(0),            // 1: ui.WidgetType
-	(ProxyMode)(0),             // 2: ui.ProxyMode
-	(EventTrigger)(0),          // 3: ui.EventTrigger
-	(CompareOp)(0),             // 4: ui.CompareOp
-	(FlexFlow)(0),              // 5: ui.FlexFlow
-	(FlexAlign)(0),             // 6: ui.FlexAlign
-	(GridAlign)(0),             // 7: ui.GridAlign
-	(TextAlign)(0),             // 8: ui.TextAlign
-	(TextDecor)(0),             // 9: ui.TextDecor
-	(BlendMode)(0),             // 10: ui.BlendMode
-	(BaseDir)(0),               // 11: ui.BaseDir
-	(GradDir)(0),               // 12: ui.GradDir
-	(Dir)(0),                   // 13: ui.Dir
-	(Align)(0),                 // 14: ui.Align
-	(BorderSide)(0),            // 15: ui.BorderSide
-	(LabelLongMode)(0),         // 16: ui.LabelLongMode
-	(BarMode)(0),               // 17: ui.BarMode
-	(ArcMode)(0),               // 18: ui.ArcMode
-	(RollerMode)(0),            // 19: ui.RollerMode
-	(ScaleMode)(0),             // 20: ui.ScaleMode
-	(ChartType)(0),             // 21: ui.ChartType
-	(ChartAxis)(0),             // 22: ui.ChartAxis
-	(StylePropertyType)(0),     // 23: ui.StylePropertyType
-	(*SubjectDeclaration)(nil), // 24: ui.SubjectDeclaration
-	(*StateUpdate)(nil),        // 25: ui.StateUpdate
-	(*SubjectValue)(nil),       // 26: ui.SubjectValue
-	(*Screen)(nil),             // 27: ui.Screen
-	(*WidgetNode)(nil),         // 28: ui.WidgetNode
-	(*ObjProps)(nil),           // 29: ui.ObjProps
-	(*ButtonProps)(nil),        // 30: ui.ButtonProps
-	(*LabelProps)(nil),         // 31: ui.LabelProps
-	(*SliderProps)(nil),        // 32: ui.SliderProps
-	(*ImageProps)(nil),         // 33: ui.ImageProps
-	(*ArcProps)(nil),           // 34: ui.ArcProps
-	(*BarProps)(nil),           // 35: ui.BarProps
-	(*SwitchProps)(nil),        // 36: ui.SwitchProps
-	(*CheckboxProps)(nil),      // 37: ui.CheckboxProps
-	(*DropdownProps)(nil),      // 38: ui.DropdownProps
-	(*RollerProps)(nil),        // 39: ui.RollerProps
-	(*TextareaProps)(nil),      // 40: ui.TextareaProps
-	(*SpinboxProps)(nil),       // 41: ui.SpinboxProps
-	(*SpinnerProps)(nil),       // 42: ui.SpinnerProps
-	(*LedProps)(nil),           // 43: ui.LedProps
-	(*LineProps)(nil),          // 44: ui.LineProps
-	(*ScaleProps)(nil),         // 45: ui.ScaleProps
-	(*ScaleSection)(nil),       // 46: ui.ScaleSection
-	(*ButtonMatrixProps)(nil),  // 47: ui.ButtonMatrixProps
-	(*TableProps)(nil),         // 48: ui.TableProps
-	(*TabviewProps)(nil),       // 49: ui.TabviewProps
-	(*ChartSeries)(nil),        // 50: ui.ChartSeries
-	(*ChartProps)(nil),         // 51: ui.ChartProps
-	(*HostProxyProps)(nil),     // 52: ui.HostProxyProps
-	(*Point)(nil),              // 53: ui.Point
-	(*EventBinding)(nil),       // 54: ui.EventBinding
-	(*VisibilityBinding)(nil),  // 55: ui.VisibilityBinding
-	(*Layout)(nil),             // 56: ui.Layout
-	(*StyleGroup)(nil),         // 57: ui.StyleGroup
-	(*ResolvedStyle)(nil),      // 58: ui.ResolvedStyle
-	(*StyleProperty)(nil),      // 59: ui.StyleProperty
-	(*Color)(nil),              // 60: ui.Color
-	(*ShadowBundle)(nil),       // 61: ui.ShadowBundle
-	nil,                        // 62: ui.WidgetNode.BindingsEntry
-	nil,                        // 63: ui.WidgetNode.BindFormatsEntry
+	(PatchOpKind)(0),           // 1: ui.PatchOpKind
+	(WidgetType)(0),            // 2: ui.WidgetType
+	(ProxyMode)(0),             // 3: ui.ProxyMode
+	(EventTrigger)(0),          // 4: ui.EventTrigger
+	(CompareOp)(0),             // 5: ui.CompareOp
+	(FlexFlow)(0),              // 6: ui.FlexFlow
+	(FlexAlign)(0),             // 7: ui.FlexAlign
+	(GridAlign)(0),             // 8: ui.GridAlign
+	(TextAlign)(0),             // 9: ui.TextAlign
+	(TextDecor)(0),             // 10: ui.TextDecor
+	(BlendMode)(0),             // 11: ui.BlendMode
+	(BaseDir)(0),               // 12: ui.BaseDir
+	(GradDir)(0),               // 13: ui.GradDir
+	(Dir)(0),                   // 14: ui.Dir
+	(Align)(0),                 // 15: ui.Align
+	(BorderSide)(0),            // 16: ui.BorderSide
+	(LabelLongMode)(0),         // 17: ui.LabelLongMode
+	(BarMode)(0),               // 18: ui.BarMode
+	(ArcMode)(0),               // 19: ui.ArcMode
+	(RollerMode)(0),            // 20: ui.RollerMode
+	(ScaleMode)(0),             // 21: ui.ScaleMode
+	(ChartType)(0),             // 22: ui.ChartType
+	(ChartAxis)(0),             // 23: ui.ChartAxis
+	(StylePropertyType)(0),     // 24: ui.StylePropertyType
+	(*SubjectDeclaration)(nil), // 25: ui.SubjectDeclaration
+	(*StateUpdate)(nil),        // 26: ui.StateUpdate
+	(*SubjectValue)(nil),       // 27: ui.SubjectValue
+	(*Screen)(nil),             // 28: ui.Screen
+	(*WidgetNode)(nil),         // 29: ui.WidgetNode
+	(*TreePatchOp)(nil),        // 30: ui.TreePatchOp
+	(*ScreenPatch)(nil),        // 31: ui.ScreenPatch
+	(*ObjProps)(nil),           // 32: ui.ObjProps
+	(*ButtonProps)(nil),        // 33: ui.ButtonProps
+	(*LabelProps)(nil),         // 34: ui.LabelProps
+	(*SliderProps)(nil),        // 35: ui.SliderProps
+	(*ImageProps)(nil),         // 36: ui.ImageProps
+	(*ArcProps)(nil),           // 37: ui.ArcProps
+	(*BarProps)(nil),           // 38: ui.BarProps
+	(*SwitchProps)(nil),        // 39: ui.SwitchProps
+	(*CheckboxProps)(nil),      // 40: ui.CheckboxProps
+	(*DropdownProps)(nil),      // 41: ui.DropdownProps
+	(*RollerProps)(nil),        // 42: ui.RollerProps
+	(*TextareaProps)(nil),      // 43: ui.TextareaProps
+	(*SpinboxProps)(nil),       // 44: ui.SpinboxProps
+	(*SpinnerProps)(nil),       // 45: ui.SpinnerProps
+	(*LedProps)(nil),           // 46: ui.LedProps
+	(*LineProps)(nil),          // 47: ui.LineProps
+	(*ScaleProps)(nil),         // 48: ui.ScaleProps
+	(*ScaleSection)(nil),       // 49: ui.ScaleSection
+	(*ButtonMatrixProps)(nil),  // 50: ui.ButtonMatrixProps
+	(*TableProps)(nil),         // 51: ui.TableProps
+	(*TabviewProps)(nil),       // 52: ui.TabviewProps
+	(*ChartSeries)(nil),        // 53: ui.ChartSeries
+	(*ChartProps)(nil),         // 54: ui.ChartProps
+	(*HostProxyProps)(nil),     // 55: ui.HostProxyProps
+	(*Point)(nil),              // 56: ui.Point
+	(*EventBinding)(nil),       // 57: ui.EventBinding
+	(*VisibilityBinding)(nil),  // 58: ui.VisibilityBinding
+	(*Layout)(nil),             // 59: ui.Layout
+	(*StyleGroup)(nil),         // 60: ui.StyleGroup
+	(*ResolvedStyle)(nil),      // 61: ui.ResolvedStyle
+	(*StyleProperty)(nil),      // 62: ui.StyleProperty
+	(*Color)(nil),              // 63: ui.Color
+	(*ShadowBundle)(nil),       // 64: ui.ShadowBundle
+	nil,                        // 65: ui.WidgetNode.BindingsEntry
+	nil,                        // 66: ui.WidgetNode.BindFormatsEntry
 }
 var file_ui_ui_ast_proto_depIdxs = []int32{
 	0,  // 0: ui.SubjectDeclaration.type:type_name -> ui.SubjectType
-	26, // 1: ui.StateUpdate.values:type_name -> ui.SubjectValue
-	28, // 2: ui.Screen.root:type_name -> ui.WidgetNode
-	24, // 3: ui.Screen.subjects:type_name -> ui.SubjectDeclaration
-	1,  // 4: ui.WidgetNode.type:type_name -> ui.WidgetType
-	62, // 5: ui.WidgetNode.bindings:type_name -> ui.WidgetNode.BindingsEntry
-	54, // 6: ui.WidgetNode.event:type_name -> ui.EventBinding
-	56, // 7: ui.WidgetNode.layout:type_name -> ui.Layout
-	28, // 8: ui.WidgetNode.children:type_name -> ui.WidgetNode
-	57, // 9: ui.WidgetNode.style_groups:type_name -> ui.StyleGroup
-	29, // 10: ui.WidgetNode.obj_props:type_name -> ui.ObjProps
-	30, // 11: ui.WidgetNode.button_props:type_name -> ui.ButtonProps
-	31, // 12: ui.WidgetNode.label_props:type_name -> ui.LabelProps
-	32, // 13: ui.WidgetNode.slider_props:type_name -> ui.SliderProps
-	33, // 14: ui.WidgetNode.image_props:type_name -> ui.ImageProps
-	34, // 15: ui.WidgetNode.arc_props:type_name -> ui.ArcProps
-	35, // 16: ui.WidgetNode.bar_props:type_name -> ui.BarProps
-	36, // 17: ui.WidgetNode.switch_props:type_name -> ui.SwitchProps
-	37, // 18: ui.WidgetNode.checkbox_props:type_name -> ui.CheckboxProps
-	38, // 19: ui.WidgetNode.dropdown_props:type_name -> ui.DropdownProps
-	39, // 20: ui.WidgetNode.roller_props:type_name -> ui.RollerProps
-	40, // 21: ui.WidgetNode.textarea_props:type_name -> ui.TextareaProps
-	41, // 22: ui.WidgetNode.spinbox_props:type_name -> ui.SpinboxProps
-	42, // 23: ui.WidgetNode.spinner_props:type_name -> ui.SpinnerProps
-	43, // 24: ui.WidgetNode.led_props:type_name -> ui.LedProps
-	44, // 25: ui.WidgetNode.line_props:type_name -> ui.LineProps
-	45, // 26: ui.WidgetNode.scale_props:type_name -> ui.ScaleProps
-	47, // 27: ui.WidgetNode.buttonmatrix_props:type_name -> ui.ButtonMatrixProps
-	48, // 28: ui.WidgetNode.table_props:type_name -> ui.TableProps
-	49, // 29: ui.WidgetNode.tabview_props:type_name -> ui.TabviewProps
-	51, // 30: ui.WidgetNode.chart_props:type_name -> ui.ChartProps
-	52, // 31: ui.WidgetNode.host_proxy_props:type_name -> ui.HostProxyProps
-	55, // 32: ui.WidgetNode.visibility:type_name -> ui.VisibilityBinding
-	63, // 33: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
-	55, // 34: ui.WidgetNode.checked_when:type_name -> ui.VisibilityBinding
-	16, // 35: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
-	17, // 36: ui.SliderProps.mode:type_name -> ui.BarMode
-	18, // 37: ui.ArcProps.mode:type_name -> ui.ArcMode
-	17, // 38: ui.BarProps.mode:type_name -> ui.BarMode
-	13, // 39: ui.DropdownProps.direction:type_name -> ui.Dir
-	19, // 40: ui.RollerProps.mode:type_name -> ui.RollerMode
-	60, // 41: ui.LedProps.color:type_name -> ui.Color
-	53, // 42: ui.LineProps.points:type_name -> ui.Point
-	20, // 43: ui.ScaleProps.mode:type_name -> ui.ScaleMode
-	46, // 44: ui.ScaleProps.sections:type_name -> ui.ScaleSection
-	60, // 45: ui.ScaleSection.color:type_name -> ui.Color
-	60, // 46: ui.ScaleSection.main_color:type_name -> ui.Color
-	13, // 47: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
-	60, // 48: ui.ChartSeries.color:type_name -> ui.Color
-	22, // 49: ui.ChartSeries.axis:type_name -> ui.ChartAxis
-	21, // 50: ui.ChartProps.type:type_name -> ui.ChartType
-	50, // 51: ui.ChartProps.series:type_name -> ui.ChartSeries
-	2,  // 52: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
-	3,  // 53: ui.EventBinding.trigger:type_name -> ui.EventTrigger
-	4,  // 54: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
-	5,  // 55: ui.Layout.flow:type_name -> ui.FlexFlow
-	6,  // 56: ui.Layout.main_place:type_name -> ui.FlexAlign
-	6,  // 57: ui.Layout.cross_place:type_name -> ui.FlexAlign
-	6,  // 58: ui.Layout.track_place:type_name -> ui.FlexAlign
-	58, // 59: ui.StyleGroup.variants:type_name -> ui.ResolvedStyle
-	59, // 60: ui.ResolvedStyle.properties:type_name -> ui.StyleProperty
-	23, // 61: ui.StyleProperty.type:type_name -> ui.StylePropertyType
-	60, // 62: ui.StyleProperty.color_value:type_name -> ui.Color
-	61, // 63: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
-	64, // [64:64] is the sub-list for method output_type
-	64, // [64:64] is the sub-list for method input_type
-	64, // [64:64] is the sub-list for extension type_name
-	64, // [64:64] is the sub-list for extension extendee
-	0,  // [0:64] is the sub-list for field type_name
+	27, // 1: ui.StateUpdate.values:type_name -> ui.SubjectValue
+	29, // 2: ui.Screen.root:type_name -> ui.WidgetNode
+	25, // 3: ui.Screen.subjects:type_name -> ui.SubjectDeclaration
+	2,  // 4: ui.WidgetNode.type:type_name -> ui.WidgetType
+	65, // 5: ui.WidgetNode.bindings:type_name -> ui.WidgetNode.BindingsEntry
+	57, // 6: ui.WidgetNode.event:type_name -> ui.EventBinding
+	59, // 7: ui.WidgetNode.layout:type_name -> ui.Layout
+	29, // 8: ui.WidgetNode.children:type_name -> ui.WidgetNode
+	60, // 9: ui.WidgetNode.style_groups:type_name -> ui.StyleGroup
+	32, // 10: ui.WidgetNode.obj_props:type_name -> ui.ObjProps
+	33, // 11: ui.WidgetNode.button_props:type_name -> ui.ButtonProps
+	34, // 12: ui.WidgetNode.label_props:type_name -> ui.LabelProps
+	35, // 13: ui.WidgetNode.slider_props:type_name -> ui.SliderProps
+	36, // 14: ui.WidgetNode.image_props:type_name -> ui.ImageProps
+	37, // 15: ui.WidgetNode.arc_props:type_name -> ui.ArcProps
+	38, // 16: ui.WidgetNode.bar_props:type_name -> ui.BarProps
+	39, // 17: ui.WidgetNode.switch_props:type_name -> ui.SwitchProps
+	40, // 18: ui.WidgetNode.checkbox_props:type_name -> ui.CheckboxProps
+	41, // 19: ui.WidgetNode.dropdown_props:type_name -> ui.DropdownProps
+	42, // 20: ui.WidgetNode.roller_props:type_name -> ui.RollerProps
+	43, // 21: ui.WidgetNode.textarea_props:type_name -> ui.TextareaProps
+	44, // 22: ui.WidgetNode.spinbox_props:type_name -> ui.SpinboxProps
+	45, // 23: ui.WidgetNode.spinner_props:type_name -> ui.SpinnerProps
+	46, // 24: ui.WidgetNode.led_props:type_name -> ui.LedProps
+	47, // 25: ui.WidgetNode.line_props:type_name -> ui.LineProps
+	48, // 26: ui.WidgetNode.scale_props:type_name -> ui.ScaleProps
+	50, // 27: ui.WidgetNode.buttonmatrix_props:type_name -> ui.ButtonMatrixProps
+	51, // 28: ui.WidgetNode.table_props:type_name -> ui.TableProps
+	52, // 29: ui.WidgetNode.tabview_props:type_name -> ui.TabviewProps
+	54, // 30: ui.WidgetNode.chart_props:type_name -> ui.ChartProps
+	55, // 31: ui.WidgetNode.host_proxy_props:type_name -> ui.HostProxyProps
+	58, // 32: ui.WidgetNode.visibility:type_name -> ui.VisibilityBinding
+	66, // 33: ui.WidgetNode.bind_formats:type_name -> ui.WidgetNode.BindFormatsEntry
+	58, // 34: ui.WidgetNode.checked_when:type_name -> ui.VisibilityBinding
+	1,  // 35: ui.TreePatchOp.kind:type_name -> ui.PatchOpKind
+	29, // 36: ui.TreePatchOp.node:type_name -> ui.WidgetNode
+	30, // 37: ui.ScreenPatch.ops:type_name -> ui.TreePatchOp
+	17, // 38: ui.LabelProps.long_mode:type_name -> ui.LabelLongMode
+	18, // 39: ui.SliderProps.mode:type_name -> ui.BarMode
+	19, // 40: ui.ArcProps.mode:type_name -> ui.ArcMode
+	18, // 41: ui.BarProps.mode:type_name -> ui.BarMode
+	14, // 42: ui.DropdownProps.direction:type_name -> ui.Dir
+	20, // 43: ui.RollerProps.mode:type_name -> ui.RollerMode
+	63, // 44: ui.LedProps.color:type_name -> ui.Color
+	56, // 45: ui.LineProps.points:type_name -> ui.Point
+	21, // 46: ui.ScaleProps.mode:type_name -> ui.ScaleMode
+	49, // 47: ui.ScaleProps.sections:type_name -> ui.ScaleSection
+	63, // 48: ui.ScaleSection.color:type_name -> ui.Color
+	63, // 49: ui.ScaleSection.main_color:type_name -> ui.Color
+	14, // 50: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
+	63, // 51: ui.ChartSeries.color:type_name -> ui.Color
+	23, // 52: ui.ChartSeries.axis:type_name -> ui.ChartAxis
+	22, // 53: ui.ChartProps.type:type_name -> ui.ChartType
+	53, // 54: ui.ChartProps.series:type_name -> ui.ChartSeries
+	3,  // 55: ui.HostProxyProps.mode:type_name -> ui.ProxyMode
+	4,  // 56: ui.EventBinding.trigger:type_name -> ui.EventTrigger
+	5,  // 57: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
+	6,  // 58: ui.Layout.flow:type_name -> ui.FlexFlow
+	7,  // 59: ui.Layout.main_place:type_name -> ui.FlexAlign
+	7,  // 60: ui.Layout.cross_place:type_name -> ui.FlexAlign
+	7,  // 61: ui.Layout.track_place:type_name -> ui.FlexAlign
+	61, // 62: ui.StyleGroup.variants:type_name -> ui.ResolvedStyle
+	62, // 63: ui.ResolvedStyle.properties:type_name -> ui.StyleProperty
+	24, // 64: ui.StyleProperty.type:type_name -> ui.StylePropertyType
+	63, // 65: ui.StyleProperty.color_value:type_name -> ui.Color
+	64, // 66: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
+	67, // [67:67] is the sub-list for method output_type
+	67, // [67:67] is the sub-list for method input_type
+	67, // [67:67] is the sub-list for extension type_name
+	67, // [67:67] is the sub-list for extension extendee
+	0,  // [0:67] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_ast_proto_init() }
@@ -5751,7 +5991,8 @@ func file_ui_ui_ast_proto_init() {
 		(*WidgetNode_ChartProps)(nil),
 		(*WidgetNode_HostProxyProps)(nil),
 	}
-	file_ui_ui_ast_proto_msgTypes[35].OneofWrappers = []any{
+	file_ui_ui_ast_proto_msgTypes[5].OneofWrappers = []any{}
+	file_ui_ui_ast_proto_msgTypes[37].OneofWrappers = []any{
 		(*StyleProperty_UintValue)(nil),
 		(*StyleProperty_IntValue)(nil),
 		(*StyleProperty_ColorValue)(nil),
@@ -5763,8 +6004,8 @@ func file_ui_ui_ast_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_ast_proto_rawDesc), len(file_ui_ui_ast_proto_rawDesc)),
-			NumEnums:      24,
-			NumMessages:   40,
+			NumEnums:      25,
+			NumMessages:   42,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

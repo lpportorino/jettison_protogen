@@ -53,3 +53,7 @@ ui.ChartSeries.values            max_count:32
 
 # Host-proxy arm: stable host-side join key
 ui.HostProxyProps.proxy_id       max_size:64
+
+# Tree patches: ops stream through a callback (unbounded op count); each
+# op's WidgetNode payload reuses the existing callback machinery.
+ui.ScreenPatch.ops               type:FT_CALLBACK
