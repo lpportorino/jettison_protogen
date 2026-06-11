@@ -998,6 +998,30 @@ public object WidgetNodeKt {
     }
 
     /**
+     * `.ui.HostProxyProps host_proxy_props = 41;`
+     */
+    public var hostProxyProps: ui.UiAst.HostProxyProps
+      @JvmName("getHostProxyProps")
+      get() = _builder.hostProxyProps
+      @JvmName("setHostProxyProps")
+      set(value) {
+        _builder.hostProxyProps = value
+      }
+    /**
+     * `.ui.HostProxyProps host_proxy_props = 41;`
+     */
+    public fun clearHostProxyProps() {
+      _builder.clearHostProxyProps()
+    }
+    /**
+     * `.ui.HostProxyProps host_proxy_props = 41;`
+     * @return Whether the hostProxyProps field is set.
+     */
+    public fun hasHostProxyProps(): kotlin.Boolean {
+      return _builder.hasHostProxyProps()
+    }
+
+    /**
      * ```
      * Conditional visibility binding (show/hide based on subject value)
      * ```
@@ -1450,6 +1474,57 @@ public object WidgetNodeKt {
     public fun clearInTabBar() {
       _builder.clearInTabBar()
     }
+
+    /**
+     * ```
+     * Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+     * the comparison against the subject holds, cleared otherwise (the
+     * reactive sibling of `states`; setting CHECKED in both is author error,
+     * rejected by codegen validation). Reuses the VisibilityBinding shape
+     * (subject + ref_value + compare).
+     * ```
+     *
+     * `.ui.VisibilityBinding checked_when = 42;`
+     */
+    public var checkedWhen: ui.UiAst.VisibilityBinding
+      @JvmName("getCheckedWhen")
+      get() = _builder.checkedWhen
+      @JvmName("setCheckedWhen")
+      set(value) {
+        _builder.checkedWhen = value
+      }
+    /**
+     * ```
+     * Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+     * the comparison against the subject holds, cleared otherwise (the
+     * reactive sibling of `states`; setting CHECKED in both is author error,
+     * rejected by codegen validation). Reuses the VisibilityBinding shape
+     * (subject + ref_value + compare).
+     * ```
+     *
+     * `.ui.VisibilityBinding checked_when = 42;`
+     */
+    public fun clearCheckedWhen() {
+      _builder.clearCheckedWhen()
+    }
+    /**
+     * ```
+     * Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+     * the comparison against the subject holds, cleared otherwise (the
+     * reactive sibling of `states`; setting CHECKED in both is author error,
+     * rejected by codegen validation). Reuses the VisibilityBinding shape
+     * (subject + ref_value + compare).
+     * ```
+     *
+     * `.ui.VisibilityBinding checked_when = 42;`
+     * @return Whether the checkedWhen field is set.
+     */
+    public fun hasCheckedWhen(): kotlin.Boolean {
+      return _builder.hasCheckedWhen()
+    }
+
+    public val WidgetNodeKt.Dsl.checkedWhenOrNull: ui.UiAst.VisibilityBinding?
+      get() = _builder.checkedWhenOrNull
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()
@@ -1532,6 +1607,12 @@ public val ui.UiAst.WidgetNodeOrBuilder.tabviewPropsOrNull: ui.UiAst.TabviewProp
 public val ui.UiAst.WidgetNodeOrBuilder.chartPropsOrNull: ui.UiAst.ChartProps?
   get() = if (hasChartProps()) getChartProps() else null
 
+public val ui.UiAst.WidgetNodeOrBuilder.hostProxyPropsOrNull: ui.UiAst.HostProxyProps?
+  get() = if (hasHostProxyProps()) getHostProxyProps() else null
+
 public val ui.UiAst.WidgetNodeOrBuilder.visibilityOrNull: ui.UiAst.VisibilityBinding?
   get() = if (hasVisibility()) getVisibility() else null
+
+public val ui.UiAst.WidgetNodeOrBuilder.checkedWhenOrNull: ui.UiAst.VisibilityBinding?
+  get() = if (hasCheckedWhen()) getCheckedWhen() else null
 

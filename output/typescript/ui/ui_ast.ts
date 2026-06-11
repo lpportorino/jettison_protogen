@@ -67,6 +67,7 @@ export enum WidgetType {
   WIDGET_TABLE = 18,
   WIDGET_TABVIEW = 19,
   WIDGET_CHART = 20,
+  WIDGET_HOST_PROXY = 21,
   UNRECOGNIZED = -1,
 }
 
@@ -135,6 +136,9 @@ export function widgetTypeFromJSON(object: any): WidgetType {
     case 20:
     case "WIDGET_CHART":
       return WidgetType.WIDGET_CHART;
+    case 21:
+    case "WIDGET_HOST_PROXY":
+      return WidgetType.WIDGET_HOST_PROXY;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -186,7 +190,62 @@ export function widgetTypeToJSON(object: WidgetType): string {
       return "WIDGET_TABVIEW";
     case WidgetType.WIDGET_CHART:
       return "WIDGET_CHART";
+    case WidgetType.WIDGET_HOST_PROXY:
+      return "WIDGET_HOST_PROXY";
     case WidgetType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/**
+ * Host-proxy positioning modes. OUR enum (no LVGL counterpart — not
+ * parity-gated); int values are the wire contract for the mode subject.
+ */
+export enum ProxyMode {
+  /** PROXY_MODE_STATIC - host element interactive; proxy inert */
+  PROXY_MODE_STATIC = 0,
+  /** PROXY_MODE_DRAGGABLE - body drag moves the box */
+  PROXY_MODE_DRAGGABLE = 1,
+  /** PROXY_MODE_RESIZABLE - corner handles resize; body drag moves */
+  PROXY_MODE_RESIZABLE = 2,
+  /** PROXY_MODE_ALIGNABLE - 3x3 snap grid; no free drag */
+  PROXY_MODE_ALIGNABLE = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function proxyModeFromJSON(object: any): ProxyMode {
+  switch (object) {
+    case 0:
+    case "PROXY_MODE_STATIC":
+      return ProxyMode.PROXY_MODE_STATIC;
+    case 1:
+    case "PROXY_MODE_DRAGGABLE":
+      return ProxyMode.PROXY_MODE_DRAGGABLE;
+    case 2:
+    case "PROXY_MODE_RESIZABLE":
+      return ProxyMode.PROXY_MODE_RESIZABLE;
+    case 3:
+    case "PROXY_MODE_ALIGNABLE":
+      return ProxyMode.PROXY_MODE_ALIGNABLE;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return ProxyMode.UNRECOGNIZED;
+  }
+}
+
+export function proxyModeToJSON(object: ProxyMode): string {
+  switch (object) {
+    case ProxyMode.PROXY_MODE_STATIC:
+      return "PROXY_MODE_STATIC";
+    case ProxyMode.PROXY_MODE_DRAGGABLE:
+      return "PROXY_MODE_DRAGGABLE";
+    case ProxyMode.PROXY_MODE_RESIZABLE:
+      return "PROXY_MODE_RESIZABLE";
+    case ProxyMode.PROXY_MODE_ALIGNABLE:
+      return "PROXY_MODE_ALIGNABLE";
+    case ProxyMode.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
@@ -2106,8 +2165,9 @@ export interface WidgetNode {
   buttonmatrixProps?: ButtonMatrixProps | undefined;
   tableProps?: TableProps | undefined;
   tabviewProps?: TabviewProps | undefined;
-  chartProps?:
-    | ChartProps
+  chartProps?: ChartProps | undefined;
+  hostProxyProps?:
+    | HostProxyProps
     | undefined;
   /** Conditional visibility binding (show/hide based on subject value) */
   visibility:
@@ -2144,6 +2204,14 @@ export interface WidgetNode {
    * (lv_tabview_get_tab_bar) instead of zipping into a tab page.
    */
   inTabBar: boolean;
+  /**
+   * Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+   * the comparison against the subject holds, cleared otherwise (the
+   * reactive sibling of `states`; setting CHECKED in both is author error,
+   * rejected by codegen validation). Reuses the VisibilityBinding shape
+   * (subject + ref_value + compare).
+   */
+  checkedWhen: VisibilityBinding | undefined;
 }
 
 export interface WidgetNode_BindingsEntry {
@@ -2376,6 +2444,41 @@ export interface ChartProps {
    * under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED).
    */
   fadeArea: boolean;
+}
+
+/**
+ * Host-proxy widget: a box that POSITIONS a host-side element. The renderer
+ * draws the box + its interaction affordances and streams the box's rect +
+ * mode to the host via the host_proxy_report import; the host composites
+ * its own element (DOM overlay, video plane) at the reported rect.
+ */
+export interface HostProxyProps {
+  /**
+   * Stable host-side join key (jettison keys proxies by name —
+   * proxySerializationUtils.ts). Survives tree rebuilds.
+   */
+  proxyId: string;
+  /**
+   * Initial mode. When a "mode" binding is present, the SUBJECT is the
+   * source of truth and this is ignored after attach.
+   */
+  mode: ProxyMode;
+  /**
+   * Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
+   * at 2x the resolved handle size so handles stay usable).
+   */
+  minW: number;
+  minH: number;
+  maxW: number;
+  maxH: number;
+  /** Corner handle edge, px. 0 = renderer default (DPI-derived). */
+  handleSize: number;
+  /**
+   * Opaque host stacking hint, forwarded verbatim in reports (jettison's
+   * consumers want zIndex with every position update). The renderer never
+   * interprets it.
+   */
+  z: number;
 }
 
 export interface Point {
@@ -2856,6 +2959,7 @@ function createBaseWidgetNode(): WidgetNode {
     tableProps: undefined,
     tabviewProps: undefined,
     chartProps: undefined,
+    hostProxyProps: undefined,
     visibility: undefined,
     bindFormats: {},
     objFlags: 0,
@@ -2866,6 +2970,7 @@ function createBaseWidgetNode(): WidgetNode {
     gridRowDsc: [],
     bare: false,
     inTabBar: false,
+    checkedWhen: undefined,
   };
 }
 
@@ -2961,6 +3066,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.chartProps !== undefined) {
       ChartProps.encode(message.chartProps, writer.uint32(322).fork()).join();
     }
+    if (message.hostProxyProps !== undefined) {
+      HostProxyProps.encode(message.hostProxyProps, writer.uint32(330).fork()).join();
+    }
     if (message.visibility !== undefined) {
       VisibilityBinding.encode(message.visibility, writer.uint32(234).fork()).join();
     }
@@ -2994,6 +3102,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.inTabBar !== false) {
       writer.uint32(312).bool(message.inTabBar);
+    }
+    if (message.checkedWhen !== undefined) {
+      VisibilityBinding.encode(message.checkedWhen, writer.uint32(338).fork()).join();
     }
     return writer;
   },
@@ -3248,6 +3359,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.chartProps = ChartProps.decode(reader, reader.uint32());
           continue;
         }
+        case 41: {
+          if (tag !== 330) {
+            break;
+          }
+
+          message.hostProxyProps = HostProxyProps.decode(reader, reader.uint32());
+          continue;
+        }
         case 29: {
           if (tag !== 234) {
             break;
@@ -3349,6 +3468,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           }
 
           message.inTabBar = reader.bool();
+          continue;
+        }
+        case 42: {
+          if (tag !== 338) {
+            break;
+          }
+
+          message.checkedWhen = VisibilityBinding.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -3490,6 +3617,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.chart_props)
         ? ChartProps.fromJSON(object.chart_props)
         : undefined,
+      hostProxyProps: isSet(object.hostProxyProps)
+        ? HostProxyProps.fromJSON(object.hostProxyProps)
+        : isSet(object.host_proxy_props)
+        ? HostProxyProps.fromJSON(object.host_proxy_props)
+        : undefined,
       visibility: isSet(object.visibility) ? VisibilityBinding.fromJSON(object.visibility) : undefined,
       bindFormats: isObject(object.bindFormats)
         ? (globalThis.Object.entries(object.bindFormats) as [string, any][]).reduce(
@@ -3540,6 +3672,11 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.in_tab_bar)
         ? globalThis.Boolean(object.in_tab_bar)
         : false,
+      checkedWhen: isSet(object.checkedWhen)
+        ? VisibilityBinding.fromJSON(object.checkedWhen)
+        : isSet(object.checked_when)
+        ? VisibilityBinding.fromJSON(object.checked_when)
+        : undefined,
     };
   },
 
@@ -3641,6 +3778,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.chartProps !== undefined) {
       obj.chartProps = ChartProps.toJSON(message.chartProps);
     }
+    if (message.hostProxyProps !== undefined) {
+      obj.hostProxyProps = HostProxyProps.toJSON(message.hostProxyProps);
+    }
     if (message.visibility !== undefined) {
       obj.visibility = VisibilityBinding.toJSON(message.visibility);
     }
@@ -3676,6 +3816,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.inTabBar !== false) {
       obj.inTabBar = message.inTabBar;
+    }
+    if (message.checkedWhen !== undefined) {
+      obj.checkedWhen = VisibilityBinding.toJSON(message.checkedWhen);
     }
     return obj;
   },
@@ -3769,6 +3912,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.chartProps = (object.chartProps !== undefined && object.chartProps !== null)
       ? ChartProps.fromPartial(object.chartProps)
       : undefined;
+    message.hostProxyProps = (object.hostProxyProps !== undefined && object.hostProxyProps !== null)
+      ? HostProxyProps.fromPartial(object.hostProxyProps)
+      : undefined;
     message.visibility = (object.visibility !== undefined && object.visibility !== null)
       ? VisibilityBinding.fromPartial(object.visibility)
       : undefined;
@@ -3789,6 +3935,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.gridRowDsc = object.gridRowDsc?.map((e) => e) || [];
     message.bare = object.bare ?? false;
     message.inTabBar = object.inTabBar ?? false;
+    message.checkedWhen = (object.checkedWhen !== undefined && object.checkedWhen !== null)
+      ? VisibilityBinding.fromPartial(object.checkedWhen)
+      : undefined;
     return message;
   },
 };
@@ -6555,6 +6704,202 @@ export const ChartProps: MessageFns<ChartProps> = {
     message.vdivCount = object.vdivCount ?? 0;
     message.series = object.series?.map((e) => ChartSeries.fromPartial(e)) || [];
     message.fadeArea = object.fadeArea ?? false;
+    return message;
+  },
+};
+
+function createBaseHostProxyProps(): HostProxyProps {
+  return { proxyId: "", mode: 0, minW: 0, minH: 0, maxW: 0, maxH: 0, handleSize: 0, z: 0 };
+}
+
+export const HostProxyProps: MessageFns<HostProxyProps> = {
+  encode(message: HostProxyProps, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.proxyId !== "") {
+      writer.uint32(10).string(message.proxyId);
+    }
+    if (message.mode !== 0) {
+      writer.uint32(16).int32(message.mode);
+    }
+    if (message.minW !== 0) {
+      writer.uint32(24).int32(message.minW);
+    }
+    if (message.minH !== 0) {
+      writer.uint32(32).int32(message.minH);
+    }
+    if (message.maxW !== 0) {
+      writer.uint32(40).int32(message.maxW);
+    }
+    if (message.maxH !== 0) {
+      writer.uint32(48).int32(message.maxH);
+    }
+    if (message.handleSize !== 0) {
+      writer.uint32(56).uint32(message.handleSize);
+    }
+    if (message.z !== 0) {
+      writer.uint32(64).int32(message.z);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): HostProxyProps {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseHostProxyProps();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.proxyId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.mode = reader.int32() as any;
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.minW = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.minH = reader.int32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.maxW = reader.int32();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.maxH = reader.int32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.handleSize = reader.uint32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.z = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): HostProxyProps {
+    return {
+      proxyId: isSet(object.proxyId)
+        ? globalThis.String(object.proxyId)
+        : isSet(object.proxy_id)
+        ? globalThis.String(object.proxy_id)
+        : "",
+      mode: isSet(object.mode) ? proxyModeFromJSON(object.mode) : 0,
+      minW: isSet(object.minW)
+        ? globalThis.Number(object.minW)
+        : isSet(object.min_w)
+        ? globalThis.Number(object.min_w)
+        : 0,
+      minH: isSet(object.minH)
+        ? globalThis.Number(object.minH)
+        : isSet(object.min_h)
+        ? globalThis.Number(object.min_h)
+        : 0,
+      maxW: isSet(object.maxW)
+        ? globalThis.Number(object.maxW)
+        : isSet(object.max_w)
+        ? globalThis.Number(object.max_w)
+        : 0,
+      maxH: isSet(object.maxH)
+        ? globalThis.Number(object.maxH)
+        : isSet(object.max_h)
+        ? globalThis.Number(object.max_h)
+        : 0,
+      handleSize: isSet(object.handleSize)
+        ? globalThis.Number(object.handleSize)
+        : isSet(object.handle_size)
+        ? globalThis.Number(object.handle_size)
+        : 0,
+      z: isSet(object.z) ? globalThis.Number(object.z) : 0,
+    };
+  },
+
+  toJSON(message: HostProxyProps): unknown {
+    const obj: any = {};
+    if (message.proxyId !== "") {
+      obj.proxyId = message.proxyId;
+    }
+    if (message.mode !== 0) {
+      obj.mode = proxyModeToJSON(message.mode);
+    }
+    if (message.minW !== 0) {
+      obj.minW = Math.round(message.minW);
+    }
+    if (message.minH !== 0) {
+      obj.minH = Math.round(message.minH);
+    }
+    if (message.maxW !== 0) {
+      obj.maxW = Math.round(message.maxW);
+    }
+    if (message.maxH !== 0) {
+      obj.maxH = Math.round(message.maxH);
+    }
+    if (message.handleSize !== 0) {
+      obj.handleSize = Math.round(message.handleSize);
+    }
+    if (message.z !== 0) {
+      obj.z = Math.round(message.z);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<HostProxyProps>, I>>(base?: I): HostProxyProps {
+    return HostProxyProps.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<HostProxyProps>, I>>(object: I): HostProxyProps {
+    const message = createBaseHostProxyProps();
+    message.proxyId = object.proxyId ?? "";
+    message.mode = object.mode ?? 0;
+    message.minW = object.minW ?? 0;
+    message.minH = object.minH ?? 0;
+    message.maxW = object.maxW ?? 0;
+    message.maxH = object.maxH ?? 0;
+    message.handleSize = object.handleSize ?? 0;
+    message.z = object.z ?? 0;
     return message;
   },
 };

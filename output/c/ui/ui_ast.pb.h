@@ -38,8 +38,18 @@ typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_BUTTONMATRIX = 17,
     ui_WidgetType_WIDGET_TABLE = 18,
     ui_WidgetType_WIDGET_TABVIEW = 19,
-    ui_WidgetType_WIDGET_CHART = 20
+    ui_WidgetType_WIDGET_CHART = 20,
+    ui_WidgetType_WIDGET_HOST_PROXY = 21
 } ui_WidgetType;
+
+/* Host-proxy positioning modes. OUR enum (no LVGL counterpart — not
+ parity-gated); int values are the wire contract for the mode subject. */
+typedef enum _ui_ProxyMode {
+    ui_ProxyMode_PROXY_MODE_STATIC = 0, /* host element interactive; proxy inert */
+    ui_ProxyMode_PROXY_MODE_DRAGGABLE = 1, /* body drag moves the box */
+    ui_ProxyMode_PROXY_MODE_RESIZABLE = 2, /* corner handles resize; body drag moves */
+    ui_ProxyMode_PROXY_MODE_ALIGNABLE = 3 /* 3x3 snap grid; no free drag */
+} ui_ProxyMode;
 
 /* Which LVGL event code triggers this event binding. */
 typedef enum _ui_EventTrigger {
@@ -550,6 +560,31 @@ typedef struct _ui_ChartProps {
     bool fade_area;
 } ui_ChartProps;
 
+/* Host-proxy widget: a box that POSITIONS a host-side element. The renderer
+ draws the box + its interaction affordances and streams the box's rect +
+ mode to the host via the host_proxy_report import; the host composites
+ its own element (DOM overlay, video plane) at the reported rect. */
+typedef struct _ui_HostProxyProps {
+    /* Stable host-side join key (jettison keys proxies by name —
+ proxySerializationUtils.ts). Survives tree rebuilds. */
+    pb_callback_t proxy_id;
+    /* Initial mode. When a "mode" binding is present, the SUBJECT is the
+ source of truth and this is ignored after attach. */
+    ui_ProxyMode mode;
+    /* Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
+ at 2x the resolved handle size so handles stay usable). */
+    int32_t min_w;
+    int32_t min_h;
+    int32_t max_w;
+    int32_t max_h;
+    /* Corner handle edge, px. 0 = renderer default (DPI-derived). */
+    uint32_t handle_size;
+    /* Opaque host stacking hint, forwarded verbatim in reports (jettison's
+ consumers want zIndex with every position update). The renderer never
+ interprets it. */
+    int32_t z;
+} ui_HostProxyProps;
+
 typedef struct _ui_Point {
     int32_t x;
     int32_t y;
@@ -654,6 +689,7 @@ typedef struct _ui_WidgetNode {
         ui_TableProps table_props;
         ui_TabviewProps tabview_props;
         ui_ChartProps chart_props;
+        ui_HostProxyProps host_proxy_props;
     } widget_props;
     /* Conditional visibility binding (show/hide based on subject value) */
     bool has_visibility;
@@ -681,6 +717,13 @@ typedef struct _ui_WidgetNode {
  WIDGET_TABVIEW node: true builds this child inside the tab bar
  (lv_tabview_get_tab_bar) instead of zipping into a tab page. */
     bool in_tab_bar;
+    /* Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+ the comparison against the subject holds, cleared otherwise (the
+ reactive sibling of `states`; setting CHECKED in both is author error,
+ rejected by codegen validation). Reuses the VisibilityBinding shape
+ (subject + ref_value + compare). */
+    bool has_checked_when;
+    ui_VisibilityBinding checked_when;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -758,8 +801,12 @@ extern "C" {
 #define _ui_SubjectType_ARRAYSIZE ((ui_SubjectType)(ui_SubjectType_SUBJECT_STRING+1))
 
 #define _ui_WidgetType_MIN ui_WidgetType_WIDGET_OBJ
-#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_CHART
-#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_CHART+1))
+#define _ui_WidgetType_MAX ui_WidgetType_WIDGET_HOST_PROXY
+#define _ui_WidgetType_ARRAYSIZE ((ui_WidgetType)(ui_WidgetType_WIDGET_HOST_PROXY+1))
+
+#define _ui_ProxyMode_MIN ui_ProxyMode_PROXY_MODE_STATIC
+#define _ui_ProxyMode_MAX ui_ProxyMode_PROXY_MODE_ALIGNABLE
+#define _ui_ProxyMode_ARRAYSIZE ((ui_ProxyMode)(ui_ProxyMode_PROXY_MODE_ALIGNABLE+1))
 
 #define _ui_EventTrigger_MIN ui_EventTrigger_TRIGGER_CLICKED
 #define _ui_EventTrigger_MAX ui_EventTrigger_TRIGGER_LONG_PRESSED
@@ -887,6 +934,8 @@ extern "C" {
 
 #define ui_ChartProps_type_ENUMTYPE ui_ChartType
 
+#define ui_HostProxyProps_mode_ENUMTYPE ui_ProxyMode
+
 
 #define ui_EventBinding_trigger_ENUMTYPE ui_EventTrigger
 
@@ -909,7 +958,7 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default}
 #define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_default                 {0}
@@ -935,6 +984,7 @@ extern "C" {
 #define ui_TabviewProps_init_default             {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN, 0}
 #define ui_ChartSeries_init_default              {false, ui_Color_init_default, _ui_ChartAxis_MIN, {{NULL}, NULL}}
 #define ui_ChartProps_init_default               {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
+#define ui_HostProxyProps_init_default           {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_default                    {0, 0}
 #define ui_EventBinding_init_default             {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
 #define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
@@ -948,7 +998,7 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero}
 #define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_ObjProps_init_zero                    {0}
@@ -974,6 +1024,7 @@ extern "C" {
 #define ui_TabviewProps_init_zero                {{{NULL}, NULL}, 0, 0, _ui_Dir_MIN, 0}
 #define ui_ChartSeries_init_zero                 {false, ui_Color_init_zero, _ui_ChartAxis_MIN, {{NULL}, NULL}}
 #define ui_ChartProps_init_zero                  {_ui_ChartType_MIN, 0, 0, 0, 0, {{NULL}, NULL}, 0}
+#define ui_HostProxyProps_init_zero              {{{NULL}, NULL}, _ui_ProxyMode_MIN, 0, 0, 0, 0, 0, 0}
 #define ui_Point_init_zero                       {0, 0}
 #define ui_EventBinding_init_zero                {{{NULL}, NULL}, _ui_EventTrigger_MIN, 0, 0, {{NULL}, NULL}, 0, 0, 0}
 #define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
@@ -1071,6 +1122,14 @@ extern "C" {
 #define ui_ChartProps_vdiv_count_tag             5
 #define ui_ChartProps_series_tag                 6
 #define ui_ChartProps_fade_area_tag              7
+#define ui_HostProxyProps_proxy_id_tag           1
+#define ui_HostProxyProps_mode_tag               2
+#define ui_HostProxyProps_min_w_tag              3
+#define ui_HostProxyProps_min_h_tag              4
+#define ui_HostProxyProps_max_w_tag              5
+#define ui_HostProxyProps_max_h_tag              6
+#define ui_HostProxyProps_handle_size_tag        7
+#define ui_HostProxyProps_z_tag                  8
 #define ui_Point_x_tag                           1
 #define ui_Point_y_tag                           2
 #define ui_EventBinding_name_tag                 1
@@ -1126,6 +1185,7 @@ extern "C" {
 #define ui_WidgetNode_table_props_tag            28
 #define ui_WidgetNode_tabview_props_tag          38
 #define ui_WidgetNode_chart_props_tag            40
+#define ui_WidgetNode_host_proxy_props_tag       41
 #define ui_WidgetNode_visibility_tag             29
 #define ui_WidgetNode_bind_formats_tag           30
 #define ui_WidgetNode_obj_flags_tag              31
@@ -1136,6 +1196,7 @@ extern "C" {
 #define ui_WidgetNode_grid_row_dsc_tag           36
 #define ui_WidgetNode_bare_tag                   37
 #define ui_WidgetNode_in_tab_bar_tag             39
+#define ui_WidgetNode_checked_when_tag           42
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
 #define ui_ScaleSection_range_min_tag            1
@@ -1229,7 +1290,9 @@ X(a, CALLBACK, REPEATED, INT32,    grid_row_dsc,     36) \
 X(a, STATIC,   SINGULAR, BOOL,     bare,             37) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,tabview_props,widget_props.tabview_props),  38) \
 X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_props),  40)
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_props),  40) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,host_proxy_props,widget_props.host_proxy_props),  41) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1260,6 +1323,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_
 #define ui_WidgetNode_bind_formats_MSGTYPE ui_WidgetNode_BindFormatsEntry
 #define ui_WidgetNode_widget_props_tabview_props_MSGTYPE ui_TabviewProps
 #define ui_WidgetNode_widget_props_chart_props_MSGTYPE ui_ChartProps
+#define ui_WidgetNode_widget_props_host_proxy_props_MSGTYPE ui_HostProxyProps
+#define ui_WidgetNode_checked_when_MSGTYPE ui_VisibilityBinding
 
 #define ui_WidgetNode_BindingsEntry_FIELDLIST(X, a) \
 X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
@@ -1459,6 +1524,18 @@ X(a, STATIC,   SINGULAR, BOOL,     fade_area,         7)
 #define ui_ChartProps_DEFAULT NULL
 #define ui_ChartProps_series_MSGTYPE ui_ChartSeries
 
+#define ui_HostProxyProps_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   proxy_id,          1) \
+X(a, STATIC,   SINGULAR, UENUM,    mode,              2) \
+X(a, STATIC,   SINGULAR, INT32,    min_w,             3) \
+X(a, STATIC,   SINGULAR, INT32,    min_h,             4) \
+X(a, STATIC,   SINGULAR, INT32,    max_w,             5) \
+X(a, STATIC,   SINGULAR, INT32,    max_h,             6) \
+X(a, STATIC,   SINGULAR, UINT32,   handle_size,       7) \
+X(a, STATIC,   SINGULAR, INT32,    z,                 8)
+#define ui_HostProxyProps_CALLBACK pb_default_field_callback
+#define ui_HostProxyProps_DEFAULT NULL
+
 #define ui_Point_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT32,    x,                 1) \
 X(a, STATIC,   SINGULAR, INT32,    y,                 2)
@@ -1563,6 +1640,7 @@ extern const pb_msgdesc_t ui_TableProps_msg;
 extern const pb_msgdesc_t ui_TabviewProps_msg;
 extern const pb_msgdesc_t ui_ChartSeries_msg;
 extern const pb_msgdesc_t ui_ChartProps_msg;
+extern const pb_msgdesc_t ui_HostProxyProps_msg;
 extern const pb_msgdesc_t ui_Point_msg;
 extern const pb_msgdesc_t ui_EventBinding_msg;
 extern const pb_msgdesc_t ui_VisibilityBinding_msg;
@@ -1604,6 +1682,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_TabviewProps_fields &ui_TabviewProps_msg
 #define ui_ChartSeries_fields &ui_ChartSeries_msg
 #define ui_ChartProps_fields &ui_ChartProps_msg
+#define ui_HostProxyProps_fields &ui_HostProxyProps_msg
 #define ui_Point_fields &ui_Point_msg
 #define ui_EventBinding_fields &ui_EventBinding_msg
 #define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
@@ -1632,6 +1711,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_TabviewProps_size depends on runtime parameters */
 /* ui_ChartSeries_size depends on runtime parameters */
 /* ui_ChartProps_size depends on runtime parameters */
+/* ui_HostProxyProps_size depends on runtime parameters */
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
