@@ -681,18 +681,27 @@ enum ChartAxis {
 
 // A group of style variants for one LVGL state selector.
 // state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
+//
+// Sparse composite encoding: the entry with variant_index 0 (the base) is
+// ALWAYS present and emitted first; an entry for composite index 1-7 is
+// present ONLY when its resolved prop set differs from the base, and then
+// carries the COMPLETE prop set for that index (full replacement, not a
+// per-prop delta). An absent index renders exactly as the base, so a
+// fully-uniform group ships one entry.
 message StyleGroup {
   uint32 state_selector = 1;
-  // exactly 8 entries (composite indices 0-7)
-  repeated ResolvedStyle variants = 2 [(buf.validate.field).repeated = {
-    min_items: 8
+  repeated StyleVariant variants = 2 [(buf.validate.field).repeated = {
+    min_items: 1
     max_items: 8
   }];
 }
 
-// A fully-resolved style: all token refs are resolved to concrete LVGL values.
-message ResolvedStyle {
-  repeated StyleProperty properties = 1;
+// One sparse composite variant: the complete fully-resolved prop set (all
+// token refs resolved to concrete LVGL values) for composite index
+// variant_index (breakpoint_tier * 2 + theme_dark, range 0-7).
+message StyleVariant {
+  uint32 variant_index = 1 [(buf.validate.field).uint32 = {lte: 7}];
+  repeated StyleProperty properties = 2;
 }
 
 // A single LVGL style property with its resolved value.

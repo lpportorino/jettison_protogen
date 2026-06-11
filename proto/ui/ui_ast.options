@@ -2,7 +2,7 @@ ui.WidgetNode.children          type:FT_CALLBACK
 ui.WidgetNode.text              max_size:256
 ui.WidgetNode.style_groups      type:FT_CALLBACK
 ui.StyleGroup.variants          type:FT_CALLBACK
-ui.ResolvedStyle.properties     type:FT_CALLBACK
+ui.StyleVariant.properties      type:FT_CALLBACK
 ui.StyleProperty.string_value   max_size:64
 # Phase 1.4: Event system redesign
 ui.EventBinding.name                max_size:64

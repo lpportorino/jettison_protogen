@@ -4818,11 +4818,17 @@ func (x *Layout) GetTrackPlace() FlexAlign {
 
 // A group of style variants for one LVGL state selector.
 // state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
+//
+// Sparse composite encoding: the entry with variant_index 0 (the base) is
+// ALWAYS present and emitted first; an entry for composite index 1-7 is
+// present ONLY when its resolved prop set differs from the base, and then
+// carries the COMPLETE prop set for that index (full replacement, not a
+// per-prop delta). An absent index renders exactly as the base, so a
+// fully-uniform group ships one entry.
 type StyleGroup struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	StateSelector uint32                 `protobuf:"varint,1,opt,name=state_selector,json=stateSelector,proto3" json:"state_selector,omitempty"`
-	// exactly 8 entries (composite indices 0-7)
-	Variants      []*ResolvedStyle `protobuf:"bytes,2,rep,name=variants,proto3" json:"variants,omitempty"`
+	Variants      []*StyleVariant        `protobuf:"bytes,2,rep,name=variants,proto3" json:"variants,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4864,35 +4870,38 @@ func (x *StyleGroup) GetStateSelector() uint32 {
 	return 0
 }
 
-func (x *StyleGroup) GetVariants() []*ResolvedStyle {
+func (x *StyleGroup) GetVariants() []*StyleVariant {
 	if x != nil {
 		return x.Variants
 	}
 	return nil
 }
 
-// A fully-resolved style: all token refs are resolved to concrete LVGL values.
-type ResolvedStyle struct {
+// One sparse composite variant: the complete fully-resolved prop set (all
+// token refs resolved to concrete LVGL values) for composite index
+// variant_index (breakpoint_tier * 2 + theme_dark, range 0-7).
+type StyleVariant struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Properties    []*StyleProperty       `protobuf:"bytes,1,rep,name=properties,proto3" json:"properties,omitempty"`
+	VariantIndex  uint32                 `protobuf:"varint,1,opt,name=variant_index,json=variantIndex,proto3" json:"variant_index,omitempty"`
+	Properties    []*StyleProperty       `protobuf:"bytes,2,rep,name=properties,proto3" json:"properties,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ResolvedStyle) Reset() {
-	*x = ResolvedStyle{}
+func (x *StyleVariant) Reset() {
+	*x = StyleVariant{}
 	mi := &file_ui_ui_ast_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ResolvedStyle) String() string {
+func (x *StyleVariant) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ResolvedStyle) ProtoMessage() {}
+func (*StyleVariant) ProtoMessage() {}
 
-func (x *ResolvedStyle) ProtoReflect() protoreflect.Message {
+func (x *StyleVariant) ProtoReflect() protoreflect.Message {
 	mi := &file_ui_ui_ast_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4904,12 +4913,19 @@ func (x *ResolvedStyle) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResolvedStyle.ProtoReflect.Descriptor instead.
-func (*ResolvedStyle) Descriptor() ([]byte, []int) {
+// Deprecated: Use StyleVariant.ProtoReflect.Descriptor instead.
+func (*StyleVariant) Descriptor() ([]byte, []int) {
 	return file_ui_ui_ast_proto_rawDescGZIP(), []int{36}
 }
 
-func (x *ResolvedStyle) GetProperties() []*StyleProperty {
+func (x *StyleVariant) GetVariantIndex() uint32 {
+	if x != nil {
+		return x.VariantIndex
+	}
+	return 0
+}
+
+func (x *StyleVariant) GetProperties() []*StyleProperty {
 	if x != nil {
 		return x.Properties
 	}
@@ -5461,15 +5477,16 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\vcross_place\x18\x03 \x01(\x0e2\r.ui.FlexAlignB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
 	"crossPlace\x128\n" +
 	"\vtrack_place\x18\x04 \x01(\x0e2\r.ui.FlexAlignB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
-	"trackPlace\"n\n" +
+	"trackPlace\"m\n" +
 	"\n" +
 	"StyleGroup\x12%\n" +
-	"\x0estate_selector\x18\x01 \x01(\rR\rstateSelector\x129\n" +
-	"\bvariants\x18\x02 \x03(\v2\x11.ui.ResolvedStyleB\n" +
-	"\xbaH\a\x92\x01\x04\b\b\x10\bR\bvariants\"B\n" +
-	"\rResolvedStyle\x121\n" +
+	"\x0estate_selector\x18\x01 \x01(\rR\rstateSelector\x128\n" +
+	"\bvariants\x18\x02 \x03(\v2\x10.ui.StyleVariantB\n" +
+	"\xbaH\a\x92\x01\x04\b\x01\x10\bR\bvariants\"o\n" +
+	"\fStyleVariant\x12,\n" +
+	"\rvariant_index\x18\x01 \x01(\rB\a\xbaH\x04*\x02\x18\aR\fvariantIndex\x121\n" +
 	"\n" +
-	"properties\x18\x01 \x03(\v2\x11.ui.StylePropertyR\n" +
+	"properties\x18\x02 \x03(\v2\x11.ui.StylePropertyR\n" +
 	"properties\"\xa0\x02\n" +
 	"\rStyleProperty\x123\n" +
 	"\x04type\x18\x01 \x01(\x0e2\x15.ui.StylePropertyTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12\x1f\n" +
@@ -5871,7 +5888,7 @@ var file_ui_ui_ast_proto_goTypes = []any{
 	(*VisibilityBinding)(nil),  // 58: ui.VisibilityBinding
 	(*Layout)(nil),             // 59: ui.Layout
 	(*StyleGroup)(nil),         // 60: ui.StyleGroup
-	(*ResolvedStyle)(nil),      // 61: ui.ResolvedStyle
+	(*StyleVariant)(nil),       // 61: ui.StyleVariant
 	(*StyleProperty)(nil),      // 62: ui.StyleProperty
 	(*Color)(nil),              // 63: ui.Color
 	(*ShadowBundle)(nil),       // 64: ui.ShadowBundle
@@ -5941,8 +5958,8 @@ var file_ui_ui_ast_proto_depIdxs = []int32{
 	7,  // 59: ui.Layout.main_place:type_name -> ui.FlexAlign
 	7,  // 60: ui.Layout.cross_place:type_name -> ui.FlexAlign
 	7,  // 61: ui.Layout.track_place:type_name -> ui.FlexAlign
-	61, // 62: ui.StyleGroup.variants:type_name -> ui.ResolvedStyle
-	62, // 63: ui.ResolvedStyle.properties:type_name -> ui.StyleProperty
+	61, // 62: ui.StyleGroup.variants:type_name -> ui.StyleVariant
+	62, // 63: ui.StyleVariant.properties:type_name -> ui.StyleProperty
 	24, // 64: ui.StyleProperty.type:type_name -> ui.StylePropertyType
 	63, // 65: ui.StyleProperty.color_value:type_name -> ui.Color
 	64, // 66: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
