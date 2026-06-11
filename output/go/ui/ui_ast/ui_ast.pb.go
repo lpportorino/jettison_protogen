@@ -3668,11 +3668,20 @@ func (x *ScaleProps) GetSections() []*ScaleSection {
 }
 
 type ScaleSection struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RangeMin      int32                  `protobuf:"varint,1,opt,name=range_min,json=rangeMin,proto3" json:"range_min,omitempty"`
-	RangeMax      int32                  `protobuf:"varint,2,opt,name=range_max,json=rangeMax,proto3" json:"range_max,omitempty"`
-	Color         *Color                 `protobuf:"bytes,3,opt,name=color,proto3" json:"color,omitempty"`
-	Width         uint32                 `protobuf:"varint,4,opt,name=width,proto3" json:"width,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	RangeMin int32                  `protobuf:"varint,1,opt,name=range_min,json=rangeMin,proto3" json:"range_min,omitempty"`
+	RangeMax int32                  `protobuf:"varint,2,opt,name=range_max,json=rangeMax,proto3" json:"range_max,omitempty"`
+	// INDICATOR + ITEMS tick-line style for the section (line_color /
+	// line_width — the demo styles both parts identically).
+	Color *Color `protobuf:"bytes,3,opt,name=color,proto3" json:"color,omitempty"`
+	Width uint32 `protobuf:"varint,4,opt,name=width,proto3" json:"width,omitempty"`
+	// MAIN-part style for the section — the arc band on a round scale /
+	// the main line on a linear one (arc_color+arc_width AND
+	// line_color+line_width are both set from this pair; LVGL reads the
+	// part that matches the scale mode). Absent color + zero width = no
+	// MAIN section style.
+	MainColor     *Color `protobuf:"bytes,5,opt,name=main_color,json=mainColor,proto3" json:"main_color,omitempty"`
+	MainWidth     uint32 `protobuf:"varint,6,opt,name=main_width,json=mainWidth,proto3" json:"main_width,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3731,6 +3740,20 @@ func (x *ScaleSection) GetColor() *Color {
 func (x *ScaleSection) GetWidth() uint32 {
 	if x != nil {
 		return x.Width
+	}
+	return 0
+}
+
+func (x *ScaleSection) GetMainColor() *Color {
+	if x != nil {
+		return x.MainColor
+	}
+	return nil
+}
+
+func (x *ScaleSection) GetMainWidth() uint32 {
+	if x != nil {
+		return x.MainWidth
 	}
 	return 0
 }
@@ -3853,8 +3876,12 @@ type TabviewProps struct {
 	// Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
 	// the LVGL default (top).
 	TabBarPosition Dir `protobuf:"varint,4,opt,name=tab_bar_position,json=tabBarPosition,proto3,enum=ui.Dir" json:"tab_bar_position,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Extra left padding (px) on the tab bar itself — the demo offsets its
+	// tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+	// logo + title decor over the freed left half. 0 = no extra padding.
+	TabBarPadLeft int32 `protobuf:"varint,5,opt,name=tab_bar_pad_left,json=tabBarPadLeft,proto3" json:"tab_bar_pad_left,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TabviewProps) Reset() {
@@ -3913,6 +3940,13 @@ func (x *TabviewProps) GetTabBarPosition() Dir {
 		return x.TabBarPosition
 	}
 	return Dir_DIR_NONE
+}
+
+func (x *TabviewProps) GetTabBarPadLeft() int32 {
+	if x != nil {
+		return x.TabBarPadLeft
+	}
+	return 0
 }
 
 // One chart data series (lv_chart_add_series + per-index value writes).
@@ -4922,25 +4956,30 @@ const file_ui_ui_ast_proto_rawDesc = "" +
 	"\btext_src\x18\t \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\atextSrc\x12\x1b\n" +
 	"\tpost_draw\x18\n" +
 	" \x01(\bR\bpostDraw\x126\n" +
-	"\bsections\x18\v \x03(\v2\x10.ui.ScaleSectionB\b\xbaH\x05\x92\x01\x02\x10\x04R\bsections\"\x7f\n" +
+	"\bsections\x18\v \x03(\v2\x10.ui.ScaleSectionB\b\xbaH\x05\x92\x01\x02\x10\x04R\bsections\"\xc8\x01\n" +
 	"\fScaleSection\x12\x1b\n" +
 	"\trange_min\x18\x01 \x01(\x05R\brangeMin\x12\x1b\n" +
 	"\trange_max\x18\x02 \x01(\x05R\brangeMax\x12\x1f\n" +
 	"\x05color\x18\x03 \x01(\v2\t.ui.ColorR\x05color\x12\x14\n" +
-	"\x05width\x18\x04 \x01(\rR\x05width\"S\n" +
+	"\x05width\x18\x04 \x01(\rR\x05width\x12(\n" +
+	"\n" +
+	"main_color\x18\x05 \x01(\v2\t.ui.ColorR\tmainColor\x12\x1d\n" +
+	"\n" +
+	"main_width\x18\x06 \x01(\rR\tmainWidth\"S\n" +
 	"\x11ButtonMatrixProps\x12!\n" +
 	"\amap_str\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\xff\aR\x06mapStr\x12\x1b\n" +
 	"\tone_check\x18\x02 \x01(\bR\boneCheck\"L\n" +
 	"\n" +
 	"TableProps\x12\x1b\n" +
 	"\trow_count\x18\x01 \x01(\rR\browCount\x12!\n" +
-	"\fcolumn_count\x18\x02 \x01(\rR\vcolumnCount\"\xbd\x01\n" +
+	"\fcolumn_count\x18\x02 \x01(\rR\vcolumnCount\"\xe6\x01\n" +
 	"\fTabviewProps\x12+\n" +
 	"\ttab_names\x18\x01 \x03(\tB\x0e\xbaH\v\x92\x01\b\x10\b\"\x04r\x02\x18\x1fR\btabNames\x12 \n" +
 	"\ftab_bar_size\x18\x02 \x01(\x05R\n" +
 	"tabBarSize\x12!\n" +
 	"\factive_index\x18\x03 \x01(\rR\vactiveIndex\x12;\n" +
-	"\x10tab_bar_position\x18\x04 \x01(\x0e2\a.ui.DirB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0etabBarPosition\"}\n" +
+	"\x10tab_bar_position\x18\x04 \x01(\x0e2\a.ui.DirB\b\xbaH\x05\x82\x01\x02\x10\x01R\x0etabBarPosition\x12'\n" +
+	"\x10tab_bar_pad_left\x18\x05 \x01(\x05R\rtabBarPadLeft\"}\n" +
 	"\vChartSeries\x12\x1f\n" +
 	"\x05color\x18\x01 \x01(\v2\t.ui.ColorR\x05color\x12+\n" +
 	"\x04axis\x18\x02 \x01(\x0e2\r.ui.ChartAxisB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04axis\x12 \n" +
@@ -5427,27 +5466,28 @@ var file_ui_ui_ast_proto_depIdxs = []int32{
 	19, // 41: ui.ScaleProps.mode:type_name -> ui.ScaleMode
 	45, // 42: ui.ScaleProps.sections:type_name -> ui.ScaleSection
 	58, // 43: ui.ScaleSection.color:type_name -> ui.Color
-	12, // 44: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
-	58, // 45: ui.ChartSeries.color:type_name -> ui.Color
-	21, // 46: ui.ChartSeries.axis:type_name -> ui.ChartAxis
-	20, // 47: ui.ChartProps.type:type_name -> ui.ChartType
-	49, // 48: ui.ChartProps.series:type_name -> ui.ChartSeries
-	2,  // 49: ui.EventBinding.trigger:type_name -> ui.EventTrigger
-	3,  // 50: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
-	4,  // 51: ui.Layout.flow:type_name -> ui.FlexFlow
-	5,  // 52: ui.Layout.main_place:type_name -> ui.FlexAlign
-	5,  // 53: ui.Layout.cross_place:type_name -> ui.FlexAlign
-	5,  // 54: ui.Layout.track_place:type_name -> ui.FlexAlign
-	56, // 55: ui.StyleGroup.variants:type_name -> ui.ResolvedStyle
-	57, // 56: ui.ResolvedStyle.properties:type_name -> ui.StyleProperty
-	22, // 57: ui.StyleProperty.type:type_name -> ui.StylePropertyType
-	58, // 58: ui.StyleProperty.color_value:type_name -> ui.Color
-	59, // 59: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
-	60, // [60:60] is the sub-list for method output_type
-	60, // [60:60] is the sub-list for method input_type
-	60, // [60:60] is the sub-list for extension type_name
-	60, // [60:60] is the sub-list for extension extendee
-	0,  // [0:60] is the sub-list for field type_name
+	58, // 44: ui.ScaleSection.main_color:type_name -> ui.Color
+	12, // 45: ui.TabviewProps.tab_bar_position:type_name -> ui.Dir
+	58, // 46: ui.ChartSeries.color:type_name -> ui.Color
+	21, // 47: ui.ChartSeries.axis:type_name -> ui.ChartAxis
+	20, // 48: ui.ChartProps.type:type_name -> ui.ChartType
+	49, // 49: ui.ChartProps.series:type_name -> ui.ChartSeries
+	2,  // 50: ui.EventBinding.trigger:type_name -> ui.EventTrigger
+	3,  // 51: ui.VisibilityBinding.compare:type_name -> ui.CompareOp
+	4,  // 52: ui.Layout.flow:type_name -> ui.FlexFlow
+	5,  // 53: ui.Layout.main_place:type_name -> ui.FlexAlign
+	5,  // 54: ui.Layout.cross_place:type_name -> ui.FlexAlign
+	5,  // 55: ui.Layout.track_place:type_name -> ui.FlexAlign
+	56, // 56: ui.StyleGroup.variants:type_name -> ui.ResolvedStyle
+	57, // 57: ui.ResolvedStyle.properties:type_name -> ui.StyleProperty
+	22, // 58: ui.StyleProperty.type:type_name -> ui.StylePropertyType
+	58, // 59: ui.StyleProperty.color_value:type_name -> ui.Color
+	59, // 60: ui.StyleProperty.shadow_value:type_name -> ui.ShadowBundle
+	61, // [61:61] is the sub-list for method output_type
+	61, // [61:61] is the sub-list for method input_type
+	61, // [61:61] is the sub-list for extension type_name
+	61, // [61:61] is the sub-list for extension extendee
+	0,  // [0:61] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_ast_proto_init() }

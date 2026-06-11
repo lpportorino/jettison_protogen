@@ -281,8 +281,17 @@ message ScaleProps {
 message ScaleSection {
   int32 range_min = 1;
   int32 range_max = 2;
+  // INDICATOR + ITEMS tick-line style for the section (line_color /
+  // line_width — the demo styles both parts identically).
   Color color = 3;
   uint32 width = 4;
+  // MAIN-part style for the section — the arc band on a round scale /
+  // the main line on a linear one (arc_color+arc_width AND
+  // line_color+line_width are both set from this pair; LVGL reads the
+  // part that matches the scale mode). Absent color + zero width = no
+  // MAIN section style.
+  Color main_color = 5;
+  uint32 main_width = 6;
 }
 
 message ButtonMatrixProps {
@@ -313,6 +322,10 @@ message TabviewProps {
   // Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
   // the LVGL default (top).
   Dir tab_bar_position = 4 [(buf.validate.field).enum = {defined_only: true}];
+  // Extra left padding (px) on the tab bar itself — the demo offsets its
+  // tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+  // logo + title decor over the freed left half. 0 = no extra padding.
+  int32 tab_bar_pad_left = 5;
 }
 
 // One chart data series (lv_chart_add_series + per-index value writes).
