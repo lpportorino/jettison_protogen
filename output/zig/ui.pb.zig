@@ -12,6 +12,16 @@ pub const SubjectType = enum(i32) {
 };
 
 
+pub const PatchOpKind = enum(i32) {
+   PATCH_OP_UPDATE_PROPS = 0,
+   PATCH_OP_REPLACE_NODE = 1,
+   PATCH_OP_INSERT_NODE = 2,
+   PATCH_OP_REMOVE_NODE = 3,
+   PATCH_OP_MOVE_NODE = 4,
+    _,
+};
+
+
 pub const WidgetType = enum(i32) {
    WIDGET_OBJ = 0,
    WIDGET_BUTTON = 1,
@@ -719,6 +729,7 @@ pub const WidgetNode = struct {
     bare: bool = false,
     in_tab_bar: bool = false,
     checked_when: ?VisibilityBinding = null,
+    uid: u32 = 0,
     widget_props: ?widget_props_union = null,
 
     pub const _widget_props_case = enum {
@@ -815,6 +826,7 @@ pub const WidgetNode = struct {
         .bare = fd(37, .{ .scalar = .bool }),
         .in_tab_bar = fd(39, .{ .scalar = .bool }),
         .checked_when = fd(42, .submessage),
+        .uid = fd(43, .{ .scalar = .uint32 }),
     .widget_props = fd(null, .{ .oneof  = widget_props_union }),
     };
 
@@ -963,6 +975,160 @@ pub const BindFormatsEntry = struct {
         return protobuf.json.stringify(@This(), self, jws);
     }
 };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const TreePatchOp = struct {
+    kind: PatchOpKind = @enumFromInt(0),
+    target_uid: u32 = 0,
+    parent_uid: u32 = 0,
+    index: u32 = 0,
+    node: ?WidgetNode = null,
+
+    pub const _desc_table = .{
+        .kind = fd(1, .@"enum"),
+        .target_uid = fd(2, .{ .scalar = .uint32 }),
+        .parent_uid = fd(3, .{ .scalar = .uint32 }),
+        .index = fd(4, .{ .scalar = .uint32 }),
+        .node = fd(5, .submessage),
+    };
+
+    /// Encodes the message to the writer
+    /// The allocator is used to generate submessages internally.
+    /// Hence, an ArenaAllocator is a preferred choice if allocations are a bottleneck.
+    pub fn encode(
+        self: @This(),
+        writer: *std.Io.Writer,
+        allocator: std.mem.Allocator,
+    ) (std.Io.Writer.Error || std.mem.Allocator.Error)!void {
+        return protobuf.encode(writer, allocator, self);
+    }
+
+    /// Decodes the message from the bytes read from the reader.
+    pub fn decode(
+        reader: *std.Io.Reader,
+        allocator: std.mem.Allocator,
+    ) (protobuf.DecodingError || std.Io.Reader.Error || std.mem.Allocator.Error)!@This() {
+        return protobuf.decode(@This(), reader, allocator);
+    }
+    
+    /// Deinitializes and frees the memory associated with the message.
+    pub fn deinit(self: *@This(), allocator: std.mem.Allocator) void {
+        return protobuf.deinit(allocator, self);
+    }
+
+    /// Duplicates the message.
+    pub fn dupe(self: @This(), allocator: std.mem.Allocator) std.mem.Allocator.Error!@This() {
+        return protobuf.dupe(@This(), self, allocator);
+    }
+
+    /// Decodes the message from the JSON string.
+    pub fn jsonDecode(
+        input: []const u8,
+        options: std.json.ParseOptions,
+        allocator: std.mem.Allocator,
+    ) !std.json.Parsed(@This()) {
+        return protobuf.json.decode(@This(), input, options, allocator);
+    }
+  
+    /// Encodes the message to a JSON string.
+    pub fn jsonEncode(
+        self: @This(),
+        options: std.json.Stringify.Options,
+        allocator: std.mem.Allocator,
+    ) ![]const u8 {
+        return protobuf.json.encode(self, options, allocator);
+    }
+
+    /// This method is used by std.json
+    /// internally for deserialization. DO NOT RENAME!
+    pub fn jsonParse(
+        allocator: std.mem.Allocator,
+        source: anytype,
+        options: std.json.ParseOptions,
+    ) !@This() {
+        return protobuf.json.parse(@This(), allocator, source, options);
+    }
+
+    /// This method is used by std.json
+    /// internally for serialization. DO NOT RENAME!
+    pub fn jsonStringify(self: *const @This(), jws: anytype) !void {
+        return protobuf.json.stringify(@This(), self, jws);
+    }
+};
+
+pub const ScreenPatch = struct {
+    base_hash: u32 = 0,
+    target_hash: u32 = 0,
+    ops: std.ArrayListUnmanaged(TreePatchOp) = .empty,
+
+    pub const _desc_table = .{
+        .base_hash = fd(1, .{ .scalar = .uint32 }),
+        .target_hash = fd(2, .{ .scalar = .uint32 }),
+        .ops = fd(3, .{ .repeated = .submessage}),
+    };
 
     /// Encodes the message to the writer
     /// The allocator is used to generate submessages internally.

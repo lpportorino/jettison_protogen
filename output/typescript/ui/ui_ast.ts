@@ -45,6 +45,62 @@ export function subjectTypeToJSON(object: SubjectType): string {
   }
 }
 
+export enum PatchOpKind {
+  /** PATCH_OP_UPDATE_PROPS - morph target in place from node's props */
+  PATCH_OP_UPDATE_PROPS = 0,
+  /** PATCH_OP_REPLACE_NODE - teardown target subtree, build node in slot */
+  PATCH_OP_REPLACE_NODE = 1,
+  /** PATCH_OP_INSERT_NODE - build node under parent_uid at index */
+  PATCH_OP_INSERT_NODE = 2,
+  /** PATCH_OP_REMOVE_NODE - teardown target subtree */
+  PATCH_OP_REMOVE_NODE = 3,
+  /** PATCH_OP_MOVE_NODE - reorder target to index (same parent) */
+  PATCH_OP_MOVE_NODE = 4,
+  UNRECOGNIZED = -1,
+}
+
+export function patchOpKindFromJSON(object: any): PatchOpKind {
+  switch (object) {
+    case 0:
+    case "PATCH_OP_UPDATE_PROPS":
+      return PatchOpKind.PATCH_OP_UPDATE_PROPS;
+    case 1:
+    case "PATCH_OP_REPLACE_NODE":
+      return PatchOpKind.PATCH_OP_REPLACE_NODE;
+    case 2:
+    case "PATCH_OP_INSERT_NODE":
+      return PatchOpKind.PATCH_OP_INSERT_NODE;
+    case 3:
+    case "PATCH_OP_REMOVE_NODE":
+      return PatchOpKind.PATCH_OP_REMOVE_NODE;
+    case 4:
+    case "PATCH_OP_MOVE_NODE":
+      return PatchOpKind.PATCH_OP_MOVE_NODE;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return PatchOpKind.UNRECOGNIZED;
+  }
+}
+
+export function patchOpKindToJSON(object: PatchOpKind): string {
+  switch (object) {
+    case PatchOpKind.PATCH_OP_UPDATE_PROPS:
+      return "PATCH_OP_UPDATE_PROPS";
+    case PatchOpKind.PATCH_OP_REPLACE_NODE:
+      return "PATCH_OP_REPLACE_NODE";
+    case PatchOpKind.PATCH_OP_INSERT_NODE:
+      return "PATCH_OP_INSERT_NODE";
+    case PatchOpKind.PATCH_OP_REMOVE_NODE:
+      return "PATCH_OP_REMOVE_NODE";
+    case PatchOpKind.PATCH_OP_MOVE_NODE:
+      return "PATCH_OP_MOVE_NODE";
+    case PatchOpKind.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export enum WidgetType {
   WIDGET_OBJ = 0,
   WIDGET_BUTTON = 1,
@@ -2211,7 +2267,18 @@ export interface WidgetNode {
    * rejected by codegen validation). Reuses the VisibilityBinding shape
    * (subject + ref_value + compare).
    */
-  checkedWhen: VisibilityBinding | undefined;
+  checkedWhen:
+    | VisibilityBinding
+    | undefined;
+  /**
+   * Stable node identity for tree patching: FNV-1a-32 of the node's
+   * root→node identity path (author :id segments, else type#ordinal among
+   * unkeyed same-type siblings), assigned + collision-checked by codegen.
+   * 0 = never assigned (proto3 default); the renderer mirrors it into
+   * lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+   * address live widgets.
+   */
+  uid: number;
 }
 
 export interface WidgetNode_BindingsEntry {
@@ -2222,6 +2289,37 @@ export interface WidgetNode_BindingsEntry {
 export interface WidgetNode_BindFormatsEntry {
   key: string;
   value: string;
+}
+
+export interface TreePatchOp {
+  kind: PatchOpKind;
+  /** UPDATE / REPLACE / REMOVE / MOVE */
+  targetUid: number;
+  /** INSERT / MOVE destination */
+  parentUid: number;
+  /** INSERT / MOVE child slot */
+  index: number;
+  /**
+   * INSERT/REPLACE: the full new subtree; UPDATE_PROPS: the node's
+   * morphable prop set with children EMPTY (non-empty children in an
+   * UPDATE op is a decode error).
+   */
+  node?: WidgetNode | undefined;
+}
+
+/** Tree patch container — pushed via controls_apply_patch(ptr, len). */
+export interface ScreenPatch {
+  /**
+   * FNV-1a-32 of the base .pb bytes this patch was diffed from; the
+   * reconciler refuses on mismatch (fail-fast against out-of-order pushes).
+   */
+  baseHash: number;
+  /**
+   * Hash of the target full .pb; becomes the current-state hash after a
+   * successful apply.
+   */
+  targetHash: number;
+  ops: TreePatchOp[];
 }
 
 export interface ObjProps {
@@ -2971,6 +3069,7 @@ function createBaseWidgetNode(): WidgetNode {
     bare: false,
     inTabBar: false,
     checkedWhen: undefined,
+    uid: 0,
   };
 }
 
@@ -3105,6 +3204,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     }
     if (message.checkedWhen !== undefined) {
       VisibilityBinding.encode(message.checkedWhen, writer.uint32(338).fork()).join();
+    }
+    if (message.uid !== 0) {
+      writer.uint32(344).uint32(message.uid);
     }
     return writer;
   },
@@ -3478,6 +3580,14 @@ export const WidgetNode: MessageFns<WidgetNode> = {
           message.checkedWhen = VisibilityBinding.decode(reader, reader.uint32());
           continue;
         }
+        case 43: {
+          if (tag !== 344) {
+            break;
+          }
+
+          message.uid = reader.uint32();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -3677,6 +3787,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
         : isSet(object.checked_when)
         ? VisibilityBinding.fromJSON(object.checked_when)
         : undefined,
+      uid: isSet(object.uid) ? globalThis.Number(object.uid) : 0,
     };
   },
 
@@ -3820,6 +3931,9 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     if (message.checkedWhen !== undefined) {
       obj.checkedWhen = VisibilityBinding.toJSON(message.checkedWhen);
     }
+    if (message.uid !== 0) {
+      obj.uid = Math.round(message.uid);
+    }
     return obj;
   },
 
@@ -3938,6 +4052,7 @@ export const WidgetNode: MessageFns<WidgetNode> = {
     message.checkedWhen = (object.checkedWhen !== undefined && object.checkedWhen !== null)
       ? VisibilityBinding.fromPartial(object.checkedWhen)
       : undefined;
+    message.uid = object.uid ?? 0;
     return message;
   },
 };
@@ -4090,6 +4205,240 @@ export const WidgetNode_BindFormatsEntry: MessageFns<WidgetNode_BindFormatsEntry
     const message = createBaseWidgetNode_BindFormatsEntry();
     message.key = object.key ?? "";
     message.value = object.value ?? "";
+    return message;
+  },
+};
+
+function createBaseTreePatchOp(): TreePatchOp {
+  return { kind: 0, targetUid: 0, parentUid: 0, index: 0, node: undefined };
+}
+
+export const TreePatchOp: MessageFns<TreePatchOp> = {
+  encode(message: TreePatchOp, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.kind !== 0) {
+      writer.uint32(8).int32(message.kind);
+    }
+    if (message.targetUid !== 0) {
+      writer.uint32(16).uint32(message.targetUid);
+    }
+    if (message.parentUid !== 0) {
+      writer.uint32(24).uint32(message.parentUid);
+    }
+    if (message.index !== 0) {
+      writer.uint32(32).uint32(message.index);
+    }
+    if (message.node !== undefined) {
+      WidgetNode.encode(message.node, writer.uint32(42).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TreePatchOp {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTreePatchOp();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.kind = reader.int32() as any;
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.targetUid = reader.uint32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.parentUid = reader.uint32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.index = reader.uint32();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.node = WidgetNode.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TreePatchOp {
+    return {
+      kind: isSet(object.kind) ? patchOpKindFromJSON(object.kind) : 0,
+      targetUid: isSet(object.targetUid)
+        ? globalThis.Number(object.targetUid)
+        : isSet(object.target_uid)
+        ? globalThis.Number(object.target_uid)
+        : 0,
+      parentUid: isSet(object.parentUid)
+        ? globalThis.Number(object.parentUid)
+        : isSet(object.parent_uid)
+        ? globalThis.Number(object.parent_uid)
+        : 0,
+      index: isSet(object.index) ? globalThis.Number(object.index) : 0,
+      node: isSet(object.node) ? WidgetNode.fromJSON(object.node) : undefined,
+    };
+  },
+
+  toJSON(message: TreePatchOp): unknown {
+    const obj: any = {};
+    if (message.kind !== 0) {
+      obj.kind = patchOpKindToJSON(message.kind);
+    }
+    if (message.targetUid !== 0) {
+      obj.targetUid = Math.round(message.targetUid);
+    }
+    if (message.parentUid !== 0) {
+      obj.parentUid = Math.round(message.parentUid);
+    }
+    if (message.index !== 0) {
+      obj.index = Math.round(message.index);
+    }
+    if (message.node !== undefined) {
+      obj.node = WidgetNode.toJSON(message.node);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<TreePatchOp>, I>>(base?: I): TreePatchOp {
+    return TreePatchOp.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TreePatchOp>, I>>(object: I): TreePatchOp {
+    const message = createBaseTreePatchOp();
+    message.kind = object.kind ?? 0;
+    message.targetUid = object.targetUid ?? 0;
+    message.parentUid = object.parentUid ?? 0;
+    message.index = object.index ?? 0;
+    message.node = (object.node !== undefined && object.node !== null)
+      ? WidgetNode.fromPartial(object.node)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseScreenPatch(): ScreenPatch {
+  return { baseHash: 0, targetHash: 0, ops: [] };
+}
+
+export const ScreenPatch: MessageFns<ScreenPatch> = {
+  encode(message: ScreenPatch, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.baseHash !== 0) {
+      writer.uint32(8).uint32(message.baseHash);
+    }
+    if (message.targetHash !== 0) {
+      writer.uint32(16).uint32(message.targetHash);
+    }
+    for (const v of message.ops) {
+      TreePatchOp.encode(v!, writer.uint32(26).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ScreenPatch {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseScreenPatch();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.baseHash = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.targetHash = reader.uint32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.ops.push(TreePatchOp.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ScreenPatch {
+    return {
+      baseHash: isSet(object.baseHash)
+        ? globalThis.Number(object.baseHash)
+        : isSet(object.base_hash)
+        ? globalThis.Number(object.base_hash)
+        : 0,
+      targetHash: isSet(object.targetHash)
+        ? globalThis.Number(object.targetHash)
+        : isSet(object.target_hash)
+        ? globalThis.Number(object.target_hash)
+        : 0,
+      ops: globalThis.Array.isArray(object?.ops) ? object.ops.map((e: any) => TreePatchOp.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: ScreenPatch): unknown {
+    const obj: any = {};
+    if (message.baseHash !== 0) {
+      obj.baseHash = Math.round(message.baseHash);
+    }
+    if (message.targetHash !== 0) {
+      obj.targetHash = Math.round(message.targetHash);
+    }
+    if (message.ops?.length) {
+      obj.ops = message.ops.map((e) => TreePatchOp.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ScreenPatch>, I>>(base?: I): ScreenPatch {
+    return ScreenPatch.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ScreenPatch>, I>>(object: I): ScreenPatch {
+    const message = createBaseScreenPatch();
+    message.baseHash = object.baseHash ?? 0;
+    message.targetHash = object.targetHash ?? 0;
+    message.ops = object.ops?.map((e) => TreePatchOp.fromPartial(e)) || [];
     return message;
   },
 };

@@ -17,6 +17,14 @@ typedef enum _ui_SubjectType {
     ui_SubjectType_SUBJECT_STRING = 1
 } ui_SubjectType;
 
+typedef enum _ui_PatchOpKind {
+    ui_PatchOpKind_PATCH_OP_UPDATE_PROPS = 0, /* morph target in place from node's props */
+    ui_PatchOpKind_PATCH_OP_REPLACE_NODE = 1, /* teardown target subtree, build node in slot */
+    ui_PatchOpKind_PATCH_OP_INSERT_NODE = 2, /* build node under parent_uid at index */
+    ui_PatchOpKind_PATCH_OP_REMOVE_NODE = 3, /* teardown target subtree */
+    ui_PatchOpKind_PATCH_OP_MOVE_NODE = 4 /* reorder target to index (same parent) */
+} ui_PatchOpKind;
+
 typedef enum _ui_WidgetType {
     ui_WidgetType_WIDGET_OBJ = 0,
     ui_WidgetType_WIDGET_BUTTON = 1,
@@ -399,6 +407,17 @@ typedef struct _ui_WidgetNode_BindFormatsEntry {
     pb_callback_t value;
 } ui_WidgetNode_BindFormatsEntry;
 
+/* Tree patch container — pushed via controls_apply_patch(ptr, len). */
+typedef struct _ui_ScreenPatch {
+    /* FNV-1a-32 of the base .pb bytes this patch was diffed from; the
+ reconciler refuses on mismatch (fail-fast against out-of-order pushes). */
+    uint32_t base_hash;
+    /* Hash of the target full .pb; becomes the current-state hash after a
+ successful apply. */
+    uint32_t target_hash;
+    pb_callback_t ops;
+} ui_ScreenPatch;
+
 typedef struct _ui_ObjProps {
     char dummy_field;
 } ui_ObjProps;
@@ -724,6 +743,13 @@ typedef struct _ui_WidgetNode {
  (subject + ref_value + compare). */
     bool has_checked_when;
     ui_VisibilityBinding checked_when;
+    /* Stable node identity for tree patching: FNV-1a-32 of the node's
+ root→node identity path (author :id segments, else type#ordinal among
+ unkeyed same-type siblings), assigned + collision-checked by codegen.
+ 0 = never assigned (proto3 default); the renderer mirrors it into
+ lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+ address live widgets. */
+    uint32_t uid;
 } ui_WidgetNode;
 
 /* A complete UI screen — root message pushed via controls_load_ui(). */
@@ -734,6 +760,18 @@ typedef struct _ui_Screen {
     ui_WidgetNode root;
     pb_callback_t subjects; /* reactive subject declarations */
 } ui_Screen;
+
+typedef struct _ui_TreePatchOp {
+    ui_PatchOpKind kind;
+    uint32_t target_uid; /* UPDATE / REPLACE / REMOVE / MOVE */
+    uint32_t parent_uid; /* INSERT / MOVE destination */
+    uint32_t index; /* INSERT / MOVE child slot */
+    /* INSERT/REPLACE: the full new subtree; UPDATE_PROPS: the node's
+ morphable prop set with children EMPTY (non-empty children in an
+ UPDATE op is a decode error). */
+    bool has_node;
+    ui_WidgetNode node;
+} ui_TreePatchOp;
 
 typedef struct _ui_ScaleSection {
     int32_t range_min;
@@ -799,6 +837,10 @@ extern "C" {
 #define _ui_SubjectType_MIN ui_SubjectType_SUBJECT_INT
 #define _ui_SubjectType_MAX ui_SubjectType_SUBJECT_STRING
 #define _ui_SubjectType_ARRAYSIZE ((ui_SubjectType)(ui_SubjectType_SUBJECT_STRING+1))
+
+#define _ui_PatchOpKind_MIN ui_PatchOpKind_PATCH_OP_UPDATE_PROPS
+#define _ui_PatchOpKind_MAX ui_PatchOpKind_PATCH_OP_MOVE_NODE
+#define _ui_PatchOpKind_ARRAYSIZE ((ui_PatchOpKind)(ui_PatchOpKind_PATCH_OP_MOVE_NODE+1))
 
 #define _ui_WidgetType_MIN ui_WidgetType_WIDGET_OBJ
 #define _ui_WidgetType_MAX ui_WidgetType_WIDGET_HOST_PROXY
@@ -901,6 +943,9 @@ extern "C" {
 
 
 
+#define ui_TreePatchOp_kind_ENUMTYPE ui_PatchOpKind
+
+
 
 
 #define ui_LabelProps_long_mode_ENUMTYPE ui_LabelLongMode
@@ -958,9 +1003,11 @@ extern "C" {
 #define ui_StateUpdate_init_default              {{{NULL}, NULL}}
 #define ui_SubjectValue_init_default             {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_default                   {false, ui_WidgetNode_init_default, {{NULL}, NULL}}
-#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default}
+#define ui_WidgetNode_init_default               {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_default, false, ui_Layout_init_default, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_default}, false, ui_VisibilityBinding_init_default, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_default, 0}
 #define ui_WidgetNode_BindingsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_default {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_TreePatchOp_init_default              {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_default}
+#define ui_ScreenPatch_init_default              {0, 0, {{NULL}, NULL}}
 #define ui_ObjProps_init_default                 {0}
 #define ui_ButtonProps_init_default              {0}
 #define ui_LabelProps_init_default               {_ui_LabelLongMode_MIN}
@@ -998,9 +1045,11 @@ extern "C" {
 #define ui_StateUpdate_init_zero                 {{{NULL}, NULL}}
 #define ui_SubjectValue_init_zero                {{{NULL}, NULL}, 0, {0}}
 #define ui_Screen_init_zero                      {false, ui_WidgetNode_init_zero, {{NULL}, NULL}}
-#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero}
+#define ui_WidgetNode_init_zero                  {_ui_WidgetType_MIN, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, false, ui_EventBinding_init_zero, false, ui_Layout_init_zero, {{NULL}, NULL}, {{NULL}, NULL}, 0, {ui_ObjProps_init_zero}, false, ui_VisibilityBinding_init_zero, {{NULL}, NULL}, 0, 0, 0, 0, {{NULL}, NULL}, {{NULL}, NULL}, 0, 0, false, ui_VisibilityBinding_init_zero, 0}
 #define ui_WidgetNode_BindingsEntry_init_zero    {{{NULL}, NULL}, {{NULL}, NULL}}
 #define ui_WidgetNode_BindFormatsEntry_init_zero {{{NULL}, NULL}, {{NULL}, NULL}}
+#define ui_TreePatchOp_init_zero                 {_ui_PatchOpKind_MIN, 0, 0, 0, false, ui_WidgetNode_init_zero}
+#define ui_ScreenPatch_init_zero                 {0, 0, {{NULL}, NULL}}
 #define ui_ObjProps_init_zero                    {0}
 #define ui_ButtonProps_init_zero                 {0}
 #define ui_LabelProps_init_zero                  {_ui_LabelLongMode_MIN}
@@ -1048,6 +1097,9 @@ extern "C" {
 #define ui_WidgetNode_BindingsEntry_value_tag    2
 #define ui_WidgetNode_BindFormatsEntry_key_tag   1
 #define ui_WidgetNode_BindFormatsEntry_value_tag 2
+#define ui_ScreenPatch_base_hash_tag             1
+#define ui_ScreenPatch_target_hash_tag           2
+#define ui_ScreenPatch_ops_tag                   3
 #define ui_LabelProps_long_mode_tag              1
 #define ui_SliderProps_min_value_tag             1
 #define ui_SliderProps_max_value_tag             2
@@ -1197,8 +1249,14 @@ extern "C" {
 #define ui_WidgetNode_bare_tag                   37
 #define ui_WidgetNode_in_tab_bar_tag             39
 #define ui_WidgetNode_checked_when_tag           42
+#define ui_WidgetNode_uid_tag                    43
 #define ui_Screen_root_tag                       1
 #define ui_Screen_subjects_tag                   2
+#define ui_TreePatchOp_kind_tag                  1
+#define ui_TreePatchOp_target_uid_tag            2
+#define ui_TreePatchOp_parent_uid_tag            3
+#define ui_TreePatchOp_index_tag                 4
+#define ui_TreePatchOp_node_tag                  5
 #define ui_ScaleSection_range_min_tag            1
 #define ui_ScaleSection_range_max_tag            2
 #define ui_ScaleSection_color_tag                3
@@ -1292,7 +1350,8 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,tabview_props,widget_props.tabv
 X(a, STATIC,   SINGULAR, BOOL,     in_tab_bar,       39) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,chart_props,widget_props.chart_props),  40) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (widget_props,host_proxy_props,widget_props.host_proxy_props),  41) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42)
+X(a, STATIC,   OPTIONAL, MESSAGE,  checked_when,     42) \
+X(a, STATIC,   SINGULAR, UINT32,   uid,              43)
 #define ui_WidgetNode_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_DEFAULT NULL
 #define ui_WidgetNode_bindings_MSGTYPE ui_WidgetNode_BindingsEntry
@@ -1337,6 +1396,24 @@ X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
 X(a, CALLBACK, SINGULAR, STRING,   value,             2)
 #define ui_WidgetNode_BindFormatsEntry_CALLBACK pb_default_field_callback
 #define ui_WidgetNode_BindFormatsEntry_DEFAULT NULL
+
+#define ui_TreePatchOp_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    kind,              1) \
+X(a, STATIC,   SINGULAR, UINT32,   target_uid,        2) \
+X(a, STATIC,   SINGULAR, UINT32,   parent_uid,        3) \
+X(a, STATIC,   SINGULAR, UINT32,   index,             4) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  node,              5)
+#define ui_TreePatchOp_CALLBACK NULL
+#define ui_TreePatchOp_DEFAULT NULL
+#define ui_TreePatchOp_node_MSGTYPE ui_WidgetNode
+
+#define ui_ScreenPatch_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   base_hash,         1) \
+X(a, STATIC,   SINGULAR, UINT32,   target_hash,       2) \
+X(a, CALLBACK, REPEATED, MESSAGE,  ops,               3)
+#define ui_ScreenPatch_CALLBACK pb_default_field_callback
+#define ui_ScreenPatch_DEFAULT NULL
+#define ui_ScreenPatch_ops_MSGTYPE ui_TreePatchOp
 
 #define ui_ObjProps_FIELDLIST(X, a) \
 
@@ -1617,6 +1694,8 @@ extern const pb_msgdesc_t ui_Screen_msg;
 extern const pb_msgdesc_t ui_WidgetNode_msg;
 extern const pb_msgdesc_t ui_WidgetNode_BindingsEntry_msg;
 extern const pb_msgdesc_t ui_WidgetNode_BindFormatsEntry_msg;
+extern const pb_msgdesc_t ui_TreePatchOp_msg;
+extern const pb_msgdesc_t ui_ScreenPatch_msg;
 extern const pb_msgdesc_t ui_ObjProps_msg;
 extern const pb_msgdesc_t ui_ButtonProps_msg;
 extern const pb_msgdesc_t ui_LabelProps_msg;
@@ -1659,6 +1738,8 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_WidgetNode_fields &ui_WidgetNode_msg
 #define ui_WidgetNode_BindingsEntry_fields &ui_WidgetNode_BindingsEntry_msg
 #define ui_WidgetNode_BindFormatsEntry_fields &ui_WidgetNode_BindFormatsEntry_msg
+#define ui_TreePatchOp_fields &ui_TreePatchOp_msg
+#define ui_ScreenPatch_fields &ui_ScreenPatch_msg
 #define ui_ObjProps_fields &ui_ObjProps_msg
 #define ui_ButtonProps_fields &ui_ButtonProps_msg
 #define ui_LabelProps_fields &ui_LabelProps_msg
@@ -1701,6 +1782,8 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_WidgetNode_size depends on runtime parameters */
 /* ui_WidgetNode_BindingsEntry_size depends on runtime parameters */
 /* ui_WidgetNode_BindFormatsEntry_size depends on runtime parameters */
+/* ui_TreePatchOp_size depends on runtime parameters */
+/* ui_ScreenPatch_size depends on runtime parameters */
 /* ui_ImageProps_size depends on runtime parameters */
 /* ui_DropdownProps_size depends on runtime parameters */
 /* ui_RollerProps_size depends on runtime parameters */

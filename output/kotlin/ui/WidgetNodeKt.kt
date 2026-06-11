@@ -1525,6 +1525,41 @@ public object WidgetNodeKt {
 
     public val WidgetNodeKt.Dsl.checkedWhenOrNull: ui.UiAst.VisibilityBinding?
       get() = _builder.checkedWhenOrNull
+
+    /**
+     * ```
+     * Stable node identity for tree patching: FNV-1a-32 of the node's
+     * root→node identity path (author :id segments, else type#ordinal among
+     * unkeyed same-type siblings), assigned + collision-checked by codegen.
+     * 0 = never assigned (proto3 default); the renderer mirrors it into
+     * lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+     * address live widgets.
+     * ```
+     *
+     * `uint32 uid = 43;`
+     */
+    public var uid: kotlin.Int
+      @JvmName("getUid")
+      get() = _builder.uid
+      @JvmName("setUid")
+      set(value) {
+        _builder.uid = value
+      }
+    /**
+     * ```
+     * Stable node identity for tree patching: FNV-1a-32 of the node's
+     * root→node identity path (author :id segments, else type#ordinal among
+     * unkeyed same-type siblings), assigned + collision-checked by codegen.
+     * 0 = never assigned (proto3 default); the renderer mirrors it into
+     * lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+     * address live widgets.
+     * ```
+     *
+     * `uint32 uid = 43;`
+     */
+    public fun clearUid() {
+      _builder.clearUid()
+    }
     public val widgetPropsCase: ui.UiAst.WidgetNode.WidgetPropsCase
     @kotlin.jvm.JvmName("getWidgetPropsCase")
       get() = _builder.getWidgetPropsCase()

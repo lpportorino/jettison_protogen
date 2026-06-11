@@ -27,6 +27,12 @@ PB_BIND(ui_WidgetNode_BindingsEntry, ui_WidgetNode_BindingsEntry, AUTO)
 PB_BIND(ui_WidgetNode_BindFormatsEntry, ui_WidgetNode_BindFormatsEntry, AUTO)
 
 
+PB_BIND(ui_TreePatchOp, ui_TreePatchOp, 2)
+
+
+PB_BIND(ui_ScreenPatch, ui_ScreenPatch, AUTO)
+
+
 PB_BIND(ui_ObjProps, ui_ObjProps, AUTO)
 
 
@@ -124,6 +130,8 @@ PB_BIND(ui_Color, ui_Color, AUTO)
 
 
 PB_BIND(ui_ShadowBundle, ui_ShadowBundle, AUTO)
+
+
 
 
 
