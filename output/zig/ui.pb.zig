@@ -3348,7 +3348,7 @@ pub const Layout = struct {
 
 pub const StyleGroup = struct {
     state_selector: u32 = 0,
-    variants: std.ArrayListUnmanaged(ResolvedStyle) = .empty,
+    variants: std.ArrayListUnmanaged(StyleVariant) = .empty,
 
     pub const _desc_table = .{
         .state_selector = fd(1, .{ .scalar = .uint32 }),
@@ -3419,11 +3419,13 @@ pub const StyleGroup = struct {
     }
 };
 
-pub const ResolvedStyle = struct {
+pub const StyleVariant = struct {
+    variant_index: u32 = 0,
     properties: std.ArrayListUnmanaged(StyleProperty) = .empty,
 
     pub const _desc_table = .{
-        .properties = fd(1, .{ .repeated = .submessage}),
+        .variant_index = fd(1, .{ .scalar = .uint32 }),
+        .properties = fd(2, .{ .repeated = .submessage}),
     };
 
     /// Encodes the message to the writer

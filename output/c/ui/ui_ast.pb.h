@@ -640,17 +640,26 @@ typedef struct _ui_Layout {
 } ui_Layout;
 
 /* A group of style variants for one LVGL state selector.
- state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc. */
+ state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
+
+ Sparse composite encoding: the entry with variant_index 0 (the base) is
+ ALWAYS present and emitted first; an entry for composite index 1-7 is
+ present ONLY when its resolved prop set differs from the base, and then
+ carries the COMPLETE prop set for that index (full replacement, not a
+ per-prop delta). An absent index renders exactly as the base, so a
+ fully-uniform group ships one entry. */
 typedef struct _ui_StyleGroup {
     uint32_t state_selector;
-    /* exactly 8 entries (composite indices 0-7) */
     pb_callback_t variants;
 } ui_StyleGroup;
 
-/* A fully-resolved style: all token refs are resolved to concrete LVGL values. */
-typedef struct _ui_ResolvedStyle {
+/* One sparse composite variant: the complete fully-resolved prop set (all
+ token refs resolved to concrete LVGL values) for composite index
+ variant_index (breakpoint_tier * 2 + theme_dark, range 0-7). */
+typedef struct _ui_StyleVariant {
+    uint32_t variant_index;
     pb_callback_t properties;
-} ui_ResolvedStyle;
+} ui_StyleVariant;
 
 typedef struct _ui_Color {
     uint32_t r;
@@ -1037,7 +1046,7 @@ extern "C" {
 #define ui_VisibilityBinding_init_default        {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_default                   {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_default               {0, {{NULL}, NULL}}
-#define ui_ResolvedStyle_init_default            {{{NULL}, NULL}}
+#define ui_StyleVariant_init_default             {0, {{NULL}, NULL}}
 #define ui_StyleProperty_init_default            {_ui_StylePropertyType_MIN, 0, {0}}
 #define ui_Color_init_default                    {0, 0, 0}
 #define ui_ShadowBundle_init_default             {0, 0, 0, 0, 0}
@@ -1079,7 +1088,7 @@ extern "C" {
 #define ui_VisibilityBinding_init_zero           {{{NULL}, NULL}, 0, _ui_CompareOp_MIN}
 #define ui_Layout_init_zero                      {_ui_FlexFlow_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN, _ui_FlexAlign_MIN}
 #define ui_StyleGroup_init_zero                  {0, {{NULL}, NULL}}
-#define ui_ResolvedStyle_init_zero               {{{NULL}, NULL}}
+#define ui_StyleVariant_init_zero                {0, {{NULL}, NULL}}
 #define ui_StyleProperty_init_zero               {_ui_StylePropertyType_MIN, 0, {0}}
 #define ui_Color_init_zero                       {0, 0, 0}
 #define ui_ShadowBundle_init_zero                {0, 0, 0, 0, 0}
@@ -1201,7 +1210,8 @@ extern "C" {
 #define ui_Layout_track_place_tag                4
 #define ui_StyleGroup_state_selector_tag         1
 #define ui_StyleGroup_variants_tag               2
-#define ui_ResolvedStyle_properties_tag          1
+#define ui_StyleVariant_variant_index_tag        1
+#define ui_StyleVariant_properties_tag           2
 #define ui_Color_r_tag                           1
 #define ui_Color_g_tag                           2
 #define ui_Color_b_tag                           3
@@ -1651,13 +1661,14 @@ X(a, STATIC,   SINGULAR, UINT32,   state_selector,    1) \
 X(a, CALLBACK, REPEATED, MESSAGE,  variants,          2)
 #define ui_StyleGroup_CALLBACK pb_default_field_callback
 #define ui_StyleGroup_DEFAULT NULL
-#define ui_StyleGroup_variants_MSGTYPE ui_ResolvedStyle
+#define ui_StyleGroup_variants_MSGTYPE ui_StyleVariant
 
-#define ui_ResolvedStyle_FIELDLIST(X, a) \
-X(a, CALLBACK, REPEATED, MESSAGE,  properties,        1)
-#define ui_ResolvedStyle_CALLBACK pb_default_field_callback
-#define ui_ResolvedStyle_DEFAULT NULL
-#define ui_ResolvedStyle_properties_MSGTYPE ui_StyleProperty
+#define ui_StyleVariant_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   variant_index,     1) \
+X(a, CALLBACK, REPEATED, MESSAGE,  properties,        2)
+#define ui_StyleVariant_CALLBACK pb_default_field_callback
+#define ui_StyleVariant_DEFAULT NULL
+#define ui_StyleVariant_properties_MSGTYPE ui_StyleProperty
 
 #define ui_StyleProperty_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
@@ -1725,7 +1736,7 @@ extern const pb_msgdesc_t ui_EventBinding_msg;
 extern const pb_msgdesc_t ui_VisibilityBinding_msg;
 extern const pb_msgdesc_t ui_Layout_msg;
 extern const pb_msgdesc_t ui_StyleGroup_msg;
-extern const pb_msgdesc_t ui_ResolvedStyle_msg;
+extern const pb_msgdesc_t ui_StyleVariant_msg;
 extern const pb_msgdesc_t ui_StyleProperty_msg;
 extern const pb_msgdesc_t ui_Color_msg;
 extern const pb_msgdesc_t ui_ShadowBundle_msg;
@@ -1769,7 +1780,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 #define ui_VisibilityBinding_fields &ui_VisibilityBinding_msg
 #define ui_Layout_fields &ui_Layout_msg
 #define ui_StyleGroup_fields &ui_StyleGroup_msg
-#define ui_ResolvedStyle_fields &ui_ResolvedStyle_msg
+#define ui_StyleVariant_fields &ui_StyleVariant_msg
 #define ui_StyleProperty_fields &ui_StyleProperty_msg
 #define ui_Color_fields &ui_Color_msg
 #define ui_ShadowBundle_fields &ui_ShadowBundle_msg
@@ -1798,7 +1809,7 @@ extern const pb_msgdesc_t ui_ShadowBundle_msg;
 /* ui_EventBinding_size depends on runtime parameters */
 /* ui_VisibilityBinding_size depends on runtime parameters */
 /* ui_StyleGroup_size depends on runtime parameters */
-/* ui_ResolvedStyle_size depends on runtime parameters */
+/* ui_StyleVariant_size depends on runtime parameters */
 /* ui_StyleProperty_size depends on runtime parameters */
 #define UI_UI_UI_AST_PB_H_MAX_SIZE               ui_ScaleSection_size
 #define ui_ArcProps_size                         70

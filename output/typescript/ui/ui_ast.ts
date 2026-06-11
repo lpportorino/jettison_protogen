@@ -2623,15 +2623,26 @@ export interface Layout {
 /**
  * A group of style variants for one LVGL state selector.
  * state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
+ *
+ * Sparse composite encoding: the entry with variant_index 0 (the base) is
+ * ALWAYS present and emitted first; an entry for composite index 1-7 is
+ * present ONLY when its resolved prop set differs from the base, and then
+ * carries the COMPLETE prop set for that index (full replacement, not a
+ * per-prop delta). An absent index renders exactly as the base, so a
+ * fully-uniform group ships one entry.
  */
 export interface StyleGroup {
   stateSelector: number;
-  /** exactly 8 entries (composite indices 0-7) */
-  variants: ResolvedStyle[];
+  variants: StyleVariant[];
 }
 
-/** A fully-resolved style: all token refs are resolved to concrete LVGL values. */
-export interface ResolvedStyle {
+/**
+ * One sparse composite variant: the complete fully-resolved prop set (all
+ * token refs resolved to concrete LVGL values) for composite index
+ * variant_index (breakpoint_tier * 2 + theme_dark, range 0-7).
+ */
+export interface StyleVariant {
+  variantIndex: number;
   properties: StyleProperty[];
 }
 
@@ -7756,7 +7767,7 @@ export const StyleGroup: MessageFns<StyleGroup> = {
       writer.uint32(8).uint32(message.stateSelector);
     }
     for (const v of message.variants) {
-      ResolvedStyle.encode(v!, writer.uint32(18).fork()).join();
+      StyleVariant.encode(v!, writer.uint32(18).fork()).join();
     }
     return writer;
   },
@@ -7781,7 +7792,7 @@ export const StyleGroup: MessageFns<StyleGroup> = {
             break;
           }
 
-          message.variants.push(ResolvedStyle.decode(reader, reader.uint32()));
+          message.variants.push(StyleVariant.decode(reader, reader.uint32()));
           continue;
         }
       }
@@ -7801,7 +7812,7 @@ export const StyleGroup: MessageFns<StyleGroup> = {
         ? globalThis.Number(object.state_selector)
         : 0,
       variants: globalThis.Array.isArray(object?.variants)
-        ? object.variants.map((e: any) => ResolvedStyle.fromJSON(e))
+        ? object.variants.map((e: any) => StyleVariant.fromJSON(e))
         : [],
     };
   },
@@ -7812,7 +7823,7 @@ export const StyleGroup: MessageFns<StyleGroup> = {
       obj.stateSelector = Math.round(message.stateSelector);
     }
     if (message.variants?.length) {
-      obj.variants = message.variants.map((e) => ResolvedStyle.toJSON(e));
+      obj.variants = message.variants.map((e) => StyleVariant.toJSON(e));
     }
     return obj;
   },
@@ -7823,32 +7834,43 @@ export const StyleGroup: MessageFns<StyleGroup> = {
   fromPartial<I extends Exact<DeepPartial<StyleGroup>, I>>(object: I): StyleGroup {
     const message = createBaseStyleGroup();
     message.stateSelector = object.stateSelector ?? 0;
-    message.variants = object.variants?.map((e) => ResolvedStyle.fromPartial(e)) || [];
+    message.variants = object.variants?.map((e) => StyleVariant.fromPartial(e)) || [];
     return message;
   },
 };
 
-function createBaseResolvedStyle(): ResolvedStyle {
-  return { properties: [] };
+function createBaseStyleVariant(): StyleVariant {
+  return { variantIndex: 0, properties: [] };
 }
 
-export const ResolvedStyle: MessageFns<ResolvedStyle> = {
-  encode(message: ResolvedStyle, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const StyleVariant: MessageFns<StyleVariant> = {
+  encode(message: StyleVariant, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.variantIndex !== 0) {
+      writer.uint32(8).uint32(message.variantIndex);
+    }
     for (const v of message.properties) {
-      StyleProperty.encode(v!, writer.uint32(10).fork()).join();
+      StyleProperty.encode(v!, writer.uint32(18).fork()).join();
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ResolvedStyle {
+  decode(input: BinaryReader | Uint8Array, length?: number): StyleVariant {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseResolvedStyle();
+    const message = createBaseStyleVariant();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 10) {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.variantIndex = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
             break;
           }
 
@@ -7864,27 +7886,36 @@ export const ResolvedStyle: MessageFns<ResolvedStyle> = {
     return message;
   },
 
-  fromJSON(object: any): ResolvedStyle {
+  fromJSON(object: any): StyleVariant {
     return {
+      variantIndex: isSet(object.variantIndex)
+        ? globalThis.Number(object.variantIndex)
+        : isSet(object.variant_index)
+        ? globalThis.Number(object.variant_index)
+        : 0,
       properties: globalThis.Array.isArray(object?.properties)
         ? object.properties.map((e: any) => StyleProperty.fromJSON(e))
         : [],
     };
   },
 
-  toJSON(message: ResolvedStyle): unknown {
+  toJSON(message: StyleVariant): unknown {
     const obj: any = {};
+    if (message.variantIndex !== 0) {
+      obj.variantIndex = Math.round(message.variantIndex);
+    }
     if (message.properties?.length) {
       obj.properties = message.properties.map((e) => StyleProperty.toJSON(e));
     }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ResolvedStyle>, I>>(base?: I): ResolvedStyle {
-    return ResolvedStyle.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<StyleVariant>, I>>(base?: I): StyleVariant {
+    return StyleVariant.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<ResolvedStyle>, I>>(object: I): ResolvedStyle {
-    const message = createBaseResolvedStyle();
+  fromPartial<I extends Exact<DeepPartial<StyleVariant>, I>>(object: I): StyleVariant {
+    const message = createBaseStyleVariant();
+    message.variantIndex = object.variantIndex ?? 0;
     message.properties = object.properties?.map((e) => StyleProperty.fromPartial(e)) || [];
     return message;
   },

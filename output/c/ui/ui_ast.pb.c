@@ -120,7 +120,7 @@ PB_BIND(ui_Layout, ui_Layout, AUTO)
 PB_BIND(ui_StyleGroup, ui_StyleGroup, AUTO)
 
 
-PB_BIND(ui_ResolvedStyle, ui_ResolvedStyle, AUTO)
+PB_BIND(ui_StyleVariant, ui_StyleVariant, AUTO)
 
 
 PB_BIND(ui_StyleProperty, ui_StyleProperty, AUTO)

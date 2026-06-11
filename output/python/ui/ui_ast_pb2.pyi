@@ -1102,14 +1102,16 @@ class StyleGroup(_message.Message):
     STATE_SELECTOR_FIELD_NUMBER: _ClassVar[int]
     VARIANTS_FIELD_NUMBER: _ClassVar[int]
     state_selector: int
-    variants: _containers.RepeatedCompositeFieldContainer[ResolvedStyle]
-    def __init__(self, state_selector: _Optional[int] = ..., variants: _Optional[_Iterable[_Union[ResolvedStyle, _Mapping]]] = ...) -> None: ...
+    variants: _containers.RepeatedCompositeFieldContainer[StyleVariant]
+    def __init__(self, state_selector: _Optional[int] = ..., variants: _Optional[_Iterable[_Union[StyleVariant, _Mapping]]] = ...) -> None: ...
 
-class ResolvedStyle(_message.Message):
-    __slots__ = ("properties",)
+class StyleVariant(_message.Message):
+    __slots__ = ("variant_index", "properties")
+    VARIANT_INDEX_FIELD_NUMBER: _ClassVar[int]
     PROPERTIES_FIELD_NUMBER: _ClassVar[int]
+    variant_index: int
     properties: _containers.RepeatedCompositeFieldContainer[StyleProperty]
-    def __init__(self, properties: _Optional[_Iterable[_Union[StyleProperty, _Mapping]]] = ...) -> None: ...
+    def __init__(self, variant_index: _Optional[int] = ..., properties: _Optional[_Iterable[_Union[StyleProperty, _Mapping]]] = ...) -> None: ...
 
 class StyleProperty(_message.Message):
     __slots__ = ("type", "uint_value", "int_value", "color_value", "string_value", "shadow_value")

@@ -13,6 +13,13 @@ public inline fun styleGroup(block: ui.StyleGroupKt.Dsl.() -> kotlin.Unit): ui.U
  * ```
  * A group of style variants for one LVGL state selector.
  * state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
+ *
+ * Sparse composite encoding: the entry with variant_index 0 (the base) is
+ * ALWAYS present and emitted first; an entry for composite index 1-7 is
+ * present ONLY when its resolved prop set differs from the base, and then
+ * carries the COMPLETE prop set for that index (full replacement, not a
+ * per-prop delta). An absent index renders exactly as the base, so a
+ * fully-uniform group ships one entry.
  * ```
  *
  * Protobuf type `ui.StyleGroup`
@@ -57,95 +64,67 @@ public object StyleGroupKt {
     @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
     public class VariantsProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      */
-     public val variants: com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>
+     public val variants: com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>
       @kotlin.jvm.JvmSynthetic
       get() = com.google.protobuf.kotlin.DslList(
         _builder.variantsList
       )
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      * @param value The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addVariants")
-    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>.add(value: ui.UiAst.ResolvedStyle) {
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.add(value: ui.UiAst.StyleVariant) {
       _builder.addVariants(value)
     }
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      * @param value The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignVariants")
     @Suppress("NOTHING_TO_INLINE")
-    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>.plusAssign(value: ui.UiAst.ResolvedStyle) {
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.plusAssign(value: ui.UiAst.StyleVariant) {
       add(value)
     }
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      * @param values The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("addAllVariants")
-    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.ResolvedStyle>) {
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.addAll(values: kotlin.collections.Iterable<ui.UiAst.StyleVariant>) {
       _builder.addAllVariants(values)
     }
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      * @param values The variants to add.
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("plusAssignAllVariants")
     @Suppress("NOTHING_TO_INLINE")
-    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.ResolvedStyle>) {
+    public inline operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.plusAssign(values: kotlin.collections.Iterable<ui.UiAst.StyleVariant>) {
       addAll(values)
     }
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      * @param index The index to set the value at.
      * @param value The variants to set.
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("setVariants")
-    public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>.set(index: kotlin.Int, value: ui.UiAst.ResolvedStyle) {
+    public operator fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.set(index: kotlin.Int, value: ui.UiAst.StyleVariant) {
       _builder.setVariants(index, value)
     }
     /**
-     * ```
-     * exactly 8 entries (composite indices 0-7)
-     * ```
-     *
-     * `repeated .ui.ResolvedStyle variants = 2 [(.buf.validate.field) = { ... }`
+     * `repeated .ui.StyleVariant variants = 2 [(.buf.validate.field) = { ... }`
      */
     @kotlin.jvm.JvmSynthetic
     @kotlin.jvm.JvmName("clearVariants")
-    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.ResolvedStyle, VariantsProxy>.clear() {
+    public fun com.google.protobuf.kotlin.DslList<ui.UiAst.StyleVariant, VariantsProxy>.clear() {
       _builder.clearVariants()
     }
 
