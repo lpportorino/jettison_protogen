@@ -85,8 +85,8 @@ pub struct WidgetNode {
     /// Children
     #[prost(message, repeated, tag = "8")]
     pub children: ::prost::alloc::vec::Vec<WidgetNode>,
-    /// Style groups: default + per-state, each with 8 composite variants.
-    /// Ordered:
+    /// Style groups: default + per-state, each with 8 composite variants,
+    /// ordered default, pressed, focused, disabled, ...
     #[prost(message, repeated, tag = "9")]
     pub style_groups: ::prost::alloc::vec::Vec<StyleGroup>,
     /// Conditional visibility binding (show/hide based on subject value)
@@ -98,10 +98,54 @@ pub struct WidgetNode {
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     >,
+    /// LV_OBJ_FLAG_* bitmask to ADD on the widget (direct-cast to LVGL —
+    /// parity-gated). 0 = no extra flags.
+    #[prost(uint32, tag = "31")]
+    pub obj_flags: u32,
+    /// LV_OBJ_FLAG_* bitmask to REMOVE (e.g. clear SCROLLABLE on panels).
+    #[prost(uint32, tag = "32")]
+    pub obj_flags_clear: u32,
+    /// lv_state_t bitmask applied at create (e.g. DISABLED). Direct-cast.
+    #[prost(uint32, tag = "33")]
+    pub states: u32,
+    /// lv_dir_t scroll direction constraint; 0 = leave the LVGL default.
+    #[prost(uint32, tag = "34")]
+    pub scroll_dir: u32,
+    /// Grid track templates (lv_coord_t values incl. LV_GRID_FR/CONTENT
+    /// encodings; the renderer appends LV_GRID_TEMPLATE_LAST). Both empty =
+    /// no grid layout.
+    #[prost(int32, repeated, tag = "35")]
+    pub grid_col_dsc: ::prost::alloc::vec::Vec<i32>,
+    #[prost(int32, repeated, tag = "36")]
+    pub grid_row_dsc: ::prost::alloc::vec::Vec<i32>,
+    /// Strip ALL theme/base styles before applying style_groups
+    /// (lv_obj_remove_style_all) — layout-only or fully hand-styled nodes.
+    #[prost(bool, tag = "37")]
+    pub bare: bool,
+    /// Tab-bar slot selector — meaningful ONLY on a direct child of a
+    /// WIDGET_TABVIEW node: true builds this child inside the tab bar
+    /// (lv_tabview_get_tab_bar) instead of zipping into a tab page.
+    #[prost(bool, tag = "39")]
+    pub in_tab_bar: bool,
+    /// Reactive checked-state binding — the widget gets LV_STATE_CHECKED while
+    /// the comparison against the subject holds, cleared otherwise (the
+    /// reactive sibling of `states`; setting CHECKED in both is author error,
+    /// rejected by codegen validation). Reuses the VisibilityBinding shape
+    /// (subject + ref_value + compare).
+    #[prost(message, optional, tag = "42")]
+    pub checked_when: ::core::option::Option<VisibilityBinding>,
+    /// Stable node identity for tree patching: FNV-1a-32 of the node's
+    /// root→node identity path (author :id segments, else type#ordinal among
+    /// unkeyed same-type siblings), assigned + collision-checked by codegen.
+    /// 0 = never assigned (proto3 default); the renderer mirrors it into
+    /// lv_obj user_data and a uid→obj registry so ScreenPatch ops can
+    /// address live widgets.
+    #[prost(uint32, tag = "43")]
+    pub uid: u32,
     /// Typed widget-specific properties (one per widget type)
     #[prost(
         oneof = "widget_node::WidgetProps",
-        tags = "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28"
+        tags = "10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 38, 40, 41"
     )]
     pub widget_props: ::core::option::Option<widget_node::WidgetProps>,
 }
@@ -148,7 +192,46 @@ pub mod widget_node {
         ButtonmatrixProps(super::ButtonMatrixProps),
         #[prost(message, tag = "28")]
         TableProps(super::TableProps),
+        #[prost(message, tag = "38")]
+        TabviewProps(super::TabviewProps),
+        #[prost(message, tag = "40")]
+        ChartProps(super::ChartProps),
+        #[prost(message, tag = "41")]
+        HostProxyProps(super::HostProxyProps),
     }
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TreePatchOp {
+    #[prost(enumeration = "PatchOpKind", tag = "1")]
+    pub kind: i32,
+    /// UPDATE / REPLACE / REMOVE / MOVE
+    #[prost(uint32, tag = "2")]
+    pub target_uid: u32,
+    /// INSERT / MOVE destination
+    #[prost(uint32, tag = "3")]
+    pub parent_uid: u32,
+    /// INSERT / MOVE child slot
+    #[prost(uint32, tag = "4")]
+    pub index: u32,
+    /// INSERT/REPLACE: the full new subtree; UPDATE_PROPS: the node's
+    /// morphable prop set with children EMPTY (non-empty children in an
+    /// UPDATE op is a decode error).
+    #[prost(message, optional, tag = "5")]
+    pub node: ::core::option::Option<WidgetNode>,
+}
+/// Tree patch container — pushed via controls_apply_patch(ptr, len).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ScreenPatch {
+    /// FNV-1a-32 of the base .pb bytes this patch was diffed from; the
+    /// reconciler refuses on mismatch (fail-fast against out-of-order pushes).
+    #[prost(uint32, tag = "1")]
+    pub base_hash: u32,
+    /// Hash of the target full .pb; becomes the current-state hash after a
+    /// successful apply.
+    #[prost(uint32, tag = "2")]
+    pub target_hash: u32,
+    #[prost(message, repeated, tag = "3")]
+    pub ops: ::prost::alloc::vec::Vec<TreePatchOp>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ObjProps {}
@@ -174,6 +257,16 @@ pub struct SliderProps {
 pub struct ImageProps {
     #[prost(string, tag = "1")]
     pub src: ::prost::alloc::string::String,
+    /// Transform pivot (lv_image_set_pivot) — meaningful with rotation.
+    #[prost(bool, tag = "2")]
+    pub has_pivot: bool,
+    #[prost(int32, tag = "3")]
+    pub pivot_x: i32,
+    #[prost(int32, tag = "4")]
+    pub pivot_y: i32,
+    /// Rotation in 0.1-degree units (lv_image_set_rotation).
+    #[prost(int32, tag = "5")]
+    pub rotation: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct ArcProps {
@@ -286,7 +379,7 @@ pub struct LineProps {
     #[prost(bool, tag = "2")]
     pub y_invert: bool,
 }
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ScaleProps {
     #[prost(enumeration = "ScaleMode", tag = "1")]
     pub mode: i32,
@@ -304,6 +397,38 @@ pub struct ScaleProps {
     pub rotation: i32,
     #[prost(uint32, tag = "8")]
     pub angle_range: u32,
+    /// Demo-parity extensions (lv_demo_widgets analytics scales):
+    /// major-tick label sources ("\n"-joined custom texts).
+    #[prost(string, tag = "9")]
+    pub text_src: ::prost::alloc::string::String,
+    /// Draw tick labels after the needle/indicator (lv_scale_set_post_draw).
+    #[prost(bool, tag = "10")]
+    pub post_draw: bool,
+    /// Colored value sections (lv_scale_section_*).
+    #[prost(message, repeated, tag = "11")]
+    pub sections: ::prost::alloc::vec::Vec<ScaleSection>,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct ScaleSection {
+    #[prost(int32, tag = "1")]
+    pub range_min: i32,
+    #[prost(int32, tag = "2")]
+    pub range_max: i32,
+    /// INDICATOR + ITEMS tick-line style for the section (line_color /
+    /// line_width — the demo styles both parts identically).
+    #[prost(message, optional, tag = "3")]
+    pub color: ::core::option::Option<Color>,
+    #[prost(uint32, tag = "4")]
+    pub width: u32,
+    /// MAIN-part style for the section — the arc band on a round scale /
+    /// the main line on a linear one (arc_color+arc_width AND
+    /// line_color+line_width are both set from this pair; LVGL reads the
+    /// part that matches the scale mode). Absent color + zero width = no
+    /// MAIN section style.
+    #[prost(message, optional, tag = "5")]
+    pub main_color: ::core::option::Option<Color>,
+    #[prost(uint32, tag = "6")]
+    pub main_width: u32,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ButtonMatrixProps {
@@ -318,6 +443,105 @@ pub struct TableProps {
     pub row_count: u32,
     #[prost(uint32, tag = "2")]
     pub column_count: u32,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct TabviewProps {
+    /// Tab names, one per content child of the tabview node — child i of the
+    /// node's regular children list becomes tab i's page content (children
+    /// flagged in_tab_bar are excluded from the zip; they go to the tab bar).
+    #[prost(string, repeated, tag = "1")]
+    pub tab_names: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+    /// Tab bar size in px (height for top/bottom bars, width for left/right);
+    /// 0 = keep the LVGL default (DPI-derived).
+    #[prost(int32, tag = "2")]
+    pub tab_bar_size: i32,
+    /// Initially active tab index (applied LAST, with LV_ANIM_OFF).
+    #[prost(uint32, tag = "3")]
+    pub active_index: u32,
+    /// Tab bar placement — lv_dir_t direct-cast (parity-gated); DIR_NONE = keep
+    /// the LVGL default (top).
+    #[prost(enumeration = "Dir", tag = "4")]
+    pub tab_bar_position: i32,
+    /// Extra left padding (px) on the tab bar itself — the demo offsets its
+    /// tab buttons into the right half (pad_left = LV_HOR_RES/2) and floats
+    /// logo + title decor over the freed left half. 0 = no extra padding.
+    #[prost(int32, tag = "5")]
+    pub tab_bar_pad_left: i32,
+}
+/// One chart data series (lv_chart_add_series + per-index value writes).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChartSeries {
+    /// Series color; absent = the theme primary color (the demo's default
+    /// for its unstyled series).
+    #[prost(message, optional, tag = "1")]
+    pub color: ::core::option::Option<Color>,
+    /// Y axis the series attaches to — lv_chart_axis_t direct-cast
+    /// (parity-gated, sparse bitmask values); PRIMARY_Y (0) is the default.
+    #[prost(enumeration = "ChartAxis", tag = "2")]
+    pub axis: i32,
+    /// Frozen-frame data points, written BY INDEX (point i = values via
+    /// lv_chart_set_series_value_by_id); points past the list keep
+    /// LV_CHART_POINT_NONE.
+    #[prost(int32, repeated, tag = "3")]
+    pub values: ::prost::alloc::vec::Vec<i32>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ChartProps {
+    /// lv_chart_type_t direct-cast (parity-gated); NONE (0) = keep the LVGL
+    /// default (LINE).
+    #[prost(enumeration = "ChartType", tag = "1")]
+    pub r#type: i32,
+    /// 0 = keep the LVGL default point count.
+    #[prost(uint32, tag = "2")]
+    pub point_count: u32,
+    /// Division lines: 0 is a VALID explicit count (the demo sets 0,12), so
+    /// presence rides has_div_lines (the ImageProps.has_pivot pattern);
+    /// false = keep the LVGL defaults (HDIV_DEF/VDIV_DEF).
+    #[prost(bool, tag = "3")]
+    pub has_div_lines: bool,
+    #[prost(uint32, tag = "4")]
+    pub hdiv_count: u32,
+    #[prost(uint32, tag = "5")]
+    pub vdiv_count: u32,
+    #[prost(message, repeated, tag = "6")]
+    pub series: ::prost::alloc::vec::Vec<ChartSeries>,
+    /// Replicate the demo's chart fader draw-event: a vertical-gradient area
+    /// under every LINE-series segment (LV_EVENT_DRAW_TASK_ADDED).
+    #[prost(bool, tag = "7")]
+    pub fade_area: bool,
+}
+/// Host-proxy widget: a box that POSITIONS a host-side element. The renderer
+/// draws the box + its interaction affordances and streams the box's rect +
+/// mode to the host via the host_proxy_report import; the host composites
+/// its own element (DOM overlay, video plane) at the reported rect.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct HostProxyProps {
+    /// Stable host-side join key (jettison keys proxies by name —
+    /// proxySerializationUtils.ts). Survives tree rebuilds.
+    #[prost(string, tag = "1")]
+    pub proxy_id: ::prost::alloc::string::String,
+    /// Initial mode. When a "mode" binding is present, the SUBJECT is the
+    /// source of truth and this is ignored after attach.
+    #[prost(enumeration = "ProxyMode", tag = "2")]
+    pub mode: i32,
+    /// Resize clamps, framebuffer px. 0 = unconstrained (renderer floors
+    /// at 2x the resolved handle size so handles stay usable).
+    #[prost(int32, tag = "3")]
+    pub min_w: i32,
+    #[prost(int32, tag = "4")]
+    pub min_h: i32,
+    #[prost(int32, tag = "5")]
+    pub max_w: i32,
+    #[prost(int32, tag = "6")]
+    pub max_h: i32,
+    /// Corner handle edge, px. 0 = renderer default (DPI-derived).
+    #[prost(uint32, tag = "7")]
+    pub handle_size: u32,
+    /// Opaque host stacking hint, forwarded verbatim in reports (jettison's
+    /// consumers want zIndex with every position update). The renderer never
+    /// interprets it.
+    #[prost(int32, tag = "8")]
+    pub z: i32,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Point {
@@ -379,18 +603,28 @@ pub struct Layout {
 }
 /// A group of style variants for one LVGL state selector.
 /// state_selector encodes LV_PART_MAIN (0x0), LV_PART_MAIN | LV_STATE_PRESSED (0x20), etc.
+///
+/// Sparse composite encoding: the entry with variant_index 0 (the base) is
+/// ALWAYS present and emitted first; an entry for composite index 1-7 is
+/// present ONLY when its resolved prop set differs from the base, and then
+/// carries the COMPLETE prop set for that index (full replacement, not a
+/// per-prop delta). An absent index renders exactly as the base, so a
+/// fully-uniform group ships one entry.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct StyleGroup {
     #[prost(uint32, tag = "1")]
     pub state_selector: u32,
-    /// exactly 8 entries (composite indices 0-7)
     #[prost(message, repeated, tag = "2")]
-    pub variants: ::prost::alloc::vec::Vec<ResolvedStyle>,
+    pub variants: ::prost::alloc::vec::Vec<StyleVariant>,
 }
-/// A fully-resolved style: all token refs are resolved to concrete LVGL values.
+/// One sparse composite variant: the complete fully-resolved prop set (all
+/// token refs resolved to concrete LVGL values) for composite index
+/// variant_index (breakpoint_tier * 2 + theme_dark, range 0-7).
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct ResolvedStyle {
-    #[prost(message, repeated, tag = "1")]
+pub struct StyleVariant {
+    #[prost(uint32, tag = "1")]
+    pub variant_index: u32,
+    #[prost(message, repeated, tag = "2")]
     pub properties: ::prost::alloc::vec::Vec<StyleProperty>,
 }
 /// A single LVGL style property with its resolved value.
@@ -423,7 +657,6 @@ pub mod style_property {
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct Color {
-    /// 0-255
     #[prost(uint32, tag = "1")]
     pub r: u32,
     #[prost(uint32, tag = "2")]
@@ -474,6 +707,46 @@ impl SubjectType {
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
+pub enum PatchOpKind {
+    /// morph target in place from node's props
+    PatchOpUpdateProps = 0,
+    /// teardown target subtree, build node in slot
+    PatchOpReplaceNode = 1,
+    /// build node under parent_uid at index
+    PatchOpInsertNode = 2,
+    /// teardown target subtree
+    PatchOpRemoveNode = 3,
+    /// reorder target to index (same parent)
+    PatchOpMoveNode = 4,
+}
+impl PatchOpKind {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::PatchOpUpdateProps => "PATCH_OP_UPDATE_PROPS",
+            Self::PatchOpReplaceNode => "PATCH_OP_REPLACE_NODE",
+            Self::PatchOpInsertNode => "PATCH_OP_INSERT_NODE",
+            Self::PatchOpRemoveNode => "PATCH_OP_REMOVE_NODE",
+            Self::PatchOpMoveNode => "PATCH_OP_MOVE_NODE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "PATCH_OP_UPDATE_PROPS" => Some(Self::PatchOpUpdateProps),
+            "PATCH_OP_REPLACE_NODE" => Some(Self::PatchOpReplaceNode),
+            "PATCH_OP_INSERT_NODE" => Some(Self::PatchOpInsertNode),
+            "PATCH_OP_REMOVE_NODE" => Some(Self::PatchOpRemoveNode),
+            "PATCH_OP_MOVE_NODE" => Some(Self::PatchOpMoveNode),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
 pub enum WidgetType {
     WidgetObj = 0,
     WidgetButton = 1,
@@ -494,6 +767,9 @@ pub enum WidgetType {
     WidgetScale = 16,
     WidgetButtonmatrix = 17,
     WidgetTable = 18,
+    WidgetTabview = 19,
+    WidgetChart = 20,
+    WidgetHostProxy = 21,
 }
 impl WidgetType {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -521,6 +797,9 @@ impl WidgetType {
             Self::WidgetScale => "WIDGET_SCALE",
             Self::WidgetButtonmatrix => "WIDGET_BUTTONMATRIX",
             Self::WidgetTable => "WIDGET_TABLE",
+            Self::WidgetTabview => "WIDGET_TABVIEW",
+            Self::WidgetChart => "WIDGET_CHART",
+            Self::WidgetHostProxy => "WIDGET_HOST_PROXY",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -545,6 +824,47 @@ impl WidgetType {
             "WIDGET_SCALE" => Some(Self::WidgetScale),
             "WIDGET_BUTTONMATRIX" => Some(Self::WidgetButtonmatrix),
             "WIDGET_TABLE" => Some(Self::WidgetTable),
+            "WIDGET_TABVIEW" => Some(Self::WidgetTabview),
+            "WIDGET_CHART" => Some(Self::WidgetChart),
+            "WIDGET_HOST_PROXY" => Some(Self::WidgetHostProxy),
+            _ => None,
+        }
+    }
+}
+/// Host-proxy positioning modes. OUR enum (no LVGL counterpart — not
+/// parity-gated); int values are the wire contract for the mode subject.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ProxyMode {
+    /// host element interactive; proxy inert
+    Static = 0,
+    /// body drag moves the box
+    Draggable = 1,
+    /// corner handles resize; body drag moves
+    Resizable = 2,
+    /// 3x3 snap grid; no free drag
+    Alignable = 3,
+}
+impl ProxyMode {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Static => "PROXY_MODE_STATIC",
+            Self::Draggable => "PROXY_MODE_DRAGGABLE",
+            Self::Resizable => "PROXY_MODE_RESIZABLE",
+            Self::Alignable => "PROXY_MODE_ALIGNABLE",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "PROXY_MODE_STATIC" => Some(Self::Static),
+            "PROXY_MODE_DRAGGABLE" => Some(Self::Draggable),
+            "PROXY_MODE_RESIZABLE" => Some(Self::Resizable),
+            "PROXY_MODE_ALIGNABLE" => Some(Self::Alignable),
             _ => None,
         }
     }
@@ -821,6 +1141,7 @@ pub enum BlendMode {
     Additive = 1,
     Subtractive = 2,
     Multiply = 3,
+    Difference = 4,
 }
 impl BlendMode {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -833,6 +1154,7 @@ impl BlendMode {
             Self::Additive => "BLEND_MODE_ADDITIVE",
             Self::Subtractive => "BLEND_MODE_SUBTRACTIVE",
             Self::Multiply => "BLEND_MODE_MULTIPLY",
+            Self::Difference => "BLEND_MODE_DIFFERENCE",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -842,6 +1164,7 @@ impl BlendMode {
             "BLEND_MODE_ADDITIVE" => Some(Self::Additive),
             "BLEND_MODE_SUBTRACTIVE" => Some(Self::Subtractive),
             "BLEND_MODE_MULTIPLY" => Some(Self::Multiply),
+            "BLEND_MODE_DIFFERENCE" => Some(Self::Difference),
             _ => None,
         }
     }
@@ -852,6 +1175,8 @@ pub enum BaseDir {
     Ltr = 0,
     Rtl = 1,
     Auto = 2,
+    Neutral = 32,
+    Weak = 33,
 }
 impl BaseDir {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -863,6 +1188,8 @@ impl BaseDir {
             Self::Ltr => "BASE_DIR_LTR",
             Self::Rtl => "BASE_DIR_RTL",
             Self::Auto => "BASE_DIR_AUTO",
+            Self::Neutral => "BASE_DIR_NEUTRAL",
+            Self::Weak => "BASE_DIR_WEAK",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -871,6 +1198,8 @@ impl BaseDir {
             "BASE_DIR_LTR" => Some(Self::Ltr),
             "BASE_DIR_RTL" => Some(Self::Rtl),
             "BASE_DIR_AUTO" => Some(Self::Auto),
+            "BASE_DIR_NEUTRAL" => Some(Self::Neutral),
+            "BASE_DIR_WEAK" => Some(Self::Weak),
             _ => None,
         }
     }
@@ -919,9 +1248,9 @@ pub enum Dir {
     None = 0,
     Left = 1,
     Right = 2,
-    Hor = 3,
     Top = 4,
     Bottom = 8,
+    Hor = 3,
     Ver = 12,
     All = 15,
 }
@@ -935,9 +1264,9 @@ impl Dir {
             Self::None => "DIR_NONE",
             Self::Left => "DIR_LEFT",
             Self::Right => "DIR_RIGHT",
-            Self::Hor => "DIR_HOR",
             Self::Top => "DIR_TOP",
             Self::Bottom => "DIR_BOTTOM",
+            Self::Hor => "DIR_HOR",
             Self::Ver => "DIR_VER",
             Self::All => "DIR_ALL",
         }
@@ -948,9 +1277,9 @@ impl Dir {
             "DIR_NONE" => Some(Self::None),
             "DIR_LEFT" => Some(Self::Left),
             "DIR_RIGHT" => Some(Self::Right),
-            "DIR_HOR" => Some(Self::Hor),
             "DIR_TOP" => Some(Self::Top),
             "DIR_BOTTOM" => Some(Self::Bottom),
+            "DIR_HOR" => Some(Self::Hor),
             "DIR_VER" => Some(Self::Ver),
             "DIR_ALL" => Some(Self::All),
             _ => None,
@@ -1087,11 +1416,11 @@ impl BorderSide {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
 pub enum LabelLongMode {
-    LabelLongWrap = 0,
-    LabelLongDot = 1,
-    LabelLongScroll = 2,
-    LabelLongScrollCircular = 3,
-    LabelLongClip = 4,
+    Wrap = 0,
+    Dots = 1,
+    Scroll = 2,
+    ScrollCircular = 3,
+    Clip = 4,
 }
 impl LabelLongMode {
     /// String value of the enum field names used in the ProtoBuf definition.
@@ -1100,21 +1429,21 @@ impl LabelLongMode {
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     pub fn as_str_name(&self) -> &'static str {
         match self {
-            Self::LabelLongWrap => "LABEL_LONG_WRAP",
-            Self::LabelLongDot => "LABEL_LONG_DOT",
-            Self::LabelLongScroll => "LABEL_LONG_SCROLL",
-            Self::LabelLongScrollCircular => "LABEL_LONG_SCROLL_CIRCULAR",
-            Self::LabelLongClip => "LABEL_LONG_CLIP",
+            Self::Wrap => "LABEL_LONG_MODE_WRAP",
+            Self::Dots => "LABEL_LONG_MODE_DOTS",
+            Self::Scroll => "LABEL_LONG_MODE_SCROLL",
+            Self::ScrollCircular => "LABEL_LONG_MODE_SCROLL_CIRCULAR",
+            Self::Clip => "LABEL_LONG_MODE_CLIP",
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
     pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
         match value {
-            "LABEL_LONG_WRAP" => Some(Self::LabelLongWrap),
-            "LABEL_LONG_DOT" => Some(Self::LabelLongDot),
-            "LABEL_LONG_SCROLL" => Some(Self::LabelLongScroll),
-            "LABEL_LONG_SCROLL_CIRCULAR" => Some(Self::LabelLongScrollCircular),
-            "LABEL_LONG_CLIP" => Some(Self::LabelLongClip),
+            "LABEL_LONG_MODE_WRAP" => Some(Self::Wrap),
+            "LABEL_LONG_MODE_DOTS" => Some(Self::Dots),
+            "LABEL_LONG_MODE_SCROLL" => Some(Self::Scroll),
+            "LABEL_LONG_MODE_SCROLL_CIRCULAR" => Some(Self::ScrollCircular),
+            "LABEL_LONG_MODE_CLIP" => Some(Self::Clip),
             _ => None,
         }
     }
@@ -1237,6 +1566,76 @@ impl ScaleMode {
             "SCALE_MODE_VERTICAL_RIGHT" => Some(Self::VerticalRight),
             "SCALE_MODE_ROUND_INNER" => Some(Self::RoundInner),
             "SCALE_MODE_ROUND_OUTER" => Some(Self::RoundOuter),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ChartType {
+    None = 0,
+    Line = 1,
+    Curve = 2,
+    Bar = 3,
+    Stacked = 4,
+    Scatter = 5,
+}
+impl ChartType {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::None => "CHART_TYPE_NONE",
+            Self::Line => "CHART_TYPE_LINE",
+            Self::Curve => "CHART_TYPE_CURVE",
+            Self::Bar => "CHART_TYPE_BAR",
+            Self::Stacked => "CHART_TYPE_STACKED",
+            Self::Scatter => "CHART_TYPE_SCATTER",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CHART_TYPE_NONE" => Some(Self::None),
+            "CHART_TYPE_LINE" => Some(Self::Line),
+            "CHART_TYPE_CURVE" => Some(Self::Curve),
+            "CHART_TYPE_BAR" => Some(Self::Bar),
+            "CHART_TYPE_STACKED" => Some(Self::Stacked),
+            "CHART_TYPE_SCATTER" => Some(Self::Scatter),
+            _ => None,
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum ChartAxis {
+    PrimaryY = 0,
+    SecondaryY = 1,
+    PrimaryX = 2,
+    SecondaryX = 4,
+}
+impl ChartAxis {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::PrimaryY => "CHART_AXIS_PRIMARY_Y",
+            Self::SecondaryY => "CHART_AXIS_SECONDARY_Y",
+            Self::PrimaryX => "CHART_AXIS_PRIMARY_X",
+            Self::SecondaryX => "CHART_AXIS_SECONDARY_X",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "CHART_AXIS_PRIMARY_Y" => Some(Self::PrimaryY),
+            "CHART_AXIS_SECONDARY_Y" => Some(Self::SecondaryY),
+            "CHART_AXIS_PRIMARY_X" => Some(Self::PrimaryX),
+            "CHART_AXIS_SECONDARY_X" => Some(Self::SecondaryX),
             _ => None,
         }
     }

@@ -1216,69 +1216,539 @@ pub struct RgbColor {
     #[prost(uint32, tag = "3")]
     pub blue: u32,
 }
+/// Frame metadata for SAM tracking correlation.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataGps {
-    #[prost(double, tag = "1")]
-    pub longitude: f64,
-    #[prost(double, tag = "2")]
-    pub latitude: f64,
-    #[prost(double, tag = "3")]
-    pub altitude: f64,
-    #[prost(double, tag = "4")]
-    pub manual_longitude: f64,
-    #[prost(double, tag = "5")]
-    pub manual_latitude: f64,
-    #[prost(double, tag = "6")]
-    pub manual_altitude: f64,
-    #[prost(enumeration = "JonGuiDataGpsFixType", tag = "7")]
-    pub fix_type: i32,
-    #[prost(bool, tag = "8")]
-    pub use_manual: bool,
-    /// GPS timestamp from satellite (Unix time in seconds)
-    #[prost(int64, tag = "9")]
-    pub timestamp: i64,
-    #[prost(bool, tag = "10")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "11")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+pub struct SamTrackingFrameMeta {
+    /// Presentation timestamp (nanoseconds)
+    #[prost(uint64, tag = "1")]
+    pub pts_ns: u64,
+    /// Capture timestamp (nanoseconds)
+    #[prost(uint64, tag = "2")]
+    pub capture_time_ns: u64,
+    /// Frame generation counter (for CUDA IPC correlation)
+    #[prost(uint32, tag = "3")]
+    pub generation: u32,
+    /// Correlation timestamp (CLOCK_MONOTONIC, microseconds) - matches CvMeta pattern
+    #[prost(uint64, tag = "4")]
+    pub capture_monotonic_us: u64,
 }
+/// Kalman filter state for visualization and debugging.
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataRecOsd {
-    #[prost(enumeration = "JonGuiDataRecOsdScreen", tag = "1")]
-    pub screen: i32,
-    #[prost(bool, tag = "2")]
-    pub heat_osd_enabled: bool,
-    #[prost(bool, tag = "3")]
-    pub day_osd_enabled: bool,
-    #[prost(int32, tag = "4")]
-    pub heat_crosshair_offset_horizontal: i32,
-    #[prost(int32, tag = "5")]
-    pub heat_crosshair_offset_vertical: i32,
+pub struct SamTrackingKalmanState {
+    /// Predicted centroid position (NDC )
+    #[prost(double, tag = "1")]
+    pub predicted_x: f64,
+    #[prost(double, tag = "2")]
+    pub predicted_y: f64,
+    /// Velocity estimate (NDC/second)
+    #[prost(double, tag = "3")]
+    pub velocity_x: f64,
+    #[prost(double, tag = "4")]
+    pub velocity_y: f64,
+}
+/// SAM tracking state machine states.
+/// State transitions: IDLE → STARTING → TRACKING ⇄ OCCLUDED → LOST
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SamTrackingState {
+    Unspecified = 0,
+    /// Not tracking, awaiting start
+    Idle = 1,
+    /// Initial prompt received, warming up
+    Starting = 2,
+    /// Normal tracking with valid masks
+    Tracking = 3,
+    /// Low confidence, using Kalman prediction
+    Occluded = 4,
+    /// Tracking lost (max_occluded_frames exceeded)
+    Lost = 5,
+}
+impl SamTrackingState {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "SAM_TRACKING_STATE_UNSPECIFIED",
+            Self::Idle => "SAM_TRACKING_STATE_IDLE",
+            Self::Starting => "SAM_TRACKING_STATE_STARTING",
+            Self::Tracking => "SAM_TRACKING_STATE_TRACKING",
+            Self::Occluded => "SAM_TRACKING_STATE_OCCLUDED",
+            Self::Lost => "SAM_TRACKING_STATE_LOST",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SAM_TRACKING_STATE_UNSPECIFIED" => Some(Self::Unspecified),
+            "SAM_TRACKING_STATE_IDLE" => Some(Self::Idle),
+            "SAM_TRACKING_STATE_STARTING" => Some(Self::Starting),
+            "SAM_TRACKING_STATE_TRACKING" => Some(Self::Tracking),
+            "SAM_TRACKING_STATE_OCCLUDED" => Some(Self::Occluded),
+            "SAM_TRACKING_STATE_LOST" => Some(Self::Lost),
+            _ => None,
+        }
+    }
+}
+/// SAM tracking tick result status codes.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum SamTrackingStatus {
+    Unspecified = 0,
+    /// Successful tracking iteration
+    Ok = 1,
+    /// Engine/IPC not initialized
+    NotReady = 2,
+    /// Tracking not started (awaiting start command)
+    NotStarted = 3,
+    /// CUDA IPC read timeout
+    IpcTimeout = 4,
+    /// TensorRT inference failed
+    InferFailed = 5,
+    /// Object tracking lost
+    Lost = 6,
+}
+impl SamTrackingStatus {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "SAM_TRACKING_STATUS_UNSPECIFIED",
+            Self::Ok => "SAM_TRACKING_STATUS_OK",
+            Self::NotReady => "SAM_TRACKING_STATUS_NOT_READY",
+            Self::NotStarted => "SAM_TRACKING_STATUS_NOT_STARTED",
+            Self::IpcTimeout => "SAM_TRACKING_STATUS_IPC_TIMEOUT",
+            Self::InferFailed => "SAM_TRACKING_STATUS_INFER_FAILED",
+            Self::Lost => "SAM_TRACKING_STATUS_LOST",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "SAM_TRACKING_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "SAM_TRACKING_STATUS_OK" => Some(Self::Ok),
+            "SAM_TRACKING_STATUS_NOT_READY" => Some(Self::NotReady),
+            "SAM_TRACKING_STATUS_NOT_STARTED" => Some(Self::NotStarted),
+            "SAM_TRACKING_STATUS_IPC_TIMEOUT" => Some(Self::IpcTimeout),
+            "SAM_TRACKING_STATUS_INFER_FAILED" => Some(Self::InferFailed),
+            "SAM_TRACKING_STATUS_LOST" => Some(Self::Lost),
+            _ => None,
+        }
+    }
+}
+/// SAM visual tracking result for DAY camera channel.
+/// Injected by bezoar SamTrackerModule into JonGUIState.opaque_payloads at inference rate (~30fps).
+/// Contains RLE-encoded binary mask within the bounding box for efficient transmission.
+///
+/// UUID: 019f4a7c-8b2d-7a1e-9c3f-2e8d5f1a4b6e
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SamTrackingDay {
+    /// Tracking status for this tick (required, must be valid enum value)
+    #[prost(enumeration = "SamTrackingStatus", tag = "1")]
+    pub status: i32,
+    /// Current tracking state machine state
+    #[prost(enumeration = "SamTrackingState", tag = "2")]
+    pub state: i32,
+    /// Bounding box in NDC (Normalized Device Coordinates)
+    /// -1.0 (left/top) to 1.0 (right/bottom), center is (0,0)
+    #[prost(double, tag = "3")]
+    pub bbox_x1: f64,
+    #[prost(double, tag = "4")]
+    pub bbox_y1: f64,
+    #[prost(double, tag = "5")]
+    pub bbox_x2: f64,
+    #[prost(double, tag = "6")]
+    pub bbox_y2: f64,
+    /// K-Medoids cluster center (centroid) in NDC
+    /// This is the point used to prompt the next iteration
+    #[prost(double, tag = "7")]
+    pub centroid_x: f64,
+    #[prost(double, tag = "8")]
+    pub centroid_y: f64,
+    /// Tracking confidence
+    /// Computed as mask_area / bbox_area
+    #[prost(float, tag = "9")]
+    pub confidence: f32,
+    /// Decoder IoU prediction
+    #[prost(float, tag = "10")]
+    pub iou: f32,
+    /// RLE-encoded binary mask within the bounding box
+    /// Format: ... (little-endian)
+    /// Max 64KB to prevent oversized payloads
+    #[prost(bytes = "vec", tag = "11")]
+    pub mask_rle: ::prost::alloc::vec::Vec<u8>,
+    /// Mask dimensions within the bounding box (pixels)
+    /// Typically 256x256 from the SAM decoder output
+    #[prost(uint32, tag = "12")]
+    pub mask_width: u32,
+    #[prost(uint32, tag = "13")]
+    pub mask_height: u32,
+    /// Non-zero pixel count in the mask
+    #[prost(uint32, tag = "14")]
+    pub mask_pixels: u32,
+    /// Frame metadata for temporal correlation
+    #[prost(message, optional, tag = "15")]
+    pub frame: ::core::option::Option<SamTrackingFrameMeta>,
+    /// Kalman filter state for visualization/debugging
+    #[prost(message, optional, tag = "16")]
+    pub kalman: ::core::option::Option<SamTrackingKalmanState>,
+    /// Number of consecutive frames in LOST state
+    /// Used for auto-stop logic (stop after 5 frames in LOST)
+    #[prost(uint32, tag = "17")]
+    pub lost_frame_count: u32,
+    /// Processing latency (nanoseconds)
+    #[prost(uint64, tag = "18")]
+    pub latency_ns: u64,
+}
+/// SAM visual tracking result for HEAT camera channel.
+/// Injected by bezoar SamTrackerModule into JonGUIState.opaque_payloads at inference rate (~30fps).
+/// Contains RLE-encoded binary mask within the bounding box for efficient transmission.
+///
+/// UUID: 019f4a7c-8b2e-7f3c-a1d2-4e9b7c5f8a3d
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SamTrackingHeat {
+    /// Tracking status for this tick (required, must be valid enum value)
+    #[prost(enumeration = "SamTrackingStatus", tag = "1")]
+    pub status: i32,
+    /// Current tracking state machine state
+    #[prost(enumeration = "SamTrackingState", tag = "2")]
+    pub state: i32,
+    /// Bounding box in NDC (Normalized Device Coordinates)
+    /// -1.0 (left/top) to 1.0 (right/bottom), center is (0,0)
+    #[prost(double, tag = "3")]
+    pub bbox_x1: f64,
+    #[prost(double, tag = "4")]
+    pub bbox_y1: f64,
+    #[prost(double, tag = "5")]
+    pub bbox_x2: f64,
+    #[prost(double, tag = "6")]
+    pub bbox_y2: f64,
+    /// K-Medoids cluster center (centroid) in NDC
+    /// This is the point used to prompt the next iteration
+    #[prost(double, tag = "7")]
+    pub centroid_x: f64,
+    #[prost(double, tag = "8")]
+    pub centroid_y: f64,
+    /// Tracking confidence
+    /// Computed as mask_area / bbox_area
+    #[prost(float, tag = "9")]
+    pub confidence: f32,
+    /// Decoder IoU prediction
+    #[prost(float, tag = "10")]
+    pub iou: f32,
+    /// RLE-encoded binary mask within the bounding box
+    /// Format: ... (little-endian)
+    /// Max 64KB to prevent oversized payloads
+    #[prost(bytes = "vec", tag = "11")]
+    pub mask_rle: ::prost::alloc::vec::Vec<u8>,
+    /// Mask dimensions within the bounding box (pixels)
+    /// Typically 256x256 from the SAM decoder output
+    #[prost(uint32, tag = "12")]
+    pub mask_width: u32,
+    #[prost(uint32, tag = "13")]
+    pub mask_height: u32,
+    /// Non-zero pixel count in the mask
+    #[prost(uint32, tag = "14")]
+    pub mask_pixels: u32,
+    /// Frame metadata for temporal correlation
+    #[prost(message, optional, tag = "15")]
+    pub frame: ::core::option::Option<SamTrackingFrameMeta>,
+    /// Kalman filter state for visualization/debugging
+    #[prost(message, optional, tag = "16")]
+    pub kalman: ::core::option::Option<SamTrackingKalmanState>,
+    /// Number of consecutive frames in LOST state
+    /// Used for auto-stop logic (stop after 5 frames in LOST)
+    #[prost(uint32, tag = "17")]
+    pub lost_frame_count: u32,
+    /// Processing latency (nanoseconds)
+    #[prost(uint64, tag = "18")]
+    pub latency_ns: u64,
+}
+/// Client-side canvas metadata for OSD resolution-aware rendering.
+/// Injected by frontend into JonGUIState.opaque_payloads.
+///
+/// UUID: 01941b00-0000-7000-8000-000000000001
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct OsdClientMetadata {
+    /// Physical canvas width in pixels (CSS width × devicePixelRatio)
+    /// Valid range: 1-40960 (supports up to 8K × 5)
+    #[prost(uint32, tag = "1")]
+    pub canvas_width_px: u32,
+    /// Physical canvas height in pixels (CSS height × devicePixelRatio)
+    #[prost(uint32, tag = "2")]
+    pub canvas_height_px: u32,
+    /// Device pixel ratio (window.devicePixelRatio)
+    /// Typical values: 1.0 (standard), 1.5, 2.0 (Retina), 3.0 (mobile)
+    #[prost(float, tag = "3")]
+    pub device_pixel_ratio: f32,
+    /// OSD framebuffer width (1920 for day, 900 for heat)
+    #[prost(uint32, tag = "4")]
+    pub osd_buffer_width: u32,
+    /// OSD framebuffer height (1080 for day, 720 for heat)
+    #[prost(uint32, tag = "5")]
+    pub osd_buffer_height: u32,
+    /// === Video Proxy Bounds (NDC -1.0 to 1.0) ===
+    /// Frontend: actual quad where video renders on canvas
+    /// Gallery: hardcode (0,0,1,1) for full canvas
+    #[prost(float, tag = "6")]
+    pub video_proxy_ndc_x: f32,
+    #[prost(float, tag = "7")]
+    pub video_proxy_ndc_y: f32,
+    #[prost(float, tag = "8")]
+    pub video_proxy_ndc_width: f32,
+    #[prost(float, tag = "9")]
+    pub video_proxy_ndc_height: f32,
+    /// === Scale Factor ===
+    /// Ratio: osd_buffer_pixels / proxy_physical_pixels
+    #[prost(float, tag = "10")]
+    pub scale_factor: f32,
+    /// === Theme Info ===
+    /// From ThemeManager singleton (window.themeManager)
+    /// true = high contrast "sharp" mode, false = smooth OKLCH "default" mode
+    #[prost(bool, tag = "11")]
+    pub is_sharp_mode: bool,
+    /// OKLCH base colors (only meaningful when !is_sharp_mode)
+    /// Hue: 0-360 degrees (default: 120 green)
+    #[prost(float, tag = "12")]
+    pub theme_hue: f32,
+    /// Chroma: 0-1.0 saturation (default: 0.1, picker allows up to 0.8)
+    #[prost(float, tag = "13")]
+    pub theme_chroma: f32,
+    /// Lightness: 0-200 with HDR support (default: 50)
+    #[prost(float, tag = "14")]
+    pub theme_lightness: f32,
+}
+/// Single object detection result (detector-agnostic).
+/// Bounding box uses NDC coordinates: -1.0 (left/top) to 1.0 (right/bottom), center is (0,0).
+/// Consistent with JonGuiDataROI pattern.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct ObjectDetection {
+    /// Bounding box in NDC (Normalized Device Coordinates)
+    ///
+    /// Left edge
+    #[prost(float, tag = "1")]
+    pub x1: f32,
+    /// Top edge
+    #[prost(float, tag = "2")]
+    pub y1: f32,
+    /// Right edge
+    #[prost(float, tag = "3")]
+    pub x2: f32,
+    /// Bottom edge
+    #[prost(float, tag = "4")]
+    pub y2: f32,
+    /// Detection confidence
+    #[prost(float, tag = "5")]
+    pub confidence: f32,
+    /// Class ID (0-255, detector-specific meaning)
     #[prost(int32, tag = "6")]
-    pub day_crosshair_offset_horizontal: i32,
-    #[prost(int32, tag = "7")]
-    pub day_crosshair_offset_vertical: i32,
+    pub class_id: i32,
+}
+/// Inference configuration used for this result.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct DetectionConfig {
+    /// Confidence threshold used for filtering
+    #[prost(float, tag = "1")]
+    pub confidence_threshold: f32,
+    /// NMS IoU threshold used for suppression
+    #[prost(float, tag = "2")]
+    pub nms_iou_threshold: f32,
+}
+/// Frame metadata for temporal correlation.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct DetectionFrameMeta {
+    /// Presentation timestamp (nanoseconds, must be non-negative)
+    #[prost(uint64, tag = "1")]
+    pub pts_ns: u64,
+    /// Capture timestamp (nanoseconds, must be non-negative)
+    #[prost(uint64, tag = "2")]
+    pub capture_time_ns: u64,
+    /// Frame generation counter (for correlation with CUDA IPC)
+    #[prost(uint32, tag = "3")]
+    pub generation: u32,
+    /// Source frame dimensions
+    #[prost(uint32, tag = "4")]
+    pub width: u32,
+    #[prost(uint32, tag = "5")]
+    pub height: u32,
+}
+/// Inference status codes (detector-agnostic).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum DetectionStatus {
+    Unspecified = 0,
+    /// Inference succeeded
+    Ok = 1,
+    /// Engine/IPC not initialized
+    NotReady = 2,
+    /// No frame within timeout
+    IpcTimeout = 3,
+    /// Inference engine error
+    InferFailed = 4,
+    /// Unclassified error
+    Error = 5,
+}
+impl DetectionStatus {
+    /// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    pub fn as_str_name(&self) -> &'static str {
+        match self {
+            Self::Unspecified => "DETECTION_STATUS_UNSPECIFIED",
+            Self::Ok => "DETECTION_STATUS_OK",
+            Self::NotReady => "DETECTION_STATUS_NOT_READY",
+            Self::IpcTimeout => "DETECTION_STATUS_IPC_TIMEOUT",
+            Self::InferFailed => "DETECTION_STATUS_INFER_FAILED",
+            Self::Error => "DETECTION_STATUS_ERROR",
+        }
+    }
+    /// Creates an enum from field names used in the ProtoBuf definition.
+    pub fn from_str_name(value: &str) -> ::core::option::Option<Self> {
+        match value {
+            "DETECTION_STATUS_UNSPECIFIED" => Some(Self::Unspecified),
+            "DETECTION_STATUS_OK" => Some(Self::Ok),
+            "DETECTION_STATUS_NOT_READY" => Some(Self::NotReady),
+            "DETECTION_STATUS_IPC_TIMEOUT" => Some(Self::IpcTimeout),
+            "DETECTION_STATUS_INFER_FAILED" => Some(Self::InferFailed),
+            "DETECTION_STATUS_ERROR" => Some(Self::Error),
+            _ => None,
+        }
+    }
+}
+/// Object detection results for HEAT camera channel.
+/// Injected by cv-gateway into JonGUIState.opaque_payloads at inference rate (~30fps).
+/// Errors logged to stderr, not embedded in proto.
+///
+/// UUID: 019c40f6-825d-7e0e-9893-87c7b167a751
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ObjectDetectionsHeat {
+    /// Inference status (required, must be valid enum value)
+    #[prost(enumeration = "DetectionStatus", tag = "1")]
+    pub status: i32,
+    /// Detected objects (up to 256)
+    #[prost(message, repeated, tag = "2")]
+    pub detections: ::prost::alloc::vec::Vec<ObjectDetection>,
+    /// End-to-end inference latency (nanoseconds)
+    #[prost(uint64, tag = "3")]
+    pub latency_ns: u64,
+    /// Frame metadata for correlation
+    #[prost(message, optional, tag = "4")]
+    pub frame: ::core::option::Option<DetectionFrameMeta>,
+    /// Inference configuration used
+    #[prost(message, optional, tag = "5")]
+    pub config: ::core::option::Option<DetectionConfig>,
+    /// Correlation timestamp (CLOCK_MONOTONIC, microseconds) - matches CvMeta pattern
+    #[prost(uint64, tag = "6")]
+    pub capture_monotonic_us: u64,
+}
+/// Object detection results for DAY camera channel.
+/// Injected by cv-gateway into JonGUIState.opaque_payloads at inference rate (~30fps).
+/// Errors logged to stderr, not embedded in proto.
+///
+/// UUID: 019c40f6-825c-7f4c-8284-ddad4375ed9b
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ObjectDetectionsDay {
+    /// Inference status (required, must be valid enum value)
+    #[prost(enumeration = "DetectionStatus", tag = "1")]
+    pub status: i32,
+    /// Detected objects (up to 256)
+    #[prost(message, repeated, tag = "2")]
+    pub detections: ::prost::alloc::vec::Vec<ObjectDetection>,
+    /// End-to-end inference latency (nanoseconds)
+    #[prost(uint64, tag = "3")]
+    pub latency_ns: u64,
+    /// Frame metadata for correlation
+    #[prost(message, optional, tag = "4")]
+    pub frame: ::core::option::Option<DetectionFrameMeta>,
+    /// Inference configuration used
+    #[prost(message, optional, tag = "5")]
+    pub config: ::core::option::Option<DetectionConfig>,
+    /// Correlation timestamp (CLOCK_MONOTONIC, microseconds) - matches CvMeta pattern
+    #[prost(uint64, tag = "6")]
+    pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCompass {
+pub struct JonGuiDataCameraDay {
     #[prost(double, tag = "1")]
-    pub azimuth: f64,
+    pub focus_pos: f64,
     #[prost(double, tag = "2")]
-    pub elevation: f64,
+    pub zoom_pos: f64,
     #[prost(double, tag = "3")]
-    pub bank: f64,
-    #[prost(double, tag = "4")]
-    pub offset_azimuth: f64,
-    #[prost(double, tag = "5")]
-    pub offset_elevation: f64,
-    #[prost(double, tag = "6")]
-    pub magnetic_declination: f64,
-    #[prost(bool, tag = "7")]
-    pub calibrating: bool,
+    pub iris_pos: f64,
+    #[prost(bool, tag = "4")]
+    pub infrared_filter: bool,
+    #[prost(int32, tag = "5")]
+    pub zoom_table_pos: i32,
+    #[prost(int32, tag = "6")]
+    pub zoom_table_pos_max: i32,
+    #[prost(enumeration = "JonGuiDataFxModeDay", tag = "7")]
+    pub fx_mode: i32,
     #[prost(bool, tag = "8")]
+    pub auto_focus: bool,
+    #[prost(bool, tag = "9")]
+    pub auto_iris: bool,
+    #[prost(bool, tag = "15")]
+    pub auto_gain: bool,
+    #[prost(double, tag = "10")]
+    pub digital_zoom_level: f64,
+    #[prost(double, tag = "11")]
+    pub clahe_level: f64,
+    #[prost(double, tag = "12")]
+    pub horizontal_fov_degrees: f64,
+    #[prost(double, tag = "13")]
+    pub vertical_fov_degrees: f64,
+    #[prost(bool, tag = "14")]
     pub is_started: bool,
-    #[prost(message, optional, tag = "9")]
+    #[prost(message, optional, tag = "16")]
     pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// Sensor parameters (normalized 0.0-1.0, set by camera or CV)
+    #[prost(double, optional, tag = "17")]
+    pub sensor_gain: ::core::option::Option<f64>,
+    #[prost(double, optional, tag = "18")]
+    pub exposure: ::core::option::Option<f64>,
+    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+    #[prost(uint64, tag = "19")]
+    pub capture_monotonic_us: u64,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataCameraHeat {
+    #[prost(double, tag = "1")]
+    pub zoom_pos: f64,
+    #[prost(enumeration = "JonGuiDataVideoChannelHeatAgcModes", tag = "2")]
+    pub agc_mode: i32,
+    #[prost(enumeration = "JonGuiDataVideoChannelHeatFilters", tag = "3")]
+    pub filter: i32,
+    #[prost(bool, tag = "4")]
+    pub auto_focus: bool,
+    #[prost(int32, tag = "5")]
+    pub zoom_table_pos: i32,
+    #[prost(int32, tag = "6")]
+    pub zoom_table_pos_max: i32,
+    #[prost(int32, tag = "7")]
+    pub dde_level: i32,
+    #[prost(bool, tag = "8")]
+    pub dde_enabled: bool,
+    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "9")]
+    pub fx_mode: i32,
+    #[prost(double, tag = "10")]
+    pub digital_zoom_level: f64,
+    #[prost(double, tag = "11")]
+    pub clahe_level: f64,
+    #[prost(double, tag = "12")]
+    pub horizontal_fov_degrees: f64,
+    #[prost(double, tag = "13")]
+    pub vertical_fov_degrees: f64,
+    #[prost(bool, tag = "14")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "15")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
+    #[prost(uint64, tag = "16")]
+    pub capture_monotonic_us: u64,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataRotary {
@@ -1345,6 +1815,148 @@ pub struct ScanNode {
     pub linger: f64,
     #[prost(double, tag = "7")]
     pub speed: f64,
+}
+/// Per-channel CUDA IPC metadata (frame timing + sharpness pyramid + sensor gain).
+/// Populated from /jon_cuda_ipc_day and /jon_cuda_ipc_heat shared memory.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CvChannelMeta {
+    /// Frame timing (nanoseconds, must be non-negative)
+    #[prost(uint64, tag = "1")]
+    pub pts_ns: u64,
+    #[prost(uint64, tag = "2")]
+    pub capture_time_ns: u64,
+    #[prost(uint32, tag = "3")]
+    pub generation: u32,
+    /// Sharpness pyramid (85 floats total, all normalized 0.0-1.0)
+    /// Global sharpness score
+    #[prost(float, tag = "4")]
+    pub sharpness_level0: f32,
+    /// Quadrants: TL, TR, BL, BR (exactly 4 elements)
+    #[prost(float, repeated, tag = "5")]
+    pub sharpness_level1: ::prost::alloc::vec::Vec<f32>,
+    /// 4x4 grid (exactly 16 elements, row-major)
+    #[prost(float, repeated, tag = "6")]
+    pub sharpness_level2: ::prost::alloc::vec::Vec<f32>,
+    /// 16x10 grid (exactly 160 elements, row-major)
+    #[prost(float, repeated, tag = "7")]
+    pub sharpness_level3: ::prost::alloc::vec::Vec<f32>,
+    /// Timing metrics (nanoseconds)
+    #[prost(uint64, tag = "8")]
+    pub sharpness_compute_ns: u64,
+    #[prost(uint64, tag = "9")]
+    pub sharpness_total_ns: u64,
+    #[prost(bool, tag = "10")]
+    pub sharpness_valid: bool,
+    /// Sensor gain (day camera only; heat channel sets gain_valid=false)
+    #[prost(int32, tag = "11")]
+    pub sensor_gain: i32,
+    #[prost(bool, tag = "12")]
+    pub gain_valid: bool,
+    /// Sensor exposure (day camera only; heat channel sets exposure_valid=false)
+    /// IMX290 range: 15-16820
+    #[prost(int32, tag = "13")]
+    pub sensor_exposure: i32,
+    #[prost(bool, tag = "14")]
+    pub exposure_valid: bool,
+}
+/// Aggregated CV metadata payload - combines all SHM sources at 60fps.
+/// Injected by cv-gateway into JonGUIState.opaque_payloads.
+///
+/// Sources:
+/// - /jon_shm_rotary (rotary turret state)
+/// - /jon_shm_cam_day (day camera settings)
+/// - /jon_shm_cam_heat (thermal camera settings)
+/// - /jon_cuda_ipc_day (day channel CUDA IPC metadata)
+/// - /jon_cuda_ipc_heat (heat channel CUDA IPC metadata)
+///
+/// UUID: 019c3e33-d52d-7552-b36b-6fdcaa5d59b8
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct CvMeta {
+    /// Correlation timestamp (CLOCK_MONOTONIC, microseconds)
+    #[prost(uint64, tag = "1")]
+    pub capture_monotonic_us: u64,
+    /// Freshness bitmask indicating which sources updated since last publish
+    /// Bits: 0=rotary, 1=cam_day, 2=cam_heat, 3=cuda_day, 4=cuda_heat
+    /// Valid range: 0-31 (5 bits)
+    #[prost(uint32, tag = "2")]
+    pub updated_sources: u32,
+    /// Embedded state messages (full copies from SHMs)
+    /// These are validated by their own proto definitions
+    #[prost(message, optional, tag = "3")]
+    pub camera_day: ::core::option::Option<JonGuiDataCameraDay>,
+    #[prost(message, optional, tag = "4")]
+    pub camera_heat: ::core::option::Option<JonGuiDataCameraHeat>,
+    #[prost(message, optional, tag = "5")]
+    pub rotary: ::core::option::Option<JonGuiDataRotary>,
+    /// CUDA IPC channel metadata
+    #[prost(message, optional, tag = "6")]
+    pub channel_day: ::core::option::Option<CvChannelMeta>,
+    #[prost(message, optional, tag = "7")]
+    pub channel_heat: ::core::option::Option<CvChannelMeta>,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataGps {
+    #[prost(double, tag = "1")]
+    pub longitude: f64,
+    #[prost(double, tag = "2")]
+    pub latitude: f64,
+    #[prost(double, tag = "3")]
+    pub altitude: f64,
+    #[prost(double, tag = "4")]
+    pub manual_longitude: f64,
+    #[prost(double, tag = "5")]
+    pub manual_latitude: f64,
+    #[prost(double, tag = "6")]
+    pub manual_altitude: f64,
+    #[prost(enumeration = "JonGuiDataGpsFixType", tag = "7")]
+    pub fix_type: i32,
+    #[prost(bool, tag = "8")]
+    pub use_manual: bool,
+    /// GPS timestamp from satellite (Unix time in seconds)
+    #[prost(int64, tag = "9")]
+    pub timestamp: i64,
+    #[prost(bool, tag = "10")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "11")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataRecOsd {
+    #[prost(enumeration = "JonGuiDataRecOsdScreen", tag = "1")]
+    pub screen: i32,
+    #[prost(bool, tag = "2")]
+    pub heat_osd_enabled: bool,
+    #[prost(bool, tag = "3")]
+    pub day_osd_enabled: bool,
+    #[prost(int32, tag = "4")]
+    pub heat_crosshair_offset_horizontal: i32,
+    #[prost(int32, tag = "5")]
+    pub heat_crosshair_offset_vertical: i32,
+    #[prost(int32, tag = "6")]
+    pub day_crosshair_offset_horizontal: i32,
+    #[prost(int32, tag = "7")]
+    pub day_crosshair_offset_vertical: i32,
+}
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+pub struct JonGuiDataCompass {
+    #[prost(double, tag = "1")]
+    pub azimuth: f64,
+    #[prost(double, tag = "2")]
+    pub elevation: f64,
+    #[prost(double, tag = "3")]
+    pub bank: f64,
+    #[prost(double, tag = "4")]
+    pub offset_azimuth: f64,
+    #[prost(double, tag = "5")]
+    pub offset_elevation: f64,
+    #[prost(double, tag = "6")]
+    pub magnetic_declination: f64,
+    #[prost(bool, tag = "7")]
+    pub calibrating: bool,
+    #[prost(bool, tag = "8")]
+    pub is_started: bool,
+    #[prost(message, optional, tag = "9")]
+    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
 }
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct JonGuiDataPmu {
@@ -1517,85 +2129,6 @@ pub struct JonGuiDataCompassCalibration {
     /// not in the public manual. Consumers must decode empirically.
     #[prost(uint32, tag = "7")]
     pub figure_of_merit_raw: u32,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCameraDay {
-    #[prost(double, tag = "1")]
-    pub focus_pos: f64,
-    #[prost(double, tag = "2")]
-    pub zoom_pos: f64,
-    #[prost(double, tag = "3")]
-    pub iris_pos: f64,
-    #[prost(bool, tag = "4")]
-    pub infrared_filter: bool,
-    #[prost(int32, tag = "5")]
-    pub zoom_table_pos: i32,
-    #[prost(int32, tag = "6")]
-    pub zoom_table_pos_max: i32,
-    #[prost(enumeration = "JonGuiDataFxModeDay", tag = "7")]
-    pub fx_mode: i32,
-    #[prost(bool, tag = "8")]
-    pub auto_focus: bool,
-    #[prost(bool, tag = "9")]
-    pub auto_iris: bool,
-    #[prost(bool, tag = "15")]
-    pub auto_gain: bool,
-    #[prost(double, tag = "10")]
-    pub digital_zoom_level: f64,
-    #[prost(double, tag = "11")]
-    pub clahe_level: f64,
-    #[prost(double, tag = "12")]
-    pub horizontal_fov_degrees: f64,
-    #[prost(double, tag = "13")]
-    pub vertical_fov_degrees: f64,
-    #[prost(bool, tag = "14")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "16")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-    /// Sensor parameters (normalized 0.0-1.0, set by camera or CV)
-    #[prost(double, optional, tag = "17")]
-    pub sensor_gain: ::core::option::Option<f64>,
-    #[prost(double, optional, tag = "18")]
-    pub exposure: ::core::option::Option<f64>,
-    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
-    #[prost(uint64, tag = "19")]
-    pub capture_monotonic_us: u64,
-}
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct JonGuiDataCameraHeat {
-    #[prost(double, tag = "1")]
-    pub zoom_pos: f64,
-    #[prost(enumeration = "JonGuiDataVideoChannelHeatAgcModes", tag = "2")]
-    pub agc_mode: i32,
-    #[prost(enumeration = "JonGuiDataVideoChannelHeatFilters", tag = "3")]
-    pub filter: i32,
-    #[prost(bool, tag = "4")]
-    pub auto_focus: bool,
-    #[prost(int32, tag = "5")]
-    pub zoom_table_pos: i32,
-    #[prost(int32, tag = "6")]
-    pub zoom_table_pos_max: i32,
-    #[prost(int32, tag = "7")]
-    pub dde_level: i32,
-    #[prost(bool, tag = "8")]
-    pub dde_enabled: bool,
-    #[prost(enumeration = "JonGuiDataFxModeHeat", tag = "9")]
-    pub fx_mode: i32,
-    #[prost(double, tag = "10")]
-    pub digital_zoom_level: f64,
-    #[prost(double, tag = "11")]
-    pub clahe_level: f64,
-    #[prost(double, tag = "12")]
-    pub horizontal_fov_degrees: f64,
-    #[prost(double, tag = "13")]
-    pub vertical_fov_degrees: f64,
-    #[prost(bool, tag = "14")]
-    pub is_started: bool,
-    #[prost(message, optional, tag = "15")]
-    pub meteo: ::core::option::Option<JonGuiDataMeteo>,
-    /// CLOCK_MONOTONIC timestamp (microseconds) when state was last pushed to SHM
-    #[prost(uint64, tag = "16")]
-    pub capture_monotonic_us: u64,
 }
 /// CV Gateway state enrichment - autofocus metrics and sweep status
 #[derive(Clone, PartialEq, ::prost::Message)]

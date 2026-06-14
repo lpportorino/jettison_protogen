@@ -162,28 +162,28 @@ const char descriptor_table_protodef_opaque_2fcv_5fmeta_2eproto[] ABSL_ATTRIBUTE
     "\n\024opaque/cv_meta.proto\022\003ser\032\033buf/validat"
     "e/validate.proto\032 jon_shared_data_camera"
     "_day.proto\032!jon_shared_data_camera_heat."
-    "proto\032\034jon_shared_data_rotary.proto\"\272\003\n\r"
+    "proto\032\034jon_shared_data_rotary.proto\"\274\003\n\r"
     "CvChannelMeta\022\027\n\006pts_ns\030\001 \001(\004B\007\272H\0042\002(\000\022 "
     "\n\017capture_time_ns\030\002 \001(\004B\007\272H\0042\002(\000\022\022\n\ngene"
     "ration\030\003 \001(\r\022)\n\020sharpness_level0\030\004 \001(\002B\017"
     "\272H\014\n\n\035\000\000\200\?-\000\000\000\000\022$\n\020sharpness_level1\030\005 \003("
     "\002B\n\272H\007\222\001\004\010\004\020\004\022$\n\020sharpness_level2\030\006 \003(\002B"
-    "\n\272H\007\222\001\004\010\020\020\020\022$\n\020sharpness_level3\030\007 \003(\002B\n\272"
-    "H\007\222\001\004\010@\020@\022%\n\024sharpness_compute_ns\030\010 \001(\004B"
-    "\007\272H\0042\002(\000\022#\n\022sharpness_total_ns\030\t \001(\004B\007\272H"
-    "\0042\002(\000\022\027\n\017sharpness_valid\030\n \001(\010\022\023\n\013sensor"
-    "_gain\030\013 \001(\005\022\022\n\ngain_valid\030\014 \001(\010\022\027\n\017senso"
-    "r_exposure\030\r \001(\005\022\026\n\016exposure_valid\030\016 \001(\010"
-    "\"\253\002\n\006CvMeta\022%\n\024capture_monotonic_us\030\001 \001("
-    "\004B\007\272H\0042\002(\000\022\"\n\017updated_sources\030\002 \001(\rB\t\272H\006"
-    "*\004\030\037(\000\022,\n\ncamera_day\030\003 \001(\0132\030.ser.JonGuiD"
-    "ataCameraDay\022.\n\013camera_heat\030\004 \001(\0132\031.ser."
-    "JonGuiDataCameraHeat\022%\n\006rotary\030\005 \001(\0132\025.s"
-    "er.JonGuiDataRotary\022\'\n\013channel_day\030\006 \001(\013"
-    "2\022.ser.CvChannelMeta\022(\n\014channel_heat\030\007 \001"
-    "(\0132\022.ser.CvChannelMetaBIZGgit-codecommit"
-    ".eu-central-1.amazonaws.com/v1/repos/jet"
-    "tison/jonp/opaqueb\006proto3"
+    "\n\272H\007\222\001\004\010\020\020\020\022&\n\020sharpness_level3\030\007 \003(\002B\014\272"
+    "H\t\222\001\006\010\240\001\020\240\001\022%\n\024sharpness_compute_ns\030\010 \001("
+    "\004B\007\272H\0042\002(\000\022#\n\022sharpness_total_ns\030\t \001(\004B\007"
+    "\272H\0042\002(\000\022\027\n\017sharpness_valid\030\n \001(\010\022\023\n\013sens"
+    "or_gain\030\013 \001(\005\022\022\n\ngain_valid\030\014 \001(\010\022\027\n\017sen"
+    "sor_exposure\030\r \001(\005\022\026\n\016exposure_valid\030\016 \001"
+    "(\010\"\253\002\n\006CvMeta\022%\n\024capture_monotonic_us\030\001 "
+    "\001(\004B\007\272H\0042\002(\000\022\"\n\017updated_sources\030\002 \001(\rB\t\272"
+    "H\006*\004\030\037(\000\022,\n\ncamera_day\030\003 \001(\0132\030.ser.JonGu"
+    "iDataCameraDay\022.\n\013camera_heat\030\004 \001(\0132\031.se"
+    "r.JonGuiDataCameraHeat\022%\n\006rotary\030\005 \001(\0132\025"
+    ".ser.JonGuiDataRotary\022\'\n\013channel_day\030\006 \001"
+    "(\0132\022.ser.CvChannelMeta\022(\n\014channel_heat\030\007"
+    " \001(\0132\022.ser.CvChannelMetaBIZGgit-codecomm"
+    "it.eu-central-1.amazonaws.com/v1/repos/j"
+    "ettison/jonp/opaqueb\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_opaque_2fcv_5fmeta_2eproto_deps[4] =
     {
@@ -196,7 +196,7 @@ static ::absl::once_flag descriptor_table_opaque_2fcv_5fmeta_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_opaque_2fcv_5fmeta_2eproto = {
     false,
     false,
-    985,
+    987,
     descriptor_table_protodef_opaque_2fcv_5fmeta_2eproto,
     "opaque/cv_meta.proto",
     &descriptor_table_opaque_2fcv_5fmeta_2eproto_once,
