@@ -1,0 +1,7 @@
+# Clojure tools-deps build artifacts (regenerated on every `clojure -M:...`).
+# These must NOT be tracked: classpath caches are machine/checkout-specific and
+# get dirtied by every run, which otherwise leaves the protogen submodule
+# perpetually "modified" in the superproject.
+.cpcache/
+target/
+.nrepl-port
