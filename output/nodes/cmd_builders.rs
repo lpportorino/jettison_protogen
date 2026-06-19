@@ -430,3 +430,49 @@ pub fn build_set_enum_command(command_id: &str, value: i32) -> Option<cmd::Root>
     };
     Some(cmd::Root { payload: Some(payload), ..Default::default() })
 }
+
+/// Build a typed `cmd::Root` for a set-int command (single int32
+/// field — the shift-stepper's ±step). Returns `None` for an
+/// unknown command id.
+pub fn build_set_int_command(command_id: &str, value: i32) -> Option<cmd::Root> {
+    let payload = match command_id {
+        "cmd.HeatCamera.SetDDELevel" => cmd::root::Payload::HeatCamera(cmd::heat_camera::Root {
+            cmd: Some(cmd::heat_camera::root::Cmd::SetDdeLevel(cmd::heat_camera::SetDdeLevel { value: value })),
+        }),
+        "cmd.HeatCamera.ShiftDDE" => cmd::root::Payload::HeatCamera(cmd::heat_camera::Root {
+            cmd: Some(cmd::heat_camera::root::Cmd::ShiftDde(cmd::heat_camera::ShiftDde { value: value })),
+        }),
+        "cmd.RotaryPlatform.ScanDeleteNode" => cmd::root::Payload::Rotary(cmd::rotary_platform::Root {
+            cmd: Some(cmd::rotary_platform::root::Cmd::ScanDeleteNode(cmd::rotary_platform::ScanDeleteNode { index: value })),
+        }),
+        "cmd.RotaryPlatform.ScanSelectNode" => cmd::root::Payload::Rotary(cmd::rotary_platform::Root {
+            cmd: Some(cmd::rotary_platform::root::Cmd::ScanSelectNode(cmd::rotary_platform::ScanSelectNode { index: value })),
+        }),
+        "cmd.System.SetTimeZone" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::SetTimeZone(cmd::system::SetTimeZone { zone_id: value })),
+        }),
+        "cmd.System.StepDay" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepDay(cmd::system::StepDay { offset: value })),
+        }),
+        "cmd.System.StepHour" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepHour(cmd::system::StepHour { offset: value })),
+        }),
+        "cmd.System.StepMinute" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepMinute(cmd::system::StepMinute { offset: value })),
+        }),
+        "cmd.System.StepMonth" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepMonth(cmd::system::StepMonth { offset: value })),
+        }),
+        "cmd.System.StepSecond" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepSecond(cmd::system::StepSecond { offset: value })),
+        }),
+        "cmd.System.StepTimeZone" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepTimeZone(cmd::system::StepTimeZone { offset: value })),
+        }),
+        "cmd.System.StepYear" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::StepYear(cmd::system::StepYear { offset: value })),
+        }),
+        _ => return None,
+    };
+    Some(cmd::Root { payload: Some(payload), ..Default::default() })
+}

@@ -69,6 +69,9 @@ extern EnumPickerDefaultTypeInternal _EnumPicker_default_instance_;
 class FixedPointScale;
 struct FixedPointScaleDefaultTypeInternal;
 extern FixedPointScaleDefaultTypeInternal _FixedPointScale_default_instance_;
+class ShiftStepper;
+struct ShiftStepperDefaultTypeInternal;
+extern ShiftStepperDefaultTypeInternal _ShiftStepper_default_instance_;
 class SliderControl;
 struct SliderControlDefaultTypeInternal;
 extern SliderControlDefaultTypeInternal _SliderControl_default_instance_;
@@ -1734,6 +1737,244 @@ class SliderControl final : public ::google::protobuf::Message
     ::uint32_t version_;
     ::int32_t min_value_;
     ::int32_t max_value_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fnodes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ShiftStepper final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.ShiftStepper) */ {
+ public:
+  inline ShiftStepper() : ShiftStepper(nullptr) {}
+  ~ShiftStepper() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ShiftStepper* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ShiftStepper));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ShiftStepper(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ShiftStepper(const ShiftStepper& from) : ShiftStepper(nullptr, from) {}
+  inline ShiftStepper(ShiftStepper&& from) noexcept
+      : ShiftStepper(nullptr, std::move(from)) {}
+  inline ShiftStepper& operator=(const ShiftStepper& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ShiftStepper& operator=(ShiftStepper&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ShiftStepper& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ShiftStepper* internal_default_instance() {
+    return reinterpret_cast<const ShiftStepper*>(
+        &_ShiftStepper_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 9;
+  friend void swap(ShiftStepper& a, ShiftStepper& b) { a.Swap(&b); }
+  inline void Swap(ShiftStepper* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ShiftStepper* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ShiftStepper* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ShiftStepper>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ShiftStepper& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ShiftStepper& from) { ShiftStepper::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ShiftStepper* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.ShiftStepper"; }
+
+ protected:
+  explicit ShiftStepper(::google::protobuf::Arena* arena);
+  ShiftStepper(::google::protobuf::Arena* arena, const ShiftStepper& from);
+  ShiftStepper(::google::protobuf::Arena* arena, ShiftStepper&& from) noexcept
+      : ShiftStepper(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTitleFieldNumber = 2,
+    kCommandFieldNumber = 3,
+    kVersionFieldNumber = 1,
+    kStepFieldNumber = 4,
+  };
+  // string title = 2 [(.buf.validate.field) = {
+  void clear_title() ;
+  const std::string& title() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_title(Arg_&& arg, Args_... args);
+  std::string* mutable_title();
+  PROTOBUF_NODISCARD std::string* release_title();
+  void set_allocated_title(std::string* value);
+
+  private:
+  const std::string& _internal_title() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_title(
+      const std::string& value);
+  std::string* _internal_mutable_title();
+
+  public:
+  // .ui.CommandBinding command = 3;
+  bool has_command() const;
+  void clear_command() ;
+  const ::ui::CommandBinding& command() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command();
+  ::ui::CommandBinding* mutable_command();
+  void set_allocated_command(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command();
+
+  private:
+  const ::ui::CommandBinding& _internal_command() const;
+  ::ui::CommandBinding* _internal_mutable_command();
+
+  public:
+  // uint32 version = 1 [(.buf.validate.field) = {
+  void clear_version() ;
+  ::uint32_t version() const;
+  void set_version(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_version() const;
+  void _internal_set_version(::uint32_t value);
+
+  public:
+  // int32 step = 4 [(.buf.validate.field) = {
+  void clear_step() ;
+  ::int32_t step() const;
+  void set_step(::int32_t value);
+
+  private:
+  ::int32_t _internal_step() const;
+  void _internal_set_step(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.ShiftStepper)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 1,
+      29, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ShiftStepper& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr title_;
+    ::ui::CommandBinding* command_;
+    ::uint32_t version_;
+    ::int32_t step_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -3992,6 +4233,198 @@ inline void StepperControl::set_allocated_command_decrement(::ui::CommandBinding
 
   _impl_.command_decrement_ = reinterpret_cast<::ui::CommandBinding*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.StepperControl.command_decrement)
+}
+
+// -------------------------------------------------------------------
+
+// ShiftStepper
+
+// uint32 version = 1 [(.buf.validate.field) = {
+inline void ShiftStepper::clear_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = 0u;
+}
+inline ::uint32_t ShiftStepper::version() const {
+  // @@protoc_insertion_point(field_get:ui.ShiftStepper.version)
+  return _internal_version();
+}
+inline void ShiftStepper::set_version(::uint32_t value) {
+  _internal_set_version(value);
+  // @@protoc_insertion_point(field_set:ui.ShiftStepper.version)
+}
+inline ::uint32_t ShiftStepper::_internal_version() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.version_;
+}
+inline void ShiftStepper::_internal_set_version(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = value;
+}
+
+// string title = 2 [(.buf.validate.field) = {
+inline void ShiftStepper::clear_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.ClearToEmpty();
+}
+inline const std::string& ShiftStepper::title() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ShiftStepper.title)
+  return _internal_title();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ShiftStepper::set_title(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.ShiftStepper.title)
+}
+inline std::string* ShiftStepper::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_title();
+  // @@protoc_insertion_point(field_mutable:ui.ShiftStepper.title)
+  return _s;
+}
+inline const std::string& ShiftStepper::_internal_title() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.title_.Get();
+}
+inline void ShiftStepper::_internal_set_title(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(value, GetArena());
+}
+inline std::string* ShiftStepper::_internal_mutable_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.title_.Mutable( GetArena());
+}
+inline std::string* ShiftStepper::release_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ShiftStepper.title)
+  return _impl_.title_.Release();
+}
+inline void ShiftStepper::set_allocated_title(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.ShiftStepper.title)
+}
+
+// .ui.CommandBinding command = 3;
+inline bool ShiftStepper::has_command() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_ != nullptr);
+  return value;
+}
+inline void ShiftStepper::clear_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_ != nullptr) _impl_.command_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CommandBinding& ShiftStepper::_internal_command() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& ShiftStepper::command() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ShiftStepper.command)
+  return _internal_command();
+}
+inline void ShiftStepper::unsafe_arena_set_allocated_command(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_);
+  }
+  _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ShiftStepper.command)
+}
+inline ::ui::CommandBinding* ShiftStepper::release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* released = _impl_.command_;
+  _impl_.command_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* ShiftStepper::unsafe_arena_release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ShiftStepper.command)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* temp = _impl_.command_;
+  _impl_.command_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* ShiftStepper::_internal_mutable_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_;
+}
+inline ::ui::CommandBinding* ShiftStepper::mutable_command() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command();
+  // @@protoc_insertion_point(field_mutable:ui.ShiftStepper.command)
+  return _msg;
+}
+inline void ShiftStepper::set_allocated_command(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ShiftStepper.command)
+}
+
+// int32 step = 4 [(.buf.validate.field) = {
+inline void ShiftStepper::clear_step() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.step_ = 0;
+}
+inline ::int32_t ShiftStepper::step() const {
+  // @@protoc_insertion_point(field_get:ui.ShiftStepper.step)
+  return _internal_step();
+}
+inline void ShiftStepper::set_step(::int32_t value) {
+  _internal_set_step(value);
+  // @@protoc_insertion_point(field_set:ui.ShiftStepper.step)
+}
+inline ::int32_t ShiftStepper::_internal_step() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.step_;
+}
+inline void ShiftStepper::_internal_set_step(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.step_ = value;
 }
 
 #ifdef __GNUC__

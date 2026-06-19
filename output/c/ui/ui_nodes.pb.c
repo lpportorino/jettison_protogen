@@ -33,6 +33,9 @@ PB_BIND(ui_EnumPicker, ui_EnumPicker, AUTO)
 PB_BIND(ui_StepperControl, ui_StepperControl, AUTO)
 
 
+PB_BIND(ui_ShiftStepper, ui_ShiftStepper, AUTO)
+
+
 
 
 

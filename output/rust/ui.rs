@@ -172,6 +172,27 @@ pub struct StepperControl {
     #[prost(message, optional, tag = "4")]
     pub command_decrement: ::core::option::Option<CommandBinding>,
 }
+/// L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+/// command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+/// generator derives one per single-int32-field `:ui-pattern :stepper` command;
+/// the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+/// and the builder fills the int field via `build_set_int_command`. (Distinct from
+/// `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ShiftStepper {
+    /// Schema version — checked FIRST by the lowering (fail-fast guard).
+    #[prost(uint32, tag = "1")]
+    pub version: u32,
+    /// Stepper label.
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// The single-int32-field command both buttons send (with ±step).
+    #[prost(message, optional, tag = "3")]
+    pub command: ::core::option::Option<CommandBinding>,
+    /// The ± delta a button click applies (carried as the event `int_value`).
+    #[prost(int32, tag = "4")]
+    pub step: i32,
+}
 /// Node-schema version constant. The lowering entry-point checks the wire
 /// `version` field against the CURRENT value FIRST and returns
 /// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no

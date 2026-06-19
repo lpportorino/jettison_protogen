@@ -727,6 +727,84 @@ func (x *StepperControl) GetCommandDecrement() *CommandBinding {
 	return nil
 }
 
+// L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+// command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+// generator derives one per single-int32-field `:ui-pattern :stepper` command;
+// the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+// and the builder fills the int field via `build_set_int_command`. (Distinct from
+// `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+type ShiftStepper struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema version — checked FIRST by the lowering (fail-fast guard).
+	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
+	// Stepper label.
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// The single-int32-field command both buttons send (with ±step).
+	Command *CommandBinding `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty"`
+	// The ± delta a button click applies (carried as the event `int_value`).
+	Step          int32 `protobuf:"varint,4,opt,name=step,proto3" json:"step,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShiftStepper) Reset() {
+	*x = ShiftStepper{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShiftStepper) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShiftStepper) ProtoMessage() {}
+
+func (x *ShiftStepper) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShiftStepper.ProtoReflect.Descriptor instead.
+func (*ShiftStepper) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ShiftStepper) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *ShiftStepper) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ShiftStepper) GetCommand() *CommandBinding {
+	if x != nil {
+		return x.Command
+	}
+	return nil
+}
+
+func (x *ShiftStepper) GetStep() int32 {
+	if x != nil {
+		return x.Step
+	}
+	return 0
+}
+
 var File_ui_ui_nodes_proto protoreflect.FileDescriptor
 
 const file_ui_ui_nodes_proto_rawDesc = "" +
@@ -780,7 +858,13 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12?\n" +
 	"\x11command_increment\x18\x03 \x01(\v2\x12.ui.CommandBindingR\x10commandIncrement\x12?\n" +
-	"\x11command_decrement\x18\x04 \x01(\v2\x12.ui.CommandBindingR\x10commandDecrement*T\n" +
+	"\x11command_decrement\x18\x04 \x01(\v2\x12.ui.CommandBindingR\x10commandDecrement\"\x9e\x01\n" +
+	"\fShiftStepper\x12$\n" +
+	"\aversion\x18\x01 \x01(\rB\n" +
+	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
+	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
+	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand\x12\x1b\n" +
+	"\x04step\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x04step*T\n" +
 	"\x11NodeSchemaVersion\x12#\n" +
 	"\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16NODE_SCHEMA_VERSION_V1\x10\x01B\x83\x01\n" +
@@ -799,7 +883,7 @@ func file_ui_ui_nodes_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_nodes_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_ui_ui_nodes_proto_goTypes = []any{
 	(NodeSchemaVersion)(0),  // 0: ui.NodeSchemaVersion
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
@@ -811,6 +895,7 @@ var file_ui_ui_nodes_proto_goTypes = []any{
 	(*EnumOption)(nil),      // 7: ui.EnumOption
 	(*EnumPicker)(nil),      // 8: ui.EnumPicker
 	(*StepperControl)(nil),  // 9: ui.StepperControl
+	(*ShiftStepper)(nil),    // 10: ui.ShiftStepper
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
 	1,  // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
@@ -825,11 +910,12 @@ var file_ui_ui_nodes_proto_depIdxs = []int32{
 	7,  // 9: ui.EnumPicker.options:type_name -> ui.EnumOption
 	3,  // 10: ui.StepperControl.command_increment:type_name -> ui.CommandBinding
 	3,  // 11: ui.StepperControl.command_decrement:type_name -> ui.CommandBinding
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	3,  // 12: ui.ShiftStepper.command:type_name -> ui.CommandBinding
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }
@@ -843,7 +929,7 @@ func file_ui_ui_nodes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_nodes_proto_rawDesc), len(file_ui_ui_nodes_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -108,3 +108,15 @@ class StepperControl(_message.Message):
     command_increment: CommandBinding
     command_decrement: CommandBinding
     def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command_increment: _Optional[_Union[CommandBinding, _Mapping]] = ..., command_decrement: _Optional[_Union[CommandBinding, _Mapping]] = ...) -> None: ...
+
+class ShiftStepper(_message.Message):
+    __slots__ = ("version", "title", "command", "step")
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_FIELD_NUMBER: _ClassVar[int]
+    STEP_FIELD_NUMBER: _ClassVar[int]
+    version: int
+    title: str
+    command: CommandBinding
+    step: int
+    def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ..., step: _Optional[int] = ...) -> None: ...

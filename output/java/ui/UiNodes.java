@@ -9537,6 +9537,1022 @@ public final class UiNodes {
 
   }
 
+  public interface ShiftStepperOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.ShiftStepper)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    java.lang.String getTitle();
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    /**
+     * <pre>
+     * The single-int32-field command both buttons send (with ±step).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return Whether the command field is set.
+     */
+    boolean hasCommand();
+    /**
+     * <pre>
+     * The single-int32-field command both buttons send (with ±step).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return The command.
+     */
+    ui.UiNodes.CommandBinding getCommand();
+    /**
+     * <pre>
+     * The single-int32-field command both buttons send (with ±step).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder();
+
+    /**
+     * <pre>
+     * The ± delta a button click applies (carried as the event `int_value`).
+     * </pre>
+     *
+     * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The step.
+     */
+    int getStep();
+  }
+  /**
+   * <pre>
+   * L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+   * command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+   * generator derives one per single-int32-field `:ui-pattern :stepper` command;
+   * the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+   * and the builder fills the int field via `build_set_int_command`. (Distinct from
+   * `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+   * </pre>
+   *
+   * Protobuf type {@code ui.ShiftStepper}
+   */
+  public static final class ShiftStepper extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.ShiftStepper)
+      ShiftStepperOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ShiftStepper.class.getName());
+    }
+    // Use ShiftStepper.newBuilder() to construct.
+    private ShiftStepper(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ShiftStepper() {
+      title_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiNodes.internal_static_ui_ShiftStepper_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiNodes.internal_static_ui_ShiftStepper_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiNodes.ShiftStepper.class, ui.UiNodes.ShiftStepper.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_ = 0;
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+
+    public static final int TITLE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object title_ = "";
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    @java.lang.Override
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        title_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMMAND_FIELD_NUMBER = 3;
+    private ui.UiNodes.CommandBinding command_;
+    /**
+     * <pre>
+     * The single-int32-field command both buttons send (with ±step).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return Whether the command field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommand() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * The single-int32-field command both buttons send (with ±step).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return The command.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommand() {
+      return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+    }
+    /**
+     * <pre>
+     * The single-int32-field command both buttons send (with ±step).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder() {
+      return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+    }
+
+    public static final int STEP_FIELD_NUMBER = 4;
+    private int step_ = 0;
+    /**
+     * <pre>
+     * The ± delta a button click applies (carried as the event `int_value`).
+     * </pre>
+     *
+     * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
+     * @return The step.
+     */
+    @java.lang.Override
+    public int getStep() {
+      return step_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (version_ != 0) {
+        output.writeUInt32(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(3, getCommand());
+      }
+      if (step_ != 0) {
+        output.writeInt32(4, step_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (version_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCommand());
+      }
+      if (step_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, step_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiNodes.ShiftStepper)) {
+        return super.equals(obj);
+      }
+      ui.UiNodes.ShiftStepper other = (ui.UiNodes.ShiftStepper) obj;
+
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getTitle()
+          .equals(other.getTitle())) return false;
+      if (hasCommand() != other.hasCommand()) return false;
+      if (hasCommand()) {
+        if (!getCommand()
+            .equals(other.getCommand())) return false;
+      }
+      if (getStep()
+          != other.getStep()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + TITLE_FIELD_NUMBER;
+      hash = (53 * hash) + getTitle().hashCode();
+      if (hasCommand()) {
+        hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+        hash = (53 * hash) + getCommand().hashCode();
+      }
+      hash = (37 * hash) + STEP_FIELD_NUMBER;
+      hash = (53 * hash) + getStep();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiNodes.ShiftStepper parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiNodes.ShiftStepper parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.ShiftStepper parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiNodes.ShiftStepper prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+     * command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+     * generator derives one per single-int32-field `:ui-pattern :stepper` command;
+     * the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+     * and the builder fills the int field via `build_set_int_command`. (Distinct from
+     * `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+     * </pre>
+     *
+     * Protobuf type {@code ui.ShiftStepper}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.ShiftStepper)
+        ui.UiNodes.ShiftStepperOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiNodes.internal_static_ui_ShiftStepper_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiNodes.internal_static_ui_ShiftStepper_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiNodes.ShiftStepper.class, ui.UiNodes.ShiftStepper.Builder.class);
+      }
+
+      // Construct using ui.UiNodes.ShiftStepper.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCommandFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        version_ = 0;
+        title_ = "";
+        command_ = null;
+        if (commandBuilder_ != null) {
+          commandBuilder_.dispose();
+          commandBuilder_ = null;
+        }
+        step_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiNodes.internal_static_ui_ShiftStepper_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ShiftStepper getDefaultInstanceForType() {
+        return ui.UiNodes.ShiftStepper.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ShiftStepper build() {
+        ui.UiNodes.ShiftStepper result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ShiftStepper buildPartial() {
+        ui.UiNodes.ShiftStepper result = new ui.UiNodes.ShiftStepper(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiNodes.ShiftStepper result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.version_ = version_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.title_ = title_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.command_ = commandBuilder_ == null
+              ? command_
+              : commandBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.step_ = step_;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiNodes.ShiftStepper) {
+          return mergeFrom((ui.UiNodes.ShiftStepper)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiNodes.ShiftStepper other) {
+        if (other == ui.UiNodes.ShiftStepper.getDefaultInstance()) return this;
+        if (other.getVersion() != 0) {
+          setVersion(other.getVersion());
+        }
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (other.hasCommand()) {
+          mergeCommand(other.getCommand());
+        }
+        if (other.getStep() != 0) {
+          setStep(other.getStep());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                version_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                title_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getCommandFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 32: {
+                step_ = input.readInt32();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 32
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int version_ ;
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+
+        version_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object title_ = "";
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The title.
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for title.
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTitle() {
+        title_ = getDefaultInstance().getTitle();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiNodes.CommandBinding command_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandBuilder_;
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       * @return Whether the command field is set.
+       */
+      public boolean hasCommand() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       * @return The command.
+       */
+      public ui.UiNodes.CommandBinding getCommand() {
+        if (commandBuilder_ == null) {
+          return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+        } else {
+          return commandBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder setCommand(ui.UiNodes.CommandBinding value) {
+        if (commandBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          command_ = value;
+        } else {
+          commandBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder setCommand(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandBuilder_ == null) {
+          command_ = builderForValue.build();
+        } else {
+          commandBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder mergeCommand(ui.UiNodes.CommandBinding value) {
+        if (commandBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            command_ != null &&
+            command_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandBuilder().mergeFrom(value);
+          } else {
+            command_ = value;
+          }
+        } else {
+          commandBuilder_.mergeFrom(value);
+        }
+        if (command_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder clearCommand() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        command_ = null;
+        if (commandBuilder_ != null) {
+          commandBuilder_.dispose();
+          commandBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getCommandFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder() {
+        if (commandBuilder_ != null) {
+          return commandBuilder_.getMessageOrBuilder();
+        } else {
+          return command_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+        }
+      }
+      /**
+       * <pre>
+       * The single-int32-field command both buttons send (with ±step).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandFieldBuilder() {
+        if (commandBuilder_ == null) {
+          commandBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommand(),
+                  getParentForChildren(),
+                  isClean());
+          command_ = null;
+        }
+        return commandBuilder_;
+      }
+
+      private int step_ ;
+      /**
+       * <pre>
+       * The ± delta a button click applies (carried as the event `int_value`).
+       * </pre>
+       *
+       * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
+       * @return The step.
+       */
+      @java.lang.Override
+      public int getStep() {
+        return step_;
+      }
+      /**
+       * <pre>
+       * The ± delta a button click applies (carried as the event `int_value`).
+       * </pre>
+       *
+       * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
+       * @param value The step to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStep(int value) {
+
+        step_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The ± delta a button click applies (carried as the event `int_value`).
+       * </pre>
+       *
+       * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStep() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        step_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.ShiftStepper)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.ShiftStepper)
+    private static final ui.UiNodes.ShiftStepper DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiNodes.ShiftStepper();
+    }
+
+    public static ui.UiNodes.ShiftStepper getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ShiftStepper>
+        PARSER = new com.google.protobuf.AbstractParser<ShiftStepper>() {
+      @java.lang.Override
+      public ShiftStepper parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ShiftStepper> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ShiftStepper> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiNodes.ShiftStepper getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_FixedPointScale_descriptor;
   private static final 
@@ -9582,6 +10598,11 @@ public final class UiNodes {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_StepperControl_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_ShiftStepper_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_ShiftStepper_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -9619,11 +10640,14 @@ public final class UiNodes {
       "on\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004" +
       "r\002\030?\022-\n\021command_increment\030\003 \001(\0132\022.ui.Com" +
       "mandBinding\022-\n\021command_decrement\030\004 \001(\0132\022" +
-      ".ui.CommandBinding*T\n\021NodeSchemaVersion\022" +
-      "#\n\037NODE_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026" +
-      "NODE_SCHEMA_VERSION_V1\020\001BEZCgit-codecomm" +
-      "it.eu-central-1.amazonaws.com/v1/repos/j" +
-      "ettison/jonp/uib\006proto3"
+      ".ui.CommandBinding\"\177\n\014ShiftStepper\022\033\n\007ve" +
+      "rsion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007" +
+      "\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132\022.ui.CommandBin" +
+      "ding\022\025\n\004step\030\004 \001(\005B\007\272H\004\032\002 \000*T\n\021NodeSchem" +
+      "aVersion\022#\n\037NODE_SCHEMA_VERSION_UNSPECIF" +
+      "IED\020\000\022\032\n\026NODE_SCHEMA_VERSION_V1\020\001BEZCgit" +
+      "-codecommit.eu-central-1.amazonaws.com/v" +
+      "1/repos/jettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9684,6 +10708,12 @@ public final class UiNodes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_StepperControl_descriptor,
         new java.lang.String[] { "Version", "Title", "CommandIncrement", "CommandDecrement", });
+    internal_static_ui_ShiftStepper_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_ui_ShiftStepper_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_ShiftStepper_descriptor,
+        new java.lang.String[] { "Version", "Title", "Command", "Step", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

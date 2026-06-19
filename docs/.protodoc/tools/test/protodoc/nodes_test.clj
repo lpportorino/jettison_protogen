@@ -147,6 +147,34 @@
             :command-decrement "cmd.HeatCamera.FocusStepMinus"}
            (first nodes)))))
 
+(deftest derives-shift-steppers
+  (let [db {:messages
+            {"cmd.Root"
+             {:id "cmd.Root" :name "Root"
+              :fields [{:number 1 :name "system" :type :message
+                        :type-ref "cmd.System.Root"}]}
+             "cmd.System.Root"
+             {:id "cmd.System.Root" :name "Root" :package "cmd.System"
+              :fields [{:number 1 :name "step_day" :type :message
+                        :type-ref "cmd.System.StepDay"}]}
+             "cmd.System.StepDay"
+             {:id "cmd.System.StepDay" :name "StepDay"
+              :fields [{:name "offset" :type :int32}]
+              :interaction {:ui-pattern :stepper}}
+             ;; a single-int32 :stepper NOT wired into the oneof → not buildable → no node
+             "cmd.System.Orphan"
+             {:id "cmd.System.Orphan" :name "Orphan"
+              :fields [{:name "value" :type :int32}]
+              :interaction {:ui-pattern :stepper}}}}
+        nodes (nodes/derive-shift-stepper-nodes db)]
+    (is (= 1 (count nodes)) "only the oneof-reachable single-int32 stepper")
+    (is (= {:id "cmd.System.StepDay"
+            :kind :shift-stepper
+            :title "Step Day"
+            :command-id "cmd.System.StepDay"
+            :step 1}
+           (first nodes)))))
+
 (deftest derives-enum-picker-options
   (let [db {:enums {"ser.FxMode"
                     {:values [{:number 0 :name "JON_FX_DEFAULT"}

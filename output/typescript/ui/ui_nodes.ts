@@ -247,6 +247,27 @@ export interface StepperControl {
   commandDecrement: CommandBinding | undefined;
 }
 
+/**
+ * L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+ * command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+ * generator derives one per single-int32-field `:ui-pattern :stepper` command;
+ * the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+ * and the builder fills the int field via `build_set_int_command`. (Distinct from
+ * `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+ */
+export interface ShiftStepper {
+  /** Schema version — checked FIRST by the lowering (fail-fast guard). */
+  version: number;
+  /** Stepper label. */
+  title: string;
+  /** The single-int32-field command both buttons send (with ±step). */
+  command:
+    | CommandBinding
+    | undefined;
+  /** The ± delta a button click applies (carried as the event `int_value`). */
+  step: number;
+}
+
 function createBaseFixedPointScale(): FixedPointScale {
   return { scale: 0 };
 }
@@ -1175,6 +1196,116 @@ export const StepperControl: MessageFns<StepperControl> = {
     message.commandDecrement = (object.commandDecrement !== undefined && object.commandDecrement !== null)
       ? CommandBinding.fromPartial(object.commandDecrement)
       : undefined;
+    return message;
+  },
+};
+
+function createBaseShiftStepper(): ShiftStepper {
+  return { version: 0, title: "", command: undefined, step: 0 };
+}
+
+export const ShiftStepper: MessageFns<ShiftStepper> = {
+  encode(message: ShiftStepper, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.version !== 0) {
+      writer.uint32(8).uint32(message.version);
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.command !== undefined) {
+      CommandBinding.encode(message.command, writer.uint32(26).fork()).join();
+    }
+    if (message.step !== 0) {
+      writer.uint32(32).int32(message.step);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ShiftStepper {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseShiftStepper();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.version = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.command = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.step = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ShiftStepper {
+    return {
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      command: isSet(object.command) ? CommandBinding.fromJSON(object.command) : undefined,
+      step: isSet(object.step) ? globalThis.Number(object.step) : 0,
+    };
+  },
+
+  toJSON(message: ShiftStepper): unknown {
+    const obj: any = {};
+    if (message.version !== 0) {
+      obj.version = Math.round(message.version);
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.command !== undefined) {
+      obj.command = CommandBinding.toJSON(message.command);
+    }
+    if (message.step !== 0) {
+      obj.step = Math.round(message.step);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ShiftStepper>, I>>(base?: I): ShiftStepper {
+    return ShiftStepper.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ShiftStepper>, I>>(object: I): ShiftStepper {
+    const message = createBaseShiftStepper();
+    message.version = object.version ?? 0;
+    message.title = object.title ?? "";
+    message.command = (object.command !== undefined && object.command !== null)
+      ? CommandBinding.fromPartial(object.command)
+      : undefined;
+    message.step = object.step ?? 0;
     return message;
   },
 };

@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ui/ui_nodes.proto.
  */
 export const file_ui_ui_nodes: GenFile = /*@__PURE__*/
-  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmciMwoKRW51bU9wdGlvbhIWCgVsYWJlbBgBIAEoCUIHukgEcgIYPxINCgV2YWx1ZRgCIAEoBSKHAQoKRW51bVBpY2tlchIbCgd2ZXJzaW9uGAEgASgNQgq6SAcqBRj/ASgBEhYKBXRpdGxlGAIgASgJQge6SARyAhg/EiMKB2NvbW1hbmQYAyABKAsyEi51aS5Db21tYW5kQmluZGluZxIfCgdvcHRpb25zGAQgAygLMg4udWkuRW51bU9wdGlvbiKjAQoOU3RlcHBlckNvbnRyb2wSGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIWCgV0aXRsZRgCIAEoCUIHukgEcgIYPxItChFjb21tYW5kX2luY3JlbWVudBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEi0KEWNvbW1hbmRfZGVjcmVtZW50GAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcqVAoRTm9kZVNjaGVtYVZlcnNpb24SIwofTk9ERV9TQ0hFTUFfVkVSU0lPTl9VTlNQRUNJRklFRBAAEhoKFk5PREVfU0NIRU1BX1ZFUlNJT05fVjEQAUJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmciMwoKRW51bU9wdGlvbhIWCgVsYWJlbBgBIAEoCUIHukgEcgIYPxINCgV2YWx1ZRgCIAEoBSKHAQoKRW51bVBpY2tlchIbCgd2ZXJzaW9uGAEgASgNQgq6SAcqBRj/ASgBEhYKBXRpdGxlGAIgASgJQge6SARyAhg/EiMKB2NvbW1hbmQYAyABKAsyEi51aS5Db21tYW5kQmluZGluZxIfCgdvcHRpb25zGAQgAygLMg4udWkuRW51bU9wdGlvbiKjAQoOU3RlcHBlckNvbnRyb2wSGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIWCgV0aXRsZRgCIAEoCUIHukgEcgIYPxItChFjb21tYW5kX2luY3JlbWVudBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEi0KEWNvbW1hbmRfZGVjcmVtZW50GAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcifwoMU2hpZnRTdGVwcGVyEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhUKBHN0ZXAYBCABKAVCB7pIBBoCIAAqVAoRTm9kZVNjaGVtYVZlcnNpb24SIwofTk9ERV9TQ0hFTUFfVkVSU0lPTl9VTlNQRUNJRklFRBAAEhoKFk5PREVfU0NIRU1BX1ZFUlNJT05fVjEQAUJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * How a normalized control value crosses the int-only WASM ABI. The camera
@@ -392,6 +392,53 @@ export type StepperControl = Message<"ui.StepperControl"> & {
  */
 export const StepperControlSchema: GenMessage<StepperControl> = /*@__PURE__*/
   messageDesc(file_ui_ui_nodes, 8);
+
+/**
+ * L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+ * command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+ * generator derives one per single-int32-field `:ui-pattern :stepper` command;
+ * the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+ * and the builder fills the int field via `build_set_int_command`. (Distinct from
+ * `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+ *
+ * @generated from message ui.ShiftStepper
+ */
+export type ShiftStepper = Message<"ui.ShiftStepper"> & {
+  /**
+   * Schema version — checked FIRST by the lowering (fail-fast guard).
+   *
+   * @generated from field: uint32 version = 1;
+   */
+  version: number;
+
+  /**
+   * Stepper label.
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * The single-int32-field command both buttons send (with ±step).
+   *
+   * @generated from field: ui.CommandBinding command = 3;
+   */
+  command?: CommandBinding | undefined;
+
+  /**
+   * The ± delta a button click applies (carried as the event `int_value`).
+   *
+   * @generated from field: int32 step = 4;
+   */
+  step: number;
+};
+
+/**
+ * Describes the message ui.ShiftStepper.
+ * Use `create(ShiftStepperSchema)` to create a new message.
+ */
+export const ShiftStepperSchema: GenMessage<ShiftStepper> = /*@__PURE__*/
+  messageDesc(file_ui_ui_nodes, 9);
 
 /**
  * Node-schema version constant. The lowering entry-point checks the wire

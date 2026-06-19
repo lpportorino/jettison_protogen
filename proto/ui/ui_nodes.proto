@@ -197,3 +197,23 @@ message StepperControl {
   // Command sent by the − button (the paired Minus/Decrease command).
   CommandBinding command_decrement = 4;
 }
+
+// L3 ShiftStepper kind — a pair of −/+ buttons that send ONE single-`int32`-field
+// command with a ∓/±`step` delta (e.g. SetZoomTableValue shifted by ±step). The
+// generator derives one per single-int32-field `:ui-pattern :stepper` command;
+// the lowering emits two buttons whose click events carry `int_value = ∓/±step`,
+// and the builder fills the int field via `build_set_int_command`. (Distinct from
+// `StepperControl`, whose two buttons send two PARAMETERLESS commands.)
+message ShiftStepper {
+  // Schema version — checked FIRST by the lowering (fail-fast guard).
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Stepper label.
+  string title = 2 [(buf.validate.field).string = {max_len: 63}];
+
+  // The single-int32-field command both buttons send (with ±step).
+  CommandBinding command = 3;
+
+  // The ± delta a button click applies (carried as the event `int_value`).
+  int32 step = 4 [(buf.validate.field).int32 = {gt: 0}];
+}
