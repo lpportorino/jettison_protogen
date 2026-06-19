@@ -94,7 +94,7 @@
     "cmd.DayCamera.Start" {:id "cmd.DayCamera.Start" :name "Start" :fields []}}})
 
 (deftest cmd-builder-traverses-oneof-graph
-  (testing "arm-specs resolve prost paths from the oneof field names (not ids)"
+  (testing "set-value arm-specs resolve prost paths from the oneof field names"
     (let [arms (nodes/set-value-command-arms cmd-graph-db)]
       (is (= 1 (count arms)) "only the single-double-field leaf, not parameterless Start")
       (is (= {:command-id "cmd.DayCamera.SetClaheLevel"
@@ -104,10 +104,25 @@
               :struct "SetClaheLevel"
               :field "value"}
              (first arms)))))
-  (testing "emitted Rust is the typed match (no runtime reflection)"
-    (let [{:keys [rust count]} (nodes/cmd-builders-rust cmd-graph-db)]
-      (is (= 1 count))
+  (testing "action arm-specs pick the parameterless leaf (Start), no value field"
+    (let [arms (nodes/action-command-arms cmd-graph-db)]
+      (is (= 1 (count arms)))
+      (is (= {:command-id "cmd.DayCamera.Start"
+              :payload-variant "DayCamera"
+              :module "day_camera"
+              :cmd-variant "Start"
+              :struct "Start"
+              :field nil}
+             (first arms)))))
+  (testing "emitted Rust has both typed builders (no runtime reflection)"
+    (let [{:keys [rust set-value-count action-count]} (nodes/cmd-builders-rust cmd-graph-db)]
+      (is (= 1 set-value-count))
+      (is (= 1 action-count))
       (is (str/includes? rust "pub fn build_set_value_command"))
+      (is (str/includes? rust "pub fn build_action_command"))
       (is (str/includes?
            rust
-           "cmd::day_camera::root::Cmd::SetClaheLevel(cmd::day_camera::SetClaheLevel { value: value })")))))
+           "cmd::day_camera::root::Cmd::SetClaheLevel(cmd::day_camera::SetClaheLevel { value: value })"))
+      (is (str/includes?
+           rust
+           "cmd::day_camera::root::Cmd::Start(cmd::day_camera::Start {})")))))

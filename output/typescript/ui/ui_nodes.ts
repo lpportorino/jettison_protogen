@@ -140,6 +140,29 @@ export interface SliderControl {
   maxValue: number;
 }
 
+/**
+ * L3 ActionButton kind — a labelled button that SENDS a parameterless command
+ * (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+ * scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+ * per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+ * card with a label + a button whose click-event carries the command id.
+ */
+export interface ActionButton {
+  /**
+   * Schema version — checked FIRST by the lowering (fail-fast guard), same
+   * contract as SliderControl. {gte: 1} rejects the unset/0 default.
+   */
+  version: number;
+  /** Button label (lowered to a Label atom above the button). */
+  title: string;
+  /**
+   * Command binding: button click → the parameterless command. Only
+   * `command_id` is used (the `scale` carries no meaning for a value-less
+   * command); the lowered button event sets include_widget_value = false.
+   */
+  command: CommandBinding | undefined;
+}
+
 function createBaseFixedPointScale(): FixedPointScale {
   return { scale: 0 };
 }
@@ -530,6 +553,100 @@ export const SliderControl: MessageFns<SliderControl> = {
       : undefined;
     message.minValue = object.minValue ?? 0;
     message.maxValue = object.maxValue ?? 0;
+    return message;
+  },
+};
+
+function createBaseActionButton(): ActionButton {
+  return { version: 0, title: "", command: undefined };
+}
+
+export const ActionButton: MessageFns<ActionButton> = {
+  encode(message: ActionButton, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.version !== 0) {
+      writer.uint32(8).uint32(message.version);
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.command !== undefined) {
+      CommandBinding.encode(message.command, writer.uint32(26).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ActionButton {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseActionButton();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.version = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.command = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ActionButton {
+    return {
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      command: isSet(object.command) ? CommandBinding.fromJSON(object.command) : undefined,
+    };
+  },
+
+  toJSON(message: ActionButton): unknown {
+    const obj: any = {};
+    if (message.version !== 0) {
+      obj.version = Math.round(message.version);
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.command !== undefined) {
+      obj.command = CommandBinding.toJSON(message.command);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ActionButton>, I>>(base?: I): ActionButton {
+    return ActionButton.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ActionButton>, I>>(object: I): ActionButton {
+    const message = createBaseActionButton();
+    message.version = object.version ?? 0;
+    message.title = object.title ?? "";
+    message.command = (object.command !== undefined && object.command !== null)
+      ? CommandBinding.fromPartial(object.command)
+      : undefined;
     return message;
   },
 };

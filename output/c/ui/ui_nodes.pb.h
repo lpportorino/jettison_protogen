@@ -89,6 +89,24 @@ typedef struct _ui_SliderControl {
     int32_t max_value;
 } ui_SliderControl;
 
+/* L3 ActionButton kind — a labelled button that SENDS a parameterless command
+ (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+ scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+ per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+ card with a label + a button whose click-event carries the command id. */
+typedef struct _ui_ActionButton {
+    /* Schema version — checked FIRST by the lowering (fail-fast guard), same
+ contract as SliderControl. {gte: 1} rejects the unset/0 default. */
+    uint32_t version;
+    /* Button label (lowered to a Label atom above the button). */
+    pb_callback_t title;
+    /* Command binding: button click → the parameterless command. Only
+ `command_id` is used (the `scale` carries no meaning for a value-less
+ command); the lowered button event sets include_widget_value = false. */
+    bool has_command;
+    ui_CommandBinding command;
+} ui_ActionButton;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -104,15 +122,18 @@ extern "C" {
 
 
 
+
 /* Initializer values for message structs */
 #define ui_FixedPointScale_init_default          {0}
 #define ui_StateBinding_init_default             {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_default}
 #define ui_CommandBinding_init_default           {{{NULL}, NULL}, false, ui_FixedPointScale_init_default}
 #define ui_SliderControl_init_default            {0, {{NULL}, NULL}, false, ui_StateBinding_init_default, false, ui_CommandBinding_init_default, 0, 0}
+#define ui_ActionButton_init_default             {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_CommandBinding_init_zero              {{{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_SliderControl_init_zero               {0, {{NULL}, NULL}, false, ui_StateBinding_init_zero, false, ui_CommandBinding_init_zero, 0, 0}
+#define ui_ActionButton_init_zero                {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_FixedPointScale_scale_tag             1
@@ -127,6 +148,9 @@ extern "C" {
 #define ui_SliderControl_command_tag             4
 #define ui_SliderControl_min_value_tag           5
 #define ui_SliderControl_max_value_tag           6
+#define ui_ActionButton_version_tag              1
+#define ui_ActionButton_title_tag                2
+#define ui_ActionButton_command_tag              3
 
 /* Struct field encoding specification for nanopb */
 #define ui_FixedPointScale_FIELDLIST(X, a) \
@@ -161,21 +185,32 @@ X(a, STATIC,   SINGULAR, INT32,    max_value,         6)
 #define ui_SliderControl_state_MSGTYPE ui_StateBinding
 #define ui_SliderControl_command_MSGTYPE ui_CommandBinding
 
+#define ui_ActionButton_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command,           3)
+#define ui_ActionButton_CALLBACK pb_default_field_callback
+#define ui_ActionButton_DEFAULT NULL
+#define ui_ActionButton_command_MSGTYPE ui_CommandBinding
+
 extern const pb_msgdesc_t ui_FixedPointScale_msg;
 extern const pb_msgdesc_t ui_StateBinding_msg;
 extern const pb_msgdesc_t ui_CommandBinding_msg;
 extern const pb_msgdesc_t ui_SliderControl_msg;
+extern const pb_msgdesc_t ui_ActionButton_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_FixedPointScale_fields &ui_FixedPointScale_msg
 #define ui_StateBinding_fields &ui_StateBinding_msg
 #define ui_CommandBinding_fields &ui_CommandBinding_msg
 #define ui_SliderControl_fields &ui_SliderControl_msg
+#define ui_ActionButton_fields &ui_ActionButton_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ui_StateBinding_size depends on runtime parameters */
 /* ui_CommandBinding_size depends on runtime parameters */
 /* ui_SliderControl_size depends on runtime parameters */
+/* ui_ActionButton_size depends on runtime parameters */
 #define UI_UI_UI_NODES_PB_H_MAX_SIZE             ui_FixedPointScale_size
 #define ui_FixedPointScale_size                  6
 

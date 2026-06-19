@@ -152,25 +152,34 @@
   (if (rust-keywords field-name) (str "r#" field-name) field-name))
 
 (defn- snake->pascal
-  "snake_case → PascalCase, matching prost's oneof-variant naming
-   (\"set_clahe_level\" → \"SetClaheLevel\", \"rotary\" → \"Rotary\")."
+  "snake_case → PascalCase, matching prost's oneof-variant naming from a FIELD
+   name (\"set_clahe_level\" → \"SetClaheLevel\", \"rotary\" → \"Rotary\")."
   [s]
   (->> (str/split s #"_") (remove str/blank?) (map str/capitalize) (str/join "")))
 
-(defn set-value-command-arms
-  "Traverse the cmd oneof graph and return one arm-spec per single-`:double`-field
-   command LEAF reachable as `cmd.Root.payload → <Subsystem>.Root.cmd → <Leaf>`.
+(defn- to-upper-camel
+  "heck `to_upper_camel_case` of a (Pascal/acronym) MESSAGE name — prost's struct
+   naming. camel-words splits on case + acronym-run boundaries (\"DisableDDE\" →
+   [Disable DDE], \"StartALl\" → [Start A Ll], \"ShowLRFMeasureScreen\" → [Show
+   LRF Measure Screen]); capitalize-first/lower-rest each yields \"DisableDde\" /
+   \"StartALl\" / \"ShowLrfMeasureScreen\" — exactly what prost emits."
+  [s]
+  (->> (camel-words s) (map str/capitalize) (str/join "")))
 
-   prost variant names come from the ONEOF FIELD names (not the message/id), so
-   we read them from the descriptor: the payload field (`rotary`→`Rotary`), the
-   subsystem module (the Root's package segment, `cmd.RotaryPlatform`→`rotary_platform`),
-   and the cmd field (`set_clahe_level`→`SetClaheLevel`). Non-leaf single-double
-   messages (e.g. a shared `Offset` used inside `Zoom`) are excluded by
-   construction — they are not referenced by any cmd-oneof field."
-  [db]
+(defn- oneof-command-leaves
+  "Traverse the cmd oneof graph and return one arm-spec per command LEAF reachable
+   as `cmd.Root.payload → <Subsystem>.Root.cmd → <Leaf>` whose message satisfies
+   `leaf-pred`.
+
+   prost variant names come from the ONEOF FIELD names (not the message/id): the
+   payload field (`rotary`→`Rotary`), the subsystem module (the Root's package
+   segment, `cmd.RotaryPlatform`→`rotary_platform`), and the cmd field
+   (`set_clahe_level`→`SetClaheLevel`). Non-leaf messages (e.g. a shared `Offset`
+   used inside `Zoom`) are excluded by construction — nothing in a cmd oneof
+   references them."
+  [db leaf-pred]
   (let [msgs (:messages db)
         root (get msgs "cmd.Root")
-        ;; payload oneof: subsystem-Root id → payload field name
         payload-field (into {}
                             (for [f (:fields root)
                                   :when (and (= :message (:type f))
@@ -178,53 +187,81 @@
                               [(:type-ref f) (:name f)]))]
     (->> (for [[root-id pay-fname] payload-field
                :let [subsystem-root (get msgs root-id)
-                     ;; "cmd.RotaryPlatform.Root" → module "rotary_platform"
                      module (camel->snake (nth (str/split root-id #"\.") 1))]
                cf (:fields subsystem-root)
                :when (= :message (:type cf))
-               :let [cmd-msg (get msgs (:type-ref cf))
-                     vf (single-field cmd-msg)]
-               :when (and cmd-msg vf (= :double (:type vf)))]
+               :let [cmd-msg (get msgs (:type-ref cf))]
+               :when (and cmd-msg (leaf-pred cmd-msg))]
            {:command-id (:id cmd-msg)
             :payload-variant (snake->pascal pay-fname)
             :module module
             :cmd-variant (snake->pascal (:name cf))
-            :struct (:name cmd-msg)
-            :field (rust-field-ident (:name vf))})
+            ;; The oneof VARIANT is the field name PascalCased (above); the
+            ;; message STRUCT is heck to_upper_camel of the MESSAGE name — and the
+            ;; two DIFFER when the field name isn't the snake of the message name
+            ;; (field `geodesic_mode_enable` → message `EnableGeodesicMode`; field
+            ;; `start_calibrate_long` → message `CalibrateStartLong`).
+            :struct (to-upper-camel (:name cmd-msg))
+            :field (when-let [vf (single-field cmd-msg)] (rust-field-ident (:name vf)))})
          (sort-by :command-id)
          vec)))
 
-(defn cmd-builders-rust
-  "Emit the full cmd_builders.rs: a typed `build_set_value_command` match over
-   every oneof-reachable single-`:double`-field cmd leaf."
+(defn set-value-command-arms
+  "Arm-specs for single-`:double`-field command leaves (the slider kind's set-value
+   commands)."
   [db]
-  (let [arms (set-value-command-arms db)
-        rust-arms (->> arms
-                       (map (fn [{:keys [command-id payload-variant module cmd-variant struct field]}]
-                              (str "        \"" command-id "\" => cmd::root::Payload::"
-                                   payload-variant "(cmd::" module "::Root {\n"
-                                   "            cmd: Some(cmd::" module "::root::Cmd::"
-                                   cmd-variant "(cmd::" module "::" struct
-                                   " { " field ": value })),\n"
-                                   "        }),")))
-                       (str/join "\n"))]
+  (oneof-command-leaves db (fn [m] (let [f (single-field m)]
+                                     (and f (= :double (:type f)))))))
+
+(defn action-command-arms
+  "Arm-specs for parameterless (0-field) command leaves (the action-button kind's
+   commands — Start / Stop / Photo / …)."
+  [db]
+  (oneof-command-leaves db (fn [m] (empty? (:fields m)))))
+
+(defn- match-arm
+  "One Rust match arm: command-id → typed `cmd::root::Payload` construction with
+   `struct-body` as the command-message body (`{ value: value }` or `{}`)."
+  [{:keys [command-id payload-variant module cmd-variant struct]} struct-body]
+  (str "        \"" command-id "\" => cmd::root::Payload::" payload-variant
+       "(cmd::" module "::Root {\n"
+       "            cmd: Some(cmd::" module "::root::Cmd::" cmd-variant
+       "(cmd::" module "::" struct " " struct-body ")),\n"
+       "        }),"))
+
+(defn- builder-fn
+  "Emit a `pub fn <name>(<extra-args>) -> Option<cmd::Root>` whose match arms are
+   `(arm-fn spec)`-rendered."
+  [fn-name extra-args doc arms arm-fn]
+  (str "/// " doc "\n"
+       "pub fn " fn-name "(command_id: &str" extra-args ") -> Option<cmd::Root> {\n"
+       "    let payload = match command_id {\n"
+       (str/join "\n" (map arm-fn arms)) "\n"
+       "        _ => return None,\n"
+       "    };\n"
+       "    Some(cmd::Root { payload: Some(payload), ..Default::default() })\n"
+       "}\n"))
+
+(defn cmd-builders-rust
+  "Emit cmd_builders.rs: typed `build_set_value_command` (single double field) +
+   `build_action_command` (parameterless), over every oneof-reachable cmd leaf."
+  [db]
+  (let [sv (set-value-command-arms db)
+        ab (action-command-arms db)]
     {:rust (str "// @generated by protodoc.nodes (jettison_protogen) — DO NOT EDIT.\n"
-                "// Typed set-value command builders: command_id -> cmd::Root.\n"
+                "// Typed command builders: command_id -> cmd::Root.\n"
                 "// include!'d into jettison_view's `generated` module (cmd in scope).\n\n"
-                "/// Build a typed `cmd::Root` for a set-value command (single double\n"
-                "/// field). Returns `None` for an unknown command id.\n"
-                "pub fn build_set_value_command(command_id: &str, value: f64)"
-                " -> Option<cmd::Root> {\n"
-                "    let payload = match command_id {\n"
-                rust-arms "\n"
-                "        _ => return None,\n"
-                "    };\n"
-                "    Some(cmd::Root {\n"
-                "        payload: Some(payload),\n"
-                "        ..Default::default()\n"
-                "    })\n"
-                "}\n")
-     :count (count arms)}))
+                (builder-fn "build_set_value_command" ", value: f64"
+                            (str "Build a typed `cmd::Root` for a set-value command (single double\n"
+                                 "/// field). Returns `None` for an unknown command id.")
+                            sv #(match-arm % "{ value: value }"))
+                "\n"
+                (builder-fn "build_action_command" ""
+                            (str "Build a typed `cmd::Root` for a parameterless action command.\n"
+                                 "/// Returns `None` for an unknown command id.")
+                            ab #(match-arm % "{}"))) ;
+     :set-value-count (count sv)
+     :action-count (count ab)}))
 
 ;; ============================================================================
 ;; Generation
@@ -274,10 +311,11 @@
                                          (str %))
                               :escape-slash false))
       (t/log! :info ["Wrote" (.getPath f)]))
-    (let [{:keys [rust count]} (cmd-builders-rust db)
+    (let [{:keys [rust set-value-count action-count]} (cmd-builders-rust db)
           cf (io/file out-dir "cmd_builders.rs")]
       (spit cf rust)
-      (t/log! :info ["Wrote" (.getPath cf) "with" count "set-value command builder(s)"]))
+      (t/log! :info ["Wrote" (.getPath cf) "with" set-value-count "set-value +"
+                     action-count "action command builder(s)"]))
     (doseq [{:keys [id reason]} skipped]
       (t/log! :warn ["Skipped slider node" id "—" reason]))
     (t/log! :info ["Generated nodes:" (count nodes) "slider node(s),"

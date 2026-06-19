@@ -51,3 +51,13 @@ class SliderControl(_message.Message):
     min_value: int
     max_value: int
     def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., state: _Optional[_Union[StateBinding, _Mapping]] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ..., min_value: _Optional[int] = ..., max_value: _Optional[int] = ...) -> None: ...
+
+class ActionButton(_message.Message):
+    __slots__ = ("version", "title", "command")
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_FIELD_NUMBER: _ClassVar[int]
+    version: int
+    title: str
+    command: CommandBinding
+    def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ...) -> None: ...

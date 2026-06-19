@@ -3885,6 +3885,963 @@ public final class UiNodes {
 
   }
 
+  public interface ActionButtonOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.ActionButton)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard), same
+     * contract as SliderControl. {gte: 1} rejects the unset/0 default.
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <pre>
+     * Button label (lowered to a Label atom above the button).
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    java.lang.String getTitle();
+    /**
+     * <pre>
+     * Button label (lowered to a Label atom above the button).
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    /**
+     * <pre>
+     * Command binding: button click → the parameterless command. Only
+     * `command_id` is used (the `scale` carries no meaning for a value-less
+     * command); the lowered button event sets include_widget_value = false.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return Whether the command field is set.
+     */
+    boolean hasCommand();
+    /**
+     * <pre>
+     * Command binding: button click → the parameterless command. Only
+     * `command_id` is used (the `scale` carries no meaning for a value-less
+     * command); the lowered button event sets include_widget_value = false.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return The command.
+     */
+    ui.UiNodes.CommandBinding getCommand();
+    /**
+     * <pre>
+     * Command binding: button click → the parameterless command. Only
+     * `command_id` is used (the `scale` carries no meaning for a value-less
+     * command); the lowered button event sets include_widget_value = false.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder();
+  }
+  /**
+   * <pre>
+   * L3 ActionButton kind — a labelled button that SENDS a parameterless command
+   * (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+   * scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+   * per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+   * card with a label + a button whose click-event carries the command id.
+   * </pre>
+   *
+   * Protobuf type {@code ui.ActionButton}
+   */
+  public static final class ActionButton extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.ActionButton)
+      ActionButtonOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ActionButton.class.getName());
+    }
+    // Use ActionButton.newBuilder() to construct.
+    private ActionButton(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ActionButton() {
+      title_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiNodes.internal_static_ui_ActionButton_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiNodes.internal_static_ui_ActionButton_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiNodes.ActionButton.class, ui.UiNodes.ActionButton.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_ = 0;
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard), same
+     * contract as SliderControl. {gte: 1} rejects the unset/0 default.
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+
+    public static final int TITLE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object title_ = "";
+    /**
+     * <pre>
+     * Button label (lowered to a Label atom above the button).
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    @java.lang.Override
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        title_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Button label (lowered to a Label atom above the button).
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMMAND_FIELD_NUMBER = 3;
+    private ui.UiNodes.CommandBinding command_;
+    /**
+     * <pre>
+     * Command binding: button click → the parameterless command. Only
+     * `command_id` is used (the `scale` carries no meaning for a value-less
+     * command); the lowered button event sets include_widget_value = false.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return Whether the command field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommand() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Command binding: button click → the parameterless command. Only
+     * `command_id` is used (the `scale` carries no meaning for a value-less
+     * command); the lowered button event sets include_widget_value = false.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return The command.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommand() {
+      return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+    }
+    /**
+     * <pre>
+     * Command binding: button click → the parameterless command. Only
+     * `command_id` is used (the `scale` carries no meaning for a value-less
+     * command); the lowered button event sets include_widget_value = false.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder() {
+      return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (version_ != 0) {
+        output.writeUInt32(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(3, getCommand());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (version_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCommand());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiNodes.ActionButton)) {
+        return super.equals(obj);
+      }
+      ui.UiNodes.ActionButton other = (ui.UiNodes.ActionButton) obj;
+
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getTitle()
+          .equals(other.getTitle())) return false;
+      if (hasCommand() != other.hasCommand()) return false;
+      if (hasCommand()) {
+        if (!getCommand()
+            .equals(other.getCommand())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + TITLE_FIELD_NUMBER;
+      hash = (53 * hash) + getTitle().hashCode();
+      if (hasCommand()) {
+        hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+        hash = (53 * hash) + getCommand().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiNodes.ActionButton parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiNodes.ActionButton parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiNodes.ActionButton parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.ActionButton parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiNodes.ActionButton prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * L3 ActionButton kind — a labelled button that SENDS a parameterless command
+     * (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+     * scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+     * per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+     * card with a label + a button whose click-event carries the command id.
+     * </pre>
+     *
+     * Protobuf type {@code ui.ActionButton}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.ActionButton)
+        ui.UiNodes.ActionButtonOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiNodes.internal_static_ui_ActionButton_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiNodes.internal_static_ui_ActionButton_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiNodes.ActionButton.class, ui.UiNodes.ActionButton.Builder.class);
+      }
+
+      // Construct using ui.UiNodes.ActionButton.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCommandFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        version_ = 0;
+        title_ = "";
+        command_ = null;
+        if (commandBuilder_ != null) {
+          commandBuilder_.dispose();
+          commandBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiNodes.internal_static_ui_ActionButton_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ActionButton getDefaultInstanceForType() {
+        return ui.UiNodes.ActionButton.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ActionButton build() {
+        ui.UiNodes.ActionButton result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ActionButton buildPartial() {
+        ui.UiNodes.ActionButton result = new ui.UiNodes.ActionButton(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiNodes.ActionButton result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.version_ = version_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.title_ = title_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.command_ = commandBuilder_ == null
+              ? command_
+              : commandBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiNodes.ActionButton) {
+          return mergeFrom((ui.UiNodes.ActionButton)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiNodes.ActionButton other) {
+        if (other == ui.UiNodes.ActionButton.getDefaultInstance()) return this;
+        if (other.getVersion() != 0) {
+          setVersion(other.getVersion());
+        }
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (other.hasCommand()) {
+          mergeCommand(other.getCommand());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                version_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                title_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getCommandFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int version_ ;
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard), same
+       * contract as SliderControl. {gte: 1} rejects the unset/0 default.
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard), same
+       * contract as SliderControl. {gte: 1} rejects the unset/0 default.
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+
+        version_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard), same
+       * contract as SliderControl. {gte: 1} rejects the unset/0 default.
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object title_ = "";
+      /**
+       * <pre>
+       * Button label (lowered to a Label atom above the button).
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The title.
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Button label (lowered to a Label atom above the button).
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for title.
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Button label (lowered to a Label atom above the button).
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Button label (lowered to a Label atom above the button).
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTitle() {
+        title_ = getDefaultInstance().getTitle();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Button label (lowered to a Label atom above the button).
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiNodes.CommandBinding command_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandBuilder_;
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       * @return Whether the command field is set.
+       */
+      public boolean hasCommand() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       * @return The command.
+       */
+      public ui.UiNodes.CommandBinding getCommand() {
+        if (commandBuilder_ == null) {
+          return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+        } else {
+          return commandBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder setCommand(ui.UiNodes.CommandBinding value) {
+        if (commandBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          command_ = value;
+        } else {
+          commandBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder setCommand(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandBuilder_ == null) {
+          command_ = builderForValue.build();
+        } else {
+          commandBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder mergeCommand(ui.UiNodes.CommandBinding value) {
+        if (commandBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            command_ != null &&
+            command_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandBuilder().mergeFrom(value);
+          } else {
+            command_ = value;
+          }
+        } else {
+          commandBuilder_.mergeFrom(value);
+        }
+        if (command_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder clearCommand() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        command_ = null;
+        if (commandBuilder_ != null) {
+          commandBuilder_.dispose();
+          commandBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getCommandFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder() {
+        if (commandBuilder_ != null) {
+          return commandBuilder_.getMessageOrBuilder();
+        } else {
+          return command_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+        }
+      }
+      /**
+       * <pre>
+       * Command binding: button click → the parameterless command. Only
+       * `command_id` is used (the `scale` carries no meaning for a value-less
+       * command); the lowered button event sets include_widget_value = false.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandFieldBuilder() {
+        if (commandBuilder_ == null) {
+          commandBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommand(),
+                  getParentForChildren(),
+                  isClean());
+          command_ = null;
+        }
+        return commandBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.ActionButton)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.ActionButton)
+    private static final ui.UiNodes.ActionButton DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiNodes.ActionButton();
+    }
+
+    public static ui.UiNodes.ActionButton getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ActionButton>
+        PARSER = new com.google.protobuf.AbstractParser<ActionButton>() {
+      @java.lang.Override
+      public ActionButton parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ActionButton> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActionButton> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiNodes.ActionButton getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_FixedPointScale_descriptor;
   private static final 
@@ -3905,6 +4862,11 @@ public final class UiNodes {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_SliderControl_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_ActionButton_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_ActionButton_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3926,11 +4888,14 @@ public final class UiNodes {
       " \001(\tB\007\272H\004r\002\030?\022\037\n\005state\030\003 \001(\0132\020.ui.StateB" +
       "inding\022#\n\007command\030\004 \001(\0132\022.ui.CommandBind" +
       "ing\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001(" +
-      "\005B\007\272H\004\032\002 \000*T\n\021NodeSchemaVersion\022#\n\037NODE_" +
-      "SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCH" +
-      "EMA_VERSION_V1\020\001BEZCgit-codecommit.eu-ce" +
-      "ntral-1.amazonaws.com/v1/repos/jettison/" +
-      "jonp/uib\006proto3"
+      "\005B\007\272H\004\032\002 \000\"h\n\014ActionButton\022\033\n\007version\030\001 " +
+      "\001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030?\022" +
+      "#\n\007command\030\003 \001(\0132\022.ui.CommandBinding*T\n\021" +
+      "NodeSchemaVersion\022#\n\037NODE_SCHEMA_VERSION" +
+      "_UNSPECIFIED\020\000\022\032\n\026NODE_SCHEMA_VERSION_V1" +
+      "\020\001BEZCgit-codecommit.eu-central-1.amazon" +
+      "aws.com/v1/repos/jettison/jonp/uib\006proto" +
+      "3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3961,6 +4926,12 @@ public final class UiNodes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_SliderControl_descriptor,
         new java.lang.String[] { "Version", "Title", "State", "Command", "MinValue", "MaxValue", });
+    internal_static_ui_ActionButton_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_ui_ActionButton_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_ActionButton_descriptor,
+        new java.lang.String[] { "Version", "Title", "Command", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

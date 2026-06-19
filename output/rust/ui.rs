@@ -73,6 +73,26 @@ pub struct SliderControl {
     #[prost(int32, tag = "6")]
     pub max_value: i32,
 }
+/// L3 ActionButton kind — a labelled button that SENDS a parameterless command
+/// (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+/// scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+/// per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+/// card with a label + a button whose click-event carries the command id.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ActionButton {
+    /// Schema version — checked FIRST by the lowering (fail-fast guard), same
+    /// contract as SliderControl. {gte: 1} rejects the unset/0 default.
+    #[prost(uint32, tag = "1")]
+    pub version: u32,
+    /// Button label (lowered to a Label atom above the button).
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// Command binding: button click → the parameterless command. Only
+    /// `command_id` is used (the `scale` carries no meaning for a value-less
+    /// command); the lowered button event sets include_widget_value = false.
+    #[prost(message, optional, tag = "3")]
+    pub command: ::core::option::Option<CommandBinding>,
+}
 /// Node-schema version constant. The lowering entry-point checks the wire
 /// `version` field against the CURRENT value FIRST and returns
 /// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no

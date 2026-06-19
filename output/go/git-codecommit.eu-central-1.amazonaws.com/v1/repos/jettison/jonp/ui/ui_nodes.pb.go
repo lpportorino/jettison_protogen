@@ -355,6 +355,77 @@ func (x *SliderControl) GetMaxValue() int32 {
 	return 0
 }
 
+// L3 ActionButton kind — a labelled button that SENDS a parameterless command
+// (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+// scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+// per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+// card with a label + a button whose click-event carries the command id.
+type ActionButton struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema version — checked FIRST by the lowering (fail-fast guard), same
+	// contract as SliderControl. {gte: 1} rejects the unset/0 default.
+	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
+	// Button label (lowered to a Label atom above the button).
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// Command binding: button click → the parameterless command. Only
+	// `command_id` is used (the `scale` carries no meaning for a value-less
+	// command); the lowered button event sets include_widget_value = false.
+	Command       *CommandBinding `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ActionButton) Reset() {
+	*x = ActionButton{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActionButton) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActionButton) ProtoMessage() {}
+
+func (x *ActionButton) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActionButton.ProtoReflect.Descriptor instead.
+func (*ActionButton) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ActionButton) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *ActionButton) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ActionButton) GetCommand() *CommandBinding {
+	if x != nil {
+		return x.Command
+	}
+	return nil
+}
+
 var File_ui_ui_nodes_proto protoreflect.FileDescriptor
 
 const file_ui_ui_nodes_proto_rawDesc = "" +
@@ -377,7 +448,12 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\x05state\x18\x03 \x01(\v2\x10.ui.StateBindingR\x05state\x12,\n" +
 	"\acommand\x18\x04 \x01(\v2\x12.ui.CommandBindingR\acommand\x12\x1b\n" +
 	"\tmin_value\x18\x05 \x01(\x05R\bminValue\x12$\n" +
-	"\tmax_value\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\bmaxValue*T\n" +
+	"\tmax_value\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\bmaxValue\"\x81\x01\n" +
+	"\fActionButton\x12$\n" +
+	"\aversion\x18\x01 \x01(\rB\n" +
+	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
+	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
+	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand*T\n" +
 	"\x11NodeSchemaVersion\x12#\n" +
 	"\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16NODE_SCHEMA_VERSION_V1\x10\x01B\x83\x01\n" +
@@ -396,24 +472,26 @@ func file_ui_ui_nodes_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_nodes_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_ui_ui_nodes_proto_goTypes = []any{
 	(NodeSchemaVersion)(0),  // 0: ui.NodeSchemaVersion
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
 	(*StateBinding)(nil),    // 2: ui.StateBinding
 	(*CommandBinding)(nil),  // 3: ui.CommandBinding
 	(*SliderControl)(nil),   // 4: ui.SliderControl
+	(*ActionButton)(nil),    // 5: ui.ActionButton
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
 	1, // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
 	1, // 1: ui.CommandBinding.scale:type_name -> ui.FixedPointScale
 	2, // 2: ui.SliderControl.state:type_name -> ui.StateBinding
 	3, // 3: ui.SliderControl.command:type_name -> ui.CommandBinding
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	3, // 4: ui.ActionButton.command:type_name -> ui.CommandBinding
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }
@@ -427,7 +505,7 @@ func file_ui_ui_nodes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_nodes_proto_rawDesc), len(file_ui_ui_nodes_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

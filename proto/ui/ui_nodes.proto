@@ -104,3 +104,22 @@ message SliderControl {
   int32 min_value = 5;
   int32 max_value = 6 [(buf.validate.field).int32 = {gt: 0}];
 }
+
+// L3 ActionButton kind — a labelled button that SENDS a parameterless command
+// (Start / Stop / Photo / HaltAll / …). No state display and no fixed-point
+// scale: a click maps straight to a 0-field cmd leaf. The generator derives one
+// per `:ui-pattern :action-button` command (110 of them); the lowering emits a
+// card with a label + a button whose click-event carries the command id.
+message ActionButton {
+  // Schema version — checked FIRST by the lowering (fail-fast guard), same
+  // contract as SliderControl. {gte: 1} rejects the unset/0 default.
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Button label (lowered to a Label atom above the button).
+  string title = 2 [(buf.validate.field).string = {max_len: 63}];
+
+  // Command binding: button click → the parameterless command. Only
+  // `command_id` is used (the `scale` carries no meaning for a value-less
+  // command); the lowered button event sets include_widget_value = false.
+  CommandBinding command = 3;
+}

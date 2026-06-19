@@ -141,6 +141,35 @@ struct SliderControlDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SliderControlDefaultTypeInternal _SliderControl_default_instance_;
+
+inline constexpr ActionButton::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        title_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        command_{nullptr},
+        version_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ActionButton::ActionButton(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ActionButtonDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ActionButtonDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ActionButtonDefaultTypeInternal() {}
+  union {
+    ActionButton _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ActionButtonDefaultTypeInternal _ActionButton_default_instance_;
 }  // namespace ui
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_ui_2fui_5fnodes_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor**
@@ -203,6 +232,20 @@ const ::uint32_t
         1,
         ~0u,
         ~0u,
+        PROTOBUF_FIELD_OFFSET(::ui::ActionButton, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ui::ActionButton, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ui::ActionButton, _impl_.version_),
+        PROTOBUF_FIELD_OFFSET(::ui::ActionButton, _impl_.title_),
+        PROTOBUF_FIELD_OFFSET(::ui::ActionButton, _impl_.command_),
+        ~0u,
+        ~0u,
+        0,
 };
 
 static const ::_pbi::MigrationSchema
@@ -211,12 +254,14 @@ static const ::_pbi::MigrationSchema
         {9, 20, -1, sizeof(::ui::StateBinding)},
         {23, 33, -1, sizeof(::ui::CommandBinding)},
         {35, 49, -1, sizeof(::ui::SliderControl)},
+        {55, 66, -1, sizeof(::ui::ActionButton)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_FixedPointScale_default_instance_._instance,
     &::ui::_StateBinding_default_instance_._instance,
     &::ui::_CommandBinding_default_instance_._instance,
     &::ui::_SliderControl_default_instance_._instance,
+    &::ui::_ActionButton_default_instance_._instance,
 };
 const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -232,11 +277,14 @@ const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SE
     " \001(\tB\007\272H\004r\002\030\?\022\037\n\005state\030\003 \001(\0132\020.ui.StateB"
     "inding\022#\n\007command\030\004 \001(\0132\022.ui.CommandBind"
     "ing\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001("
-    "\005B\007\272H\004\032\002 \000*T\n\021NodeSchemaVersion\022#\n\037NODE_"
-    "SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCH"
-    "EMA_VERSION_V1\020\001BEZCgit-codecommit.eu-ce"
-    "ntral-1.amazonaws.com/v1/repos/jettison/"
-    "jonp/uib\006proto3"
+    "\005B\007\272H\004\032\002 \000\"h\n\014ActionButton\022\033\n\007version\030\001 "
+    "\001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030\?\022"
+    "#\n\007command\030\003 \001(\0132\022.ui.CommandBinding*T\n\021"
+    "NodeSchemaVersion\022#\n\037NODE_SCHEMA_VERSION"
+    "_UNSPECIFIED\020\000\022\032\n\026NODE_SCHEMA_VERSION_V1"
+    "\020\001BEZCgit-codecommit.eu-central-1.amazon"
+    "aws.com/v1/repos/jettison/jonp/uib\006proto"
+    "3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fnodes_2eproto_deps[1] =
     {
@@ -246,13 +294,13 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fnodes_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fnodes_2eproto = {
     false,
     false,
-    655,
+    761,
     descriptor_table_protodef_ui_2fui_5fnodes_2eproto,
     "ui/ui_nodes.proto",
     &descriptor_table_ui_2fui_5fnodes_2eproto_once,
     descriptor_table_ui_2fui_5fnodes_2eproto_deps,
     1,
-    4,
+    5,
     schemas,
     file_default_instances,
     TableStruct_ui_2fui_5fnodes_2eproto::offsets,
@@ -1485,6 +1533,327 @@ void SliderControl::InternalSwap(SliderControl* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata SliderControl::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ActionButton::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<ActionButton>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ActionButton, _impl_._has_bits_);
+};
+
+ActionButton::ActionButton(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ui.ActionButton)
+}
+inline PROTOBUF_NDEBUG_INLINE ActionButton::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ui::ActionButton& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        title_(arena, from.title_) {}
+
+ActionButton::ActionButton(
+    ::google::protobuf::Arena* arena,
+    const ActionButton& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ActionButton* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.command_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(
+                              arena, *from._impl_.command_)
+                        : nullptr;
+  _impl_.version_ = from._impl_.version_;
+
+  // @@protoc_insertion_point(copy_constructor:ui.ActionButton)
+}
+inline PROTOBUF_NDEBUG_INLINE ActionButton::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        title_(arena) {}
+
+inline void ActionButton::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, command_),
+           0,
+           offsetof(Impl_, version_) -
+               offsetof(Impl_, command_) +
+               sizeof(Impl_::version_));
+}
+ActionButton::~ActionButton() {
+  // @@protoc_insertion_point(destructor:ui.ActionButton)
+  SharedDtor(*this);
+}
+inline void ActionButton::SharedDtor(MessageLite& self) {
+  ActionButton& this_ = static_cast<ActionButton&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.title_.Destroy();
+  delete this_._impl_.command_;
+  this_._impl_.~Impl_();
+}
+
+inline void* ActionButton::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ActionButton(arena);
+}
+constexpr auto ActionButton::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(ActionButton),
+                                            alignof(ActionButton));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ActionButton::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ActionButton_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ActionButton::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<ActionButton>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ActionButton::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<ActionButton>(), &ActionButton::ByteSizeLong,
+            &ActionButton::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ActionButton, _impl_._cached_size_),
+        false,
+    },
+    &ActionButton::kDescriptorMethods,
+    &descriptor_table_ui_2fui_5fnodes_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ActionButton::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 1, 29, 2> ActionButton::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ActionButton, _impl_._has_bits_),
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ui::ActionButton>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 version = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ActionButton, _impl_.version_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.version_)}},
+    // string title = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.title_)}},
+    // .ui.CommandBinding command = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.command_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 version = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.version_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // string title = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.title_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .ui.CommandBinding command = 3;
+    {PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.command_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
+  }}, {{
+    "\17\0\5\0\0\0\0\0"
+    "ui.ActionButton"
+    "title"
+  }},
+};
+
+PROTOBUF_NOINLINE void ActionButton::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.ActionButton)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.title_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.command_ != nullptr);
+    _impl_.command_->Clear();
+  }
+  _impl_.version_ = 0u;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* ActionButton::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const ActionButton& this_ = static_cast<const ActionButton&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* ActionButton::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const ActionButton& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ui.ActionButton)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 version = 1 [(.buf.validate.field) = {
+          if (this_._internal_version() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_version(), target);
+          }
+
+          // string title = 2 [(.buf.validate.field) = {
+          if (!this_._internal_title().empty()) {
+            const std::string& _s = this_._internal_title();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ui.ActionButton.title");
+            target = stream->WriteStringMaybeAliased(2, _s, target);
+          }
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ui.CommandBinding command = 3;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                3, *this_._impl_.command_, this_._impl_.command_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ui.ActionButton)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t ActionButton::ByteSizeLong(const MessageLite& base) {
+          const ActionButton& this_ = static_cast<const ActionButton&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t ActionButton::ByteSizeLong() const {
+          const ActionButton& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ui.ActionButton)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // string title = 2 [(.buf.validate.field) = {
+            if (!this_._internal_title().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_title());
+            }
+          }
+           {
+            // .ui.CommandBinding command = 3;
+            cached_has_bits = this_._impl_._has_bits_[0];
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.command_);
+            }
+          }
+           {
+            // uint32 version = 1 [(.buf.validate.field) = {
+            if (this_._internal_version() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_version());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void ActionButton::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<ActionButton*>(&to_msg);
+  auto& from = static_cast<const ActionButton&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.ActionButton)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_title().empty()) {
+    _this->_internal_set_title(from._internal_title());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(from._impl_.command_ != nullptr);
+    if (_this->_impl_.command_ == nullptr) {
+      _this->_impl_.command_ =
+          ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_);
+    } else {
+      _this->_impl_.command_->MergeFrom(*from._impl_.command_);
+    }
+  }
+  if (from._internal_version() != 0) {
+    _this->_impl_.version_ = from._impl_.version_;
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ActionButton::CopyFrom(const ActionButton& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.ActionButton)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void ActionButton::InternalSwap(ActionButton* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.title_, &other->_impl_.title_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.version_)
+      + sizeof(ActionButton::_impl_.version_)
+      - PROTOBUF_FIELD_OFFSET(ActionButton, _impl_.command_)>(
+          reinterpret_cast<char*>(&_impl_.command_),
+          reinterpret_cast<char*>(&other->_impl_.command_));
+}
+
+::google::protobuf::Metadata ActionButton::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

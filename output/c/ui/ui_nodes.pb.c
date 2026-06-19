@@ -18,6 +18,9 @@ PB_BIND(ui_CommandBinding, ui_CommandBinding, AUTO)
 PB_BIND(ui_SliderControl, ui_SliderControl, AUTO)
 
 
+PB_BIND(ui_ActionButton, ui_ActionButton, AUTO)
+
+
 
 
 
