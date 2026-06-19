@@ -1,7 +1,8 @@
+from google.protobuf.internal import containers as _containers
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -75,3 +76,23 @@ class ToggleControl(_message.Message):
     command_off: CommandBinding
     state: StateBinding
     def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command_on: _Optional[_Union[CommandBinding, _Mapping]] = ..., command_off: _Optional[_Union[CommandBinding, _Mapping]] = ..., state: _Optional[_Union[StateBinding, _Mapping]] = ...) -> None: ...
+
+class EnumOption(_message.Message):
+    __slots__ = ("label", "value")
+    LABEL_FIELD_NUMBER: _ClassVar[int]
+    VALUE_FIELD_NUMBER: _ClassVar[int]
+    label: str
+    value: int
+    def __init__(self, label: _Optional[str] = ..., value: _Optional[int] = ...) -> None: ...
+
+class EnumPicker(_message.Message):
+    __slots__ = ("version", "title", "command", "options")
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_FIELD_NUMBER: _ClassVar[int]
+    OPTIONS_FIELD_NUMBER: _ClassVar[int]
+    version: int
+    title: str
+    command: CommandBinding
+    options: _containers.RepeatedCompositeFieldContainer[EnumOption]
+    def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ..., options: _Optional[_Iterable[_Union[EnumOption, _Mapping]]] = ...) -> None: ...

@@ -400,3 +400,33 @@ pub fn build_action_command(command_id: &str) -> Option<cmd::Root> {
     };
     Some(cmd::Root { payload: Some(payload), ..Default::default() })
 }
+
+/// Build a typed `cmd::Root` for a set-enum command (single enum
+/// field, i32). Returns `None` for an unknown command id.
+pub fn build_set_enum_command(command_id: &str, value: i32) -> Option<cmd::Root> {
+    let payload = match command_id {
+        "cmd.DayCamera.SetFxMode" => cmd::root::Payload::DayCamera(cmd::day_camera::Root {
+            cmd: Some(cmd::day_camera::root::Cmd::SetFxMode(cmd::day_camera::SetFxMode { mode: value })),
+        }),
+        "cmd.HeatCamera.SetAGC" => cmd::root::Payload::HeatCamera(cmd::heat_camera::Root {
+            cmd: Some(cmd::heat_camera::root::Cmd::SetAgc(cmd::heat_camera::SetAgc { value: value })),
+        }),
+        "cmd.HeatCamera.SetFilters" => cmd::root::Payload::HeatCamera(cmd::heat_camera::Root {
+            cmd: Some(cmd::heat_camera::root::Cmd::SetFilter(cmd::heat_camera::SetFilters { value: value })),
+        }),
+        "cmd.HeatCamera.SetFxMode" => cmd::root::Payload::HeatCamera(cmd::heat_camera::Root {
+            cmd: Some(cmd::heat_camera::root::Cmd::SetFxMode(cmd::heat_camera::SetFxMode { mode: value })),
+        }),
+        "cmd.Lrf.SetScanMode" => cmd::root::Payload::Lrf(cmd::lrf::Root {
+            cmd: Some(cmd::lrf::root::Cmd::SetScanMode(cmd::lrf::SetScanMode { mode: value })),
+        }),
+        "cmd.RotaryPlatform.SetMode" => cmd::root::Payload::Rotary(cmd::rotary_platform::Root {
+            cmd: Some(cmd::rotary_platform::root::Cmd::SetMode(cmd::rotary_platform::SetMode { mode: value })),
+        }),
+        "cmd.System.SetLocalization" => cmd::root::Payload::System(cmd::system::Root {
+            cmd: Some(cmd::system::root::Cmd::Localization(cmd::system::SetLocalization { loc: value })),
+        }),
+        _ => return None,
+    };
+    Some(cmd::Root { payload: Some(payload), ..Default::default() })
+}

@@ -193,6 +193,39 @@ export interface ToggleControl {
   state: StateBinding | undefined;
 }
 
+/**
+ * One selectable option of an EnumPicker: the display label + the enum number it
+ * maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+ * enums need not be 0-contiguous).
+ */
+export interface EnumOption {
+  label: string;
+  value: number;
+}
+
+/**
+ * L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+ * SetScanMode). The generator derives one per single-`:enum`-field
+ * `:ui-pattern :enum-picker` command; the options come from the enum's values
+ * (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+ * the builder maps the selected index → `options.value` → the set-enum cmd.
+ */
+export interface EnumPicker {
+  /** Schema version — checked FIRST by the lowering (fail-fast guard). */
+  version: number;
+  /** Dropdown label. */
+  title: string;
+  /**
+   * The set-enum command; the lowered dropdown's value-changed event routes
+   * through `command_id` and the builder fills the enum field.
+   */
+  command:
+    | CommandBinding
+    | undefined;
+  /** Selectable options (label + enum number), in dropdown order. */
+  options: EnumOption[];
+}
+
 function createBaseFixedPointScale(): FixedPointScale {
   return { scale: 0 };
 }
@@ -815,6 +848,192 @@ export const ToggleControl: MessageFns<ToggleControl> = {
     message.state = (object.state !== undefined && object.state !== null)
       ? StateBinding.fromPartial(object.state)
       : undefined;
+    return message;
+  },
+};
+
+function createBaseEnumOption(): EnumOption {
+  return { label: "", value: 0 };
+}
+
+export const EnumOption: MessageFns<EnumOption> = {
+  encode(message: EnumOption, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.label !== "") {
+      writer.uint32(10).string(message.label);
+    }
+    if (message.value !== 0) {
+      writer.uint32(16).int32(message.value);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EnumOption {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEnumOption();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.label = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.value = reader.int32();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EnumOption {
+    return {
+      label: isSet(object.label) ? globalThis.String(object.label) : "",
+      value: isSet(object.value) ? globalThis.Number(object.value) : 0,
+    };
+  },
+
+  toJSON(message: EnumOption): unknown {
+    const obj: any = {};
+    if (message.label !== "") {
+      obj.label = message.label;
+    }
+    if (message.value !== 0) {
+      obj.value = Math.round(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EnumOption>, I>>(base?: I): EnumOption {
+    return EnumOption.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EnumOption>, I>>(object: I): EnumOption {
+    const message = createBaseEnumOption();
+    message.label = object.label ?? "";
+    message.value = object.value ?? 0;
+    return message;
+  },
+};
+
+function createBaseEnumPicker(): EnumPicker {
+  return { version: 0, title: "", command: undefined, options: [] };
+}
+
+export const EnumPicker: MessageFns<EnumPicker> = {
+  encode(message: EnumPicker, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.version !== 0) {
+      writer.uint32(8).uint32(message.version);
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.command !== undefined) {
+      CommandBinding.encode(message.command, writer.uint32(26).fork()).join();
+    }
+    for (const v of message.options) {
+      EnumOption.encode(v!, writer.uint32(34).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EnumPicker {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEnumPicker();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.version = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.command = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.options.push(EnumOption.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EnumPicker {
+    return {
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      command: isSet(object.command) ? CommandBinding.fromJSON(object.command) : undefined,
+      options: globalThis.Array.isArray(object?.options) ? object.options.map((e: any) => EnumOption.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: EnumPicker): unknown {
+    const obj: any = {};
+    if (message.version !== 0) {
+      obj.version = Math.round(message.version);
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.command !== undefined) {
+      obj.command = CommandBinding.toJSON(message.command);
+    }
+    if (message.options?.length) {
+      obj.options = message.options.map((e) => EnumOption.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EnumPicker>, I>>(base?: I): EnumPicker {
+    return EnumPicker.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EnumPicker>, I>>(object: I): EnumPicker {
+    const message = createBaseEnumPicker();
+    message.version = object.version ?? 0;
+    message.title = object.title ?? "";
+    message.command = (object.command !== undefined && object.command !== null)
+      ? CommandBinding.fromPartial(object.command)
+      : undefined;
+    message.options = object.options?.map((e) => EnumOption.fromPartial(e)) || [];
     return message;
   },
 };

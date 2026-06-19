@@ -60,6 +60,12 @@ extern ActionButtonDefaultTypeInternal _ActionButton_default_instance_;
 class CommandBinding;
 struct CommandBindingDefaultTypeInternal;
 extern CommandBindingDefaultTypeInternal _CommandBinding_default_instance_;
+class EnumOption;
+struct EnumOptionDefaultTypeInternal;
+extern EnumOptionDefaultTypeInternal _EnumOption_default_instance_;
+class EnumPicker;
+struct EnumPickerDefaultTypeInternal;
+extern EnumPickerDefaultTypeInternal _EnumPicker_default_instance_;
 class FixedPointScale;
 struct FixedPointScaleDefaultTypeInternal;
 extern FixedPointScaleDefaultTypeInternal _FixedPointScale_default_instance_;
@@ -300,6 +306,214 @@ class FixedPointScale final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const FixedPointScale& from_msg);
     ::uint32_t scale_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fnodes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class EnumOption final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.EnumOption) */ {
+ public:
+  inline EnumOption() : EnumOption(nullptr) {}
+  ~EnumOption() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(EnumOption* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(EnumOption));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR EnumOption(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline EnumOption(const EnumOption& from) : EnumOption(nullptr, from) {}
+  inline EnumOption(EnumOption&& from) noexcept
+      : EnumOption(nullptr, std::move(from)) {}
+  inline EnumOption& operator=(const EnumOption& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EnumOption& operator=(EnumOption&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EnumOption& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EnumOption* internal_default_instance() {
+    return reinterpret_cast<const EnumOption*>(
+        &_EnumOption_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 6;
+  friend void swap(EnumOption& a, EnumOption& b) { a.Swap(&b); }
+  inline void Swap(EnumOption* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EnumOption* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EnumOption* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<EnumOption>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const EnumOption& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const EnumOption& from) { EnumOption::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(EnumOption* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.EnumOption"; }
+
+ protected:
+  explicit EnumOption(::google::protobuf::Arena* arena);
+  EnumOption(::google::protobuf::Arena* arena, const EnumOption& from);
+  EnumOption(::google::protobuf::Arena* arena, EnumOption&& from) noexcept
+      : EnumOption(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kLabelFieldNumber = 1,
+    kValueFieldNumber = 2,
+  };
+  // string label = 1 [(.buf.validate.field) = {
+  void clear_label() ;
+  const std::string& label() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_label(Arg_&& arg, Args_... args);
+  std::string* mutable_label();
+  PROTOBUF_NODISCARD std::string* release_label();
+  void set_allocated_label(std::string* value);
+
+  private:
+  const std::string& _internal_label() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_label(
+      const std::string& value);
+  std::string* _internal_mutable_label();
+
+  public:
+  // int32 value = 2;
+  void clear_value() ;
+  ::int32_t value() const;
+  void set_value(::int32_t value);
+
+  private:
+  ::int32_t _internal_value() const;
+  void _internal_set_value(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.EnumOption)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 0,
+      27, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const EnumOption& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr label_;
+    ::int32_t value_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1274,6 +1488,251 @@ class SliderControl final : public ::google::protobuf::Message
     ::uint32_t version_;
     ::int32_t min_value_;
     ::int32_t max_value_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fnodes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class EnumPicker final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.EnumPicker) */ {
+ public:
+  inline EnumPicker() : EnumPicker(nullptr) {}
+  ~EnumPicker() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(EnumPicker* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(EnumPicker));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR EnumPicker(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline EnumPicker(const EnumPicker& from) : EnumPicker(nullptr, from) {}
+  inline EnumPicker(EnumPicker&& from) noexcept
+      : EnumPicker(nullptr, std::move(from)) {}
+  inline EnumPicker& operator=(const EnumPicker& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EnumPicker& operator=(EnumPicker&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EnumPicker& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EnumPicker* internal_default_instance() {
+    return reinterpret_cast<const EnumPicker*>(
+        &_EnumPicker_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(EnumPicker& a, EnumPicker& b) { a.Swap(&b); }
+  inline void Swap(EnumPicker* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EnumPicker* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EnumPicker* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<EnumPicker>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const EnumPicker& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const EnumPicker& from) { EnumPicker::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(EnumPicker* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.EnumPicker"; }
+
+ protected:
+  explicit EnumPicker(::google::protobuf::Arena* arena);
+  EnumPicker(::google::protobuf::Arena* arena, const EnumPicker& from);
+  EnumPicker(::google::protobuf::Arena* arena, EnumPicker&& from) noexcept
+      : EnumPicker(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kOptionsFieldNumber = 4,
+    kTitleFieldNumber = 2,
+    kCommandFieldNumber = 3,
+    kVersionFieldNumber = 1,
+  };
+  // repeated .ui.EnumOption options = 4;
+  int options_size() const;
+  private:
+  int _internal_options_size() const;
+
+  public:
+  void clear_options() ;
+  ::ui::EnumOption* mutable_options(int index);
+  ::google::protobuf::RepeatedPtrField<::ui::EnumOption>* mutable_options();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::ui::EnumOption>& _internal_options() const;
+  ::google::protobuf::RepeatedPtrField<::ui::EnumOption>* _internal_mutable_options();
+  public:
+  const ::ui::EnumOption& options(int index) const;
+  ::ui::EnumOption* add_options();
+  const ::google::protobuf::RepeatedPtrField<::ui::EnumOption>& options() const;
+  // string title = 2 [(.buf.validate.field) = {
+  void clear_title() ;
+  const std::string& title() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_title(Arg_&& arg, Args_... args);
+  std::string* mutable_title();
+  PROTOBUF_NODISCARD std::string* release_title();
+  void set_allocated_title(std::string* value);
+
+  private:
+  const std::string& _internal_title() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_title(
+      const std::string& value);
+  std::string* _internal_mutable_title();
+
+  public:
+  // .ui.CommandBinding command = 3;
+  bool has_command() const;
+  void clear_command() ;
+  const ::ui::CommandBinding& command() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command();
+  ::ui::CommandBinding* mutable_command();
+  void set_allocated_command(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command();
+
+  private:
+  const ::ui::CommandBinding& _internal_command() const;
+  ::ui::CommandBinding* _internal_mutable_command();
+
+  public:
+  // uint32 version = 1 [(.buf.validate.field) = {
+  void clear_version() ;
+  ::uint32_t version() const;
+  void set_version(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_version() const;
+  void _internal_set_version(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.EnumPicker)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 2,
+      27, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const EnumPicker& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::ui::EnumOption > options_;
+    ::google::protobuf::internal::ArenaStringPtr title_;
+    ::ui::CommandBinding* command_;
+    ::uint32_t version_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -2728,6 +3187,299 @@ inline void ToggleControl::set_allocated_state(::ui::StateBinding* value) {
 
   _impl_.state_ = reinterpret_cast<::ui::StateBinding*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.ToggleControl.state)
+}
+
+// -------------------------------------------------------------------
+
+// EnumOption
+
+// string label = 1 [(.buf.validate.field) = {
+inline void EnumOption::clear_label() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.label_.ClearToEmpty();
+}
+inline const std::string& EnumOption::label() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.EnumOption.label)
+  return _internal_label();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void EnumOption::set_label(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.label_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.EnumOption.label)
+}
+inline std::string* EnumOption::mutable_label() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_label();
+  // @@protoc_insertion_point(field_mutable:ui.EnumOption.label)
+  return _s;
+}
+inline const std::string& EnumOption::_internal_label() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.label_.Get();
+}
+inline void EnumOption::_internal_set_label(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.label_.Set(value, GetArena());
+}
+inline std::string* EnumOption::_internal_mutable_label() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.label_.Mutable( GetArena());
+}
+inline std::string* EnumOption::release_label() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.EnumOption.label)
+  return _impl_.label_.Release();
+}
+inline void EnumOption::set_allocated_label(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.label_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.label_.IsDefault()) {
+    _impl_.label_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.EnumOption.label)
+}
+
+// int32 value = 2;
+inline void EnumOption::clear_value() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_ = 0;
+}
+inline ::int32_t EnumOption::value() const {
+  // @@protoc_insertion_point(field_get:ui.EnumOption.value)
+  return _internal_value();
+}
+inline void EnumOption::set_value(::int32_t value) {
+  _internal_set_value(value);
+  // @@protoc_insertion_point(field_set:ui.EnumOption.value)
+}
+inline ::int32_t EnumOption::_internal_value() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.value_;
+}
+inline void EnumOption::_internal_set_value(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.value_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// EnumPicker
+
+// uint32 version = 1 [(.buf.validate.field) = {
+inline void EnumPicker::clear_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = 0u;
+}
+inline ::uint32_t EnumPicker::version() const {
+  // @@protoc_insertion_point(field_get:ui.EnumPicker.version)
+  return _internal_version();
+}
+inline void EnumPicker::set_version(::uint32_t value) {
+  _internal_set_version(value);
+  // @@protoc_insertion_point(field_set:ui.EnumPicker.version)
+}
+inline ::uint32_t EnumPicker::_internal_version() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.version_;
+}
+inline void EnumPicker::_internal_set_version(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = value;
+}
+
+// string title = 2 [(.buf.validate.field) = {
+inline void EnumPicker::clear_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.ClearToEmpty();
+}
+inline const std::string& EnumPicker::title() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.EnumPicker.title)
+  return _internal_title();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void EnumPicker::set_title(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.EnumPicker.title)
+}
+inline std::string* EnumPicker::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_title();
+  // @@protoc_insertion_point(field_mutable:ui.EnumPicker.title)
+  return _s;
+}
+inline const std::string& EnumPicker::_internal_title() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.title_.Get();
+}
+inline void EnumPicker::_internal_set_title(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(value, GetArena());
+}
+inline std::string* EnumPicker::_internal_mutable_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.title_.Mutable( GetArena());
+}
+inline std::string* EnumPicker::release_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.EnumPicker.title)
+  return _impl_.title_.Release();
+}
+inline void EnumPicker::set_allocated_title(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.EnumPicker.title)
+}
+
+// .ui.CommandBinding command = 3;
+inline bool EnumPicker::has_command() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_ != nullptr);
+  return value;
+}
+inline void EnumPicker::clear_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_ != nullptr) _impl_.command_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CommandBinding& EnumPicker::_internal_command() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& EnumPicker::command() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.EnumPicker.command)
+  return _internal_command();
+}
+inline void EnumPicker::unsafe_arena_set_allocated_command(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_);
+  }
+  _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.EnumPicker.command)
+}
+inline ::ui::CommandBinding* EnumPicker::release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* released = _impl_.command_;
+  _impl_.command_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* EnumPicker::unsafe_arena_release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.EnumPicker.command)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* temp = _impl_.command_;
+  _impl_.command_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* EnumPicker::_internal_mutable_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_;
+}
+inline ::ui::CommandBinding* EnumPicker::mutable_command() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command();
+  // @@protoc_insertion_point(field_mutable:ui.EnumPicker.command)
+  return _msg;
+}
+inline void EnumPicker::set_allocated_command(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.EnumPicker.command)
+}
+
+// repeated .ui.EnumOption options = 4;
+inline int EnumPicker::_internal_options_size() const {
+  return _internal_options().size();
+}
+inline int EnumPicker::options_size() const {
+  return _internal_options_size();
+}
+inline void EnumPicker::clear_options() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.options_.Clear();
+}
+inline ::ui::EnumOption* EnumPicker::mutable_options(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:ui.EnumPicker.options)
+  return _internal_mutable_options()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::EnumOption>* EnumPicker::mutable_options()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:ui.EnumPicker.options)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_options();
+}
+inline const ::ui::EnumOption& EnumPicker::options(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.EnumPicker.options)
+  return _internal_options().Get(index);
+}
+inline ::ui::EnumOption* EnumPicker::add_options() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::ui::EnumOption* _add = _internal_mutable_options()->Add();
+  // @@protoc_insertion_point(field_add:ui.EnumPicker.options)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::EnumOption>& EnumPicker::options() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:ui.EnumPicker.options)
+  return _internal_options();
+}
+inline const ::google::protobuf::RepeatedPtrField<::ui::EnumOption>&
+EnumPicker::_internal_options() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.options_;
+}
+inline ::google::protobuf::RepeatedPtrField<::ui::EnumOption>*
+EnumPicker::_internal_mutable_options() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.options_;
 }
 
 #ifdef __GNUC__

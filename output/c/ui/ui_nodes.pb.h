@@ -132,6 +132,32 @@ typedef struct _ui_ToggleControl {
     ui_StateBinding state;
 } ui_ToggleControl;
 
+/* One selectable option of an EnumPicker: the display label + the enum number it
+ maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+ enums need not be 0-contiguous). */
+typedef struct _ui_EnumOption {
+    pb_callback_t label;
+    int32_t value;
+} ui_EnumOption;
+
+/* L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+ SetScanMode). The generator derives one per single-`:enum`-field
+ `:ui-pattern :enum-picker` command; the options come from the enum's values
+ (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+ the builder maps the selected index → `options.value` → the set-enum cmd. */
+typedef struct _ui_EnumPicker {
+    /* Schema version — checked FIRST by the lowering (fail-fast guard). */
+    uint32_t version;
+    /* Dropdown label. */
+    pb_callback_t title;
+    /* The set-enum command; the lowered dropdown's value-changed event routes
+ through `command_id` and the builder fills the enum field. */
+    bool has_command;
+    ui_CommandBinding command;
+    /* Selectable options (label + enum number), in dropdown order. */
+    pb_callback_t options;
+} ui_EnumPicker;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -149,6 +175,8 @@ extern "C" {
 
 
 
+
+
 /* Initializer values for message structs */
 #define ui_FixedPointScale_init_default          {0}
 #define ui_StateBinding_init_default             {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_default}
@@ -156,12 +184,16 @@ extern "C" {
 #define ui_SliderControl_init_default            {0, {{NULL}, NULL}, false, ui_StateBinding_init_default, false, ui_CommandBinding_init_default, 0, 0}
 #define ui_ActionButton_init_default             {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default}
 #define ui_ToggleControl_init_default            {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, false, ui_CommandBinding_init_default, false, ui_StateBinding_init_default}
+#define ui_EnumOption_init_default               {{{NULL}, NULL}, 0}
+#define ui_EnumPicker_init_default               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, {{NULL}, NULL}}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_CommandBinding_init_zero              {{{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_SliderControl_init_zero               {0, {{NULL}, NULL}, false, ui_StateBinding_init_zero, false, ui_CommandBinding_init_zero, 0, 0}
 #define ui_ActionButton_init_zero                {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero}
 #define ui_ToggleControl_init_zero               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, false, ui_CommandBinding_init_zero, false, ui_StateBinding_init_zero}
+#define ui_EnumOption_init_zero                  {{{NULL}, NULL}, 0}
+#define ui_EnumPicker_init_zero                  {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, {{NULL}, NULL}}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_FixedPointScale_scale_tag             1
@@ -184,6 +216,12 @@ extern "C" {
 #define ui_ToggleControl_command_on_tag          3
 #define ui_ToggleControl_command_off_tag         4
 #define ui_ToggleControl_state_tag               5
+#define ui_EnumOption_label_tag                  1
+#define ui_EnumOption_value_tag                  2
+#define ui_EnumPicker_version_tag                1
+#define ui_EnumPicker_title_tag                  2
+#define ui_EnumPicker_command_tag                3
+#define ui_EnumPicker_options_tag                4
 
 /* Struct field encoding specification for nanopb */
 #define ui_FixedPointScale_FIELDLIST(X, a) \
@@ -238,12 +276,30 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  state,             5)
 #define ui_ToggleControl_command_off_MSGTYPE ui_CommandBinding
 #define ui_ToggleControl_state_MSGTYPE ui_StateBinding
 
+#define ui_EnumOption_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   label,             1) \
+X(a, STATIC,   SINGULAR, INT32,    value,             2)
+#define ui_EnumOption_CALLBACK pb_default_field_callback
+#define ui_EnumOption_DEFAULT NULL
+
+#define ui_EnumPicker_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command,           3) \
+X(a, CALLBACK, REPEATED, MESSAGE,  options,           4)
+#define ui_EnumPicker_CALLBACK pb_default_field_callback
+#define ui_EnumPicker_DEFAULT NULL
+#define ui_EnumPicker_command_MSGTYPE ui_CommandBinding
+#define ui_EnumPicker_options_MSGTYPE ui_EnumOption
+
 extern const pb_msgdesc_t ui_FixedPointScale_msg;
 extern const pb_msgdesc_t ui_StateBinding_msg;
 extern const pb_msgdesc_t ui_CommandBinding_msg;
 extern const pb_msgdesc_t ui_SliderControl_msg;
 extern const pb_msgdesc_t ui_ActionButton_msg;
 extern const pb_msgdesc_t ui_ToggleControl_msg;
+extern const pb_msgdesc_t ui_EnumOption_msg;
+extern const pb_msgdesc_t ui_EnumPicker_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_FixedPointScale_fields &ui_FixedPointScale_msg
@@ -252,6 +308,8 @@ extern const pb_msgdesc_t ui_ToggleControl_msg;
 #define ui_SliderControl_fields &ui_SliderControl_msg
 #define ui_ActionButton_fields &ui_ActionButton_msg
 #define ui_ToggleControl_fields &ui_ToggleControl_msg
+#define ui_EnumOption_fields &ui_EnumOption_msg
+#define ui_EnumPicker_fields &ui_EnumPicker_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ui_StateBinding_size depends on runtime parameters */
@@ -259,6 +317,8 @@ extern const pb_msgdesc_t ui_ToggleControl_msg;
 /* ui_SliderControl_size depends on runtime parameters */
 /* ui_ActionButton_size depends on runtime parameters */
 /* ui_ToggleControl_size depends on runtime parameters */
+/* ui_EnumOption_size depends on runtime parameters */
+/* ui_EnumPicker_size depends on runtime parameters */
 #define UI_UI_UI_NODES_PB_H_MAX_SIZE             ui_FixedPointScale_size
 #define ui_FixedPointScale_size                  6
 

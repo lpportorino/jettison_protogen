@@ -24,6 +24,12 @@ PB_BIND(ui_ActionButton, ui_ActionButton, AUTO)
 PB_BIND(ui_ToggleControl, ui_ToggleControl, AUTO)
 
 
+PB_BIND(ui_EnumOption, ui_EnumOption, AUTO)
+
+
+PB_BIND(ui_EnumPicker, ui_EnumPicker, AUTO)
+
+
 
 
 

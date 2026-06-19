@@ -6331,6 +6331,2028 @@ public final class UiNodes {
 
   }
 
+  public interface EnumOptionOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.EnumOption)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The label.
+     */
+    java.lang.String getLabel();
+    /**
+     * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for label.
+     */
+    com.google.protobuf.ByteString
+        getLabelBytes();
+
+    /**
+     * <code>int32 value = 2;</code>
+     * @return The value.
+     */
+    int getValue();
+  }
+  /**
+   * <pre>
+   * One selectable option of an EnumPicker: the display label + the enum number it
+   * maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+   * enums need not be 0-contiguous).
+   * </pre>
+   *
+   * Protobuf type {@code ui.EnumOption}
+   */
+  public static final class EnumOption extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.EnumOption)
+      EnumOptionOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        EnumOption.class.getName());
+    }
+    // Use EnumOption.newBuilder() to construct.
+    private EnumOption(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private EnumOption() {
+      label_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiNodes.internal_static_ui_EnumOption_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiNodes.internal_static_ui_EnumOption_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiNodes.EnumOption.class, ui.UiNodes.EnumOption.Builder.class);
+    }
+
+    public static final int LABEL_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object label_ = "";
+    /**
+     * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The label.
+     */
+    @java.lang.Override
+    public java.lang.String getLabel() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        label_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for label.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLabelBytes() {
+      java.lang.Object ref = label_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        label_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private int value_ = 0;
+    /**
+     * <code>int32 value = 2;</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public int getValue() {
+      return value_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(label_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, label_);
+      }
+      if (value_ != 0) {
+        output.writeInt32(2, value_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(label_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, label_);
+      }
+      if (value_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, value_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiNodes.EnumOption)) {
+        return super.equals(obj);
+      }
+      ui.UiNodes.EnumOption other = (ui.UiNodes.EnumOption) obj;
+
+      if (!getLabel()
+          .equals(other.getLabel())) return false;
+      if (getValue()
+          != other.getValue()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + LABEL_FIELD_NUMBER;
+      hash = (53 * hash) + getLabel().hashCode();
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getValue();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiNodes.EnumOption parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiNodes.EnumOption parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiNodes.EnumOption parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.EnumOption parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiNodes.EnumOption prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * One selectable option of an EnumPicker: the display label + the enum number it
+     * maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+     * enums need not be 0-contiguous).
+     * </pre>
+     *
+     * Protobuf type {@code ui.EnumOption}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.EnumOption)
+        ui.UiNodes.EnumOptionOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiNodes.internal_static_ui_EnumOption_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiNodes.internal_static_ui_EnumOption_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiNodes.EnumOption.class, ui.UiNodes.EnumOption.Builder.class);
+      }
+
+      // Construct using ui.UiNodes.EnumOption.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        label_ = "";
+        value_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiNodes.internal_static_ui_EnumOption_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.EnumOption getDefaultInstanceForType() {
+        return ui.UiNodes.EnumOption.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.EnumOption build() {
+        ui.UiNodes.EnumOption result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.EnumOption buildPartial() {
+        ui.UiNodes.EnumOption result = new ui.UiNodes.EnumOption(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiNodes.EnumOption result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.label_ = label_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.value_ = value_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiNodes.EnumOption) {
+          return mergeFrom((ui.UiNodes.EnumOption)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiNodes.EnumOption other) {
+        if (other == ui.UiNodes.EnumOption.getDefaultInstance()) return this;
+        if (!other.getLabel().isEmpty()) {
+          label_ = other.label_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        if (other.getValue() != 0) {
+          setValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                label_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                value_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object label_ = "";
+      /**
+       * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The label.
+       */
+      public java.lang.String getLabel() {
+        java.lang.Object ref = label_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          label_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for label.
+       */
+      public com.google.protobuf.ByteString
+          getLabelBytes() {
+        java.lang.Object ref = label_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          label_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The label to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLabel(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        label_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLabel() {
+        label_ = getDefaultInstance().getLabel();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string label = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for label to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLabelBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        label_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      private int value_ ;
+      /**
+       * <code>int32 value = 2;</code>
+       * @return The value.
+       */
+      @java.lang.Override
+      public int getValue() {
+        return value_;
+      }
+      /**
+       * <code>int32 value = 2;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValue(int value) {
+
+        value_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 value = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        value_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.EnumOption)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.EnumOption)
+    private static final ui.UiNodes.EnumOption DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiNodes.EnumOption();
+    }
+
+    public static ui.UiNodes.EnumOption getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<EnumOption>
+        PARSER = new com.google.protobuf.AbstractParser<EnumOption>() {
+      @java.lang.Override
+      public EnumOption parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnumOption> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnumOption> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiNodes.EnumOption getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface EnumPickerOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.EnumPicker)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <pre>
+     * Dropdown label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    java.lang.String getTitle();
+    /**
+     * <pre>
+     * Dropdown label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    /**
+     * <pre>
+     * The set-enum command; the lowered dropdown's value-changed event routes
+     * through `command_id` and the builder fills the enum field.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return Whether the command field is set.
+     */
+    boolean hasCommand();
+    /**
+     * <pre>
+     * The set-enum command; the lowered dropdown's value-changed event routes
+     * through `command_id` and the builder fills the enum field.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return The command.
+     */
+    ui.UiNodes.CommandBinding getCommand();
+    /**
+     * <pre>
+     * The set-enum command; the lowered dropdown's value-changed event routes
+     * through `command_id` and the builder fills the enum field.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder();
+
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    java.util.List<ui.UiNodes.EnumOption> 
+        getOptionsList();
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    ui.UiNodes.EnumOption getOptions(int index);
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    int getOptionsCount();
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    java.util.List<? extends ui.UiNodes.EnumOptionOrBuilder> 
+        getOptionsOrBuilderList();
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    ui.UiNodes.EnumOptionOrBuilder getOptionsOrBuilder(
+        int index);
+  }
+  /**
+   * <pre>
+   * L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+   * SetScanMode). The generator derives one per single-`:enum`-field
+   * `:ui-pattern :enum-picker` command; the options come from the enum's values
+   * (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+   * the builder maps the selected index → `options[idx].value` → the set-enum cmd.
+   * </pre>
+   *
+   * Protobuf type {@code ui.EnumPicker}
+   */
+  public static final class EnumPicker extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.EnumPicker)
+      EnumPickerOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        EnumPicker.class.getName());
+    }
+    // Use EnumPicker.newBuilder() to construct.
+    private EnumPicker(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private EnumPicker() {
+      title_ = "";
+      options_ = java.util.Collections.emptyList();
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiNodes.internal_static_ui_EnumPicker_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiNodes.internal_static_ui_EnumPicker_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiNodes.EnumPicker.class, ui.UiNodes.EnumPicker.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_ = 0;
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+
+    public static final int TITLE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object title_ = "";
+    /**
+     * <pre>
+     * Dropdown label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    @java.lang.Override
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        title_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Dropdown label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMMAND_FIELD_NUMBER = 3;
+    private ui.UiNodes.CommandBinding command_;
+    /**
+     * <pre>
+     * The set-enum command; the lowered dropdown's value-changed event routes
+     * through `command_id` and the builder fills the enum field.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return Whether the command field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommand() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * The set-enum command; the lowered dropdown's value-changed event routes
+     * through `command_id` and the builder fills the enum field.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     * @return The command.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommand() {
+      return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+    }
+    /**
+     * <pre>
+     * The set-enum command; the lowered dropdown's value-changed event routes
+     * through `command_id` and the builder fills the enum field.
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command = 3;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder() {
+      return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+    }
+
+    public static final int OPTIONS_FIELD_NUMBER = 4;
+    @SuppressWarnings("serial")
+    private java.util.List<ui.UiNodes.EnumOption> options_;
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ui.UiNodes.EnumOption> getOptionsList() {
+      return options_;
+    }
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ui.UiNodes.EnumOptionOrBuilder> 
+        getOptionsOrBuilderList() {
+      return options_;
+    }
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    @java.lang.Override
+    public int getOptionsCount() {
+      return options_.size();
+    }
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.EnumOption getOptions(int index) {
+      return options_.get(index);
+    }
+    /**
+     * <pre>
+     * Selectable options (label + enum number), in dropdown order.
+     * </pre>
+     *
+     * <code>repeated .ui.EnumOption options = 4;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.EnumOptionOrBuilder getOptionsOrBuilder(
+        int index) {
+      return options_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (version_ != 0) {
+        output.writeUInt32(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(3, getCommand());
+      }
+      for (int i = 0; i < options_.size(); i++) {
+        output.writeMessage(4, options_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (version_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCommand());
+      }
+      for (int i = 0; i < options_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, options_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiNodes.EnumPicker)) {
+        return super.equals(obj);
+      }
+      ui.UiNodes.EnumPicker other = (ui.UiNodes.EnumPicker) obj;
+
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getTitle()
+          .equals(other.getTitle())) return false;
+      if (hasCommand() != other.hasCommand()) return false;
+      if (hasCommand()) {
+        if (!getCommand()
+            .equals(other.getCommand())) return false;
+      }
+      if (!getOptionsList()
+          .equals(other.getOptionsList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + TITLE_FIELD_NUMBER;
+      hash = (53 * hash) + getTitle().hashCode();
+      if (hasCommand()) {
+        hash = (37 * hash) + COMMAND_FIELD_NUMBER;
+        hash = (53 * hash) + getCommand().hashCode();
+      }
+      if (getOptionsCount() > 0) {
+        hash = (37 * hash) + OPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getOptionsList().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiNodes.EnumPicker parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiNodes.EnumPicker parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiNodes.EnumPicker parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.EnumPicker parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiNodes.EnumPicker prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+     * SetScanMode). The generator derives one per single-`:enum`-field
+     * `:ui-pattern :enum-picker` command; the options come from the enum's values
+     * (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+     * the builder maps the selected index → `options[idx].value` → the set-enum cmd.
+     * </pre>
+     *
+     * Protobuf type {@code ui.EnumPicker}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.EnumPicker)
+        ui.UiNodes.EnumPickerOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiNodes.internal_static_ui_EnumPicker_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiNodes.internal_static_ui_EnumPicker_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiNodes.EnumPicker.class, ui.UiNodes.EnumPicker.Builder.class);
+      }
+
+      // Construct using ui.UiNodes.EnumPicker.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCommandFieldBuilder();
+          getOptionsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        version_ = 0;
+        title_ = "";
+        command_ = null;
+        if (commandBuilder_ != null) {
+          commandBuilder_.dispose();
+          commandBuilder_ = null;
+        }
+        if (optionsBuilder_ == null) {
+          options_ = java.util.Collections.emptyList();
+        } else {
+          options_ = null;
+          optionsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiNodes.internal_static_ui_EnumPicker_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.EnumPicker getDefaultInstanceForType() {
+        return ui.UiNodes.EnumPicker.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.EnumPicker build() {
+        ui.UiNodes.EnumPicker result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.EnumPicker buildPartial() {
+        ui.UiNodes.EnumPicker result = new ui.UiNodes.EnumPicker(this);
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(ui.UiNodes.EnumPicker result) {
+        if (optionsBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0)) {
+            options_ = java.util.Collections.unmodifiableList(options_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.options_ = options_;
+        } else {
+          result.options_ = optionsBuilder_.build();
+        }
+      }
+
+      private void buildPartial0(ui.UiNodes.EnumPicker result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.version_ = version_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.title_ = title_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.command_ = commandBuilder_ == null
+              ? command_
+              : commandBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiNodes.EnumPicker) {
+          return mergeFrom((ui.UiNodes.EnumPicker)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiNodes.EnumPicker other) {
+        if (other == ui.UiNodes.EnumPicker.getDefaultInstance()) return this;
+        if (other.getVersion() != 0) {
+          setVersion(other.getVersion());
+        }
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (other.hasCommand()) {
+          mergeCommand(other.getCommand());
+        }
+        if (optionsBuilder_ == null) {
+          if (!other.options_.isEmpty()) {
+            if (options_.isEmpty()) {
+              options_ = other.options_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureOptionsIsMutable();
+              options_.addAll(other.options_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.options_.isEmpty()) {
+            if (optionsBuilder_.isEmpty()) {
+              optionsBuilder_.dispose();
+              optionsBuilder_ = null;
+              options_ = other.options_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              optionsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getOptionsFieldBuilder() : null;
+            } else {
+              optionsBuilder_.addAllMessages(other.options_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                version_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                title_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getCommandFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 34: {
+                ui.UiNodes.EnumOption m =
+                    input.readMessage(
+                        ui.UiNodes.EnumOption.parser(),
+                        extensionRegistry);
+                if (optionsBuilder_ == null) {
+                  ensureOptionsIsMutable();
+                  options_.add(m);
+                } else {
+                  optionsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 34
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int version_ ;
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+
+        version_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object title_ = "";
+      /**
+       * <pre>
+       * Dropdown label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The title.
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Dropdown label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for title.
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Dropdown label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Dropdown label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTitle() {
+        title_ = getDefaultInstance().getTitle();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Dropdown label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiNodes.CommandBinding command_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandBuilder_;
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       * @return Whether the command field is set.
+       */
+      public boolean hasCommand() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       * @return The command.
+       */
+      public ui.UiNodes.CommandBinding getCommand() {
+        if (commandBuilder_ == null) {
+          return command_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+        } else {
+          return commandBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder setCommand(ui.UiNodes.CommandBinding value) {
+        if (commandBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          command_ = value;
+        } else {
+          commandBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder setCommand(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandBuilder_ == null) {
+          command_ = builderForValue.build();
+        } else {
+          commandBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder mergeCommand(ui.UiNodes.CommandBinding value) {
+        if (commandBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            command_ != null &&
+            command_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandBuilder().mergeFrom(value);
+          } else {
+            command_ = value;
+          }
+        } else {
+          commandBuilder_.mergeFrom(value);
+        }
+        if (command_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public Builder clearCommand() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        command_ = null;
+        if (commandBuilder_ != null) {
+          commandBuilder_.dispose();
+          commandBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getCommandFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandOrBuilder() {
+        if (commandBuilder_ != null) {
+          return commandBuilder_.getMessageOrBuilder();
+        } else {
+          return command_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : command_;
+        }
+      }
+      /**
+       * <pre>
+       * The set-enum command; the lowered dropdown's value-changed event routes
+       * through `command_id` and the builder fills the enum field.
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandFieldBuilder() {
+        if (commandBuilder_ == null) {
+          commandBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommand(),
+                  getParentForChildren(),
+                  isClean());
+          command_ = null;
+        }
+        return commandBuilder_;
+      }
+
+      private java.util.List<ui.UiNodes.EnumOption> options_ =
+        java.util.Collections.emptyList();
+      private void ensureOptionsIsMutable() {
+        if (!((bitField0_ & 0x00000008) != 0)) {
+          options_ = new java.util.ArrayList<ui.UiNodes.EnumOption>(options_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiNodes.EnumOption, ui.UiNodes.EnumOption.Builder, ui.UiNodes.EnumOptionOrBuilder> optionsBuilder_;
+
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public java.util.List<ui.UiNodes.EnumOption> getOptionsList() {
+        if (optionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(options_);
+        } else {
+          return optionsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public int getOptionsCount() {
+        if (optionsBuilder_ == null) {
+          return options_.size();
+        } else {
+          return optionsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public ui.UiNodes.EnumOption getOptions(int index) {
+        if (optionsBuilder_ == null) {
+          return options_.get(index);
+        } else {
+          return optionsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder setOptions(
+          int index, ui.UiNodes.EnumOption value) {
+        if (optionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOptionsIsMutable();
+          options_.set(index, value);
+          onChanged();
+        } else {
+          optionsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder setOptions(
+          int index, ui.UiNodes.EnumOption.Builder builderForValue) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          optionsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder addOptions(ui.UiNodes.EnumOption value) {
+        if (optionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOptionsIsMutable();
+          options_.add(value);
+          onChanged();
+        } else {
+          optionsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder addOptions(
+          int index, ui.UiNodes.EnumOption value) {
+        if (optionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOptionsIsMutable();
+          options_.add(index, value);
+          onChanged();
+        } else {
+          optionsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder addOptions(
+          ui.UiNodes.EnumOption.Builder builderForValue) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.add(builderForValue.build());
+          onChanged();
+        } else {
+          optionsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder addOptions(
+          int index, ui.UiNodes.EnumOption.Builder builderForValue) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          optionsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder addAllOptions(
+          java.lang.Iterable<? extends ui.UiNodes.EnumOption> values) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, options_);
+          onChanged();
+        } else {
+          optionsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder clearOptions() {
+        if (optionsBuilder_ == null) {
+          options_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          optionsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public Builder removeOptions(int index) {
+        if (optionsBuilder_ == null) {
+          ensureOptionsIsMutable();
+          options_.remove(index);
+          onChanged();
+        } else {
+          optionsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public ui.UiNodes.EnumOption.Builder getOptionsBuilder(
+          int index) {
+        return getOptionsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public ui.UiNodes.EnumOptionOrBuilder getOptionsOrBuilder(
+          int index) {
+        if (optionsBuilder_ == null) {
+          return options_.get(index);  } else {
+          return optionsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public java.util.List<? extends ui.UiNodes.EnumOptionOrBuilder> 
+           getOptionsOrBuilderList() {
+        if (optionsBuilder_ != null) {
+          return optionsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(options_);
+        }
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public ui.UiNodes.EnumOption.Builder addOptionsBuilder() {
+        return getOptionsFieldBuilder().addBuilder(
+            ui.UiNodes.EnumOption.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public ui.UiNodes.EnumOption.Builder addOptionsBuilder(
+          int index) {
+        return getOptionsFieldBuilder().addBuilder(
+            index, ui.UiNodes.EnumOption.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Selectable options (label + enum number), in dropdown order.
+       * </pre>
+       *
+       * <code>repeated .ui.EnumOption options = 4;</code>
+       */
+      public java.util.List<ui.UiNodes.EnumOption.Builder> 
+           getOptionsBuilderList() {
+        return getOptionsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          ui.UiNodes.EnumOption, ui.UiNodes.EnumOption.Builder, ui.UiNodes.EnumOptionOrBuilder> 
+          getOptionsFieldBuilder() {
+        if (optionsBuilder_ == null) {
+          optionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              ui.UiNodes.EnumOption, ui.UiNodes.EnumOption.Builder, ui.UiNodes.EnumOptionOrBuilder>(
+                  options_,
+                  ((bitField0_ & 0x00000008) != 0),
+                  getParentForChildren(),
+                  isClean());
+          options_ = null;
+        }
+        return optionsBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.EnumPicker)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.EnumPicker)
+    private static final ui.UiNodes.EnumPicker DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiNodes.EnumPicker();
+    }
+
+    public static ui.UiNodes.EnumPicker getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<EnumPicker>
+        PARSER = new com.google.protobuf.AbstractParser<EnumPicker>() {
+      @java.lang.Override
+      public EnumPicker parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnumPicker> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnumPicker> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiNodes.EnumPicker getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_FixedPointScale_descriptor;
   private static final 
@@ -6361,6 +8383,16 @@ public final class UiNodes {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_ToggleControl_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_EnumOption_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_EnumOption_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_EnumPicker_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_EnumPicker_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6389,11 +8421,16 @@ public final class UiNodes {
       "\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030?\022&\n\ncommand_o" +
       "n\030\003 \001(\0132\022.ui.CommandBinding\022\'\n\013command_o" +
       "ff\030\004 \001(\0132\022.ui.CommandBinding\022\037\n\005state\030\005 " +
-      "\001(\0132\020.ui.StateBinding*T\n\021NodeSchemaVersi" +
-      "on\022#\n\037NODE_SCHEMA_VERSION_UNSPECIFIED\020\000\022" +
-      "\032\n\026NODE_SCHEMA_VERSION_V1\020\001BEZCgit-codec" +
-      "ommit.eu-central-1.amazonaws.com/v1/repo" +
-      "s/jettison/jonp/uib\006proto3"
+      "\001(\0132\020.ui.StateBinding\"3\n\nEnumOption\022\026\n\005l" +
+      "abel\030\001 \001(\tB\007\272H\004r\002\030?\022\r\n\005value\030\002 \001(\005\"\207\001\n\nE" +
+      "numPicker\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026" +
+      "\n\005title\030\002 \001(\tB\007\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132" +
+      "\022.ui.CommandBinding\022\037\n\007options\030\004 \003(\0132\016.u" +
+      "i.EnumOption*T\n\021NodeSchemaVersion\022#\n\037NOD" +
+      "E_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_S" +
+      "CHEMA_VERSION_V1\020\001BEZCgit-codecommit.eu-" +
+      "central-1.amazonaws.com/v1/repos/jettiso" +
+      "n/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6436,6 +8473,18 @@ public final class UiNodes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ToggleControl_descriptor,
         new java.lang.String[] { "Version", "Title", "CommandOn", "CommandOff", "State", });
+    internal_static_ui_EnumOption_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_ui_EnumOption_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_EnumOption_descriptor,
+        new java.lang.String[] { "Label", "Value", });
+    internal_static_ui_EnumPicker_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_ui_EnumPicker_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_EnumPicker_descriptor,
+        new java.lang.String[] { "Version", "Title", "Command", "Options", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

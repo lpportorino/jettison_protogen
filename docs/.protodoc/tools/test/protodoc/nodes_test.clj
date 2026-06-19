@@ -126,6 +126,28 @@
       (is (= "toggle.System.GeodesicMode" (:id (first nodes))))
       (is (= "cmd.System.EnableGeodesicMode" (:command-on (first nodes)))))))
 
+(deftest derives-enum-picker-options
+  (let [db {:enums {"ser.FxMode"
+                    {:values [{:number 0 :name "JON_FX_DEFAULT"}
+                              {:number 1 :name "JON_FX_A"}
+                              {:number 2 :name "JON_FX_B"}]}}
+            :messages
+            {"cmd.DayCamera.SetFxMode"
+             {:id "cmd.DayCamera.SetFxMode" :name "SetFxMode"
+              :fields [{:name "mode" :type :enum :type-ref "ser.FxMode"}]
+              :interaction {:ui-pattern :enum-picker}}}}
+        nodes (nodes/derive-enum-picker-nodes db)]
+    (is (= 1 (count nodes)))
+    (is (= {:id "cmd.DayCamera.SetFxMode"
+            :kind :enum-picker
+            :title "Fx Mode"
+            :command-id "cmd.DayCamera.SetFxMode"
+            :options [{:label "DEFAULT" :value 0}
+                      {:label "A" :value 1}
+                      {:label "B" :value 2}]}
+           (first nodes))
+        "options strip the common enum prefix; index→value preserved")))
+
 (deftest cmd-builder-traverses-oneof-graph
   (testing "set-value arm-specs resolve prost paths from the oneof field names"
     (let [arms (nodes/set-value-command-arms cmd-graph-db)]

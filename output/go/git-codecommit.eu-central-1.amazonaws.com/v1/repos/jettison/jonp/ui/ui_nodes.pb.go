@@ -516,6 +516,139 @@ func (x *ToggleControl) GetState() *StateBinding {
 	return nil
 }
 
+// One selectable option of an EnumPicker: the display label + the enum number it
+// maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+// enums need not be 0-contiguous).
+type EnumOption struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Label         string                 `protobuf:"bytes,1,opt,name=label,proto3" json:"label,omitempty"`
+	Value         int32                  `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnumOption) Reset() {
+	*x = EnumOption{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnumOption) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnumOption) ProtoMessage() {}
+
+func (x *EnumOption) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnumOption.ProtoReflect.Descriptor instead.
+func (*EnumOption) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *EnumOption) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
+}
+
+func (x *EnumOption) GetValue() int32 {
+	if x != nil {
+		return x.Value
+	}
+	return 0
+}
+
+// L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+// SetScanMode). The generator derives one per single-`:enum`-field
+// `:ui-pattern :enum-picker` command; the options come from the enum's values
+// (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+// the builder maps the selected index → `options[idx].value` → the set-enum cmd.
+type EnumPicker struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema version — checked FIRST by the lowering (fail-fast guard).
+	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
+	// Dropdown label.
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// The set-enum command; the lowered dropdown's value-changed event routes
+	// through `command_id` and the builder fills the enum field.
+	Command *CommandBinding `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty"`
+	// Selectable options (label + enum number), in dropdown order.
+	Options       []*EnumOption `protobuf:"bytes,4,rep,name=options,proto3" json:"options,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EnumPicker) Reset() {
+	*x = EnumPicker{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EnumPicker) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EnumPicker) ProtoMessage() {}
+
+func (x *EnumPicker) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EnumPicker.ProtoReflect.Descriptor instead.
+func (*EnumPicker) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *EnumPicker) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *EnumPicker) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *EnumPicker) GetCommand() *CommandBinding {
+	if x != nil {
+		return x.Command
+	}
+	return nil
+}
+
+func (x *EnumPicker) GetOptions() []*EnumOption {
+	if x != nil {
+		return x.Options
+	}
+	return nil
+}
+
 var File_ui_ui_nodes_proto protoreflect.FileDescriptor
 
 const file_ui_ui_nodes_proto_rawDesc = "" +
@@ -552,7 +685,18 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"command_on\x18\x03 \x01(\v2\x12.ui.CommandBindingR\tcommandOn\x123\n" +
 	"\vcommand_off\x18\x04 \x01(\v2\x12.ui.CommandBindingR\n" +
 	"commandOff\x12&\n" +
-	"\x05state\x18\x05 \x01(\v2\x10.ui.StateBindingR\x05state*T\n" +
+	"\x05state\x18\x05 \x01(\v2\x10.ui.StateBindingR\x05state\"A\n" +
+	"\n" +
+	"EnumOption\x12\x1d\n" +
+	"\x05label\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05label\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x05R\x05value\"\xa9\x01\n" +
+	"\n" +
+	"EnumPicker\x12$\n" +
+	"\aversion\x18\x01 \x01(\rB\n" +
+	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
+	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
+	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand\x12(\n" +
+	"\aoptions\x18\x04 \x03(\v2\x0e.ui.EnumOptionR\aoptions*T\n" +
 	"\x11NodeSchemaVersion\x12#\n" +
 	"\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16NODE_SCHEMA_VERSION_V1\x10\x01B\x83\x01\n" +
@@ -571,7 +715,7 @@ func file_ui_ui_nodes_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_nodes_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_ui_ui_nodes_proto_goTypes = []any{
 	(NodeSchemaVersion)(0),  // 0: ui.NodeSchemaVersion
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
@@ -580,21 +724,25 @@ var file_ui_ui_nodes_proto_goTypes = []any{
 	(*SliderControl)(nil),   // 4: ui.SliderControl
 	(*ActionButton)(nil),    // 5: ui.ActionButton
 	(*ToggleControl)(nil),   // 6: ui.ToggleControl
+	(*EnumOption)(nil),      // 7: ui.EnumOption
+	(*EnumPicker)(nil),      // 8: ui.EnumPicker
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
-	1, // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
-	1, // 1: ui.CommandBinding.scale:type_name -> ui.FixedPointScale
-	2, // 2: ui.SliderControl.state:type_name -> ui.StateBinding
-	3, // 3: ui.SliderControl.command:type_name -> ui.CommandBinding
-	3, // 4: ui.ActionButton.command:type_name -> ui.CommandBinding
-	3, // 5: ui.ToggleControl.command_on:type_name -> ui.CommandBinding
-	3, // 6: ui.ToggleControl.command_off:type_name -> ui.CommandBinding
-	2, // 7: ui.ToggleControl.state:type_name -> ui.StateBinding
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	1,  // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
+	1,  // 1: ui.CommandBinding.scale:type_name -> ui.FixedPointScale
+	2,  // 2: ui.SliderControl.state:type_name -> ui.StateBinding
+	3,  // 3: ui.SliderControl.command:type_name -> ui.CommandBinding
+	3,  // 4: ui.ActionButton.command:type_name -> ui.CommandBinding
+	3,  // 5: ui.ToggleControl.command_on:type_name -> ui.CommandBinding
+	3,  // 6: ui.ToggleControl.command_off:type_name -> ui.CommandBinding
+	2,  // 7: ui.ToggleControl.state:type_name -> ui.StateBinding
+	3,  // 8: ui.EnumPicker.command:type_name -> ui.CommandBinding
+	7,  // 9: ui.EnumPicker.options:type_name -> ui.EnumOption
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }
@@ -608,7 +756,7 @@ func file_ui_ui_nodes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_nodes_proto_rawDesc), len(file_ui_ui_nodes_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

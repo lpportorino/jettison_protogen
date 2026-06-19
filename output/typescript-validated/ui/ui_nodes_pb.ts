@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ui/ui_nodes.proto.
  */
 export const file_ui_ui_nodes: GenFile = /*@__PURE__*/
-  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmcqVAoRTm9kZVNjaGVtYVZlcnNpb24SIwofTk9ERV9TQ0hFTUFfVkVSU0lPTl9VTlNQRUNJRklFRBAAEhoKFk5PREVfU0NIRU1BX1ZFUlNJT05fVjEQAUJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmciMwoKRW51bU9wdGlvbhIWCgVsYWJlbBgBIAEoCUIHukgEcgIYPxINCgV2YWx1ZRgCIAEoBSKHAQoKRW51bVBpY2tlchIbCgd2ZXJzaW9uGAEgASgNQgq6SAcqBRj/ASgBEhYKBXRpdGxlGAIgASgJQge6SARyAhg/EiMKB2NvbW1hbmQYAyABKAsyEi51aS5Db21tYW5kQmluZGluZxIfCgdvcHRpb25zGAQgAygLMg4udWkuRW51bU9wdGlvbipUChFOb2RlU2NoZW1hVmVyc2lvbhIjCh9OT0RFX1NDSEVNQV9WRVJTSU9OX1VOU1BFQ0lGSUVEEAASGgoWTk9ERV9TQ0hFTUFfVkVSU0lPTl9WMRABQkVaQ2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvdWliBnByb3RvMw", [file_buf_validate_validate]);
 
 /**
  * How a normalized control value crosses the int-only WASM ABI. The camera
@@ -272,6 +272,79 @@ export type ToggleControl = Message<"ui.ToggleControl"> & {
  */
 export const ToggleControlSchema: GenMessage<ToggleControl> = /*@__PURE__*/
   messageDesc(file_ui_ui_nodes, 5);
+
+/**
+ * One selectable option of an EnumPicker: the display label + the enum number it
+ * maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+ * enums need not be 0-contiguous).
+ *
+ * @generated from message ui.EnumOption
+ */
+export type EnumOption = Message<"ui.EnumOption"> & {
+  /**
+   * @generated from field: string label = 1;
+   */
+  label: string;
+
+  /**
+   * @generated from field: int32 value = 2;
+   */
+  value: number;
+};
+
+/**
+ * Describes the message ui.EnumOption.
+ * Use `create(EnumOptionSchema)` to create a new message.
+ */
+export const EnumOptionSchema: GenMessage<EnumOption> = /*@__PURE__*/
+  messageDesc(file_ui_ui_nodes, 6);
+
+/**
+ * L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+ * SetScanMode). The generator derives one per single-`:enum`-field
+ * `:ui-pattern :enum-picker` command; the options come from the enum's values
+ * (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+ * the builder maps the selected index → `options[idx].value` → the set-enum cmd.
+ *
+ * @generated from message ui.EnumPicker
+ */
+export type EnumPicker = Message<"ui.EnumPicker"> & {
+  /**
+   * Schema version — checked FIRST by the lowering (fail-fast guard).
+   *
+   * @generated from field: uint32 version = 1;
+   */
+  version: number;
+
+  /**
+   * Dropdown label.
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * The set-enum command; the lowered dropdown's value-changed event routes
+   * through `command_id` and the builder fills the enum field.
+   *
+   * @generated from field: ui.CommandBinding command = 3;
+   */
+  command?: CommandBinding | undefined;
+
+  /**
+   * Selectable options (label + enum number), in dropdown order.
+   *
+   * @generated from field: repeated ui.EnumOption options = 4;
+   */
+  options: EnumOption[];
+};
+
+/**
+ * Describes the message ui.EnumPicker.
+ * Use `create(EnumPickerSchema)` to create a new message.
+ */
+export const EnumPickerSchema: GenMessage<EnumPicker> = /*@__PURE__*/
+  messageDesc(file_ui_ui_nodes, 7);
 
 /**
  * Node-schema version constant. The lowering entry-point checks the wire

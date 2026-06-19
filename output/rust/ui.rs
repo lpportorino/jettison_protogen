@@ -120,6 +120,37 @@ pub struct ToggleControl {
     #[prost(message, optional, tag = "5")]
     pub state: ::core::option::Option<StateBinding>,
 }
+/// One selectable option of an EnumPicker: the display label + the enum number it
+/// maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+/// enums need not be 0-contiguous).
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnumOption {
+    #[prost(string, tag = "1")]
+    pub label: ::prost::alloc::string::String,
+    #[prost(int32, tag = "2")]
+    pub value: i32,
+}
+/// L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+/// SetScanMode). The generator derives one per single-`:enum`-field
+/// `:ui-pattern :enum-picker` command; the options come from the enum's values
+/// (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+/// the builder maps the selected index → `options.value` → the set-enum cmd.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct EnumPicker {
+    /// Schema version — checked FIRST by the lowering (fail-fast guard).
+    #[prost(uint32, tag = "1")]
+    pub version: u32,
+    /// Dropdown label.
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// The set-enum command; the lowered dropdown's value-changed event routes
+    /// through `command_id` and the builder fills the enum field.
+    #[prost(message, optional, tag = "3")]
+    pub command: ::core::option::Option<CommandBinding>,
+    /// Selectable options (label + enum number), in dropdown order.
+    #[prost(message, repeated, tag = "4")]
+    pub options: ::prost::alloc::vec::Vec<EnumOption>,
+}
 /// Node-schema version constant. The lowering entry-point checks the wire
 /// `version` field against the CURRENT value FIRST and returns
 /// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no

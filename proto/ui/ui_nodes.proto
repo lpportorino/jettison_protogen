@@ -149,3 +149,31 @@ message ToggleControl {
   // already handles both.)
   StateBinding state = 5;
 }
+
+// One selectable option of an EnumPicker: the display label + the enum number it
+// maps to. The dropdown's selected INDEX → `value` (an explicit map, since proto
+// enums need not be 0-contiguous).
+message EnumOption {
+  string label = 1 [(buf.validate.field).string = {max_len: 63}];
+  int32 value = 2;
+}
+
+// L3 EnumPicker kind — a dropdown that SENDS a set-enum command (e.g. SetFxMode,
+// SetScanMode). The generator derives one per single-`:enum`-field
+// `:ui-pattern :enum-picker` command; the options come from the enum's values
+// (prefix-stripped labels + their numbers). The lowering emits a WIDGET_DROPDOWN;
+// the builder maps the selected index → `options[idx].value` → the set-enum cmd.
+message EnumPicker {
+  // Schema version — checked FIRST by the lowering (fail-fast guard).
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Dropdown label.
+  string title = 2 [(buf.validate.field).string = {max_len: 63}];
+
+  // The set-enum command; the lowered dropdown's value-changed event routes
+  // through `command_id` and the builder fills the enum field.
+  CommandBinding command = 3;
+
+  // Selectable options (label + enum number), in dropdown order.
+  repeated EnumOption options = 4;
+}
