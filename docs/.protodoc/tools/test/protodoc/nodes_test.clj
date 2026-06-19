@@ -175,6 +175,40 @@
             :step 1}
            (first nodes)))))
 
+(deftest derives-normalized-double-shift-stepper
+  ;; A :normalized double :stepper derives (scale via semantic-type, like the
+  ;; slider); an :angle double :stepper has no derivable scale → skipped.
+  (let [db {:messages
+            {"cmd.Root"
+             {:id "cmd.Root" :name "Root"
+              :fields [{:number 1 :name "day_camera" :type :message
+                        :type-ref "cmd.DayCamera.Root"}]}
+             "cmd.DayCamera.Root"
+             {:id "cmd.DayCamera.Root" :name "Root" :package "cmd.DayCamera"
+              :fields [{:number 1 :name "shift_clahe_level" :type :message
+                        :type-ref "cmd.DayCamera.ShiftClaheLevel"}
+                       {:number 2 :name "set_bank" :type :message
+                        :type-ref "cmd.DayCamera.SetBank"}]}
+             "cmd.DayCamera.ShiftClaheLevel"
+             {:id "cmd.DayCamera.ShiftClaheLevel" :name "ShiftClaheLevel"
+              :fields [{:name "value" :type :double
+                        :interaction {:semantic-type :normalized}}]
+              :interaction {:ui-pattern :stepper}}
+             "cmd.DayCamera.SetBank"
+             {:id "cmd.DayCamera.SetBank" :name "SetBank"
+              :fields [{:name "value" :type :double
+                        :interaction {:semantic-type :angle}}]
+              :interaction {:ui-pattern :stepper}}}}
+        nodes (nodes/derive-shift-stepper-nodes db)]
+    (is (= 1 (count nodes)) "the normalized double; the :angle one has no scale → skipped")
+    (is (= {:id "cmd.DayCamera.ShiftClaheLevel"
+            :kind :shift-stepper
+            :title "Shift Clahe Level"
+            :command-id "cmd.DayCamera.ShiftClaheLevel"
+            :step 50
+            :scale 1000}
+           (first nodes)))))
+
 (deftest derives-bool-toggles
   (let [db {:messages
             {"cmd.Root"

@@ -188,11 +188,17 @@ typedef struct _ui_ShiftStepper {
     uint32_t version;
     /* Stepper label. */
     pb_callback_t title;
-    /* The single-int32-field command both buttons send (with ±step). */
+    /* The single-numeric-field command both buttons send (with ±step). */
     bool has_command;
     ui_CommandBinding command;
-    /* The ± delta a button click applies (carried as the event `int_value`). */
+    /* The ± delta a button click applies (carried as the event `int_value`). For a
+ double-field command it is in scaled units (divided by `scale` at build). */
     int32_t step;
+    /* Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+ Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+ ±0.05), the same fixed-point convention as SliderControl. */
+    bool has_scale;
+    ui_FixedPointScale scale;
 } ui_ShiftStepper;
 
 /* L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
@@ -243,7 +249,7 @@ extern "C" {
 #define ui_EnumOption_init_default               {{{NULL}, NULL}, 0}
 #define ui_EnumPicker_init_default               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, {{NULL}, NULL}}
 #define ui_StepperControl_init_default           {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, false, ui_CommandBinding_init_default}
-#define ui_ShiftStepper_init_default             {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, 0}
+#define ui_ShiftStepper_init_default             {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, 0, false, ui_FixedPointScale_init_default}
 #define ui_BoolToggle_init_default               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
@@ -254,7 +260,7 @@ extern "C" {
 #define ui_EnumOption_init_zero                  {{{NULL}, NULL}, 0}
 #define ui_EnumPicker_init_zero                  {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, {{NULL}, NULL}}
 #define ui_StepperControl_init_zero              {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, false, ui_CommandBinding_init_zero}
-#define ui_ShiftStepper_init_zero                {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, 0}
+#define ui_ShiftStepper_init_zero                {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, 0, false, ui_FixedPointScale_init_zero}
 #define ui_BoolToggle_init_zero                  {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -292,6 +298,7 @@ extern "C" {
 #define ui_ShiftStepper_title_tag                2
 #define ui_ShiftStepper_command_tag              3
 #define ui_ShiftStepper_step_tag                 4
+#define ui_ShiftStepper_scale_tag                5
 #define ui_BoolToggle_version_tag                1
 #define ui_BoolToggle_title_tag                  2
 #define ui_BoolToggle_command_tag                3
@@ -379,10 +386,12 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  command_decrement,   4)
 X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
 X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  command,           3) \
-X(a, STATIC,   SINGULAR, INT32,    step,              4)
+X(a, STATIC,   SINGULAR, INT32,    step,              4) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  scale,             5)
 #define ui_ShiftStepper_CALLBACK pb_default_field_callback
 #define ui_ShiftStepper_DEFAULT NULL
 #define ui_ShiftStepper_command_MSGTYPE ui_CommandBinding
+#define ui_ShiftStepper_scale_MSGTYPE ui_FixedPointScale
 
 #define ui_BoolToggle_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UINT32,   version,           1) \

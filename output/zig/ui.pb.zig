@@ -698,12 +698,14 @@ pub const ShiftStepper = struct {
     title: []const u8 = &.{},
     command: ?CommandBinding = null,
     step: i32 = 0,
+    scale: ?FixedPointScale = null,
 
     pub const _desc_table = .{
         .version = fd(1, .{ .scalar = .uint32 }),
         .title = fd(2, .{ .scalar = .string }),
         .command = fd(3, .submessage),
         .step = fd(4, .{ .scalar = .int32 }),
+        .scale = fd(5, .submessage),
     };
 
     /// Encodes the message to the writer

@@ -1895,6 +1895,7 @@ class ShiftStepper final : public ::google::protobuf::Message
   enum : int {
     kTitleFieldNumber = 2,
     kCommandFieldNumber = 3,
+    kScaleFieldNumber = 5,
     kVersionFieldNumber = 1,
     kStepFieldNumber = 4,
   };
@@ -1929,6 +1930,21 @@ class ShiftStepper final : public ::google::protobuf::Message
   ::ui::CommandBinding* _internal_mutable_command();
 
   public:
+  // .ui.FixedPointScale scale = 5;
+  bool has_scale() const;
+  void clear_scale() ;
+  const ::ui::FixedPointScale& scale() const;
+  PROTOBUF_NODISCARD ::ui::FixedPointScale* release_scale();
+  ::ui::FixedPointScale* mutable_scale();
+  void set_allocated_scale(::ui::FixedPointScale* value);
+  void unsafe_arena_set_allocated_scale(::ui::FixedPointScale* value);
+  ::ui::FixedPointScale* unsafe_arena_release_scale();
+
+  private:
+  const ::ui::FixedPointScale& _internal_scale() const;
+  ::ui::FixedPointScale* _internal_mutable_scale();
+
+  public:
   // uint32 version = 1 [(.buf.validate.field) = {
   void clear_version() ;
   ::uint32_t version() const;
@@ -1954,7 +1970,7 @@ class ShiftStepper final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 1,
+      3, 5, 2,
       29, 2>
       _table_;
 
@@ -1976,6 +1992,7 @@ class ShiftStepper final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr title_;
     ::ui::CommandBinding* command_;
+    ::ui::FixedPointScale* scale_;
     ::uint32_t version_;
     ::int32_t step_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -4654,6 +4671,102 @@ inline ::int32_t ShiftStepper::_internal_step() const {
 inline void ShiftStepper::_internal_set_step(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.step_ = value;
+}
+
+// .ui.FixedPointScale scale = 5;
+inline bool ShiftStepper::has_scale() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.scale_ != nullptr);
+  return value;
+}
+inline void ShiftStepper::clear_scale() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.scale_ != nullptr) _impl_.scale_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ui::FixedPointScale& ShiftStepper::_internal_scale() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::FixedPointScale* p = _impl_.scale_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::FixedPointScale&>(::ui::_FixedPointScale_default_instance_);
+}
+inline const ::ui::FixedPointScale& ShiftStepper::scale() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ShiftStepper.scale)
+  return _internal_scale();
+}
+inline void ShiftStepper::unsafe_arena_set_allocated_scale(::ui::FixedPointScale* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.scale_);
+  }
+  _impl_.scale_ = reinterpret_cast<::ui::FixedPointScale*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ShiftStepper.scale)
+}
+inline ::ui::FixedPointScale* ShiftStepper::release_scale() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::FixedPointScale* released = _impl_.scale_;
+  _impl_.scale_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::FixedPointScale* ShiftStepper::unsafe_arena_release_scale() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ShiftStepper.scale)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::FixedPointScale* temp = _impl_.scale_;
+  _impl_.scale_ = nullptr;
+  return temp;
+}
+inline ::ui::FixedPointScale* ShiftStepper::_internal_mutable_scale() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.scale_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::FixedPointScale>(GetArena());
+    _impl_.scale_ = reinterpret_cast<::ui::FixedPointScale*>(p);
+  }
+  return _impl_.scale_;
+}
+inline ::ui::FixedPointScale* ShiftStepper::mutable_scale() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ui::FixedPointScale* _msg = _internal_mutable_scale();
+  // @@protoc_insertion_point(field_mutable:ui.ShiftStepper.scale)
+  return _msg;
+}
+inline void ShiftStepper::set_allocated_scale(::ui::FixedPointScale* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.scale_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.scale_ = reinterpret_cast<::ui::FixedPointScale*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ShiftStepper.scale)
 }
 
 // -------------------------------------------------------------------

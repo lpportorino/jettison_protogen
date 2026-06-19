@@ -446,30 +446,51 @@
 ;; ShiftStepper derivation (single-int32-field ±step commands)
 ;; ============================================================================
 
-(def ^:private default-shift-step
-  "Default ±delta a shift-stepper button sends (operator-tunable later via a
-   `node-config.edn` step-override table; 1 is the safe unit default)."
+(def ^:private default-int-shift-step
+  "Default ±delta an int32 shift-stepper button sends (raw units; 1 is the safe
+   unit default — operator-tunable later via a `node-config.edn` step table)."
   1)
 
+(def ^:private default-double-shift-step
+  "Default ±delta a normalized-double shift-stepper button sends, in per-mille
+   scaled units → 50 = ±0.05 (5%) per click. A sensible generic default for a
+   `[-1,1]` normalized delta (per-command tuning is a later `node-config.edn`)."
+  50)
+
+(defn- shift-stepper-node
+  "Build a ShiftStepper IR entry for command message `m` if it is a buildable
+   single-`:int32`-field (raw ±step) OR single-`:normalized-double`-field (±step
+   over a per-mille `scale`, like the slider) `:stepper` leaf; nil otherwise.
+   Non-normalized doubles (`:angle`/`:raw`) have no derivable scale → skipped,
+   exactly as the slider skips them."
+  [m int-buildable dbl-buildable]
+  (when-let [f (single-field m)]
+    (let [title (->> (camel-words (strip-prefix (:name m) "Set")) (str/join " "))
+          base {:id (:id m) :kind :shift-stepper :title title :command-id (:id m)}]
+      (cond
+        (and (= :int32 (:type f)) (int-buildable (:id m)))
+        (assoc base :step default-int-shift-step)
+
+        (and (= :double (:type f)) (dbl-buildable (:id m))
+             (scale-for (get-in f [:interaction :semantic-type])))
+        (assoc base
+               :step default-double-shift-step
+               :scale (scale-for (get-in f [:interaction :semantic-type])))
+
+        :else nil))))
+
 (defn derive-shift-stepper-nodes
-  "Derive ShiftStepper nodes from single-`:int32`-field `:ui-pattern :stepper`
-   commands. The −/+ buttons send the command with ∓/±`step` via
-   `build_set_int_command`, so a node is emitted ONLY when the command is a
-   cmd-oneof-reachable leaf (i.e. has a `build_set_int_command` arm) — a
-   single-int32 `:stepper` message that isn't wired into a subsystem Root oneof
-   would be unbuildable, so it is skipped."
+  "Derive ShiftStepper nodes from single-field `:ui-pattern :stepper` commands —
+   `:int32` (raw ±step) and normalized `:double` (±step over a per-mille scale).
+   Only cmd-oneof-reachable leaves are emitted (unreachable/unbuildable ones are
+   skipped), and non-normalized doubles (whose delta units have no generic
+   default) are skipped just like the slider."
   [db]
-  (let [buildable (set (map :command-id (set-int-command-arms db)))]
+  (let [int-buildable (set (map :command-id (set-int-command-arms db)))
+        dbl-buildable (set (map :command-id (set-value-command-arms db)))]
     (->> (vals (:messages db))
-         (filter #(and (= :stepper (get-in % [:interaction :ui-pattern]))
-                       (when-let [f (single-field %)] (= :int32 (:type f)))
-                       (buildable (:id %))))
-         (map (fn [m]
-                {:id (:id m)
-                 :kind :shift-stepper
-                 :title (->> (camel-words (strip-prefix (:name m) "Set")) (str/join " "))
-                 :command-id (:id m)
-                 :step default-shift-step}))
+         (filter #(= :stepper (get-in % [:interaction :ui-pattern])))
+         (keep #(shift-stepper-node % int-buildable dbl-buildable))
          (sort-by :id)
          vec)))
 

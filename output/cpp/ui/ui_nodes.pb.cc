@@ -238,6 +238,7 @@ inline constexpr ShiftStepper::Impl_::Impl_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         command_{nullptr},
+        scale_{nullptr},
         version_{0u},
         step_{0} {}
 
@@ -496,10 +497,12 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::ui::ShiftStepper, _impl_.title_),
         PROTOBUF_FIELD_OFFSET(::ui::ShiftStepper, _impl_.command_),
         PROTOBUF_FIELD_OFFSET(::ui::ShiftStepper, _impl_.step_),
+        PROTOBUF_FIELD_OFFSET(::ui::ShiftStepper, _impl_.scale_),
         ~0u,
         ~0u,
         0,
         ~0u,
+        1,
         PROTOBUF_FIELD_OFFSET(::ui::BoolToggle, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::ui::BoolToggle, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -527,8 +530,8 @@ static const ::_pbi::MigrationSchema
         {87, -1, -1, sizeof(::ui::EnumOption)},
         {97, 109, -1, sizeof(::ui::EnumPicker)},
         {113, 125, -1, sizeof(::ui::StepperControl)},
-        {129, 141, -1, sizeof(::ui::ShiftStepper)},
-        {145, 156, -1, sizeof(::ui::BoolToggle)},
+        {129, 142, -1, sizeof(::ui::ShiftStepper)},
+        {147, 158, -1, sizeof(::ui::BoolToggle)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_FixedPointScale_default_instance_._instance,
@@ -573,17 +576,18 @@ const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SE
     "on\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004"
     "r\002\030\?\022-\n\021command_increment\030\003 \001(\0132\022.ui.Com"
     "mandBinding\022-\n\021command_decrement\030\004 \001(\0132\022"
-    ".ui.CommandBinding\"\177\n\014ShiftStepper\022\033\n\007ve"
-    "rsion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007"
-    "\272H\004r\002\030\?\022#\n\007command\030\003 \001(\0132\022.ui.CommandBin"
-    "ding\022\025\n\004step\030\004 \001(\005B\007\272H\004\032\002 \000\"f\n\nBoolToggl"
-    "e\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030"
-    "\002 \001(\tB\007\272H\004r\002\030\?\022#\n\007command\030\003 \001(\0132\022.ui.Com"
-    "mandBinding*T\n\021NodeSchemaVersion\022#\n\037NODE"
-    "_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SC"
-    "HEMA_VERSION_V1\020\001BEZCgit-codecommit.eu-c"
-    "entral-1.amazonaws.com/v1/repos/jettison"
-    "/jonp/uib\006proto3"
+    ".ui.CommandBinding\"\243\001\n\014ShiftStepper\022\033\n\007v"
+    "ersion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB"
+    "\007\272H\004r\002\030\?\022#\n\007command\030\003 \001(\0132\022.ui.CommandBi"
+    "nding\022\025\n\004step\030\004 \001(\005B\007\272H\004\032\002 \000\022\"\n\005scale\030\005 "
+    "\001(\0132\023.ui.FixedPointScale\"f\n\nBoolToggle\022\033"
+    "\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001"
+    "(\tB\007\272H\004r\002\030\?\022#\n\007command\030\003 \001(\0132\022.ui.Comman"
+    "dBinding*T\n\021NodeSchemaVersion\022#\n\037NODE_SC"
+    "HEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCHEM"
+    "A_VERSION_V1\020\001BEZCgit-codecommit.eu-cent"
+    "ral-1.amazonaws.com/v1/repos/jettison/jo"
+    "np/uib\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fnodes_2eproto_deps[1] =
     {
@@ -593,7 +597,7 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fnodes_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fnodes_2eproto = {
     false,
     false,
-    1536,
+    1573,
     descriptor_table_protodef_ui_2fui_5fnodes_2eproto,
     "ui/ui_nodes.proto",
     &descriptor_table_ui_2fui_5fnodes_2eproto_once,
@@ -3579,6 +3583,9 @@ ShiftStepper::ShiftStepper(
   _impl_.command_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(
                               arena, *from._impl_.command_)
                         : nullptr;
+  _impl_.scale_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ui::FixedPointScale>(
+                              arena, *from._impl_.scale_)
+                        : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, version_),
            reinterpret_cast<const char *>(&from._impl_) +
@@ -3614,6 +3621,7 @@ inline void ShiftStepper::SharedDtor(MessageLite& self) {
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.title_.Destroy();
   delete this_._impl_.command_;
+  delete this_._impl_.scale_;
   this_._impl_.~Impl_();
 }
 
@@ -3653,16 +3661,16 @@ const ::google::protobuf::internal::ClassData* ShiftStepper::GetClassData() cons
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 1, 29, 2> ShiftStepper::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 2, 29, 2> ShiftStepper::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_._has_bits_),
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
-    1,  // num_aux_entries
+    5,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     _class_data_.base(),
     nullptr,  // post_loop_handler
@@ -3671,9 +3679,7 @@ const ::_pbi::TcParseTable<2, 4, 1, 29, 2> ShiftStepper::_table_ = {
     ::_pbi::TcParser::GetTable<::ui::ShiftStepper>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // int32 step = 4 [(.buf.validate.field) = {
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShiftStepper, _impl_.step_), 63>(),
-     {32, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.step_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // uint32 version = 1 [(.buf.validate.field) = {
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShiftStepper, _impl_.version_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.version_)}},
@@ -3683,6 +3689,14 @@ const ::_pbi::TcParseTable<2, 4, 1, 29, 2> ShiftStepper::_table_ = {
     // .ui.CommandBinding command = 3;
     {::_pbi::TcParser::FastMtS1,
      {26, 0, 0, PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.command_)}},
+    // int32 step = 4 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ShiftStepper, _impl_.step_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.step_)}},
+    // .ui.FixedPointScale scale = 5;
+    {::_pbi::TcParser::FastMtS1,
+     {42, 1, 1, PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.scale_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -3698,8 +3712,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 29, 2> ShiftStepper::_table_ = {
     // int32 step = 4 [(.buf.validate.field) = {
     {PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.step_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // .ui.FixedPointScale scale = 5;
+    {PROTOBUF_FIELD_OFFSET(ShiftStepper, _impl_.scale_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::FixedPointScale>()},
   }}, {{
     "\17\0\5\0\0\0\0\0"
     "ui.ShiftStepper"
@@ -3716,9 +3734,15 @@ PROTOBUF_NOINLINE void ShiftStepper::Clear() {
 
   _impl_.title_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.command_ != nullptr);
-    _impl_.command_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.command_ != nullptr);
+      _impl_.command_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.scale_ != nullptr);
+      _impl_.scale_->Clear();
+    }
   }
   ::memset(&_impl_.version_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.step_) -
@@ -3772,6 +3796,13 @@ PROTOBUF_NOINLINE void ShiftStepper::Clear() {
                     stream, this_._internal_step(), target);
           }
 
+          // .ui.FixedPointScale scale = 5;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                5, *this_._impl_.scale_, this_._impl_.scale_->GetCachedSize(), target,
+                stream);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -3803,12 +3834,17 @@ PROTOBUF_NOINLINE void ShiftStepper::Clear() {
                                               this_._internal_title());
             }
           }
-           {
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
             // .ui.CommandBinding command = 3;
-            cached_has_bits = this_._impl_._has_bits_[0];
             if (cached_has_bits & 0x00000001u) {
               total_size += 1 +
                             ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.command_);
+            }
+            // .ui.FixedPointScale scale = 5;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.scale_);
             }
           }
            {
@@ -3840,13 +3876,24 @@ void ShiftStepper::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
     _this->_internal_set_title(from._internal_title());
   }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(from._impl_.command_ != nullptr);
-    if (_this->_impl_.command_ == nullptr) {
-      _this->_impl_.command_ =
-          ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_);
-    } else {
-      _this->_impl_.command_->MergeFrom(*from._impl_.command_);
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.command_ != nullptr);
+      if (_this->_impl_.command_ == nullptr) {
+        _this->_impl_.command_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_);
+      } else {
+        _this->_impl_.command_->MergeFrom(*from._impl_.command_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.scale_ != nullptr);
+      if (_this->_impl_.scale_ == nullptr) {
+        _this->_impl_.scale_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::FixedPointScale>(arena, *from._impl_.scale_);
+      } else {
+        _this->_impl_.scale_->MergeFrom(*from._impl_.scale_);
+      }
     }
   }
   if (from._internal_version() != 0) {

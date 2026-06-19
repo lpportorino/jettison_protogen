@@ -739,10 +739,15 @@ type ShiftStepper struct {
 	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Stepper label.
 	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
-	// The single-int32-field command both buttons send (with ±step).
+	// The single-numeric-field command both buttons send (with ±step).
 	Command *CommandBinding `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty"`
-	// The ± delta a button click applies (carried as the event `int_value`).
-	Step          int32 `protobuf:"varint,4,opt,name=step,proto3" json:"step,omitempty"`
+	// The ± delta a button click applies (carried as the event `int_value`). For a
+	// double-field command it is in scaled units (divided by `scale` at build).
+	Step int32 `protobuf:"varint,4,opt,name=step,proto3" json:"step,omitempty"`
+	// Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+	// Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+	// ±0.05), the same fixed-point convention as SliderControl.
+	Scale         *FixedPointScale `protobuf:"bytes,5,opt,name=scale,proto3" json:"scale,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -803,6 +808,13 @@ func (x *ShiftStepper) GetStep() int32 {
 		return x.Step
 	}
 	return 0
+}
+
+func (x *ShiftStepper) GetScale() *FixedPointScale {
+	if x != nil {
+		return x.Scale
+	}
+	return nil
 }
 
 // L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
@@ -927,13 +939,14 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12?\n" +
 	"\x11command_increment\x18\x03 \x01(\v2\x12.ui.CommandBindingR\x10commandIncrement\x12?\n" +
-	"\x11command_decrement\x18\x04 \x01(\v2\x12.ui.CommandBindingR\x10commandDecrement\"\x9e\x01\n" +
+	"\x11command_decrement\x18\x04 \x01(\v2\x12.ui.CommandBindingR\x10commandDecrement\"\xc9\x01\n" +
 	"\fShiftStepper\x12$\n" +
 	"\aversion\x18\x01 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
 	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand\x12\x1b\n" +
-	"\x04step\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x04step\"\x7f\n" +
+	"\x04step\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x04step\x12)\n" +
+	"\x05scale\x18\x05 \x01(\v2\x13.ui.FixedPointScaleR\x05scale\"\x7f\n" +
 	"\n" +
 	"BoolToggle\x12$\n" +
 	"\aversion\x18\x01 \x01(\rB\n" +
@@ -987,12 +1000,13 @@ var file_ui_ui_nodes_proto_depIdxs = []int32{
 	3,  // 10: ui.StepperControl.command_increment:type_name -> ui.CommandBinding
 	3,  // 11: ui.StepperControl.command_decrement:type_name -> ui.CommandBinding
 	3,  // 12: ui.ShiftStepper.command:type_name -> ui.CommandBinding
-	3,  // 13: ui.BoolToggle.command:type_name -> ui.CommandBinding
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	1,  // 13: ui.ShiftStepper.scale:type_name -> ui.FixedPointScale
+	3,  // 14: ui.BoolToggle.command:type_name -> ui.CommandBinding
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }

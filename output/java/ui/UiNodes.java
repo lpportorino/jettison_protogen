@@ -9573,7 +9573,7 @@ public final class UiNodes {
 
     /**
      * <pre>
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 3;</code>
@@ -9582,7 +9582,7 @@ public final class UiNodes {
     boolean hasCommand();
     /**
      * <pre>
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 3;</code>
@@ -9591,7 +9591,7 @@ public final class UiNodes {
     ui.UiNodes.CommandBinding getCommand();
     /**
      * <pre>
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 3;</code>
@@ -9600,13 +9600,47 @@ public final class UiNodes {
 
     /**
      * <pre>
-     * The ± delta a button click applies (carried as the event `int_value`).
+     * The ± delta a button click applies (carried as the event `int_value`). For a
+     * double-field command it is in scaled units (divided by `scale` at build).
      * </pre>
      *
      * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
      * @return The step.
      */
     int getStep();
+
+    /**
+     * <pre>
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * </pre>
+     *
+     * <code>.ui.FixedPointScale scale = 5;</code>
+     * @return Whether the scale field is set.
+     */
+    boolean hasScale();
+    /**
+     * <pre>
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * </pre>
+     *
+     * <code>.ui.FixedPointScale scale = 5;</code>
+     * @return The scale.
+     */
+    ui.UiNodes.FixedPointScale getScale();
+    /**
+     * <pre>
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * </pre>
+     *
+     * <code>.ui.FixedPointScale scale = 5;</code>
+     */
+    ui.UiNodes.FixedPointScaleOrBuilder getScaleOrBuilder();
   }
   /**
    * <pre>
@@ -9722,7 +9756,7 @@ public final class UiNodes {
     private ui.UiNodes.CommandBinding command_;
     /**
      * <pre>
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 3;</code>
@@ -9734,7 +9768,7 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 3;</code>
@@ -9746,7 +9780,7 @@ public final class UiNodes {
     }
     /**
      * <pre>
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * </pre>
      *
      * <code>.ui.CommandBinding command = 3;</code>
@@ -9760,7 +9794,8 @@ public final class UiNodes {
     private int step_ = 0;
     /**
      * <pre>
-     * The ± delta a button click applies (carried as the event `int_value`).
+     * The ± delta a button click applies (carried as the event `int_value`). For a
+     * double-field command it is in scaled units (divided by `scale` at build).
      * </pre>
      *
      * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
@@ -9769,6 +9804,50 @@ public final class UiNodes {
     @java.lang.Override
     public int getStep() {
       return step_;
+    }
+
+    public static final int SCALE_FIELD_NUMBER = 5;
+    private ui.UiNodes.FixedPointScale scale_;
+    /**
+     * <pre>
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * </pre>
+     *
+     * <code>.ui.FixedPointScale scale = 5;</code>
+     * @return Whether the scale field is set.
+     */
+    @java.lang.Override
+    public boolean hasScale() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * </pre>
+     *
+     * <code>.ui.FixedPointScale scale = 5;</code>
+     * @return The scale.
+     */
+    @java.lang.Override
+    public ui.UiNodes.FixedPointScale getScale() {
+      return scale_ == null ? ui.UiNodes.FixedPointScale.getDefaultInstance() : scale_;
+    }
+    /**
+     * <pre>
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * </pre>
+     *
+     * <code>.ui.FixedPointScale scale = 5;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.FixedPointScaleOrBuilder getScaleOrBuilder() {
+      return scale_ == null ? ui.UiNodes.FixedPointScale.getDefaultInstance() : scale_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -9797,6 +9876,9 @@ public final class UiNodes {
       if (step_ != 0) {
         output.writeInt32(4, step_);
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(5, getScale());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -9820,6 +9902,10 @@ public final class UiNodes {
       if (step_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, step_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getScale());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -9847,6 +9933,11 @@ public final class UiNodes {
       }
       if (getStep()
           != other.getStep()) return false;
+      if (hasScale() != other.hasScale()) return false;
+      if (hasScale()) {
+        if (!getScale()
+            .equals(other.getScale())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -9868,6 +9959,10 @@ public final class UiNodes {
       }
       hash = (37 * hash) + STEP_FIELD_NUMBER;
       hash = (53 * hash) + getStep();
+      if (hasScale()) {
+        hash = (37 * hash) + SCALE_FIELD_NUMBER;
+        hash = (53 * hash) + getScale().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -10008,6 +10103,7 @@ public final class UiNodes {
         if (com.google.protobuf.GeneratedMessage
                 .alwaysUseFieldBuilders) {
           getCommandFieldBuilder();
+          getScaleFieldBuilder();
         }
       }
       @java.lang.Override
@@ -10022,6 +10118,11 @@ public final class UiNodes {
           commandBuilder_ = null;
         }
         step_ = 0;
+        scale_ = null;
+        if (scaleBuilder_ != null) {
+          scaleBuilder_.dispose();
+          scaleBuilder_ = null;
+        }
         return this;
       }
 
@@ -10071,6 +10172,12 @@ public final class UiNodes {
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.step_ = step_;
         }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.scale_ = scaleBuilder_ == null
+              ? scale_
+              : scaleBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ |= to_bitField0_;
       }
 
@@ -10099,6 +10206,9 @@ public final class UiNodes {
         }
         if (other.getStep() != 0) {
           setStep(other.getStep());
+        }
+        if (other.hasScale()) {
+          mergeScale(other.getScale());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -10148,6 +10258,13 @@ public final class UiNodes {
                 bitField0_ |= 0x00000008;
                 break;
               } // case 32
+              case 42: {
+                input.readMessage(
+                    getScaleFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -10306,7 +10423,7 @@ public final class UiNodes {
           ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandBuilder_;
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10317,7 +10434,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10332,7 +10449,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10352,7 +10469,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10370,7 +10487,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10395,7 +10512,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10412,7 +10529,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10424,7 +10541,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10439,7 +10556,7 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The single-int32-field command both buttons send (with ±step).
+       * The single-numeric-field command both buttons send (with ±step).
        * </pre>
        *
        * <code>.ui.CommandBinding command = 3;</code>
@@ -10461,7 +10578,8 @@ public final class UiNodes {
       private int step_ ;
       /**
        * <pre>
-       * The ± delta a button click applies (carried as the event `int_value`).
+       * The ± delta a button click applies (carried as the event `int_value`). For a
+       * double-field command it is in scaled units (divided by `scale` at build).
        * </pre>
        *
        * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
@@ -10473,7 +10591,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The ± delta a button click applies (carried as the event `int_value`).
+       * The ± delta a button click applies (carried as the event `int_value`). For a
+       * double-field command it is in scaled units (divided by `scale` at build).
        * </pre>
        *
        * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
@@ -10489,7 +10608,8 @@ public final class UiNodes {
       }
       /**
        * <pre>
-       * The ± delta a button click applies (carried as the event `int_value`).
+       * The ± delta a button click applies (carried as the event `int_value`). For a
+       * double-field command it is in scaled units (divided by `scale` at build).
        * </pre>
        *
        * <code>int32 step = 4 [(.buf.validate.field) = { ... }</code>
@@ -10500,6 +10620,181 @@ public final class UiNodes {
         step_ = 0;
         onChanged();
         return this;
+      }
+
+      private ui.UiNodes.FixedPointScale scale_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.FixedPointScale, ui.UiNodes.FixedPointScale.Builder, ui.UiNodes.FixedPointScaleOrBuilder> scaleBuilder_;
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       * @return Whether the scale field is set.
+       */
+      public boolean hasScale() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       * @return The scale.
+       */
+      public ui.UiNodes.FixedPointScale getScale() {
+        if (scaleBuilder_ == null) {
+          return scale_ == null ? ui.UiNodes.FixedPointScale.getDefaultInstance() : scale_;
+        } else {
+          return scaleBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      public Builder setScale(ui.UiNodes.FixedPointScale value) {
+        if (scaleBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          scale_ = value;
+        } else {
+          scaleBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      public Builder setScale(
+          ui.UiNodes.FixedPointScale.Builder builderForValue) {
+        if (scaleBuilder_ == null) {
+          scale_ = builderForValue.build();
+        } else {
+          scaleBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      public Builder mergeScale(ui.UiNodes.FixedPointScale value) {
+        if (scaleBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) != 0) &&
+            scale_ != null &&
+            scale_ != ui.UiNodes.FixedPointScale.getDefaultInstance()) {
+            getScaleBuilder().mergeFrom(value);
+          } else {
+            scale_ = value;
+          }
+        } else {
+          scaleBuilder_.mergeFrom(value);
+        }
+        if (scale_ != null) {
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      public Builder clearScale() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        scale_ = null;
+        if (scaleBuilder_ != null) {
+          scaleBuilder_.dispose();
+          scaleBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      public ui.UiNodes.FixedPointScale.Builder getScaleBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getScaleFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      public ui.UiNodes.FixedPointScaleOrBuilder getScaleOrBuilder() {
+        if (scaleBuilder_ != null) {
+          return scaleBuilder_.getMessageOrBuilder();
+        } else {
+          return scale_ == null ?
+              ui.UiNodes.FixedPointScale.getDefaultInstance() : scale_;
+        }
+      }
+      /**
+       * <pre>
+       * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+       * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+       * ±0.05), the same fixed-point convention as SliderControl.
+       * </pre>
+       *
+       * <code>.ui.FixedPointScale scale = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.FixedPointScale, ui.UiNodes.FixedPointScale.Builder, ui.UiNodes.FixedPointScaleOrBuilder> 
+          getScaleFieldBuilder() {
+        if (scaleBuilder_ == null) {
+          scaleBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.FixedPointScale, ui.UiNodes.FixedPointScale.Builder, ui.UiNodes.FixedPointScaleOrBuilder>(
+                  getScale(),
+                  getParentForChildren(),
+                  isClean());
+          scale_ = null;
+        }
+        return scaleBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:ui.ShiftStepper)
@@ -11569,17 +11864,18 @@ public final class UiNodes {
       "on\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004" +
       "r\002\030?\022-\n\021command_increment\030\003 \001(\0132\022.ui.Com" +
       "mandBinding\022-\n\021command_decrement\030\004 \001(\0132\022" +
-      ".ui.CommandBinding\"\177\n\014ShiftStepper\022\033\n\007ve" +
-      "rsion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007" +
-      "\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132\022.ui.CommandBin" +
-      "ding\022\025\n\004step\030\004 \001(\005B\007\272H\004\032\002 \000\"f\n\nBoolToggl" +
-      "e\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030" +
-      "\002 \001(\tB\007\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132\022.ui.Com" +
-      "mandBinding*T\n\021NodeSchemaVersion\022#\n\037NODE" +
-      "_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SC" +
-      "HEMA_VERSION_V1\020\001BEZCgit-codecommit.eu-c" +
-      "entral-1.amazonaws.com/v1/repos/jettison" +
-      "/jonp/uib\006proto3"
+      ".ui.CommandBinding\"\243\001\n\014ShiftStepper\022\033\n\007v" +
+      "ersion\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB" +
+      "\007\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132\022.ui.CommandBi" +
+      "nding\022\025\n\004step\030\004 \001(\005B\007\272H\004\032\002 \000\022\"\n\005scale\030\005 " +
+      "\001(\0132\023.ui.FixedPointScale\"f\n\nBoolToggle\022\033" +
+      "\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001" +
+      "(\tB\007\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132\022.ui.Comman" +
+      "dBinding*T\n\021NodeSchemaVersion\022#\n\037NODE_SC" +
+      "HEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_SCHEM" +
+      "A_VERSION_V1\020\001BEZCgit-codecommit.eu-cent" +
+      "ral-1.amazonaws.com/v1/repos/jettison/jo" +
+      "np/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11645,7 +11941,7 @@ public final class UiNodes {
     internal_static_ui_ShiftStepper_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ShiftStepper_descriptor,
-        new java.lang.String[] { "Version", "Title", "Command", "Step", });
+        new java.lang.String[] { "Version", "Title", "Command", "Step", "Scale", });
     internal_static_ui_BoolToggle_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_ui_BoolToggle_fieldAccessorTable = new

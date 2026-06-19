@@ -89,7 +89,7 @@ public object ShiftStepperKt {
 
     /**
      * ```
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * ```
      *
      * `.ui.CommandBinding command = 3;`
@@ -103,7 +103,7 @@ public object ShiftStepperKt {
       }
     /**
      * ```
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * ```
      *
      * `.ui.CommandBinding command = 3;`
@@ -113,7 +113,7 @@ public object ShiftStepperKt {
     }
     /**
      * ```
-     * The single-int32-field command both buttons send (with ±step).
+     * The single-numeric-field command both buttons send (with ±step).
      * ```
      *
      * `.ui.CommandBinding command = 3;`
@@ -128,7 +128,8 @@ public object ShiftStepperKt {
 
     /**
      * ```
-     * The ± delta a button click applies (carried as the event `int_value`).
+     * The ± delta a button click applies (carried as the event `int_value`). For a
+     * double-field command it is in scaled units (divided by `scale` at build).
      * ```
      *
      * `int32 step = 4 [(.buf.validate.field) = { ... }`
@@ -142,7 +143,8 @@ public object ShiftStepperKt {
       }
     /**
      * ```
-     * The ± delta a button click applies (carried as the event `int_value`).
+     * The ± delta a button click applies (carried as the event `int_value`). For a
+     * double-field command it is in scaled units (divided by `scale` at build).
      * ```
      *
      * `int32 step = 4 [(.buf.validate.field) = { ... }`
@@ -150,6 +152,51 @@ public object ShiftStepperKt {
     public fun clearStep() {
       _builder.clearStep()
     }
+
+    /**
+     * ```
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * ```
+     *
+     * `.ui.FixedPointScale scale = 5;`
+     */
+    public var scale: ui.UiNodes.FixedPointScale
+      @JvmName("getScale")
+      get() = _builder.scale
+      @JvmName("setScale")
+      set(value) {
+        _builder.scale = value
+      }
+    /**
+     * ```
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * ```
+     *
+     * `.ui.FixedPointScale scale = 5;`
+     */
+    public fun clearScale() {
+      _builder.clearScale()
+    }
+    /**
+     * ```
+     * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+     * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+     * ±0.05), the same fixed-point convention as SliderControl.
+     * ```
+     *
+     * `.ui.FixedPointScale scale = 5;`
+     * @return Whether the scale field is set.
+     */
+    public fun hasScale(): kotlin.Boolean {
+      return _builder.hasScale()
+    }
+
+    public val ShiftStepperKt.Dsl.scaleOrNull: ui.UiNodes.FixedPointScale?
+      get() = _builder.scaleOrNull
   }
 }
 @kotlin.jvm.JvmSynthetic
@@ -158,4 +205,7 @@ public inline fun ui.UiNodes.ShiftStepper.copy(block: `ui`.ShiftStepperKt.Dsl.()
 
 public val ui.UiNodes.ShiftStepperOrBuilder.commandOrNull: ui.UiNodes.CommandBinding?
   get() = if (hasCommand()) getCommand() else null
+
+public val ui.UiNodes.ShiftStepperOrBuilder.scaleOrNull: ui.UiNodes.FixedPointScale?
+  get() = if (hasScale()) getScale() else null
 

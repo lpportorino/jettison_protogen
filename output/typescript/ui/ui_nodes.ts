@@ -260,12 +260,21 @@ export interface ShiftStepper {
   version: number;
   /** Stepper label. */
   title: string;
-  /** The single-int32-field command both buttons send (with ±step). */
+  /** The single-numeric-field command both buttons send (with ±step). */
   command:
     | CommandBinding
     | undefined;
-  /** The ± delta a button click applies (carried as the event `int_value`). */
+  /**
+   * The ± delta a button click applies (carried as the event `int_value`). For a
+   * double-field command it is in scaled units (divided by `scale` at build).
+   */
   step: number;
+  /**
+   * Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+   * Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+   * ±0.05), the same fixed-point convention as SliderControl.
+   */
+  scale: FixedPointScale | undefined;
 }
 
 /**
@@ -1218,7 +1227,7 @@ export const StepperControl: MessageFns<StepperControl> = {
 };
 
 function createBaseShiftStepper(): ShiftStepper {
-  return { version: 0, title: "", command: undefined, step: 0 };
+  return { version: 0, title: "", command: undefined, step: 0, scale: undefined };
 }
 
 export const ShiftStepper: MessageFns<ShiftStepper> = {
@@ -1234,6 +1243,9 @@ export const ShiftStepper: MessageFns<ShiftStepper> = {
     }
     if (message.step !== 0) {
       writer.uint32(32).int32(message.step);
+    }
+    if (message.scale !== undefined) {
+      FixedPointScale.encode(message.scale, writer.uint32(42).fork()).join();
     }
     return writer;
   },
@@ -1277,6 +1289,14 @@ export const ShiftStepper: MessageFns<ShiftStepper> = {
           message.step = reader.int32();
           continue;
         }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.scale = FixedPointScale.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1292,6 +1312,7 @@ export const ShiftStepper: MessageFns<ShiftStepper> = {
       title: isSet(object.title) ? globalThis.String(object.title) : "",
       command: isSet(object.command) ? CommandBinding.fromJSON(object.command) : undefined,
       step: isSet(object.step) ? globalThis.Number(object.step) : 0,
+      scale: isSet(object.scale) ? FixedPointScale.fromJSON(object.scale) : undefined,
     };
   },
 
@@ -1309,6 +1330,9 @@ export const ShiftStepper: MessageFns<ShiftStepper> = {
     if (message.step !== 0) {
       obj.step = Math.round(message.step);
     }
+    if (message.scale !== undefined) {
+      obj.scale = FixedPointScale.toJSON(message.scale);
+    }
     return obj;
   },
 
@@ -1323,6 +1347,9 @@ export const ShiftStepper: MessageFns<ShiftStepper> = {
       ? CommandBinding.fromPartial(object.command)
       : undefined;
     message.step = object.step ?? 0;
+    message.scale = (object.scale !== undefined && object.scale !== null)
+      ? FixedPointScale.fromPartial(object.scale)
+      : undefined;
     return message;
   },
 };

@@ -186,12 +186,18 @@ pub struct ShiftStepper {
     /// Stepper label.
     #[prost(string, tag = "2")]
     pub title: ::prost::alloc::string::String,
-    /// The single-int32-field command both buttons send (with ±step).
+    /// The single-numeric-field command both buttons send (with ±step).
     #[prost(message, optional, tag = "3")]
     pub command: ::core::option::Option<CommandBinding>,
-    /// The ± delta a button click applies (carried as the event `int_value`).
+    /// The ± delta a button click applies (carried as the event `int_value`). For a
+    /// double-field command it is in scaled units (divided by `scale` at build).
     #[prost(int32, tag = "4")]
     pub step: i32,
+    /// Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+    /// Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+    /// ±0.05), the same fixed-point convention as SliderControl.
+    #[prost(message, optional, tag = "5")]
+    pub scale: ::core::option::Option<FixedPointScale>,
 }
 /// L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
 /// on/off value (e.g. SetX{value: bool}). The generator derives one per

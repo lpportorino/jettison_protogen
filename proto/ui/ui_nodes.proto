@@ -211,11 +211,17 @@ message ShiftStepper {
   // Stepper label.
   string title = 2 [(buf.validate.field).string = {max_len: 63}];
 
-  // The single-int32-field command both buttons send (with ±step).
+  // The single-numeric-field command both buttons send (with ±step).
   CommandBinding command = 3;
 
-  // The ± delta a button click applies (carried as the event `int_value`).
+  // The ± delta a button click applies (carried as the event `int_value`). For a
+  // double-field command it is in scaled units (divided by `scale` at build).
   int32 step = 4 [(buf.validate.field).int32 = {gt: 0}];
+
+  // Per-mille scale for a DOUBLE-field command (absent ⇒ int32 field, raw step).
+  // Present ⇒ the built delta is `±step / scale` (e.g. step 50, scale 1000 →
+  // ±0.05), the same fixed-point convention as SliderControl.
+  FixedPointScale scale = 5;
 }
 
 // L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
