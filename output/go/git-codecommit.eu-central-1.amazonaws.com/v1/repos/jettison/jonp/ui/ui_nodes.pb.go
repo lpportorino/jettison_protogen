@@ -426,6 +426,96 @@ func (x *ActionButton) GetCommand() *CommandBinding {
 	return nil
 }
 
+// L3 ToggleControl kind — a switch that flips between two parameterless commands:
+// ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+// RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+// enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+// value-changed event routes through the command id, and the builder picks
+// command_on / command_off by the new boolean.
+type ToggleControl struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema version — checked FIRST by the lowering (fail-fast guard).
+	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
+	// Switch label.
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// Command sent when the switch turns ON (the paired Enable command).
+	CommandOn *CommandBinding `protobuf:"bytes,3,opt,name=command_on,json=commandOn,proto3" json:"command_on,omitempty"`
+	// Command sent when the switch turns OFF (the paired Disable command).
+	CommandOff *CommandBinding `protobuf:"bytes,4,opt,name=command_off,json=commandOff,proto3" json:"command_off,omitempty"`
+	// Optional state display binding: the bool state field the switch reflects.
+	// Absent for a write-only toggle; present binds the switch to a SubjectInt
+	// (0/1). (Generator emits this once bool-state derivation lands; the lowering
+	// already handles both.)
+	State         *StateBinding `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ToggleControl) Reset() {
+	*x = ToggleControl{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ToggleControl) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ToggleControl) ProtoMessage() {}
+
+func (x *ToggleControl) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ToggleControl.ProtoReflect.Descriptor instead.
+func (*ToggleControl) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ToggleControl) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *ToggleControl) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ToggleControl) GetCommandOn() *CommandBinding {
+	if x != nil {
+		return x.CommandOn
+	}
+	return nil
+}
+
+func (x *ToggleControl) GetCommandOff() *CommandBinding {
+	if x != nil {
+		return x.CommandOff
+	}
+	return nil
+}
+
+func (x *ToggleControl) GetState() *StateBinding {
+	if x != nil {
+		return x.State
+	}
+	return nil
+}
+
 var File_ui_ui_nodes_proto protoreflect.FileDescriptor
 
 const file_ui_ui_nodes_proto_rawDesc = "" +
@@ -453,7 +543,16 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\aversion\x18\x01 \x01(\rB\n" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
-	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand*T\n" +
+	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand\"\xe4\x01\n" +
+	"\rToggleControl\x12$\n" +
+	"\aversion\x18\x01 \x01(\rB\n" +
+	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
+	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x121\n" +
+	"\n" +
+	"command_on\x18\x03 \x01(\v2\x12.ui.CommandBindingR\tcommandOn\x123\n" +
+	"\vcommand_off\x18\x04 \x01(\v2\x12.ui.CommandBindingR\n" +
+	"commandOff\x12&\n" +
+	"\x05state\x18\x05 \x01(\v2\x10.ui.StateBindingR\x05state*T\n" +
 	"\x11NodeSchemaVersion\x12#\n" +
 	"\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16NODE_SCHEMA_VERSION_V1\x10\x01B\x83\x01\n" +
@@ -472,7 +571,7 @@ func file_ui_ui_nodes_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_nodes_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_ui_ui_nodes_proto_goTypes = []any{
 	(NodeSchemaVersion)(0),  // 0: ui.NodeSchemaVersion
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
@@ -480,6 +579,7 @@ var file_ui_ui_nodes_proto_goTypes = []any{
 	(*CommandBinding)(nil),  // 3: ui.CommandBinding
 	(*SliderControl)(nil),   // 4: ui.SliderControl
 	(*ActionButton)(nil),    // 5: ui.ActionButton
+	(*ToggleControl)(nil),   // 6: ui.ToggleControl
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
 	1, // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
@@ -487,11 +587,14 @@ var file_ui_ui_nodes_proto_depIdxs = []int32{
 	2, // 2: ui.SliderControl.state:type_name -> ui.StateBinding
 	3, // 3: ui.SliderControl.command:type_name -> ui.CommandBinding
 	3, // 4: ui.ActionButton.command:type_name -> ui.CommandBinding
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	3, // 5: ui.ToggleControl.command_on:type_name -> ui.CommandBinding
+	3, // 6: ui.ToggleControl.command_off:type_name -> ui.CommandBinding
+	2, // 7: ui.ToggleControl.state:type_name -> ui.StateBinding
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }
@@ -505,7 +608,7 @@ func file_ui_ui_nodes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_nodes_proto_rawDesc), len(file_ui_ui_nodes_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

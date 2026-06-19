@@ -93,6 +93,39 @@
     "cmd.DayCamera.SetClaheLevel" clahe-msg
     "cmd.DayCamera.Start" {:id "cmd.DayCamera.Start" :name "Start" :fields []}}})
 
+(deftest pairs-enable-disable-toggles
+  (let [db {:messages
+            {"cmd.CV.RecognitionModeEnable"
+             {:id "cmd.CV.RecognitionModeEnable" :name "RecognitionModeEnable"
+              :fields [] :interaction {:ui-pattern :toggle}}
+             "cmd.CV.RecognitionModeDisable"
+             {:id "cmd.CV.RecognitionModeDisable" :name "RecognitionModeDisable"
+              :fields [] :interaction {:ui-pattern :toggle}}
+             ;; an Enable with no matching Disable → NOT a node (loud no-op)
+             "cmd.CV.LonelyEnable"
+             {:id "cmd.CV.LonelyEnable" :name "LonelyEnable"
+              :fields [] :interaction {:ui-pattern :toggle}}}}
+        nodes (nodes/derive-toggle-nodes db)]
+    (is (= 1 (count nodes)) "only the paired toggle, not the lonely Enable")
+    (is (= {:id "toggle.CV.RecognitionMode"
+            :kind :toggle
+            :title "Recognition Mode"
+            :command-on "cmd.CV.RecognitionModeEnable"
+            :command-off "cmd.CV.RecognitionModeDisable"}
+           (first nodes))))
+  (testing "Enable/Disable as a PREFIX pairs too (EnableX / DisableX)"
+    (let [db {:messages
+              {"cmd.System.EnableGeodesicMode"
+               {:id "cmd.System.EnableGeodesicMode" :name "EnableGeodesicMode"
+                :fields [] :interaction {:ui-pattern :toggle}}
+               "cmd.System.DisableGeodesicMode"
+               {:id "cmd.System.DisableGeodesicMode" :name "DisableGeodesicMode"
+                :fields [] :interaction {:ui-pattern :toggle}}}}
+          nodes (nodes/derive-toggle-nodes db)]
+      (is (= 1 (count nodes)))
+      (is (= "toggle.System.GeodesicMode" (:id (first nodes))))
+      (is (= "cmd.System.EnableGeodesicMode" (:command-on (first nodes)))))))
+
 (deftest cmd-builder-traverses-oneof-graph
   (testing "set-value arm-specs resolve prost paths from the oneof field names"
     (let [arms (nodes/set-value-command-arms cmd-graph-db)]

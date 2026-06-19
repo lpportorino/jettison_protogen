@@ -61,3 +61,17 @@ class ActionButton(_message.Message):
     title: str
     command: CommandBinding
     def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ...) -> None: ...
+
+class ToggleControl(_message.Message):
+    __slots__ = ("version", "title", "command_on", "command_off", "state")
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_ON_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_OFF_FIELD_NUMBER: _ClassVar[int]
+    STATE_FIELD_NUMBER: _ClassVar[int]
+    version: int
+    title: str
+    command_on: CommandBinding
+    command_off: CommandBinding
+    state: StateBinding
+    def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command_on: _Optional[_Union[CommandBinding, _Mapping]] = ..., command_off: _Optional[_Union[CommandBinding, _Mapping]] = ..., state: _Optional[_Union[StateBinding, _Mapping]] = ...) -> None: ...

@@ -264,14 +264,57 @@
      :action-count (count ab)}))
 
 ;; ============================================================================
+;; ToggleControl pairing (Enable ↔ Disable parameterless command siblings)
+;; ============================================================================
+
+(defn- toggle-polarity
+  "Strip an Enable/Disable verb (as prefix OR suffix) from a command NAME,
+   returning `[base :on|:off]` or nil. `RecognitionModeEnable` → [\"RecognitionMode\"
+   :on]; `EnableGeodesicMode` → [\"GeodesicMode\" :on]."
+  [nm]
+  (cond
+    (str/ends-with? nm "Enable") [(subs nm 0 (- (count nm) 6)) :on]
+    (str/ends-with? nm "Disable") [(subs nm 0 (- (count nm) 7)) :off]
+    (str/starts-with? nm "Enable") [(subs nm 6) :on]
+    (str/starts-with? nm "Disable") [(subs nm 7) :off]
+    :else nil))
+
+(defn derive-toggle-nodes
+  "Pair `:ui-pattern :toggle` parameterless commands that differ only by
+   Enable↔Disable (within one subsystem) into ToggleControl node IR entries.
+   Both commands are parameterless, so they reuse `build_action_command`; only a
+   `{:on :off}` group with BOTH polarities becomes a node."
+  [db]
+  (let [toggles (->> (vals (:messages db))
+                     (filter #(and (= :toggle (get-in % [:interaction :ui-pattern]))
+                                   (empty? (:fields %))
+                                   (= 3 (count (str/split (:id %) #"\."))))))
+        groups (reduce (fn [acc m]
+                         (let [subsystem (nth (str/split (:id m) #"\.") 1)]
+                           (if-let [[base pol] (toggle-polarity (:name m))]
+                             (update acc [subsystem base] assoc pol (:id m))
+                             acc)))
+                       {} toggles)]
+    (->> (for [[[subsystem base] pols] groups
+               :when (and (:on pols) (:off pols))]
+           {:id (str "toggle." subsystem "." base)
+            :kind :toggle
+            :title (->> (camel-words base) (str/join " "))
+            :command-on (:on pols)
+            :command-off (:off pols)})
+         (sort-by :id)
+         vec)))
+
+;; ============================================================================
 ;; Generation
 ;; ============================================================================
 
 (defn derive-nodes
-  "Pure transform: proto-db → sorted vector of node IR entries (slider kind
-   only for now). A slider whose bindings can't be cleanly derived is
+  "Pure transform: proto-db → sorted vector of node IR entries (slider +
+   toggle kinds). A slider whose bindings can't be cleanly derived is
    SKIPPED-with-reason (loudly), never emitted as a degraded node and never
-   aborting the rest of the run. Non-slider command leaves are counted only."
+   aborting the rest of the run. Toggles are paired Enable↔Disable command
+   siblings. Remaining command leaves are counted only."
   [db]
   (let [msgs (vals (:messages db))
         sliders (filter slider-node? msgs)
@@ -279,9 +322,12 @@
                   (try
                     {:node (derive-slider-node m)}
                     (catch clojure.lang.ExceptionInfo e
-                      {:skipped {:id (:id m) :reason (.getMessage e)}})))]
-    {:nodes (->> results (keep :node) (sort-by :id) vec)
+                      {:skipped {:id (:id m) :reason (.getMessage e)}})))
+        toggles (derive-toggle-nodes db)]
+    {:nodes (->> (concat (keep :node results) toggles) (sort-by :id) vec)
      :skipped (->> results (keep :skipped) (sort-by :id) vec)
+     :slider-count (count (keep :node results))
+     :toggle-count (count toggles)
      :non-slider-count (- (count msgs) (count sliders))}))
 
 (defn generate-nodes
@@ -295,7 +341,7 @@
     :or {db-path "docs/.protodoc/proto-db.edn"
          output-dir "output/nodes"}}]
   (let [db (edn/read-string (slurp db-path))
-        {:keys [nodes skipped non-slider-count]} (derive-nodes db)
+        {:keys [nodes skipped slider-count toggle-count non-slider-count]} (derive-nodes db)
         manifest {:version "1.0.0"
                   :generated-at (str (java.time.Instant/now))
                   :protogen-commit (or git-sha "unknown")
@@ -318,7 +364,7 @@
                      action-count "action command builder(s)"]))
     (doseq [{:keys [id reason]} skipped]
       (t/log! :warn ["Skipped slider node" id "—" reason]))
-    (t/log! :info ["Generated nodes:" (count nodes) "slider node(s),"
-                   (count skipped) "slider(s) skipped,"
-                   non-slider-count "non-slider message(s)"])
+    (t/log! :info ["Generated nodes:" slider-count "slider +" toggle-count
+                   "toggle (" (count nodes) "total)," (count skipped)
+                   "slider(s) skipped," non-slider-count "non-slider message(s)"])
     manifest))

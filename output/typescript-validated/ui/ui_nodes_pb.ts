@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ui/ui_nodes.proto.
  */
 export const file_ui_ui_nodes: GenFile = /*@__PURE__*/
-  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nKlQKEU5vZGVTY2hlbWFWZXJzaW9uEiMKH05PREVfU0NIRU1BX1ZFUlNJT05fVU5TUEVDSUZJRUQQABIaChZOT0RFX1NDSEVNQV9WRVJTSU9OX1YxEAFCRVpDZ2l0LWNvZGVjb21taXQuZXUtY2VudHJhbC0xLmFtYXpvbmF3cy5jb20vdjEvcmVwb3MvamV0dGlzb24vam9ucC91aWIGcHJvdG8z", [file_buf_validate_validate]);
+  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmcqVAoRTm9kZVNjaGVtYVZlcnNpb24SIwofTk9ERV9TQ0hFTUFfVkVSU0lPTl9VTlNQRUNJRklFRBAAEhoKFk5PREVfU0NIRU1BX1ZFUlNJT05fVjEQAUJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
 
 /**
  * How a normalized control value crosses the int-only WASM ABI. The camera
@@ -215,6 +215,63 @@ export type ActionButton = Message<"ui.ActionButton"> & {
  */
 export const ActionButtonSchema: GenMessage<ActionButton> = /*@__PURE__*/
   messageDesc(file_ui_ui_nodes, 4);
+
+/**
+ * L3 ToggleControl kind — a switch that flips between two parameterless commands:
+ * ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+ * RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+ * enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+ * value-changed event routes through the command id, and the builder picks
+ * command_on / command_off by the new boolean.
+ *
+ * @generated from message ui.ToggleControl
+ */
+export type ToggleControl = Message<"ui.ToggleControl"> & {
+  /**
+   * Schema version — checked FIRST by the lowering (fail-fast guard).
+   *
+   * @generated from field: uint32 version = 1;
+   */
+  version: number;
+
+  /**
+   * Switch label.
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * Command sent when the switch turns ON (the paired Enable command).
+   *
+   * @generated from field: ui.CommandBinding command_on = 3;
+   */
+  commandOn?: CommandBinding | undefined;
+
+  /**
+   * Command sent when the switch turns OFF (the paired Disable command).
+   *
+   * @generated from field: ui.CommandBinding command_off = 4;
+   */
+  commandOff?: CommandBinding | undefined;
+
+  /**
+   * Optional state display binding: the bool state field the switch reflects.
+   * Absent for a write-only toggle; present binds the switch to a SubjectInt
+   * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+   * already handles both.)
+   *
+   * @generated from field: ui.StateBinding state = 5;
+   */
+  state?: StateBinding | undefined;
+};
+
+/**
+ * Describes the message ui.ToggleControl.
+ * Use `create(ToggleControlSchema)` to create a new message.
+ */
+export const ToggleControlSchema: GenMessage<ToggleControl> = /*@__PURE__*/
+  messageDesc(file_ui_ui_nodes, 5);
 
 /**
  * Node-schema version constant. The lowering entry-point checks the wire

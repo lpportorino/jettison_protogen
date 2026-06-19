@@ -69,6 +69,9 @@ extern SliderControlDefaultTypeInternal _SliderControl_default_instance_;
 class StateBinding;
 struct StateBindingDefaultTypeInternal;
 extern StateBindingDefaultTypeInternal _StateBinding_default_instance_;
+class ToggleControl;
+struct ToggleControlDefaultTypeInternal;
+extern ToggleControlDefaultTypeInternal _ToggleControl_default_instance_;
 }  // namespace ui
 namespace google {
 namespace protobuf {
@@ -744,6 +747,266 @@ class CommandBinding final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr command_id_;
     ::ui::FixedPointScale* scale_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fnodes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ToggleControl final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.ToggleControl) */ {
+ public:
+  inline ToggleControl() : ToggleControl(nullptr) {}
+  ~ToggleControl() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(ToggleControl* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(ToggleControl));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR ToggleControl(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline ToggleControl(const ToggleControl& from) : ToggleControl(nullptr, from) {}
+  inline ToggleControl(ToggleControl&& from) noexcept
+      : ToggleControl(nullptr, std::move(from)) {}
+  inline ToggleControl& operator=(const ToggleControl& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ToggleControl& operator=(ToggleControl&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ToggleControl& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ToggleControl* internal_default_instance() {
+    return reinterpret_cast<const ToggleControl*>(
+        &_ToggleControl_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 5;
+  friend void swap(ToggleControl& a, ToggleControl& b) { a.Swap(&b); }
+  inline void Swap(ToggleControl* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ToggleControl* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ToggleControl* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<ToggleControl>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const ToggleControl& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const ToggleControl& from) { ToggleControl::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(ToggleControl* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.ToggleControl"; }
+
+ protected:
+  explicit ToggleControl(::google::protobuf::Arena* arena);
+  ToggleControl(::google::protobuf::Arena* arena, const ToggleControl& from);
+  ToggleControl(::google::protobuf::Arena* arena, ToggleControl&& from) noexcept
+      : ToggleControl(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTitleFieldNumber = 2,
+    kCommandOnFieldNumber = 3,
+    kCommandOffFieldNumber = 4,
+    kStateFieldNumber = 5,
+    kVersionFieldNumber = 1,
+  };
+  // string title = 2 [(.buf.validate.field) = {
+  void clear_title() ;
+  const std::string& title() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_title(Arg_&& arg, Args_... args);
+  std::string* mutable_title();
+  PROTOBUF_NODISCARD std::string* release_title();
+  void set_allocated_title(std::string* value);
+
+  private:
+  const std::string& _internal_title() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_title(
+      const std::string& value);
+  std::string* _internal_mutable_title();
+
+  public:
+  // .ui.CommandBinding command_on = 3;
+  bool has_command_on() const;
+  void clear_command_on() ;
+  const ::ui::CommandBinding& command_on() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command_on();
+  ::ui::CommandBinding* mutable_command_on();
+  void set_allocated_command_on(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command_on(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command_on();
+
+  private:
+  const ::ui::CommandBinding& _internal_command_on() const;
+  ::ui::CommandBinding* _internal_mutable_command_on();
+
+  public:
+  // .ui.CommandBinding command_off = 4;
+  bool has_command_off() const;
+  void clear_command_off() ;
+  const ::ui::CommandBinding& command_off() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command_off();
+  ::ui::CommandBinding* mutable_command_off();
+  void set_allocated_command_off(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command_off(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command_off();
+
+  private:
+  const ::ui::CommandBinding& _internal_command_off() const;
+  ::ui::CommandBinding* _internal_mutable_command_off();
+
+  public:
+  // .ui.StateBinding state = 5;
+  bool has_state() const;
+  void clear_state() ;
+  const ::ui::StateBinding& state() const;
+  PROTOBUF_NODISCARD ::ui::StateBinding* release_state();
+  ::ui::StateBinding* mutable_state();
+  void set_allocated_state(::ui::StateBinding* value);
+  void unsafe_arena_set_allocated_state(::ui::StateBinding* value);
+  ::ui::StateBinding* unsafe_arena_release_state();
+
+  private:
+  const ::ui::StateBinding& _internal_state() const;
+  ::ui::StateBinding* _internal_mutable_state();
+
+  public:
+  // uint32 version = 1 [(.buf.validate.field) = {
+  void clear_version() ;
+  ::uint32_t version() const;
+  void set_version(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_version() const;
+  void _internal_set_version(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.ToggleControl)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 5, 3,
+      30, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const ToggleControl& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr title_;
+    ::ui::CommandBinding* command_on_;
+    ::ui::CommandBinding* command_off_;
+    ::ui::StateBinding* state_;
+    ::uint32_t version_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -2103,6 +2366,368 @@ inline void ActionButton::set_allocated_command(::ui::CommandBinding* value) {
 
   _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
   // @@protoc_insertion_point(field_set_allocated:ui.ActionButton.command)
+}
+
+// -------------------------------------------------------------------
+
+// ToggleControl
+
+// uint32 version = 1 [(.buf.validate.field) = {
+inline void ToggleControl::clear_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = 0u;
+}
+inline ::uint32_t ToggleControl::version() const {
+  // @@protoc_insertion_point(field_get:ui.ToggleControl.version)
+  return _internal_version();
+}
+inline void ToggleControl::set_version(::uint32_t value) {
+  _internal_set_version(value);
+  // @@protoc_insertion_point(field_set:ui.ToggleControl.version)
+}
+inline ::uint32_t ToggleControl::_internal_version() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.version_;
+}
+inline void ToggleControl::_internal_set_version(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = value;
+}
+
+// string title = 2 [(.buf.validate.field) = {
+inline void ToggleControl::clear_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.ClearToEmpty();
+}
+inline const std::string& ToggleControl::title() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ToggleControl.title)
+  return _internal_title();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ToggleControl::set_title(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.ToggleControl.title)
+}
+inline std::string* ToggleControl::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_title();
+  // @@protoc_insertion_point(field_mutable:ui.ToggleControl.title)
+  return _s;
+}
+inline const std::string& ToggleControl::_internal_title() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.title_.Get();
+}
+inline void ToggleControl::_internal_set_title(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(value, GetArena());
+}
+inline std::string* ToggleControl::_internal_mutable_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.title_.Mutable( GetArena());
+}
+inline std::string* ToggleControl::release_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ToggleControl.title)
+  return _impl_.title_.Release();
+}
+inline void ToggleControl::set_allocated_title(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.ToggleControl.title)
+}
+
+// .ui.CommandBinding command_on = 3;
+inline bool ToggleControl::has_command_on() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_on_ != nullptr);
+  return value;
+}
+inline void ToggleControl::clear_command_on() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_on_ != nullptr) _impl_.command_on_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CommandBinding& ToggleControl::_internal_command_on() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_on_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& ToggleControl::command_on() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ToggleControl.command_on)
+  return _internal_command_on();
+}
+inline void ToggleControl::unsafe_arena_set_allocated_command_on(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_on_);
+  }
+  _impl_.command_on_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ToggleControl.command_on)
+}
+inline ::ui::CommandBinding* ToggleControl::release_command_on() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* released = _impl_.command_on_;
+  _impl_.command_on_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* ToggleControl::unsafe_arena_release_command_on() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ToggleControl.command_on)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* temp = _impl_.command_on_;
+  _impl_.command_on_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* ToggleControl::_internal_mutable_command_on() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_on_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_on_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_on_;
+}
+inline ::ui::CommandBinding* ToggleControl::mutable_command_on() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command_on();
+  // @@protoc_insertion_point(field_mutable:ui.ToggleControl.command_on)
+  return _msg;
+}
+inline void ToggleControl::set_allocated_command_on(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_on_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.command_on_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ToggleControl.command_on)
+}
+
+// .ui.CommandBinding command_off = 4;
+inline bool ToggleControl::has_command_off() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_off_ != nullptr);
+  return value;
+}
+inline void ToggleControl::clear_command_off() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_off_ != nullptr) _impl_.command_off_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ui::CommandBinding& ToggleControl::_internal_command_off() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_off_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& ToggleControl::command_off() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ToggleControl.command_off)
+  return _internal_command_off();
+}
+inline void ToggleControl::unsafe_arena_set_allocated_command_off(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_off_);
+  }
+  _impl_.command_off_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ToggleControl.command_off)
+}
+inline ::ui::CommandBinding* ToggleControl::release_command_off() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::CommandBinding* released = _impl_.command_off_;
+  _impl_.command_off_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* ToggleControl::unsafe_arena_release_command_off() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ToggleControl.command_off)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::CommandBinding* temp = _impl_.command_off_;
+  _impl_.command_off_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* ToggleControl::_internal_mutable_command_off() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_off_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_off_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_off_;
+}
+inline ::ui::CommandBinding* ToggleControl::mutable_command_off() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command_off();
+  // @@protoc_insertion_point(field_mutable:ui.ToggleControl.command_off)
+  return _msg;
+}
+inline void ToggleControl::set_allocated_command_off(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_off_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.command_off_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ToggleControl.command_off)
+}
+
+// .ui.StateBinding state = 5;
+inline bool ToggleControl::has_state() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.state_ != nullptr);
+  return value;
+}
+inline void ToggleControl::clear_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.state_ != nullptr) _impl_.state_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline const ::ui::StateBinding& ToggleControl::_internal_state() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::StateBinding* p = _impl_.state_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::StateBinding&>(::ui::_StateBinding_default_instance_);
+}
+inline const ::ui::StateBinding& ToggleControl::state() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.ToggleControl.state)
+  return _internal_state();
+}
+inline void ToggleControl::unsafe_arena_set_allocated_state(::ui::StateBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.state_);
+  }
+  _impl_.state_ = reinterpret_cast<::ui::StateBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.ToggleControl.state)
+}
+inline ::ui::StateBinding* ToggleControl::release_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ui::StateBinding* released = _impl_.state_;
+  _impl_.state_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::StateBinding* ToggleControl::unsafe_arena_release_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.ToggleControl.state)
+
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::ui::StateBinding* temp = _impl_.state_;
+  _impl_.state_ = nullptr;
+  return temp;
+}
+inline ::ui::StateBinding* ToggleControl::_internal_mutable_state() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.state_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::StateBinding>(GetArena());
+    _impl_.state_ = reinterpret_cast<::ui::StateBinding*>(p);
+  }
+  return _impl_.state_;
+}
+inline ::ui::StateBinding* ToggleControl::mutable_state() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  ::ui::StateBinding* _msg = _internal_mutable_state();
+  // @@protoc_insertion_point(field_mutable:ui.ToggleControl.state)
+  return _msg;
+}
+inline void ToggleControl::set_allocated_state(::ui::StateBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.state_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+
+  _impl_.state_ = reinterpret_cast<::ui::StateBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.ToggleControl.state)
 }
 
 #ifdef __GNUC__

@@ -123,3 +123,29 @@ message ActionButton {
   // command); the lowered button event sets include_widget_value = false.
   CommandBinding command = 3;
 }
+
+// L3 ToggleControl kind — a switch that flips between two parameterless commands:
+// ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+// RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+// enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+// value-changed event routes through the command id, and the builder picks
+// command_on / command_off by the new boolean.
+message ToggleControl {
+  // Schema version — checked FIRST by the lowering (fail-fast guard).
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Switch label.
+  string title = 2 [(buf.validate.field).string = {max_len: 63}];
+
+  // Command sent when the switch turns ON (the paired Enable command).
+  CommandBinding command_on = 3;
+
+  // Command sent when the switch turns OFF (the paired Disable command).
+  CommandBinding command_off = 4;
+
+  // Optional state display binding: the bool state field the switch reflects.
+  // Absent for a write-only toggle; present binds the switch to a SubjectInt
+  // (0/1). (Generator emits this once bool-state derivation lands; the lowering
+  // already handles both.)
+  StateBinding state = 5;
+}

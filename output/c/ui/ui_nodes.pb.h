@@ -107,6 +107,31 @@ typedef struct _ui_ActionButton {
     ui_CommandBinding command;
 } ui_ActionButton;
 
+/* L3 ToggleControl kind — a switch that flips between two parameterless commands:
+ ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+ RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+ enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+ value-changed event routes through the command id, and the builder picks
+ command_on / command_off by the new boolean. */
+typedef struct _ui_ToggleControl {
+    /* Schema version — checked FIRST by the lowering (fail-fast guard). */
+    uint32_t version;
+    /* Switch label. */
+    pb_callback_t title;
+    /* Command sent when the switch turns ON (the paired Enable command). */
+    bool has_command_on;
+    ui_CommandBinding command_on;
+    /* Command sent when the switch turns OFF (the paired Disable command). */
+    bool has_command_off;
+    ui_CommandBinding command_off;
+    /* Optional state display binding: the bool state field the switch reflects.
+ Absent for a write-only toggle; present binds the switch to a SubjectInt
+ (0/1). (Generator emits this once bool-state derivation lands; the lowering
+ already handles both.) */
+    bool has_state;
+    ui_StateBinding state;
+} ui_ToggleControl;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -123,17 +148,20 @@ extern "C" {
 
 
 
+
 /* Initializer values for message structs */
 #define ui_FixedPointScale_init_default          {0}
 #define ui_StateBinding_init_default             {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_default}
 #define ui_CommandBinding_init_default           {{{NULL}, NULL}, false, ui_FixedPointScale_init_default}
 #define ui_SliderControl_init_default            {0, {{NULL}, NULL}, false, ui_StateBinding_init_default, false, ui_CommandBinding_init_default, 0, 0}
 #define ui_ActionButton_init_default             {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default}
+#define ui_ToggleControl_init_default            {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, false, ui_CommandBinding_init_default, false, ui_StateBinding_init_default}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_CommandBinding_init_zero              {{{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_SliderControl_init_zero               {0, {{NULL}, NULL}, false, ui_StateBinding_init_zero, false, ui_CommandBinding_init_zero, 0, 0}
 #define ui_ActionButton_init_zero                {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero}
+#define ui_ToggleControl_init_zero               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, false, ui_CommandBinding_init_zero, false, ui_StateBinding_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_FixedPointScale_scale_tag             1
@@ -151,6 +179,11 @@ extern "C" {
 #define ui_ActionButton_version_tag              1
 #define ui_ActionButton_title_tag                2
 #define ui_ActionButton_command_tag              3
+#define ui_ToggleControl_version_tag             1
+#define ui_ToggleControl_title_tag               2
+#define ui_ToggleControl_command_on_tag          3
+#define ui_ToggleControl_command_off_tag         4
+#define ui_ToggleControl_state_tag               5
 
 /* Struct field encoding specification for nanopb */
 #define ui_FixedPointScale_FIELDLIST(X, a) \
@@ -193,11 +226,24 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  command,           3)
 #define ui_ActionButton_DEFAULT NULL
 #define ui_ActionButton_command_MSGTYPE ui_CommandBinding
 
+#define ui_ToggleControl_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command_on,        3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command_off,       4) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  state,             5)
+#define ui_ToggleControl_CALLBACK pb_default_field_callback
+#define ui_ToggleControl_DEFAULT NULL
+#define ui_ToggleControl_command_on_MSGTYPE ui_CommandBinding
+#define ui_ToggleControl_command_off_MSGTYPE ui_CommandBinding
+#define ui_ToggleControl_state_MSGTYPE ui_StateBinding
+
 extern const pb_msgdesc_t ui_FixedPointScale_msg;
 extern const pb_msgdesc_t ui_StateBinding_msg;
 extern const pb_msgdesc_t ui_CommandBinding_msg;
 extern const pb_msgdesc_t ui_SliderControl_msg;
 extern const pb_msgdesc_t ui_ActionButton_msg;
+extern const pb_msgdesc_t ui_ToggleControl_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_FixedPointScale_fields &ui_FixedPointScale_msg
@@ -205,12 +251,14 @@ extern const pb_msgdesc_t ui_ActionButton_msg;
 #define ui_CommandBinding_fields &ui_CommandBinding_msg
 #define ui_SliderControl_fields &ui_SliderControl_msg
 #define ui_ActionButton_fields &ui_ActionButton_msg
+#define ui_ToggleControl_fields &ui_ToggleControl_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ui_StateBinding_size depends on runtime parameters */
 /* ui_CommandBinding_size depends on runtime parameters */
 /* ui_SliderControl_size depends on runtime parameters */
 /* ui_ActionButton_size depends on runtime parameters */
+/* ui_ToggleControl_size depends on runtime parameters */
 #define UI_UI_UI_NODES_PB_H_MAX_SIZE             ui_FixedPointScale_size
 #define ui_FixedPointScale_size                  6
 

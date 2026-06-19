@@ -4842,6 +4842,1495 @@ public final class UiNodes {
 
   }
 
+  public interface ToggleControlOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.ToggleControl)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <pre>
+     * Switch label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    java.lang.String getTitle();
+    /**
+     * <pre>
+     * Switch label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    /**
+     * <pre>
+     * Command sent when the switch turns ON (the paired Enable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_on = 3;</code>
+     * @return Whether the commandOn field is set.
+     */
+    boolean hasCommandOn();
+    /**
+     * <pre>
+     * Command sent when the switch turns ON (the paired Enable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_on = 3;</code>
+     * @return The commandOn.
+     */
+    ui.UiNodes.CommandBinding getCommandOn();
+    /**
+     * <pre>
+     * Command sent when the switch turns ON (the paired Enable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_on = 3;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandOnOrBuilder();
+
+    /**
+     * <pre>
+     * Command sent when the switch turns OFF (the paired Disable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_off = 4;</code>
+     * @return Whether the commandOff field is set.
+     */
+    boolean hasCommandOff();
+    /**
+     * <pre>
+     * Command sent when the switch turns OFF (the paired Disable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_off = 4;</code>
+     * @return The commandOff.
+     */
+    ui.UiNodes.CommandBinding getCommandOff();
+    /**
+     * <pre>
+     * Command sent when the switch turns OFF (the paired Disable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_off = 4;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandOffOrBuilder();
+
+    /**
+     * <pre>
+     * Optional state display binding: the bool state field the switch reflects.
+     * Absent for a write-only toggle; present binds the switch to a SubjectInt
+     * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+     * already handles both.)
+     * </pre>
+     *
+     * <code>.ui.StateBinding state = 5;</code>
+     * @return Whether the state field is set.
+     */
+    boolean hasState();
+    /**
+     * <pre>
+     * Optional state display binding: the bool state field the switch reflects.
+     * Absent for a write-only toggle; present binds the switch to a SubjectInt
+     * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+     * already handles both.)
+     * </pre>
+     *
+     * <code>.ui.StateBinding state = 5;</code>
+     * @return The state.
+     */
+    ui.UiNodes.StateBinding getState();
+    /**
+     * <pre>
+     * Optional state display binding: the bool state field the switch reflects.
+     * Absent for a write-only toggle; present binds the switch to a SubjectInt
+     * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+     * already handles both.)
+     * </pre>
+     *
+     * <code>.ui.StateBinding state = 5;</code>
+     */
+    ui.UiNodes.StateBindingOrBuilder getStateOrBuilder();
+  }
+  /**
+   * <pre>
+   * L3 ToggleControl kind — a switch that flips between two parameterless commands:
+   * ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+   * RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+   * enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+   * value-changed event routes through the command id, and the builder picks
+   * command_on / command_off by the new boolean.
+   * </pre>
+   *
+   * Protobuf type {@code ui.ToggleControl}
+   */
+  public static final class ToggleControl extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.ToggleControl)
+      ToggleControlOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        ToggleControl.class.getName());
+    }
+    // Use ToggleControl.newBuilder() to construct.
+    private ToggleControl(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ToggleControl() {
+      title_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiNodes.internal_static_ui_ToggleControl_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiNodes.internal_static_ui_ToggleControl_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiNodes.ToggleControl.class, ui.UiNodes.ToggleControl.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_ = 0;
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+
+    public static final int TITLE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object title_ = "";
+    /**
+     * <pre>
+     * Switch label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    @java.lang.Override
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        title_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Switch label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMMAND_ON_FIELD_NUMBER = 3;
+    private ui.UiNodes.CommandBinding commandOn_;
+    /**
+     * <pre>
+     * Command sent when the switch turns ON (the paired Enable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_on = 3;</code>
+     * @return Whether the commandOn field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommandOn() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Command sent when the switch turns ON (the paired Enable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_on = 3;</code>
+     * @return The commandOn.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommandOn() {
+      return commandOn_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandOn_;
+    }
+    /**
+     * <pre>
+     * Command sent when the switch turns ON (the paired Enable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_on = 3;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandOnOrBuilder() {
+      return commandOn_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandOn_;
+    }
+
+    public static final int COMMAND_OFF_FIELD_NUMBER = 4;
+    private ui.UiNodes.CommandBinding commandOff_;
+    /**
+     * <pre>
+     * Command sent when the switch turns OFF (the paired Disable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_off = 4;</code>
+     * @return Whether the commandOff field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommandOff() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * Command sent when the switch turns OFF (the paired Disable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_off = 4;</code>
+     * @return The commandOff.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommandOff() {
+      return commandOff_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandOff_;
+    }
+    /**
+     * <pre>
+     * Command sent when the switch turns OFF (the paired Disable command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_off = 4;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandOffOrBuilder() {
+      return commandOff_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandOff_;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 5;
+    private ui.UiNodes.StateBinding state_;
+    /**
+     * <pre>
+     * Optional state display binding: the bool state field the switch reflects.
+     * Absent for a write-only toggle; present binds the switch to a SubjectInt
+     * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+     * already handles both.)
+     * </pre>
+     *
+     * <code>.ui.StateBinding state = 5;</code>
+     * @return Whether the state field is set.
+     */
+    @java.lang.Override
+    public boolean hasState() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <pre>
+     * Optional state display binding: the bool state field the switch reflects.
+     * Absent for a write-only toggle; present binds the switch to a SubjectInt
+     * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+     * already handles both.)
+     * </pre>
+     *
+     * <code>.ui.StateBinding state = 5;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public ui.UiNodes.StateBinding getState() {
+      return state_ == null ? ui.UiNodes.StateBinding.getDefaultInstance() : state_;
+    }
+    /**
+     * <pre>
+     * Optional state display binding: the bool state field the switch reflects.
+     * Absent for a write-only toggle; present binds the switch to a SubjectInt
+     * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+     * already handles both.)
+     * </pre>
+     *
+     * <code>.ui.StateBinding state = 5;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.StateBindingOrBuilder getStateOrBuilder() {
+      return state_ == null ? ui.UiNodes.StateBinding.getDefaultInstance() : state_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (version_ != 0) {
+        output.writeUInt32(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(3, getCommandOn());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(4, getCommandOff());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeMessage(5, getState());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (version_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCommandOn());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getCommandOff());
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getState());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiNodes.ToggleControl)) {
+        return super.equals(obj);
+      }
+      ui.UiNodes.ToggleControl other = (ui.UiNodes.ToggleControl) obj;
+
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getTitle()
+          .equals(other.getTitle())) return false;
+      if (hasCommandOn() != other.hasCommandOn()) return false;
+      if (hasCommandOn()) {
+        if (!getCommandOn()
+            .equals(other.getCommandOn())) return false;
+      }
+      if (hasCommandOff() != other.hasCommandOff()) return false;
+      if (hasCommandOff()) {
+        if (!getCommandOff()
+            .equals(other.getCommandOff())) return false;
+      }
+      if (hasState() != other.hasState()) return false;
+      if (hasState()) {
+        if (!getState()
+            .equals(other.getState())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + TITLE_FIELD_NUMBER;
+      hash = (53 * hash) + getTitle().hashCode();
+      if (hasCommandOn()) {
+        hash = (37 * hash) + COMMAND_ON_FIELD_NUMBER;
+        hash = (53 * hash) + getCommandOn().hashCode();
+      }
+      if (hasCommandOff()) {
+        hash = (37 * hash) + COMMAND_OFF_FIELD_NUMBER;
+        hash = (53 * hash) + getCommandOff().hashCode();
+      }
+      if (hasState()) {
+        hash = (37 * hash) + STATE_FIELD_NUMBER;
+        hash = (53 * hash) + getState().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiNodes.ToggleControl parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiNodes.ToggleControl parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiNodes.ToggleControl parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.ToggleControl parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiNodes.ToggleControl prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * L3 ToggleControl kind — a switch that flips between two parameterless commands:
+     * ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+     * RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+     * enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+     * value-changed event routes through the command id, and the builder picks
+     * command_on / command_off by the new boolean.
+     * </pre>
+     *
+     * Protobuf type {@code ui.ToggleControl}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.ToggleControl)
+        ui.UiNodes.ToggleControlOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiNodes.internal_static_ui_ToggleControl_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiNodes.internal_static_ui_ToggleControl_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiNodes.ToggleControl.class, ui.UiNodes.ToggleControl.Builder.class);
+      }
+
+      // Construct using ui.UiNodes.ToggleControl.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCommandOnFieldBuilder();
+          getCommandOffFieldBuilder();
+          getStateFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        version_ = 0;
+        title_ = "";
+        commandOn_ = null;
+        if (commandOnBuilder_ != null) {
+          commandOnBuilder_.dispose();
+          commandOnBuilder_ = null;
+        }
+        commandOff_ = null;
+        if (commandOffBuilder_ != null) {
+          commandOffBuilder_.dispose();
+          commandOffBuilder_ = null;
+        }
+        state_ = null;
+        if (stateBuilder_ != null) {
+          stateBuilder_.dispose();
+          stateBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiNodes.internal_static_ui_ToggleControl_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ToggleControl getDefaultInstanceForType() {
+        return ui.UiNodes.ToggleControl.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ToggleControl build() {
+        ui.UiNodes.ToggleControl result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.ToggleControl buildPartial() {
+        ui.UiNodes.ToggleControl result = new ui.UiNodes.ToggleControl(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiNodes.ToggleControl result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.version_ = version_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.title_ = title_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.commandOn_ = commandOnBuilder_ == null
+              ? commandOn_
+              : commandOnBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.commandOff_ = commandOffBuilder_ == null
+              ? commandOff_
+              : commandOffBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.state_ = stateBuilder_ == null
+              ? state_
+              : stateBuilder_.build();
+          to_bitField0_ |= 0x00000004;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiNodes.ToggleControl) {
+          return mergeFrom((ui.UiNodes.ToggleControl)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiNodes.ToggleControl other) {
+        if (other == ui.UiNodes.ToggleControl.getDefaultInstance()) return this;
+        if (other.getVersion() != 0) {
+          setVersion(other.getVersion());
+        }
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (other.hasCommandOn()) {
+          mergeCommandOn(other.getCommandOn());
+        }
+        if (other.hasCommandOff()) {
+          mergeCommandOff(other.getCommandOff());
+        }
+        if (other.hasState()) {
+          mergeState(other.getState());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                version_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                title_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getCommandOnFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 34: {
+                input.readMessage(
+                    getCommandOffFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              case 42: {
+                input.readMessage(
+                    getStateFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int version_ ;
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+
+        version_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object title_ = "";
+      /**
+       * <pre>
+       * Switch label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The title.
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Switch label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for title.
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Switch label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Switch label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTitle() {
+        title_ = getDefaultInstance().getTitle();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Switch label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiNodes.CommandBinding commandOn_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandOnBuilder_;
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       * @return Whether the commandOn field is set.
+       */
+      public boolean hasCommandOn() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       * @return The commandOn.
+       */
+      public ui.UiNodes.CommandBinding getCommandOn() {
+        if (commandOnBuilder_ == null) {
+          return commandOn_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandOn_;
+        } else {
+          return commandOnBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      public Builder setCommandOn(ui.UiNodes.CommandBinding value) {
+        if (commandOnBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          commandOn_ = value;
+        } else {
+          commandOnBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      public Builder setCommandOn(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandOnBuilder_ == null) {
+          commandOn_ = builderForValue.build();
+        } else {
+          commandOnBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      public Builder mergeCommandOn(ui.UiNodes.CommandBinding value) {
+        if (commandOnBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            commandOn_ != null &&
+            commandOn_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandOnBuilder().mergeFrom(value);
+          } else {
+            commandOn_ = value;
+          }
+        } else {
+          commandOnBuilder_.mergeFrom(value);
+        }
+        if (commandOn_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      public Builder clearCommandOn() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        commandOn_ = null;
+        if (commandOnBuilder_ != null) {
+          commandOnBuilder_.dispose();
+          commandOnBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandOnBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getCommandOnFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandOnOrBuilder() {
+        if (commandOnBuilder_ != null) {
+          return commandOnBuilder_.getMessageOrBuilder();
+        } else {
+          return commandOn_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : commandOn_;
+        }
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns ON (the paired Enable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_on = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandOnFieldBuilder() {
+        if (commandOnBuilder_ == null) {
+          commandOnBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommandOn(),
+                  getParentForChildren(),
+                  isClean());
+          commandOn_ = null;
+        }
+        return commandOnBuilder_;
+      }
+
+      private ui.UiNodes.CommandBinding commandOff_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandOffBuilder_;
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       * @return Whether the commandOff field is set.
+       */
+      public boolean hasCommandOff() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       * @return The commandOff.
+       */
+      public ui.UiNodes.CommandBinding getCommandOff() {
+        if (commandOffBuilder_ == null) {
+          return commandOff_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandOff_;
+        } else {
+          return commandOffBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      public Builder setCommandOff(ui.UiNodes.CommandBinding value) {
+        if (commandOffBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          commandOff_ = value;
+        } else {
+          commandOffBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      public Builder setCommandOff(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandOffBuilder_ == null) {
+          commandOff_ = builderForValue.build();
+        } else {
+          commandOffBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      public Builder mergeCommandOff(ui.UiNodes.CommandBinding value) {
+        if (commandOffBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            commandOff_ != null &&
+            commandOff_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandOffBuilder().mergeFrom(value);
+          } else {
+            commandOff_ = value;
+          }
+        } else {
+          commandOffBuilder_.mergeFrom(value);
+        }
+        if (commandOff_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      public Builder clearCommandOff() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        commandOff_ = null;
+        if (commandOffBuilder_ != null) {
+          commandOffBuilder_.dispose();
+          commandOffBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandOffBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getCommandOffFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandOffOrBuilder() {
+        if (commandOffBuilder_ != null) {
+          return commandOffBuilder_.getMessageOrBuilder();
+        } else {
+          return commandOff_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : commandOff_;
+        }
+      }
+      /**
+       * <pre>
+       * Command sent when the switch turns OFF (the paired Disable command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_off = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandOffFieldBuilder() {
+        if (commandOffBuilder_ == null) {
+          commandOffBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommandOff(),
+                  getParentForChildren(),
+                  isClean());
+          commandOff_ = null;
+        }
+        return commandOffBuilder_;
+      }
+
+      private ui.UiNodes.StateBinding state_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.StateBinding, ui.UiNodes.StateBinding.Builder, ui.UiNodes.StateBindingOrBuilder> stateBuilder_;
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       * @return Whether the state field is set.
+       */
+      public boolean hasState() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       * @return The state.
+       */
+      public ui.UiNodes.StateBinding getState() {
+        if (stateBuilder_ == null) {
+          return state_ == null ? ui.UiNodes.StateBinding.getDefaultInstance() : state_;
+        } else {
+          return stateBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      public Builder setState(ui.UiNodes.StateBinding value) {
+        if (stateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          state_ = value;
+        } else {
+          stateBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      public Builder setState(
+          ui.UiNodes.StateBinding.Builder builderForValue) {
+        if (stateBuilder_ == null) {
+          state_ = builderForValue.build();
+        } else {
+          stateBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      public Builder mergeState(ui.UiNodes.StateBinding value) {
+        if (stateBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) != 0) &&
+            state_ != null &&
+            state_ != ui.UiNodes.StateBinding.getDefaultInstance()) {
+            getStateBuilder().mergeFrom(value);
+          } else {
+            state_ = value;
+          }
+        } else {
+          stateBuilder_.mergeFrom(value);
+        }
+        if (state_ != null) {
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        state_ = null;
+        if (stateBuilder_ != null) {
+          stateBuilder_.dispose();
+          stateBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      public ui.UiNodes.StateBinding.Builder getStateBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getStateFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      public ui.UiNodes.StateBindingOrBuilder getStateOrBuilder() {
+        if (stateBuilder_ != null) {
+          return stateBuilder_.getMessageOrBuilder();
+        } else {
+          return state_ == null ?
+              ui.UiNodes.StateBinding.getDefaultInstance() : state_;
+        }
+      }
+      /**
+       * <pre>
+       * Optional state display binding: the bool state field the switch reflects.
+       * Absent for a write-only toggle; present binds the switch to a SubjectInt
+       * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+       * already handles both.)
+       * </pre>
+       *
+       * <code>.ui.StateBinding state = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.StateBinding, ui.UiNodes.StateBinding.Builder, ui.UiNodes.StateBindingOrBuilder> 
+          getStateFieldBuilder() {
+        if (stateBuilder_ == null) {
+          stateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.StateBinding, ui.UiNodes.StateBinding.Builder, ui.UiNodes.StateBindingOrBuilder>(
+                  getState(),
+                  getParentForChildren(),
+                  isClean());
+          state_ = null;
+        }
+        return stateBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.ToggleControl)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.ToggleControl)
+    private static final ui.UiNodes.ToggleControl DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiNodes.ToggleControl();
+    }
+
+    public static ui.UiNodes.ToggleControl getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ToggleControl>
+        PARSER = new com.google.protobuf.AbstractParser<ToggleControl>() {
+      @java.lang.Override
+      public ToggleControl parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ToggleControl> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ToggleControl> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiNodes.ToggleControl getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_FixedPointScale_descriptor;
   private static final 
@@ -4867,6 +6356,11 @@ public final class UiNodes {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_ActionButton_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_ToggleControl_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_ToggleControl_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4890,12 +6384,16 @@ public final class UiNodes {
       "ing\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001(" +
       "\005B\007\272H\004\032\002 \000\"h\n\014ActionButton\022\033\n\007version\030\001 " +
       "\001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030?\022" +
-      "#\n\007command\030\003 \001(\0132\022.ui.CommandBinding*T\n\021" +
-      "NodeSchemaVersion\022#\n\037NODE_SCHEMA_VERSION" +
-      "_UNSPECIFIED\020\000\022\032\n\026NODE_SCHEMA_VERSION_V1" +
-      "\020\001BEZCgit-codecommit.eu-central-1.amazon" +
-      "aws.com/v1/repos/jettison/jonp/uib\006proto" +
-      "3"
+      "#\n\007command\030\003 \001(\0132\022.ui.CommandBinding\"\266\001\n" +
+      "\rToggleControl\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377" +
+      "\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030?\022&\n\ncommand_o" +
+      "n\030\003 \001(\0132\022.ui.CommandBinding\022\'\n\013command_o" +
+      "ff\030\004 \001(\0132\022.ui.CommandBinding\022\037\n\005state\030\005 " +
+      "\001(\0132\020.ui.StateBinding*T\n\021NodeSchemaVersi" +
+      "on\022#\n\037NODE_SCHEMA_VERSION_UNSPECIFIED\020\000\022" +
+      "\032\n\026NODE_SCHEMA_VERSION_V1\020\001BEZCgit-codec" +
+      "ommit.eu-central-1.amazonaws.com/v1/repo" +
+      "s/jettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4932,6 +6430,12 @@ public final class UiNodes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_ActionButton_descriptor,
         new java.lang.String[] { "Version", "Title", "Command", });
+    internal_static_ui_ToggleControl_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_ui_ToggleControl_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_ToggleControl_descriptor,
+        new java.lang.String[] { "Version", "Title", "CommandOn", "CommandOff", "State", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

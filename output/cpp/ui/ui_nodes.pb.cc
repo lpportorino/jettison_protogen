@@ -110,6 +110,37 @@ struct CommandBindingDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CommandBindingDefaultTypeInternal _CommandBinding_default_instance_;
 
+inline constexpr ToggleControl::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        title_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        command_on_{nullptr},
+        command_off_{nullptr},
+        state_{nullptr},
+        version_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ToggleControl::ToggleControl(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ToggleControlDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ToggleControlDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ToggleControlDefaultTypeInternal() {}
+  union {
+    ToggleControl _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ToggleControlDefaultTypeInternal _ToggleControl_default_instance_;
+
 inline constexpr SliderControl::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -246,6 +277,24 @@ const ::uint32_t
         ~0u,
         ~0u,
         0,
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _impl_.version_),
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _impl_.title_),
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _impl_.command_on_),
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _impl_.command_off_),
+        PROTOBUF_FIELD_OFFSET(::ui::ToggleControl, _impl_.state_),
+        ~0u,
+        ~0u,
+        0,
+        1,
+        2,
 };
 
 static const ::_pbi::MigrationSchema
@@ -255,6 +304,7 @@ static const ::_pbi::MigrationSchema
         {23, 33, -1, sizeof(::ui::CommandBinding)},
         {35, 49, -1, sizeof(::ui::SliderControl)},
         {55, 66, -1, sizeof(::ui::ActionButton)},
+        {69, 82, -1, sizeof(::ui::ToggleControl)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_FixedPointScale_default_instance_._instance,
@@ -262,6 +312,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_CommandBinding_default_instance_._instance,
     &::ui::_SliderControl_default_instance_._instance,
     &::ui::_ActionButton_default_instance_._instance,
+    &::ui::_ToggleControl_default_instance_._instance,
 };
 const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -279,12 +330,16 @@ const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SE
     "ing\022\021\n\tmin_value\030\005 \001(\005\022\032\n\tmax_value\030\006 \001("
     "\005B\007\272H\004\032\002 \000\"h\n\014ActionButton\022\033\n\007version\030\001 "
     "\001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030\?\022"
-    "#\n\007command\030\003 \001(\0132\022.ui.CommandBinding*T\n\021"
-    "NodeSchemaVersion\022#\n\037NODE_SCHEMA_VERSION"
-    "_UNSPECIFIED\020\000\022\032\n\026NODE_SCHEMA_VERSION_V1"
-    "\020\001BEZCgit-codecommit.eu-central-1.amazon"
-    "aws.com/v1/repos/jettison/jonp/uib\006proto"
-    "3"
+    "#\n\007command\030\003 \001(\0132\022.ui.CommandBinding\"\266\001\n"
+    "\rToggleControl\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377"
+    "\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004r\002\030\?\022&\n\ncommand_o"
+    "n\030\003 \001(\0132\022.ui.CommandBinding\022\'\n\013command_o"
+    "ff\030\004 \001(\0132\022.ui.CommandBinding\022\037\n\005state\030\005 "
+    "\001(\0132\020.ui.StateBinding*T\n\021NodeSchemaVersi"
+    "on\022#\n\037NODE_SCHEMA_VERSION_UNSPECIFIED\020\000\022"
+    "\032\n\026NODE_SCHEMA_VERSION_V1\020\001BEZCgit-codec"
+    "ommit.eu-central-1.amazonaws.com/v1/repo"
+    "s/jettison/jonp/uib\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fnodes_2eproto_deps[1] =
     {
@@ -294,13 +349,13 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fnodes_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fnodes_2eproto = {
     false,
     false,
-    761,
+    946,
     descriptor_table_protodef_ui_2fui_5fnodes_2eproto,
     "ui/ui_nodes.proto",
     &descriptor_table_ui_2fui_5fnodes_2eproto_once,
     descriptor_table_ui_2fui_5fnodes_2eproto_deps,
     1,
-    5,
+    6,
     schemas,
     file_default_instances,
     TableStruct_ui_2fui_5fnodes_2eproto::offsets,
@@ -1854,6 +1909,405 @@ void ActionButton::InternalSwap(ActionButton* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata ActionButton::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class ToggleControl::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<ToggleControl>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_._has_bits_);
+};
+
+ToggleControl::ToggleControl(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ui.ToggleControl)
+}
+inline PROTOBUF_NDEBUG_INLINE ToggleControl::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ui::ToggleControl& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        title_(arena, from.title_) {}
+
+ToggleControl::ToggleControl(
+    ::google::protobuf::Arena* arena,
+    const ToggleControl& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  ToggleControl* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.command_on_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(
+                              arena, *from._impl_.command_on_)
+                        : nullptr;
+  _impl_.command_off_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(
+                              arena, *from._impl_.command_off_)
+                        : nullptr;
+  _impl_.state_ = (cached_has_bits & 0x00000004u) ? ::google::protobuf::Message::CopyConstruct<::ui::StateBinding>(
+                              arena, *from._impl_.state_)
+                        : nullptr;
+  _impl_.version_ = from._impl_.version_;
+
+  // @@protoc_insertion_point(copy_constructor:ui.ToggleControl)
+}
+inline PROTOBUF_NDEBUG_INLINE ToggleControl::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        title_(arena) {}
+
+inline void ToggleControl::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, command_on_),
+           0,
+           offsetof(Impl_, version_) -
+               offsetof(Impl_, command_on_) +
+               sizeof(Impl_::version_));
+}
+ToggleControl::~ToggleControl() {
+  // @@protoc_insertion_point(destructor:ui.ToggleControl)
+  SharedDtor(*this);
+}
+inline void ToggleControl::SharedDtor(MessageLite& self) {
+  ToggleControl& this_ = static_cast<ToggleControl&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.title_.Destroy();
+  delete this_._impl_.command_on_;
+  delete this_._impl_.command_off_;
+  delete this_._impl_.state_;
+  this_._impl_.~Impl_();
+}
+
+inline void* ToggleControl::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) ToggleControl(arena);
+}
+constexpr auto ToggleControl::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(ToggleControl),
+                                            alignof(ToggleControl));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull ToggleControl::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_ToggleControl_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &ToggleControl::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<ToggleControl>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &ToggleControl::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<ToggleControl>(), &ToggleControl::ByteSizeLong,
+            &ToggleControl::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_._cached_size_),
+        false,
+    },
+    &ToggleControl::kDescriptorMethods,
+    &descriptor_table_ui_2fui_5fnodes_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* ToggleControl::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 5, 3, 30, 2> ToggleControl::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_._has_bits_),
+    0, // no _extensions_
+    5, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967264,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    5,  // num_field_entries
+    3,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ui::ToggleControl>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 version = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(ToggleControl, _impl_.version_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.version_)}},
+    // string title = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.title_)}},
+    // .ui.CommandBinding command_on = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.command_on_)}},
+    // .ui.CommandBinding command_off = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 1, 1, PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.command_off_)}},
+    // .ui.StateBinding state = 5;
+    {::_pbi::TcParser::FastMtS1,
+     {42, 2, 2, PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.state_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 version = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.version_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // string title = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.title_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .ui.CommandBinding command_on = 3;
+    {PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.command_on_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ui.CommandBinding command_off = 4;
+    {PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.command_off_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ui.StateBinding state = 5;
+    {PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.state_), _Internal::kHasBitsOffset + 2, 2,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::StateBinding>()},
+  }}, {{
+    "\20\0\5\0\0\0\0\0"
+    "ui.ToggleControl"
+    "title"
+  }},
+};
+
+PROTOBUF_NOINLINE void ToggleControl::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.ToggleControl)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.title_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.command_on_ != nullptr);
+      _impl_.command_on_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.command_off_ != nullptr);
+      _impl_.command_off_->Clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      ABSL_DCHECK(_impl_.state_ != nullptr);
+      _impl_.state_->Clear();
+    }
+  }
+  _impl_.version_ = 0u;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* ToggleControl::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const ToggleControl& this_ = static_cast<const ToggleControl&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* ToggleControl::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const ToggleControl& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ui.ToggleControl)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 version = 1 [(.buf.validate.field) = {
+          if (this_._internal_version() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_version(), target);
+          }
+
+          // string title = 2 [(.buf.validate.field) = {
+          if (!this_._internal_title().empty()) {
+            const std::string& _s = this_._internal_title();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ui.ToggleControl.title");
+            target = stream->WriteStringMaybeAliased(2, _s, target);
+          }
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ui.CommandBinding command_on = 3;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                3, *this_._impl_.command_on_, this_._impl_.command_on_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .ui.CommandBinding command_off = 4;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                4, *this_._impl_.command_off_, this_._impl_.command_off_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .ui.StateBinding state = 5;
+          if (cached_has_bits & 0x00000004u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                5, *this_._impl_.state_, this_._impl_.state_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ui.ToggleControl)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t ToggleControl::ByteSizeLong(const MessageLite& base) {
+          const ToggleControl& this_ = static_cast<const ToggleControl&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t ToggleControl::ByteSizeLong() const {
+          const ToggleControl& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ui.ToggleControl)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // string title = 2 [(.buf.validate.field) = {
+            if (!this_._internal_title().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_title());
+            }
+          }
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000007u) {
+            // .ui.CommandBinding command_on = 3;
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.command_on_);
+            }
+            // .ui.CommandBinding command_off = 4;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.command_off_);
+            }
+            // .ui.StateBinding state = 5;
+            if (cached_has_bits & 0x00000004u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.state_);
+            }
+          }
+           {
+            // uint32 version = 1 [(.buf.validate.field) = {
+            if (this_._internal_version() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_version());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void ToggleControl::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<ToggleControl*>(&to_msg);
+  auto& from = static_cast<const ToggleControl&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.ToggleControl)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_title().empty()) {
+    _this->_internal_set_title(from._internal_title());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000007u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.command_on_ != nullptr);
+      if (_this->_impl_.command_on_ == nullptr) {
+        _this->_impl_.command_on_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_on_);
+      } else {
+        _this->_impl_.command_on_->MergeFrom(*from._impl_.command_on_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.command_off_ != nullptr);
+      if (_this->_impl_.command_off_ == nullptr) {
+        _this->_impl_.command_off_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_off_);
+      } else {
+        _this->_impl_.command_off_->MergeFrom(*from._impl_.command_off_);
+      }
+    }
+    if (cached_has_bits & 0x00000004u) {
+      ABSL_DCHECK(from._impl_.state_ != nullptr);
+      if (_this->_impl_.state_ == nullptr) {
+        _this->_impl_.state_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::StateBinding>(arena, *from._impl_.state_);
+      } else {
+        _this->_impl_.state_->MergeFrom(*from._impl_.state_);
+      }
+    }
+  }
+  if (from._internal_version() != 0) {
+    _this->_impl_.version_ = from._impl_.version_;
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ToggleControl::CopyFrom(const ToggleControl& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.ToggleControl)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void ToggleControl::InternalSwap(ToggleControl* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.title_, &other->_impl_.title_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.version_)
+      + sizeof(ToggleControl::_impl_.version_)
+      - PROTOBUF_FIELD_OFFSET(ToggleControl, _impl_.command_on_)>(
+          reinterpret_cast<char*>(&_impl_.command_on_),
+          reinterpret_cast<char*>(&other->_impl_.command_on_));
+}
+
+::google::protobuf::Metadata ToggleControl::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

@@ -163,6 +163,36 @@ export interface ActionButton {
   command: CommandBinding | undefined;
 }
 
+/**
+ * L3 ToggleControl kind — a switch that flips between two parameterless commands:
+ * ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+ * RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+ * enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+ * value-changed event routes through the command id, and the builder picks
+ * command_on / command_off by the new boolean.
+ */
+export interface ToggleControl {
+  /** Schema version — checked FIRST by the lowering (fail-fast guard). */
+  version: number;
+  /** Switch label. */
+  title: string;
+  /** Command sent when the switch turns ON (the paired Enable command). */
+  commandOn:
+    | CommandBinding
+    | undefined;
+  /** Command sent when the switch turns OFF (the paired Disable command). */
+  commandOff:
+    | CommandBinding
+    | undefined;
+  /**
+   * Optional state display binding: the bool state field the switch reflects.
+   * Absent for a write-only toggle; present binds the switch to a SubjectInt
+   * (0/1). (Generator emits this once bool-state derivation lands; the lowering
+   * already handles both.)
+   */
+  state: StateBinding | undefined;
+}
+
 function createBaseFixedPointScale(): FixedPointScale {
   return { scale: 0 };
 }
@@ -646,6 +676,144 @@ export const ActionButton: MessageFns<ActionButton> = {
     message.title = object.title ?? "";
     message.command = (object.command !== undefined && object.command !== null)
       ? CommandBinding.fromPartial(object.command)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseToggleControl(): ToggleControl {
+  return { version: 0, title: "", commandOn: undefined, commandOff: undefined, state: undefined };
+}
+
+export const ToggleControl: MessageFns<ToggleControl> = {
+  encode(message: ToggleControl, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.version !== 0) {
+      writer.uint32(8).uint32(message.version);
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.commandOn !== undefined) {
+      CommandBinding.encode(message.commandOn, writer.uint32(26).fork()).join();
+    }
+    if (message.commandOff !== undefined) {
+      CommandBinding.encode(message.commandOff, writer.uint32(34).fork()).join();
+    }
+    if (message.state !== undefined) {
+      StateBinding.encode(message.state, writer.uint32(42).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): ToggleControl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseToggleControl();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.version = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.commandOn = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.commandOff = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.state = StateBinding.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ToggleControl {
+    return {
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      commandOn: isSet(object.commandOn)
+        ? CommandBinding.fromJSON(object.commandOn)
+        : isSet(object.command_on)
+        ? CommandBinding.fromJSON(object.command_on)
+        : undefined,
+      commandOff: isSet(object.commandOff)
+        ? CommandBinding.fromJSON(object.commandOff)
+        : isSet(object.command_off)
+        ? CommandBinding.fromJSON(object.command_off)
+        : undefined,
+      state: isSet(object.state) ? StateBinding.fromJSON(object.state) : undefined,
+    };
+  },
+
+  toJSON(message: ToggleControl): unknown {
+    const obj: any = {};
+    if (message.version !== 0) {
+      obj.version = Math.round(message.version);
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.commandOn !== undefined) {
+      obj.commandOn = CommandBinding.toJSON(message.commandOn);
+    }
+    if (message.commandOff !== undefined) {
+      obj.commandOff = CommandBinding.toJSON(message.commandOff);
+    }
+    if (message.state !== undefined) {
+      obj.state = StateBinding.toJSON(message.state);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<ToggleControl>, I>>(base?: I): ToggleControl {
+    return ToggleControl.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<ToggleControl>, I>>(object: I): ToggleControl {
+    const message = createBaseToggleControl();
+    message.version = object.version ?? 0;
+    message.title = object.title ?? "";
+    message.commandOn = (object.commandOn !== undefined && object.commandOn !== null)
+      ? CommandBinding.fromPartial(object.commandOn)
+      : undefined;
+    message.commandOff = (object.commandOff !== undefined && object.commandOff !== null)
+      ? CommandBinding.fromPartial(object.commandOff)
+      : undefined;
+    message.state = (object.state !== undefined && object.state !== null)
+      ? StateBinding.fromPartial(object.state)
       : undefined;
     return message;
   },

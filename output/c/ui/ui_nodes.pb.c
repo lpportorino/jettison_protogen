@@ -21,6 +21,9 @@ PB_BIND(ui_SliderControl, ui_SliderControl, AUTO)
 PB_BIND(ui_ActionButton, ui_ActionButton, AUTO)
 
 
+PB_BIND(ui_ToggleControl, ui_ToggleControl, AUTO)
+
+
 
 
 

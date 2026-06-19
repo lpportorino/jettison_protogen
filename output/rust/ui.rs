@@ -93,6 +93,33 @@ pub struct ActionButton {
     #[prost(message, optional, tag = "3")]
     pub command: ::core::option::Option<CommandBinding>,
 }
+/// L3 ToggleControl kind — a switch that flips between two parameterless commands:
+/// ON → command_on, OFF → command_off (e.g. RecognitionModeEnable /
+/// RecognitionModeDisable). The generator pairs `:ui-pattern :toggle`
+/// enable/disable command siblings; the lowering emits a WIDGET_SWITCH whose
+/// value-changed event routes through the command id, and the builder picks
+/// command_on / command_off by the new boolean.
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ToggleControl {
+    /// Schema version — checked FIRST by the lowering (fail-fast guard).
+    #[prost(uint32, tag = "1")]
+    pub version: u32,
+    /// Switch label.
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// Command sent when the switch turns ON (the paired Enable command).
+    #[prost(message, optional, tag = "3")]
+    pub command_on: ::core::option::Option<CommandBinding>,
+    /// Command sent when the switch turns OFF (the paired Disable command).
+    #[prost(message, optional, tag = "4")]
+    pub command_off: ::core::option::Option<CommandBinding>,
+    /// Optional state display binding: the bool state field the switch reflects.
+    /// Absent for a write-only toggle; present binds the switch to a SubjectInt
+    /// (0/1). (Generator emits this once bool-state derivation lands; the lowering
+    /// already handles both.)
+    #[prost(message, optional, tag = "5")]
+    pub state: ::core::option::Option<StateBinding>,
+}
 /// Node-schema version constant. The lowering entry-point checks the wire
 /// `version` field against the CURRENT value FIRST and returns
 /// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no
