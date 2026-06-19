@@ -96,3 +96,15 @@ class EnumPicker(_message.Message):
     command: CommandBinding
     options: _containers.RepeatedCompositeFieldContainer[EnumOption]
     def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ..., options: _Optional[_Iterable[_Union[EnumOption, _Mapping]]] = ...) -> None: ...
+
+class StepperControl(_message.Message):
+    __slots__ = ("version", "title", "command_increment", "command_decrement")
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_INCREMENT_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_DECREMENT_FIELD_NUMBER: _ClassVar[int]
+    version: int
+    title: str
+    command_increment: CommandBinding
+    command_decrement: CommandBinding
+    def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command_increment: _Optional[_Union[CommandBinding, _Mapping]] = ..., command_decrement: _Optional[_Union[CommandBinding, _Mapping]] = ...) -> None: ...

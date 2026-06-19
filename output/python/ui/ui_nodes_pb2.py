@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11ui/ui_nodes.proto\x12\x02ui\" \n\x0f\x46ixedPointScale\x12\r\n\x05scale\x18\x01 \x01(\r\"b\n\x0cStateBinding\x12\x18\n\x10state_field_path\x18\x01 \x01(\t\x12\x14\n\x0csubject_name\x18\x02 \x01(\t\x12\"\n\x05scale\x18\x03 \x01(\x0b\x32\x13.ui.FixedPointScale\"H\n\x0e\x43ommandBinding\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\"\n\x05scale\x18\x02 \x01(\x0b\x32\x13.ui.FixedPointScale\"\x9b\x01\n\rSliderControl\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0b\x32\x10.ui.StateBinding\x12#\n\x07\x63ommand\x18\x04 \x01(\x0b\x32\x12.ui.CommandBinding\x12\x11\n\tmin_value\x18\x05 \x01(\x05\x12\x11\n\tmax_value\x18\x06 \x01(\x05\"S\n\x0c\x41\x63tionButton\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12#\n\x07\x63ommand\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\"\xa1\x01\n\rToggleControl\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12&\n\ncommand_on\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\x12\'\n\x0b\x63ommand_off\x18\x04 \x01(\x0b\x32\x12.ui.CommandBinding\x12\x1f\n\x05state\x18\x05 \x01(\x0b\x32\x10.ui.StateBinding\"*\n\nEnumOption\x12\r\n\x05label\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x05\"r\n\nEnumPicker\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12#\n\x07\x63ommand\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\x12\x1f\n\x07options\x18\x04 \x03(\x0b\x32\x0e.ui.EnumOption*T\n\x11NodeSchemaVersion\x12#\n\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n\x16NODE_SCHEMA_VERSION_V1\x10\x01\x42\x45ZCgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/uib\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11ui/ui_nodes.proto\x12\x02ui\" \n\x0f\x46ixedPointScale\x12\r\n\x05scale\x18\x01 \x01(\r\"b\n\x0cStateBinding\x12\x18\n\x10state_field_path\x18\x01 \x01(\t\x12\x14\n\x0csubject_name\x18\x02 \x01(\t\x12\"\n\x05scale\x18\x03 \x01(\x0b\x32\x13.ui.FixedPointScale\"H\n\x0e\x43ommandBinding\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\"\n\x05scale\x18\x02 \x01(\x0b\x32\x13.ui.FixedPointScale\"\x9b\x01\n\rSliderControl\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12\x1f\n\x05state\x18\x03 \x01(\x0b\x32\x10.ui.StateBinding\x12#\n\x07\x63ommand\x18\x04 \x01(\x0b\x32\x12.ui.CommandBinding\x12\x11\n\tmin_value\x18\x05 \x01(\x05\x12\x11\n\tmax_value\x18\x06 \x01(\x05\"S\n\x0c\x41\x63tionButton\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12#\n\x07\x63ommand\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\"\xa1\x01\n\rToggleControl\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12&\n\ncommand_on\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\x12\'\n\x0b\x63ommand_off\x18\x04 \x01(\x0b\x32\x12.ui.CommandBinding\x12\x1f\n\x05state\x18\x05 \x01(\x0b\x32\x10.ui.StateBinding\"*\n\nEnumOption\x12\r\n\x05label\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\x05\"r\n\nEnumPicker\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12#\n\x07\x63ommand\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\x12\x1f\n\x07options\x18\x04 \x03(\x0b\x32\x0e.ui.EnumOption\"\x8e\x01\n\x0eStepperControl\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\r\n\x05title\x18\x02 \x01(\t\x12-\n\x11\x63ommand_increment\x18\x03 \x01(\x0b\x32\x12.ui.CommandBinding\x12-\n\x11\x63ommand_decrement\x18\x04 \x01(\x0b\x32\x12.ui.CommandBinding*T\n\x11NodeSchemaVersion\x12#\n\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n\x16NODE_SCHEMA_VERSION_V1\x10\x01\x42\x45ZCgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/uib\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,8 +32,8 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'ui.ui_nodes_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'ZCgit-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/ui'
-  _globals['_NODESCHEMAVERSION']._serialized_start=800
-  _globals['_NODESCHEMAVERSION']._serialized_end=884
+  _globals['_NODESCHEMAVERSION']._serialized_start=945
+  _globals['_NODESCHEMAVERSION']._serialized_end=1029
   _globals['_FIXEDPOINTSCALE']._serialized_start=25
   _globals['_FIXEDPOINTSCALE']._serialized_end=57
   _globals['_STATEBINDING']._serialized_start=59
@@ -50,4 +50,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_ENUMOPTION']._serialized_end=682
   _globals['_ENUMPICKER']._serialized_start=684
   _globals['_ENUMPICKER']._serialized_end=798
+  _globals['_STEPPERCONTROL']._serialized_start=801
+  _globals['_STEPPERCONTROL']._serialized_end=943
 # @@protoc_insertion_point(module_scope)

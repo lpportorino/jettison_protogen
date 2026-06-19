@@ -158,6 +158,25 @@ typedef struct _ui_EnumPicker {
     pb_callback_t options;
 } ui_EnumPicker;
 
+/* L3 StepperControl kind — a pair of −/+ buttons that send two parameterless
+ commands: + → command_increment, − → command_decrement (e.g. FocusStepPlus /
+ FocusStepMinus). The generator pairs `:ui-pattern :stepper` Plus/Minus (or
+ Increase/Decrease) command siblings; the lowering emits two buttons whose
+ click events route through each command id. (Shift-by-delta steppers — a
+ single int32/double command sent with ±step — are a deferred variant.) */
+typedef struct _ui_StepperControl {
+    /* Schema version — checked FIRST by the lowering (fail-fast guard). */
+    uint32_t version;
+    /* Stepper label. */
+    pb_callback_t title;
+    /* Command sent by the + button (the paired Plus/Increase command). */
+    bool has_command_increment;
+    ui_CommandBinding command_increment;
+    /* Command sent by the − button (the paired Minus/Decrease command). */
+    bool has_command_decrement;
+    ui_CommandBinding command_decrement;
+} ui_StepperControl;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -177,6 +196,7 @@ extern "C" {
 
 
 
+
 /* Initializer values for message structs */
 #define ui_FixedPointScale_init_default          {0}
 #define ui_StateBinding_init_default             {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_default}
@@ -186,6 +206,7 @@ extern "C" {
 #define ui_ToggleControl_init_default            {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, false, ui_CommandBinding_init_default, false, ui_StateBinding_init_default}
 #define ui_EnumOption_init_default               {{{NULL}, NULL}, 0}
 #define ui_EnumPicker_init_default               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, {{NULL}, NULL}}
+#define ui_StepperControl_init_default           {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, false, ui_CommandBinding_init_default}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_CommandBinding_init_zero              {{{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
@@ -194,6 +215,7 @@ extern "C" {
 #define ui_ToggleControl_init_zero               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, false, ui_CommandBinding_init_zero, false, ui_StateBinding_init_zero}
 #define ui_EnumOption_init_zero                  {{{NULL}, NULL}, 0}
 #define ui_EnumPicker_init_zero                  {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, {{NULL}, NULL}}
+#define ui_StepperControl_init_zero              {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, false, ui_CommandBinding_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_FixedPointScale_scale_tag             1
@@ -222,6 +244,10 @@ extern "C" {
 #define ui_EnumPicker_title_tag                  2
 #define ui_EnumPicker_command_tag                3
 #define ui_EnumPicker_options_tag                4
+#define ui_StepperControl_version_tag            1
+#define ui_StepperControl_title_tag              2
+#define ui_StepperControl_command_increment_tag  3
+#define ui_StepperControl_command_decrement_tag  4
 
 /* Struct field encoding specification for nanopb */
 #define ui_FixedPointScale_FIELDLIST(X, a) \
@@ -292,6 +318,16 @@ X(a, CALLBACK, REPEATED, MESSAGE,  options,           4)
 #define ui_EnumPicker_command_MSGTYPE ui_CommandBinding
 #define ui_EnumPicker_options_MSGTYPE ui_EnumOption
 
+#define ui_StepperControl_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command_increment,   3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command_decrement,   4)
+#define ui_StepperControl_CALLBACK pb_default_field_callback
+#define ui_StepperControl_DEFAULT NULL
+#define ui_StepperControl_command_increment_MSGTYPE ui_CommandBinding
+#define ui_StepperControl_command_decrement_MSGTYPE ui_CommandBinding
+
 extern const pb_msgdesc_t ui_FixedPointScale_msg;
 extern const pb_msgdesc_t ui_StateBinding_msg;
 extern const pb_msgdesc_t ui_CommandBinding_msg;
@@ -300,6 +336,7 @@ extern const pb_msgdesc_t ui_ActionButton_msg;
 extern const pb_msgdesc_t ui_ToggleControl_msg;
 extern const pb_msgdesc_t ui_EnumOption_msg;
 extern const pb_msgdesc_t ui_EnumPicker_msg;
+extern const pb_msgdesc_t ui_StepperControl_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_FixedPointScale_fields &ui_FixedPointScale_msg
@@ -310,6 +347,7 @@ extern const pb_msgdesc_t ui_EnumPicker_msg;
 #define ui_ToggleControl_fields &ui_ToggleControl_msg
 #define ui_EnumOption_fields &ui_EnumOption_msg
 #define ui_EnumPicker_fields &ui_EnumPicker_msg
+#define ui_StepperControl_fields &ui_StepperControl_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ui_StateBinding_size depends on runtime parameters */
@@ -319,6 +357,7 @@ extern const pb_msgdesc_t ui_EnumPicker_msg;
 /* ui_ToggleControl_size depends on runtime parameters */
 /* ui_EnumOption_size depends on runtime parameters */
 /* ui_EnumPicker_size depends on runtime parameters */
+/* ui_StepperControl_size depends on runtime parameters */
 #define UI_UI_UI_NODES_PB_H_MAX_SIZE             ui_FixedPointScale_size
 #define ui_FixedPointScale_size                  6
 

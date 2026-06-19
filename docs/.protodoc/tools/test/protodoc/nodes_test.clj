@@ -126,6 +126,27 @@
       (is (= "toggle.System.GeodesicMode" (:id (first nodes))))
       (is (= "cmd.System.EnableGeodesicMode" (:command-on (first nodes)))))))
 
+(deftest pairs-plus-minus-steppers
+  (let [db {:messages
+            {"cmd.HeatCamera.FocusStepPlus"
+             {:id "cmd.HeatCamera.FocusStepPlus" :name "FocusStepPlus"
+              :fields [] :interaction {:ui-pattern :stepper}}
+             "cmd.HeatCamera.FocusStepMinus"
+             {:id "cmd.HeatCamera.FocusStepMinus" :name "FocusStepMinus"
+              :fields [] :interaction {:ui-pattern :stepper}}
+             ;; a lone Next with no Prev → not paired
+             "cmd.HeatCamera.NextZoomTablePos"
+             {:id "cmd.HeatCamera.NextZoomTablePos" :name "NextZoomTablePos"
+              :fields [] :interaction {:ui-pattern :stepper}}}}
+        nodes (nodes/derive-stepper-nodes db)]
+    (is (= 1 (count nodes)) "only the +/- pair, not the lone Next")
+    (is (= {:id "stepper.HeatCamera.FocusStep"
+            :kind :stepper
+            :title "Focus Step"
+            :command-increment "cmd.HeatCamera.FocusStepPlus"
+            :command-decrement "cmd.HeatCamera.FocusStepMinus"}
+           (first nodes)))))
+
 (deftest derives-enum-picker-options
   (let [db {:enums {"ser.FxMode"
                     {:values [{:number 0 :name "JON_FX_DEFAULT"}

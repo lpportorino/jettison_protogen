@@ -169,6 +169,36 @@ struct ToggleControlDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ToggleControlDefaultTypeInternal _ToggleControl_default_instance_;
 
+inline constexpr StepperControl::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        title_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        command_increment_{nullptr},
+        command_decrement_{nullptr},
+        version_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR StepperControl::StepperControl(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct StepperControlDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StepperControlDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StepperControlDefaultTypeInternal() {}
+  union {
+    StepperControl _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StepperControlDefaultTypeInternal _StepperControl_default_instance_;
+
 inline constexpr SliderControl::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -379,6 +409,22 @@ const ::uint32_t
         ~0u,
         0,
         ~0u,
+        PROTOBUF_FIELD_OFFSET(::ui::StepperControl, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ui::StepperControl, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ui::StepperControl, _impl_.version_),
+        PROTOBUF_FIELD_OFFSET(::ui::StepperControl, _impl_.title_),
+        PROTOBUF_FIELD_OFFSET(::ui::StepperControl, _impl_.command_increment_),
+        PROTOBUF_FIELD_OFFSET(::ui::StepperControl, _impl_.command_decrement_),
+        ~0u,
+        ~0u,
+        0,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
@@ -391,6 +437,7 @@ static const ::_pbi::MigrationSchema
         {69, 82, -1, sizeof(::ui::ToggleControl)},
         {87, -1, -1, sizeof(::ui::EnumOption)},
         {97, 109, -1, sizeof(::ui::EnumPicker)},
+        {113, 125, -1, sizeof(::ui::StepperControl)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_FixedPointScale_default_instance_._instance,
@@ -401,6 +448,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::ui::_ToggleControl_default_instance_._instance,
     &::ui::_EnumOption_default_instance_._instance,
     &::ui::_EnumPicker_default_instance_._instance,
+    &::ui::_StepperControl_default_instance_._instance,
 };
 const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
@@ -428,11 +476,15 @@ const char descriptor_table_protodef_ui_2fui_5fnodes_2eproto[] ABSL_ATTRIBUTE_SE
     "numPicker\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026"
     "\n\005title\030\002 \001(\tB\007\272H\004r\002\030\?\022#\n\007command\030\003 \001(\0132"
     "\022.ui.CommandBinding\022\037\n\007options\030\004 \003(\0132\016.u"
-    "i.EnumOption*T\n\021NodeSchemaVersion\022#\n\037NOD"
-    "E_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_S"
-    "CHEMA_VERSION_V1\020\001BEZCgit-codecommit.eu-"
-    "central-1.amazonaws.com/v1/repos/jettiso"
-    "n/jonp/uib\006proto3"
+    "i.EnumOption\"\243\001\n\016StepperControl\022\033\n\007versi"
+    "on\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004"
+    "r\002\030\?\022-\n\021command_increment\030\003 \001(\0132\022.ui.Com"
+    "mandBinding\022-\n\021command_decrement\030\004 \001(\0132\022"
+    ".ui.CommandBinding*T\n\021NodeSchemaVersion\022"
+    "#\n\037NODE_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026"
+    "NODE_SCHEMA_VERSION_V1\020\001BEZCgit-codecomm"
+    "it.eu-central-1.amazonaws.com/v1/repos/j"
+    "ettison/jonp/uib\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_ui_2fui_5fnodes_2eproto_deps[1] =
     {
@@ -442,13 +494,13 @@ static ::absl::once_flag descriptor_table_ui_2fui_5fnodes_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ui_2fui_5fnodes_2eproto = {
     false,
     false,
-    1137,
+    1303,
     descriptor_table_protodef_ui_2fui_5fnodes_2eproto,
     "ui/ui_nodes.proto",
     &descriptor_table_ui_2fui_5fnodes_2eproto_once,
     descriptor_table_ui_2fui_5fnodes_2eproto_deps,
     1,
-    8,
+    9,
     schemas,
     file_default_instances,
     TableStruct_ui_2fui_5fnodes_2eproto::offsets,
@@ -3023,6 +3075,366 @@ void EnumPicker::InternalSwap(EnumPicker* PROTOBUF_RESTRICT other) {
 }
 
 ::google::protobuf::Metadata EnumPicker::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class StepperControl::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<StepperControl>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(StepperControl, _impl_._has_bits_);
+};
+
+StepperControl::StepperControl(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ui.StepperControl)
+}
+inline PROTOBUF_NDEBUG_INLINE StepperControl::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ui::StepperControl& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        title_(arena, from.title_) {}
+
+StepperControl::StepperControl(
+    ::google::protobuf::Arena* arena,
+    const StepperControl& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  StepperControl* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.command_increment_ = (cached_has_bits & 0x00000001u) ? ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(
+                              arena, *from._impl_.command_increment_)
+                        : nullptr;
+  _impl_.command_decrement_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(
+                              arena, *from._impl_.command_decrement_)
+                        : nullptr;
+  _impl_.version_ = from._impl_.version_;
+
+  // @@protoc_insertion_point(copy_constructor:ui.StepperControl)
+}
+inline PROTOBUF_NDEBUG_INLINE StepperControl::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        title_(arena) {}
+
+inline void StepperControl::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, command_increment_),
+           0,
+           offsetof(Impl_, version_) -
+               offsetof(Impl_, command_increment_) +
+               sizeof(Impl_::version_));
+}
+StepperControl::~StepperControl() {
+  // @@protoc_insertion_point(destructor:ui.StepperControl)
+  SharedDtor(*this);
+}
+inline void StepperControl::SharedDtor(MessageLite& self) {
+  StepperControl& this_ = static_cast<StepperControl&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.title_.Destroy();
+  delete this_._impl_.command_increment_;
+  delete this_._impl_.command_decrement_;
+  this_._impl_.~Impl_();
+}
+
+inline void* StepperControl::PlacementNew_(const void*, void* mem,
+                                        ::google::protobuf::Arena* arena) {
+  return ::new (mem) StepperControl(arena);
+}
+constexpr auto StepperControl::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(StepperControl),
+                                            alignof(StepperControl));
+}
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::internal::ClassDataFull StepperControl::_class_data_ = {
+    ::google::protobuf::internal::ClassData{
+        &_StepperControl_default_instance_._instance,
+        &_table_.header,
+        nullptr,  // OnDemandRegisterArenaDtor
+        nullptr,  // IsInitialized
+        &StepperControl::MergeImpl,
+        ::google::protobuf::Message::GetNewImpl<StepperControl>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        &StepperControl::SharedDtor,
+        ::google::protobuf::Message::GetClearImpl<StepperControl>(), &StepperControl::ByteSizeLong,
+            &StepperControl::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+        PROTOBUF_FIELD_OFFSET(StepperControl, _impl_._cached_size_),
+        false,
+    },
+    &StepperControl::kDescriptorMethods,
+    &descriptor_table_ui_2fui_5fnodes_2eproto,
+    nullptr,  // tracker
+};
+const ::google::protobuf::internal::ClassData* StepperControl::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 4, 2, 31, 2> StepperControl::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(StepperControl, _impl_._has_bits_),
+    0, // no _extensions_
+    4, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967280,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    4,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ui::StepperControl>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .ui.CommandBinding command_decrement = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 1, 1, PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.command_decrement_)}},
+    // uint32 version = 1 [(.buf.validate.field) = {
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(StepperControl, _impl_.version_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.version_)}},
+    // string title = 2 [(.buf.validate.field) = {
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.title_)}},
+    // .ui.CommandBinding command_increment = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.command_increment_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint32 version = 1 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.version_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // string title = 2 [(.buf.validate.field) = {
+    {PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.title_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .ui.CommandBinding command_increment = 3;
+    {PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.command_increment_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ui.CommandBinding command_decrement = 4;
+    {PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.command_decrement_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
+    {::_pbi::TcParser::GetTable<::ui::CommandBinding>()},
+  }}, {{
+    "\21\0\5\0\0\0\0\0"
+    "ui.StepperControl"
+    "title"
+  }},
+};
+
+PROTOBUF_NOINLINE void StepperControl::Clear() {
+// @@protoc_insertion_point(message_clear_start:ui.StepperControl)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.title_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.command_increment_ != nullptr);
+      _impl_.command_increment_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.command_decrement_ != nullptr);
+      _impl_.command_decrement_->Clear();
+    }
+  }
+  _impl_.version_ = 0u;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* StepperControl::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const StepperControl& this_ = static_cast<const StepperControl&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* StepperControl::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const StepperControl& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ui.StepperControl)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          // uint32 version = 1 [(.buf.validate.field) = {
+          if (this_._internal_version() != 0) {
+            target = stream->EnsureSpace(target);
+            target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+                1, this_._internal_version(), target);
+          }
+
+          // string title = 2 [(.buf.validate.field) = {
+          if (!this_._internal_title().empty()) {
+            const std::string& _s = this_._internal_title();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "ui.StepperControl.title");
+            target = stream->WriteStringMaybeAliased(2, _s, target);
+          }
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // .ui.CommandBinding command_increment = 3;
+          if (cached_has_bits & 0x00000001u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                3, *this_._impl_.command_increment_, this_._impl_.command_increment_->GetCachedSize(), target,
+                stream);
+          }
+
+          // .ui.CommandBinding command_decrement = 4;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                4, *this_._impl_.command_decrement_, this_._impl_.command_decrement_->GetCachedSize(), target,
+                stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ui.StepperControl)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t StepperControl::ByteSizeLong(const MessageLite& base) {
+          const StepperControl& this_ = static_cast<const StepperControl&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t StepperControl::ByteSizeLong() const {
+          const StepperControl& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ui.StepperControl)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // string title = 2 [(.buf.validate.field) = {
+            if (!this_._internal_title().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_title());
+            }
+          }
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
+            // .ui.CommandBinding command_increment = 3;
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.command_increment_);
+            }
+            // .ui.CommandBinding command_decrement = 4;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.command_decrement_);
+            }
+          }
+           {
+            // uint32 version = 1 [(.buf.validate.field) = {
+            if (this_._internal_version() != 0) {
+              total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+                  this_._internal_version());
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void StepperControl::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<StepperControl*>(&to_msg);
+  auto& from = static_cast<const StepperControl&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ui.StepperControl)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_title().empty()) {
+    _this->_internal_set_title(from._internal_title());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(from._impl_.command_increment_ != nullptr);
+      if (_this->_impl_.command_increment_ == nullptr) {
+        _this->_impl_.command_increment_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_increment_);
+      } else {
+        _this->_impl_.command_increment_->MergeFrom(*from._impl_.command_increment_);
+      }
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.command_decrement_ != nullptr);
+      if (_this->_impl_.command_decrement_ == nullptr) {
+        _this->_impl_.command_decrement_ =
+            ::google::protobuf::Message::CopyConstruct<::ui::CommandBinding>(arena, *from._impl_.command_decrement_);
+      } else {
+        _this->_impl_.command_decrement_->MergeFrom(*from._impl_.command_decrement_);
+      }
+    }
+  }
+  if (from._internal_version() != 0) {
+    _this->_impl_.version_ = from._impl_.version_;
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StepperControl::CopyFrom(const StepperControl& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ui.StepperControl)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void StepperControl::InternalSwap(StepperControl* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.title_, &other->_impl_.title_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.version_)
+      + sizeof(StepperControl::_impl_.version_)
+      - PROTOBUF_FIELD_OFFSET(StepperControl, _impl_.command_increment_)>(
+          reinterpret_cast<char*>(&_impl_.command_increment_),
+          reinterpret_cast<char*>(&other->_impl_.command_increment_));
+}
+
+::google::protobuf::Metadata StepperControl::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // @@protoc_insertion_point(namespace_scope)

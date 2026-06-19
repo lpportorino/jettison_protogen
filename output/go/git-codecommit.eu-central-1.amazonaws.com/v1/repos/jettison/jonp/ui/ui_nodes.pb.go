@@ -649,6 +649,84 @@ func (x *EnumPicker) GetOptions() []*EnumOption {
 	return nil
 }
 
+// L3 StepperControl kind — a pair of −/+ buttons that send two parameterless
+// commands: + → command_increment, − → command_decrement (e.g. FocusStepPlus /
+// FocusStepMinus). The generator pairs `:ui-pattern :stepper` Plus/Minus (or
+// Increase/Decrease) command siblings; the lowering emits two buttons whose
+// click events route through each command id. (Shift-by-delta steppers — a
+// single int32/double command sent with ±step — are a deferred variant.)
+type StepperControl struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema version — checked FIRST by the lowering (fail-fast guard).
+	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
+	// Stepper label.
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// Command sent by the + button (the paired Plus/Increase command).
+	CommandIncrement *CommandBinding `protobuf:"bytes,3,opt,name=command_increment,json=commandIncrement,proto3" json:"command_increment,omitempty"`
+	// Command sent by the − button (the paired Minus/Decrease command).
+	CommandDecrement *CommandBinding `protobuf:"bytes,4,opt,name=command_decrement,json=commandDecrement,proto3" json:"command_decrement,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *StepperControl) Reset() {
+	*x = StepperControl{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StepperControl) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StepperControl) ProtoMessage() {}
+
+func (x *StepperControl) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StepperControl.ProtoReflect.Descriptor instead.
+func (*StepperControl) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *StepperControl) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *StepperControl) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *StepperControl) GetCommandIncrement() *CommandBinding {
+	if x != nil {
+		return x.CommandIncrement
+	}
+	return nil
+}
+
+func (x *StepperControl) GetCommandDecrement() *CommandBinding {
+	if x != nil {
+		return x.CommandDecrement
+	}
+	return nil
+}
+
 var File_ui_ui_nodes_proto protoreflect.FileDescriptor
 
 const file_ui_ui_nodes_proto_rawDesc = "" +
@@ -696,7 +774,13 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
 	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand\x12(\n" +
-	"\aoptions\x18\x04 \x03(\v2\x0e.ui.EnumOptionR\aoptions*T\n" +
+	"\aoptions\x18\x04 \x03(\v2\x0e.ui.EnumOptionR\aoptions\"\xd7\x01\n" +
+	"\x0eStepperControl\x12$\n" +
+	"\aversion\x18\x01 \x01(\rB\n" +
+	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
+	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12?\n" +
+	"\x11command_increment\x18\x03 \x01(\v2\x12.ui.CommandBindingR\x10commandIncrement\x12?\n" +
+	"\x11command_decrement\x18\x04 \x01(\v2\x12.ui.CommandBindingR\x10commandDecrement*T\n" +
 	"\x11NodeSchemaVersion\x12#\n" +
 	"\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16NODE_SCHEMA_VERSION_V1\x10\x01B\x83\x01\n" +
@@ -715,7 +799,7 @@ func file_ui_ui_nodes_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_nodes_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_ui_ui_nodes_proto_goTypes = []any{
 	(NodeSchemaVersion)(0),  // 0: ui.NodeSchemaVersion
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
@@ -726,6 +810,7 @@ var file_ui_ui_nodes_proto_goTypes = []any{
 	(*ToggleControl)(nil),   // 6: ui.ToggleControl
 	(*EnumOption)(nil),      // 7: ui.EnumOption
 	(*EnumPicker)(nil),      // 8: ui.EnumPicker
+	(*StepperControl)(nil),  // 9: ui.StepperControl
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
 	1,  // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
@@ -738,11 +823,13 @@ var file_ui_ui_nodes_proto_depIdxs = []int32{
 	2,  // 7: ui.ToggleControl.state:type_name -> ui.StateBinding
 	3,  // 8: ui.EnumPicker.command:type_name -> ui.CommandBinding
 	7,  // 9: ui.EnumPicker.options:type_name -> ui.EnumOption
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	3,  // 10: ui.StepperControl.command_increment:type_name -> ui.CommandBinding
+	3,  // 11: ui.StepperControl.command_decrement:type_name -> ui.CommandBinding
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }
@@ -756,7 +843,7 @@ func file_ui_ui_nodes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_nodes_proto_rawDesc), len(file_ui_ui_nodes_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

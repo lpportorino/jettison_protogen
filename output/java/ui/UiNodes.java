@@ -8353,6 +8353,1190 @@ public final class UiNodes {
 
   }
 
+  public interface StepperControlOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ui.StepperControl)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    java.lang.String getTitle();
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    /**
+     * <pre>
+     * Command sent by the + button (the paired Plus/Increase command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_increment = 3;</code>
+     * @return Whether the commandIncrement field is set.
+     */
+    boolean hasCommandIncrement();
+    /**
+     * <pre>
+     * Command sent by the + button (the paired Plus/Increase command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_increment = 3;</code>
+     * @return The commandIncrement.
+     */
+    ui.UiNodes.CommandBinding getCommandIncrement();
+    /**
+     * <pre>
+     * Command sent by the + button (the paired Plus/Increase command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_increment = 3;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandIncrementOrBuilder();
+
+    /**
+     * <pre>
+     * Command sent by the − button (the paired Minus/Decrease command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_decrement = 4;</code>
+     * @return Whether the commandDecrement field is set.
+     */
+    boolean hasCommandDecrement();
+    /**
+     * <pre>
+     * Command sent by the − button (the paired Minus/Decrease command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_decrement = 4;</code>
+     * @return The commandDecrement.
+     */
+    ui.UiNodes.CommandBinding getCommandDecrement();
+    /**
+     * <pre>
+     * Command sent by the − button (the paired Minus/Decrease command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_decrement = 4;</code>
+     */
+    ui.UiNodes.CommandBindingOrBuilder getCommandDecrementOrBuilder();
+  }
+  /**
+   * <pre>
+   * L3 StepperControl kind — a pair of −/+ buttons that send two parameterless
+   * commands: + → command_increment, − → command_decrement (e.g. FocusStepPlus /
+   * FocusStepMinus). The generator pairs `:ui-pattern :stepper` Plus/Minus (or
+   * Increase/Decrease) command siblings; the lowering emits two buttons whose
+   * click events route through each command id. (Shift-by-delta steppers — a
+   * single int32/double command sent with ±step — are a deferred variant.)
+   * </pre>
+   *
+   * Protobuf type {@code ui.StepperControl}
+   */
+  public static final class StepperControl extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ui.StepperControl)
+      StepperControlOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 2,
+        /* suffix= */ "",
+        StepperControl.class.getName());
+    }
+    // Use StepperControl.newBuilder() to construct.
+    private StepperControl(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private StepperControl() {
+      title_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ui.UiNodes.internal_static_ui_StepperControl_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ui.UiNodes.internal_static_ui_StepperControl_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ui.UiNodes.StepperControl.class, ui.UiNodes.StepperControl.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private int version_ = 0;
+    /**
+     * <pre>
+     * Schema version — checked FIRST by the lowering (fail-fast guard).
+     * </pre>
+     *
+     * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+
+    public static final int TITLE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object title_ = "";
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The title.
+     */
+    @java.lang.Override
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        title_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Stepper label.
+     * </pre>
+     *
+     * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+     * @return The bytes for title.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int COMMAND_INCREMENT_FIELD_NUMBER = 3;
+    private ui.UiNodes.CommandBinding commandIncrement_;
+    /**
+     * <pre>
+     * Command sent by the + button (the paired Plus/Increase command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_increment = 3;</code>
+     * @return Whether the commandIncrement field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommandIncrement() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <pre>
+     * Command sent by the + button (the paired Plus/Increase command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_increment = 3;</code>
+     * @return The commandIncrement.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommandIncrement() {
+      return commandIncrement_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandIncrement_;
+    }
+    /**
+     * <pre>
+     * Command sent by the + button (the paired Plus/Increase command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_increment = 3;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandIncrementOrBuilder() {
+      return commandIncrement_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandIncrement_;
+    }
+
+    public static final int COMMAND_DECREMENT_FIELD_NUMBER = 4;
+    private ui.UiNodes.CommandBinding commandDecrement_;
+    /**
+     * <pre>
+     * Command sent by the − button (the paired Minus/Decrease command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_decrement = 4;</code>
+     * @return Whether the commandDecrement field is set.
+     */
+    @java.lang.Override
+    public boolean hasCommandDecrement() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * Command sent by the − button (the paired Minus/Decrease command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_decrement = 4;</code>
+     * @return The commandDecrement.
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBinding getCommandDecrement() {
+      return commandDecrement_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandDecrement_;
+    }
+    /**
+     * <pre>
+     * Command sent by the − button (the paired Minus/Decrease command).
+     * </pre>
+     *
+     * <code>.ui.CommandBinding command_decrement = 4;</code>
+     */
+    @java.lang.Override
+    public ui.UiNodes.CommandBindingOrBuilder getCommandDecrementOrBuilder() {
+      return commandDecrement_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandDecrement_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (version_ != 0) {
+        output.writeUInt32(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(3, getCommandIncrement());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeMessage(4, getCommandDecrement());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (version_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, version_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(title_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, title_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getCommandIncrement());
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getCommandDecrement());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ui.UiNodes.StepperControl)) {
+        return super.equals(obj);
+      }
+      ui.UiNodes.StepperControl other = (ui.UiNodes.StepperControl) obj;
+
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getTitle()
+          .equals(other.getTitle())) return false;
+      if (hasCommandIncrement() != other.hasCommandIncrement()) return false;
+      if (hasCommandIncrement()) {
+        if (!getCommandIncrement()
+            .equals(other.getCommandIncrement())) return false;
+      }
+      if (hasCommandDecrement() != other.hasCommandDecrement()) return false;
+      if (hasCommandDecrement()) {
+        if (!getCommandDecrement()
+            .equals(other.getCommandDecrement())) return false;
+      }
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + TITLE_FIELD_NUMBER;
+      hash = (53 * hash) + getTitle().hashCode();
+      if (hasCommandIncrement()) {
+        hash = (37 * hash) + COMMAND_INCREMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getCommandIncrement().hashCode();
+      }
+      if (hasCommandDecrement()) {
+        hash = (37 * hash) + COMMAND_DECREMENT_FIELD_NUMBER;
+        hash = (53 * hash) + getCommandDecrement().hashCode();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ui.UiNodes.StepperControl parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static ui.UiNodes.StepperControl parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static ui.UiNodes.StepperControl parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static ui.UiNodes.StepperControl parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ui.UiNodes.StepperControl prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * L3 StepperControl kind — a pair of −/+ buttons that send two parameterless
+     * commands: + → command_increment, − → command_decrement (e.g. FocusStepPlus /
+     * FocusStepMinus). The generator pairs `:ui-pattern :stepper` Plus/Minus (or
+     * Increase/Decrease) command siblings; the lowering emits two buttons whose
+     * click events route through each command id. (Shift-by-delta steppers — a
+     * single int32/double command sent with ±step — are a deferred variant.)
+     * </pre>
+     *
+     * Protobuf type {@code ui.StepperControl}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ui.StepperControl)
+        ui.UiNodes.StepperControlOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ui.UiNodes.internal_static_ui_StepperControl_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ui.UiNodes.internal_static_ui_StepperControl_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ui.UiNodes.StepperControl.class, ui.UiNodes.StepperControl.Builder.class);
+      }
+
+      // Construct using ui.UiNodes.StepperControl.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          getCommandIncrementFieldBuilder();
+          getCommandDecrementFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        version_ = 0;
+        title_ = "";
+        commandIncrement_ = null;
+        if (commandIncrementBuilder_ != null) {
+          commandIncrementBuilder_.dispose();
+          commandIncrementBuilder_ = null;
+        }
+        commandDecrement_ = null;
+        if (commandDecrementBuilder_ != null) {
+          commandDecrementBuilder_.dispose();
+          commandDecrementBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ui.UiNodes.internal_static_ui_StepperControl_descriptor;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.StepperControl getDefaultInstanceForType() {
+        return ui.UiNodes.StepperControl.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.StepperControl build() {
+        ui.UiNodes.StepperControl result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ui.UiNodes.StepperControl buildPartial() {
+        ui.UiNodes.StepperControl result = new ui.UiNodes.StepperControl(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ui.UiNodes.StepperControl result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.version_ = version_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.title_ = title_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.commandIncrement_ = commandIncrementBuilder_ == null
+              ? commandIncrement_
+              : commandIncrementBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.commandDecrement_ = commandDecrementBuilder_ == null
+              ? commandDecrement_
+              : commandDecrementBuilder_.build();
+          to_bitField0_ |= 0x00000002;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ui.UiNodes.StepperControl) {
+          return mergeFrom((ui.UiNodes.StepperControl)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ui.UiNodes.StepperControl other) {
+        if (other == ui.UiNodes.StepperControl.getDefaultInstance()) return this;
+        if (other.getVersion() != 0) {
+          setVersion(other.getVersion());
+        }
+        if (!other.getTitle().isEmpty()) {
+          title_ = other.title_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        if (other.hasCommandIncrement()) {
+          mergeCommandIncrement(other.getCommandIncrement());
+        }
+        if (other.hasCommandDecrement()) {
+          mergeCommandDecrement(other.getCommandDecrement());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                version_ = input.readUInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                title_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 26: {
+                input.readMessage(
+                    getCommandIncrementFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 34: {
+                input.readMessage(
+                    getCommandDecrementFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int version_ ;
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+
+        version_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Schema version — checked FIRST by the lowering (fail-fast guard).
+       * </pre>
+       *
+       * <code>uint32 version = 1 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object title_ = "";
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The title.
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return The bytes for title.
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTitle() {
+        title_ = getDefaultInstance().getTitle();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Stepper label.
+       * </pre>
+       *
+       * <code>string title = 2 [(.buf.validate.field) = { ... }</code>
+       * @param value The bytes for title to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        title_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      private ui.UiNodes.CommandBinding commandIncrement_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandIncrementBuilder_;
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       * @return Whether the commandIncrement field is set.
+       */
+      public boolean hasCommandIncrement() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       * @return The commandIncrement.
+       */
+      public ui.UiNodes.CommandBinding getCommandIncrement() {
+        if (commandIncrementBuilder_ == null) {
+          return commandIncrement_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandIncrement_;
+        } else {
+          return commandIncrementBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      public Builder setCommandIncrement(ui.UiNodes.CommandBinding value) {
+        if (commandIncrementBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          commandIncrement_ = value;
+        } else {
+          commandIncrementBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      public Builder setCommandIncrement(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandIncrementBuilder_ == null) {
+          commandIncrement_ = builderForValue.build();
+        } else {
+          commandIncrementBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      public Builder mergeCommandIncrement(ui.UiNodes.CommandBinding value) {
+        if (commandIncrementBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) != 0) &&
+            commandIncrement_ != null &&
+            commandIncrement_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandIncrementBuilder().mergeFrom(value);
+          } else {
+            commandIncrement_ = value;
+          }
+        } else {
+          commandIncrementBuilder_.mergeFrom(value);
+        }
+        if (commandIncrement_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      public Builder clearCommandIncrement() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        commandIncrement_ = null;
+        if (commandIncrementBuilder_ != null) {
+          commandIncrementBuilder_.dispose();
+          commandIncrementBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandIncrementBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getCommandIncrementFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandIncrementOrBuilder() {
+        if (commandIncrementBuilder_ != null) {
+          return commandIncrementBuilder_.getMessageOrBuilder();
+        } else {
+          return commandIncrement_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : commandIncrement_;
+        }
+      }
+      /**
+       * <pre>
+       * Command sent by the + button (the paired Plus/Increase command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_increment = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandIncrementFieldBuilder() {
+        if (commandIncrementBuilder_ == null) {
+          commandIncrementBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommandIncrement(),
+                  getParentForChildren(),
+                  isClean());
+          commandIncrement_ = null;
+        }
+        return commandIncrementBuilder_;
+      }
+
+      private ui.UiNodes.CommandBinding commandDecrement_;
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> commandDecrementBuilder_;
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       * @return Whether the commandDecrement field is set.
+       */
+      public boolean hasCommandDecrement() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       * @return The commandDecrement.
+       */
+      public ui.UiNodes.CommandBinding getCommandDecrement() {
+        if (commandDecrementBuilder_ == null) {
+          return commandDecrement_ == null ? ui.UiNodes.CommandBinding.getDefaultInstance() : commandDecrement_;
+        } else {
+          return commandDecrementBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      public Builder setCommandDecrement(ui.UiNodes.CommandBinding value) {
+        if (commandDecrementBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          commandDecrement_ = value;
+        } else {
+          commandDecrementBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      public Builder setCommandDecrement(
+          ui.UiNodes.CommandBinding.Builder builderForValue) {
+        if (commandDecrementBuilder_ == null) {
+          commandDecrement_ = builderForValue.build();
+        } else {
+          commandDecrementBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      public Builder mergeCommandDecrement(ui.UiNodes.CommandBinding value) {
+        if (commandDecrementBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            commandDecrement_ != null &&
+            commandDecrement_ != ui.UiNodes.CommandBinding.getDefaultInstance()) {
+            getCommandDecrementBuilder().mergeFrom(value);
+          } else {
+            commandDecrement_ = value;
+          }
+        } else {
+          commandDecrementBuilder_.mergeFrom(value);
+        }
+        if (commandDecrement_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      public Builder clearCommandDecrement() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        commandDecrement_ = null;
+        if (commandDecrementBuilder_ != null) {
+          commandDecrementBuilder_.dispose();
+          commandDecrementBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      public ui.UiNodes.CommandBinding.Builder getCommandDecrementBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getCommandDecrementFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      public ui.UiNodes.CommandBindingOrBuilder getCommandDecrementOrBuilder() {
+        if (commandDecrementBuilder_ != null) {
+          return commandDecrementBuilder_.getMessageOrBuilder();
+        } else {
+          return commandDecrement_ == null ?
+              ui.UiNodes.CommandBinding.getDefaultInstance() : commandDecrement_;
+        }
+      }
+      /**
+       * <pre>
+       * Command sent by the − button (the paired Minus/Decrease command).
+       * </pre>
+       *
+       * <code>.ui.CommandBinding command_decrement = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder> 
+          getCommandDecrementFieldBuilder() {
+        if (commandDecrementBuilder_ == null) {
+          commandDecrementBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              ui.UiNodes.CommandBinding, ui.UiNodes.CommandBinding.Builder, ui.UiNodes.CommandBindingOrBuilder>(
+                  getCommandDecrement(),
+                  getParentForChildren(),
+                  isClean());
+          commandDecrement_ = null;
+        }
+        return commandDecrementBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ui.StepperControl)
+    }
+
+    // @@protoc_insertion_point(class_scope:ui.StepperControl)
+    private static final ui.UiNodes.StepperControl DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ui.UiNodes.StepperControl();
+    }
+
+    public static ui.UiNodes.StepperControl getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<StepperControl>
+        PARSER = new com.google.protobuf.AbstractParser<StepperControl>() {
+      @java.lang.Override
+      public StepperControl parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<StepperControl> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<StepperControl> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ui.UiNodes.StepperControl getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ui_FixedPointScale_descriptor;
   private static final 
@@ -8393,6 +9577,11 @@ public final class UiNodes {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ui_EnumPicker_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_ui_StepperControl_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ui_StepperControl_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -8426,11 +9615,15 @@ public final class UiNodes {
       "numPicker\022\033\n\007version\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026" +
       "\n\005title\030\002 \001(\tB\007\272H\004r\002\030?\022#\n\007command\030\003 \001(\0132" +
       "\022.ui.CommandBinding\022\037\n\007options\030\004 \003(\0132\016.u" +
-      "i.EnumOption*T\n\021NodeSchemaVersion\022#\n\037NOD" +
-      "E_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026NODE_S" +
-      "CHEMA_VERSION_V1\020\001BEZCgit-codecommit.eu-" +
-      "central-1.amazonaws.com/v1/repos/jettiso" +
-      "n/jonp/uib\006proto3"
+      "i.EnumOption\"\243\001\n\016StepperControl\022\033\n\007versi" +
+      "on\030\001 \001(\rB\n\272H\007*\005\030\377\001(\001\022\026\n\005title\030\002 \001(\tB\007\272H\004" +
+      "r\002\030?\022-\n\021command_increment\030\003 \001(\0132\022.ui.Com" +
+      "mandBinding\022-\n\021command_decrement\030\004 \001(\0132\022" +
+      ".ui.CommandBinding*T\n\021NodeSchemaVersion\022" +
+      "#\n\037NODE_SCHEMA_VERSION_UNSPECIFIED\020\000\022\032\n\026" +
+      "NODE_SCHEMA_VERSION_V1\020\001BEZCgit-codecomm" +
+      "it.eu-central-1.amazonaws.com/v1/repos/j" +
+      "ettison/jonp/uib\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -8485,6 +9678,12 @@ public final class UiNodes {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ui_EnumPicker_descriptor,
         new java.lang.String[] { "Version", "Title", "Command", "Options", });
+    internal_static_ui_StepperControl_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_ui_StepperControl_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ui_StepperControl_descriptor,
+        new java.lang.String[] { "Version", "Title", "CommandIncrement", "CommandDecrement", });
     descriptor.resolveAllFeaturesImmutable();
     build.buf.validate.ValidateProto.getDescriptor();
     com.google.protobuf.ExtensionRegistry registry =

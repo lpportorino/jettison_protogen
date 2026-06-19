@@ -151,6 +151,27 @@ pub struct EnumPicker {
     #[prost(message, repeated, tag = "4")]
     pub options: ::prost::alloc::vec::Vec<EnumOption>,
 }
+/// L3 StepperControl kind — a pair of −/+ buttons that send two parameterless
+/// commands: + → command_increment, − → command_decrement (e.g. FocusStepPlus /
+/// FocusStepMinus). The generator pairs `:ui-pattern :stepper` Plus/Minus (or
+/// Increase/Decrease) command siblings; the lowering emits two buttons whose
+/// click events route through each command id. (Shift-by-delta steppers — a
+/// single int32/double command sent with ±step — are a deferred variant.)
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StepperControl {
+    /// Schema version — checked FIRST by the lowering (fail-fast guard).
+    #[prost(uint32, tag = "1")]
+    pub version: u32,
+    /// Stepper label.
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// Command sent by the + button (the paired Plus/Increase command).
+    #[prost(message, optional, tag = "3")]
+    pub command_increment: ::core::option::Option<CommandBinding>,
+    /// Command sent by the − button (the paired Minus/Decrease command).
+    #[prost(message, optional, tag = "4")]
+    pub command_decrement: ::core::option::Option<CommandBinding>,
+}
 /// Node-schema version constant. The lowering entry-point checks the wire
 /// `version` field against the CURRENT value FIRST and returns
 /// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no

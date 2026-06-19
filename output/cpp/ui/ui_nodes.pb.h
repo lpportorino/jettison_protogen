@@ -75,6 +75,9 @@ extern SliderControlDefaultTypeInternal _SliderControl_default_instance_;
 class StateBinding;
 struct StateBindingDefaultTypeInternal;
 extern StateBindingDefaultTypeInternal _StateBinding_default_instance_;
+class StepperControl;
+struct StepperControlDefaultTypeInternal;
+extern StepperControlDefaultTypeInternal _StepperControl_default_instance_;
 class ToggleControl;
 struct ToggleControlDefaultTypeInternal;
 extern ToggleControlDefaultTypeInternal _ToggleControl_default_instance_;
@@ -1220,6 +1223,249 @@ class ToggleControl final : public ::google::protobuf::Message
     ::ui::CommandBinding* command_on_;
     ::ui::CommandBinding* command_off_;
     ::ui::StateBinding* state_;
+    ::uint32_t version_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fnodes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class StepperControl final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.StepperControl) */ {
+ public:
+  inline StepperControl() : StepperControl(nullptr) {}
+  ~StepperControl() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(StepperControl* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(StepperControl));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR StepperControl(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline StepperControl(const StepperControl& from) : StepperControl(nullptr, from) {}
+  inline StepperControl(StepperControl&& from) noexcept
+      : StepperControl(nullptr, std::move(from)) {}
+  inline StepperControl& operator=(const StepperControl& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline StepperControl& operator=(StepperControl&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const StepperControl& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const StepperControl* internal_default_instance() {
+    return reinterpret_cast<const StepperControl*>(
+        &_StepperControl_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 8;
+  friend void swap(StepperControl& a, StepperControl& b) { a.Swap(&b); }
+  inline void Swap(StepperControl* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(StepperControl* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  StepperControl* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<StepperControl>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const StepperControl& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const StepperControl& from) { StepperControl::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(StepperControl* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.StepperControl"; }
+
+ protected:
+  explicit StepperControl(::google::protobuf::Arena* arena);
+  StepperControl(::google::protobuf::Arena* arena, const StepperControl& from);
+  StepperControl(::google::protobuf::Arena* arena, StepperControl&& from) noexcept
+      : StepperControl(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTitleFieldNumber = 2,
+    kCommandIncrementFieldNumber = 3,
+    kCommandDecrementFieldNumber = 4,
+    kVersionFieldNumber = 1,
+  };
+  // string title = 2 [(.buf.validate.field) = {
+  void clear_title() ;
+  const std::string& title() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_title(Arg_&& arg, Args_... args);
+  std::string* mutable_title();
+  PROTOBUF_NODISCARD std::string* release_title();
+  void set_allocated_title(std::string* value);
+
+  private:
+  const std::string& _internal_title() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_title(
+      const std::string& value);
+  std::string* _internal_mutable_title();
+
+  public:
+  // .ui.CommandBinding command_increment = 3;
+  bool has_command_increment() const;
+  void clear_command_increment() ;
+  const ::ui::CommandBinding& command_increment() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command_increment();
+  ::ui::CommandBinding* mutable_command_increment();
+  void set_allocated_command_increment(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command_increment(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command_increment();
+
+  private:
+  const ::ui::CommandBinding& _internal_command_increment() const;
+  ::ui::CommandBinding* _internal_mutable_command_increment();
+
+  public:
+  // .ui.CommandBinding command_decrement = 4;
+  bool has_command_decrement() const;
+  void clear_command_decrement() ;
+  const ::ui::CommandBinding& command_decrement() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command_decrement();
+  ::ui::CommandBinding* mutable_command_decrement();
+  void set_allocated_command_decrement(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command_decrement(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command_decrement();
+
+  private:
+  const ::ui::CommandBinding& _internal_command_decrement() const;
+  ::ui::CommandBinding* _internal_mutable_command_decrement();
+
+  public:
+  // uint32 version = 1 [(.buf.validate.field) = {
+  void clear_version() ;
+  ::uint32_t version() const;
+  void set_version(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_version() const;
+  void _internal_set_version(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.StepperControl)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 2,
+      31, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const StepperControl& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr title_;
+    ::ui::CommandBinding* command_increment_;
+    ::ui::CommandBinding* command_decrement_;
     ::uint32_t version_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -3480,6 +3726,272 @@ inline ::google::protobuf::RepeatedPtrField<::ui::EnumOption>*
 EnumPicker::_internal_mutable_options() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.options_;
+}
+
+// -------------------------------------------------------------------
+
+// StepperControl
+
+// uint32 version = 1 [(.buf.validate.field) = {
+inline void StepperControl::clear_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = 0u;
+}
+inline ::uint32_t StepperControl::version() const {
+  // @@protoc_insertion_point(field_get:ui.StepperControl.version)
+  return _internal_version();
+}
+inline void StepperControl::set_version(::uint32_t value) {
+  _internal_set_version(value);
+  // @@protoc_insertion_point(field_set:ui.StepperControl.version)
+}
+inline ::uint32_t StepperControl::_internal_version() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.version_;
+}
+inline void StepperControl::_internal_set_version(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = value;
+}
+
+// string title = 2 [(.buf.validate.field) = {
+inline void StepperControl::clear_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.ClearToEmpty();
+}
+inline const std::string& StepperControl::title() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.StepperControl.title)
+  return _internal_title();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void StepperControl::set_title(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.StepperControl.title)
+}
+inline std::string* StepperControl::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_title();
+  // @@protoc_insertion_point(field_mutable:ui.StepperControl.title)
+  return _s;
+}
+inline const std::string& StepperControl::_internal_title() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.title_.Get();
+}
+inline void StepperControl::_internal_set_title(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(value, GetArena());
+}
+inline std::string* StepperControl::_internal_mutable_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.title_.Mutable( GetArena());
+}
+inline std::string* StepperControl::release_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.StepperControl.title)
+  return _impl_.title_.Release();
+}
+inline void StepperControl::set_allocated_title(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.StepperControl.title)
+}
+
+// .ui.CommandBinding command_increment = 3;
+inline bool StepperControl::has_command_increment() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_increment_ != nullptr);
+  return value;
+}
+inline void StepperControl::clear_command_increment() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_increment_ != nullptr) _impl_.command_increment_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CommandBinding& StepperControl::_internal_command_increment() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_increment_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& StepperControl::command_increment() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.StepperControl.command_increment)
+  return _internal_command_increment();
+}
+inline void StepperControl::unsafe_arena_set_allocated_command_increment(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_increment_);
+  }
+  _impl_.command_increment_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.StepperControl.command_increment)
+}
+inline ::ui::CommandBinding* StepperControl::release_command_increment() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* released = _impl_.command_increment_;
+  _impl_.command_increment_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* StepperControl::unsafe_arena_release_command_increment() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.StepperControl.command_increment)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* temp = _impl_.command_increment_;
+  _impl_.command_increment_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* StepperControl::_internal_mutable_command_increment() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_increment_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_increment_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_increment_;
+}
+inline ::ui::CommandBinding* StepperControl::mutable_command_increment() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command_increment();
+  // @@protoc_insertion_point(field_mutable:ui.StepperControl.command_increment)
+  return _msg;
+}
+inline void StepperControl::set_allocated_command_increment(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_increment_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.command_increment_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.StepperControl.command_increment)
+}
+
+// .ui.CommandBinding command_decrement = 4;
+inline bool StepperControl::has_command_decrement() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_decrement_ != nullptr);
+  return value;
+}
+inline void StepperControl::clear_command_decrement() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_decrement_ != nullptr) _impl_.command_decrement_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ui::CommandBinding& StepperControl::_internal_command_decrement() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_decrement_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& StepperControl::command_decrement() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.StepperControl.command_decrement)
+  return _internal_command_decrement();
+}
+inline void StepperControl::unsafe_arena_set_allocated_command_decrement(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_decrement_);
+  }
+  _impl_.command_decrement_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.StepperControl.command_decrement)
+}
+inline ::ui::CommandBinding* StepperControl::release_command_decrement() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::CommandBinding* released = _impl_.command_decrement_;
+  _impl_.command_decrement_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* StepperControl::unsafe_arena_release_command_decrement() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.StepperControl.command_decrement)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ui::CommandBinding* temp = _impl_.command_decrement_;
+  _impl_.command_decrement_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* StepperControl::_internal_mutable_command_decrement() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_decrement_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_decrement_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_decrement_;
+}
+inline ::ui::CommandBinding* StepperControl::mutable_command_decrement() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command_decrement();
+  // @@protoc_insertion_point(field_mutable:ui.StepperControl.command_decrement)
+  return _msg;
+}
+inline void StepperControl::set_allocated_command_decrement(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_decrement_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.command_decrement_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.StepperControl.command_decrement)
 }
 
 #ifdef __GNUC__

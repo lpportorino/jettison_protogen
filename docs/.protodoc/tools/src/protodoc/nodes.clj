@@ -372,6 +372,46 @@
          vec)))
 
 ;; ============================================================================
+;; StepperControl pairing (Plus ↔ Minus parameterless command siblings)
+;; ============================================================================
+
+(defn- stepper-polarity
+  "Strip a step verb (Plus/Minus or Increase/Decrease, as a suffix) from a command
+   NAME → `[base :inc|:dec]` or nil. `FocusStepPlus` → [\"FocusStep\" :inc]."
+  [nm]
+  (cond
+    (str/ends-with? nm "Plus") [(subs nm 0 (- (count nm) 4)) :inc]
+    (str/ends-with? nm "Minus") [(subs nm 0 (- (count nm) 5)) :dec]
+    (str/ends-with? nm "Increase") [(subs nm 0 (- (count nm) 8)) :inc]
+    (str/ends-with? nm "Decrease") [(subs nm 0 (- (count nm) 8)) :dec]
+    :else nil))
+
+(defn derive-stepper-nodes
+  "Pair `:ui-pattern :stepper` parameterless commands that differ only by
+   Plus↔Minus / Increase↔Decrease (within a subsystem) into StepperControl node IR
+   entries. Both commands are parameterless (reuse `build_action_command`)."
+  [db]
+  (let [steppers (->> (vals (:messages db))
+                      (filter #(and (= :stepper (get-in % [:interaction :ui-pattern]))
+                                    (empty? (:fields %))
+                                    (= 3 (count (str/split (:id %) #"\."))))))
+        groups (reduce (fn [acc m]
+                         (let [subsystem (nth (str/split (:id m) #"\.") 1)]
+                           (if-let [[base pol] (stepper-polarity (:name m))]
+                             (update acc [subsystem base] assoc pol (:id m))
+                             acc)))
+                       {} steppers)]
+    (->> (for [[[subsystem base] pols] groups
+               :when (and (:inc pols) (:dec pols))]
+           {:id (str "stepper." subsystem "." base)
+            :kind :stepper
+            :title (->> (camel-words base) (str/join " "))
+            :command-increment (:inc pols)
+            :command-decrement (:dec pols)})
+         (sort-by :id)
+         vec)))
+
+;; ============================================================================
 ;; Generation
 ;; ============================================================================
 
@@ -391,12 +431,14 @@
                     (catch clojure.lang.ExceptionInfo e
                       {:skipped {:id (:id m) :reason (.getMessage e)}})))
         toggles (derive-toggle-nodes db)
-        pickers (derive-enum-picker-nodes db)]
-    {:nodes (->> (concat (keep :node results) toggles pickers) (sort-by :id) vec)
+        pickers (derive-enum-picker-nodes db)
+        steppers (derive-stepper-nodes db)]
+    {:nodes (->> (concat (keep :node results) toggles pickers steppers) (sort-by :id) vec)
      :skipped (->> results (keep :skipped) (sort-by :id) vec)
      :slider-count (count (keep :node results))
      :toggle-count (count toggles)
      :enum-picker-count (count pickers)
+     :stepper-count (count steppers)
      :non-slider-count (- (count msgs) (count sliders))}))
 
 (defn generate-nodes
@@ -411,7 +453,7 @@
          output-dir "output/nodes"}}]
   (let [db (edn/read-string (slurp db-path))
         {:keys [nodes skipped slider-count toggle-count enum-picker-count
-                non-slider-count]} (derive-nodes db)
+                stepper-count non-slider-count]} (derive-nodes db)
         manifest {:version "1.0.0"
                   :generated-at (str (java.time.Instant/now))
                   :protogen-commit (or git-sha "unknown")
@@ -435,7 +477,7 @@
     (doseq [{:keys [id reason]} skipped]
       (t/log! :warn ["Skipped slider node" id "—" reason]))
     (t/log! :info ["Generated nodes:" slider-count "slider +" toggle-count "toggle +"
-                   enum-picker-count "enum-picker (" (count nodes) "total),"
-                   (count skipped) "slider(s) skipped," non-slider-count
-                   "non-slider message(s)"])
+                   enum-picker-count "enum-picker +" stepper-count "stepper ("
+                   (count nodes) "total)," (count skipped) "slider(s) skipped,"
+                   non-slider-count "non-slider message(s)"])
     manifest))

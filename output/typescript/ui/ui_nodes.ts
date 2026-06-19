@@ -226,6 +226,27 @@ export interface EnumPicker {
   options: EnumOption[];
 }
 
+/**
+ * L3 StepperControl kind — a pair of −/+ buttons that send two parameterless
+ * commands: + → command_increment, − → command_decrement (e.g. FocusStepPlus /
+ * FocusStepMinus). The generator pairs `:ui-pattern :stepper` Plus/Minus (or
+ * Increase/Decrease) command siblings; the lowering emits two buttons whose
+ * click events route through each command id. (Shift-by-delta steppers — a
+ * single int32/double command sent with ±step — are a deferred variant.)
+ */
+export interface StepperControl {
+  /** Schema version — checked FIRST by the lowering (fail-fast guard). */
+  version: number;
+  /** Stepper label. */
+  title: string;
+  /** Command sent by the + button (the paired Plus/Increase command). */
+  commandIncrement:
+    | CommandBinding
+    | undefined;
+  /** Command sent by the − button (the paired Minus/Decrease command). */
+  commandDecrement: CommandBinding | undefined;
+}
+
 function createBaseFixedPointScale(): FixedPointScale {
   return { scale: 0 };
 }
@@ -1034,6 +1055,126 @@ export const EnumPicker: MessageFns<EnumPicker> = {
       ? CommandBinding.fromPartial(object.command)
       : undefined;
     message.options = object.options?.map((e) => EnumOption.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseStepperControl(): StepperControl {
+  return { version: 0, title: "", commandIncrement: undefined, commandDecrement: undefined };
+}
+
+export const StepperControl: MessageFns<StepperControl> = {
+  encode(message: StepperControl, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.version !== 0) {
+      writer.uint32(8).uint32(message.version);
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.commandIncrement !== undefined) {
+      CommandBinding.encode(message.commandIncrement, writer.uint32(26).fork()).join();
+    }
+    if (message.commandDecrement !== undefined) {
+      CommandBinding.encode(message.commandDecrement, writer.uint32(34).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StepperControl {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStepperControl();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.version = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.commandIncrement = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.commandDecrement = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StepperControl {
+    return {
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      commandIncrement: isSet(object.commandIncrement)
+        ? CommandBinding.fromJSON(object.commandIncrement)
+        : isSet(object.command_increment)
+        ? CommandBinding.fromJSON(object.command_increment)
+        : undefined,
+      commandDecrement: isSet(object.commandDecrement)
+        ? CommandBinding.fromJSON(object.commandDecrement)
+        : isSet(object.command_decrement)
+        ? CommandBinding.fromJSON(object.command_decrement)
+        : undefined,
+    };
+  },
+
+  toJSON(message: StepperControl): unknown {
+    const obj: any = {};
+    if (message.version !== 0) {
+      obj.version = Math.round(message.version);
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.commandIncrement !== undefined) {
+      obj.commandIncrement = CommandBinding.toJSON(message.commandIncrement);
+    }
+    if (message.commandDecrement !== undefined) {
+      obj.commandDecrement = CommandBinding.toJSON(message.commandDecrement);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StepperControl>, I>>(base?: I): StepperControl {
+    return StepperControl.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StepperControl>, I>>(object: I): StepperControl {
+    const message = createBaseStepperControl();
+    message.version = object.version ?? 0;
+    message.title = object.title ?? "";
+    message.commandIncrement = (object.commandIncrement !== undefined && object.commandIncrement !== null)
+      ? CommandBinding.fromPartial(object.commandIncrement)
+      : undefined;
+    message.commandDecrement = (object.commandDecrement !== undefined && object.commandDecrement !== null)
+      ? CommandBinding.fromPartial(object.commandDecrement)
+      : undefined;
     return message;
   },
 };
