@@ -5,4 +5,5 @@
 
 /* eslint-disable */
 
+export * from "./ui/ui_nodes";
 export * from "./ui/ui_ast";

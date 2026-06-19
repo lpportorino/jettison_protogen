@@ -1,0 +1,104 @@
+syntax = "proto3";
+package ui;
+
+option go_package = "git-codecommit.eu-central-1.amazonaws.com/v1/repos/jettison/jonp/ui";
+
+// ── Layer-3 concrete control nodes ───────────────────────────────────
+//
+// An L3 node is a self-describing METADATA record: it declares which proto
+// STATE field it displays and which proto COMMAND it sends, plus the widget
+// composition + the float↔int fixed-point scale that the bindings straddle.
+// It is NEVER sent to the firmware WASM renderer — the renderer only ever
+// consumes a Layer-1 `ui.Screen` (controls_load_ui). The L3→L2→L1 lowering
+// (pure prost→prost in jettison_view/src/ui_nodes/) reads an L3 node and
+// EMITS the Screen. So this proto is host-only / prost-only: no nanopb (C)
+// path, hence no sibling ui_nodes.options.
+//
+// This is the shape the Phase-2 `protodoc.nodes` generator emits per node;
+// `ClaheControl` is the hand-authored golden that generator must reproduce
+// (the ~140-node generalization target, proven on the first slice).
+
+// Node-schema version constant. The lowering entry-point checks the wire
+// `version` field against the CURRENT value FIRST and returns
+// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no
+// version-sniffing. protogen + bindings + lowering regenerate in lockstep,
+// so a mismatch can only mean a stale fixture (a bug). Start at 1 (0 is the
+// proto3 default / "unset", deliberately invalid so an un-versioned node is
+// rejected by the {gte: 1} guard on the field).
+enum NodeSchemaVersion {
+  NODE_SCHEMA_VERSION_UNSPECIFIED = 0;
+  NODE_SCHEMA_VERSION_V1 = 1;
+}
+
+// How a normalized control value crosses the int-only WASM ABI. The camera
+// state/command fields are `double` ∈ [0,1] (e.g. camera_day.clahe_level),
+// but subjects + host_send_command carry only i32. `scale` is the per-mille
+// multiplier that lives WITH the binding (not a magic constant in Rust):
+//   state→subject:   (value * scale).round() as i32
+//   event→command:   int_value as f64 / scale
+// scale = 1000 for a [0,1] double; scale = 1 for an already-integer field.
+message FixedPointScale {
+  // Per-mille (or per-unit) multiplier. Must be > 0; the projector/builder
+  // divide by it, so 0 is a divide-by-zero author error.
+  uint32 scale = 1 [(buf.validate.field).uint32 = {gte: 1}];
+}
+
+// The proto STATE this node displays. The lowering resolves
+// `state_field_path` against the prost `ser::` types at test time (Class-c2)
+// and the projector reads that field from JonGuiState into `subject_name`.
+message StateBinding {
+  // Dotted JonGuiState field path, e.g. "camera_day.clahe_level". Resolves
+  // structurally against the `ser` tree (state-projector input).
+  string state_field_path = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 127
+  }];
+  // The reactive subject this state feeds, e.g. "day_clahe". Bound into the
+  // lowered Screen's SubjectDeclaration + the widget's `bindings` map.
+  string subject_name = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
+  // Fixed-point convention for state→subject projection (absent ⇒ scale 1).
+  FixedPointScale scale = 3;
+}
+
+// The proto COMMAND this node sends. `command_id` IS the EventBinding.name
+// the lowered Screen emits and the command-builder maps to a cmd.Root oneof
+// leaf (verified against the `cmd::` tree, Class-c2 / R4 oracle).
+message CommandBinding {
+  // Command identifier = EventBinding.name, e.g. "day.clahe.set". Resolves
+  // to a concrete cmd.Root variant (command-builder input).
+  string command_id = 1 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 63
+  }];
+  // Fixed-point convention for event→command projection (absent ⇒ scale 1).
+  FixedPointScale scale = 2;
+}
+
+// The L3 ClaheControl node — day-camera CLAHE level: a labelled card holding
+// a slider that DISPLAYS camera_day.clahe_level and SENDS SetClaheLevel. The
+// proven Phase-1 slice; the per-node shape every L3 node generalizes to.
+message ClaheControl {
+  // Schema version — checked FIRST by the lowering (fail-fast guard). A node
+  // whose version != the current NodeSchemaVersion is rejected with
+  // Err(SchemaMismatch); {gte: 1} rejects the unset/0 default.
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Card title shown above the slider (lowered to a Label atom).
+  string title = 2 [(buf.validate.field).string = {max_len: 63}];
+
+  // State display binding: camera_day.clahe_level → "day_clahe" subject,
+  // scale 1000 (double[0,1] → per-mille int).
+  StateBinding state = 3;
+
+  // Command binding: slider value-changed → "day.clahe.set" → SetClaheLevel,
+  // scale 1000 (per-mille int → double[0,1]).
+  CommandBinding command = 4;
+
+  // Slider integer range AFTER scaling (e.g. 0..1000 for a [0,1] double at
+  // scale 1000). These become the lowered SliderProps.min_value/max_value.
+  int32 min_value = 5;
+  int32 max_value = 6 [(buf.validate.field).int32 = {gt: 0}];
+}
