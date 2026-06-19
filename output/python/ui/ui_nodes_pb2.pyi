@@ -120,3 +120,13 @@ class ShiftStepper(_message.Message):
     command: CommandBinding
     step: int
     def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ..., step: _Optional[int] = ...) -> None: ...
+
+class BoolToggle(_message.Message):
+    __slots__ = ("version", "title", "command")
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    TITLE_FIELD_NUMBER: _ClassVar[int]
+    COMMAND_FIELD_NUMBER: _ClassVar[int]
+    version: int
+    title: str
+    command: CommandBinding
+    def __init__(self, version: _Optional[int] = ..., title: _Optional[str] = ..., command: _Optional[_Union[CommandBinding, _Mapping]] = ...) -> None: ...

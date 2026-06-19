@@ -193,6 +193,24 @@ pub struct ShiftStepper {
     #[prost(int32, tag = "4")]
     pub step: i32,
 }
+/// L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
+/// on/off value (e.g. SetX{value: bool}). The generator derives one per
+/// single-bool-field `:ui-pattern :toggle` command; the lowering emits a
+/// WIDGET_SWITCH whose value-changed event carries the switch bool, and the
+/// builder fills the bool field via `build_set_bool_command`. (Distinct from
+/// `ToggleControl`, which fires two PARAMETERLESS enable/disable commands.)
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct BoolToggle {
+    /// Schema version — checked FIRST by the lowering (fail-fast guard).
+    #[prost(uint32, tag = "1")]
+    pub version: u32,
+    /// Switch label.
+    #[prost(string, tag = "2")]
+    pub title: ::prost::alloc::string::String,
+    /// The single-bool-field command the switch sets (true on, false off).
+    #[prost(message, optional, tag = "3")]
+    pub command: ::core::option::Option<CommandBinding>,
+}
 /// Node-schema version constant. The lowering entry-point checks the wire
 /// `version` field against the CURRENT value FIRST and returns
 /// Err(SchemaMismatch) on any mismatch — fail-fast, no migration branch, no

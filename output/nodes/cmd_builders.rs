@@ -476,3 +476,43 @@ pub fn build_set_int_command(command_id: &str, value: i32) -> Option<cmd::Root> 
     };
     Some(cmd::Root { payload: Some(payload), ..Default::default() })
 }
+
+/// Build a typed `cmd::Root` for a set-bool command (single bool
+/// field — the bool-toggle's switch value). Returns `None` for
+/// an unknown command id.
+pub fn build_set_bool_command(command_id: &str, value: bool) -> Option<cmd::Root> {
+    let payload = match command_id {
+        "cmd.CV.BridgeRestart" => cmd::root::Payload::Cv(cmd::cv::Root {
+            cmd: Some(cmd::cv::root::Cmd::BridgeRestart(cmd::cv::BridgeRestart { force: value })),
+        }),
+        "cmd.CV.BridgeStop" => cmd::root::Payload::Cv(cmd::cv::Root {
+            cmd: Some(cmd::cv::root::Cmd::BridgeStop(cmd::cv::BridgeStop { force: value })),
+        }),
+        "cmd.Compass.SetUseRotaryPosition" => cmd::root::Payload::Compass(cmd::compass::Root {
+            cmd: Some(cmd::compass::root::Cmd::SetUseRotaryPosition(cmd::compass::SetUseRotaryPosition { flag: value })),
+        }),
+        "cmd.DayCamera.SetAutoGain" => cmd::root::Payload::DayCamera(cmd::day_camera::Root {
+            cmd: Some(cmd::day_camera::root::Cmd::SetAutoGain(cmd::day_camera::SetAutoGain { value: value })),
+        }),
+        "cmd.DayCamera.SetAutoIris" => cmd::root::Payload::DayCamera(cmd::day_camera::Root {
+            cmd: Some(cmd::day_camera::root::Cmd::SetAutoIris(cmd::day_camera::SetAutoIris { value: value })),
+        }),
+        "cmd.DayCamera.SetInfraRedFilter" => cmd::root::Payload::DayCamera(cmd::day_camera::Root {
+            cmd: Some(cmd::day_camera::root::Cmd::SetInfraRedFilter(cmd::day_camera::SetInfraRedFilter { value: value })),
+        }),
+        "cmd.Gps.SetUseManualPosition" => cmd::root::Payload::Gps(cmd::gps::Root {
+            cmd: Some(cmd::gps::root::Cmd::SetUseManualPosition(cmd::gps::SetUseManualPosition { flag: value })),
+        }),
+        "cmd.HeatCamera.SetAutoFocus" => cmd::root::Payload::HeatCamera(cmd::heat_camera::Root {
+            cmd: Some(cmd::heat_camera::root::Cmd::SetAutoFocus(cmd::heat_camera::SetAutoFocus { value: value })),
+        }),
+        "cmd.Power.SetAll" => cmd::root::Payload::Power(cmd::power::Root {
+            cmd: Some(cmd::power::root::Cmd::SetAll(cmd::power::SetAll { power_on: value })),
+        }),
+        "cmd.RotaryPlatform.setUseRotaryAsCompass" => cmd::root::Payload::Rotary(cmd::rotary_platform::Root {
+            cmd: Some(cmd::rotary_platform::root::Cmd::SetUseRotaryAsCompass(cmd::rotary_platform::SetUseRotaryAsCompass { flag: value })),
+        }),
+        _ => return None,
+    };
+    Some(cmd::Root { payload: Some(payload), ..Default::default() })
+}

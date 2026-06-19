@@ -195,6 +195,22 @@ typedef struct _ui_ShiftStepper {
     int32_t step;
 } ui_ShiftStepper;
 
+/* L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
+ on/off value (e.g. SetX{value: bool}). The generator derives one per
+ single-bool-field `:ui-pattern :toggle` command; the lowering emits a
+ WIDGET_SWITCH whose value-changed event carries the switch bool, and the
+ builder fills the bool field via `build_set_bool_command`. (Distinct from
+ `ToggleControl`, which fires two PARAMETERLESS enable/disable commands.) */
+typedef struct _ui_BoolToggle {
+    /* Schema version — checked FIRST by the lowering (fail-fast guard). */
+    uint32_t version;
+    /* Switch label. */
+    pb_callback_t title;
+    /* The single-bool-field command the switch sets (true on, false off). */
+    bool has_command;
+    ui_CommandBinding command;
+} ui_BoolToggle;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -204,6 +220,7 @@ extern "C" {
 #define _ui_NodeSchemaVersion_MIN ui_NodeSchemaVersion_NODE_SCHEMA_VERSION_UNSPECIFIED
 #define _ui_NodeSchemaVersion_MAX ui_NodeSchemaVersion_NODE_SCHEMA_VERSION_V1
 #define _ui_NodeSchemaVersion_ARRAYSIZE ((ui_NodeSchemaVersion)(ui_NodeSchemaVersion_NODE_SCHEMA_VERSION_V1+1))
+
 
 
 
@@ -227,6 +244,7 @@ extern "C" {
 #define ui_EnumPicker_init_default               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, {{NULL}, NULL}}
 #define ui_StepperControl_init_default           {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, false, ui_CommandBinding_init_default}
 #define ui_ShiftStepper_init_default             {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default, 0}
+#define ui_BoolToggle_init_default               {0, {{NULL}, NULL}, false, ui_CommandBinding_init_default}
 #define ui_FixedPointScale_init_zero             {0}
 #define ui_StateBinding_init_zero                {{{NULL}, NULL}, {{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
 #define ui_CommandBinding_init_zero              {{{NULL}, NULL}, false, ui_FixedPointScale_init_zero}
@@ -237,6 +255,7 @@ extern "C" {
 #define ui_EnumPicker_init_zero                  {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, {{NULL}, NULL}}
 #define ui_StepperControl_init_zero              {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, false, ui_CommandBinding_init_zero}
 #define ui_ShiftStepper_init_zero                {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero, 0}
+#define ui_BoolToggle_init_zero                  {0, {{NULL}, NULL}, false, ui_CommandBinding_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define ui_FixedPointScale_scale_tag             1
@@ -273,6 +292,9 @@ extern "C" {
 #define ui_ShiftStepper_title_tag                2
 #define ui_ShiftStepper_command_tag              3
 #define ui_ShiftStepper_step_tag                 4
+#define ui_BoolToggle_version_tag                1
+#define ui_BoolToggle_title_tag                  2
+#define ui_BoolToggle_command_tag                3
 
 /* Struct field encoding specification for nanopb */
 #define ui_FixedPointScale_FIELDLIST(X, a) \
@@ -362,6 +384,14 @@ X(a, STATIC,   SINGULAR, INT32,    step,              4)
 #define ui_ShiftStepper_DEFAULT NULL
 #define ui_ShiftStepper_command_MSGTYPE ui_CommandBinding
 
+#define ui_BoolToggle_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   version,           1) \
+X(a, CALLBACK, SINGULAR, STRING,   title,             2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  command,           3)
+#define ui_BoolToggle_CALLBACK pb_default_field_callback
+#define ui_BoolToggle_DEFAULT NULL
+#define ui_BoolToggle_command_MSGTYPE ui_CommandBinding
+
 extern const pb_msgdesc_t ui_FixedPointScale_msg;
 extern const pb_msgdesc_t ui_StateBinding_msg;
 extern const pb_msgdesc_t ui_CommandBinding_msg;
@@ -372,6 +402,7 @@ extern const pb_msgdesc_t ui_EnumOption_msg;
 extern const pb_msgdesc_t ui_EnumPicker_msg;
 extern const pb_msgdesc_t ui_StepperControl_msg;
 extern const pb_msgdesc_t ui_ShiftStepper_msg;
+extern const pb_msgdesc_t ui_BoolToggle_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define ui_FixedPointScale_fields &ui_FixedPointScale_msg
@@ -384,6 +415,7 @@ extern const pb_msgdesc_t ui_ShiftStepper_msg;
 #define ui_EnumPicker_fields &ui_EnumPicker_msg
 #define ui_StepperControl_fields &ui_StepperControl_msg
 #define ui_ShiftStepper_fields &ui_ShiftStepper_msg
+#define ui_BoolToggle_fields &ui_BoolToggle_msg
 
 /* Maximum encoded size of messages (where known) */
 /* ui_StateBinding_size depends on runtime parameters */
@@ -395,6 +427,7 @@ extern const pb_msgdesc_t ui_ShiftStepper_msg;
 /* ui_EnumPicker_size depends on runtime parameters */
 /* ui_StepperControl_size depends on runtime parameters */
 /* ui_ShiftStepper_size depends on runtime parameters */
+/* ui_BoolToggle_size depends on runtime parameters */
 #define UI_UI_UI_NODES_PB_H_MAX_SIZE             ui_FixedPointScale_size
 #define ui_FixedPointScale_size                  6
 

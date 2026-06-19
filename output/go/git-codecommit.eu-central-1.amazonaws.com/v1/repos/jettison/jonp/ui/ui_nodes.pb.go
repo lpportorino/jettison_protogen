@@ -805,6 +805,75 @@ func (x *ShiftStepper) GetStep() int32 {
 	return 0
 }
 
+// L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
+// on/off value (e.g. SetX{value: bool}). The generator derives one per
+// single-bool-field `:ui-pattern :toggle` command; the lowering emits a
+// WIDGET_SWITCH whose value-changed event carries the switch bool, and the
+// builder fills the bool field via `build_set_bool_command`. (Distinct from
+// `ToggleControl`, which fires two PARAMETERLESS enable/disable commands.)
+type BoolToggle struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Schema version — checked FIRST by the lowering (fail-fast guard).
+	Version uint32 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
+	// Switch label.
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	// The single-bool-field command the switch sets (true on, false off).
+	Command       *CommandBinding `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BoolToggle) Reset() {
+	*x = BoolToggle{}
+	mi := &file_ui_ui_nodes_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BoolToggle) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BoolToggle) ProtoMessage() {}
+
+func (x *BoolToggle) ProtoReflect() protoreflect.Message {
+	mi := &file_ui_ui_nodes_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BoolToggle.ProtoReflect.Descriptor instead.
+func (*BoolToggle) Descriptor() ([]byte, []int) {
+	return file_ui_ui_nodes_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *BoolToggle) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *BoolToggle) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *BoolToggle) GetCommand() *CommandBinding {
+	if x != nil {
+		return x.Command
+	}
+	return nil
+}
+
 var File_ui_ui_nodes_proto protoreflect.FileDescriptor
 
 const file_ui_ui_nodes_proto_rawDesc = "" +
@@ -864,7 +933,13 @@ const file_ui_ui_nodes_proto_rawDesc = "" +
 	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
 	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
 	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand\x12\x1b\n" +
-	"\x04step\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x04step*T\n" +
+	"\x04step\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02 \x00R\x04step\"\x7f\n" +
+	"\n" +
+	"BoolToggle\x12$\n" +
+	"\aversion\x18\x01 \x01(\rB\n" +
+	"\xbaH\a*\x05\x18\xff\x01(\x01R\aversion\x12\x1d\n" +
+	"\x05title\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18?R\x05title\x12,\n" +
+	"\acommand\x18\x03 \x01(\v2\x12.ui.CommandBindingR\acommand*T\n" +
 	"\x11NodeSchemaVersion\x12#\n" +
 	"\x1fNODE_SCHEMA_VERSION_UNSPECIFIED\x10\x00\x12\x1a\n" +
 	"\x16NODE_SCHEMA_VERSION_V1\x10\x01B\x83\x01\n" +
@@ -883,7 +958,7 @@ func file_ui_ui_nodes_proto_rawDescGZIP() []byte {
 }
 
 var file_ui_ui_nodes_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_ui_ui_nodes_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_ui_ui_nodes_proto_goTypes = []any{
 	(NodeSchemaVersion)(0),  // 0: ui.NodeSchemaVersion
 	(*FixedPointScale)(nil), // 1: ui.FixedPointScale
@@ -896,6 +971,7 @@ var file_ui_ui_nodes_proto_goTypes = []any{
 	(*EnumPicker)(nil),      // 8: ui.EnumPicker
 	(*StepperControl)(nil),  // 9: ui.StepperControl
 	(*ShiftStepper)(nil),    // 10: ui.ShiftStepper
+	(*BoolToggle)(nil),      // 11: ui.BoolToggle
 }
 var file_ui_ui_nodes_proto_depIdxs = []int32{
 	1,  // 0: ui.StateBinding.scale:type_name -> ui.FixedPointScale
@@ -911,11 +987,12 @@ var file_ui_ui_nodes_proto_depIdxs = []int32{
 	3,  // 10: ui.StepperControl.command_increment:type_name -> ui.CommandBinding
 	3,  // 11: ui.StepperControl.command_decrement:type_name -> ui.CommandBinding
 	3,  // 12: ui.ShiftStepper.command:type_name -> ui.CommandBinding
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	3,  // 13: ui.BoolToggle.command:type_name -> ui.CommandBinding
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_ui_ui_nodes_proto_init() }
@@ -929,7 +1006,7 @@ func file_ui_ui_nodes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_ui_ui_nodes_proto_rawDesc), len(file_ui_ui_nodes_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

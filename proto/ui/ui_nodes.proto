@@ -217,3 +217,20 @@ message ShiftStepper {
   // The ± delta a button click applies (carried as the event `int_value`).
   int32 step = 4 [(buf.validate.field).int32 = {gt: 0}];
 }
+
+// L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
+// on/off value (e.g. SetX{value: bool}). The generator derives one per
+// single-bool-field `:ui-pattern :toggle` command; the lowering emits a
+// WIDGET_SWITCH whose value-changed event carries the switch bool, and the
+// builder fills the bool field via `build_set_bool_command`. (Distinct from
+// `ToggleControl`, which fires two PARAMETERLESS enable/disable commands.)
+message BoolToggle {
+  // Schema version — checked FIRST by the lowering (fail-fast guard).
+  uint32 version = 1 [(buf.validate.field).uint32 = {gte: 1, lte: 255}];
+
+  // Switch label.
+  string title = 2 [(buf.validate.field).string = {max_len: 63}];
+
+  // The single-bool-field command the switch sets (true on, false off).
+  CommandBinding command = 3;
+}

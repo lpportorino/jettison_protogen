@@ -268,6 +268,23 @@ export interface ShiftStepper {
   step: number;
 }
 
+/**
+ * L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
+ * on/off value (e.g. SetX{value: bool}). The generator derives one per
+ * single-bool-field `:ui-pattern :toggle` command; the lowering emits a
+ * WIDGET_SWITCH whose value-changed event carries the switch bool, and the
+ * builder fills the bool field via `build_set_bool_command`. (Distinct from
+ * `ToggleControl`, which fires two PARAMETERLESS enable/disable commands.)
+ */
+export interface BoolToggle {
+  /** Schema version — checked FIRST by the lowering (fail-fast guard). */
+  version: number;
+  /** Switch label. */
+  title: string;
+  /** The single-bool-field command the switch sets (true on, false off). */
+  command: CommandBinding | undefined;
+}
+
 function createBaseFixedPointScale(): FixedPointScale {
   return { scale: 0 };
 }
@@ -1306,6 +1323,100 @@ export const ShiftStepper: MessageFns<ShiftStepper> = {
       ? CommandBinding.fromPartial(object.command)
       : undefined;
     message.step = object.step ?? 0;
+    return message;
+  },
+};
+
+function createBaseBoolToggle(): BoolToggle {
+  return { version: 0, title: "", command: undefined };
+}
+
+export const BoolToggle: MessageFns<BoolToggle> = {
+  encode(message: BoolToggle, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.version !== 0) {
+      writer.uint32(8).uint32(message.version);
+    }
+    if (message.title !== "") {
+      writer.uint32(18).string(message.title);
+    }
+    if (message.command !== undefined) {
+      CommandBinding.encode(message.command, writer.uint32(26).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): BoolToggle {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    const end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBoolToggle();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.version = reader.uint32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.title = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.command = CommandBinding.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BoolToggle {
+    return {
+      version: isSet(object.version) ? globalThis.Number(object.version) : 0,
+      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      command: isSet(object.command) ? CommandBinding.fromJSON(object.command) : undefined,
+    };
+  },
+
+  toJSON(message: BoolToggle): unknown {
+    const obj: any = {};
+    if (message.version !== 0) {
+      obj.version = Math.round(message.version);
+    }
+    if (message.title !== "") {
+      obj.title = message.title;
+    }
+    if (message.command !== undefined) {
+      obj.command = CommandBinding.toJSON(message.command);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<BoolToggle>, I>>(base?: I): BoolToggle {
+    return BoolToggle.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<BoolToggle>, I>>(object: I): BoolToggle {
+    const message = createBaseBoolToggle();
+    message.version = object.version ?? 0;
+    message.title = object.title ?? "";
+    message.command = (object.command !== undefined && object.command !== null)
+      ? CommandBinding.fromPartial(object.command)
+      : undefined;
     return message;
   },
 };

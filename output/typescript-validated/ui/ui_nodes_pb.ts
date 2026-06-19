@@ -11,7 +11,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file ui/ui_nodes.proto.
  */
 export const file_ui_ui_nodes: GenFile = /*@__PURE__*/
-  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmciMwoKRW51bU9wdGlvbhIWCgVsYWJlbBgBIAEoCUIHukgEcgIYPxINCgV2YWx1ZRgCIAEoBSKHAQoKRW51bVBpY2tlchIbCgd2ZXJzaW9uGAEgASgNQgq6SAcqBRj/ASgBEhYKBXRpdGxlGAIgASgJQge6SARyAhg/EiMKB2NvbW1hbmQYAyABKAsyEi51aS5Db21tYW5kQmluZGluZxIfCgdvcHRpb25zGAQgAygLMg4udWkuRW51bU9wdGlvbiKjAQoOU3RlcHBlckNvbnRyb2wSGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIWCgV0aXRsZRgCIAEoCUIHukgEcgIYPxItChFjb21tYW5kX2luY3JlbWVudBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEi0KEWNvbW1hbmRfZGVjcmVtZW50GAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcifwoMU2hpZnRTdGVwcGVyEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhUKBHN0ZXAYBCABKAVCB7pIBBoCIAAqVAoRTm9kZVNjaGVtYVZlcnNpb24SIwofTk9ERV9TQ0hFTUFfVkVSU0lPTl9VTlNQRUNJRklFRBAAEhoKFk5PREVfU0NIRU1BX1ZFUlNJT05fVjEQAUJFWkNnaXQtY29kZWNvbW1pdC5ldS1jZW50cmFsLTEuYW1hem9uYXdzLmNvbS92MS9yZXBvcy9qZXR0aXNvbi9qb25wL3VpYgZwcm90bzM", [file_buf_validate_validate]);
+  fileDesc("ChF1aS91aV9ub2Rlcy5wcm90bxICdWkiKQoPRml4ZWRQb2ludFNjYWxlEhYKBXNjYWxlGAEgASgNQge6SAQqAigBIngKDFN0YXRlQmluZGluZxIjChBzdGF0ZV9maWVsZF9wYXRoGAEgASgJQgm6SAZyBBABGH8SHwoMc3ViamVjdF9uYW1lGAIgASgJQgm6SAZyBBABGD8SIgoFc2NhbGUYAyABKAsyEy51aS5GaXhlZFBvaW50U2NhbGUiUwoOQ29tbWFuZEJpbmRpbmcSHQoKY29tbWFuZF9pZBgBIAEoCUIJukgGcgQQARg/EiIKBXNjYWxlGAIgASgLMhMudWkuRml4ZWRQb2ludFNjYWxlIrkBCg1TbGlkZXJDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SHwoFc3RhdGUYAyABKAsyEC51aS5TdGF0ZUJpbmRpbmcSIwoHY29tbWFuZBgEIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhEKCW1pbl92YWx1ZRgFIAEoBRIaCgltYXhfdmFsdWUYBiABKAVCB7pIBBoCIAAiaAoMQWN0aW9uQnV0dG9uEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nIrYBCg1Ub2dnbGVDb250cm9sEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SJgoKY29tbWFuZF9vbhgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEicKC2NvbW1hbmRfb2ZmGAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcSHwoFc3RhdGUYBSABKAsyEC51aS5TdGF0ZUJpbmRpbmciMwoKRW51bU9wdGlvbhIWCgVsYWJlbBgBIAEoCUIHukgEcgIYPxINCgV2YWx1ZRgCIAEoBSKHAQoKRW51bVBpY2tlchIbCgd2ZXJzaW9uGAEgASgNQgq6SAcqBRj/ASgBEhYKBXRpdGxlGAIgASgJQge6SARyAhg/EiMKB2NvbW1hbmQYAyABKAsyEi51aS5Db21tYW5kQmluZGluZxIfCgdvcHRpb25zGAQgAygLMg4udWkuRW51bU9wdGlvbiKjAQoOU3RlcHBlckNvbnRyb2wSGwoHdmVyc2lvbhgBIAEoDUIKukgHKgUY/wEoARIWCgV0aXRsZRgCIAEoCUIHukgEcgIYPxItChFjb21tYW5kX2luY3JlbWVudBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEi0KEWNvbW1hbmRfZGVjcmVtZW50GAQgASgLMhIudWkuQ29tbWFuZEJpbmRpbmcifwoMU2hpZnRTdGVwcGVyEhsKB3ZlcnNpb24YASABKA1CCrpIByoFGP8BKAESFgoFdGl0bGUYAiABKAlCB7pIBHICGD8SIwoHY29tbWFuZBgDIAEoCzISLnVpLkNvbW1hbmRCaW5kaW5nEhUKBHN0ZXAYBCABKAVCB7pIBBoCIAAiZgoKQm9vbFRvZ2dsZRIbCgd2ZXJzaW9uGAEgASgNQgq6SAcqBRj/ASgBEhYKBXRpdGxlGAIgASgJQge6SARyAhg/EiMKB2NvbW1hbmQYAyABKAsyEi51aS5Db21tYW5kQmluZGluZypUChFOb2RlU2NoZW1hVmVyc2lvbhIjCh9OT0RFX1NDSEVNQV9WRVJTSU9OX1VOU1BFQ0lGSUVEEAASGgoWTk9ERV9TQ0hFTUFfVkVSU0lPTl9WMRABQkVaQ2dpdC1jb2RlY29tbWl0LmV1LWNlbnRyYWwtMS5hbWF6b25hd3MuY29tL3YxL3JlcG9zL2pldHRpc29uL2pvbnAvdWliBnByb3RvMw", [file_buf_validate_validate]);
 
 /**
  * How a normalized control value crosses the int-only WASM ABI. The camera
@@ -439,6 +439,46 @@ export type ShiftStepper = Message<"ui.ShiftStepper"> & {
  */
 export const ShiftStepperSchema: GenMessage<ShiftStepper> = /*@__PURE__*/
   messageDesc(file_ui_ui_nodes, 9);
+
+/**
+ * L3 BoolToggle kind — a switch that SETS a single-`bool`-field command to its
+ * on/off value (e.g. SetX{value: bool}). The generator derives one per
+ * single-bool-field `:ui-pattern :toggle` command; the lowering emits a
+ * WIDGET_SWITCH whose value-changed event carries the switch bool, and the
+ * builder fills the bool field via `build_set_bool_command`. (Distinct from
+ * `ToggleControl`, which fires two PARAMETERLESS enable/disable commands.)
+ *
+ * @generated from message ui.BoolToggle
+ */
+export type BoolToggle = Message<"ui.BoolToggle"> & {
+  /**
+   * Schema version — checked FIRST by the lowering (fail-fast guard).
+   *
+   * @generated from field: uint32 version = 1;
+   */
+  version: number;
+
+  /**
+   * Switch label.
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * The single-bool-field command the switch sets (true on, false off).
+   *
+   * @generated from field: ui.CommandBinding command = 3;
+   */
+  command?: CommandBinding | undefined;
+};
+
+/**
+ * Describes the message ui.BoolToggle.
+ * Use `create(BoolToggleSchema)` to create a new message.
+ */
+export const BoolToggleSchema: GenMessage<BoolToggle> = /*@__PURE__*/
+  messageDesc(file_ui_ui_nodes, 10);
 
 /**
  * Node-schema version constant. The lowering entry-point checks the wire

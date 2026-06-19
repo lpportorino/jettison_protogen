@@ -175,6 +175,28 @@
             :step 1}
            (first nodes)))))
 
+(deftest derives-bool-toggles
+  (let [db {:messages
+            {"cmd.Root"
+             {:id "cmd.Root" :name "Root"
+              :fields [{:number 1 :name "day_camera" :type :message
+                        :type-ref "cmd.DayCamera.Root"}]}
+             "cmd.DayCamera.Root"
+             {:id "cmd.DayCamera.Root" :name "Root" :package "cmd.DayCamera"
+              :fields [{:number 1 :name "set_auto_gain" :type :message
+                        :type-ref "cmd.DayCamera.SetAutoGain"}]}
+             "cmd.DayCamera.SetAutoGain"
+             {:id "cmd.DayCamera.SetAutoGain" :name "SetAutoGain"
+              :fields [{:name "value" :type :bool}]
+              :interaction {:ui-pattern :toggle}}}}
+        nodes (nodes/derive-bool-toggle-nodes db)]
+    (is (= 1 (count nodes)) "the oneof-reachable single-bool toggle")
+    (is (= {:id "cmd.DayCamera.SetAutoGain"
+            :kind :bool-toggle
+            :title "Auto Gain"
+            :command-id "cmd.DayCamera.SetAutoGain"}
+           (first nodes)))))
+
 (deftest derives-enum-picker-options
   (let [db {:enums {"ser.FxMode"
                     {:values [{:number 0 :name "JON_FX_DEFAULT"}

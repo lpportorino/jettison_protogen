@@ -57,6 +57,9 @@ namespace ui {
 class ActionButton;
 struct ActionButtonDefaultTypeInternal;
 extern ActionButtonDefaultTypeInternal _ActionButton_default_instance_;
+class BoolToggle;
+struct BoolToggleDefaultTypeInternal;
+extern BoolToggleDefaultTypeInternal _BoolToggle_default_instance_;
 class CommandBinding;
 struct CommandBindingDefaultTypeInternal;
 extern CommandBindingDefaultTypeInternal _CommandBinding_default_instance_;
@@ -2217,6 +2220,232 @@ class EnumPicker final : public ::google::protobuf::Message
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField< ::ui::EnumOption > options_;
+    ::google::protobuf::internal::ArenaStringPtr title_;
+    ::ui::CommandBinding* command_;
+    ::uint32_t version_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ui_2fui_5fnodes_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BoolToggle final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ui.BoolToggle) */ {
+ public:
+  inline BoolToggle() : BoolToggle(nullptr) {}
+  ~BoolToggle() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(BoolToggle* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(BoolToggle));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR BoolToggle(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline BoolToggle(const BoolToggle& from) : BoolToggle(nullptr, from) {}
+  inline BoolToggle(BoolToggle&& from) noexcept
+      : BoolToggle(nullptr, std::move(from)) {}
+  inline BoolToggle& operator=(const BoolToggle& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BoolToggle& operator=(BoolToggle&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const BoolToggle& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const BoolToggle* internal_default_instance() {
+    return reinterpret_cast<const BoolToggle*>(
+        &_BoolToggle_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 10;
+  friend void swap(BoolToggle& a, BoolToggle& b) { a.Swap(&b); }
+  inline void Swap(BoolToggle* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BoolToggle* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  BoolToggle* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<BoolToggle>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const BoolToggle& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const BoolToggle& from) { BoolToggle::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(BoolToggle* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "ui.BoolToggle"; }
+
+ protected:
+  explicit BoolToggle(::google::protobuf::Arena* arena);
+  BoolToggle(::google::protobuf::Arena* arena, const BoolToggle& from);
+  BoolToggle(::google::protobuf::Arena* arena, BoolToggle&& from) noexcept
+      : BoolToggle(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kTitleFieldNumber = 2,
+    kCommandFieldNumber = 3,
+    kVersionFieldNumber = 1,
+  };
+  // string title = 2 [(.buf.validate.field) = {
+  void clear_title() ;
+  const std::string& title() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_title(Arg_&& arg, Args_... args);
+  std::string* mutable_title();
+  PROTOBUF_NODISCARD std::string* release_title();
+  void set_allocated_title(std::string* value);
+
+  private:
+  const std::string& _internal_title() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_title(
+      const std::string& value);
+  std::string* _internal_mutable_title();
+
+  public:
+  // .ui.CommandBinding command = 3;
+  bool has_command() const;
+  void clear_command() ;
+  const ::ui::CommandBinding& command() const;
+  PROTOBUF_NODISCARD ::ui::CommandBinding* release_command();
+  ::ui::CommandBinding* mutable_command();
+  void set_allocated_command(::ui::CommandBinding* value);
+  void unsafe_arena_set_allocated_command(::ui::CommandBinding* value);
+  ::ui::CommandBinding* unsafe_arena_release_command();
+
+  private:
+  const ::ui::CommandBinding& _internal_command() const;
+  ::ui::CommandBinding* _internal_mutable_command();
+
+  public:
+  // uint32 version = 1 [(.buf.validate.field) = {
+  void clear_version() ;
+  ::uint32_t version() const;
+  void set_version(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_version() const;
+  void _internal_set_version(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:ui.BoolToggle)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 1,
+      27, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const BoolToggle& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr title_;
     ::ui::CommandBinding* command_;
     ::uint32_t version_;
@@ -4425,6 +4654,176 @@ inline ::int32_t ShiftStepper::_internal_step() const {
 inline void ShiftStepper::_internal_set_step(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.step_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// BoolToggle
+
+// uint32 version = 1 [(.buf.validate.field) = {
+inline void BoolToggle::clear_version() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = 0u;
+}
+inline ::uint32_t BoolToggle::version() const {
+  // @@protoc_insertion_point(field_get:ui.BoolToggle.version)
+  return _internal_version();
+}
+inline void BoolToggle::set_version(::uint32_t value) {
+  _internal_set_version(value);
+  // @@protoc_insertion_point(field_set:ui.BoolToggle.version)
+}
+inline ::uint32_t BoolToggle::_internal_version() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.version_;
+}
+inline void BoolToggle::_internal_set_version(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.version_ = value;
+}
+
+// string title = 2 [(.buf.validate.field) = {
+inline void BoolToggle::clear_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.ClearToEmpty();
+}
+inline const std::string& BoolToggle::title() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.BoolToggle.title)
+  return _internal_title();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void BoolToggle::set_title(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ui.BoolToggle.title)
+}
+inline std::string* BoolToggle::mutable_title() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_title();
+  // @@protoc_insertion_point(field_mutable:ui.BoolToggle.title)
+  return _s;
+}
+inline const std::string& BoolToggle::_internal_title() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.title_.Get();
+}
+inline void BoolToggle::_internal_set_title(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.Set(value, GetArena());
+}
+inline std::string* BoolToggle::_internal_mutable_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.title_.Mutable( GetArena());
+}
+inline std::string* BoolToggle::release_title() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.BoolToggle.title)
+  return _impl_.title_.Release();
+}
+inline void BoolToggle::set_allocated_title(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.title_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.title_.IsDefault()) {
+    _impl_.title_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:ui.BoolToggle.title)
+}
+
+// .ui.CommandBinding command = 3;
+inline bool BoolToggle::has_command() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.command_ != nullptr);
+  return value;
+}
+inline void BoolToggle::clear_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_ != nullptr) _impl_.command_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::ui::CommandBinding& BoolToggle::_internal_command() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ui::CommandBinding* p = _impl_.command_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ui::CommandBinding&>(::ui::_CommandBinding_default_instance_);
+}
+inline const ::ui::CommandBinding& BoolToggle::command() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ui.BoolToggle.command)
+  return _internal_command();
+}
+inline void BoolToggle::unsafe_arena_set_allocated_command(::ui::CommandBinding* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.command_);
+  }
+  _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ui.BoolToggle.command)
+}
+inline ::ui::CommandBinding* BoolToggle::release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* released = _impl_.command_;
+  _impl_.command_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::ui::CommandBinding* BoolToggle::unsafe_arena_release_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ui.BoolToggle.command)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::ui::CommandBinding* temp = _impl_.command_;
+  _impl_.command_ = nullptr;
+  return temp;
+}
+inline ::ui::CommandBinding* BoolToggle::_internal_mutable_command() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.command_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ui::CommandBinding>(GetArena());
+    _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(p);
+  }
+  return _impl_.command_;
+}
+inline ::ui::CommandBinding* BoolToggle::mutable_command() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::ui::CommandBinding* _msg = _internal_mutable_command();
+  // @@protoc_insertion_point(field_mutable:ui.BoolToggle.command)
+  return _msg;
+}
+inline void BoolToggle::set_allocated_command(::ui::CommandBinding* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.command_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.command_ = reinterpret_cast<::ui::CommandBinding*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ui.BoolToggle.command)
 }
 
 #ifdef __GNUC__

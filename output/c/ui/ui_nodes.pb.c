@@ -36,6 +36,9 @@ PB_BIND(ui_StepperControl, ui_StepperControl, AUTO)
 PB_BIND(ui_ShiftStepper, ui_ShiftStepper, AUTO)
 
 
+PB_BIND(ui_BoolToggle, ui_BoolToggle, AUTO)
+
+
 
 
 
