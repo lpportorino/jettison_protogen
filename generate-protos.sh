@@ -521,6 +521,14 @@ BUF_EOF
     
     # Generate JSON descriptors using buf build
     buf build . -o /workspace/output/descriptor-set.json --exclude-source-info
+
+    # Binary FileDescriptorSet (buf.validate options + imports retained) for
+    # prost-reflect / protovalidate consumers — e.g. the jettison_poc_tauri
+    # test-time buf.validate checks (validate_state/validate_cmd). Lands beside
+    # descriptor-set.json in output/json-descriptors/. --as-file-descriptor-set
+    # emits a pure google.protobuf.FileDescriptorSet (not the buf Image
+    # superset), which a prost-reflect DescriptorPool decodes.
+    buf build . --as-file-descriptor-set -o /workspace/output/descriptor-set.binpb --exclude-source-info
     
     # Also generate individual file descriptors
     for proto in *.proto; do
@@ -538,7 +546,11 @@ else
         --include_imports \
         --include_source_info \
         /tmp/json_proto/*.proto
-    
+
+    # Persist the binary FileDescriptorSet (buf.validate options + imports) for
+    # prost-reflect / protovalidate consumers (parity with the buf branch above).
+    cp /tmp/descriptor-set.pb /workspace/output/descriptor-set.binpb
+
     # Convert to JSON using Python with custom extensions support
     python3 << "PYTHON_EOF"
 import json
